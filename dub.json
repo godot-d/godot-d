@@ -1,0 +1,8 @@
+{
+	"name": "godot-d",
+	"description": "A static binding to the DLScript API of the Godot game engine.",
+	"authors": [ "sheepandshepherd" ],
+	"license": "MIT",
+	
+	"targetType": "library",
+}
