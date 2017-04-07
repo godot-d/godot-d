@@ -1,8 +1,22 @@
 {
 	"name": "godot-d",
-	"description": "A static binding to the DLScript API of the Godot game engine.",
+	"description": "A static binding to the DLScript API of the Godot Engine.",
 	"authors": [ "sheepandshepherd" ],
 	"license": "MIT",
 	
 	"targetType": "library",
+
+	"subPackages":
+	[
+		{
+			"name": "c-example",
+			"description": "Example using only the C API",
+			"targetType": "dynamicLibrary",
+			"dependencies":
+			{
+				"godot-d": "*"
+			},
+			"sourcePaths": [ "c-example" ]
+		}
+	],
 }
