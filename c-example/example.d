@@ -27,7 +27,7 @@ export void godot_dlscript_terminate(godot_dlscript_terminate_options *options)
 	Runtime.terminate();
 }
 
-godot_variant notification(godot_object* instance, void* user_data,
+godot_variant notification(godot_object instance, void* user_data,
 	void* method_data, int num_args, godot_variant** args)
 {
 	godot_variant v;
@@ -41,12 +41,12 @@ godot_variant notification(godot_object* instance, void* user_data,
 }
 
 
-void* instance_func(godot_object* instance, void* methoddata)
+void* instance_func(godot_object instance, void* methoddata)
 {
 	return null;
 }
 
-void destroy_func(godot_object* instance, void* methoddata, void* user_data)
+void destroy_func(godot_object instance, void* methoddata, void* user_data)
 {
 	
 }

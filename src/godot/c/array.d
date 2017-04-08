@@ -71,7 +71,7 @@ godot_int godot_array_size(const godot_array* p_arr);
 
 void godot_array_sort(godot_array* p_arr);
 
-void godot_array_sort_custom(godot_array* p_arr, godot_object* p_obj, const godot_string* p_func);
+void godot_array_sort_custom(godot_array* p_arr, godot_object p_obj, const godot_string* p_func);
 
 void godot_array_destroy(godot_array* p_arr);
 

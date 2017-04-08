@@ -9,7 +9,7 @@ struct godot_rid {
 
 import godot.c;
 
-void godot_rid_new(godot_rid* p_rid, godot_object* p_from);
+void godot_rid_new(godot_rid* p_rid, godot_object p_from);
 
 uint godot_rid_get_rid(const godot_rid* p_rid);
 

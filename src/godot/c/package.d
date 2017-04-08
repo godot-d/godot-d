@@ -29,6 +29,8 @@
 /*************************************************************************/
 module godot.c;
 
+import std.typecons : Typedef;
+
 @nogc nothrow:
 extern(C):
 
@@ -111,7 +113,8 @@ alias godot_real = float;
 alias godot_real64 = double; // for Variant in 3.0
 
 /////// Object (forward declared)
-alias godot_object = void;
+//alias godot_object = void;
+alias godot_object = Typedef!(void*, null, "godot_object");
 
 /////// String
 
@@ -184,7 +187,7 @@ public import godot.c.array;
 // single API file for Pool*Array
 public import godot.c.pool_arrays;
 
-void godot_object_destroy(godot_object* p_o);
+void godot_object_destroy(godot_object p_o);
 
 ////// Variant
 
@@ -192,7 +195,7 @@ public import godot.c.variant;
 
 ////// Singleton API
 
-godot_object* godot_global_get_singleton(char* p_name); // result shouldn't be freed
+godot_object godot_global_get_singleton(char* p_name); // result shouldn't be freed
 
 ////// MethodBind API
 
@@ -201,7 +204,7 @@ struct godot_method_bind {
 }
 
 godot_method_bind* godot_method_bind_get_method(const char* p_classname, const char* p_methodname);
-void godot_method_bind_ptrcall(godot_method_bind* p_method_bind, godot_object* p_instance, const void** p_args, void* p_ret);
+void godot_method_bind_ptrcall(godot_method_bind* p_method_bind, godot_object p_instance, const void** p_args, void* p_ret);
 
 ////// Script API
 
@@ -302,14 +305,14 @@ struct godot_property_attributes {
 
 struct godot_instance_create_func {
 	// instance pointer, method_data - return user data
-	void* function(godot_object* , void* ) create_func;
+	void* function(godot_object , void* ) create_func;
 	void* method_data;
 	void function(void* ) free_func;
 }
 
 struct godot_instance_destroy_func {
 	// instance pointer, method data, user data
-	void function(godot_object* , void* , void* ) destroy_func;
+	void function(godot_object , void* , void* ) destroy_func;
 	void* method_data;
 	void function(void* ) free_func;
 }
@@ -320,7 +323,7 @@ void godot_script_register_tool_class(const char* p_name, const char* p_base, go
 
 struct godot_instance_method {
 	// instance pointer, method data, user data, num args, args - return result as varaint
-	godot_variant function(godot_object* , void* , void* , int, godot_variant**) method;
+	godot_variant function(godot_object , void* , void* , int, godot_variant**) method;
 	void* method_data;
 	void function(void* ) free_func;
 }
@@ -329,14 +332,14 @@ void godot_script_register_method(const char* p_name, const char* p_function_nam
 
 struct godot_property_set_func {
 	// instance pointer, method data, user data, value
-	void function(godot_object* , void* , void* , godot_variant) set_func;
+	void function(godot_object , void* , void* , godot_variant) set_func;
 	void* method_data;
 	void function(void* ) free_func;
 }
 
 struct godot_property_get_func {
 	// instance pointer, method data, user data, value
-	godot_variant function(godot_object* , void* , void* ) get_func;
+	godot_variant function(godot_object , void* , void* ) get_func;
 	void* method_data;
 	void function(void* ) free_func;
 }
@@ -362,7 +365,7 @@ struct godot_signal {
 
 void godot_script_register_signal(const char* p_name, const godot_signal* p_signal);
 
-void* godot_dlinstance_get_userdata(godot_object* p_instance);
+void* godot_dlinstance_get_userdata(godot_object p_instance);
 
 ////// System Functions
 
