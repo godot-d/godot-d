@@ -1,12 +1,12 @@
 module language.d;
 
-import godotAPI;
+import godotapi;
 import language;
 
 Language getDLanguage()
 {
 	Language ret;
-	ret.classOutputFiles = [Language.ClassOutputFile(null, "d", &generateD)];
+	ret.classOutputFiles = [Language.ClassOutputFile(null, true, "d", &generateD)];
 	return ret;
 }
 
@@ -19,28 +19,21 @@ private:
 string generateD(in GodotClass c)
 {
 	import std.conv : text;
+	import std.string;
 	
 	string ret;
 	
-	/// class names are CamelCase, but module names should be lowerCase in D.
-	/+void appendLowercase(in string name)
-	{
-		import std.string;
-		ret ~= name[0].toLower;
-		ret ~= name[1..$];
-	}+/
-	
+	// module names should be all lowercase in D
+	// https://dlang.org/dstyle.html
 	ret ~= "module godot.";
-	///appendLowercase(c.name);
-	ret ~= c.name;
+	ret ~= c.name.toLower;
 	ret ~= ";\n";
 	ret ~= "import godot.core; import godot.c;\n";
 	
 	foreach(const u; c.used_classes)
 	{
 		ret ~= "import godot.";
-		///appendLowercase(u);
-		ret ~= u;
+		ret ~= u.toLower;
 		ret ~= ";\n";
 	}
 	

@@ -1,4 +1,4 @@
-module godotAPI;
+module godotapi;
 
 import asdf;
 

@@ -1,4 +1,4 @@
-import godotAPI;
+import godotapi;
 import language;
 import language.d;
 
@@ -66,7 +66,11 @@ void main(string[] args)
 		// output files for the selected lang
 		foreach(const cof; lang.classOutputFiles)
 		{
-			string p = buildPath(outputDir, cof.prefix~c.name~'.'~cof.extension);
+			import std.string;
+			
+			auto fileName = (cof.lowercaseFilename)?(c.name.toLower):(c.name);
+			string p = buildPath(outputDir, cof.prefix~fileName~'.'~cof.extension);
+			
 			string data = cof.generator(c);
 			if(data) std.file.write( p, data );
 		}

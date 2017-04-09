@@ -1,6 +1,6 @@
 module language;
 
-import godotAPI;
+import godotapi;
 
 /++
 Definition for a language that the generator can output native bindings for.
@@ -13,6 +13,7 @@ struct Language
 	static struct ClassOutputFile
 	{
 		string prefix = null; /// added directly before the filename (after directory separator)
+		bool lowercaseFilename; /// make filename lowercase
 		string extension; /// extension, without the dot
 		
 		/// function called to generate this file
