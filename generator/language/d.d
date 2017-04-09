@@ -51,9 +51,9 @@ string generateD(in GodotClass c)
 	ret ~= "\n{\nprivate:\n";
 	if(c.singleton)
 	{
-		ret ~= "static void GODOT_singleton_init_"~c.name~"()\n{\n";
-		
-		ret ~= "}\n";
+		ret ~= "\tstatic void GODOT_singleton_init()\n{\n";
+		ret ~= "\t\t"~nameAlias~" = godot_global_get_singleton(\""~c.name~"\");\n";
+		ret ~= "\t}\n";
 	}
 	ret ~= "public:\n";
 	
@@ -105,6 +105,15 @@ string generateD(in GodotClass c)
 		ret ~= ")";
 		if(m.is_const && !c.singleton) ret ~= " const";
 		ret ~= "\n\t{\n";
+		
+		// singleton null check
+		if(c.singleton)
+		{
+			ret ~= "\t\tif("~nameAlias~" is null) GODOT_singleton_init();\n";
+		}
+		
+		// implementation
+		
 		
 		ret ~= "\t}\n";
 	}
