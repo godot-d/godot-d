@@ -28,7 +28,12 @@ string generateD(in GodotClass c)
 	ret ~= "module godot.";
 	ret ~= c.name.toLower;
 	ret ~= ";\n";
-	ret ~= "import godot.core; import godot.c;\n";
+	ret ~= "import godot.core;\nimport godot.c;\nimport godot._icalls;\n";
+	
+	if(c.instanciable)
+	{
+		ret ~= "import godot.classdb;\n";	
+	}	
 	
 	foreach(const u; c.used_classes)
 	{
