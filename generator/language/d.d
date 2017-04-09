@@ -116,7 +116,7 @@ string generateD(in GodotClass c)
 		if(m.is_virtual || m.has_varargs)
 		{
 			ret ~= "\t\tArray GODOT_args;\n";
-			foreach(a; m.args)
+			foreach(a; m.arguments)
 			{
 				ret ~= "\t\tGODOT_args.append("~escapeD(a.name)~");\n";
 			}
@@ -125,19 +125,19 @@ string generateD(in GodotClass c)
 			{
 				ret ~= "\t\tforeach(vai; 0..GODOT_var_args.size())";
 				ret ~= "GODOT_args.append(GODOT_var_args[vai]);\n";
-				
-				ret ~= "\t\t";
-				if(m.return_type != "void")
-				{
-					ret ~= "return ";
-				}
-				ret ~= nameAlias~".callv(\""~m.name~"\", GODOT_args);\n";
-			} // end varargs/virtual impl
-			else
+			}
+			
+			ret ~= "\t\t";
+			if(m.return_type != "void")
 			{
-				
-			} // end normal method impl
-		}
+				ret ~= "return ";
+			}
+			ret ~= nameAlias~".callv(\""~m.name~"\", GODOT_args);\n";
+		} // end varargs/virtual impl
+		else
+		{
+			
+		} // end normal method impl
 		
 		ret ~= "\t}\n";
 	}
