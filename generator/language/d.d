@@ -3,6 +3,9 @@ module language.d;
 import godotapi;
 import language;
 
+import std.algorithm.iteration;
+import std.range;
+
 Language getDLanguage()
 {
 	Language ret;
@@ -116,7 +119,7 @@ string generateD(in GodotClass c)
 		if(m.is_virtual || m.has_varargs)
 		{
 			ret ~= "\t\tArray GODOT_args;\n";
-			foreach(a; m.arguments)
+			foreach(const a; m.arguments)
 			{
 				ret ~= "\t\tGODOT_args.append("~escapeD(a.name)~");\n";
 			}
@@ -130,13 +133,29 @@ string generateD(in GodotClass c)
 			ret ~= "\t\t";
 			if(m.return_type != "void")
 			{
+				/// TODO: this probably needs a cast to return_type
 				ret ~= "return ";
 			}
 			ret ~= nameAlias~".callv(\""~m.name~"\", GODOT_args);\n";
 		} // end varargs/virtual impl
 		else
 		{
+			ret ~= "\t\tstatic godot_method_bind* mb = null;\n";
+			ret ~= "\t\tif(mb is null) ";
+			ret ~= "mb = godot_method_bind_get_method(\"" ~ c.name ~ "\", \"" ~ m.name ~ "\");\n";
 			
+			ret ~= "\t\t";
+			if(m.return_type != "void")
+			{
+				/// TODO: this probably needs a cast to return_type
+				ret ~= "return ";
+			}
+			
+			auto args = m.arguments.map!(a => a.type.icallTypeName).array;
+			
+			ret ~= icallTemplateName(m.return_type.icallTypeName, args) ~ "(mb, "~nameAlias;
+			foreach(a; m.arguments) ret ~= ", " ~ a.name.escapeD;
+			ret ~= ");\n";
 		} // end normal method impl
 		
 		ret ~= "\t}\n";
@@ -151,7 +170,18 @@ string generateD(in GodotClass c)
 	return ret;
 }
 
+const(string) icallTypeName(in string type)
+{
+	return (type.isPrimitive || type.isCoreType)?(type):("Object");
+}
 
+const(string) icallTemplateName(in string type, in string[] args)
+{
+	string name = "godot._icalls.icall!("~type.stripName;
+	foreach(a; args) name ~= ", "~a.stripName;
+	name ~= ")";
+	return name;
+}
 
 string escapeDefault(string type, string arg)
 {
