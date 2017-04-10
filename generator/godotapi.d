@@ -41,6 +41,11 @@ bool isCoreType(in string type)
 	return coreTypes.canFind(type);
 }
 
+string stripName(in string name)
+{
+	return (name[0] == '_')?(name[1..$]):name;
+}
+
 struct GodotClass
 {
 	string name;
@@ -67,7 +72,7 @@ struct GodotClass
 	{
 		// strip the underscore from certain class names
 		internal_name = name;
-		if(name[0] == '_') name = name[1..$];
+		name = name.stripName;
 		
 		// generate the set of referenced classes
 		foreach(const m; methods)
