@@ -5,6 +5,7 @@
 	"license": "MIT",
 	
 	"targetType": "library",
+	"dflags": ["-fPIC"],
 
 	"subPackages":
 	[
@@ -26,6 +27,16 @@
 				"godot-d": "*"
 			},
 			"sourcePaths": [ "c-example" ]
+		},
+		{
+			"name": "d-example",
+			"description": "Example using D classes",
+			"targetType": "dynamicLibrary",
+			"dependencies":
+			{
+				"godot-d": "*"
+			},
+			"sourcePaths": [ "d-example" ]
 		}
 	],
 }
