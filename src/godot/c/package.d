@@ -110,8 +110,6 @@ alias godot_int = int; // C++'s int; Godot assumes it to be always 32 bits.
 
 alias godot_real = float;
 
-alias godot_real64 = double; // for Variant in 3.0
-
 /////// Object (forward declared)
 //alias godot_object = void;
 alias godot_object = Typedef!(void*, null, "godot_object");
@@ -208,14 +206,14 @@ void godot_method_bind_ptrcall(godot_method_bind* p_method_bind, godot_object p_
 
 ////// Script API
 
-struct godot_dlscript_init_options {
+struct godot_native_init_options {
 	godot_bool in_editor;
 	ulong core_api_hash;
 	ulong editor_api_hash;
 	ulong no_api_hash;
 }
 
-struct godot_dlscript_terminate_options {
+struct godot_native_terminate_options {
 	godot_bool in_editor;
 }
 
@@ -365,7 +363,13 @@ struct godot_signal {
 
 void godot_script_register_signal(const char* p_name, const godot_signal* p_signal);
 
-void* godot_dlinstance_get_userdata(godot_object p_instance);
+void* godot_native_get_userdata(godot_object p_instance);
+
+alias godot_class_constructor = godot_object function();
+
+godot_class_constructor godot_get_class_constructor(const char *p_classname);
+
+godot_dictionary godot_get_global_constants;
 
 ////// System Functions
 
