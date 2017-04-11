@@ -5,7 +5,7 @@ import std.stdio;
 
 extern(C):
 
-export void godot_dlscript_init(godot_dlscript_init_options* options)
+export void godot_native_init(godot_native_init_options* options)
 {
 	Runtime.initialize();
 	
@@ -22,7 +22,7 @@ export void godot_dlscript_init(godot_dlscript_init_options* options)
 		method_data);
 }
 
-export void godot_dlscript_terminate(godot_dlscript_terminate_options *options)
+export void godot_native_terminate(godot_native_terminate_options *options)
 {
 	Runtime.terminate();
 }
