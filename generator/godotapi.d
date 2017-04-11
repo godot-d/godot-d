@@ -53,6 +53,7 @@ struct GodotClass
 	string api_type;
 	bool singleton;
 	bool instanciable;
+	bool is_reference;
 	int[string] constants; // TODO: can constants be things other than ints?
 	GodotMethod[] methods;
 	
@@ -106,6 +107,7 @@ struct GodotArgument
 {
 	string name;
 	string type;
+	bool has_default_value;
 	string default_value;
 }
 
