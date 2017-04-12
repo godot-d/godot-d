@@ -105,7 +105,7 @@ struct Vector3
 		return ret;
 	}
 	
-	int opCmp(in Vector3 other)
+	int opCmp(in Vector3 other) const
 	{
 		import std.algorithm.comparison;
 		return cmp(this.coord[], other.coord[]);
@@ -259,7 +259,7 @@ struct Vector3
 		foreach(ref v; coord) v = (step != 0)?(.floor(v/step +0.5)*step):v;
 	}
 	
-	Vector3 snapped(in float step)
+	Vector3 snapped(in real_t step) const
 	{
 		Vector3 v = this;
 		v.snap(step);
