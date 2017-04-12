@@ -114,12 +114,17 @@ struct String
 		return less?(-1):1;
 	}
 	
-	String opBinary(string op : "~")(in ref String s) const
+	String opBinary(string op : "~")(in ref String other) const
 	{
 		String ret = void;
-		godot_string_operator_plus(&ret._godot_string, &_godot_string, &s._godot_string);
+		godot_string_operator_plus(&ret._godot_string, &_godot_string, &other._godot_string);
 		
 		return ret;
+	}
+	
+	void opOpAssign(string op : "~")(in ref String other)
+	{
+		godot_string_operator_plus(&_godot_string, &_godot_string, &other._godot_string);
 	}
 	
 	/+NodePath opCast(T : NodePath)() const

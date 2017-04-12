@@ -61,6 +61,8 @@ godot_variant notification(godot_object instance, void* user_data,
 	writefln("backToC length: %d", strlen(backToC));
 	assert(strlen(backToC) == dString.length*2);
 	assert(backToC[0..dString.length*2] == dString~dString);
+	doubled ~= ds;
+	assert(doubled.length == dString.length*3);
 	
 	return v;
 }
