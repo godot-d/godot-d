@@ -104,6 +104,15 @@ struct Vector3
 		ret.z = mixin("z "~op~" scalar");
 		return ret;
 	}
+	Vector3 opBinaryRight(string op)(in real_t scalar) const
+		if(op=="*")
+	{
+		Vector3 ret;
+		ret.x = mixin("x "~op~" scalar");
+		ret.y = mixin("y "~op~" scalar");
+		ret.z = mixin("z "~op~" scalar");
+		return ret;
+	}
 	
 	int opCmp(in Vector3 other) const
 	{
