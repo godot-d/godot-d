@@ -92,11 +92,9 @@ struct Vector3
 	void opOpAssign(string op)(in Vector3 other)
 		if(op=="+" || op=="-" || op=="*" || op=="/")
 	{
-		Vector3 ret;
 		x = mixin("x "~op~"other.x");
 		y = mixin("y "~op~"other.y");
 		z = mixin("z "~op~"other.z");
-		return ret;
 	}
 	
 	Vector3 opUnary(string op : "-")()
