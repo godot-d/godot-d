@@ -89,6 +89,15 @@ struct Vector3
 		ret.z = mixin("z "~op~"other.z");
 		return ret;
 	}
+	void opOpAssign(string op)(in Vector3 other)
+		if(op=="+" || op=="-" || op=="*" || op=="/")
+	{
+		Vector3 ret;
+		x = mixin("x "~op~"other.x");
+		y = mixin("y "~op~"other.y");
+		z = mixin("z "~op~"other.z");
+		return ret;
+	}
 	
 	Vector3 opUnary(string op : "-")()
 	{
@@ -112,6 +121,13 @@ struct Vector3
 		ret.y = mixin("y "~op~" scalar");
 		ret.z = mixin("z "~op~" scalar");
 		return ret;
+	}
+	void opOpAssign(string op)(in real_t scalar)
+		if(op=="*" || op=="/")
+	{
+		x = mixin("x "~op~" scalar");
+		y = mixin("y "~op~" scalar");
+		z = mixin("z "~op~" scalar");
 	}
 	
 	int opCmp(in Vector3 other) const
