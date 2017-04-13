@@ -31,6 +31,7 @@ module godot.core.basis;
 
 import godot.core.defs;
 import godot.core.vector3;
+import godot.core.quat;
 
 import std.math;
 import std.algorithm.mutation : swap;
@@ -603,7 +604,7 @@ struct Basis
 		set_euler( p_euler );
 	}
 	
-	/+this(const Quat& p_quat)
+	this(in Quat p_quat)
 	{
 	
 		real_t d = p_quat.length_squared();
@@ -616,7 +617,7 @@ struct Basis
 			xy + wz, 1.0 - (xx + zz), yz - wx,
 			xz - wy, yz + wx, 1.0 - (xx + yy))	;
 	
-	}+/
+	}
 	
 	this(in Vector3 p_axis, real_t p_phi)
 	{
@@ -641,15 +642,16 @@ struct Basis
 	
 	}
 	
-	/+operator Quat() const {
-		ERR_FAIL_COND_V(is_rotation() == false, Quat());
-	
+	Quat quat() const
+	{
+		///ERR_FAIL_COND_V(is_rotation() == false, Quat());
+		
 		real_t trace = elements[0][0] + elements[1][1] + elements[2][2];
-		real_t temp[4];
-	
+		real_t[4] temp;
+		
 		if (trace > 0.0)
 		{
-			real_t s = ::sqrt(trace + 1.0);
+			real_t s = sqrt(trace + 1.0);
 			temp[3]=(s * 0.5);
 			s = 0.5 / s;
 	
@@ -665,7 +667,7 @@ struct Basis
 			int j = (i + 1) % 3;
 			int k = (i + 2) % 3;
 	
-			real_t s = ::sqrt(elements[i][i] - elements[j][j] - elements[k][k] + 1.0);
+			real_t s = sqrt(elements[i][i] - elements[j][j] - elements[k][k] + 1.0);
 			temp[i] = s * 0.5;
 			s = 0.5 / s;
 	
@@ -673,10 +675,8 @@ struct Basis
 			temp[j] = (elements[j][i] + elements[i][j]) * s;
 			temp[k] = (elements[k][i] + elements[i][k]) * s;
 		}
-	
 		return Quat(temp[0],temp[1],temp[2],temp[3]);
-	
-	}+/
+	}
 }
 
 
