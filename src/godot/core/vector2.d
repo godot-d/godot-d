@@ -172,7 +172,7 @@ struct Vector2
 		return v;
 	}
 	
-	Vector2 linear_interpolate(in Vector2 p_a, in Vector2 p_b,real_t p_t)
+	static Vector2 linear_interpolate(in Vector2 p_a, in Vector2 p_b, real_t p_t)
 	{
 		Vector2 res=p_a;
 		res.x+= (p_t * (p_b.x-p_a.x));
