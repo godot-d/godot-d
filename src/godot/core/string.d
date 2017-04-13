@@ -51,6 +51,11 @@ struct String
 		return ret;
 	}
 	
+	package(godot) this(in godot_string str)
+	{
+		_godot_string = str;
+	}
+	
 	this(in char* contents)
 	{
 		godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
@@ -126,11 +131,6 @@ struct String
 	{
 		godot_string_operator_plus(&_godot_string, &_godot_string, &other._godot_string);
 	}
-	
-	/+NodePath opCast(T : NodePath)() const
-	{
-		return NodePath(*this);
-	}+/
 	
 	const(char*) c_string() const
 	{
