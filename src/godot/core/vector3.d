@@ -30,6 +30,7 @@
 module godot.core.vector3;
 
 import godot.core.defs;
+import godot.core.basis;
 import godot.core.string;
 
 import std.math;
@@ -223,9 +224,6 @@ struct Vector3
 		return Vector3( 1.0/x, 1.0/y, 1.0/z );
 	}
 	
-	
-	
-	
 	int max_axis() const
 	{
 		return (x < y) ? (y < z ? 2 : 1) : (x < z ? 2 : 0);
@@ -260,7 +258,7 @@ struct Vector3
 		return by - this * this.dot(by) * 2.0;
 	}
 	
-	/+Vector3 rotated(in Vector3 axis, in real_t phi) const
+	Vector3 rotated(in Vector3 axis, in real_t phi) const
 	{
 		Vector3 v = this;
 		v.rotate(axis, phi);
@@ -270,7 +268,7 @@ struct Vector3
 	void rotate(in Vector3 axis, in real_t phi)
 	{
 		this=Basis(axis,phi).xform(this);
-	}+/
+	}
 	
 	Vector3 slide(in Vector3 by) const
 	{
