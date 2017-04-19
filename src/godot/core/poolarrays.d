@@ -1,7 +1,7 @@
 module godot.core.poolarrays;
 
 import godot.c;
-import godot.core.array;
+//import godot.core.array;
 import godot.core.defs;
 import godot.core.string;
 import godot.core.color;
