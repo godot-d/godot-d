@@ -5,7 +5,8 @@
 	"license": "MIT",
 	
 	"targetType": "library",
-	"dflags": ["-fPIC"],
+	"dflags-linux-dmd": ["-fPIC"],
+	"dflags-linux-ldc2": ["-relocation-model=pic"],
 
 	"subPackages":
 	[
