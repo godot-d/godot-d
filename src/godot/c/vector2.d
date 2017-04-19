@@ -3,13 +3,14 @@ module godot.c.vector2;
 @nogc nothrow:
 extern(C):
 
-struct godot_vector2 {
+version(all) extern(C) struct godot_vector2 {
 	ubyte[8] _dont_touch_that;
 }
+else alias godot_vector2 = ubyte[8]; /// for testing ABI bug (#3): this will work, but the struct won't.
 
 import godot.c;
 
-void godot_vector2_new(godot_vector2* p_v, const godot_real p_x, const godot_real p_y);
+godot_vector2 godot_vector2_new(const godot_real p_x, const godot_real p_y);
 
 void godot_vector2_set_x(godot_vector2* p_v, const godot_real p_x);
 void godot_vector2_set_y(godot_vector2* p_v, const godot_real p_y);

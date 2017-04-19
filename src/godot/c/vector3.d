@@ -9,7 +9,7 @@ struct godot_vector3 {
 
 import godot.c;
 
-void godot_vector3_new(godot_vector3* p_v, const godot_real p_x, const godot_real p_y, const godot_real p_z);
+godot_vector3 godot_vector3_new(const godot_real p_x, const godot_real p_y, const godot_real p_z);
 
 void godot_vector3_set_axis(godot_vector3* p_v, const godot_int p_axis, const godot_real p_val);
 godot_real godot_vector3_get_axis(const godot_vector3* p_v, const godot_int p_axis);
