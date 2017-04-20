@@ -236,5 +236,26 @@ struct Variant
 		import std.conv : emplace;
 		this = emplace!(Variant)(input);
 	}
+	
+	bool opEquals(in ref Variant other) const
+	{
+		return cast(bool)godot_variant_operator_equal(&_godot_variant, &other._godot_variant);
+	}
+	
+	int opCmp(in ref Variant other) const
+	{
+		if(godot_variant_operator_equal(&_godot_variant, &other._godot_variant))
+			return 0;
+		return godot_variant_operator_less(&_godot_variant, &other._godot_variant)?
+			-1 : 1;
+	}
+	
+	bool booleanize(bool* valid) const
+	{
+		godot_bool v;
+		auto ret = godot_variant_booleanize(&_godot_variant, &v);
+		*valid = cast(bool)v;
+		return cast(bool)ret;
+	}
 }
 
