@@ -4,13 +4,18 @@ import godot.c;
 import godot.core.variant;
 import godot.core.poolarrays;
 
-class Array
+struct Array
 {
 	package(godot) godot_array _godot_array;
 	
-	this()
+	@disable this();
+	@disable this(this);
+	
+	static Array empty()
 	{
-		godot_array_new(&_godot_array);
+		Array ret = void;
+		godot_array_new(&ret._godot_array);
+		return ret;
 	}
 	
 	this(in PoolByteArray a)
@@ -68,6 +73,7 @@ class Array
 	{
 		godot_array_append(&_godot_array, &v._godot_variant);
 	}
+	alias opOpAssign(string op : "~") = append;
 	
 	void clear()
 	{
@@ -141,12 +147,14 @@ class Array
 		godot_variant v = godot_array_pop_back(&_godot_array);
 		return cast(Variant)v;
 	}
+	alias popBack = pop_back; // for D InputRange
 	
 	Variant pop_front()
 	{
 		godot_variant v = godot_array_pop_front(&_godot_array);
 		return cast(Variant)v;
 	}
+	alias popFront = pop_front; // for D InputRange
 	
 	void push_back(in ref Variant v)
 	{
@@ -167,6 +175,7 @@ class Array
 	{
 		return godot_array_size(&_godot_array);
 	}
+	alias length = size; // D-style `length`
 	
 	void resize(const int size)
 	{
