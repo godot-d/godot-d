@@ -11,7 +11,7 @@ struct Array
 	@disable this();
 	@disable this(this);
 	
-	static Array empty()
+	static Array empty_array()
 	{
 		Array ret = void;
 		godot_array_new(&ret._godot_array);
