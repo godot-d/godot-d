@@ -1,7 +1,7 @@
 module godot.core.poolarrays;
 
 import godot.c;
-//import godot.core.array;
+import godot.core.array;
 import godot.core.defs;
 import godot.core.string;
 import godot.core.color;
@@ -64,11 +64,11 @@ struct PoolArray(T)
 		return ret;
 	}
 	
-	/+this(Array arr)
+	this(Array arr)
 	{
 		mixin("alias n = "~(typeName!T)~"_new_with_array;");
 		n(&_godot_array, &arr._godot_array);
-	}+/
+	}
 	
 	void append_array(in ref PoolArray arr)
 	{

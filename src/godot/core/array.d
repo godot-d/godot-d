@@ -1,0 +1,199 @@
+module godot.core.array;
+
+import godot.c;
+import godot.core.variant;
+import godot.core.poolarrays;
+
+class Array
+{
+	package(godot) godot_array _godot_array;
+	
+	this()
+	{
+		godot_array_new(&_godot_array);
+	}
+	
+	this(in PoolByteArray a)
+	{
+		godot_array_new_pool_byte_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolIntArray a)
+	{
+		godot_array_new_pool_int_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolRealArray a)
+	{
+		godot_array_new_pool_real_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolStringArray a)
+	{
+		godot_array_new_pool_string_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolVector2Array a)
+	{
+		godot_array_new_pool_vector2_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolVector3Array a)
+	{
+		godot_array_new_pool_vector3_array(&_godot_array, &a._godot_array);
+	}
+	
+	this(in PoolColorArray a)
+	{
+		godot_array_new_pool_color_array(&_godot_array, &a._godot_array);
+	}
+	
+	ref Variant opIndex(int idx)
+	{
+		godot_variant* v = godot_array_get(&_godot_array, idx);
+		return *cast(Variant*)v;
+	}
+	
+	// FIXME: this would require Variant to be implicitly copyable.
+	// alternative: add a `dup` function?
+	/+Variant opIndex(int idx) const
+	{
+		// Yes, I'm casting away the const... you can hate me now.
+		// since the result is
+		godot_variant* v = godot_array_get(cast(godot_array*) &_godot_array, idx);
+		return *cast(Variant*)v;
+	}+/
+	
+	void append(in ref Variant v)
+	{
+		godot_array_append(&_godot_array, &v._godot_variant);
+	}
+	
+	void clear()
+	{
+		godot_array_clear(&_godot_array);
+	}
+	
+	int count(in Variant v)
+	{
+		return godot_array_count(&_godot_array, &v._godot_variant);
+	}
+	
+	bool empty() const
+	{
+		return cast(bool)godot_array_empty(&_godot_array);
+	}
+	
+	void erase(in Variant v)
+	{
+		godot_array_erase(&_godot_array, &v._godot_variant);
+	}
+	
+	Variant front() const
+	{
+		godot_variant v = godot_array_front(&_godot_array);
+		return cast(Variant)v;
+	}
+	
+	Variant back() const
+	{
+		godot_variant v = godot_array_back(&_godot_array);
+		return cast(Variant)v;
+	}
+	
+	int find(in Variant what, const int from)
+	{
+		return godot_array_find(&_godot_array, &what._godot_variant, from);
+	}
+	
+	int find_last(in Variant what)
+	{
+		return godot_array_find_last(&_godot_array, &what._godot_variant);
+	}
+	
+	bool has(in Variant what) const
+	{
+		return cast(bool)godot_array_has(&_godot_array, &what._godot_variant);
+	}
+	
+	uint hash() const
+	{
+		return godot_array_hash(&_godot_array);
+	}
+	
+	void insert(const int pos, in Variant value)
+	{
+		godot_array_insert(&_godot_array, pos, &value._godot_variant);
+	}
+	
+	void invert()
+	{
+		godot_array_invert(&_godot_array);
+	}
+	
+	bool is_shared() const
+	{
+		return cast(bool)godot_array_is_shared(&_godot_array);
+	}
+	
+	Variant pop_back()
+	{
+		godot_variant v = godot_array_pop_back(&_godot_array);
+		return cast(Variant)v;
+	}
+	
+	Variant pop_front()
+	{
+		godot_variant v = godot_array_pop_front(&_godot_array);
+		return cast(Variant)v;
+	}
+	
+	void push_back(in ref Variant v)
+	{
+		godot_array_push_back(&_godot_array, &v._godot_variant);
+	}
+	
+	void push_front(in ref Variant v)
+	{
+		godot_array_push_front(&_godot_array, &v._godot_variant);
+	}
+	
+	void remove(int idx)
+	{
+		godot_array_remove(&_godot_array, idx);
+	}
+	
+	int size() const
+	{
+		return godot_array_size(&_godot_array);
+	}
+	
+	void resize(const int size)
+	{
+		godot_array_resize(&_godot_array, size);
+	}
+	
+	int rfind(in Variant what, const int from)
+	{
+		return godot_array_rfind(&_godot_array, &what._godot_variant, from);
+	}
+	
+	void sort()
+	{
+		godot_array_sort(&_godot_array);
+	}
+	
+	/+void sort_custom(godot.Object obj, in ref String func)
+	{
+		godot_array_sort_custom(&_godot_array, obj, &func._godot_string);
+	}+/
+	
+	~this()
+	{
+		godot_array_destroy(&_godot_array);
+	}
+}
+
+
+
+

@@ -3,6 +3,7 @@ module godot.core.variant;
 import godot.c;
 import godot.core.defs;
 
+import godot.core.array;
 import godot.core.basis;
 import godot.core.color;
 //import godot.core.image;
@@ -110,7 +111,6 @@ struct Variant
 	// TEMP - remove and import once they're implemented
 	alias Image = void*;
 	alias Dictionary = void*;
-	alias Array = void*;
 	
 	alias Object = godot_object;
 	
