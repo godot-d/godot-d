@@ -36,7 +36,7 @@ alias PoolRealArray = PoolArray!real_t;
 alias PoolStringArray = PoolArray!String;
 alias PoolVector2Array = PoolArray!Vector2;
 alias PoolVector3Array = PoolArray!Vector3;
-//alias PoolColorArray = PoolArray!Color;
+alias PoolColorArray = PoolArray!Color;
 
 struct PoolArray(T)
 {
