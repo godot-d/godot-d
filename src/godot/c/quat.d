@@ -4,7 +4,8 @@ module godot.c.quat;
 extern(C):
 
 struct godot_quat {
-	ubyte[16] _dont_touch_that;
+	//ubyte[16] _dont_touch_that;
+	ulong[2] _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 import godot.c;

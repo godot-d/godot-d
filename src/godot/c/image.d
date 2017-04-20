@@ -4,7 +4,8 @@ module godot.c.image;
 extern(C):
 
 struct godot_image {
-	ubyte[32] _dont_touch_that;
+	//ubyte[32] _dont_touch_that;
+	ulong[4] _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 import godot.c.pool_arrays;

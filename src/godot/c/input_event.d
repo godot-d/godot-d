@@ -4,7 +4,8 @@ module godot.c.input_event;
 extern(C):
 
 struct godot_input_event {
-	ubyte[56] _dont_touch_that;
+	//ubyte[56] _dont_touch_that;
+	ulong[7] _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 enum godot_input_event_type {

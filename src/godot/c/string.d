@@ -6,7 +6,8 @@ public import core.stdc.stddef : wchar_t;
 extern(C):
 
 struct godot_string {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 import godot.c;

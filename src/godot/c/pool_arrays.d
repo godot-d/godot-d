@@ -6,43 +6,50 @@ extern(C):
 /////// PoolByteArray
 
 struct godot_pool_byte_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolIntArray
 
 struct godot_pool_int_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolRealArray
 
 struct godot_pool_real_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolStringArray
 
 struct godot_pool_string_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolVector2Array
 
 struct godot_pool_vector2_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolVector3Array
 
 struct godot_pool_vector3_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 /////// PoolColorArray
 
 struct godot_pool_color_array {
-	ubyte[8] _dont_touch_that;
+	//ubyte[8] _dont_touch_that;
+	ulong _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
 import godot.c;
