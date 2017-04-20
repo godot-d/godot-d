@@ -230,9 +230,11 @@ struct Variant
 		else return cast(T)Fa(&_godot_variant);
 	}
 	
-	/+template opAssign(T) if(__traits(compiles, this(T)))
+	pragma(inline, true)
+	void opAssign(T)(in auto ref T input)
 	{
-		alias opAssign = this!T;
-	}+/
+		import std.conv : emplace;
+		this = emplace!(Variant)(input);
+	}
 }
 
