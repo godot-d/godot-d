@@ -36,6 +36,30 @@ class Test
 	@GodotMethod
 	void _notification(int type)
 	{
+		// NOTIFICATION_READY (#13)
+		if(type == 13)
+		{
+			writeln("Test recieved NOTIFICATION_READY (#13)");
+			writeln();
+			writeln("Hello Godot o/  - D's writeln function");
+			writeln();
+			
+			{
+				writefln("This (%s) is a normal D method of type %s.",
+					__FUNCTION__, typeof(_notification).stringof);
+			}
+			
+			{
+				import std.compiler;
+				writefln("This D library was compiled with %s compiler, v%d.%03d",
+					name, version_major, version_minor);
+			}
+		}
+	}
+	
+	@GodotMethod
+	void test()
+	{
 		/++
 		
 		Currently, this is a collection of tests checking that the types and
@@ -45,9 +69,6 @@ class Test
 		example game.
 		
 		+/
-		
-		// Avoid spamming the tests - only run on NOTIFICATION_READY (#13)
-		if(type != 13) return;
 		
 		Variant vVec2Ctor = Variant(Vector2(21, 6));
 		writefln("vVec2Ctor.type: %s", vVec2Ctor.type);
