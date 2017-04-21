@@ -179,9 +179,15 @@ struct Variant
 		return v;
 	}
 	
-	this(T)(in auto ref T input)
+	this(in ref Variant other)
+	{
+		godot_variant_copy(&this._godot_variant, &other._godot_variant);
+	}
+	
+	this(T)(in auto ref T input) if(!is(T == Variant))
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
+		else static if(is(T : float)) enum VarType = Type.real_;
 		else static if(is(T : bool)) enum VarType = Type.bool_;
 		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
 		else
@@ -213,6 +219,7 @@ struct Variant
 	T as(T)()
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
+		else static if(is(T : float)) enum VarType = Type.real_;
 		else static if(is(T : bool)) enum VarType = Type.bool_;
 		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
 		else
@@ -234,7 +241,7 @@ struct Variant
 	void opAssign(T)(in auto ref T input)
 	{
 		import std.conv : emplace;
-		this = emplace!(Variant)(input);
+		emplace!(Variant)(&this, input);
 	}
 	
 	bool opEquals(in ref Variant other) const
