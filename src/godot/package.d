@@ -89,7 +89,7 @@ private struct MethodWrapper(T, R, A...)
 	+/
 	extern(C) // for calling convention
 	static godot_variant callMethod(godot_object o, void* methodData,
-                              void* userData, int numArgs, godot_variant** args)
+		void* userData, int numArgs, godot_variant** args)
 	{
 		// TODO: check types for Variant compatibility, give a better error here
 		// TODO: check numArgs, accounting for D arg defaults
@@ -115,9 +115,9 @@ private struct MethodWrapper(T, R, A...)
 		actualDelegate.ptr = cast(void*)obj;
 		
 		A[ai] variantToArg(size_t ai)()
-	    {
-		    return (cast(Variant*)args[ai]).as!(A[ai]);
-	    }
+		{
+			return (cast(Variant*)args[ai]).as!(A[ai]);
+		}
 		template ArgCall(size_t ai)
 		{
 			alias ArgCall = variantToArg!ai; //A[i] function()
