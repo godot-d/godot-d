@@ -1,6 +1,8 @@
 D Example
 =========
-For now, this is just a test function to check if the Godot types and methods work as intended.
+This demonstrates registering a `Test` class, complete with methods, into Godot.
+
+The `register` function and attributes to mark Godot methods are in the `godot` module. Details of class registration, like what the attributes should be called (`@GodotMethod` currently), can be discussed in [issue #1](https://github.com/GodotNativeTools/d_bindings/issues/1) - suggestions are welcome.
 
 Usage
 -----
@@ -11,9 +13,9 @@ Usage
 - Add a script to that node, with Class Name `Test`, Language `Native`, and Path set to the GDNativeLibrary resource you saved.
 - Save and run the scene.
 
-Since all the tests are in the `notification` class, they'll run automatically when you run the scene. They can only write into the standard OS console at the moment, not the Godot console (need a Godot `print` function!)
+Since all the tests are in the `_notification` method, they'll run automatically when you run the scene. They can only write into the standard OS console at the moment, not the Godot console (need a Godot `print` function!)
 
-You can modify the `notification` function with anything you want to test.
+You can modify the `_notification` method with anything you want to test.
 
 Links
 -----
