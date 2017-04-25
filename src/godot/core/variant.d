@@ -3,23 +3,7 @@ module godot.core.variant;
 import godot.c;
 import godot.core.defs;
 
-import godot.core.array;
-import godot.core.basis;
-import godot.core.color;
-//import godot.core.image;
-import godot.core.inputevent;
-import godot.core.nodepath;
-import godot.core.plane;
-import godot.core.poolarrays;
-import godot.core.quat;
-import godot.core.rect2;
-import godot.core.rect3;
-import godot.core.rid;
-import godot.core.string;
-import godot.core.transform;
-import godot.core.transform2d;
-import godot.core.vector2;
-import godot.core.vector3;
+import godot.core;
 
 import std.meta, std.traits;
 import std.conv : text;
@@ -107,10 +91,6 @@ struct Variant
 		godot_pool_vector3_array,
 		godot_pool_color_array,
 	);
-	
-	// TEMP - remove and import once they're implemented
-	alias Image = void*;
-	alias Dictionary = void*;
 	
 	alias Object = godot_object;
 	

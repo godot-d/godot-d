@@ -9,8 +9,8 @@ public
 	import godot.core.basis;
 	import godot.core.color;
 	import godot.core.defs;
-	//import godot.core.dictionary;
-	//import godot.core.image;
+	import godot.core.dictionary;
+	import godot.core.image;
 	import godot.core.inputevent;
 	import godot.core.nodepath;
 	import godot.core.plane;
