@@ -75,6 +75,8 @@ struct GodotClass
 		internal_name = name;
 		name = name.stripName;
 		
+		if(base_class != "Object" && name != "Object") used_classes ~= base_class;
+		
 		// generate the set of referenced classes
 		foreach(const m; methods)
 		{
