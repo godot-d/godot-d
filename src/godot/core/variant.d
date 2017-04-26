@@ -1,12 +1,12 @@
 module godot.core.variant;
 
 import godot.c;
-import godot.core.defs;
-
 import godot.core;
+import godot.classes.object;
 
 import std.meta, std.traits;
 import std.conv : text;
+import std.range : iota;
 
 struct Variant
 {
@@ -119,7 +119,7 @@ struct Variant
 		Image,// 15
 		NodePath,
 		RID,
-		Object,
+		GodotObject,
 		InputEvent,
 		Dictionary,// 20
 		Array,
@@ -133,6 +133,23 @@ struct Variant
 		PoolVector3Array,
 		PoolColorArray,
 	);
+	
+	/// special types allowed to work with Variant in addition to the internal types
+	private enum bool specialCase(S) = isIntegral!S || isFloatingPoint!S; // || isSomeString!S;
+	
+	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
+	
+	/++
+	Template to determine if T is compatible with Variant
+	+/
+	public template compatible(T)
+	{
+		private enum bool _implicit(D) = implicit!(T, D);
+		
+		enum bool compatible = specialCase!T || anySatisfy!(_implicit, DType);
+	}
+	
+	static assert(allSatisfy!(compatible, DType));
 	
 	private template FunctionAs(Type type)
 	{
@@ -167,13 +184,16 @@ struct Variant
 	this(T)(in auto ref T input) if(!is(T == Variant))
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
-		else static if(is(T : float)) enum VarType = Type.real_;
+		else static if(isFloatingPoint!T) enum VarType = Type.real_;
 		else static if(is(T : bool)) enum VarType = Type.bool_;
 		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
 		else
 		{
-			enum ptrdiff_t index = staticIndexOf!(T, DType);
-			static assert(index != -1, "Type "~T.stringof~" isn't supported by Variant");
+			enum bool _implicit(size_t di) = implicit!(T, DType[di]);
+			alias Match = Filter!(_implicit, aliasSeqOf!(iota(DType.length)));
+			static assert(Match.length != 0, "Type "~T.stringof~" isn't supported by Variant");
+			static assert(Match.length == 1, "Multiple types match "~T.stringof);
+			enum ptrdiff_t index = Match[0];
 			enum VarType = EnumMembers!Type[index];
 		}
 		
@@ -182,7 +202,8 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
+		static if(is(IT : godot_object)) Fn(&_godot_variant, cast(godot_object)cast(void*)input);
+		else static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
 		else Fn(&_godot_variant, cast(IT*)&input); // pointer
 	}
 	
@@ -196,16 +217,21 @@ struct Variant
 		return cast(Type)godot_variant_get_type(&_godot_variant);
 	}
 	
-	T as(T)()
+	inout(T) as(T : Variant)() inout { return this; }
+	
+	inout(T) as(T)() inout if(!is(T == Variant))
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
-		else static if(is(T : float)) enum VarType = Type.real_;
+		else static if(isFloatingPoint!T) enum VarType = Type.real_;
 		else static if(is(T : bool)) enum VarType = Type.bool_;
 		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
 		else
 		{
-			enum ptrdiff_t index = staticIndexOf!(T, DType);
-			static assert(index != -1, "Type "~T.stringof~" isn't supported by Variant");
+			enum bool _implicit(size_t di) = implicit!(T, DType[di]);
+			alias Match = Filter!(_implicit, aliasSeqOf!(iota(DType.length)));
+			static assert(Match.length != 0, "Type "~T.stringof~" isn't supported by Variant");
+			static assert(Match.length == 1, "Multiple types match "~T.stringof);
+			enum ptrdiff_t index = Match[0];
 			enum VarType = EnumMembers!Type[index];
 		}
 		
@@ -213,8 +239,9 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		static if(isImplicitlyConvertible!(IT, T)) return Fa(&_godot_variant);
-		else return cast(T)Fa(&_godot_variant);
+		/+static if(is(IT : godot_object)) return Fa(
+		else+/ static if(isImplicitlyConvertible!(IT, inout(T))) return Fa(&_godot_variant);
+		else return cast(inout(T))cast(T)Fa(&_godot_variant);
 	}
 	
 	pragma(inline, true)
