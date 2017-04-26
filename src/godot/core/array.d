@@ -73,6 +73,11 @@ struct Array
 	{
 		godot_array_append(&_godot_array, &v._godot_variant);
 	}
+	void append(T)(in auto ref T t) if(!is(T == Variant) && Variant.compatible!T)
+	{
+		Variant tmp = Variant(t);
+		append(tmp);
+	}
 	alias opOpAssign(string op : "~") = append;
 	
 	void clear()
