@@ -60,6 +60,14 @@ void main(string[] args)
 	
 	GodotClass[] classes;
 	classes = jsonData.deserialize!(GodotClass[]);
+	GodotClass*[string] classDictionary;
+	foreach(ref c; classes) classDictionary[c.name] = &c;
+	foreach(ref c; classes) c.base_class_ptr = classDictionary.get(c.base_class, null);
+	
+	import std.algorithm.searching;
+	auto ep = classDictionary["EditorPlugin"];
+	auto gn = ep.methods[].find!(m => m.name == "get_name")()[0];
+	writeln("%s: %s", gn.name, gn);
 	
 	foreach(ref c; classes)
 	{

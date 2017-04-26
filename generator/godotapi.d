@@ -58,7 +58,10 @@ struct GodotClass
 	GodotMethod[] methods;
 	
 	@serializationIgnore
-	string[] used_classes;
+	{
+		string[] used_classes;
+		GodotClass* base_class_ptr = null; // needs to be set after all classes loaded
+	}
 	
 	/++
 	Certain classes have an underscore prefix in their API representation.
@@ -103,6 +106,11 @@ struct GodotMethod
 	bool has_varargs;
 	bool is_from_script;
 	GodotArgument[] arguments;
+	
+	bool same(in GodotMethod other) const
+	{
+		return name == other.name && is_const == other.is_const;
+	}
 }
 
 struct GodotArgument
