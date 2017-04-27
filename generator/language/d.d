@@ -298,9 +298,12 @@ string emptyDefault(string type)
 		case "Vector3":
 		case "Rect2":
 		case "Rect3":
+		case "Plane":
+		case "Basis":
 		
 		case "Dictionary": /// TEMPORARY
 		case "Image":
+		case "InputEvent":
 		
 			return type~".init"; // D's default initializer
 		default: // all Object types
@@ -315,44 +318,45 @@ string escapeDefault(string type, string arg)
 	import std.string;
 	import std.conv : text;
 	
-	return emptyDefault(type); /// TEMPORARY
+	if(!arg || arg.length == 0) return emptyDefault(type);
 	
 	// parse the defaults in api.json
-	/+switch(type)
+	switch(type)
 	{
-		case "Color":
-			return "Color("~arg~")"; // value type, so Color() works
-		case "int":
-		case "bool":
-			return arg.toLower; // true, false
-		case "Array":
+		case "Color": // "1,1,1,1"
+			return "Color("~arg~")";
+		case "bool": // True, False
+			return arg.toLower;
+		case "Array": // "[]", "Null" - just use the empty one
 		case "PoolByteArray":
 		case "PoolIntArray":
 		case "PoolRealArray":
 		case "PoolVector2Array":
 		case "PoolVector3Array":
 		case "PoolStringArray":
-		case "PoolColorArray":
-		case "Transform":
+		case "PoolColorArray": // "[PoolColorArray]" - wat?
+			return emptyDefault(type);
+		case "Transform": // "1, 0, 0, 0, 1, 0, 0, 0, 1 - 0, 0, 0" TODO: parse this
 		case "Transform2D":
-		case "RID":
+		case "RID": // always empty?
 			return type~".init"; // D's default initializer
-		case "Vector2":
+		case "Vector2": // "(0, 0)"
 		case "Vector3":
-		case "Rect2":
+		case "Rect2": // "(0, 0, 0, 0)"
+		case "Rect3":
 			return type~arg;
 		case "Variant":
 			if(arg == "Null") return "Variant.nil";
-			else return arg;
+			else return "Variant("~arg~")"; // "0"  TODO: parse from string?
 		case "String":
-			return "\""~arg~"\""; // put arg (or nothing) in quotes
-		default:
+			return "\""~arg~"\""; // FIXME: this doesn't work
+		default: // all Object types
 		{
 			if(arg == "Null") return "null";
 			if(arg == "[Object::null]") return "null";
 			return arg;
 		}
-	}+/
+	}
 }
 
 string escapeType(string t)
