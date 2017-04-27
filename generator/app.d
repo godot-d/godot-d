@@ -64,6 +64,32 @@ void main(string[] args)
 	foreach(ref c; classes) classDictionary[c.name] = &c;
 	foreach(ref c; classes) c.base_class_ptr = classDictionary.get(c.base_class, null);
 	
+	/+
+	Break constness for methods overridden by non-const methods in descendents.
+	This kind of overload is a compile-time error in D.
+	
+	Note that Godot doesn't have overloads differing in argument types.
+	+/
+	foreach(ref c; classes)
+	{
+		foreach(mi, ref m; c.methods)
+		{
+			auto b = c.base_class_ptr;
+			while(b)
+			{
+				foreach(bmi, ref bm; b.methods)
+				{
+					if(bm.name == m.name)
+					{
+						if(m.is_const != bm.is_const) bm.is_const = m.is_const = false;
+					}
+				}
+				
+				b = b.base_class_ptr;
+			}
+		}
+	}
+	
 	foreach(ref c; classes)
 	{
 		// output files for the selected lang
