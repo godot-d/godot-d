@@ -1,4 +1,5 @@
 .dub
+dub.selections.json
 docs.json
 __dummy.html
 *.o
@@ -8,3 +9,6 @@ __dummy.html
 *.so
 *.dll
 __test__*__
+api.json
+binding-output/*
+godot-d_generator*
