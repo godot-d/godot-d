@@ -1,6 +1,7 @@
 module godot.core.rid;
 
 import godot.c;
+import godot.classes.object;
 
 struct RID
 {
@@ -9,10 +10,10 @@ struct RID
 	@disable this(this);
 	@disable this();
 	
-    /+this(Object p)
+    this(GodotObject p)
     {
-	    godot_rid_new(&_godot_rid, &p);
-    }+/
+	    godot_rid_new(&_godot_rid, cast(godot_object)cast(void*)p);
+    }
     
     int get_id() const
     {
