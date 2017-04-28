@@ -278,6 +278,8 @@ string emptyDefault(string type)
 	{
 		case "Variant":
 			return "Variant.nil";
+		case "Dictionary":
+			return type~".empty_dictionary"; // naming convention fail
 		case "Array":
 			return type~".empty_array"; // naming convention fail, ugh. Change it?
 		case "PoolByteArray":
@@ -288,6 +290,7 @@ string emptyDefault(string type)
 		case "PoolStringArray":
 		case "PoolColorArray":
 		case "String":
+		case "Image":
 			return type~".empty";
 		case "RID":
 			return "RID(null)";
@@ -301,8 +304,6 @@ string emptyDefault(string type)
 		case "Plane":
 		case "Basis":
 		
-		case "Dictionary": /// TEMPORARY
-		case "Image":
 		case "InputEvent":
 		
 			return type~".init"; // D's default initializer
@@ -328,6 +329,7 @@ string escapeDefault(string type, string arg)
 		case "bool": // True, False
 			return arg.toLower;
 		case "Array": // "[]", "Null" - just use the empty one
+		case "Dictionary":
 		case "PoolByteArray":
 		case "PoolIntArray":
 		case "PoolRealArray":
@@ -335,10 +337,12 @@ string escapeDefault(string type, string arg)
 		case "PoolVector3Array":
 		case "PoolStringArray":
 		case "PoolColorArray": // "[PoolColorArray]" - wat?
+		case "Image":
 			return emptyDefault(type);
 		case "Transform": // "1, 0, 0, 0, 1, 0, 0, 0, 1 - 0, 0, 0" TODO: parse this
 		case "Transform2D":
 		case "RID": // always empty?
+		case "InputEvent":
 			return type~".init"; // D's default initializer
 		case "Vector2": // "(0, 0)"
 		case "Vector3":
