@@ -181,7 +181,7 @@ struct Variant
 		godot_variant_copy(&this._godot_variant, &other._godot_variant);
 	}
 	
-	this(T)(in auto ref T input) if(!is(T == Variant))
+	this(T)(in auto ref T input) if(!is(T == Variant) && !is(T==typeof(null)))
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
 		else static if(isFloatingPoint!T) enum VarType = Type.real_;
@@ -219,7 +219,7 @@ struct Variant
 	
 	inout(T) as(T : Variant)() inout { return this; }
 	
-	inout(T) as(T)() inout if(!is(T == Variant))
+	T as(T)() const if(!is(T == Variant) && !is(T==typeof(null)))
 	{
 		static if(isIntegral!T) enum VarType = Type.int_;
 		else static if(isFloatingPoint!T) enum VarType = Type.real_;
@@ -239,9 +239,11 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		/+static if(is(IT : godot_object)) return Fa(
-		else+/ static if(isImplicitlyConvertible!(IT, inout(T))) return Fa(&_godot_variant);
-		else return cast(inout(T))cast(T)Fa(&_godot_variant);
+		IT ret = Fa(&_godot_variant);
+		
+		static if(isImplicitlyConvertible!(IT, T)) return ret;
+		else return cast(T)ret;
+		// TODO: *correct* conversion from C type may be different for a few types...
 	}
 	
 	pragma(inline, true)
