@@ -54,6 +54,18 @@ class Test
 				writefln("This D library was compiled with %s compiler, v%d.%03d",
 					name, version_major, version_minor);
 			}
+			
+			// test singletons
+			{
+				import godot.classes.os;
+				import std.string;
+				
+				String name = OS.get_name();
+				writefln("OS is %s on device %s", name.c_string().fromStringz,
+					OS.get_model_name().c_string().fromStringz);
+				String exe = OS.get_executable_path();
+				printf("Executable path: <%s>\n", exe.c_string);
+			}
 		}
 	}
 	
