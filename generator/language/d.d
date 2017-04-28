@@ -174,7 +174,7 @@ string generateD(in GodotClass c)
 		{
 			ret ~= "\t\tstatic godot_method_bind* mb = null;\n";
 			ret ~= "\t\tif(mb is null) ";
-			ret ~= "mb = godot_method_bind_get_method(\"" ~ c.name.escapeD ~ "\", \"" ~ m.name ~ "\");\n";
+			ret ~= "mb = godot_method_bind_get_method(\"" ~ c.internal_name ~ "\", \"" ~ m.name ~ "\");\n";
 			
 			if(m.return_type != "void")
 			{
