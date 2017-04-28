@@ -84,14 +84,18 @@ struct GodotClass
 		foreach(const m; methods)
 		{
 			import std.algorithm.searching;
-			if(!isPrimitive(m.return_type) && !isCoreType(m.return_type) && !used_classes.canFind(m.return_type))
+			if(!isPrimitive(m.return_type) && !isCoreType(m.return_type) && m.return_type != name
+				&& m.return_type != "Object" && !used_classes.canFind(m.return_type))
 				used_classes ~= (m.return_type);
 			foreach(const a; m.arguments)
 			{
-				if(!isPrimitive(a.type) && !isCoreType(a.type) && !used_classes.canFind(a.type))
+				if(!isPrimitive(a.type) && !isCoreType(a.type) && a.type != name
+					&& a.type != "Object" && !used_classes.canFind(a.type))
 					used_classes ~= (a.type);
 			}
 		}
+		assert(!used_classes.canFind(name));
+		assert(!used_classes.canFind("Object"));
 	}
 }
 

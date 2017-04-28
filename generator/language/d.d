@@ -31,7 +31,8 @@ string generateD(in GodotClass c)
 	ret ~= "module godot.classes.";
 	ret ~= c.name.toLower;
 	ret ~= ";\n";
-	ret ~= "import godot.core;\nimport godot.c;\nimport godot.classes.object;\n";
+	ret ~= "import godot.core;\nimport godot.c;\n";
+	if(c.name != "Object") ret ~= "import godot.classes.object;\n";
 	
 	if(c.instanciable)
 	{
