@@ -14,10 +14,16 @@ import std.string : toStringz;
 import core.stdc.string;
 import std.algorithm.iteration;
 
-
-
-class Test
+class Test // notice that Test does not inherit Label
 {
+	import godot.classes.label;
+	mixin extends!Label;
+	
+	this()
+	{
+		writefln("Test.this(); this: %x", cast(void*)this);
+	}
+	
 	@GodotMethod
 	void writeStuff()
 	{
@@ -55,17 +61,8 @@ class Test
 					name, version_major, version_minor);
 			}
 			
-			// test singletons
-			{
-				import godot.classes.os;
-				import std.string;
-				
-				String name = OS.get_name();
-				writefln("OS is %s on device %s", name.c_string().fromStringz,
-					OS.get_model_name().c_string().fromStringz);
-				String exe = OS.get_executable_path();
-				printf("Executable path: <%s>\n", exe.c_string);
-			}
+			writeln(" ---TEST--- ");
+			test();
 		}
 	}
 	
@@ -88,30 +85,11 @@ class Test
 		Vector2 vec2Back = vVec2Ctor.as!Vector2;
 		writefln("vec2Back: %f,%f", vec2Back.x, vec2Back.y);
 		
-		{
-			godot_string str;
-			godot_string_new_data(&str, "asdf", 4);
-			
-			godot_variant var;
-			godot_variant_new_string(&var, &str);
-			writef("Made var from str; type: %s\n", godot_variant_get_type(&var));
-			
-			godot_string strBack = godot_variant_as_string(&var);
-			writef("Got strBack from var\n");
-			
-			const(char*) cStr = godot_string_c_str(&strBack);
-			printf("strBack c_str: <%s>\n", cStr);
-			
-			godot_string_destroy(&strBack);
-			writef("strBack destroyed\n");
-		}
-		
 		String str = String("qwertz");
 		Variant vStr = str;
 		String strBack = vStr.as!String;
 		auto strBackC = strBack.c_string;
 		printf("strBack.c_string: <%s>\n", strBackC);
-		
 		
 		Variant vLongCtor = Variant(1L);
 		writefln("vLongCtor.type: %s", vLongCtor.type);
@@ -151,11 +129,61 @@ class Test
 			writef(" <%s>", arr[i].type);
 		}
 		writeln();
+		
+		// test singletons
+		{
+			import godot.classes.os;
+			import std.string;
+			
+			String name = OS.get_name();
+			writefln("OS is %s on device %s", name.c_string().fromStringz,
+				OS.get_model_name().c_string().fromStringz);
+			String exe = OS.get_executable_path();
+			printf("Executable path: <%s>\n", exe.c_string);
+		}
+		
+		// test extension of Label
+		{
+			import std.string;
+			
+			// Test has no "set_uppercase" or "set/get_text", so they're forwarded to base
+			
+			set_uppercase(true);
+			
+			String oldText = get_text();
+			writefln("Old Label text: %s", oldText.c_string.fromStringz);
+			String newText = String("New text set from D Test class");
+			set_text(newText);
+		}
+		
+		// test resource loading
+		{
+			import godot.classes.resource, godot.classes.resourceloader;
+			import std.string;
+			
+			String iconPath = String("res://icon.png");
+			writefln("assert(!ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
+			assert(!ResourceLoader.has(iconPath));
+			String hint = String("");
+			
+			Resource res = ResourceLoader.load(iconPath, hint, false);
+			writefln("Loaded Resource %s at path %s", res.get_name.c_string.fromStringz,
+				res.get_path.c_string.fromStringz);
+			
+			// test upcasts
+			import godot.classes.texture, godot.classes.mesh;
+			Mesh wrongCast = cast(Mesh)res;
+			assert(wrongCast.ptr is null);
+			Texture rightCast = cast(Texture)res;
+			assert(rightCast.ptr !is null);
+			auto size = rightCast.get_size();
+			writefln("Texture size: %f,%f", size.x, size.y);
+			
+			writefln("assert(ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
+			assert(ResourceLoader.has(iconPath));
+		}
 	}
 }
-
-
-
 
 extern(C):
 
