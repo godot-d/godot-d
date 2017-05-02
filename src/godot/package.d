@@ -64,8 +64,6 @@ mixin template extends(Base : GodotObject)
 	{
 		import std.traits;
 		alias This = typeof(this);
-		pragma(msg, "This: "~This.stringof);
-		pragma(msg, "typeof(this): "~typeof(this).stringof);
 		static assert(!is(Unqual!This == Unqual!Base));
 		union U{ void* ptr; This c; }
 		U u;
@@ -76,8 +74,6 @@ mixin template extends(Base : GodotObject)
 	{
 		import std.traits;
 		alias This = typeof(this);
-		pragma(msg, "This: "~This.stringof);
-		pragma(msg, "typeof(this): "~typeof(this).stringof);
 		static assert(!is(Unqual!This == Unqual!Base));
 		union U{ const(void*) ptr; const(This) c; }
 		U u;
