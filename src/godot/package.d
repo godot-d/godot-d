@@ -29,7 +29,7 @@ class registered to Godot).
 template isGodotBaseClass(T)
 {
 	static if(is(T == struct)) enum bool isGodotBaseClass =
-		hasUDA!(AliasSeq!T, GodotBaseClass);
+		hasUDA!(T, GodotBaseClass);
 	else enum bool isGodotBaseClass = false;
 }
 
