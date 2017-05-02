@@ -31,7 +31,8 @@ string generateD(in GodotClass c)
 	ret ~= "module godot.classes.";
 	ret ~= c.name.toLower;
 	ret ~= ";\n";
-	ret ~= "import godot.core;\nimport godot.c;\n";
+	ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
+	ret ~= "import godot;\nimport godot.core;\nimport godot.c;\n";
 	if(c.name != "Object") ret ~= "import godot.classes.object;\n";
 	
 	if(c.instanciable)
@@ -50,13 +51,13 @@ string generateD(in GodotClass c)
 	if(c.singleton) nameAlias = "_GODOT_static_object_"~c.name;
 	else nameAlias = "this";
 	
-	ret ~= "class "~c.name.escapeD;
-	if(c.name != "Object") ret ~= " : "~c.base_class.escapeType;
-	ret ~= "\n{\nprivate:\n";
+	ret ~= "@GodotBaseClass struct "~c.name.escapeD;
+	ret ~= "\n{\n";
+	ret ~= "private:\n";
 	if(c.singleton)
 	{
 		ret ~= "\tstatic GodotObject "~nameAlias~";\n";
-		ret ~= "\tstatic void _GODOT_singleton_init()\n\t\t{\n";
+		ret ~= "\tstatic void _GODOT_singleton_init()\n\t{\n";
 		ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~c.name~"\";\n";
 		ret ~= "\t\t"~nameAlias~" = cast(GodotObject)godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
 		ret ~= "\t}\n";
@@ -66,15 +67,47 @@ string generateD(in GodotClass c)
 	/// TODO: add @nogc/nothrow here?
 	/// Should be a generator option, for those who want to use GC in subclasses
 	
-	ret ~= "\tstatic "~c.name.escapeD~" _new()\n\t{\n";
+	// Pointer to Godot object, fake inheritance through alias this
+	if(c.name != "Object")
+	{
+		ret ~= "\tunion { void* ptr; "~c.base_class.escapeType~" base; }\n\talias base this;\n";
+		ret ~= "\talias BaseClasses = AliasSeq!(typeof(base), typeof(base).BaseClasses);\n";
+	}
+	else
+	{
+		ret ~= "\tvoid* ptr;\n";
+		ret ~= "\talias BaseClasses = AliasSeq!();\n";
+	}
+	
+	// simply return the void ptr
+	ret ~= "\tvoid* opCast(T : void*)() const { return cast(void*)ptr; }\n";
+	ret ~= "\t"~c.name.escapeType~" opAssign(T : typeof(null))(T n) { ptr = null; }\n";
+	
+	// downcast is handled by `alias this`.
+	
+	// upcast to derived Godot class:
+	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T && ";
+	ret ~= "staticIndexOf!(typeof(this), T.BaseClasses) != -1)\n\t{\n";
+	ret ~= "\t\tString c = String(T.stringof);\n";
+	ret ~= "\t\tif(is_class(c)) return T(ptr);\n\t\treturn T.init;\n\t}\n";
+	
+	// upcast to derived D Native Script:
+	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T && ";
+	ret ~= "staticIndexOf!(typeof(this), typeof(T.self).BaseClasses) != -1)\n\t{\n";
+	ret ~= "\t\tString c = String(T.stringof);\n";
+	ret ~= "\t\tif(is_class(c)) return cast(T)godot_native_get_userdata(cast(godot_object)ptr);\n";
+	ret ~= "\t\treturn T.init;\n\t}\n";
+	
+	// Godot constructor.
+	ret ~= "\tstatic "~c.name.escapeType~" _new()\n\t{\n";
 	ret ~= "\t\tgodot_class_constructor constructor = godot_get_class_constructor(\""~c.internal_name~"\");\n";
-	ret ~= "\t\tif(constructor is null) return null;\n";
-	ret ~= "\t\treturn cast("~c.name.escapeD~")(constructor());\n";
+	ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
+	ret ~= "\t\treturn cast("~c.name.escapeType~")(constructor());\n";
 	ret ~= "\t}\n";
 	
 	if(c.name != "Object")
 	{
-		ret ~= "\toverride void _init()\n\t{\n";
+		ret ~= "\tvoid _init()\n\t{\n";
 		
 		ret ~= "\t}\n";
 	}
@@ -90,6 +123,7 @@ string generateD(in GodotClass c)
 		if(c.singleton) ret ~= "static ";
 		else // not static
 		{
+			/+
 			const(GodotClass)* base = c.base_class_ptr;
 			while(base)
 			{
@@ -103,6 +137,7 @@ string generateD(in GodotClass c)
 				}
 				base = base.base_class_ptr;
 			}
+			+/
 		}
 		ret ~= m.return_type.escapeType~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
@@ -141,7 +176,7 @@ string generateD(in GodotClass c)
 		// singleton null check
 		if(c.singleton)
 		{
-			ret ~= "\t\tif("~nameAlias~" is null) _GODOT_singleton_init();\n";
+			ret ~= "\t\tif("~nameAlias~".ptr is null) _GODOT_singleton_init();\n";
 		}
 		
 		// implementation
@@ -294,8 +329,8 @@ string emptyDefault(string type)
 		case "Image":
 			return type~".empty";
 		case "RID":
-			return "RID(null)";
-		case "Transform":
+			return "RID(GodotObject.init)";
+		/++case "Transform":
 		case "Transform2D":
 		case "Color":
 		case "Vector2":
@@ -307,10 +342,11 @@ string emptyDefault(string type)
 		
 		case "InputEvent":
 		
-			return type~".init"; // D's default initializer
+			return type~".init"; // D's default initializer+/
 		default: // all Object types
 		{
-			return "null";
+			return type.escapeType~".init"; // D's default initializer
+			///return "null";
 		}
 	}
 }
@@ -344,7 +380,7 @@ string escapeDefault(string type, string arg)
 		case "Transform2D":
 		case "RID": // always empty?
 		case "InputEvent":
-			return type~".init"; // D's default initializer
+			return emptyDefault(type); // D's default initializer
 		case "Vector2": // "(0, 0)"
 		case "Vector3":
 		case "Rect2": // "(0, 0, 0, 0)"
@@ -357,8 +393,8 @@ string escapeDefault(string type, string arg)
 			return "\""~arg~"\""; // FIXME: this doesn't work
 		default: // all Object types
 		{
-			if(arg == "Null") return "null";
-			if(arg == "[Object::null]") return "null";
+			if(arg == "Null") return emptyDefault(type);
+			if(arg == "[Object::null]") return emptyDefault(type);
 			return arg;
 		}
 	}
@@ -408,6 +444,7 @@ string escapeD(string s)
 		"out",
 		"ref",
 		"auto",
+		"init",
 		"body", // for now at least...
 	);
 	switch(s)
