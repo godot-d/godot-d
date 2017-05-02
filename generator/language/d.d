@@ -89,13 +89,13 @@ string generateD(in GodotClass c)
 	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T && ";
 	ret ~= "staticIndexOf!(typeof(this), T.BaseClasses) != -1)\n\t{\n";
 	ret ~= "\t\tString c = String(T.stringof);\n";
-	ret ~= "\t\tif(is_class(c)) return T(ptr);\n\t\treturn T.init;\n\t}\n";
+	ret ~= "\t\tif(is_class(c)) return inout(T)(ptr);\n\t\treturn T.init;\n\t}\n";
 	
 	// upcast to derived D Native Script:
 	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T && ";
 	ret ~= "staticIndexOf!(typeof(this), typeof(T.self).BaseClasses) != -1)\n\t{\n";
 	ret ~= "\t\tString c = String(T.stringof);\n";
-	ret ~= "\t\tif(is_class(c)) return cast(T)godot_native_get_userdata(cast(godot_object)ptr);\n";
+	ret ~= "\t\tif(is_class(c)) return cast(inout(T))godot_native_get_userdata(cast(godot_object)ptr);\n";
 	ret ~= "\t\treturn T.init;\n\t}\n";
 	
 	// Godot constructor.
