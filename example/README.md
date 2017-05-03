@@ -6,6 +6,7 @@ The `register` function and attributes to mark Godot methods are in the `godot` 
 
 Usage
 -----
+- Run the API generator first! Generated classes are not included in the repo yet. There's a README in the `generator` folder.
 - Build the D example with `dub build godot-d:example`. It'll generate a shared/dynamic library; the filename depends on OS, but it will be placed in the Godot project's `lib` folder, ready to use.
 - Open the Godot project and find the `DLibrary.tres` resource. This wraps the library itself; make sure your OS's library path is set to the DLL you compiled.
 - Run the project. The Label is already set up with a GDNative Script using `DLibrary.tres` and the `Test` D class.
