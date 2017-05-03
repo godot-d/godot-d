@@ -20,24 +20,15 @@
 			"sourcePaths": [ "generator" ]
 		},
 		{
-			"name": "c-example",
-			"description": "Example using only the C API",
-			"targetType": "dynamicLibrary",
-			"dependencies":
-			{
-				"godot-d": "*"
-			},
-			"sourcePaths": [ "c-example" ]
-		},
-		{
-			"name": "d-example",
+			"name": "example",
 			"description": "Example using D classes",
 			"targetType": "dynamicLibrary",
+			"targetPath": "example/project/lib",
 			"dependencies":
 			{
 				"godot-d": "*"
 			},
-			"sourcePaths": [ "d-example" ]
+			"sourcePaths": [ "example/src" ]
 		}
 	],
 }

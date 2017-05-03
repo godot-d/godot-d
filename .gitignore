@@ -12,3 +12,5 @@ __test__*__
 api.json
 binding-output/*
 godot-d_generator*
+example/project/.import/*
+*.import
