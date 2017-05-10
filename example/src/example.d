@@ -182,6 +182,10 @@ class Test // notice that Test does not inherit Label
 			writefln("assert(ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
 			assert(ResourceLoader.has(iconPath));
 		}
+		
+		// test asserts
+		assert(0, "Testing assert(0); should appear in Godot debugger.");
+		assert(false, "Testing another assert");
 	}
 }
 
@@ -189,7 +193,11 @@ extern(C):
 
 export void godot_native_init(godot_native_init_options* options)
 {
-	Runtime.initialize();
+	import core.exception;
+	
+	Runtime.initialize(); // Init runtime - needed for GC and many other things
+	
+	assertHandler = &godotAssertHandler; // make asserts print to Godot console/debugger
 	
 	register!Test();
 }
