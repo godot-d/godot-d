@@ -261,7 +261,7 @@ Unlike the default D assert handler, this one doesn't terminate the program,
 allowing the messages to remain in Godot's Debugger tab and matching how Godot
 error macros behave.
 +/
-@nogc nothrow
+nothrow
 void godotAssertHandler(string file, size_t line, string msg)
 {
 	import core.exception;
@@ -276,6 +276,16 @@ void godotAssertHandler(string file, size_t line, string msg)
 	buffer[$-1] = '\0';
 	
 	godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
+	
+	version(assert) // any `assert(x)` gets compiled; usually a debug version
+	{
+		// TODO: if in Editor Debugger, debug_break like GDScript asserts
+	}
+	else // only `assert(0)`/`assert(false)` get compiled; usually a release version
+	{
+		// crash on always-false asserts
+		throw new AssertError(msg, file, line);
+	}
 }
 
 
