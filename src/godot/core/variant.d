@@ -92,8 +92,6 @@ struct Variant
 		godot_pool_color_array,
 	);
 	
-	alias Object = godot_object;
-	
 	/// D type that this Variant implementation uses
 	alias DType = AliasSeq!
 	(
@@ -134,9 +132,6 @@ struct Variant
 		PoolColorArray,
 	);
 	
-	/// special types allowed to work with Variant in addition to the internal types
-	private enum bool specialCase(S) = isIntegral!S || isFloatingPoint!S; // || isSomeString!S;
-	
 	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
 	
 	/++
@@ -144,12 +139,40 @@ struct Variant
 	+/
 	public template compatible(T)
 	{
-		private enum bool _implicit(D) = implicit!(T, D);
-		
-		enum bool compatible = specialCase!T || anySatisfy!(_implicit, DType);
+		static if( !is(typeof(variantTypeOf!T) == void) ) enum bool compatible = true;
+		else enum bool compatible = false;
+	}
+	
+	/// All target Variant.Types that T could implicitly convert to, as indices
+	private template implicitTargetIndices(T)
+	{
+		private enum bool _implicit(size_t di) = implicit!(T, DType[di]);
+		alias implicitTargetIndices = Filter!(_implicit, aliasSeqOf!(iota(DType.length)));
+	}
+	
+	/++
+	Get the Variant.Type of a compatible D type. Incompatible types return an
+	empty alias, so check that $(D compatible!T) is true first.
+	+/
+	public template variantTypeOf(T)
+	{
+		static if(isIntegral!T) enum Type variantTypeOf = Type.int_;
+		else static if(isFloatingPoint!T) enum Type variantTypeOf = Type.real_;
+		else static if(is(T : bool)) enum Type variantTypeOf = Type.bool_;
+		//else static if(isSomeString!T) enum Type variantTypeOf = Type.string;
+		else
+		{
+			alias match = implicitTargetIndices!T;
+			static if(match.length == 1)
+			{
+			    enum Type variantTypeOf = EnumMembers!Type[ match[0] ];
+			}
+			// else: nothing, void alias
+		}
 	}
 	
 	static assert(allSatisfy!(compatible, DType));
+	static assert(!compatible!Object); // D Object
 	
 	private template FunctionAs(Type type)
 	{
@@ -183,18 +206,12 @@ struct Variant
 	
 	this(T)(in auto ref T input) if(!is(T == Variant) && !is(T==typeof(null)))
 	{
-		static if(isIntegral!T) enum VarType = Type.int_;
-		else static if(isFloatingPoint!T) enum VarType = Type.real_;
-		else static if(is(T : bool)) enum VarType = Type.bool_;
-		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
+		static if(compatible!T) enum VarType = variantTypeOf!T;
 		else
 		{
-			enum bool _implicit(size_t di) = implicit!(T, DType[di]);
-			alias Match = Filter!(_implicit, aliasSeqOf!(iota(DType.length)));
-			static assert(Match.length != 0, "Type "~T.stringof~" isn't supported by Variant");
-			static assert(Match.length == 1, "Multiple types match "~T.stringof);
-			enum ptrdiff_t index = Match[0];
-			enum VarType = EnumMembers!Type[index];
+			alias match = implicitTargetIndices!T;
+			static if(match.length > 1) static assert(0, "Multiple Variant Types match "~T.stringof);
+			else static assert(0, "Type "~T.stringof~" isn't supported by Variant");
 		}
 		
 		alias Fn = FunctionNew!VarType;
@@ -221,18 +238,12 @@ struct Variant
 	
 	T as(T)() const if(!is(T == Variant) && !is(T==typeof(null)))
 	{
-		static if(isIntegral!T) enum VarType = Type.int_;
-		else static if(isFloatingPoint!T) enum VarType = Type.real_;
-		else static if(is(T : bool)) enum VarType = Type.bool_;
-		//else static if(isSomeString!T) enum VarType = Type.string; // TODO
+		static if(compatible!T) enum VarType = variantTypeOf!T;
 		else
 		{
-			enum bool _implicit(size_t di) = implicit!(T, DType[di]);
-			alias Match = Filter!(_implicit, aliasSeqOf!(iota(DType.length)));
-			static assert(Match.length != 0, "Type "~T.stringof~" isn't supported by Variant");
-			static assert(Match.length == 1, "Multiple types match "~T.stringof);
-			enum ptrdiff_t index = Match[0];
-			enum VarType = EnumMembers!Type[index];
+			alias match = implicitTargetIndices!T;
+			static if(match.length > 1) static assert(0, "Multiple Variant Types match "~T.stringof);
+			else static assert(0, "Type "~T.stringof~" isn't supported by Variant");
 		}
 		
 		alias Fa = FunctionAs!VarType;
