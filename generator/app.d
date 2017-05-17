@@ -109,6 +109,9 @@ void main(string[] args)
 			auto fileName = (cof.lowercaseFilename)?(c.name.toLower):(c.name);
 			string p = buildPath(outputDir, cof.prefix~fileName~'.'~cof.extension);
 			
+			string dir = dirName(p);
+			if(!dir.exists) mkdirRecurse(dir);
+			
 			string data = cof.generator(c);
 			if(data) std.file.write( p, data );
 		}
