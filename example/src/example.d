@@ -24,13 +24,13 @@ class Test // notice that Test does not inherit Label
 		writefln("Test.this(); this: %x", cast(void*)this);
 	}
 	
-	@GodotMethod
+	@(godot.Method) // fully qualified name, in case you have another "Method" in the module
 	void writeStuff()
 	{
 		writeln("Writing stuff...");
 	}
 	
-	@GodotMethod
+	@Method("formatNum") // rename the method
 	String formatNumbers(real_t r, long i)
 	{
 		import std.format, std.string;
@@ -39,7 +39,7 @@ class Test // notice that Test does not inherit Label
 		return ret;
 	}
 	
-	@GodotMethod
+	@Method
 	void _notification(int type)
 	{
 		// NOTIFICATION_READY (#13)
@@ -66,7 +66,7 @@ class Test // notice that Test does not inherit Label
 		}
 	}
 	
-	@GodotMethod
+	@Method
 	void test()
 	{
 		/++

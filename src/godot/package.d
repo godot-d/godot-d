@@ -17,6 +17,15 @@ import std.experimental.allocator, std.experimental.allocator.mallocator;
 import core.stdc.stdlib : malloc, free;
 debug import std.stdio;
 
+enum RPCMode
+{
+	disabled,
+	remote,
+	sync,
+	master,
+	slave,
+}
+
 /++
 A UDA with which base Godot classes are marked. NOT used by new D classes.
 +/
@@ -37,7 +46,11 @@ template isGodotBaseClass(T)
 /++
 A UDA to mark a method that should be registered into Godot
 +/
-enum GodotMethod;
+struct Method
+{
+	string nameOverride = null;
+	RPCMode rpcMode = RPCMode.disabled;
+}
 
 /++
 Mixin template with which to allow a D class to "inherit" a Godot class.
@@ -94,6 +107,45 @@ template extendsGodotBaseClass(T)
 	else enum bool extendsGodotBaseClass = false;
 }
 
+private alias GodotMemberUDAs = AliasSeq!(Method, /*Property, Signal*/);
+private enum bool isMemberUDA(T) = staticIndexOf!(T, GodotMemberUDAs) != -1;
+
+private enum string dName(alias a) = __traits(identifier, a);
+private template godotName(alias a, Type) if(isMemberUDA!Type && hasUDA!(a, Type))
+{
+	alias udas = getUDAs!(a, Type);
+	static assert(udas.length == 1, "Multiple "~Type.stringof~" UDAs on "~
+		fullyQualifiedName!a~"? Why?");
+	
+	static if(is( udas[0] )) enum string godotName = dName!a;
+	else
+	{
+		enum Method uda = udas[0];
+		enum string godotName = uda.nameOverride;
+	}
+}
+
+private enum bool isGodotMember(alias m, Type) = isMemberUDA!Type && hasUDA!(m, Type);
+
+package template godotMethods(T)
+{
+	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
+	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	alias isMethod(alias mf) = hasUDA!(mf, Method);
+	
+	alias godotMethods = Filter!(isMethod, allMfs);
+	
+	alias methodName(alias mf) = godotName!(mf, Method);
+	alias godotNames = Filter!(methodName, godotMethods);
+	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
+		" methods can't have overloads. Rename one with @Method(\"new_name\").");
+	/// TODO: better error message listing which are duplicated
+}
+
+// TODO: properties
+
+// TODO: signals
+
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
@@ -111,33 +163,37 @@ void register(T)() if(is(T == class))
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
 	godot_script_register_class(name, baseName, icf, idf);
 	
-	foreach(mName; __traits(allMembers, T))
+	foreach(mf; godotMethods!T)
 	{
-		// member functions; TODO: how to handle overloads if there are more than 1?
-		alias mfs = MemberFunctionsTuple!(T, mName);
+		enum string dName = __traits(identifier, mf);
+		enum immutable(char*) funcName = godotName!(mf, Method);
+		alias udas = getUDAs!(mf, Method);
 		
-		// `mf` is equivalent to writing `T.<mName>`; it's not a value or pointer
-		foreach(mf; mfs) static if(hasUDA!(mf, GodotMethod))
+		auto wrapped = &mf; // a *function* pointer (not delegate) to mf
+		
+		alias Ret = ReturnType!wrapped;
+		alias Args = Parameters!wrapped;
+		alias Wrapper = MethodWrapper!(T, Ret, Args);
+		
+		godot_method_attributes ma;
+		static if(is( udas[0] )) ma.rpc_type = godot_method_rpc_mode
+			.GODOT_METHOD_RPC_MODE_DISABLED;
+		else
 		{
-			enum immutable(char*) funcName = mName; // TODO: add rename UDA
-			
-			auto wrapped = &mf; // a *function* pointer (not delegate) to mf
-			
-			alias Ret = ReturnType!wrapped;
-			alias Args = Parameters!wrapped;
-			alias Wrapper = MethodWrapper!(T, Ret, Args);
-			
-			auto ma = godot_method_attributes(godot_method_rpc_mode.GODOT_METHOD_RPC_MODE_DISABLED);
-			
-			godot_instance_method md;
-			md.method_data = Wrapper.make(wrapped);
-			md.method = &Wrapper.callMethod;
-			md.free_func = &free;
-			
-			debug writefln("	Registering method %s.%s",T.stringof,mName);
-			godot_script_register_method(name, funcName, ma, md);
+			ma.rpc_type = cast(godot_method_rpc_mode)udas[0].rpcMode;
 		}
+		
+		godot_instance_method md;
+		md.method_data = Wrapper.make(wrapped);
+		md.method = &Wrapper.callMethod;
+		md.free_func = &free;
+		
+		debug writefln("	Registering method %s.%s as \"%s\"",T.stringof, dName,
+			godotName!(mf, Method));
+		godot_script_register_method(name, funcName, ma, md);
 	}
+	
+	// TODO: properties, signals
 }
 
 /++
