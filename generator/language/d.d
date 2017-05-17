@@ -5,11 +5,15 @@ import language;
 
 import std.algorithm.iteration;
 import std.range;
+import std.path;
 
 Language getDLanguage()
 {
 	Language ret;
-	ret.classOutputFiles = [Language.ClassOutputFile(null, true, "d", &generateD)];
+	ret.classOutputFiles = [
+		Language.ClassOutputFile(buildPath("godot","classes")
+			~dirSeparator, true, "d", &generateD)
+	];
 	return ret;
 }
 

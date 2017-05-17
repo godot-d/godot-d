@@ -16,12 +16,12 @@ void main(string[] args)
 	bool outputCore = false;
 	auto opt = args.getopt(
 		"language|l", "The language to generate bindings for", &outputLang,
-		"core|c", "Generate core types that probably should be reimplemented instead", &outputCore
 	);
 	
-	if(args.length < 2 || opt.helpWanted)
+	writeln(args);
+	if(opt.helpWanted)
 	{
-		defaultGetoptPrinter("Usage: [OPTION]... path/to/api.json [outputDir]\n", opt.options);
+		defaultGetoptPrinter("Usage: [OPTION]... [path/to/api.json] [outputDir]\n", opt.options);
 		return;
 	}
 	
@@ -37,15 +37,24 @@ void main(string[] args)
 			throw new Exception("Language %s is not supported.".format(outputLang));	
 	}
 	
-	string jsonPath = args[1];
-	if(!jsonPath.exists) return;
+	string jsonPath;
+	if(args.length >= 2) jsonPath = args[1];
+	else
+	{
+		jsonPath = "api.json";
+		writefln("Using default api.json from working directory");
+	}
+	if(!jsonPath.exists)
+	{
+		throw new Exception("API file %s doesn't exist".format(jsonPath));
+	}
 	auto jsonData = jsonPath.readText;
 	
 	string outputDir;
 	if(args.length >= 3) outputDir = args[2];
 	else
 	{
-		outputDir = args[0].dirName.buildPath("binding-output");
+		outputDir = args[0].dirName.buildPath("src");
 		writefln("Outputting to default directory %s",outputDir);
 	}
 	if(!outputDir.exists)
