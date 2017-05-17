@@ -53,6 +53,104 @@ struct Method
 }
 
 /++
+A UDA to mark a public variable OR accessor methods as a property in Godot.
+
+Using just the type as a UDA uses default configuration. The UDA can also be
+constructed at compile-time to customize how the property should be registered
+into Godot.
++/
+struct Property
+{
+	enum Hint
+	{
+		none, /// no hint provided.
+		range, /// hintText = "min,max,step,slider; //slider is optional"
+		expRange, /// hintText = "min,max,step", exponential edit
+		enumType, /// hintText= "val1,val2,val3,etc"
+		expEasing, /// exponential easing funciton (math::ease)
+		length, /// hintText= "length" (as integer)
+		spriteFrame,
+		keyAccel, /// hintText= "length" (as integer)
+		flags, /// hintText= "flag1,flag2,etc" (as bit flags)
+		layers2DRender,
+		layers2DPhysics,
+		layers3DRender,
+		layers3DPhysics,
+		file, /// a file path must be passed, hintText (optionally) is a filter "*.png,*.wav,*.doc,"
+		dir, /// a directort path must be passed
+		globalFile, /// a file path must be passed, hintText (optionally) is a filter "*.png,*.wav,*.doc,"
+		globalDir, /// a directort path must be passed
+		resourceType, /// a resource object type
+		multilineText, /// used for string properties that can contain multiple lines
+		colorNoAlpha, /// used for ignoring alpha component when editing a color
+		imageCompressLossy,
+		imageCompressLossless,
+		objectId,
+		typeString, /// a type string, the hint is the base type to choose
+		nodePathToEditedNode, /// so something else can provide this (used in scripts)
+		methodOfVariantType, /// a method of a type
+		methodOfBaseType, /// a method of a base type
+		methodOfInstance, /// a method of an instance
+		methodOfScript, /// a method of a script & base
+		propertyOfVariantType, /// a property of a type
+		propertyOfBaseType, /// a property of a base type
+		propertyOfInstance, /// a property of an instance
+		propertyOfScript, /// a property of a script & base
+	}
+	
+	enum Usage
+	{
+		storage = 1,
+		editor = 2,
+		network = 4,
+		editorHelper = 8,
+		checkable = 16, /// used for editing global variables
+		checked = 32, /// used for editing global variables
+		internationalized = 64, /// hint for internationalized strings
+		group = 128, /// used for grouping props in the editor
+		category = 256,
+		storeIfNonZero = 512, /// only store if nonzero
+		storeIfNonOne = 1024, /// only store if false
+		noInstanceState = 2048,
+		restartIfChanged = 4096,
+		scriptVariable = 8192,
+		storeIfNull = 16384,
+		animateAsTrigger = 32768,
+		updateAllIfModified = 65536,
+		
+		defaultUsage = storage | editor | network,
+		defaultIntl = storage | editor | network | internationalized,
+		noEditor = storage | network,
+	}
+	
+	Hint hint = Hint.none;
+	string hintText = "";
+	Usage usage = Usage.defaultUsage;
+	string nameOverride = null;
+	RPCMode rpcMode = RPCMode.disabled;
+	
+	this(Hint hint, string hintText = "", Usage usage = Usage.defaultUsage,
+		string nameOverride = null, RPCMode rpcMode = RPCMode.disabled)
+	{
+		this.hint = hint;
+		this.hintText = hintText;
+		this.usage = usage;
+		this.nameOverride = nameOverride;
+		this.rpcMode = rpcMode;
+	}
+	
+	this(string nameOverride, Hint hint = Hint.none, string hintText = "",
+		Usage usage = Usage.defaultUsage, RPCMode rpcMode = RPCMode.disabled)
+	{
+		this.hint = hint;
+		this.hintText = hintText;
+		this.usage = usage;
+		this.nameOverride = nameOverride;
+		this.rpcMode = rpcMode;
+	}
+}
+
+/++
 Mixin template with which to allow a D class to "inherit" a Godot class.
 
 Because the actual Godot Object is allocated separately from the D class being
@@ -107,7 +205,7 @@ template extendsGodotBaseClass(T)
 	else enum bool extendsGodotBaseClass = false;
 }
 
-private alias GodotMemberUDAs = AliasSeq!(Method, /*Property, Signal*/);
+private alias GodotMemberUDAs = AliasSeq!(Method, Property/*, Signal*/);
 private enum bool isMemberUDA(T) = staticIndexOf!(T, GodotMemberUDAs) != -1;
 
 private enum string dName(alias a) = __traits(identifier, a);
@@ -268,6 +366,54 @@ private struct MethodWrapper(T, R, A...)
 		}
 		
 		return cast(godot_variant)v;
+	}
+	
+	/++
+	C function passed to Godot if this is a property getter
+	+/
+	static if(!is(R == void) && A.length == 0)
+	extern(C) // for calling convention
+	static godot_variant callPropertyGet(godot_object o, void* methodData,
+		void* userData)
+	{
+		Variant v = Variant.nil; /// FIXME: who owns this?!
+		
+		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
+		T obj = cast(T)userData;
+		
+		/++
+		FIXME
+		+/
+		R delegate(A) actualDelegate;
+		actualDelegate.funcptr = func;
+		actualDelegate.ptr = cast(void*)obj;
+		
+		v = actualDelegate();
+		
+		return cast(godot_variant)v;
+	}
+	
+	/++
+	C function passed to Godot if this is a property setter
+	+/
+	static if(is(R == void) && A.length == 1)
+	extern(C) // for calling convention
+	static void callPropertySet(godot_object o, void* methodData,
+		void* userData, godot_variant arg)
+	{
+		Variant* v = cast(Variant*)&arg; /// FIXME: who owns this?!
+		
+		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
+		T obj = cast(T)userData;
+		
+		/++
+		FIXME
+		+/
+		R delegate(A) actualDelegate;
+		actualDelegate.funcptr = func;
+		actualDelegate.ptr = cast(void*)obj;
+		
+		actualDelegate(v.as!(A[0]));
 	}
 	
 	
