@@ -42,13 +42,20 @@ template isGodotBaseClass(T)
 	else enum bool isGodotBaseClass = false;
 }
 
+/++
+A UDA to change the Godot name of a method, property, or signal. Useful for
+overloads, which D supports but Godot does not.
++/
+struct Rename
+{
+	string name;
+}
 
 /++
 A UDA to mark a method that should be registered into Godot
 +/
 struct Method
 {
-	string nameOverride = null;
 	RPCMode rpcMode = RPCMode.disabled;
 }
 
@@ -124,28 +131,16 @@ struct Property
 	}
 	
 	Hint hint = Hint.none;
-	string hintText = "";
+	string hintString = "";
 	Usage usage = Usage.defaultUsage;
-	string nameOverride = null;
 	RPCMode rpcMode = RPCMode.disabled;
 	
-	this(Hint hint, string hintText = "", Usage usage = Usage.defaultUsage,
-		string nameOverride = null, RPCMode rpcMode = RPCMode.disabled)
+	this(Hint hint, string hintString = "", Usage usage = Usage.defaultUsage,
+		RPCMode rpcMode = RPCMode.disabled)
 	{
 		this.hint = hint;
-		this.hintText = hintText;
+		this.hintString = hintString;
 		this.usage = usage;
-		this.nameOverride = nameOverride;
-		this.rpcMode = rpcMode;
-	}
-	
-	this(string nameOverride, Hint hint = Hint.none, string hintText = "",
-		Usage usage = Usage.defaultUsage, RPCMode rpcMode = RPCMode.disabled)
-	{
-		this.hint = hint;
-		this.hintText = hintText;
-		this.usage = usage;
-		this.nameOverride = nameOverride;
 		this.rpcMode = rpcMode;
 	}
 }
@@ -205,41 +200,115 @@ template extendsGodotBaseClass(T)
 	else enum bool extendsGodotBaseClass = false;
 }
 
-private alias GodotMemberUDAs = AliasSeq!(Method, Property/*, Signal*/);
-private enum bool isMemberUDA(T) = staticIndexOf!(T, GodotMemberUDAs) != -1;
-
 private enum string dName(alias a) = __traits(identifier, a);
-private template godotName(alias a, Type) if(isMemberUDA!Type && hasUDA!(a, Type))
+private template godotName(alias a)
 {
-	alias udas = getUDAs!(a, Type);
-	static assert(udas.length == 1, "Multiple "~Type.stringof~" UDAs on "~
-		fullyQualifiedName!a~"? Why?");
-	
-	static if(is( udas[0] )) enum string godotName = dName!a;
+	alias udas = getUDAs!(a, Rename);
+	static if(udas.length == 0) enum string godotName = __traits(identifier, a);
 	else
 	{
-		enum Method uda = udas[0];
-		enum string godotName = uda.nameOverride;
+	    static assert(udas.length == 1, "Multiple Rename UDAs on "~
+		    fullyQualifiedName!a~"? Why?");
+	    
+	    static if(is( udas[0] )) static assert(0, "Construct the UDA with a string: @Rename(\"name\")");
+	    else
+	    {
+		    enum Rename uda = udas[0];
+		    enum string godotName = uda.name;
+	    }
 	}
 }
-
-private enum bool isGodotMember(alias m, Type) = isMemberUDA!Type && hasUDA!(m, Type);
 
 package template godotMethods(T)
 {
 	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
 	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
-	alias isMethod(alias mf) = hasUDA!(mf, Method);
+	enum bool isMethod(alias mf) = hasUDA!(mf, Method);
 	
 	alias godotMethods = Filter!(isMethod, allMfs);
 	
-	alias methodName(alias mf) = godotName!(mf, Method);
-	alias godotNames = Filter!(methodName, godotMethods);
+	alias godotNames = Filter!(godotName, godotMethods);
 	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
 		" methods can't have overloads. Rename one with @Method(\"new_name\").");
 	/// TODO: better error message listing which are duplicated
 }
 
+package template godotPropertyGetters(T)
+{
+	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
+	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	template isGetter(alias mf)
+	{
+		enum bool isGetter = hasUDA!(mf, Property) && !is(ReturnType!mf == void);
+	}
+	
+	alias godotPropertyGetters = Filter!(isGetter, allMfs);
+	
+	alias godotNames = Filter!(godotName, godotPropertyGetters);
+	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
+		" property getters can't have overloads. Rename one with @Property(\"new_name\").");
+	/// TODO: better error message listing which are duplicated
+}
+
+package template godotPropertySetters(T)
+{
+	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
+	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	template isSetter(alias mf)
+	{
+		enum bool isSetter = hasUDA!(mf, Property) && is(ReturnType!mf == void);
+	}
+	
+	alias godotPropertySetters = Filter!(isSetter, allMfs);
+	
+	alias godotNames = Filter!(godotName, godotPropertySetters);
+	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
+		" property setters can't have overloads. Rename one with @Property(\"new_name\").");
+	/// TODO: better error message listing which are duplicated
+}
+
+package template godotPropertyNames(T)
+{
+	alias godotPropertyNames = NoDuplicates!(staticMap!(godotName, godotPropertyGetters!T,
+		godotPropertySetters!T/*, godotPropertyVariables!T*/));
+}
+
+/// get the common Variant type for a set of function or variable aliases
+private template extractPropertyVariantType(seq...)
+{
+	template Type(alias a)
+	{
+		static if(isFunction!a && is(ReturnType!a == void)) alias Type = Parameters!a[0];
+		else static if(isFunction!a) alias Type = ReturnType!a;
+		//else alias Type = typeof(a);
+		
+		static assert(Variant.compatible!Type, "Property type "~
+			Type.stringof~" is incompatible with Variant.");
+	}
+	alias types = NoDuplicates!(  staticMap!( Variant.variantTypeOf, staticMap!(Type, seq) )  );
+	static assert(types.length == 1); /// TODO: better error message
+	enum extractPropertyVariantType = types[0];
+}
+
+private template extractPropertyUDA(seq...)
+{
+	template udas(alias a)
+	{
+		alias udas = getUDAs!(a, Property);
+	}
+	enum bool isUDAValue(alias a) = !is(a);
+	alias values = Filter!(isUDAValue, staticMap!(udas, seq));
+	
+	static if(values.length == 0) enum Property extractPropertyUDA = Property.init;
+	else static if(values.length == 1) enum Property extractPropertyUDA = values[0];
+	else
+	{
+		// verify that they all have the same value, to avoid wierdness
+		enum Property extractPropertyUDA = values[0];
+		enum bool isSameAsFirst(Property p) = extractPropertyUDA == p;
+		static assert(allSatisfy!(isSameAsFirst, values[1..$]));
+	}
+}
 // TODO: properties
 
 // TODO: signals
@@ -264,7 +333,7 @@ void register(T)() if(is(T == class))
 	foreach(mf; godotMethods!T)
 	{
 		enum string dName = __traits(identifier, mf);
-		enum immutable(char*) funcName = godotName!(mf, Method);
+		enum immutable(char*) funcName = godotName!mf;
 		alias udas = getUDAs!(mf, Method);
 		
 		auto wrapped = &mf; // a *function* pointer (not delegate) to mf
@@ -287,11 +356,86 @@ void register(T)() if(is(T == class))
 		md.free_func = &free;
 		
 		debug writefln("	Registering method %s.%s as \"%s\"",T.stringof, dName,
-			godotName!(mf, Method));
+			godotName!mf);
 		godot_script_register_method(name, funcName, ma, md);
 	}
 	
-	// TODO: properties, signals
+	enum bool matchName(string p, alias a) = (godotName!a == p);
+	foreach(pName; godotPropertyNames!T)
+	{
+		enum immutable(char*) propName = pName;
+		
+		alias getterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyGetters!T);
+		static assert(getterMatches.length <= 1); /// TODO: error message
+		alias setterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertySetters!T);
+		static assert(setterMatches.length <= 1);
+		//alias varMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyVariables!T);
+		//static assert(varMatches.length <= 1);
+		//static assert(getterMatches.length + setterMatches.length + varMatches.length <= 2);
+		
+		godot_property_set_func sf;
+		godot_property_get_func gf;
+		godot_property_attributes attr;
+		
+		enum Variant.Type vt = extractPropertyVariantType!(getterMatches, setterMatches/*, varMatches*/);
+		attr.type = cast(godot_int)vt;
+		
+		enum Property uda = extractPropertyUDA!(getterMatches, setterMatches/*, varMatches*/);
+		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
+		attr.hint = cast(godot_property_hint)uda.hint;
+		static if(uda.hintString) godot_string_new_data(&attr.hint_string,
+			uda.hintString.ptr, cast(int)uda.hintString.length);
+		else godot_string_new(&attr.hint_string);
+		attr.usage = cast(godot_property_usage_flags)uda.usage;
+		
+		/// TODO: default value how?
+		/+static if(varMatches.length)
+		{
+			
+		}
+		else+/
+		{
+			godot_variant_new_nil(&attr.default_value);
+		}
+		
+		
+		static if(getterMatches.length)
+		{
+			auto gw = &getterMatches[0];
+			alias GetWrapper = MethodWrapper!(T, ReturnType!gw);
+			gf.method_data = GetWrapper.make(gw);
+			gf.get_func = &GetWrapper.callPropertyGet;
+			gf.free_func = &free;
+		}
+		/+else static if(varMatches.length)
+		{
+			
+		}+/
+		else
+		{
+			gf.get_func = &emptyGetter;
+		}
+		
+		static if(setterMatches.length)
+		{
+			auto sw = &setterMatches[0];
+			alias SetWrapper = MethodWrapper!(T, void, Parameters!sw[0]);
+			sf.method_data = SetWrapper.make(sw);
+			sf.set_func = &SetWrapper.callPropertySet;
+			sf.free_func = &free;
+		}
+		/+else static if(varMatches.length)
+		{
+			
+		}+/
+		else
+		{
+			sf.set_func = &emptySetter;
+		}
+		
+		godot_script_register_property(name, propName, &attr, sf, gf);
+	}
+	// TODO: signals
 }
 
 /++
@@ -427,6 +571,22 @@ private struct MethodWrapper(T, R, A...)
 }
 
 
+
+extern(C) private void emptySetter(godot_object self, void* methodData,
+	void* userData, godot_variant value)
+{
+	assert(0, "Can't call empty property setter");
+	//return;
+}
+
+extern(C) private godot_variant emptyGetter(godot_object self, void* methodData,
+	void* userData)
+{
+	assert(0, "Can't call empty property getter");
+	/+godot_variant v;
+	godot_variant_new_nil(&v);
+	return v;+/
+}
 
 extern(C) private void* createFunc(T)(godot_object self, void* methodData)
 {

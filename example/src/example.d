@@ -10,7 +10,7 @@ import godot.core.array;
 import core.runtime;
 import std.stdio;
 import std.conv;
-import std.string : toStringz;
+import std.string : toStringz, fromStringz;
 import core.stdc.string;
 import std.algorithm.iteration;
 
@@ -18,6 +18,18 @@ class Test // notice that Test does not inherit Label
 {
 	import godot.classes.label;
 	mixin extends!Label;
+	
+	private string _prop = "default text";
+	@Property
+	String property() const { return String(_prop~" ~ hello from the getter!"); }
+	@Property
+	void property(in String v) { _prop = v.c_string.fromStringz.idup~" ~ hello from the setter!"; }
+	
+	private long _num = 5;
+	@Property
+	long number() const { return _num+1; }
+	@Property
+	void number(long v) { _num = v + 1; }
 	
 	this()
 	{
@@ -30,7 +42,7 @@ class Test // notice that Test does not inherit Label
 		writeln("Writing stuff...");
 	}
 	
-	@Method("formatNum") // rename the method
+	@Method @Rename("formatNum") // rename the method
 	String formatNumbers(real_t r, long i)
 	{
 		import std.format, std.string;
@@ -181,6 +193,31 @@ class Test // notice that Test does not inherit Label
 			
 			writefln("assert(ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
 			assert(ResourceLoader.has(iconPath));
+		}
+		
+		// test properties
+		// FIXME: D Object has "get" shadowing GodotObject.get
+		/+{
+			String pn = String("property");
+			String someText = String("Some text.");
+			Variant someTextV = Variant(someText);
+			
+			writeln("setting property to \"Some text.\"...");
+			self.set(pn, someTextV);
+			writefln("Internally, property now contains <%s>.", _prop);
+			auto res = self.get(pn).as!String;
+			writefln("getting property: <%s>", res.c_string.fromStringz);
+		}+/
+		{
+			String pn = String("number");
+			long someNum = 42;
+			Variant someNumV = Variant(someNum);
+			
+			writeln("setting number to 42...");
+			self.set(pn, someNumV);
+			writefln("Internally, number now contains <%d>.", _num);
+			auto res = self.get(pn).as!long;
+			writefln("getting number: <%d>", res);
 		}
 		
 		// test asserts
