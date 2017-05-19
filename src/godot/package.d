@@ -520,7 +520,9 @@ private struct MethodWrapper(T, R, A...)
 	static godot_variant callPropertyGet(godot_object o, void* methodData,
 		void* userData)
 	{
-		Variant v = Variant.nil; /// FIXME: who owns this?!
+		godot_variant vd;
+		godot_variant_new_nil(&vd);
+		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
 		
 		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;
@@ -532,9 +534,9 @@ private struct MethodWrapper(T, R, A...)
 		actualDelegate.funcptr = func;
 		actualDelegate.ptr = cast(void*)obj;
 		
-		v = actualDelegate();
+		*v = actualDelegate();
 		
-		return cast(godot_variant)v;
+		return vd;
 	}
 	
 	/++
@@ -545,7 +547,7 @@ private struct MethodWrapper(T, R, A...)
 	static void callPropertySet(godot_object o, void* methodData,
 		void* userData, godot_variant arg)
 	{
-		Variant* v = cast(Variant*)&arg; /// FIXME: who owns this?!
+		Variant* v = cast(Variant*)&arg;
 		
 		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;

@@ -195,7 +195,7 @@ class Test // notice that Test does not inherit Label
 		
 		// test properties
 		// FIXME: D Object has "get" shadowing GodotObject.get
-		/+{
+		{
 			String pn = String("property");
 			String someText = String("Some text.");
 			Variant someTextV = Variant(someText);
@@ -205,7 +205,7 @@ class Test // notice that Test does not inherit Label
 			writefln("Internally, property now contains <%s>.", _prop);
 			auto res = self.get(pn).as!String;
 			writefln("getting property: <%s>", res.c_string.fromStringz);
-		}+/
+		}
 		{
 			String pn = String("number");
 			long someNum = 42;
