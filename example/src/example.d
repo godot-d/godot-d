@@ -142,6 +142,24 @@ class Test // notice that Test does not inherit Label
 		}
 		writeln();
 		
+		// test null String
+		{
+			String empty;
+			writefln("empty.length: %d", empty.length);
+			auto cStr = empty.c_string;
+			writefln("empty.c_string: %x <%s>", cast(void*)cStr, cStr.fromStringz);
+			
+			String other = empty;
+			auto ocStr = other.c_string;
+			writefln("other.c_string: %x <%s>", cast(void*)ocStr, ocStr.fromStringz);
+			
+			String cat = empty ~ String("cat");
+			writefln("cat: <%s>", cat.c_string.fromStringz);
+			
+			empty = String("assigned");
+			writefln("assigned: <%s>", empty.c_string.fromStringz);
+		}
+		
 		// test singletons
 		{
 			import godot.classes.os;

@@ -75,7 +75,7 @@ struct String
 	}
 	
 	
-	void opAssign(in ref String other)
+	void opAssign(in String other)
 	{
 		godot_string_copy_string(&_godot_string, &other._godot_string);
 	}
@@ -114,7 +114,7 @@ struct String
 		return less?(-1):1;
 	}
 	
-	String opBinary(string op : "~")(in ref String other) const
+	String opBinary(string op : "~")(in String other) const
 	{
 		String ret = void;
 		godot_string_operator_plus(&ret._godot_string, &_godot_string, &other._godot_string);
@@ -122,7 +122,7 @@ struct String
 		return ret;
 	}
 	
-	void opOpAssign(string op : "~")(in ref String other)
+	void opOpAssign(string op : "~")(in String other)
 	{
 		godot_string_operator_plus(&_godot_string, &_godot_string, &other._godot_string);
 	}
