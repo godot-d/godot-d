@@ -13,7 +13,7 @@ struct NodePath
 	static NodePath empty()
 	{
 		NodePath ret = void;
-		String from = String.empty;
+		String from;
 		godot_node_path_new(&ret._node_path, &from._godot_string);
 		return ret;
 	}
@@ -25,7 +25,7 @@ struct NodePath
 		godot_node_path_copy(&_node_path, &other._node_path);
 	}
 	
-	this(in ref String from)
+	this(in String from)
 	{
 		godot_node_path_new(&_node_path, &from._godot_string);
 	}

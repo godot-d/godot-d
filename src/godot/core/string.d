@@ -37,18 +37,13 @@ struct String
 {
 	package(godot) godot_string _godot_string;
 	
-	/// disable implicit copying; use $(D dup) to explicitly create a copy
-	@disable this(this);
-	
-	/// disable default construction to prevent null Strings; use $(D empty) instead
-	@disable this();
-	
-	/// create an empty string
-	static String empty()
+	/// postblit (Vector is CoW, so no data copying is done)
+	this(this)
 	{
-		String ret = void;
-		godot_string_new(&ret._godot_string);
-		return ret;
+		import core.stdc.string;
+		godot_string tmp;
+		godot_string_copy_string(&tmp, &_godot_string); // increment ref on Vector ptr
+		memcpy(&_godot_string, &tmp, _godot_string.sizeof);
 	}
 	
 	package(godot) this(in godot_string str)

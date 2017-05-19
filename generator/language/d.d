@@ -290,7 +290,7 @@ string dCallParamPrefix(string type)
 	
 	/// OK to copy these types
 	static immutable string[] passByValue = [
-		"Basis", "Color", "Plane", "Quat", "Rect2", "Rect3",
+		"Basis", "Color", "Plane", "Quat", "Rect2", "Rect3", "String",
 		"Transform", "Transform2D", "Vector2", "Vector3"
 	];
 	if(type.isCoreType)
@@ -329,7 +329,6 @@ string emptyDefault(string type)
 		case "PoolVector3Array":
 		case "PoolStringArray":
 		case "PoolColorArray":
-		case "String":
 		case "Image":
 			return type~".empty";
 		case "RID":

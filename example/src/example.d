@@ -164,8 +164,7 @@ class Test // notice that Test does not inherit Label
 			
 			String oldText = get_text();
 			writefln("Old Label text: %s", oldText.c_string.fromStringz);
-			String newText = String("New text set from D Test class");
-			set_text(newText);
+			set_text(String("New text set from D Test class"));
 		}
 		
 		// test resource loading
@@ -176,9 +175,8 @@ class Test // notice that Test does not inherit Label
 			String iconPath = String("res://icon.png");
 			writefln("assert(!ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
 			assert(!ResourceLoader.has(iconPath));
-			String hint = String("");
 			
-			Resource res = ResourceLoader.load(iconPath, hint, false);
+			Resource res = ResourceLoader.load(iconPath, String(""), false);
 			writefln("Loaded Resource %s at path %s", res.get_name.c_string.fromStringz,
 				res.get_path.c_string.fromStringz);
 			
