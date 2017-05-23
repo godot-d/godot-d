@@ -329,7 +329,6 @@ string emptyDefault(string type)
 		case "PoolVector3Array":
 		case "PoolStringArray":
 		case "PoolColorArray":
-		case "Image":
 			return type~".empty";
 		case "RID":
 			return "RID(GodotObject.init)";
@@ -342,8 +341,6 @@ string emptyDefault(string type)
 		case "Rect3":
 		case "Plane":
 		case "Basis":
-		
-		case "InputEvent":
 		
 			return type~".init"; // D's default initializer+/
 		default: // all Object types
@@ -377,12 +374,10 @@ string escapeDefault(string type, string arg)
 		case "PoolVector3Array":
 		case "PoolStringArray":
 		case "PoolColorArray": // "[PoolColorArray]" - wat?
-		case "Image":
 			return emptyDefault(type);
 		case "Transform": // "1, 0, 0, 0, 1, 0, 0, 0, 1 - 0, 0, 0" TODO: parse this
 		case "Transform2D":
 		case "RID": // always empty?
-		case "InputEvent":
 			return emptyDefault(type); // D's default initializer
 		case "Vector2": // "(0, 0)"
 		case "Vector3":

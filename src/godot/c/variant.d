@@ -11,7 +11,6 @@ struct godot_variant {
 import godot.c;
 import godot.c.array;
 import godot.c.dictionary;
-import godot.c.input_event;
 import godot.c.node_path;
 import godot.c.rid;
 import godot.c.transform2d;
@@ -33,27 +32,25 @@ enum godot_variant_type {
 	GODOT_VARIANT_TYPE_TRANSFORM2D,
 	GODOT_VARIANT_TYPE_PLANE,
 	GODOT_VARIANT_TYPE_QUAT, // 10
-	GODOT_VARIANT_TYPE_RECT3, //sorry naming convention fail :( not like it's used often
+	GODOT_VARIANT_TYPE_RECT3,
 	GODOT_VARIANT_TYPE_BASIS,
 	GODOT_VARIANT_TYPE_TRANSFORM,
 
 	// misc types
 	GODOT_VARIANT_TYPE_COLOR,
-	GODOT_VARIANT_TYPE_IMAGE, // 15
-	GODOT_VARIANT_TYPE_NODE_PATH,
+	GODOT_VARIANT_TYPE_NODE_PATH, // 15
 	GODOT_VARIANT_TYPE_RID,
 	GODOT_VARIANT_TYPE_OBJECT,
-	GODOT_VARIANT_TYPE_INPUT_EVENT,
-	GODOT_VARIANT_TYPE_DICTIONARY, // 20
+	GODOT_VARIANT_TYPE_DICTIONARY,
 	GODOT_VARIANT_TYPE_ARRAY,
 
 	// arrays
-	GODOT_VARIANT_TYPE_POOL_BYTE_ARRAY,
+	GODOT_VARIANT_TYPE_POOL_BYTE_ARRAY, // 20
 	GODOT_VARIANT_TYPE_POOL_INT_ARRAY,
 	GODOT_VARIANT_TYPE_POOL_REAL_ARRAY,
-	GODOT_VARIANT_TYPE_POOL_STRING_ARRAY, // 25
+	GODOT_VARIANT_TYPE_POOL_STRING_ARRAY,
 	GODOT_VARIANT_TYPE_POOL_VECTOR2_ARRAY,
-	GODOT_VARIANT_TYPE_POOL_VECTOR3_ARRAY,
+	GODOT_VARIANT_TYPE_POOL_VECTOR3_ARRAY, // 25
 	GODOT_VARIANT_TYPE_POOL_COLOR_ARRAY,
 }
 
@@ -78,11 +75,9 @@ void godot_variant_new_rect3(godot_variant* p_v, const godot_rect3* p_rect3);
 void godot_variant_new_basis(godot_variant* p_v, const godot_basis* p_basis);
 void godot_variant_new_transform(godot_variant* p_v, const godot_transform* p_trans);
 void godot_variant_new_color(godot_variant* p_v, const godot_color* p_color);
-void godot_variant_new_image(godot_variant* p_v, const godot_image* p_img);
 void godot_variant_new_node_path(godot_variant* p_v, const godot_node_path* p_np);
 void godot_variant_new_rid(godot_variant* p_v, const godot_rid* p_rid);
 void godot_variant_new_object(godot_variant* p_v, const godot_object p_obj);
-void godot_variant_new_input_event(godot_variant* p_v, const godot_input_event* p_event);
 void godot_variant_new_dictionary(godot_variant* p_v, const godot_dictionary* p_dict);
 void godot_variant_new_array(godot_variant* p_v, const godot_array* p_arr);
 void godot_variant_new_pool_byte_array(godot_variant* p_v, const godot_pool_byte_array* p_pba);
@@ -108,11 +103,9 @@ godot_rect3 godot_variant_as_rect3(const godot_variant* p_v);
 godot_basis godot_variant_as_basis(const godot_variant* p_v);
 godot_transform godot_variant_as_transform(const godot_variant* p_v);
 godot_color godot_variant_as_color(const godot_variant* p_v);
-godot_image godot_variant_as_image(const godot_variant* p_v);
 godot_node_path godot_variant_as_node_path(const godot_variant* p_v);
 godot_rid godot_variant_as_rid(const godot_variant* p_v);
 godot_object godot_variant_as_object(const godot_variant* p_v);
-godot_input_event godot_variant_as_input_event(const godot_variant* p_v);
 godot_dictionary godot_variant_as_dictionary(const godot_variant* p_v);
 godot_array godot_variant_as_array(const godot_variant* p_v);
 godot_pool_byte_array godot_variant_as_pool_byte_array(const godot_variant* p_v);

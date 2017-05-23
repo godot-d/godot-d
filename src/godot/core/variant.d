@@ -36,21 +36,19 @@ struct Variant
 		
 		// misc types
 		color,
-		image,// 15
-		node_path,
+		node_path,// 15
 		rid,
 		object,
-		input_event,
-		dictionary,// 20
+		dictionary,
 		array,
 		
 		// arrays
-		pool_byte_array,
+		pool_byte_array,// 20
 		pool_int_array,
 		pool_real_array,
-		pool_string_array,// 25
+		pool_string_array,
 		pool_vector2_array,
-		pool_vector3_array,
+		pool_vector3_array,// 25
 		pool_color_array,
 	}
 	
@@ -75,18 +73,16 @@ struct Variant
 		godot_transform,
 		
 		godot_color,
-		godot_image,
 		godot_node_path,
 		godot_rid,
 		godot_object,
-		godot_input_event,
 		godot_dictionary,
 		godot_array,
 		
 		godot_pool_byte_array,
 		godot_pool_int_array,
 		godot_pool_real_array,
-		godot_pool_string_array,// 25
+		godot_pool_string_array,
 		godot_pool_vector2_array,
 		godot_pool_vector3_array,
 		godot_pool_color_array,
@@ -114,21 +110,19 @@ struct Variant
 		
 		// misc types
 		Color,
-		Image,// 15
-		NodePath,
+		NodePath,// 15
 		RID,
 		GodotObject,
-		InputEvent,
-		Dictionary,// 20
+		Dictionary,
 		Array,
 		
 		// arrays
-		PoolByteArray,
+		PoolByteArray,// 20
 		PoolIntArray,
 		PoolRealArray,
-		PoolStringArray,// 25
+		PoolStringArray,
 		PoolVector2Array,
-		PoolVector3Array,
+		PoolVector3Array,// 25
 		PoolColorArray,
 	);
 	

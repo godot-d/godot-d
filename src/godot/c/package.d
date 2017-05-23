@@ -158,10 +158,6 @@ public import godot.c.transform;
 
 public import godot.c.color;
 
-/////// Image
-
-public import godot.c.image;
-
 /////// NodePath
 
 public import godot.c.node_path;
@@ -169,10 +165,6 @@ public import godot.c.node_path;
 /////// RID
 
 public import godot.c.rid;
-
-/////// InputEvent
-
-public import godot.c.input_event;
 
 /////// Dictionary
 

@@ -17,8 +17,6 @@ bool isCoreType(in string type)
 	                      "Color",
 	                      "Dictionary",
 	                      "Error",
-	                      "Image",
-	                      "InputEvent",
 	                      "NodePath",
 	                      "Plane",
 	                      "PoolByteArray",
