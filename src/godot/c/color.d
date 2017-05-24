@@ -8,12 +8,3 @@ struct godot_color {
 	ulong[2] _opaque; /// temporary workaround for SysV ABI violation (bugs 5570 & 13207)
 }
 
-import godot.c;
-
-void godot_color_new(godot_color* p_color);
-void godot_color_new_rgba(godot_color* p_color, const godot_real r, const godot_real g, const godot_real b, const godot_real a);
-
-uint godot_color_get_32(const godot_color* p_color);
-
-float* godot_color_index(godot_color* p_color, const godot_int idx);
-
