@@ -23,7 +23,20 @@ Language getDLanguage()
 
 private:
 
+
 string generateD(in GodotClass c)
+{
+	switch(c.name)
+	{
+		case "GlobalConstants":
+			return generateGlobalConstants(c);
+		default:
+			return generateClass(c);
+	}
+}
+
+
+string generateClass(in GodotClass c)
 {
 	import std.conv : text;
 	import std.string;
@@ -253,6 +266,55 @@ string generateD(in GodotClass c)
 	return ret;
 }
 
+string generateGlobalConstants(in GodotClass c)
+{
+	import std.conv : text;
+	import std.string;
+	import std.meta;
+	import std.algorithm.iteration, std.algorithm.searching, std.algorithm.sorting;
+	import std.range : array;
+	
+	string ret;
+	
+	ret ~= "module godot.classes.globalconstants;\n";
+	
+	foreach(const string name, const int value; c.constants)
+	{
+		ret ~= "enum int "~name.escapeD~" = "~text(value)~";\n";
+	}
+	
+	/// Try to put at least some of these in grouped enums
+	static struct Group
+	{
+		string name; /// The name of the new enum
+		string prefix; /// The prefix to strip from original name
+	}
+	
+	alias groups = AliasSeq!(
+		Group("Key", "KEY_"),
+		Group("Button", "BUTTON_"),
+		Group("PropertyHint", "PROPERTY_HINT_"),
+		Group("PropertyUsage", "PROPERTY_USAGE_")
+	);
+	
+	foreach(g; groups)
+	{
+		ret ~= "enum "~g.name~" : int\n{\n";
+		
+		foreach(const string name; c.constants.keys[].filter!(k => k.startsWith(g.prefix))
+			.array.sort!((a,b) => c.constants[a] < c.constants[b]))
+		{
+			/// FIXME: should these be camelCase rather than snake_case?
+			ret ~= "\t" ~ name[g.prefix.length..$].toLower.escapeD
+				~ " = " ~ text(c.constants[name]) ~ ",\n";
+		}
+		
+		ret ~= "}\n";
+	}
+	
+	return ret;
+}
+
 
 
 
@@ -407,11 +469,16 @@ string escapeType(string t)
 string escapeD(string s)
 {
 	import std.meta;
+	import std.uni, std.utf;
 	/// TODO: there must be a better way of doing this...
 	/// maybe one of the D parser libraries has a list of keywords and basic types
+	
+	if(s.toUTF32[0].isNumber) s = "_"~s; // can't start with a number
+	
 	alias keywords = AliasSeq!(
 		"class",
 		"struct",
+		"enum",
 		"bool",
 		"ubyte",
 		"byte",
@@ -421,6 +488,8 @@ string escapeD(string s)
 		"int",
 		"ulong",
 		"long",
+		"cent", // really?
+		"ucent",
 		"float",
 		"double",
 		"real",
@@ -436,6 +505,8 @@ string escapeD(string s)
 		"import",
 		"template",
 		"new",
+		"delete",
+		"return",
 		"with",
 		"align",
 		"in",
