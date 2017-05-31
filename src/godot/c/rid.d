@@ -10,9 +10,11 @@ struct godot_rid {
 
 import godot.c;
 
-void godot_rid_new(godot_rid* p_rid, godot_object p_from);
+godot_int godot_rid_get_id(const godot_rid* p_self);
 
-uint godot_rid_get_rid(const godot_rid* p_rid);
+void godot_rid_new_with_resource(godot_rid* r_dest, const godot_object p_from);
 
-void godot_rid_destroy(godot_rid* p_rid);
+godot_bool godot_rid_operator_equal(const godot_rid* p_self, const godot_rid* p_b);
+
+godot_bool godot_rid_operator_less(const godot_rid* p_self, const godot_rid* p_b);
 

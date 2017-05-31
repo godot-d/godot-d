@@ -382,8 +382,6 @@ string emptyDefault(string type)
 		case "PoolStringArray":
 		case "PoolColorArray":
 			return type~".empty";
-		case "RID":
-			return "RID(GodotObject.init)";
 		/++case "Transform":
 		case "Transform2D":
 		case "Color":
