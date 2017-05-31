@@ -8,22 +8,13 @@ struct NodePath
 	package(godot) godot_node_path _node_path;
 	
 	@disable this(this);
-	@disable this();
 	
-	static NodePath empty()
-	{
-		NodePath ret = void;
-		String from;
-		godot_node_path_new(&ret._node_path, &from._godot_string);
-		return ret;
-	}
-	
-	this(in ref NodePath other)
+	/+this(in ref NodePath other)
 	{
 		godot_string str = godot_node_path_as_string(&other._node_path);
 		godot_node_path_new(&_node_path, &str);
 		godot_node_path_copy(&_node_path, &other._node_path);
-	}
+	}+/
 	
 	this(in String from)
 	{
@@ -80,10 +71,10 @@ struct NodePath
 		return String(str);
 	}
 	
-	void opAssign(in ref NodePath other)
+	/+void opAssign(in ref NodePath other)
 	{
 		godot_node_path_copy(&_node_path, &other._node_path);
-	}
+	}+/
 	
 	~this()
 	{
