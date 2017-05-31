@@ -9,7 +9,12 @@ struct Array
 	package(godot) godot_array _godot_array;
 	
 	@disable this();
-	@disable this(this);
+	
+	this(this)
+	{
+		const godot_array tmp = _godot_array;
+		godot_array_new_copy(&_godot_array, &tmp);
+	}
 	
 	static Array empty_array()
 	{
@@ -140,11 +145,6 @@ struct Array
 	void invert()
 	{
 		godot_array_invert(&_godot_array);
-	}
-	
-	bool is_shared() const
-	{
-		return cast(bool)godot_array_is_shared(&_godot_array);
 	}
 	
 	Variant pop_back()

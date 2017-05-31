@@ -12,31 +12,31 @@ import godot.c;
 import godot.c.array;
 import godot.c.variant;
 
-void godot_dictionary_new(godot_dictionary* p_dict);
+void godot_dictionary_new(godot_dictionary* r_dest);
+void godot_dictionary_new_copy(godot_dictionary* r_dest, const godot_dictionary* r_src);
+void godot_dictionary_destroy(godot_dictionary* p_self);
 
-void godot_dictionary_clear(godot_dictionary* p_dict);
+godot_int godot_dictionary_size(const godot_dictionary* p_self);
 
-godot_bool godot_dictionary_empty(const godot_dictionary* p_dict);
+godot_bool godot_dictionary_empty(const godot_dictionary* p_self);
 
-void godot_dictionary_erase(godot_dictionary* p_dict, const godot_variant* p_key);
+void godot_dictionary_clear(godot_dictionary* p_self);
 
-godot_bool godot_dictionary_has(const godot_dictionary* p_dict, const godot_variant* p_key);
+godot_bool godot_dictionary_has(const godot_dictionary* p_self, const godot_variant* p_key);
 
-godot_bool godot_dictionary_has_all(const godot_dictionary* p_dict, const godot_array* p_keys);
+godot_bool godot_dictionary_has_all(const godot_dictionary* p_self, const godot_array* p_keys);
 
-uint godot_dictionary_hash(const godot_dictionary* p_dict);
+void godot_dictionary_erase(godot_dictionary* p_self, const godot_variant* p_key);
 
-godot_array godot_dictionary_keys(const godot_dictionary* p_dict);
+godot_int godot_dictionary_hash(const godot_dictionary* p_self);
 
-godot_int godot_dictionary_parse_json(godot_dictionary* p_dict, const godot_string* p_json);
+godot_array godot_dictionary_keys(const godot_dictionary* p_self);
+
+godot_array godot_dictionary_values(const godot_dictionary* p_self);
 
 godot_variant* godot_dictionary_operator_index(godot_dictionary* p_dict, const godot_variant* p_key);
 
-godot_int godot_dictionary_size(const godot_dictionary* p_dict);
+godot_bool godot_dictionary_operator_equal(const godot_dictionary* p_self, const godot_dictionary* p_b);
 
 godot_string godot_dictionary_to_json(const godot_dictionary* p_dict);
-
-godot_array godot_dictionary_values(const godot_dictionary* p_dict);
-
-void godot_dictionary_destroy(godot_dictionary* p_dict);
 

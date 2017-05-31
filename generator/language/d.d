@@ -348,17 +348,7 @@ call (like this: `kinematic_body.move(Vector3(1, 2, 3));`)
 +/
 string dCallParamPrefix(string type)
 {
-	import std.algorithm.searching;
-	
-	/// OK to copy these types
-	static immutable string[] passByValue = [
-		"Basis", "Color", "Plane", "Quat", "Rect2", "Rect3", "String",
-		"Transform", "Transform2D", "Vector2", "Vector3"
-	];
-	if(type.isCoreType)
-	{
-		if(!passByValue.canFind(type)) return "in ref ";
-	}
+	// all core types can be copied.
 	return "in ";
 }
 /// how to pass the parameters into ptrcall void** arg
@@ -454,7 +444,7 @@ string escapeDefault(string type, string arg)
 		default: // all Object types
 		{
 			if(arg == "Null") return emptyDefault(type);
-			if(arg == "[Object::null]") return emptyDefault(type);
+			if(arg == "[Object:null]") return emptyDefault(type);
 			return arg;
 		}
 	}

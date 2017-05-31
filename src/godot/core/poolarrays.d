@@ -45,8 +45,14 @@ struct PoolArray(T)
 	
 	mixin("package(godot) "~(typeName!T)~" _godot_array;");
 	
-	@disable this(this);
 	@disable this();
+	
+	this(this)
+	{
+		mixin("alias n = "~(typeName!T)~"_new_copy;");
+		const auto tmp = _godot_array;
+		n(&_godot_array, &tmp);
+	}
 	
 	/++
 	C API type to pass to/from C functions

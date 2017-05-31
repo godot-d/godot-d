@@ -183,8 +183,14 @@ struct Variant
 		mixin("alias FunctionNew = godot_variant_new_"~name~";");
 	}
 	
-	@disable this(this);
 	@disable this();
+	
+	this(this)
+	{
+		godot_variant other = _godot_variant; // source Variant still owns this
+		godot_variant_new_nil(&_godot_variant);
+		godot_variant_copy(&_godot_variant, &other);
+	}
 	
 	static Variant nil()
 	{

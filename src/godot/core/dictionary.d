@@ -7,6 +7,14 @@ struct Dictionary
 {
 	package(godot) godot_dictionary _godot_dictionary;
 	
+	@disable this();
+	
+	this(this)
+	{
+		const godot_dictionary tmp = _godot_dictionary;
+		godot_dictionary_new_copy(&_godot_dictionary, &tmp);
+	}
+	
 	/// FIXME: naming convention fail again
 	static Dictionary empty_dictionary()
 	{
@@ -50,11 +58,6 @@ struct Dictionary
 		Array a = void;
 		a._godot_array = godot_dictionary_keys(&_godot_dictionary);
 		return a;
-	}
-	
-	int parse_json(in ref String json)
-	{
-		return godot_dictionary_parse_json(&_godot_dictionary, &json._godot_string);
 	}
 	
 	Variant* opIndex(in ref Variant key)

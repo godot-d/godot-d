@@ -14,6 +14,7 @@ import godot.c.pool_arrays;
 import godot.c.variant;
 
 void godot_array_new(godot_array* p_arr);
+void godot_array_new_copy(godot_array* p_dest, const godot_array* p_src);
 void godot_array_new_pool_color_array(godot_array* p_arr, const godot_pool_color_array* p_pca);
 void godot_array_new_pool_vector3_array(godot_array* p_arr, const godot_pool_vector3_array* p_pv3a);
 void godot_array_new_pool_vector2_array(godot_array* p_arr, const godot_pool_vector2_array* p_pv2a);
@@ -51,8 +52,6 @@ uint godot_array_hash(const godot_array* p_arr);
 void godot_array_insert(godot_array* p_arr, const godot_int p_pos, const godot_variant* p_value);
 
 void godot_array_invert(godot_array* p_arr);
-
-godot_bool godot_array_is_shared(const godot_array* p_arr);
 
 godot_variant godot_array_pop_back(godot_array* p_arr);
 
