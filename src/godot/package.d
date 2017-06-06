@@ -322,7 +322,7 @@ void register(T)() if(is(T == class))
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
 	
 	enum immutable(char*) name = T.stringof; // TODO: add rename UDA
-	enum immutable(char*) baseName = Base.stringof; /// FIXME: wrong - internal_name needed!
+	enum immutable(char*) baseName = Base._GODOT_internal_name;
 	
 	debug writefln("Registering D class %s", T.stringof);
 	
@@ -595,7 +595,7 @@ extern(C) private void* createFunc(T)(godot_object self, void* methodData)
 	T t = Mallocator.instance.make!T();
 	static if(extendsGodotBaseClass!T)
 	{
-		t.self = cast(typeof(t.self))(cast(void*)self);
+		t.self._godot_object = self;
 	}
 	// TODO: init
 	return cast(void*)t;

@@ -3,6 +3,7 @@ module godot.core.variant;
 import godot.c;
 import godot.core;
 import godot.classes.object;
+import godot : isGodotBaseClass, extendsGodotBaseClass;
 
 import std.meta, std.traits;
 import std.conv : text;
@@ -159,7 +160,7 @@ struct Variant
 			alias match = implicitTargetIndices!T;
 			static if(match.length == 1)
 			{
-			    enum Type variantTypeOf = EnumMembers!Type[ match[0] ];
+				enum Type variantTypeOf = EnumMembers!Type[ match[0] ];
 			}
 			// else: nothing, void alias
 		}
@@ -219,7 +220,9 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		static if(is(IT : godot_object)) Fn(&_godot_variant, cast(godot_object)cast(void*)input);
+		static if(isGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input));
+		// only the godot_object can be stored in Variant:
+		else static if(extendsGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input.self));
 		else static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
 		else Fn(&_godot_variant, cast(IT*)&input); // pointer
 	}
@@ -252,9 +255,14 @@ struct Variant
 		
 		IT ret = Fa(&_godot_variant);
 		
-		static if(isImplicitlyConvertible!(IT, T)) return ret;
-		else return cast(T)ret;
-		// TODO: *correct* conversion from C type may be different for a few types...
+		static if(isGodotBaseClass!T) return cast(T)ret;
+		// explicit upcast does type-checking on the godot_object:
+		else static if(extendsGodotBaseClass!T) return cast(T)(typeof(T.self)(ret));
+		else
+		{
+			static if(isImplicitlyConvertible!(IT, T)) return ret;
+			else return cast(T)ret;
+		}
 	}
 	
 	pragma(inline, true)

@@ -49,6 +49,7 @@ string generateClass(in GodotClass c)
 	ret ~= c.name.toLower;
 	ret ~= ";\n";
 	ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
+	ret ~= "import std.traits : Unqual;\n";
 	ret ~= "import godot;\nimport godot.core;\nimport godot.c;\n";
 	if(c.name != "Object") ret ~= "import godot.classes.object;\n";
 	
@@ -70,6 +71,7 @@ string generateClass(in GodotClass c)
 	
 	ret ~= "@GodotBaseClass struct "~c.name.escapeD;
 	ret ~= "\n{\n";
+	ret ~= "\tstatic immutable char* _GODOT_internal_name = \""~c.internal_name~"\";\n";
 	ret ~= "private:\n";
 	if(c.singleton)
 	{
@@ -87,32 +89,46 @@ string generateClass(in GodotClass c)
 	// Pointer to Godot object, fake inheritance through alias this
 	if(c.name != "Object")
 	{
-		ret ~= "\tunion { void* ptr; "~c.base_class.escapeType~" base; }\n\talias base this;\n";
+		ret ~= "\tunion { godot_object _godot_object; "~c.base_class.escapeType~" base; }\n\talias base this;\n";
 		ret ~= "\talias BaseClasses = AliasSeq!(typeof(base), typeof(base).BaseClasses);\n";
 	}
 	else
 	{
-		ret ~= "\tvoid* ptr;\n";
+		ret ~= "\tgodot_object _godot_object;\n";
 		ret ~= "\talias BaseClasses = AliasSeq!();\n";
 	}
 	
-	// simply return the void ptr
-	ret ~= "\tvoid* opCast(T : void*)() const { return cast(void*)ptr; }\n";
-	ret ~= "\t"~c.name.escapeType~" opAssign(T : typeof(null))(T n) { ptr = null; }\n";
+	// void* cast for passing this type to ptrcalls
+	ret ~= "\tpackage(godot) void* opCast(T : void*)() const { return cast(void*)_godot_object.ptr; }\n";
+	// strip const, because the C API sometimes expects a non-const godot_object
+	ret ~= "\tgodot_object opCast(T : godot_object)() const { return cast(godot_object)_godot_object; }\n";
+	
+	// equality
+	ret ~= "\tbool opEquals(in "~c.name.escapeType~" other) const ";
+	ret ~= "{ return _godot_object.ptr is other._godot_object.ptr; }\n";
+	// null assignment to simulate D class references
+	ret ~= "\t"~c.name.escapeType~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
+	// equality with null; unfortunately `_godot_object is null` doesn't work with structs
+	ret ~= "\tbool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }\n";
+	// implicit conversion to bool like D class references
+	ret ~= "\tbool opCast(T : bool)() const { return _godot_object.ptr !is null; }\n";
 	
 	// downcast is handled by `alias this`.
 	
 	// upcast to derived Godot class:
-	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T && ";
-	ret ~= "staticIndexOf!(typeof(this), T.BaseClasses) != -1)\n\t{\n";
-	ret ~= "\t\tString c = String(T.stringof);\n";
-	ret ~= "\t\tif(is_class(c)) return inout(T)(ptr);\n\t\treturn T.init;\n\t}\n";
+	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T)\n\t{\n";
+	ret ~= "\t\tstatic assert(staticIndexOf!("~c.name.escapeType~", T.BaseClasses) != -1, ";
+	ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~c.name.escapeType~"\");\n";
+	ret ~= "\t\tString c = String((Unqual!T).stringof);\n";
+	ret ~= "\t\tif(is_class(c)) return inout(T)(_godot_object);\n\t\treturn T.init;\n\t}\n";
 	
 	// upcast to derived D Native Script:
-	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T && ";
-	ret ~= "staticIndexOf!(typeof(this), typeof(T.self).BaseClasses) != -1)\n\t{\n";
-	ret ~= "\t\tString c = String(T.stringof);\n";
-	ret ~= "\t\tif(is_class(c)) return cast(inout(T))godot_native_get_userdata(cast(godot_object)ptr);\n";
+	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T)\n\t{\n";
+	ret ~= "\t\tstatic assert(is(typeof(T.self) : "~c.name.escapeType~") || ";
+	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.self).BaseClasses) != -1, ";
+	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
+	ret ~= "\t\tString c = String((Unqual!T).stringof);\n";
+	ret ~= "\t\tif(is_class(c)) return cast(inout(T))godot_native_get_userdata(opCast!godot_object);\n";
 	ret ~= "\t\treturn T.init;\n\t}\n";
 	
 	// Godot constructor.
@@ -193,7 +209,7 @@ string generateClass(in GodotClass c)
 		// singleton null check
 		if(c.singleton)
 		{
-			ret ~= "\t\tif("~nameAlias~".ptr is null) _GODOT_singleton_init();\n";
+			ret ~= "\t\tif("~nameAlias~"._godot_object.ptr is null) _GODOT_singleton_init();\n";
 		}
 		
 		// implementation
@@ -237,11 +253,11 @@ string generateClass(in GodotClass c)
 			if(m.arguments.length)
 			{
 			    ret ~= "\t\tconst(void*)["~text(m.arguments.length)~"] _GODOT_args = [";
-			    foreach(a; m.arguments) ret ~= a.type.ptrCallArgPrefix ~ a.name.escapeD ~ ", ";
+			    foreach(a; m.arguments) ret ~= "cast(void*)(" ~ a.type.ptrCallArgPrefix ~ a.name.escapeD ~ "), ";
 			    ret ~= "];\n";
 			}
 			
-			ret ~= "\t\tgodot_method_bind_ptrcall(mb, cast(godot_object)(cast(void*)";
+			ret ~= "\t\tgodot_method_bind_ptrcall(mb, cast(godot_object)(";
 			ret ~= nameAlias;
 			ret ~= ")";
 			ret ~= (m.arguments.length)?", _GODOT_args.ptr":", null";
@@ -354,8 +370,9 @@ string dCallParamPrefix(string type)
 /// how to pass the parameters into ptrcall void** arg
 string ptrCallArgPrefix(string type)
 {
-	if(type.isPrimitive || type.isCoreType) return "cast(void*)&";
-	return "cast(void*)"; // D classes = pointers already
+	if(type.isPrimitive || type.isCoreType) return "&";
+	return "";
+	//return "cast(godot_object)"; // for both base classes and D classes (through alias this)
 }
 
 /// the default value to use for an argument if none is provided

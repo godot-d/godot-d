@@ -29,6 +29,8 @@
 /*************************************************************************/
 module godot.c;
 
+import godot : isGodotBaseClass, extendsGodotBaseClass;
+
 import std.typecons : Typedef;
 
 @nogc nothrow:
@@ -110,9 +112,11 @@ alias godot_int = int; // C++'s int; Godot assumes it to be always 32 bits.
 
 alias godot_real = float;
 
-/////// Object (forward declared)
-//alias godot_object = void;
-alias godot_object = Typedef!(void*, null, "godot_object");
+/////// Object reference (type-safe void pointer)
+struct godot_object
+{
+	package(godot) void* ptr;
+}
 
 /////// String
 
