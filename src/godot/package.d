@@ -313,6 +313,8 @@ private template extractPropertyUDA(seq...)
 
 // TODO: signals
 
+private void nop() { }
+
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
@@ -329,6 +331,19 @@ void register(T)() if(is(T == class))
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
 	godot_script_register_class(name, baseName, icf, idf);
+	
+	// register a no-op function that indicates this is a D class
+	{
+		alias Wrapper = MethodWrapper!(T, void);
+		auto wrapped = &nop;
+		
+		godot_instance_method md;
+		md.method_data = Wrapper.make(wrapped);
+		md.method = &Wrapper.callMethod;
+		md.free_func = &free;
+		
+		godot_script_register_method(name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
+	}
 	
 	foreach(mf; godotMethods!T)
 	{

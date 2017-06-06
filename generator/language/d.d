@@ -71,7 +71,7 @@ string generateClass(in GodotClass c)
 	
 	ret ~= "@GodotBaseClass struct "~c.name.escapeD;
 	ret ~= "\n{\n";
-	ret ~= "\tstatic immutable char* _GODOT_internal_name = \""~c.internal_name~"\";\n";
+	ret ~= "\tstatic immutable string _GODOT_internal_name = \""~c.internal_name~"\";\n";
 	ret ~= "private:\n";
 	if(c.singleton)
 	{
@@ -119,7 +119,7 @@ string generateClass(in GodotClass c)
 	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T)\n\t{\n";
 	ret ~= "\t\tstatic assert(staticIndexOf!("~c.name.escapeType~", T.BaseClasses) != -1, ";
 	ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~c.name.escapeType~"\");\n";
-	ret ~= "\t\tString c = String((Unqual!T).stringof);\n";
+	ret ~= "\t\tString c = String(T._GODOT_internal_name);\n";
 	ret ~= "\t\tif(is_class(c)) return inout(T)(_godot_object);\n\t\treturn T.init;\n\t}\n";
 	
 	// upcast to derived D Native Script:
@@ -127,9 +127,10 @@ string generateClass(in GodotClass c)
 	ret ~= "\t\tstatic assert(is(typeof(T.self) : "~c.name.escapeType~") || ";
 	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.self).BaseClasses) != -1, ";
 	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
-	ret ~= "\t\tString c = String((Unqual!T).stringof);\n";
-	ret ~= "\t\tif(is_class(c)) return cast(inout(T))godot_native_get_userdata(opCast!godot_object);\n";
-	ret ~= "\t\treturn T.init;\n\t}\n";
+	
+	ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
+	ret ~= "\t\t\tObject o = cast(Object)godot_native_get_userdata(opCast!godot_object);\n";
+	ret ~= "\t\t\treturn cast(inout(T))o;\n\t\t}\t\treturn null;\n\t}\n";
 	
 	// Godot constructor.
 	ret ~= "\tstatic "~c.name.escapeType~" _new()\n\t{\n";
