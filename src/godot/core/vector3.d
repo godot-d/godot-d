@@ -56,12 +56,18 @@ struct Vector3
 
 		real_t[3] coord;
 	}
+	alias coord this;
 
 	this(real_t x, real_t y, real_t z)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	this(real_t[3] coord)
+	{
+		this.coord = coord;
 	}
 	
 	this(in Vector3 b)

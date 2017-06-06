@@ -8,19 +8,33 @@ struct Vector2
 {
 	union
 	{
-		real_t x = 0.0;
-		real_t width;
+	    struct
+	    {
+	        union
+	        {
+		        real_t x = 0.0;
+		        real_t width;
+	        }
+	        union
+	        {
+		        real_t y = 0.0;
+		        real_t height;
+	        }
+	    }
+
+		real_t[2] coord;
 	}
-	union
-	{
-		real_t y = 0.0;
-		real_t height;
-	}
+	alias coord this;
 	
 	this(real_t x, real_t y)
 	{
 		this.x = x;
 		this.y = y;
+	}
+	
+	this(real_t[2] coord)
+	{
+		this.coord = coord;
 	}
 	
 	ref real_t opIndex(int axis)
