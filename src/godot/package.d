@@ -612,7 +612,13 @@ extern(C) private void* createFunc(T)(godot_object self, void* methodData)
 	{
 		t.self._godot_object = self;
 	}
-	// TODO: init
+	// call _init
+	foreach(mf; godotMethods!T)
+	{
+		enum string funcName = godotName!mf;
+		alias Args = Parameters!mf;
+		static if(funcName == "_init" && Args.length == 0) t._init();
+	}
 	return cast(void*)t;
 }
 
