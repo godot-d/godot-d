@@ -58,23 +58,13 @@ struct Array
 		godot_array_new_pool_color_array(&_godot_array, &a._godot_array);
 	}
 	
-	ref Variant opIndex(int idx)
+	ref inout(Variant) opIndex(int idx) inout
 	{
-		godot_variant* v = godot_array_get(&_godot_array, idx);
-		return *cast(Variant*)v;
+		godot_variant* v = godot_array_operator_index(cast(godot_array*)&_godot_array, idx);
+		return *cast(inout(Variant)*)v;
 	}
 	
-	// FIXME: this would require Variant to be implicitly copyable.
-	// alternative: add a `dup` function?
-	/+Variant opIndex(int idx) const
-	{
-		// Yes, I'm casting away the const... you can hate me now.
-		// since the result is
-		godot_variant* v = godot_array_get(cast(godot_array*) &_godot_array, idx);
-		return *cast(Variant*)v;
-	}+/
-	
-	void append(in ref Variant v)
+	void append(in Variant v)
 	{
 		godot_array_append(&_godot_array, &v._godot_variant);
 	}

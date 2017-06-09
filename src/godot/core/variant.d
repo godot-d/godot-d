@@ -189,8 +189,7 @@ struct Variant
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
-		godot_variant_new_nil(&_godot_variant);
-		godot_variant_copy(&_godot_variant, &other);
+		godot_variant_new_copy(&_godot_variant, &other);
 	}
 	
 	static Variant nil()
@@ -202,7 +201,8 @@ struct Variant
 	
 	this(in ref Variant other)
 	{
-		godot_variant_copy(&this._godot_variant, &other._godot_variant);
+		godot_variant_destroy(&_godot_variant);
+		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
 	this(T)(in auto ref T input) if(!is(T == Variant) && !is(T==typeof(null)))

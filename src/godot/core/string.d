@@ -40,10 +40,8 @@ struct String
 	/// postblit (Vector is CoW, so no data copying is done)
 	this(this)
 	{
-		import core.stdc.string;
-		godot_string tmp;
-		godot_string_copy_string(&tmp, &_godot_string); // increment ref on Vector ptr
-		memcpy(&_godot_string, &tmp, _godot_string.sizeof);
+		godot_string other = _godot_string;
+		godot_string_new_copy(&_godot_string, &other);
 	}
 	
 	package(godot) this(in godot_string str)
@@ -61,14 +59,6 @@ struct String
 		godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
 	}
 	
-	String dup() const
-	{
-		String ret = void;
-		godot_string_new(&ret._godot_string);
-		godot_string_copy_string(&ret._godot_string, &_godot_string);
-		return ret;
-	}
-	
 	~this()
 	{
 		godot_string_destroy(&_godot_string);
@@ -77,7 +67,8 @@ struct String
 	
 	void opAssign(in String other)
 	{
-		godot_string_copy_string(&_godot_string, &other._godot_string);
+		godot_string_destroy(&_godot_string);
+		godot_string_new_copy(&_godot_string, &other._godot_string);
 	}
 	
 	
@@ -117,14 +108,14 @@ struct String
 	String opBinary(string op : "~")(in String other) const
 	{
 		String ret = void;
-		godot_string_operator_plus(&ret._godot_string, &_godot_string, &other._godot_string);
+		ret._godot_string = godot_string_operator_plus(&_godot_string, &other._godot_string);
 		
 		return ret;
 	}
 	
 	void opOpAssign(string op : "~")(in String other)
 	{
-		godot_string_operator_plus(&_godot_string, &_godot_string, &other._godot_string);
+		_godot_string = godot_string_operator_plus(&_godot_string, &other._godot_string);
 	}
 	
 	const(char*) c_string() const

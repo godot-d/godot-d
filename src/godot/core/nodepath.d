@@ -7,14 +7,11 @@ struct NodePath
 {
 	package(godot) godot_node_path _node_path;
 	
-	@disable this(this);
-	
-	/+this(in ref NodePath other)
+	this(this)
 	{
-		godot_string str = godot_node_path_as_string(&other._node_path);
-		godot_node_path_new(&_node_path, &str);
-		godot_node_path_copy(&_node_path, &other._node_path);
-	}+/
+		godot_node_path other = _node_path;
+		godot_node_path_new_copy(&_node_path, &other);
+	}
 	
 	this(in String from)
 	{
