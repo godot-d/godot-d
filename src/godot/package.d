@@ -146,25 +146,16 @@ struct Property
 }
 
 /++
-Mixin template with which to allow a D class to "inherit" a Godot class.
+Base class for D native scripts. Native script instances will be attached to a
+Godot (C++) object of Base class.
 
-Because the actual Godot Object is allocated separately from the D class being
-attached to it, true inheritance cannot be used by D classes. This mixin will
-generate a close approximation of inheritance by forwarding Base's methods and
-implicitly converting to Base using `alias this`.
+To simulate OOP inheritance, also include `alias owner this;` in your class.
 +/
-mixin template extends(Base : GodotObject)
+class DScript(Base) if(isGodotBaseClass!Base)
 {
-	// TODO: or private with property getter?
-	Base self; /// pointer to Godot base object
+	Base owner;
 	
-	/++
-	Implicitly handles both passing the Derived class to functions taking Base
-	and calling non-overridden functions on Base.
-	+/
-	alias self this;
-	
-	/// HACK to work around evil `alias this` bug in which cast(void*) is SELF rather than this
+	/// HACK to work around evil bug in which cast(void*) invokes `alias this`
 	/// https://issues.dlang.org/show_bug.cgi?id=6777
 	void* opCast(T : void*)()
 	{
@@ -196,7 +187,7 @@ Note that D classes registered to Godot don't *have* to extend Godot classes.
 template extendsGodotBaseClass(T)
 {
 	static if(is(T == class)) enum bool extendsGodotBaseClass =
-		hasMember!(T, "self") && isGodotBaseClass!(typeof(T.self));
+		hasMember!(T, "owner") && isGodotBaseClass!(typeof(T.owner));
 	else enum bool extendsGodotBaseClass = false;
 }
 
@@ -320,7 +311,7 @@ Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
 void register(T)() if(is(T == class))
 {
-	static if(extendsGodotBaseClass!T) alias Base = typeof(T.self);
+	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
 	
 	enum immutable(char*) name = T.stringof; // TODO: add rename UDA
@@ -610,7 +601,7 @@ extern(C) private void* createFunc(T)(godot_object self, void* methodData)
 	T t = Mallocator.instance.make!T();
 	static if(extendsGodotBaseClass!T)
 	{
-		t.self._godot_object = self;
+		t.owner._godot_object = self;
 	}
 	// call _init
 	foreach(mf; godotMethods!T)

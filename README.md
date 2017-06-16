@@ -21,23 +21,29 @@ In the Godot editor, create a GDNativeLibrary resource and specify the path to
 your library for each platform you'll compile the library for.
 
 #### D native scripts
-To expose a D class to Godot as a native "script", use the `godot.extends`
-mixin with the Godot class the script should be attached to:  
+In Godot, a "script" is an object that exposes methods, properties, and signals
+to the engine. It is always attached to one of the engine's own C++ classes,
+listed in the [class reference](http://docs.godotengine.org/en/latest/classes/).  
+To expose a D class to the engine as a native script, inherit from the
+DScript template with the Godot class the script should be attached to:  
 ```D
 import godot, godot.classes.button;
 
-class TestButton
+class TestButton : DScript!Button
 {
-	mixin extends!Button;
-	
 	...
 }
 ```
-Instances of TestButton will now always be paired with a Button (a C++ object,
-one of Godot's built-in Node types).
+The template adds a pointer to the Button this script is attached to, called
+`owner`, which can be used to call Button methods or passed to methods taking
+Button as an argument. The `owner` manages the lifetime of the script.
+
+Normal OOP inheritance and polymorphism can be simulated by simply adding
+`alias owner this;` to the D script class. For low-level code, just keep in
+mind that `owner` is a separate C++ object.
 
 #### Initialization
-Your D "scripts" still need to be registered into Godot in the C function
+Your D scripts still need to be registered into Godot in the C function
 called when your library is loaded. This is also the right place to initialize
 the D runtime if you plan to use it:  
 ```D
@@ -60,8 +66,8 @@ export extern(C) void godot_native_terminate(godot_native_terminate_options* opt
 Godot's full [script API](http://docs.godotengine.org/) can be used from D:  
 - `godot.core` submodules contain container, math, and engine structs like
   `Vector3` and `String`.
-- `godot.classes` submodules contain the rest of Godot's classes, auto-generated
-  from the engine's API. These are the classes D "scripts" can be attached to.
+- `godot.classes` submodules contain bindings to Godot classes, auto-generated
+  from the engine's API. These are the C++ classes scripts can be attached to.
 
 Building Godot-D
 ----------------

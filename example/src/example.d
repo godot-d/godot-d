@@ -14,10 +14,13 @@ import std.string : toStringz, fromStringz;
 import core.stdc.string;
 import std.algorithm.iteration;
 
-class Test // notice that Test does not inherit Label
+import godot.classes.label;
+class Test : DScript!Label
 {
-	import godot.classes.label;
-	mixin extends!Label;
+	/++
+	Simulate OOP inheritance and polymorphism with implicit conversion to Label
+	+/
+	alias owner this;
 	
 	private string _prop = "default text";
 	@Property
@@ -201,9 +204,9 @@ class Test // notice that Test does not inherit Label
 			// test upcasts
 			import godot.classes.texture, godot.classes.mesh;
 			Mesh wrongCast = cast(Mesh)res;
-			assert(wrongCast.ptr is null);
+			assert(wrongCast == null);
 			Texture rightCast = cast(Texture)res;
-			assert(rightCast.ptr !is null);
+			assert(rightCast != null);
 			auto size = rightCast.get_size();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			
@@ -219,9 +222,9 @@ class Test // notice that Test does not inherit Label
 			Variant someTextV = Variant(someText);
 			
 			writeln("setting property to \"Some text.\"...");
-			self.set(pn, someTextV);
+			owner.set(pn, someTextV);
 			writefln("Internally, property now contains <%s>.", _prop);
-			auto res = self.get(pn).as!String;
+			auto res = owner.get(pn).as!String;
 			writefln("getting property: <%s>", res.c_string.fromStringz);
 		}
 		{
@@ -230,9 +233,9 @@ class Test // notice that Test does not inherit Label
 			Variant someNumV = Variant(someNum);
 			
 			writeln("setting number to 42...");
-			self.set(pn, someNumV);
+			owner.set(pn, someNumV);
 			writefln("Internally, number now contains <%d>.", _num);
-			auto res = self.get(pn).as!long;
+			auto res = owner.get(pn).as!long;
 			writefln("getting number: <%d>", res);
 		}
 		
