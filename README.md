@@ -43,23 +43,18 @@ Normal OOP inheritance and polymorphism can be simulated by simply adding
 mind that `owner` is a separate C++ object.
 
 #### Initialization
-Your D scripts still need to be registered into Godot in the C function
-called when your library is loaded. This is also the right place to initialize
-the D runtime if you plan to use it:  
+Your D scripts still need to be registered into Godot when your library is
+loaded by the engine. The GodotNativeInit/Terminate templates will generate
+the C interface for you; instantiate them with the list of script classes to
+add to Godot (at initialization) and functions to be called:  
 ```D
-import core.runtime;
+mixin GodotNativeInit!
+(
+	TestButton,
+	(){ writeln("GodotNativeInit func"); }
+);
 
-export extern(C) void godot_native_init(godot_native_init_options* options)
-{
-	Runtime.initialize(); // needed for GC and many other things
-	
-	register!TestButton();
-}
-
-export extern(C) void godot_native_terminate(godot_native_terminate_options* options)
-{
-	Runtime.terminate();
-}
+mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
 ```
 
 #### Godot API

@@ -245,24 +245,16 @@ class Test : DScript!Label
 	}
 }
 
-extern(C):
-
-export void godot_native_init(godot_native_init_options* options)
-{
-	import core.exception;
-	
-	Runtime.initialize(); // Init runtime - needed for GC and many other things
-	
-	assertHandler = &godotAssertHandler; // make asserts print to Godot console/debugger
-	
-	register!Test();
-}
-
-export void godot_native_terminate(godot_native_terminate_options *options)
-{
-	Runtime.terminate();
-}
-
-
-
+// register Test; also initializes D Runtime and Godot assert handler
+mixin GodotNativeInit!
+(
+	Test,
+	(godot_native_init_options* o)
+	{
+		writeln("GodotNativeInit func");
+		writeln("Godot is in ", o.in_editor ? "EDITOR" : "GAME", " mode.");
+	}
+);
+// terminate D Runtime
+mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
 

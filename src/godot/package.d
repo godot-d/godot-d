@@ -16,6 +16,106 @@ import std.traits, std.meta, std.typecons;
 import std.experimental.allocator, std.experimental.allocator.mallocator;
 import core.stdc.stdlib : malloc, free;
 debug import std.stdio;
+import core.exception : assertHandler;
+
+/++
+Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
+initialization/termination.
++/
+enum NoDRuntime;
+
+/++
+This mixin will generate the GDNative initialization function for this D library.
+
+It will first initialize the D runtime, unless you pass $(D NoDRuntime) to it.
+
+The following template arguments will be processed in the order they're passed:
+ - Classes will be registered into Godot.
+ - Functions will be called. Optionally can take a $(D godot_native_init_options*)
+argument (from the $(D godot.c) module).
++/
+mixin template GodotNativeInit(Args...)
+{
+	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
+	/// https://issues.dlang.org/show_bug.cgi?id=12575
+	/// workaround: manually specify unmangled name.
+	pragma(mangle, "godot_native_init")
+	export extern(C) static void godot_native_init(godot_native_init_options* options)
+	{
+		import std.meta, std.traits;
+		import core.runtime : Runtime;
+		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
+		
+		import core.exception : assertHandler;
+		assertHandler = &godotAssertHandler;
+		
+		foreach(Arg; Args)
+		{
+			static if(is(Arg)) // is type
+			{
+				static assert(is(Arg == class) && extendsGodotBaseClass!Arg,
+					Arg.stringof ~ " is not a D class that extends a Godot class!");
+				register!Arg();
+			}
+			else static if( isCallable!Arg && is(typeof(Arg())) )
+			{
+				Arg();
+			}
+			else static if( isCallable!Arg && is(typeof(Arg(options))) )
+			{
+				Arg(options);
+			}
+			else static if(Arg == NoDRuntime) { }
+			else
+			{
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+			}
+		}
+	}
+}
+
+/++
+This mixin will generate the GDNative termination function for this D library.
+
+The following template arguments will be processed in the order they're passed:
+ - Functions will be called. Optionally can take a $(D godot_native_terminate_options*)
+argument (from the $(D godot.c) module).
+
+(It's not necessary to un-register classes from Godot.)
+
+It will also terminate the D runtime, unless you pass $(D NoDRuntime) to it.
++/
+mixin template GodotNativeTerminate(Args...)
+{
+	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
+	/// https://issues.dlang.org/show_bug.cgi?id=12575
+	/// workaround: manually specify unmangled name.
+	pragma(mangle, "godot_native_terminate")
+	export extern(C) static void godot_native_terminate(godot_native_terminate_options* options)
+	{
+		import std.meta, std.traits;
+		foreach(Arg; Args)
+		{
+			static if(is(Arg)) static assert(0, "Can't pass a type <"~Arg.stringof~"> to GodotNativeTerminate");
+			else static if( isCallable!Arg && is(typeof(Arg())) )
+			{
+				Arg();
+			}
+			else static if( isCallable!Arg && is(typeof(Arg(options))) )
+			{
+				Arg(options);
+			}
+			else static if(Arg == NoDRuntime) { }
+			else
+			{
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+			}
+		}
+		
+		import core.runtime : Runtime;
+		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.terminate();
+	}
+}
 
 enum RPCMode
 {
