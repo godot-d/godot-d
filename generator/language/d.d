@@ -134,7 +134,8 @@ string generateClass(in GodotClass c)
 	
 	// Godot constructor.
 	ret ~= "\tstatic "~c.name.escapeType~" _new()\n\t{\n";
-	ret ~= "\t\tgodot_class_constructor constructor = godot_get_class_constructor(\""~c.internal_name~"\");\n";
+	ret ~= "\t\tstatic godot_class_constructor constructor;\n";
+	ret ~= "\t\tif(constructor is null) constructor = godot_get_class_constructor(\""~c.internal_name~"\");\n";
 	ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
 	ret ~= "\t\treturn cast("~c.name.escapeType~")(constructor());\n";
 	ret ~= "\t}\n";
