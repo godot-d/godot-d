@@ -15,7 +15,7 @@ import core.stdc.string;
 import std.algorithm.iteration;
 
 import godot.classes.label;
-class Test : DScript!Label
+class Test : GodotScript!Label
 {
 	/++
 	Simulate OOP inheritance and polymorphism with implicit conversion to Label

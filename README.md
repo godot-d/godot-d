@@ -24,17 +24,17 @@ your library for each platform you'll compile the library for.
 In Godot, a "script" is an object that exposes methods, properties, and signals
 to the engine. It is always attached to one of the engine's own C++ classes,
 listed in the [class reference](http://docs.godotengine.org/en/latest/classes/).  
-To expose a D class to the engine as a native script, inherit from the
-DScript template with the Godot class the script should be attached to:  
+To expose a D class to the engine as a native script, inherit from GodotScript
+with the Godot class the script should be attached to:  
 ```D
 import godot, godot.classes.button;
 
-class TestButton : DScript!Button
+class TestButton : GodotScript!Button
 {
 	...
 }
 ```
-The template adds a pointer to the Button this script is attached to, called
+GodotScript contains a pointer to the Button the script is attached to, called
 `owner`, which can be used to call Button methods or passed to methods taking
 Button as an argument. The `owner` manages the lifetime of the script.
 

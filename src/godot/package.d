@@ -251,7 +251,7 @@ Godot (C++) object of Base class.
 
 To simulate OOP inheritance, also include `alias owner this;` in your class.
 +/
-class DScript(Base) if(isGodotBaseClass!Base)
+class GodotScript(Base) if(isGodotBaseClass!Base)
 {
 	Base owner;
 	
