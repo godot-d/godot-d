@@ -245,6 +245,40 @@ struct Property
 	}
 }
 
+template RefOrT(T) if(extendsGodotBaseClass!T)
+{
+	static if(staticIndexOf!(Reference, typeof(T.owner).BaseClasses) == -1) alias RefOrT = T;
+	else alias RefOrT = T; /// TODO: Ref!T;
+}
+
+/++
+Allocate a new T and attach it to a new Godot object.
++/
+T memnew(T)() if(extendsGodotBaseClass!T)
+{
+	import std.experimental.allocator, std.experimental.allocator.mallocator;
+	
+	T t = Mallocator.instance.make!T();
+	t.owner = typeof(T.owner)._new();
+	
+	// call _init
+	foreach(mf; godotMethods!T)
+	{
+		enum string funcName = godotName!mf;
+		alias Args = Parameters!mf;
+		static if(funcName == "_init" && Args.length == 0) t._init();
+	}
+	return t;
+}
+
+/++
+Destroy a T and its attached Godot object.
++/
+void memdelete(T)(T t) if(extendsGodotBaseClass!T)
+{
+	t.owner.free(); // owner will handle disposing of t
+}
+
 /++
 Base class for D native scripts. Native script instances will be attached to a
 Godot (C++) object of Base class.
