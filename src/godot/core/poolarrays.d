@@ -100,10 +100,10 @@ struct PoolArray(T)
 		r(&_godot_array, size);
 	}
 	
-	void size()
+	int size()
 	{
 		mixin("alias s = "~(typeName!T)~"_size;");
-		s(&_godot_array);
+		return s(&_godot_array);
 	}
 	alias length = size; // D-style name for size
 	
