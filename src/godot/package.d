@@ -36,11 +36,12 @@ argument (from the $(D godot.c) module).
 +/
 mixin template GodotNativeInit(Args...)
 {
+	private static import godot.c;
 	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
 	/// https://issues.dlang.org/show_bug.cgi?id=12575
 	/// workaround: manually specify unmangled name.
 	pragma(mangle, "godot_native_init")
-	export extern(C) static void godot_native_init(godot_native_init_options* options)
+	export extern(C) static void godot_native_init(godot.c.godot_native_init_options* options)
 	{
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
@@ -88,11 +89,12 @@ It will also terminate the D runtime, unless you pass $(D NoDRuntime) to it.
 +/
 mixin template GodotNativeTerminate(Args...)
 {
+	private static import godot.c;
 	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
 	/// https://issues.dlang.org/show_bug.cgi?id=12575
 	/// workaround: manually specify unmangled name.
 	pragma(mangle, "godot_native_terminate")
-	export extern(C) static void godot_native_terminate(godot_native_terminate_options* options)
+	export extern(C) static void godot_native_terminate(godot.c.godot_native_terminate_options* options)
 	{
 		import std.meta, std.traits;
 		foreach(Arg; Args)
