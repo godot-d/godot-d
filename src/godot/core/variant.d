@@ -2,7 +2,7 @@ module godot.core.variant;
 
 import godot.c;
 import godot.core;
-import godot.classes.object;
+import godot.object;
 import godot : isGodotBaseClass, extendsGodotBaseClass;
 
 import std.meta, std.traits;

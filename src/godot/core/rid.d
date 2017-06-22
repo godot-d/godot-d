@@ -1,8 +1,8 @@
 module godot.core.rid;
 
 import godot.c;
-import godot.classes.object;
-import godot.classes.resource;
+import godot.object;
+import godot.resource;
 
 struct RID
 {

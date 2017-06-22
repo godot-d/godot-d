@@ -11,7 +11,7 @@ Language getDLanguage()
 {
 	Language ret;
 	ret.classOutputFiles = [
-		Language.ClassOutputFile(buildPath("godot","classes")
+		Language.ClassOutputFile(buildPath("godot")
 			~dirSeparator, true, "d", &generateD)
 	];
 	return ret;
@@ -45,22 +45,22 @@ string generateClass(in GodotClass c)
 	
 	// module names should be all lowercase in D
 	// https://dlang.org/dstyle.html
-	ret ~= "module godot.classes.";
+	ret ~= "module godot.";
 	ret ~= c.name.toLower;
 	ret ~= ";\n";
 	ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
 	ret ~= "import std.traits : Unqual;\n";
 	ret ~= "import godot;\nimport godot.core;\nimport godot.c;\n";
-	if(c.name != "Object") ret ~= "import godot.classes.object;\n";
+	if(c.name != "Object") ret ~= "import godot.object;\n";
 	
 	if(c.instanciable)
 	{
-		ret ~= "import godot.classes.classdb;\n";
+		ret ~= "import godot.classdb;\n";
 	}
 	
 	foreach(const u; c.used_classes)
 	{
-		ret ~= "import godot.classes.";
+		ret ~= "import godot.";
 		ret ~= u.toLower;
 		ret ~= ";\n";
 	}
@@ -294,7 +294,7 @@ string generateGlobalConstants(in GodotClass c)
 	
 	string ret;
 	
-	ret ~= "module godot.classes.globalconstants;\n";
+	ret ~= "module godot.globalconstants;\n";
 	
 	foreach(const string name, const int value; c.constants)
 	{

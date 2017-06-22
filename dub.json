@@ -7,7 +7,10 @@
 	"targetType": "library",
 	"dflags-linux-dmd": ["-fPIC"],
 	"dflags-linux-ldc2": ["-relocation-model=pic"],
-
+	
+	"importPaths": [ "src", "classes" ],
+	"sourcePaths": [ "src", "classes" ],
+	
 	"subPackages":
 	[
 		{

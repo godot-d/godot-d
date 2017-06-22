@@ -54,7 +54,7 @@ void main(string[] args)
 	if(args.length >= 3) outputDir = args[2];
 	else
 	{
-		outputDir = args[0].dirName.buildPath("src");
+		outputDir = args[0].dirName.buildPath("classes");
 		writefln("Outputting to default directory %s",outputDir);
 	}
 	if(!outputDir.exists)

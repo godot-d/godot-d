@@ -14,7 +14,7 @@ import std.string : toStringz, fromStringz;
 import core.stdc.string;
 import std.algorithm.iteration;
 
-import godot.classes.label;
+import godot.label;
 class Test : GodotScript!Label
 {
 	/++
@@ -165,7 +165,7 @@ class Test : GodotScript!Label
 		
 		// test singletons
 		{
-			import godot.classes.os;
+			import godot.os;
 			import std.string;
 			
 			String name = OS.get_name();
@@ -190,7 +190,7 @@ class Test : GodotScript!Label
 		
 		// test resource loading
 		{
-			import godot.classes.resource, godot.classes.resourceloader;
+			import godot.resource, godot.resourceloader;
 			import std.string;
 			
 			String iconPath = String("res://icon.png");
@@ -202,7 +202,7 @@ class Test : GodotScript!Label
 				res.get_path.c_string.fromStringz);
 			
 			// test upcasts
-			import godot.classes.texture, godot.classes.mesh;
+			import godot.texture, godot.mesh;
 			Mesh wrongCast = cast(Mesh)res;
 			assert(wrongCast == null);
 			Texture rightCast = cast(Texture)res;

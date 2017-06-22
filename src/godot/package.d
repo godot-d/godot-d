@@ -8,7 +8,7 @@ module godot;
 
 import godot.c;
 import godot.core;
-import godot.classes.object;
+import godot.object;
 
 import std.format;
 import std.range;
