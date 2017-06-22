@@ -27,7 +27,7 @@ listed in the [class reference](http://docs.godotengine.org/en/latest/classes/).
 To expose a D class to the engine as a native script, inherit from GodotScript
 with the Godot class the script should be attached to:  
 ```D
-import godot, godot.classes.button;
+import godot, godot.button;
 
 class TestButton : GodotScript!Button
 {
@@ -61,7 +61,7 @@ mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
 Godot's full [script API](http://docs.godotengine.org/) can be used from D:  
 - `godot.core` submodules contain container, math, and engine structs like
   `Vector3` and `String`.
-- `godot.classes` submodules contain bindings to Godot classes, auto-generated
+- other submodules of `godot` contain bindings to Godot classes, auto-generated
   from the engine's API. These are the C++ classes scripts can be attached to.
 
 Building Godot-D
@@ -72,7 +72,7 @@ Godot-D and generate updated bindings using the [API generator](generator/README
 
 [DUB](https://code.dlang.org/getting_started) has various ways of using your
 modified local Godot-D package, or you can simply include the contents of `src`
-in your own project instead of a DUB dependency.
+and `classes` in your own project instead of a DUB dependency.
 
 License
 -------
