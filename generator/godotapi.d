@@ -59,6 +59,7 @@ struct GodotClass
 	{
 		string[] used_classes;
 		GodotClass* base_class_ptr = null; // needs to be set after all classes loaded
+		GodotClass*[] descendant_ptrs; /// direct descendent classes
 	}
 	
 	/++

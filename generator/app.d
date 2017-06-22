@@ -71,7 +71,11 @@ void main(string[] args)
 	classes = jsonData.deserialize!(GodotClass[]);
 	GodotClass*[string] classDictionary;
 	foreach(ref c; classes) classDictionary[c.name] = &c;
-	foreach(ref c; classes) c.base_class_ptr = classDictionary.get(c.base_class, null);
+	foreach(ref c; classes) if(c.base_class.length)
+	{
+		c.base_class_ptr = classDictionary.get(c.base_class, null);
+		c.base_class_ptr.descendant_ptrs ~= &c;
+	}
 	
 	/+
 	Break constness for methods overridden by non-const methods in descendents.
