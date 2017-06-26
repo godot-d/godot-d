@@ -255,14 +255,60 @@ template RefOrT(T) if(extendsGodotBaseClass!T)
 }
 
 /++
-Allocate a new T and attach it to a new Godot object.
+A UDA for marking script variables that should be automatically created when
+the script is created, right before _init() is called.
+
+Options for automatically deleting or adding as child node the tagged variable
+can be set in the UDA.
 +/
-T memnew(T)() if(extendsGodotBaseClass!T)
+struct RAII
 {
-	import std.experimental.allocator, std.experimental.allocator.mallocator;
+	bool autoCreate = true; /// create it when the script is created
+	bool autoDelete = true; /// delete it when the script is destroyed
+	bool autoAddChild = true; /// add it as a child (only for Node types)
 	
-	T t = Mallocator.instance.make!T();
-	t.owner = typeof(T.owner)._new();
+	private import godot.node;
+	package enum bool canAddChild(R, Owner) = is(GodotClass!R : Node)
+		&& is(GodotClass!Owner : Node);
+	
+	static RAII makeDefault(R, Owner)()
+	{
+		import godot.reference, godot.node, godot.resource;
+		RAII ret;
+		static if( is(GodotClass!R : Reference) ) ret.autoDelete = false; // ref-counted
+		static if( canAddChild!(R, Owner) )
+		{
+			ret.autoAddChild = true;
+			ret.autoDelete = false; // owned by parent node
+		}
+		return ret;
+	}
+}
+/// TODO: support static arrays
+
+private void initialize(T)(T t) if(extendsGodotBaseClass!T)
+{
+	import godot.node;
+	
+	enum bool isRAII(string memberName) = hasUDA!( __traits(getMember, T, memberName), RAII);
+	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
+	{
+		alias M = typeof(mixin("t."~n));
+		static assert(getUDAs!(mixin("t."~n), RAII).length == 1, "Multiple RAIIs on "
+			~T.stringof~"."~n);
+		
+		enum RAII raii = is(getUDAs!(mixin("t."~n), RAII)[0]) ?
+			RAII.makeDefault!(M, T)() : getUDAs!(mixin("t."~n), RAII)[0];
+		
+		static if(raii.autoCreate)
+		{
+			mixin("t."~n) = memnew!M();
+			static if( raii.autoAddChild && RAII.canAddChild!(M, T) )
+			{
+				t.owner.add_child( mixin("t."~n) );
+			}
+		}
+	}
 	
 	// call _init
 	foreach(mf; godotMethods!T)
@@ -271,6 +317,39 @@ T memnew(T)() if(extendsGodotBaseClass!T)
 		alias Args = Parameters!mf;
 		static if(funcName == "_init" && Args.length == 0) t._init();
 	}
+}
+
+private void finalize(T)(T t) if(extendsGodotBaseClass!T)
+{
+	import godot.node;
+	
+	enum bool isRAII(string memberName) = hasUDA!( __traits(getMember, T, memberName), RAII);
+	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
+	{
+		alias M = typeof(mixin("t."~n));
+		enum RAII raii(string rn : n) = is(getUDAs!(mixin("t."~n), RAII)[0]) ?
+			RAII.makeDefault!(M, T)() : getUDAs!(mixin("t."~n), RAII)[0];
+		
+		static if(raii!n.autoDelete)
+		{
+			memdelete(mixin("t."~n));
+		}
+	}
+}
+
+/++
+Allocate a new T and attach it to a new Godot object.
++/
+T memnew(T)() if(extendsGodotBaseClass!T)
+{
+	import std.experimental.allocator, std.experimental.allocator.mallocator;
+	static import godot;
+	
+	T t = Mallocator.instance.make!T();
+	t.owner = typeof(T.owner)._new();
+	
+	godot.initialize(t);
+	
 	return t;
 }
 
@@ -280,6 +359,17 @@ Destroy a T and its attached Godot object.
 void memdelete(T)(T t) if(extendsGodotBaseClass!T)
 {
 	t.owner.free(); // owner will handle disposing of t
+}
+
+T memnew(T)() if(isGodotBaseClass!T)
+{
+	/// FIXME: block those that aren't marked instanciable in API JSON (actually a generator bug)
+	return T._new(); /// TODO: remove _new and use only this function?
+}
+
+void memdelete(T)(T t) if(isGodotBaseClass!T)
+{
+	t.free();
 }
 
 /++
@@ -317,9 +407,7 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 }
 
 /++
-Determine if T is a D type that extends a Godot base class.
-
-Note that D classes registered to Godot don't *have* to extend Godot classes.
+Determine if T is a D native script (extends a Godot base class).
 +/
 template extendsGodotBaseClass(T)
 {
@@ -327,6 +415,21 @@ template extendsGodotBaseClass(T)
 		hasMember!(T, "owner") && isGodotBaseClass!(typeof(T.owner));
 	else enum bool extendsGodotBaseClass = false;
 }
+
+/++
+Get the Godot class of T (the class of the `owner` for D native scripts)
++/
+template GodotClass(T)
+{
+	static if(isGodotBaseClass!T) alias GodotClass = T;
+	else static if(extendsGodotBaseClass!T) alias GodotClass = typeof(T.owner);
+}
+
+/++
+Determine if T is any Godot class (base C++ class or D native script, but NOT
+a godot.core struct)
++/
+enum bool isGodotClass(T) = extendsGodotBaseClass!T || isGodotBaseClass!T;
 
 private enum string dName(alias a) = __traits(identifier, a);
 private template godotName(alias a)
@@ -735,24 +838,25 @@ extern(C) private godot_variant emptyGetter(godot_object self, void* methodData,
 
 extern(C) private void* createFunc(T)(godot_object self, void* methodData)
 {
+	static import godot;
+	
 	T t = Mallocator.instance.make!T();
 	static if(extendsGodotBaseClass!T)
 	{
 		t.owner._godot_object = self;
 	}
-	// call _init
-	foreach(mf; godotMethods!T)
-	{
-		enum string funcName = godotName!mf;
-		alias Args = Parameters!mf;
-		static if(funcName == "_init" && Args.length == 0) t._init();
-	}
+	
+	godot.initialize(t);
+	
 	return cast(void*)t;
 }
 
 extern(C) private void destroyFunc(T)(godot_object self, void* methodData, void* userData)
 {
+	static import godot;
+	
 	T t = cast(T)userData;
+	godot.finalize(t);
 	Mallocator.instance.dispose(t);
 }
 
