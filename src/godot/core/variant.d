@@ -9,6 +9,14 @@ import std.meta, std.traits;
 import std.conv : text;
 import std.range : iota;
 
+// ABI type should probably have its own `version`...
+version(X86_64)
+{
+	version(linux) version = GodotSystemV;
+	version(OSX) version = GodotSystemV;
+	version(Posix) version = GodotSystemV;
+}
+
 struct Variant
 {
 	package(godot) godot_variant _godot_variant;
@@ -253,7 +261,26 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		IT ret = Fa(&_godot_variant);
+		static if(VarType == Type.vector3)
+		{
+			version(GodotSystemV) /// HACK workaround for DMD issue #5570
+			{
+				godot_vector3 ret = void;
+				auto _func = &godot_variant_as_vector3; // LDC won't link the symbol if it's only inside asm statement
+				void* _this = cast(void*)&this; // LDC doesn't allow using `this` directly in asm
+				
+				asm @nogc nothrow
+				{
+					mov RDI, _this;
+					call _func;
+					
+					mov ret[0], RAX;
+					mov ret[8], EDX;
+				}
+			}
+			else IT ret = Fa(&_godot_variant);
+		}
+		else IT ret = Fa(&_godot_variant);
 		
 		static if(isGodotBaseClass!T) return cast(T)ret;
 		// explicit upcast does type-checking on the godot_object:
