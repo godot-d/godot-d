@@ -216,15 +216,10 @@ struct Variant
 		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
-	this(T)(in auto ref T input) if(!is(T == Variant) && !is(T==typeof(null)))
+	this(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
 	{
-		static if(compatible!T) enum VarType = variantTypeOf!T;
-		else
-		{
-			alias match = implicitTargetIndices!T;
-			static if(match.length > 1) static assert(0, "Multiple Variant Types match "~T.stringof);
-			else static assert(0, "Type "~T.stringof~" isn't supported by Variant");
-		}
+		static assert(compatible!T, T.stringof~" isn't compatible with Variant.");
+		enum VarType = variantTypeOf!T;
 		
 		alias Fn = FunctionNew!VarType;
 		alias PassType = Parameters!Fn[1]; // second param is the value
@@ -233,7 +228,7 @@ struct Variant
 		
 		static if(isGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input));
 		// only the godot_object can be stored in Variant:
-		else static if(extendsGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input.self));
+		else static if(extendsGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input.owner));
 		else static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
 		else Fn(&_godot_variant, cast(IT*)&input); // pointer
 	}
@@ -287,7 +282,7 @@ struct Variant
 		
 		static if(isGodotBaseClass!T) return cast(T)ret;
 		// explicit upcast does type-checking on the godot_object:
-		else static if(extendsGodotBaseClass!T) return cast(T)(typeof(T.self)(ret));
+		else static if(extendsGodotBaseClass!T) return cast(T)(typeof(T.owner)(ret));
 		else
 		{
 			static if(isImplicitlyConvertible!(IT, T)) return ret;

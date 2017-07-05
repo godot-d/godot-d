@@ -124,8 +124,8 @@ string generateClass(in GodotClass c)
 	
 	// upcast to derived D Native Script:
 	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T)\n\t{\n";
-	ret ~= "\t\tstatic assert(is(typeof(T.self) : "~c.name.escapeType~") || ";
-	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.self).BaseClasses) != -1, ";
+	ret ~= "\t\tstatic assert(is(typeof(T.owner) : "~c.name.escapeType~") || ";
+	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.owner).BaseClasses) != -1, ";
 	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
 	
 	ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
