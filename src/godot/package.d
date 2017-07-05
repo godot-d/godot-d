@@ -290,7 +290,12 @@ private void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
 	
-	enum bool isRAII(string memberName) = hasUDA!( __traits(getMember, T, memberName), RAII);
+	template isRAII(string memberName)
+	{
+		static if(__traits(getProtection, __traits(getMember, T, memberName)) == "public")
+			enum bool isRAII = hasUDA!( __traits(getMember, T, memberName), RAII);
+		else enum bool isRAII = false;
+	}
 	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
 	{
 		alias M = typeof(mixin("t."~n));
@@ -323,7 +328,12 @@ private void finalize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
 	
-	enum bool isRAII(string memberName) = hasUDA!( __traits(getMember, T, memberName), RAII);
+	template isRAII(string memberName)
+	{
+		static if(__traits(getProtection, __traits(getMember, T, memberName)) == "public")
+			enum bool isRAII = hasUDA!( __traits(getMember, T, memberName), RAII);
+		else enum bool isRAII = false;
+	}
 	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
 	{
 		alias M = typeof(mixin("t."~n));
