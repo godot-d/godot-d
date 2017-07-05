@@ -411,8 +411,10 @@ Determine if T is a D native script (extends a Godot base class).
 +/
 template extendsGodotBaseClass(T)
 {
-	static if(is(T == class)) enum bool extendsGodotBaseClass =
-		hasMember!(T, "owner") && isGodotBaseClass!(typeof(T.owner));
+	static if(is(T == class) && hasMember!(T, "owner"))
+	{
+		enum bool extendsGodotBaseClass = isGodotBaseClass!(typeof(T.owner));
+	}
 	else enum bool extendsGodotBaseClass = false;
 }
 
