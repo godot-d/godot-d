@@ -3,7 +3,7 @@ module godot.core.variant;
 import godot.c;
 import godot.core;
 import godot.object;
-import godot : isGodotBaseClass, extendsGodotBaseClass;
+import godot : isGodotBaseClass, extendsGodotBaseClass, isGodotClass;
 
 import std.meta, std.traits;
 import std.conv : text;
@@ -142,8 +142,9 @@ struct Variant
 	+/
 	public template compatible(T)
 	{
-		static if( !is(typeof(variantTypeOf!T) == void) ) enum bool compatible = true;
-		else enum bool compatible = false;
+		static if(is(T : typeof(null))) enum bool compatible = true; // exception for null
+		else static if( variantTypeOf!T == Type.nil ) enum bool compatible = false;
+		else enum bool compatible = true;
 	}
 	
 	/// All target Variant.Types that T could implicitly convert to, as indices
@@ -159,10 +160,12 @@ struct Variant
 	+/
 	public template variantTypeOf(T)
 	{
+		import std.traits, godot;
 		static if(isIntegral!T) enum Type variantTypeOf = Type.int_;
 		else static if(isFloatingPoint!T) enum Type variantTypeOf = Type.real_;
 		else static if(is(T : bool)) enum Type variantTypeOf = Type.bool_;
 		//else static if(isSomeString!T) enum Type variantTypeOf = Type.string;
+		else static if(isGodotClass!T) enum Type variantTypeOf = Type.object;
 		else
 		{
 			alias match = implicitTargetIndices!T;
@@ -170,7 +173,7 @@ struct Variant
 			{
 				enum Type variantTypeOf = EnumMembers!Type[ match[0] ];
 			}
-			// else: nothing, void alias
+			else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
 		}
 	}
 	
