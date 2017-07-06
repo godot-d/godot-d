@@ -295,10 +295,26 @@ struct Variant
 	}
 	
 	pragma(inline, true)
-	void opAssign(T)(in auto ref T input)
+	void opAssign(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
 	{
 		import std.conv : emplace;
+		
+		godot_variant_destroy(&_godot_variant);
 		emplace!(Variant)(&this, input);
+	}
+	
+	pragma(inline, true)
+	void opAssign(T : typeof(null))(in T nil)
+	{
+		godot_variant_destroy(&_godot_variant);
+		godot_variant_new_nil(&_godot_variant);
+	}
+	
+	pragma(inline, true)
+	void opAssign(T : Variant)(in T other)
+	{
+		godot_variant_destroy(&_godot_variant);
+		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
 	bool opEquals(in ref Variant other) const
