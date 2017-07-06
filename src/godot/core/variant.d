@@ -226,9 +226,13 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		static if(isGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input));
+		static if(isGodotBaseClass!T) Fn(&_godot_variant, input._godot_object);
 		// only the godot_object can be stored in Variant:
-		else static if(extendsGodotBaseClass!T) Fn(&_godot_variant, cast(godot_object)(input.owner));
+		else static if(extendsGodotBaseClass!T)
+		{
+			if(input !is null) Fn(&_godot_variant, input.owner._godot_object);
+			else Fn(&_godot_variant, godot_object.init);
+		}
 		else static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
 		else Fn(&_godot_variant, cast(IT*)&input); // pointer
 	}
