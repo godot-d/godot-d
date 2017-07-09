@@ -9,6 +9,7 @@ import std.file;
 import std.path;
 import std.format;
 import std.getopt;
+import std.range;
 
 void main(string[] args)
 {
@@ -110,14 +111,16 @@ void main(string[] args)
 		{
 			import std.string;
 			
-			auto fileName = (cof.lowercaseFilename)?(c.name.toLower):(c.name);
-			string p = buildPath(outputDir, cof.prefix~fileName~'.'~cof.extension);
-			
-			string dir = dirName(p);
-			if(!dir.exists) mkdirRecurse(dir);
-			
-			string data = cof.generator(c);
-			if(data) std.file.write( p, data );
+			string[2] arr = cof.generator(c);
+			if(!arr[0].empty)
+			{
+				string p = buildPath(outputDir, arr[0]);
+				
+				string dir = dirName(p);
+				if(!dir.exists) mkdirRecurse(dir);
+				
+				std.file.write( p, arr[1] );
+			}
 		}
 	}
 }

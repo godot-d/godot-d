@@ -12,13 +12,12 @@ struct Language
 	+/
 	static struct ClassOutputFile
 	{
-		string prefix = null; /// added directly before the filename (after directory separator)
-		bool lowercaseFilename; /// make filename lowercase
-		string extension; /// extension, without the dot
-		
-		/// function called to generate this file
-		/// Returns: the contents to put in the file
-		string function(in GodotClass c) generator;
+		/++
+		Returns: An array containing:
+			[0] the filename
+			[1] the contents to put in the file
+		+/
+		string[2] function(in GodotClass c) generator;
 	}
 	
 	/++

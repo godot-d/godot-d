@@ -6,13 +6,16 @@ import language;
 import std.algorithm.iteration;
 import std.range;
 import std.path;
+import std.conv : text;
+import std.string;
 
 Language getDLanguage()
 {
 	Language ret;
 	ret.classOutputFiles = [
-		Language.ClassOutputFile(buildPath("godot")
-			~dirSeparator, true, "d", &generateD)
+		Language.ClassOutputFile(&generateClass),
+		Language.ClassOutputFile(&generateGlobalConstants),
+		Language.ClassOutputFile(&generatePackage)
 	];
 	return ret;
 }
@@ -23,24 +26,44 @@ Language getDLanguage()
 
 private:
 
-
-string generateD(in GodotClass c)
+string[2] generatePackage(in GodotClass c)
 {
-	switch(c.name)
+	if(c.name == "GlobalConstants") return [null, null];
+	
+	string filename = buildPath("godot", c.name.toLower, "all.d");
+	string ret;
+	
+	ret ~= "module godot.";
+	ret ~= c.name.toLower;
+	ret ~= ".all;\n\n";
+	
+	ret ~= "public import\n\tgodot."~c.name.toLower;
+	
+	const(GodotClass*)[] recursiveDescendants;
+	void addDescendant(in GodotClass* d)
 	{
-		case "GlobalConstants":
-			return generateGlobalConstants(c);
-		default:
-			return generateClass(c);
+		import std.algorithm.searching;
+		if(!recursiveDescendants[].canFind(d)) recursiveDescendants ~= d;
+		foreach(rd; d.descendant_ptrs[]) addDescendant(rd);
 	}
+	foreach(d; c.descendant_ptrs[]) addDescendant(d);
+	
+	foreach(di, d; recursiveDescendants[])
+	{
+		ret ~= ",\n\tgodot."~d.name.toLower;
+	}
+	ret ~= ";\n";
+	
+	string[2] arr = [filename, ret];
+	return arr;
 }
 
 
-string generateClass(in GodotClass c)
+string[2] generateClass(in GodotClass c)
 {
-	import std.conv : text;
-	import std.string;
+	if(c.name == "GlobalConstants") return [null, null];
 	
+	string filename = buildPath("godot", c.name.toLower, "package.d");
 	string ret;
 	
 	// module names should be all lowercase in D
@@ -281,10 +304,12 @@ string generateClass(in GodotClass c)
 	
 	
 	ret ~= "}\n";
-	return ret;
+	
+	string[2] arr = [filename, ret];
+	return arr;
 }
 
-string generateGlobalConstants(in GodotClass c)
+string[2] generateGlobalConstants(in GodotClass c)
 {
 	import std.conv : text;
 	import std.string;
@@ -292,6 +317,9 @@ string generateGlobalConstants(in GodotClass c)
 	import std.algorithm.iteration, std.algorithm.searching, std.algorithm.sorting;
 	import std.range : array;
 	
+	if(c.name != "GlobalConstants") return [null, null];
+	
+	string filename = buildPath("godot", "globalconstants.d");
 	string ret;
 	
 	ret ~= "module godot.globalconstants;\n";
@@ -330,7 +358,8 @@ string generateGlobalConstants(in GodotClass c)
 		ret ~= "}\n";
 	}
 	
-	return ret;
+	string[2] arr = [filename, ret];
+	return arr;
 }
 
 
