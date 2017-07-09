@@ -163,13 +163,6 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "\t\treturn cast("~c.name.escapeType~")(constructor());\n";
 	ret ~= "\t}\n";
 	
-	if(c.name != "Object")
-	{
-		ret ~= "\tvoid _init()\n\t{\n";
-		
-		ret ~= "\t}\n";
-	}
-	
 	foreach(const string name, const int value; c.constants)
 	{
 		ret ~= "\tenum int "~name.escapeD~" = "~text(value)~";\n";
