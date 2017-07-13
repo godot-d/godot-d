@@ -215,7 +215,6 @@ struct Variant
 	
 	this(in ref Variant other)
 	{
-		godot_variant_destroy(&_godot_variant);
 		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
