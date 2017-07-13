@@ -219,6 +219,11 @@ struct Variant
 		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
+	this(T : typeof(null))(in T nil)
+	{
+		godot_variant_new_nil(&_godot_variant);
+	}
+	
 	this(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
 	{
 		static assert(compatible!T, T.stringof~" isn't compatible with Variant.");
