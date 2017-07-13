@@ -168,17 +168,20 @@ struct Variant
 		else static if(isGodotClass!T) enum Type variantTypeOf = Type.object;
 		else
 		{
-			alias match = implicitTargetIndices!T;
-			static if(match.length == 1)
+			enum match = staticIndexOf!(T, DType);
+			static if(match != -1)
 			{
-				enum Type variantTypeOf = EnumMembers!Type[ match[0] ];
+				enum Type variantTypeOf = EnumMembers!Type[ match ];
 			}
 			else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
 		}
 	}
 	
-	static assert(allSatisfy!(compatible, DType));
-	static assert(!compatible!Object); // D Object
+	unittest
+	{
+		static assert(allSatisfy!(compatible, DType));
+		static assert(!compatible!Object); // D Object
+	}
 	
 	private template FunctionAs(Type type)
 	{
