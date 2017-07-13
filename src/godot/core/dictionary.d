@@ -60,17 +60,25 @@ struct Dictionary
 		return a;
 	}
 	
-	Variant* opIndex(in ref Variant key)
+	Variant* opIndex(in Variant key)
 	{
 		return cast(Variant*)godot_dictionary_operator_index(&_godot_dictionary, &key._godot_variant);
 	}
 	
-	// TODO: copyable Variant?
-	/+const Variant &operator [](const Variant& key) const
+	Variant opIndex(in Variant key) const
 	{
-		// oops I did it again
-		return *(Variant *) godot_dictionary_operator_index((godot_dictionary *) &_godot_dictionary, (godot_variant *) &key);
-	}+/
+		Variant ret = void;
+		ret._godot_variant = godot_dictionary_get(&_godot_dictionary, &key._godot_variant);
+		return ret;
+	}
+	
+	void opIndexAssign(K, V)(in auto ref V value, in auto ref K key)
+		if(Variant.compatible!K && Variant.compatible!V)
+	{
+		const Variant k = key;
+		const Variant v = value;
+		godot_dictionary_set(&_godot_dictionary, &k._godot_variant, &v._godot_variant);
+	}
 	
 	int size() const
 	{
