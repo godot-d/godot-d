@@ -39,6 +39,8 @@ void godot_dictionary_set(godot_dictionary *p_self, const godot_variant *p_key, 
 
 godot_variant *godot_dictionary_operator_index(godot_dictionary *p_self, const godot_variant *p_key);
 
+godot_variant *godot_dictionary_next(const godot_dictionary *p_self, const godot_variant *p_key);
+
 godot_bool godot_dictionary_operator_equal(const godot_dictionary *p_self, const godot_dictionary *p_b);
 
 godot_string godot_dictionary_to_json(const godot_dictionary *p_self);
