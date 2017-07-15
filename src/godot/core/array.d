@@ -151,12 +151,12 @@ struct Array
 	}
 	alias popFront = pop_front; // for D InputRange
 	
-	void push_back(in ref Variant v)
+	void push_back(in Variant v)
 	{
 		godot_array_push_back(&_godot_array, &v._godot_variant);
 	}
 	
-	void push_front(in ref Variant v)
+	void push_front(in Variant v)
 	{
 		godot_array_push_front(&_godot_array, &v._godot_variant);
 	}

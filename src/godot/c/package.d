@@ -292,9 +292,9 @@ struct godot_property_attributes {
 	godot_method_rpc_mode rset_type;
 
 	godot_int type;
-	godot_property_hint hint;
+	godot_property_hint hint = godot_property_hint.GODOT_PROPERTY_HINT_NONE;
 	godot_string hint_string;
-	godot_property_usage_flags usage;
+	godot_property_usage_flags usage = godot_property_usage_flags.GODOT_PROPERTY_USAGE_DEFAULT;
 	godot_variant default_value;
 }
 

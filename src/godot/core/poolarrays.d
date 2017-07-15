@@ -100,7 +100,7 @@ struct PoolArray(T)
 		r(&_godot_array, size);
 	}
 	
-	int size()
+	int size() const
 	{
 		mixin("alias s = "~(typeName!T)~"_size;");
 		return s(&_godot_array);
@@ -133,7 +133,7 @@ struct PoolArray(T)
 		{
 			godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
 		}
-		String opIndex(int idx)
+		String opIndex(int idx) const
 		{
 			String ret = void;
 			ret._godot_string = godot_pool_string_array_get(&_godot_array, idx);
@@ -170,7 +170,7 @@ struct PoolArray(T)
 				s(&_godot_array, idx, cast(InternalType*)&data);
 			else s(&_godot_array, idx, data);
 		}
-		T opIndex(int idx)
+		T opIndex(int idx) const
 		{
 			mixin("alias g = "~(typeName!T)~"_get;");
 			static union V
