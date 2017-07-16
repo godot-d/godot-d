@@ -289,6 +289,7 @@ enum godot_property_usage_flags {
 }
 
 struct godot_property_attributes {
+align(1):
 	godot_method_rpc_mode rset_type;
 
 	godot_int type;
