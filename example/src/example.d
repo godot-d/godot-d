@@ -63,6 +63,10 @@ class Test : GodotScript!Label
 		print("Hello", " Godot", " o/");
 		print();
 		
+		writeln("This as Variant: ", Variant(this));
+		writeln("3 as Variant: ", Variant(3));
+		writeln("\"asdf\" as Variant: ", Variant(String("asdf")));
+		
 		{
 			writefln("This (%s) is a normal D method of type %s.",
 				__FUNCTION__, typeof(_notification).stringof);

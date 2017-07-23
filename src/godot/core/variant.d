@@ -344,5 +344,12 @@ struct Variant
 		*valid = cast(bool)v;
 		return cast(bool)ret;
 	}
+	
+	auto toString() const
+	{
+		import std.string;
+		String str = as!String;
+		return str.c_string.fromStringz;
+	}
 }
 
