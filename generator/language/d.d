@@ -492,6 +492,7 @@ string escapeDefault(string type, string arg)
 string escapeType(string t)
 {
 	if(t == "Object") return "GodotObject";
+	if(t == "Error") return "GodotError";
 	return t;
 }
 
