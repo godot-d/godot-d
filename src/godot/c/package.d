@@ -378,4 +378,5 @@ void godot_free(void* p_ptr);
 
 void godot_print_error(const char *p_description, const char *p_function, const char *p_file, int p_line);
 void godot_print_warning(const char *p_description, const char *p_function, const char *p_file, int p_line);
+void godot_print(const godot_string *p_message);
 

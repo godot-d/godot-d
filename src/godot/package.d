@@ -930,6 +930,19 @@ void godotAssertHandlerEditorDebug(string file, size_t line, string msg)
 	}
 }
 
+void print(Args...)(Args args)
+{
+	import godot.core.string;
+	
+	String str;
+	static if(Args.length == 0) str = String(" ");
+	foreach(arg; args)
+	{
+		static if(is(typeof(arg) : String)) str ~= arg;
+		else static if(is(typeof(arg) : string)) str ~= String(arg);
+	}
+	godot_print(&str._godot_string);
+}
 
 
 

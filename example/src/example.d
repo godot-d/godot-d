@@ -55,30 +55,27 @@ class Test : GodotScript!Label
 	}
 	
 	@Method
-	void _notification(int type)
+	void _ready()
 	{
-		// NOTIFICATION_READY (#13)
-		if(type == 13)
+		// print() will write into Godot's editor output, unlike writeln
+		print("Test._ready()");
+		print();
+		print("Hello", " Godot", " o/");
+		print();
+		
 		{
-			writeln("Test recieved NOTIFICATION_READY (#13)");
-			writeln();
-			writeln("Hello Godot o/  - D's writeln function");
-			writeln();
-			
-			{
-				writefln("This (%s) is a normal D method of type %s.",
-					__FUNCTION__, typeof(_notification).stringof);
-			}
-			
-			{
-				import std.compiler;
-				writefln("This D library was compiled with %s compiler, v%d.%03d",
-					name, version_major, version_minor);
-			}
-			
-			writeln(" ---TEST--- ");
-			test();
+			writefln("This (%s) is a normal D method of type %s.",
+				__FUNCTION__, typeof(_notification).stringof);
 		}
+		
+		{
+			import std.compiler;
+			writefln("This D library was compiled with %s compiler, v%d.%03d",
+				name, version_major, version_minor);
+		}
+		
+		writeln(" ---TEST--- ");
+		test();
 	}
 	
 	@Method
