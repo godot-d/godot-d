@@ -33,17 +33,17 @@ struct Dictionary
 		return cast(bool)godot_dictionary_empty(&_godot_dictionary);
 	}
 	
-	void erase(in ref Variant key)
+	void erase(in Variant key)
 	{
 		godot_dictionary_erase(&_godot_dictionary, &key._godot_variant);
 	}
 	
-	bool has(in ref Variant key) const
+	bool has(in Variant key) const
 	{
 		return cast(bool)godot_dictionary_has(&_godot_dictionary, &key._godot_variant);
 	}
 	
-	bool has_all(in ref Array keys) const
+	bool has_all(in Array keys) const
 	{
 		return cast(bool)godot_dictionary_has_all(&_godot_dictionary, &keys._godot_array);
 	}
