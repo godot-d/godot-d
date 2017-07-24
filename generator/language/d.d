@@ -142,6 +142,7 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T)\n\t{\n";
 	ret ~= "\t\tstatic assert(staticIndexOf!("~c.name.escapeType~", T.BaseClasses) != -1, ";
 	ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~c.name.escapeType~"\");\n";
+	ret ~= "\t\tif(_godot_object.ptr is null) return T.init;\n";
 	ret ~= "\t\tString c = String(T._GODOT_internal_name);\n";
 	ret ~= "\t\tif(is_class(c)) return inout(T)(_godot_object);\n\t\treturn T.init;\n\t}\n";
 	
@@ -150,7 +151,7 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "\t\tstatic assert(is(typeof(T.owner) : "~c.name.escapeType~") || ";
 	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.owner).BaseClasses) != -1, ";
 	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
-	
+	ret ~= "\t\tif(_godot_object.ptr is null) return null;\n";
 	ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
 	ret ~= "\t\t\tObject o = cast(Object)godot_native_get_userdata(opCast!godot_object);\n";
 	ret ~= "\t\t\treturn cast(inout(T))o;\n\t\t}\n\t\treturn null;\n\t}\n";
