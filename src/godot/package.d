@@ -246,6 +246,15 @@ struct Property
 		this.usage = usage;
 		this.rpcMode = rpcMode;
 	}
+	
+	this(Usage usage, Hint hint = Hint.none, string hintString = "",
+		RPCMode rpcMode = RPCMode.disabled)
+	{
+		this.hint = hint;
+		this.hintString = hintString;
+		this.usage = usage;
+		this.rpcMode = rpcMode;
+	}
 }
 
 template RefOrT(T) if(extendsGodotBaseClass!T)
