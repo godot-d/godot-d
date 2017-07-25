@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Test.gdn" type="Script" id=1]
+[ext_resource path="res://Test.gdns" type="Script" id=1]
 
 [node name="Node" type="Node"]
 
@@ -10,8 +10,11 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 350.0
 margin_bottom = 127.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 
 [node name="Label" type="Label" parent="Panel"]
 
@@ -21,13 +24,17 @@ margin_left = 6.0
 margin_top = 6.0
 margin_right = 6.0
 margin_bottom = 6.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
+size_flags_horizontal = 1
 size_flags_vertical = 0
 text = "Old text set in Godot editor"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 1 )
+property = null
+number = null
 
 

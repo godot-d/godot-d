@@ -1,9 +1,8 @@
 config_version=3
 [application]
 
-name="Godot-D Test"
-main_scene="res://Main.tscn"
-icon="res://icon.png"
+config/name="Godot-D Test"
+run/main_scene="res://Main.tscn"
 
 [memory]
 

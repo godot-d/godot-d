@@ -37,11 +37,14 @@ argument (from the $(D godot.c) module).
 mixin template GodotNativeInit(Args...)
 {
 	private static import godot.c;
+	
+	private __gshared void* _GODOT_library_handle;
+	
 	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
 	/// https://issues.dlang.org/show_bug.cgi?id=12575
 	/// workaround: manually specify unmangled name.
-	pragma(mangle, "godot_native_init")
-	export extern(C) static void godot_native_init(godot.c.godot_native_init_options* options)
+	pragma(mangle, "godot_gdnative_init")
+	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
 	{
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
@@ -55,17 +58,38 @@ mixin template GodotNativeInit(Args...)
 		{
 			static if(is(Arg)) // is type
 			{
+				
+			}
+			else static if( isCallable!Arg )
+			{
+				static if( is(typeof(Arg())) ) Arg();
+				else static if( is(typeof(Arg(options))) ) Arg(options);
+			}
+			else static if(Arg == NoDRuntime) { }
+			else
+			{
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+			}
+		}
+	}
+	pragma(mangle, "godot_nativescript_init")
+	export extern(C) static void godot_nativescript_init(void* handle)
+	{
+		import std.meta, std.traits;
+		
+		_GODOT_library_handle = handle;
+		
+		foreach(Arg; Args)
+		{
+			static if(is(Arg)) // is type
+			{
 				static assert(is(Arg == class) && extendsGodotBaseClass!Arg,
 					Arg.stringof ~ " is not a D class that extends a Godot class!");
-				register!Arg();
+				register!Arg(_GODOT_library_handle);
 			}
-			else static if( isCallable!Arg && is(typeof(Arg())) )
+			else static if( isCallable!Arg )
 			{
-				Arg();
-			}
-			else static if( isCallable!Arg && is(typeof(Arg(options))) )
-			{
-				Arg(options);
+				
 			}
 			else static if(Arg == NoDRuntime) { }
 			else
@@ -93,8 +117,8 @@ mixin template GodotNativeTerminate(Args...)
 	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
 	/// https://issues.dlang.org/show_bug.cgi?id=12575
 	/// workaround: manually specify unmangled name.
-	pragma(mangle, "godot_native_terminate")
-	export extern(C) static void godot_native_terminate(godot.c.godot_native_terminate_options* options)
+	pragma(mangle, "godot_gdnative_terminate")
+	export extern(C) static void godot_gdnative_terminate(godot.c.godot_gdnative_terminate_options* options)
 	{
 		import std.meta, std.traits;
 		foreach(Arg; Args)
@@ -570,7 +594,7 @@ private void nop() { }
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
-void register(T)() if(is(T == class))
+void register(T)(void* handle) if(is(T == class))
 {
 	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
@@ -582,7 +606,7 @@ void register(T)() if(is(T == class))
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
-	godot_script_register_class(name, baseName, icf, idf);
+	godot_nativescript_register_class(handle, name, baseName, icf, idf);
 	
 	// register a no-op function that indicates this is a D class
 	{
@@ -594,7 +618,7 @@ void register(T)() if(is(T == class))
 		md.method = &Wrapper.callMethod;
 		md.free_func = &free;
 		
-		godot_script_register_method(name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
+		godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
 	
 	foreach(mf; godotMethods!T)
@@ -624,7 +648,7 @@ void register(T)() if(is(T == class))
 		
 		debug writefln("	Registering method %s.%s as \"%s\"",T.stringof, dName,
 			godotName!mf);
-		godot_script_register_method(name, funcName, ma, md);
+		godot_nativescript_register_method(handle, name, funcName, ma, md);
 	}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
@@ -700,7 +724,7 @@ void register(T)() if(is(T == class))
 			sf.set_func = &emptySetter;
 		}
 		
-		godot_script_register_property(name, propName, &attr, sf, gf);
+		godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
 	}
 	// TODO: signals
 }
@@ -799,7 +823,7 @@ private struct MethodWrapper(T, R, A...)
 		+/
 		R delegate(A) actualDelegate;
 		actualDelegate.funcptr = func;
-		actualDelegate.ptr = cast(void*)obj;
+		actualDelegate.ptr = userData;
 		
 		*v = actualDelegate();
 		
@@ -812,9 +836,9 @@ private struct MethodWrapper(T, R, A...)
 	static if(is(R == void) && A.length == 1)
 	extern(C) // for calling convention
 	static void callPropertySet(godot_object o, void* methodData,
-		void* userData, godot_variant arg)
+		void* userData, godot_variant* arg)
 	{
-		Variant* v = cast(Variant*)&arg;
+		Variant* v = cast(Variant*)arg;
 		
 		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;
@@ -824,9 +848,10 @@ private struct MethodWrapper(T, R, A...)
 		+/
 		R delegate(A) actualDelegate;
 		actualDelegate.funcptr = func;
-		actualDelegate.ptr = cast(void*)obj;
+		actualDelegate.ptr = userData;
 		
-		actualDelegate(v.as!(A[0]));
+		auto vt = v.as!(A[0]);
+		actualDelegate(vt);
 	}
 	
 	

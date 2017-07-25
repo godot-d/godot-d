@@ -153,7 +153,7 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
 	ret ~= "\t\tif(_godot_object.ptr is null) return null;\n";
 	ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
-	ret ~= "\t\t\tObject o = cast(Object)godot_native_get_userdata(opCast!godot_object);\n";
+	ret ~= "\t\t\tObject o = cast(Object)godot_nativescript_get_userdata(opCast!godot_object);\n";
 	ret ~= "\t\t\treturn cast(inout(T))o;\n\t\t}\n\t\treturn null;\n\t}\n";
 	
 	// Godot constructor.

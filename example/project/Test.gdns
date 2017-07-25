@@ -1,9 +1,9 @@
-[gd_resource type="GDNativeScript" load_steps=2 format=2]
+[gd_resource type="NativeScript" load_steps=2 format=2]
 
 [ext_resource path="res://DLibrary.tres" type="GDNativeLibrary" id=1]
 
 [resource]
 
+class_name = "Test"
 library = ExtResource( 1 )
-script_name = "Test"
 

@@ -2,16 +2,13 @@
 
 [resource]
 
-platform/unix = ""
-platform/x11 = "res://lib/libgodot-d_example.so"
-platform/server = ""
-platform/android = ""
-platform/blackberry = ""
-platform/haiku = ""
-platform/mac = ""
-platform/ios = ""
-platform/osx = ""
-platform/html5 = ""
-platform/windows = ""
-platform/uwp = ""
+platform/X11_32bit = ""
+platform/X11_64bit = "res://lib/libgodot-d_example.so"
+platform/Windows_32bit = ""
+platform/Windows_64bit = ""
+platform/OSX = ""
+platform/Android = ""
+platform/iOS = ""
+platform/WebAssembly = ""
+_sections_unfolded = [ "platform" ]
 

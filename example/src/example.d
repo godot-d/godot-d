@@ -24,9 +24,15 @@ class Test : GodotScript!Label
 	
 	private string _prop = "default text";
 	@Property
-	String property() const { return String(_prop~" ~ hello from the getter!"); }
+	String property() const
+	{
+		return String(_prop~" ~ hello from the getter!");
+	}
 	@Property
-	void property(in String v) { _prop = v.c_string.fromStringz.idup~" ~ hello from the setter!"; }
+	void property(in String v)
+	{
+		_prop = v.c_string.fromStringz.idup~" ~ hello from the setter!";
+	}
 	
 	private long _num = 5;
 	@Property
@@ -57,6 +63,7 @@ class Test : GodotScript!Label
 	@Method
 	void _ready()
 	{
+		writefln("owner: %x", cast(void*)owner);
 		// print() will write into Godot's editor output, unlike writeln
 		print("Test._ready()");
 		print();
@@ -250,7 +257,7 @@ class Test : GodotScript!Label
 mixin GodotNativeInit!
 (
 	Test,
-	(godot_native_init_options* o)
+	(godot_gdnative_init_options* o)
 	{
 		writeln("GodotNativeInit func");
 		writeln("Godot is in ", o.in_editor ? "EDITOR" : "GAME", " mode.");
