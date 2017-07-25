@@ -546,7 +546,21 @@ package template godotPropertySetters(T)
 package template godotPropertyNames(T)
 {
 	alias godotPropertyNames = NoDuplicates!(staticMap!(godotName, godotPropertyGetters!T,
-		godotPropertySetters!T/*, godotPropertyVariables!T*/));
+		godotPropertySetters!T));
+}
+
+package template godotPropertyVariableNames(T)
+{
+	alias fieldNames = FieldNameTuple!T;
+	alias field(string name) = Alias!(__traits(getMember, T, name));
+	template isVariable(string name)
+	{
+		static if(__traits(getProtection, __traits(getMember, T, name))=="public")
+			enum bool isVariable = hasUDA!(field!name, Property);
+		else enum bool isVariable = false;
+	}
+	
+	alias godotPropertyVariableNames = Filter!(isVariable, fieldNames);
 }
 
 /// get the common Variant type for a set of function or variable aliases
@@ -596,6 +610,8 @@ Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
 void register(T)(void* handle) if(is(T == class))
 {
+	import godot.object, godot.resource;
+
 	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
 	
@@ -660,31 +676,30 @@ void register(T)(void* handle) if(is(T == class))
 		static assert(getterMatches.length <= 1); /// TODO: error message
 		alias setterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertySetters!T);
 		static assert(setterMatches.length <= 1);
-		//alias varMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyVariables!T);
-		//static assert(varMatches.length <= 1);
-		//static assert(getterMatches.length + setterMatches.length + varMatches.length <= 2);
 		
 		godot_property_set_func sf;
 		godot_property_get_func gf;
 		godot_property_attributes attr;
 		
-		enum Variant.Type vt = extractPropertyVariantType!(getterMatches, setterMatches/*, varMatches*/);
+		enum Variant.Type vt = extractPropertyVariantType!(getterMatches, setterMatches);
 		attr.type = cast(godot_int)vt;
 		
-		enum Property uda = extractPropertyUDA!(getterMatches, setterMatches/*, varMatches*/);
+		enum Property uda = extractPropertyUDA!(getterMatches, setterMatches);
 		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
 		attr.hint = cast(godot_property_hint)uda.hint;
+
+		static if(vt == Variant.Type.object &&
+			is(GodotClass!(typeof(mixin("T."~pName))) : Resource))
+		{
+			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
+		}
+
 		static if(uda.hintString) godot_string_new_data(&attr.hint_string,
 			uda.hintString.ptr, cast(int)uda.hintString.length);
 		else godot_string_new(&attr.hint_string);
 		attr.usage = cast(godot_property_usage_flags)uda.usage;
 		
 		/// TODO: default value how?
-		/+static if(varMatches.length)
-		{
-			
-		}
-		else+/
 		{
 			godot_variant_new_nil(&attr.default_value);
 		}
@@ -698,10 +713,6 @@ void register(T)(void* handle) if(is(T == class))
 			gf.get_func = &GetWrapper.callPropertyGet;
 			gf.free_func = &free;
 		}
-		/+else static if(varMatches.length)
-		{
-			
-		}+/
 		else
 		{
 			gf.get_func = &emptyGetter;
@@ -715,13 +726,69 @@ void register(T)(void* handle) if(is(T == class))
 			sf.set_func = &SetWrapper.callPropertySet;
 			sf.free_func = &free;
 		}
-		/+else static if(varMatches.length)
-		{
-			
-		}+/
 		else
 		{
 			sf.set_func = &emptySetter;
+		}
+		
+		godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
+	}
+	foreach(pName; godotPropertyVariableNames!T)
+	{
+		alias renames = getUDAs!(mixin("T."~pName), Rename);
+		static if(renames.length && !is(renames[0])) enum immutable(char*) propName = renames[0].name;
+		else enum immutable(char*) propName = pName;
+		
+		import std.string;
+		
+		godot_property_set_func sf;
+		godot_property_get_func gf;
+		godot_property_attributes attr;
+		
+		enum Variant.Type vt = Variant.variantTypeOf!(typeof(mixin("T."~pName)));
+		attr.type = cast(godot_int)vt;
+		
+		debug writefln!("\tRegistering variable %s : %s as \"%s\"")(pName, vt, propName.fromStringz);
+		
+		alias udas = getUDAs!(mixin("T."~pName), Property);
+		enum Property uda = is(udas[0]) ? Property.init : udas[0];
+		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
+		attr.hint = cast(godot_property_hint)uda.hint;
+
+		static if(vt == Variant.Type.object &&
+			is(GodotClass!(typeof(mixin("T."~pName))) : Resource))
+		{
+			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
+		}
+
+		static if(uda.hintString) godot_string_new_data(&attr.hint_string,
+			uda.hintString.ptr, cast(int)uda.hintString.length);
+		else godot_string_new(&attr.hint_string);
+		attr.usage = cast(godot_property_usage_flags)uda.usage |
+			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
+		
+		static if( is(typeof( { typeof(mixin("T."~pName)) p; } )) )
+			Variant defval = (mixin("T."~pName)).init;
+		else
+		{
+			/// FIXME: call default constructor function
+			pragma(msg, "Type "~typeof(mixin("T."~pName)).stringof~" can't do init");
+			Variant defval = null;
+		}
+		attr.default_value = defval._godot_variant;
+		
+		alias Wrapper = VariableWrapper!(T, pName);
+		
+		{
+			gf.method_data = null;
+			gf.get_func = &Wrapper.callPropertyGet;
+			gf.free_func = null;
+		}
+		
+		{
+			sf.method_data = null;
+			sf.set_func = &Wrapper.callPropertySet;
+			sf.free_func = null;
 		}
 		
 		godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
@@ -864,7 +931,47 @@ private struct MethodWrapper(T, R, A...)
 	}
 }
 
+/++
+Template for public variables exported as properties.
 
+Simple `offsetof` from the variable would be simpler, but unfortunately that
+property doesn't work as well with classes as with structs (needs an instance,
+not the class itself).
+
+Params:
+	P = the variable's type
++/
+private struct VariableWrapper(T, string var)
+{
+	alias P = typeof(mixin("T."~var));
+	
+	extern(C) // for calling convention
+	static godot_variant callPropertyGet(godot_object o, void* methodData,
+		void* userData)
+	{
+		T obj = cast(T)userData;
+		
+		godot_variant vd;
+		godot_variant_new_nil(&vd);
+		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
+		
+		*v = mixin("obj."~var);
+		
+		return vd;
+	}
+	
+	extern(C) // for calling convention
+	static void callPropertySet(godot_object o, void* methodData,
+		void* userData, godot_variant* arg)
+	{
+		T obj = cast(T)userData;
+		
+		Variant* v = cast(Variant*)arg;
+		
+		auto vt = v.as!P;
+		mixin("obj."~var) = vt;
+	}
+}
 
 extern(C) private void emptySetter(godot_object self, void* methodData,
 	void* userData, godot_variant value)
