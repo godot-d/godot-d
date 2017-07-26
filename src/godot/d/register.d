@@ -222,6 +222,8 @@ void register(T)(void* handle) if(is(T == class))
 		godot_property_get_func gf;
 		godot_property_attributes attr;
 		
+		static if(getterMatches.length) alias P = ReturnType!(getterMatches[0]);
+		else alias P = Parameters!(setterMatches[0])[0];
 		enum Variant.Type vt = extractPropertyVariantType!(getterMatches, setterMatches);
 		attr.type = cast(godot_int)vt;
 		
@@ -229,15 +231,22 @@ void register(T)(void* handle) if(is(T == class))
 		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
 		attr.hint = cast(godot_property_hint)uda.hint;
 
-		static if(vt == Variant.Type.object &&
-			is(GodotClass!(typeof(mixin("T."~pName))) : Resource))
+		static if(vt == Variant.Type.object && is(GodotClass!P : Resource))
 		{
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString) godot_string_new_data(&attr.hint_string,
+		static if(uda.hintString.length) godot_string_new_data(&attr.hint_string,
 			uda.hintString.ptr, cast(int)uda.hintString.length);
-		else godot_string_new(&attr.hint_string);
+		else
+		{
+			static if(vt == Variant.Type.object)
+			{
+				godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
+					cast(int)GodotClass!P._GODOT_internal_name.length);
+			}
+			else godot_string_new(&attr.hint_string);
+		}
 		attr.usage = cast(godot_property_usage_flags)uda.usage;
 		
 		/// TODO: default value how?
@@ -286,7 +295,8 @@ void register(T)(void* handle) if(is(T == class))
 		godot_property_get_func gf;
 		godot_property_attributes attr;
 		
-		enum Variant.Type vt = Variant.variantTypeOf!(typeof(mixin("T."~pName)));
+		alias P = typeof(mixin("T."~pName));
+		enum Variant.Type vt = Variant.variantTypeOf!P;
 		attr.type = cast(godot_int)vt;
 		
 		debug writefln!("\tRegistering variable %s : %s as \"%s\"")(pName, vt, propName.fromStringz);
@@ -296,24 +306,31 @@ void register(T)(void* handle) if(is(T == class))
 		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
 		attr.hint = cast(godot_property_hint)uda.hint;
 
-		static if(vt == Variant.Type.object &&
-			is(GodotClass!(typeof(mixin("T."~pName))) : Resource))
+		static if(vt == Variant.Type.object && is(GodotClass!P : Resource))
 		{
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString) godot_string_new_data(&attr.hint_string,
+		static if(uda.hintString.length) godot_string_new_data(&attr.hint_string,
 			uda.hintString.ptr, cast(int)uda.hintString.length);
-		else godot_string_new(&attr.hint_string);
+		else
+		{
+			static if(vt == Variant.Type.object)
+			{
+				godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
+					cast(int)GodotClass!P._GODOT_internal_name.length);
+			}
+			else godot_string_new(&attr.hint_string);
+		}
 		attr.usage = cast(godot_property_usage_flags)uda.usage |
 			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
 		
-		static if( is(typeof( { typeof(mixin("T."~pName)) p; } )) )
+		static if( is(typeof( { P p; } )) )
 			Variant defval = (mixin("T."~pName)).init;
 		else
 		{
 			/// FIXME: call default constructor function
-			pragma(msg, "Type "~typeof(mixin("T."~pName)).stringof~" can't do init");
+			pragma(msg, "Type "~P.stringof~" can't do init");
 			Variant defval = null;
 		}
 		attr.default_value = defval._godot_variant;

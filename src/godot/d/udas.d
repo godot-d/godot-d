@@ -104,11 +104,11 @@ struct Property
 	}
 	
 	Hint hint = Hint.none;
-	string hintString = "";
+	string hintString = null;
 	Usage usage = Usage.defaultUsage;
 	RPCMode rpcMode = RPCMode.disabled;
 	
-	this(Hint hint, string hintString = "", Usage usage = Usage.defaultUsage,
+	this(Hint hint, string hintString = null, Usage usage = Usage.defaultUsage,
 		RPCMode rpcMode = RPCMode.disabled)
 	{
 		this.hint = hint;
@@ -117,7 +117,7 @@ struct Property
 		this.rpcMode = rpcMode;
 	}
 	
-	this(Usage usage, Hint hint = Hint.none, string hintString = "",
+	this(Usage usage, Hint hint = Hint.none, string hintString = null,
 		RPCMode rpcMode = RPCMode.disabled)
 	{
 		this.hint = hint;
