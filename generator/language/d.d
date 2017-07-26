@@ -55,7 +55,7 @@ string[2] generatePackage(in GodotClass c)
 	void addDescendant(in GodotClass* d)
 	{
 		import std.algorithm.searching;
-		if(isMiscClass(*d)) return;
+		if(isMiscClass(*d) && !isMiscClass(c)) return;
 		if(!recursiveDescendants[].canFind(d)) recursiveDescendants ~= d;
 		foreach(rd; d.descendant_ptrs[]) addDescendant(rd);
 	}
