@@ -26,11 +26,23 @@ Language getDLanguage()
 
 private:
 
+/// classify some rarely-useful classes into a separate package
+bool isMiscClass(in GodotClass c)
+{
+	import std.algorithm : startsWith;
+	if(c.name.startsWith("VisualScript")) return true;
+	
+	return false;
+}
+
 string[2] generatePackage(in GodotClass c)
 {
 	if(c.name == "GlobalConstants") return [null, null];
 	
-	string filename = buildPath("godot", c.name.toLower, "all.d");
+	if(c.descendant_ptrs.length == 0) return [null, null];
+	
+	string folder = c.isMiscClass?"miscclasses":"classes";
+	string filename = buildPath(folder, "godot", c.name.toLower, "all.d");
 	string ret;
 	
 	ret ~= "module godot.";
@@ -63,7 +75,10 @@ string[2] generateClass(in GodotClass c)
 {
 	if(c.name == "GlobalConstants") return [null, null];
 	
-	string filename = buildPath("godot", c.name.toLower, "package.d");
+	string folder = c.isMiscClass?"miscclasses":"classes";
+	string filename = (c.descendant_ptrs.length == 0) ?
+		buildPath(folder, "godot", c.name.toLower~".d") :
+		buildPath(folder, "godot", c.name.toLower, "package.d");
 	string ret;
 	
 	// module names should be all lowercase in D

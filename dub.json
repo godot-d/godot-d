@@ -23,6 +23,20 @@
 			"sourcePaths": [ "generator" ]
 		},
 		{
+			"name": "miscclasses",
+			"description": "Rarely useful classes separated from the main package for organization",
+			"license": "MIT",
+			"dependencies":
+			{
+				"godot-d": "*",
+			},
+			"targetType": "library",
+			"dflags-linux-dmd": ["-fPIC"],
+			"dflags-linux-ldc2": ["-relocation-model=pic"],
+			"importPaths": [ "miscclasses" ],
+			"sourcePaths": [ "miscclasses" ],
+		},
+		{
 			"name": "example",
 			"description": "Example using D classes",
 			"targetType": "dynamicLibrary",
