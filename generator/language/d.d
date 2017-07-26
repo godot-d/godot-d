@@ -328,7 +328,7 @@ string[2] generateGlobalConstants(in GodotClass c)
 	
 	if(c.name != "GlobalConstants") return [null, null];
 	
-	string filename = buildPath("godot", "globalconstants.d");
+	string filename = buildPath("classes", "godot", "globalconstants.d");
 	string ret;
 	
 	ret ~= "module godot.globalconstants;\n";
