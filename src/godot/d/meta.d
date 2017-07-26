@@ -52,6 +52,20 @@ a godot.core struct)
 +/
 enum bool isGodotClass(T) = extendsGodotBaseClass!T || isGodotBaseClass!T;
 
+/++
+Get the C++ Godot Object pointer of either a Godot Object OR a D native script.
+
+Useful for generic code.
++/
+godot_object getGodotObject(T)(T t) if(isGodotClass!T)
+{
+	static if(isGodotBaseClass!T) return t._godot_object;
+	static if(extendsGodotBaseClass!T)
+	{
+		return (t) ? t.owner._godot_object : godot_object.init;
+	}
+}
+
 package(godot) enum string dName(alias a) = __traits(identifier, a);
 package(godot) template godotName(alias a)
 {
