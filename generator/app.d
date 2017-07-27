@@ -68,13 +68,16 @@ void main(string[] args)
 		throw new Exception("%s is not a directory".format(outputDir));
 	}
 	
-	GodotClass[] classes;
-	classes = jsonData.deserialize!(GodotClass[]);
-	GodotClass*[string] classDictionary;
-	foreach(ref c; classes) classDictionary[c.name] = &c;
-	foreach(ref c; classes) if(c.base_class.length)
+	ClassList classList;
+	classList.classes = jsonData.deserialize!(GodotClass[]);
+	foreach(ref c; classList.classes)
 	{
-		c.base_class_ptr = classDictionary.get(c.base_class, null);
+		classList.dictionary[c.name] = &c;
+		c.parent = &classList;
+	}
+	foreach(ref c; classList.classes) if(c.base_class.length)
+	{
+		c.base_class_ptr = classList.dictionary.get(c.base_class, null);
 		c.base_class_ptr.descendant_ptrs ~= &c;
 	}
 	
@@ -84,7 +87,7 @@ void main(string[] args)
 	
 	Note that Godot doesn't have overloads differing in argument types.
 	+/
-	foreach(ref c; classes)
+	foreach(ref c; classList.classes)
 	{
 		foreach(mi, ref m; c.methods)
 		{
@@ -104,7 +107,7 @@ void main(string[] args)
 		}
 	}
 	
-	foreach(ref c; classes)
+	foreach(ref c; classList.classes)
 	{
 		// output files for the selected lang
 		foreach(const cof; lang.classOutputFiles)
