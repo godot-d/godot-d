@@ -180,7 +180,11 @@ class Test : GodotScript!Label
 			writefln("OS is %s on device %s", name.c_string().fromStringz,
 				OS.get_model_name().c_string().fromStringz);
 			String exe = OS.get_executable_path();
-			printf("Executable path: <%s>\n", exe.c_string);
+			print("Executable path: <%s>", exe);
+			
+			import godot.projectsettings;
+			String projectName = ProjectSettings.get(String("application/config/name")).as!String;
+			print("ProjectSettings property \"application/config/name\": ", projectName);
 		}
 		
 		// test extension of Label
