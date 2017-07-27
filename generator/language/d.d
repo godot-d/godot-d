@@ -51,11 +51,11 @@ string[2] generatePackage(in GodotClass c)
 	
 	ret ~= "public import\n\tgodot."~c.name.toLower;
 	
-	const(GodotClass*)[] recursiveDescendants;
-	void addDescendant(in GodotClass* d)
+	const(GodotClass)[] recursiveDescendants;
+	void addDescendant(in GodotClass d)
 	{
 		import std.algorithm.searching;
-		if(isMiscClass(*d) && !isMiscClass(c)) return;
+		if(isMiscClass(d) && !isMiscClass(c)) return;
 		if(!recursiveDescendants[].canFind(d)) recursiveDescendants ~= d;
 		foreach(rd; d.descendant_ptrs[]) addDescendant(rd);
 	}

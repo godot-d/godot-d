@@ -72,13 +72,13 @@ void main(string[] args)
 	classList.classes = jsonData.deserialize!(GodotClass[]);
 	foreach(ref c; classList.classes)
 	{
-		classList.dictionary[c.name] = &c;
+		classList.dictionary[c.name] = c;
 		c.parent = &classList;
 	}
 	foreach(ref c; classList.classes) if(c.base_class.length)
 	{
 		c.base_class_ptr = classList.dictionary.get(c.base_class, null);
-		c.base_class_ptr.descendant_ptrs ~= &c;
+		c.base_class_ptr.descendant_ptrs ~= c;
 	}
 	
 	/+

@@ -47,10 +47,10 @@ string stripName(in string name)
 struct ClassList
 {
 	GodotClass[] classes;
-	GodotClass*[string] dictionary;
+	GodotClass[string] dictionary;
 }
 
-struct GodotClass
+class GodotClass
 {
 	string name;
 	string base_class;
@@ -83,7 +83,7 @@ struct GodotClass
 					used_classes ~= (a.type);
 			}
 			
-			m.parent = &this;
+			m.parent = this;
 		}
 		assert(!used_classes.canFind(name));
 		assert(!used_classes.canFind("Object"));
@@ -92,8 +92,8 @@ struct GodotClass
 	@serializationIgnore:
 	
 	string[] used_classes;
-	GodotClass* base_class_ptr = null; // needs to be set after all classes loaded
-	GodotClass*[] descendant_ptrs; /// direct descendent classes
+	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
+	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
 	/++
 	Certain classes have an underscore prefix in their API representation.
@@ -106,7 +106,7 @@ struct GodotClass
 	ClassList* parent;
 }
 
-struct GodotMethod
+class GodotMethod
 {
 	string name;
 	string return_type;
@@ -123,7 +123,7 @@ struct GodotMethod
 		foreach(i, ref a; arguments)
 		{
 			a.index = i;
-			a.parent = &this;
+			a.parent = this;
 		}
 	}
 	
@@ -134,7 +134,7 @@ struct GodotMethod
 		return name == other.name && is_const == other.is_const;
 	}
 	
-	GodotClass* parent;
+	GodotClass parent;
 }
 
 struct GodotArgument
@@ -147,7 +147,7 @@ struct GodotArgument
 	@serializationIgnore:
 	
 	size_t index;
-	GodotMethod* parent;
+	GodotMethod parent;
 }
 
 
