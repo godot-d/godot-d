@@ -104,31 +104,32 @@ string[2] generateClass(in GodotClass c)
 		ret ~= ";\n";
 	}
 	
-	string nameAlias;
-	if(c.singleton) nameAlias = "_GODOT_static_object_"~c.name;
-	else nameAlias = "this";
+	string nameAlias = "this";
+	string className = c.name.escapeType;
+	if(c.singleton) className ~= "Singleton";
 	
-	ret ~= "@GodotBaseClass struct "~c.name.escapeD;
+	ret ~= "@GodotBaseClass struct "~className;
 	ret ~= "\n{\n";
 	ret ~= "\tstatic immutable string _GODOT_internal_name = \""~c.internal_name~"\";\n";
-	ret ~= "private:\n";
+	ret ~= "public:\n";
+	//ret ~= "@nogc nothrow:\n";
 	if(c.singleton)
 	{
-		ret ~= "\tstatic GodotObject "~nameAlias~";\n";
-		ret ~= "\tstatic void _GODOT_singleton_init()\n\t{\n";
-		ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~c.name~"\";\n";
-		ret ~= "\t\t"~nameAlias~" = cast(GodotObject)godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
+		ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
+		ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~c.internal_name~"\";\n";
+		ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
+		ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
+		ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
+		ret ~= "\t\treturn _GODOT_singleton_ptr;\n";
 		ret ~= "\t}\n";
 	}
-	ret ~= "public:\n";
-	
-	/// TODO: add @nogc/nothrow here?
-	/// Should be a generator option, for those who want to use GC in subclasses
 	
 	// Pointer to Godot object, fake inheritance through alias this
 	if(c.name != "Object")
 	{
-		ret ~= "\tunion { godot_object _godot_object; "~c.base_class.escapeType~" base; }\n\talias base this;\n";
+		ret ~= "\tunion { godot_object _godot_object; "~c.base_class.escapeType;
+		if(c.base_class_ptr.singleton) ret ~= "Singleton";
+		ret ~= " base; }\n\talias base this;\n";
 		ret ~= "\talias BaseClasses = AliasSeq!(typeof(base), typeof(base).BaseClasses);\n";
 	}
 	else
@@ -143,10 +144,10 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "\tgodot_object opCast(T : godot_object)() const { return cast(godot_object)_godot_object; }\n";
 	
 	// equality
-	ret ~= "\tbool opEquals(in "~c.name.escapeType~" other) const ";
+	ret ~= "\tbool opEquals(in "~className~" other) const ";
 	ret ~= "{ return _godot_object.ptr is other._godot_object.ptr; }\n";
 	// null assignment to simulate D class references
-	ret ~= "\t"~c.name.escapeType~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
+	ret ~= "\t"~className~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
 	// equality with null; unfortunately `_godot_object is null` doesn't work with structs
 	ret ~= "\tbool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }\n";
 	// implicit conversion to bool like D class references
@@ -156,28 +157,28 @@ string[2] generateClass(in GodotClass c)
 	
 	// upcast to derived Godot class:
 	ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T)\n\t{\n";
-	ret ~= "\t\tstatic assert(staticIndexOf!("~c.name.escapeType~", T.BaseClasses) != -1, ";
-	ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~c.name.escapeType~"\");\n";
+	ret ~= "\t\tstatic assert(staticIndexOf!("~className~", T.BaseClasses) != -1, ";
+	ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~className~"\");\n";
 	ret ~= "\t\tif(_godot_object.ptr is null) return T.init;\n";
 	ret ~= "\t\tString c = String(T._GODOT_internal_name);\n";
 	ret ~= "\t\tif(is_class(c)) return inout(T)(_godot_object);\n\t\treturn T.init;\n\t}\n";
 	
 	// upcast to derived D Native Script:
 	ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T)\n\t{\n";
-	ret ~= "\t\tstatic assert(is(typeof(T.owner) : "~c.name.escapeType~") || ";
-	ret ~= "staticIndexOf!("~c.name.escapeType~", typeof(T.owner).BaseClasses) != -1, ";
-	ret ~= "\"D class \"~T.stringof~\" does not extend "~c.name.escapeType~"\");\n";
+	ret ~= "\t\tstatic assert(is(typeof(T.owner) : "~className~") || ";
+	ret ~= "staticIndexOf!("~className~", typeof(T.owner).BaseClasses) != -1, ";
+	ret ~= "\"D class \"~T.stringof~\" does not extend "~className~"\");\n";
 	ret ~= "\t\tif(_godot_object.ptr is null) return null;\n";
 	ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
 	ret ~= "\t\t\tObject o = cast(Object)godot_nativescript_get_userdata(opCast!godot_object);\n";
 	ret ~= "\t\t\treturn cast(inout(T))o;\n\t\t}\n\t\treturn null;\n\t}\n";
 	
 	// Godot constructor.
-	ret ~= "\tstatic "~c.name.escapeType~" _new()\n\t{\n";
+	ret ~= "\tstatic "~className~" _new()\n\t{\n";
 	ret ~= "\t\tstatic godot_class_constructor constructor;\n";
 	ret ~= "\t\tif(constructor is null) constructor = godot_get_class_constructor(\""~c.internal_name~"\");\n";
 	ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
-	ret ~= "\t\treturn cast("~c.name.escapeType~")(constructor());\n";
+	ret ~= "\t\treturn cast("~className~")(constructor());\n";
 	ret ~= "\t}\n";
 	
 	foreach(const string name, const int value; c.constants)
@@ -188,25 +189,6 @@ string[2] generateClass(in GodotClass c)
 	foreach(const m; c.methods)
 	{
 		ret ~= "\t";
-		if(c.singleton) ret ~= "static ";
-		else // not static
-		{
-			/+
-			const(GodotClass)* base = c.base_class_ptr;
-			while(base)
-			{
-				import std.algorithm.searching;
-				// test sameness (name AND constness match)
-				// http://dlang.org/hijack.html
-				if(  base.methods.canFind!"a.same(b)"(m)  )
-				{
-					ret ~= "override ";
-					break;
-				}
-				base = base.base_class_ptr;
-			}
-			+/
-		}
 		ret ~= m.return_type.escapeType~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
 		// Classes are reference types; the others are passed by value.
@@ -237,15 +219,9 @@ string[2] generateClass(in GodotClass c)
 		}
 		
 		ret ~= ")";
-		if(m.is_const && !c.singleton) ret ~= " const";
+		if(m.is_const) ret ~= " const";
 		else if(m.name == "callv" && c.name == "Object") ret ~= " const"; /// HACK
 		ret ~= "\n\t{\n";
-		
-		// singleton null check
-		if(c.singleton)
-		{
-			ret ~= "\t\tif("~nameAlias~"._godot_object.ptr is null) _GODOT_singleton_init();\n";
-		}
 		
 		// implementation
 		if(m.is_virtual || m.has_varargs)
@@ -314,6 +290,15 @@ string[2] generateClass(in GodotClass c)
 	
 	
 	ret ~= "}\n";
+	
+	if(c.singleton)
+	{
+		ret ~= "@property pragma(inline, true)\n";
+		ret ~= className ~ " " ~ c.name.escapeType;
+		ret ~= "()\n{\n";
+		ret ~= "\treturn "~className~"._GODOT_singleton();\n";
+		ret ~= "}\n";
+	}
 	
 	string[2] arr = [filename, ret];
 	return arr;
