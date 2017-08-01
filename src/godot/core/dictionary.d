@@ -60,20 +60,23 @@ struct Dictionary
 		return a;
 	}
 	
-	Variant* opIndex(in Variant key)
+	Variant* opIndex(K)(in K key) if(is(K : Variant) || Variant.compatibleToGodot!K)
 	{
-		return cast(Variant*)godot_dictionary_operator_index(&_godot_dictionary, &key._godot_variant);
+		const Variant k = key;
+		return cast(Variant*)godot_dictionary_operator_index(&_godot_dictionary, &k._godot_variant);
 	}
 	
-	Variant opIndex(in Variant key) const
+	Variant opIndex(K)(in K key) const if(is(K : Variant) || Variant.compatibleToGodot!K)
 	{
+		const Variant k = key;
 		Variant ret = void;
-		ret._godot_variant = godot_dictionary_get(&_godot_dictionary, &key._godot_variant);
+		ret._godot_variant = godot_dictionary_get(&_godot_dictionary, &k._godot_variant);
 		return ret;
 	}
 	
-	void opIndexAssign(K, V)(in auto ref V value, in auto ref K key)
-		if(Variant.compatible!K && Variant.compatible!V)
+	void opIndexAssign(K, V)(in auto ref V value, in auto ref K key) if(
+		(is(K : Variant) || Variant.compatibleToGodot!K) &&
+		(is(V : Variant) || Variant.compatibleToGodot!V) )
 	{
 		const Variant k = key;
 		const Variant v = value;
