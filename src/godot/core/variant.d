@@ -137,15 +137,57 @@ struct Variant
 	
 	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
 	
-	/++
-	Template to determine if T is compatible with Variant
-	+/
-	public template compatible(T)
+	private static const(GodotObject) objectToGodot(T)(in T t)
 	{
-		static if(is(T : typeof(null))) enum bool compatible = true; // exception for null
-		else static if( variantTypeOf!T == Type.nil ) enum bool compatible = false;
-		else enum bool compatible = true;
+		static if(is(T : GodotObject)) return t;
+		else return cast(GodotObject)getGodotObject(t);
 	}
+	
+	private static T objectFromGodot(T)(in GodotObject o)
+	{
+		static if(is(T == const)) alias co = o;
+		else GodotObject co = cast(GodotObject)o._godot_object; // annoying hack to deal with const
+		
+		return cast(T)co;
+	}
+	
+	/// function to convert T to an equivalent Godot type
+	template conversionToGodot(T)
+	{
+		static if(isGodotClass!T) alias conversionToGodot = objectToGodot!T;
+		else static if(isIntegral!T) alias conversionToGodot = (T t) => cast(long)t;
+		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
+		else static if(implicit!(T, const(char)[]) || implicit!(T, const(char)*))
+			alias conversionToGodot = (T t) => String(t);
+		else alias conversionToGodot = void; // none
+	}
+	enum bool convertsToGodot(T) = isCallable!(conversionToGodot!T);
+	alias conversionToGodotType(T) = Unqual!(ReturnType!(conversionToGodot!T));
+	
+	/// function to convert a Godot-compatible type to T
+	template conversionFromGodot(T)
+	{
+		static if(isGodotClass!T) alias conversionFromGodot = objectFromGodot!T;
+		else static if(isIntegral!T) alias conversionFromGodot = (long v) => cast(T)v;
+		else static if(isFloatingPoint!T) alias conversionFromGodot = (double v) => cast(T)v;
+		else alias conversionFromGodot = void;
+	}
+	enum bool convertsFromGodot(T) = isCallable!(conversionFromGodot!T);
+	alias conversionFromGodotType(T) = Unqual!(Parameters!(conversionFromGodot!T)[0]);
+	
+	enum bool directlyCompatible(T) = staticIndexOf!(Unqual!T, DType) != -1;
+	template compatibleToGodot(T)
+	{
+		static if(directlyCompatible!T) enum bool compatibleToGodot = true;
+		else enum bool compatibleToGodot = convertsToGodot!T;
+	}
+	template compatibleFromGodot(T)
+	{
+		static if(directlyCompatible!T) enum bool compatibleFromGodot = true;
+		else enum bool compatibleFromGodot = convertsFromGodot!T;
+	}
+	enum bool compatible(T) = compatibleToGodot!T && compatibleFromGodot!T;
+	
 	
 	/// All target Variant.Types that T could implicitly convert to, as indices
 	private template implicitTargetIndices(T)
@@ -155,32 +197,37 @@ struct Variant
 	}
 	
 	/++
-	Get the Variant.Type of a compatible D type. Incompatible types return an
-	empty alias, so check that $(D compatible!T) is true first.
+	Get the Variant.Type of a compatible D type. Incompatible types return nil.
 	+/
 	public template variantTypeOf(T)
 	{
 		import std.traits, godot;
-		static if(isIntegral!T) enum Type variantTypeOf = Type.int_;
-		else static if(isFloatingPoint!T) enum Type variantTypeOf = Type.real_;
-		else static if(is(T : bool)) enum Type variantTypeOf = Type.bool_;
-		//else static if(isSomeString!T) enum Type variantTypeOf = Type.string;
-		else static if(isGodotClass!T) enum Type variantTypeOf = Type.object;
-		else
+		
+		static if(directlyCompatible!T)
 		{
-			enum match = staticIndexOf!(T, DType);
-			static if(match != -1)
-			{
-				enum Type variantTypeOf = EnumMembers!Type[ match ];
-			}
-			else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
+			enum Type variantTypeOf = EnumMembers!Type[staticIndexOf!(Unqual!T, DType)];
 		}
+		else static if(convertsToGodot!T)
+		{
+			enum Type variantTypeOf = EnumMembers!Type[staticIndexOf!(
+				conversionToGodotType!T, DType)];
+		}
+		else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
 	}
 	
 	unittest
 	{
 		static assert(allSatisfy!(compatible, DType));
 		static assert(!compatible!Object); // D Object
+		
+		static assert(directlyCompatible!GodotObject);
+		static assert(directlyCompatible!(const(GodotObject)));
+		import godot.camera;
+		static assert(!directlyCompatible!Camera);
+		static assert(compatibleFromGodot!Camera);
+		static assert(compatibleToGodot!Camera);
+		static assert(compatibleFromGodot!(const(Camera)));
+		static assert(compatibleToGodot!(const(Camera)));
 	}
 	
 	private template FunctionAs(Type type)
@@ -225,7 +272,7 @@ struct Variant
 	
 	this(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
 	{
-		static assert(compatible!T, T.stringof~" isn't compatible with Variant.");
+		static assert(compatibleToGodot!T, T.stringof~" isn't compatible with Variant.");
 		enum VarType = variantTypeOf!T;
 		
 		alias Fn = FunctionNew!VarType;
@@ -233,15 +280,12 @@ struct Variant
 		
 		alias IT = InternalType[VarType];
 		
-		static if(isGodotBaseClass!T) Fn(&_godot_variant, input._godot_object);
-		// only the godot_object can be stored in Variant:
-		else static if(extendsGodotBaseClass!T)
-		{
-			if(input !is null) Fn(&_godot_variant, input.owner._godot_object);
-			else Fn(&_godot_variant, godot_object.init);
-		}
-		else static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)input); // value
-		else Fn(&_godot_variant, cast(IT*)&input); // pointer
+		// handle explicit conversions
+		static if(directlyCompatible!T) alias inputConv = input;
+		else auto inputConv = conversionToGodot!T(input);
+		
+		static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)inputConv); // value
+		else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
 	}
 	
 	~this()

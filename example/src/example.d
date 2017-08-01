@@ -114,6 +114,9 @@ class Test : GodotScript!Label
 		auto strBackC = strBack.c_string;
 		printf("strBack.c_string: <%s>\n", strBackC);
 		
+		Variant vDStr = "D string assigned to Variant";
+		writefln("vDStr: <%s>", vDStr);
+		
 		Variant vLongCtor = Variant(1L);
 		writefln("vLongCtor.type: %s", vLongCtor.type);
 		assert(vLongCtor.type == Variant.Type.int_);
@@ -180,7 +183,7 @@ class Test : GodotScript!Label
 			writefln("OS is %s on device %s", name.c_string().fromStringz,
 				OS.get_model_name().c_string().fromStringz);
 			String exe = OS.get_executable_path();
-			print("Executable path: <%s>", exe);
+			print("Executable path: ", exe);
 			
 			import godot.projectsettings;
 			String projectName = ProjectSettings.get(String("application/config/name")).as!String;
