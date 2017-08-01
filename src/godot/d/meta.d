@@ -59,10 +59,10 @@ Useful for generic code.
 +/
 godot_object getGodotObject(T)(T t) if(isGodotClass!T)
 {
-	static if(isGodotBaseClass!T) return t._godot_object;
+	static if(isGodotBaseClass!T) return cast(godot_object)t._godot_object;
 	static if(extendsGodotBaseClass!T)
 	{
-		return (t) ? t.owner._godot_object : godot_object.init;
+		return (t) ? cast(godot_object)t.owner._godot_object : godot_object.init;
 	}
 }
 
