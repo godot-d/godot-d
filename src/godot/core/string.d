@@ -32,6 +32,7 @@ module godot.core.string;
 import core.stdc.stddef : wchar_t;
 import core.stdc.string : strlen;
 import godot.c;
+import std.traits;
 
 struct String
 {
@@ -49,14 +50,22 @@ struct String
 		_godot_string = str;
 	}
 	
-	this(in char* contents)
+	/++
+	UTF-8 constructor. S can be a slice (like `string`) or a null-terminated pointer.
+	+/
+	this(S)(in S str) if(isImplicitlyConvertible!(S, const(char)[]) ||
+		isImplicitlyConvertible!(S, const(char)*))
 	{
-		godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
-	}
-	
-	this(in string contents)
-	{
-		godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
+		static if(isImplicitlyConvertible!(S, const(char)[]))
+		{
+			const(char)[] contents = str;
+			godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
+		}
+		else
+		{
+			const(char)* contents = str;
+			godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
+		}
 	}
 	
 	~this()
