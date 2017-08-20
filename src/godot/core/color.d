@@ -8,6 +8,8 @@ import core.stdc.stddef : wchar_t;
 
 struct Color
 {
+	@nogc nothrow:
+	
 	union
 	{
 		struct

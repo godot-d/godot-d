@@ -6,6 +6,8 @@ import std.math;
 
 struct Vector2
 {
+	@nogc nothrow:
+	
 	union
 	{
 	    struct

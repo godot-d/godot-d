@@ -6,6 +6,53 @@ import godot.core.poolarrays;
 
 struct Array
 {
+	int opApply(int delegate(size_t, ref Variant) dg)
+	{
+		foreach(int i; 0..length)
+		{
+			Variant* v = cast(Variant*)&(this[i]);
+			int res = dg(cast(size_t)i, *v);
+			if(res) return res;
+		}
+		return 0;
+	}
+	
+	int opApply(int delegate(size_t, ref const(Variant)) dg) const
+	{
+		foreach(int i; 0..length)
+		{
+			const(Variant)* v = cast(const(Variant)*)&(this[i]);
+			int res = dg(cast(size_t)i, *v);
+			if(res) return res;
+		}
+		return 0;
+	}
+	
+	int opApply(int delegate(ref Variant) dg)
+	{
+		foreach(int i; 0..length)
+		{
+			Variant* v = cast(Variant*)&(this[i]);
+			int res = dg(*v);
+			if(res) return res;
+		}
+		return 0;
+	}
+	
+	int opApply(int delegate(ref const(Variant)) dg) const
+	{
+		foreach(int i; 0..length)
+		{
+			const(Variant)* v = cast(const(Variant)*)&(this[i]);
+			int res = dg(*v);
+			if(res) return res;
+		}
+		return 0;
+	}
+	
+	
+	@nogc nothrow:
+	
 	package(godot) godot_array _godot_array;
 	
 	@disable this();
@@ -187,50 +234,6 @@ struct Array
 	{
 		godot_array_sort_custom(&_godot_array, obj, &func._godot_string);
 	}+/
-	
-	int opApply(int delegate(size_t, ref Variant) dg)
-	{
-		foreach(int i; 0..length)
-		{
-			Variant* v = cast(Variant*)&(this[i]);
-			int res = dg(cast(size_t)i, *v);
-			if(res) return res;
-		}
-		return 0;
-	}
-	
-	int opApply(int delegate(size_t, ref const(Variant)) dg) const
-	{
-		foreach(int i; 0..length)
-		{
-			const(Variant)* v = cast(const(Variant)*)&(this[i]);
-			int res = dg(cast(size_t)i, *v);
-			if(res) return res;
-		}
-		return 0;
-	}
-	
-	int opApply(int delegate(ref Variant) dg)
-	{
-		foreach(int i; 0..length)
-		{
-			Variant* v = cast(Variant*)&(this[i]);
-			int res = dg(*v);
-			if(res) return res;
-		}
-		return 0;
-	}
-	
-	int opApply(int delegate(ref const(Variant)) dg) const
-	{
-		foreach(int i; 0..length)
-		{
-			const(Variant)* v = cast(const(Variant)*)&(this[i]);
-			int res = dg(*v);
-			if(res) return res;
-		}
-		return 0;
-	}
 	
 	~this()
 	{

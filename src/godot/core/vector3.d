@@ -38,6 +38,8 @@ import std.math;
 
 struct Vector3
 {
+	@nogc nothrow:
+	
 	enum Axis
 	{
 		x,

@@ -5,6 +5,8 @@ import godot.c;
 
 struct NodePath
 {
+	@nogc nothrow:
+	
 	package(godot) godot_node_path _node_path;
 	
 	this(this)

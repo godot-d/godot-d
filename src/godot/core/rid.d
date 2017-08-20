@@ -6,6 +6,8 @@ import godot.resource;
 
 struct RID
 {
+	@nogc nothrow:
+	
 	package(godot) godot_rid _godot_rid;
 	
 	@disable this(this);

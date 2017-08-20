@@ -8,6 +8,8 @@ import std.algorithm.mutation : swap;
 
 struct Rect2
 {
+	@nogc nothrow:
+	
 	Vector2 pos;
 	Vector2 size;
 	

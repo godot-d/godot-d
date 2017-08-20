@@ -9,6 +9,8 @@ import godot.core.plane;
 
 struct Transform
 {
+	@nogc nothrow:
+	
 	Basis basis;
 	Vector3 origin;
 	

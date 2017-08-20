@@ -10,6 +10,8 @@ import std.algorithm.mutation : swap;
 
 struct Transform2D
 {
+	@nogc nothrow:
+	
 	union
 	{
 		Vector2[3] elements = [ Vector2(1,0), Vector2(0,1), Vector2(0,0) ];

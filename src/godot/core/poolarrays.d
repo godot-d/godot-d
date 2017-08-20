@@ -40,6 +40,8 @@ alias PoolColorArray = PoolArray!Color;
 
 struct PoolArray(T)
 {
+	@nogc nothrow:
+	
 	static assert(staticIndexOf!(T, PoolArrayTypes) != -1,
 		"Cannot make a Godot PoolArray for a non-Godot type");
 	

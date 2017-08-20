@@ -247,6 +247,7 @@ struct Variant
 	
 	@disable this();
 	
+	@nogc nothrow /// TODO: move to top once Objects are nogc
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
@@ -288,6 +289,7 @@ struct Variant
 		else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
 	}
 	
+	@nogc nothrow /// TODO: move to top once Objects are nogc
 	~this()
 	{
 		godot_variant_destroy(&_godot_variant);

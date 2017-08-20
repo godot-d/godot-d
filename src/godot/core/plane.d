@@ -16,6 +16,8 @@ enum ClockDirection
 
 struct Plane
 {
+	@nogc nothrow:
+	
 	Vector3 normal = Vector3(0,0,0);
 	real_t d = 0;
 	

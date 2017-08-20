@@ -36,6 +36,8 @@ import std.traits;
 
 struct String
 {
+	@nogc nothrow:
+	
 	package(godot) godot_string _godot_string;
 	
 	/// postblit (Vector is CoW, so no data copying is done)

@@ -5,6 +5,37 @@ import godot.core;
 
 struct Dictionary
 {
+	int opApply(int delegate(const(Variant), ref Variant) dg)
+	{
+		const(godot_variant)* k = godot_dictionary_next(&_godot_dictionary, null);
+		while(k)
+		{
+			Variant* v = cast(Variant*)godot_dictionary_operator_index(
+				&_godot_dictionary, k);
+			int res = dg(*cast(const(Variant*))k, *v);
+			if(res) return res;
+			k = godot_dictionary_next(&_godot_dictionary, k);
+		}
+		return 0;
+	}
+	
+	int opApply(int delegate(const(Variant), ref const(Variant)) dg) const
+	{
+		const(godot_variant)* k = godot_dictionary_next(&_godot_dictionary, null);
+		while(k)
+		{
+			Variant* v = cast(Variant*)godot_dictionary_operator_index(
+				cast(godot_dictionary*)&_godot_dictionary, k);
+			int res = dg(*cast(const(Variant*))k, *v);
+			if(res) return res;
+			k = godot_dictionary_next(&_godot_dictionary, k);
+		}
+		return 0;
+	}
+	
+	
+	@nogc nothrow:
+	
 	package(godot) godot_dictionary _godot_dictionary;
 	
 	@disable this();
@@ -81,34 +112,6 @@ struct Dictionary
 		const Variant k = key;
 		const Variant v = value;
 		godot_dictionary_set(&_godot_dictionary, &k._godot_variant, &v._godot_variant);
-	}
-	
-	int opApply(int delegate(const(Variant), ref Variant) dg)
-	{
-		const(godot_variant)* k = godot_dictionary_next(&_godot_dictionary, null);
-		while(k)
-		{
-			Variant* v = cast(Variant*)godot_dictionary_operator_index(
-				&_godot_dictionary, k);
-			int res = dg(*cast(const(Variant*))k, *v);
-			if(res) return res;
-			k = godot_dictionary_next(&_godot_dictionary, k);
-		}
-		return 0;
-	}
-	
-	int opApply(int delegate(const(Variant), ref const(Variant)) dg) const
-	{
-		const(godot_variant)* k = godot_dictionary_next(&_godot_dictionary, null);
-		while(k)
-		{
-			Variant* v = cast(Variant*)godot_dictionary_operator_index(
-				cast(godot_dictionary*)&_godot_dictionary, k);
-			int res = dg(*cast(const(Variant*))k, *v);
-			if(res) return res;
-			k = godot_dictionary_next(&_godot_dictionary, k);
-		}
-		return 0;
 	}
 	
 	int size() const

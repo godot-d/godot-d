@@ -9,6 +9,8 @@ import std.math;
 
 struct Quat
 {
+	@nogc nothrow:
+	
 	real_t x = 0;
 	real_t y = 0;
 	real_t z = 0;

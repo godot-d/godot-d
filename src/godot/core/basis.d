@@ -38,6 +38,8 @@ import std.algorithm.mutation : swap;
 
 struct Basis
 {
+	@nogc nothrow:
+	
 	Vector3[3] elements = 
 	[
 		Vector3(1.0,0.0,0.0),

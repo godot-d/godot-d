@@ -9,6 +9,8 @@ import std.algorithm.mutation : swap;
 
 struct Rect3
 {
+	@nogc nothrow:
+	
 	Vector3 pos;
 	Vector3 size;
 	
