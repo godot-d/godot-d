@@ -3,7 +3,7 @@ Initialization, termination, and registration of D libraries in Godot
 +/
 module godot.d.register;
 
-debug import std.stdio, std.format;
+import std.format;
 import std.meta, std.traits;
 import std.experimental.allocator, std.experimental.allocator.mallocator;
 import core.stdc.stdlib : malloc, free;
@@ -159,8 +159,6 @@ void register(T)(void* handle) if(is(T == class))
 	enum immutable(char*) name = T.stringof; // TODO: add rename UDA
 	enum immutable(char*) baseName = Base._GODOT_internal_name;
 	
-	debug writefln("Registering D class %s", T.stringof);
-	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
 	godot_nativescript_register_class(handle, name, baseName, icf, idf);
@@ -203,8 +201,6 @@ void register(T)(void* handle) if(is(T == class))
 		md.method = &Wrapper.callMethod;
 		md.free_func = &free;
 		
-		debug writefln("	Registering method %s.%s as \"%s\"",T.stringof, dName,
-			godotName!mf);
 		godot_nativescript_register_method(handle, name, funcName, ma, md);
 	}
 	
@@ -298,8 +294,6 @@ void register(T)(void* handle) if(is(T == class))
 		alias P = typeof(mixin("T."~pName));
 		enum Variant.Type vt = Variant.variantTypeOf!P;
 		attr.type = cast(godot_int)vt;
-		
-		debug writefln!("\tRegistering variable %s : %s as \"%s\"")(pName, vt, propName.fromStringz);
 		
 		alias udas = getUDAs!(mixin("T."~pName), Property);
 		enum Property uda = is(udas[0]) ? Property.init : udas[0];
