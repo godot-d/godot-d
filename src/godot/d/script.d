@@ -128,23 +128,15 @@ T memnew(T)() if(extendsGodotBaseClass!T)
 	return t;
 }
 
-/++
-Destroy a T and its attached Godot object.
-+/
-void memdelete(T)(T t) if(extendsGodotBaseClass!T)
-{
-	t.owner.free(); // owner will handle disposing of t
-}
-
 T memnew(T)() if(isGodotBaseClass!T)
 {
 	/// FIXME: block those that aren't marked instanciable in API JSON (actually a generator bug)
 	return T._new(); /// TODO: remove _new and use only this function?
 }
 
-void memdelete(T)(T t) if(isGodotBaseClass!T)
+void memdelete(T)(T t) if(isGodotClass!T)
 {
-	t.free();
+	godot_object_destroy(t.getGodotObject);
 }
 
 extern(C) package(godot) void* createFunc(T)(godot_object self, void* methodData)
