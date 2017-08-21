@@ -320,7 +320,15 @@ void register(T)(void* handle) if(is(T == class))
 			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
 		
 		static if( is(typeof( { P p; } )) )
-			Variant defval = (mixin("T."~pName)).init;
+		{
+			import std.math : isNaN;
+			static if(isFloatingPoint!P && (mixin("T."~pName).init).isNaN)
+			{
+				// Godot doesn't support NaNs. Initialize properties to 0.0 instead.
+				Variant defval = P(0.0);
+			}
+			else Variant defval = (mixin("T."~pName)).init;
+		}
 		else
 		{
 			/// FIXME: call default constructor function
