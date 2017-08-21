@@ -335,7 +335,8 @@ string[2] generateGlobalConstants(in GodotClass c)
 		Group("Key", "KEY_"),
 		Group("Button", "BUTTON_"),
 		Group("PropertyHint", "PROPERTY_HINT_"),
-		Group("PropertyUsage", "PROPERTY_USAGE_")
+		Group("PropertyUsage", "PROPERTY_USAGE_"),
+		Group("Type", "TYPE_")
 	);
 	
 	foreach(g; groups)
@@ -444,6 +445,26 @@ string emptyDefault(string type)
 	}
 }
 
+/++
+PoolVector2Array
+PoolColorArray
+Array
+Vector2
+float
+Color
+bool
+Object
+PoolVector3Array
+Vector3
+Transform2D
+RID
+int
+Transform
+Rect2
+String
+Variant
+PoolStringArray
++/
 string escapeDefault(string type, string arg)
 {
 	import std.string;
