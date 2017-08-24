@@ -142,7 +142,14 @@ mixin template GodotNativeTerminate(Args...)
 	}
 }
 
-private void nop() { }
+private extern(C)
+godot_variant _GODOT_nop(godot_object o, void* methodData,
+	void* userData, int numArgs, godot_variant** args)
+{
+	godot_variant n;
+	godot_variant_new_nil(&n);
+	return n;
+}
 
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
@@ -165,13 +172,9 @@ void register(T)(void* handle) if(is(T == class))
 	
 	// register a no-op function that indicates this is a D class
 	{
-		alias Wrapper = MethodWrapper!(T, void);
-		auto wrapped = &nop;
-		
 		godot_instance_method md;
-		md.method_data = Wrapper.make(wrapped);
-		md.method = &Wrapper.callMethod;
-		md.free_func = &free;
+		md.method = &_GODOT_nop;
+		md.free_func = null;
 		
 		godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
@@ -184,9 +187,7 @@ void register(T)(void* handle) if(is(T == class))
 		
 		auto wrapped = &mf; // a *function* pointer (not delegate) to mf
 		
-		alias Ret = ReturnType!wrapped;
-		alias Args = Parameters!wrapped;
-		alias Wrapper = MethodWrapper!(T, Ret, Args);
+		alias Wrapper = MethodWrapper!(T, mf);
 		
 		godot_method_attributes ma;
 		static if(is( udas[0] )) ma.rpc_type = godot_method_rpc_mode
@@ -197,9 +198,8 @@ void register(T)(void* handle) if(is(T == class))
 		}
 		
 		godot_instance_method md;
-		md.method_data = Wrapper.make(wrapped);
 		md.method = &Wrapper.callMethod;
-		md.free_func = &free;
+		md.free_func = null;
 		
 		godot_nativescript_register_method(handle, name, funcName, ma, md);
 	}
@@ -253,11 +253,9 @@ void register(T)(void* handle) if(is(T == class))
 		
 		static if(getterMatches.length)
 		{
-			auto gw = &getterMatches[0];
-			alias GetWrapper = MethodWrapper!(T, ReturnType!gw);
-			gf.method_data = GetWrapper.make(gw);
+			alias GetWrapper = MethodWrapper!(T, getterMatches[0]);
 			gf.get_func = &GetWrapper.callPropertyGet;
-			gf.free_func = &free;
+			gf.free_func = null;
 		}
 		else
 		{
@@ -266,11 +264,9 @@ void register(T)(void* handle) if(is(T == class))
 		
 		static if(setterMatches.length)
 		{
-			auto sw = &setterMatches[0];
-			alias SetWrapper = MethodWrapper!(T, void, Parameters!sw[0]);
-			sf.method_data = SetWrapper.make(sw);
+			alias SetWrapper = MethodWrapper!(T, setterMatches[0]);
 			sf.set_func = &SetWrapper.callPropertySet;
-			sf.free_func = &free;
+			sf.free_func = null;
 		}
 		else
 		{

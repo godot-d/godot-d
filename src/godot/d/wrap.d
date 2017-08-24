@@ -124,20 +124,14 @@ Variadic template for method wrappers.
 
 Params:
 	T = the class that owns the method
-	R = the return type (can be void)
-	A = the argument types (can be empty)
+	mf = the member function being wrapped, as an alias
 +/
-package(godot) struct MethodWrapper(T, R, A...)
+package(godot) struct MethodWrapper(T, alias mf)
 {
-	/++
-	Type of the wrapped delegate's *function pointer*.
-	This, together with the `this` pointer, forms the delegate that will be
-	called from $(D callMethod).
-	+/
-	alias WrappedDelegateFunc = R function(A);
+	alias R = ReturnType!mf; // the return type (can be void)
+	alias A = Parameters!mf; // the argument types (can be empty)
 	
-	
-	WrappedDelegateFunc method = null;
+	enum string name = __traits(identifier, mf);
 	
 	/++
 	C function passed to Godot that calls the wrapped method
@@ -151,23 +145,7 @@ package(godot) struct MethodWrapper(T, R, A...)
 		
 		Variant v = Variant.nil;
 		
-		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;
-		
-		/++
-		FIXME
-		
-		Base class inheritance is NOT accounted for here. Note one major
-		difference between D delegates and C++ Member pointers: delegates
-		resolve virtual overrides when they're created, NOT when they're
-		called. Thus, depending on how Godot methods are bound, a different
-		method may be necessary...
-		
-		See article: $(LINK https://digitalmars.com/articles/b68.html)
-		+/
-		R delegate(A) actualDelegate;
-		actualDelegate.funcptr = func;
-		actualDelegate.ptr = cast(void*)obj;
 		
 		A[ai] variantToArg(size_t ai)()
 		{
@@ -183,11 +161,11 @@ package(godot) struct MethodWrapper(T, R, A...)
 		
 		static if(is(R == void))
 		{
-			actualDelegate(argCall);
+			mixin("obj." ~ name ~ "(argCall);");
 		}
 		else
 		{
-			v = actualDelegate(argCall);
+			mixin("v = obj." ~ name ~ "(argCall);");
 		}
 		
 		return cast(godot_variant)v;
@@ -205,17 +183,9 @@ package(godot) struct MethodWrapper(T, R, A...)
 		godot_variant_new_nil(&vd);
 		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
 		
-		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;
 		
-		/++
-		FIXME
-		+/
-		R delegate(A) actualDelegate;
-		actualDelegate.funcptr = func;
-		actualDelegate.ptr = userData;
-		
-		*v = actualDelegate();
+		mixin("*v = obj." ~ name ~ "();");
 		
 		return vd;
 	}
@@ -230,27 +200,10 @@ package(godot) struct MethodWrapper(T, R, A...)
 	{
 		Variant* v = cast(Variant*)arg;
 		
-		WrappedDelegateFunc func = (cast(MethodWrapper*)methodData).method;
 		T obj = cast(T)userData;
 		
-		/++
-		FIXME
-		+/
-		R delegate(A) actualDelegate;
-		actualDelegate.funcptr = func;
-		actualDelegate.ptr = userData;
-		
 		auto vt = v.as!(A[0]);
-		actualDelegate(vt);
-	}
-	
-	
-	
-	static void* make(WrappedDelegateFunc m)
-	{
-		MethodWrapper* ret = cast(MethodWrapper*)malloc(MethodWrapper.sizeof);
-		ret.method = m;
-		return ret;
+		mixin("obj." ~ name ~ "(vt);");
 	}
 }
 
