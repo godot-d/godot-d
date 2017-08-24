@@ -22,7 +22,7 @@ package(godot) template godotMethods(T)
 	
 	alias godotMethods = Filter!(isMethod, allMfs);
 	
-	alias godotNames = Filter!(godotName, godotMethods);
+	alias godotNames = staticMap!(godotName, godotMethods);
 	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
 		" methods can't have overloads. Rename one with @Method(\"new_name\").");
 	/// TODO: better error message listing which are duplicated
