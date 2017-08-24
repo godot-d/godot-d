@@ -14,6 +14,31 @@ import godot.d.meta, godot.d.script;
 
 import godot.core, godot.c;
 
+private template staticCount(alias thing, seq...)
+{
+	template staticCountNum(size_t soFar, seq...)
+	{
+		enum size_t nextPos = staticIndexOf!(thing, seq);
+		static if(nextPos == -1) enum size_t staticCountNum = soFar;
+		else enum size_t staticCountNum = staticCountNum!(soFar+1, seq[nextPos+1..$]);
+	}
+	enum size_t staticCount = staticCountNum!(0, seq);
+}
+
+private string overloadError(methods...)()
+{
+	alias godotNames = staticMap!(godotName, methods);
+	foreach(m; methods)
+	{
+		static if(staticCount!(godotName!m, godotNames) > 1)
+		{
+			static assert(0, `Godot does not support overloading methods (`
+				~ fullyQualifiedName!m ~ `, wrapped as "` ~ godotName!m ~
+				`"); rename one with @Rename("new_name") or use Variant args`);
+		}
+	}
+}
+
 package(godot) template godotMethods(T)
 {
 	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
@@ -23,9 +48,8 @@ package(godot) template godotMethods(T)
 	alias godotMethods = Filter!(isMethod, allMfs);
 	
 	alias godotNames = staticMap!(godotName, godotMethods);
-	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
-		" methods can't have overloads. Rename one with @Method(\"new_name\").");
-	/// TODO: better error message listing which are duplicated
+	static assert(godotNames.length == NoDuplicates!godotNames.length,
+		overloadError!godotMethods());
 }
 
 package(godot) template godotPropertyGetters(T)
@@ -40,9 +64,8 @@ package(godot) template godotPropertyGetters(T)
 	alias godotPropertyGetters = Filter!(isGetter, allMfs);
 	
 	alias godotNames = Filter!(godotName, godotPropertyGetters);
-	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
-		" property getters can't have overloads. Rename one with @Property(\"new_name\").");
-	/// TODO: better error message listing which are duplicated
+	static assert(godotNames.length == NoDuplicates!godotNames.length,
+		overloadError!godotPropertyGetters());
 }
 
 package(godot) template godotPropertySetters(T)
@@ -57,9 +80,8 @@ package(godot) template godotPropertySetters(T)
 	alias godotPropertySetters = Filter!(isSetter, allMfs);
 	
 	alias godotNames = Filter!(godotName, godotPropertySetters);
-	static assert(godotNames.length == NoDuplicates!godotNames.length, T.stringof~
-		" property setters can't have overloads. Rename one with @Property(\"new_name\").");
-	/// TODO: better error message listing which are duplicated
+	static assert(godotNames.length == NoDuplicates!godotNames.length,
+		overloadError!godotPropertySetters());
 }
 
 package(godot) template godotPropertyNames(T)
