@@ -17,7 +17,7 @@ import godot.core, godot.c;
 package(godot) template godotMethods(T)
 {
 	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
-	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	alias allMfs = staticMap!(mfs, __traits(derivedMembers, T));
 	enum bool isMethod(alias mf) = hasUDA!(mf, Method);
 	
 	alias godotMethods = Filter!(isMethod, allMfs);
@@ -31,7 +31,7 @@ package(godot) template godotMethods(T)
 package(godot) template godotPropertyGetters(T)
 {
 	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
-	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	alias allMfs = staticMap!(mfs, __traits(derivedMembers, T));
 	template isGetter(alias mf)
 	{
 		enum bool isGetter = hasUDA!(mf, Property) && !is(ReturnType!mf == void);
@@ -48,7 +48,7 @@ package(godot) template godotPropertyGetters(T)
 package(godot) template godotPropertySetters(T)
 {
 	alias mfs(alias mName) = MemberFunctionsTuple!(T, mName);
-	alias allMfs = staticMap!(mfs, __traits(allMembers, T));
+	alias allMfs = staticMap!(mfs, __traits(derivedMembers, T));
 	template isSetter(alias mf)
 	{
 		enum bool isSetter = hasUDA!(mf, Property) && is(ReturnType!mf == void);
