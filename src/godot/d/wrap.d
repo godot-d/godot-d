@@ -312,37 +312,42 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 			}
 			
 			// Second, assign `result` to the field depending on the types of it and `result`
+			/*
+			BUG: if this local func `access` uses the alias `F` from the scope of the foreach
+			loop, it incorrectly sees the first iteration's `F`, rather than the `F` of its own
+			iteration. Maybe a bug in D? Workaround: pass `F` as a template arg.
+			*/
 			pragma(inline, true)
-			void assign(FT)(FT from)
+			void assign(Src, Dest)(Src from)
 			{
 				import godot.resource;
 				
-				static if(isImplicitlyConvertible!(FT, F))
+				static if(isImplicitlyConvertible!(Src, Dest))
 				{
 					// direct assignment
 					mixin("t."~n) = from;
 				}
-				else static if(__traits(compiles, mixin("t."~n) = F(from)))
+				else static if(__traits(compiles, mixin("t."~n) = Dest(from)))
 				{
 					// explicit constructor (String(string), NodePath(string), etc)
-					mixin("t."~n) = F(from);
+					mixin("t."~n) = Dest(from);
 				}
-				else static if(isGodotClass!F && is(GodotClass!F : Node))
+				else static if(isGodotClass!Dest && is(GodotClass!Dest : Node))
 				{
 					// special case: node path
-					mixin("t."~n) = cast(F)t.owner.get_node(sameOrCtor!NodePath(from));
+					mixin("t."~n) = cast(Dest)t.owner.get_node(sameOrCtor!NodePath(from));
 				}
-				else static if(isGodotClass!F && is(GodotClass!F : Resource))
+				else static if(isGodotClass!Dest && is(GodotClass!Dest : Resource))
 				{
 					// special case: resource load path
 					import godot.resourceloader;
-					mixin("t."~n) = cast(F)ResourceLoader.load(sameOrCtor!String(from));
+					mixin("t."~n) = cast(Dest)ResourceLoader.load(sameOrCtor!String(from));
 				}
-				else static assert(0, "Don't know how to assign "~FT.stringof~" "~from.stringof~
-					" to "~F.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
+				else static assert(0, "Don't know how to assign "~Src.stringof~" "~from.stringof~
+					" to "~Dest.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
 			}
 			
-			static if(!is(result == void)) assign(result);
+			static if(!is(result == void)) assign!(typeof(result), F)(result);
 		}
 		
 		// Finally, call the actual _ready() if it exists.
