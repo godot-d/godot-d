@@ -6,6 +6,8 @@ module godot.d.udas;
 
 import godot.core, godot.c;
 
+import std.meta, std.traits;
+
 enum RPCMode
 {
 	disabled,
@@ -30,6 +32,14 @@ A UDA to mark a method that should be registered into Godot
 struct Method
 {
 	RPCMode rpcMode = RPCMode.disabled;
+}
+
+/++
+
++/
+struct OnReady(alias arg)
+{
+	
 }
 
 /++

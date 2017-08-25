@@ -185,10 +185,6 @@ void register(T)(void* handle) if(is(T == class))
 		enum immutable(char*) funcName = godotName!mf;
 		alias udas = getUDAs!(mf, Method);
 		
-		auto wrapped = &mf; // a *function* pointer (not delegate) to mf
-		
-		alias Wrapper = MethodWrapper!(T, mf);
-		
 		godot_method_attributes ma;
 		static if(is( udas[0] )) ma.rpc_type = godot_method_rpc_mode
 			.GODOT_METHOD_RPC_MODE_DISABLED;
@@ -198,10 +194,24 @@ void register(T)(void* handle) if(is(T == class))
 		}
 		
 		godot_instance_method md;
-		md.method = &Wrapper.callMethod;
+		static if(godotName!mf == "_ready" && onReadyFieldNames!T.length)
+		{
+			md.method = &OnReadyWrapper!T.callOnReady;
+		}
+		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
 		godot_nativescript_register_method(handle, name, funcName, ma, md);
+	}
+	
+	// OnReady when there is no _ready method
+	static if(staticIndexOf!("_ready", Filter!(godotName, godotMethods!T)) == -1
+		&& onReadyFieldNames!T.length)
+	{
+		enum ma = godot_method_attributes.init;
+		godot_instance_method md;
+		md.method = &OnReadyWrapper!T.callOnReady;
+		godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);

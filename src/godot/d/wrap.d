@@ -13,6 +13,7 @@ import godot.d.udas;
 import godot.d.meta, godot.d.script;
 
 import godot.core, godot.c;
+import godot.node;
 
 private template staticCount(alias thing, seq...)
 {
@@ -50,6 +51,26 @@ package(godot) template godotMethods(T)
 	alias godotNames = staticMap!(godotName, godotMethods);
 	static assert(godotNames.length == NoDuplicates!godotNames.length,
 		overloadError!godotMethods());
+}
+
+package(godot) template onReadyFieldNames(T)
+{
+	import godot.node;
+	static if(!is(GodotClass!T : Node)) alias onReadyFieldNames = AliasSeq!();
+	else
+	{
+		alias fieldNames = FieldNameTuple!T;
+		template isORField(string n)
+		{
+			static if(staticIndexOf!(n, fieldNames) != -1 && staticIndexOf!(__traits
+				(getProtection, __traits(getMember, T, n)), "public", "export") != -1)
+			{
+				enum bool isORField = hasUDA!(__traits(getMember, T, n), OnReady);
+			}
+			else enum bool isORField = false;
+		}
+		alias onReadyFieldNames = Filter!(isORField, __traits(derivedMembers, T));
+	}
 }
 
 package(godot) template godotPropertyGetters(T)
@@ -226,6 +247,112 @@ package(godot) struct MethodWrapper(T, alias mf)
 		
 		auto vt = v.as!(A[0]);
 		mixin("obj." ~ name ~ "(vt);");
+	}
+}
+
+package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
+{
+	extern(C) // for calling convention
+	static godot_variant callOnReady(godot_object o, void* methodData,
+		void* userData, int numArgs, godot_variant** args)
+	{
+		T t = cast(T)userData;
+		
+		foreach(n; onReadyFieldNames!T)
+		{
+			alias udas = getUDAs!(__traits(getMember, T, n), OnReady);
+			static assert(udas.length == 1, "Multiple OnReady UDAs on "~T.stringof~"."~n);
+			
+			alias A = Alias!(TemplateArgsOf!(udas[0])[0]);
+			alias F = typeof(mixin("T."~n));
+			
+			// First, determine where to obtain the value to assign, and put it in `result`.
+			// `result` will be alias to void if nothing to assign.
+			static if(isCallable!A)
+			{
+				// pass the class itself to the function
+				static if(Parameters!A.length && isImplicitlyConvertible!(T, Parameters!A[0]))
+					alias arg = t;
+				else alias arg = AliasSeq!();
+				static if(is(ReturnType!A == void))
+				{
+					alias result = void;
+					A(arg);
+				}
+				else
+				{
+					auto result = A(arg); /// temp variable for return value
+				}
+			}
+			else static if(is(A)) static assert(0, "OnReady arg can't be a type");
+			else static if(isExpressions!A) // expression (string literal, etc)
+			{
+				alias result = A;
+			}
+			else // some other alias (a different variable identifier?)
+			{
+				static if(__traits(compiles, __traits(parent, A)))
+					alias P = Alias!(__traits(parent, A));
+				else alias P = void;
+				static if(is(T : P))
+				{
+					// A is another variable inside this very same T
+					auto result = __traits(getMember, t, __traits(identifier, A));
+				}
+				else alias result = A; // final fallback: pass it unmodified to `assign`
+			}
+			
+			// another thing that could be handled by C++-style implicit constructors
+			// TODO: remove once bound Godot classes have templated methods
+			pragma(inline, true)
+			Thing sameOrCtor(Thing, Arg)(Arg arg)
+			{
+				static if(is(typeof(arg) : Thing)) return arg;
+				else return Thing(arg);
+			}
+			
+			// Second, assign `result` to the field depending on the types of it and `result`
+			pragma(inline, true)
+			void assign(FT)(FT from)
+			{
+				import godot.resource;
+				
+				static if(isImplicitlyConvertible!(FT, F))
+				{
+					// direct assignment
+					mixin("t."~n) = from;
+				}
+				else static if(__traits(compiles, mixin("t."~n) = F(from)))
+				{
+					// explicit constructor (String(string), NodePath(string), etc)
+					mixin("t."~n) = F(from);
+				}
+				else static if(isGodotClass!F && is(GodotClass!F : Node))
+				{
+					// special case: node path
+					mixin("t."~n) = cast(F)t.owner.get_node(sameOrCtor!NodePath(from));
+				}
+				else static if(isGodotClass!F && is(GodotClass!F : Resource))
+				{
+					// special case: resource load path
+					import godot.resourceloader;
+					mixin("t."~n) = cast(F)ResourceLoader.load(sameOrCtor!String(from));
+				}
+				else static assert(0, "Don't know how to assign "~FT.stringof~" "~from.stringof~
+					" to "~F.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
+			}
+			
+			static if(!is(result == void)) assign(result);
+		}
+		
+		// Finally, call the actual _ready() if it exists.
+		enum bool isReady(alias func) = "_ready" == godotName!func;
+		alias readies = Filter!(isReady, godotMethods!T);
+		static if(readies.length) mixin("t."~__traits(identifier, readies[0])~"();");
+		
+		godot_variant nil;
+		godot_variant_new_nil(&nil);
+		return nil;
 	}
 }
 

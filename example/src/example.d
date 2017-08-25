@@ -13,8 +13,10 @@ import std.conv;
 import std.string : toStringz, fromStringz;
 import core.stdc.string;
 import std.algorithm.iteration;
+import std.meta;
 
-import godot.label;
+import godot.control.all;
+
 class Test : GodotScript!Label
 {
 	/++
@@ -40,6 +42,27 @@ class Test : GodotScript!Label
 	@Property
 	void number(long v) { _num = v + 1; }
 	
+	@Property
+	{
+		float freal;
+		double dreal;
+	}
+	
+	// Some variables demonstrating OnReady, assigned right before _ready():
+	
+	// string -> Node: assign the variable to the specified path using get_node
+	@OnReady!"ColorRect"
+	ColorRect colorRect;
+	
+	// lambda: call it, assign return value to the variable
+	@OnReady!((){ print("In OnReady of onReadyInt"); return 99; })
+	int onReadyInt;
+	
+	@Property NodePath longNodePath;
+	// another variable in this class: use it instead of some compile-time value
+	@OnReady!longNodePath
+	Label longNode;
+	
 	this()
 	{
 		writefln("Test.this(); this: %x", cast(void*)this);
@@ -50,6 +73,13 @@ class Test : GodotScript!Label
 	{
 		writeln("Writing stuff...");
 	}
+	
+	@Method @Rename("writeStuffInt")
+	int writeStuff(int v)
+	{
+		writeln(v);
+		return 1;
+	}	
 	
 	@Method @Rename("formatNum") // rename the method
 	String formatNumbers(real_t r, long i)
@@ -63,6 +93,10 @@ class Test : GodotScript!Label
 	@Method
 	void _ready()
 	{
+		// the node variables will have been set by OnReady
+		colorRect.set_frame_color(Color(0f, 1f, 0f));
+		longNode.set_text(String("This node was set by OnReady"));
+		
 		writefln("owner: %x", cast(void*)owner);
 		// print() will write into Godot's editor output, unlike writeln
 		print("Test._ready()");
