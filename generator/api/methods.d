@@ -75,10 +75,14 @@ class GodotMethod
 		return ret;
 	}
 	
+	string bindingStructName() const
+	{
+		return "_GODOT_" ~ name.escapeD;
+	}
+	
 	string bindingStruct() const
 	{
 		string ret;
-		string structName = "_GODOT_" ~ name.escapeD;
 		
 		ret ~= "\tpackage(godot) static GodotMethod!("~return_type.escapeType;
 		foreach(ai, const a; arguments)
@@ -86,10 +90,11 @@ class GodotMethod
 			ret ~= ", " ~ a.type.escapeType;
 		}
 		if(has_varargs) ret ~= ", GodotVarArgs";
-		ret ~= ") " ~ structName ~ ";\n";
+		ret ~= ") " ~ bindingStructName ~ ";\n";
 		
 		// for accessing it
-		ret ~= "\tpackage(godot) alias _GODOT_methodBindInfo(string name : \""~name~"\") = "~structName~";\n";
+		ret ~= "\tpackage(godot) alias _GODOT_methodBindInfo(string name : \""
+			~ name ~ "\") = " ~ bindingStructName ~ ";\n";
 		
 		return ret;
 	}
@@ -161,32 +166,16 @@ class GodotMethod
 		} // end varargs/virtual impl
 		else
 		{
-			ret ~= "\t\tstatic godot_method_bind* mb = null;\n";
-			ret ~= "\t\tif(mb is null) ";
-			ret ~= "mb = godot_method_bind_get_method(\"" ~ parent.internal_name ~ "\", \"" ~ name ~ "\");\n";
-			
-			if(return_type != "void")
+			ret ~= "\t\t" ~ bindingStructName ~ ".bind(\"" ~
+				parent.internal_name ~ "\", \"" ~ name ~ "\");\n";
+			if(return_type != "void") ret ~= "\t\treturn ";
+			ret ~= "ptrcall!(" ~ return_type.escapeType ~ ")(" ~ bindingStructName
+				~ ", _godot_object";
+			foreach(ai, const a; arguments)
 			{
-				ret ~= "\t\t" ~ return_type.escapeType ~ " _GODOT_ret = "~return_type.emptyDefault~";\n";
+				ret ~= ", "~a.name.escapeD;
 			}
-			
-			// create the arg array
-			if(arguments.length)
-			{
-			    ret ~= "\t\tconst(void*)["~text(arguments.length)~"] _GODOT_args = [";
-			    foreach(a; arguments) ret ~= "cast(void*)(" ~ a.type.ptrCallArgPrefix ~ a.name.escapeD ~ "), ";
-			    ret ~= "];\n";
-			}
-			
-			ret ~= "\t\tgodot_method_bind_ptrcall(mb, cast(godot_object)(this)";
-			ret ~= (arguments.length)?", _GODOT_args.ptr":", null";
-			if(return_type != "void") ret ~= (", cast(void*)&_GODOT_ret");
 			ret ~= ");\n";
-			if(return_type != "void")
-			{
-				/// TODO: this probably needs a cast to return_type
-				ret ~= "\t\treturn _GODOT_ret;\n";
-			}
 		} // end normal method impl
 		
 		ret ~= "\t}\n";
