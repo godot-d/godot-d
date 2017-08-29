@@ -75,6 +75,25 @@ class GodotMethod
 		return ret;
 	}
 	
+	string bindingStruct() const
+	{
+		string ret;
+		string structName = "_GODOT_" ~ name.escapeD;
+		
+		ret ~= "\tpackage(godot) static GodotMethod!("~return_type.escapeType;
+		foreach(ai, const a; arguments)
+		{
+			ret ~= ", " ~ a.type.escapeType;
+		}
+		if(has_varargs) ret ~= ", GodotVarArgs";
+		ret ~= ") " ~ structName ~ ";\n";
+		
+		// for accessing it
+		ret ~= "\tpackage(godot) alias _GODOT_methodBindInfo(string name : \""~name~"\") = "~structName~";\n";
+		
+		return ret;
+	}
+	
 	string source() const
 	{
 		string ret;

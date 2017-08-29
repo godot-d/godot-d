@@ -154,6 +154,7 @@ class GodotClass
 		
 		foreach(const m; methods)
 		{
+			ret ~= m.bindingStruct;
 			ret ~= m.source;
 		}
 		
