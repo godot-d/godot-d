@@ -66,6 +66,21 @@ godot_object getGodotObject(T)(T t) if(isGodotClass!T)
 	}
 }
 
+/++
+Alias to default-constructed T, as an expression.
+
+A few Godot core types can't use D's `init` because they need to call a C++
+constructor through GDNative.
++/
+template godotDefaultInit(T)
+{
+	static if(is(T : Array) || is(TemplateOf!T : PoolArray)) alias
+		godotDefaultInit = Alias!(T.empty_array);
+	else static if(is(T : Dictionary)) alias godotDefaultInit = Alias!(
+		Dictionary.empty_dictionary);
+	else alias godotDefaultInit = Alias!(T.init);
+}
+
 package(godot) enum string dName(alias a) = __traits(identifier, a);
 package(godot) template godotName(alias a)
 {

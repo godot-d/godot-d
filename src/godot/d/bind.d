@@ -52,7 +52,7 @@ template tempType(Src, Dest)
 /++
 Direct pointer call through MethodBind.
 +/
-Return ptrcall(MB, Return, Args...)(MB method, godot_object self, Args args)
+Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 {
 	import std.typecons;
@@ -94,16 +94,15 @@ Return ptrcall(MB, Return, Args...)(MB method, godot_object self, Args args)
 			aarr[ai] = cast(const(void)*)(&temp[ai]);
 		}
 	}
-	static if(!is(Return : void)) Return r;
+	static if(!is(Return : void)) Return r = godotDefaultInit!Return;
 	
 	static if(is(Return : void)) alias rptr = Alias!null;
-	else static if(isGodotBaseClass!Return) void* rptr = r._godot_object.ptr;
 	else void* rptr = cast(void*)&r;
 	
 	static if(Args.length == 0) alias aptr = Alias!null;
 	else const(void)** aptr = aarr.ptr;
 	
-	godot_method_bind_ptrcall(method.mb, self, aptr, rptr);
+	godot_method_bind_ptrcall(method.mb, cast(godot_object)self, aptr, rptr);
 	static if(!is(Return : void)) return r;
 }
 
