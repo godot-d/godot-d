@@ -1,48 +1,14 @@
-module godotapi;
+module api.classes;
+
+import api.methods, api.util;
 
 import asdf;
 
 import std.range;
 import std.algorithm.searching, std.algorithm.iteration;
-
-bool isPrimitive(in string type)
-{
-	return only("int", "bool", "real", "float", "void").canFind(type);
-}
-
-bool isCoreType(in string type)
-{
-	auto coreTypes = only("Array",
-	                      "Basis",
-	                      "Color",
-	                      "Dictionary",
-	                      "Error",
-	                      "NodePath",
-	                      "Plane",
-	                      "PoolByteArray",
-	                      "PoolIntArray",
-	                      "PoolRealArray",
-	                      "PoolStringArray",
-	                      "PoolVector2Array",
-	                      "PoolVector3Array",
-	                      "PoolColorArray",
-	                      "Quat",
-	                      "Rect2",
-	                      "Rect3",
-	                      "RID",
-	                      "String",
-	                      "Transform",
-	                      "Transform2D",
-	                      "Variant",
-	                      "Vector2",
-	                      "Vector3");
-	return coreTypes.canFind(type);
-}
-
-string stripName(in string name)
-{
-	return (name[0] == '_')?(name[1..$]):name;
-}
+import std.path;
+import std.conv : text;
+import std.string;
 
 struct ClassList
 {
@@ -106,51 +72,4 @@ class GodotClass
 	ClassList* parent;
 }
 
-class GodotMethod
-{
-	string name;
-	string return_type;
-	bool is_editor;
-	bool is_noscript;
-	bool is_const;
-	bool is_virtual;
-	bool has_varargs;
-	bool is_from_script;
-	GodotArgument[] arguments;
-	
-	void finalizeDeserialization(Asdf data)
-	{
-		foreach(i, ref a; arguments)
-		{
-			a.index = i;
-			a.parent = this;
-		}
-	}
-	
-	@serializationIgnore:
-	
-	bool same(in GodotMethod other) const
-	{
-		return name == other.name && is_const == other.is_const;
-	}
-	
-	GodotClass parent;
-}
 
-struct GodotArgument
-{
-	string name;
-	string type;
-	bool has_default_value;
-	string default_value;
-	
-	@serializationIgnore:
-	
-	size_t index;
-	GodotMethod parent;
-}
-
-
-
-
- 

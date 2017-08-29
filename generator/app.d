@@ -1,4 +1,7 @@
-import godotapi;
+
+import api.util;
+import api.classes, api.methods;
+
 import language;
 import language.d;
 

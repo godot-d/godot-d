@@ -1,6 +1,7 @@
 module language;
 
-import godotapi;
+import api.util;
+import api.classes, api.methods;
 
 /++
 Definition for a language that the generator can output native bindings for.
