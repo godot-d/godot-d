@@ -46,13 +46,20 @@ class GodotMethod
 	string templateArgsString() const
 	{
 		string ret = "";
+		bool first = true; // track first arg to skip comma
 		foreach(i, ref a; arguments)
 		{
-			if(a.type.isCoreType)
+			if(a.type.acceptImplicit)
 			{
-				if(i != 0) ret ~= ", ";
+				if(first) first = false;
+				else ret ~= ", ";
 				ret ~= text(a.type, "Arg", i);
 			}
+		}
+		if(has_varargs)
+		{
+			if(!first) ret ~= ", ";
+			ret ~= "VarArgs...";
 		}
 		// template parens only if it actually is a template
 		if(ret.length != 0) ret = text("(", ret, ")");
@@ -62,14 +69,24 @@ class GodotMethod
 	string argsString() const
 	{
 		string ret = "(";
+		bool hasDefault = false;
 		foreach(i, ref a; arguments)
 		{
 			if(i != 0) ret ~= ", ";
-			if(a.type.isCoreType) ret ~= text(a.type, "Arg", i);
-			else ret ~= a.type;
+			if(a.type.acceptImplicit) ret ~= text(a.type.dCallParamPrefix,
+				a.type.escapeType, "Arg", i);
+			else ret ~= text(a.type.dCallParamPrefix, a.type.escapeType);
 			
-			ret ~= " " ~ a.name;
-			if(a.has_default_value) ret ~= " = "; /// TODO
+			ret ~= " " ~ a.name.escapeD;
+			if(a.has_default_value || hasDefault)
+			{
+				ret ~= " = " ~ escapeDefault(a.type, a.default_value);
+			}
+		}
+		if(has_varargs)
+		{
+			if(arguments.length != 0) ret ~= ", ";
+			ret ~= "VarArgs varArgs";
 		}
 		ret ~= ")";
 		return ret;
@@ -108,32 +125,10 @@ class GodotMethod
 		// none of the types (Classes/Core/Primitive) are pointers in D
 		// Classes are reference types; the others are passed by value.
 		ret ~= escapeD(name);
-		if(has_varargs) ret ~= "(Args...)"; // D varargs template
-		ret ~= "(";
 		
-		bool hasDefault = false;
+		ret ~= templateArgsString;
+		ret ~= argsString;
 		
-		foreach(ai, const a; arguments)
-		{
-			ret ~= a.type.dCallParamPrefix~a.type.escapeType~" "~escapeD(a.name);
-			
-			if(a.has_default_value || hasDefault)
-			{
-				ret ~= " = "~ escapeDefault(a.type, a.default_value);
-				hasDefault = true;
-			}
-			
-			if(ai != arguments.length-1) ret ~= ", ";
-		}
-		
-		if(has_varargs)
-		{
-			if(arguments.length > 0) ret ~= ", ";
-			//ret ~= "in ref Array _GODOT_var_args = Array.empty_array";
-			ret ~= "Args _GODOT_var_args"; // using D varargs template
-		}
-		
-		ret ~= ")";
 		if(is_const) ret ~= " const";
 		else if(name == "callv" && parent.name == "Object") ret ~= " const"; /// HACK
 		ret ~= "\n\t{\n";
@@ -149,9 +144,9 @@ class GodotMethod
 			
 			if(has_varargs)
 			{
-				ret ~= "\t\tforeach(vai, VA; Args)\n\t\t{\n";
+				ret ~= "\t\tforeach(vai, VA; VarArgs)\n\t\t{\n";
 				// TODO: check that VA can convert to Variant
-				ret ~= "\t\t\t_GODOT_args.append(_GODOT_var_args[vai]);\n";
+				ret ~= "\t\t\t_GODOT_args.append(varArgs[vai]);\n";
 				ret ~= "\t\t}\n";
 			}
 			

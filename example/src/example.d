@@ -220,7 +220,7 @@ class Test : GodotScript!Label
 			print("Executable path: ", exe);
 			
 			import godot.projectsettings;
-			String projectName = ProjectSettings.get(String("application/config/name")).as!String;
+			String projectName = ProjectSettings.get("application/config/name").as!String;
 			print("ProjectSettings property \"application/config/name\": ", projectName);
 		}
 		
@@ -234,7 +234,7 @@ class Test : GodotScript!Label
 			
 			String oldText = get_text();
 			writefln("Old Label text: %s", oldText.c_string.fromStringz);
-			set_text(String("New text set from D Test class"));
+			set_text("New text set from D Test class");
 		}
 		
 		// test resource loading
@@ -246,7 +246,7 @@ class Test : GodotScript!Label
 			writefln("assert(!ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
 			assert(!ResourceLoader.has(iconPath));
 			
-			Resource res = ResourceLoader.load(iconPath, String(""), false);
+			Resource res = ResourceLoader.load(iconPath, "", false);
 			writefln("Loaded Resource %s at path %s", res.get_name.c_string.fromStringz,
 				res.get_path.c_string.fromStringz);
 			

@@ -45,6 +45,12 @@ string stripName(in string name)
 	return (name[0] == '_')?(name[1..$]):name;
 }
 
+/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
+bool acceptImplicit(string type)
+{
+	auto accept = only("String", "Variant", "NodePath");
+	return accept.canFind(type);
+}
 
 /++
 Storage class to generate for the parameter based on type.
@@ -78,6 +84,8 @@ string emptyDefault(string type)
 	
 	switch(type)
 	{
+		case "String":
+			return `""`;
 		case "Variant":
 			return "Variant.nil";
 		case "Dictionary":
@@ -166,9 +174,9 @@ string escapeDefault(string type, string arg)
 			return type~arg;
 		case "Variant":
 			if(arg == "Null") return "Variant.nil";
-			else return "Variant("~arg~")"; // "0"  TODO: parse from string?
+			else return arg;
 		case "String":
-			return "\""~arg~"\""; // FIXME: this doesn't work
+			return "\""~arg~"\"";
 		default: // all Object types
 		{
 			if(arg == "Null") return emptyDefault(type);
