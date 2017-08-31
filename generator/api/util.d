@@ -11,6 +11,11 @@ bool isPrimitive(in string type)
 	return only("int", "bool", "real", "float", "void").canFind(type);
 }
 
+bool isEnum(in string type)
+{
+	return type.startsWith("enum.");
+}
+
 bool isCoreType(in string type)
 {
 	auto coreTypes = only("Array",
@@ -42,6 +47,7 @@ bool isCoreType(in string type)
 
 string stripName(in string name)
 {
+	if(!name.length) return null;
 	return (name[0] == '_')?(name[1..$]):name;
 }
 
@@ -188,8 +194,11 @@ string escapeDefault(string type, string arg)
 
 string escapeType(string t)
 {
+	import api.enums : qualifyEnumName;
+	
 	if(t == "Object") return "GodotObject";
 	if(t == "Error") return "GodotError";
+	if(t.isEnum) return t.qualifyEnumName;
 	return t;
 }
 

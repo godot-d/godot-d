@@ -1,6 +1,6 @@
 module api.classes;
 
-import api.methods, api.util;
+import api.methods, api.enums, api.util;
 
 import asdf;
 
@@ -26,6 +26,7 @@ class GodotClass
 	bool is_reference;
 	int[string] constants; // TODO: can constants be things other than ints?
 	GodotMethod[] methods;
+	GodotEnum[] enums;
 	
 	void finalizeDeserialization(Asdf data)
 	{
@@ -35,21 +36,43 @@ class GodotClass
 		
 		if(base_class != "Object" && name != "Object") used_classes ~= base_class;
 		
+		void addUsedClass(string c)
+		{
+			if(c.isPrimitive || c.isCoreType || c == "Object") return;
+			if(!used_classes.canFind(c)) used_classes ~= c;
+		}
+		
 		// generate the set of referenced classes
-		foreach(ref m; methods)
+		foreach(m; methods)
 		{
 			import std.algorithm.searching;
-			if(!isPrimitive(m.return_type) && !isCoreType(m.return_type) && m.return_type != name
-				&& m.return_type != "Object" && !used_classes.canFind(m.return_type))
-				used_classes ~= (m.return_type);
+			if(m.return_type.startsWith("enum."))
+			{
+				auto c = enumParent(m.return_type).stripName;
+				if(c && c != name) addUsedClass(c);
+			}
+			else if(m.return_type != name)
+			{
+				addUsedClass(m.return_type);
+			}
 			foreach(const a; m.arguments)
 			{
-				if(!isPrimitive(a.type) && !isCoreType(a.type) && a.type != name
-					&& a.type != "Object" && !used_classes.canFind(a.type))
-					used_classes ~= (a.type);
+				if(a.type.startsWith("enum."))
+				{
+					auto c = enumParent(a.type).stripName;
+					if(c && c != name) addUsedClass(c);
+				}
+				else if(a.type != name)
+				{
+					addUsedClass(a.type);
+				}
 			}
 			
 			m.parent = this;
+		}
+		foreach(ref e; enums)
+		{
+			e.parent = this;
 		}
 		assert(!used_classes.canFind(name));
 		assert(!used_classes.canFind("Object"));
@@ -146,6 +169,11 @@ class GodotClass
 		ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
 		ret ~= "\t\treturn cast("~className~")(constructor());\n";
 		ret ~= "\t}\n";
+		
+		foreach(const ref e; enums)
+		{
+			ret ~= e.source;
+		}
 		
 		foreach(const string name, const int value; constants)
 		{
