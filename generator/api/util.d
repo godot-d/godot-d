@@ -8,6 +8,7 @@ import std.string;
 
 bool isPrimitive(in string type)
 {
+	if(type.isEnum) return true;
 	return only("int", "bool", "real", "float", "void").canFind(type);
 }
 
