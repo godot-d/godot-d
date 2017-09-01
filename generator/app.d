@@ -1,6 +1,6 @@
 
 import api.util;
-import api.classes, api.methods;
+import api.classes, api.methods, api.enums;
 
 import language;
 import language.d;
@@ -73,12 +73,12 @@ void main(string[] args)
 	
 	ClassList classList;
 	classList.classes = jsonData.deserialize!(GodotClass[]);
-	foreach(ref c; classList.classes)
+	foreach(c; classList.classes)
 	{
 		classList.dictionary[c.name] = c;
 		c.parent = &classList;
 	}
-	foreach(ref c; classList.classes) if(c.base_class.length)
+	foreach(c; classList.classes) if(c.base_class.length)
 	{
 		c.base_class_ptr = classList.dictionary.get(c.base_class, null);
 		c.base_class_ptr.descendant_ptrs ~= c;
@@ -90,14 +90,14 @@ void main(string[] args)
 	
 	Note that Godot doesn't have overloads differing in argument types.
 	+/
-	foreach(ref c; classList.classes)
+	foreach(c; classList.classes)
 	{
-		foreach(mi, ref m; c.methods)
+		foreach(mi, m; c.methods)
 		{
 			auto b = c.base_class_ptr;
 			while(b)
 			{
-				foreach(bmi, ref bm; b.methods)
+				foreach(bmi, bm; b.methods)
 				{
 					if(bm.name == m.name)
 					{
@@ -110,7 +110,35 @@ void main(string[] args)
 		}
 	}
 	
-	foreach(ref c; classList.classes)
+	/+
+	TEMPORARY: change enum types back to int if the enums are missing.
+	Once the API JSON accounts for all enum types, this can be removed.
+	+/
+	void checkEnumType(ref string type)
+	{
+		import std.algorithm.searching;
+		if(type.isEnum)
+		{
+			auto split = type.splitEnumName;
+			if(!split[0]) return; // not a class enum (Error, etc)
+			auto cn = split[0].stripName;
+			if(cn.isPrimitive || cn.isCoreType) return;
+			GodotClass c = classList.dictionary[cn];
+			assert(c);
+			if(!c.enums.canFind!(e => e.name == split[1]))
+			{
+				//writeln("Could not find enum ", qualifyEnumName(type));
+				type = "int";
+			}
+		}
+	}
+	foreach(c; classList.classes) foreach(m; c.methods)
+	{
+		checkEnumType(m.return_type);
+		foreach(ref a; m.arguments) checkEnumType(a.type);
+	}
+	
+	foreach(c; classList.classes)
 	{
 		// output files for the selected lang
 		foreach(const cof; lang.classOutputFiles)
