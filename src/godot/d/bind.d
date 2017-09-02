@@ -77,7 +77,7 @@ Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 				MBArgs[ai], GodotClass!A.GodotClass) != -1, "method" ~
 				" argument " ~ ai.text ~ " of type " ~ A.stringof ~
 				" does not inherit parameter type " ~ MBArgs[ai].stringof);
-			aarr[ai] = getGodotObject(args[ai]).ptr;
+			aarr[ai] = getGDNativeObject(args[ai]).ptr;
 		}
 		else static if( !needsConversion!(Args[ai], MBArgs[ai]) )
 		{

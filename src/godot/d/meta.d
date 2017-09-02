@@ -8,6 +8,9 @@ import godot.d.udas;
 import std.meta, std.traits;
 
 import godot.core, godot.c;
+import godot.object;
+
+@nogc nothrow:
 
 /++
 A UDA with which base Godot classes are marked. NOT used by new D classes.
@@ -57,7 +60,14 @@ Get the C++ Godot Object pointer of either a Godot Object OR a D native script.
 
 Useful for generic code.
 +/
-godot_object getGodotObject(T)(T t) if(isGodotClass!T)
+GodotObject getGodotObject(T)(in T t) if(isGodotClass!T)
+{
+	GodotObject ret;
+	ret._godot_object = t.getGDNativeObject;
+	return ret;
+}
+
+package(godot) godot_object getGDNativeObject(T)(in T t) if(isGodotClass!T)
 {
 	static if(isGodotBaseClass!T) return cast(godot_object)t._godot_object;
 	static if(extendsGodotBaseClass!T)
