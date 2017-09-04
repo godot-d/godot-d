@@ -53,8 +53,8 @@ template GodotBaseClasses(T)
 	{
 		import std.traits : BaseClassesTuple;
 		// the last two D base classes are GodotScript!<Base> and Object.
-		alias GodotBaseClasses = AliasSeq!(BaseClassesTuple!T[0..$-2],
-			GodotClass!T.BaseClasses);
+		alias GodotBaseClasses = AliasSeq!(BaseClassesTuple!(Unqual!T)[0..$-2],
+			GodotClass!T, GodotClass!T.BaseClasses);
 	}
 }
 
@@ -65,8 +65,8 @@ If T and Parent are the same, `extends` is true as well.
 +/
 template extends(T, Parent)
 {
-	static if(is(T : Parent)) enum bool extends = true;
-	else enum bool extends = staticIndexOf!(Parent, GodotBaseClasses!T) != -1;
+	static if(is(Unqual!T : Unqual!Parent)) enum bool extends = true;
+	else enum bool extends = staticIndexOf!(Unqual!Parent, GodotBaseClasses!T) != -1;
 }
 
 /++
