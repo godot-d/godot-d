@@ -41,6 +41,35 @@ template extendsGodotBaseClass(T)
 }
 
 /++
+A list of all of T's base classes, both script and C++, ending with GodotObject.
+
+Has the same purpose as std.traits.BaseClassesTuple, but accounts for Godot's
+script inheritance system.
++/
+template GodotBaseClasses(T)
+{
+	static if(isGodotBaseClass!T) alias GodotBaseClasses = T.BaseClasses;
+	else static if(extendsGodotBaseClass!T)
+	{
+		import std.traits : BaseClassesTuple;
+		// the last two D base classes are GodotScript!<Base> and Object.
+		alias GodotBaseClasses = AliasSeq!(BaseClassesTuple!T[0..$-2],
+			GodotClass!T.BaseClasses);
+	}
+}
+
+/++
+Checks whether T is a subtype of Parent by Godot's script inheritance system.
+Both D script and C++ classes are accounted for.
+If T and Parent are the same, `extends` is true as well.
++/
+template extends(T, Parent)
+{
+	static if(is(T : Parent)) enum bool extends = true;
+	else enum bool extends = staticIndexOf!(Parent, GodotBaseClasses!T) != -1;
+}
+
+/++
 Get the Godot class of T (the class of the `owner` for D native scripts)
 +/
 template GodotClass(T)
