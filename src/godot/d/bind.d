@@ -143,5 +143,52 @@ Return callv(MB, Return, Args...)(MB method, godot_object self, Args args)
 	return r.as!Return;
 }
 
+package(godot)
+mixin template baseCasts()
+{
+	inout(To) as(To)() inout if(isGodotBaseClass!To)
+	{
+		static if(extends!(typeof(this), To)) return inout(To)(_godot_object);
+		else static if(extends!(To, typeof(this)))
+		{
+			if(_godot_object.ptr is null) return inout(To).init;
+			String c = String(To._GODOT_internal_name);
+			if(is_class(c)) return inout(To)(_godot_object);
+			return inout(To).init;
+		}
+		else static assert(0, To.stringof ~ " is not polymorphic to "
+			~ typeof(this).stringof);
+	}
+	
+	inout(To) as(To)() inout if(extendsGodotBaseClass!To)
+	{
+		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
+			~ " does not extend " ~ typeof(this).stringof);
+		if(_godot_object.ptr is null) return null;
+		if(has_method(String(`_GDNATIVE_D_typeid`)))
+		{
+			inout(Object) o = cast(inout(Object))godot_nativescript_get_userdata(
+				cast(godot_object)_godot_object);
+			return cast(inout(To))o; // D dynamic cast to check polymorphism
+		}
+		return null;
+	}
+	
+	template opCast(To) if(isGodotBaseClass!To)
+	{
+		alias opCast = as!To;
+	}
+	template opCast(To) if(extendsGodotBaseClass!To)
+	{
+		alias opCast = as!To;
+	}
+	// void* cast for passing this type to ptrcalls
+	package(godot) void* opCast(T : void*)() const { return cast(void*)_godot_object.ptr; }
+	// strip const, because the C API sometimes expects a non-const godot_object
+	godot_object opCast(T : godot_object)() const { return cast(godot_object)_godot_object; }
+	// implicit conversion to bool like D class references
+	bool opCast(T : bool)() const { return _godot_object.ptr !is null; }
+}
+
 
 

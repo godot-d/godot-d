@@ -127,10 +127,6 @@ class GodotClass
 			ret ~= "\talias BaseClasses = AliasSeq!();\n";
 		}
 		
-		// void* cast for passing this type to ptrcalls
-		ret ~= "\tpackage(godot) void* opCast(T : void*)() const { return cast(void*)_godot_object.ptr; }\n";
-		// strip const, because the C API sometimes expects a non-const godot_object
-		ret ~= "\tgodot_object opCast(T : godot_object)() const { return cast(godot_object)_godot_object; }\n";
 		
 		// equality
 		ret ~= "\tbool opEquals(in "~className~" other) const ";
@@ -139,28 +135,8 @@ class GodotClass
 		ret ~= "\t"~className~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
 		// equality with null; unfortunately `_godot_object is null` doesn't work with structs
 		ret ~= "\tbool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }\n";
-		// implicit conversion to bool like D class references
-		ret ~= "\tbool opCast(T : bool)() const { return _godot_object.ptr !is null; }\n";
 		
-		// downcast is handled by `alias this`.
-		
-		// upcast to derived Godot class:
-		ret ~= "\tinout(T) opCast(T)() inout if(isGodotBaseClass!T)\n\t{\n";
-		ret ~= "\t\tstatic assert(staticIndexOf!("~className~", T.BaseClasses) != -1, ";
-		ret ~= "\"Godot class \"~T.stringof~\" does not inherit "~className~"\");\n";
-		ret ~= "\t\tif(_godot_object.ptr is null) return T.init;\n";
-		ret ~= "\t\tString c = String(T._GODOT_internal_name);\n";
-		ret ~= "\t\tif(is_class(c)) return inout(T)(_godot_object);\n\t\treturn T.init;\n\t}\n";
-		
-		// upcast to derived D Native Script:
-		ret ~= "\tinout(T) opCast(T)() inout if(extendsGodotBaseClass!T)\n\t{\n";
-		ret ~= "\t\tstatic assert(is(typeof(T.owner) : "~className~") || ";
-		ret ~= "staticIndexOf!("~className~", typeof(T.owner).BaseClasses) != -1, ";
-		ret ~= "\"D class \"~T.stringof~\" does not extend "~className~"\");\n";
-		ret ~= "\t\tif(_godot_object.ptr is null) return null;\n";
-		ret ~= "\t\tif(has_method(String(`_GDNATIVE_D_typeid`)))\n\t\t{\n";
-		ret ~= "\t\t\tObject o = cast(Object)godot_nativescript_get_userdata(opCast!godot_object);\n";
-		ret ~= "\t\t\treturn cast(inout(T))o;\n\t\t}\n\t\treturn null;\n\t}\n";
+		ret ~= "\tmixin baseCasts;\n";
 		
 		// Godot constructor.
 		ret ~= "\tstatic "~className~" _new()\n\t{\n";

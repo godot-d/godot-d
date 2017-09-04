@@ -21,6 +21,20 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 {
 	Base owner;
 	
+	pragma(inline, true)
+	inout(To) as(To)() inout if(isGodotBaseClass!To)
+	{
+		static assert(extends!(Base, To), typeof(this).stringof~" does not extend "~To.stringof);
+		return inout(To)(owner.getGDNativeObject);
+	}
+	pragma(inline, true)
+	inout(To) as(To, this From)() inout if(extendsGodotBaseClass!To)
+	{
+		static assert(extends!(From, To) || extends!(To, From), From.stringof~
+			" is not polymorphic to " ~ To.stringof);
+		return opCast!To(); // use D dynamic cast
+	}
+	
 	/// HACK to work around evil bug in which cast(void*) invokes `alias this`
 	/// https://issues.dlang.org/show_bug.cgi?id=6777
 	void* opCast(T : void*)()
