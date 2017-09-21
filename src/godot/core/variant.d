@@ -377,12 +377,9 @@ struct Variant
 			-1 : 1;
 	}
 	
-	bool booleanize(bool* valid) const
+	bool booleanize() const
 	{
-		godot_bool v;
-		auto ret = godot_variant_booleanize(&_godot_variant, &v);
-		*valid = cast(bool)v;
-		return cast(bool)ret;
+		return cast(bool)godot_variant_booleanize(&_godot_variant);
 	}
 	
 	auto toString() const

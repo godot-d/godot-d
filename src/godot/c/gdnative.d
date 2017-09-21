@@ -189,6 +189,10 @@ public import godot.c.variant;
 
 godot_object godot_global_get_singleton(char* p_name); // result shouldn't be freed
 
+////// OS API
+
+void* godot_get_stack_bottom(); //  returns stack bottom of the main thread
+
 ////// MethodBind API
 
 struct godot_method_bind {
@@ -205,6 +209,7 @@ struct godot_gdnative_init_options {
 	ulong core_api_hash;
 	ulong editor_api_hash;
 	ulong no_api_hash;
+	const(void)* api_struct; // unused in D for now
 }
 
 struct godot_gdnative_terminate_options {

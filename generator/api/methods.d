@@ -1,6 +1,6 @@
 module api.methods;
 
-import api.classes, api.util;
+import api.classes, api.enums, api.util;
 
 import asdf;
 
@@ -74,7 +74,7 @@ class GodotMethod
 		{
 			if(i != 0) ret ~= ", ";
 			if(a.type.acceptImplicit) ret ~= text(a.type.dCallParamPrefix,
-				a.type.escapeType, "Arg", i);
+				a.type, "Arg", i);
 			else ret ~= text(a.type.dCallParamPrefix, a.type.escapeType);
 			
 			ret ~= " " ~ a.name.escapeD;
@@ -163,7 +163,8 @@ class GodotMethod
 		{
 			ret ~= "\t\t" ~ bindingStructName ~ ".bind(\"" ~
 				parent.internal_name ~ "\", \"" ~ name ~ "\");\n";
-			if(return_type != "void") ret ~= "\t\treturn ";
+			ret ~= "\t\t";
+			if(return_type != "void") ret ~= "return ";
 			ret ~= "ptrcall!(" ~ return_type.escapeType ~ ")(" ~ bindingStructName
 				~ ", _godot_object";
 			foreach(ai, const a; arguments)
