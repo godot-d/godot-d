@@ -63,11 +63,34 @@ struct Array
 		godot_array_new_copy(&_godot_array, &tmp);
 	}
 	
+	Array opAssign(in Array other)
+	{
+		godot_array_destroy(&_godot_array);
+		godot_array_new_copy(&_godot_array, &other._godot_array);
+		return this;
+	}
+	
+	/++
+	Assigning null empties the Array variable, but unlike `clear`, does not
+	destroy the original memory unless it was the only remaining reference.
+	
+	Equivalent to assigning empty_array.
+	+/
+	Array opAssign(in typeof(null) n)
+	{
+		return opAssign(empty_array);
+	}
+	
 	static Array empty_array()
 	{
 		Array ret = void;
 		godot_array_new(&ret._godot_array);
 		return ret;
+	}
+	
+	this(in typeof(null) n)
+	{
+		godot_array_new(&_godot_array);
 	}
 	
 	this(in PoolByteArray a)
@@ -109,6 +132,11 @@ struct Array
 	{
 		godot_variant* v = godot_array_operator_index(cast(godot_array*)&_godot_array, idx);
 		return *cast(inout(Variant)*)v;
+	}
+	
+	void opIndexAssign(in Variant value, in int idx)
+	{
+		godot_array_set(&_godot_array, idx, &value._godot_variant);
 	}
 	
 	void append(T)(in auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
@@ -234,6 +262,19 @@ struct Array
 	{
 		godot_array_sort_custom(&_godot_array, obj, &func._godot_string);
 	}+/
+	
+	/// Allocate a new separate copy of the Array
+	Array dup() const
+	{
+		Array ret = empty_array;
+		int l = size();
+		ret.resize(l);
+		foreach(int vi; 0..l)
+		{
+			ret[vi] = this[vi];
+		}
+		return ret;
+	}
 	
 	~this()
 	{
