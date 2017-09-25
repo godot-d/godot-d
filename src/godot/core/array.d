@@ -134,14 +134,15 @@ struct Array
 		return *cast(inout(Variant)*)v;
 	}
 	
-	void opIndexAssign(in Variant value, in int idx)
+	void opIndexAssign(T)(in auto ref T value, in int idx) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		godot_array_set(&_godot_array, idx, &value._godot_variant);
+		Variant v = Variant(value);
+		godot_array_set(&_godot_array, idx, &v._godot_variant);
 	}
 	
 	void append(T)(in auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		Variant v = t;
+		Variant v = Variant(t);
 		godot_array_append(&_godot_array, &v._godot_variant);
 	}
 	alias opOpAssign(string op : "~") = append;
