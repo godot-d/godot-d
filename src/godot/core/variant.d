@@ -7,7 +7,7 @@ import godot.d.meta;
 
 import std.meta, std.traits;
 import std.conv : text;
-import std.range : iota;
+import std.range;
 
 // ABI type should probably have its own `version`...
 version(X86_64)
@@ -142,7 +142,7 @@ struct Variant
 		static if(is(T == const)) alias co = o;
 		else GodotObject co = cast(GodotObject)o._godot_object; // annoying hack to deal with const
 		
-		return cast(T)co;
+		return co.as!T;
 	}
 	
 	/// function to convert T to an equivalent Godot type
@@ -153,6 +153,19 @@ struct Variant
 		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
 		else static if(implicit!(T, const(char)[]) || implicit!(T, const(char)*))
 			alias conversionToGodot = (T t) => String(t);
+		else static if((isForwardRange!T || isStaticArray!T) && compatibleToGodot!(ElementType!T))
+			alias conversionToGodot = (in T t)
+			{
+				import std.algorithm.iteration;
+				Array ret = Array.empty_array;
+				static if(hasLength!T)
+				{
+					ret.resize(cast(int)t.length);
+					foreach(ei, e; t) ret[cast(int)ei] = e;
+				}
+				else t.each!(e => ret ~= e);
+				return ret;
+			};
 		else alias conversionToGodot = void; // none
 	}
 	enum bool convertsToGodot(T) = isCallable!(conversionToGodot!T);
@@ -164,6 +177,21 @@ struct Variant
 		static if(isGodotClass!T) alias conversionFromGodot = objectFromGodot!T;
 		else static if(isIntegral!T) alias conversionFromGodot = (long v) => cast(T)v;
 		else static if(isFloatingPoint!T) alias conversionFromGodot = (double v) => cast(T)v;
+		/*
+		TODO: overhaul this badly-designed conversion system. These should be
+		moved out of Variant, into conversion functions on the core types themselves.
+		*/
+		else static if(isStaticArray!T && compatibleFromGodot!(ElementType!T))
+			alias conversionFromGodot = (in Array arr)
+			{
+				if(arr.length == T.length)
+				{
+					T ret;
+					foreach(ei, e; arr) ret[ei] = e.as!(ElementType!T);
+					return ret;
+				}
+				else assert(0, "Array length doesn't match static array "~T.stringof);
+			};
 		else alias conversionFromGodot = void;
 	}
 	enum bool convertsFromGodot(T) = isCallable!(conversionFromGodot!T);
@@ -255,6 +283,8 @@ struct Variant
 		return v;
 	}
 	
+	@nogc nothrow /// TODO: move to top once Objects are nogc
+	{
 	this(in ref Variant other)
 	{
 		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
@@ -283,11 +313,11 @@ struct Variant
 		else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
 	}
 	
-	@nogc nothrow /// TODO: move to top once Objects are nogc
 	~this()
 	{
 		godot_variant_destroy(&_godot_variant);
 	}
+	}/// TODO: move to top once Objects are nogc
 	
 	Type type() const
 	{
@@ -296,19 +326,12 @@ struct Variant
 	
 	inout(T) as(T : Variant)() inout { return this; }
 	
-	T as(T)() const if(!is(T == Variant) && !is(T==typeof(null)))
+	T as(T)() const if(!is(T == Variant) && !is(T==typeof(null)) && compatibleFromGodot!T)
 	{
-		static if(compatible!T) enum VarType = variantTypeOf!T;
-		else
-		{
-			alias match = implicitTargetIndices!T;
-			static if(match.length > 1) static assert(0, "Multiple Variant Types match "~T.stringof);
-			else static assert(0, "Type "~T.stringof~" isn't supported by Variant");
-		}
+		static if(directlyCompatible!T) enum VarType = variantTypeOf!T;
+		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!T, DType)];
 		
 		alias Fa = FunctionAs!VarType;
-		
-		alias IT = InternalType[VarType];
 		
 		static if(VarType == Type.vector3)
 		{
@@ -327,17 +350,19 @@ struct Variant
 					mov ret[8], EDX;
 				}
 			}
-			else IT ret = Fa(&_godot_variant);
+			else InternalType[VarType] ret = Fa(&_godot_variant);
 		}
-		else IT ret = Fa(&_godot_variant);
+		else InternalType[VarType] ret = Fa(&_godot_variant);
 		
-		static if(isGodotBaseClass!T) return cast(T)ret;
-		// explicit upcast does type-checking on the godot_object:
-		else static if(extendsGodotBaseClass!T) return cast(T)(typeof(T.owner)(ret));
+		// ret should NOT be destroyed by RAII here.
+		DType[VarType]* ptr = cast(DType[VarType]*)&ret;
+		
+		static if(isGodotBaseClass!T) return ptr.as!T;
+		else static if(extendsGodotBaseClass!T) return ptr.as!(typeof(T.owner)).as!T;
+		else static if(directlyCompatible!T) return *ptr;
 		else
 		{
-			static if(isImplicitlyConvertible!(IT, T)) return ret;
-			else return cast(T)ret;
+			return conversionFromGodot!T(*ptr);
 		}
 	}
 	
