@@ -127,6 +127,17 @@ package(godot) void finalize(T)(T t) if(extendsGodotBaseClass!T)
 }
 
 /++
+Generic null check for all Godot classes. Limitations in D prevent using `is null`
+on Godot base classes because they're really struct wrappers.
++/
+@nogc nothrow pragma(inline, true)
+bool isNull(T)(in T t) if(isGodotClass!T)
+{
+	static if(extendsGodotBaseClass!T) return t is null;
+	else return t._godot_object.ptr is null;
+}
+
+/++
 Allocate a new T and attach it to a new Godot object.
 +/
 T memnew(T)() if(extendsGodotBaseClass!T)
