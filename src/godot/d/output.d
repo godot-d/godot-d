@@ -65,7 +65,7 @@ void godotAssertHandlerEditorDebug(string file, size_t line, string msg)
 
 void print(Args...)(Args args)
 {
-	import godot.core.string;
+	import godot.core.string, godot.core.variant;
 	
 	String str;
 	static if(Args.length == 0) str = String(" ");
@@ -73,6 +73,8 @@ void print(Args...)(Args args)
 	{
 		static if(is(typeof(arg) : String)) str ~= arg;
 		else static if(is(typeof(arg) : string)) str ~= String(arg);
+		else static if(Variant.compatibleToGodot!(typeof(arg))) str ~= Variant(arg).as!String;
+		else static assert(0, "Unable to print type "~typeof(arg).stringof);
 	}
 	godot_print(&str._godot_string);
 }
