@@ -89,9 +89,9 @@ Get the C++ Godot Object pointer of either a Godot Object OR a D native script.
 
 Useful for generic code.
 +/
-GodotObject getGodotObject(T)(in T t) if(isGodotClass!T)
+GodotClass!T getGodotObject(T)(in T t) if(isGodotClass!T)
 {
-	GodotObject ret;
+	GodotClass!T ret;
 	ret._godot_object = t.getGDNativeObject;
 	return ret;
 }

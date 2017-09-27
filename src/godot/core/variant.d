@@ -136,7 +136,11 @@ struct Variant
 	);
 	
 	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
-	
+
+	private static GodotObject objectToGodot(T)(in T o)
+	{
+		return o.getGodotObject;
+	}
 	private static T objectFromGodot(T)(in GodotObject o)
 	{
 		static if(is(T == const)) alias co = o;
@@ -148,7 +152,7 @@ struct Variant
 	/// function to convert T to an equivalent Godot type
 	template conversionToGodot(T)
 	{
-		static if(isGodotClass!T) alias conversionToGodot = getGodotObject!T;
+		static if(isGodotClass!T) alias conversionToGodot = objectToGodot!T;
 		else static if(isIntegral!T) alias conversionToGodot = (T t) => cast(long)t;
 		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
 		else static if(implicit!(T, const(char)[]) || implicit!(T, const(char)*))
