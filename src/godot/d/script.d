@@ -89,7 +89,7 @@ package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 			mixin("t."~n) = memnew!M();
 			static if( raii.autoAddChild && RAII.canAddChild!(M, T) )
 			{
-				t.owner.add_child( mixin("t."~n) );
+				t.owner.add_child( mixin("t."~n).getGodotObject );
 			}
 		}
 	}

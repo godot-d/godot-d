@@ -5,6 +5,7 @@ properties, methods, and signals into Godot.
 module godot.d.udas;
 
 import godot.core, godot.c;
+import godot.d.meta;
 
 import std.meta, std.traits;
 
@@ -151,8 +152,8 @@ struct RAII
 	bool autoAddChild = true; /// add it as a child (only for Node types)
 	
 	private import godot.node;
-	package(godot) enum bool canAddChild(R, Owner) = is(GodotClass!R : Node)
-		&& is(GodotClass!Owner : Node);
+	package(godot) enum bool canAddChild(R, Owner) = extends!(GodotClass!R, Node)
+		&& extends!(GodotClass!Owner, Node);
 	
 	static RAII makeDefault(R, Owner)()
 	{
