@@ -181,16 +181,12 @@ void register(T)(void* handle) if(is(T == class))
 	
 	foreach(mf; godotMethods!T)
 	{
-		enum string dName = __traits(identifier, mf);
-		enum immutable(char*) funcName = godotName!mf;
-		alias udas = getUDAs!(mf, Method);
-		
 		godot_method_attributes ma;
-		static if(is( udas[0] )) ma.rpc_type = godot_method_rpc_mode
+		static if(is( getUDAs!(mf, Method)[0] )) ma.rpc_type = godot_method_rpc_mode
 			.GODOT_METHOD_RPC_MODE_DISABLED;
 		else
 		{
-			ma.rpc_type = cast(godot_method_rpc_mode)udas[0].rpcMode;
+			ma.rpc_type = cast(godot_method_rpc_mode)(getUDAs!(mf, Method)[0].rpcMode);
 		}
 		
 		godot_instance_method md;
@@ -201,7 +197,7 @@ void register(T)(void* handle) if(is(T == class))
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		godot_nativescript_register_method(handle, name, funcName, ma, md);
+		godot_nativescript_register_method(handle, name, godotName!mf, ma, md);
 	}
 	
 	// OnReady when there is no _ready method
