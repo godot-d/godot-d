@@ -15,6 +15,8 @@ import godot.d.udas;
 
 import godot.core, godot.c;
 
+static import godot.gdnativelibrary;
+
 /++
 Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
 initialization/termination.
@@ -34,7 +36,9 @@ argument (from the $(D godot.c) module).
 mixin template GodotNativeInit(Args...)
 {
 	private static import godot.c;
+	private static import godot.gdnativelibrary;
 	
+	private __gshared godot.gdnativelibrary.GDNativeLibrary _GODOT_library;
 	private __gshared void* _GODOT_library_handle;
 	
 	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
@@ -50,6 +54,9 @@ mixin template GodotNativeInit(Args...)
 		import core.exception : assertHandler;
 		assertHandler = (options.in_editor) ? (&godotAssertHandlerEditorDebug)
 			: (&godotAssertHandlerCrash);
+		
+		_GODOT_library = cast(godot.gdnativelibrary.GDNativeLibrary)
+			options.gd_native_library;
 		
 		foreach(Arg; Args)
 		{
@@ -83,7 +90,7 @@ mixin template GodotNativeInit(Args...)
 			{
 				static assert(is(Arg == class) && extendsGodotBaseClass!Arg,
 					Arg.stringof ~ " is not a D class that extends a Godot class!");
-				register!Arg(_GODOT_library_handle);
+				register!Arg(_GODOT_library_handle, _GODOT_library);
 			}
 			else static if( isCallable!Arg )
 			{
@@ -154,17 +161,24 @@ godot_variant _GODOT_nop(godot_object o, void* methodData,
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
-void register(T)(void* handle) if(is(T == class))
+void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(T == class))
 {
 	import godot.c;
 	import godot.object, godot.resource;
 	import godot.d;
+	static import godot.nativescript;
 
 	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
 	
-	enum immutable(char*) name = T.stringof; // TODO: add rename UDA
+	static if(hasUDA!(T, Rename)) enum immutable(char*) name = TemplateArgsOf!(
+		getUDAs!(T, Rename)[0])[0];
+	else enum immutable(char*) name = T.stringof;
 	enum immutable(char*) baseName = Base._GODOT_internal_name;
+	
+	godot.d.script.NativeScriptTemplate!T = memnew!(godot.nativescript.NativeScript);
+	godot.d.script.NativeScriptTemplate!T.set("library", Variant(lib));
+	godot.d.script.NativeScriptTemplate!T.set("class_name", Variant(name));
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);

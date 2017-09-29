@@ -59,6 +59,19 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 	}
 }
 
+/++
+Storage for the NativeScript associated with each D class. Workflow using the
+editor is to create a .gdns NativeScript for each class, but this serves the
+opposite purpose: assigning a Script to D classes created from D with `memnew`.
+
+Assigned by the `register` function.
++/
+package(godot) template NativeScriptTemplate(T) if(extendsGodotBaseClass!T)
+{
+	private static import godot.nativescript;
+	__gshared godot.nativescript.NativeScript NativeScriptTemplate;
+}
+
 template RefOrT(T) if(extendsGodotBaseClass!T)
 {
 	static if(staticIndexOf!(Reference, typeof(T.owner).BaseClasses) == -1) alias RefOrT = T;
@@ -68,6 +81,8 @@ template RefOrT(T) if(extendsGodotBaseClass!T)
 package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
+	
+	if(t.owner.get_script.isNull) t.owner.set_script(NativeScriptTemplate!T);
 	
 	template isRAII(string memberName)
 	{
