@@ -211,6 +211,7 @@ struct godot_gdnative_init_options {
 	ulong no_api_hash;
 	godot_object gd_native_library; // pointer to GDNativeLibrary that is being initialized
 	const(void)* api_struct; // unused in D for now
+	const(godot_string)* active_library_path;
 }
 
 struct godot_gdnative_terminate_options {
