@@ -108,7 +108,7 @@ class GodotClass
 			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~internal_name~"\";\n";
 			ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
 			ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
-			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
+			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
 			ret ~= "\t\treturn _GODOT_singleton_ptr;\n";
 			ret ~= "\t}\n";
 		}
@@ -141,7 +141,7 @@ class GodotClass
 		// Godot constructor.
 		ret ~= "\tstatic "~className~" _new()\n\t{\n";
 		ret ~= "\t\tstatic godot_class_constructor constructor;\n";
-		ret ~= "\t\tif(constructor is null) constructor = godot_get_class_constructor(\""~internal_name~"\");\n";
+		ret ~= "\t\tif(constructor is null) constructor = _godot_api.godot_get_class_constructor(\""~internal_name~"\");\n";
 		ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
 		ret ~= "\t\treturn cast("~className~")(constructor());\n";
 		ret ~= "\t}\n";

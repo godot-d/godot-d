@@ -12,11 +12,11 @@ struct RID
 	
 	this(in Resource resource)
 	{
-		godot_rid_new_with_resource(&_godot_rid, cast(const godot_object)(cast(void*)resource));
+		_godot_api.godot_rid_new_with_resource(&_godot_rid, cast(const godot_object)(cast(void*)resource));
 	}
 	
 	int get_id() const
 	{
-		return godot_rid_get_id(&_godot_rid);
+		return _godot_api.godot_rid_get_id(&_godot_rid);
 	}
 }

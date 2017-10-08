@@ -223,7 +223,7 @@ package(godot) struct MethodWrapper(T, alias mf)
 		void* userData)
 	{
 		godot_variant vd;
-		godot_variant_new_nil(&vd);
+		_godot_api.godot_variant_new_nil(&vd);
 		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
 		
 		T obj = cast(T)userData;
@@ -356,7 +356,7 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 		static if(readies.length) mixin("t."~__traits(identifier, readies[0])~"();");
 		
 		godot_variant nil;
-		godot_variant_new_nil(&nil);
+		_godot_api.godot_variant_new_nil(&nil);
 		return nil;
 	}
 }
@@ -382,7 +382,7 @@ package(godot) struct VariableWrapper(T, string var)
 		T obj = cast(T)userData;
 		
 		godot_variant vd;
-		godot_variant_new_nil(&vd);
+		_godot_api.godot_variant_new_nil(&vd);
 		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
 		
 		*v = mixin("obj."~var);
@@ -415,7 +415,7 @@ extern(C) package(godot) godot_variant emptyGetter(godot_object self, void* meth
 {
 	assert(0, "Can't call empty property getter");
 	/+godot_variant v;
-	godot_variant_new_nil(&v);
+	_godot_api.godot_variant_new_nil(&v);
 	return v;+/
 }
 

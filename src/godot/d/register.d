@@ -47,9 +47,12 @@ mixin template GodotNativeInit(Args...)
 	pragma(mangle, "godot_gdnative_init")
 	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
 	{
+		import godot.c.api;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
 		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
+		
+		_godot_api = options.api_struct;
 		
 		import core.exception : assertHandler;
 		assertHandler = (options.in_editor) ? (&godotAssertHandlerEditorDebug)
@@ -154,7 +157,7 @@ godot_variant _GODOT_nop(godot_object o, void* methodData,
 	void* userData, int numArgs, godot_variant** args)
 {
 	godot_variant n;
-	godot_variant_new_nil(&n);
+	_godot_api.godot_variant_new_nil(&n);
 	return n;
 }
 
@@ -182,7 +185,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
-	godot_nativescript_register_class(handle, name, baseName, icf, idf);
+	_godot_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
 	
 	// register a no-op function that indicates this is a D class
 	{
@@ -190,7 +193,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		md.method = &_GODOT_nop;
 		md.free_func = null;
 		
-		godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
+		_godot_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
 	
 	foreach(mf; godotMethods!T)
@@ -211,7 +214,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		godot_nativescript_register_method(handle, name, godotName!mf, ma, md);
+		_godot_api.godot_nativescript_register_method(handle, name, godotName!mf, ma, md);
 	}
 	
 	// OnReady when there is no _ready method
@@ -221,7 +224,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		enum ma = godot_method_attributes.init;
 		godot_instance_method md;
 		md.method = &OnReadyWrapper!T.callOnReady;
-		godot_nativescript_register_method(handle, name, "_ready", ma, md);
+		_godot_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
@@ -252,22 +255,22 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString.length) godot_string_new_data(&attr.hint_string,
+		static if(uda.hintString.length) _godot_api.godot_string_new_data(&attr.hint_string,
 			uda.hintString.ptr, cast(int)uda.hintString.length);
 		else
 		{
 			static if(vt == Variant.Type.object)
 			{
-				godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
+				_godot_api.godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
 					cast(int)GodotClass!P._GODOT_internal_name.length);
 			}
-			else godot_string_new(&attr.hint_string);
+			else _godot_api.godot_string_new(&attr.hint_string);
 		}
 		attr.usage = cast(godot_property_usage_flags)uda.usage;
 		
 		/// TODO: default value how?
 		{
-			godot_variant_new_nil(&attr.default_value);
+			_godot_api.godot_variant_new_nil(&attr.default_value);
 		}
 		
 		
@@ -293,7 +296,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			sf.set_func = &emptySetter;
 		}
 		
-		godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
+		_godot_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
 	}
 	foreach(pName; godotPropertyVariableNames!T)
 	{
@@ -321,16 +324,16 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString.length) godot_string_new_data(&attr.hint_string,
+		static if(uda.hintString.length) _godot_api.godot_string_new_data(&attr.hint_string,
 			uda.hintString.ptr, cast(int)uda.hintString.length);
 		else
 		{
 			static if(vt == Variant.Type.object)
 			{
-				godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
+				_godot_api.godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
 					cast(int)GodotClass!P._GODOT_internal_name.length);
 			}
-			else godot_string_new(&attr.hint_string);
+			else _godot_api.godot_string_new(&attr.hint_string);
 		}
 		attr.usage = cast(godot_property_usage_flags)uda.usage |
 			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
@@ -367,7 +370,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			sf.free_func = null;
 		}
 		
-		godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
+		_godot_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
 	}
 	// TODO: signals
 }

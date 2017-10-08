@@ -133,18 +133,12 @@ struct godot_instance_destroy_func {
 	void function(void* ) free_func;
 }
 
-void godot_nativescript_register_class(void *p_gdnative_handle, const char* p_name, const char* p_base, godot_instance_create_func p_create_func, godot_instance_destroy_func p_destroy_func);
-
-void godot_nativescript_register_tool_class(void *p_gdnative_handle, const char* p_name, const char* p_base, godot_instance_create_func p_create_func, godot_instance_destroy_func p_destroy_func);
-
 struct godot_instance_method {
 	// instance pointer, method data, user data, num args, args - return result as varaint
 	godot_variant function(godot_object , void* , void* , int, godot_variant**) method;
 	void* method_data;
 	void function(void* ) free_func;
 }
-
-void godot_nativescript_register_method(void *p_gdnative_handle, const char* p_name, const char* p_function_name, godot_method_attributes p_attr, godot_instance_method p_method);
 
 struct godot_property_set_func {
 	// instance pointer, method data, user data, value
@@ -159,8 +153,6 @@ struct godot_property_get_func {
 	void* method_data;
 	void function(void* ) free_func;
 }
-
-void godot_nativescript_register_property(void *p_gdnative_handle, const char* p_name, const char* p_path, godot_property_attributes* p_attr, godot_property_set_func p_set_func, godot_property_get_func p_get_func);
 
 struct godot_signal_argument {
 	godot_string name;
@@ -178,9 +170,5 @@ struct godot_signal {
 	int num_default_args;
 	godot_variant* default_args;
 }
-
-void godot_nativescript_register_signal(void *p_gdnative_handle, const char* p_name, const godot_signal* p_signal);
-
-void* godot_nativescript_get_userdata(godot_object p_instance);
 
 

@@ -35,7 +35,7 @@ struct GodotMethod(Return, Args...)
 	/+package(godot)+/ void bind(in char* className, in char* methodName)
 	{
 		if(mb) return;
-		mb = godot_method_bind_get_method(className, methodName);
+		mb = _godot_api.godot_method_bind_get_method(className, methodName);
 		name = String(methodName);
 	}
 }
@@ -102,7 +102,7 @@ Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 	static if(Args.length == 0) alias aptr = Alias!null;
 	else const(void)** aptr = aarr.ptr;
 	
-	godot_method_bind_ptrcall(method.mb, cast(godot_object)self, aptr, rptr);
+	_godot_api.godot_method_bind_ptrcall(method.mb, cast(godot_object)self, aptr, rptr);
 	static if(!is(Return : void)) return r;
 }
 
@@ -167,8 +167,8 @@ mixin template baseCasts()
 		if(_godot_object.ptr is null) return null;
 		if(has_method(String(`_GDNATIVE_D_typeid`)))
 		{
-			inout(Object) o = cast(inout(Object))godot_nativescript_get_userdata(
-				cast(godot_object)_godot_object);
+			inout(Object) o = cast(inout(Object))(_godot_api.godot_nativescript_get_userdata(
+				cast(godot_object)_godot_object));
 			return cast(inout(To))o; // D dynamic cast to check polymorphism
 		}
 		return null;

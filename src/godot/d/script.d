@@ -176,7 +176,7 @@ T memnew(T)() if(isGodotBaseClass!T)
 
 void memdelete(T)(T t) if(isGodotClass!T)
 {
-	godot_object_destroy(t.getGDNativeObject);
+	_godot_api.godot_object_destroy(t.getGDNativeObject);
 }
 
 extern(C) package(godot) void* createFunc(T)(godot_object self, void* methodData)

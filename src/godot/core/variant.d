@@ -259,16 +259,12 @@ struct Variant
 	private template FunctionAs(Type type)
 	{
 		private enum string name_ = text(type);
-		private enum string name = (name_[$-1]=='_')?(name_[0..$-1]):name_;
-		
-		mixin("alias FunctionAs = godot_variant_as_"~name~";");
+		private enum string FunctionAs = (name_[$-1]=='_')?(name_[0..$-1]):name_;
 	}
 	private template FunctionNew(Type type)
 	{
 		private enum string name_ = text(type);
-		private enum string name = (name_[$-1]=='_')?(name_[0..$-1]):name_;
-		
-		mixin("alias FunctionNew = godot_variant_new_"~name~";");
+		private enum string FunctionNew = (name_[$-1]=='_')?(name_[0..$-1]):name_;
 	}
 	
 	@disable this();
@@ -277,13 +273,13 @@ struct Variant
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
-		godot_variant_new_copy(&_godot_variant, &other);
+		_godot_api.godot_variant_new_copy(&_godot_variant, &other);
 	}
 	
 	static Variant nil()
 	{
 		Variant v = void;
-		godot_variant_new_nil(&v._godot_variant);
+		_godot_api.godot_variant_new_nil(&v._godot_variant);
 		return v;
 	}
 	
@@ -291,12 +287,12 @@ struct Variant
 	{
 	this(in ref Variant other)
 	{
-		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
+		_godot_api.godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
 	this(T : typeof(null))(in T nil)
 	{
-		godot_variant_new_nil(&_godot_variant);
+		_godot_api.godot_variant_new_nil(&_godot_variant);
 	}
 	
 	this(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
@@ -304,7 +300,7 @@ struct Variant
 		static assert(compatibleToGodot!T, T.stringof~" isn't compatible with Variant.");
 		enum VarType = variantTypeOf!T;
 		
-		alias Fn = FunctionNew!VarType;
+		mixin("auto Fn = _godot_api.godot_variant_new_"~FunctionNew!VarType~";");
 		alias PassType = Parameters!Fn[1]; // second param is the value
 		
 		alias IT = InternalType[VarType];
@@ -319,13 +315,13 @@ struct Variant
 	
 	~this()
 	{
-		godot_variant_destroy(&_godot_variant);
+		_godot_api.godot_variant_destroy(&_godot_variant);
 	}
 	}/// TODO: move to top once Objects are nogc
 	
 	Type type() const
 	{
-		return cast(Type)godot_variant_get_type(&_godot_variant);
+		return cast(Type)_godot_api.godot_variant_get_type(&_godot_variant);
 	}
 	
 	inout(T) as(T : Variant)() inout { return this; }
@@ -335,14 +331,14 @@ struct Variant
 		static if(directlyCompatible!T) enum VarType = variantTypeOf!T;
 		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!T, DType)];
 		
-		alias Fa = FunctionAs!VarType;
+		mixin("auto Fa = _godot_api.godot_variant_as_"~FunctionAs!VarType~";");
 		
 		static if(VarType == Type.vector3)
 		{
 			version(GodotSystemV) /// HACK workaround for DMD issue #5570
 			{
 				godot_vector3 ret = void;
-				auto _func = &godot_variant_as_vector3; // LDC won't link the symbol if it's only inside asm statement
+				auto _func = &_godot_api.godot_variant_as_vector3; // LDC won't link the symbol if it's only inside asm statement
 				void* _this = cast(void*)&this; // LDC doesn't allow using `this` directly in asm
 				
 				asm @nogc nothrow
@@ -375,40 +371,40 @@ struct Variant
 	{
 		import std.conv : emplace;
 		
-		godot_variant_destroy(&_godot_variant);
+		_godot_api.godot_variant_destroy(&_godot_variant);
 		emplace!(Variant)(&this, input);
 	}
 	
 	pragma(inline, true)
 	void opAssign(T : typeof(null))(in T nil)
 	{
-		godot_variant_destroy(&_godot_variant);
-		godot_variant_new_nil(&_godot_variant);
+		_godot_api.godot_variant_destroy(&_godot_variant);
+		_godot_api.godot_variant_new_nil(&_godot_variant);
 	}
 	
 	pragma(inline, true)
 	void opAssign(T : Variant)(in T other)
 	{
-		godot_variant_destroy(&_godot_variant);
-		godot_variant_new_copy(&_godot_variant, &other._godot_variant);
+		_godot_api.godot_variant_destroy(&_godot_variant);
+		_godot_api.godot_variant_new_copy(&_godot_variant, &other._godot_variant);
 	}
 	
 	bool opEquals(in ref Variant other) const
 	{
-		return cast(bool)godot_variant_operator_equal(&_godot_variant, &other._godot_variant);
+		return cast(bool)_godot_api.godot_variant_operator_equal(&_godot_variant, &other._godot_variant);
 	}
 	
 	int opCmp(in ref Variant other) const
 	{
-		if(godot_variant_operator_equal(&_godot_variant, &other._godot_variant))
+		if(_godot_api.godot_variant_operator_equal(&_godot_variant, &other._godot_variant))
 			return 0;
-		return godot_variant_operator_less(&_godot_variant, &other._godot_variant)?
+		return _godot_api.godot_variant_operator_less(&_godot_variant, &other._godot_variant)?
 			-1 : 1;
 	}
 	
 	bool booleanize() const
 	{
-		return cast(bool)godot_variant_booleanize(&_godot_variant);
+		return cast(bool)_godot_api.godot_variant_booleanize(&_godot_variant);
 	}
 	
 	auto toString() const

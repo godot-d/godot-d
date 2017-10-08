@@ -51,7 +51,7 @@ struct PoolArray(T)
 	
 	this(this)
 	{
-		mixin("alias n = "~(typeName!T)~"_new_copy;");
+		mixin("auto n = _godot_api."~(typeName!T)~"_new_copy;");
 		const auto tmp = _godot_array;
 		n(&_godot_array, &tmp);
 	}
@@ -67,51 +67,51 @@ struct PoolArray(T)
 	static PoolArray empty()
 	{
 		PoolArray ret = void;
-		mixin("alias n = "~(typeName!T)~"_new;");
+		mixin("auto n = _godot_api."~(typeName!T)~"_new;");
 		n(&ret._godot_array);
 		return ret;
 	}
 	
 	this(Array arr)
 	{
-		mixin("alias n = "~(typeName!T)~"_new_with_array;");
+		mixin("auto n = _godot_api."~(typeName!T)~"_new_with_array;");
 		n(&_godot_array, &arr._godot_array);
 	}
 	
 	void append_array(in ref PoolArray arr)
 	{
-		mixin("alias a = "~(typeName!T)~"_append_array;");
+		mixin("auto a = _godot_api."~(typeName!T)~"_append_array;");
 		a(&_godot_array, &arr._godot_array);
 	}
 	
 	void invert()
 	{
-		mixin("alias i = "~(typeName!T)~"_invert;");
+		mixin("auto i = _godot_api."~(typeName!T)~"_invert;");
 		i(&_godot_array);
 	}
 	
 	void remove(int idx)
 	{
-		mixin("alias r = "~(typeName!T)~"_remove;");
+		mixin("auto r = _godot_api."~(typeName!T)~"_remove;");
 		r(&_godot_array, idx);
 	}
 	
 	void resize(int size)
 	{
-		mixin("alias r = "~(typeName!T)~"_resize;");
+		mixin("auto r = _godot_api."~(typeName!T)~"_resize;");
 		r(&_godot_array, size);
 	}
 	
 	int size() const
 	{
-		mixin("alias s = "~(typeName!T)~"_size;");
+		mixin("auto s = _godot_api."~(typeName!T)~"_size;");
 		return s(&_godot_array);
 	}
 	alias length = size; // D-style name for size
 	
 	~this()
 	{
-		mixin("alias d = "~(typeName!T)~"_destroy;");
+		mixin("auto d = _godot_api."~(typeName!T)~"_destroy;");
 		d(&_godot_array);
 	}
 	
@@ -121,24 +121,24 @@ struct PoolArray(T)
 	{
 		void push_back(in ref String data)
 		{
-			godot_pool_string_array_push_back(&_godot_array, &data._godot_string);
+			_godot_api.godot_pool_string_array_push_back(&_godot_array, &data._godot_string);
 		}
 		void insert(int idx, in ref String data)
 		{
-			godot_pool_string_array_insert(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_insert(&_godot_array, idx, &data._godot_string);
 		}
 		void set(int idx, in ref String data)
 		{
-			godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
 		}
 		void opIndexAssign(in ref String data, int idx)
 		{
-			godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
 		}
 		String opIndex(int idx) const
 		{
 			String ret = void;
-			ret._godot_string = godot_pool_string_array_get(&_godot_array, idx);
+			ret._godot_string = _godot_api.godot_pool_string_array_get(&_godot_array, idx);
 			return ret;
 		}
 	}
@@ -146,35 +146,35 @@ struct PoolArray(T)
 	{
 		void push_back(in T data)
 		{
-			mixin("alias p = "~(typeName!T)~"_push_back;");
+			mixin("auto p = _godot_api."~(typeName!T)~"_push_back;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
 				p(&_godot_array, cast(InternalType*)&data);
 			else p(&_godot_array, data);
 		}
 		void insert(int idx, in T data)
 		{
-			mixin("alias i = "~(typeName!T)~"_insert;");
+			mixin("auto i = _godot_api."~(typeName!T)~"_insert;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
 				i(&_godot_array, idx, cast(InternalType*)&data);
 			else i(&_godot_array, idx, data);
 		}
 		void set(int idx, in T data)
 		{
-			mixin("alias s = "~(typeName!T)~"_set;");
+			mixin("auto s = _godot_api."~(typeName!T)~"_set;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
 				s(&_godot_array, idx, cast(InternalType*)&data);
 			else s(&_godot_array, idx, data);
 		}
 		void opIndexAssign(in T data, int idx)
 		{
-			mixin("alias s = "~(typeName!T)~"_set;");
+			mixin("auto s = _godot_api."~(typeName!T)~"_set;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
 				s(&_godot_array, idx, cast(InternalType*)&data);
 			else s(&_godot_array, idx, data);
 		}
 		T opIndex(int idx) const
 		{
-			mixin("alias g = "~(typeName!T)~"_get;");
+			mixin("auto g = _godot_api."~(typeName!T)~"_get;");
 			static union V
 			{
 				T t;

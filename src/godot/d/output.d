@@ -23,7 +23,7 @@ void godotAssertHandlerCrash(string file, size_t line, string msg)
 	buffer[file.length+1 .. $-1] = msg[];
 	buffer[$-1] = '\0';
 	
-	godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
+	_godot_api.godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
 	
 	throw new AssertError(msg, file, line);
 }
@@ -50,7 +50,7 @@ void godotAssertHandlerEditorDebug(string file, size_t line, string msg)
 	buffer[file.length+1 .. $-1] = msg[];
 	buffer[$-1] = '\0';
 	
-	godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
+	_godot_api.godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
 	
 	version(assert) // any `assert(x)` gets compiled; usually a debug version
 	{
@@ -76,6 +76,6 @@ void print(Args...)(Args args)
 		else static if(Variant.compatibleToGodot!(typeof(arg))) str ~= Variant(arg).as!String;
 		else static assert(0, "Unable to print type "~typeof(arg).stringof);
 	}
-	godot_print(&str._godot_string);
+	_godot_api.godot_print(&str._godot_string);
 }
 

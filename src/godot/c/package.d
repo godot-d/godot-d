@@ -32,5 +32,6 @@ module godot.c;
 @nogc nothrow:
 extern(C):
 
+public import godot.c.api;
 public import godot.c.gdnative, godot.c.nativescript;
 

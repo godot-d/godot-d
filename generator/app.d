@@ -1,5 +1,6 @@
 
 import api.util;
+import api.c;
 import api.classes, api.methods, api.enums;
 
 import language;
@@ -16,46 +17,34 @@ import std.range;
 
 void main(string[] args)
 {
-	string outputLang = "D";
-	bool outputCore = false;
+	string gdnativeJson = "gdnative_api.json";
+	string classesJson = "api.json";
 	auto opt = args.getopt(
-		"language|l", "The language to generate bindings for", &outputLang,
+		"gdnative|g", "GDNative API JSON (default: gdnative_api.json)", &gdnativeJson,
+		"classes|c", "Classes API JSON (default: api.json)", &classesJson
 	);
 	
 	writeln(args);
 	if(opt.helpWanted)
 	{
-		defaultGetoptPrinter("Usage: [OPTION]... [path/to/api.json] [outputDir]\n", opt.options);
+		defaultGetoptPrinter("Usage: [OPTION]... [outputDir]\n", opt.options);
 		return;
 	}
 	
 	
-	Language lang;
-	switch(outputLang)
-	{
-		case "D":
-		case "d":
-			lang = getDLanguage();
-			break;
-		default:
-			throw new Exception("Language %s is not supported.".format(outputLang));	
-	}
+	Language lang = getDLanguage();
 	
-	string jsonPath;
-	if(args.length >= 2) jsonPath = args[1];
-	else
+	if(!gdnativeJson.exists)
 	{
-		jsonPath = "api.json";
-		writefln("Using default api.json from working directory");
+		throw new Exception("GDNative API file %s doesn't exist".format(gdnativeJson));
 	}
-	if(!jsonPath.exists)
+	if(!classesJson.exists)
 	{
-		throw new Exception("API file %s doesn't exist".format(jsonPath));
+		throw new Exception("Class API file %s doesn't exist".format(classesJson));
 	}
-	auto jsonData = jsonPath.readText;
 	
 	string outputDir;
-	if(args.length >= 3) outputDir = args[2];
+	if(args.length >= 2) outputDir = args[1];
 	else
 	{
 		outputDir = args[0].dirName.buildPath(".");
@@ -71,8 +60,13 @@ void main(string[] args)
 		throw new Exception("%s is not a directory".format(outputDir));
 	}
 	
+	API gdnativeAPI = gdnativeJson.readText.deserialize!(API);
+	auto cPath = buildPath(outputDir, "classes", "godot", "c", "api.d");
+	if(!cPath.dirName.exists) cPath.dirName.mkdirRecurse;
+	std.file.write(cPath, gdnativeAPI.source);
+	
 	ClassList classList;
-	classList.classes = jsonData.deserialize!(GodotClass[]);
+	classList.classes = classesJson.readText.deserialize!(GodotClass[]);
 	foreach(c; classList.classes)
 	{
 		classList.dictionary[c.name] = c;

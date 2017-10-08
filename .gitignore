@@ -10,6 +10,7 @@ __dummy.html
 *.dll
 __test__*__
 api.json
+gdnative_api.json
 binding-output/*
 godot-d_generator*
 example/project/.import/*

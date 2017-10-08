@@ -44,7 +44,7 @@ struct String
 	this(this)
 	{
 		godot_string other = _godot_string;
-		godot_string_new_copy(&_godot_string, &other);
+		_godot_api.godot_string_new_copy(&_godot_string, &other);
 	}
 	
 	package(godot) this(in godot_string str)
@@ -61,25 +61,25 @@ struct String
 		static if(isImplicitlyConvertible!(S, const(char)[]))
 		{
 			const(char)[] contents = str;
-			godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
+			_godot_api.godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
 		}
 		else
 		{
 			const(char)* contents = str;
-			godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
+			_godot_api.godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
 		}
 	}
 	
 	~this()
 	{
-		godot_string_destroy(&_godot_string);
+		_godot_api.godot_string_destroy(&_godot_string);
 	}
 	
 	
 	void opAssign(in String other)
 	{
-		godot_string_destroy(&_godot_string);
-		godot_string_new_copy(&_godot_string, &other._godot_string);
+		_godot_api.godot_string_destroy(&_godot_string);
+		_godot_api.godot_string_new_copy(&_godot_string, &other._godot_string);
 	}
 	
 	
@@ -93,50 +93,50 @@ struct String
 	
 	ref wchar_t opIndex(in int idx)
 	{
-		return *godot_string_operator_index(&_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(&_godot_string, idx);
 	}
 	
 	wchar_t opIndex(in int idx) const
 	{
-		return *godot_string_operator_index(cast(godot_string*) &_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, idx);
 	}
 	
 	int length() const
 	{
 		int len = 0;
-		godot_string_get_data(&_godot_string, null, &len);
+		_godot_api.godot_string_get_data(&_godot_string, null, &len);
 		return len;
 	}
 	
 	int opCmp(in ref String s)
 	{
-		auto equal = godot_string_operator_equal(&_godot_string, &s._godot_string);
+		auto equal = _godot_api.godot_string_operator_equal(&_godot_string, &s._godot_string);
 		if(equal) return 0;
-		auto less = godot_string_operator_less(&_godot_string, &s._godot_string);
+		auto less = _godot_api.godot_string_operator_less(&_godot_string, &s._godot_string);
 		return less?(-1):1;
 	}
 	
 	String opBinary(string op : "~")(in String other) const
 	{
 		String ret = void;
-		ret._godot_string = godot_string_operator_plus(&_godot_string, &other._godot_string);
+		ret._godot_string = _godot_api.godot_string_operator_plus(&_godot_string, &other._godot_string);
 		
 		return ret;
 	}
 	
 	void opOpAssign(string op : "~")(in String other)
 	{
-		_godot_string = godot_string_operator_plus(&_godot_string, &other._godot_string);
+		_godot_string = _godot_api.godot_string_operator_plus(&_godot_string, &other._godot_string);
 	}
 	
 	const(char*) c_string() const
 	{
-		return godot_string_c_str(&_godot_string);
+		return _godot_api.godot_string_c_str(&_godot_string);
 	}
 	
 	/*const(char[]) d_string() const
 	{
-		return godot_string_c_str(&_godot_string)[0..length];
+		return _godot_api.godot_string_c_str(&_godot_string)[0..length];
 	}*/
 }
 
