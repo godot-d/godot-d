@@ -214,6 +214,7 @@ string escapeD(string s)
 	
 	alias keywords = AliasSeq!(
 		"class",
+		"interface",
 		"struct",
 		"enum",
 		"bool",
