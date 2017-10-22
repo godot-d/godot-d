@@ -40,7 +40,7 @@
 			"name": "example",
 			"description": "Example using D classes",
 			"targetType": "dynamicLibrary",
-			"targetPath": "example/project/lib",
+			"targetPath": "example/project",
 			"dependencies":
 			{
 				"godot-d": "*"

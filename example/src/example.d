@@ -287,10 +287,6 @@ class Test : GodotScript!Label
 			auto res = owner.get(pn).as!long;
 			writefln("getting number: <%d>", res);
 		}
-		
-		// test asserts
-		assert(0, "Testing assert(0); should appear in Godot debugger.");
-		assert(false, "Testing another assert");
 	}
 }
 
