@@ -236,6 +236,7 @@ string escapeD(string s)
 		"dchar",
 		"function",
 		"delegate",
+		"override",
 		"default",
 		"case",
 		"switch",
