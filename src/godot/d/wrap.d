@@ -335,7 +335,7 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 				else static if(isGodotClass!Dest && is(GodotClass!Dest : Node))
 				{
 					// special case: node path
-					mixin("t."~n) = cast(Dest)t.owner.get_node(sameOrCtor!NodePath(from));
+					mixin("t."~n) = cast(Dest)t.owner.getNode(sameOrCtor!NodePath(from));
 				}
 				else static if(isGodotClass!Dest && is(GodotClass!Dest : Resource))
 				{

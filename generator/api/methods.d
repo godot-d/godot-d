@@ -1,5 +1,6 @@
 module api.methods;
 
+import godot.d.string;
 import api.classes, api.enums, api.util;
 
 import asdf;
@@ -124,7 +125,7 @@ class GodotMethod
 		ret ~= return_type.escapeType~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
 		// Classes are reference types; the others are passed by value.
-		ret ~= escapeD(name);
+		ret ~= name.snakeToCamel.escapeD;
 		
 		ret ~= templateArgsString;
 		ret ~= argsString;

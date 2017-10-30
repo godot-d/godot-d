@@ -1,5 +1,10 @@
 .dub
 dub.selections.json
+.settings
+godot-d
+godot-d.dlangidews
+godot-d.dlangidews.wssettings
+godot-d.settings
 docs.json
 __dummy.html
 *.o
@@ -14,4 +19,5 @@ gdnative_api.json
 binding-output/*
 godot-d_generator*
 example/project/.import/*
+example/project/logs
 *.import

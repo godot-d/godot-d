@@ -1,5 +1,6 @@
 module api.classes;
 
+import godot.d.string;
 import api.methods, api.enums, api.util;
 
 import asdf;
@@ -153,7 +154,7 @@ class GodotClass
 		
 		foreach(const string name, const int value; constants)
 		{
-			ret ~= "\tenum int "~name.escapeD~" = "~text(value)~";\n";
+			ret ~= "\tenum int "~name.snakeToCamel.escapeD~" = "~text(value)~";\n";
 		}
 		
 		foreach(const m; methods)

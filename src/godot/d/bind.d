@@ -153,7 +153,7 @@ mixin template baseCasts()
 		{
 			if(_godot_object.ptr is null) return inout(To).init;
 			String c = String(To._GODOT_internal_name);
-			if(is_class(c)) return inout(To)(_godot_object);
+			if(isClass(c)) return inout(To)(_godot_object);
 			return inout(To).init;
 		}
 		else static assert(0, To.stringof ~ " is not polymorphic to "
@@ -165,7 +165,7 @@ mixin template baseCasts()
 		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
 			~ " does not extend " ~ typeof(this).stringof);
 		if(_godot_object.ptr is null) return null;
-		if(has_method(String(`_GDNATIVE_D_typeid`)))
+		if(hasMethod(String(`_GDNATIVE_D_typeid`)))
 		{
 			inout(Object) o = cast(inout(Object))(_godot_api.godot_nativescript_get_userdata(
 				cast(godot_object)_godot_object));

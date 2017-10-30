@@ -8,8 +8,8 @@
 	"dflags-linux-dmd": ["-fPIC"],
 	"dflags-linux-ldc2": ["-relocation-model=pic"],
 	
-	"importPaths": [ "src", "classes" ],
-	"sourcePaths": [ "src", "classes" ],
+	"importPaths": [ "src", "classes", "common" ],
+	"sourcePaths": [ "src", "classes", "common" ],
 	
 	"subPackages":
 	[
@@ -20,7 +20,7 @@
 			{
 				"asdf": "~>0.1.4",
 			},
-			"sourcePaths": [ "generator" ]
+			"sourcePaths": [ "generator", "common" ]
 		},
 		{
 			"name": "miscclasses",

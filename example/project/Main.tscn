@@ -41,11 +41,11 @@ lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Margin" ]
-dreal = 0.0
-freal = 0.0
-longNodePath = NodePath("One/Looooong/Incredibly/Unbroken/Node/Path/Label")
-number = null
 property = null
+number = null
+freal = 0.0
+dreal = 0.0
+longNodePath = NodePath("One/Looooong/Incredibly/Unbroken/Node/Path/Label")
 
 [node name="ColorRect" type="ColorRect" parent="Panel/Label"]
 

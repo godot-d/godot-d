@@ -1,5 +1,6 @@
 module api.enums;
 
+import godot.d.string;
 import api.classes, api.util;
 
 import asdf;
@@ -42,11 +43,11 @@ struct GodotEnum
 	
 	string source() const
 	{
-		string ret = "\tenum "~name~" : int\n\t{\n";
+		string ret = "\tenum "~name.escapeD~" : int\n\t{\n";
 		
 		foreach(n, v; values)
 		{
-			ret ~= "\t\t"~n.escapeD~" = "~v.text~",\n";
+			ret ~= "\t\t"~n.snakeToCamel.escapeD~" = "~v.text~",\n";
 		}
 		
 		ret ~= "\t}\n";

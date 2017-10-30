@@ -94,8 +94,8 @@ class Test : GodotScript!Label
 	void _ready()
 	{
 		// the node variables will have been set by OnReady
-		colorRect.set_frame_color(Color(0f, 1f, 0f));
-		longNode.set_text(String("This node was set by OnReady"));
+		colorRect.setFrameColor(Color(0f, 1f, 0f));
+		longNode.setText(String("This node was set by OnReady"));
 		
 		writefln("owner: %x", cast(void*)owner);
 		// print() will write into Godot's editor output, unlike writeln
@@ -213,10 +213,10 @@ class Test : GodotScript!Label
 			import godot.os;
 			import std.string;
 			
-			String name = OS.get_name();
+			String name = OS.getName();
 			writefln("OS is %s on device %s", name.c_string().fromStringz,
-				OS.get_model_name().c_string().fromStringz);
-			String exe = OS.get_executable_path();
+				OS.getModelName().c_string().fromStringz);
+			String exe = OS.getExecutablePath();
 			print("Executable path: ", exe);
 			
 			import godot.projectsettings;
@@ -230,11 +230,11 @@ class Test : GodotScript!Label
 			
 			// Test has no "set_uppercase" or "set/get_text", so they're forwarded to base
 			
-			set_uppercase(true);
+			setUppercase(true);
 			
-			String oldText = get_text();
+			String oldText = getText();
 			writefln("Old Label text: %s", oldText.c_string.fromStringz);
-			set_text("New text set from D Test class");
+			setText("New text set from D Test class");
 		}
 		
 		// test resource loading
@@ -247,8 +247,8 @@ class Test : GodotScript!Label
 			assert(!ResourceLoader.has(iconPath));
 			
 			Resource res = ResourceLoader.load(iconPath, "", false);
-			writefln("Loaded Resource %s at path %s", res.get_name.c_string.fromStringz,
-				res.get_path.c_string.fromStringz);
+			writefln("Loaded Resource %s at path %s", res.getName.c_string.fromStringz,
+				res.getPath.c_string.fromStringz);
 			
 			// test upcasts
 			import godot.texture, godot.mesh;
@@ -256,7 +256,7 @@ class Test : GodotScript!Label
 			assert(wrongCast == null);
 			Texture rightCast = cast(Texture)res;
 			assert(rightCast != null);
-			auto size = rightCast.get_size();
+			auto size = rightCast.getSize();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			
 			writefln("assert(ResourceLoader.has(%s))", iconPath.c_string.fromStringz);

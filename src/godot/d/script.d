@@ -82,7 +82,7 @@ package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
 	
-	if(t.owner.get_script.isNull) t.owner.set_script(NativeScriptTemplate!T);
+	if(t.owner.getScript.isNull) t.owner.setScript(NativeScriptTemplate!T);
 	
 	template isRAII(string memberName)
 	{
@@ -104,7 +104,7 @@ package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 			mixin("t."~n) = memnew!M();
 			static if( raii.autoAddChild && RAII.canAddChild!(M, T) )
 			{
-				t.owner.add_child( mixin("t."~n).getGodotObject );
+				t.owner.addChild( mixin("t."~n).getGodotObject );
 			}
 		}
 	}
