@@ -184,7 +184,7 @@ struct Array
 		return _godot_api.godot_array_find(&_godot_array, &what._godot_variant, from);
 	}
 	
-	int find_last(in Variant what)
+	int findLast(in Variant what)
 	{
 		return _godot_api.godot_array_find_last(&_godot_array, &what._godot_variant);
 	}
@@ -209,26 +209,24 @@ struct Array
 		_godot_api.godot_array_invert(&_godot_array);
 	}
 	
-	Variant pop_back()
+	Variant popBack()
 	{
 		godot_variant v = _godot_api.godot_array_pop_back(&_godot_array);
 		return cast(Variant)v;
 	}
-	alias popBack = pop_back; // for D InputRange
 	
-	Variant pop_front()
+	Variant popFront()
 	{
 		godot_variant v = _godot_api.godot_array_pop_front(&_godot_array);
 		return cast(Variant)v;
 	}
-	alias popFront = pop_front; // for D InputRange
 	
-	void push_back(in Variant v)
+	void pushBack(in Variant v)
 	{
 		_godot_api.godot_array_push_back(&_godot_array, &v._godot_variant);
 	}
 	
-	void push_front(in Variant v)
+	void pushFront(in Variant v)
 	{
 		_godot_api.godot_array_push_front(&_godot_array, &v._godot_variant);
 	}

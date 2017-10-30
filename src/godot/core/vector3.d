@@ -162,7 +162,7 @@ struct Vector3
 		);
 	}
 	
-	Vector3 linear_interpolate(in Vector3 p_b, real_t p_t) const
+	Vector3 linearInterpolate(in Vector3 p_b, real_t p_t) const
 	{
 		return Vector3(
 			x+(p_t * (p_b.x-x)),
@@ -170,8 +170,9 @@ struct Vector3
 			z+(p_t * (p_b.z-z))
 		);
 	}
+	alias lerp = linearInterpolate;
 	
-	Vector3 cubic_interpolate(in Vector3 b, in Vector3 pre_a, in Vector3 post_b, in real_t t) const
+	Vector3 cubicInterpolate(in Vector3 b, in Vector3 pre_a, in Vector3 post_b, in real_t t) const
 	{
 		Vector3 p0=pre_a;
 		Vector3 p1=this;
@@ -198,7 +199,7 @@ struct Vector3
 		return sqrt(x2+y2+z2);
 	}
 	
-	real_t length_squared() const
+	real_t lengthSquared() const
 	{
 		real_t x2=x*x;
 		real_t y2=y*y;
@@ -207,14 +208,14 @@ struct Vector3
 		return x2+y2+z2;
 	}
 	
-	real_t distance_squared_to(in Vector3 b) const
+	real_t distanceSquaredTo(in Vector3 b) const
 	{
 		return (b-this).length();
 	}
 	
-	real_t distance_to(in Vector3 b) const
+	real_t distanceTo(in Vector3 b) const
 	{
-		return (b-this).length_squared();
+		return (b-this).lengthSquared();
 	}
 	
 	real_t dot(in Vector3 b) const
@@ -232,12 +233,12 @@ struct Vector3
 		return Vector3( 1.0/x, 1.0/y, 1.0/z );
 	}
 	
-	int max_axis() const
+	int maxAxis() const
 	{
 		return (x < y) ? (y < z ? 2 : 1) : (x < z ? 2 : 0);
 	}
 	
-	int min_axis() const
+	int minAxis() const
 	{
 		return (x < y) ? (x < z ? 0 : 2) : (y < z ? 1 : 2);
 	}

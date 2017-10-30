@@ -19,7 +19,7 @@ struct Rect2
 		size=Vector2(p_width, p_height);
 	}
 	
-	real_t get_area() const { return size.width*size.height; }
+	real_t getArea() const { return size.width*size.height; }
 	
 	bool intersects(in Rect2 p_rect) const
 	{
@@ -41,12 +41,12 @@ struct Rect2
 			((p_rect.pos.x+p_rect.size.x)<(pos.x+size.x)) &&
 			((p_rect.pos.y+p_rect.size.y)<(pos.y+size.y));
 	}
-	bool has_no_area() const
+	bool hasNoArea() const
 	{
 		return (size.x<=0 || size.y<=0);
 	}
 	
-	bool has_point(in Vector2 p_point) const
+	bool hasPoint(in Vector2 p_point) const
 	{
 		if (p_point.x < pos.x)
 			return false;
@@ -74,11 +74,11 @@ struct Rect2
 	Rect2 expand(in Vector2 p_vector) const
 	{
 		Rect2 r = this;
-		r.expand_to(p_vector);
+		r.expandTo(p_vector);
 		return r;
 	}
 
-	void expand_to(in Vector2 p_vector)
+	void expandTo(in Vector2 p_vector)
 	{
 		Vector2 begin=pos;
 		Vector2 end=pos+size;
@@ -98,7 +98,7 @@ struct Rect2
 	}
 	
 	
-	real_t distance_to(in Vector2 p_point) const
+	real_t distanceTo(in Vector2 p_point) const
 	{
 		real_t dist = 1e20;
 		
@@ -163,7 +163,7 @@ struct Rect2
 	
 	
 	
-	bool intersects_segment(in Vector2 p_from, in Vector2 p_to, Vector2* r_pos,Vector2* r_normal) const
+	bool intersectsSegment(in Vector2 p_from, in Vector2 p_to, Vector2* r_pos,Vector2* r_normal) const
 	{
 		real_t min=0,max=1;
 		int axis=0;
@@ -227,7 +227,7 @@ struct Rect2
 	}
 	
 	
-	bool intersects_transformed(in Transform2D p_xform, in Rect2 p_rect) const
+	bool intersectsTransformed(in Transform2D p_xform, in Rect2 p_rect) const
 	{
 		//SAT intersection between local and transformed rect2
 	

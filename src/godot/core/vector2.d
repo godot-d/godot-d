@@ -10,19 +10,19 @@ struct Vector2
 	
 	union
 	{
-	    struct
-	    {
-	        union
-	        {
-		        real_t x = 0.0;
-		        real_t width;
-	        }
-	        union
-	        {
-		        real_t y = 0.0;
-		        real_t height;
-	        }
-	    }
+		struct
+		{
+			union
+			{
+				real_t x = 0.0;
+				real_t width;
+			}
+			union
+			{
+				real_t y = 0.0;
+				real_t height;
+			}
+		}
 
 		real_t[2] coord;
 	}
@@ -124,27 +124,27 @@ struct Vector2
 	{
 		return sqrt(x*x + y*y);
 	}
-	real_t length_squared() const
+	real_t lengthSquared() const
 	{
 		return x*x + y*y;
 	}
 	
-	real_t distance_to(in Vector2 p_vector2) const
+	real_t distanceTo(in Vector2 p_vector2) const
 	{
 		return sqrt((x - p_vector2.x) * (x - p_vector2.x) + (y - p_vector2.y) * (y - p_vector2.y));
 	}
 	
-	real_t distance_squared_to(in Vector2 p_vector2) const
+	real_t distanceSquaredTo(in Vector2 p_vector2) const
 	{
 		return (x - p_vector2.x) * (x - p_vector2.x) + (y - p_vector2.y) * (y - p_vector2.y);
 	}
 	
-	real_t angle_to(in Vector2 p_vector2) const
+	real_t angleTo(in Vector2 p_vector2) const
 	{
 		return atan2(cross(p_vector2), dot(p_vector2));
 	}
 	
-	real_t angle_to_point(in Vector2 p_vector2) const
+	real_t angleToPoint(in Vector2 p_vector2) const
 	{
 		return atan2(y - p_vector2.y, x-p_vector2.x);
 	}
@@ -171,7 +171,7 @@ struct Vector2
 		return v2 * (v1.dot(v2) / v2.dot(v2));
 	}
 	
-	Vector2 plane_project(real_t p_d, in Vector2 p_vec) const
+	Vector2 planeProject(real_t p_d, in Vector2 p_vec) const
 	{
 		return  p_vec - this * (dot(p_vec) -p_d);
 	}
@@ -188,7 +188,7 @@ struct Vector2
 		return v;
 	}
 	
-	static Vector2 linear_interpolate(in Vector2 p_a, in Vector2 p_b, real_t p_t)
+	static Vector2 linearInterpolate(in Vector2 p_a, in Vector2 p_b, real_t p_t)
 	{
 		Vector2 res=p_a;
 		res.x+= (p_t * (p_b.x-p_a.x));
@@ -196,7 +196,7 @@ struct Vector2
 		return res;
 	}
 	
-	Vector2 linear_interpolate(in Vector2 p_b,real_t p_t) const
+	Vector2 linearInterpolate(in Vector2 p_b,real_t p_t) const
 	{
 		Vector2 res=this;
 		res.x+= (p_t * (p_b.x-x));
@@ -204,7 +204,9 @@ struct Vector2
 		return res;
 	
 	}
-	Vector2 cubic_interpolate(in Vector2 p_b,in Vector2 p_pre_a, in Vector2 p_post_b,real_t p_t) const
+	alias lerp = linearInterpolate;
+	
+	Vector2 cubicInterpolate(in Vector2 p_b,in Vector2 p_pre_a, in Vector2 p_post_b, real_t p_t) const
 	{
 		Vector2 p0=p_pre_a;
 		Vector2 p1=this;
@@ -240,7 +242,7 @@ struct Vector2
 		return atan2(y, x);
 	}
 	
-	void set_rotation(real_t p_radians)
+	void setRotation(real_t p_radians)
 	{
 		x = cos(p_radians);
 		y = sin(p_radians);
@@ -254,7 +256,7 @@ struct Vector2
 	Vector2 rotated(real_t p_by) const
 	{
 		Vector2 v = void;
-		v.set_rotation(angle() + p_by);
+		v.setRotation(angle() + p_by);
 		v *= length();
 		return v;
 	}

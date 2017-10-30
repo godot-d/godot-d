@@ -22,10 +22,10 @@ struct Transform
 	this(in Basis basis, in Vector3 origin) { this.basis = basis; this.origin = origin; }
 	
 	
-	Transform inverse_xform(in Transform t) const
+	Transform inverseXform(in Transform t) const
 	{
 		Vector3 v = t.origin - origin;
-		return Transform(basis.transpose_xform(t.basis),
+		return Transform(basis.transposeXform(t.basis),
 			basis.xform(v));
 	}
 	
@@ -55,7 +55,7 @@ struct Transform
 			basis[2].dot(p_vector)+origin.z
 		);
 	}
-	Vector3 xform_inv(in Vector3 p_vector) const
+	Vector3 xformInv(in Vector3 p_vector) const
 	{
 		Vector3 v = p_vector - origin;
 		
@@ -80,12 +80,12 @@ struct Transform
 		return Plane(normal,d);
 	
 	}
-	Plane xform_inv(in Plane p_plane) const
+	Plane xformInv(in Plane p_plane) const
 	{
 		Vector3 point=p_plane.normal*p_plane.d;
 		Vector3 point_dir=point+p_plane.normal;
-		xform_inv(point);
-		xform_inv(point_dir);
+		xformInv(point);
+		xformInv(point_dir);
 	
 		Vector3 normal=point_dir-point;
 		normal.normalize();
@@ -98,23 +98,23 @@ struct Transform
 	Rect3 xform(in Rect3 p_aabb) const
 	{
 		/* define vertices */
-		Vector3 x=basis.get_axis(0)*p_aabb.size.x;
-		Vector3 y=basis.get_axis(1)*p_aabb.size.y;
-		Vector3 z=basis.get_axis(2)*p_aabb.size.z;
+		Vector3 x=basis.getAxis(0)*p_aabb.size.x;
+		Vector3 y=basis.getAxis(1)*p_aabb.size.y;
+		Vector3 z=basis.getAxis(2)*p_aabb.size.z;
 		Vector3 pos = xform( p_aabb.pos );
 		//could be even further optimized
 		Rect3 new_aabb;
 		new_aabb.pos=pos;
-		new_aabb.expand_to( pos+x );
-		new_aabb.expand_to( pos+y );
-		new_aabb.expand_to( pos+z );
-		new_aabb.expand_to( pos+x+y );
-		new_aabb.expand_to( pos+x+z );
-		new_aabb.expand_to( pos+y+z );
-		new_aabb.expand_to( pos+x+y+z );
+		new_aabb.expandTo( pos+x );
+		new_aabb.expandTo( pos+y );
+		new_aabb.expandTo( pos+z );
+		new_aabb.expandTo( pos+x+y );
+		new_aabb.expandTo( pos+x+z );
+		new_aabb.expandTo( pos+y+z );
+		new_aabb.expandTo( pos+x+y+z );
 		return new_aabb;
 	}
-	Rect3 xform_inv(in Rect3 p_aabb) const
+	Rect3 xformInv(in Rect3 p_aabb) const
 	{
 		/* define vertices */
 		Vector3[8] vertices=[
@@ -128,25 +128,25 @@ struct Transform
 				Vector3(p_aabb.pos.x,	p_aabb.pos.y,		p_aabb.pos.z)
 		];
 		Rect3 ret;
-		ret.pos=xform_inv(vertices[0]);
+		ret.pos=xformInv(vertices[0]);
 		for(int i=1;i<8;i++)
 		{
-			ret.expand_to( xform_inv(vertices[i]) );
+			ret.expandTo( xformInv(vertices[i]) );
 		}
 		return ret;
 	
 	}
 	
-	void affine_invert()
+	void affineInvert()
 	{
 		basis.invert();
 		origin = basis.xform(-origin);
 	}
 	
-	Transform affine_inverse() const
+	Transform affineInverse() const
 	{
 		Transform ret=this;
-		ret.affine_invert();
+		ret.affineInvert();
 		return ret;
 	
 	}
@@ -178,19 +178,19 @@ struct Transform
 		return Transform(Basis( p_axis, p_phi ), Vector3()) * (this);
 	}
 	
-	void rotate_basis(in Vector3 p_axis,real_t p_phi)
+	void rotateBasis(in Vector3 p_axis,real_t p_phi)
 	{
 		basis.rotate(p_axis,p_phi);
 	}
 	
-	Transform looking_at( in Vector3 p_target, in Vector3 p_up ) const
+	Transform lookingAt( in Vector3 p_target, in Vector3 p_up ) const
 	{
 		Transform t = this;
-		t.set_look_at(origin,p_target,p_up);
+		t.setLookAt(origin,p_target,p_up);
 		return t;
 	}
 	
-	void set_look_at( in Vector3 p_eye, in Vector3 p_target, in Vector3 p_up )
+	void setLookAt( in Vector3 p_eye, in Vector3 p_target, in Vector3 p_up )
 	{
 		// Reference: MESA source code
 		Vector3 v_x, v_y, v_z;
@@ -212,27 +212,27 @@ struct Transform
 		v_x.normalize();
 		v_y.normalize();
 		
-		basis.set_axis(0,v_x);
-		basis.set_axis(1,v_y);
-		basis.set_axis(2,v_z);
+		basis.setAxis(0,v_x);
+		basis.setAxis(1,v_y);
+		basis.setAxis(2,v_z);
 		origin=p_eye;
 	}
 	
-	Transform interpolate_with(in Transform p_transform, real_t p_c) const
+	Transform interpolateWith(in Transform p_transform, real_t p_c) const
 	{
 		/* not sure if very "efficient" but good enough? */
-		Vector3 src_scale = basis.get_scale();
+		Vector3 src_scale = basis.getScale();
 		Quat src_rot = basis.quat;
 		Vector3 src_loc = origin;
 		
-		Vector3 dst_scale = p_transform.basis.get_scale();
+		Vector3 dst_scale = p_transform.basis.getScale();
 		Quat dst_rot = p_transform.basis.quat;
 		Vector3 dst_loc = p_transform.origin;
 		
 		Transform dst;
 		dst.basis = Basis(src_rot.slerp(dst_rot,p_c));
-		dst.basis.scale(src_scale.linear_interpolate(dst_scale,p_c));
-		dst.origin=src_loc.linear_interpolate(dst_loc,p_c);
+		dst.basis.scale(src_scale.linearInterpolate(dst_scale,p_c));
+		dst.origin=src_loc.linearInterpolate(dst_loc,p_c);
 		
 		return dst;
 	}
@@ -250,7 +250,7 @@ struct Transform
 		return t;
 	}
 	
-	void scale_basis(in Vector3 p_scale)
+	void scaleBasis(in Vector3 p_scale)
 	{
 		basis.scale(p_scale);
 	}

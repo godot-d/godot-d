@@ -74,7 +74,7 @@ struct Dictionary
 		return cast(bool)_godot_api.godot_dictionary_has(&_godot_dictionary, &key._godot_variant);
 	}
 	
-	bool has_all(in Array keys) const
+	bool hasAll(in Array keys) const
 	{
 		return cast(bool)_godot_api.godot_dictionary_has_all(&_godot_dictionary, &keys._godot_array);
 	}
@@ -119,7 +119,7 @@ struct Dictionary
 		return _godot_api.godot_dictionary_size(&_godot_dictionary);
 	}
 	
-	String to_json() const
+	String toJson() const
 	{
 		godot_string s = _godot_api.godot_dictionary_to_json(&_godot_dictionary);
 		return cast(String)s;

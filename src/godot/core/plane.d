@@ -33,7 +33,7 @@ struct Plane
 	
 	Vector3 project(in Vector3 p_point) const
 	{
-		return p_point - normal * distance_to(p_point);
+		return p_point - normal * distanceTo(p_point);
 	}
 	
 	
@@ -56,12 +56,12 @@ struct Plane
 		return p;
 	}
 	
-	Vector3 get_any_point() const
+	Vector3 getAnyPoint() const
 	{
 		return normal*d;
 	}
 	
-	Vector3 get_any_perpendicular_normal() const
+	Vector3 getAnyPerpendicularNormal() const
 	{
 		enum Vector3 p1 = Vector3(1,0,0);
 		enum Vector3 p2 = Vector3(0,1,0);
@@ -81,7 +81,7 @@ struct Plane
 	
 	/* intersections */
 	
-	bool intersect_3(in Plane p_plane1, in Plane p_plane2, Vector3* r_result = null) const
+	bool intersect3(in Plane p_plane1, in Plane p_plane2, Vector3* r_result = null) const
 	{
 		const Plane p_plane0 = this;
 		Vector3 normal0=p_plane0.normal;
@@ -103,7 +103,7 @@ struct Plane
 	}
 	
 	
-	bool intersects_ray(in Vector3 p_from, in Vector3 p_dir, Vector3* p_intersection = null)  const
+	bool intersectsRay(in Vector3 p_from, in Vector3 p_dir, Vector3* p_intersection = null)  const
 	{
 		Vector3 segment=p_dir;
 		real_t den=normal.dot( segment );
@@ -128,7 +128,7 @@ struct Plane
 		return true;
 	}
 	
-	bool intersects_segment(in Vector3 p_begin, in Vector3 p_end, Vector3* p_intersection) const
+	bool intersectsSegment(in Vector3 p_begin, in Vector3 p_end, Vector3* p_intersection) const
 	{
 		Vector3 segment= p_begin - p_end;
 		real_t den=normal.dot( segment );
@@ -149,7 +149,7 @@ struct Plane
 	
 	/* misc */
 	
-	bool is_almost_like(in Plane p_plane) const
+	bool isAlmostLike(in Plane p_plane) const
 	{
 		return (normal.dot( p_plane.normal ) > _PLANE_EQ_DOT_EPSILON && fabs(d-p_plane.d) < _PLANE_EQ_D_EPSILON);
 	}
@@ -163,17 +163,17 @@ struct Plane
 	
 	
 	
-	bool is_point_over(in Vector3 p_point) const
+	bool isPointOver(in Vector3 p_point) const
 	{
 		return (normal.dot(p_point) > d);
 	}
 	
-	real_t distance_to(in Vector3 p_point) const
+	real_t distanceTo(in Vector3 p_point) const
 	{
 		return (normal.dot(p_point)-d);
 	}
 	
-	bool has_point(in Vector3 p_point,real_t _epsilon = CMP_EPSILON) const
+	bool hasPoint(in Vector3 p_point,real_t _epsilon = CMP_EPSILON) const
 	{
 		real_t dist=normal.dot(p_point) - d;
 		dist=fabs(dist);

@@ -14,12 +14,12 @@ struct Rect3
 	Vector3 pos;
 	Vector3 size;
 	
-	bool has_no_area() const
+	bool hasNoArea() const
 	{
 		return (size.x<=CMP_EPSILON || size.y<=CMP_EPSILON  || size.z<=CMP_EPSILON);
 	}
 
-	bool has_no_surface() const
+	bool hasNoSurface() const
 	{
 		return (size.x<=CMP_EPSILON && size.y<=CMP_EPSILON  && size.z<=CMP_EPSILON);
 	}
@@ -41,7 +41,7 @@ struct Rect3
 		return true;
 	}
 	
-	bool intersects_inclusive(in Rect3 p_aabb) const
+	bool intersectsInclusive(in Rect3 p_aabb) const
 	{
 		if ( pos.x > (p_aabb.pos.x + p_aabb.size.x) )
 			return false;
@@ -75,7 +75,7 @@ struct Rect3
 	
 	}
 	
-	Vector3 get_support(in Vector3 p_normal) const
+	Vector3 getSupport(in Vector3 p_normal) const
 	{
 		Vector3 half_extents = size * 0.5;
 		Vector3 ofs = pos + half_extents;
@@ -88,7 +88,7 @@ struct Rect3
 	}
 	
 	
-	Vector3 get_endpoint(int p_point) const
+	Vector3 getEndpoint(int p_point) const
 	{
 		switch(p_point)
 		{
@@ -104,7 +104,7 @@ struct Rect3
 		}
 	}
 	
-	bool intersects_convex_shape(in Plane[] p_planes) const
+	bool intersectsConvexShape(in Plane[] p_planes) const
 	{
 		Vector3 half_extents = size * 0.5;
 		Vector3 ofs = pos + half_extents;
@@ -117,14 +117,14 @@ struct Rect3
 				(p.normal.z>0) ? -half_extents.z : half_extents.z
 			);
 			point+=ofs;
-			if (p.is_point_over(point))
+			if (p.isPointOver(point))
 				return false;
 		}
 	
 		return true;
 	}
 	
-	bool has_point(in Vector3 p_point) const
+	bool hasPoint(in Vector3 p_point) const
 	{
 		if (p_point.x<pos.x)
 			return false;
@@ -143,7 +143,7 @@ struct Rect3
 	}
 	
 	
-	void expand_to(in Vector3 p_vector)
+	void expandTo(in Vector3 p_vector)
 	{
 		Vector3 begin=pos;
 		Vector3 end=pos+size;
@@ -166,18 +166,18 @@ struct Rect3
 		size=end-begin;
 	}
 	
-	void project_range_in_plane(in Plane p_plane, out real_t r_min, out real_t r_max) const
+	void projectRangeInPlane(in Plane p_plane, out real_t r_min, out real_t r_max) const
 	{
 		Vector3 half_extents = Vector3( size.x * 0.5, size.y * 0.5, size.z * 0.5 );
 		Vector3 center = Vector3( pos.x + half_extents.x, pos.y + half_extents.y, pos.z + half_extents.z );
 	
 		real_t length = p_plane.normal.abs().dot(half_extents);
-		real_t distance = p_plane.distance_to( center );
+		real_t distance = p_plane.distanceTo( center );
 		r_min = distance - length;
 		r_max = distance + length;
 	}
 	
-	real_t get_longest_axis_size() const
+	real_t getLongestAxisSize() const
 	{
 		real_t max_size=size.x;
 		
@@ -192,7 +192,7 @@ struct Rect3
 		return max_size;
 	}
 	
-	real_t get_shortest_axis_size() const
+	real_t getShortestAxisSize() const
 	{
 		real_t max_size=size.x;
 		
@@ -207,7 +207,7 @@ struct Rect3
 		return max_size;
 	}
 	
-	bool smits_intersect_ray(in Vector3 from, in Vector3 dir, real_t t0, real_t t1) const
+	bool smitsIntersectRay(in Vector3 from, in Vector3 dir, real_t t0, real_t t1) const
 	{
 		real_t divx=1.0/dir.x;
 		real_t divy=1.0/dir.y;
@@ -254,7 +254,7 @@ struct Rect3
 		return ( (tmin < t1) && (tmax > t0) );
 	}
 	
-	void grow_by(real_t p_amount)
+	void growBy(real_t p_amount)
 	{
 		pos.x-=p_amount;
 		pos.y-=p_amount;
@@ -265,12 +265,12 @@ struct Rect3
 	}
 	
 	
-	real_t get_area() const
+	real_t getArea() const
 	{
 		return size.x*size.y*size.z;
 	}
 	
-	void merge_with(in Rect3 p_aabb)
+	void mergeWith(in Rect3 p_aabb)
 	{
 		Vector3 beg_1,beg_2;
 		Vector3 end_1,end_2;
@@ -330,7 +330,7 @@ struct Rect3
 		return Rect3( min, max-min );
 	}
 	
-	bool intersects_ray(in Vector3 p_from, in Vector3 p_dir, Vector3* r_clip = null, Vector3* r_normal = null) const
+	bool intersectsRay(in Vector3 p_from, in Vector3 p_dir, Vector3* r_clip = null, Vector3* r_normal = null) const
 	{
 		Vector3 c1, c2;
 		Vector3 end = pos+size;
@@ -375,7 +375,7 @@ struct Rect3
 		return true;
 	}
 	
-	bool intersects_segment(in Vector3 p_from, in Vector3 p_to, Vector3* r_clip = null, Vector3* r_normal = null) const
+	bool intersectsSegment(in Vector3 p_from, in Vector3 p_to, Vector3* r_clip = null, Vector3* r_normal = null) const
 	{
 		real_t min=0,max=1;
 		int axis=0;
@@ -435,7 +435,7 @@ struct Rect3
 	}
 	
 	
-	bool intersects_plane(in Plane p_plane) const
+	bool intersectsPlane(in Plane p_plane) const
 	{
 		Vector3[8] points = [
 			Vector3( pos.x, pos.y, pos.z),
@@ -453,7 +453,7 @@ struct Rect3
 		
 		for (int i=0;i<8;i++)
 		{
-			if (p_plane.distance_to(points[i])>0)
+			if (p_plane.distanceTo(points[i])>0)
 				over=true;
 			else
 				under=true;
@@ -461,7 +461,7 @@ struct Rect3
 		return under && over;
 	}
 	
-	Vector3 get_longest_axis() const
+	Vector3 getLongestAxis() const
 	{
 		Vector3 axis = Vector3(1,0,0);
 		real_t max_size=size.x;
@@ -480,7 +480,7 @@ struct Rect3
 		
 		return axis;
 	}
-	int get_longest_axis_index() const
+	int getLongestAxisIndex() const
 	{
 		int axis=0;
 		real_t max_size=size.x;
@@ -500,7 +500,7 @@ struct Rect3
 		return axis;
 	}
 	
-	Vector3 get_shortest_axis() const
+	Vector3 getShortestAxis() const
 	{
 		Vector3 axis = Vector3(1,0,0);
 		real_t max_size=size.x;
@@ -519,7 +519,7 @@ struct Rect3
 		
 		return axis;
 	}
-	int get_shortest_axis_index() const
+	int getShortestAxisIndex() const
 	{
 		int axis=0;
 		real_t max_size=size.x;
@@ -542,24 +542,24 @@ struct Rect3
 	Rect3 merge(in Rect3 p_with) const
 	{
 		Rect3 aabb=this;
-		aabb.merge_with(p_with);
+		aabb.mergeWith(p_with);
 		return aabb;
 	}
 	Rect3 expand(in Vector3 p_vector) const
 	{
 		Rect3 aabb=this;
-		aabb.expand_to(p_vector);
+		aabb.expandTo(p_vector);
 		return aabb;
 	
 	}
 	Rect3 grow(real_t p_by) const
 	{
 		Rect3 aabb=this;
-		aabb.grow_by(p_by);
+		aabb.growBy(p_by);
 		return aabb;
 	}
 	
-	void get_edge(int p_edge, out Vector3 r_from, out Vector3 r_to) const
+	void getEdge(int p_edge, out Vector3 r_from, out Vector3 r_to) const
 	{
 		///ERR_FAIL_INDEX(p_edge,12);
 		switch(p_edge)

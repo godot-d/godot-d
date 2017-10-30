@@ -94,7 +94,7 @@ struct Basis
 		    co[2]*s, cofac(0, 1, 2, 0) * s, cofac(0, 0, 1, 1) * s );
 	}
 	
-	bool isequal_approx(in Basis a, in Basis b) const
+	bool isEqualApprox(in Basis a, in Basis b) const
 	{
 		for (int i=0;i<3;i++) {
 			for (int j=0;j<3;j++) {
@@ -107,17 +107,17 @@ struct Basis
 	}
 	
 	
-	bool is_orthogonal() const
+	bool isOrthogonal() const
 	{
 		Basis id;
 		Basis m = (this)*transposed();
 	
-		return isequal_approx(id,m);
+		return isEqualApprox(id,m);
 	}
 	
-	bool is_rotation() const
+	bool isRotation() const
 	{
-		return fabs(determinant()-1) < CMP_EPSILON && is_orthogonal();
+		return fabs(determinant()-1) < CMP_EPSILON && isOrthogonal();
 	}
 	
 	void transpose()
@@ -148,12 +148,12 @@ struct Basis
 		       elements[2][0]*(elements[0][1]*elements[1][2] - elements[1][1]*elements[0][2]);
 	}
 	
-	Vector3 get_axis(int p_axis) const
+	Vector3 getAxis(int p_axis) const
 	{
 		// get actual basis axis (elements is transposed for performance)
 		return Vector3( elements[0][p_axis], elements[1][p_axis], elements[2][p_axis] );
 	}
-	void set_axis(int p_axis, in Vector3 p_value)
+	void setAxis(int p_axis, in Vector3 p_value)
 	{
 		// get actual basis axis (elements is transposed for performance)
 		elements[0][p_axis]=p_value.x;
@@ -191,7 +191,7 @@ struct Basis
 		return b;
 	}
 	
-	Vector3 get_scale() const
+	Vector3 getScale() const
 	{
 		// We are assuming M = R.S, and performing a polar decomposition to extract R and S.
 		// FIXME: We eventually need a proper polar decomposition.
@@ -206,7 +206,7 @@ struct Basis
 		);
 	}
 	
-	Vector3 get_euler() const
+	Vector3 getEuler() const
 	{
 		// Euler angles in XYZ convention.
 		// See https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
@@ -217,7 +217,7 @@ struct Basis
 	
 		Vector3 euler;
 	
-		if (is_rotation() == false)
+		if (isRotation() == false)
 			return euler;
 	
 		euler.y = asin(elements[0][2]);
@@ -244,7 +244,7 @@ struct Basis
 		return euler;
 	}
 	
-	void set_euler(in Vector3 p_euler)
+	void setEuler(in Vector3 p_euler)
 	{
 		real_t c, s;
 	
@@ -300,7 +300,7 @@ struct Basis
 		);
 	}
 	
-	Vector3 xform_inv(in Vector3 p_vector) const
+	Vector3 xformInv(in Vector3 p_vector) const
 	{
 		return Vector3(
 			(elements[0][0]*p_vector.x ) + ( elements[1][0]*p_vector.y ) + ( elements[2][0]*p_vector.z ),
@@ -392,28 +392,28 @@ struct Basis
 		elements[2][1]=zy;
 		elements[2][2]=zz;
 	}
-	Vector3 get_column(int i) const
+	Vector3 getColumn(int i) const
 	{
 		return Vector3(elements[0][i],elements[1][i],elements[2][i]);
 	}
 	
-	Vector3 get_row(int i) const
+	Vector3 getRow(int i) const
 	{
 		return Vector3(elements[i][0],elements[i][1],elements[i][2]);
 	}
-	Vector3 get_main_diagonal() const
+	Vector3 getMainDiagonal() const
 	{
 		return Vector3(elements[0][0],elements[1][1],elements[2][2]);
 	}
 	
-	void set_row(int i, in Vector3 p_row)
+	void setRow(int i, in Vector3 p_row)
 	{
 		elements[i][0]=p_row.x;
 		elements[i][1]=p_row.y;
 		elements[i][2]=p_row.z;
 	}
 	
-	Basis transpose_xform(in Basis m) const
+	Basis transposeXform(in Basis m) const
 	{
 		return Basis(
 			elements[0].x * m[0].x + elements[1].x * m[1].x + elements[2].x * m[2].x,
@@ -433,9 +433,9 @@ struct Basis
 		
 		// Gram-Schmidt Process
 		
-		Vector3 x=get_axis(0);
-		Vector3 y=get_axis(1);
-		Vector3 z=get_axis(2);
+		Vector3 x=getAxis(0);
+		Vector3 y=getAxis(1);
+		Vector3 z=getAxis(2);
 		
 		x.normalize();
 		y = (y-x*(x.dot(y)));
@@ -443,9 +443,9 @@ struct Basis
 		z = (z-x*(x.dot(z))-y*(y.dot(z)));
 		z.normalize();
 		
-		set_axis(0,x);
-		set_axis(1,y);
-		set_axis(2,z);
+		setAxis(0,x);
+		setAxis(1,y);
+		setAxis(2,z);
 	}
 	
 	Basis orthonormalized() const
@@ -455,7 +455,7 @@ struct Basis
 		return b;
 	}
 	
-	bool is_symmetric() const
+	bool isSymmetric() const
 	{
 		if (fabs(elements[0][1] - elements[1][0]) > CMP_EPSILON)
 			return false;
@@ -470,7 +470,7 @@ struct Basis
 	Basis diagonalize()
 	{
 		// much copy paste, WOW
-		if (!is_symmetric())
+		if (!isSymmetric())
 			return Basis();
 	
 		const int ite_max = 1024;
@@ -561,7 +561,7 @@ struct Basis
 	];
 	
 	
-	int get_orthogonal_index() const
+	int getOrthogonalIndex() const
 	{
 		//could be sped up if i come up with a way
 		Basis orth=this;
@@ -592,7 +592,7 @@ struct Basis
 	}
 	
 	
-	void set_orthogonal_index(int p_index)
+	void setOrthogonalIndex(int p_index)
 	{
 		//there only exist 24 orthogonal bases in r3
 		///ERR_FAIL_COND(p_index >= 24);
@@ -603,13 +603,13 @@ struct Basis
 	
 	this(in Vector3 p_euler)
 	{
-		set_euler( p_euler );
+		setEuler( p_euler );
 	}
 	
 	this(in Quat p_quat)
 	{
 	
-		real_t d = p_quat.length_squared();
+		real_t d = p_quat.lengthSquared();
 		real_t s = 2.0 / d;
 		real_t xs = p_quat.x * s,   ys = p_quat.y * s,   zs = p_quat.z * s;
 		real_t wx = p_quat.w * xs,  wy = p_quat.w * ys,  wz = p_quat.w * zs;

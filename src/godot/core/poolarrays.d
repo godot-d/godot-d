@@ -119,7 +119,7 @@ struct PoolArray(T)
 	// a few functions are different for Strings than for the others:
 	static if(is(T == String))
 	{
-		void push_back(in ref String data)
+		void pushBack(in ref String data)
 		{
 			_godot_api.godot_pool_string_array_push_back(&_godot_array, &data._godot_string);
 		}
@@ -144,7 +144,7 @@ struct PoolArray(T)
 	}
 	else
 	{
-		void push_back(in T data)
+		void pushBack(in T data)
 		{
 			mixin("auto p = _godot_api."~(typeName!T)~"_push_back;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
@@ -186,6 +186,6 @@ struct PoolArray(T)
 		}
 	}
 	
-	alias append = push_back;
+	alias append = pushBack;
 }
 

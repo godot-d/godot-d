@@ -29,7 +29,7 @@ struct Quat
 	
 	real_t length() const
 	{
-		return sqrt(length_squared());
+		return sqrt(lengthSquared());
 	}
 	
 	void normalize()
@@ -47,7 +47,7 @@ struct Quat
 		return Quat( -x, -y, -z, w );
 	}
 	
-	void set_euler(in Vector3 p_euler)
+	void setEuler(in Vector3 p_euler)
 	{
 		real_t half_a1 = p_euler.x * 0.5;
 		real_t half_a2 = p_euler.y * 0.5;
@@ -137,7 +137,7 @@ struct Quat
 		            invFactor * from.w + newFactor * q.w);
 	}
 	
-	Quat cubic_slerp(in Quat q, in Quat prep, in Quat postq, in real_t t) const
+	Quat cubicSlerp(in Quat q, in Quat prep, in Quat postq, in real_t t) const
 	{
 		//the only way to do slerp :|
 		real_t t2 = (1.0-t)*t*2;
@@ -146,7 +146,7 @@ struct Quat
 		return sp.slerpni(sq,t2);
 	}
 	
-	void get_axis_and_angle(out Vector3 r_axis, out real_t r_angle) const
+	void getAxisAndAngle(out Vector3 r_axis, out real_t r_angle) const
 	{
 		r_angle = 2 * acos(w);
 		r_axis.x = x / sqrt(1-w*w);
@@ -216,7 +216,7 @@ struct Quat
 		return x * q.x+y * q.y+z * q.z+w * q.w;
 	}
 	
-	real_t length_squared() const
+	real_t lengthSquared() const
 	{
 		return dot(this);
 	}
@@ -285,10 +285,10 @@ struct Quat
 	
 	
 	
-	Vector3 get_euler() const
+	Vector3 getEuler() const
 	{
 		Basis m = Basis(this);
-		return m.get_euler();
+		return m.getEuler();
 	}
 }
 

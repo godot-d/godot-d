@@ -30,7 +30,7 @@ struct Color
 		this.a = a;
 	}
 	
-	static float _parse_col(in string p_str, int p_ofs)
+	static float _parseCol(in string p_str, int p_ofs)
 	{
 		int ig=0;
 	
@@ -61,7 +61,7 @@ struct Color
 	
 	}
 	
-	uint to_32() const
+	uint to32() const
 	{
 	
 		uint c=cast(ubyte)(a*255);
@@ -75,7 +75,7 @@ struct Color
 		return c;
 	}
 	
-	uint to_ARGB32() const
+	uint toARGB32() const
 	{
 		uint c=cast(ubyte)(a*255);
 		c<<=8;
@@ -93,7 +93,7 @@ struct Color
 		return (r+g+b)/3.0;
 	}
 	
-	float get_h() const
+	float hue() const
 	{
 	
 		float minv = min( r, g );
@@ -121,7 +121,7 @@ struct Color
 		return h;
 	}
 	
-	float get_s() const
+	float saturation() const
 	{
 		float minv = min( r, g );
 		minv = min( minv, b );
@@ -132,14 +132,14 @@ struct Color
 	
 	}
 	
-	float get_v() const
+	float value() const
 	{
 		float maxv = max( r, g );
 		maxv = max( maxv, b );
 		return maxv;
 	}
 	
-	void set_hsv(float p_h, float p_s, float p_v, float p_alpha)
+	void setHsv(float p_h, float p_s, float p_v, float p_alpha)
 	{
 		int i;
 		float f, p, q, t;
@@ -221,7 +221,7 @@ struct Color
 		return c;
 	}
 	
-	Color linear_interpolate(in Color p_b, float p_t) const {
+	Color linearInterpolate(in Color p_b, float p_t) const {
 	
 		Color res=this;
 	
@@ -232,6 +232,7 @@ struct Color
 	
 		return res;
 	}
+	alias lerp = linearInterpolate;
 	
 	Color blend(in Color p_over) const {
 	
@@ -252,7 +253,7 @@ struct Color
 		return res;
 	}
 	
-	Color to_linear() const
+	Color toLinear() const
 	{
 		return Color(
 			r<0.04045 ? r * (1.0 / 12.92) : pow((r + 0.055) * (1.0 / (1 + 0.055)), 2.4),
@@ -368,7 +369,7 @@ struct Color
 		return true;
 	}+/
 	
-	private static char[2] _to_hex(float p_val)
+	private static char[2] _toHex(float p_val)
 	{
 		char[2] ret;
 		
@@ -389,13 +390,13 @@ struct Color
 		return ret;
 	}
 	
-	char[8] to_html() const
+	char[8] toHtml() const
 	{
 		char[8] ret;
-		ret[0..2] = _to_hex(r);
-		ret[2..4] = _to_hex(g);
-		ret[4..6] = _to_hex(b);
-		ret[6..8] = _to_hex(a);
+		ret[0..2] = _toHex(r);
+		ret[2..4] = _toHex(g);
+		ret[4..6] = _toHex(b);
+		ret[6..8] = _toHex(a);
 		return ret;
 	}
 	
