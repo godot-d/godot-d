@@ -1,5 +1,6 @@
 module language.d;
 
+import godot.d.string;
 import api.util;
 import api.classes, api.methods;
 
@@ -134,7 +135,7 @@ string[2] generateGlobalConstants(in GodotClass c)
 	
 	foreach(const string name, const int value; c.constants)
 	{
-		ret ~= "enum int "~name.escapeD~" = "~text(value)~";\n";
+		ret ~= "enum int "~name.snakeToCamel.escapeD~" = "~text(value)~";\n";
 	}
 	
 	/// Try to put at least some of these in grouped enums
@@ -159,8 +160,7 @@ string[2] generateGlobalConstants(in GodotClass c)
 		foreach(const string name; c.constants.keys[].filter!(k => k.startsWith(g.prefix))
 			.array.sort!((a,b) => c.constants[a] < c.constants[b]))
 		{
-			/// FIXME: should these be camelCase rather than snake_case?
-			ret ~= "\t" ~ name[g.prefix.length..$].toLower.escapeD
+			ret ~= "\t" ~ name[g.prefix.length..$].snakeToCamel.escapeD
 				~ " = " ~ text(c.constants[name]) ~ ",\n";
 		}
 		
