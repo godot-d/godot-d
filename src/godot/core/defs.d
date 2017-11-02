@@ -3,7 +3,61 @@ module godot.core.defs;
 
 import godot.c;
 
-alias GodotError = godot_error;
+enum GodotError
+{
+	ok,
+	failed,
+	unavailable,
+	unconfigured,
+	unauthorized,
+	parameterRangeError,
+	outOfMemory,
+	fileNotFound,
+	fileBadDrive,
+	fileBadPath,
+	fileNoPermission,
+	fileAlreadyInUse,
+	fileCantOpen,
+	fileCantWrite,
+	fileCantRead,
+	fileUnrecognized,
+	fileCorrupt,
+	fileMissingDependencies,
+	fileEof,
+	cantOpen,
+	cantCreate,
+	queryFailed,
+	alreadyInUse,
+	locked,
+	timeout,
+	cantConnect,
+	cantResolve,
+	connectionError,
+	cantAcquireResource,
+	cantFork,
+	invalidData,
+	invalidParameter,
+	alreadyExists,
+	doesNotExist,
+	databaseCantRead,
+	databaseCantWrite,
+	compilationFailed,
+	methodNotFound,
+	linkFailed,
+	scriptFailed,
+	cyclicLink,
+	invalidDeclaration,
+	duplicateSymbol,
+	parseError,
+	busy,
+	skip,
+	help,
+	bug,
+	printerOnFire,
+	omfgThisIsVeryVeryBad,
+	wtf = omfgThisIsVeryVeryBad,
+}
+
 
 alias real_t = float;
 
