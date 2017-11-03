@@ -170,6 +170,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 	import godot.object, godot.resource;
 	import godot.d;
 	static import godot.nativescript;
+	import std.string : toStringz, fromStringz; /// TODO: remove GCed functions
 
 	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
 	else alias Base = GodotObject; // Default base class - GDScript uses Reference
@@ -214,7 +215,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		_godot_api.godot_nativescript_register_method(handle, name, godotName!mf, ma, md);
+		_godot_api.godot_nativescript_register_method(handle, name, godotName!mf.toStringz, ma, md); /// TODO: remove GCed functions
 	}
 	
 	// OnReady when there is no _ready method
@@ -230,8 +231,6 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 	enum bool matchName(string p, alias a) = (godotName!a == p);
 	foreach(pName; godotPropertyNames!T)
 	{
-		enum immutable(char*) propName = pName;
-		
 		alias getterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyGetters!T);
 		static assert(getterMatches.length <= 1); /// TODO: error message
 		alias setterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertySetters!T);
@@ -296,13 +295,13 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			sf.set_func = &emptySetter;
 		}
 		
-		_godot_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
+		_godot_api.godot_nativescript_register_property(handle, name, pName.toStringz, &attr, sf, gf); /// TODO: remove GCed functions
 	}
 	foreach(pName; godotPropertyVariableNames!T)
 	{
 		alias renames = getUDAs!(mixin("T."~pName), Rename);
-		static if(renames.length && !is(renames[0])) enum immutable(char*) propName = renames[0].name;
-		else enum immutable(char*) propName = pName;
+		static if(renames.length && !is(renames[0])) immutable(char*) propName = renames[0].name.toStringz; /// TODO: remove GCed functions
+		else immutable(char*) propName = pName.toStringz;
 		
 		import std.string;
 		
