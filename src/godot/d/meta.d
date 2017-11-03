@@ -3,6 +3,7 @@ Compile-time introspection of Godot types
 +/
 module godot.d.meta;
 
+import godot.d.string;
 import godot.d.udas;
 
 import std.meta, std.traits;
@@ -124,18 +125,18 @@ package(godot) enum string dName(alias a) = __traits(identifier, a);
 package(godot) template godotName(alias a)
 {
 	alias udas = getUDAs!(a, Rename);
-	static if(udas.length == 0) enum string godotName = __traits(identifier, a);
+	static if(udas.length == 0) enum string godotName = __traits(identifier, a).camelToSnake;
 	else
 	{
-	    static assert(udas.length == 1, "Multiple Rename UDAs on "~
-		    fullyQualifiedName!a~"? Why?");
-	    
-	    static if(is( udas[0] )) static assert(0, "Construct the UDA with a string: @Rename(\"name\")");
-	    else
-	    {
-		    enum Rename uda = udas[0];
-		    enum string godotName = uda.name;
-	    }
+		static assert(udas.length == 1, "Multiple Rename UDAs on "~
+			fullyQualifiedName!a~"? Why?");
+		
+		static if(is( udas[0] )) static assert(0, "Construct the UDA with a string: @Rename(\"name\")");
+		else
+		{
+			enum Rename uda = udas[0];
+			enum string godotName = uda.name;
+		}
 	}
 }
 
