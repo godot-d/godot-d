@@ -36,16 +36,6 @@
 			"importPaths": [ "miscclasses" ],
 			"sourcePaths": [ "miscclasses" ],
 		},
-		{
-			"name": "example",
-			"description": "Example using D classes",
-			"targetType": "dynamicLibrary",
-			"targetPath": "example/project",
-			"dependencies":
-			{
-				"godot-d": "*"
-			},
-			"sourcePaths": [ "example/src" ]
-		}
+		"./examples/test/",
 	],
 }

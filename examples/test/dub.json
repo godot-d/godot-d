@@ -1,0 +1,10 @@
+{
+	"name": "test",
+	"description": "Minimal example to test Godot-D",
+	"targetType": "dynamicLibrary",
+	"targetPath": "project",
+	"dependencies":
+	{
+		"godot-d": { "path": "../../" }
+	},
+}

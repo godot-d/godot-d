@@ -16,8 +16,7 @@ __dummy.html
 __test__*__
 api.json
 gdnative_api.json
-binding-output/*
 godot-d_generator*
-example/project/.import/*
-example/project/logs
+examples/*/project/.import/*
+examples/*/project/logs/*
 *.import

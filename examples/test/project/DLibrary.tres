@@ -2,10 +2,10 @@
 
 [resource]
 
-platform/X11_32bit = "res://libgodot-d_example.so"
-platform/X11_64bit = "res://libgodot-d_example.so"
-platform/Windows_32bit = "res://godot-d_example.dll"
-platform/Windows_64bit = "res://godot-d_example.dll"
+platform/X11_32bit = "res://libgodot-d_test.so"
+platform/X11_64bit = "res://libgodot-d_test.so"
+platform/Windows_32bit = "res://godot-d_test.dll"
+platform/Windows_64bit = "res://godot-d_test.dll"
 platform/OSX = ""
 platform/Android = ""
 platform/iOS_32bit = ""
