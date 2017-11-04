@@ -110,34 +110,22 @@ struct godot_plane
 {
 	ulong[2] _opaque;
 }
-struct godot_pool_byte_array
+
+mixin template PoolArray(Type, string name)
 {
-	size_t _opaque;
+	mixin("struct godot_pool_"~name~"_array { size_t _opaque; }");
+	mixin("struct godot_pool_"~name~"_array_read_access { ubyte _opaque; }");
+	mixin("struct godot_pool_"~name~"_array_write_access { ubyte _opaque; }");
 }
-struct godot_pool_int_array
-{
-	size_t _opaque;
-}
-struct godot_pool_real_array
-{
-	size_t _opaque;
-}
-struct godot_pool_string_array
-{
-	size_t _opaque;
-}
-struct godot_pool_vector2_array
-{
-	size_t _opaque;
-}
-struct godot_pool_vector3_array
-{
-	size_t _opaque;
-}
-struct godot_pool_color_array
-{
-	size_t _opaque;
-}
+mixin PoolArray!(ubyte, "byte");
+mixin PoolArray!(int, "int");
+mixin PoolArray!(float, "real");
+mixin PoolArray!(godot_string, "string");
+mixin PoolArray!(godot_vector2, "vector2");
+mixin PoolArray!(godot_vector3, "vector3");
+mixin PoolArray!(godot_color, "color");
+
+
 struct godot_quat
 {
 	ulong[2] _opaque;
