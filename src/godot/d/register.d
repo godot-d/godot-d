@@ -52,7 +52,7 @@ mixin template GodotNativeInit(Args...)
 		import core.runtime : Runtime;
 		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
 		
-		_godot_api = options.api_struct;
+		godot_gdnative_api_struct_init(options.api_struct);
 		
 		import core.exception : assertHandler;
 		assertHandler = (options.in_editor) ? (&godotAssertHandlerEditorDebug)
@@ -186,7 +186,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
-	_godot_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
+	_godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
 	
 	// register a no-op function that indicates this is a D class
 	{
@@ -194,7 +194,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		md.method = &_GODOT_nop;
 		md.free_func = null;
 		
-		_godot_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
 	
 	foreach(mf; godotMethods!T)
@@ -215,7 +215,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		_godot_api.godot_nativescript_register_method(handle, name, godotName!mf.toStringz, ma, md); /// TODO: remove GCed functions
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, godotName!mf.toStringz, ma, md); /// TODO: remove GCed functions
 	}
 	
 	// OnReady when there is no _ready method
@@ -225,7 +225,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		enum ma = godot_method_attributes.init;
 		godot_instance_method md;
 		md.method = &OnReadyWrapper!T.callOnReady;
-		_godot_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
@@ -295,7 +295,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			sf.set_func = &emptySetter;
 		}
 		
-		_godot_api.godot_nativescript_register_property(handle, name, pName.toStringz, &attr, sf, gf); /// TODO: remove GCed functions
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pName.toStringz, &attr, sf, gf); /// TODO: remove GCed functions
 	}
 	foreach(pName; godotPropertyVariableNames!T)
 	{
@@ -369,7 +369,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			sf.free_func = null;
 		}
 		
-		_godot_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
 	}
 	// TODO: signals
 }

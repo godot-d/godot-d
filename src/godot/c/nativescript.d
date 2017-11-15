@@ -32,7 +32,7 @@ module godot.c.nativescript;
 @nogc nothrow:
 extern(C):
 
-import godot.c.gdnative;
+import godot.c.core;
 
 enum godot_method_rpc_mode {
 	GODOT_METHOD_RPC_MODE_DISABLED,

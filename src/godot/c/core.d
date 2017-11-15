@@ -1,6 +1,10 @@
-module godot.c.types;
+module godot.c.core;
 
 public import core.stdc.stddef : wchar_t;
+import godot.c.api;
+
+@nogc nothrow:
+extern(C):
 
 enum GODOT_API_VERSION = 1;
 
@@ -232,24 +236,32 @@ enum godot_vector3_axis
 	GODOT_VECTOR3_AXIS_Z,
 }
 
-struct godot_arvr_interface_gdnative
-{
-	void* function(godot_object) constructor;
-	void function(void*) destructor;
-	godot_string function(const void*) get_name;
-	godot_int function(const void*) get_capabilities;
-	godot_bool function(const void*) get_anchor_detection_is_enabled;
-	void function(void*, godot_bool) set_anchor_detection_is_enabled;
-	godot_bool function(const void*) is_stereo;
-	godot_bool function(const void*) is_initialized;
-	godot_bool function(void*) initialize;
-	void function(void*) uninitialize;
-	godot_vector2 function(const void*) get_recommended_render_target_size;
-	godot_transform function(void*, godot_int, godot_transform*) get_transform_for_eye;
-	void function(void*, godot_real*, godot_int, godot_real, godot_real, godot_real) fill_projection_for_eye;
-	void function(void*, godot_int, godot_rid*, godot_rect2*) commit_for_eye;
-	void function(void*) process;
+////// MethodBind API
+
+struct godot_method_bind {
+	ubyte[1] _dont_touch_that; // TODO
 }
+
+struct godot_gdnative_init_options {
+	godot_bool in_editor;
+	ulong core_api_hash;
+	ulong editor_api_hash;
+	ulong no_api_hash;
+	godot_object gd_native_library; // pointer to GDNativeLibrary that is being initialized
+	const(godot_gdnative_core_api_struct)* api_struct; // contains all C function pointers
+	const(godot_string)* active_library_path;
+}
+
+struct godot_gdnative_terminate_options {
+	godot_bool in_editor;
+}
+
+alias godot_class_constructor = godot_object function();
+
+////// GDNative procedure types
+alias godot_gdnative_init_fn = void function(godot_gdnative_init_options *);
+alias godot_gdnative_terminate_fn = void function(godot_gdnative_terminate_options *);
+alias godot_gdnative_procedure_fn = godot_variant function(void *, godot_array *);
 
 
 

@@ -167,7 +167,7 @@ mixin template baseCasts()
 		if(_godot_object.ptr is null) return null;
 		if(hasMethod(String(`_GDNATIVE_D_typeid`)))
 		{
-			inout(Object) o = cast(inout(Object))(_godot_api.godot_nativescript_get_userdata(
+			inout(Object) o = cast(inout(Object))(_godot_nativescript_api.godot_nativescript_get_userdata(
 				cast(godot_object)_godot_object));
 			return cast(inout(To))o; // D dynamic cast to check polymorphism
 		}
