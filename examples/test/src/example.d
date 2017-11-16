@@ -293,6 +293,7 @@ class Test : GodotScript!Label
 // register Test; also initializes D Runtime and Godot assert handler
 mixin GodotNativeInit!
 (
+	"test",
 	Test,
 	(godot_gdnative_init_options* o)
 	{
@@ -301,5 +302,5 @@ mixin GodotNativeInit!
 	}
 );
 // terminate D Runtime
-mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
+mixin GodotNativeTerminate!( "test", (){ writeln("GodotNativeTerminate func"); } );
 

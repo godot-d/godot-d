@@ -26,6 +26,8 @@ enum NoDRuntime;
 /++
 This mixin will generate the GDNative initialization function for this D library.
 
+The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
+
 It will first initialize the D runtime, unless you pass $(D NoDRuntime) to it.
 
 The following template arguments will be processed in the order they're passed:
@@ -33,7 +35,7 @@ The following template arguments will be processed in the order they're passed:
  - Functions will be called. Optionally can take a $(D godot_native_init_options*)
 argument (from the $(D godot.c) module).
 +/
-mixin template GodotNativeInit(Args...)
+mixin template GodotNativeInit(string symbolPrefix, Args...)
 {
 	private static import godot.c;
 	private static import godot.gdnativelibrary;
@@ -41,10 +43,7 @@ mixin template GodotNativeInit(Args...)
 	private __gshared godot.gdnativelibrary.GDNativeLibrary _GODOT_library;
 	private __gshared void* _GODOT_library_handle;
 	
-	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
-	/// https://issues.dlang.org/show_bug.cgi?id=12575
-	/// workaround: manually specify unmangled name.
-	pragma(mangle, "godot_gdnative_init")
+	pragma(mangle, symbolPrefix~"gdnative_init")
 	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
 	{
 		import godot.c.api;
@@ -79,7 +78,7 @@ mixin template GodotNativeInit(Args...)
 			}
 		}
 	}
-	pragma(mangle, "godot_nativescript_init")
+	pragma(mangle, symbolPrefix~"nativescript_init")
 	export extern(C) static void godot_nativescript_init(void* handle)
 	{
 		import std.meta, std.traits;
@@ -111,6 +110,8 @@ mixin template GodotNativeInit(Args...)
 /++
 This mixin will generate the GDNative termination function for this D library.
 
+The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
+
 The following template arguments will be processed in the order they're passed:
  - Functions will be called. Optionally can take a $(D godot_native_terminate_options*)
 argument (from the $(D godot.c) module).
@@ -119,13 +120,11 @@ argument (from the $(D godot.c) module).
 
 It will also terminate the D runtime, unless you pass $(D NoDRuntime) to it.
 +/
-mixin template GodotNativeTerminate(Args...)
+mixin template GodotNativeTerminate(string symbolPrefix, Args...)
 {
 	private static import godot.c;
-	/// BUG: extern(C) ignored inside mixin template for removing D name mangling.
-	/// https://issues.dlang.org/show_bug.cgi?id=12575
-	/// workaround: manually specify unmangled name.
-	pragma(mangle, "godot_gdnative_terminate")
+	
+	pragma(mangle, symbolPrefix~"gdnative_terminate")
 	export extern(C) static void godot_gdnative_terminate(godot.c.godot_gdnative_terminate_options* options)
 	{
 		import std.meta, std.traits;

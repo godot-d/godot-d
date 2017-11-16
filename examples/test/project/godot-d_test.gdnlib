@@ -1,0 +1,9 @@
+[general]
+
+singleton=false
+load_once=false
+symbol_prefix="test"
+
+[entry]
+X11="res://libgodot-d_test.so"
+Windows="res://godot-d_test.dll"
