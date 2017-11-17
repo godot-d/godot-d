@@ -106,7 +106,7 @@ class GodotClass
 		if(singleton)
 		{
 			ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
-			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~internal_name~"\";\n";
+			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~name~"\";\n";
 			ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
 			ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
 			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
