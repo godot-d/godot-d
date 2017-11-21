@@ -302,15 +302,6 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 				else alias result = A; // final fallback: pass it unmodified to `assign`
 			}
 			
-			// another thing that could be handled by C++-style implicit constructors
-			// TODO: remove once bound Godot classes have templated methods
-			pragma(inline, true)
-			Thing sameOrCtor(Thing, Arg)(Arg arg)
-			{
-				static if(is(typeof(arg) : Thing)) return arg;
-				else return Thing(arg);
-			}
-			
 			// Second, assign `result` to the field depending on the types of it and `result`
 			/*
 			BUG: if this local func `access` uses the alias `F` from the scope of the foreach
@@ -318,7 +309,7 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 			iteration. Maybe a bug in D? Workaround: pass `F` as a template arg.
 			*/
 			pragma(inline, true)
-			void assign(Src, Dest)(Src from)
+			void assign(Src, Dest, alias from)()
 			{
 				import godot.resource;
 				
@@ -335,19 +326,19 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 				else static if(isGodotClass!Dest && is(GodotClass!Dest : Node))
 				{
 					// special case: node path
-					mixin("t."~n) = cast(Dest)t.owner.getNode(sameOrCtor!NodePath(from));
+					mixin("t."~n) = cast(Dest)t.owner.getNode(from);
 				}
 				else static if(isGodotClass!Dest && is(GodotClass!Dest : Resource))
 				{
 					// special case: resource load path
 					import godot.resourceloader;
-					mixin("t."~n) = cast(Dest)ResourceLoader.load(sameOrCtor!String(from));
+					mixin("t."~n) = cast(Dest)ResourceLoader.load(from);
 				}
 				else static assert(0, "Don't know how to assign "~Src.stringof~" "~from.stringof~
 					" to "~Dest.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
 			}
 			
-			static if(!is(result == void)) assign!(typeof(result), F)(result);
+			static if(!is(result == void)) assign!(typeof(result), F, result);
 		}
 		
 		// Finally, call the actual _ready() if it exists.
