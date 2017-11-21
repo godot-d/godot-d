@@ -199,6 +199,8 @@ string escapeType(string t)
 	
 	if(t == "Object") return "GodotObject";
 	if(t == "Error") return "GodotError";
+	if(t == "float") return "double";
+	if(t == "int") return "long";
 	if(t.isEnum) return t.qualifyEnumName;
 	return t;
 }
