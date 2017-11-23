@@ -299,46 +299,38 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 					// A is another variable inside this very same T
 					auto result = __traits(getMember, t, __traits(identifier, A));
 				}
-				else alias result = A; // final fallback: pass it unmodified to `assign`
+				else alias result = A; // final fallback: pass it unmodified to assignment
 			}
 			
 			// Second, assign `result` to the field depending on the types of it and `result`
-			/*
-			BUG: if this local func `access` uses the alias `F` from the scope of the foreach
-			loop, it incorrectly sees the first iteration's `F`, rather than the `F` of its own
-			iteration. Maybe a bug in D? Workaround: pass `F` as a template arg.
-			*/
-			pragma(inline, true)
-			void assign(Src, Dest, alias from)()
+			static if(!is(result == void))
 			{
 				import godot.resource;
 				
-				static if(isImplicitlyConvertible!(Src, Dest))
+				static if(isImplicitlyConvertible!(typeof(result), F))
 				{
 					// direct assignment
-					mixin("t."~n) = from;
+					mixin("t."~n) = result;
 				}
-				else static if(__traits(compiles, mixin("t."~n) = Dest(from)))
+				else static if(__traits(compiles, mixin("t."~n) = F(result)))
 				{
 					// explicit constructor (String(string), NodePath(string), etc)
-					mixin("t."~n) = Dest(from);
+					mixin("t."~n) = F(result);
 				}
-				else static if(isGodotClass!Dest && is(GodotClass!Dest : Node))
+				else static if(isGodotClass!F && is(GodotClass!F : Node))
 				{
 					// special case: node path
-					mixin("t."~n) = cast(Dest)t.owner.getNode(from);
+					mixin("t."~n) = cast(F)t.owner.getNode(result);
 				}
-				else static if(isGodotClass!Dest && is(GodotClass!Dest : Resource))
+				else static if(isGodotClass!F && is(GodotClass!F : Resource))
 				{
 					// special case: resource load path
 					import godot.resourceloader;
-					mixin("t."~n) = cast(Dest)ResourceLoader.load(from);
+					mixin("t."~n) = cast(F)ResourceLoader.load(result);
 				}
-				else static assert(0, "Don't know how to assign "~Src.stringof~" "~from.stringof~
-					" to "~Dest.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
+				else static assert(0, "Don't know how to assign "~typeof(result).stringof~" "~result.stringof~
+					" to "~F.stringof~" "~fullyQualifiedName!(mixin("t."~n)));
 			}
-			
-			static if(!is(result == void)) assign!(typeof(result), F, result);
 		}
 		
 		// Finally, call the actual _ready() if it exists.
