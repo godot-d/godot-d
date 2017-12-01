@@ -145,8 +145,8 @@ class Test : GodotScript!Label
 		String str = String("qwertz");
 		Variant vStr = str;
 		String strBack = vStr.as!String;
-		auto strBackC = strBack.ptr;
-		printf("strBack.ptr: <%s>\n", strBackC);
+		auto strBackD = strBack.data;
+		writefln("strBack.data: %x <%s>", cast(void*)strBackD.ptr, strBackD);
 		
 		Variant vDStr = "D string assigned to Variant";
 		writefln("vDStr: <%s>", vDStr);
