@@ -53,6 +53,24 @@ struct String
 	}
 	
 	/++
+	wchar_t constructor. S can be a slice or a null-terminated pointer.
+	+/
+	this(S)(in S str) if(isImplicitlyConvertible!(S, const(wchar_t)[]) ||
+		isImplicitlyConvertible!(S, const(wchar_t)*))
+	{
+		static if(isImplicitlyConvertible!(S, const(wchar_t)[]))
+		{
+			const(wchar_t)[] contents = str;
+			_godot_api.godot_string_new_unicode_data(&_godot_string, contents.ptr, cast(int)contents.length);
+		}
+		else
+		{
+			const(wchar_t)* contents = str;
+			_godot_api.godot_string_new_unicode_data(&_godot_string, contents, cast(int)strlen(contents));
+		}
+	}
+	
+	/++
 	UTF-8 constructor. S can be a slice (like `string`) or a null-terminated pointer.
 	+/
 	this(S)(in S str) if(isImplicitlyConvertible!(S, const(char)[]) ||
@@ -101,11 +119,10 @@ struct String
 		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, idx);
 	}
 	
+	/// Returns the length of the wchar_t array, minus the zero terminator.
 	int length() const
 	{
-		int len = 0;
-		_godot_api.godot_string_get_data(&_godot_string, null, &len);
-		return len;
+		return _godot_api.godot_string_length(&_godot_string);
 	}
 	
 	int opCmp(in ref String s)
@@ -129,15 +146,18 @@ struct String
 		_godot_string = _godot_api.godot_string_operator_plus(&_godot_string, &other._godot_string);
 	}
 	
-	const(char*) c_string() const
+	/// Returns a pointer to the wchar_t data. Always zero-terminated.
+	const(wchar_t)* ptr() const
 	{
-		return _godot_api.godot_string_c_str(&_godot_string);
+		return _godot_api.godot_string_unicode_str(&_godot_string);
 	}
-	
-	/*const(char[]) d_string() const
+
+	/// Returns a slice of the wchar_t data without the zero terminator.
+	const(wchar_t)[] data() const
 	{
-		return _godot_api.godot_string_c_str(&_godot_string)[0..length];
-	}*/
+		return ptr[0..length];
+	}
+	alias toString = data;
 }
 
  

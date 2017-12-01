@@ -24,16 +24,16 @@ class Test : GodotScript!Label
 	+/
 	alias owner this;
 	
-	private string _prop = "default text";
+	private String _prop;
 	@Property
 	String property() const
 	{
-		return String(_prop~" ~ hello from the getter!");
+		return _prop~String(" ~ hello from the getter!");
 	}
 	@Property
 	void property(in String v)
 	{
-		_prop = v.c_string.fromStringz.idup~" ~ hello from the setter!";
+		_prop = v~String(" ~ hello from the setter!");
 	}
 	
 	private long _num = 5;
@@ -145,8 +145,8 @@ class Test : GodotScript!Label
 		String str = String("qwertz");
 		Variant vStr = str;
 		String strBack = vStr.as!String;
-		auto strBackC = strBack.c_string;
-		printf("strBack.c_string: <%s>\n", strBackC);
+		auto strBackC = strBack.ptr;
+		printf("strBack.ptr: <%s>\n", strBackC);
 		
 		Variant vDStr = "D string assigned to Variant";
 		writefln("vDStr: <%s>", vDStr);
@@ -194,18 +194,18 @@ class Test : GodotScript!Label
 		{
 			String empty;
 			writefln("empty.length: %d", empty.length);
-			auto cStr = empty.c_string;
-			writefln("empty.c_string: %x <%s>", cast(void*)cStr, cStr.fromStringz);
+			auto cStr = empty.data;
+			writefln("empty.data: %x <%s>", cast(void*)cStr.ptr, cStr);
 			
 			String other = empty;
-			auto ocStr = other.c_string;
-			writefln("other.c_string: %x <%s>", cast(void*)ocStr, ocStr.fromStringz);
+			auto ocStr = other.data;
+			writefln("other.data: %x <%s>", cast(void*)ocStr.ptr, ocStr);
 			
 			String cat = empty ~ String("cat");
-			writefln("cat: <%s>", cat.c_string.fromStringz);
+			writefln("cat: <%s>", cat);
 			
 			empty = String("assigned");
-			writefln("assigned: <%s>", empty.c_string.fromStringz);
+			writefln("assigned: <%s>", empty);
 		}
 		
 		// test singletons
@@ -214,8 +214,8 @@ class Test : GodotScript!Label
 			import std.string;
 			
 			String name = OS.getName();
-			writefln("OS is %s on device %s", name.c_string().fromStringz,
-				OS.getModelName().c_string().fromStringz);
+			writefln("OS is %s on device %s", name,
+				OS.getModelName());
 			String exe = OS.getExecutablePath();
 			print("Executable path: ", exe);
 			
@@ -233,7 +233,7 @@ class Test : GodotScript!Label
 			setUppercase(true);
 			
 			String oldText = getText();
-			writefln("Old Label text: %s", oldText.c_string.fromStringz);
+			writefln("Old Label text: %s", oldText);
 			setText("New text set from D Test class");
 		}
 		
@@ -243,12 +243,11 @@ class Test : GodotScript!Label
 			import std.string;
 			
 			String iconPath = String("res://icon.png");
-			writefln("assert(!ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
+			writefln("assert(!ResourceLoader.has(%s))", iconPath);
 			assert(!ResourceLoader.has(iconPath));
 			
 			Resource res = ResourceLoader.load(iconPath, "", false);
-			writefln("Loaded Resource %s at path %s", res.getName.c_string.fromStringz,
-				res.getPath.c_string.fromStringz);
+			writefln("Loaded Resource %s at path %s", res.getName, res.getPath);
 			
 			// test upcasts
 			import godot.texture, godot.mesh;
@@ -259,7 +258,7 @@ class Test : GodotScript!Label
 			auto size = rightCast.getSize();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			
-			writefln("assert(ResourceLoader.has(%s))", iconPath.c_string.fromStringz);
+			writefln("assert(ResourceLoader.has(%s))", iconPath);
 			assert(ResourceLoader.has(iconPath));
 		}
 		
@@ -274,7 +273,7 @@ class Test : GodotScript!Label
 			owner.set(pn, someTextV);
 			writefln("Internally, property now contains <%s>.", _prop);
 			auto res = owner.get(pn).as!String;
-			writefln("getting property: <%s>", res.c_string.fromStringz);
+			writefln("getting property: <%s>", res);
 		}
 		{
 			String pn = String("number");

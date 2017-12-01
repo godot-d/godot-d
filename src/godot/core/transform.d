@@ -4,7 +4,7 @@ import godot.core.defs;
 import godot.core.vector3;
 import godot.core.quat;
 import godot.core.basis;
-import godot.core.rect3;
+import godot.core.aabb;
 import godot.core.plane;
 
 struct Transform
@@ -95,7 +95,7 @@ struct Transform
 	
 	}
 	
-	Rect3 xform(in Rect3 p_aabb) const
+	AABB xform(in AABB p_aabb) const
 	{
 		/* define vertices */
 		Vector3 x=basis.getAxis(0)*p_aabb.size.x;
@@ -103,7 +103,7 @@ struct Transform
 		Vector3 z=basis.getAxis(2)*p_aabb.size.z;
 		Vector3 pos = xform( p_aabb.pos );
 		//could be even further optimized
-		Rect3 new_aabb;
+		AABB new_aabb;
 		new_aabb.pos=pos;
 		new_aabb.expandTo( pos+x );
 		new_aabb.expandTo( pos+y );
@@ -114,7 +114,7 @@ struct Transform
 		new_aabb.expandTo( pos+x+y+z );
 		return new_aabb;
 	}
-	Rect3 xformInv(in Rect3 p_aabb) const
+	AABB xformInv(in AABB p_aabb) const
 	{
 		/* define vertices */
 		Vector3[8] vertices=[
@@ -127,7 +127,7 @@ struct Transform
 				Vector3(p_aabb.pos.x,	p_aabb.pos.y,		p_aabb.pos.z+p_aabb.size.z),
 				Vector3(p_aabb.pos.x,	p_aabb.pos.y,		p_aabb.pos.z)
 		];
-		Rect3 ret;
+		AABB ret;
 		ret.pos=xformInv(vertices[0]);
 		for(int i=1;i<8;i++)
 		{

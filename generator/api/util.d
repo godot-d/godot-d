@@ -19,7 +19,8 @@ bool isEnum(in string type)
 
 bool isCoreType(in string type)
 {
-	auto coreTypes = only("Array",
+	auto coreTypes = only("AABB",
+	                      "Array",
 	                      "Basis",
 	                      "Color",
 	                      "Dictionary",
@@ -35,7 +36,6 @@ bool isCoreType(in string type)
 	                      "PoolColorArray",
 	                      "Quat",
 	                      "Rect2",
-	                      "Rect3",
 	                      "RID",
 	                      "String",
 	                      "Transform",
@@ -113,7 +113,7 @@ string emptyDefault(string type)
 		case "Vector2":
 		case "Vector3":
 		case "Rect2":
-		case "Rect3":
+		case "AABB":
 		case "Plane":
 		case "Basis":
 		
@@ -177,7 +177,7 @@ string escapeDefault(string type, string arg)
 		case "Vector2": // "(0, 0)"
 		case "Vector3":
 		case "Rect2": // "(0, 0, 0, 0)"
-		case "Rect3":
+		case "AABB":
 			return type~arg;
 		case "Variant":
 			if(arg == "Null") return "Variant.nil";

@@ -77,7 +77,7 @@ struct Variant
 		godot_transform2d,
 		godot_plane,
 		godot_quat,
-		godot_rect3,
+		godot_aabb,
 		godot_basis,
 		godot_transform,
 		
@@ -113,7 +113,7 @@ struct Variant
 		Transform2D,
 		Plane,
 		Quat,// 10
-		Rect3,
+		AABB,
 		Basis,
 		Transform,
 		
@@ -409,9 +409,8 @@ struct Variant
 	
 	auto toString() const
 	{
-		import std.string;
 		String str = as!String;
-		return str.c_string.fromStringz;
+		return str.data;
 	}
 }
 

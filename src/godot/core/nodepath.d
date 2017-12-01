@@ -37,12 +37,6 @@ struct NodePath
 		return _godot_api.godot_node_path_get_name_count(&_node_path);
 	}
 	
-	String getProperty() const
-	{
-		godot_string str = _godot_api.godot_node_path_get_property(&_node_path);
-		return String(str);
-	}
-	
 	String getSubname(in int idx) const
 	{
 		godot_string str = _godot_api.godot_node_path_get_subname(&_node_path, idx);

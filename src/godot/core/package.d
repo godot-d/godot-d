@@ -5,6 +5,7 @@ module godot.core;
 
 public
 {
+	import godot.core.aabb;
 	import godot.core.array;
 	import godot.core.basis;
 	import godot.core.color;
@@ -15,7 +16,6 @@ public
 	import godot.core.poolarrays;
 	import godot.core.quat;
 	import godot.core.rect2;
-	import godot.core.rect3;
 	import godot.core.rid;
 	import godot.core.string;
 	import godot.core.transform;

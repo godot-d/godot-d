@@ -138,7 +138,7 @@ struct godot_rect2
 {
 	ulong[2] _opaque;
 }
-struct godot_rect3
+struct godot_aabb
 {
 	ulong[3] _opaque;
 }
@@ -242,11 +242,18 @@ struct godot_method_bind {
 	ubyte[1] _dont_touch_that; // TODO
 }
 
+struct godot_gdnative_api_version {
+	uint major;
+	uint minor;
+}
+
 struct godot_gdnative_init_options {
 	godot_bool in_editor;
 	ulong core_api_hash;
 	ulong editor_api_hash;
 	ulong no_api_hash;
+	void function(const godot_object p_library, const char *p_what, godot_gdnative_api_version p_want, godot_gdnative_api_version p_have) report_version_mismatch;
+	void function(const godot_object p_library, const char *p_what) report_loading_error;
 	godot_object gd_native_library; // pointer to GDNativeLibrary that is being initialized
 	const(godot_gdnative_core_api_struct)* api_struct; // contains all C function pointers
 	const(godot_string)* active_library_path;
@@ -263,5 +270,6 @@ alias godot_gdnative_init_fn = void function(godot_gdnative_init_options *);
 alias godot_gdnative_terminate_fn = void function(godot_gdnative_terminate_options *);
 alias godot_gdnative_procedure_fn = godot_variant function(void *, godot_array *);
 
+alias native_call_cb = godot_variant function(void *, godot_array *);
 
 

@@ -1,4 +1,4 @@
-module godot.core.rect3;
+module godot.core.aabb;
 
 import godot.core.defs;
 import godot.core.vector3;
@@ -7,7 +7,7 @@ import godot.core.plane;
 import std.algorithm.mutation : swap;
 
 
-struct Rect3
+struct AABB
 {
 	@nogc nothrow:
 	
@@ -24,7 +24,7 @@ struct Rect3
 		return (size.x<=CMP_EPSILON && size.y<=CMP_EPSILON  && size.z<=CMP_EPSILON);
 	}
 	
-	bool intersects(in Rect3 p_aabb) const
+	bool intersects(in AABB p_aabb) const
 	{
 		if ( pos.x >= (p_aabb.pos.x + p_aabb.size.x) )
 			return false;
@@ -41,7 +41,7 @@ struct Rect3
 		return true;
 	}
 	
-	bool intersectsInclusive(in Rect3 p_aabb) const
+	bool intersectsInclusive(in AABB p_aabb) const
 	{
 		if ( pos.x > (p_aabb.pos.x + p_aabb.size.x) )
 			return false;
@@ -58,7 +58,7 @@ struct Rect3
 		return true;
 	}
 	
-	bool encloses(in Rect3 p_aabb) const
+	bool encloses(in AABB p_aabb) const
 	{
 		Vector3 src_min=pos;
 		Vector3 src_max=pos+size;
@@ -270,7 +270,7 @@ struct Rect3
 		return size.x*size.y*size.z;
 	}
 	
-	void mergeWith(in Rect3 p_aabb)
+	void mergeWith(in AABB p_aabb)
 	{
 		Vector3 beg_1,beg_2;
 		Vector3 end_1,end_2;
@@ -293,7 +293,7 @@ struct Rect3
 		size=max-min;
 	}
 	
-	Rect3 intersection(in Rect3 p_aabb) const
+	AABB intersection(in AABB p_aabb) const
 	{
 		Vector3 src_min=pos;
 		Vector3 src_max=pos+size;
@@ -303,7 +303,7 @@ struct Rect3
 		Vector3 min,max;
 		
 		if (src_min.x > dst_max.x || src_max.x < dst_min.x )
-			return Rect3();
+			return AABB();
 		else
 		{
 			min.x= ( src_min.x > dst_min.x ) ? src_min.x :dst_min.x;
@@ -311,7 +311,7 @@ struct Rect3
 		}
 		
 		if (src_min.y > dst_max.y || src_max.y < dst_min.y )
-			return Rect3();
+			return AABB();
 		else
 		{
 			min.y= ( src_min.y > dst_min.y ) ? src_min.y :dst_min.y;
@@ -319,7 +319,7 @@ struct Rect3
 		}
 		
 		if (src_min.z > dst_max.z || src_max.z < dst_min.z )
-			return Rect3();
+			return AABB();
 		else
 		{
 			min.z= ( src_min.z > dst_min.z ) ? src_min.z :dst_min.z;
@@ -327,7 +327,7 @@ struct Rect3
 		}
 		
 		
-		return Rect3( min, max-min );
+		return AABB( min, max-min );
 	}
 	
 	bool intersectsRay(in Vector3 p_from, in Vector3 p_dir, Vector3* r_clip = null, Vector3* r_normal = null) const
@@ -539,22 +539,22 @@ struct Rect3
 		return axis;
 	}
 	
-	Rect3 merge(in Rect3 p_with) const
+	AABB merge(in AABB p_with) const
 	{
-		Rect3 aabb=this;
+		AABB aabb=this;
 		aabb.mergeWith(p_with);
 		return aabb;
 	}
-	Rect3 expand(in Vector3 p_vector) const
+	AABB expand(in Vector3 p_vector) const
 	{
-		Rect3 aabb=this;
+		AABB aabb=this;
 		aabb.expandTo(p_vector);
 		return aabb;
 	
 	}
-	Rect3 grow(real_t p_by) const
+	AABB grow(real_t p_by) const
 	{
-		Rect3 aabb=this;
+		AABB aabb=this;
 		aabb.growBy(p_by);
 		return aabb;
 	}
