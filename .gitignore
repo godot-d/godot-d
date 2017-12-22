@@ -20,3 +20,5 @@ godot-d_generator*
 examples/*/project/.import/*
 examples/*/project/logs/*
 *.import
+classes
+miscclasses
