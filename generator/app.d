@@ -15,6 +15,12 @@ import std.format;
 import std.getopt;
 import std.range;
 
+void usage(GetoptResult opt)
+{
+	defaultGetoptPrinter("Usage: [OPTION]... [outputDir]\n", opt.options);
+	writeln();
+}
+
 void main(string[] args)
 {
 	string gdnativeJson = "gdnative_api.json";
@@ -27,19 +33,20 @@ void main(string[] args)
 	writeln(args);
 	if(opt.helpWanted)
 	{
-		defaultGetoptPrinter("Usage: [OPTION]... [outputDir]\n", opt.options);
+		usage(opt);
 		return;
 	}
-	
 	
 	Language lang = getDLanguage();
 	
 	if(!gdnativeJson.exists)
 	{
+		usage(opt);
 		throw new Exception("GDNative API file %s doesn't exist".format(gdnativeJson));
 	}
 	if(!classesJson.exists)
 	{
+		usage(opt);
 		throw new Exception("Class API file %s doesn't exist".format(classesJson));
 	}
 	
@@ -57,6 +64,7 @@ void main(string[] args)
 	}
 	else if(!outputDir.isDir)
 	{
+		usage(opt);
 		throw new Exception("%s is not a directory".format(outputDir));
 	}
 	
