@@ -8,12 +8,12 @@ import language.d;
 
 import asdf;
 
-import std.stdio;
-import std.file;
-import std.path;
-import std.format;
-import std.getopt;
-import std.range;
+import std.stdio : writeln, writefln;
+import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write;
+import std.path : buildPath, dirName;
+import std.format : format, string;
+import std.getopt : defaultGetoptPrinter, getopt, GetoptResult;
+import std.range : empty;
 
 void usage(GetoptResult opt)
 {
@@ -71,7 +71,7 @@ void main(string[] args)
 	API gdnativeAPI = gdnativeJson.readText.deserialize!(API);
 	auto cPath = buildPath(outputDir, "classes", "godot", "c", "api.d");
 	if(!cPath.dirName.exists) cPath.dirName.mkdirRecurse;
-	std.file.write(cPath, gdnativeAPI.source);
+	writeFile(cPath, gdnativeAPI.source);
 	
 	ClassList classList;
 	classList.classes = classesJson.readText.deserialize!(GodotClass[]);
@@ -118,7 +118,7 @@ void main(string[] args)
 	+/
 	void checkEnumType(ref string type)
 	{
-		import std.algorithm.searching;
+		import std.algorithm.searching : canFind;
 		if(type.isEnum)
 		{
 			auto split = type.splitEnumName;
@@ -145,7 +145,6 @@ void main(string[] args)
 		// output files for the selected lang
 		foreach(const cof; lang.classOutputFiles)
 		{
-			import std.string;
 			
 			string[2] arr = cof.generator(c);
 			if(!arr[0].empty)
@@ -155,7 +154,7 @@ void main(string[] args)
 				string dir = dirName(p);
 				if(!dir.exists) mkdirRecurse(dir);
 				
-				std.file.write( p, arr[1] );
+				writeFile(p, arr[1]);
 			}
 		}
 	}
