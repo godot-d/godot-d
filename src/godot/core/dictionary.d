@@ -46,6 +46,13 @@ struct Dictionary
 		_godot_api.godot_dictionary_new_copy(&_godot_dictionary, &tmp);
 	}
 	
+	Dictionary opAssign(in Dictionary other)
+	{
+		_godot_api.godot_dictionary_destroy(&_godot_dictionary);
+		_godot_api.godot_dictionary_new_copy(&_godot_dictionary, &other._godot_dictionary);
+		return this;
+	}
+	
 	/// FIXME: naming convention fail again
 	static Dictionary empty_dictionary()
 	{
