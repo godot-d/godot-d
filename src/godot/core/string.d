@@ -30,9 +30,35 @@
 module godot.core.string;
 
 import core.stdc.stddef : wchar_t;
-import core.stdc.string : strlen;
 import godot.c;
 import std.traits;
+
+struct CharString
+{
+	@nogc nothrow:
+	
+	package(godot) godot_char_string _char_string;
+	
+	const(char*) ptr() const
+	{
+		return _godot_api.godot_char_string_get_data(&_char_string);
+	}
+	
+	size_t length() const
+	{
+		return _godot_api.godot_char_string_length(&_char_string);
+	}
+	
+	const(char[]) data() const
+	{
+		return ptr[0..length];
+	}
+	
+	~this()
+	{
+		_godot_api.godot_char_string_destroy(&_char_string);
+	}
+}
 
 struct String
 {
@@ -61,12 +87,13 @@ struct String
 		static if(isImplicitlyConvertible!(S, const(wchar_t)[]))
 		{
 			const(wchar_t)[] contents = str;
-			_godot_api.godot_string_new_unicode_data(&_godot_string, contents.ptr, cast(int)contents.length);
+			_godot_api.godot_string_new_with_wide_string(&_godot_string, contents.ptr, cast(int)contents.length);
 		}
 		else
 		{
+			import core.stdc.wchar_ : wcslen;
 			const(wchar_t)* contents = str;
-			_godot_api.godot_string_new_unicode_data(&_godot_string, contents, cast(int)strlen(contents));
+			_godot_api.godot_string_new_with_wide_string(&_godot_string, contents, cast(int)wcslen(contents));
 		}
 	}
 	
@@ -79,12 +106,12 @@ struct String
 		static if(isImplicitlyConvertible!(S, const(char)[]))
 		{
 			const(char)[] contents = str;
-			_godot_api.godot_string_new_data(&_godot_string, contents.ptr, cast(int)contents.length);
+			_godot_api.godot_string_parse_utf8(&_godot_string, contents.ptr);
 		}
 		else
 		{
 			const(char)* contents = str;
-			_godot_api.godot_string_new_data(&_godot_string, contents, cast(int)strlen(contents));
+			_godot_api.godot_string_parse_utf8(&_godot_string, contents);
 		}
 	}
 	
@@ -149,7 +176,7 @@ struct String
 	/// Returns a pointer to the wchar_t data. Always zero-terminated.
 	const(wchar_t)* ptr() const
 	{
-		return _godot_api.godot_string_unicode_str(&_godot_string);
+		return _godot_api.godot_string_wide_str(&_godot_string);
 	}
 
 	/// Returns a slice of the wchar_t data without the zero terminator.
@@ -158,6 +185,13 @@ struct String
 		return ptr[0..length];
 	}
 	alias toString = data;
+	
+	CharString utf8() const
+	{
+		CharString ret = void;
+		ret._char_string = _godot_api.godot_string_utf8(&_godot_string);
+		return ret;
+	}
 }
 
  

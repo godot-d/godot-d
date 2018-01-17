@@ -150,6 +150,10 @@ struct godot_string
 {
 	size_t _opaque;
 }
+struct godot_char_string
+{
+	size_t _opaque;
+}
 struct godot_string_name
 {
 	size_t _opaque;
