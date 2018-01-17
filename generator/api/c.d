@@ -157,6 +157,9 @@ string globalVarName(string name)
 string escapeCType(string cType)
 {
 	import std.algorithm, std.string;
+	
+	cType = cType.chompPrefix("signed ");
+	
 	if(cType.canFind("godot_object") && cType.endsWith("*"))
 		return cType[0..$-1];
 	else return cType;
