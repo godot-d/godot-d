@@ -163,7 +163,7 @@ class GodotMethod
 		else
 		{
 			ret ~= "\t\t" ~ bindingStructName ~ ".bind(\"" ~
-				parent.internal_name ~ "\", \"" ~ name ~ "\");\n";
+				parent.name.godot ~ "\", \"" ~ name ~ "\");\n";
 			ret ~= "\t\t";
 			if(return_type.d != "void") ret ~= "return ";
 			ret ~= "ptrcall!(" ~ return_type.d ~ ")(" ~ bindingStructName

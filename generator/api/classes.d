@@ -82,14 +82,6 @@ class GodotClass
 	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
 	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
-	/++
-	Certain classes have an underscore prefix in their API representation.
-	The only place this underscore should actually be used is with
-	godot_method_bind_get_method, so the $(D name) field will have it stripped
-	off, while $(D internal_name) keeps the full name used with the C API.
-	+/
-	string internal_name;
-	
 	string source() const
 	{
 		string className = name.d;
@@ -138,7 +130,7 @@ class GodotClass
 		// Godot constructor.
 		ret ~= "\tstatic "~className~" _new()\n\t{\n";
 		ret ~= "\t\tstatic godot_class_constructor constructor;\n";
-		ret ~= "\t\tif(constructor is null) constructor = _godot_api.godot_get_class_constructor(\""~internal_name~"\");\n";
+		ret ~= "\t\tif(constructor is null) constructor = _godot_api.godot_get_class_constructor(\""~name.godot~"\");\n";
 		ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
 		ret ~= "\t\treturn cast("~className~")(constructor());\n";
 		ret ~= "\t}\n";
