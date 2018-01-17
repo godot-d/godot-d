@@ -33,26 +33,26 @@ private:
 bool isMiscClass(in GodotClass c)
 {
 	import std.algorithm : startsWith;
-	if(c.name.startsWith("VisualScript")) return true;
+	if(c.name.d.startsWith("VisualScript")) return true;
 	
 	return false;
 }
 
 string[2] generatePackage(in GodotClass c)
 {
-	if(c.name == "GlobalConstants") return [null, null];
+	if(c.name.godot == "GlobalConstants") return [null, null];
 	
 	if(c.descendant_ptrs.length == 0) return [null, null];
 	
 	string folder = c.isMiscClass?"miscclasses":"classes";
-	string filename = buildPath(folder, "godot", c.name.toLower, "all.d");
+	string filename = buildPath(folder, "godot", c.name.moduleName, "all.d");
 	string ret;
 	
 	ret ~= "module godot.";
-	ret ~= c.name.toLower;
+	ret ~= c.name.moduleName;
 	ret ~= ".all;\n\n";
 	
-	ret ~= "public import\n\tgodot."~c.name.toLower;
+	ret ~= "public import\n\tgodot."~c.name.moduleName;
 	
 	const(GodotClass)[] recursiveDescendants;
 	void addDescendant(in GodotClass d)
@@ -66,7 +66,7 @@ string[2] generatePackage(in GodotClass c)
 	
 	foreach(di, d; recursiveDescendants[])
 	{
-		ret ~= ",\n\tgodot."~d.name.toLower;
+		ret ~= ",\n\tgodot."~d.name.moduleName;
 	}
 	ret ~= ";\n";
 	
@@ -77,24 +77,24 @@ string[2] generatePackage(in GodotClass c)
 
 string[2] generateClass(in GodotClass c)
 {
-	if(c.name == "GlobalConstants") return [null, null];
+	if(c.name.godot == "GlobalConstants") return [null, null];
 	
 	string folder = c.isMiscClass?"miscclasses":"classes";
 	string filename = (c.descendant_ptrs.length == 0) ?
-		buildPath(folder, "godot", c.name.toLower~".d") :
-		buildPath(folder, "godot", c.name.toLower, "package.d");
+		buildPath(folder, "godot", c.name.moduleName~".d") :
+		buildPath(folder, "godot", c.name.moduleName, "package.d");
 	string ret;
 	
 	// module names should be all lowercase in D
 	// https://dlang.org/dstyle.html
 	ret ~= "module godot.";
-	ret ~= c.name.toLower;
+	ret ~= c.name.moduleName;
 	ret ~= ";\n";
 	ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
 	ret ~= "import std.traits : Unqual;\n";
 	ret ~= "import godot.d.meta;\nimport godot.core;\nimport godot.c;\n";
 	ret ~= "import godot.d.bind;\n";
-	if(c.name != "Object") ret ~= "import godot.object;\n";
+	if(c.name.godot != "Object") ret ~= "import godot.object;\n";
 	
 	if(c.instanciable)
 	{
@@ -104,13 +104,9 @@ string[2] generateClass(in GodotClass c)
 	foreach(const u; c.used_classes)
 	{
 		ret ~= "import godot.";
-		ret ~= u.toLower;
+		ret ~= u.moduleName;
 		ret ~= ";\n";
 	}
-	
-	string nameAlias = "this";
-	string className = c.name.escapeType;
-	if(c.singleton) className ~= "Singleton";
 	
 	ret ~= c.source;
 	
@@ -126,7 +122,7 @@ string[2] generateGlobalConstants(in GodotClass c)
 	import std.algorithm.iteration, std.algorithm.searching, std.algorithm.sorting;
 	import std.range : array;
 	
-	if(c.name != "GlobalConstants") return [null, null];
+	if(c.name.godot != "GlobalConstants") return [null, null];
 	
 	string filename = buildPath("classes", "godot", "globalconstants.d");
 	string ret;

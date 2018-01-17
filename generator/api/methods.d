@@ -18,7 +18,7 @@ import std.string;
 class GodotMethod
 {
 	string name;
-	string return_type;
+	Type return_type;
 	bool is_editor;
 	bool is_noscript;
 	bool is_const;
@@ -54,7 +54,7 @@ class GodotMethod
 			{
 				if(first) first = false;
 				else ret ~= ", ";
-				ret ~= text(a.type, "Arg", i);
+				ret ~= text(a.type.godot, "Arg", i);
 			}
 		}
 		if(has_varargs)
@@ -75,8 +75,8 @@ class GodotMethod
 		{
 			if(i != 0) ret ~= ", ";
 			if(a.type.acceptImplicit) ret ~= text(a.type.dCallParamPrefix,
-				a.type, "Arg", i);
-			else ret ~= text(a.type.dCallParamPrefix, a.type.escapeType);
+				a.type.godot, "Arg", i);
+			else ret ~= text(a.type.dCallParamPrefix, a.type.d);
 			
 			ret ~= " " ~ a.name.escapeD;
 			if(a.has_default_value || hasDefault)
@@ -102,10 +102,10 @@ class GodotMethod
 	{
 		string ret;
 		
-		ret ~= "\tpackage(godot) static GodotMethod!("~return_type.escapeType;
+		ret ~= "\tpackage(godot) static GodotMethod!("~return_type.d;
 		foreach(ai, const a; arguments)
 		{
-			ret ~= ", " ~ a.type.escapeType;
+			ret ~= ", " ~ a.type.d;
 		}
 		if(has_varargs) ret ~= ", GodotVarArgs";
 		ret ~= ") " ~ bindingStructName ~ ";\n";
@@ -122,7 +122,7 @@ class GodotMethod
 		string ret;
 		
 		ret ~= "\t";
-		ret ~= return_type.escapeType~" ";
+		ret ~= return_type.d~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
 		// Classes are reference types; the others are passed by value.
 		ret ~= name.snakeToCamel.escapeD;
@@ -131,7 +131,7 @@ class GodotMethod
 		ret ~= argsString;
 		
 		if(is_const) ret ~= " const";
-		else if(name == "callv" && parent.name == "Object") ret ~= " const"; /// HACK
+		else if(name == "callv" && parent.name.godot == "Object") ret ~= " const"; /// HACK
 		ret ~= "\n\t{\n";
 		
 		// implementation
@@ -154,10 +154,10 @@ class GodotMethod
 			ret ~= "\t\tString _GODOT_method_name = String(\""~name~"\");\n";
 			
 			ret ~= "\t\t";
-			if(return_type != "void") ret ~= "return ";
+			if(return_type.d != "void") ret ~= "return ";
 			ret ~= "this.callv(_GODOT_method_name, _GODOT_args)";
-			if(return_type != "void" && return_type != "Variant")
-				ret ~= ".as!("~return_type.escapeType~")";
+			if(return_type.d != "void" && return_type.d != "Variant")
+				ret ~= ".as!("~return_type.d~")";
 			ret ~= ";\n";
 		} // end varargs/virtual impl
 		else
@@ -165,8 +165,8 @@ class GodotMethod
 			ret ~= "\t\t" ~ bindingStructName ~ ".bind(\"" ~
 				parent.internal_name ~ "\", \"" ~ name ~ "\");\n";
 			ret ~= "\t\t";
-			if(return_type != "void") ret ~= "return ";
-			ret ~= "ptrcall!(" ~ return_type.escapeType ~ ")(" ~ bindingStructName
+			if(return_type.d != "void") ret ~= "return ";
+			ret ~= "ptrcall!(" ~ return_type.d ~ ")(" ~ bindingStructName
 				~ ", _godot_object";
 			foreach(ai, const a; arguments)
 			{
@@ -184,7 +184,7 @@ class GodotMethod
 struct GodotArgument
 {
 	string name;
-	string type;
+	Type type;
 	bool has_default_value;
 	string default_value;
 	

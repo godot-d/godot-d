@@ -14,13 +14,13 @@ import std.string;
 struct ClassList
 {
 	GodotClass[] classes;
-	GodotClass[string] dictionary;
+	GodotClass[Type] dictionary;
 }
 
 class GodotClass
 {
-	string name;
-	string base_class;
+	Type name;
+	Type base_class;
 	string api_type;
 	bool singleton;
 	bool instanciable;
@@ -31,15 +31,11 @@ class GodotClass
 	
 	void finalizeDeserialization(Asdf data)
 	{
-		// strip the underscore from certain class names
-		internal_name = name;
-		name = name.stripName;
+		if(base_class && base_class.godot != "Object" && name.godot != "Object") used_classes ~= base_class;
 		
-		if(base_class != "Object" && name != "Object") used_classes ~= base_class;
-		
-		void addUsedClass(string c)
+		void addUsedClass(in Type c)
 		{
-			if(c.isPrimitive || c.isCoreType || c == "Object") return;
+			if(c.isPrimitive || c.isCoreType || c.godot == "Object") return;
 			if(!used_classes.canFind(c)) used_classes ~= c;
 		}
 		
@@ -47,23 +43,23 @@ class GodotClass
 		foreach(m; methods)
 		{
 			import std.algorithm.searching;
-			if(m.return_type.startsWith("enum."))
+			if(m.return_type.isEnum)
 			{
-				auto c = enumParent(m.return_type).stripName;
-				if(c && c != name) addUsedClass(c);
+				auto c = m.return_type.enumParent;
+				if(c && c !is name) addUsedClass(c);
 			}
-			else if(m.return_type != name)
+			else if(m.return_type !is name)
 			{
 				addUsedClass(m.return_type);
 			}
 			foreach(const a; m.arguments)
 			{
-				if(a.type.startsWith("enum."))
+				if(a.type.isEnum)
 				{
-					auto c = enumParent(a.type).stripName;
-					if(c && c != name) addUsedClass(c);
+					auto c = a.type.enumParent;
+					if(c && c !is name) addUsedClass(c);
 				}
-				else if(a.type != name)
+				else if(a.type !is name)
 				{
 					addUsedClass(a.type);
 				}
@@ -76,13 +72,13 @@ class GodotClass
 			e.parent = this;
 		}
 		assert(!used_classes.canFind(name));
-		assert(!used_classes.canFind("Object"));
+		assert(!used_classes.canFind!(c => c.godot == "Object"));
 	}
 	
 	@serializationIgnore:
 	ClassList* parent;
 	
-	string[] used_classes;
+	const(Type)[] used_classes;
 	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
 	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
@@ -96,17 +92,17 @@ class GodotClass
 	
 	string source() const
 	{
-		string className = name.escapeType;
+		string className = name.d;
 		if(singleton) className ~= "Singleton";
 		string ret = "@GodotBaseClass struct "~className;
 		ret ~= "\n{\n";
-		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~internal_name~"\";\n";
+		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
 		ret ~= "public:\n";
 		//ret ~= "@nogc nothrow:\n";
 		if(singleton)
 		{
 			ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
-			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~name~"\";\n";
+			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~name.godot.chompPrefix("_")~"\";\n";
 			ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
 			ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
 			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
@@ -115,9 +111,9 @@ class GodotClass
 		}
 		
 		// Pointer to Godot object, fake inheritance through alias this
-		if(name != "Object")
+		if(name.godot != "Object")
 		{
-			ret ~= "\tunion { godot_object _godot_object; "~base_class.escapeType;
+			ret ~= "\tunion { godot_object _godot_object; "~base_class.d;
 			if(base_class_ptr.singleton) ret ~= "Singleton";
 			ret ~= " base; }\n\talias base this;\n";
 			ret ~= "\talias BaseClasses = AliasSeq!(typeof(base), typeof(base).BaseClasses);\n";
@@ -173,7 +169,7 @@ class GodotClass
 		if(singleton)
 		{
 			ret ~= "@property pragma(inline, true)\n";
-			ret ~= className ~ " " ~ name.escapeType;
+			ret ~= className ~ " " ~ name.d;
 			ret ~= "()\n{\n";
 			ret ~= "\treturn "~className~"._GODOT_singleton();\n";
 			ret ~= "}\n";

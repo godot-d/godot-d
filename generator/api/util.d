@@ -6,99 +6,130 @@ import std.path;
 import std.conv : text;
 import std.string;
 
-bool isPrimitive(in string type)
-{
-	if(type.isEnum) return true;
-	return only("int", "bool", "real", "float", "void").canFind(type);
-}
+import asdf;
 
-bool isEnum(in string type)
+class Type
 {
-	return type.startsWith("enum.");
-}
+	static Type[string] typesByGodotName;
+	string d;
+	string godot;
+	
+	Type enumParent;
+	
+	//alias d this;
+	
+	string moduleName() const
+	{
+		if(isPrimitive || isCoreType) return null;
+		return godot.chompPrefix("_").toLower;
+	}
+	
+	bool isEnum() const
+	{
+		return godot.startsWith("enum.");
+	}
+	
+	bool isPrimitive() const
+	{
+		if(isEnum) return true;
+		return only("int", "bool", "real", "float", "void").canFind(godot);
+	}
 
-bool isCoreType(in string type)
-{
-	auto coreTypes = only("AABB",
-	                      "Array",
-	                      "Basis",
-	                      "Color",
-	                      "Dictionary",
-	                      "Error",
-	                      "NodePath",
-	                      "Plane",
-	                      "PoolByteArray",
-	                      "PoolIntArray",
-	                      "PoolRealArray",
-	                      "PoolStringArray",
-	                      "PoolVector2Array",
-	                      "PoolVector3Array",
-	                      "PoolColorArray",
-	                      "Quat",
-	                      "Rect2",
-	                      "RID",
-	                      "String",
-	                      "Transform",
-	                      "Transform2D",
-	                      "Variant",
-	                      "Vector2",
-	                      "Vector3");
-	return coreTypes.canFind(type);
-}
+	bool isCoreType() const
+	{
+		auto coreTypes = only("AABB",
+		                      "Array",
+		                      "Basis",
+		                      "Color",
+		                      "Dictionary",
+		                      "GodotError",
+		                      "NodePath",
+		                      "Plane",
+		                      "PoolByteArray",
+		                      "PoolIntArray",
+		                      "PoolRealArray",
+		                      "PoolStringArray",
+		                      "PoolVector2Array",
+		                      "PoolVector3Array",
+		                      "PoolColorArray",
+		                      "Quat",
+		                      "Rect2",
+		                      "RID",
+		                      "String",
+		                      "Transform",
+		                      "Transform2D",
+		                      "Variant",
+		                      "Vector2",
+		                      "Vector3");
+		return coreTypes.canFind(godot);
+	}
 
-string stripName(in string name)
-{
-	if(!name.length) return null;
-	return (name[0] == '_')?(name[1..$]):name;
-}
+	/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
+	bool acceptImplicit() const
+	{
+		auto accept = only("String", "Variant", "NodePath");
+		return accept.canFind(godot);
+	}
 
-/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
-bool acceptImplicit(string type)
-{
-	auto accept = only("String", "Variant", "NodePath");
-	return accept.canFind(type);
-}
-
-/++
-Storage class to generate for the parameter based on type.
-
-While not reference types in D, some of the core types should be passed by ref
-to avoid copying. Unfortunately, `const ref` arguments in D CANNOT be rvalues,
-unlike in C++, so we should definitely not use `ref` for types like Vector2
-that will regularly be passed as an rvalue constructed directly in the function
-call (like this: `kinematic_body.move(Vector3(1, 2, 3));`)
-+/
-string dCallParamPrefix(string type)
-{
-	// all core types can be copied.
-	return "in ";
-}
-/// how to pass the parameters into ptrcall void** arg
-string ptrCallArgPrefix(string type)
-{
-	if(type.isPrimitive || type.isCoreType) return "&";
-	return "";
-	//return "cast(godot_object)"; // for both base classes and D classes (through alias this)
+	/// storage class to generate for function parameter of this type
+	string dCallParamPrefix() const
+	{
+		// all core types can be copied.
+		return "in ";
+	}
+	/// how to pass parameters of this type into ptrcall void** arg
+	string ptrCallArgPrefix() const
+	{
+		if(isPrimitive || isCoreType) return "&";
+		return "";
+		//return "cast(godot_object)"; // for both base classes and D classes (through alias this)
+	}
+	
+	
+	this(string godotName)
+	{
+		godot = godotName;
+		d = godotName.escapeType;
+	}
+	static Type get(string godotName)
+	{
+		if(!godotName.length) return null; // no type (used in base_class)
+		if(Type* ptr = godotName in typesByGodotName) return *ptr;
+		Type ret = new Type(godotName);
+		
+		static import api.enums;
+		if(ret.isEnum) ret.enumParent = get(api.enums.enumParent(godotName));
+		
+		typesByGodotName[godotName] = ret;
+		
+		return ret;
+	}
+	static Type deserialize(ref Asdf asdf)
+	{
+		string gn = asdf.get!string(null);
+		Type ret = get(gn);
+		return ret;
+	}
 }
 
 /// the default value to use for an argument if none is provided
-string emptyDefault(string type)
+string emptyDefault(in Type type)
 {
 	import std.string;
 	import std.conv : text;
 	
-	if(type.isPrimitive) return type~".init";
+	if(type.isPrimitive) return type.d~".init";
 	
-	switch(type)
+	switch(type.d)
 	{
 		case "String":
 			return `""`;
 		case "Variant":
 			return "Variant.nil";
 		case "Dictionary":
-			return type~".empty_dictionary"; // naming convention fail
+			return type.d~".empty_dictionary"; // naming convention fail
 		case "Array":
-			return type~".empty_array"; // naming convention fail, ugh. Change it?
+			return type.d~".empty_array"; // naming convention fail, ugh. Change it?
 		case "PoolByteArray":
 		case "PoolIntArray":
 		case "PoolRealArray":
@@ -106,7 +137,7 @@ string emptyDefault(string type)
 		case "PoolVector3Array":
 		case "PoolStringArray":
 		case "PoolColorArray":
-			return type~".empty";
+			return type.d~".empty";
 		/++case "Transform":
 		case "Transform2D":
 		case "Color":
@@ -120,7 +151,7 @@ string emptyDefault(string type)
 			return type~".init"; // D's default initializer+/
 		default: // all Object types
 		{
-			return type.escapeType~".init"; // D's default initializer
+			return type.d~".init"; // D's default initializer
 			///return "null";
 		}
 	}
@@ -146,7 +177,7 @@ String
 Variant
 PoolStringArray
 +/
-string escapeDefault(string type, string arg)
+string escapeDefault(in Type type, string arg)
 {
 	import std.string;
 	import std.conv : text;
@@ -154,7 +185,7 @@ string escapeDefault(string type, string arg)
 	if(!arg || arg.length == 0) return emptyDefault(type);
 	
 	// parse the defaults in api.json
-	switch(type)
+	switch(type.d)
 	{
 		case "Color": // "1,1,1,1"
 			return "Color("~arg~")";
@@ -178,7 +209,7 @@ string escapeDefault(string type, string arg)
 		case "Vector3":
 		case "Rect2": // "(0, 0, 0, 0)"
 		case "AABB":
-			return type~arg;
+			return type.d~arg;
 		case "Variant":
 			if(arg == "Null") return "Variant.nil";
 			else return arg;
@@ -197,11 +228,13 @@ string escapeType(string t)
 {
 	import api.enums : qualifyEnumName;
 	
+	t = t.chompPrefix("_");
+	
 	if(t == "Object") return "GodotObject";
 	if(t == "Error") return "GodotError";
 	if(t == "float") return "double";
 	if(t == "int") return "long";
-	if(t.isEnum) return t.qualifyEnumName;
+	if(t.startsWith("enum.")) return t.qualifyEnumName;
 	return t;
 }
 

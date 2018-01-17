@@ -80,7 +80,7 @@ void main(string[] args)
 		classList.dictionary[c.name] = c;
 		c.parent = &classList;
 	}
-	foreach(c; classList.classes) if(c.base_class.length)
+	foreach(c; classList.classes) if(c.base_class)
 	{
 		c.base_class_ptr = classList.dictionary.get(c.base_class, null);
 		c.base_class_ptr.descendant_ptrs ~= c;
@@ -110,34 +110,6 @@ void main(string[] args)
 				b = b.base_class_ptr;
 			}
 		}
-	}
-	
-	/+
-	TEMPORARY: change enum types back to int if the enums are missing.
-	Once the API JSON accounts for all enum types, this can be removed.
-	+/
-	void checkEnumType(ref string type)
-	{
-		import std.algorithm.searching : canFind;
-		if(type.isEnum)
-		{
-			auto split = type.splitEnumName;
-			if(!split[0]) return; // not a class enum (Error, etc)
-			auto cn = split[0].stripName;
-			if(cn.isPrimitive || cn.isCoreType) return;
-			GodotClass c = classList.dictionary[cn];
-			assert(c);
-			if(!c.enums.canFind!(e => e.name == split[1]))
-			{
-				//writeln("Could not find enum ", qualifyEnumName(type));
-				type = "int";
-			}
-		}
-	}
-	foreach(c; classList.classes) foreach(m; c.methods)
-	{
-		checkEnumType(m.return_type);
-		foreach(ref a; m.arguments) checkEnumType(a.type);
 	}
 	
 	foreach(c; classList.classes)

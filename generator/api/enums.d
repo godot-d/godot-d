@@ -30,7 +30,7 @@ string qualifyEnumName(string type)
 {
 	string[2] split = type.splitEnumName;
 	if(!split[0]) return split[1].escapeD;
-	return split[0].stripName.escapeType~"."~split[1].escapeD;
+	return Type.get(split[0]).d~"."~split[1].escapeD;
 }
 
 struct GodotEnum
