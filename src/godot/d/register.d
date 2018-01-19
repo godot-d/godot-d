@@ -253,14 +253,14 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString.length) _godot_api.godot_string_new_data(&attr.hint_string,
-			uda.hintString.ptr, cast(int)uda.hintString.length);
+		static if(uda.hintString.length) _godot_api.godot_string_parse_utf8(
+			&attr.hint_string, uda.hintString.ptr);
 		else
 		{
 			static if(vt == Variant.Type.object)
 			{
-				_godot_api.godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
-					cast(int)GodotClass!P._GODOT_internal_name.length);
+				_godot_api.godot_string_parse_utf8(&attr.hint_string,
+					GodotClass!P._GODOT_internal_name.ptr);
 			}
 			else _godot_api.godot_string_new(&attr.hint_string);
 		}
@@ -322,14 +322,14 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}
 
-		static if(uda.hintString.length) _godot_api.godot_string_new_data(&attr.hint_string,
-			uda.hintString.ptr, cast(int)uda.hintString.length);
+		static if(uda.hintString.length) _godot_api.godot_string_parse_utf8(
+			&attr.hint_string, uda.hintString.ptr);
 		else
 		{
 			static if(vt == Variant.Type.object)
 			{
-				_godot_api.godot_string_new_data(&attr.hint_string, GodotClass!P._GODOT_internal_name.ptr,
-					cast(int)GodotClass!P._GODOT_internal_name.length);
+				_godot_api.godot_string_parse_utf8(&attr.hint_string,
+					GodotClass!P._GODOT_internal_name.ptr);
 			}
 			else _godot_api.godot_string_new(&attr.hint_string);
 		}
