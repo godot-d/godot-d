@@ -21,7 +21,7 @@ void usage(GetoptResult opt)
 	writeln();
 }
 
-void main(string[] args)
+int main(string[] args)
 {
 	string gdnativeJson = "gdnative_api.json";
 	string classesJson = "api.json";
@@ -34,7 +34,7 @@ void main(string[] args)
 	if(opt.helpWanted)
 	{
 		usage(opt);
-		return;
+		return 0;
 	}
 	
 	Language lang = getDLanguage();
@@ -42,12 +42,14 @@ void main(string[] args)
 	if(!gdnativeJson.exists)
 	{
 		usage(opt);
-		throw new Exception("GDNative API file %s doesn't exist".format(gdnativeJson));
+		writefln("GDNative API file %s doesn't exist", gdnativeJson);
+		return 1;
 	}
 	if(!classesJson.exists)
 	{
 		usage(opt);
-		throw new Exception("Class API file %s doesn't exist".format(classesJson));
+		writefln("Class API file %s doesn't exist", classesJson);
+		return 1;
 	}
 	
 	string outputDir;
@@ -65,7 +67,8 @@ void main(string[] args)
 	else if(!outputDir.isDir)
 	{
 		usage(opt);
-		throw new Exception("%s is not a directory".format(outputDir));
+		writefln("%s is not a directory", outputDir);
+		return 1;
 	}
 	
 	API gdnativeAPI = gdnativeJson.readText.deserialize!(API);
@@ -130,4 +133,5 @@ void main(string[] args)
 			}
 		}
 	}
+	return 0;
 }
