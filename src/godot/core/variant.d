@@ -19,6 +19,8 @@ version(X86_64)
 
 struct Variant
 {
+	@nogc nothrow:
+	
 	package(godot) godot_variant _godot_variant;
 	
 	enum Type
@@ -269,7 +271,6 @@ struct Variant
 	
 	@disable this();
 	
-	@nogc nothrow /// TODO: move to top once Objects are nogc
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
@@ -283,8 +284,6 @@ struct Variant
 		return v;
 	}
 	
-	@nogc nothrow /// TODO: move to top once Objects are nogc
-	{
 	this(in ref Variant other)
 	{
 		_godot_api.godot_variant_new_copy(&_godot_variant, &other._godot_variant);
@@ -317,7 +316,6 @@ struct Variant
 	{
 		_godot_api.godot_variant_destroy(&_godot_variant);
 	}
-	}/// TODO: move to top once Objects are nogc
 	
 	Type type() const
 	{

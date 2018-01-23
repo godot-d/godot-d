@@ -90,7 +90,7 @@ class GodotClass
 		ret ~= "\n{\n";
 		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
 		ret ~= "public:\n";
-		//ret ~= "@nogc nothrow:\n";
+		ret ~= "@nogc nothrow:\n";
 		if(singleton)
 		{
 			ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
@@ -160,7 +160,7 @@ class GodotClass
 		
 		if(singleton)
 		{
-			ret ~= "@property pragma(inline, true)\n";
+			ret ~= "@property @nogc nothrow pragma(inline, true)\n";
 			ret ~= className ~ " " ~ name.d;
 			ret ~= "()\n{\n";
 			ret ~= "\treturn "~className~"._GODOT_singleton();\n";
