@@ -193,7 +193,7 @@ struct Variant
 				if(arr.length == T.length)
 				{
 					T ret;
-					foreach(ei, e; arr) ret[ei] = e.as!(ElementType!T);
+					foreach(i; 0..T.length) ret[i] = (arr[i]).as!(ElementType!T);
 					return ret;
 				}
 				else assert(0, "Array length doesn't match static array "~T.stringof);

@@ -8,7 +8,7 @@ struct Array
 {
 	int opApply(int delegate(size_t, ref Variant) dg)
 	{
-		foreach(int i; 0..length)
+		foreach(i; 0..length)
 		{
 			Variant* v = cast(Variant*)&(this[i]);
 			int res = dg(cast(size_t)i, *v);
@@ -17,12 +17,11 @@ struct Array
 		return 0;
 	}
 	
-	int opApply(int delegate(size_t, ref const(Variant)) dg) const
+	int opApply(int delegate(size_t, const(Variant)) dg) const
 	{
-		foreach(int i; 0..length)
+		foreach(i; 0..length)
 		{
-			const(Variant)* v = cast(const(Variant)*)&(this[i]);
-			int res = dg(cast(size_t)i, *v);
+			int res = dg(cast(size_t)i, this[i]);
 			if(res) return res;
 		}
 		return 0;
@@ -30,7 +29,7 @@ struct Array
 	
 	int opApply(int delegate(ref Variant) dg)
 	{
-		foreach(int i; 0..length)
+		foreach(i; 0..length)
 		{
 			Variant* v = cast(Variant*)&(this[i]);
 			int res = dg(*v);
@@ -39,12 +38,11 @@ struct Array
 		return 0;
 	}
 	
-	int opApply(int delegate(ref const(Variant)) dg) const
+	int opApply(int delegate(const(Variant)) dg) const
 	{
-		foreach(int i; 0..length)
+		foreach(i; 0..length)
 		{
-			const(Variant)* v = cast(const(Variant)*)&(this[i]);
-			int res = dg(*v);
+			int res = dg(this[i]);
 			if(res) return res;
 		}
 		return 0;
@@ -128,16 +126,16 @@ struct Array
 		_godot_api.godot_array_new_pool_color_array(&_godot_array, &a._godot_array);
 	}
 	
-	ref inout(Variant) opIndex(int idx) inout
+	auto ref inout(Variant) opIndex(size_t idx) inout
 	{
-		godot_variant* v = _godot_api.godot_array_operator_index(cast(godot_array*)&_godot_array, idx);
+		godot_variant* v = _godot_api.godot_array_operator_index(cast(godot_array*)&_godot_array, cast(int)idx);
 		return *cast(inout(Variant)*)v;
 	}
 	
-	void opIndexAssign(T)(in auto ref T value, in int idx) if(is(T : Variant) || Variant.compatibleToGodot!T)
+	void opIndexAssign(T)(in auto ref T value, in size_t idx) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
 		Variant v = Variant(value);
-		_godot_api.godot_array_set(&_godot_array, idx, &v._godot_variant);
+		_godot_api.godot_array_set(&_godot_array, cast(int)idx, &v._godot_variant);
 	}
 	
 	void append(T)(in auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
@@ -152,7 +150,7 @@ struct Array
 		_godot_api.godot_array_clear(&_godot_array);
 	}
 	
-	int count(in Variant v)
+	size_t count(in Variant v)
 	{
 		return _godot_api.godot_array_count(&_godot_array, &v._godot_variant);
 	}
@@ -179,9 +177,9 @@ struct Array
 		return cast(Variant)v;
 	}
 	
-	int find(in Variant what, const int from)
+	int find(in Variant what, size_t from)
 	{
-		return _godot_api.godot_array_find(&_godot_array, &what._godot_variant, from);
+		return _godot_api.godot_array_find(&_godot_array, &what._godot_variant, cast(int)from);
 	}
 	
 	int findLast(in Variant what)
@@ -199,9 +197,9 @@ struct Array
 		return _godot_api.godot_array_hash(&_godot_array);
 	}
 	
-	void insert(const int pos, in Variant value)
+	void insert(const size_t pos, in Variant value)
 	{
-		_godot_api.godot_array_insert(&_godot_array, pos, &value._godot_variant);
+		_godot_api.godot_array_insert(&_godot_array, cast(int)pos, &value._godot_variant);
 	}
 	
 	void invert()
@@ -231,25 +229,25 @@ struct Array
 		_godot_api.godot_array_push_front(&_godot_array, &v._godot_variant);
 	}
 	
-	void remove(int idx)
+	void remove(size_t idx)
 	{
-		_godot_api.godot_array_remove(&_godot_array, idx);
+		_godot_api.godot_array_remove(&_godot_array, cast(int)idx);
 	}
 	
-	int size() const
+	size_t size() const
 	{
 		return _godot_api.godot_array_size(&_godot_array);
 	}
 	alias length = size; // D-style `length`
 	
-	void resize(const int size)
+	void resize(size_t size)
 	{
-		_godot_api.godot_array_resize(&_godot_array, size);
+		_godot_api.godot_array_resize(&_godot_array, cast(int)size);
 	}
 	
-	int rfind(in Variant what, const int from)
+	int rfind(in Variant what, size_t from)
 	{
-		return _godot_api.godot_array_rfind(&_godot_array, &what._godot_variant, from);
+		return _godot_api.godot_array_rfind(&_godot_array, &what._godot_variant, cast(int)from);
 	}
 	
 	void sort()
@@ -266,9 +264,9 @@ struct Array
 	Array dup() const
 	{
 		Array ret = empty_array;
-		int l = size();
+		size_t l = size();
 		ret.resize(l);
-		foreach(int vi; 0..l)
+		foreach(vi; 0..l)
 		{
 			ret[vi] = this[vi];
 		}
