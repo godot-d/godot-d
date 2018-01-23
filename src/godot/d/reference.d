@@ -35,7 +35,7 @@ struct Ref(T) if(extends!(T, Reference))
 	}
 	alias refPayload this;
 	
-	void addref(U)(Ref!U other) if(is(typeof({ _self = other._self; })))
+	void addref(U)(Ref!U other) if(__traits(compiles, _self = other._self))
 	{
 		_self = other._self;
 		if(_self) _reference.reference();
