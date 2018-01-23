@@ -11,5 +11,6 @@ public
 	import godot.d.script;
 	import godot.d.udas;
 	import godot.d.wrap;
+	import godot.d.reference;
 }
 

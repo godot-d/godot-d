@@ -16,6 +16,7 @@ import std.algorithm.iteration;
 import std.meta;
 
 import godot.control.all;
+import godot.resource;
 
 class Test : GodotScript!Label
 {
@@ -237,6 +238,13 @@ class Test : GodotScript!Label
 			setText("New text set from D Test class");
 		}
 		
+		// test refcounting
+		{
+			Ref!RefTest t = memnew!RefTest;
+			print("Created RefTest...");
+		}
+		print("Exited RefTest scope");
+		
 		// test resource loading
 		{
 			import godot.resource, godot.resourceloader;
@@ -289,11 +297,26 @@ class Test : GodotScript!Label
 	}
 }
 
+class RefTest : GodotScript!Resource
+{
+	
+	this()
+	{
+		print(__PRETTY_FUNCTION__);
+	}
+	
+	~this()
+	{
+		print(__PRETTY_FUNCTION__);
+	}
+}
+
 // register Test; also initializes D Runtime and Godot assert handler
 mixin GodotNativeInit!
 (
 	"test",
 	Test,
+	RefTest,
 	(godot_gdnative_init_options* o)
 	{
 		writeln("GodotNativeInit func");

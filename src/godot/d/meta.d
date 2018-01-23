@@ -5,6 +5,7 @@ module godot.d.meta;
 
 import godot.d.string;
 import godot.d.udas;
+import godot.d.reference;
 
 import std.meta, std.traits;
 
@@ -14,26 +15,47 @@ import godot.object;
 @nogc nothrow:
 
 /++
+Adds the Ref wrapper to T, if T is a Reference type
++/
+template RefOrT(T) if(isGodotClass!T)
+{
+	import godot.reference;
+	static if(extends!(T, Reference)) alias RefOrT = Ref!T;
+	else alias RefOrT = T;
+}
+
+/++
+Removes the Ref wrapper from R, if present
++/
+template NonRef(R)
+{
+	static if(is(R : Ref!T, T)) alias NonRef = T;
+	else alias NonRef = R;
+}
+
+/++
 A UDA with which base Godot classes are marked. NOT used by new D classes.
 +/
 package(godot) enum GodotBaseClass;
 
 /++
-Determine if T is a class originally from the Godot Engine (but *not* a new D
+Determine if R is a class originally from the Godot Engine (but *not* a new D
 class registered to Godot).
 +/
-template isGodotBaseClass(T)
+template isGodotBaseClass(R)
 {
+	alias T = NonRef!R;
 	static if(is(T == struct)) enum bool isGodotBaseClass =
 		hasUDA!(T, GodotBaseClass);
 	else enum bool isGodotBaseClass = false;
 }
 
 /++
-Determine if T is a D native script (extends a Godot base class).
+Determine if R is a D native script (extends a Godot base class).
 +/
-template extendsGodotBaseClass(T)
+template extendsGodotBaseClass(R)
 {
+	alias T = NonRef!R;
 	static if(is(T == class) && hasMember!(T, "owner"))
 	{
 		enum bool extendsGodotBaseClass = isGodotBaseClass!(typeof(T.owner));
@@ -60,21 +82,24 @@ template GodotBaseClasses(T)
 }
 
 /++
-Checks whether T is a subtype of Parent by Godot's script inheritance system.
+Checks whether R is a subtype of ParentR by Godot's script inheritance system.
 Both D script and C++ classes are accounted for.
-If T and Parent are the same, `extends` is true as well.
+If R and ParentR are the same, `extends` is true as well.
 +/
-template extends(T, Parent)
+template extends(R, ParentR)
 {
+	alias T = NonRef!R;
+	alias Parent = NonRef!ParentR;
 	static if(is(Unqual!T : Unqual!Parent)) enum bool extends = true;
 	else enum bool extends = staticIndexOf!(Unqual!Parent, GodotBaseClasses!T) != -1;
 }
 
 /++
-Get the Godot class of T (the class of the `owner` for D native scripts)
+Get the Godot class of R (the class of the `owner` for D native scripts)
 +/
-template GodotClass(T)
+template GodotClass(R)
 {
+	alias T = NonRef!R;
 	static if(isGodotBaseClass!T) alias GodotClass = T;
 	else static if(extendsGodotBaseClass!T) alias GodotClass = typeof(T.owner);
 }
@@ -83,7 +108,7 @@ template GodotClass(T)
 Determine if T is any Godot class (base C++ class or D native script, but NOT
 a godot.core struct)
 +/
-enum bool isGodotClass(T) = extendsGodotBaseClass!T || isGodotBaseClass!T;
+enum bool isGodotClass(R) = extendsGodotBaseClass!R || isGodotBaseClass!R;
 
 /++
 Get the C++ Godot Object pointer of either a Godot Object OR a D native script.

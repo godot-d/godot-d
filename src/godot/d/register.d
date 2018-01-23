@@ -12,6 +12,7 @@ import godot.d.meta;
 import godot.d.script;
 import godot.d.wrap;
 import godot.d.udas;
+import godot.d.reference;
 
 import godot.core, godot.c;
 
@@ -47,6 +48,7 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
 	{
 		import godot.c.api;
+		import godot.d.reference;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
 		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
@@ -178,10 +180,6 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		getUDAs!(T, Rename)[0])[0];
 	else enum immutable(char*) name = T.stringof;
 	enum immutable(char*) baseName = Base._GODOT_internal_name;
-	
-	godot.d.script.NativeScriptTemplate!T = memnew!(godot.nativescript.NativeScript);
-	godot.d.script.NativeScriptTemplate!T.set("library", Variant(lib));
-	godot.d.script.NativeScriptTemplate!T.set("class_name", Variant(name));
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
@@ -371,5 +369,11 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		_godot_nativescript_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
 	}
 	// TODO: signals
+	
+	
+	
+	godot.d.script.NativeScriptTemplate!T = memnew!(godot.nativescript.NativeScript);
+	godot.d.script.NativeScriptTemplate!T.setLibrary(lib);
+	godot.d.script.NativeScriptTemplate!T.setClassName(name);
 }
 

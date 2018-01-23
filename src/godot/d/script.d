@@ -10,6 +10,7 @@ import core.stdc.stdlib : malloc, free;
 import godot.c, godot.core;
 import godot.d.udas;
 import godot.d.meta, godot.d.wrap;
+import godot.d.reference;
 
 /++
 Base class for D native scripts. Native script instances will be attached to a
@@ -69,20 +70,13 @@ Assigned by the `register` function.
 package(godot) template NativeScriptTemplate(T) if(extendsGodotBaseClass!T)
 {
 	private static import godot.nativescript;
-	__gshared godot.nativescript.NativeScript NativeScriptTemplate;
-}
-
-template RefOrT(T) if(extendsGodotBaseClass!T)
-{
-	static if(staticIndexOf!(Reference, typeof(T.owner).BaseClasses) == -1) alias RefOrT = T;
-	else alias RefOrT = T; /// TODO: Ref!T;
+	private static import godot.d.reference;
+	__gshared godot.d.reference.Ref!(godot.nativescript.NativeScript) NativeScriptTemplate;
 }
 
 package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
-	
-	if(t.owner.getScript.isNull) t.owner.setScript(NativeScriptTemplate!T);
 	
 	template isRAII(string memberName)
 	{
@@ -155,7 +149,7 @@ bool isNull(T)(in T t) if(isGodotClass!T)
 /++
 Allocate a new T and attach it to a new Godot object.
 +/
-T memnew(T)() if(extendsGodotBaseClass!T)
+RefOrT!T memnew(T)() if(extendsGodotBaseClass!T)
 {
 	import std.experimental.allocator, std.experimental.allocator.mallocator;
 	static import godot;
@@ -165,13 +159,13 @@ T memnew(T)() if(extendsGodotBaseClass!T)
 	
 	godot.initialize(t);
 	
-	return t;
+	return refOrT(t);
 }
 
-T memnew(T)() if(isGodotBaseClass!T)
+RefOrT!T memnew(T)() if(isGodotBaseClass!T)
 {
 	/// FIXME: block those that aren't marked instanciable in API JSON (actually a generator bug)
-	return T._new(); /// TODO: remove _new and use only this function?
+	return refOrT(T._new()); /// TODO: remove _new and use only this function?
 }
 
 void memdelete(T)(T t) if(isGodotClass!T)
