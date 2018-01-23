@@ -73,6 +73,7 @@ struct Ref(T) if(extends!(T, Reference))
 	
 	pragma(inline, true)
 	bool isValid() const { return _reference != GodotClass!T.init; }
+	alias opCast(T : bool) = isValid;
 	pragma(inline, true)
 	bool isNull() const { return _reference == GodotClass!T.init; }
 	
