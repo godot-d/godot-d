@@ -151,14 +151,12 @@ Allocate a new T and attach it to a new Godot object.
 +/
 RefOrT!T memnew(T)() if(extendsGodotBaseClass!T)
 {
-	import std.experimental.allocator, std.experimental.allocator.mallocator;
-	static import godot;
-	
-	T t = Mallocator.instance.make!T();
-	t.owner = typeof(T.owner)._new();
-	
-	godot.initialize(t);
-	
+	auto o = memnew!(typeof(T.owner));
+	// Set script and let Object create the script instance
+	o.setScript(NativeScriptTemplate!T);
+	// Skip typecheck in release; should always be T
+	assert(o.as!T);
+	T t = cast(T)_godot_nativescript_api.godot_nativescript_get_userdata(o._godot_object);
 	return refOrT(t);
 }
 

@@ -100,7 +100,12 @@ struct Ref(T) if(extends!(T, Reference))
 	package(godot) static Ref initNewRef(T newInstance)
 	{
 		Ref r = void;
-		r._self = (newInstance.getGodotObject.initRef()) ? newInstance : T.init;
+		static if(isGodotBaseClass!T) r._self = (newInstance.getGodotObject.initRef()) ? newInstance : T.init;
+		else
+		{
+			r._self = newInstance;
+			if(r._self) r._reference.reference();
+		}
 		return r;
 	}
 	
