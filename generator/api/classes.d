@@ -31,6 +31,9 @@ class GodotClass
 	
 	void finalizeDeserialization(Asdf data)
 	{
+		assert(name.objectClass is null);
+		name.objectClass = this;
+		
 		if(base_class && base_class.godot != "Object" && name.godot != "Object") used_classes ~= base_class;
 		
 		void addUsedClass(in Type c)

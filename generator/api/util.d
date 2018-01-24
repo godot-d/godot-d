@@ -1,5 +1,7 @@
 module api.util;
 
+import api.classes;
+
 import std.range;
 import std.algorithm.searching, std.algorithm.iteration;
 import std.path;
@@ -11,6 +13,8 @@ import asdf;
 class Type
 {
 	static Type[string] typesByGodotName;
+	
+	GodotClass objectClass;
 	string d;
 	string godot;
 	
