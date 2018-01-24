@@ -17,10 +17,10 @@ import godot.object;
 /++
 Adds the Ref wrapper to T, if T is a Reference type
 +/
-template RefOrT(T) if(isGodotClass!T)
+template RefOrT(T)
 {
 	import godot.reference;
-	static if(extends!(T, Reference)) alias RefOrT = Ref!T;
+	static if(isGodotClass!T && extends!(T, Reference)) alias RefOrT = Ref!T;
 	else alias RefOrT = T;
 }
 
