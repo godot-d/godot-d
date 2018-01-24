@@ -151,7 +151,13 @@ Allocate a new T and attach it to a new Godot object.
 +/
 RefOrT!T memnew(T)() if(extendsGodotBaseClass!T)
 {
-	auto o = memnew!(typeof(T.owner));
+	import godot.reference;
+	GodotClass!T o = GodotClass!T._new();
+	static if(extends!(T, Reference))
+	{
+		bool success = o.initRef();
+		assert(success, "Failed to init refcount");
+	}
 	// Set script and let Object create the script instance
 	o.setScript(NativeScriptTemplate!T);
 	// Skip typecheck in release; should always be T
@@ -162,8 +168,15 @@ RefOrT!T memnew(T)() if(extendsGodotBaseClass!T)
 
 RefOrT!T memnew(T)() if(isGodotBaseClass!T)
 {
+	import godot.reference;
 	/// FIXME: block those that aren't marked instanciable in API JSON (actually a generator bug)
-	return refOrT(T._new()); /// TODO: remove _new and use only this function?
+	T t = T._new();
+	static if(extends!(T, Reference))
+	{
+		bool success = t.initRef();
+		assert(success, "Failed to init refcount");
+	}
+	return refOrT(t); /// TODO: remove _new and use only this function?
 }
 
 void memdelete(T)(T t) if(isGodotClass!T)

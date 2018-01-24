@@ -95,30 +95,38 @@ struct Ref(T) if(extends!(T, Reference))
 		_self = v.as!T;
 	}
 	
-	/++
-	Construct from newly-created T with no references.
-	+/
-	package(godot) static Ref initNewRef(T newInstance)
-	{
-		Ref r = void;
-		static if(isGodotBaseClass!T) r._self = (newInstance.getGodotObject.initRef()) ? newInstance : T.init;
-		else
-		{
-			r._self = newInstance;
-			if(r._self) r._reference.reference();
-		}
-		return r;
-	}
-	
 	~this()
 	{
 		unref();
 	}
 }
 
+/++
+Create a Ref from a pointer without incrementing refcount.
++/
 package(godot) RefOrT!T refOrT(T)(T instance)
 {
-	static if(extends!(T, Reference)) return Ref!T.initNewRef(instance);
+	static if(extends!(T, Reference))
+	{
+		Ref!T ret = void;
+		ret._self = instance;
+		return ret;
+	}
+	else return instance;
+}
+
+/++
+Create a Ref from a pointer and increment refcount.
++/
+package(godot) RefOrT!T refOrTInc(T)(T instance)
+{
+	static if(extends!(T, Reference))
+	{
+		Ref!T ret = void;
+		ret._self = instance;
+		if(ret._self) ret._reference.reference();
+		return ret;
+	}
 	else return instance;
 }
 
