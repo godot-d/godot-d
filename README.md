@@ -80,6 +80,6 @@ MIT - <https://opensource.org/licenses/MIT>
 
 Links
 -----
-GitHub repository - <https://github.com/GodotNativeTools/d_bindings>  
+GitHub repository - <https://github.com/GodotNativeTools/godot-d>  
 The C++ bindings these are based on - <https://github.com/GodotNativeTools/cpp_bindings>  
 The Godot Engine - <https://godotengine.org/>  
