@@ -74,6 +74,33 @@ package(godot) template NativeScriptTemplate(T) if(extendsGodotBaseClass!T)
 	__gshared godot.d.reference.Ref!(godot.nativescript.NativeScript) NativeScriptTemplate;
 }
 
+/++
+Static storage for a D script's typetag.
+
+The $(D tag) for T is the *address* of $(D base), while $(D base) itself points
+to the base D script's tag.
++/
+package(godot) struct NativeScriptTag(T) if(extendsGodotBaseClass!T)
+{
+	private import std.traits : BaseClassesTuple;
+	
+	static if(BaseClassesTuple!T.length == 2) __gshared static immutable void* base = null;
+	else __gshared static immutable void* base = NativeScriptTag!(BaseClassesTuple!T[0]).tag;
+	
+	static immutable(void*) tag() { return cast(immutable(void*))(&base); }
+	static bool matches(in void* tag)
+	{
+		const(void)* ptr = tag;
+		do
+		{
+			if(tag is ptr) return true;
+			ptr = *cast(const(void)**)ptr;
+		}
+		while(ptr);
+		return false;
+	}
+}
+
 package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;

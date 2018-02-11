@@ -164,14 +164,13 @@ mixin template baseCasts()
 	
 	To as(To)() if(extendsGodotBaseClass!To)
 	{
+		import godot.d.script : NativeScriptTag;
 		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
 			~ " does not extend " ~ typeof(this).stringof);
 		if(_godot_object.ptr is null) return typeof(return).init;
-		if(hasMethod(String(`_GDNATIVE_D_typeid`)))
+		if(NativeScriptTag!To.matches(_godot_nativescript_api.godot_nativescript_get_type_tag(_godot_object)))
 		{
-			// D dynamic cast to check polymorphism
-			return cast(To)(cast(Object)(_godot_nativescript_api
-				.godot_nativescript_get_userdata(_godot_object)));
+			return cast(To)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object));
 		}
 		return typeof(return).init;
 	}
