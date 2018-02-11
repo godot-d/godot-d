@@ -2,6 +2,8 @@ module api.c;
 
 import api.util;
 
+import std.format;
+
 import asdf;
 
 struct Function
@@ -12,6 +14,15 @@ struct Function
 	
 	@serializationIgnore:
 	
+}
+
+struct APIVersion
+{
+	int major, minor;
+	
+	@serializationIgnore:
+	
+	string str() { return format!"_%d_%d"(major, minor); }
 }
 
 struct API
@@ -48,11 +59,19 @@ struct API
 
 		ret ~= "enum GDNATIVE_API_TYPES : uint {\n";
 		ret ~= "\tGDNATIVE_" ~ core.type ~ ",\n";
-		foreach(k, v; extensions) ret ~= "\tGDNATIVE_EXT_" ~ v.type ~ ",\n";
+		foreach(name, part; extensions) ret ~= "\tGDNATIVE_EXT_" ~ part.type ~ ",\n";
 		ret ~= "}\n";
 
 		ret ~= core.source("core");
-		foreach(k, v; extensions) ret ~= v.source(k);
+		foreach(name, part; extensions)
+		{
+			APIPart p = part;
+			while(p)
+			{
+				ret ~= p.source(name);
+				p = p.next;
+			}
+		}
 
 		ret ~= q{
 			@nogc nothrow
@@ -86,12 +105,19 @@ struct API
 	}
 }
 
-struct APIPart
+class APIPart
 {
 	string type;
+	@serializationKeys("version") APIVersion ver;
 	Function[] api;
 	
+	void finalizeDeserialization(Asdf asdf)
+	{
+		next = asdf["next"].get(APIPart.init);
+	}
+	
 	@serializationIgnore:
+	APIPart next;
 	
 	string source(string name)
 	{
@@ -112,7 +138,8 @@ struct APIPart
 		}
 		ret ~= "}\n";
 		
-		ret ~= "public extern(C) struct "~name.structName~"\n{\n";
+		ret ~= "public extern(C) struct "~name.structName(ver)~"\n{\n";
+		ret ~= "@nogc nothrow:\n";
 		
 		if(core) ret ~= q{
 			mixin ApiStructHeader;
@@ -128,12 +155,21 @@ struct APIPart
 			ret ~= "\tda_" ~ f.name ~ " " ~ f.name.escapeD ~ ";\n";
 		}
 		
+		if(next)
+		{
+			ret ~= "const("~name.structName(next.ver)~"*) nextVersion() const { return cast(typeof(return))next; }\n";
+			ret ~= "alias nextVersion this;\n";
+		}
+		
 		ret ~= "}\n";
 		
-		ret ~= "__gshared const("~name.structName~")* "~name.globalVarName~" = null;\n";
+		if(ver == APIVersion(1, 0))
+		{
+			ret ~= "__gshared const("~name.structName(ver)~")* "~name.globalVarName~" = null;\n";
 
-		ret ~= "private alias apiStruct(GDNATIVE_API_TYPES t : GDNATIVE_API_TYPES." ~ name.enumName(type) ~ ") = ";
-		ret ~= name.globalVarName ~ ";\n";
+			ret ~= "private alias apiStruct(GDNATIVE_API_TYPES t : GDNATIVE_API_TYPES." ~ name.enumName(type) ~ ") = ";
+			ret ~= name.globalVarName ~ ";\n";
+		}
 		
 		ret ~= "\n";
 		
@@ -145,13 +181,18 @@ string enumName(string name, string type)
 {
 	return (name=="core")?("GDNATIVE_" ~ type):("GDNATIVE_EXT_" ~ type);
 }
-string structName(string name)
+string structName(string name, APIVersion ver)
 {
-	return (name=="core")?"godot_gdnative_core_api_struct":("godot_gdnative_ext_"~name~"_api_struct");
+	return (name=="core")?"godot_gdnative_core_api_struct":
+		("godot_gdnative_ext_"~name~"_api_struct"~ver.str);
 }
-string globalVarName(string name)
+string globalVarName(string name, APIVersion ver = APIVersion(-1,-1))
 {
-	return (name=="core")?"_godot_api":("_godot_"~name~"_api");
+	string ret;
+	if(name=="core") ret = "_godot_api";
+	else ret = "_godot_"~name~"_api";
+	if(ver.major != -1) ret ~= ver.str;
+	return ret;
 }
 
 string escapeCType(string cType)

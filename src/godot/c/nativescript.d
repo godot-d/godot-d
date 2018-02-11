@@ -171,4 +171,22 @@ struct godot_signal {
 	godot_variant* default_args;
 }
 
+// NativeScript 1.1
+
+struct godot_method_arg
+{
+	godot_string name;
+	godot_variant_type type;
+	godot_property_hint hint;
+	godot_string hint_string;
+}
+
+struct godot_instance_binding_functions
+{
+	void* function(void *, godot_object) alloc_instance_binding_data;
+	void function(void *, void *) free_instance_binding_data;
+	void* data;
+	void function(void *) free_func;
+}
+
 
