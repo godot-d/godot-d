@@ -39,23 +39,21 @@ A UDA with which base Godot classes are marked. NOT used by new D classes.
 package(godot) enum GodotBaseClass;
 
 /++
-Determine if R is a class originally from the Godot Engine (but *not* a new D
+Determine if T is a class originally from the Godot Engine (but *not* a new D
 class registered to Godot).
 +/
-template isGodotBaseClass(R)
+template isGodotBaseClass(T)
 {
-	alias T = NonRef!R;
 	static if(is(T == struct)) enum bool isGodotBaseClass =
 		hasUDA!(T, GodotBaseClass);
 	else enum bool isGodotBaseClass = false;
 }
 
 /++
-Determine if R is a D native script (extends a Godot base class).
+Determine if T is a D native script (extends a Godot base class).
 +/
-template extendsGodotBaseClass(R)
+template extendsGodotBaseClass(T)
 {
-	alias T = NonRef!R;
 	static if(is(T == class) && hasMember!(T, "owner"))
 	{
 		enum bool extendsGodotBaseClass = isGodotBaseClass!(typeof(T.owner));
@@ -108,7 +106,7 @@ template GodotClass(R)
 Determine if T is any Godot class (base C++ class or D native script, but NOT
 a godot.core struct)
 +/
-enum bool isGodotClass(R) = extendsGodotBaseClass!R || isGodotBaseClass!R;
+enum bool isGodotClass(T) = extendsGodotBaseClass!T || isGodotBaseClass!T;
 
 /++
 Get the C++ Godot Object pointer of either a Godot Object OR a D native script.
@@ -121,6 +119,7 @@ GodotClass!T getGodotObject(T)(in T t) if(isGodotClass!T)
 	ret._godot_object = t.getGDNativeObject;
 	return ret;
 }
+GodotClass!(NonRef!R) getGodotObject(R)(auto ref R r) if(is(R : Ref!U, U)) { return r._reference; }
 
 package(godot) godot_object getGDNativeObject(T)(in T t) if(isGodotClass!T)
 {
@@ -130,6 +129,7 @@ package(godot) godot_object getGDNativeObject(T)(in T t) if(isGodotClass!T)
 		return (t) ? cast(godot_object)t.owner._godot_object : godot_object.init;
 	}
 }
+package(godot) godot_object getGDNativeObject(R)(auto ref R r) if(is(R : Ref!U, U)) { return r._reference._godot_object; }
 
 /++
 Alias to default-constructed T, as an expression.

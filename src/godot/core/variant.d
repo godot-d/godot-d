@@ -4,6 +4,7 @@ import godot.c;
 import godot.core;
 import godot.object;
 import godot.d.meta;
+import godot.d.reference;
 
 import std.meta, std.traits;
 import std.conv : text;
@@ -139,28 +140,28 @@ struct Variant
 	
 	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
 
-	private static GodotObject objectToGodot(T)(in T o)
+	private static GodotObject objectToGodot(R)(R o)
 	{
 		return o.getGodotObject;
 	}
-	private static T objectFromGodot(T)(in GodotObject o)
+	private static R objectFromGodot(R)(in GodotObject o)
 	{
-		static if(is(T == const)) alias co = o;
+		static if(is(R == const)) alias co = o;
 		else GodotObject co = cast(GodotObject)o._godot_object; // annoying hack to deal with const
 		
-		return co.as!T;
+		return co.as!R;
 	}
 	
 	/// function to convert T to an equivalent Godot type
 	template conversionToGodot(T)
 	{
-		static if(isGodotClass!T) alias conversionToGodot = objectToGodot!T;
+		static if(isGodotClass!T || is(T : Ref!U, U)) alias conversionToGodot = objectToGodot!T;
 		else static if(isIntegral!T) alias conversionToGodot = (T t) => cast(long)t;
 		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
 		else static if(implicit!(T, const(char)[]) || implicit!(T, const(char)*))
 			alias conversionToGodot = (T t) => String(t);
 		else static if((isForwardRange!T || isStaticArray!T) && compatibleToGodot!(ElementType!T))
-			alias conversionToGodot = (in T t)
+			alias conversionToGodot = (T t)
 			{
 				import std.algorithm.iteration;
 				Array ret = Array.empty_array;
@@ -180,7 +181,7 @@ struct Variant
 	/// function to convert a Godot-compatible type to T
 	template conversionFromGodot(T)
 	{
-		static if(isGodotClass!T) alias conversionFromGodot = objectFromGodot!T;
+		static if(isGodotClass!T || is(T : Ref!U, U)) alias conversionFromGodot = objectFromGodot!T;
 		else static if(isIntegral!T) alias conversionFromGodot = (long v) => cast(T)v;
 		else static if(isFloatingPoint!T) alias conversionFromGodot = (double v) => cast(T)v;
 		/*
@@ -214,7 +215,7 @@ struct Variant
 		static if(directlyCompatible!T) enum bool compatibleFromGodot = true;
 		else enum bool compatibleFromGodot = convertsFromGodot!T;
 	}
-	enum bool compatible(T) = compatibleToGodot!T && compatibleFromGodot!T;
+	enum bool compatible(R) = compatibleToGodot!(R) && compatibleFromGodot!(R);
 	
 	
 	/// All target Variant.Types that T could implicitly convert to, as indices
@@ -294,10 +295,10 @@ struct Variant
 		_godot_api.godot_variant_new_nil(&_godot_variant);
 	}
 	
-	this(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
+	this(R)(auto ref R input) if(!is(R : Variant) && !is(R : typeof(null)))
 	{
-		static assert(compatibleToGodot!T, T.stringof~" isn't compatible with Variant.");
-		enum VarType = variantTypeOf!T;
+		static assert(compatibleToGodot!R, R.stringof~" isn't compatible with Variant.");
+		enum VarType = variantTypeOf!R;
 		
 		mixin("auto Fn = _godot_api.godot_variant_new_"~FunctionNew!VarType~";");
 		alias PassType = Parameters!Fn[1]; // second param is the value
@@ -305,8 +306,8 @@ struct Variant
 		alias IT = InternalType[VarType];
 		
 		// handle explicit conversions
-		static if(directlyCompatible!T) alias inputConv = input;
-		else auto inputConv = conversionToGodot!T(input);
+		static if(directlyCompatible!R) alias inputConv = input;
+		else auto inputConv = conversionToGodot!R(input);
 		
 		static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)inputConv); // value
 		else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
@@ -324,10 +325,10 @@ struct Variant
 	
 	inout(T) as(T : Variant)() inout { return this; }
 	
-	T as(T)() const if(!is(T == Variant) && !is(T==typeof(null)) && compatibleFromGodot!T)
+	R as(R)() const if(!is(R == Variant) && !is(R==typeof(null)) && compatibleFromGodot!R)
 	{
-		static if(directlyCompatible!T) enum VarType = variantTypeOf!T;
-		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!T, DType)];
+		static if(directlyCompatible!R) enum VarType = variantTypeOf!R;
+		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!R, DType)];
 		
 		mixin("auto Fa = _godot_api.godot_variant_as_"~FunctionAs!VarType~";");
 		
@@ -355,12 +356,10 @@ struct Variant
 		// ret should NOT be destroyed by RAII here.
 		DType[VarType]* ptr = cast(DType[VarType]*)&ret;
 		
-		static if(isGodotBaseClass!T) return ptr.as!T;
-		else static if(extendsGodotBaseClass!T) return ptr.as!(typeof(T.owner)).as!T;
-		else static if(directlyCompatible!T) return *ptr;
+		static if(directlyCompatible!R) return *ptr;
 		else
 		{
-			return conversionFromGodot!T(*ptr);
+			return conversionFromGodot!R(*ptr);
 		}
 	}
 	

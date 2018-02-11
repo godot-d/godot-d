@@ -1,6 +1,7 @@
 module godot.d.reference;
 
 import std.meta, std.traits, std.typecons;
+import std.algorithm : swap;
 
 import godot.core, godot.c;
 import godot.reference, godot.object;
@@ -9,6 +10,7 @@ import godot.d.meta, godot.d.script;
 /// Ref-counted container for Reference types
 struct Ref(T) if(extends!(T, Reference))
 {
+	static assert(!is(T == const), "Ref cannot contain a const Reference");
 	@nogc nothrow:
 	
 	static if(isGodotBaseClass!T)
@@ -20,7 +22,7 @@ struct Ref(T) if(extends!(T, Reference))
 	{
 		package(godot) T _self;
 		pragma(inline, true)
-		package(godot) inout(GodotClass!T) _reference() inout
+		package(godot) GodotClass!T _reference()
 		{
 			return (_self) ? _self.owner : GodotClass!T.init;
 		}
@@ -28,31 +30,31 @@ struct Ref(T) if(extends!(T, Reference))
 	
 	/++
 	Returns the reference without allowing it to escape the calling scope.
+	
+	TODO: dip1000
 	+/
-	ref inout(T) refPayload() inout return
+	T refPayload() const
 	{
-		return _self;
+		return cast()_self;
 	}
 	alias refPayload this;
 	
-	void addref(U)(Ref!U other) if(__traits(compiles, _self = other._self))
+	ref Ref opAssign(U)(auto ref U other) if(extends!(T, U))
 	{
-		_self = other._self;
-		if(_self) _reference.reference();
-	}
-	
-	ref Ref opAssign(U)(Ref!U other) if(__traits(compiles, _self = other._self))
-	{
-		if(this == other) return this;
+		if(_self.getGodotObject == other.getGodotObject) return this;
 		unref();
-		addref(other);
+		_self = other;
+		if(_self) _reference.reference();
 		return this;
 	}
-	
-	ref Ref opAssign(Variant v)
+	ref Ref opAssign(R)(ref R other) if(is(R : Ref!U, U) && extends!(T, U))
 	{
-		unref();
-		_self = v.as!T;
+		opAssign(other._self);
+		return this;
+	}
+	ref Ref opAssign(R)(R other) if(is(R : Ref!U, U) && extends!(T, U))
+	{
+		swap(_self, other);
 		return this;
 	}
 	
@@ -66,16 +68,16 @@ struct Ref(T) if(extends!(T, Reference))
 	}
 	
 	pragma(inline, true)
-	bool opEquals(U)(in Ref!U other) const
+	bool opEquals(R)(in auto ref R other) const
 	{
-		return _reference._godot_object == other._reference._godot_object;
+		return _self.getGDNativeObject!T == other.getGDNativeObject!T;
 	}
 	
 	pragma(inline, true)
-	bool isValid() const { return _reference != GodotClass!T.init; }
+	bool isValid() const { return _self.getGodotObject != GodotClass!T.init; }
 	alias opCast(T : bool) = isValid;
 	pragma(inline, true)
-	bool isNull() const { return _reference == GodotClass!T.init; }
+	bool isNull() const { return _self.getGodotObject == GodotClass!T.init; }
 	
 	this(this)
 	{
@@ -83,16 +85,21 @@ struct Ref(T) if(extends!(T, Reference))
 	}
 	
 	/++
-	Construct from other Ref
+	Construct from other reference
 	+/
-	this(U)(Ref!U other) if(__traits(compiles, _self = other._self))
+	this(U)(auto ref U other) if(extends!(T, U))
 	{
-		addref(other);
+		_self = other;
+		if(_self) _reference.reference();
 	}
-	
-	this(in Variant v)
+	this(R)(ref R other) if(is(R : Ref!U, U) && extends!(T, U))
 	{
-		_self = v.as!T;
+		_self = other._self;
+		if(_self) _reference.reference();
+	}
+	this(R)(R other) if(is(R : Ref!U, U) && extends!(T, U))
+	{
+		swap(_self, other);
 	}
 	
 	~this()

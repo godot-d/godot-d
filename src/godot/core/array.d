@@ -132,13 +132,13 @@ struct Array
 		return *cast(inout(Variant)*)v;
 	}
 	
-	void opIndexAssign(T)(in auto ref T value, in size_t idx) if(is(T : Variant) || Variant.compatibleToGodot!T)
+	void opIndexAssign(T)(auto ref T value, in size_t idx) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
 		Variant v = Variant(value);
 		_godot_api.godot_array_set(&_godot_array, cast(int)idx, &v._godot_variant);
 	}
 	
-	void append(T)(in auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
+	void append(T)(auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
 		Variant v = Variant(t);
 		_godot_api.godot_array_append(&_godot_array, &v._godot_variant);
@@ -160,7 +160,7 @@ struct Array
 		return cast(bool)_godot_api.godot_array_empty(&_godot_array);
 	}
 	
-	void erase(in Variant v)
+	void erase(Variant v)
 	{
 		_godot_api.godot_array_erase(&_godot_array, &v._godot_variant);
 	}
@@ -197,7 +197,7 @@ struct Array
 		return _godot_api.godot_array_hash(&_godot_array);
 	}
 	
-	void insert(const size_t pos, in Variant value)
+	void insert(const size_t pos, Variant value)
 	{
 		_godot_api.godot_array_insert(&_godot_array, cast(int)pos, &value._godot_variant);
 	}
@@ -219,12 +219,12 @@ struct Array
 		return cast(Variant)v;
 	}
 	
-	void pushBack(in Variant v)
+	void pushBack(Variant v)
 	{
 		_godot_api.godot_array_push_back(&_godot_array, &v._godot_variant);
 	}
 	
-	void pushFront(in Variant v)
+	void pushFront(Variant v)
 	{
 		_godot_api.godot_array_push_front(&_godot_array, &v._godot_variant);
 	}

@@ -18,6 +18,8 @@ class Type
 	string d;
 	string godot;
 	
+	@property string dRef() const { return isRef ? ("Ref!"~d) : d; }
+	
 	Type enumParent;
 	
 	//alias d this;
@@ -67,6 +69,11 @@ class Type
 		                      "Vector3");
 		return coreTypes.canFind(godot);
 	}
+	
+	bool isRef() const
+	{
+		return objectClass && objectClass.is_reference;
+	}
 
 	/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
 	bool acceptImplicit() const
@@ -75,11 +82,12 @@ class Type
 		return accept.canFind(godot);
 	}
 
-	/// storage class to generate for function parameter of this type
+	/// prefix for function parameter of this type
 	string dCallParamPrefix() const
 	{
-		// all core types can be copied.
-		return "in ";
+		if(isRef) return "";
+		else if(objectClass) return "";
+		else return "in ";
 	}
 	/// how to pass parameters of this type into ptrcall void** arg
 	string ptrCallArgPrefix() const

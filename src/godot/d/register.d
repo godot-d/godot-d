@@ -16,7 +16,7 @@ import godot.d.reference;
 
 import godot.core, godot.c;
 
-static import godot.gdnativelibrary;
+import godot.gdnativelibrary;
 
 /++
 Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
@@ -40,8 +40,9 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 {
 	private static import godot.c;
 	private static import godot.gdnativelibrary;
+	private import godot.d.reference;
 	
-	private __gshared godot.gdnativelibrary.GDNativeLibrary _GODOT_library;
+	private __gshared Ref!(godot.gdnativelibrary.GDNativeLibrary) _GODOT_library;
 	private __gshared void* _GODOT_library_handle;
 	
 	pragma(mangle, symbolPrefix~"gdnative_init")
@@ -59,8 +60,8 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 		assertHandler = (options.in_editor) ? (&godotAssertHandlerEditorDebug)
 			: (&godotAssertHandlerCrash);
 		
-		_GODOT_library = cast(godot.gdnativelibrary.GDNativeLibrary)
-			options.gd_native_library;
+		*cast(typeof(options.gd_native_library)*)&_GODOT_library = options.gd_native_library;
+		_GODOT_library.reference();
 		
 		foreach(Arg; Args)
 		{
@@ -165,7 +166,7 @@ godot_variant _GODOT_nop(godot_object o, void* methodData,
 /++
 Register a class and all its $(D @GodotMethod) member functions into Godot.
 +/
-void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(T == class))
+void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 {
 	import godot.c;
 	import godot.object, godot.resource;
@@ -237,8 +238,9 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		godot_property_get_func gf;
 		godot_property_attributes attr;
 		
-		static if(getterMatches.length) alias P = ReturnType!(getterMatches[0]);
+		static if(getterMatches.length) alias P = NonRef!(ReturnType!(getterMatches[0]));
 		else alias P = Parameters!(setterMatches[0])[0];
+		static assert(!is(P : Ref!U, U)); /// TODO: proper Ref handling
 		enum Variant.Type vt = extractPropertyVariantType!(getterMatches, setterMatches);
 		attr.type = cast(godot_int)vt;
 		
@@ -246,7 +248,7 @@ void register(T)(void* handle, godot.gdnativelibrary.GDNativeLibrary lib) if(is(
 		attr.rset_type = cast(godot_method_rpc_mode)uda.rpcMode;
 		attr.hint = cast(godot_property_hint)uda.hint;
 
-		static if(vt == Variant.Type.object && is(GodotClass!P : Resource))
+		static if(vt == Variant.Type.object && extends!(P, Resource))
 		{
 			attr.hint |= godot_property_hint.GODOT_PROPERTY_HINT_RESOURCE_TYPE;
 		}

@@ -238,10 +238,23 @@ class Test : GodotScript!Label
 			setText("New text set from D Test class");
 		}
 		
-		// test refcounting
+		// test refcounting (also, run Godot with -v to see leaks)
 		{
 			Ref!RefTest t = memnew!RefTest;
 			print("Created RefTest...");
+			assert(t.isValid);
+			RefTest v = t;
+			assert(t == v);
+			
+			Ref!RefTest other1 = t;
+			Ref!RefTest other2;
+			assert(other2.isNull);
+			other2 = t;
+			
+			RefTest n = null;
+			t = n;
+			assert(t.isNull);
+			assert(t == n);
 		}
 		print("Exited RefTest scope");
 		
@@ -254,15 +267,15 @@ class Test : GodotScript!Label
 			writefln("assert(!ResourceLoader.has(%s))", iconPath);
 			assert(!ResourceLoader.has(iconPath));
 			
-			Resource res = ResourceLoader.load(iconPath, "", false);
+			Ref!Resource res = ResourceLoader.load(iconPath, "", false);
 			writefln("Loaded Resource %s at path %s", res.getName, res.getPath);
 			
 			// test upcasts
 			import godot.texture, godot.mesh;
-			Mesh wrongCast = cast(Mesh)res;
-			assert(wrongCast == null);
-			Texture rightCast = cast(Texture)res;
-			assert(rightCast != null);
+			Ref!Mesh wrongCast = res.as!Mesh;
+			assert(wrongCast.isNull);
+			Ref!Texture rightCast = res.as!Texture;
+			assert(rightCast.isValid);
 			auto size = rightCast.getSize();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			

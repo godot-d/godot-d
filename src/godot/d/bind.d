@@ -52,7 +52,7 @@ template tempType(Src, Dest)
 /++
 Direct pointer call through MethodBind.
 +/
-Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
+RefOrT!Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 {
 	import std.typecons;
@@ -94,7 +94,7 @@ Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 			aarr[ai] = cast(const(void)*)(&temp[ai]);
 		}
 	}
-	static if(!is(Return : void)) Return r = godotDefaultInit!Return;
+	static if(!is(Return : void)) RefOrT!Return r = godotDefaultInit!(RefOrT!Return);
 	
 	static if(is(Return : void)) alias rptr = Alias!null;
 	else void* rptr = cast(void*)&r;
@@ -146,32 +146,40 @@ Return callv(MB, Return, Args...)(MB method, godot_object self, Args args)
 package(godot)
 mixin template baseCasts()
 {
-	inout(To) as(To)() inout if(isGodotBaseClass!To)
+	private import godot.d.reference, godot.d.meta : RefOrT, NonRef;
+	
+	To as(To)() if(isGodotBaseClass!To)
 	{
-		static if(extends!(typeof(this), To)) return inout(To)(_godot_object);
+		static if(extends!(typeof(this), To)) return To(_godot_object);
 		else static if(extends!(To, typeof(this)))
 		{
-			if(_godot_object.ptr is null) return inout(To).init;
+			if(_godot_object.ptr is null) return typeof(return).init;
 			String c = String(To._GODOT_internal_name);
-			if(isClass(c)) return inout(To)(_godot_object);
-			return inout(To).init;
+			if(isClass(c)) return To(_godot_object);
+			return typeof(return).init;
 		}
 		else static assert(0, To.stringof ~ " is not polymorphic to "
 			~ typeof(this).stringof);
 	}
 	
-	inout(To) as(To)() inout if(extendsGodotBaseClass!To)
+	To as(To)() if(extendsGodotBaseClass!To)
 	{
 		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
 			~ " does not extend " ~ typeof(this).stringof);
-		if(_godot_object.ptr is null) return null;
+		if(_godot_object.ptr is null) return typeof(return).init;
 		if(hasMethod(String(`_GDNATIVE_D_typeid`)))
 		{
-			inout(Object) o = cast(inout(Object))(_godot_nativescript_api.godot_nativescript_get_userdata(
-				cast(godot_object)_godot_object));
-			return cast(inout(To))o; // D dynamic cast to check polymorphism
+			// D dynamic cast to check polymorphism
+			return cast(To)(cast(Object)(_godot_nativescript_api
+				.godot_nativescript_get_userdata(_godot_object)));
 		}
-		return null;
+		return typeof(return).init;
+	}
+	
+	ToRef as(ToRef)() if(is(ToRef : Ref!To, To) && extends!(To, Reference))
+	{
+		import std.traits : TemplateArgsOf;
+		return ToRef(as!(TemplateArgsOf!ToRef[0]));
 	}
 	
 	template opCast(To) if(isGodotBaseClass!To)
@@ -181,6 +189,10 @@ mixin template baseCasts()
 	template opCast(To) if(extendsGodotBaseClass!To)
 	{
 		alias opCast = as!To;
+	}
+	template opCast(ToRef) if(is(ToRef : Ref!To, To) && extends!(To, Reference))
+	{
+		alias opCast = as!ToRef;
 	}
 	// void* cast for passing this type to ptrcalls
 	package(godot) void* opCast(T : void*)() const { return cast(void*)_godot_object.ptr; }

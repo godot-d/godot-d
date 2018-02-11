@@ -122,7 +122,7 @@ class GodotMethod
 		string ret;
 		
 		ret ~= "\t";
-		ret ~= return_type.d~" ";
+		ret ~= return_type.dRef~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
 		// Classes are reference types; the others are passed by value.
 		ret ~= name.snakeToCamel.escapeD;
@@ -133,6 +133,13 @@ class GodotMethod
 		if(is_const) ret ~= " const";
 		else if(name == "callv" && parent.name.godot == "Object") ret ~= " const"; /// HACK
 		ret ~= "\n\t{\n";
+		
+		/// TODO: remove once Ref has been tested heavily
+		if(name == "reference" || name == "unreference" || name == "init_ref")
+		{
+			ret ~= "debug import godot.d.output;\n";
+			ret ~= `debug print(base.getClass(), "::", "`~name~`");`;
+		}
 		
 		// implementation
 		if(is_virtual || has_varargs)
@@ -157,7 +164,7 @@ class GodotMethod
 			if(return_type.d != "void") ret ~= "return ";
 			ret ~= "this.callv(_GODOT_method_name, _GODOT_args)";
 			if(return_type.d != "void" && return_type.d != "Variant")
-				ret ~= ".as!("~return_type.d~")";
+				ret ~= ".as!(RefOrT!"~return_type.d~")";
 			ret ~= ";\n";
 		} // end varargs/virtual impl
 		else

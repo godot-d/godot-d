@@ -94,6 +94,7 @@ string[2] generateClass(in GodotClass c)
 	ret ~= "import std.traits : Unqual;\n";
 	ret ~= "import godot.d.meta;\nimport godot.core;\nimport godot.c;\n";
 	ret ~= "import godot.d.bind;\n";
+	ret ~= "import godot.d.reference;\n";
 	if(c.name.godot != "Object") ret ~= "import godot.object;\n";
 	
 	if(c.instanciable)

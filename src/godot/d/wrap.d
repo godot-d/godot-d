@@ -131,7 +131,7 @@ package(godot) template extractPropertyVariantType(seq...)
 	template Type(alias a)
 	{
 		static if(isFunction!a && is(ReturnType!a == void)) alias Type = Parameters!a[0];
-		else static if(isFunction!a) alias Type = ReturnType!a;
+		else static if(isFunction!a) alias Type = NonRef!(ReturnType!a);
 		//else alias Type = typeof(a);
 		
 		static assert(Variant.compatible!Type, "Property type "~
@@ -317,12 +317,12 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 					// explicit constructor (String(string), NodePath(string), etc)
 					mixin("t."~n) = F(result);
 				}
-				else static if(isGodotClass!F && is(GodotClass!F : Node))
+				else static if(isGodotClass!F && extends!(F, Node))
 				{
 					// special case: node path
 					mixin("t."~n) = cast(F)t.owner.getNode(result);
 				}
-				else static if(isGodotClass!F && is(GodotClass!F : Resource))
+				else static if(isGodotClass!F && extends!(F, Resource))
 				{
 					// special case: resource load path
 					import godot.resourceloader;
@@ -356,7 +356,11 @@ Params:
 +/
 package(godot) struct VariableWrapper(T, string var)
 {
+	import godot.reference, godot.d.reference;
 	alias P = typeof(mixin("T."~var));
+	static if(extends!(P, Reference)) static assert(is(P : Ref!U, U),
+		"Reference type property "~T.stringof~"."~var~" must be ref-counted as Ref!("
+		~P.stringof~")");
 	
 	extern(C) // for calling convention
 	static godot_variant callPropertyGet(godot_object o, void* methodData,
