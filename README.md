@@ -9,13 +9,10 @@ implementation, or documentation is final. Comments/suggestions are welcome
 
 Usage
 -----
-#### Dependecies
-- ldc2
-- ldc2-libphobos
-- dub
-
-Recommended using the latest version downloaded from the official [website](https://dlang.org/download.html).
-Package name may vary depending on distro or os.
+#### Dependencies
+- D compiler:
+  - [DMD 2.076+](https://dlang.org/download.html#dmd) or
+  - [LDC 1.6.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
 
 #### Dynamic library
 Create a [DUB project](https://code.dlang.org/getting_started) with `godot-d`
