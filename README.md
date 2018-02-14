@@ -49,17 +49,19 @@ mind that `owner` is a separate C++ object.
 
 #### Initialization
 Your D scripts still need to be registered into Godot when your library is
-loaded by the engine. The GodotNativeInit/Terminate templates will generate
-the C interface for you; instantiate them with the list of script classes to
-add to Godot (at initialization) and functions to be called:  
+loaded by the engine. The GodotNativeLibrary mixin template will generate the
+C interface for you; instantiate it with the list of script classes to add to
+Godot and functions to be called at init or termination:  
 ```D
-mixin GodotNativeInit!
+mixin GodotNativeLibrary!
 (
+	"testLibrary", // same as the symbol_prefix in the GDNativeLibrary resource
+	
 	TestButton,
-	(){ writeln("GodotNativeInit func"); }
+	
+	(GodotInitOptions o){ writeln("Library initialized"); },
+	(GodotTerminateOptions o){ writeln("Library terminated"); }
 );
-
-mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
 ```
 
 #### Godot API

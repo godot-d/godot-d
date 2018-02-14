@@ -18,6 +18,9 @@ import godot.core, godot.c;
 
 import godot.gdnativelibrary;
 
+alias GodotInitOptions = const(godot_gdnative_init_options*);
+alias GodotTerminateOptions = const(godot_gdnative_terminate_options*);
+
 /++
 Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
 initialization/termination.
@@ -25,18 +28,31 @@ initialization/termination.
 enum NoDRuntime;
 
 /++
-This mixin will generate the GDNative initialization function for this D library.
+This mixin will generate the GDNative C interface functions for this D library.
+Pass to it a name string for the library, followed by the GodotScript types to
+register, functions to call, and other options to configure Godot-D.
 
 The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
 
-It will first initialize the D runtime, unless you pass $(D NoDRuntime) to it.
+D runtime will be initialized and terminated, unless you pass $(D NoDRuntime).
 
-The following template arguments will be processed in the order they're passed:
- - Classes will be registered into Godot.
- - Functions will be called. Optionally can take a $(D godot_native_init_options*)
-argument (from the $(D godot.c) module).
+Functions taking GodotInitOptions or no arguments will be called at init.
+Functions taking GodotTerminateOptions will be called at termination.
+
+Example:
+---
+import godot, godot.node;
+class TestClass : GodotScript!Node
+{ }
+mixin GodotNativeLibrary!(
+	"testlib",
+	TestClass,
+	(GodotInitOptions o){ print("Initialized"); },
+	(GodotTerminateOptions o){ print("Terminated"); }
+);
+---
 +/
-mixin template GodotNativeInit(string symbolPrefix, Args...)
+mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 {
 	private static import godot.c;
 	private static import godot.gdnativelibrary;
@@ -65,10 +81,7 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 		
 		foreach(Arg; Args)
 		{
-			static if(is(Arg)) // is type
-			{
-				
-			}
+			static if(is(Arg)) { } // is type
 			else static if( isCallable!Arg )
 			{
 				static if( is(typeof(Arg())) ) Arg();
@@ -77,7 +90,7 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 			else static if(Arg == NoDRuntime) { }
 			else
 			{
-				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
 			}
 		}
 	}
@@ -104,50 +117,33 @@ mixin template GodotNativeInit(string symbolPrefix, Args...)
 			else static if(Arg == NoDRuntime) { }
 			else
 			{
-				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
 			}
 		}
 	}
-}
-
-/++
-This mixin will generate the GDNative termination function for this D library.
-
-The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
-
-The following template arguments will be processed in the order they're passed:
- - Functions will be called. Optionally can take a $(D godot_native_terminate_options*)
-argument (from the $(D godot.c) module).
-
-(It's not necessary to un-register classes from Godot.)
-
-It will also terminate the D runtime, unless you pass $(D NoDRuntime) to it.
-+/
-mixin template GodotNativeTerminate(string symbolPrefix, Args...)
-{
-	private static import godot.c;
-	
 	pragma(mangle, symbolPrefix~"gdnative_terminate")
 	export extern(C) static void godot_gdnative_terminate(godot.c.godot_gdnative_terminate_options* options)
 	{
 		import std.meta, std.traits;
+		import godot.d.script : NativeScriptTemplate;
 		foreach(Arg; Args)
 		{
-			static if(is(Arg)) static assert(0, "Can't pass a type <"~Arg.stringof~"> to GodotNativeTerminate");
-			else static if( isCallable!Arg && is(typeof(Arg())) )
+			static if(is(Arg)) // is type
 			{
-				Arg();
+				NativeScriptTemplate!Arg.unref();
 			}
-			else static if( isCallable!Arg && is(typeof(Arg(options))) )
+			else static if(isCallable!Arg)
 			{
-				Arg(options);
+				static if(is(typeof(Arg(options)))) Arg(options);
 			}
 			else static if(Arg == NoDRuntime) { }
 			else
 			{
-				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeInit");
+				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
 			}
 		}
+		
+		_GODOT_library.unref();
 		
 		import core.runtime : Runtime;
 		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.terminate();

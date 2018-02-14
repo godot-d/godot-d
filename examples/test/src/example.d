@@ -324,18 +324,17 @@ class RefTest : GodotScript!Resource
 	}
 }
 
-// register Test; also initializes D Runtime and Godot assert handler
-mixin GodotNativeInit!
+// register classes, initialize and terminate D runtime
+mixin GodotNativeLibrary!
 (
 	"test",
 	Test,
 	RefTest,
-	(godot_gdnative_init_options* o)
+	(GodotInitOptions o)
 	{
-		writeln("GodotNativeInit func");
+		writeln("Initializing library");
 		writeln("Godot is in ", o.in_editor ? "EDITOR" : "GAME", " mode.");
-	}
+	},
+	(GodotTerminateOptions o) { writeln("Terminating library"); }
 );
-// terminate D Runtime
-mixin GodotNativeTerminate!( "test", (){ writeln("GodotNativeTerminate func"); } );
 
