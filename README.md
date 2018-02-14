@@ -9,6 +9,11 @@ implementation, or documentation is final. Comments/suggestions are welcome
 
 Usage
 -----
+#### Dependencies
+- D compiler:
+  - [DMD 2.076+](https://dlang.org/download.html#dmd) or
+  - [LDC 1.6.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
+
 #### Dynamic library
 Create a [DUB project](https://code.dlang.org/getting_started) with `godot-d`
 as a dependency and `targetType` set to `dynamicLibrary`.
@@ -61,8 +66,18 @@ mixin GodotNativeTerminate!( (){ writeln("GodotNativeTerminate func"); } );
 Godot's full [script API](http://docs.godotengine.org/) can be used from D:  
 - `godot.core` submodules contain container, math, and engine structs like
   `Vector3` and `String`.
-- other submodules of `godot` contain bindings to Godot classes, auto-generated
+- Other submodules of `godot` contain bindings to Godot classes, auto-generated
   from the engine's API. These are the C++ classes scripts can be attached to.
+- This bindings use camelCase instead of snake_case.
+
+  Change window to fullscreen example:
+  ```GDSCRIPT
+  OS.set_window_fullscreen(false)
+  ```
+  Would be:
+  ```D
+  OS.setWindowFullscreen(false);
+  ```
 
 Building Godot-D
 ----------------
@@ -80,6 +95,6 @@ MIT - <https://opensource.org/licenses/MIT>
 
 Links
 -----
-GitHub repository - <https://github.com/GodotNativeTools/d_bindings>  
+GitHub repository - <https://github.com/GodotNativeTools/godot-d>  
 The C++ bindings these are based on - <https://github.com/GodotNativeTools/cpp_bindings>  
 The Godot Engine - <https://godotengine.org/>  
