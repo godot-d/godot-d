@@ -2,6 +2,7 @@ module api.c;
 
 import api.util;
 
+import std.string;
 import std.format;
 
 import asdf;
@@ -16,7 +17,7 @@ struct Function
 	
 }
 
-struct APIVersion
+struct ApiVersion
 {
 	int major, minor;
 	
@@ -25,10 +26,10 @@ struct APIVersion
 	string str() { return format!"_%d_%d"(major, minor); }
 }
 
-struct API
+struct Api
 {
-	APIPart core;
-	APIPart[string] extensions;
+	ApiPart core;
+	ApiPart[string] extensions;
 	
 	@serializationIgnore:
 
@@ -38,6 +39,8 @@ struct API
 		ret ~= "import godot.c.core;\n\n";
 		foreach(k, v; extensions) ret ~= "import godot.c." ~ k ~ ";\n";
 		
+		ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
+		ret ~= "import std.format : format;\nimport std.string : capitalize, toLower;\nimport std.conv : text;\n";
 		ret ~= "import core.stdc.stdint;\nimport core.stdc.stddef : wchar_t;\n\n";
 
 		ret ~= q{
@@ -55,17 +58,44 @@ struct API
 			{
 				mixin ApiStructHeader;
 			}
+			private string versionError(string name, int major, int minor)
+			{
+				string ret = "Bindings for GDNative extension "~name;
+				if((major == 1 && minor == 0)) ret ~= " do not exist. ";
+				else ret ~= format!" exist, but not for version %d.%d. "(major, minor);
+				ret ~= "Please provide a more recent gdnative_api.json to the binding generator to fix this.";
+				return ret;
+			}
 		};
 
-		ret ~= "enum GDNATIVE_API_TYPES : uint {\n";
-		ret ~= "\tGDNATIVE_" ~ core.type ~ ",\n";
-		foreach(name, part; extensions) ret ~= "\tGDNATIVE_EXT_" ~ part.type ~ ",\n";
+		ret ~= "enum ApiType : uint {\n";
+		ret ~= "\t" ~ core.type.toLower ~ ",\n";
+		foreach(name, part; extensions) ret ~= "\t" ~ part.type.toLower ~ ",\n";
 		ret ~= "}\n";
-
+		
+		ret ~= "private\n{\n";
+		ret ~= core.versionSource;
+		foreach(name, part; extensions) ret ~= part.versionSource;
+		ret ~= "}\n";
+		
+		ret ~= "struct GDNativeVersion\n{\n";
+		ret ~= core.versionGetterSource;
+		foreach(name, part; extensions) ret ~= part.versionGetterSource;
+		ret ~= q{
+			@nogc nothrow
+			static bool opDispatch(string name)()
+			{
+				static assert(name.length > 3 && name[0..3] == "has",
+					"Usage: `GDNativeVersion.has<Extension>!(<major>, <minor>)`");
+				static assert(0, versionError(name[3..$], 1, 0));
+			}
+		};
+		ret ~= "}\n";
+		
 		ret ~= core.source("core");
 		foreach(name, part; extensions)
 		{
-			APIPart p = part;
+			ApiPart p = part;
 			while(p)
 			{
 				ret ~= p.source(name);
@@ -78,23 +108,40 @@ struct API
 			void godot_gdnative_api_struct_init(in godot_gdnative_core_api_struct* s)
 			{
 				import std.traits : EnumMembers;
+				
+				@nogc nothrow static void initVersions(ApiType type)(in godot_gdnative_api_struct* main)
+				{
+					const(godot_gdnative_api_struct)* part = main;
+					while(part)
+					{
+						foreach(int[2] v; SupportedVersions!type)
+						{
+							if(part.ver.major == v[0] && part.ver.minor == v[1]) mixin(format!"has%s_%d_%d"
+								(type.text.capitalize, v[0], v[1])) = true;
+						}
+						part = part.next;
+					}
+				}
+				
 				if(!s) assert(0, "godot_gdnative_core_api_struct is null");
 				if(_godot_api) return; // already initialized
 				_godot_api = s;
+				initVersions!(ApiType.core)(cast(const(godot_gdnative_api_struct)*)(cast(void*)s));
 				foreach(ext; s.extensions[0..s.num_extensions])
 				{
 					// check the actual extension type at runtime, instead of relying on the order in the JSON
 					if(ext.type == 0) continue; // core? should never happen
-					if(ext.type >= EnumMembers!GDNATIVE_API_TYPES.length)
+					if(ext.type >= EnumMembers!ApiType.length)
 					{
 						continue; // unknown extension type
 					}
-					ApiTypeSwitch: final switch(cast(GDNATIVE_API_TYPES)ext.type)
+					ApiTypeSwitch: final switch(cast(ApiType)ext.type)
 					{
-						foreach(E; EnumMembers!GDNATIVE_API_TYPES)
+						foreach(E; EnumMembers!ApiType)
 						{
 							case E:
 								apiStruct!E = cast(typeof(apiStruct!E))(cast(void*)ext);
+								initVersions!E(ext);
 								break ApiTypeSwitch;
 						}
 					}
@@ -105,19 +152,69 @@ struct API
 	}
 }
 
-class APIPart
+class ApiPart
 {
 	string type;
-	@serializationKeys("version") APIVersion ver;
+	@serializationKeys("version") ApiVersion ver;
 	Function[] api;
 	
 	void finalizeDeserialization(Asdf asdf)
 	{
-		next = asdf["next"].get(APIPart.init);
+		next = asdf["next"].get(ApiPart.init);
 	}
 	
 	@serializationIgnore:
-	APIPart next;
+	ApiPart next;
+	
+	string versionID()
+	{
+		return format!"%s_%d_%d"(type.capitalize, ver.major, ver.minor);
+	}
+	
+	string versionSource()
+	{
+		string ret;
+		string verList = "\talias SupportedVersions(ApiType type : ApiType." ~ type.toLower ~ ") = AliasSeq!(";
+		ApiPart p = this;
+		while(p)
+		{
+			ret ~= "\t__gshared bool has"~p.versionID~" = false;\n";
+			ret ~= "\tversion(GDNativeRequire"~p.versionID~") enum bool requires"~p.versionID~" = true;\n";
+			if(p.next) ret ~= "\telse enum bool requires"~p.versionID~" = requires"~p.next.versionID~";\n";
+			else ret ~= "\telse enum bool requires"~p.versionID~" = false;\n";
+			
+			verList ~= format!"[%d, %d], "(p.ver.major, p.ver.minor);
+			
+			p = p.next;
+		}
+		verList ~= ");\n";
+		return verList ~ ret;
+	}
+	
+	string versionGetterSource()
+	{
+		string ret;
+		
+		ret ~= "\tenum bool supports"~type.capitalize~"(int major, int minor) = staticIndexOf!(";
+		ret ~= "[major, minor], SupportedVersions!(ApiType."~type.toLower~")) != -1;\n";
+		
+		ApiPart p = this;
+		while(p)
+		{
+			ret ~= "\tstatic if(requires"~p.versionID;
+			ret ~= format!") enum bool has%s(int major : %d, int minor : %d) = true;\n\telse "
+				(p.type.capitalize, p.ver.major, p.ver.minor);
+			ret ~= format!"@property @nogc nothrow pragma(inline, true) static bool has%s(int major : %d, int minor : %d)() {"
+				(p.type.capitalize, p.ver.major, p.ver.minor);
+			ret ~= " return has"~p.versionID~"; }\n";
+			
+			p = p.next;
+		}
+		ret ~= format!"\t@property @nogc nothrow static bool has%s(int major, int minor)()"(type.capitalize);
+		ret ~= " if(!supports"~type.capitalize~"!(major, minor))\n\t{\n";
+		ret ~= "\t\tstatic assert(0, versionError(\""~type.capitalize~"\", major, minor));\n\t}\n";
+		return ret;
+	}
 	
 	string source(string name)
 	{
@@ -163,11 +260,11 @@ class APIPart
 		
 		ret ~= "}\n";
 		
-		if(ver == APIVersion(1, 0))
+		if(ver == ApiVersion(1, 0))
 		{
 			ret ~= "__gshared const("~name.structName(ver)~")* "~name.globalVarName~" = null;\n";
 
-			ret ~= "private alias apiStruct(GDNATIVE_API_TYPES t : GDNATIVE_API_TYPES." ~ name.enumName(type) ~ ") = ";
+			ret ~= "private alias apiStruct(ApiType t : ApiType." ~ type.toLower ~ ") = ";
 			ret ~= name.globalVarName ~ ";\n";
 		}
 		
@@ -177,16 +274,12 @@ class APIPart
 	}
 }
 
-string enumName(string name, string type)
-{
-	return (name=="core")?("GDNATIVE_" ~ type):("GDNATIVE_EXT_" ~ type);
-}
-string structName(string name, APIVersion ver)
+string structName(string name, ApiVersion ver)
 {
 	return (name=="core")?"godot_gdnative_core_api_struct":
 		("godot_gdnative_ext_"~name~"_api_struct"~ver.str);
 }
-string globalVarName(string name, APIVersion ver = APIVersion(-1,-1))
+string globalVarName(string name, ApiVersion ver = ApiVersion(-1,-1))
 {
 	string ret;
 	if(name=="core") ret = "_godot_api";

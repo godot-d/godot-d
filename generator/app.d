@@ -71,10 +71,10 @@ int main(string[] args)
 		return 1;
 	}
 	
-	API gdnativeAPI = gdnativeJson.readText.deserialize!(API);
+	Api gdnativeApi = gdnativeJson.readText.deserialize!(Api);
 	auto cPath = buildPath(outputDir, "classes", "godot", "c", "api.d");
 	if(!cPath.dirName.exists) cPath.dirName.mkdirRecurse;
-	writeFile(cPath, gdnativeAPI.source);
+	writeFile(cPath, gdnativeApi.source);
 	
 	ClassList classList;
 	classList.classes = classesJson.readText.deserialize!(GodotClass[]);

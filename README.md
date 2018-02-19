@@ -70,14 +70,16 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
   `Vector3` and `String`.
 - Other submodules of `godot` contain bindings to Godot classes, auto-generated
   from the engine's API. These are the C++ classes scripts can be attached to.
-- This bindings use camelCase instead of snake_case.
+- These bindings use camelCase instead of snake_case.
 
   Change window to fullscreen example:
   ```GDSCRIPT
+  # GDScript
   OS.set_window_fullscreen(false)
   ```
   Would be:
   ```D
+  // D
   OS.setWindowFullscreen(false);
   ```
 
@@ -90,6 +92,28 @@ Godot-D and generate updated bindings using the [API generator](generator/README
 [DUB](https://code.dlang.org/getting_started) has various ways of using your
 modified local Godot-D package, or you can simply include the contents of `src`
 and `classes` in your own project instead of a DUB dependency.
+
+Versioning
+----------
+The GDNative API is binary-compatible between Godot versions, so a D library
+can be used with a Godot build older or newer than the one used to generate the
+bindings. D bindings must still be generated with the most recent GDNative API
+(`modules/gdnative/gdnative_api.json` in the Godot repository) even if an older
+Godot binary will be used.
+
+Extension version properties can be checked to prevent newer functions from
+being called with older Godot binaries. For example:
+```D
+if(GDNativeVersion.hasNativescript!(1, 1)) useNewNativescriptFunctions();
+else doNothing();
+```
+
+A D library can also specify minimum required extensions using a compiler flag
+or the `versions` property in their DUB project. The format of the version flag
+is `GDNativeRequire<Extension name or "Core">_<major version>_<minor version>`.
+For example, with `"versions": [ "GDNativeRequireNativescript_1_1" ]` in
+`dub.json`, runtime checks and non-1.1 code such as the example above can be
+safely optimized out in both library code and binding-internal code.
 
 License
 -------
