@@ -39,7 +39,7 @@ struct Ref(T) if(extends!(T, Reference))
 	}
 	alias refPayload this;
 	
-	ref Ref opAssign(U)(auto ref U other) if(extends!(T, U))
+	ref Ref opAssign(T other)
 	{
 		if(_self.getGodotObject == other.getGodotObject) return this;
 		unref();
@@ -87,7 +87,7 @@ struct Ref(T) if(extends!(T, Reference))
 	/++
 	Construct from other reference
 	+/
-	this(U)(auto ref U other) if(extends!(T, U))
+	this(T other)
 	{
 		_self = other;
 		if(_self) _reference.reference();
