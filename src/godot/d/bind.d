@@ -168,9 +168,16 @@ mixin template baseCasts()
 		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
 			~ " does not extend " ~ typeof(this).stringof);
 		if(_godot_object.ptr is null) return typeof(return).init;
-		if(NativeScriptTag!To.matches(_godot_nativescript_api.godot_nativescript_get_type_tag(_godot_object)))
+		if(GDNativeVersion.hasNativescript!(1, 1))
 		{
-			return cast(To)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object));
+			if(NativeScriptTag!To.matches(_godot_nativescript_api.godot_nativescript_get_type_tag(_godot_object)))
+			{
+				return cast(To)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object));
+			}
+		}
+		else if(hasMethod(String(`_GDNATIVE_D_typeid`)))
+		{
+			return cast(To)(cast(Object)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object)));
 		}
 		return typeof(return).init;
 	}

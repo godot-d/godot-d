@@ -181,7 +181,18 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
 	_godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
-	_godot_nativescript_api.godot_nativescript_set_type_tag(handle, name, NativeScriptTag!T.tag);
+	
+	if(GDNativeVersion.hasNativescript!(1, 1))
+	{
+		_godot_nativescript_api.godot_nativescript_set_type_tag(handle, name, NativeScriptTag!T.tag);
+	}
+	else // register a no-op function that indicates this is a D class
+	{
+		godot_instance_method md;
+		md.method = &_GODOT_nop;
+		md.free_func = null;
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
+	}
 	
 	foreach(mf; godotMethods!T)
 	{
