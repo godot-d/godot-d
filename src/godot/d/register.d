@@ -170,13 +170,22 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	static import godot.nativescript;
 	import std.string : toStringz, fromStringz; /// TODO: remove GCed functions
 
-	static if(extendsGodotBaseClass!T) alias Base = typeof(T.owner);
-	else alias Base = GodotObject; // Default base class - GDScript uses Reference
+	static if(BaseClassesTuple!T.length == 2) // base class is GodotScript; use owner
+	{
+		alias Base = typeof(T.owner);
+		enum immutable(char*) baseName = Base._GODOT_internal_name;
+	}
+	else // base class is another D script
+	{
+		alias Base = BaseClassesTuple!T[0];
+		static if(hasUDA!(Base, Rename)) enum immutable(char*) name = TemplateArgsOf!(
+			getUDAs!(Base, Rename)[0])[0];
+		else enum immutable(char*) baseName = Base.stringof;
+	}
 	
 	static if(hasUDA!(T, Rename)) enum immutable(char*) name = TemplateArgsOf!(
 		getUDAs!(T, Rename)[0])[0];
 	else enum immutable(char*) name = T.stringof;
-	enum immutable(char*) baseName = Base._GODOT_internal_name;
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
@@ -216,7 +225,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	}
 	
 	// OnReady when there is no _ready method
-	static if(staticIndexOf!("_ready", Filter!(godotName, godotMethods!T)) == -1
+	static if(staticIndexOf!("_ready", staticMap!(godotName, godotMethods!T)) == -1
 		&& onReadyFieldNames!T.length)
 	{
 		enum ma = godot_method_attributes.init;
