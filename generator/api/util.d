@@ -130,38 +130,15 @@ string emptyDefault(in Type type)
 	import std.string;
 	import std.conv : text;
 	
-	if(type.isPrimitive) return type.d~".init";
-	
 	switch(type.d)
 	{
 		case "String":
 			return `""`;
-		case "Variant":
-			return "Variant.nil";
 		case "Dictionary":
 			return type.d~".empty_dictionary"; // naming convention fail
 		case "Array":
 			return type.d~".empty_array"; // naming convention fail, ugh. Change it?
-		case "PoolByteArray":
-		case "PoolIntArray":
-		case "PoolRealArray":
-		case "PoolVector2Array":
-		case "PoolVector3Array":
-		case "PoolStringArray":
-		case "PoolColorArray":
-			return type.d~".empty";
-		/++case "Transform":
-		case "Transform2D":
-		case "Color":
-		case "Vector2":
-		case "Vector3":
-		case "Rect2":
-		case "AABB":
-		case "Plane":
-		case "Basis":
-		
-			return type~".init"; // D's default initializer+/
-		default: // all Object types
+		default: // all default-blittable types
 		{
 			return type.d~".init"; // D's default initializer
 			///return "null";

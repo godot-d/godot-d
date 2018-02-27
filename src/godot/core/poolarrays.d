@@ -8,6 +8,7 @@ import godot.core.color;
 import godot.core.vector2;
 import godot.core.vector3;
 
+import std.range.primitives;
 import std.meta, std.traits;
 
 private alias PoolArrayTypes = AliasSeq!(
@@ -29,6 +30,8 @@ private template nameOverride(T)
 }
 
 private enum string typeName(T) = "godot_pool_"~(nameOverride!T)~"_array";
+private enum string readName(T) = "godot_pool_"~(nameOverride!T)~"_array_read_access";
+private enum string writeName(T) = "godot_pool_"~(nameOverride!T)~"_array_write_access";
 
 alias PoolByteArray = PoolArray!ubyte;
 alias PoolIntArray = PoolArray!int;
@@ -38,6 +41,9 @@ alias PoolVector2Array = PoolArray!Vector2;
 alias PoolVector3Array = PoolArray!Vector3;
 alias PoolColorArray = PoolArray!Color;
 
+/++
+Copy-on-write array for some Godot types, allocated with a memory pool.
++/
 struct PoolArray(T)
 {
 	@nogc nothrow:
@@ -47,13 +53,20 @@ struct PoolArray(T)
 	
 	mixin("package(godot) "~(typeName!T)~" _godot_array;");
 	
-	@disable this();
-	
 	this(this)
 	{
 		mixin("auto n = _godot_api."~(typeName!T)~"_new_copy;");
 		const auto tmp = _godot_array;
 		n(&_godot_array, &tmp);
+	}
+	
+	PoolArray opAssign(in PoolArray other)
+	{
+		mixin("auto d = _godot_api."~(typeName!T)~"_destroy;");
+		mixin("auto n = _godot_api."~(typeName!T)~"_new_copy;");
+		d(&_godot_array);
+		n(&_godot_array, &other._godot_array);
+		return this;
 	}
 	
 	/++
@@ -63,14 +76,6 @@ struct PoolArray(T)
 	else static if(is(T==Vector3)) private alias InternalType = godot_vector3;
 	else static if(is(T==Color)) private alias InternalType = godot_color;
 	else private alias InternalType = T;
-	
-	static PoolArray empty()
-	{
-		PoolArray ret = void;
-		mixin("auto n = _godot_api."~(typeName!T)~"_new;");
-		n(&ret._godot_array);
-		return ret;
-	}
 	
 	this(Array arr)
 	{
@@ -90,24 +95,31 @@ struct PoolArray(T)
 		i(&_godot_array);
 	}
 	
-	void remove(int idx)
+	void remove(size_t idx)
 	{
 		mixin("auto r = _godot_api."~(typeName!T)~"_remove;");
-		r(&_godot_array, idx);
+		r(&_godot_array, cast(int)idx);
 	}
 	
-	void resize(int size)
+	void resize(size_t size)
 	{
 		mixin("auto r = _godot_api."~(typeName!T)~"_resize;");
-		r(&_godot_array, size);
+		r(&_godot_array, cast(int)size);
 	}
 	
-	int size() const
+	size_t size() const
 	{
 		mixin("auto s = _godot_api."~(typeName!T)~"_size;");
 		return s(&_godot_array);
 	}
 	alias length = size; // D-style name for size
+	alias opDollar = size;
+	
+	/// Returns: true if length is 0.
+	bool empty() const
+	{
+		return length == 0;
+	}
 	
 	~this()
 	{
@@ -123,22 +135,22 @@ struct PoolArray(T)
 		{
 			_godot_api.godot_pool_string_array_push_back(&_godot_array, &data._godot_string);
 		}
-		void insert(int idx, in ref String data)
+		void insert(size_t idx, in ref String data)
 		{
-			_godot_api.godot_pool_string_array_insert(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_insert(&_godot_array, cast(int)idx, &data._godot_string);
 		}
-		void set(int idx, in ref String data)
+		void set(size_t idx, in ref String data)
 		{
-			_godot_api.godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_set(&_godot_array, cast(int)idx, &data._godot_string);
 		}
-		void opIndexAssign(in ref String data, int idx)
+		void opIndexAssign(in ref String data, size_t idx)
 		{
-			_godot_api.godot_pool_string_array_set(&_godot_array, idx, &data._godot_string);
+			_godot_api.godot_pool_string_array_set(&_godot_array, cast(int)idx, &data._godot_string);
 		}
-		String opIndex(int idx) const
+		String opIndex(size_t idx) const
 		{
 			String ret = void;
-			ret._godot_string = _godot_api.godot_pool_string_array_get(&_godot_array, idx);
+			ret._godot_string = _godot_api.godot_pool_string_array_get(&_godot_array, cast(int)idx);
 			return ret;
 		}
 	}
@@ -151,28 +163,28 @@ struct PoolArray(T)
 				p(&_godot_array, cast(InternalType*)&data);
 			else p(&_godot_array, data);
 		}
-		void insert(int idx, in T data)
+		void insert(size_t idx, in T data)
 		{
 			mixin("auto i = _godot_api."~(typeName!T)~"_insert;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
-				i(&_godot_array, idx, cast(InternalType*)&data);
-			else i(&_godot_array, idx, data);
+				i(&_godot_array, cast(int)idx, cast(InternalType*)&data);
+			else i(&_godot_array, cast(int)idx, data);
 		}
-		void set(int idx, in T data)
+		void set(size_t idx, in T data)
 		{
 			mixin("auto s = _godot_api."~(typeName!T)~"_set;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
-				s(&_godot_array, idx, cast(InternalType*)&data);
-			else s(&_godot_array, idx, data);
+				s(&_godot_array, cast(int)idx, cast(InternalType*)&data);
+			else s(&_godot_array, cast(int)idx, data);
 		}
-		void opIndexAssign(in T data, int idx)
+		void opIndexAssign(in T data, size_t idx)
 		{
 			mixin("auto s = _godot_api."~(typeName!T)~"_set;");
 			static if(is(T==Vector2) || is(T==Vector3) || is(T==Color))
-				s(&_godot_array, idx, cast(InternalType*)&data);
-			else s(&_godot_array, idx, data);
+				s(&_godot_array, cast(int)idx, cast(InternalType*)&data);
+			else s(&_godot_array, cast(int)idx, data);
 		}
-		T opIndex(int idx) const
+		T opIndex(size_t idx) const
 		{
 			mixin("auto g = _godot_api."~(typeName!T)~"_get;");
 			static union V
@@ -181,11 +193,38 @@ struct PoolArray(T)
 				InternalType r;
 			}
 			V v;
-			v.r = g(&_godot_array, idx);
+			v.r = g(&_godot_array, cast(int)idx);
 			return v.t;
 		}
 	}
 	
 	alias append = pushBack;
+	alias opOpAssign(string op : "~") = pushBack;
+	
+	/// Slice-like view of the PoolArray
+	/// TODO: implement this with Read/Write?
+	static struct Range
+	{
+		private
+		{
+			PoolArray* arr;
+			size_t start, end;
+		}
+		
+		bool empty() const { return start == end; }
+		size_t length() const { return end - start; }
+		alias opDollar = length;
+		T front() { return (*arr)[start]; }
+		void popFront() { ++start; }
+		T back() { return (*arr)[end-1]; }
+		void popBack() { --end; }
+		T opIndex(size_t index) { return (*arr)[index+start]; }
+		
+		Range save() { return this; }
+	}
+	static assert(isRandomAccessRange!Range);
+	
+	Range opSlice() { return Range(&this, 0, length); }
+	Range opSlice(size_t start, size_t end) { return Range(&this, start, end); }
 }
 
