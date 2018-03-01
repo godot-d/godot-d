@@ -347,12 +347,9 @@ package(godot) struct OnReadyWrapper(T) if(is(GodotClass!T : Node))
 /++
 Template for public variables exported as properties.
 
-Simple `offsetof` from the variable would be simpler, but unfortunately that
-property doesn't work as well with classes as with structs (needs an instance,
-not the class itself).
-
 Params:
-	P = the variable's type
+	T = the class that owns the variable
+	var = the name of the member variable being wrapped
 +/
 package(godot) struct VariableWrapper(T, string var)
 {
