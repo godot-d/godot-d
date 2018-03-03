@@ -87,6 +87,7 @@ string[2] generateClass(in GodotClass c)
 	
 	// module names should be all lowercase in D
 	// https://dlang.org/dstyle.html
+	ret ~= "/// \n";
 	ret ~= "module godot.";
 	ret ~= c.name.moduleName;
 	ret ~= ";\n";
@@ -128,6 +129,7 @@ string[2] generateGlobalConstants(in GodotClass c)
 	string filename = buildPath("classes", "godot", "globalconstants.d");
 	string ret;
 	
+	ret ~= "/// \n";
 	ret ~= "module godot.globalconstants;\n";
 	
 	foreach(const string name, const int value; c.constants)
