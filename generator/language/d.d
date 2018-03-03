@@ -87,7 +87,7 @@ string[2] generateClass(in GodotClass c)
 	
 	// module names should be all lowercase in D
 	// https://dlang.org/dstyle.html
-	ret ~= "/// \n";
+	ret ~= "/**\n"~c.ddocBrief~"\n*/\n";
 	ret ~= "module godot.";
 	ret ~= c.name.moduleName;
 	ret ~= ";\n";

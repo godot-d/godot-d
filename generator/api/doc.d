@@ -22,7 +22,11 @@ void parseClassDoc(GodotClass c, string xml)
 	if(cDoc.hasChild("brief_description"))
 	{
 		auto bd = cDoc.child("brief_description");
-		if(bd.childText) ddoc ~= bd.childText;
+		if(bd.childText)
+		{
+			ddoc ~= bd.childText;
+			c.ddocBrief = bd.childText;
+		}
 	}
 	
 	if(cDoc.hasChild("description"))
@@ -32,7 +36,7 @@ void parseClassDoc(GodotClass c, string xml)
 		{
 			string t = fd.childText;
 			// in case it starts with brief_description; only possible to detect if exactly the same, unfortunately
-			t = t.chompPrefix(ddoc).strip;
+			t = t.chompPrefix(c.ddocBrief).strip;
 			if(t)
 			{
 				if(ddoc) ddoc ~= "\n\n";
