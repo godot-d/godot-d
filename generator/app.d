@@ -138,7 +138,7 @@ int main(string[] args)
 		}
 		foreach(p; paths) foreach(de; dirEntries(p, SpanMode.shallow)) if(de.isFile && de.extension.toLower == ".xml")
 		{
-			if(Type* t = de.name.baseName.stripExtension.chompPrefix("_") in Type.typesByGodotName) if(t.objectClass)
+			if(Type* t = de.name.baseName.stripExtension.escapeType in Type.typesByDName) if(t.objectClass)
 			{
 				parseClassDoc(t.objectClass, de.name.readText);
 			}

@@ -13,6 +13,7 @@ import asdf;
 class Type
 {
 	static Type[string] typesByGodotName;
+	static Type[string] typesByDName;
 	
 	GodotClass objectClass;
 	string d;
@@ -113,6 +114,7 @@ class Type
 		if(ret.isEnum) ret.enumParent = get(api.enums.enumParent(godotName));
 		
 		typesByGodotName[godotName] = ret;
+		typesByDName[ret.d] = ret;
 		
 		return ret;
 	}
