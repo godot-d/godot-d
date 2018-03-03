@@ -42,7 +42,7 @@ void parseClassDoc(GodotClass c, string xml)
 	}
 	
 	/// TODO: remove any */ from inside comment and change BBCode-style stuff to ddoc macros
-	if(ddoc) c.ddoc = "/**\n"~ddoc~"\n*/\n";
+	c.ddoc = "/**\n"~ddoc~"\n*/\n";
 	
 	if(cDoc.hasChild("methods"))
 	{
@@ -72,7 +72,7 @@ void parseMethodDoc(GodotMethod m, DOMEntity!string mDoc)
 		if(fd.childText) ddoc ~= fd.childText;
 	}
 	
-	if(ddoc) m.ddoc = "/**\n"~ddoc~"\n*/\n";
+	m.ddoc = "/**\n"~ddoc~"\n*/\n";
 }
 
 
