@@ -18,7 +18,8 @@
 			"description": "A program that generates a native wrapper using Godot's API JSON",
 			"dependencies":
 			{
-				"asdf": "~>0.1.7",
+				"asdf": "~>0.1.8",
+				"dxml": "~>0.2.3",
 			},
 			"sourcePaths": [ "generator", "common" ]
 		},

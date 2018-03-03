@@ -2,15 +2,17 @@
 import api.util;
 import api.c;
 import api.classes, api.methods, api.enums;
+import api.doc;
 
 import language;
 import language.d;
 
 import asdf;
 
+import std.string : toLower, chompPrefix;
 import std.stdio : writeln, writefln;
-import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write;
-import std.path : buildPath, dirName;
+import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write, dirEntries, SpanMode;
+import std.path : buildPath, dirName, extension, stripExtension, baseName;
 import std.format : format, string;
 import std.getopt : defaultGetoptPrinter, getopt, GetoptResult;
 import std.range : empty;
@@ -23,11 +25,13 @@ void usage(GetoptResult opt)
 
 int main(string[] args)
 {
-	string gdnativeJson = "gdnative_api.json";
+	string gdnativeJson;
 	string classesJson = "api.json";
+	string godotSource;
 	auto opt = args.getopt(
 		"gdnative|g", "GDNative API JSON (default: gdnative_api.json)", &gdnativeJson,
-		"classes|c", "Classes API JSON (default: api.json)", &classesJson
+		"classes|c", "Classes API JSON (default: api.json)", &classesJson,
+		"source|s", "Godot source directory, for documentation (also sets gdnative if unset)", &godotSource
 	);
 	
 	writeln(args);
@@ -39,6 +43,11 @@ int main(string[] args)
 	
 	Language lang = getDLanguage();
 	
+	if(!gdnativeJson)
+	{
+		if(godotSource) gdnativeJson = buildPath(godotSource, "modules", "gdnative", "gdnative_api.json");
+		else gdnativeJson = "gdnative_api.json";
+	}
 	if(!gdnativeJson.exists)
 	{
 		usage(opt);
@@ -111,6 +120,27 @@ int main(string[] args)
 				}
 				
 				b = b.base_class_ptr;
+			}
+		}
+	}
+	
+	// add documentation XMLs
+	if(godotSource && godotSource.exists)
+	{
+		string[] paths = [buildPath(godotSource, "doc", "classes")];
+		if(buildPath(godotSource, "modules").exists)
+		{
+			foreach(de; dirEntries(buildPath(godotSource, "modules"), SpanMode.shallow))
+			{
+				auto p = buildPath(de.name, "doc_classes");
+				if(p.exists) paths ~= p;
+			}
+		}
+		foreach(p; paths) foreach(de; dirEntries(p, SpanMode.shallow)) if(de.isFile && de.extension.toLower == ".xml")
+		{
+			if(Type* t = de.name.baseName.stripExtension.chompPrefix("_") in Type.typesByGodotName) if(t.objectClass)
+			{
+				parseClassDoc(t.objectClass, de.name.readText);
 			}
 		}
 	}

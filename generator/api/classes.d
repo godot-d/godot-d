@@ -85,11 +85,16 @@ class GodotClass
 	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
 	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
+	string ddoc;
+	
 	string source() const
 	{
+		string ret;
+		
 		string className = name.d;
 		if(singleton) className ~= "Singleton";
-		string ret = "@GodotBaseClass struct "~className;
+		ret ~= ddoc;
+		ret ~= "@GodotBaseClass struct "~className;
 		ret ~= "\n{\n";
 		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
 		ret ~= "public:\n";
@@ -163,6 +168,7 @@ class GodotClass
 		
 		if(singleton)
 		{
+			ret ~= "/// Returns: the "~className~"\n";
 			ret ~= "@property @nogc nothrow pragma(inline, true)\n";
 			ret ~= className ~ " " ~ name.d;
 			ret ~= "()\n{\n";

@@ -39,6 +39,8 @@ class GodotMethod
 	@serializationIgnore:
 	GodotClass parent;
 	
+	string ddoc;
+	
 	bool same(in GodotMethod other) const
 	{
 		return name == other.name && is_const == other.is_const;
@@ -121,6 +123,7 @@ class GodotMethod
 	{
 		string ret;
 		
+		ret ~= ddoc;
 		ret ~= "\t";
 		ret ~= return_type.dRef~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
