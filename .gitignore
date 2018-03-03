@@ -1,7 +1,8 @@
+.directory
 .dub
 dub.selections.json
 .settings
-godot-d
+dub.userprefs
 godot-d.dlangidews
 godot-d.dlangidews.wssettings
 godot-d.settings
@@ -13,12 +14,12 @@ __dummy.html
 *.lib
 *.so
 *.dll
+*.exe
 __test__*__
 api.json
 gdnative_api.json
-godot-d_generator*
+godot-d_generator
 examples/*/project/.import/*
 examples/*/project/logs/*
-*.import
 classes
 miscclasses
