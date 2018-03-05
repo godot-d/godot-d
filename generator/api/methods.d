@@ -123,7 +123,7 @@ class GodotMethod
 	{
 		string ret;
 		
-		ret ~= "\t/**\n"~ddoc.replace("\n", "\n\t")~"\n\t*/\n";
+		ret ~= "\t/**\n\t"~ddoc.replace("\n", "\n\t")~"\n\t*/\n";
 		ret ~= "\t";
 		ret ~= return_type.dRef~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
@@ -226,7 +226,7 @@ class GodotProperty
 	string getterSource() const
 	{
 		string ret;
-		ret ~= "\t/**\n" ~ ddoc.replace("\n", "\n\t") ~ "\n\t*/\n";
+		ret ~= "\t/**\n\t" ~ ddoc.replace("\n", "\n\t") ~ "\n\t*/\n";
 		const Type t = (getterMethod) ? (getterMethod.return_type) : type;
 		ret ~= "\t@property " ~ t.d ~ " " ~ name.replace("/","_").snakeToCamel.escapeD ~ "()\n\t{\n"; /// TODO: const?
 		ret ~= "\t\treturn " ~ getter.snakeToCamel.escapeD ~ "(";

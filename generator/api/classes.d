@@ -176,7 +176,8 @@ class GodotClass
 			ret ~= "\tenum Constants : int\n\t{\n";
 			foreach(const string name, const int value; constants)
 			{
-				if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
+				if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n\t\t" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
+				else ret ~= "\t\t/** */\n";
 				ret ~= "\t\t"~name.snakeToCamel.escapeD~" = "~text(value)~",\n";
 			}
 			ret ~= "\t}\n";

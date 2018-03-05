@@ -76,7 +76,17 @@ void parseClassDoc(GodotClass c, string xml)
 		}
 	}
 	
-	/// TODO: enums and constants
+	if(cDoc.hasChild("constants"))
+	{
+		auto constants = cDoc.child("constants");
+		foreach(ceDoc; constants.children)
+		{
+			auto cPtr = ceDoc.attribute("name") in c.constants;
+			if(cPtr) c.ddocConstants[ceDoc.attribute("name")] = ceDoc.childText;
+		}
+	}
+	
+	/// TODO: enums
 }
 
 void parseMethodDoc(GodotMethod m, DOMEntity!string mDoc)
