@@ -6,7 +6,7 @@ import api.classes, api.util;
 import asdf;
 
 import std.range;
-import std.algorithm.searching, std.algorithm.iteration;
+import std.algorithm.searching, std.algorithm.iteration, std.algorithm.sorting;
 import std.path;
 import std.conv : text;
 import std.string;
@@ -45,9 +45,9 @@ struct GodotEnum
 	{
 		string ret = "\tenum "~name.escapeD~" : int\n\t{\n";
 		
-		foreach(n, v; values)
+		foreach(n; values.keys.sort!((a, b)=>(values[a] < values[b])))
 		{
-			ret ~= "\t\t"~n.snakeToCamel.escapeD~" = "~v.text~",\n";
+			ret ~= "\t\t"~n.snakeToCamel.escapeD~" = "~values[n].text~",\n";
 		}
 		
 		ret ~= "\t}\n";

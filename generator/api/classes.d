@@ -6,7 +6,7 @@ import api.methods, api.enums, api.util;
 import asdf;
 
 import std.range;
-import std.algorithm.searching, std.algorithm.iteration;
+import std.algorithm.searching, std.algorithm.iteration, std.algorithm.sorting;
 import std.path;
 import std.conv : text;
 import std.string;
@@ -174,11 +174,11 @@ class GodotClass
 		{
 			ret ~= "\t/// \n";
 			ret ~= "\tenum Constants : int\n\t{\n";
-			foreach(const string name, const int value; constants)
+			foreach(const string name; constants.keys.sort!((a, b)=>(constants[a] < constants[b])))
 			{
 				if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n\t\t" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
 				else ret ~= "\t\t/** */\n";
-				ret ~= "\t\t"~name.snakeToCamel.escapeD~" = "~text(value)~",\n";
+				ret ~= "\t\t"~name.snakeToCamel.escapeD~" = "~text(constants[name])~",\n";
 			}
 			ret ~= "\t}\n";
 		}
