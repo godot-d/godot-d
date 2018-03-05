@@ -83,6 +83,12 @@ void parseClassDoc(GodotClass c, string xml)
 		{
 			auto cPtr = ceDoc.attribute("name") in c.constants;
 			if(cPtr) c.ddocConstants[ceDoc.attribute("name")] = ceDoc.childText;
+			
+			if(!ceDoc.attribute("enum").empty)
+			{
+				auto index = c.enums.countUntil!"a.name == b"(ceDoc.attribute("enum"));
+				if(index != -1) c.enums[index].ddoc[ceDoc.attribute("name")] = ceDoc.childText;
+			}
 		}
 	}
 	

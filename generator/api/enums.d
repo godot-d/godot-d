@@ -41,12 +41,16 @@ struct GodotEnum
 	@serializationIgnore:
 	GodotClass parent;
 	
+	string[string] ddoc;
+	
 	string source() const
 	{
-		string ret = "\tenum "~name.escapeD~" : int\n\t{\n";
+		string ret = "\t/// \n\tenum "~name.escapeD~" : int\n\t{\n";
 		
 		foreach(n; values.keys.sort!((a, b)=>(values[a] < values[b])))
 		{
+			if(auto ptr = n in ddoc) ret ~= "\t\t/**\n\t\t" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
+			else ret ~= "\t\t/** */\n";
 			ret ~= "\t\t"~n.snakeToCamel.escapeD~" = "~values[n].text~",\n";
 		}
 		
