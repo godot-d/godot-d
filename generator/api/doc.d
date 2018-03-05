@@ -46,7 +46,7 @@ void parseClassDoc(GodotClass c, string xml)
 	}
 	
 	/// TODO: remove any */ from inside comment and change BBCode-style stuff to ddoc macros
-	c.ddoc = "/**\n"~ddoc~"\n*/\n";
+	c.ddoc = ddoc;
 	
 	if(cDoc.hasChild("methods"))
 	{
@@ -62,21 +62,35 @@ void parseClassDoc(GodotClass c, string xml)
 		}
 	}
 	
-	/// TODO: properties ("members")
+	if(cDoc.hasChild("members"))
+	{
+		auto members = cDoc.child("members");
+		foreach(mDoc; members.children)
+		{
+			auto index = c.properties.countUntil!"a.name == b"(mDoc.attribute("name"));
+			if(index != -1)
+			{
+				parsePropertyDoc(c.properties[index], mDoc);
+			}
+			else writefln("No property %s.%s", c.name.godot, mDoc.attribute("name"));
+		}
+	}
 	
 	/// TODO: enums and constants
 }
 
 void parseMethodDoc(GodotMethod m, DOMEntity!string mDoc)
 {
-	string ddoc;
 	if(mDoc.hasChild("description"))
 	{
 		auto fd = mDoc.child("description");
-		if(fd.childText) ddoc ~= fd.childText;
+		if(fd.childText) m.ddoc = fd.childText;
 	}
-	
-	m.ddoc = "/**\n"~ddoc~"\n*/\n";
+}
+
+void parsePropertyDoc(GodotProperty p, DOMEntity!string pDoc)
+{
+	p.ddoc = pDoc.childText;
 }
 
 

@@ -27,6 +27,7 @@ class GodotClass
 	bool is_reference;
 	int[string] constants; // TODO: can constants be things other than ints?
 	GodotMethod[] methods;
+	GodotProperty[] properties;
 	GodotEnum[] enums;
 	
 	void finalizeDeserialization(Asdf data)
@@ -70,6 +71,25 @@ class GodotClass
 			
 			m.parent = this;
 		}
+		foreach(p; properties)
+		{
+			auto g = methods.find!(m => m.name == p.getter);
+			if(!g.empty) p.getterMethod = g.front;
+			auto s = methods.find!(m => m.name == p.setter);
+			if(!s.empty) p.setterMethod = s.front;
+			
+			
+			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
+			if(p.type.isEnum)
+			{
+				auto c = p.type.enumParent;
+				if(c && c !is name) addUsedClass(c);
+			}
+			else if(p.type !is name)
+			{
+				addUsedClass(p.type);
+			}
+		}
 		foreach(ref e; enums)
 		{
 			e.parent = this;
@@ -87,6 +107,7 @@ class GodotClass
 	
 	string ddocBrief;
 	string ddoc;
+	string[string] ddocConstants;
 	
 	string source() const
 	{
@@ -94,7 +115,7 @@ class GodotClass
 		
 		string className = name.d;
 		if(singleton) className ~= "Singleton";
-		ret ~= ddoc;
+		ret ~= "/**\n"~ddoc~"\n*/\n";
 		ret ~= "@GodotBaseClass struct "~className;
 		ret ~= "\n{\n";
 		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
@@ -116,8 +137,8 @@ class GodotClass
 		{
 			ret ~= "\tunion { godot_object _godot_object; "~base_class.d;
 			if(base_class_ptr.singleton) ret ~= "Singleton";
-			ret ~= " base; }\n\talias base this;\n";
-			ret ~= "\talias BaseClasses = AliasSeq!(typeof(base), typeof(base).BaseClasses);\n";
+			ret ~= " _GODOT_base; }\n\talias _GODOT_base this;\n";
+			ret ~= "\talias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);\n";
 		}
 		else
 		{
@@ -149,9 +170,16 @@ class GodotClass
 			ret ~= e.source;
 		}
 		
-		foreach(const string name, const int value; constants)
+		if(constants.length)
 		{
-			ret ~= "\tenum int "~name.snakeToCamel.escapeD~" = "~text(value)~";\n";
+			ret ~= "\t/// \n";
+			ret ~= "\tenum Constants : int\n\t{\n";
+			foreach(const string name, const int value; constants)
+			{
+				if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
+				ret ~= "\t\t"~name.snakeToCamel.escapeD~" = "~text(value)~",\n";
+			}
+			ret ~= "\t}\n";
 		}
 		
 		foreach(const m; methods)
@@ -160,7 +188,10 @@ class GodotClass
 			ret ~= m.source;
 		}
 		
-		
+		foreach(const p; properties)
+		{
+			ret ~= p.source;
+		}
 		
 		
 		

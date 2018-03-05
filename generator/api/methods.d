@@ -123,7 +123,7 @@ class GodotMethod
 	{
 		string ret;
 		
-		ret ~= ddoc;
+		ret ~= "\t/**\n"~ddoc.replace("\n", "\n\t")~"\n\t*/\n";
 		ret ~= "\t";
 		ret ~= return_type.dRef~" ";
 		// none of the types (Classes/Core/Primitive) are pointers in D
@@ -141,7 +141,7 @@ class GodotMethod
 		if(name == "reference" || name == "unreference" || name == "init_ref")
 		{
 			ret ~= "debug import godot.d.output;\n";
-			ret ~= `debug print(base.getClass(), "::", "`~name~`");`;
+			ret ~= `debug print(_GODOT_base.getClass(), "::", "`~name~`");`;
 		}
 		
 		// implementation
@@ -202,6 +202,51 @@ struct GodotArgument
 	
 	size_t index;
 	GodotMethod parent;
+}
+
+class GodotProperty
+{
+	string name;
+	Type type;
+	string getter, setter;
+	int index;
+	
+	@serializationIgnore:
+	
+	GodotMethod getterMethod, setterMethod;
+	
+	string ddoc;
+	
+	string source() const
+	{
+		if(type.godot.canFind(',')) { return null; } /// FIXME: handle with common base
+		return getterSource ~ (setter.length?setterSource:"");
+	}
+	
+	string getterSource() const
+	{
+		string ret;
+		ret ~= "\t/**\n" ~ ddoc.replace("\n", "\n\t") ~ "\n\t*/\n";
+		const Type t = (getterMethod) ? (getterMethod.return_type) : type;
+		ret ~= "\t@property " ~ t.d ~ " " ~ name.replace("/","_").snakeToCamel.escapeD ~ "()\n\t{\n"; /// TODO: const?
+		ret ~= "\t\treturn " ~ getter.snakeToCamel.escapeD ~ "(";
+		if(index != -1) ret ~= text(index);
+		ret ~= ");\n";
+		ret ~= "\t}\n";
+		return ret;
+	}
+	string setterSource() const
+	{
+		string ret;
+		ret ~= "\t/// ditto\n";
+		const Type t = (setterMethod) ? (setterMethod.arguments[$-1].type) : type;
+		ret ~= "\t@property void " ~ name.replace("/","_").snakeToCamel.escapeD ~ "(" ~ t.d ~ " v)\n\t{\n";
+		ret ~= "\t\t" ~ setter.snakeToCamel.escapeD ~ "(";
+		if(index != -1) ret ~= text(index) ~ ", ";
+		ret ~= "v);\n";
+		ret ~= "\t}\n";
+		return ret;
+	}
 }
 
 
