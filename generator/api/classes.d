@@ -93,6 +93,7 @@ class GodotClass
 		foreach(ref e; enums)
 		{
 			e.parent = this;
+			foreach(n; e.values.keys) constantsInEnums ~= n;
 		}
 		assert(!used_classes.canFind(name));
 		assert(!used_classes.canFind!(c => c.godot == "Object"));
@@ -108,6 +109,8 @@ class GodotClass
 	string ddocBrief;
 	string ddoc;
 	string[string] ddocConstants;
+	
+	string[] constantsInEnums; // names of constants that are enum members
 	
 	string source() const
 	{
@@ -176,8 +179,11 @@ class GodotClass
 			ret ~= "\tenum Constants : int\n\t{\n";
 			foreach(const string name; constants.keys.sort!((a, b)=>(constants[a] < constants[b])))
 			{
-				if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n\t\t" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
-				else ret ~= "\t\t/** */\n";
+				if(!constantsInEnums.canFind(name)) // don't document enums here; they have their own ddoc
+				{
+					if(auto ptr = name in ddocConstants) ret ~= "\t\t/**\n\t\t" ~ (*ptr).replace("\n", "\n\t\t") ~ "\n\t\t*/\n";
+					else ret ~= "\t\t/** */\n";
+				}
 				ret ~= "\t\t"~name.snakeToCamel.escapeD~" = "~text(constants[name])~",\n";
 			}
 			ret ~= "\t}\n";
