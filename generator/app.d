@@ -13,7 +13,7 @@ import std.string : toLower, chompPrefix;
 import std.stdio : writeln, writefln;
 import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write, dirEntries, SpanMode;
 import std.path : buildPath, dirName, extension, stripExtension, baseName;
-import std.format : format, string;
+import std.format : format;
 import std.getopt : defaultGetoptPrinter, getopt, GetoptResult;
 import std.range : empty;
 
