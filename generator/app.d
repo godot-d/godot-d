@@ -43,7 +43,7 @@ int main(string[] args)
 	
 	Language lang = getDLanguage();
 	
-	if(!gdnativeJson)
+	if(gdnativeJson.empty)
 	{
 		if(godotSource) gdnativeJson = buildPath(godotSource, "modules", "gdnative", "gdnative_api.json");
 		else gdnativeJson = "gdnative_api.json";
@@ -125,7 +125,7 @@ int main(string[] args)
 	}
 	
 	// add documentation XMLs
-	if(godotSource && godotSource.exists)
+	if(!godotSource.empty && godotSource.exists)
 	{
 		string[] paths = [buildPath(godotSource, "doc", "classes")];
 		if(buildPath(godotSource, "modules").exists)
