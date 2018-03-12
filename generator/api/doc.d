@@ -46,7 +46,7 @@ void parseClassDoc(GodotClass c, string xml)
 	}
 	
 	/// TODO: remove any */ from inside comment and change BBCode-style stuff to ddoc macros
-	c.ddoc = ddoc;
+	c.ddoc = ddoc.godotToDdoc;
 	
 	if(cDoc.hasChild("methods"))
 	{
@@ -100,19 +100,40 @@ void parseMethodDoc(GodotMethod m, DOMEntity!string mDoc)
 	if(mDoc.hasChild("description"))
 	{
 		auto fd = mDoc.child("description");
-		if(fd.childText) m.ddoc = fd.childText;
+		if(fd.childText) m.ddoc = fd.childText.godotToDdoc;
 	}
 }
 
 void parsePropertyDoc(GodotProperty p, DOMEntity!string pDoc)
 {
-	p.ddoc = pDoc.childText;
+	p.ddoc = pDoc.childText.godotToDdoc;
 }
 
 
 // ddoc util functions
 
-
+string godotToDdoc(string input)
+{
+	import std.algorithm, std.string, std.regex;
+	string ret = input;
+	
+	// handle [tags] like Godot's doc/tools/makerst.py
+	
+	ret = ret.replaceAll!((Captures!string s) => "$(D "~s[1]~")")
+		(ctRegex!(`\[(?:method|member|signal|enum) (.+?)\]`));
+	
+	ret = ret.replaceAll!((Captures!string s) => "---"~s[1]~"---")
+		(ctRegex!(`\[codeblock\]([\s\S]*?)\[/codeblock\]`));
+	
+	ret = ret.replaceAll(ctRegex!`\[br\][ \t]*`, "$(BR)");
+	
+	ret = ret.replaceAll!((Captures!string s) => "$("~s[1].toUpper~" "~s[2]~")")
+		(ctRegex!`\[([bui])\](.*?)\[/\1\]`);
+	
+	ret = ret.replaceAll!((Captures!string s) => "`"~s[1]~"`")(ctRegex!`\[code\](.*?)\[/code\]`);
+	
+	return ret;
+}
 
 
 // dxml util functions
