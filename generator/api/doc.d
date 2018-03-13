@@ -1,6 +1,7 @@
 module api.doc;
 
 import api.classes, api.methods, api.util;
+import godot.d.string;
 
 import std.stdio : writeln, writefln;
 import std.string, std.range;
@@ -119,8 +120,11 @@ string godotToDdoc(string input)
 	
 	// handle [tags] like Godot's doc/tools/makerst.py
 	
-	ret = ret.replaceAll!((Captures!string s) => "$(D "~s[1]~")")
-		(ctRegex!(`\[(?:method|member|signal|enum) (.+?)\]`));
+	ret = ret.replaceAll!((Captures!string s){
+		auto split = s[1].findSplit(".");
+		if(split[1].empty) return "$(D "~s[1].snakeToCamel.escapeD~")";
+		else return "$(D "~split[0].escapeType~"."~split[2].snakeToCamel.escapeD~")";
+	})(ctRegex!(`\[(?:method|member|signal|enum) (.+?)\]`));
 	
 	ret = ret.replaceAll!((Captures!string s) => "---"~s[1]~"---")
 		(ctRegex!(`\[codeblock\]([\s\S]*?)\[/codeblock\]`));
@@ -131,6 +135,9 @@ string godotToDdoc(string input)
 		(ctRegex!`\[([bui])\](.*?)\[/\1\]`);
 	
 	ret = ret.replaceAll!((Captures!string s) => "`"~s[1]~"`")(ctRegex!`\[code\](.*?)\[/code\]`);
+	
+	// fallback for [Class]
+	ret = ret.replaceAll!((Captures!string s) => "$(D "~s[1].escapeType~")")(ctRegex!`\[(.+?)\]`);
 	
 	return ret;
 }
