@@ -47,6 +47,7 @@ void parseClassDoc(GodotClass c, string xml)
 	}
 	
 	/// TODO: remove any */ from inside comment and change BBCode-style stuff to ddoc macros
+	c.ddocBrief = c.ddocBrief.godotToDdoc;
 	c.ddoc = ddoc.godotToDdoc;
 	
 	if(cDoc.hasChild("methods"))
@@ -83,12 +84,12 @@ void parseClassDoc(GodotClass c, string xml)
 		foreach(ceDoc; constants.children)
 		{
 			auto cPtr = ceDoc.attribute("name") in c.constants;
-			if(cPtr) c.ddocConstants[ceDoc.attribute("name")] = ceDoc.childText;
+			if(cPtr) c.ddocConstants[ceDoc.attribute("name")] = ceDoc.childText.godotToDdoc;
 			
 			if(!ceDoc.attribute("enum").empty)
 			{
 				auto index = c.enums.countUntil!"a.name == b"(ceDoc.attribute("enum"));
-				if(index != -1) c.enums[index].ddoc[ceDoc.attribute("name")] = ceDoc.childText;
+				if(index != -1) c.enums[index].ddoc[ceDoc.attribute("name")] = ceDoc.childText.godotToDdoc;
 			}
 		}
 	}
