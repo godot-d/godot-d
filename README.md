@@ -1,7 +1,9 @@
+![Godot-D logo](/logo.png)
+
 Godot-D
 =======
 D language bindings for the [Godot Engine](https://godotengine.org/)'s
-[GDNative API](https://github.com/GodotNativeTools/godot_headers).
+[GDNative C interface](https://github.com/GodotNativeTools/godot_headers).
 
 **WIP**: These bindings are still under development. Not all of the design,
 implementation, or documentation is final. Comments/suggestions are welcome
@@ -14,16 +16,32 @@ Usage
   - [DMD 2.076+](https://dlang.org/download.html#dmd) or
   - [LDC 1.6.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
 
-#### Dynamic library
+#### Project setup
+A Godot project needs these files in its project folder to use D:  
+- A dynamic library (`.so`/`.dll`/`.dylib`) compiled from your D code
+- A GDNativeLibrary resource (`.gdnlib`) with the name of the dynamic library
+  file on each platform you'll compile the library for
+- Optionally, NativeScript resources (`.gdns`) for each D class, allowing you
+  to use these classes inside the Godot editor
+
+The easiest way to build your library is to use D's package/build manager, DUB.
 Create a [DUB project](https://code.dlang.org/getting_started) with `godot-d`
-as a dependency and `targetType` set to `dynamicLibrary`.
+as a dependency, `targetType` set to `dynamicLibrary`, and `targetPath` set to
+the Godot project's folder. Your project will usually be organized like this:
 
-The compiled library should go in your Godot project's folder. Depending on how
-your folder is set up, you can use the `targetPath` setting in your DUB project
-to automate this.
-
-In the Godot editor, create a GDNativeLibrary resource and specify the path to
-your library for each platform you'll compile the library for.
+	<game>
+	├─ project                Godot project folder
+	│  ├─ project.godot
+	│  ├─ <game>.dll / .so    Compiled libraries for each platform
+	│  ├─ <game>.gdnlib       GDNativeLibrary resource
+	│  ├─ *.gdns              NativeScripts referring to your D classes
+	│  └─ <other assets>
+	│
+	├─ dub.json               DUB project
+	└─ src
+	   └─ <game>
+	      ├─ *.d              D source files
+	      └─ package.d        Entry point: mixin GodotNativeLibrary!(...);
 
 #### D native scripts
 In Godot, a "script" is an object that exposes methods, properties, and signals
@@ -122,5 +140,8 @@ MIT - <https://opensource.org/licenses/MIT>
 Links
 -----
 GitHub repository - <https://github.com/GodotNativeTools/godot-d>  
-The C++ bindings these are based on - <https://github.com/GodotNativeTools/cpp_bindings>  
-The Godot Engine - <https://godotengine.org/>  
+The C++ bindings these are based on - <https://github.com/GodotNativeTools/godot-cpp>  
+GDNative repository - <https://github.com/GodotNativeTools/godot_headers>  
+
+Godot Engine - <https://godotengine.org>  
+D programming language - <https://dlang.org>  
