@@ -103,13 +103,15 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
 
 Building Godot-D
 ----------------
-The DUB package will only be updated for official releases of Godot, but if you
-keep Godot up-to-date with `master` branch, you can make a local clone of
-Godot-D and generate updated bindings using the [API generator](generator/README.md).
+DUB package releases will contain pre-generated bindings for official releases
+of Godot, but you can generate your own bindings in a few cases:  
+- using the master branch of Godot
+- using the master branch of Godot-D, which doesn't include pre-built bindings
+- using a custom Godot build or custom C++ modules
 
-[DUB](https://code.dlang.org/getting_started) has various ways of using your
-modified local Godot-D package, or you can simply include the contents of `src`
-and `classes` in your own project instead of a DUB dependency.
+Make a local clone of Godot-D and generate updated bindings using the
+[API generator](generator/README.md). DUB will use this local build for your
+own project if you run `dub add-local .` in the `godot-d` directory.
 
 Versioning
 ----------
