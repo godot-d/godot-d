@@ -1,0 +1,41 @@
+[gd_resource type="PlaneMesh" load_steps=3 format=2]
+
+[sub_resource type="Shader" id=1]
+
+code = "shader_type spatial;
+
+varying vec3 pos;
+
+void vertex()
+{
+	pos = VERTEX;
+}
+
+void fragment()
+{
+	vec2 gridLineDistances = abs(fract(0.2*pos.xz + vec2(0.5))-vec2(0.5));
+	float gridLineDistance = min(gridLineDistances.x, gridLineDistances.y); /// distance to grid line, 0..1
+	
+	float dist = length(pos.xz)/50.0; /// fraction of radius, 0..1
+	
+	float gridDist = clamp(30.0*gridLineDistance, 0.0, 1.0);
+	ALPHA = max(1.0 - pow(gridDist, 0.1), float(dist > 0.99)) * float(dist < 1.0);
+	
+	float col = clamp(2.0*dist - 1.0, 0.0, 1.0);
+	
+	ALBEDO = vec3(col, 1.0-col, 0.0);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+
+render_priority = 0
+shader = SubResource( 1 )
+
+[resource]
+
+material = SubResource( 2 )
+size = Vector2( 100, 100 )
+subdivide_width = 0
+subdivide_depth = 0
+

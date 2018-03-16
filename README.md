@@ -9,6 +9,10 @@ D language bindings for the [Godot Engine](https://godotengine.org/)'s
 implementation, or documentation is final. Comments/suggestions are welcome
 (see GitHub issues).
 
+Documentation and a tutorial should hopefully be ready by the end of March. For
+now, see the [asteroids demo game](examples/asteroids/), which the tutorial
+will remake in detailed steps.
+
 Usage
 -----
 #### Dependencies

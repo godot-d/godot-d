@@ -38,5 +38,6 @@
 			"sourcePaths": [ "miscclasses" ],
 		},
 		"./examples/test/",
+		"./examples/asteroids/",
 	],
 }

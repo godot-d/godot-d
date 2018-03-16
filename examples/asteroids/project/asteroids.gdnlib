@@ -1,0 +1,11 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="asteroids"
+reloadable=true
+
+[entry]
+
+X11="res://libasteroids.so"
+Windows="res://asteroids.dll"
