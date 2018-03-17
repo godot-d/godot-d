@@ -5,7 +5,7 @@
 	],
 	"description": "Example of a complete Godot-D project",
 	"copyright": "Copyright © 2018, sheepandshepherd",
-	"license": "mit",
+	"license": "MIT",
 	
 	"targetType": "dynamicLibrary",
 	"targetPath": "project",

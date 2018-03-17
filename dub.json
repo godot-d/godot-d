@@ -1,6 +1,6 @@
 {
 	"name": "godot-d",
-	"description": "A static binding to the DLScript API of the Godot Engine.",
+	"description": "Godot game engine language bindings",
 	"authors": [ "sheepandshepherd" ],
 	"license": "MIT",
 	
@@ -15,7 +15,7 @@
 	[
 		{
 			"name": "generator",
-			"description": "A program that generates a native wrapper using Godot's API JSON",
+			"description": "A program that binds Godot's C++ classes and GDNative C functions",
 			"dependencies":
 			{
 				"asdf": "~>0.1.8",
