@@ -1,9 +1,24 @@
+/**
+Handle for a $(D Resource)‘s unique ID.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.rid;
 
 import godot.c;
 import godot.object;
 import godot.resource;
 
+/**
+The RID type is used to access the unique integer ID of a resource. They are opaque, so they do not grant access to the associated resource by themselves. They are used by and with the low-level Server classes such as $(D VisualServer).
+*/
 struct RID
 {
 	@nogc nothrow:

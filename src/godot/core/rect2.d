@@ -1,3 +1,15 @@
+/**
+2D Axis-aligned bounding box.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.rect2;
 
 import godot.core.defs;
@@ -6,6 +18,9 @@ import godot.core.vector2, godot.core.transform2d;
 import std.algorithm.comparison;
 import std.algorithm.mutation : swap;
 
+/**
+Rect2 consists of a position, a size, and several utility functions. It is typically used for fast overlap tests.
+*/
 struct Rect2
 {
 	@nogc nothrow:

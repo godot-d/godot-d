@@ -1,3 +1,15 @@
+/**
+2D Transformation. 3x2 matrix.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.transform2d;
 
 import godot.core.defs;
@@ -8,6 +20,9 @@ import std.math;
 import std.algorithm.comparison;
 import std.algorithm.mutation : swap;
 
+/**
+Represents one or many transformations in 2D space such as translation, rotation, or scaling. It is similar to a 3x2 matrix.
+*/
 struct Transform2D
 {
 	@nogc nothrow:
@@ -17,9 +32,9 @@ struct Transform2D
 		Vector2[3] elements = [ Vector2(1,0), Vector2(0,1), Vector2(0,0) ];
 		struct
 		{
-			Vector2 x_axis;
-			Vector2 y_axis;
-			Vector2 origin;
+			Vector2 x_axis; /// 
+			Vector2 y_axis; /// 
+			Vector2 origin; /// 
 		}
 	}
 	

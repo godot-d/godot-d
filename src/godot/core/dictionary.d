@@ -1,8 +1,23 @@
+/**
+Variant hashmap/dictionary type.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.dictionary;
 
 import godot.c;
 import godot.core;
 
+/**
+Associative container which contains values referenced by unique keys. Dictionaries are always passed by reference.
+*/
 struct Dictionary
 {
 	int opApply(int delegate(const(Variant), ref Variant) dg)

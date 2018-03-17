@@ -1,3 +1,15 @@
+/**
+Plane in hessian form.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.plane;
 
 import godot.core.defs;
@@ -14,6 +26,9 @@ enum ClockDirection
 	ccw = counterClockwise
 }
 
+/**
+Plane represents a normalized plane equation. Basically, “normal” is the normal of the plane (a,b,c normalized), and “d” is the distance from the origin to the plane (in the direction of “normal”). “Over” or “Above” the plane is considered the side of the plane towards where the normal is pointing.
+*/
 struct Plane
 {
 	@nogc nothrow:

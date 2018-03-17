@@ -1,3 +1,15 @@
+/**
+The most important data type in Godot.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.variant;
 
 import godot.c;
@@ -18,12 +30,16 @@ version(X86_64)
 	version(Posix) version = GodotSystemV;
 }
 
+/**
+A Variant takes up only 20 bytes and can store almost any engine datatype inside of it. Variants are rarely used to hold information for long periods of time, instead they are used mainly for communication, editing, serialization and moving data around.
+*/
 struct Variant
 {
 	@nogc nothrow:
 	
 	package(godot) godot_variant _godot_variant;
 	
+	/// 
 	enum Type
 	{
 		nil,
@@ -138,6 +154,7 @@ struct Variant
 		PoolColorArray,
 	);
 	
+	/// 
 	enum Operator
 	{
 		//comparation

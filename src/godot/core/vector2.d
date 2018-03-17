@@ -1,9 +1,24 @@
+/**
+Vector used for 2D Math.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.vector2;
 
 import godot.core.defs;
 
 import std.math;
 
+/**
+2-element structure that can be used to represent positions in 2d-space, or any other pair of numeric values.
+*/
 struct Vector2
 {
 	@nogc nothrow:
@@ -14,13 +29,13 @@ struct Vector2
 		{
 			union
 			{
-				real_t x = 0.0;
-				real_t width;
+				real_t x = 0.0; /// 
+				real_t width; /// 
 			}
 			union
 			{
-				real_t y = 0.0;
-				real_t height;
+				real_t y = 0.0; /// 
+				real_t height; /// 
 			}
 		}
 

@@ -1,3 +1,15 @@
+/**
+3D Transformation. 3x4 matrix.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.transform;
 
 import godot.core.defs;
@@ -7,12 +19,15 @@ import godot.core.basis;
 import godot.core.aabb;
 import godot.core.plane;
 
+/**
+Represents one or many transformations in 3D space such as translation, rotation, or scaling. It is similar to a 3x4 matrix.
+*/
 struct Transform
 {
 	@nogc nothrow:
 	
-	Basis basis;
-	Vector3 origin;
+	Basis basis; /// 
+	Vector3 origin; /// 
 	
 	this(real_t xx, real_t xy, real_t xz, real_t yx, real_t yy, real_t yz,
 		 real_t zx, real_t zy, real_t zz,real_t tx, real_t ty, real_t tz) {

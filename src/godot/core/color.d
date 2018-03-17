@@ -1,3 +1,15 @@
+/**
+Color in RGBA format with some support for ARGB format.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.color;
 
 import godot.core.string;
@@ -6,6 +18,9 @@ import std.math;
 import std.algorithm.comparison;
 import core.stdc.stddef : wchar_t;
 
+/**
+A color is represented as red, green and blue (r,g,b) components. Additionally, “a” represents the alpha component, often used for transparency. Values are in floating point and usually range from 0 to 1. Some methods (such as set_modulate(color)) may accept values > 1.
+*/
 struct Color
 {
 	@nogc nothrow:

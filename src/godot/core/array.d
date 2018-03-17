@@ -1,9 +1,24 @@
+/**
+Dynamic Variant array.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.array;
 
 import godot.c;
 import godot.core.variant;
 import godot.core.poolarrays;
 
+/**
+Generic array, contains several elements of any type, accessible by numerical index starting at 0. Negative indices can be used to count from the right, like in Python. Arrays are always passed by reference.
+*/
 struct Array
 {
 	int opApply(int delegate(size_t, ref Variant) dg)

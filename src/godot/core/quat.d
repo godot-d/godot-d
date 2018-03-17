@@ -1,3 +1,15 @@
+/**
+Quaternion.
+
+Copyright:
+Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  
+
+License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
+
+
+*/
 module godot.core.quat;
 
 import godot.core.defs;
@@ -6,7 +18,15 @@ import godot.core.basis;
 
 import std.math;
 
+/**
+A 4-dimensional vector representing a rotation.
 
+The vector represents a 4 dimensional complex number where multiplication of the basis elements is not commutative (multiplying i with j gives a different result than multiplying j with i).
+
+Multiplying quaternions reproduces rotation sequences. However quaternions need to be often renormalized, or else they suffer from precision issues.
+
+It can be used to perform SLERP (spherical-linear interpolation) between two rotations.
+*/
 struct Quat
 {
 	@nogc nothrow:
