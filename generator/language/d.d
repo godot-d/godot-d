@@ -29,6 +29,11 @@ Language getDLanguage()
 
 private:
 
+static immutable string copyrightNotice = 
+`Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
+Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
+Copyright (c) 2017-2018 Godot-D contributors  `;
+
 string[2] generatePackage(in GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
@@ -74,9 +79,13 @@ string[2] generateClass(in GodotClass c)
 		buildPath(folder, "godot", c.name.moduleName, "package.d");
 	string ret;
 	
+	ret ~= "/**\n"~c.ddocBrief~"\n\n";
+	ret ~= "Copyright:\n"~copyrightNotice~"\n\n";
+	ret ~= "License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)\n\n";
+	ret ~= "\n*/\n";
+	
 	// module names should be all lowercase in D
 	// https://dlang.org/dstyle.html
-	ret ~= "/**\n"~c.ddocBrief~"\n*/\n";
 	ret ~= "module godot.";
 	ret ~= c.name.moduleName;
 	ret ~= ";\n";

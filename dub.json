@@ -2,6 +2,7 @@
 	"name": "godot-d",
 	"description": "Godot game engine language bindings",
 	"authors": [ "sheepandshepherd" ],
+	"copyright": "Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.; Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md); Copyright (c) 2017-2018 Godot-D contributors",
 	"license": "MIT",
 	
 	"targetType": "library",
