@@ -137,13 +137,6 @@ class GodotMethod
 		else if(name == "callv" && parent.name.godot == "Object") ret ~= " const"; /// HACK
 		ret ~= "\n\t{\n";
 		
-		/// TODO: remove once Ref has been tested heavily
-		if(name == "reference" || name == "unreference" || name == "init_ref")
-		{
-			ret ~= "debug import godot.d.output;\n";
-			ret ~= `debug print(_GODOT_base.getClass(), "::", "`~name~`");`;
-		}
-		
 		// implementation
 		if(is_virtual || has_varargs)
 		{
