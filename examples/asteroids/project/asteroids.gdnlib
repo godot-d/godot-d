@@ -7,5 +7,5 @@ reloadable=true
 
 [entry]
 
-X11="res://libasteroids.so"
-Windows="res://asteroids.dll"
+X11="res://libgodot-d_asteroids.so"
+Windows="res://godot-d_asteroids.dll"

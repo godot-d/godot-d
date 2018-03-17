@@ -138,6 +138,44 @@ struct Variant
 		PoolColorArray,
 	);
 	
+	enum Operator
+	{
+		//comparation
+		equal,
+		notEqual,
+		less,
+		lessEqual,
+		greater,
+		greaterEqual,
+
+		//mathematic
+		add,
+		substract,
+		multiply,
+		divide,
+		negate,
+		positive,
+		modulus,
+		stringConcat,
+
+		//bitwise
+		shiftLeft,
+		shiftRight,
+		bitAnd,
+		bitOr,
+		bitXor,
+		bitNegate,
+
+		//logic
+		and,
+		or,
+		xor,
+		not,
+
+		//containment
+		in_
+	}
+	
 	private enum bool implicit(Src, Dest) = is(Src : Dest) || isImplicitlyConvertible!(Src, Dest);
 
 	private static GodotObject objectToGodot(T)(T o)

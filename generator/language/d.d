@@ -29,23 +29,13 @@ Language getDLanguage()
 
 private:
 
-/// classify some rarely-useful classes into a separate package
-bool isMiscClass(in GodotClass c)
-{
-	import std.algorithm : startsWith;
-	if(c.name.d.startsWith("VisualScript")) return true;
-	
-	return false;
-}
-
 string[2] generatePackage(in GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
 	
 	if(c.descendant_ptrs.length == 0) return [null, null];
 	
-	string folder = c.isMiscClass?"miscclasses":"classes";
-	string filename = buildPath(folder, "godot", c.name.moduleName, "all.d");
+	string filename = buildPath("classes", "godot", c.name.moduleName, "all.d");
 	string ret;
 	
 	ret ~= "module godot.";
@@ -58,7 +48,6 @@ string[2] generatePackage(in GodotClass c)
 	void addDescendant(in GodotClass d)
 	{
 		import std.algorithm.searching;
-		if(isMiscClass(d) && !isMiscClass(c)) return;
 		if(!recursiveDescendants[].canFind(d)) recursiveDescendants ~= d;
 		foreach(rd; d.descendant_ptrs[]) addDescendant(rd);
 	}
@@ -79,7 +68,7 @@ string[2] generateClass(in GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
 	
-	string folder = c.isMiscClass?"miscclasses":"classes";
+	string folder = "classes";
 	string filename = (c.descendant_ptrs.length == 0) ?
 		buildPath(folder, "godot", c.name.moduleName~".d") :
 		buildPath(folder, "godot", c.name.moduleName, "package.d");

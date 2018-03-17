@@ -21,5 +21,4 @@ gdnative_api.json
 godot-d_generator
 examples/*/project/.import/*
 examples/*/project/logs/*
-classes
-miscclasses
+
