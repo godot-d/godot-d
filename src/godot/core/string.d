@@ -122,20 +122,26 @@ struct String
 	alias opSlice = substr;+/
 	
 	
-	ref wchar_t opIndex(in int idx)
+	ref wchar_t opIndex(in size_t idx)
 	{
-		return *_godot_api.godot_string_operator_index(&_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(&_godot_string, cast(int)idx);
 	}
 	
-	wchar_t opIndex(in int idx) const
+	wchar_t opIndex(in size_t idx) const
 	{
-		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, cast(int)idx);
 	}
 	
 	/// Returns the length of the wchar_t array, minus the zero terminator.
-	int length() const
+	size_t length() const
 	{
 		return _godot_api.godot_string_length(&_godot_string);
+	}
+	
+	/// Returns: $(D true) if length is 0
+	bool empty()
+	{
+		return length == 0;
 	}
 	
 	int opCmp(in ref String s)
