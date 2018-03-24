@@ -189,7 +189,9 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
-	_godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
+	
+	static if(hasUDA!(T, Tool)) _godot_nativescript_api.godot_nativescript_register_tool_class(handle, name, baseName, icf, idf);
+	else _godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
 	
 	if(GDNativeVersion.hasNativescript!(1, 1))
 	{
