@@ -22,9 +22,9 @@ struct CharString
 	
 	package(godot) godot_char_string _char_string;
 	
-	const(char*) ptr() const
+	immutable(char)* ptr() const
 	{
-		return _godot_api.godot_char_string_get_data(&_char_string);
+		return cast(typeof(return))_godot_api.godot_char_string_get_data(&_char_string);
 	}
 	
 	size_t length() const
@@ -32,7 +32,7 @@ struct CharString
 		return _godot_api.godot_char_string_length(&_char_string);
 	}
 	
-	const(char[]) data() const
+	immutable(char)[] data() const
 	{
 		return ptr[0..length];
 	}
@@ -166,13 +166,13 @@ struct String
 	}
 	
 	/// Returns a pointer to the wchar_t data. Always zero-terminated.
-	const(wchar_t)* ptr() const
+	immutable(wchar_t)* ptr() const
 	{
-		return _godot_api.godot_string_wide_str(&_godot_string);
+		return cast(typeof(return))_godot_api.godot_string_wide_str(&_godot_string);
 	}
 
 	/// Returns a slice of the wchar_t data without the zero terminator.
-	const(wchar_t)[] data() const
+	immutable(wchar_t)[] data() const
 	{
 		return ptr[0..length];
 	}
