@@ -186,7 +186,9 @@ package(godot) struct MethodWrapper(T, alias mf)
 		// TODO: check types for Variant compatibility, give a better error here
 		// TODO: check numArgs, accounting for D arg defaults
 		
-		Variant v = Variant.nil;
+		godot_variant vd;
+		_godot_api.godot_variant_new_nil(&vd);
+		Variant* v = cast(Variant*)&vd; // just a pointer; no destructor will be called
 		
 		T obj = cast(T)userData;
 		
@@ -208,10 +210,10 @@ package(godot) struct MethodWrapper(T, alias mf)
 		}
 		else
 		{
-			mixin("v = obj." ~ name ~ "(argCall);");
+			mixin("*v = obj." ~ name ~ "(argCall);");
 		}
 		
-		return cast(godot_variant)v;
+		return vd;
 	}
 	
 	/++

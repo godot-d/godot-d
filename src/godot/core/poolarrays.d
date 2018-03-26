@@ -143,19 +143,19 @@ struct PoolArray(T)
 	// a few functions are different for Strings than for the others:
 	static if(is(T == String))
 	{
-		void pushBack(in ref String data)
+		void pushBack(in String data)
 		{
 			_godot_api.godot_pool_string_array_push_back(&_godot_array, &data._godot_string);
 		}
-		void insert(size_t idx, in ref String data)
+		void insert(size_t idx, in String data)
 		{
 			_godot_api.godot_pool_string_array_insert(&_godot_array, cast(int)idx, &data._godot_string);
 		}
-		void set(size_t idx, in ref String data)
+		void set(size_t idx, in String data)
 		{
 			_godot_api.godot_pool_string_array_set(&_godot_array, cast(int)idx, &data._godot_string);
 		}
-		void opIndexAssign(in ref String data, size_t idx)
+		void opIndexAssign(in String data, size_t idx)
 		{
 			_godot_api.godot_pool_string_array_set(&_godot_array, cast(int)idx, &data._godot_string);
 		}

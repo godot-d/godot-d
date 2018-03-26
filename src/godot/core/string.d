@@ -22,9 +22,9 @@ struct CharString
 	
 	package(godot) godot_char_string _char_string;
 	
-	const(char*) ptr() const
+	immutable(char)* ptr() const
 	{
-		return _godot_api.godot_char_string_get_data(&_char_string);
+		return cast(typeof(return))_godot_api.godot_char_string_get_data(&_char_string);
 	}
 	
 	size_t length() const
@@ -32,7 +32,7 @@ struct CharString
 		return _godot_api.godot_char_string_length(&_char_string);
 	}
 	
-	const(char[]) data() const
+	immutable(char)[] data() const
 	{
 		return ptr[0..length];
 	}
@@ -122,20 +122,26 @@ struct String
 	alias opSlice = substr;+/
 	
 	
-	ref wchar_t opIndex(in int idx)
+	ref wchar_t opIndex(in size_t idx)
 	{
-		return *_godot_api.godot_string_operator_index(&_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(&_godot_string, cast(int)idx);
 	}
 	
-	wchar_t opIndex(in int idx) const
+	wchar_t opIndex(in size_t idx) const
 	{
-		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, idx);
+		return *_godot_api.godot_string_operator_index(cast(godot_string*) &_godot_string, cast(int)idx);
 	}
 	
 	/// Returns the length of the wchar_t array, minus the zero terminator.
-	int length() const
+	size_t length() const
 	{
 		return _godot_api.godot_string_length(&_godot_string);
+	}
+	
+	/// Returns: $(D true) if length is 0
+	bool empty()
+	{
+		return length == 0;
 	}
 	
 	int opCmp(in ref String s)
@@ -160,13 +166,13 @@ struct String
 	}
 	
 	/// Returns a pointer to the wchar_t data. Always zero-terminated.
-	const(wchar_t)* ptr() const
+	immutable(wchar_t)* ptr() const
 	{
-		return _godot_api.godot_string_wide_str(&_godot_string);
+		return cast(typeof(return))_godot_api.godot_string_wide_str(&_godot_string);
 	}
 
 	/// Returns a slice of the wchar_t data without the zero terminator.
-	const(wchar_t)[] data() const
+	immutable(wchar_t)[] data() const
 	{
 		return ptr[0..length];
 	}

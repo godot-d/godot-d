@@ -9,6 +9,12 @@ import godot.d.meta;
 
 import std.meta, std.traits;
 
+/++
+A UDA to enable a script class to run in the Godot editor even without the game
+running. Required for $(D EditorPlugin)s and other tools used in the editor.
++/
+enum Tool;
+
 enum RPCMode
 {
 	disabled,

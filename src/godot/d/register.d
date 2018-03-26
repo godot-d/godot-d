@@ -178,7 +178,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	else // base class is another D script
 	{
 		alias Base = BaseClassesTuple!T[0];
-		static if(hasUDA!(Base, Rename)) enum immutable(char*) name = TemplateArgsOf!(
+		static if(hasUDA!(Base, Rename)) enum immutable(char*) baseName = TemplateArgsOf!(
 			getUDAs!(Base, Rename)[0])[0];
 		else enum immutable(char*) baseName = Base.stringof;
 	}
@@ -189,7 +189,9 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
-	_godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
+	
+	static if(hasUDA!(T, Tool)) _godot_nativescript_api.godot_nativescript_register_tool_class(handle, name, baseName, icf, idf);
+	else _godot_nativescript_api.godot_nativescript_register_class(handle, name, baseName, icf, idf);
 	
 	if(GDNativeVersion.hasNativescript!(1, 1))
 	{
@@ -272,7 +274,8 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			}
 			else _godot_api.godot_string_new(&attr.hint_string);
 		}
-		attr.usage = cast(godot_property_usage_flags)uda.usage;
+		attr.usage = cast(godot_property_usage_flags)(uda.usage |
+			Property.Usage.scriptVariable);
 		
 		/// TODO: default value how?
 		{
@@ -306,9 +309,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	}
 	foreach(pName; godotPropertyVariableNames!T)
 	{
-		alias renames = getUDAs!(mixin("T."~pName), Rename);
-		static if(renames.length && !is(renames[0])) immutable(char*) propName = renames[0].name.toStringz; /// TODO: remove GCed functions
-		else immutable(char*) propName = pName.toStringz;
+		immutable(char*) propName = godotName!(mixin("T."~pName)).toStringz; /// TODO: remove GCed functions
 		
 		import std.string;
 		

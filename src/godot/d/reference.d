@@ -67,6 +67,27 @@ struct Ref(T) if(extends!(T, Reference))
 		_self = T.init;
 	}
 	
+	Ref!U as(U)() if(isGodotClass!U && !is(U == GodotObject))
+	{
+		// the only non-Reference this can possibly be is Object, so no need to account for non-Refs
+		static assert(extends!(U, T) || extends!(T, U),
+			U.stringof~" is not polymorphic to "~T.stringof);
+		Ref!U ret = _self.as!U;
+		return ret;
+	}
+	template as(R) if(is(R : Ref!U, U) && isGodotClass!(NonRef!R))
+	{
+		alias as = as!(NonRef!R);
+	}
+	GodotObject as(R)() if(is(Unqual!R == GodotObject))
+	{
+		return _reference;
+	}
+	template opCast(R) if(isGodotClass!(NonRef!R))
+	{
+		alias opCast = as!R;
+	}
+	
 	pragma(inline, true)
 	bool opEquals(R)(in auto ref R other) const
 	{

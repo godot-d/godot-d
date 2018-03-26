@@ -326,8 +326,6 @@ struct Variant
 		private enum string FunctionNew = (name_[$-1]=='_')?(name_[0..$-1]):name_;
 	}
 	
-	@disable this();
-	
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
