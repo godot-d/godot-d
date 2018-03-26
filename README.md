@@ -1,17 +1,22 @@
-![Godot-D logo](/logo.png)
+[![Godot-D logo](/logo.png)](https://code.dlang.org/packages/godot-d)
 
 Godot-D
 =======
 D language bindings for the [Godot Engine](https://godotengine.org/)'s
 [GDNative C interface](https://github.com/GodotNativeTools/godot_headers).
 
-**WIP**: These bindings are still under development. Not all of the design,
-implementation, or documentation is final. Comments/suggestions are welcome
-(see GitHub issues).
+**WIP**: These bindings are still under development. Until v1.0.0, expect
+breaking changes, bugs, and missing documentation. Please report any issues and
+confusing or undocumented features on the GitHub page.
 
-Documentation and a tutorial should hopefully be ready by the end of March. For
-now, see the [asteroids demo game](examples/asteroids/), which the tutorial
-will remake in detailed steps.
+#### Upcoming changes
+- Optional editor import plugin that handles the boilerplate - `.d` files will
+  import as NativeScripts and `dub.json`/`dub.sdl` as GDNativeLibrary.
+- Documentation and a tutorial. Delayed so it can use the import plugin. For
+  now, see the [asteroids demo game](examples/asteroids/), which the tutorial
+  will remake in detailed steps.
+- Godot String literals (`gs!"some_text"`) will replace passing D strings to
+  Godot. The expensive runtime conversion shouldn't be implicit.
 
 Usage
 -----
