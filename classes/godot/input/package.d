@@ -213,7 +213,8 @@ public:
 	package(godot) static GodotMethod!(bool, String) _GODOT_is_action_just_pressed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_action_just_pressed") = _GODOT_is_action_just_pressed;
 	/**
-	Returns `true` when you start pressing the action event.
+	Returns `true` when the user starts pressing the action event, meaning it's true only on the frame that the user pressed down the button.
+	This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 	*/
 	bool isActionJustPressed(StringArg0)(in StringArg0 action) const
 	{
@@ -223,7 +224,7 @@ public:
 	package(godot) static GodotMethod!(bool, String) _GODOT_is_action_just_released;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_action_just_released") = _GODOT_is_action_just_released;
 	/**
-	Returns `true` when you stop pressing the action event.
+	Returns `true` when the user stops pressing the action event, meaning it's true only on the frame that the user released the button.
 	*/
 	bool isActionJustReleased(StringArg0)(in StringArg0 action) const
 	{

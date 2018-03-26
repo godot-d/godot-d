@@ -444,6 +444,16 @@ public:
 		_GODOT_remove_control_from_container.bind("EditorPlugin", "remove_control_from_container");
 		ptrcall!(void)(_GODOT_remove_control_from_container, _godot_object, container, control);
 	}
+	package(godot) static GodotMethod!(void, String, GodotObject, String, Variant) _GODOT_add_tool_menu_item;
+	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_menu_item") = _GODOT_add_tool_menu_item;
+	/**
+	
+	*/
+	void addToolMenuItem(StringArg0, StringArg2, VariantArg3)(in StringArg0 name, GodotObject handler, in StringArg2 callback, in VariantArg3 ud = Variant.nil)
+	{
+		_GODOT_add_tool_menu_item.bind("EditorPlugin", "add_tool_menu_item");
+		ptrcall!(void)(_GODOT_add_tool_menu_item, _godot_object, name, handler, callback, ud);
+	}
 	package(godot) static GodotMethod!(void, String, GodotObject) _GODOT_add_tool_submenu_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_submenu_item") = _GODOT_add_tool_submenu_item;
 	/**
@@ -453,6 +463,16 @@ public:
 	{
 		_GODOT_add_tool_submenu_item.bind("EditorPlugin", "add_tool_submenu_item");
 		ptrcall!(void)(_GODOT_add_tool_submenu_item, _godot_object, name, submenu);
+	}
+	package(godot) static GodotMethod!(void, String) _GODOT_remove_tool_menu_item;
+	package(godot) alias _GODOT_methodBindInfo(string name : "remove_tool_menu_item") = _GODOT_remove_tool_menu_item;
+	/**
+	
+	*/
+	void removeToolMenuItem(StringArg0)(in StringArg0 name)
+	{
+		_GODOT_remove_tool_menu_item.bind("EditorPlugin", "remove_tool_menu_item");
+		ptrcall!(void)(_GODOT_remove_tool_menu_item, _godot_object, name);
 	}
 	package(godot) static GodotMethod!(void, String, String, Script, Texture) _GODOT_add_custom_type;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_custom_type") = _GODOT_add_custom_type;

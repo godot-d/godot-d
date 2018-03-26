@@ -155,6 +155,16 @@ public:
 		_GODOT_center_on_hmd.bind("ARVRServer", "center_on_hmd");
 		ptrcall!(void)(_GODOT_center_on_hmd, _godot_object, rotation_mode, keep_height);
 	}
+	package(godot) static GodotMethod!(Transform) _GODOT_get_hmd_transform;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_hmd_transform") = _GODOT_get_hmd_transform;
+	/**
+	
+	*/
+	Transform getHmdTransform()
+	{
+		_GODOT_get_hmd_transform.bind("ARVRServer", "get_hmd_transform");
+		return ptrcall!(Transform)(_GODOT_get_hmd_transform, _godot_object);
+	}
 	package(godot) static GodotMethod!(long) _GODOT_get_interface_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_interface_count") = _GODOT_get_interface_count;
 	/**
@@ -215,6 +225,16 @@ public:
 		_GODOT_get_tracker.bind("ARVRServer", "get_tracker");
 		return ptrcall!(ARVRPositionalTracker)(_GODOT_get_tracker, _godot_object, idx);
 	}
+	package(godot) static GodotMethod!(ARVRInterface) _GODOT_get_primary_interface;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_primary_interface") = _GODOT_get_primary_interface;
+	/**
+	
+	*/
+	Ref!ARVRInterface getPrimaryInterface() const
+	{
+		_GODOT_get_primary_interface.bind("ARVRServer", "get_primary_interface");
+		return ptrcall!(ARVRInterface)(_GODOT_get_primary_interface, _godot_object);
+	}
 	package(godot) static GodotMethod!(void, ARVRInterface) _GODOT_set_primary_interface;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_primary_interface") = _GODOT_set_primary_interface;
 	/**
@@ -224,6 +244,36 @@ public:
 	{
 		_GODOT_set_primary_interface.bind("ARVRServer", "set_primary_interface");
 		ptrcall!(void)(_GODOT_set_primary_interface, _godot_object, _interface);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_last_process_usec;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_process_usec") = _GODOT_get_last_process_usec;
+	/**
+	
+	*/
+	long getLastProcessUsec()
+	{
+		_GODOT_get_last_process_usec.bind("ARVRServer", "get_last_process_usec");
+		return ptrcall!(long)(_GODOT_get_last_process_usec, _godot_object);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_last_commit_usec;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_commit_usec") = _GODOT_get_last_commit_usec;
+	/**
+	
+	*/
+	long getLastCommitUsec()
+	{
+		_GODOT_get_last_commit_usec.bind("ARVRServer", "get_last_commit_usec");
+		return ptrcall!(long)(_GODOT_get_last_commit_usec, _godot_object);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_last_frame_usec;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_frame_usec") = _GODOT_get_last_frame_usec;
+	/**
+	
+	*/
+	long getLastFrameUsec()
+	{
+		_GODOT_get_last_frame_usec.bind("ARVRServer", "get_last_frame_usec");
+		return ptrcall!(long)(_GODOT_get_last_frame_usec, _godot_object);
 	}
 	/**
 	Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 meter in the real world.

@@ -875,7 +875,7 @@ public:
 		setParamTexture(3, v);
 	}
 	/**
-	Linear acceleration applied to each particle.
+	Radial acceleration applied to each particle.
 	*/
 	@property double radialAccel()
 	{
