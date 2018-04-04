@@ -1,5 +1,5 @@
 /**
-Grid container used to arrange elements in a grid like layout
+Grid container used to arrange elements in a grid like layout.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.container;
 /**
-Grid container used to arrange elements in a grid like layout
+Grid container used to arrange elements in a grid like layout.
 
 Grid container will arrange its children in a grid like structure, the grid columns are specified using the $(D setColumns) method and the number of rows will be equal to the number of children in the container divided by the number of columns, for example: if the container has 5 children, and 2 columns, there will be 3 rows in the container. Notice that grid layout will preserve the columns and rows for every size of the container.
 */

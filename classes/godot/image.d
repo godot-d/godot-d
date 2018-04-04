@@ -766,14 +766,16 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_pixel") = _GODOT_set_pixel;
 	/**
 	Sets the $(D Color) of the pixel at `(x, y)` if the image is locked. Example:
-	---
+	
+	
 	var img = Image.new()
 	img.create(img_width, img_height, false, Image.FORMAT_RGBA8)
 	img.lock()
 	img.set_pixel(x, y, color) # Works
 	img.unlock()
 	img.set_pixel(x, y, color) # Does not have an effect
-	---
+	
+	
 	*/
 	void setPixel(in long x, in long y, in Color color)
 	{

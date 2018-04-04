@@ -706,14 +706,18 @@ public:
 	Platform path resolution will take place.  The resolved file must exist and be executable.
 	Returns a process id.
 	For example:
-	---
+	
+	
 	var output = []
 	var pid = OS.execute('ls', [], true, output)
-	---
+	
+	
 	If you wish to access a shell built-in or perform a composite command, a platform specific shell can be invoked.  For example:
-	---
+	
+	
 	var pid = OS.execute('CMD.exe', $(D '/C', 'cd %TEMP% &amp;&amp; dir'), true, output)
-	---
+	
+	
 	*/
 	long execute(StringArg0)(in StringArg0 path, in PoolStringArray arguments, in bool blocking, in Array output = Array.empty_array)
 	{

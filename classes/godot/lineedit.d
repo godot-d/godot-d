@@ -198,12 +198,14 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "select") = _GODOT_select;
 	/**
 	Selects characters inside $(D LineEdit) between `from` and `to`. By default `from` is at the beginning and `to` at the end.
-	---
+	
+	
 	text = "Welcome"
 	select()     # Welcome
 	select(4)    # ome
 	select(2, 5) # lco
-	---
+	
+	
 	*/
 	void select(in long from = 0, in long to = -1)
 	{

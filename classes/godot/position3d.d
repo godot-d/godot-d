@@ -1,5 +1,5 @@
 /**
-Generic 3D Position hint for editing
+Generic 3D Position hint for editing.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 /**
-Generic 3D Position hint for editing
+Generic 3D Position hint for editing.
 
-. It's just like a plain $(D Spatial) but displays as a cross in the 3D-Editor at all times.
+It's just like a plain $(D Spatial) but displays as a cross in the 3D-Editor at all times.
 */
 @GodotBaseClass struct Position3D
 {

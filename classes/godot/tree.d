@@ -28,7 +28,8 @@ Control to show a tree of items.
 
 This shows a tree of items that can be selected, expanded and collapsed. The tree can have multiple columns with custom controls like text editing, buttons and popups. It can be useful for structured displays and interactions.
 Trees are built via code, using $(D TreeItem) objects to create the structure. They have a single root but multiple roots can be simulated if a dummy hidden root is added.
----
+
+
 func _ready():
     var tree = Tree.new()
     var root = tree.create_item()
@@ -37,7 +38,8 @@ func _ready():
     var child2 = tree.create_item(root)
     var subchild1 = tree.create_item(child1)
     subchild1.set_text(0, "Subchild1")
----
+
+
 */
 @GodotBaseClass struct Tree
 {

@@ -26,7 +26,8 @@ Type to handle file reading and writing operations.
 
 File type. This is used to permanently store data into the user device's file system and to read from it. This can be used to store game save data or player configuration files, for example.
 Here's a sample on how to write and read from a file:
----
+
+
 func save(content):
     var file = File.new()
     file.open("user://save_game.dat", file.WRITE)
@@ -39,7 +40,8 @@ func load():
     var content = file.get_as_text()
     file.close()
     return content
----
+
+
 */
 @GodotBaseClass struct File
 {

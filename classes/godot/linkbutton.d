@@ -1,5 +1,5 @@
 /**
-Simple button used to represent a link to some resource
+Simple button used to represent a link to some resource.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.basebutton;
 /**
-Simple button used to represent a link to some resource
+Simple button used to represent a link to some resource.
 
 This kind of buttons are primarily used when the interaction with the button causes a context change (like linking to a web page).
 */

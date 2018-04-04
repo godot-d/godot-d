@@ -26,10 +26,12 @@ Flat button helper class.
 
 This is a helper class to generate a flat $(D Button) (see $(D Button.setFlat)), creating a ToolButton is equivalent to:
 
----
+
+
 var btn = Button.new()
 btn.set_flat(true)
----
+
+
 */
 @GodotBaseClass struct ToolButton
 {

@@ -28,13 +28,15 @@ import godot.arraymesh;
 Helper tool to create geometry.
 
 The `SurfaceTool` is used to construct a $(D Mesh) by specifying vertex attributes individually. It can be used to construct a $(D Mesh) from script. All properties except index need to be added before a call to $(D addVertex). For example adding vertex colors and UVs looks like
----
+
+
 var st = SurfaceTool.new()
 st.begin(Mesh.PRIMITIVE_TRIANGLES)
 st.add_color(Color(1, 0, 0))
 st.add_uv(Vector2(0, 0))
 st.add_vertex(Vector3(0, 0, 0))
----
+
+
 The `SurfaceTool` now contains one vertex of a triangle which has a UV coordinate and a specified $(D Color). If another vertex were added without calls to $(D addUv) or $(D addColor) then the last values would be used.
 It is very important that vertex attributes are passed $(B before) the call to $(D addVertex), failure to do this will result in an error when committing the vertex information to a mesh.
 */

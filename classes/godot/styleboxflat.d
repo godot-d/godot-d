@@ -31,16 +31,20 @@ This stylebox can be used to achieve all kinds of looks without the need of a te
  - Shadow
  About corner radius:
  	Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example:
-	---
+	
+
 	height = 30
 	corner_radius_top_left = 50
 	corner_radius_bottom_left = 100
-	---
+	
+
 	The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will $(B never) be more than the height. Result:
-	---
+	
+
 	corner_radius_top_left: 10
 	corner_radius_bottom_left: 20
-	---
+	
+
 */
 @GodotBaseClass struct StyleBoxFlat
 {

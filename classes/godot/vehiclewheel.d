@@ -334,7 +334,7 @@ public:
 		setRadius(v);
 	}
 	/**
-	This is the distance in meters the wheel is lowered from its origin point. Don't set this to 0.0 and move the wheel into position, instead move the origin point of your wheel (the gizmo in Godot) to the position the wheel will take when bottoming out, then use the rest lenght to move the wheel down to the position it should be in when the car is in rest.
+	This is the distance in meters the wheel is lowered from its origin point. Don't set this to 0.0 and move the wheel into position, instead move the origin point of your wheel (the gizmo in Godot) to the position the wheel will take when bottoming out, then use the rest length to move the wheel down to the position it should be in when the car is in rest.
 	*/
 	@property double wheelRestLength()
 	{
@@ -346,7 +346,7 @@ public:
 		setSuspensionRestLength(v);
 	}
 	/**
-	This determines how much grip this wheel has. It is combined with the friction setting of the surface the wheel is in contact with. 0.0 means no grip, 1.0 is normal grip. For a drift car setup, try setting the grip of the rear wheels slightly lower then the front wheels, or use a lower value to simulate tire wear.
+	This determines how much grip this wheel has. It is combined with the friction setting of the surface the wheel is in contact with. 0.0 means no grip, 1.0 is normal grip. For a drift car setup, try setting the grip of the rear wheels slightly lower than the front wheels, or use a lower value to simulate tire wear.
 	It's best to set this to 1.0 when starting out.
 	*/
 	@property double wheelFrictionSlip()
@@ -359,7 +359,7 @@ public:
 		setFrictionSlip(v);
 	}
 	/**
-	This is the distance the suspension can travel. As Godots measures are in meters keep this setting relatively low. Try a value between 0.1 and 0.3 depending on the type of car .
+	This is the distance the suspension can travel. As Godot measures are in meters keep this setting relatively low. Try a value between 0.1 and 0.3 depending on the type of car .
 	*/
 	@property double suspensionTravel()
 	{
@@ -371,7 +371,7 @@ public:
 		setSuspensionTravel(v);
 	}
 	/**
-	This value defines the stiffness of the suspension. Use a value lower then 50 for an offroad car, a value between 50 and 100 for a race car and try something around 200 for something like a Formula 1 car.
+	This value defines the stiffness of the suspension. Use a value lower than 50 for an off-road car, a value between 50 and 100 for a race car and try something around 200 for something like a Formula 1 car.
 	*/
 	@property double suspensionStiffness()
 	{
@@ -383,7 +383,7 @@ public:
 		setSuspensionStiffness(v);
 	}
 	/**
-	The maximum force the spring can resist. This value should be higher then a quarter of the $(D RigidBody.mass) of the $(D VehicleBody) or the spring will not carry the weight of the vehicle. Good results are often obtained by a value that is about 3x to 4x this number.
+	The maximum force the spring can resist. This value should be higher than a quarter of the $(D RigidBody.mass) of the $(D VehicleBody) or the spring will not carry the weight of the vehicle. Good results are often obtained by a value that is about 3x to 4x this number.
 	*/
 	@property double suspensionMaxForce()
 	{
@@ -407,7 +407,7 @@ public:
 		setDampingCompression(v);
 	}
 	/**
-	The damping applied to the spring when relaxing. This value should be between 0.0 (no damping) and 1.0. This value should always be slighly higher then the $(D dampingCompression) property. For a $(D dampingCompression) value of 0.3, try a relaxation value of 0.5
+	The damping applied to the spring when relaxing. This value should be between 0.0 (no damping) and 1.0. This value should always be slightly higher than the $(D dampingCompression) property. For a $(D dampingCompression) value of 0.3, try a relaxation value of 0.5
 	*/
 	@property double dampingRelaxation()
 	{

@@ -1,5 +1,5 @@
 /**
-Button that pops out a $(D ColorPicker)
+Button that pops out a $(D ColorPicker).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,7 @@ import godot.button;
 import godot.colorpicker;
 import godot.popuppanel;
 /**
-Button that pops out a $(D ColorPicker)
+Button that pops out a $(D ColorPicker).
 
 Encapsulates a $(D ColorPicker) making it accesible by pressing a button, pressing the button will toggle the $(D ColorPicker) visibility
 */

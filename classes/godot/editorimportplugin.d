@@ -30,7 +30,8 @@ EditorImportPlugins work by associating with specific file extensions and a reso
 
 
 Below is an example EditorImportPlugin that imports a $(D Mesh) from a file with the extension ".special" or ".spec":
----
+
+
 tool
 extends EditorImportPlugin
 
@@ -68,7 +69,8 @@ func load(src, dst, opts, r_platform_variants, r_gen_files):
     var save = dst + "." + get_save_extension()
     ResourceSaver.save(file, mesh)
     return OK
----
+
+
 */
 @GodotBaseClass struct EditorImportPlugin
 {

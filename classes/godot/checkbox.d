@@ -1,5 +1,5 @@
 /**
-Binary choice user interface widget
+Binary choice user interface widget.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.button;
 /**
-Binary choice user interface widget
+Binary choice user interface widget.
 
 A checkbox allows the user to make a binary choice (choosing only one of two possible options), for example Answer 'yes' or 'no'.
 */

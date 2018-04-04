@@ -25,11 +25,13 @@ Object that holds the project-independent editor settings.
 
 These settings are generally visible in the Editor Settings menu.
 Accessing the settings is done by using the regular $(D GodotObject) API, such as:
----
+
+
 settings.set(prop,value)
 settings.get(prop)
 list_of_settings = settings.get_property_list()
----
+
+
 */
 @GodotBaseClass struct EditorSettings
 {
@@ -125,7 +127,8 @@ public:
 	/**
 	Add a custom property info to a property. The dictionary must contain: name:$(D String)(the name of the property) and type:$(D long)(see TYPE_* in $(D @GlobalScope)), and optionally hint:$(D long)(see PROPERTY_HINT_* in $(D @GlobalScope)), hint_string:$(D String).
 	Example:
-	---
+	
+	
 	editor_settings.set("category/property_name", 0)
 	
 	var property_info = {
@@ -136,7 +139,8 @@ public:
 	}
 	
 	editor_settings.add_property_info(property_info)
-	---
+	
+	
 	*/
 	void addPropertyInfo(in Dictionary info)
 	{

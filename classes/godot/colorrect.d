@@ -67,9 +67,11 @@ public:
 	}
 	/**
 	The color to fill the `ColorRect`.
-	---
+	
+	
 	$ColorRect.color = Color(1, 0, 0, 1) # Set ColorRect node's color to red
-	---
+	
+	
 	*/
 	@property Color color()
 	{

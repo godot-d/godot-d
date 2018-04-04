@@ -25,15 +25,18 @@ import godot.reference;
 Helper class to handle INI-style files.
 
 This helper class can be used to store $(D Variant) values on the filesystem using INI-style formatting. The stored values are identified by a section and a key:
----
+
+
 $(D section)
 some_key=42
 string_example="Hello World!"
 a_vector=Vector3( 1, 0, 2 )
----
+
+
 The stored data can be saved to or parsed from a file, though ConfigFile objects can also be used directly without accessing the filesystem.
 The following example shows how to parse an INI-style file from the system, read its contents and store new values in it:
----
+
+
 var config = ConfigFile.new()
 var err = config.load("user://settings.cfg")
 if err == OK: # if not, something went wrong with the file loading
@@ -44,7 +47,8 @@ if err == OK: # if not, something went wrong with the file loading
         config.set_value("audio", "mute", false)
     # Save the changes by overwriting the previous file
     config.save("user://settings.cfg")
----
+
+
 */
 @GodotBaseClass struct ConfigFile
 {

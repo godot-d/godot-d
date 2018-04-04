@@ -1,5 +1,5 @@
 /**
-Anchor point in AR Space
+Anchor point in AR Space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 /**
-Anchor point in AR Space
+Anchor point in AR Space.
 
 The ARVR Anchor point is a spatial node that maps a real world location identified by the AR platform to a position within the game world. For example, as long as plane detection in ARKit is on, ARKit will identify and update the position of planes (tables, floors, etc) and create anchors for them.
 This node is mapped to one of the anchors through its unique id. When you receive a signal that a new anchor is available you should add this node to your scene for that anchor. You can predefine nodes and set the id and the nodes will simply remain on 0,0,0 until a plane is recognised.

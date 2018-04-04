@@ -26,11 +26,13 @@ Node useful for animations with unknown start and end points.
 
 Node useful for animations with unknown start and end points, procedural animations, making one node follow another, and other simple behavior.
 Because it is easy to get it wrong, here is a quick usage example:
----
+
+
 var tween = get_node("Tween")
 tween.interpolate_property(get_node("Node2D_to_move"), "transform/origin", Vector2(0,0), Vector2(100,100), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 tween.start()
----
+
+
 Some of the methods of this class require a property name. You can get the property name by hovering over the property in the inspector of the editor.
 Many of the methods accept `trans_type` and `ease_type`. The first accepts an TRANS_* constant, and refers to the way the timing of the animation is handled (you might want to see `http://easings.net/` for some examples). The second accepts an EASE_* constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different TRANS_* constants with EASE_IN_OUT, and use the one that looks best.
 */

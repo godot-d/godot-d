@@ -116,7 +116,8 @@ public:
 	/**
 	Add a custom property info to a property. The dictionary must contain: name:$(D String)(the name of the property) and type:$(D long)(see TYPE_* in $(D @GlobalScope)), and optionally hint:$(D long)(see PROPERTY_HINT_* in $(D @GlobalScope)), hint_string:$(D String).
 	Example:
-	---
+	
+	
 	ProjectSettings.set("category/property_name", 0)
 	
 	var property_info = {
@@ -127,7 +128,8 @@ public:
 	}
 	
 	ProjectSettings.add_property_info(property_info)
-	---
+	
+	
 	*/
 	void addPropertyInfo(in Dictionary hint)
 	{

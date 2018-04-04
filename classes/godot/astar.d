@@ -86,11 +86,13 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_point") = _GODOT_add_point;
 	/**
 	Adds a new point at the given position with the given identifier. The algorithm prefers points with lower `weight_scale` to form a path. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
-	---
+	
+	
 	var as = AStar.new()
 	
 	as.add_point(1, Vector3(1,0,0), 4) # Adds the point (1,0,0) with weight_scale=4 and id=1
-	---
+	
+	
 	If there already exists a point for the given id, its position and weight scale are updated to the given values.
 	*/
 	void addPoint(in long id, in Vector3 position, in double weight_scale = 1)
@@ -172,7 +174,8 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_point_connections") = _GODOT_get_point_connections;
 	/**
 	Returns an array with the ids of the points that form the connect with the given point.
-	---
+	
+	
 	var as = AStar.new()
 	
 	as.add_point(1, Vector3(0,0,0))
@@ -184,7 +187,8 @@ public:
 	as.connect_points(1, 3, true)
 	
 	var neighbors = as.get_point_connections(1) # returns $(D 2, 3)
-	---
+	
+	
 	*/
 	PoolIntArray getPointConnections(in long id)
 	{
@@ -195,7 +199,8 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "connect_points") = _GODOT_connect_points;
 	/**
 	Creates a segment between the given points.
-	---
+	
+	
 	var as = AStar.new()
 	
 	as.add_point(1, Vector3(1,1,0))
@@ -203,7 +208,8 @@ public:
 	
 	as.connect_points(1, 2, false) # If bidirectional=false it's only possible to go from point 1 to point 2
 	                               # and not from point 2 to point 1.
-	---
+	
+	
 	*/
 	void connectPoints(in long id, in long to_id, in bool bidirectional = true)
 	{
@@ -254,7 +260,8 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_closest_position_in_segment") = _GODOT_get_closest_position_in_segment;
 	/**
 	Returns the closest position to `to_position` that resides inside a segment between two connected points.
-	---
+	
+	
 	var as = AStar.new()
 	
 	as.add_point(1, Vector3(0,0,0))
@@ -263,7 +270,8 @@ public:
 	as.connect_points(1, 2)
 	
 	var res = as.get_closest_position_in_segment(Vector3(3,3,0)) # returns (0, 3, 0)
-	---
+	
+	
 	The result is in the segment that goes from `y=0` to `y=5`. It's the closest position in the segment to the given point.
 	*/
 	Vector3 getClosestPositionInSegment(in Vector3 to_position) const
@@ -285,7 +293,8 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_id_path") = _GODOT_get_id_path;
 	/**
 	Returns an array with the ids of the points that form the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
-	---
+	
+	
 	var as = AStar.new()
 	
 	as.add_point(1, Vector3(0,0,0))
@@ -300,7 +309,8 @@ public:
 	as.connect_points(5, 4, false)
 	
 	var res = as.get_id_path(1, 3) # returns $(D 1, 2, 3)
-	---
+	
+	
 	If you change the 2nd point's weight to 3, then the result will be `$(D 1, 4, 3)` instead, because now even though the distance is longer, it's "easier" to get through point 4 than through point 2.
 	*/
 	PoolIntArray getIdPath(in long from_id, in long to_id)

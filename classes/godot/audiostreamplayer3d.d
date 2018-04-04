@@ -1,5 +1,5 @@
 /**
-Plays 3D sound in 3D space
+Plays 3D sound in 3D space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,7 @@ import godot.classdb;
 import godot.spatial;
 import godot.audiostream;
 /**
-Plays 3D sound in 3D space
+Plays 3D sound in 3D space.
 
 Plays a sound effect with directed sound effects, dampens with distance if needed, generates effect of hearable position in space.
 */

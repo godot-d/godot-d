@@ -26,7 +26,7 @@ import godot.shape;
 /**
 Node that represents collision shape data in 3D space.
 
-Editor facility for creating and editing collision shapes in 3D space. You can use this node to represent all sorts of collision shapes, for example, add this to an $(D Area) to give it a detection shape, or add it to a $(D PhysicsBody) to give create solid object. $(B IMPORTANT): this is an Editor-only helper to create shapes, use $(D getShape) to get the actual shape.
+Editor facility for creating and editing collision shapes in 3D space. You can use this node to represent all sorts of collision shapes, for example, add this to an $(D Area) to give it a detection shape, or add it to a $(D PhysicsBody) to create a solid object. $(B IMPORTANT): this is an Editor-only helper to create shapes, use $(D getShape) to get the actual shape.
 */
 @GodotBaseClass struct CollisionShape
 {

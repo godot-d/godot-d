@@ -27,35 +27,43 @@ Class for searching text for patterns using regular expressions.
 
 Regular Expression (or regex) is a compact programming language that can be used to recognise strings that follow a specific pattern, such as URLs, email addresses, complete sentences, etc. For instance, a regex of `ab$(D 0-9)` would find any string that is `ab` followed by any number from `0` to `9`. For a more in-depth look, you can easily find various tutorials and detailed explanations on the Internet.
 To begin, the RegEx object needs to be compiled with the search pattern using $(D compile) before it can be used.
----
+
+
 var regex = RegEx.new()
 regex.compile("\\w-(\\d+)")
----
+
+
 The search pattern must be escaped first for gdscript before it is escaped for the expression. For example, `compile("\\d+")` would be read by RegEx as `\d+`. Similarly, `compile("\"(?:\\\\.|$(D ^\"))*\"")` would be read as `"(?:\\.|$(D ^"))*"`
 Using $(D search) you can find the pattern within the given text. If a pattern is found, $(D RegExMatch) is returned and you can retrieve details of the results using functions such as $(D RegExMatch.getString) and $(D RegExMatch.getStart).
----
+
+
 var regex = RegEx.new()
 regex.compile("\\w-(\\d+)")
 var result = regex.search("abc n-0123")
 if result:
     print(result.get_string()) # Would print n-0123
----
+
+
 The results of capturing groups `()` can be retrieved by passing the group number to the various functions in $(D RegExMatch). Group 0 is the default and would always refer to the entire pattern. In the above example, calling `result.get_string(1)` would give you `0123`.
 This version of RegEx also supports named capturing groups, and the names can be used to retrieve the results. If two or more groups have the same name, the name would only refer to the first one with a match.
----
+
+
 var regex = RegEx.new()
 regex.compile("d(?&lt;digit&gt;$(D 0-9)+)|x(?&lt;digit&gt;$(D 0-9a-f)+)")
 var result = regex.search("the number is x2f")
 if result:
     print(result.get_string("digit")) # Would print 2f
----
+
+
 If you need to process multiple results, $(D searchAll) generates a list of all non-overlapping results. This can be combined with a for-loop for convenience.
----
+
+
 for result in regex.search_all("d01, d03, d0c, x3f and x42"):
     print(result.get_string("digit"))
 # Would print 01 03 3f 42
 # Note that d0c would not match
----
+
+
 */
 @GodotBaseClass struct RegEx
 {

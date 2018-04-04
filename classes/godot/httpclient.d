@@ -521,12 +521,14 @@ public:
 	Sends a request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
 	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
 	To create a POST request with query strings to push to the server, do:
-	---
+	
+	
 	var fields = {"username" : "user", "password" : "pass"}
 	var queryString = httpClient.query_string_from_dict(fields)
 	var headers = $(D "Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(queryString.length()))
 	var result = httpClient.request(httpClient.METHOD_POST, "index.php", headers, queryString)
-	---
+	
+	
 	*/
 	GodotError request(StringArg1, StringArg3)(in long method, in StringArg1 url, in PoolStringArray headers, in StringArg3 _body = "")
 	{
@@ -669,11 +671,13 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "query_string_from_dict") = _GODOT_query_string_from_dict;
 	/**
 	Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:
-	---
+	
+	
 	var fields = {"username": "user", "password": "pass"}
 	String queryString = httpClient.query_string_from_dict(fields)
 	returns:= "username=user&amp;password=pass"
-	---
+	
+	
 	*/
 	String queryStringFromDict(in Dictionary fields)
 	{

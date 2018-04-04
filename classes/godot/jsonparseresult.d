@@ -165,13 +165,15 @@ public:
 	A $(D Variant) containing the parsed JSON. Use typeof() to check if it is what you expect. For example, if JSON source starts with curly braces (`{}`) a $(D Dictionary) will be returned, if JSON source starts with braces (`$(D ]`) an [Array) will be returned.
 	$(D i)Be aware that the JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.
 	Note that JSON objects do not preserve key order like Godot dictionaries, thus you should not rely on keys being in a certain order if a dictionary is constructed from JSON. In contrast, JSON arrays retain the order of their elements:$(D /i)
-	---
+	
+	
 	var p = JSON.parse('$(D "hello", "world", "!")')
 	if typeof(p.result) == TYPE_ARRAY:
 	    print(p.result$(D 0)) # prints 'hello'
 	else:
 	    print("unexpected results")
-	---
+	
+	
 	*/
 	@property Variant result()
 	{

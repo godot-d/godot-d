@@ -408,16 +408,18 @@ public:
 	package(godot) static GodotMethod!(GodotObject, Vector2) _GODOT_get_drag_data;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_drag_data") = _GODOT_get_drag_data;
 	/**
-	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Return null if there is no data to drag. Controls that want to recieve drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
+	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Return null if there is no data to drag. Controls that want to receive drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
 	A preview that will follow the mouse that should represent the data can be set with $(D setDragPreview). A good time to set the preview is in this method.
-	---
+	
+	
 	extends Control
 	
 	func get_drag_data(position):
 		var mydata = make_data()
 		set_drag_preview(make_preview(mydata))
 		return mydata
-	---
+	
+	
 	*/
 	GodotObject getDragData(in Vector2 position)
 	{
@@ -431,14 +433,16 @@ public:
 	/**
 	Godot calls this method to test if `data` from a control's $(D getDragData) can be dropped at `position`. `position` is local to this control.
 	This method should only be used to test the data. Process the data in $(D dropData).
-	---
+	
+	
 	extends Control
 	
 	func can_drop_data(position, data):
 	    # check position if it is relevant to you
 	    # otherwise just check data
 	    return typeof(data) == TYPE_DICTIONARY and data.has('expected')
-	---
+	
+	
 	*/
 	bool canDropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
 	{
@@ -452,7 +456,8 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "drop_data") = _GODOT_drop_data;
 	/**
 	Godot calls this method to pass you the `data` from a control's $(D getDragData) result. Godot first calls $(D canDropData) to test if `data` is allowed to drop at `position` where `position` is local to this control.
-	---
+	
+	
 	extends ColorRect
 	
 	func can_drop_data(position, data):
@@ -460,7 +465,8 @@ public:
 	
 	func drop_data(position, data):
 	    color = data$(D 'color')
-	---
+	
+	
 	*/
 	void dropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
 	{
@@ -1402,7 +1408,7 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "force_drag") = _GODOT_force_drag;
 	/**
 	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
-	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to recieve drop data.
+	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
 	*/
 	void forceDrag(VariantArg0)(in VariantArg0 data, GodotObject preview)
 	{
@@ -1466,7 +1472,8 @@ public:
 	Forwarding can be implemented in the target control similar to the methods $(D getDragData), $(D canDropData), and $(D dropData) but with two differences:
 	1. The function name must be suffixed with $(B _fw)
 	2. The function must take an extra argument that is the control doing the forwarding
-	---
+	
+	
 	# ThisControl.gd
 	extends Control
 	func _ready():
@@ -1483,7 +1490,8 @@ public:
 	func get_drag_data_fw(position, from_control):
 	    set_drag_preview(my_preview)
 	    return my_data()
-	---
+	
+	
 	*/
 	void setDragForwarding(GodotObject target)
 	{

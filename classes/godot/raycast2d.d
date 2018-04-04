@@ -113,10 +113,12 @@ public:
 	/**
 	Returns the closest object the ray is pointing to. Note that this does not consider the length of the ray, so you must also use $(D isColliding) to check if the object returned is actually colliding with the ray.
 	Example:
-	---
+	
+	
 	if RayCast2D.is_colliding():
 		var collider = RayCast2D.get_collider()
-	---
+	
+	
 	*/
 	GodotObject getCollider() const
 	{
@@ -128,10 +130,12 @@ public:
 	/**
 	Returns the collision shape of the closest object the ray is pointing to.  Note that this does not consider the length of the ray, so you must also use $(D isColliding) to check if the object returned is actually colliding with the ray.
 	Example:
-	---
+	
+	
 	if RayCast2D.is_colliding():
 		var shape = RayCast2D.get_collider_shape()
-	---
+	
+	
 	*/
 	long getColliderShape() const
 	{

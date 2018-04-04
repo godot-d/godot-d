@@ -1,5 +1,5 @@
 /**
-A twist joint between two 3D bodies
+A twist joint between two 3D bodies.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.joint;
 /**
-A twist joint between two 3D bodies
+A twist joint between two 3D bodies.
 
 The joint can rotate the bodies across an axis defined by the local x-axes of the $(D Joint).
 The twist axis is initiated as the x-axis of the $(D Joint).

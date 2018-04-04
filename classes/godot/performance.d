@@ -204,9 +204,11 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_monitor") = _GODOT_get_monitor;
 	/**
 	Returns the value of one of the available monitors. You should provide one of this class's constants as the argument, like this:
-	---
+	
+	
 	print(Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console
-	---
+	
+	
 	*/
 	double getMonitor(in long monitor) const
 	{

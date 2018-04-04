@@ -63,4 +63,36 @@ public:
 		_GODOT_disconnect_from_host.bind("WebSocketClient", "disconnect_from_host");
 		ptrcall!(void)(_GODOT_disconnect_from_host, _godot_object);
 	}
+	package(godot) static GodotMethod!(void, bool) _GODOT_set_verify_ssl_enabled;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_verify_ssl_enabled") = _GODOT_set_verify_ssl_enabled;
+	/**
+	
+	*/
+	void setVerifySslEnabled(in bool enabled)
+	{
+		_GODOT_set_verify_ssl_enabled.bind("WebSocketClient", "set_verify_ssl_enabled");
+		ptrcall!(void)(_GODOT_set_verify_ssl_enabled, _godot_object, enabled);
+	}
+	package(godot) static GodotMethod!(bool) _GODOT_is_verify_ssl_enabled;
+	package(godot) alias _GODOT_methodBindInfo(string name : "is_verify_ssl_enabled") = _GODOT_is_verify_ssl_enabled;
+	/**
+	
+	*/
+	bool isVerifySslEnabled() const
+	{
+		_GODOT_is_verify_ssl_enabled.bind("WebSocketClient", "is_verify_ssl_enabled");
+		return ptrcall!(bool)(_GODOT_is_verify_ssl_enabled, _godot_object);
+	}
+	/**
+	
+	*/
+	@property bool verifySsl()
+	{
+		return isVerifySslEnabled();
+	}
+	/// ditto
+	@property void verifySsl(bool v)
+	{
+		setVerifySslEnabled(v);
+	}
 }

@@ -26,7 +26,8 @@ Type used to handle the filesystem.
 
 Directory type. It is used to manage directories and their content (not restricted to the project folder).
 Here is an example on how to iterate through the files of a directory:
----
+
+
 func dir_contents(path):
     var dir = Directory.new()
     if dir.open(path) == OK:
@@ -40,7 +41,8 @@ func dir_contents(path):
             file_name = dir.get_next()
     else:
         print("An error occurred when trying to access the path.")
----
+
+
 */
 @GodotBaseClass struct Directory
 {

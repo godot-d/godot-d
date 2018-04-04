@@ -24,7 +24,7 @@ import godot.joint;
 /**
 The generic 6 degrees of freedom joint can implement a variety of joint-types by locking certain axes' rotation or translation.
 
-The first 3 dof axes are linear axes, which represent translation of Bodies, and the latter 3 dof axes represent the angular motion. Each axis can be either locked, or limited.
+The first 3 DOF axes are linear axes, which represent translation of Bodies, and the latter 3 DOF axes represent the angular motion. Each axis can be either locked, or limited.
 */
 @GodotBaseClass struct Generic6DOFJoint
 {
@@ -411,7 +411,7 @@ public:
 		return ptrcall!(bool)(_GODOT_get_flag_z, _godot_object, flag);
 	}
 	/**
-	If `true` the linear motion across the x-axis is enabled.
+	If `true` the linear motion across the x-axis is limited.
 	*/
 	@property bool linearLimitXEnabled()
 	{
@@ -483,7 +483,7 @@ public:
 		setParamX(4, v);
 	}
 	/**
-	If `true` rotation across the x-axis is enabled.
+	If `true` rotation across the x-axis is limited.
 	*/
 	@property bool angularLimitXEnabled()
 	{
@@ -616,7 +616,7 @@ public:
 		setParamX(13, v);
 	}
 	/**
-	If `true` the linear motion across the y-axis is enabled.
+	If `true` the linear motion across the y-axis is limited.
 	*/
 	@property bool linearLimitYEnabled()
 	{
@@ -688,7 +688,7 @@ public:
 		setParamY(4, v);
 	}
 	/**
-	If `true` rotation across the y-axis is enabled.
+	If `true` rotation across the y-axis is limited.
 	*/
 	@property bool angularLimitYEnabled()
 	{
@@ -820,7 +820,7 @@ public:
 		setParamY(13, v);
 	}
 	/**
-	If `true` the linear motion across the z-axis is enabled.
+	If `true` the linear motion across the z-axis is limited.
 	*/
 	@property bool linearLimitZEnabled()
 	{
@@ -892,7 +892,7 @@ public:
 		setParamZ(4, v);
 	}
 	/**
-	If `true` rotation across the z-axis is enabled.
+	If `true` rotation across the z-axis is limited.
 	*/
 	@property bool angularLimitZEnabled()
 	{

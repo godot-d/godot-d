@@ -410,7 +410,8 @@ public:
 	Fetches a node. The $(D NodePath) can be either a relative path (from the current node) or an absolute path (in the scene tree) to a node. If the path does not exist, a `null instance` is returned and attempts to access it will result in an "Attempt to call &lt;method&gt; on a null instance." error.
 	Note: fetching absolute paths only works when the node is inside the scene tree (see $(D isInsideTree)).
 	$(I Example:) Assume your current node is Character and the following tree:
-	---
+	
+	
 	/root
 	/root/Character
 	/root/Character/Sword
@@ -419,14 +420,17 @@ public:
 	/root/Swamp/Alligator
 	/root/Swamp/Mosquito
 	/root/Swamp/Goblin
-	---
+	
+	
 	Possible paths are:
-	---
+	
+	
 	get_node("Sword")
 	get_node("Backpack/Dagger")
 	get_node("../Swamp/Alligator")
 	get_node("/root/MyGame")
-	---
+	
+	
 	*/
 	Node getNode(NodePathArg0)(in NodePathArg0 path) const
 	{
@@ -1224,7 +1228,7 @@ public:
 		setFilename(v);
 	}
 	/**
-	The node owner. A node can have any other node as owner (as long as it is a valid parent, grandparent, etc. ascending in the tree). When saving a node (using SceneSaver) all the nodes it owns will be saved with it. This allows for the creation of complex $(D SceneTree)s, with instancing and subinstancing.
+	The node owner. A node can have any other node as owner (as long as it is a valid parent, grandparent, etc. ascending in the tree). When saving a node (using $(D PackedScene)) all the nodes it owns will be saved with it. This allows for the creation of complex $(D SceneTree)s, with instancing and subinstancing.
 	*/
 	@property Node owner()
 	{

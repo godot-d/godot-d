@@ -51,11 +51,13 @@ public:
 	/**
 	Returns a new instance of the script.
 	For example:
-	---
+	
+	
 	var MyClass = load("myclass.gd")
 	var instance = MyClass.new()
 	assert(instance.get_script() == MyClass)
-	---
+	
+	
 	*/
 	GodotObject _new(VarArgs...)(VarArgs varArgs)
 	{
