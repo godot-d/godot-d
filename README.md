@@ -123,6 +123,13 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
   OS.setWindowFullscreen(false);
   ```
 
+- D code should use D naming conventions (PascalCase for classes, camelCase for
+  properties and methods). Your method and property names will be converted to
+  Godot's own snake_case style when registered into Godot, so refer to them in
+  snake_case from inside the editor and GDScript. This behavior can be disabled
+  with the `GodotNoAutomaticNamingConvention` version switch if you prefer to
+  use camelCase even inside Godot/GDScript.
+
 Building Godot-D
 ----------------
 DUB package releases will contain pre-generated bindings for official releases
