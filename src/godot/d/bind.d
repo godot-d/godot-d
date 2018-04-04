@@ -56,10 +56,12 @@ RefOrT!Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 in
 {
+	import std.experimental.allocator, std.experimental.allocator.mallocator;
 	debug if(self.ptr is null)
 	{
 		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
-		throw new Error(utf8.data);
+		auto msg = Mallocator.instance.makeArray!(immutable(char))(utf8.data);
+		throw new Error(msg); // leak msg; Error is unrecoverable
 	}
 }
 do
@@ -124,10 +126,12 @@ Return callv(MB, Return, Args...)(MB method, godot_object self, Args args)
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 in
 {
+	import std.experimental.allocator, std.experimental.allocator.mallocator;
 	debug if(self.ptr is null)
 	{
 		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
-		throw new Error(utf8.data);
+		auto msg = Mallocator.instance.makeArray!(immutable(char))(utf8.data);
+		throw new Error(msg); // leak msg; Error is unrecoverable
 	}
 }
 do
