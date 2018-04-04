@@ -127,7 +127,8 @@ string godotToDdoc(string input)
 		else return "$(D "~split[0].escapeType~"."~split[2].snakeToCamel.escapeD~")";
 	})(ctRegex!(`\[(?:method|member|signal|enum) (.+?)\]`));
 	
-	ret = ret.replaceAll!((Captures!string s) => "---"~s[1]~"---")
+	/// TODO: not D code, can't use --- blocks. Maybe the GDScript can be parsed and converted to D...
+	ret = ret.replaceAll!((Captures!string s) => "\n"~s[1]~"\n")
 		(ctRegex!(`\[codeblock\]([\s\S]*?)\[/codeblock\]`));
 	
 	ret = ret.replaceAll(ctRegex!`\[br\][ \t]*`, "$(BR)");

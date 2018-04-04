@@ -63,9 +63,22 @@ import godot, godot.button;
 
 class TestButton : GodotScript!Button
 {
+	@Property(Property.Hint.range, "1,10") int number = 9;
+	
+	@Method void _pressed()
+	{
+		print("Button was pressed. `number` is currently ", number);
+	}
+	
 	...
 }
 ```
+Properties and methods can be exposed to Godot with the `Property` and
+`Method` UDAs. Exposed properties will be saved/loaded along with instances of
+the class and can be modified in the Godot editor. The optional hint parameter
+can specify how the editor should treat the property, for example limiting a
+number to the range 1-10.
+
 GodotScript contains a pointer to the Button the script is attached to, called
 `owner`, which can be used to call Button methods or passed to methods taking
 Button as an argument. The `owner` manages the lifetime of the script.
@@ -109,6 +122,13 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
   // D
   OS.setWindowFullscreen(false);
   ```
+
+- D code should use D naming conventions (PascalCase for classes, camelCase for
+  properties and methods). Your method and property names will be converted to
+  Godot's own snake_case style when registered into Godot, so refer to them in
+  snake_case from inside the editor and GDScript. This behavior can be disabled
+  with the `GodotNoAutomaticNamingConvention` version switch if you prefer to
+  use camelCase even inside Godot/GDScript.
 
 Building Godot-D
 ----------------

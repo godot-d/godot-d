@@ -12,6 +12,14 @@
 	"importPaths": [ "src", "classes", "common" ],
 	"sourcePaths": [ "src", "classes", "common" ],
 	
+	"buildTypes": {
+		"doc-json": {
+			"buildRequirements": ["allowWarnings"],
+			"buildOptions": ["syntaxOnly"],
+			"dflags": ["-c", "-Df__dummy.html", "-Xfdocs.json"]
+		}
+	},
+	
 	"subPackages":
 	[
 		{

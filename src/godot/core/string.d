@@ -91,7 +91,11 @@ struct String
 	{
 		static if(isImplicitlyConvertible!(S, const(char)[]))
 		{
-			const(char)[] contents = str;
+			import std.experimental.allocator, std.experimental.allocator.mallocator;
+			char[] contents = Mallocator.instance.makeArray!char(str.length+1);
+			scope(exit) Mallocator.instance.deallocate(cast(void[])contents);
+			contents[0..str.length] = str;
+			contents[str.length] = '\0';
 			_godot_api.godot_string_parse_utf8(&_godot_string, contents.ptr);
 		}
 		else

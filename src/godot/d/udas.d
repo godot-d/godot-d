@@ -15,6 +15,7 @@ running. Required for $(D EditorPlugin)s and other tools used in the editor.
 +/
 enum Tool;
 
+/// 
 enum RPCMode
 {
 	disabled,
@@ -58,6 +59,7 @@ into Godot.
 +/
 struct Property
 {
+	/// 
 	enum Hint
 	{
 		none, /// no hint provided.
@@ -95,6 +97,7 @@ struct Property
 		propertyOfScript, /// a property of a script & base
 	}
 	
+	/// 
 	enum Usage
 	{
 		storage = 1,
@@ -115,16 +118,17 @@ struct Property
 		animateAsTrigger = 32768,
 		updateAllIfModified = 65536,
 		
-		defaultUsage = storage | editor | network,
-		defaultIntl = storage | editor | network | internationalized,
-		noEditor = storage | network,
+		defaultUsage = storage | editor | network, /// storage | editor | network
+		defaultIntl = storage | editor | network | internationalized, /// storage | editor | network | internationalized
+		noEditor = storage | network, /// storage | network
 	}
 	
-	Hint hint = Hint.none;
-	string hintString = null;
-	Usage usage = Usage.defaultUsage;
-	RPCMode rpcMode = RPCMode.disabled;
+	Hint hint = Hint.none; /// 
+	string hintString = null; /// 
+	Usage usage = Usage.defaultUsage; /// 
+	RPCMode rpcMode = RPCMode.disabled; /// 
 	
+	/// 
 	this(Hint hint, string hintString = null, Usage usage = Usage.defaultUsage,
 		RPCMode rpcMode = RPCMode.disabled)
 	{
@@ -134,6 +138,7 @@ struct Property
 		this.rpcMode = rpcMode;
 	}
 	
+	/// 
 	this(Usage usage, Hint hint = Hint.none, string hintString = null,
 		RPCMode rpcMode = RPCMode.disabled)
 	{

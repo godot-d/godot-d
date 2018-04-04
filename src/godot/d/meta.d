@@ -149,7 +149,11 @@ package(godot) enum string dName(alias a) = __traits(identifier, a);
 package(godot) template godotName(alias a)
 {
 	alias udas = getUDAs!(a, Rename);
-	static if(udas.length == 0) enum string godotName = __traits(identifier, a).camelToSnake;
+	static if(udas.length == 0)
+	{
+		version(GodotNoAutomaticNamingConvention) enum string godotName = __traits(identifier, a);
+		else enum string godotName = __traits(identifier, a).camelToSnake;
+	}
 	else
 	{
 		static assert(udas.length == 1, "Multiple Rename UDAs on "~
