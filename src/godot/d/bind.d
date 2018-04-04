@@ -54,6 +54,15 @@ Direct pointer call through MethodBind.
 +/
 RefOrT!Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
+in
+{
+	debug if(self.ptr is null)
+	{
+		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
+		throw new Error(utf8.data);
+	}
+}
+do
 {
 	import std.typecons;
 	import std.range : iota;
@@ -113,13 +122,21 @@ Forwards to `callv`, but does compile-time type check of args other than varargs
 +/
 Return callv(MB, Return, Args...)(MB method, godot_object self, Args args)
 	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
+in
+{
+	debug if(self.ptr is null)
+	{
+		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
+		throw new Error(utf8.data);
+	}
+}
+do
 {
 	alias MBArgs = TemplateArgsOf!(MB)[1..$];
 	
 	import godot.object;
 	GodotObject o = void;
 	o._godot_object = self;
-	assert(o._godot_object.ptr !is null);
 	
 	Array a = Array.empty_array;
 	static if(Args.length != 0) a.resize(cast(int)Args.length);
