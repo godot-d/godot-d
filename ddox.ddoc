@@ -17,5 +17,6 @@ MREF_ALTTEXT=$(DDOX_NAMED_REF $(MREF_HELPER $+), $1)
 
 _=
 
+CLASS=
 IMG=<img src="$1" alt="$2" />
 
