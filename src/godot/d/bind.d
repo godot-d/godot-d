@@ -61,7 +61,7 @@ in
 	{
 		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
 		auto msg = Mallocator.instance.makeArray!(immutable(char))(utf8.data);
-		throw new Error(msg); // leak msg; Error is unrecoverable
+		throw Mallocator.instance.make!Error(msg); // leak msg; Error is unrecoverable
 	}
 }
 do
@@ -131,7 +131,7 @@ in
 	{
 		CharString utf8 = (String("Method ")~method.name~String(" called on null reference")).utf8;
 		auto msg = Mallocator.instance.makeArray!(immutable(char))(utf8.data);
-		throw new Error(msg); // leak msg; Error is unrecoverable
+		throw Mallocator.instance.make!Error(msg); // leak msg; Error is unrecoverable
 	}
 }
 do
