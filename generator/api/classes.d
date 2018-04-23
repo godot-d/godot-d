@@ -167,6 +167,8 @@ class GodotClass
 		ret ~= "\t\tif(constructor is null) return typeof(this).init;\n";
 		ret ~= "\t\treturn cast("~className~")(constructor());\n";
 		ret ~= "\t}\n";
+
+		ret ~= "\t@disable new(size_t s);\n";
 		
 		foreach(const ref e; enums)
 		{
