@@ -61,6 +61,9 @@ $(TABLE
 	$(TR $(TD ) $(TD load) $(TD $(D ResourceLoader.load)))
 	$(TR $(TD ) $(TD preload) $(TD not usable from D))
 	$(TR $(TD ) $(TD print) $(TD $(REF print, godot, d, output)))
+	
+	$(TR $(TD $(B Constants and enums)) $(TD $(B Globals in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@globalscope.html, global scope))) $(TD $(B in $(MREF godot, globalconstants))))
+	$(TR $(TD Class constants:) $(TD `Material.RENDER_PRIORITY_MAX`) $(TD $(D Material.Constants.renderPriorityMax)))
 )
 
 +/
