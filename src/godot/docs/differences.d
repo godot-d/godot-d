@@ -11,6 +11,7 @@ $(TABLE
 	$(TR $(TD Deletion:) $(TD `n.free()`) $(TD $(D memdelete(n);)))
 	$(TR $(TD Reference-counting:) $(TD All vars inheriting Reference are automatically ref-counted) $(TD $(D Ref!ArrayMesh rc = memnew!ArrayMesh; // explicit Ref!T wrapper increments ref-count)))
 	$(TR $(TD Dynamic typing:) $(TD All vars are dynamically-typed) $(TD $(D Variant v; // accepts any Godot-compatible type)))
+	$(TR $(TD Checking inheritance:) $(TD `if n is Node2D:`) $(TD $(D if(n.as!Node2D) // null if n doesn't inherit Node2D)))
 	
 	$(TR $(TD $(B Scripts)))
 	$(TR $(TD Inheritance:) $(TD `class MyNode extends Node:`) $(TD $(D class MyNode : GodotScript!Node { })))
@@ -22,7 +23,7 @@ $(TABLE
 	$(TR $(TD Function/variable:) $(TD snake_case) $(TD camelCase))
 	$(TR $(TD Constant/enum:) $(TD ALL_CAPS) $(TD camelCase))
 	
-	$(TR $(TD $(B Math)) $(TD in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope)) $(TD in $(MREF std, math)))
+	$(TR $(TD $(B Math)) $(TD $(B in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope))) $(TD $(B in $(MREF std, math))))
 	$(TR $(TD ) $(TD abs) $(TD ))
 	$(TR $(TD ) $(TD acos) $(TD ))
 	$(TR $(TD ) $(TD asin) $(TD ))
@@ -50,12 +51,12 @@ $(TABLE
 	$(TR $(TD ) $(TD tan) $(TD ))
 	$(TR $(TD ) $(TD tanh) $(TD ))
 	
-	$(TR $(TD $(B Algorithms)) $(TD in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope)) $(TD in $(MREF std, algorithm)))
+	$(TR $(TD $(B Algorithms)) $(TD $(B in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope))) $(TD $(B in $(MREF std, algorithm))))
 	$(TR $(TD ) $(TD clamp) $(TD ))
 	$(TR $(TD ) $(TD max) $(TD ))
 	$(TR $(TD ) $(TD min) $(TD ))
 	
-	$(TR $(TD $(B Other functions)) $(TD in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope)) $(TD ))
+	$(TR $(TD $(B Other functions)) $(TD $(B in $(LINK2 https://godot.readthedocs.io/en/latest/classes/class_@gdscript.html, global scope))) $(TD ))
 	$(TR $(TD ) $(TD assert) $(TD $(D assert) keyword))
 	$(TR $(TD ) $(TD load) $(TD $(D ResourceLoader.load)))
 	$(TR $(TD ) $(TD preload) $(TD not usable from D))
