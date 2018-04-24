@@ -63,6 +63,12 @@ void godotAssertHandlerEditorDebug(string file, size_t line, string msg)
 	}
 }
 
+/**
+Print to Godot's console and stdout.
+
+Params:
+	args = any Godot-compatible types or strings
+*/
 void print(Args...)(Args args)
 {
 	import godot.core.string, godot.core.variant;
