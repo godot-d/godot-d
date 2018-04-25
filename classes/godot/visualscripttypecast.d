@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptTypeCast)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_set_base_type;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_type") = _GODOT_set_base_type;
 	/**

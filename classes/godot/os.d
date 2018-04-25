@@ -52,39 +52,40 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(OSSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum SystemDir : int
 	{
 		/**
-		
+		Desktop directory path.
 		*/
 		systemDirDesktop = 0,
 		/**
-		
+		DCIM (Digital Camera Images) directory path.
 		*/
 		systemDirDcim = 1,
 		/**
-		
+		Documents directory path.
 		*/
 		systemDirDocuments = 2,
 		/**
-		
+		Downloads directory path.
 		*/
 		systemDirDownloads = 3,
 		/**
-		
+		Movies directory path.
 		*/
 		systemDirMovies = 4,
 		/**
-		
+		Music directory path.
 		*/
 		systemDirMusic = 5,
 		/**
-		
+		Pictures directory path.
 		*/
 		systemDirPictures = 6,
 		/**
-		
+		Ringtones directory path.
 		*/
 		systemDirRingtones = 7,
 	}
@@ -92,31 +93,31 @@ public:
 	enum ScreenOrientation : int
 	{
 		/**
-		
+		Landscape screen orientation.
 		*/
 		screenOrientationLandscape = 0,
 		/**
-		
+		Portrait screen orientation.
 		*/
 		screenOrientationPortrait = 1,
 		/**
-		
+		Reverse landscape screen orientation.
 		*/
 		screenOrientationReverseLandscape = 2,
 		/**
-		
+		Reverse portrait screen orientation.
 		*/
 		screenOrientationReversePortrait = 3,
 		/**
-		
+		Uses landscape or reverse landscape based on the hardware sensor.
 		*/
 		screenOrientationSensorLandscape = 4,
 		/**
-		
+		Uses portrait or reverse portrait based on the hardware sensor.
 		*/
 		screenOrientationSensorPortrait = 5,
 		/**
-		
+		Uses most suitable orientation based on the hardware sensor.
 		*/
 		screenOrientationSensor = 6,
 	}
@@ -124,23 +125,23 @@ public:
 	enum PowerState : int
 	{
 		/**
-		
+		Unknown powerstate.
 		*/
 		powerstateUnknown = 0,
 		/**
-		
+		Unplugged, running on battery.
 		*/
 		powerstateOnBattery = 1,
 		/**
-		
+		Plugged in, no battery available.
 		*/
 		powerstateNoBattery = 2,
 		/**
-		
+		Plugged in, battery charging.
 		*/
 		powerstateCharging = 3,
 		/**
-		
+		Plugged in, battery fully charged.
 		*/
 		powerstateCharged = 4,
 	}
@@ -148,51 +149,51 @@ public:
 	enum Month : int
 	{
 		/**
-		
+		January.
 		*/
 		monthJanuary = 1,
 		/**
-		
+		February.
 		*/
 		monthFebruary = 2,
 		/**
-		
+		March.
 		*/
 		monthMarch = 3,
 		/**
-		
+		April.
 		*/
 		monthApril = 4,
 		/**
-		
+		May.
 		*/
 		monthMay = 5,
 		/**
-		
+		June.
 		*/
 		monthJune = 6,
 		/**
-		
+		July.
 		*/
 		monthJuly = 7,
 		/**
-		
+		August.
 		*/
 		monthAugust = 8,
 		/**
-		
+		September.
 		*/
 		monthSeptember = 9,
 		/**
-		
+		October.
 		*/
 		monthOctober = 10,
 		/**
-		
+		November.
 		*/
 		monthNovember = 11,
 		/**
-		
+		December.
 		*/
 		monthDecember = 12,
 	}
@@ -200,71 +201,71 @@ public:
 	enum Weekday : int
 	{
 		/**
-		
+		Sunday.
 		*/
 		daySunday = 0,
 		/**
-		
+		Monday.
 		*/
 		dayMonday = 1,
 		/**
-		
+		Tuesday.
 		*/
 		dayTuesday = 2,
 		/**
-		
+		Wednesday.
 		*/
 		dayWednesday = 3,
 		/**
-		
+		Thursday.
 		*/
 		dayThursday = 4,
 		/**
-		
+		Friday.
 		*/
 		dayFriday = 5,
 		/**
-		
+		Saturday.
 		*/
 		daySaturday = 6,
 	}
 	/// 
 	enum Constants : int
 	{
-		powerstateUnknown = 0,
-		daySunday = 0,
 		screenOrientationLandscape = 0,
 		systemDirDesktop = 0,
+		daySunday = 0,
+		powerstateUnknown = 0,
 		screenOrientationPortrait = 1,
-		dayMonday = 1,
-		powerstateOnBattery = 1,
 		monthJanuary = 1,
+		dayMonday = 1,
 		systemDirDcim = 1,
-		dayTuesday = 2,
-		monthFebruary = 2,
-		screenOrientationReverseLandscape = 2,
+		powerstateOnBattery = 1,
 		systemDirDocuments = 2,
+		screenOrientationReverseLandscape = 2,
+		dayTuesday = 2,
 		powerstateNoBattery = 2,
+		monthFebruary = 2,
+		powerstateCharging = 3,
+		monthMarch = 3,
+		systemDirDownloads = 3,
 		dayWednesday = 3,
 		screenOrientationReversePortrait = 3,
-		monthMarch = 3,
-		powerstateCharging = 3,
-		systemDirDownloads = 3,
 		powerstateCharged = 4,
-		screenOrientationSensorLandscape = 4,
 		dayThursday = 4,
+		screenOrientationSensorLandscape = 4,
 		systemDirMovies = 4,
 		monthApril = 4,
-		dayFriday = 5,
+		monthMay = 5,
 		systemDirMusic = 5,
 		screenOrientationSensorPortrait = 5,
-		monthMay = 5,
+		dayFriday = 5,
 		screenOrientationSensor = 6,
-		daySaturday = 6,
 		monthJune = 6,
+		daySaturday = 6,
 		systemDirPictures = 6,
-		monthJuly = 7,
 		systemDirRingtones = 7,
+		monthJuly = 7,
 		monthAugust = 8,
 		monthSeptember = 9,
 		monthOctober = 10,
@@ -306,15 +307,15 @@ public:
 	/**
 	
 	*/
-	String getVideoDriverName(in long arg0) const
+	String getVideoDriverName(in long driver) const
 	{
 		_GODOT_get_video_driver_name.bind("_OS", "get_video_driver_name");
-		return ptrcall!(String)(_GODOT_get_video_driver_name, _godot_object, arg0);
+		return ptrcall!(String)(_GODOT_get_video_driver_name, _godot_object, driver);
 	}
 	package(godot) static GodotMethod!(long) _GODOT_get_audio_driver_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_driver_count") = _GODOT_get_audio_driver_count;
 	/**
-	
+	Returns the total number of available audio drivers.
 	*/
 	long getAudioDriverCount() const
 	{
@@ -324,12 +325,12 @@ public:
 	package(godot) static GodotMethod!(String, long) _GODOT_get_audio_driver_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_driver_name") = _GODOT_get_audio_driver_name;
 	/**
-	
+	Returns the audio driver name for the given index.
 	*/
-	String getAudioDriverName(in long arg0) const
+	String getAudioDriverName(in long driver) const
 	{
 		_GODOT_get_audio_driver_name.bind("_OS", "get_audio_driver_name");
-		return ptrcall!(String)(_GODOT_get_audio_driver_name, _godot_object, arg0);
+		return ptrcall!(String)(_GODOT_get_audio_driver_name, _godot_object, driver);
 	}
 	package(godot) static GodotMethod!(long) _GODOT_get_screen_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_count") = _GODOT_get_screen_count;
@@ -439,6 +440,16 @@ public:
 		_GODOT_set_window_size.bind("_OS", "set_window_size");
 		ptrcall!(void)(_GODOT_set_window_size, _godot_object, size);
 	}
+	package(godot) static GodotMethod!(Rect2) _GODOT_get_window_safe_area;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_window_safe_area") = _GODOT_get_window_safe_area;
+	/**
+	
+	*/
+	Rect2 getWindowSafeArea() const
+	{
+		_GODOT_get_window_safe_area.bind("_OS", "get_window_safe_area");
+		return ptrcall!(Rect2)(_GODOT_get_window_safe_area, _godot_object);
+	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_fullscreen;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_fullscreen") = _GODOT_set_window_fullscreen;
 	/**
@@ -522,7 +533,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_always_on_top;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_always_on_top") = _GODOT_set_window_always_on_top;
 	/**
-	
+	Sets whether the window should always be on top.
 	*/
 	void setWindowAlwaysOnTop(in bool enabled)
 	{
@@ -532,7 +543,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_is_window_always_on_top;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_always_on_top") = _GODOT_is_window_always_on_top;
 	/**
-	
+	Returns `true` if the window should always be on top of other windows.
 	*/
 	bool isWindowAlwaysOnTop() const
 	{
@@ -552,7 +563,7 @@ public:
 	package(godot) static GodotMethod!(Vector2) _GODOT_get_real_window_size;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_real_window_size") = _GODOT_get_real_window_size;
 	/**
-	
+	Returns the window size including decorations like window borders.
 	*/
 	Vector2 getRealWindowSize() const
 	{
@@ -562,7 +573,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_center_window;
 	package(godot) alias _GODOT_methodBindInfo(string name : "center_window") = _GODOT_center_window;
 	/**
-	
+	Centers the window on the screen if in windowed mode.
 	*/
 	void centerWindow()
 	{
@@ -839,7 +850,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_unix_time;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_unix_time") = _GODOT_get_unix_time;
 	/**
-	Return	the current unix timestamp.
+	Returns the current unix epoch timestamp.
 	*/
 	long getUnixTime() const
 	{
@@ -912,7 +923,7 @@ public:
 	package(godot) static GodotMethod!(void, long) _GODOT_delay_usec;
 	package(godot) alias _GODOT_methodBindInfo(string name : "delay_usec") = _GODOT_delay_usec;
 	/**
-	Delay executing of the current thread by given microseconds.
+	Delay execution of the current thread by given microseconds.
 	*/
 	void delayUsec(in long usec) const
 	{
@@ -922,7 +933,7 @@ public:
 	package(godot) static GodotMethod!(void, long) _GODOT_delay_msec;
 	package(godot) alias _GODOT_methodBindInfo(string name : "delay_msec") = _GODOT_delay_msec;
 	/**
-	Delay executing of the current thread by given milliseconds.
+	Delay execution of the current thread by given milliseconds.
 	*/
 	void delayMsec(in long msec) const
 	{
@@ -1036,7 +1047,7 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "dump_memory_to_file") = _GODOT_dump_memory_to_file;
 	/**
 	Dumps the memory allocation ringlist to a file (only works in debug).
-	Entry format per line: "Address - Size - Description"
+	Entry format per line: "Address - Size - Description".
 	*/
 	void dumpMemoryToFile(StringArg0)(in StringArg0 file)
 	{
@@ -1047,7 +1058,7 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "dump_resources_to_file") = _GODOT_dump_resources_to_file;
 	/**
 	Dumps all used resources to file (only works in debug).
-	Entry format per line: "Resource Type : Resource Location"
+	Entry format per line: "Resource Type : Resource Location".
 	At the end of the file is a statistic of all used Resource Types.
 	*/
 	void dumpResourcesToFile(StringArg0)(in StringArg0 file)
@@ -1088,7 +1099,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_virtual_keyboard_height;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_virtual_keyboard_height") = _GODOT_get_virtual_keyboard_height;
 	/**
-	
+	Returns the on-screen keyboard's height in pixels. Returns 0 if there is no keyboard or it is currently hidden.
 	*/
 	long getVirtualKeyboardHeight()
 	{
@@ -1343,7 +1354,7 @@ public:
 	package(godot) static GodotMethod!(bool, String) _GODOT_has_feature;
 	package(godot) alias _GODOT_methodBindInfo(string name : "has_feature") = _GODOT_has_feature;
 	/**
-	
+	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. See feature tags documentation.
 	*/
 	bool hasFeature(StringArg0)(in StringArg0 tag_name) const
 	{
@@ -1405,7 +1416,7 @@ public:
 		setCurrentScreen(v);
 	}
 	/**
-	
+	The exit code passed to the OS when the main loop exits.
 	*/
 	@property long exitCode()
 	{
@@ -1417,7 +1428,7 @@ public:
 		setExitCode(v);
 	}
 	/**
-	
+	If `true` vertical synchronization (Vsync) is enabled.
 	*/
 	@property bool vsyncEnabled()
 	{
@@ -1429,7 +1440,7 @@ public:
 		setUseVsync(v);
 	}
 	/**
-	
+	If `true` the engine optimizes for low processor usage by only refreshing the screen if needed. Can improve battery consumption on mobile.
 	*/
 	@property bool lowProcessorUsageMode()
 	{
@@ -1441,7 +1452,7 @@ public:
 		setLowProcessorUsageMode(v);
 	}
 	/**
-	
+	If `true` the engine tries to keep the screen on while the game is running. Useful on mobile.
 	*/
 	@property bool keepScreenOn()
 	{
@@ -1465,7 +1476,7 @@ public:
 		setScreenOrientation(v);
 	}
 	/**
-	If `true`, removes the window frame.
+	If `true` removes the window frame.
 	*/
 	@property bool windowBorderless()
 	{
@@ -1477,7 +1488,7 @@ public:
 		setBorderlessWindow(v);
 	}
 	/**
-	If `true`, the window is fullscreen.
+	If `true` the window is fullscreen.
 	*/
 	@property bool windowFullscreen()
 	{
@@ -1489,7 +1500,7 @@ public:
 		setWindowFullscreen(v);
 	}
 	/**
-	If `true`, the window is maximized.
+	If `true` the window is maximized.
 	*/
 	@property bool windowMaximized()
 	{
@@ -1501,7 +1512,7 @@ public:
 		setWindowMaximized(v);
 	}
 	/**
-	If `true`, the window is minimized.
+	If `true` the window is minimized.
 	*/
 	@property bool windowMinimized()
 	{

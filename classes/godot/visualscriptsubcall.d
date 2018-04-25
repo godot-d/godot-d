@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptSubCall)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Variant, Variant) _GODOT__subcall;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_subcall") = _GODOT__subcall;
 	/**

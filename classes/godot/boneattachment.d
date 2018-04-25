@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BoneAttachment)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_set_bone_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_name") = _GODOT_set_bone_name;
 	/**

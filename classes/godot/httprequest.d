@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(HTTPRequest)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Result : int
 	{
@@ -118,7 +119,8 @@ public:
 	package(godot) static GodotMethod!(GodotError, String, PoolStringArray, bool, long, String) _GODOT_request;
 	package(godot) alias _GODOT_methodBindInfo(string name : "request") = _GODOT_request;
 	/**
-	
+	Creates request on the underlying $(D HTTPClient). If there is no configuration errors, it tries to connect using $(D HTTPClient.connectToHost) and passes parameters onto $(D HTTPClient.request).
+	Returns `OK` if request is successfully created. (Does not imply that the server has responded), `ERR_UNCONFIGURED` if not in the tree, `ERR_BUSY` if still processing previous request, `ERR_INVALID_PARAMETER` if given string is not a valid URL format, or `ERR_CANT_CONNECT` if not using thread and the $(D HTTPClient) cannot connect to host.
 	*/
 	GodotError request(StringArg0, StringArg4)(in StringArg0 url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in StringArg4 request_data = "")
 	{

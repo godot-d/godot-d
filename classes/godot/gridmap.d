@@ -50,6 +50,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GridMap)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Constants : int
 	{

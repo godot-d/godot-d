@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorSpatialGizmo)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT_redraw;
 	package(godot) alias _GODOT_methodBindInfo(string name : "redraw") = _GODOT_redraw;
 	/**

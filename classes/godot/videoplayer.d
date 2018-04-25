@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VideoPlayer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, VideoStream) _GODOT_set_stream;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_stream") = _GODOT_set_stream;
 	/**

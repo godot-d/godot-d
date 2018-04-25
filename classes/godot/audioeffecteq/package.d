@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectEQ)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long, double) _GODOT_set_band_gain_db;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_band_gain_db") = _GODOT_set_band_gain_db;
 	/**

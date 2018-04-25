@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StreamPeer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, PoolByteArray) _GODOT_put_data;
 	package(godot) alias _GODOT_methodBindInfo(string name : "put_data") = _GODOT_put_data;
 	/**

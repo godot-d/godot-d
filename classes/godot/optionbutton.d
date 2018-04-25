@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(OptionButton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT__selected;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_selected") = _GODOT__selected;
 	/**

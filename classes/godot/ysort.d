@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(YSort)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_sort_enabled;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_sort_enabled") = _GODOT_set_sort_enabled;
 	/**

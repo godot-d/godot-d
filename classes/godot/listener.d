@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Listener)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT_make_current;
 	package(godot) alias _GODOT_methodBindInfo(string name : "make_current") = _GODOT_make_current;
 	/**

@@ -48,6 +48,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PopupMenu)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
@@ -101,6 +102,16 @@ public:
 		_GODOT_add_check_item.bind("PopupMenu", "add_check_item");
 		ptrcall!(void)(_GODOT_add_check_item, _godot_object, label, id, accel);
 	}
+	package(godot) static GodotMethod!(void, String, long, long) _GODOT_add_radio_check_item;
+	package(godot) alias _GODOT_methodBindInfo(string name : "add_radio_check_item") = _GODOT_add_radio_check_item;
+	/**
+	The same as $(D addCheckItem) but the inserted item will look as a radio button. Remember this is just cosmetic and you have to add the logic for checking/unchecking items in radio groups.
+	*/
+	void addRadioCheckItem(StringArg0)(in StringArg0 label, in long id = -1, in long accel = 0)
+	{
+		_GODOT_add_radio_check_item.bind("PopupMenu", "add_radio_check_item");
+		ptrcall!(void)(_GODOT_add_radio_check_item, _godot_object, label, id, accel);
+	}
 	package(godot) static GodotMethod!(void, String, String, long) _GODOT_add_submenu_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_submenu_item") = _GODOT_add_submenu_item;
 	/**
@@ -150,6 +161,16 @@ public:
 	{
 		_GODOT_add_check_shortcut.bind("PopupMenu", "add_check_shortcut");
 		ptrcall!(void)(_GODOT_add_check_shortcut, _godot_object, shortcut, id, global);
+	}
+	package(godot) static GodotMethod!(void, ShortCut, long, bool) _GODOT_add_radio_check_shortcut;
+	package(godot) alias _GODOT_methodBindInfo(string name : "add_radio_check_shortcut") = _GODOT_add_radio_check_shortcut;
+	/**
+	
+	*/
+	void addRadioCheckShortcut(ShortCut shortcut, in long id = -1, in bool global = false)
+	{
+		_GODOT_add_radio_check_shortcut.bind("PopupMenu", "add_radio_check_shortcut");
+		ptrcall!(void)(_GODOT_add_radio_check_shortcut, _godot_object, shortcut, id, global);
 	}
 	package(godot) static GodotMethod!(void, long, String) _GODOT_set_item_text;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_text") = _GODOT_set_item_text;
@@ -251,6 +272,17 @@ public:
 		_GODOT_set_item_as_checkable.bind("PopupMenu", "set_item_as_checkable");
 		ptrcall!(void)(_GODOT_set_item_as_checkable, _godot_object, idx, enable);
 	}
+	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_item_as_radio_checkable;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_as_radio_checkable") = _GODOT_set_item_as_radio_checkable;
+	/**
+	The same as $(D setItemAsCheckable) but placing a radio button in case of enabling. If used for disabling, it's the same.
+	Remember this is just cosmetic and you have to add the logic for checking/unchecking items in radio groups.
+	*/
+	void setItemAsRadioCheckable(in long idx, in bool enable)
+	{
+		_GODOT_set_item_as_radio_checkable.bind("PopupMenu", "set_item_as_radio_checkable");
+		ptrcall!(void)(_GODOT_set_item_as_radio_checkable, _godot_object, idx, enable);
+	}
 	package(godot) static GodotMethod!(void, long, String) _GODOT_set_item_tooltip;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_tooltip") = _GODOT_set_item_tooltip;
 	/**
@@ -324,7 +356,7 @@ public:
 	package(godot) static GodotMethod!(bool, long) _GODOT_is_item_checked;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_item_checked") = _GODOT_is_item_checked;
 	/**
-	Return the checkstate status of the item at index "idx".
+	Return whether the item at index "idx" is checked.
 	*/
 	bool isItemChecked(in long idx) const
 	{
@@ -404,12 +436,22 @@ public:
 	package(godot) static GodotMethod!(bool, long) _GODOT_is_item_checkable;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_item_checkable") = _GODOT_is_item_checkable;
 	/**
-	Return whether the item at index "idx" has a checkbox. Note that checkable items just display a checkmark, but don't have any built-in checking behavior and must be checked/unchecked manually.
+	Return whether the item at index "idx" is checkable in some way, i.e., whether has a checkbox or radio button. Note that checkable items just display a checkmark or radio button, but don't have any built-in checking behavior and must be checked/unchecked manually.
 	*/
 	bool isItemCheckable(in long idx) const
 	{
 		_GODOT_is_item_checkable.bind("PopupMenu", "is_item_checkable");
 		return ptrcall!(bool)(_GODOT_is_item_checkable, _godot_object, idx);
+	}
+	package(godot) static GodotMethod!(bool, long) _GODOT_is_item_radio_checkable;
+	package(godot) alias _GODOT_methodBindInfo(string name : "is_item_radio_checkable") = _GODOT_is_item_radio_checkable;
+	/**
+	Return whether the item at index "idx" has radio-button-style checkability. Remember this is just cosmetic and you have to add the logic for checking/unchecking items in radio groups.
+	*/
+	bool isItemRadioCheckable(in long idx) const
+	{
+		_GODOT_is_item_radio_checkable.bind("PopupMenu", "is_item_radio_checkable");
+		return ptrcall!(bool)(_GODOT_is_item_radio_checkable, _godot_object, idx);
 	}
 	package(godot) static GodotMethod!(String, long) _GODOT_get_item_tooltip;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_tooltip") = _GODOT_get_item_tooltip;

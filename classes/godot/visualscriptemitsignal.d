@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptEmitSignal)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_set_signal;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_signal") = _GODOT_set_signal;
 	/**

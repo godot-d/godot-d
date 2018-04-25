@@ -59,6 +59,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorPlugin)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum DockSlot : int
 	{
@@ -138,8 +139,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		dockSlotLeftUl = 0,
 		containerToolbar = 0,
+		dockSlotLeftUl = 0,
 		containerSpatialEditorMenu = 1,
 		dockSlotLeftBl = 1,
 		dockSlotLeftUr = 2,
@@ -447,7 +448,7 @@ public:
 	package(godot) static GodotMethod!(void, String, GodotObject, String, Variant) _GODOT_add_tool_menu_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_menu_item") = _GODOT_add_tool_menu_item;
 	/**
-	
+	Adds a custom menu to 'Project > Tools' as `name` that calls `callback` on an instance of `handler` with a parameter `ud` when user activates it.
 	*/
 	void addToolMenuItem(StringArg0, StringArg2, VariantArg3)(in StringArg0 name, GodotObject handler, in StringArg2 callback, in VariantArg3 ud = Variant.nil)
 	{
@@ -467,7 +468,7 @@ public:
 	package(godot) static GodotMethod!(void, String) _GODOT_remove_tool_menu_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "remove_tool_menu_item") = _GODOT_remove_tool_menu_item;
 	/**
-	
+	Removes a menu `name` from 'Project > Tools'.
 	*/
 	void removeToolMenuItem(StringArg0)(in StringArg0 name)
 	{

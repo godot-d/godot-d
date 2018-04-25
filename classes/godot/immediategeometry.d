@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ImmediateGeometry)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long, Texture) _GODOT_begin;
 	package(godot) alias _GODOT_methodBindInfo(string name : "begin") = _GODOT_begin;
 	/**

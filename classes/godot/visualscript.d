@@ -48,6 +48,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScript)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT__node_ports_changed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_node_ports_changed") = _GODOT__node_ports_changed;
 	/**

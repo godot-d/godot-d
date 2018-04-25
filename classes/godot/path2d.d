@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Path2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Curve2D) _GODOT_set_curve;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_curve") = _GODOT_set_curve;
 	/**

@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NavigationPolygonInstance)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, NavigationPolygon) _GODOT_set_navigation_polygon;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_navigation_polygon") = _GODOT_set_navigation_polygon;
 	/**

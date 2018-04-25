@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(JavaScriptSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Variant, String, bool) _GODOT_eval;
 	package(godot) alias _GODOT_methodBindInfo(string name : "eval") = _GODOT_eval;
 	/**

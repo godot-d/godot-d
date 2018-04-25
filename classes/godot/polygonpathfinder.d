@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PolygonPathFinder)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, PoolVector2Array, PoolIntArray) _GODOT_setup;
 	package(godot) alias _GODOT_methodBindInfo(string name : "setup") = _GODOT_setup;
 	/**

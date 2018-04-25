@@ -57,6 +57,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Control)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Anchor : int
 	{
@@ -204,6 +205,10 @@ public:
 		
 		*/
 		growDirectionEnd = 1,
+		/**
+		
+		*/
+		growDirectionBoth = 2,
 	}
 	/// 
 	enum SizeFlags : int
@@ -301,42 +306,43 @@ public:
 	enum Constants : int
 	{
 		cursorArrow = 0,
-		growDirectionBegin = 0,
-		anchorBegin = 0,
-		presetModeMinsize = 0,
-		presetTopLeft = 0,
-		focusNone = 0,
 		mouseFilterStop = 0,
-		cursorIbeam = 1,
-		sizeFill = 1,
-		focusClick = 1,
-		anchorEnd = 1,
+		growDirectionBegin = 0,
+		presetModeMinsize = 0,
+		focusNone = 0,
+		anchorBegin = 0,
+		presetTopLeft = 0,
 		presetModeKeepWidth = 1,
+		cursorIbeam = 1,
+		anchorEnd = 1,
+		focusClick = 1,
 		growDirectionEnd = 1,
+		sizeFill = 1,
 		mouseFilterPass = 1,
 		presetTopRight = 1,
-		focusAll = 2,
 		sizeExpand = 2,
-		cursorPointingHand = 2,
+		focusAll = 2,
+		presetModeKeepHeight = 2,
+		growDirectionBoth = 2,
 		presetBottomLeft = 2,
 		mouseFilterIgnore = 2,
-		presetModeKeepHeight = 2,
+		cursorPointingHand = 2,
 		cursorCross = 3,
-		sizeExpandFill = 3,
 		presetModeKeepSize = 3,
+		sizeExpandFill = 3,
 		presetBottomRight = 3,
-		sizeShrinkCenter = 4,
 		presetCenterLeft = 4,
+		sizeShrinkCenter = 4,
 		cursorWait = 4,
-		cursorBusy = 5,
 		presetCenterTop = 5,
-		cursorDrag = 6,
+		cursorBusy = 5,
 		presetCenterRight = 6,
-		cursorCanDrop = 7,
+		cursorDrag = 6,
 		presetCenterBottom = 7,
-		sizeShrinkEnd = 8,
+		cursorCanDrop = 7,
 		cursorForbidden = 8,
 		presetCenter = 8,
+		sizeShrinkEnd = 8,
 		cursorVsize = 9,
 		presetLeftWide = 9,
 		presetTopWide = 10,
@@ -347,8 +353,8 @@ public:
 		presetBottomWide = 12,
 		presetVcenterWide = 13,
 		cursorMove = 13,
-		presetHcenterWide = 14,
 		cursorVsplit = 14,
+		presetHcenterWide = 14,
 		cursorHsplit = 15,
 		presetWide = 15,
 		cursorHelp = 16,
@@ -380,6 +386,14 @@ public:
 		Sent when an open modal dialog closes. See $(D showModal).
 		*/
 		notificationModalClose = 46,
+		/**
+		
+		*/
+		notificationScrollBegin = 47,
+		/**
+		
+		*/
+		notificationScrollEnd = 48,
 	}
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;

@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NavigationMeshInstance)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, NavigationMesh) _GODOT_set_navigation_mesh;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_navigation_mesh") = _GODOT_set_navigation_mesh;
 	/**

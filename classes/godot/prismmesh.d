@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PrismMesh)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_left_to_right;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_left_to_right") = _GODOT_set_left_to_right;
 	/**

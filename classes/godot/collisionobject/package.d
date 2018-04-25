@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CollisionObject)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GodotObject, InputEvent, Vector3, Vector3, long) _GODOT__input_event;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_input_event") = _GODOT__input_event;
 	/**

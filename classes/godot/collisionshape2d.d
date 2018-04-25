@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CollisionShape2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Shape2D) _GODOT_set_shape;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_shape") = _GODOT_set_shape;
 	/**

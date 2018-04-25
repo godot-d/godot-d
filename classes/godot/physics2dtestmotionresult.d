@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DTestMotionResult)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Vector2) _GODOT_get_motion;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_motion") = _GODOT_get_motion;
 	/**

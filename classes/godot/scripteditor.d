@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ScriptEditor)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT__file_dialog_action;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_file_dialog_action") = _GODOT__file_dialog_action;
 	/**
@@ -558,6 +559,57 @@ public:
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_update_recent_scripts");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void, String) _GODOT__on_find_in_files_requested;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_on_find_in_files_requested") = _GODOT__on_find_in_files_requested;
+	/**
+	
+	*/
+	void _onFindInFilesRequested(StringArg0)(in StringArg0 arg0)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_on_find_in_files_requested");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void, bool) _GODOT__start_find_in_files;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_start_find_in_files") = _GODOT__start_find_in_files;
+	/**
+	
+	*/
+	void _startFindInFiles(in bool arg0)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_start_find_in_files");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void, String, long, long, long) _GODOT__on_find_in_files_result_selected;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_on_find_in_files_result_selected") = _GODOT__on_find_in_files_result_selected;
+	/**
+	
+	*/
+	void _onFindInFilesResultSelected(StringArg0)(in StringArg0 arg0, in long arg1, in long arg2, in long arg3)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(arg0);
+		_GODOT_args.append(arg1);
+		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
+		String _GODOT_method_name = String("_on_find_in_files_result_selected");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void, PoolStringArray) _GODOT__on_find_in_files_modified_files;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_on_find_in_files_modified_files") = _GODOT__on_find_in_files_modified_files;
+	/**
+	
+	*/
+	void _onFindInFilesModifiedFiles(in PoolStringArray arg0)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_on_find_in_files_modified_files");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	package(godot) static GodotMethod!(Variant, Vector2, GodotObject) _GODOT_get_drag_data_fw;

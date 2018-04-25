@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AtlasTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Texture) _GODOT_set_atlas;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_atlas") = _GODOT_set_atlas;
 	/**

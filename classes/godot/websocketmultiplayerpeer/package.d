@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WebSocketMultiplayerPeer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(WebSocketPeer, long) _GODOT_get_peer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_peer") = _GODOT_get_peer;
 	/**

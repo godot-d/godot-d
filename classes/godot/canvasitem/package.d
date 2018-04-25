@@ -55,6 +55,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CanvasItem)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum BlendMode : int
 	{
@@ -187,16 +188,28 @@ public:
 		String _GODOT_method_name = String("_edit_get_position");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__edit_use_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_position") = _GODOT__edit_use_position;
+	package(godot) static GodotMethod!(void, Vector2) _GODOT__edit_set_scale;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_scale") = _GODOT__edit_set_scale;
 	/**
 	
 	*/
-	bool _editUsePosition() const
+	void _editSetScale(in Vector2 scale)
 	{
 		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_edit_use_position");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		_GODOT_args.append(scale);
+		String _GODOT_method_name = String("_edit_set_scale");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(Vector2) _GODOT__edit_get_scale;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_scale") = _GODOT__edit_get_scale;
+	/**
+	
+	*/
+	Vector2 _editGetScale() const
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_edit_get_scale");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
 	package(godot) static GodotMethod!(void, Rect2) _GODOT__edit_set_rect;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_rect") = _GODOT__edit_set_rect;

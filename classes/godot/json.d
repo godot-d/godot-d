@@ -52,6 +52,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(JSONSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(String, Variant, String, bool) _GODOT_print;
 	package(godot) alias _GODOT_methodBindInfo(string name : "print") = _GODOT_print;
 	/**

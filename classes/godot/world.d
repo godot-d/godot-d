@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(World)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(RID) _GODOT_get_space;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_space") = _GODOT_get_space;
 	/**

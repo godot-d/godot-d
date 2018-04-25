@@ -25,7 +25,7 @@ import godot.camera;
 Camera which moves toward another node.
 
 InterpolatedCamera is a $(D Camera) which smoothly moves to match a target node's position and rotation.
-If it is not $(D enabled), or does not have a valid target set, InterpolatedCamera acts like a normal Camera.
+If it is not $(D enabled) or does not have a valid target set, InterpolatedCamera acts like a normal Camera.
 */
 @GodotBaseClass struct InterpolatedCamera
 {
@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InterpolatedCamera)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_target_path;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_target_path") = _GODOT_set_target_path;
 	/**
@@ -69,7 +70,7 @@ public:
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT_set_target;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_target") = _GODOT_set_target;
 	/**
-	Set the node to move toward.
+	Sets the node to move toward and orient with.
 	*/
 	void setTarget(GodotObject target)
 	{
@@ -129,7 +130,7 @@ public:
 		setTargetPath(v);
 	}
 	/**
-	How quickly the camera moves.
+	How quickly the camera moves toward its target. Higher values will result in tighter camera motion.
 	*/
 	@property double speed()
 	{
@@ -141,7 +142,7 @@ public:
 		setSpeed(v);
 	}
 	/**
-	If `true`, and a target is set, the camera will move automatically.
+	If `true` and a target is set, the camera will move automatically.
 	*/
 	@property bool enabled()
 	{

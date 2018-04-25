@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptGlobalConstant)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_global_constant;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_global_constant") = _GODOT_set_global_constant;
 	/**

@@ -62,6 +62,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(File)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum CompressionMode : int
 	{
@@ -108,8 +109,8 @@ public:
 		compressionFastlz = 0,
 		read = 1,
 		compressionDeflate = 1,
-		compressionZstd = 2,
 		write = 2,
+		compressionZstd = 2,
 		compressionGzip = 3,
 		readWrite = 3,
 		writeRead = 7,

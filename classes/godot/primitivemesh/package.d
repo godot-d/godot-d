@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PrimitiveMesh)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT__update;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_update") = _GODOT__update;
 	/**

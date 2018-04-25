@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorResourcePreviewGenerator)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(bool, String) _GODOT_handles;
 	package(godot) alias _GODOT_methodBindInfo(string name : "handles") = _GODOT_handles;
 	/**

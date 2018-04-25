@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectPitchShift)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_pitch_scale;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_pitch_scale") = _GODOT_set_pitch_scale;
 	/**

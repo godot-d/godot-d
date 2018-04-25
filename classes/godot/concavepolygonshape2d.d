@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ConcavePolygonShape2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_segments;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_segments") = _GODOT_set_segments;
 	/**

@@ -44,4 +44,5 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DServerSW)(constructor());
 	}
+	@disable new(size_t s);
 }

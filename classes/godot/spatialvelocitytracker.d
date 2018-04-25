@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SpatialVelocityTracker)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_track_physics_step;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_track_physics_step") = _GODOT_set_track_physics_step;
 	/**

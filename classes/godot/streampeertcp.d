@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StreamPeerTCP)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Status : int
 	{

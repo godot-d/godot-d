@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Generic6DOFJoint)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Param : int
 	{
@@ -132,10 +133,10 @@ public:
 	/// 
 	enum Constants : int
 	{
-		paramLinearLowerLimit = 0,
 		flagEnableLinearLimit = 0,
-		paramLinearUpperLimit = 1,
+		paramLinearLowerLimit = 0,
 		flagEnableAngularLimit = 1,
+		paramLinearUpperLimit = 1,
 		flagEnableMotor = 2,
 		paramLinearLimitSoftness = 2,
 		flagMax = 3,

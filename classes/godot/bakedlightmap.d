@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BakedLightmap)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum BakeQuality : int
 	{
@@ -99,14 +100,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		bakeModeConeTrace = 0,
 		bakeErrorOk = 0,
 		bakeQualityLow = 0,
-		bakeQualityMedium = 1,
+		bakeModeConeTrace = 0,
 		bakeModeRayTrace = 1,
 		bakeErrorNoSavePath = 1,
-		bakeErrorNoMeshes = 2,
+		bakeQualityMedium = 1,
 		bakeQualityHigh = 2,
+		bakeErrorNoMeshes = 2,
 		bakeErrorCantCreateImage = 3,
 		bakeErrorUserAborted = 4,
 	}

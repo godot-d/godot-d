@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(RegExMatch)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(String) _GODOT_get_subject;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_subject") = _GODOT_get_subject;
 	/**

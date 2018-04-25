@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectPhaser)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_range_min_hz;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_range_min_hz") = _GODOT_set_range_min_hz;
 	/**

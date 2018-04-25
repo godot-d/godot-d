@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptFunctionCall)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum RPCCallMode : int
 	{
@@ -96,10 +97,10 @@ public:
 	{
 		callModeSelf = 0,
 		rpcDisabled = 0,
-		rpcReliable = 1,
 		callModeNodePath = 1,
-		callModeInstance = 2,
+		rpcReliable = 1,
 		rpcUnreliable = 2,
+		callModeInstance = 2,
 		callModeBasicType = 3,
 		rpcReliableToId = 3,
 		rpcUnreliableToId = 4,

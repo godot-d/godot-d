@@ -91,6 +91,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorImportPlugin)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(String) _GODOT_get_importer_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_importer_name") = _GODOT_get_importer_name;
 	/**

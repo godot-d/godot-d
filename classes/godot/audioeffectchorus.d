@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectChorus)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_voice_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_count") = _GODOT_set_voice_count;
 	/**

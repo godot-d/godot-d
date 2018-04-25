@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisibilityNotifier)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, AABB) _GODOT_set_aabb;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_aabb") = _GODOT_set_aabb;
 	/**

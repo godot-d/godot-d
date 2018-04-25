@@ -50,6 +50,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptEditorSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String, String, Script) _GODOT_add_custom_node;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_custom_node") = _GODOT_add_custom_node;
 	/**

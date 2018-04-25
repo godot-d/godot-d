@@ -53,6 +53,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ResourceLoaderSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(ResourceInteractiveLoader, String, String) _GODOT_load_interactive;
 	package(godot) alias _GODOT_methodBindInfo(string name : "load_interactive") = _GODOT_load_interactive;
 	/**

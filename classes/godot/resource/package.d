@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Resource)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT__setup_local_to_scene;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_setup_local_to_scene") = _GODOT__setup_local_to_scene;
 	/**

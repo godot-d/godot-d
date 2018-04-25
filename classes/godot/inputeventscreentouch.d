@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputEventScreenTouch)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_index;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_index") = _GODOT_set_index;
 	/**

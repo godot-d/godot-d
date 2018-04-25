@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DDirectSpaceState)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Array, Vector2, long, Array, long) _GODOT_intersect_point;
 	package(godot) alias _GODOT_methodBindInfo(string name : "intersect_point") = _GODOT_intersect_point;
 	/**

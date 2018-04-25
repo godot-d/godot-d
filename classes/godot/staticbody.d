@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StaticBody)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Vector3) _GODOT_set_constant_linear_velocity;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_constant_linear_velocity") = _GODOT_set_constant_linear_velocity;
 	/**

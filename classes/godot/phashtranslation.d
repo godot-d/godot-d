@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PHashTranslation)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Translation) _GODOT_generate;
 	package(godot) alias _GODOT_methodBindInfo(string name : "generate") = _GODOT_generate;
 	/**

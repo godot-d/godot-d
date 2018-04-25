@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CollisionShape)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Resource) _GODOT_resource_changed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "resource_changed") = _GODOT_resource_changed;
 	/**

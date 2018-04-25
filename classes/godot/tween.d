@@ -55,6 +55,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Tween)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum TransitionType : int
 	{
@@ -138,14 +139,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		easeIn = 0,
-		tweenProcessPhysics = 0,
 		transLinear = 0,
-		easeOut = 1,
+		tweenProcessPhysics = 0,
+		easeIn = 0,
 		transSine = 1,
 		tweenProcessIdle = 1,
-		transQuint = 2,
+		easeOut = 1,
 		easeInOut = 2,
+		transQuint = 2,
 		transQuart = 3,
 		easeOutIn = 3,
 		transQuad = 4,

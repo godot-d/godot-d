@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(LargeTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(long, Vector2, Texture) _GODOT_add_piece;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_piece") = _GODOT_add_piece;
 	/**

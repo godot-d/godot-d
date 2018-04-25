@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(LineEdit)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Align : int
 	{
@@ -106,8 +107,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		menuCut = 0,
 		alignLeft = 0,
+		menuCut = 0,
 		menuCopy = 1,
 		alignCenter = 1,
 		alignRight = 2,

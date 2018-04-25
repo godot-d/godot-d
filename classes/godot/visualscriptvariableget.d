@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptVariableGet)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_set_variable;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_variable") = _GODOT_set_variable;
 	/**

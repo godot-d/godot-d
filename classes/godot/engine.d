@@ -52,6 +52,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EngineSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_iterations_per_second;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_iterations_per_second") = _GODOT_set_iterations_per_second;
 	/**

@@ -53,6 +53,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioServerSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum SpeakerMode : int
 	{
@@ -385,6 +386,36 @@ public:
 	{
 		_GODOT_get_mix_rate.bind("AudioServer", "get_mix_rate");
 		return ptrcall!(double)(_GODOT_get_mix_rate, _godot_object);
+	}
+	package(godot) static GodotMethod!(Array) _GODOT_get_device_list;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_device_list") = _GODOT_get_device_list;
+	/**
+	
+	*/
+	Array getDeviceList()
+	{
+		_GODOT_get_device_list.bind("AudioServer", "get_device_list");
+		return ptrcall!(Array)(_GODOT_get_device_list, _godot_object);
+	}
+	package(godot) static GodotMethod!(String) _GODOT_get_device;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_device") = _GODOT_get_device;
+	/**
+	
+	*/
+	String getDevice()
+	{
+		_GODOT_get_device.bind("AudioServer", "get_device");
+		return ptrcall!(String)(_GODOT_get_device, _godot_object);
+	}
+	package(godot) static GodotMethod!(void, String) _GODOT_set_device;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_device") = _GODOT_set_device;
+	/**
+	
+	*/
+	void setDevice(StringArg0)(in StringArg0 arg0)
+	{
+		_GODOT_set_device.bind("AudioServer", "set_device");
+		ptrcall!(void)(_GODOT_set_device, _godot_object, arg0);
 	}
 	package(godot) static GodotMethod!(void, AudioBusLayout) _GODOT_set_bus_layout;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_bus_layout") = _GODOT_set_bus_layout;

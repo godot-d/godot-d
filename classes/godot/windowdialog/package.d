@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WindowDialog)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**

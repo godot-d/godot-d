@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Mesh)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum BlendShapeMode : int
 	{
@@ -232,27 +233,27 @@ public:
 		blendShapeModeNormalized = 0,
 		arrayVertex = 0,
 		primitivePoints = 0,
-		primitiveLines = 1,
 		arrayFormatVertex = 1,
 		arrayNormal = 1,
+		primitiveLines = 1,
 		blendShapeModeRelative = 1,
+		arrayFormatNormal = 2,
 		primitiveLineStrip = 2,
 		arrayTangent = 2,
-		arrayFormatNormal = 2,
 		primitiveLineLoop = 3,
 		arrayColor = 3,
 		primitiveTriangles = 4,
 		arrayFormatTangent = 4,
 		arrayTexUv = 4,
-		arrayTexUv2 = 5,
 		primitiveTriangleStrip = 5,
-		primitiveTriangleFan = 6,
+		arrayTexUv2 = 5,
 		arrayBones = 6,
+		primitiveTriangleFan = 6,
 		arrayWeights = 7,
 		arrayFormatColor = 8,
 		arrayIndex = 8,
-		arrayMax = 9,
 		arrayCompressBase = 9,
+		arrayMax = 9,
 		arrayFormatTexUv = 16,
 		arrayFormatTexUv2 = 32,
 		arrayFormatBones = 64,

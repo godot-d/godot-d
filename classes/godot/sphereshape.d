@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SphereShape)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_radius;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_radius") = _GODOT_set_radius;
 	/**

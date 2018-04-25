@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PlaneShape)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Plane) _GODOT_set_plane;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_plane") = _GODOT_set_plane;
 	/**

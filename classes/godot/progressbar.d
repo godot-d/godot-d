@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ProgressBar)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_percent_visible;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_percent_visible") = _GODOT_set_percent_visible;
 	/**

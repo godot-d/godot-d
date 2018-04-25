@@ -42,6 +42,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PhysicsShapeQueryResult)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(long) _GODOT_get_result_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_count") = _GODOT_get_result_count;
 	/**

@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(HTTPClient)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Status : int
 	{
@@ -390,8 +391,8 @@ public:
 	{
 		statusDisconnected = 0,
 		methodGet = 0,
-		methodHead = 1,
 		statusResolving = 1,
+		methodHead = 1,
 		methodPost = 2,
 		statusCantResolve = 2,
 		statusConnecting = 3,
@@ -402,8 +403,8 @@ public:
 		methodOptions = 5,
 		statusRequesting = 6,
 		methodTrace = 6,
-		statusBody = 7,
 		methodConnect = 7,
+		statusBody = 7,
 		methodPatch = 8,
 		statusConnectionError = 8,
 		methodMax = 9,
@@ -676,6 +677,14 @@ public:
 	var fields = {"username": "user", "password": "pass"}
 	String queryString = httpClient.query_string_from_dict(fields)
 	returns:= "username=user&amp;password=pass"
+	
+	
+	Furthermore, if a key has a null value, only the key itself is added, without equal sign and value. If the value is an array, for each value in it a pair with the same key is added.
+	
+	
+	var fields = {"single": 123, "not_valued": null, "multiple": $(D 22, 33, 44)}
+	String queryString = httpClient.query_string_from_dict(fields)
+	returns:= "single=123&amp;not_valued&amp;multiple=22&amp;multiple=33&amp;multiple=44"
 	
 	
 	*/

@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputEventKey)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_pressed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_pressed") = _GODOT_set_pressed;
 	/**

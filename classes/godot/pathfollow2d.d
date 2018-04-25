@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PathFollow2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_offset;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_offset") = _GODOT_set_offset;
 	/**

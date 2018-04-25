@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NetworkedMultiplayerPeer)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum ConnectionStatus : int
 	{
@@ -86,11 +87,11 @@ public:
 		*/
 		targetPeerBroadcast = 0,
 		connectionConnecting = 1,
+		transferModeUnreliableOrdered = 1,
 		/**
 		Packets are sent to the server alone.
 		*/
 		targetPeerServer = 1,
-		transferModeUnreliableOrdered = 1,
 		connectionConnected = 2,
 		transferModeReliable = 2,
 	}

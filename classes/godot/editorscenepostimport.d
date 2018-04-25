@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorScenePostImport)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT_post_import;
 	package(godot) alias _GODOT_methodBindInfo(string name : "post_import") = _GODOT_post_import;
 	/**

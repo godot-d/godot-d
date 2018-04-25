@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CenterContainer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_top_left;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_top_left") = _GODOT_set_use_top_left;
 	/**

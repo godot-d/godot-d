@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GDScriptFunctionState)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Variant, Variant) _GODOT_resume;
 	package(godot) alias _GODOT_methodBindInfo(string name : "resume") = _GODOT_resume;
 	/**

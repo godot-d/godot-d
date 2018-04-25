@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptSequence)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_steps;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_steps") = _GODOT_set_steps;
 	/**

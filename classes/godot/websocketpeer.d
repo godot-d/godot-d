@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WebSocketPeer)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum WriteMode : int
 	{
@@ -110,5 +111,25 @@ public:
 	{
 		_GODOT_close.bind("WebSocketPeer", "close");
 		ptrcall!(void)(_GODOT_close, _godot_object);
+	}
+	package(godot) static GodotMethod!(String) _GODOT_get_connected_host;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_connected_host") = _GODOT_get_connected_host;
+	/**
+	
+	*/
+	String getConnectedHost() const
+	{
+		_GODOT_get_connected_host.bind("WebSocketPeer", "get_connected_host");
+		return ptrcall!(String)(_GODOT_get_connected_host, _godot_object);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_connected_port;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_connected_port") = _GODOT_get_connected_port;
+	/**
+	
+	*/
+	long getConnectedPort() const
+	{
+		_GODOT_get_connected_port.bind("WebSocketPeer", "get_connected_port");
+		return ptrcall!(long)(_GODOT_get_connected_port, _godot_object);
 	}
 }

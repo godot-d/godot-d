@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ArrayMesh)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum ArrayFormat : int
 	{
@@ -120,7 +121,8 @@ public:
 		*/
 		arrayWeights = 7,
 		/**
-		Array of integers, used as indices referencing vertices. No index can be beyond the vertex array size.
+		$(D Array) of integers used as indices referencing vertices, colors, normals, tangents, and textures. All of those arrays must have the same number of elements as the vertex array. No index can be beyond the vertex array size. When this index array is present, it puts the function into "index mode," where the index selects the *i*'th vertex, normal, tangent, color, UV, etc. This means if you want to have different normals or colors along an edge, you have to duplicate the vertices.
+		For triangles, the index array is interpreted as triples, referring to the vertices of each triangle. For lines, the index array is in pairs indicating the start and end of each line.
 		*/
 		arrayIndex = 8,
 		/**
@@ -136,10 +138,10 @@ public:
 		*/
 		noIndexArray = -1,
 		arrayVertex = 0,
-		arrayFormatVertex = 1,
 		arrayNormal = 1,
-		arrayFormatNormal = 2,
+		arrayFormatVertex = 1,
 		arrayTangent = 2,
+		arrayFormatNormal = 2,
 		arrayColor = 3,
 		/**
 		Amount of weights/bone indices per vertex (always 4).
@@ -150,8 +152,8 @@ public:
 		arrayTexUv2 = 5,
 		arrayBones = 6,
 		arrayWeights = 7,
-		arrayFormatColor = 8,
 		arrayIndex = 8,
+		arrayFormatColor = 8,
 		arrayMax = 9,
 		arrayFormatTexUv = 16,
 		arrayFormatTexUv2 = 32,
@@ -222,8 +224,11 @@ public:
 	package(godot) static GodotMethod!(void, long, Array, Array, long) _GODOT_add_surface_from_arrays;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_surface_from_arrays") = _GODOT_add_surface_from_arrays;
 	/**
-	Create a new surface ($(D getSurfaceCount) that will become surf_idx for this.
-	Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. (As a note, when using indices, it is recommended to only use just points, lines or triangles).
+	Creates a new surface.
+	Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. See $(D Mesh) for details. (As a note, when using indices, it is recommended to only use points, lines or triangles). $(D getSurfaceCount) will become the surf_idx for this new surface.
+	The `arrays` argument is an array of arrays. See $(D arraytype) for the values used in this array. For example, `arrays$(D 0)` is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for `ARRAY_INDEX` if it is used.
+	Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices.
+	Godot uses clockwise winding order for front faces of triangle primitive modes.
 	*/
 	void addSurfaceFromArrays(in long primitive, in Array arrays, in Array blend_shapes = Array.empty_array, in long compress_flags = 97792)
 	{

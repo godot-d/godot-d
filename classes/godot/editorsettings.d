@@ -52,6 +52,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorSettings)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(bool, String) _GODOT_has_setting;
 	package(godot) alias _GODOT_methodBindInfo(string name : "has_setting") = _GODOT_has_setting;
 	/**

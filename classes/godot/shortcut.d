@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ShortCut)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT_set_shortcut;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_shortcut") = _GODOT_set_shortcut;
 	/**

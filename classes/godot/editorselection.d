@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorSelection)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT__node_removed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_node_removed") = _GODOT__node_removed;
 	/**

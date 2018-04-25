@@ -2,5 +2,5 @@ module godot.camera.all;
 
 public import
 	godot.camera,
-	godot.arvrcamera,
-	godot.interpolatedcamera;
+	godot.interpolatedcamera,
+	godot.arvrcamera;

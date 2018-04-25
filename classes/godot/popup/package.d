@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Popup)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Constants : int
 	{
@@ -118,7 +119,7 @@ public:
 		return ptrcall!(bool)(_GODOT_is_exclusive, _godot_object);
 	}
 	/**
-	
+	If `true` the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event. 
 	*/
 	@property bool popupExclusive()
 	{

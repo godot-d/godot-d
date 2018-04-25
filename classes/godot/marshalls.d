@@ -52,6 +52,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(MarshallsSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(String, Variant) _GODOT_variant_to_base64;
 	package(godot) alias _GODOT_methodBindInfo(string name : "variant_to_base64") = _GODOT_variant_to_base64;
 	/**

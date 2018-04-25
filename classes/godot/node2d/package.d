@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Node2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_position") = _GODOT_set_position;
 	/**

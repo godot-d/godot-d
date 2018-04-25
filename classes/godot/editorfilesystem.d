@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorFileSystem)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(EditorFileSystemDirectory) _GODOT_get_filesystem;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_filesystem") = _GODOT_get_filesystem;
 	/**

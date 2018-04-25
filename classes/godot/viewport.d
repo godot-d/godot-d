@@ -55,6 +55,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Viewport)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum ClearMode : int
 	{
@@ -226,40 +227,40 @@ public:
 	/// 
 	enum Constants : int
 	{
+		updateDisabled = 0,
 		clearModeAlways = 0,
 		usage2d = 0,
-		updateDisabled = 0,
-		debugDrawDisabled = 0,
-		shadowAtlasQuadrantSubdivDisabled = 0,
 		msaaDisabled = 0,
 		renderInfoObjectsInFrame = 0,
-		renderInfoVerticesInFrame = 1,
+		debugDrawDisabled = 0,
+		shadowAtlasQuadrantSubdivDisabled = 0,
 		usage2dNoSampling = 1,
 		shadowAtlasQuadrantSubdiv1 = 1,
-		clearModeNever = 1,
-		msaa2x = 1,
 		debugDrawUnshaded = 1,
+		msaa2x = 1,
+		renderInfoVerticesInFrame = 1,
 		updateOnce = 1,
-		msaa4x = 2,
-		shadowAtlasQuadrantSubdiv4 = 2,
-		clearModeOnlyNextFrame = 2,
-		debugDrawOverdraw = 2,
-		updateWhenVisible = 2,
+		clearModeNever = 1,
 		renderInfoMaterialChangesInFrame = 2,
+		debugDrawOverdraw = 2,
+		msaa4x = 2,
+		updateWhenVisible = 2,
+		shadowAtlasQuadrantSubdiv4 = 2,
 		usage3d = 2,
-		renderInfoShaderChangesInFrame = 3,
-		updateAlways = 3,
+		clearModeOnlyNextFrame = 2,
 		shadowAtlasQuadrantSubdiv16 = 3,
+		renderInfoShaderChangesInFrame = 3,
 		msaa8x = 3,
 		debugDrawWireframe = 3,
 		usage3dNoEffects = 3,
+		updateAlways = 3,
 		msaa16x = 4,
 		shadowAtlasQuadrantSubdiv64 = 4,
 		renderInfoSurfaceChangesInFrame = 4,
 		shadowAtlasQuadrantSubdiv256 = 5,
 		renderInfoDrawCallsInFrame = 5,
-		renderInfoMax = 6,
 		shadowAtlasQuadrantSubdiv1024 = 6,
+		renderInfoMax = 6,
 		shadowAtlasQuadrantSubdivMax = 7,
 	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_arvr;
@@ -928,6 +929,17 @@ public:
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_gui_remove_focus");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void) _GODOT__post_gui_grab_click_focus;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_post_gui_grab_click_focus") = _GODOT__post_gui_grab_click_focus;
+	/**
+	
+	*/
+	void _postGuiGrabClickFocus()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_post_gui_grab_click_focus");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_atlas_size;

@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GradientTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Gradient) _GODOT_set_gradient;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_gradient") = _GODOT_set_gradient;
 	/**

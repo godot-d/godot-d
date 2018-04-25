@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ParallaxBackground)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Transform2D, Vector2) _GODOT__camera_moved;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_camera_moved") = _GODOT__camera_moved;
 	/**

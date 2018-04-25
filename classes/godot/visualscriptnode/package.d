@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptNode)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(VisualScript) _GODOT_get_visual_script;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_visual_script") = _GODOT_get_visual_script;
 	/**

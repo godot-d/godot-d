@@ -45,4 +45,5 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioBusLayout)(constructor());
 	}
+	@disable new(size_t s);
 }

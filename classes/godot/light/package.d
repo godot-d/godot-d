@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Light)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum BakeMode : int
 	{
@@ -131,12 +132,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		paramEnergy = 0,
 		bakeDisabled = 0,
-		bakeIndirect = 1,
+		paramEnergy = 0,
 		paramIndirectEnergy = 1,
-		bakeAll = 2,
+		bakeIndirect = 1,
 		paramSpecular = 2,
+		bakeAll = 2,
 		paramRange = 3,
 		paramAttenuation = 4,
 		paramSpotAngle = 5,

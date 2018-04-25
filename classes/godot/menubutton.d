@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(MenuButton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(PopupMenu) _GODOT_get_popup;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_popup") = _GODOT_get_popup;
 	/**

@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Mutex)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT_lock;
 	package(godot) alias _GODOT_methodBindInfo(string name : "lock") = _GODOT_lock;
 	/**

@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Light2D)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum ShadowFilter : int
 	{
@@ -101,10 +102,10 @@ public:
 		modeAdd = 0,
 		shadowFilterPcf3 = 1,
 		modeSub = 1,
-		modeMix = 2,
 		shadowFilterPcf5 = 2,
-		shadowFilterPcf7 = 3,
+		modeMix = 2,
 		modeMask = 3,
+		shadowFilterPcf7 = 3,
 		shadowFilterPcf9 = 4,
 		shadowFilterPcf13 = 5,
 	}

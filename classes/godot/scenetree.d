@@ -1,5 +1,5 @@
 /**
-
+SceneTree manages a hierarchy of nodes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -25,9 +25,12 @@ import godot.viewport;
 import godot.node;
 import godot.scenetreetimer;
 import godot.packedscene;
+import godot.multiplayerapi;
 import godot.networkedmultiplayerpeer;
 /**
+SceneTree manages a hierarchy of nodes.
 
+As one of the most important classes, the `SceneTree` manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the SceneTree to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once.
 */
 @GodotBaseClass struct SceneTree
 {
@@ -48,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SceneTree)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum StretchAspect : int
 	{
@@ -76,19 +80,19 @@ public:
 	enum GroupCallFlags : int
 	{
 		/**
-		
+		Call a group with no flags (default).
 		*/
 		groupCallDefault = 0,
 		/**
-		
+		Call a group in reverse scene order.
 		*/
 		groupCallReverse = 1,
 		/**
-		
+		Call a group immediately (calls are normally made on idle).
 		*/
 		groupCallRealtime = 2,
 		/**
-		
+		Call a group only once even if the call is executed many times.
 		*/
 		groupCallUnique = 4,
 	}
@@ -112,17 +116,17 @@ public:
 	enum Constants : int
 	{
 		stretchModeDisabled = 0,
-		stretchAspectIgnore = 0,
 		groupCallDefault = 0,
+		stretchAspectIgnore = 0,
 		stretchMode2d = 1,
 		stretchAspectKeep = 1,
 		groupCallReverse = 1,
-		stretchModeViewport = 2,
 		stretchAspectKeepWidth = 2,
 		groupCallRealtime = 2,
+		stretchModeViewport = 2,
 		stretchAspectKeepHeight = 3,
-		stretchAspectExpand = 4,
 		groupCallUnique = 4,
+		stretchAspectExpand = 4,
 	}
 	package(godot) static GodotMethod!(Viewport) _GODOT_get_root;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_root") = _GODOT_get_root;
@@ -137,7 +141,7 @@ public:
 	package(godot) static GodotMethod!(bool, String) _GODOT_has_group;
 	package(godot) alias _GODOT_methodBindInfo(string name : "has_group") = _GODOT_has_group;
 	/**
-	
+	Returns `true` if the given group exists.
 	*/
 	bool hasGroup(StringArg0)(in StringArg0 name) const
 	{
@@ -147,7 +151,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_auto_accept_quit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_auto_accept_quit") = _GODOT_set_auto_accept_quit;
 	/**
-	
+	If `true` the application automatically accepts quitting.
 	*/
 	void setAutoAcceptQuit(in bool enabled)
 	{
@@ -157,7 +161,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_quit_on_go_back;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_quit_on_go_back") = _GODOT_set_quit_on_go_back;
 	/**
-	
+	If `true` the application quits automatically on going back (e.g. on Android).
 	*/
 	void setQuitOnGoBack(in bool enabled)
 	{
@@ -247,7 +251,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_set_input_as_handled;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_input_as_handled") = _GODOT_set_input_as_handled;
 	/**
-	
+	Marks the most recent input event as handled.
 	*/
 	void setInputAsHandled()
 	{
@@ -257,7 +261,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_is_input_handled;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_input_handled") = _GODOT_is_input_handled;
 	/**
-	
+	Returns `true` if the most recent InputEvent was marked as handled with $(D setInputAsHandled).
 	*/
 	bool isInputHandled()
 	{
@@ -267,7 +271,7 @@ public:
 	package(godot) static GodotMethod!(SceneTreeTimer, double, bool) _GODOT_create_timer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "create_timer") = _GODOT_create_timer;
 	/**
-	
+	Returns a $(D SceneTreeTimer) which will $(D SceneTreeTimer.timeout) after the given time in seconds elapsed in this SceneTree. If `pause_mode_process` is set to false, pausing the SceneTree will also pause the timer.
 	*/
 	Ref!SceneTreeTimer createTimer(in double time_sec, in bool pause_mode_process = true)
 	{
@@ -277,7 +281,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_node_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_count") = _GODOT_get_node_count;
 	/**
-	
+	Returns the number of nodes in this SceneTree.
 	*/
 	long getNodeCount() const
 	{
@@ -297,7 +301,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_quit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "quit") = _GODOT_quit;
 	/**
-	
+	Quits the application.
 	*/
 	void quit()
 	{
@@ -307,7 +311,7 @@ public:
 	package(godot) static GodotMethod!(void, long, long, Vector2, double) _GODOT_set_screen_stretch;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_screen_stretch") = _GODOT_set_screen_stretch;
 	/**
-	
+	Configures screen stretching to the given $(D stretchmode), $(D stretchaspect), minimum size and `shrink`.
 	*/
 	void setScreenStretch(in long mode, in long aspect, in Vector2 minsize, in double shrink = 1)
 	{
@@ -317,7 +321,7 @@ public:
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT_queue_delete;
 	package(godot) alias _GODOT_methodBindInfo(string name : "queue_delete") = _GODOT_queue_delete;
 	/**
-	
+	Queues the given object for deletion, delaying the call to $(D GodotObject.free) to after the current frame.
 	*/
 	void queueDelete(GodotObject obj)
 	{
@@ -327,7 +331,7 @@ public:
 	package(godot) static GodotMethod!(Variant, long, String, String, GodotVarArgs) _GODOT_call_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "call_group_flags") = _GODOT_call_group_flags;
 	/**
-	
+	Calls `method` on each member of the given group, respecting the given $(D groupCall) flags.
 	*/
 	Variant callGroupFlags(StringArg1, StringArg2, VarArgs...)(in long flags, in StringArg1 group, in StringArg2 method, VarArgs varArgs)
 	{
@@ -345,7 +349,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, long) _GODOT_notify_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "notify_group_flags") = _GODOT_notify_group_flags;
 	/**
-	
+	Sends the given notification to all members of the `group`, respecting the given $(D groupCall) flags.
 	*/
 	void notifyGroupFlags(StringArg1)(in long call_flags, in StringArg1 group, in long notification)
 	{
@@ -355,7 +359,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, String, Variant) _GODOT_set_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_group_flags") = _GODOT_set_group_flags;
 	/**
-	
+	Sets the given `property` to `value` on all members of the given group, respecting the given $(D groupCall) flags.
 	*/
 	void setGroupFlags(StringArg1, StringArg2, VariantArg3)(in long call_flags, in StringArg1 group, in StringArg2 property, in VariantArg3 value)
 	{
@@ -365,7 +369,7 @@ public:
 	package(godot) static GodotMethod!(Variant, String, String, GodotVarArgs) _GODOT_call_group;
 	package(godot) alias _GODOT_methodBindInfo(string name : "call_group") = _GODOT_call_group;
 	/**
-	
+	Calls `method` on each member of the given group.
 	*/
 	Variant callGroup(StringArg0, StringArg1, VarArgs...)(in StringArg0 group, in StringArg1 method, VarArgs varArgs)
 	{
@@ -382,7 +386,7 @@ public:
 	package(godot) static GodotMethod!(void, String, long) _GODOT_notify_group;
 	package(godot) alias _GODOT_methodBindInfo(string name : "notify_group") = _GODOT_notify_group;
 	/**
-	
+	Sends the given notification to all members of the `group`.
 	*/
 	void notifyGroup(StringArg0)(in StringArg0 group, in long notification)
 	{
@@ -392,7 +396,7 @@ public:
 	package(godot) static GodotMethod!(void, String, String, Variant) _GODOT_set_group;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_group") = _GODOT_set_group;
 	/**
-	
+	Sets the given `property` to `value` on all members of the given group.
 	*/
 	void setGroup(StringArg0, StringArg1, VariantArg2)(in StringArg0 group, in StringArg1 property, in VariantArg2 value)
 	{
@@ -402,7 +406,7 @@ public:
 	package(godot) static GodotMethod!(Array, String) _GODOT_get_nodes_in_group;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_nodes_in_group") = _GODOT_get_nodes_in_group;
 	/**
-	
+	Returns all nodes assigned to the given group.
 	*/
 	Array getNodesInGroup(StringArg0)(in StringArg0 group)
 	{
@@ -432,7 +436,7 @@ public:
 	package(godot) static GodotMethod!(GodotError, String) _GODOT_change_scene;
 	package(godot) alias _GODOT_methodBindInfo(string name : "change_scene") = _GODOT_change_scene;
 	/**
-	
+	Changes to the scene at the given `path`.
 	*/
 	GodotError changeScene(StringArg0)(in StringArg0 path)
 	{
@@ -442,7 +446,7 @@ public:
 	package(godot) static GodotMethod!(GodotError, PackedScene) _GODOT_change_scene_to;
 	package(godot) alias _GODOT_methodBindInfo(string name : "change_scene_to") = _GODOT_change_scene_to;
 	/**
-	
+	Changes to the given $(D PackedScene).
 	*/
 	GodotError changeSceneTo(PackedScene packed_scene)
 	{
@@ -452,7 +456,7 @@ public:
 	package(godot) static GodotMethod!(GodotError) _GODOT_reload_current_scene;
 	package(godot) alias _GODOT_methodBindInfo(string name : "reload_current_scene") = _GODOT_reload_current_scene;
 	/**
-	
+	Reloads the currently active scene.
 	*/
 	GodotError reloadCurrentScene()
 	{
@@ -470,6 +474,26 @@ public:
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_change_scene");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void, MultiplayerAPI) _GODOT_set_multiplayer_api;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_multiplayer_api") = _GODOT_set_multiplayer_api;
+	/**
+	
+	*/
+	void setMultiplayerApi(MultiplayerAPI multiplayer_api)
+	{
+		_GODOT_set_multiplayer_api.bind("SceneTree", "set_multiplayer_api");
+		ptrcall!(void)(_GODOT_set_multiplayer_api, _godot_object, multiplayer_api);
+	}
+	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_multiplayer_api;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_multiplayer_api") = _GODOT_get_multiplayer_api;
+	/**
+	
+	*/
+	Ref!MultiplayerAPI getMultiplayerApi() const
+	{
+		_GODOT_get_multiplayer_api.bind("SceneTree", "get_multiplayer_api");
+		return ptrcall!(MultiplayerAPI)(_GODOT_get_multiplayer_api, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, NetworkedMultiplayerPeer) _GODOT_set_network_peer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_network_peer") = _GODOT_set_network_peer;
@@ -494,7 +518,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_is_network_server;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_network_server") = _GODOT_is_network_server;
 	/**
-	Returns true if this SceneTree's $(D NetworkedMultiplayerPeer) is in server mode (listening for connections).
+	Returns `true` if this SceneTree's $(D networkPeer) is in server mode (listening for connections).
 	*/
 	bool isNetworkServer() const
 	{
@@ -504,7 +528,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_has_network_peer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "has_network_peer") = _GODOT_has_network_peer;
 	/**
-	Returns true if there is a $(D NetworkedMultiplayerPeer) set (with $(D SceneTree.setNetworkPeer)).
+	Returns `true` if there is a $(D networkPeer) set.
 	*/
 	bool hasNetworkPeer() const
 	{
@@ -514,7 +538,7 @@ public:
 	package(godot) static GodotMethod!(PoolIntArray) _GODOT_get_network_connected_peers;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_network_connected_peers") = _GODOT_get_network_connected_peers;
 	/**
-	
+	Returns the peer IDs of all connected peers of this SceneTree's $(D networkPeer).
 	*/
 	PoolIntArray getNetworkConnectedPeers() const
 	{
@@ -524,7 +548,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_network_unique_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_network_unique_id") = _GODOT_get_network_unique_id;
 	/**
-	
+	Returns the unique peer ID of this SceneTree's $(D networkPeer).
 	*/
 	long getNetworkUniqueId() const
 	{
@@ -534,7 +558,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_rpc_sender_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_rpc_sender_id") = _GODOT_get_rpc_sender_id;
 	/**
-	
+	Returns the sender's peer ID for the most recently received RPC call.
 	*/
 	long getRpcSenderId() const
 	{
@@ -663,7 +687,7 @@ public:
 		setDebugNavigationHint(v);
 	}
 	/**
-	
+	If `true` the SceneTree is paused.
 	*/
 	@property bool paused()
 	{
@@ -675,7 +699,7 @@ public:
 		setPause(v);
 	}
 	/**
-	
+	If `true` the SceneTree's $(D networkPeer) refuses new incoming connections.
 	*/
 	@property bool refuseNewNetworkConnections()
 	{
@@ -687,7 +711,7 @@ public:
 		setRefuseNewNetworkConnections(v);
 	}
 	/**
-	
+	If `true` font oversampling is used.
 	*/
 	@property bool useFontOversampling()
 	{
@@ -699,7 +723,7 @@ public:
 		setUseFontOversampling(v);
 	}
 	/**
-	
+	The root of the edited scene.
 	*/
 	@property Node editedSceneRoot()
 	{
@@ -711,7 +735,7 @@ public:
 		setEditedSceneRoot(v);
 	}
 	/**
-	
+	The current scene.
 	*/
 	@property Node currentScene()
 	{
@@ -735,10 +759,22 @@ public:
 		setNetworkPeer(v);
 	}
 	/**
-	
+	The SceneTree's $(D Viewport).
 	*/
 	@property Viewport root()
 	{
 		return getRoot();
+	}
+	/**
+	
+	*/
+	@property MultiplayerAPI multiplayerApi()
+	{
+		return getMultiplayerApi();
+	}
+	/// ditto
+	@property void multiplayerApi(MultiplayerAPI v)
+	{
+		setMultiplayerApi(v);
 	}
 }

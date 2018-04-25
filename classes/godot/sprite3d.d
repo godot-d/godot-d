@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Sprite3D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**

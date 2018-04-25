@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(MultiMeshInstance)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, MultiMesh) _GODOT_set_multimesh;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_multimesh") = _GODOT_set_multimesh;
 	/**

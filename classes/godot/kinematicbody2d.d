@@ -48,6 +48,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(KinematicBody2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(KinematicCollision2D, Vector2, bool) _GODOT_move_and_collide;
 	package(godot) alias _GODOT_methodBindInfo(string name : "move_and_collide") = _GODOT_move_and_collide;
 	/**

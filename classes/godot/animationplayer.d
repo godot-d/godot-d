@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AnimationPlayer)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum AnimationProcessMode : int
 	{
@@ -210,8 +211,7 @@ public:
 	package(godot) static GodotMethod!(void, String, double, double, bool) _GODOT_play;
 	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
-	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the
-	animation backwards.
+	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the animation backwards.
 	*/
 	void play(StringArg0)(in StringArg0 name = "", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
 	{
@@ -347,6 +347,16 @@ public:
 	{
 		_GODOT_get_speed_scale.bind("AnimationPlayer", "get_speed_scale");
 		return ptrcall!(double)(_GODOT_get_speed_scale, _godot_object);
+	}
+	package(godot) static GodotMethod!(double) _GODOT_get_playing_speed;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_playing_speed") = _GODOT_get_playing_speed;
+	/**
+	Get the actual playing speed of current animation or 0 if not playing. This speed is the `playback_speed` property multiplied by `custom_speed` argument specified when calling the `play` method.
+	*/
+	double getPlayingSpeed() const
+	{
+		_GODOT_get_playing_speed.bind("AnimationPlayer", "get_playing_speed");
+		return ptrcall!(double)(_GODOT_get_playing_speed, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, String) _GODOT_set_autoplay;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_autoplay") = _GODOT_set_autoplay;

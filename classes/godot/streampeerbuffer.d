@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StreamPeerBuffer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_seek;
 	package(godot) alias _GODOT_methodBindInfo(string name : "seek") = _GODOT_seek;
 	/**

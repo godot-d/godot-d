@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StreamTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String) _GODOT_load;
 	package(godot) alias _GODOT_methodBindInfo(string name : "load") = _GODOT_load;
 	/**

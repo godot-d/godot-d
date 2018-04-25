@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ProxyTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Texture) _GODOT_set_base;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_base") = _GODOT_set_base;
 	/**

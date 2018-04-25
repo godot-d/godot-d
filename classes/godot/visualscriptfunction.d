@@ -43,4 +43,5 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptFunction)(constructor());
 	}
+	@disable new(size_t s);
 }

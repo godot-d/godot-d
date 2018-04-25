@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Animation)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum TrackType : int
 	{
@@ -97,12 +98,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		interpolationNearest = 0,
 		updateContinuous = 0,
+		interpolationNearest = 0,
 		typeValue = 0,
+		interpolationLinear = 1,
 		typeTransform = 1,
 		updateDiscrete = 1,
-		interpolationLinear = 1,
 		updateTrigger = 2,
 		typeMethod = 2,
 		interpolationCubic = 2,

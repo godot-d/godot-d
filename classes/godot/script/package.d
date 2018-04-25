@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Script)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(bool) _GODOT_can_instance;
 	package(godot) alias _GODOT_methodBindInfo(string name : "can_instance") = _GODOT_can_instance;
 	/**
@@ -108,7 +109,7 @@ public:
 	package(godot) static GodotMethod!(Script) _GODOT_get_base_script;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_script") = _GODOT_get_base_script;
 	/**
-	
+	Returns the script directly inherited by this script.
 	*/
 	Ref!Script getBaseScript() const
 	{

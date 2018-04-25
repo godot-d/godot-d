@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioStreamOGGVorbis)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, PoolByteArray) _GODOT__set_data;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**

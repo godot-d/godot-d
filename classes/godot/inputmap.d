@@ -52,6 +52,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputMapSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(bool, String) _GODOT_has_action;
 	package(godot) alias _GODOT_methodBindInfo(string name : "has_action") = _GODOT_has_action;
 	/**
@@ -72,15 +73,15 @@ public:
 		_GODOT_get_actions.bind("InputMap", "get_actions");
 		return ptrcall!(Array)(_GODOT_get_actions, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_action;
+	package(godot) static GodotMethod!(void, String, double) _GODOT_add_action;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_action") = _GODOT_add_action;
 	/**
 	Adds an (empty) action to the `InputMap`. An $(D InputEvent) can then be added to this action with $(D actionAddEvent).
 	*/
-	void addAction(StringArg0)(in StringArg0 action)
+	void addAction(StringArg0)(in StringArg0 action, in double deadzone = 0.5)
 	{
 		_GODOT_add_action.bind("InputMap", "add_action");
-		ptrcall!(void)(_GODOT_add_action, _godot_object, action);
+		ptrcall!(void)(_GODOT_add_action, _godot_object, action, deadzone);
 	}
 	package(godot) static GodotMethod!(void, String) _GODOT_erase_action;
 	package(godot) alias _GODOT_methodBindInfo(string name : "erase_action") = _GODOT_erase_action;
@@ -91,6 +92,16 @@ public:
 	{
 		_GODOT_erase_action.bind("InputMap", "erase_action");
 		ptrcall!(void)(_GODOT_erase_action, _godot_object, action);
+	}
+	package(godot) static GodotMethod!(void, String, double) _GODOT_action_set_deadzone;
+	package(godot) alias _GODOT_methodBindInfo(string name : "action_set_deadzone") = _GODOT_action_set_deadzone;
+	/**
+	
+	*/
+	void actionSetDeadzone(StringArg0)(in StringArg0 deadzone, in double arg1)
+	{
+		_GODOT_action_set_deadzone.bind("InputMap", "action_set_deadzone");
+		ptrcall!(void)(_GODOT_action_set_deadzone, _godot_object, deadzone, arg1);
 	}
 	package(godot) static GodotMethod!(void, String, InputEvent) _GODOT_action_add_event;
 	package(godot) alias _GODOT_methodBindInfo(string name : "action_add_event") = _GODOT_action_add_event;

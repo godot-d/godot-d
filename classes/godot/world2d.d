@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(World2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(RID) _GODOT_get_canvas;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas") = _GODOT_get_canvas;
 	/**

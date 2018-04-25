@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GrooveJoint2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_length;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_length") = _GODOT_set_length;
 	/**

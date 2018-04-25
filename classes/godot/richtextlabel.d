@@ -50,6 +50,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(RichTextLabel)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Align : int
 	{
@@ -141,8 +142,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		itemFrame = 0,
 		alignLeft = 0,
+		itemFrame = 0,
 		listNumbers = 0,
 		listLetters = 1,
 		itemText = 1,

@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(IPSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum ResolverStatus : int
 	{
@@ -102,8 +103,8 @@ public:
 		resolverStatusNone = 0,
 		typeIpv4 = 1,
 		resolverStatusWaiting = 1,
-		typeIpv6 = 2,
 		resolverStatusDone = 2,
+		typeIpv6 = 2,
 		resolverStatusError = 3,
 		typeAny = 3,
 		/**

@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AnimatedSprite)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, SpriteFrames) _GODOT_set_sprite_frames;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_sprite_frames") = _GODOT_set_sprite_frames;
 	/**

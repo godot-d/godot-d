@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ConfirmationDialog)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Button) _GODOT_get_cancel;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_cancel") = _GODOT_get_cancel;
 	/**

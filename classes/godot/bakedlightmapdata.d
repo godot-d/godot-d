@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BakedLightmapData)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Array) _GODOT__set_user_data;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_set_user_data") = _GODOT__set_user_data;
 	/**

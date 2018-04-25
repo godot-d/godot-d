@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Tabs)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum CloseButtonDisplayPolicy : int
 	{
@@ -92,12 +93,12 @@ public:
 	{
 		closeButtonShowNever = 0,
 		alignLeft = 0,
-		alignCenter = 1,
 		closeButtonShowActiveOnly = 1,
+		alignCenter = 1,
 		closeButtonShowAlways = 2,
 		alignRight = 2,
-		alignMax = 3,
 		closeButtonMax = 3,
+		alignMax = 3,
 	}
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
@@ -331,6 +332,46 @@ public:
 		_GODOT_get_scrolling_enabled.bind("Tabs", "get_scrolling_enabled");
 		return ptrcall!(bool)(_GODOT_get_scrolling_enabled, _godot_object);
 	}
+	package(godot) static GodotMethod!(void, bool) _GODOT_set_drag_to_rearrange_enabled;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_drag_to_rearrange_enabled") = _GODOT_set_drag_to_rearrange_enabled;
+	/**
+	
+	*/
+	void setDragToRearrangeEnabled(in bool enabled)
+	{
+		_GODOT_set_drag_to_rearrange_enabled.bind("Tabs", "set_drag_to_rearrange_enabled");
+		ptrcall!(void)(_GODOT_set_drag_to_rearrange_enabled, _godot_object, enabled);
+	}
+	package(godot) static GodotMethod!(bool) _GODOT_get_drag_to_rearrange_enabled;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_drag_to_rearrange_enabled") = _GODOT_get_drag_to_rearrange_enabled;
+	/**
+	
+	*/
+	bool getDragToRearrangeEnabled() const
+	{
+		_GODOT_get_drag_to_rearrange_enabled.bind("Tabs", "get_drag_to_rearrange_enabled");
+		return ptrcall!(bool)(_GODOT_get_drag_to_rearrange_enabled, _godot_object);
+	}
+	package(godot) static GodotMethod!(void, long) _GODOT_set_tabs_rearrange_group;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_tabs_rearrange_group") = _GODOT_set_tabs_rearrange_group;
+	/**
+	
+	*/
+	void setTabsRearrangeGroup(in long group_id)
+	{
+		_GODOT_set_tabs_rearrange_group.bind("Tabs", "set_tabs_rearrange_group");
+		ptrcall!(void)(_GODOT_set_tabs_rearrange_group, _godot_object, group_id);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_tabs_rearrange_group;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_tabs_rearrange_group") = _GODOT_get_tabs_rearrange_group;
+	/**
+	
+	*/
+	long getTabsRearrangeGroup() const
+	{
+		_GODOT_get_tabs_rearrange_group.bind("Tabs", "get_tabs_rearrange_group");
+		return ptrcall!(long)(_GODOT_get_tabs_rearrange_group, _godot_object);
+	}
 	/**
 	
 	*/
@@ -378,5 +419,17 @@ public:
 	@property void scrollingEnabled(bool v)
 	{
 		setScrollingEnabled(v);
+	}
+	/**
+	
+	*/
+	@property bool dragToRearrangeEnabled()
+	{
+		return getDragToRearrangeEnabled();
+	}
+	/// ditto
+	@property void dragToRearrangeEnabled(bool v)
+	{
+		setDragToRearrangeEnabled(v);
 	}
 }

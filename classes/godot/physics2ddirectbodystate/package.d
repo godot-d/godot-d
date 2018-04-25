@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DDirectBodyState)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Vector2) _GODOT_get_total_gravity;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_total_gravity") = _GODOT_get_total_gravity;
 	/**

@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorExportPlugin)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String, String, PoolStringArray) _GODOT__export_file;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_export_file") = _GODOT__export_file;
 	/**

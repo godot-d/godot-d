@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PCKPacker)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String, long) _GODOT_pck_start;
 	package(godot) alias _GODOT_methodBindInfo(string name : "pck_start") = _GODOT_pck_start;
 	/**

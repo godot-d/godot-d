@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SplitContainer)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum DraggerVisibility : int
 	{
@@ -165,7 +166,7 @@ public:
 		setCollapsed(v);
 	}
 	/**
-	
+	Determines whether the dragger is visible.
 	*/
 	@property SplitContainer.DraggerVisibility draggerVisibility()
 	{

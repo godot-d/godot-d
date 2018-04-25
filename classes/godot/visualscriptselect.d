@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptSelect)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_typed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_typed") = _GODOT_set_typed;
 	/**

@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(RemoteTransform)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_remote_node;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_remote_node") = _GODOT_set_remote_node;
 	/**

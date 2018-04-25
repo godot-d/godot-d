@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NetworkedMultiplayerENet)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum CompressionMode : int
 	{
@@ -93,10 +94,10 @@ public:
 	/**
 	Create client that connects to a server at address `ip` using specified `port`. The given IP needs to be in IPv4 or IPv6 address format, for example: `192.168.1.1`. The `port` is the port the server is listening on. The `in_bandwidth` and `out_bandwidth` parameters can be used to limit the incoming and outgoing bandwidth to the given number of bytes per second. The default of 0 means unlimited bandwidth. Note that ENet will strategically drop packets on specific sides of a connection between peers to ensure the peer's bandwidth is not overwhelmed. The bandwidth parameters also determine the window size of a connection which limits the amount of reliable packets that may be in transit at any given time. Returns `OK` if a client was created, `ERR_ALREADY_IN_USE` if this NetworkedMultiplayerEnet instance already has an open connection (in which case you need to call $(D closeConnection) first) or `ERR_CANT_CREATE` if the client could not be created.
 	*/
-	GodotError createClient(StringArg0)(in StringArg0 ip, in long port, in long in_bandwidth = 0, in long out_bandwidth = 0)
+	GodotError createClient(StringArg0)(in StringArg0 address, in long port, in long in_bandwidth = 0, in long out_bandwidth = 0)
 	{
 		_GODOT_create_client.bind("NetworkedMultiplayerENet", "create_client");
-		return ptrcall!(GodotError)(_GODOT_create_client, _godot_object, ip, port, in_bandwidth, out_bandwidth);
+		return ptrcall!(GodotError)(_GODOT_create_client, _godot_object, address, port, in_bandwidth, out_bandwidth);
 	}
 	package(godot) static GodotMethod!(void) _GODOT_close_connection;
 	package(godot) alias _GODOT_methodBindInfo(string name : "close_connection") = _GODOT_close_connection;
@@ -107,6 +108,16 @@ public:
 	{
 		_GODOT_close_connection.bind("NetworkedMultiplayerENet", "close_connection");
 		ptrcall!(void)(_GODOT_close_connection, _godot_object);
+	}
+	package(godot) static GodotMethod!(void, long, bool) _GODOT_disconnect_peer;
+	package(godot) alias _GODOT_methodBindInfo(string name : "disconnect_peer") = _GODOT_disconnect_peer;
+	/**
+	
+	*/
+	void disconnectPeer(in long id, in bool now = false)
+	{
+		_GODOT_disconnect_peer.bind("NetworkedMultiplayerENet", "disconnect_peer");
+		ptrcall!(void)(_GODOT_disconnect_peer, _godot_object, id, now);
 	}
 	package(godot) static GodotMethod!(void, long) _GODOT_set_compression_mode;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_compression_mode") = _GODOT_set_compression_mode;
@@ -137,6 +148,26 @@ public:
 	{
 		_GODOT_set_bind_ip.bind("NetworkedMultiplayerENet", "set_bind_ip");
 		ptrcall!(void)(_GODOT_set_bind_ip, _godot_object, ip);
+	}
+	package(godot) static GodotMethod!(String, long) _GODOT_get_peer_address;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_peer_address") = _GODOT_get_peer_address;
+	/**
+	
+	*/
+	String getPeerAddress(in long arg0) const
+	{
+		_GODOT_get_peer_address.bind("NetworkedMultiplayerENet", "get_peer_address");
+		return ptrcall!(String)(_GODOT_get_peer_address, _godot_object, arg0);
+	}
+	package(godot) static GodotMethod!(long, long) _GODOT_get_peer_port;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_peer_port") = _GODOT_get_peer_port;
+	/**
+	
+	*/
+	long getPeerPort(in long arg0) const
+	{
+		_GODOT_get_peer_port.bind("NetworkedMultiplayerENet", "get_peer_port");
+		return ptrcall!(long)(_GODOT_get_peer_port, _godot_object, arg0);
 	}
 	/**
 	The compression method used for network packets. Default is no compression. These have different tradeoffs of compression speed versus bandwidth, you may need to test which one works best for your use case if you use compression at all.

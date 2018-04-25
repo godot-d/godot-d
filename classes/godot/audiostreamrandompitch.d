@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioStreamRandomPitch)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, AudioStream) _GODOT_set_audio_stream;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_audio_stream") = _GODOT_set_audio_stream;
 	/**

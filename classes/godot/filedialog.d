@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(FileDialog)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Mode : int
 	{
@@ -90,10 +91,10 @@ public:
 	/// 
 	enum Constants : int
 	{
-		modeOpenFile = 0,
 		accessResources = 0,
-		accessUserdata = 1,
+		modeOpenFile = 0,
 		modeOpenFiles = 1,
+		accessUserdata = 1,
 		modeOpenDir = 2,
 		accessFilesystem = 2,
 		modeOpenAny = 3,

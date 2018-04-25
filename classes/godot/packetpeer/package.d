@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PacketPeer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Variant) _GODOT_get_var;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_var") = _GODOT_get_var;
 	/**

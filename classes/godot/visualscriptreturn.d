@@ -50,6 +50,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptReturn)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_return_type;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_return_type") = _GODOT_set_return_type;
 	/**

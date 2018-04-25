@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GraphEdit)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String, long, String, long) _GODOT_connect_node;
 	package(godot) alias _GODOT_methodBindInfo(string name : "connect_node") = _GODOT_connect_node;
 	/**

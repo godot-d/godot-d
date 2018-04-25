@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptBuiltinFunc)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum BuiltinFunc : int
 	{
@@ -130,7 +131,7 @@ public:
 		*/
 		mathLog = 19,
 		/**
-		Return $(B e) raised to the power of the input. $(B e) sometimes called "Euler's number" is a mathematical constant whose value is approximately 2.71828.
+		Return the mathematical constant $(B e) raised to the specified power of the input. $(B e) has an approximate value of 2.71828.
 		*/
 		mathExp = 20,
 		/**

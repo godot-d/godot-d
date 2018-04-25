@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(MeshDataTool)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void) _GODOT_clear;
 	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**

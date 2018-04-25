@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Semaphore)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError) _GODOT_wait;
 	package(godot) alias _GODOT_methodBindInfo(string name : "wait") = _GODOT_wait;
 	/**

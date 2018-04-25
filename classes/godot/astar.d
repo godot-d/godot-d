@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AStar)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(double, long, long) _GODOT__estimate_cost;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_estimate_cost") = _GODOT__estimate_cost;
 	/**

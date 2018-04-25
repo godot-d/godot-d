@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CubeMesh)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Vector3) _GODOT_set_size;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**

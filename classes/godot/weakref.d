@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WeakRef)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Variant) _GODOT_get_ref;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_ref") = _GODOT_get_ref;
 	/**

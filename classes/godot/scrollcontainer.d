@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ScrollContainer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT__scroll_moved;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_scroll_moved") = _GODOT__scroll_moved;
 	/**
@@ -161,6 +162,26 @@ public:
 		_GODOT_get_v_scroll.bind("ScrollContainer", "get_v_scroll");
 		return ptrcall!(long)(_GODOT_get_v_scroll, _godot_object);
 	}
+	package(godot) static GodotMethod!(void, long) _GODOT_set_deadzone;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_deadzone") = _GODOT_set_deadzone;
+	/**
+	
+	*/
+	void setDeadzone(in long deadzone)
+	{
+		_GODOT_set_deadzone.bind("ScrollContainer", "set_deadzone");
+		ptrcall!(void)(_GODOT_set_deadzone, _godot_object, deadzone);
+	}
+	package(godot) static GodotMethod!(long) _GODOT_get_deadzone;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_deadzone") = _GODOT_get_deadzone;
+	/**
+	
+	*/
+	long getDeadzone() const
+	{
+		_GODOT_get_deadzone.bind("ScrollContainer", "get_deadzone");
+		return ptrcall!(long)(_GODOT_get_deadzone, _godot_object);
+	}
 	/**
 	If `true`, enables horizontal scrolling.
 	*/
@@ -208,5 +229,17 @@ public:
 	@property void scrollVertical(long v)
 	{
 		setVScroll(v);
+	}
+	/**
+	
+	*/
+	@property long scrollDeadzone()
+	{
+		return getDeadzone();
+	}
+	/// ditto
+	@property void scrollDeadzone(long v)
+	{
+		setDeadzone(v);
 	}
 }

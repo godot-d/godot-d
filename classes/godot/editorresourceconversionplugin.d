@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorResourceConversionPlugin)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Resource, Resource) _GODOT__convert;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_convert") = _GODOT__convert;
 	/**

@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node;
-import godot.world2d;
 import godot.viewport;
 /**
 Canvas drawing layer.
@@ -47,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CanvasLayer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_layer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_layer") = _GODOT_set_layer;
 	/**
@@ -187,15 +187,15 @@ public:
 		_GODOT_get_custom_viewport.bind("CanvasLayer", "get_custom_viewport");
 		return ptrcall!(Node)(_GODOT_get_custom_viewport, _godot_object);
 	}
-	package(godot) static GodotMethod!(World2D) _GODOT_get_world_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_world_2d") = _GODOT_get_world_2d;
+	package(godot) static GodotMethod!(RID) _GODOT_get_canvas;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas") = _GODOT_get_canvas;
 	/**
-	Return the $(D World2D) used by this layer.
+	Returns the RID of the canvas used by this layer.
 	*/
-	Ref!World2D getWorld2d() const
+	RID getCanvas() const
 	{
-		_GODOT_get_world_2d.bind("CanvasLayer", "get_world_2d");
-		return ptrcall!(World2D)(_GODOT_get_world_2d, _godot_object);
+		_GODOT_get_canvas.bind("CanvasLayer", "get_canvas");
+		return ptrcall!(RID)(_GODOT_get_canvas, _godot_object);
 	}
 	/**
 	Layer index for draw order. Lower values are drawn first. Default value: `1`.

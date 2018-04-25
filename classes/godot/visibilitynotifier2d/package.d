@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisibilityNotifier2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_rect;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_rect") = _GODOT_set_rect;
 	/**

@@ -53,6 +53,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Environment)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum SSAOBlur : int
 	{
@@ -180,26 +181,26 @@ public:
 	/// 
 	enum Constants : int
 	{
-		toneMapperLinear = 0,
-		bgClearColor = 0,
-		ssaoQualityLow = 0,
 		dofBlurQualityLow = 0,
 		glowBlendModeAdditive = 0,
 		ssaoBlurDisabled = 0,
+		toneMapperLinear = 0,
+		bgClearColor = 0,
+		ssaoQualityLow = 0,
 		ssaoBlur1x1 = 1,
 		bgColor = 1,
-		toneMapperReinhardt = 1,
-		ssaoQualityMedium = 1,
 		dofBlurQualityMedium = 1,
 		glowBlendModeScreen = 1,
+		toneMapperReinhardt = 1,
+		ssaoQualityMedium = 1,
 		toneMapperFilmic = 2,
-		glowBlendModeSoftlight = 2,
 		bgSky = 2,
 		dofBlurQualityHigh = 2,
-		ssaoBlur2x2 = 2,
 		ssaoQualityHigh = 2,
-		toneMapperAces = 3,
+		glowBlendModeSoftlight = 2,
+		ssaoBlur2x2 = 2,
 		glowBlendModeReplace = 3,
+		toneMapperAces = 3,
 		ssaoBlur3x3 = 3,
 		bgColorSky = 3,
 		bgCanvas = 4,

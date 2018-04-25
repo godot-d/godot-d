@@ -42,6 +42,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PackedDataContainerRef)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(long) _GODOT_size;
 	package(godot) alias _GODOT_methodBindInfo(string name : "size") = _GODOT_size;
 	/**

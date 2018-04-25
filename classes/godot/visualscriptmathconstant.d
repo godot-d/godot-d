@@ -24,7 +24,7 @@ import godot.visualscriptnode;
 /**
 Commonly used mathematical constants.
 
-Provides common math constants, such as Pi or Euler's constant, on an output Data port.
+Provides common math constants, such as Pi, on an output Data port.
 $(B Input Ports:)
 none
 $(B Output Ports:)
@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptMathConstant)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum MathConstant : int
 	{
@@ -69,7 +70,7 @@ public:
 		*/
 		mathConstantTau = 3,
 		/**
-		Natural log: `2.718282`
+		Mathematical constant `e`, the natural log base: `2.718282`
 		*/
 		mathConstantE = 4,
 		/**

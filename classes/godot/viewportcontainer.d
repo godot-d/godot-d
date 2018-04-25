@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ViewportContainer)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, InputEvent) _GODOT__input;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_input") = _GODOT__input;
 	/**

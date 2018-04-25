@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptPropertySet)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum AssignOp : int
 	{
@@ -114,12 +115,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		assignOpNone = 0,
 		callModeSelf = 0,
-		assignOpAdd = 1,
+		assignOpNone = 0,
 		callModeNodePath = 1,
-		callModeInstance = 2,
+		assignOpAdd = 1,
 		assignOpSub = 2,
+		callModeInstance = 2,
 		assignOpMul = 3,
 		callModeBasicType = 3,
 		assignOpDiv = 4,

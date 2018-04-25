@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BitmapFont)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String) _GODOT_create_from_fnt;
 	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_fnt") = _GODOT_create_from_fnt;
 	/**

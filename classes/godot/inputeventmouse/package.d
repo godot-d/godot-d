@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputEventMouse)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_set_button_mask;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_button_mask") = _GODOT_set_button_mask;
 	/**

@@ -59,6 +59,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SurfaceTool)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, long) _GODOT_begin;
 	package(godot) alias _GODOT_methodBindInfo(string name : "begin") = _GODOT_begin;
 	/**
@@ -199,15 +200,16 @@ public:
 		_GODOT_deindex.bind("SurfaceTool", "deindex");
 		ptrcall!(void)(_GODOT_deindex, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_generate_normals;
+	package(godot) static GodotMethod!(void, bool) _GODOT_generate_normals;
 	package(godot) alias _GODOT_methodBindInfo(string name : "generate_normals") = _GODOT_generate_normals;
 	/**
 	Generates normals from Vertices so you do not have to do it manually.
+	Setting "flip" `true` inverts resulting normals.
 	*/
-	void generateNormals()
+	void generateNormals(in bool flip = false)
 	{
 		_GODOT_generate_normals.bind("SurfaceTool", "generate_normals");
-		ptrcall!(void)(_GODOT_generate_normals, _godot_object);
+		ptrcall!(void)(_GODOT_generate_normals, _godot_object, flip);
 	}
 	package(godot) static GodotMethod!(void) _GODOT_generate_tangents;
 	package(godot) alias _GODOT_methodBindInfo(string name : "generate_tangents") = _GODOT_generate_tangents;

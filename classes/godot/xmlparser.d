@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(XMLParser)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum NodeType : int
 	{

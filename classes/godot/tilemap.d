@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(TileMap)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum Mode : int
 	{
@@ -74,7 +75,7 @@ public:
 		*/
 		tileOriginCenter = 1,
 		/**
-		
+		Tile origin at its bottom-left corner.
 		*/
 		tileOriginBottomLeft = 2,
 	}
@@ -105,11 +106,11 @@ public:
 		halfOffsetX = 0,
 		tileOriginTopLeft = 0,
 		tileOriginCenter = 1,
-		modeIsometric = 1,
 		halfOffsetY = 1,
+		modeIsometric = 1,
 		modeCustom = 2,
-		halfOffsetDisabled = 2,
 		tileOriginBottomLeft = 2,
+		halfOffsetDisabled = 2,
 	}
 	package(godot) static GodotMethod!(void, TileSet) _GODOT_set_tileset;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_tileset") = _GODOT_set_tileset;
@@ -377,7 +378,7 @@ public:
 	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_layer_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer_bit") = _GODOT_set_collision_layer_bit;
 	/**
-	
+	Set any collision layer to be `true` or `false`.
 	*/
 	void setCollisionLayerBit(in long bit, in bool value)
 	{

@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ClassDBSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_class_list;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_class_list") = _GODOT_get_class_list;
 	/**

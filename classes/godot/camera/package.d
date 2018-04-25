@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Camera)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum KeepAspect : int
 	{
@@ -89,9 +90,9 @@ public:
 	/// 
 	enum Constants : int
 	{
-		dopplerTrackingDisabled = 0,
 		projectionPerspective = 0,
 		keepWidth = 0,
+		dopplerTrackingDisabled = 0,
 		dopplerTrackingIdleStep = 1,
 		keepHeight = 1,
 		projectionOrthogonal = 1,
@@ -130,7 +131,7 @@ public:
 	package(godot) static GodotMethod!(Vector2, Vector3) _GODOT_unproject_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "unproject_position") = _GODOT_unproject_position;
 	/**
-	Returns how a 3D point in worldspace maps to a 2D coordinate in the $(D Viewport) rectangle.
+	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in worldspace.
 	*/
 	Vector2 unprojectPosition(in Vector3 world_point) const
 	{
@@ -140,7 +141,7 @@ public:
 	package(godot) static GodotMethod!(bool, Vector3) _GODOT_is_position_behind;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_position_behind") = _GODOT_is_position_behind;
 	/**
-	Returns `true` if the given position is behind the Camera.
+	Returns `true` if the given position is behind the Camera. Note that a position which returns `false` may still be outside the Camera's field of view.
 	*/
 	bool isPositionBehind(in Vector3 world_point) const
 	{
@@ -150,7 +151,7 @@ public:
 	package(godot) static GodotMethod!(Vector3, Vector2) _GODOT_project_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "project_position") = _GODOT_project_position;
 	/**
-	Returns how a 2D coordinate in the Viewport rectangle maps to a 3D point in worldspace.
+	Returns the 3D point in worldspace that maps to the given 2D coordinate in the $(D Viewport) rectangle.
 	*/
 	Vector3 projectPosition(in Vector2 screen_point) const
 	{
@@ -160,7 +161,7 @@ public:
 	package(godot) static GodotMethod!(void, double, double, double) _GODOT_set_perspective;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_perspective") = _GODOT_set_perspective;
 	/**
-	Set the camera projection to perspective mode, by specifying a $(I FOV) Y angle in degrees (FOV means Field of View), and the $(I near) and $(I far) clip planes in worldspace units.
+	Sets the camera projection to perspective mode, by specifying a $(I FOV) Y angle in degrees (FOV means Field of View), and the $(I near) and $(I far) clip planes in worldspace units.
 	*/
 	void setPerspective(in double fov, in double z_near, in double z_far)
 	{
@@ -170,7 +171,7 @@ public:
 	package(godot) static GodotMethod!(void, double, double, double) _GODOT_set_orthogonal;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_orthogonal") = _GODOT_set_orthogonal;
 	/**
-	Set the camera projection to orthogonal mode, by specifying a width and the $(I near) and $(I far) clip planes in worldspace units. (As a hint, 2D games often use this projection, with values specified in pixels)
+	Sets the camera projection to orthogonal mode, by specifying a width and the $(I near) and $(I far) clip planes in worldspace units. (As a hint, 2D games often use this projection, with values specified in pixels)
 	*/
 	void setOrthogonal(in double size, in double z_near, in double z_far)
 	{
@@ -180,7 +181,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_make_current;
 	package(godot) alias _GODOT_methodBindInfo(string name : "make_current") = _GODOT_make_current;
 	/**
-	Make this camera the current Camera for the $(D Viewport) (see class description). If the Camera Node is outside the scene tree, it will attempt to become current once it's added.
+	Makes this camera the current Camera for the $(D Viewport) (see class description). If the Camera Node is outside the scene tree, it will attempt to become current once it's added.
 	*/
 	void makeCurrent()
 	{
@@ -190,7 +191,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_clear_current;
 	package(godot) alias _GODOT_methodBindInfo(string name : "clear_current") = _GODOT_clear_current;
 	/**
-	If this is the current Camera, remove it from being current. If it is inside the node tree, request to make the next Camera current, if any.
+	If this is the current Camera, remove it from being current. If `enable_next` is true, request to make the next Camera current, if any.
 	*/
 	void clearCurrent(in bool enable_next = true)
 	{
@@ -220,7 +221,7 @@ public:
 	package(godot) static GodotMethod!(Transform) _GODOT_get_camera_transform;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_camera_transform") = _GODOT_get_camera_transform;
 	/**
-	Get the camera transform. Subclassed cameras (such as CharacterCamera) may provide different transforms than the $(D Node) transform.
+	Gets the camera transform. Subclassed cameras (such as CharacterCamera) may provide different transforms than the $(D Node) transform.
 	*/
 	Transform getCameraTransform() const
 	{
@@ -448,7 +449,7 @@ public:
 		return ptrcall!(Camera.DopplerTracking)(_GODOT_get_doppler_tracking, _godot_object);
 	}
 	/**
-	The axis to lock during $(D fov)/$(D size) adjustments.
+	The axis to lock during $(D fov)/$(D size) adjustments. Can be either `KEEP_WIDTH` or `KEEP_HEIGHT`.
 	*/
 	@property Camera.KeepAspect keepAspect()
 	{
@@ -472,7 +473,7 @@ public:
 		setCullMask(v);
 	}
 	/**
-	Set the $(D Environment) to use for this Camera.
+	The $(D Environment) to use for this Camera.
 	*/
 	@property Environment environment()
 	{
@@ -496,7 +497,7 @@ public:
 		setHOffset(v);
 	}
 	/**
-	The horizontal (Y) offset of the Camera viewport.
+	The vertical (Y) offset of the Camera viewport.
 	*/
 	@property double vOffset()
 	{

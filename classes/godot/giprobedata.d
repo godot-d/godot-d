@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GIProbeData)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, AABB) _GODOT_set_bounds;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_bounds") = _GODOT_set_bounds;
 	/**

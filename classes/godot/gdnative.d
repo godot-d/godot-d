@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GDNative)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GDNativeLibrary) _GODOT_set_library;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_library") = _GODOT_set_library;
 	/**

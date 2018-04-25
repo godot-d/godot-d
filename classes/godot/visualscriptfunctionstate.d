@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptFunctionState)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GodotObject, String, Array) _GODOT_connect_to_signal;
 	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_signal") = _GODOT_connect_to_signal;
 	/**

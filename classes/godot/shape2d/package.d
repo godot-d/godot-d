@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Shape2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double) _GODOT_set_custom_solver_bias;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_solver_bias") = _GODOT_set_custom_solver_bias;
 	/**

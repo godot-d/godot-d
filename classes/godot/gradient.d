@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Gradient)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, double, Color) _GODOT_add_point;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_point") = _GODOT_add_point;
 	/**

@@ -2,7 +2,7 @@ module godot.stylebox.all;
 
 public import
 	godot.stylebox,
-	godot.styleboxempty,
-	godot.styleboxtexture,
 	godot.styleboxflat,
+	godot.styleboxtexture,
+	godot.styleboxempty,
 	godot.styleboxline;

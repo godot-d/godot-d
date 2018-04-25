@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(KinematicCollision2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Vector2) _GODOT_get_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_position") = _GODOT_get_position;
 	/**

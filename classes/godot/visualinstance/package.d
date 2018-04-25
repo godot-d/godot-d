@@ -42,6 +42,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualInstance)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(RID) _GODOT__get_visual_instance_rid;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_get_visual_instance_rid") = _GODOT__get_visual_instance_rid;
 	/**

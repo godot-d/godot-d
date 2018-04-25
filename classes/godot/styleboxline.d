@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StyleBoxLine)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Color) _GODOT_set_color;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_color") = _GODOT_set_color;
 	/**

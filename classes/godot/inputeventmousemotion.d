@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputEventMouseMotion)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_relative;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_relative") = _GODOT_set_relative;
 	/**

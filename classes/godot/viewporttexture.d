@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ViewportTexture)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_viewport_path_in_scene;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_viewport_path_in_scene") = _GODOT_set_viewport_path_in_scene;
 	/**

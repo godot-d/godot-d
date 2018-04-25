@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputEventWithModifiers)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_alt;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_alt") = _GODOT_set_alt;
 	/**

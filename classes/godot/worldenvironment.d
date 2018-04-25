@@ -48,6 +48,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WorldEnvironment)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Environment) _GODOT_set_environment;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_environment") = _GODOT_set_environment;
 	/**

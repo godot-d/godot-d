@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CanvasItemMaterial)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum LightMode : int
 	{
@@ -92,8 +93,8 @@ public:
 		blendModeMix = 0,
 		blendModeAdd = 1,
 		lightModeUnshaded = 1,
-		blendModeSub = 2,
 		lightModeLightOnly = 2,
+		blendModeSub = 2,
 		blendModeMul = 3,
 		blendModePremultAlpha = 4,
 	}

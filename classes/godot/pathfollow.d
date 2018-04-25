@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PathFollow)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum RotationMode : int
 	{

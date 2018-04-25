@@ -53,6 +53,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum MouseMode : int
 	{
@@ -148,14 +149,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		mouseModeVisible = 0,
 		cursorArrow = 0,
+		mouseModeVisible = 0,
 		mouseModeHidden = 1,
 		cursorIbeam = 1,
-		mouseModeCaptured = 2,
 		cursorPointingHand = 2,
-		cursorCross = 3,
+		mouseModeCaptured = 2,
 		mouseModeConfined = 3,
+		cursorCross = 3,
 		cursorWait = 4,
 		cursorBusy = 5,
 		cursorDrag = 6,
@@ -230,6 +231,16 @@ public:
 	{
 		_GODOT_is_action_just_released.bind("Input", "is_action_just_released");
 		return ptrcall!(bool)(_GODOT_is_action_just_released, _godot_object, action);
+	}
+	package(godot) static GodotMethod!(double, String) _GODOT_get_action_strength;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_action_strength") = _GODOT_get_action_strength;
+	/**
+	
+	*/
+	double getActionStrength(StringArg0)(in StringArg0 action) const
+	{
+		_GODOT_get_action_strength.bind("Input", "get_action_strength");
+		return ptrcall!(double)(_GODOT_get_action_strength, _godot_object, action);
 	}
 	package(godot) static GodotMethod!(void, String, bool) _GODOT_add_joy_mapping;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_joy_mapping") = _GODOT_add_joy_mapping;
@@ -501,6 +512,16 @@ public:
 	{
 		_GODOT_action_release.bind("Input", "action_release");
 		ptrcall!(void)(_GODOT_action_release, _godot_object, action);
+	}
+	package(godot) static GodotMethod!(void, long) _GODOT_set_default_cursor_shape;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_cursor_shape") = _GODOT_set_default_cursor_shape;
+	/**
+	
+	*/
+	void setDefaultCursorShape(in long shape = 0)
+	{
+		_GODOT_set_default_cursor_shape.bind("Input", "set_default_cursor_shape");
+		ptrcall!(void)(_GODOT_set_default_cursor_shape, _godot_object, shape);
 	}
 	package(godot) static GodotMethod!(void, Resource, long, Vector2) _GODOT_set_custom_mouse_cursor;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_mouse_cursor") = _GODOT_set_custom_mouse_cursor;

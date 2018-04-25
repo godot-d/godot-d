@@ -1639,6 +1639,8 @@ private extern(C) @nogc nothrow
 	alias da_godot_nativescript_set_method_documentation = void function(void * p_gdnative_handle, const char * p_name, const char * p_function_name, godot_string p_documentation);
 	alias da_godot_nativescript_set_property_documentation = void function(void * p_gdnative_handle, const char * p_name, const char * p_path, godot_string p_documentation);
 	alias da_godot_nativescript_set_signal_documentation = void function(void * p_gdnative_handle, const char * p_name, const char * p_signal_name, godot_string p_documentation);
+	alias da_godot_nativescript_set_global_type_tag = void function(int p_idx, const char * p_name, const void * p_type_tag);
+	alias da_godot_nativescript_get_global_type_tag = const void * function(int p_idx, const char * p_name);
 	alias da_godot_nativescript_set_type_tag = void function(void * p_gdnative_handle, const char * p_name, const void * p_type_tag);
 	alias da_godot_nativescript_get_type_tag = const void * function(const godot_object  p_object);
 	alias da_godot_nativescript_register_instance_binding_data_functions = int function(godot_instance_binding_functions p_binding_functions);
@@ -1655,6 +1657,8 @@ public extern(C) struct godot_gdnative_ext_nativescript_api_struct_1_1
 	da_godot_nativescript_set_method_documentation godot_nativescript_set_method_documentation;
 	da_godot_nativescript_set_property_documentation godot_nativescript_set_property_documentation;
 	da_godot_nativescript_set_signal_documentation godot_nativescript_set_signal_documentation;
+	da_godot_nativescript_set_global_type_tag godot_nativescript_set_global_type_tag;
+	da_godot_nativescript_get_global_type_tag godot_nativescript_get_global_type_tag;
 	da_godot_nativescript_set_type_tag godot_nativescript_set_type_tag;
 	da_godot_nativescript_get_type_tag godot_nativescript_get_type_tag;
 	da_godot_nativescript_register_instance_binding_data_functions godot_nativescript_register_instance_binding_data_functions;

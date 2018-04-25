@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SpriteBase3D)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum DrawFlags : int
 	{
@@ -83,12 +84,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		flagTransparent = 0,
 		alphaCutDisabled = 0,
+		flagTransparent = 0,
 		alphaCutDiscard = 1,
 		flagShaded = 1,
-		alphaCutOpaquePrepass = 2,
 		flagDoubleSided = 2,
+		alphaCutOpaquePrepass = 2,
 		flagMax = 3,
 	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_centered;

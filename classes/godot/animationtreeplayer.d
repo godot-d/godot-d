@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AnimationTreePlayer)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum AnimationProcessMode : int
 	{
@@ -108,8 +109,8 @@ public:
 	{
 		nodeOutput = 0,
 		animationProcessPhysics = 0,
-		animationProcessIdle = 1,
 		nodeAnimation = 1,
+		animationProcessIdle = 1,
 		nodeOneshot = 2,
 		nodeMix = 3,
 		nodeBlend2 = 4,

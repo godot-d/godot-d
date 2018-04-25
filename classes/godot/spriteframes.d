@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SpriteFrames)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_add_animation;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_animation") = _GODOT_add_animation;
 	/**

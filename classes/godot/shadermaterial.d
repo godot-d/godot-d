@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ShaderMaterial)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Shader) _GODOT_set_shader;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_shader") = _GODOT_set_shader;
 	/**

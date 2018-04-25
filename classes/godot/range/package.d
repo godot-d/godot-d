@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Range)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(double) _GODOT_get_value;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_value") = _GODOT_get_value;
 	/**

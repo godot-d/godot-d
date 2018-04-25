@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GeometrySingleton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Array, Vector3) _GODOT_build_box_planes;
 	package(godot) alias _GODOT_methodBindInfo(string name : "build_box_planes") = _GODOT_build_box_planes;
 	/**

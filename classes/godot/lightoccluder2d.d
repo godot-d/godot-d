@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(LightOccluder2D)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, OccluderPolygon2D) _GODOT_set_occluder_polygon;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_occluder_polygon") = _GODOT_set_occluder_polygon;
 	/**

@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ButtonGroup)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(BaseButton) _GODOT_get_pressed_button;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_pressed_button") = _GODOT_get_pressed_button;
 	/**

@@ -42,4 +42,5 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VideoStream)(constructor());
 	}
+	@disable new(size_t s);
 }

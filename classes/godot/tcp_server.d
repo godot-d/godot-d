@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(TCP_Server)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, long, String) _GODOT_listen;
 	package(godot) alias _GODOT_methodBindInfo(string name : "listen") = _GODOT_listen;
 	/**

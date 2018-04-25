@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ResourceInteractiveLoader)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Resource) _GODOT_get_resource;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_resource") = _GODOT_get_resource;
 	/**

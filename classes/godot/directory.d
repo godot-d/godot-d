@@ -63,6 +63,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Directory)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String) _GODOT_open;
 	package(godot) alias _GODOT_methodBindInfo(string name : "open") = _GODOT_open;
 	/**

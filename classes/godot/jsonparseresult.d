@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(JSONParseResult)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError) _GODOT_get_error;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_error") = _GODOT_get_error;
 	/**

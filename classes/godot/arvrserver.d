@@ -53,6 +53,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ARVRServerSingleton)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum RotationMode : int
 	{
@@ -101,10 +102,10 @@ public:
 	enum Constants : int
 	{
 		resetFullRotation = 0,
-		trackerController = 1,
 		resetButKeepTilt = 1,
-		trackerBasestation = 2,
+		trackerController = 1,
 		dontResetRotation = 2,
+		trackerBasestation = 2,
 		trackerAnchor = 4,
 		trackerAnyKnown = 127,
 		trackerUnknown = 128,
@@ -158,7 +159,7 @@ public:
 	package(godot) static GodotMethod!(Transform) _GODOT_get_hmd_transform;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_hmd_transform") = _GODOT_get_hmd_transform;
 	/**
-	
+	Returns the primary interface's transformation.
 	*/
 	Transform getHmdTransform()
 	{
@@ -238,7 +239,7 @@ public:
 	package(godot) static GodotMethod!(void, ARVRInterface) _GODOT_set_primary_interface;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_primary_interface") = _GODOT_set_primary_interface;
 	/**
-	Changes the primary interface to the specified interface. Again mostly exposed for GDNative interfaces.
+	
 	*/
 	void setPrimaryInterface(ARVRInterface _interface)
 	{
@@ -286,6 +287,18 @@ public:
 	@property void worldScale(double v)
 	{
 		setWorldScale(v);
+	}
+	/**
+	
+	*/
+	@property ARVRInterface primaryInterface()
+	{
+		return getPrimaryInterface();
+	}
+	/// ditto
+	@property void primaryInterface(ARVRInterface v)
+	{
+		setPrimaryInterface(v);
 	}
 }
 /// Returns: the ARVRServerSingleton

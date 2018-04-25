@@ -44,4 +44,5 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InputDefault)(constructor());
 	}
+	@disable new(size_t s);
 }

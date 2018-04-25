@@ -47,6 +47,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ColorPickerButton)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, Color) _GODOT_set_pick_color;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_pick_color") = _GODOT_set_pick_color;
 	/**
@@ -117,6 +118,17 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_color_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	package(godot) static GodotMethod!(void) _GODOT__modal_closed;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_modal_closed") = _GODOT__modal_closed;
+	/**
+	
+	*/
+	void _modalClosed()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_modal_closed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**

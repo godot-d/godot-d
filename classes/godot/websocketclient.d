@@ -43,6 +43,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WebSocketClient)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(GodotError, String, PoolStringArray, bool) _GODOT_connect_to_url;
 	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_url") = _GODOT_connect_to_url;
 	/**

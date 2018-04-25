@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PhysicsDirectSpaceState)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Dictionary, Vector3, Vector3, Array, long) _GODOT_intersect_ray;
 	package(godot) alias _GODOT_methodBindInfo(string name : "intersect_ray") = _GODOT_intersect_ray;
 	/**

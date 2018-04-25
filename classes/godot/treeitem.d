@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(TreeItem)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum TreeCellMode : int
 	{
@@ -91,8 +92,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		cellModeString = 0,
 		alignLeft = 0,
+		cellModeString = 0,
 		cellModeCheck = 1,
 		alignCenter = 1,
 		cellModeRange = 2,

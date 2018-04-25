@@ -51,6 +51,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorInterface)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, GodotObject, String) _GODOT_inspect_object;
 	package(godot) alias _GODOT_methodBindInfo(string name : "inspect_object") = _GODOT_inspect_object;
 	/**

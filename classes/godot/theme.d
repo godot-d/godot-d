@@ -49,6 +49,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Theme)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String, String, Texture) _GODOT_set_icon;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_icon") = _GODOT_set_icon;
 	/**

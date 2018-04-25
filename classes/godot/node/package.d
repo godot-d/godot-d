@@ -24,6 +24,7 @@ import godot.inputevent;
 import godot.inputeventkey;
 import godot.scenetree;
 import godot.viewport;
+import godot.multiplayerapi;
 /**
 Base class for all $(I scene) objects.
 
@@ -58,6 +59,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Node)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum PauseMode : int
 	{
@@ -123,12 +125,12 @@ public:
 	{
 		pauseModeInherit = 0,
 		rpcModeDisabled = 0,
+		rpcModeRemote = 1,
 		pauseModeStop = 1,
 		duplicateSignals = 1,
-		rpcModeRemote = 1,
 		duplicateGroups = 2,
-		pauseModeProcess = 2,
 		rpcModeSync = 2,
+		pauseModeProcess = 2,
 		rpcModeMaster = 3,
 		rpcModeSlave = 4,
 		duplicateScripts = 4,
@@ -630,12 +632,42 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_print_tree;
 	package(godot) alias _GODOT_methodBindInfo(string name : "print_tree") = _GODOT_print_tree;
 	/**
-	Prints the scene hierarchy of this node and all it's children to stdout. Used mainly for debugging purposes.
+	Prints the tree to stdout. Used mainly for debugging purposes. This version displays the path relative to the current node, and is good for copy/pasting into the $(D getNode) function. Example output:
+	
+	
+	TheGame
+	TheGame/Menu
+	TheGame/Menu/Label
+	TheGame/Menu/Camera2D
+	TheGame/SplashScreen
+	TheGame/SplashScreen/Camera2D
+	
+	
 	*/
 	void printTree()
 	{
 		_GODOT_print_tree.bind("Node", "print_tree");
 		ptrcall!(void)(_GODOT_print_tree, _godot_object);
+	}
+	package(godot) static GodotMethod!(void) _GODOT_print_tree_pretty;
+	package(godot) alias _GODOT_methodBindInfo(string name : "print_tree_pretty") = _GODOT_print_tree_pretty;
+	/**
+	Similar to $(D printTree), this prints the tree to stdout. This version displays a more graphical representation similar to what is displayed in the scene inspector. It is useful for inspecting larger trees. Example output:
+	
+	
+	 ┖╴TheGame
+	    ┠╴Menu
+	    ┃  ┠╴Label
+	    ┃  ┖╴Camera2D
+	    ┖-SplashScreen
+	       ┖╴Camera2D
+	
+	
+	*/
+	void printTreePretty()
+	{
+		_GODOT_print_tree_pretty.bind("Node", "print_tree_pretty");
+		ptrcall!(void)(_GODOT_print_tree_pretty, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, String) _GODOT_set_filename;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_filename") = _GODOT_set_filename;
@@ -1018,6 +1050,36 @@ public:
 		_GODOT_is_network_master.bind("Node", "is_network_master");
 		return ptrcall!(bool)(_GODOT_is_network_master, _godot_object);
 	}
+	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_multiplayer_api;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_multiplayer_api") = _GODOT_get_multiplayer_api;
+	/**
+	
+	*/
+	Ref!MultiplayerAPI getMultiplayerApi() const
+	{
+		_GODOT_get_multiplayer_api.bind("Node", "get_multiplayer_api");
+		return ptrcall!(MultiplayerAPI)(_GODOT_get_multiplayer_api, _godot_object);
+	}
+	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_custom_multiplayer_api;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_multiplayer_api") = _GODOT_get_custom_multiplayer_api;
+	/**
+	
+	*/
+	Ref!MultiplayerAPI getCustomMultiplayerApi() const
+	{
+		_GODOT_get_custom_multiplayer_api.bind("Node", "get_custom_multiplayer_api");
+		return ptrcall!(MultiplayerAPI)(_GODOT_get_custom_multiplayer_api, _godot_object);
+	}
+	package(godot) static GodotMethod!(void, MultiplayerAPI) _GODOT_set_custom_multiplayer_api;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_multiplayer_api") = _GODOT_set_custom_multiplayer_api;
+	/**
+	
+	*/
+	void setCustomMultiplayerApi(MultiplayerAPI api)
+	{
+		_GODOT_set_custom_multiplayer_api.bind("Node", "set_custom_multiplayer_api");
+		ptrcall!(void)(_GODOT_set_custom_multiplayer_api, _godot_object, api);
+	}
 	package(godot) static GodotMethod!(void, String, long) _GODOT_rpc_config;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rpc_config") = _GODOT_rpc_config;
 	/**
@@ -1238,5 +1300,24 @@ public:
 	@property void owner(GodotObject v)
 	{
 		setOwner(v);
+	}
+	/**
+	
+	*/
+	@property MultiplayerAPI multiplayerApi()
+	{
+		return getMultiplayerApi();
+	}
+	/**
+	
+	*/
+	@property MultiplayerAPI customMultiplayerApi()
+	{
+		return getCustomMultiplayerApi();
+	}
+	/// ditto
+	@property void customMultiplayerApi(MultiplayerAPI v)
+	{
+		setCustomMultiplayerApi(v);
 	}
 }

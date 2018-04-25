@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NativeScript)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, String) _GODOT_set_class_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_class_name") = _GODOT_set_class_name;
 	/**

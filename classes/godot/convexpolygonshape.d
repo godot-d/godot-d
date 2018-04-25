@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ConvexPolygonShape)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(void, PoolVector3Array) _GODOT_set_points;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_points") = _GODOT_set_points;
 	/**

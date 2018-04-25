@@ -44,6 +44,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(StyleBox)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(bool, Vector2, Rect2) _GODOT_test_mask;
 	package(godot) alias _GODOT_methodBindInfo(string name : "test_mask") = _GODOT_test_mask;
 	/**

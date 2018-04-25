@@ -46,6 +46,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(InstancePlaceholder)(constructor());
 	}
+	@disable new(size_t s);
 	package(godot) static GodotMethod!(Dictionary, bool) _GODOT_get_stored_values;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_stored_values") = _GODOT_get_stored_values;
 	/**

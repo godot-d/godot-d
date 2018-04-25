@@ -45,6 +45,7 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Image)(constructor());
 	}
+	@disable new(size_t s);
 	/// 
 	enum AlphaMode : int
 	{
@@ -276,25 +277,25 @@ public:
 	/// 
 	enum Constants : int
 	{
-		compressS3tc = 0,
+		compressSourceGeneric = 0,
 		alphaNone = 0,
+		compressS3tc = 0,
 		formatL8 = 0,
 		interpolateNearest = 0,
-		compressSourceGeneric = 0,
-		interpolateBilinear = 1,
-		compressPvrtc2 = 1,
-		formatLa8 = 1,
-		alphaBit = 1,
 		compressSourceSrgb = 1,
+		compressPvrtc2 = 1,
+		alphaBit = 1,
+		formatLa8 = 1,
+		interpolateBilinear = 1,
 		alphaBlend = 2,
-		interpolateCubic = 2,
 		compressPvrtc4 = 2,
+		interpolateCubic = 2,
 		formatR8 = 2,
 		compressSourceNormal = 2,
-		compressEtc = 3,
 		formatRg8 = 3,
-		formatRgb8 = 4,
+		compressEtc = 3,
 		compressEtc2 = 4,
+		formatRgb8 = 4,
 		formatRgba8 = 5,
 		formatRgba4444 = 6,
 		formatRgba5551 = 7,
@@ -638,6 +639,16 @@ public:
 	{
 		_GODOT_normalmap_to_xy.bind("Image", "normalmap_to_xy");
 		ptrcall!(void)(_GODOT_normalmap_to_xy, _godot_object);
+	}
+	package(godot) static GodotMethod!(void, double) _GODOT_bumpmap_to_normalmap;
+	package(godot) alias _GODOT_methodBindInfo(string name : "bumpmap_to_normalmap") = _GODOT_bumpmap_to_normalmap;
+	/**
+	
+	*/
+	void bumpmapToNormalmap(in double bump_scale = 1)
+	{
+		_GODOT_bumpmap_to_normalmap.bind("Image", "bumpmap_to_normalmap");
+		ptrcall!(void)(_GODOT_bumpmap_to_normalmap, _godot_object, bump_scale);
 	}
 	package(godot) static GodotMethod!(void, Image, Rect2, Vector2) _GODOT_blit_rect;
 	package(godot) alias _GODOT_methodBindInfo(string name : "blit_rect") = _GODOT_blit_rect;
