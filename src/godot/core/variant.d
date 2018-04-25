@@ -391,7 +391,7 @@ struct Variant
 			version(GodotSystemV) /// HACK workaround for DMD issue #5570
 			{
 				godot_vector3 ret = void;
-				auto _func = &_godot_api.godot_variant_as_vector3; // LDC won't link the symbol if it's only inside asm statement
+				void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
 				void* _this = cast(void*)&this; // LDC doesn't allow using `this` directly in asm
 				
 				asm @nogc nothrow

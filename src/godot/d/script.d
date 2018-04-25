@@ -35,6 +35,8 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 			" is not polymorphic to " ~ To.stringof);
 		return opCast!To(); // use D dynamic cast
 	}
+
+	@disable new(size_t s);
 	
 	/// HACK to work around evil bug in which cast(void*) invokes `alias this`
 	/// https://issues.dlang.org/show_bug.cgi?id=6777

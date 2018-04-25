@@ -41,7 +41,6 @@ struct Vector2
 
 		real_t[2] coord;
 	}
-	alias coord this;
 	
 	this(real_t x, real_t y)
 	{
@@ -52,6 +51,18 @@ struct Vector2
 	this(real_t[2] coord)
 	{
 		this.coord = coord;
+	}
+	
+	this(in Vector2 b)
+	{
+		this.x = b.x;
+		this.y = b.y;
+	}
+	
+	void opAssign(in Vector2 b)
+	{
+		this.x = b.x;
+		this.y = b.y;
 	}
 	
 	ref real_t opIndex(int axis)

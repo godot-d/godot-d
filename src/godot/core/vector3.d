@@ -43,7 +43,6 @@ struct Vector3
 
 		real_t[3] coord;
 	}
-	alias coord this;
 
 	this(real_t x, real_t y, real_t z)
 	{
@@ -58,6 +57,13 @@ struct Vector3
 	}
 	
 	this(in Vector3 b)
+	{
+		this.x = b.x;
+		this.y = b.y;
+		this.z = b.z;
+	}
+	
+	void opAssign(in Vector3 b)
 	{
 		this.x = b.x;
 		this.y = b.y;
