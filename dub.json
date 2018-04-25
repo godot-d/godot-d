@@ -27,8 +27,8 @@
 			"description": "A program that binds Godot's C++ classes and GDNative C functions",
 			"dependencies":
 			{
-				"asdf": "~>0.1.8",
-				"dxml": "~>0.2.3",
+				"asdf": "~>0.2.2",
+				"dxml": "~>0.3.1",
 			},
 			"sourcePaths": [ "generator", "common" ]
 		},
