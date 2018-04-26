@@ -391,16 +391,36 @@ struct Variant
 			version(GodotSystemV) /// HACK workaround for DMD issue #5570
 			{
 				godot_vector3 ret = void;
-				void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
-				void* _this = cast(void*)&this; // LDC doesn't allow using `this` directly in asm
-				
-				asm @nogc nothrow
+				version(LDC)
 				{
-					mov RDI, _this;
-					call _func;
+					import ldc.llvmasm;
+					__asm(
+						q{
+							callq $1;
+							
+							movq %rax, $2;
+							movl %edx, $3;
+						},
+						"{rdi}, r, r, r",
+						&this,
+						cast(void*)_godot_api.godot_variant_as_vector3,
+						&ret,
+						(cast(void*)&ret)+8
+					);
+				}
+				else
+				{
+					void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
+					void* _this = cast(void*)&this;
 					
-					mov ret[0], RAX;
-					mov ret[8], EDX;
+					asm @nogc nothrow
+					{
+						mov RDI, _this;
+						call _func;
+						
+						mov ret[0], RAX;
+						mov ret[8], EDX;
+					}
 				}
 			}
 			else InternalType[VarType] ret = Fa(&_godot_variant);
