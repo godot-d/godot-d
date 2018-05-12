@@ -29,7 +29,7 @@ struct ApiVersion
 struct Api
 {
 	ApiPart core;
-	ApiPart[string] extensions;
+	ApiPart[] extensions;
 	
 	@serializationIgnore:
 
@@ -37,7 +37,7 @@ struct Api
 	{
 		string ret = "module godot.c.api;\n\n";
 		ret ~= "import godot.c.core;\n\n";
-		foreach(k, v; extensions) ret ~= "import godot.c." ~ k ~ ";\n";
+		foreach(v; extensions) ret ~= "import godot.c." ~ v.name ~ ";\n";
 		
 		ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
 		ret ~= "import std.format : format;\nimport std.string : capitalize, toLower;\nimport std.conv : text;\n";
@@ -70,17 +70,17 @@ struct Api
 
 		ret ~= "enum ApiType : uint {\n";
 		ret ~= "\t" ~ core.type.toLower ~ ",\n";
-		foreach(name, part; extensions) ret ~= "\t" ~ part.type.toLower ~ ",\n";
+		foreach(part; extensions) ret ~= "\t" ~ part.type.toLower ~ ",\n";
 		ret ~= "}\n";
 		
 		ret ~= "private\n{\n";
 		ret ~= core.versionSource;
-		foreach(name, part; extensions) ret ~= part.versionSource;
+		foreach(part; extensions) ret ~= part.versionSource;
 		ret ~= "}\n";
 		
 		ret ~= "struct GDNativeVersion\n{\n";
 		ret ~= core.versionGetterSource;
-		foreach(name, part; extensions) ret ~= part.versionGetterSource;
+		foreach(part; extensions) ret ~= part.versionGetterSource;
 		ret ~= q{
 			@nogc nothrow
 			static bool opDispatch(string name)()
@@ -93,12 +93,12 @@ struct Api
 		ret ~= "}\n";
 		
 		ret ~= core.source("core");
-		foreach(name, part; extensions)
+		foreach(part; extensions)
 		{
 			ApiPart p = part;
 			while(p)
 			{
-				ret ~= p.source(name);
+				ret ~= p.source(part.name);
 				p = p.next;
 			}
 		}
@@ -154,6 +154,7 @@ struct Api
 
 class ApiPart
 {
+	string name;
 	string type;
 	@serializationKeys("version") ApiVersion ver;
 	Function[] api;
