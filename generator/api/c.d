@@ -4,6 +4,7 @@ import api.util;
 
 import std.string;
 import std.format;
+import std.algorithm.iteration, std.algorithm.comparison;
 
 import asdf;
 
@@ -20,6 +21,11 @@ struct Function
 struct ApiVersion
 {
 	int major, minor;
+	
+	int opCmp(ApiVersion other) const
+	{
+		return cmp([major, minor], [other.major, other.minor]);
+	}
 	
 	@serializationIgnore:
 	
@@ -162,9 +168,11 @@ class ApiPart
 	void finalizeDeserialization(Asdf asdf)
 	{
 		next = asdf["next"].get(ApiPart.init);
+		if(next) next.topLevel = false;
 	}
 	
 	@serializationIgnore:
+	bool topLevel = true; /// is the "main" struct for an extension
 	ApiPart next;
 	
 	string versionID()
@@ -261,7 +269,7 @@ class ApiPart
 		
 		ret ~= "}\n";
 		
-		if(ver == ApiVersion(1, 0))
+		if(topLevel)
 		{
 			ret ~= "__gshared const("~name.structName(ver)~")* "~name.globalVarName~" = null;\n";
 
