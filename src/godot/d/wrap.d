@@ -53,6 +53,21 @@ package(godot) template godotMethods(T)
 		overloadError!godotMethods());
 }
 
+package(godot) template godotSignals(T)
+{
+	enum isSignalExpr(string n) = q{ isCallable!(mixin("T."~n))
+		&& ( hasUDA!(mixin("T."~n), Signal) || is(ReturnType!(mixin("T."~n)) == Signal) ) };
+	template isSignal(string n)
+	{
+		static if( __traits(compiles, mixin(isSignalExpr!n)) )
+		{
+			enum bool isSignal = mixin(isSignalExpr!n);
+		}
+		else enum bool isSignal = false;
+	}
+	alias godotSignals = Filter!(isSignal, __traits(derivedMembers, T));
+}
+
 package(godot) template onReadyFieldNames(T)
 {
 	import godot.node;

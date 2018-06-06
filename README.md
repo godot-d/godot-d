@@ -10,6 +10,7 @@ breaking changes, bugs, and missing documentation. Please report any issues and
 confusing or undocumented features on the GitHub page.
 
 #### Upcoming changes
+- NativeScript resources need to use the fully qualified name of classes.
 - Optional editor import plugin that handles the boilerplate - `.d` files will
   import as NativeScripts and `dub.json`/`dub.sdl` as GDNativeLibrary.
 - Documentation and a tutorial. Delayed so it can use the import plugin. For
@@ -63,11 +64,16 @@ import godot, godot.button;
 
 class TestButton : GodotScript!Button
 {
+	alias owner this;
+	
 	@Property(Property.Hint.range, "1,10") int number = 9;
+	
+	@Signal static void function(String message, int num) sendMessage;
 	
 	@Method void _pressed()
 	{
 		print("Button was pressed. `number` is currently ", number);
+		emitSignal("send_message", "`number` is currently ", number);
 	}
 	
 	...

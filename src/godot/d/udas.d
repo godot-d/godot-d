@@ -43,6 +43,12 @@ struct Method
 }
 
 /++
+A UDA to mark a signal. The signal should be a static function/delegate
+variable that defines the signal's arguments.
++/
+struct Signal { }
+
+/++
 
 +/
 struct OnReady(alias arg)

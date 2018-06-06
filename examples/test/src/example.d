@@ -80,7 +80,7 @@ class Test : GodotScript!Label
 	{
 		writeln(v);
 		return 1;
-	}	
+	}
 	
 	@Method @Rename("formatNum") // rename the method
 	String formatNumbers(real_t r, long i)
@@ -90,13 +90,18 @@ class Test : GodotScript!Label
 		String ret = String(res);
 		return ret;
 	}
-	
+
+	@Signal
+	static void function(String message) sendMessage;
+
 	@Method
 	void _ready()
 	{
 		// the node variables will have been set by OnReady
 		colorRect.setFrameColor(Color(0f, 1f, 0f));
 		longNode.setText(String("This node was set by OnReady"));
+		
+		owner.emitSignal("send_message", "Some text sent by a signal");
 		
 		writefln("owner: %x", cast(void*)owner);
 		// print() will write into Godot's editor output, unlike writeln
@@ -142,6 +147,10 @@ class Test : GodotScript!Label
 		assert(vVec2Ctor.type == Variant.Type.vector2);
 		Vector2 vec2Back = vVec2Ctor.as!Vector2;
 		writefln("vec2Back: %f,%f", vec2Back.x, vec2Back.y);
+		
+		Variant vVec3 = Variant(Vector3(1, 2, 3));
+		Vector3 vec3Back = vVec3.as!Vector3;
+		writefln("vec3Back: %f,%f,%f", vec3Back.x, vec3Back.y, vec3Back.z);
 		
 		String str = String("qwertz");
 		Variant vStr = str;
