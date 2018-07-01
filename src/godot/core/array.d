@@ -175,9 +175,10 @@ struct Array
 		return cast(bool)_godot_api.godot_array_empty(&_godot_array);
 	}
 	
-	void erase(Variant v)
+	void erase(T)(T v)  if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		_godot_api.godot_array_erase(&_godot_array, &v._godot_variant);
+		Variant vv = v;
+		_godot_api.godot_array_erase(&_godot_array, &vv._godot_variant);
 	}
 	
 	Variant front() const
@@ -192,19 +193,22 @@ struct Array
 		return cast(Variant)v;
 	}
 	
-	int find(in Variant what, size_t from)
+	int find(T)(in T what, size_t from) const if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		return _godot_api.godot_array_find(&_godot_array, &what._godot_variant, cast(int)from);
+		const Variant vv = what;
+		return _godot_api.godot_array_find(&_godot_array, &vv._godot_variant, cast(int)from);
 	}
 	
-	int findLast(in Variant what)
+	int findLast(T)(in T what) const if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		return _godot_api.godot_array_find_last(&_godot_array, &what._godot_variant);
+		const Variant vv = what;
+		return _godot_api.godot_array_find_last(&_godot_array, &vv._godot_variant);
 	}
 	
-	bool has(in Variant what) const
+	bool has(T)(in T what) const if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		return cast(bool)_godot_api.godot_array_has(&_godot_array, &what._godot_variant);
+		const Variant vv = what;
+		return cast(bool)_godot_api.godot_array_has(&_godot_array, &vv._godot_variant);
 	}
 	
 	uint hash() const
@@ -212,9 +216,10 @@ struct Array
 		return _godot_api.godot_array_hash(&_godot_array);
 	}
 	
-	void insert(const size_t pos, Variant value)
+	void insert(T)(const size_t pos, T value) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		_godot_api.godot_array_insert(&_godot_array, cast(int)pos, &value._godot_variant);
+		Variant vv = value;
+		_godot_api.godot_array_insert(&_godot_array, cast(int)pos, &vv._godot_variant);
 	}
 	
 	void invert()
@@ -234,14 +239,16 @@ struct Array
 		return cast(Variant)v;
 	}
 	
-	void pushBack(Variant v)
+	void pushBack(T)(T v) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		_godot_api.godot_array_push_back(&_godot_array, &v._godot_variant);
+		Variant vv = v;
+		_godot_api.godot_array_push_back(&_godot_array, &vv._godot_variant);
 	}
 	
-	void pushFront(Variant v)
+	void pushFront(T)(T v) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		_godot_api.godot_array_push_front(&_godot_array, &v._godot_variant);
+		Variant vv = v;
+		_godot_api.godot_array_push_front(&_godot_array, &vv._godot_variant);
 	}
 	
 	void remove(size_t idx)
@@ -260,9 +267,10 @@ struct Array
 		_godot_api.godot_array_resize(&_godot_array, cast(int)size);
 	}
 	
-	int rfind(in Variant what, size_t from)
+	int rfind(T)(in T what, size_t from) const if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
-		return _godot_api.godot_array_rfind(&_godot_array, &what._godot_variant, cast(int)from);
+		const Variant vv = what;
+		return _godot_api.godot_array_rfind(&_godot_array, &vv._godot_variant, cast(int)from);
 	}
 	
 	void sort()

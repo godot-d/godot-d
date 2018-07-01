@@ -4,6 +4,7 @@ import api.util;
 
 import std.string;
 import std.format;
+import std.algorithm.iteration, std.algorithm.comparison;
 
 import asdf;
 
@@ -21,6 +22,11 @@ struct ApiVersion
 {
 	int major, minor;
 	
+	int opCmp(ApiVersion other) const
+	{
+		return cmp([major, minor], [other.major, other.minor]);
+	}
+	
 	@serializationIgnore:
 	
 	string str() { return format!"_%d_%d"(major, minor); }
@@ -29,7 +35,7 @@ struct ApiVersion
 struct Api
 {
 	ApiPart core;
-	ApiPart[string] extensions;
+	ApiPart[] extensions;
 	
 	@serializationIgnore:
 
@@ -37,7 +43,7 @@ struct Api
 	{
 		string ret = "module godot.c.api;\n\n";
 		ret ~= "import godot.c.core;\n\n";
-		foreach(k, v; extensions) ret ~= "import godot.c." ~ k ~ ";\n";
+		foreach(v; extensions) ret ~= "import godot.c." ~ v.name ~ ";\n";
 		
 		ret ~= "import std.meta : AliasSeq, staticIndexOf;\n";
 		ret ~= "import std.format : format;\nimport std.string : capitalize, toLower;\nimport std.conv : text;\n";
@@ -70,17 +76,17 @@ struct Api
 
 		ret ~= "enum ApiType : uint {\n";
 		ret ~= "\t" ~ core.type.toLower ~ ",\n";
-		foreach(name, part; extensions) ret ~= "\t" ~ part.type.toLower ~ ",\n";
+		foreach(part; extensions) ret ~= "\t" ~ part.type.toLower ~ ",\n";
 		ret ~= "}\n";
 		
 		ret ~= "private\n{\n";
 		ret ~= core.versionSource;
-		foreach(name, part; extensions) ret ~= part.versionSource;
+		foreach(part; extensions) ret ~= part.versionSource;
 		ret ~= "}\n";
 		
 		ret ~= "struct GDNativeVersion\n{\n";
 		ret ~= core.versionGetterSource;
-		foreach(name, part; extensions) ret ~= part.versionGetterSource;
+		foreach(part; extensions) ret ~= part.versionGetterSource;
 		ret ~= q{
 			@nogc nothrow
 			static bool opDispatch(string name)()
@@ -93,12 +99,12 @@ struct Api
 		ret ~= "}\n";
 		
 		ret ~= core.source("core");
-		foreach(name, part; extensions)
+		foreach(part; extensions)
 		{
 			ApiPart p = part;
 			while(p)
 			{
-				ret ~= p.source(name);
+				ret ~= p.source(part.name);
 				p = p.next;
 			}
 		}
@@ -154,6 +160,7 @@ struct Api
 
 class ApiPart
 {
+	string name;
 	string type;
 	@serializationKeys("version") ApiVersion ver;
 	Function[] api;
@@ -161,9 +168,11 @@ class ApiPart
 	void finalizeDeserialization(Asdf asdf)
 	{
 		next = asdf["next"].get(ApiPart.init);
+		if(next) next.topLevel = false;
 	}
 	
 	@serializationIgnore:
+	bool topLevel = true; /// is the "main" struct for an extension
 	ApiPart next;
 	
 	string versionID()
@@ -260,7 +269,7 @@ class ApiPart
 		
 		ret ~= "}\n";
 		
-		if(ver == ApiVersion(1, 0))
+		if(topLevel)
 		{
 			ret ~= "__gshared const("~name.structName(ver)~")* "~name.globalVarName~" = null;\n";
 

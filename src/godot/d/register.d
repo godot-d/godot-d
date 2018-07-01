@@ -236,6 +236,36 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
+	foreach(sName; godotSignals!T)
+	{
+		alias s = Alias!(mixin("T."~sName));
+		static assert(hasStaticMember!(T, sName), "Signal declaration "~fullyQualifiedName!s
+			~" must be static. Otherwise it would take up memory in every instance of "~T.stringof);
+		
+		godot_signal gs;
+		(*cast(String*)&gs.name) = String(godotName!s);
+		gs.num_args = Parameters!s.length;
+		
+		static if(Parameters!s.length)
+		{
+			godot_signal_argument[Parameters!s.length] args;
+			gs.args = args.ptr;
+		}
+		
+		foreach(pi, P; Parameters!s)
+		{
+			static assert(Variant.compatible!P, fullyQualifiedName!s~" parameter "~pi.text~" \""
+				~ParameterIdentifierTuple!s[pi]~"\": type "~P.stringof~" is incompatible with Godot");
+			(*cast(String*)&args[pi].name) = (ParameterIdentifierTuple!s[pi].length)
+				? String(ParameterIdentifierTuple!s[pi])
+				: (String(P.stringof) ~ String("Arg") ~ Variant(pi).as!String);
+			args[pi].type = Variant.variantTypeOf!P;
+			args[pi].usage = cast(godot_property_usage_flags)Property.Usage.defaultUsage;
+		}
+		
+		_godot_nativescript_api.godot_nativescript_register_signal(handle, name, &gs);
+	}
+	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
 	foreach(pName; godotPropertyNames!T)
 	{

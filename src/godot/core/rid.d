@@ -25,7 +25,8 @@ struct RID
 	
 	package(godot) godot_rid _godot_rid;
 	
-	this(in Resource resource)
+	/// Get the RID of a Resource
+	this(scope Resource resource)
 	{
 		_godot_api.godot_rid_new_with_resource(&_godot_rid, cast(const godot_object)(cast(void*)resource));
 	}
@@ -34,4 +35,8 @@ struct RID
 	{
 		return _godot_api.godot_rid_get_id(&_godot_rid);
 	}
+
+	///
+	bool isValid() const { return *cast(void**)&_godot_rid !is null; }
+	alias opCast(T : bool) = isValid;
 }

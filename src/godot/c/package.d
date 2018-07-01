@@ -36,5 +36,6 @@ public import godot.c.api,
 	godot.c.core,
 	godot.c.nativescript,
 	godot.c.arvr,
-	godot.c.pluginscript;
+	godot.c.pluginscript,
+	godot.c.android;
 
