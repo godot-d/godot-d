@@ -58,7 +58,7 @@ struct Variant
 		transform2d,
 		plane,
 		quat,// 10
-		rect3,
+		aabb,
 		basis,
 		transform,
 		
