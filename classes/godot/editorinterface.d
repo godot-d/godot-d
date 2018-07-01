@@ -30,7 +30,7 @@ import godot.editorfilesystem;
 /**
 Editor interface and main components.
 
-Editor interface. Allows saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects and provides access to $(D EditorSettings), $(D EditorFileSystem), $(D EditorResourcePreview)\ er, $(D ScriptEditor), the editor viewport, as well as information about scenes. Also see $(D EditorPlugin) and $(D EditorScript).
+Editor interface. Allows saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects and provides access to $(D EditorSettings), $(D EditorFileSystem), $(D EditorResourcePreview), $(D ScriptEditor), the editor viewport, as well as information about scenes. Also see $(D EditorPlugin) and $(D EditorScript).
 */
 @GodotBaseClass struct EditorInterface
 {

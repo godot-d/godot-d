@@ -138,10 +138,10 @@ public:
 		*/
 		noIndexArray = -1,
 		arrayVertex = 0,
-		arrayNormal = 1,
 		arrayFormatVertex = 1,
-		arrayTangent = 2,
+		arrayNormal = 1,
 		arrayFormatNormal = 2,
+		arrayTangent = 2,
 		arrayColor = 3,
 		/**
 		Amount of weights/bone indices per vertex (always 4).
@@ -152,8 +152,8 @@ public:
 		arrayTexUv2 = 5,
 		arrayBones = 6,
 		arrayWeights = 7,
-		arrayIndex = 8,
 		arrayFormatColor = 8,
+		arrayIndex = 8,
 		arrayMax = 9,
 		arrayFormatTexUv = 16,
 		arrayFormatTexUv2 = 32,
@@ -268,7 +268,7 @@ public:
 	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_array_len;
 	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_array_len") = _GODOT_surface_get_array_len;
 	/**
-	Return the length in vertices of the vertex array in the requested surface (see $(D addSurface)).
+	Return the length in vertices of the vertex array in the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetArrayLen(in long surf_idx) const
 	{
@@ -278,7 +278,7 @@ public:
 	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_array_index_len;
 	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_array_index_len") = _GODOT_surface_get_array_index_len;
 	/**
-	Return the length in indices of the index array in the requested surface (see $(D addSurface)).
+	Return the length in indices of the index array in the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetArrayIndexLen(in long surf_idx) const
 	{
@@ -288,7 +288,7 @@ public:
 	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_format;
 	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_format") = _GODOT_surface_get_format;
 	/**
-	Return the format mask of the requested surface (see $(D addSurface)).
+	Return the format mask of the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetFormat(in long surf_idx) const
 	{
@@ -298,7 +298,7 @@ public:
 	package(godot) static GodotMethod!(Mesh.PrimitiveType, long) _GODOT_surface_get_primitive_type;
 	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_primitive_type") = _GODOT_surface_get_primitive_type;
 	/**
-	Return the primitive type of the requested surface (see $(D addSurface)).
+	Return the primitive type of the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	Mesh.PrimitiveType surfaceGetPrimitiveType(in long surf_idx) const
 	{

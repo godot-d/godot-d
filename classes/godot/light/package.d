@@ -132,12 +132,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		bakeDisabled = 0,
 		paramEnergy = 0,
-		paramIndirectEnergy = 1,
+		bakeDisabled = 0,
 		bakeIndirect = 1,
-		paramSpecular = 2,
+		paramIndirectEnergy = 1,
 		bakeAll = 2,
+		paramSpecular = 2,
 		paramRange = 3,
 		paramAttenuation = 4,
 		paramSpotAngle = 5,

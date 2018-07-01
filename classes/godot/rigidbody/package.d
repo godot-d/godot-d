@@ -390,16 +390,6 @@ public:
 		_GODOT_apply_impulse.bind("RigidBody", "apply_impulse");
 		ptrcall!(void)(_GODOT_apply_impulse, _godot_object, position, impulse);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_apply_torque_impulse;
-	package(godot) alias _GODOT_methodBindInfo(string name : "apply_torque_impulse") = _GODOT_apply_torque_impulse;
-	/**
-	Apply a torque impulse (which will be affected by the body mass and shape). This will rotate the body around the passed in vector.
-	*/
-	void applyTorqueImpulse(in Vector3 impulse)
-	{
-		_GODOT_apply_torque_impulse.bind("RigidBody", "apply_torque_impulse");
-		ptrcall!(void)(_GODOT_apply_torque_impulse, _godot_object, impulse);
-	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_sleeping;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_sleeping") = _GODOT_set_sleeping;
 	/**

@@ -205,10 +205,6 @@ public:
 		
 		*/
 		growDirectionEnd = 1,
-		/**
-		
-		*/
-		growDirectionBoth = 2,
 	}
 	/// 
 	enum SizeFlags : int
@@ -306,43 +302,42 @@ public:
 	enum Constants : int
 	{
 		cursorArrow = 0,
-		mouseFilterStop = 0,
 		growDirectionBegin = 0,
-		presetModeMinsize = 0,
-		focusNone = 0,
 		anchorBegin = 0,
+		presetModeMinsize = 0,
 		presetTopLeft = 0,
-		presetModeKeepWidth = 1,
+		focusNone = 0,
+		mouseFilterStop = 0,
 		cursorIbeam = 1,
-		anchorEnd = 1,
-		focusClick = 1,
-		growDirectionEnd = 1,
 		sizeFill = 1,
+		focusClick = 1,
+		anchorEnd = 1,
+		presetModeKeepWidth = 1,
+		growDirectionEnd = 1,
 		mouseFilterPass = 1,
 		presetTopRight = 1,
-		sizeExpand = 2,
 		focusAll = 2,
-		presetModeKeepHeight = 2,
-		growDirectionBoth = 2,
+		sizeExpand = 2,
+		cursorPointingHand = 2,
 		presetBottomLeft = 2,
 		mouseFilterIgnore = 2,
-		cursorPointingHand = 2,
+		presetModeKeepHeight = 2,
 		cursorCross = 3,
-		presetModeKeepSize = 3,
 		sizeExpandFill = 3,
+		presetModeKeepSize = 3,
 		presetBottomRight = 3,
-		presetCenterLeft = 4,
 		sizeShrinkCenter = 4,
+		presetCenterLeft = 4,
 		cursorWait = 4,
-		presetCenterTop = 5,
 		cursorBusy = 5,
-		presetCenterRight = 6,
+		presetCenterTop = 5,
 		cursorDrag = 6,
-		presetCenterBottom = 7,
+		presetCenterRight = 6,
 		cursorCanDrop = 7,
+		presetCenterBottom = 7,
+		sizeShrinkEnd = 8,
 		cursorForbidden = 8,
 		presetCenter = 8,
-		sizeShrinkEnd = 8,
 		cursorVsize = 9,
 		presetLeftWide = 9,
 		presetTopWide = 10,
@@ -353,8 +348,8 @@ public:
 		presetBottomWide = 12,
 		presetVcenterWide = 13,
 		cursorMove = 13,
-		cursorVsplit = 14,
 		presetHcenterWide = 14,
+		cursorVsplit = 14,
 		cursorHsplit = 15,
 		presetWide = 15,
 		cursorHelp = 16,
@@ -1080,7 +1075,7 @@ public:
 	package(godot) static GodotMethod!(void, String, long) _GODOT_add_constant_override;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_constant_override") = _GODOT_add_constant_override;
 	/**
-	Overrides an integer constant in the $(D Theme) resource the node uses. If the `constant` is invalid, Godot clears the override. See $(D Theme.invalidConstant) for more information.
+	Overrides an integer constant in the $(D theme) resource the node uses. If the `constant` is invalid, Godot clears the override. See $(D Theme.invalidConstant) for more information.
 	*/
 	void addConstantOverride(StringArg0)(in StringArg0 name, in long constant)
 	{

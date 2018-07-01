@@ -55,16 +55,6 @@ public:
 		_GODOT_get_config_file.bind("GDNativeLibrary", "get_config_file");
 		return ptrcall!(ConfigFile)(_GODOT_get_config_file, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, ConfigFile) _GODOT_set_config_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_config_file") = _GODOT_set_config_file;
-	/**
-	
-	*/
-	void setConfigFile(ConfigFile config_file)
-	{
-		_GODOT_set_config_file.bind("GDNativeLibrary", "set_config_file");
-		ptrcall!(void)(_GODOT_set_config_file, _godot_object, config_file);
-	}
 	package(godot) static GodotMethod!(String) _GODOT_get_current_library_path;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_library_path") = _GODOT_get_current_library_path;
 	/**
@@ -164,18 +154,6 @@ public:
 	{
 		_GODOT_set_reloadable.bind("GDNativeLibrary", "set_reloadable");
 		ptrcall!(void)(_GODOT_set_reloadable, _godot_object, reloadable);
-	}
-	/**
-	
-	*/
-	@property ConfigFile configFile()
-	{
-		return getConfigFile();
-	}
-	/// ditto
-	@property void configFile(ConfigFile v)
-	{
-		setConfigFile(v);
 	}
 	/**
 	

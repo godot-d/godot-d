@@ -1,5 +1,5 @@
 /**
-
+Type of $(D Sky) that is generated procedurally based on user input parameters.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,10 @@ import godot.classdb;
 import godot.sky;
 import godot.image;
 /**
+Type of $(D Sky) that is generated procedurally based on user input parameters.
 
+ProceduralSky provides a way to create an effective background quickly by defining procedural parameters for the sun, the sky and the ground. The sky and ground are very similar, they are defined by a color at the horizon, another color, and finally an easing curve to interpolate between these two colors. Similarly the sun is described by a position in the sky, a color, and an easing curve. However, the sun also defines a minimum and maximum angle, these two values define at what distance the easing curve begins and ends from the sun, and thus end up defining the size of the sun in the sky.
+The ProceduralSky is updated on the CPU after the parameters change and stored in a texture and then displayed as a background in the scene. This makes it relatively unsuitable for realtime updates during gameplay. But with a small texture size it is still feasible to update relatively frequently becuase it is updated on a background thread when multi-threading is available.
 */
 @GodotBaseClass struct ProceduralSky
 {
@@ -427,7 +430,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Color of the sky at the top.
 	*/
 	@property Color skyTopColor()
 	{
@@ -439,7 +442,7 @@ public:
 		setSkyTopColor(v);
 	}
 	/**
-	
+	Color of the sky at the horizon.
 	*/
 	@property Color skyHorizonColor()
 	{
@@ -451,7 +454,7 @@ public:
 		setSkyHorizonColor(v);
 	}
 	/**
-	
+	How quickly the $(D skyHorizonColor) fades into the $(D skyTopColor).
 	*/
 	@property double skyCurve()
 	{
@@ -463,7 +466,7 @@ public:
 		setSkyCurve(v);
 	}
 	/**
-	
+	Amount of energy contribution from the sky.
 	*/
 	@property double skyEnergy()
 	{
@@ -475,7 +478,7 @@ public:
 		setSkyEnergy(v);
 	}
 	/**
-	
+	Color of the ground at the bottom.
 	*/
 	@property Color groundBottomColor()
 	{
@@ -487,7 +490,7 @@ public:
 		setGroundBottomColor(v);
 	}
 	/**
-	
+	Color of the ground at the horizon.
 	*/
 	@property Color groundHorizonColor()
 	{
@@ -499,7 +502,7 @@ public:
 		setGroundHorizonColor(v);
 	}
 	/**
-	
+	How quickly the $(D groundHorizonColor) fades into the $(D groundBottomColor).
 	*/
 	@property double groundCurve()
 	{
@@ -511,7 +514,7 @@ public:
 		setGroundCurve(v);
 	}
 	/**
-	
+	Amount of energy contribution from the ground.
 	*/
 	@property double groundEnergy()
 	{
@@ -523,7 +526,7 @@ public:
 		setGroundEnergy(v);
 	}
 	/**
-	
+	Color of the sun.
 	*/
 	@property Color sunColor()
 	{
@@ -535,7 +538,7 @@ public:
 		setSunColor(v);
 	}
 	/**
-	
+	The suns height using polar coordinates.
 	*/
 	@property double sunLatitude()
 	{
@@ -547,7 +550,7 @@ public:
 		setSunLatitude(v);
 	}
 	/**
-	
+	The direction of the sun using polar coordinates.
 	*/
 	@property double sunLongitude()
 	{
@@ -559,7 +562,7 @@ public:
 		setSunLongitude(v);
 	}
 	/**
-	
+	Distance from sun where it goes from solid to starting to fade.
 	*/
 	@property double sunAngleMin()
 	{
@@ -571,7 +574,7 @@ public:
 		setSunAngleMin(v);
 	}
 	/**
-	
+	Distance from center of sun where it fades out completely.
 	*/
 	@property double sunAngleMax()
 	{
@@ -583,7 +586,7 @@ public:
 		setSunAngleMax(v);
 	}
 	/**
-	
+	How quickly the sun fades away between $(D sunAngleMin) and $(D sunAngleMax)
 	*/
 	@property double sunCurve()
 	{
@@ -595,7 +598,7 @@ public:
 		setSunCurve(v);
 	}
 	/**
-	
+	Amount of energy contribution from the sun.
 	*/
 	@property double sunEnergy()
 	{
@@ -607,7 +610,7 @@ public:
 		setSunEnergy(v);
 	}
 	/**
-	
+	Size of $(D Texture) that the ProceduralSky will generate.
 	*/
 	@property ProceduralSky.TextureSize textureSize()
 	{

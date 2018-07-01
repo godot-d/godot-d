@@ -173,16 +173,6 @@ public:
 		_GODOT_get_transform.bind("PhysicsDirectBodyState", "get_transform");
 		return ptrcall!(Transform)(_GODOT_get_transform, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_add_central_force;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_central_force") = _GODOT_add_central_force;
-	/**
-	
-	*/
-	void addCentralForce(in Vector3 force)
-	{
-		_GODOT_add_central_force.bind("PhysicsDirectBodyState", "add_central_force");
-		ptrcall!(void)(_GODOT_add_central_force, _godot_object, force);
-	}
 	package(godot) static GodotMethod!(void, Vector3, Vector3) _GODOT_add_force;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_force") = _GODOT_add_force;
 	/**
@@ -193,16 +183,6 @@ public:
 		_GODOT_add_force.bind("PhysicsDirectBodyState", "add_force");
 		ptrcall!(void)(_GODOT_add_force, _godot_object, force, position);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_add_torque;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_torque") = _GODOT_add_torque;
-	/**
-	
-	*/
-	void addTorque(in Vector3 torque)
-	{
-		_GODOT_add_torque.bind("PhysicsDirectBodyState", "add_torque");
-		ptrcall!(void)(_GODOT_add_torque, _godot_object, torque);
-	}
 	package(godot) static GodotMethod!(void, Vector3, Vector3) _GODOT_apply_impulse;
 	package(godot) alias _GODOT_methodBindInfo(string name : "apply_impulse") = _GODOT_apply_impulse;
 	/**
@@ -212,6 +192,16 @@ public:
 	{
 		_GODOT_apply_impulse.bind("PhysicsDirectBodyState", "apply_impulse");
 		ptrcall!(void)(_GODOT_apply_impulse, _godot_object, position, j);
+	}
+	package(godot) static GodotMethod!(void, Vector3) _GODOT_apply_torqe_impulse;
+	package(godot) alias _GODOT_methodBindInfo(string name : "apply_torqe_impulse") = _GODOT_apply_torqe_impulse;
+	/**
+	
+	*/
+	void applyTorqeImpulse(in Vector3 j)
+	{
+		_GODOT_apply_torqe_impulse.bind("PhysicsDirectBodyState", "apply_torqe_impulse");
+		ptrcall!(void)(_GODOT_apply_torqe_impulse, _godot_object, j);
 	}
 	package(godot) static GodotMethod!(void, Vector3) _GODOT_apply_torque_impulse;
 	package(godot) alias _GODOT_methodBindInfo(string name : "apply_torque_impulse") = _GODOT_apply_torque_impulse;

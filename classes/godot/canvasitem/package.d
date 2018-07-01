@@ -23,7 +23,6 @@ import godot.node;
 import godot.texture;
 import godot.stylebox;
 import godot.font;
-import godot.mesh;
 import godot.world2d;
 import godot.material;
 import godot.inputevent;
@@ -188,28 +187,16 @@ public:
 		String _GODOT_method_name = String("_edit_get_position");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT__edit_set_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_scale") = _GODOT__edit_set_scale;
+	package(godot) static GodotMethod!(bool) _GODOT__edit_use_position;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_position") = _GODOT__edit_use_position;
 	/**
 	
 	*/
-	void _editSetScale(in Vector2 scale)
+	bool _editUsePosition() const
 	{
 		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(scale);
-		String _GODOT_method_name = String("_edit_set_scale");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	package(godot) static GodotMethod!(Vector2) _GODOT__edit_get_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_scale") = _GODOT__edit_get_scale;
-	/**
-	
-	*/
-	Vector2 _editGetScale() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_edit_get_scale");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
+		String _GODOT_method_name = String("_edit_use_position");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	package(godot) static GodotMethod!(void, Rect2) _GODOT__edit_set_rect;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_rect") = _GODOT__edit_set_rect;
@@ -676,26 +663,6 @@ public:
 	{
 		_GODOT_draw_char.bind("CanvasItem", "draw_char");
 		return ptrcall!(double)(_GODOT_draw_char, _godot_object, font, position, _char, next, modulate);
-	}
-	package(godot) static GodotMethod!(void, Mesh, Texture, Texture) _GODOT_draw_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_mesh") = _GODOT_draw_mesh;
-	/**
-	
-	*/
-	void drawMesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init)
-	{
-		_GODOT_draw_mesh.bind("CanvasItem", "draw_mesh");
-		ptrcall!(void)(_GODOT_draw_mesh, _godot_object, mesh, texture, normal_map);
-	}
-	package(godot) static GodotMethod!(void, Mesh, Texture, Texture) _GODOT_draw_multimesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_multimesh") = _GODOT_draw_multimesh;
-	/**
-	
-	*/
-	void drawMultimesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init)
-	{
-		_GODOT_draw_multimesh.bind("CanvasItem", "draw_multimesh");
-		ptrcall!(void)(_GODOT_draw_multimesh, _godot_object, mesh, texture, normal_map);
 	}
 	package(godot) static GodotMethod!(void, Vector2, double, Vector2) _GODOT_draw_set_transform;
 	package(godot) alias _GODOT_methodBindInfo(string name : "draw_set_transform") = _GODOT_draw_set_transform;

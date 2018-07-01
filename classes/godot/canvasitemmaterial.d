@@ -93,8 +93,8 @@ public:
 		blendModeMix = 0,
 		blendModeAdd = 1,
 		lightModeUnshaded = 1,
-		lightModeLightOnly = 2,
 		blendModeSub = 2,
+		lightModeLightOnly = 2,
 		blendModeMul = 3,
 		blendModePremultAlpha = 4,
 	}

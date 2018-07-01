@@ -65,6 +65,16 @@ public:
 		_GODOT_get_device.bind("InputEvent", "get_device");
 		return ptrcall!(long)(_GODOT_get_device, _godot_object);
 	}
+	package(godot) static GodotMethod!(bool) _GODOT_is_pressed;
+	package(godot) alias _GODOT_methodBindInfo(string name : "is_pressed") = _GODOT_is_pressed;
+	/**
+	Returns `true` if this input event is pressed. Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
+	*/
+	bool isPressed() const
+	{
+		_GODOT_is_pressed.bind("InputEvent", "is_pressed");
+		return ptrcall!(bool)(_GODOT_is_pressed, _godot_object);
+	}
 	package(godot) static GodotMethod!(bool, String) _GODOT_is_action;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_action") = _GODOT_is_action;
 	/**
@@ -95,26 +105,6 @@ public:
 		_GODOT_is_action_released.bind("InputEvent", "is_action_released");
 		return ptrcall!(bool)(_GODOT_is_action_released, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_get_action_strength;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_action_strength") = _GODOT_get_action_strength;
-	/**
-	
-	*/
-	double getActionStrength(StringArg0)(in StringArg0 action) const
-	{
-		_GODOT_get_action_strength.bind("InputEvent", "get_action_strength");
-		return ptrcall!(double)(_GODOT_get_action_strength, _godot_object, action);
-	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_pressed") = _GODOT_is_pressed;
-	/**
-	Returns `true` if this input event is pressed. Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
-	*/
-	bool isPressed() const
-	{
-		_GODOT_is_pressed.bind("InputEvent", "is_pressed");
-		return ptrcall!(bool)(_GODOT_is_pressed, _godot_object);
-	}
 	package(godot) static GodotMethod!(bool) _GODOT_is_echo;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_echo") = _GODOT_is_echo;
 	/**
@@ -134,6 +124,16 @@ public:
 	{
 		_GODOT_as_text.bind("InputEvent", "as_text");
 		return ptrcall!(String)(_GODOT_as_text, _godot_object);
+	}
+	package(godot) static GodotMethod!(bool, InputEvent) _GODOT_action_match;
+	package(godot) alias _GODOT_methodBindInfo(string name : "action_match") = _GODOT_action_match;
+	/**
+	
+	*/
+	bool actionMatch(InputEvent event) const
+	{
+		_GODOT_action_match.bind("InputEvent", "action_match");
+		return ptrcall!(bool)(_GODOT_action_match, _godot_object, event);
 	}
 	package(godot) static GodotMethod!(bool, InputEvent) _GODOT_shortcut_match;
 	package(godot) alias _GODOT_methodBindInfo(string name : "shortcut_match") = _GODOT_shortcut_match;

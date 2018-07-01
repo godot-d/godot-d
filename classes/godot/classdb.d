@@ -145,7 +145,7 @@ public:
 	package(godot) static GodotMethod!(Array, String, bool) _GODOT_class_get_signal_list;
 	package(godot) alias _GODOT_methodBindInfo(string name : "class_get_signal_list") = _GODOT_class_get_signal_list;
 	/**
-	Returns an array with all the signals of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) as described in $(D class_get_signal).
+	Returns an array with all the signals of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) as described in $(D classGetSignal).
 	*/
 	Array classGetSignalList(StringArg0)(in StringArg0 _class, in bool no_inheritance = false) const
 	{

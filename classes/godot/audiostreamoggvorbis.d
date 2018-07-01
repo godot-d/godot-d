@@ -110,7 +110,7 @@ public:
 		return ptrcall!(double)(_GODOT_get_loop_offset, _godot_object);
 	}
 	/**
-	
+	Contains the audio data in bytes.
 	*/
 	@property PoolByteArray data()
 	{

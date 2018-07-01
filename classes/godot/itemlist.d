@@ -165,26 +165,6 @@ public:
 		_GODOT_get_item_icon_region.bind("ItemList", "get_item_icon_region");
 		return ptrcall!(Rect2)(_GODOT_get_item_icon_region, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Color) _GODOT_set_item_icon_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_icon_modulate") = _GODOT_set_item_icon_modulate;
-	/**
-	Sets a modulating $(D Color) for item's icon at the specified index.
-	*/
-	void setItemIconModulate(in long idx, in Color modulate)
-	{
-		_GODOT_set_item_icon_modulate.bind("ItemList", "set_item_icon_modulate");
-		ptrcall!(void)(_GODOT_set_item_icon_modulate, _godot_object, idx, modulate);
-	}
-	package(godot) static GodotMethod!(Color, long) _GODOT_get_item_icon_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_icon_modulate") = _GODOT_get_item_icon_modulate;
-	/**
-	Returns a $(D Color) modulating item's icon at the specified index.
-	*/
-	Color getItemIconModulate(in long idx) const
-	{
-		_GODOT_get_item_icon_modulate.bind("ItemList", "get_item_icon_modulate");
-		return ptrcall!(Color)(_GODOT_get_item_icon_modulate, _godot_object, idx);
-	}
 	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_item_selectable;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_selectable") = _GODOT_set_item_selectable;
 	/**
@@ -327,16 +307,6 @@ public:
 		_GODOT_unselect.bind("ItemList", "unselect");
 		ptrcall!(void)(_GODOT_unselect, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_unselect_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unselect_all") = _GODOT_unselect_all;
-	/**
-	Ensure there are no items selected.
-	*/
-	void unselectAll()
-	{
-		_GODOT_unselect_all.bind("ItemList", "unselect_all");
-		ptrcall!(void)(_GODOT_unselect_all, _godot_object);
-	}
 	package(godot) static GodotMethod!(bool, long) _GODOT_is_selected;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_selected") = _GODOT_is_selected;
 	/**
@@ -356,16 +326,6 @@ public:
 	{
 		_GODOT_get_selected_items.bind("ItemList", "get_selected_items");
 		return ptrcall!(PoolIntArray)(_GODOT_get_selected_items, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_move_item;
-	package(godot) alias _GODOT_methodBindInfo(string name : "move_item") = _GODOT_move_item;
-	/**
-	Moves item at index `from_idx` to `to_idx`.
-	*/
-	void moveItem(in long from_idx, in long to_idx)
-	{
-		_GODOT_move_item.bind("ItemList", "move_item");
-		ptrcall!(void)(_GODOT_move_item, _godot_object, from_idx, to_idx);
 	}
 	package(godot) static GodotMethod!(long) _GODOT_get_item_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_count") = _GODOT_get_item_count;
@@ -626,16 +586,6 @@ public:
 	{
 		_GODOT_has_auto_height.bind("ItemList", "has_auto_height");
 		return ptrcall!(bool)(_GODOT_has_auto_height, _godot_object);
-	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_anything_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_anything_selected") = _GODOT_is_anything_selected;
-	/**
-	Returns `true` if one or more items are selected.
-	*/
-	bool isAnythingSelected()
-	{
-		_GODOT_is_anything_selected.bind("ItemList", "is_anything_selected");
-		return ptrcall!(bool)(_GODOT_is_anything_selected, _godot_object);
 	}
 	package(godot) static GodotMethod!(long, Vector2, bool) _GODOT_get_item_at_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_at_position") = _GODOT_get_item_at_position;

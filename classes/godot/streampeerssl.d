@@ -74,16 +74,6 @@ public:
 		statusErrorNoCertificate = 2,
 		statusErrorHostnameMismatch = 3,
 	}
-	package(godot) static GodotMethod!(void) _GODOT_poll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "poll") = _GODOT_poll;
-	/**
-	Poll the connection to check for incoming bytes. Call this right before "get_available_bytes()" for it to work properly.
-	*/
-	void poll()
-	{
-		_GODOT_poll.bind("StreamPeerSSL", "poll");
-		ptrcall!(void)(_GODOT_poll, _godot_object);
-	}
 	package(godot) static GodotMethod!(GodotError, StreamPeer) _GODOT_accept_stream;
 	package(godot) alias _GODOT_methodBindInfo(string name : "accept_stream") = _GODOT_accept_stream;
 	/**

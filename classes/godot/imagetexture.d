@@ -105,7 +105,7 @@ public:
 	package(godot) static GodotMethod!(void, String) _GODOT_load;
 	package(godot) alias _GODOT_methodBindInfo(string name : "load") = _GODOT_load;
 	/**
-	Load an `ImageTexture`.
+	Load an `ImageTexture` from a file path.
 	*/
 	void load(StringArg0)(in StringArg0 path)
 	{

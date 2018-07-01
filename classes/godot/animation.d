@@ -98,12 +98,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		updateContinuous = 0,
 		interpolationNearest = 0,
+		updateContinuous = 0,
 		typeValue = 0,
-		interpolationLinear = 1,
 		typeTransform = 1,
 		updateDiscrete = 1,
+		interpolationLinear = 1,
 		updateTrigger = 2,
 		typeMethod = 2,
 		interpolationCubic = 2,

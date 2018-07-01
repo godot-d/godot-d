@@ -48,7 +48,6 @@ Band 18 : 8000 Hz
 Band 19 : 11000 Hz
 Band 20 : 16000 Hz
 Band 21 : 22000 Hz
-
 See also $(D AudioEffectEQ), $(D AudioEffectEQ6), $(D AudioEffectEQ10).
 */
 @GodotBaseClass struct AudioEffectEQ21

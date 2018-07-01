@@ -102,10 +102,10 @@ public:
 	enum Constants : int
 	{
 		resetFullRotation = 0,
-		resetButKeepTilt = 1,
 		trackerController = 1,
-		dontResetRotation = 2,
+		resetButKeepTilt = 1,
 		trackerBasestation = 2,
+		dontResetRotation = 2,
 		trackerAnchor = 4,
 		trackerAnyKnown = 127,
 		trackerUnknown = 128,
@@ -287,18 +287,6 @@ public:
 	@property void worldScale(double v)
 	{
 		setWorldScale(v);
-	}
-	/**
-	
-	*/
-	@property ARVRInterface primaryInterface()
-	{
-		return getPrimaryInterface();
-	}
-	/// ditto
-	@property void primaryInterface(ARVRInterface v)
-	{
-		setPrimaryInterface(v);
 	}
 }
 /// Returns: the ARVRServerSingleton

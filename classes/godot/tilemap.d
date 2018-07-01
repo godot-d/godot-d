@@ -106,11 +106,11 @@ public:
 		halfOffsetX = 0,
 		tileOriginTopLeft = 0,
 		tileOriginCenter = 1,
-		halfOffsetY = 1,
 		modeIsometric = 1,
+		halfOffsetY = 1,
 		modeCustom = 2,
-		tileOriginBottomLeft = 2,
 		halfOffsetDisabled = 2,
+		tileOriginBottomLeft = 2,
 	}
 	package(godot) static GodotMethod!(void, TileSet) _GODOT_set_tileset;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_tileset") = _GODOT_set_tileset;
@@ -378,7 +378,7 @@ public:
 	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_layer_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer_bit") = _GODOT_set_collision_layer_bit;
 	/**
-	Set any collision layer to be `true` or `false`.
+	Sets the given collision layer bit.
 	*/
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
@@ -388,7 +388,7 @@ public:
 	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_layer_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_layer_bit") = _GODOT_get_collision_layer_bit;
 	/**
-	
+	Returns `true` if the given collision layer bit is set.
 	*/
 	bool getCollisionLayerBit(in long bit) const
 	{
@@ -398,7 +398,7 @@ public:
 	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_mask_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask_bit") = _GODOT_set_collision_mask_bit;
 	/**
-	
+	Sets the given collision mask bit.
 	*/
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
@@ -408,7 +408,7 @@ public:
 	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_mask_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask_bit") = _GODOT_get_collision_mask_bit;
 	/**
-	
+	Returns `true` if the given collision mask bit is set.
 	*/
 	bool getCollisionMaskBit(in long bit) const
 	{
@@ -478,9 +478,9 @@ public:
 	package(godot) static GodotMethod!(void, long, long, long, bool, bool, bool, Vector2) _GODOT_set_cell;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_cell") = _GODOT_set_cell;
 	/**
-	Set the tile index for the cell referenced by its grid-based X and Y coordinates.
-	A tile index of -1 clears the cell.
-	Optionally, the tile can also be flipped over the X and Y coordinates, transposed, or be given autotile coordinates.
+	Sets the tile index for the cell given by a Vector2.
+	An index of `-1` clears the cell.
+	Optionally, the tile can also be flipped, transposed, or given autotile coordinates.
 	*/
 	void setCell(in long x, in long y, in long tile, in bool flip_x = false, in bool flip_y = false, in bool transpose = false, in Vector2 autotile_coord = Vector2(0, 0))
 	{
@@ -490,9 +490,9 @@ public:
 	package(godot) static GodotMethod!(void, Vector2, long, bool, bool, bool) _GODOT_set_cellv;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_cellv") = _GODOT_set_cellv;
 	/**
-	Set the tile index for the cell referenced by a Vector2 of grid-based coordinates.
-	A tile index of -1 clears the cell.
-	Optionally, the tile can also be flipped over the X and Y axes or transposed.
+	Sets the tile index for the given cell.
+	An index of `-1` clears the cell.
+	Optionally, the tile can also be flipped or transposed.
 	*/
 	void setCellv(in Vector2 position, in long tile, in bool flip_x = false, in bool flip_y = false, in bool transpose = false)
 	{
@@ -502,7 +502,7 @@ public:
 	package(godot) static GodotMethod!(long, long, long) _GODOT_get_cell;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_cell") = _GODOT_get_cell;
 	/**
-	Return the tile index of the referenced cell.
+	Returns the tile index of the given cell.
 	*/
 	long getCell(in long x, in long y) const
 	{
@@ -512,7 +512,7 @@ public:
 	package(godot) static GodotMethod!(long, Vector2) _GODOT_get_cellv;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_cellv") = _GODOT_get_cellv;
 	/**
-	Return the tile index of the cell referenced by a Vector2.
+	Returns the tile index of the cell given by a Vector2.
 	*/
 	long getCellv(in Vector2 position) const
 	{
@@ -522,7 +522,7 @@ public:
 	package(godot) static GodotMethod!(bool, long, long) _GODOT_is_cell_x_flipped;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_cell_x_flipped") = _GODOT_is_cell_x_flipped;
 	/**
-	Return whether the referenced cell is flipped over the X axis.
+	Returns `true` if the given cell is flipped in the x axis.
 	*/
 	bool isCellXFlipped(in long x, in long y) const
 	{
@@ -532,7 +532,7 @@ public:
 	package(godot) static GodotMethod!(bool, long, long) _GODOT_is_cell_y_flipped;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_cell_y_flipped") = _GODOT_is_cell_y_flipped;
 	/**
-	Return whether the referenced cell is flipped over the Y axis.
+	Returns `true` if the given cell is flipped in the y axis.
 	*/
 	bool isCellYFlipped(in long x, in long y) const
 	{
@@ -542,27 +542,17 @@ public:
 	package(godot) static GodotMethod!(bool, long, long) _GODOT_is_cell_transposed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_cell_transposed") = _GODOT_is_cell_transposed;
 	/**
-	Return whether the referenced cell is transposed, i.e. the X and Y axes are swapped (mirroring with regard to the (1,1) vector).
+	Returns `true` if the given cell is transposed, i.e. the x and y axes are swapped.
 	*/
 	bool isCellTransposed(in long x, in long y) const
 	{
 		_GODOT_is_cell_transposed.bind("TileMap", "is_cell_transposed");
 		return ptrcall!(bool)(_GODOT_is_cell_transposed, _godot_object, x, y);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_fix_invalid_tiles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "fix_invalid_tiles") = _GODOT_fix_invalid_tiles;
-	/**
-	Clear cells that does not exist in the tileset.
-	*/
-	void fixInvalidTiles()
-	{
-		_GODOT_fix_invalid_tiles.bind("TileMap", "fix_invalid_tiles");
-		ptrcall!(void)(_GODOT_fix_invalid_tiles, _godot_object);
-	}
 	package(godot) static GodotMethod!(void) _GODOT_clear;
 	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
-	Clear all cells.
+	Clears all cells.
 	*/
 	void clear()
 	{
@@ -572,7 +562,7 @@ public:
 	package(godot) static GodotMethod!(Array) _GODOT_get_used_cells;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_used_cells") = _GODOT_get_used_cells;
 	/**
-	Return an array of all cells containing a tile from the tileset (i.e. a tile index different from -1).
+	Returns an array of all cells containing a tile from the tileset (i.e. a tile index different from `-1`).
 	*/
 	Array getUsedCells() const
 	{
@@ -582,7 +572,7 @@ public:
 	package(godot) static GodotMethod!(Array, long) _GODOT_get_used_cells_by_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_used_cells_by_id") = _GODOT_get_used_cells_by_id;
 	/**
-	
+	Returns an array of all cells with the given tile id.
 	*/
 	Array getUsedCellsById(in long id) const
 	{
@@ -592,7 +582,7 @@ public:
 	package(godot) static GodotMethod!(Rect2) _GODOT_get_used_rect;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_used_rect") = _GODOT_get_used_rect;
 	/**
-	
+	Returns a rectangle enclosing the used (non-empty) tiles of the map.
 	*/
 	Rect2 getUsedRect()
 	{
@@ -602,8 +592,8 @@ public:
 	package(godot) static GodotMethod!(Vector2, Vector2, bool) _GODOT_map_to_world;
 	package(godot) alias _GODOT_methodBindInfo(string name : "map_to_world") = _GODOT_map_to_world;
 	/**
-	Return the absolute world position corresponding to the tilemap (grid-based) coordinates given as an argument.
-	Optionally, the tilemap's potential half offset can be ignored.
+	Returns the global position corresponding to the given tilemap (grid-based) coordinates.
+	Optionally, the tilemap's half offset can be ignored.
 	*/
 	Vector2 mapToWorld(in Vector2 map_position, in bool ignore_half_ofs = false) const
 	{
@@ -613,7 +603,7 @@ public:
 	package(godot) static GodotMethod!(Vector2, Vector2) _GODOT_world_to_map;
 	package(godot) alias _GODOT_methodBindInfo(string name : "world_to_map") = _GODOT_world_to_map;
 	/**
-	Return the tilemap (grid-based) coordinates corresponding to the absolute world position given as an argument.
+	Returns the tilemap (grid-based) coordinatescorresponding to the given global position.
 	*/
 	Vector2 worldToMap(in Vector2 world_position) const
 	{
@@ -656,7 +646,7 @@ public:
 	package(godot) static GodotMethod!(void, Vector2) _GODOT_update_bitmask_area;
 	package(godot) alias _GODOT_methodBindInfo(string name : "update_bitmask_area") = _GODOT_update_bitmask_area;
 	/**
-	Applies autotiling rules to the cell (and its adjacent cells) referenced by its grid-based X and Y coordinates.
+	Applies autotiling rules to the cell (and its adjacent cells) referenced by its grid-based x and y coordinates.
 	*/
 	void updateBitmaskArea(in Vector2 position)
 	{
@@ -666,8 +656,8 @@ public:
 	package(godot) static GodotMethod!(void, Vector2, Vector2) _GODOT_update_bitmask_region;
 	package(godot) alias _GODOT_methodBindInfo(string name : "update_bitmask_region") = _GODOT_update_bitmask_region;
 	/**
-	Applies autotiling rules to the cells in the given region (specified by grid-based X and Y coordinates).
-	Calling with invalid (or missing) parameters applies autotiling rules for the entire TileMap.
+	Applies autotiling rules to the cells in the given region (specified by grid-based x and y coordinates).
+	Calling with invalid (or missing) parameters applies autotiling rules for the entire tilemap.
 	*/
 	void updateBitmaskRegion(in Vector2 start = Vector2(0, 0), in Vector2 end = Vector2(0, 0))
 	{

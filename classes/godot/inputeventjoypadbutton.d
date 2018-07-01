@@ -97,7 +97,7 @@ public:
 		ptrcall!(void)(_GODOT_set_pressed, _godot_object, pressed);
 	}
 	/**
-	Button identifier. One of the `JOY_BUTTON_*` constants from $(D @global Scope).
+	Button identifier. One of the `JOY_BUTTON_*` constants from $(D @GlobalScope).
 	*/
 	@property long buttonIndex()
 	{

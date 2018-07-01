@@ -92,7 +92,7 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_point_tilt") = _GODOT_set_point_tilt;
 	/**
 	Sets the tilt angle in radians for the point "idx". If the index is out of bounds, the function sends an error to the console.
-	The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a $(D PathFollow), this tilt is an offset over the natural tilt the PathFollow calculates.
+	The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a $(D PathFollow) or $(D OrientedPathFollow), this tilt is an offset over the natural tilt the $(D PathFollow) or $(D OrientedPathFollow) calculates.
 	*/
 	void setPointTilt(in long idx, in double tilt)
 	{

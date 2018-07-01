@@ -133,10 +133,10 @@ public:
 	/// 
 	enum Constants : int
 	{
-		flagEnableLinearLimit = 0,
 		paramLinearLowerLimit = 0,
-		flagEnableAngularLimit = 1,
+		flagEnableLinearLimit = 0,
 		paramLinearUpperLimit = 1,
+		flagEnableAngularLimit = 1,
 		flagEnableMotor = 2,
 		paramLinearLimitSoftness = 2,
 		flagMax = 3,

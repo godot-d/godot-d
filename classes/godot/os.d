@@ -232,40 +232,40 @@ public:
 	/// 
 	enum Constants : int
 	{
+		powerstateUnknown = 0,
+		daySunday = 0,
 		screenOrientationLandscape = 0,
 		systemDirDesktop = 0,
-		daySunday = 0,
-		powerstateUnknown = 0,
 		screenOrientationPortrait = 1,
-		monthJanuary = 1,
 		dayMonday = 1,
-		systemDirDcim = 1,
 		powerstateOnBattery = 1,
-		systemDirDocuments = 2,
-		screenOrientationReverseLandscape = 2,
+		monthJanuary = 1,
+		systemDirDcim = 1,
 		dayTuesday = 2,
-		powerstateNoBattery = 2,
 		monthFebruary = 2,
-		powerstateCharging = 3,
-		monthMarch = 3,
-		systemDirDownloads = 3,
+		screenOrientationReverseLandscape = 2,
+		systemDirDocuments = 2,
+		powerstateNoBattery = 2,
 		dayWednesday = 3,
 		screenOrientationReversePortrait = 3,
+		monthMarch = 3,
+		powerstateCharging = 3,
+		systemDirDownloads = 3,
 		powerstateCharged = 4,
-		dayThursday = 4,
 		screenOrientationSensorLandscape = 4,
+		dayThursday = 4,
 		systemDirMovies = 4,
 		monthApril = 4,
-		monthMay = 5,
+		dayFriday = 5,
 		systemDirMusic = 5,
 		screenOrientationSensorPortrait = 5,
-		dayFriday = 5,
+		monthMay = 5,
 		screenOrientationSensor = 6,
-		monthJune = 6,
 		daySaturday = 6,
+		monthJune = 6,
 		systemDirPictures = 6,
-		systemDirRingtones = 7,
 		monthJuly = 7,
+		systemDirRingtones = 7,
 		monthAugust = 8,
 		monthSeptember = 9,
 		monthOctober = 10,
@@ -291,46 +291,6 @@ public:
 	{
 		_GODOT_get_clipboard.bind("_OS", "get_clipboard");
 		return ptrcall!(String)(_GODOT_get_clipboard, _godot_object);
-	}
-	package(godot) static GodotMethod!(long) _GODOT_get_video_driver_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_video_driver_count") = _GODOT_get_video_driver_count;
-	/**
-	
-	*/
-	long getVideoDriverCount() const
-	{
-		_GODOT_get_video_driver_count.bind("_OS", "get_video_driver_count");
-		return ptrcall!(long)(_GODOT_get_video_driver_count, _godot_object);
-	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_video_driver_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_video_driver_name") = _GODOT_get_video_driver_name;
-	/**
-	
-	*/
-	String getVideoDriverName(in long driver) const
-	{
-		_GODOT_get_video_driver_name.bind("_OS", "get_video_driver_name");
-		return ptrcall!(String)(_GODOT_get_video_driver_name, _godot_object, driver);
-	}
-	package(godot) static GodotMethod!(long) _GODOT_get_audio_driver_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_driver_count") = _GODOT_get_audio_driver_count;
-	/**
-	Returns the total number of available audio drivers.
-	*/
-	long getAudioDriverCount() const
-	{
-		_GODOT_get_audio_driver_count.bind("_OS", "get_audio_driver_count");
-		return ptrcall!(long)(_GODOT_get_audio_driver_count, _godot_object);
-	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_audio_driver_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_driver_name") = _GODOT_get_audio_driver_name;
-	/**
-	Returns the audio driver name for the given index.
-	*/
-	String getAudioDriverName(in long driver) const
-	{
-		_GODOT_get_audio_driver_name.bind("_OS", "get_audio_driver_name");
-		return ptrcall!(String)(_GODOT_get_audio_driver_name, _godot_object, driver);
 	}
 	package(godot) static GodotMethod!(long) _GODOT_get_screen_count;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_count") = _GODOT_get_screen_count;
@@ -386,7 +346,6 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_dpi") = _GODOT_get_screen_dpi;
 	/**
 	Returns the dots per inch density of the specified screen.
-	
 	On Android Devices, the actual screen densities are grouped into six generalized densities:
 		ldpi    - 120 dpi
 		mdpi    - 160 dpi
@@ -713,20 +672,29 @@ public:
 	package(godot) static GodotMethod!(long, String, PoolStringArray, bool, Array) _GODOT_execute;
 	package(godot) alias _GODOT_methodBindInfo(string name : "execute") = _GODOT_execute;
 	/**
-	Execute the file at the given path, optionally blocking until it returns.
-	Platform path resolution will take place.  The resolved file must exist and be executable.
-	Returns a process id.
-	For example:
+	Execute the file at the given path with the arguments passed as an array of strings. Platform path resolution will take place. The resolved file must exist and be executable.
+	The arguments are used in the given order and separated by a space, so `OS.execute('ping', $(D '-c', '3', 'godotengine.org'))` will resolve to `ping -c 3 godotengine.org` in the system's shell.
+	This method has slightly different behaviour based on whether the `blocking` mode is enabled.
+	When `blocking` is enabled, the Godot thread will pause its execution while waiting for the process to terminate. The shell output of the process will be written to the `output` array as a single string. When the process terminates, the Godot thread will resume execution.
+	When `blocking` is disabled, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
+	The return value also depends on the blocking mode. When blocking, the method will return -2 (no process ID information is available in blocking mode). When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with $(D kill)). If the process forking (non-blocking) or opening (blocking) fails, the method will return -1.
+	Example of blocking mode and retrieving the shell output:
 	
 	
 	var output = []
-	var pid = OS.execute('ls', [], true, output)
+	OS.execute('ls', $(D '-l', '/tmp'), true, output)
 	
 	
-	If you wish to access a shell built-in or perform a composite command, a platform specific shell can be invoked.  For example:
+	Example of non-blocking mode, running another instance of the project and storing its process ID:
 	
 	
-	var pid = OS.execute('CMD.exe', $(D '/C', 'cd %TEMP% &amp;&amp; dir'), true, output)
+	var pid = OS.execute(OS.get_executable_path(), [], false)
+	
+	
+	If you wish to access a shell built-in or perform a composite command, a platform-specific shell can be invoked. For example:
+	
+	
+	OS.execute('CMD.exe', $(D '/C', 'cd %TEMP% &amp;&amp; dir'), true, output)
 	
 	
 	*/
@@ -738,7 +706,8 @@ public:
 	package(godot) static GodotMethod!(GodotError, long) _GODOT_kill;
 	package(godot) alias _GODOT_methodBindInfo(string name : "kill") = _GODOT_kill;
 	/**
-	Kill a process ID (this method can be used to kill processes that were not spawned by the game).
+	Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by $(D execute) in non-blocking mode.
+	Note that this method can also be used to kill processes that were not spawned by the game.
 	*/
 	GodotError kill(in long pid)
 	{

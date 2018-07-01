@@ -117,7 +117,7 @@ public:
 		return ptrcall!(bool)(_GODOT_is_doubleclick, _godot_object);
 	}
 	/**
-	TO TALK in PR, reduz said : i think it's used for apple touch but i don't remember what it does
+	Magnitude. Amount (or delta) of the event. Used for scroll events, indicates scroll amount (vertically or horizontally). Only supported on some platforms, sensitivity varies by platform. May be 0 if not supported.
 	*/
 	@property double factor()
 	{

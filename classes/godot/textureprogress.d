@@ -165,66 +165,6 @@ public:
 		_GODOT_get_fill_mode.bind("TextureProgress", "get_fill_mode");
 		return ptrcall!(long)(_GODOT_get_fill_mode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_tint_under;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tint_under") = _GODOT_set_tint_under;
-	/**
-	
-	*/
-	void setTintUnder(in Color tint)
-	{
-		_GODOT_set_tint_under.bind("TextureProgress", "set_tint_under");
-		ptrcall!(void)(_GODOT_set_tint_under, _godot_object, tint);
-	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_tint_under;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tint_under") = _GODOT_get_tint_under;
-	/**
-	
-	*/
-	Color getTintUnder() const
-	{
-		_GODOT_get_tint_under.bind("TextureProgress", "get_tint_under");
-		return ptrcall!(Color)(_GODOT_get_tint_under, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_tint_progress;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tint_progress") = _GODOT_set_tint_progress;
-	/**
-	
-	*/
-	void setTintProgress(in Color tint)
-	{
-		_GODOT_set_tint_progress.bind("TextureProgress", "set_tint_progress");
-		ptrcall!(void)(_GODOT_set_tint_progress, _godot_object, tint);
-	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_tint_progress;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tint_progress") = _GODOT_get_tint_progress;
-	/**
-	
-	*/
-	Color getTintProgress() const
-	{
-		_GODOT_get_tint_progress.bind("TextureProgress", "get_tint_progress");
-		return ptrcall!(Color)(_GODOT_get_tint_progress, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_tint_over;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tint_over") = _GODOT_set_tint_over;
-	/**
-	
-	*/
-	void setTintOver(in Color tint)
-	{
-		_GODOT_set_tint_over.bind("TextureProgress", "set_tint_over");
-		ptrcall!(void)(_GODOT_set_tint_over, _godot_object, tint);
-	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_tint_over;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tint_over") = _GODOT_get_tint_over;
-	/**
-	
-	*/
-	Color getTintOver() const
-	{
-		_GODOT_get_tint_over.bind("TextureProgress", "get_tint_over");
-		return ptrcall!(Color)(_GODOT_get_tint_over, _godot_object);
-	}
 	package(godot) static GodotMethod!(void, double) _GODOT_set_radial_initial_angle;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_radial_initial_angle") = _GODOT_set_radial_initial_angle;
 	/**
@@ -373,42 +313,6 @@ public:
 	@property void fillMode(long v)
 	{
 		setFillMode(v);
-	}
-	/**
-	
-	*/
-	@property Color tintUnder()
-	{
-		return getTintUnder();
-	}
-	/// ditto
-	@property void tintUnder(Color v)
-	{
-		setTintUnder(v);
-	}
-	/**
-	
-	*/
-	@property Color tintOver()
-	{
-		return getTintOver();
-	}
-	/// ditto
-	@property void tintOver(Color v)
-	{
-		setTintOver(v);
-	}
-	/**
-	
-	*/
-	@property Color tintProgress()
-	{
-		return getTintProgress();
-	}
-	/// ditto
-	@property void tintProgress(Color v)
-	{
-		setTintProgress(v);
 	}
 	/**
 	Starting angle for the fill of $(D textureProgress) if $(D fillMode) is `FILL_CLOCKWISE` or `FILL_COUNTER_CLOCKWISE`. When the node's `value` is equal to its `min_value`, the texture doesn't show up at all. When the `value` increases, the texture fills and tends towards $(D radialFillDegrees).

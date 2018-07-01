@@ -73,7 +73,7 @@ public:
 	package(godot) static GodotMethod!(void, String, String, Variant) _GODOT_set_value;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_value") = _GODOT_set_value;
 	/**
-	Assigns a value to the specified key of the the specified section. If the section and/or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.
+	Assigns a value to the specified key of the specified section. If the section and/or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.
 	*/
 	void setValue(StringArg0, StringArg1, VariantArg2)(in StringArg0 section, in StringArg1 key, in VariantArg2 value)
 	{

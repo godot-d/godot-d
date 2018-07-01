@@ -147,10 +147,9 @@ public:
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_version_info") = _GODOT_get_version_info;
 	/**
 	Returns the current engine version information in a Dictionary.
-	
-	"major"    - Holds the major version number as a String
-	"minor"    - Holds the minor version number as a String
-	"patch"    - Holds the patch version number as a String
+	"major"    - Holds the major version number as an int
+	"minor"    - Holds the minor version number as an int
+	"patch"    - Holds the patch version number as an int
 	"status"   - Holds the status (e.g. "beta", "rc1", "rc2", ... "stable") as a String
 	"build"    - Holds the build name (e.g. "custom-build") as a String
 	"string"   - major + minor + patch + status + build in a single String

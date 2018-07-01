@@ -115,12 +115,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		callModeSelf = 0,
 		assignOpNone = 0,
-		callModeNodePath = 1,
+		callModeSelf = 0,
 		assignOpAdd = 1,
-		assignOpSub = 2,
+		callModeNodePath = 1,
 		callModeInstance = 2,
+		assignOpSub = 2,
 		assignOpMul = 3,
 		callModeBasicType = 3,
 		assignOpDiv = 4,

@@ -219,7 +219,7 @@ public:
 		setEnableVScroll(v);
 	}
 	/**
-	The current horizontal scroll value.
+	The current vertical scroll value.
 	*/
 	@property long scrollVertical()
 	{

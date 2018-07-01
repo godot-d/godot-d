@@ -66,26 +66,6 @@ public:
 		_GODOT_get_length.bind("RayShape", "get_length");
 		return ptrcall!(double)(_GODOT_get_length, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_slips_on_slope;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_slips_on_slope") = _GODOT_set_slips_on_slope;
-	/**
-	
-	*/
-	void setSlipsOnSlope(in bool active)
-	{
-		_GODOT_set_slips_on_slope.bind("RayShape", "set_slips_on_slope");
-		ptrcall!(void)(_GODOT_set_slips_on_slope, _godot_object, active);
-	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_slips_on_slope;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_slips_on_slope") = _GODOT_get_slips_on_slope;
-	/**
-	
-	*/
-	bool getSlipsOnSlope() const
-	{
-		_GODOT_get_slips_on_slope.bind("RayShape", "get_slips_on_slope");
-		return ptrcall!(bool)(_GODOT_get_slips_on_slope, _godot_object);
-	}
 	/**
 	The ray's length.
 	*/
@@ -97,17 +77,5 @@ public:
 	@property void length(double v)
 	{
 		setLength(v);
-	}
-	/**
-	If `true` allow the shape to return the correct normal. Default value: `false`.
-	*/
-	@property bool slipsOnSlope()
-	{
-		return getSlipsOnSlope();
-	}
-	/// ditto
-	@property void slipsOnSlope(bool v)
-	{
-		setSlipsOnSlope(v);
 	}
 }

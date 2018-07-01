@@ -25,7 +25,6 @@ import godot.viewport;
 import godot.node;
 import godot.scenetreetimer;
 import godot.packedscene;
-import godot.multiplayerapi;
 import godot.networkedmultiplayerpeer;
 /**
 SceneTree manages a hierarchy of nodes.
@@ -116,17 +115,17 @@ public:
 	enum Constants : int
 	{
 		stretchModeDisabled = 0,
-		groupCallDefault = 0,
 		stretchAspectIgnore = 0,
+		groupCallDefault = 0,
 		stretchMode2d = 1,
 		stretchAspectKeep = 1,
 		groupCallReverse = 1,
+		stretchModeViewport = 2,
 		stretchAspectKeepWidth = 2,
 		groupCallRealtime = 2,
-		stretchModeViewport = 2,
 		stretchAspectKeepHeight = 3,
-		groupCallUnique = 4,
 		stretchAspectExpand = 4,
+		groupCallUnique = 4,
 	}
 	package(godot) static GodotMethod!(Viewport) _GODOT_get_root;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_root") = _GODOT_get_root;
@@ -331,7 +330,7 @@ public:
 	package(godot) static GodotMethod!(Variant, long, String, String, GodotVarArgs) _GODOT_call_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "call_group_flags") = _GODOT_call_group_flags;
 	/**
-	Calls `method` on each member of the given group, respecting the given $(D groupCall) flags.
+	Calls `method` on each member of the given group, respecting the given $(D groupcallflags).
 	*/
 	Variant callGroupFlags(StringArg1, StringArg2, VarArgs...)(in long flags, in StringArg1 group, in StringArg2 method, VarArgs varArgs)
 	{
@@ -349,7 +348,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, long) _GODOT_notify_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "notify_group_flags") = _GODOT_notify_group_flags;
 	/**
-	Sends the given notification to all members of the `group`, respecting the given $(D groupCall) flags.
+	Sends the given notification to all members of the `group`, respecting the given $(D groupcallflags).
 	*/
 	void notifyGroupFlags(StringArg1)(in long call_flags, in StringArg1 group, in long notification)
 	{
@@ -359,7 +358,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, String, Variant) _GODOT_set_group_flags;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_group_flags") = _GODOT_set_group_flags;
 	/**
-	Sets the given `property` to `value` on all members of the given group, respecting the given $(D groupCall) flags.
+	Sets the given `property` to `value` on all members of the given group, respecting the given $(D groupcallflags).
 	*/
 	void setGroupFlags(StringArg1, StringArg2, VariantArg3)(in long call_flags, in StringArg1 group, in StringArg2 property, in VariantArg3 value)
 	{
@@ -474,26 +473,6 @@ public:
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_change_scene");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	package(godot) static GodotMethod!(void, MultiplayerAPI) _GODOT_set_multiplayer_api;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_multiplayer_api") = _GODOT_set_multiplayer_api;
-	/**
-	
-	*/
-	void setMultiplayerApi(MultiplayerAPI multiplayer_api)
-	{
-		_GODOT_set_multiplayer_api.bind("SceneTree", "set_multiplayer_api");
-		ptrcall!(void)(_GODOT_set_multiplayer_api, _godot_object, multiplayer_api);
-	}
-	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_multiplayer_api;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_multiplayer_api") = _GODOT_get_multiplayer_api;
-	/**
-	
-	*/
-	Ref!MultiplayerAPI getMultiplayerApi() const
-	{
-		_GODOT_get_multiplayer_api.bind("SceneTree", "get_multiplayer_api");
-		return ptrcall!(MultiplayerAPI)(_GODOT_get_multiplayer_api, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, NetworkedMultiplayerPeer) _GODOT_set_network_peer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_network_peer") = _GODOT_set_network_peer;
@@ -764,17 +743,5 @@ public:
 	@property Viewport root()
 	{
 		return getRoot();
-	}
-	/**
-	
-	*/
-	@property MultiplayerAPI multiplayerApi()
-	{
-		return getMultiplayerApi();
-	}
-	/// ditto
-	@property void multiplayerApi(MultiplayerAPI v)
-	{
-		setMultiplayerApi(v);
 	}
 }

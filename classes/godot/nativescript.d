@@ -85,46 +85,6 @@ public:
 		_GODOT_get_library.bind("NativeScript", "get_library");
 		return ptrcall!(GDNativeLibrary)(_GODOT_get_library, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_class_documentation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_class_documentation") = _GODOT_get_class_documentation;
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_class_documentation`.
-	*/
-	String getClassDocumentation() const
-	{
-		_GODOT_get_class_documentation.bind("NativeScript", "get_class_documentation");
-		return ptrcall!(String)(_GODOT_get_class_documentation, _godot_object);
-	}
-	package(godot) static GodotMethod!(String, String) _GODOT_get_method_documentation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_method_documentation") = _GODOT_get_method_documentation;
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_method_documentation`.
-	*/
-	String getMethodDocumentation(StringArg0)(in StringArg0 method) const
-	{
-		_GODOT_get_method_documentation.bind("NativeScript", "get_method_documentation");
-		return ptrcall!(String)(_GODOT_get_method_documentation, _godot_object, method);
-	}
-	package(godot) static GodotMethod!(String, String) _GODOT_get_signal_documentation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_signal_documentation") = _GODOT_get_signal_documentation;
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_signal_documentation`.
-	*/
-	String getSignalDocumentation(StringArg0)(in StringArg0 signal_name) const
-	{
-		_GODOT_get_signal_documentation.bind("NativeScript", "get_signal_documentation");
-		return ptrcall!(String)(_GODOT_get_signal_documentation, _godot_object, signal_name);
-	}
-	package(godot) static GodotMethod!(String, String) _GODOT_get_property_documentation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_property_documentation") = _GODOT_get_property_documentation;
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_property_documentation`.
-	*/
-	String getPropertyDocumentation(StringArg0)(in StringArg0 path) const
-	{
-		_GODOT_get_property_documentation.bind("NativeScript", "get_property_documentation");
-		return ptrcall!(String)(_GODOT_get_property_documentation, _godot_object, path);
-	}
 	package(godot) static GodotMethod!(GodotObject, GodotVarArgs) _GODOT__new;
 	package(godot) alias _GODOT_methodBindInfo(string name : "new") = _GODOT__new;
 	/**

@@ -1,5 +1,5 @@
 /**
-Draws a sprite or a texture inside a User Interface. The texture can tile or not.
+Control for drawing textures.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.control;
 import godot.texture;
 /**
-Draws a sprite or a texture inside a User Interface. The texture can tile or not.
+Control for drawing textures.
 
-Use TextureRect to draw icons and sprites in your User Interfaces. To create panels and menu boxes, take a look at $(D NinePatchFrame). Its Stretch Mode property controls the texture's scale and placement. It can scale, tile and stay centered inside its bounding rectangle. TextureRect is one of the 5 most common nodes to create game UI.
+Used to draw icons and sprites in a user interface. The texture's placement can be controlled with the $(D stretchMode) property. It can scale, tile, or stay centered inside its bounding rectangle.
 */
 @GodotBaseClass struct TextureRect
 {
@@ -168,7 +168,7 @@ public:
 		setTexture(v);
 	}
 	/**
-	If `true`, the texture scales to fit its bounding rectangle. Default value: `false`.
+	If `true` the texture scales to fit its bounding rectangle. Default value: `false`.
 	*/
 	@property bool expand()
 	{
@@ -180,7 +180,7 @@ public:
 		setExpand(v);
 	}
 	/**
-	Controls the texture's behavior when you resize the node's bounding rectangle. Set it to one of the `STRETCH_*` constants. See the constants to learn more.
+	Controls the texture's behavior when resizing the node's bounding rectangle. See $(D stretchmode).
 	*/
 	@property TextureRect.StretchMode stretchMode()
 	{

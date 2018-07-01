@@ -102,8 +102,8 @@ public:
 		menuCut = 0,
 		menuCopy = 1,
 		searchMatchCase = 1,
-		menuPaste = 2,
 		searchWholeWords = 2,
+		menuPaste = 2,
 		menuClear = 3,
 		searchBackwards = 4,
 		menuSelectAll = 4,
@@ -859,26 +859,6 @@ public:
 	{
 		_GODOT_add_keyword_color.bind("TextEdit", "add_keyword_color");
 		ptrcall!(void)(_GODOT_add_keyword_color, _godot_object, keyword, color);
-	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_keyword_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_keyword_color") = _GODOT_has_keyword_color;
-	/**
-	
-	*/
-	bool hasKeywordColor(StringArg0)(in StringArg0 keyword) const
-	{
-		_GODOT_has_keyword_color.bind("TextEdit", "has_keyword_color");
-		return ptrcall!(bool)(_GODOT_has_keyword_color, _godot_object, keyword);
-	}
-	package(godot) static GodotMethod!(Color, String) _GODOT_get_keyword_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_keyword_color") = _GODOT_get_keyword_color;
-	/**
-	
-	*/
-	Color getKeywordColor(StringArg0)(in StringArg0 keyword) const
-	{
-		_GODOT_get_keyword_color.bind("TextEdit", "get_keyword_color");
-		return ptrcall!(Color)(_GODOT_get_keyword_color, _godot_object, keyword);
 	}
 	package(godot) static GodotMethod!(void, String, String, Color, bool) _GODOT_add_color_region;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_color_region") = _GODOT_add_color_region;

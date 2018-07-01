@@ -348,16 +348,6 @@ public:
 		_GODOT_get_speed_scale.bind("AnimationPlayer", "get_speed_scale");
 		return ptrcall!(double)(_GODOT_get_speed_scale, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_playing_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_playing_speed") = _GODOT_get_playing_speed;
-	/**
-	Get the actual playing speed of current animation or 0 if not playing. This speed is the `playback_speed` property multiplied by `custom_speed` argument specified when calling the `play` method.
-	*/
-	double getPlayingSpeed() const
-	{
-		_GODOT_get_playing_speed.bind("AnimationPlayer", "get_playing_speed");
-		return ptrcall!(double)(_GODOT_get_playing_speed, _godot_object);
-	}
 	package(godot) static GodotMethod!(void, String) _GODOT_set_autoplay;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_autoplay") = _GODOT_set_autoplay;
 	/**

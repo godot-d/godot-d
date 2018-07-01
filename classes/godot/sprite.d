@@ -287,16 +287,6 @@ public:
 		_GODOT_get_hframes.bind("Sprite", "get_hframes");
 		return ptrcall!(long)(_GODOT_get_hframes, _godot_object);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rect") = _GODOT_get_rect;
-	/**
-	Returns a Rect2 representing the Sprite's boundary relative to its local coordinates.
-	*/
-	Rect2 getRect() const
-	{
-		_GODOT_get_rect.bind("Sprite", "get_rect");
-		return ptrcall!(Rect2)(_GODOT_get_rect, _godot_object);
-	}
 	/**
 	$(D Texture) object to draw.
 	*/

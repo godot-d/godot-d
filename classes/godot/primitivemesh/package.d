@@ -87,4 +87,36 @@ public:
 		_GODOT_get_mesh_arrays.bind("PrimitiveMesh", "get_mesh_arrays");
 		return ptrcall!(Array)(_GODOT_get_mesh_arrays, _godot_object);
 	}
+	package(godot) static GodotMethod!(void, AABB) _GODOT_set_custom_aabb;
+	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_aabb") = _GODOT_set_custom_aabb;
+	/**
+	
+	*/
+	void setCustomAabb(in AABB aabb)
+	{
+		_GODOT_set_custom_aabb.bind("PrimitiveMesh", "set_custom_aabb");
+		ptrcall!(void)(_GODOT_set_custom_aabb, _godot_object, aabb);
+	}
+	package(godot) static GodotMethod!(AABB) _GODOT_get_custom_aabb;
+	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_aabb") = _GODOT_get_custom_aabb;
+	/**
+	
+	*/
+	AABB getCustomAabb() const
+	{
+		_GODOT_get_custom_aabb.bind("PrimitiveMesh", "get_custom_aabb");
+		return ptrcall!(AABB)(_GODOT_get_custom_aabb, _godot_object);
+	}
+	/**
+	
+	*/
+	@property AABB customAabb()
+	{
+		return getCustomAabb();
+	}
+	/// ditto
+	@property void customAabb(AABB v)
+	{
+		setCustomAabb(v);
+	}
 }

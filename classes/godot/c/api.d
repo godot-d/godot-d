@@ -4,6 +4,7 @@ import godot.c.core;
 
 import godot.c.nativescript;
 import godot.c.pluginscript;
+import godot.c.android;
 import godot.c.arvr;
 import std.meta : AliasSeq, staticIndexOf;
 import std.format : format;
@@ -39,6 +40,7 @@ import core.stdc.stddef : wchar_t;
 	core,
 	nativescript,
 	pluginscript,
+	android,
 	arvr,
 }
 private
@@ -58,10 +60,14 @@ private
 	__gshared bool hasPluginscript_1_0 = false;
 	version(GDNativeRequirePluginscript_1_0) enum bool requiresPluginscript_1_0 = true;
 	else enum bool requiresPluginscript_1_0 = false;
-	alias SupportedVersions(ApiType type : ApiType.arvr) = AliasSeq!([1, 0], );
-	__gshared bool hasArvr_1_0 = false;
-	version(GDNativeRequireArvr_1_0) enum bool requiresArvr_1_0 = true;
-	else enum bool requiresArvr_1_0 = false;
+	alias SupportedVersions(ApiType type : ApiType.android) = AliasSeq!([1, 0], );
+	__gshared bool hasAndroid_1_0 = false;
+	version(GDNativeRequireAndroid_1_0) enum bool requiresAndroid_1_0 = true;
+	else enum bool requiresAndroid_1_0 = false;
+	alias SupportedVersions(ApiType type : ApiType.arvr) = AliasSeq!([1, 1], );
+	__gshared bool hasArvr_1_1 = false;
+	version(GDNativeRequireArvr_1_1) enum bool requiresArvr_1_1 = true;
+	else enum bool requiresArvr_1_1 = false;
 }
 struct GDNativeVersion
 {
@@ -88,9 +94,16 @@ struct GDNativeVersion
 	{
 		static assert(0, versionError("Pluginscript", major, minor));
 	}
+	enum bool supportsAndroid(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.android)) != -1;
+	static if(requiresAndroid_1_0) enum bool hasAndroid(int major : 1, int minor : 0) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasAndroid(int major : 1, int minor : 0)() { return hasAndroid_1_0; }
+	@property @nogc nothrow static bool hasAndroid(int major, int minor)() if(!supportsAndroid!(major, minor))
+	{
+		static assert(0, versionError("Android", major, minor));
+	}
 	enum bool supportsArvr(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.arvr)) != -1;
-	static if(requiresArvr_1_0) enum bool hasArvr(int major : 1, int minor : 0) = true;
-	else @property @nogc nothrow pragma(inline, true) static bool hasArvr(int major : 1, int minor : 0)() { return hasArvr_1_0; }
+	static if(requiresArvr_1_1) enum bool hasArvr(int major : 1, int minor : 1) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasArvr(int major : 1, int minor : 1)() { return hasArvr_1_1; }
 	@property @nogc nothrow static bool hasArvr(int major, int minor)() if(!supportsArvr!(major, minor))
 	{
 		static assert(0, versionError("Arvr", major, minor));
@@ -1682,6 +1695,22 @@ private alias apiStruct(ApiType t : ApiType.pluginscript) = _godot_pluginscript_
 
 private extern(C) @nogc nothrow
 {
+	alias da_godot_android_get_env = JNIEnv* function();
+	alias da_godot_android_get_activity = jobject function();
+}
+public extern(C) struct godot_gdnative_ext_android_api_struct_1_0
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_android_get_env godot_android_get_env;
+	da_godot_android_get_activity godot_android_get_activity;
+}
+__gshared const(godot_gdnative_ext_android_api_struct_1_0)* _godot_android_api = null;
+private alias apiStruct(ApiType t : ApiType.android) = _godot_android_api;
+
+private extern(C) @nogc nothrow
+{
 	alias da_godot_arvr_register_interface = void function(const godot_arvr_interface_gdnative * p_interface);
 	alias da_godot_arvr_get_worldscale = godot_real function();
 	alias da_godot_arvr_get_reference_frame = godot_transform function();
@@ -1694,7 +1723,7 @@ private extern(C) @nogc nothrow
 	alias da_godot_arvr_set_controller_axis = void function(godot_int p_controller_id, godot_int p_exis, godot_real p_value, godot_bool p_can_be_negative);
 	alias da_godot_arvr_get_controller_rumble = godot_real function(godot_int p_controller_id);
 }
-public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_0
+public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_1
 {
 @nogc nothrow:
 
@@ -1711,7 +1740,7 @@ public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_0
 	da_godot_arvr_set_controller_axis godot_arvr_set_controller_axis;
 	da_godot_arvr_get_controller_rumble godot_arvr_get_controller_rumble;
 }
-__gshared const(godot_gdnative_ext_arvr_api_struct_1_0)* _godot_arvr_api = null;
+__gshared const(godot_gdnative_ext_arvr_api_struct_1_1)* _godot_arvr_api = null;
 private alias apiStruct(ApiType t : ApiType.arvr) = _godot_arvr_api;
 
 

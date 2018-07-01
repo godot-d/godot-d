@@ -87,11 +87,11 @@ public:
 		*/
 		targetPeerBroadcast = 0,
 		connectionConnecting = 1,
-		transferModeUnreliableOrdered = 1,
 		/**
 		Packets are sent to the server alone.
 		*/
 		targetPeerServer = 1,
+		transferModeUnreliableOrdered = 1,
 		connectionConnected = 2,
 		transferModeReliable = 2,
 	}
@@ -118,7 +118,8 @@ public:
 	package(godot) static GodotMethod!(void, long) _GODOT_set_target_peer;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_target_peer") = _GODOT_set_target_peer;
 	/**
-	The peer to which packets will be sent. Default value: `0`.
+	Sets the peer to which packets will be sent.
+	The `id` can be one of: `TARGET_PEER_BROADCAST` to send to all connected peers, `TARGET_PEER_SERVER` to send to the peer acting as server, a valid peer ID to send to that specific peer, a negative peer ID to send to all peers except that one. Default: `TARGET_PEER_BROADCAST`
 	*/
 	void setTargetPeer(in long id)
 	{

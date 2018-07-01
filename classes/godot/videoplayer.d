@@ -1,5 +1,5 @@
 /**
-Control to play video files.
+Control for playing video streams.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,9 +24,9 @@ import godot.control;
 import godot.videostream;
 import godot.texture;
 /**
-Control to play video files.
+Control for playing video streams.
 
-This control has the ability to play video streams. The only format accepted is the OGV Theora, so any other format must be converted before using in a project.
+Control node for playing video streams. Supported formats are WebM and OGV Theora.
 */
 @GodotBaseClass struct VideoPlayer
 {
@@ -71,7 +71,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_play;
 	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
-	Start the video playback.
+	Starts the video playback.
 	*/
 	void play()
 	{
@@ -81,7 +81,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_stop;
 	package(godot) alias _GODOT_methodBindInfo(string name : "stop") = _GODOT_stop;
 	/**
-	Stop the video playback.
+	Stops the video playback.
 	*/
 	void stop()
 	{
@@ -91,7 +91,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_is_playing;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_playing") = _GODOT_is_playing;
 	/**
-	Get whether or not the video is playing.
+	Returns `true` if the video is playing.
 	*/
 	bool isPlaying() const
 	{
@@ -181,7 +181,7 @@ public:
 	package(godot) static GodotMethod!(String) _GODOT_get_stream_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_stream_name") = _GODOT_get_stream_name;
 	/**
-	Get the name of the video stream.
+	Returns the video stream's name.
 	*/
 	String getStreamName() const
 	{
@@ -291,7 +291,7 @@ public:
 	package(godot) static GodotMethod!(Texture) _GODOT_get_video_texture;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_video_texture") = _GODOT_get_video_texture;
 	/**
-	Get the current frame of the video as a $(D Texture).
+	Returns the current frame as a $(D Texture).
 	*/
 	Ref!Texture getVideoTexture()
 	{
@@ -299,7 +299,7 @@ public:
 		return ptrcall!(Texture)(_GODOT_get_video_texture, _godot_object);
 	}
 	/**
-	
+	The embedded audio track to play.
 	*/
 	@property long audioTrack()
 	{
@@ -323,7 +323,7 @@ public:
 		setStream(v);
 	}
 	/**
-	
+	Audio volume in dB.
 	*/
 	@property double volumeDb()
 	{
@@ -335,7 +335,7 @@ public:
 		setVolumeDb(v);
 	}
 	/**
-	The volume of the audio track as a linear value.
+	Audio volume as a linear value.
 	*/
 	@property double volume()
 	{
@@ -347,7 +347,7 @@ public:
 		setVolume(v);
 	}
 	/**
-	
+	If `true` playback starts when the scene loads. Default value: `false`.
 	*/
 	@property bool autoplay()
 	{
@@ -359,7 +359,7 @@ public:
 		setAutoplay(v);
 	}
 	/**
-	
+	If `true` the video is paused.
 	*/
 	@property bool paused()
 	{
@@ -371,7 +371,7 @@ public:
 		setPaused(v);
 	}
 	/**
-	
+	If `true` the video scales to the control size. Default value: `true`.
 	*/
 	@property bool expand()
 	{
@@ -383,7 +383,7 @@ public:
 		setExpand(v);
 	}
 	/**
-	The amount of milliseconds to store in buffer while playing.
+	Amount of time in milliseconds to store in buffer while playing.
 	*/
 	@property long bufferingMsec()
 	{
@@ -407,7 +407,7 @@ public:
 		setStreamPosition(v);
 	}
 	/**
-	
+	Audio bus to use for sound playback.
 	*/
 	@property String bus()
 	{

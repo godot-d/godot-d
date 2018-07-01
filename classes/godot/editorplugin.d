@@ -139,8 +139,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		containerToolbar = 0,
 		dockSlotLeftUl = 0,
+		containerToolbar = 0,
 		containerSpatialEditorMenu = 1,
 		dockSlotLeftBl = 1,
 		dockSlotLeftUr = 2,
@@ -445,16 +445,6 @@ public:
 		_GODOT_remove_control_from_container.bind("EditorPlugin", "remove_control_from_container");
 		ptrcall!(void)(_GODOT_remove_control_from_container, _godot_object, container, control);
 	}
-	package(godot) static GodotMethod!(void, String, GodotObject, String, Variant) _GODOT_add_tool_menu_item;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_menu_item") = _GODOT_add_tool_menu_item;
-	/**
-	Adds a custom menu to 'Project > Tools' as `name` that calls `callback` on an instance of `handler` with a parameter `ud` when user activates it.
-	*/
-	void addToolMenuItem(StringArg0, StringArg2, VariantArg3)(in StringArg0 name, GodotObject handler, in StringArg2 callback, in VariantArg3 ud = Variant.nil)
-	{
-		_GODOT_add_tool_menu_item.bind("EditorPlugin", "add_tool_menu_item");
-		ptrcall!(void)(_GODOT_add_tool_menu_item, _godot_object, name, handler, callback, ud);
-	}
 	package(godot) static GodotMethod!(void, String, GodotObject) _GODOT_add_tool_submenu_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_submenu_item") = _GODOT_add_tool_submenu_item;
 	/**
@@ -464,16 +454,6 @@ public:
 	{
 		_GODOT_add_tool_submenu_item.bind("EditorPlugin", "add_tool_submenu_item");
 		ptrcall!(void)(_GODOT_add_tool_submenu_item, _godot_object, name, submenu);
-	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_tool_menu_item;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_tool_menu_item") = _GODOT_remove_tool_menu_item;
-	/**
-	Removes a menu `name` from 'Project > Tools'.
-	*/
-	void removeToolMenuItem(StringArg0)(in StringArg0 name)
-	{
-		_GODOT_remove_tool_menu_item.bind("EditorPlugin", "remove_tool_menu_item");
-		ptrcall!(void)(_GODOT_remove_tool_menu_item, _godot_object, name);
 	}
 	package(godot) static GodotMethod!(void, String, String, Script, Texture) _GODOT_add_custom_type;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_custom_type") = _GODOT_add_custom_type;
@@ -497,26 +477,6 @@ public:
 	{
 		_GODOT_remove_custom_type.bind("EditorPlugin", "remove_custom_type");
 		ptrcall!(void)(_GODOT_remove_custom_type, _godot_object, type);
-	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_add_autoload_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_autoload_singleton") = _GODOT_add_autoload_singleton;
-	/**
-	Add a script at `path` to the Autoload list as `name`.
-	*/
-	void addAutoloadSingleton(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 path)
-	{
-		_GODOT_add_autoload_singleton.bind("EditorPlugin", "add_autoload_singleton");
-		ptrcall!(void)(_GODOT_add_autoload_singleton, _godot_object, name, path);
-	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_autoload_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_autoload_singleton") = _GODOT_remove_autoload_singleton;
-	/**
-	Remove an Autoload `name` from the list.
-	*/
-	void removeAutoloadSingleton(StringArg0)(in StringArg0 name)
-	{
-		_GODOT_remove_autoload_singleton.bind("EditorPlugin", "remove_autoload_singleton");
-		ptrcall!(void)(_GODOT_remove_autoload_singleton, _godot_object, name);
 	}
 	package(godot) static GodotMethod!(long) _GODOT_update_overlays;
 	package(godot) alias _GODOT_methodBindInfo(string name : "update_overlays") = _GODOT_update_overlays;

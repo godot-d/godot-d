@@ -2,10 +2,10 @@ module godot.primitivemesh.all;
 
 public import
 	godot.primitivemesh,
-	godot.cubemesh,
 	godot.capsulemesh,
-	godot.planemesh,
+	godot.cubemesh,
 	godot.cylindermesh,
+	godot.planemesh,
 	godot.prismmesh,
 	godot.quadmesh,
 	godot.spheremesh;

@@ -114,14 +114,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		sideLeft = 0,
 		storageRaw = 0,
+		sideLeft = 0,
 		storageCompressLossy = 1,
 		sideRight = 1,
 		flagMipmaps = 1,
-		sideBottom = 2,
-		flagRepeat = 2,
 		storageCompressLossless = 2,
+		flagRepeat = 2,
+		sideBottom = 2,
 		sideTop = 3,
 		flagFilter = 4,
 		sideFront = 4,

@@ -107,8 +107,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		alignLeft = 0,
 		menuCut = 0,
+		alignLeft = 0,
 		menuCopy = 1,
 		alignCenter = 1,
 		alignRight = 2,
@@ -532,7 +532,7 @@ public:
 		setEditable(v);
 	}
 	/**
-	If `true` every character is shown as "*".
+	If `true`, every character is replaced with the secret character (see $(D secretCharacter)).
 	*/
 	@property bool secret()
 	{

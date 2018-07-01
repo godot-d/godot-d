@@ -7,5 +7,5 @@ public import
 	godot.inputeventmousebutton,
 	godot.inputeventmousemotion,
 	godot.inputeventgesture,
-	godot.inputeventpangesture,
-	godot.inputeventmagnifygesture;
+	godot.inputeventmagnifygesture,
+	godot.inputeventpangesture;

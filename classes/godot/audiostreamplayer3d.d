@@ -588,7 +588,7 @@ public:
 		setMaxDb(v);
 	}
 	/**
-	
+	Changes the pitch and the tempo of the audio.
 	*/
 	@property double pitchScale()
 	{

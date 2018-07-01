@@ -127,7 +127,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_start;
 	package(godot) alias _GODOT_methodBindInfo(string name : "start") = _GODOT_start;
 	/**
-	Starts the timer. This also resets the remaining time to `wait_time`.
+	Starts the timer. Sets `wait_time` to `time_sec` if `time_sec` &gt; 0. This also resets the remaining time to `wait_time`.
 	Note: this method will not resume a paused timer. See $(D setPaused).
 	*/
 	void start()

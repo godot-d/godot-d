@@ -3,9 +3,9 @@ module godot.shape.all;
 public import
 	godot.shape,
 	godot.rayshape,
-	godot.planeshape,
+	godot.sphereshape,
 	godot.boxshape,
 	godot.capsuleshape,
-	godot.sphereshape,
-	godot.concavepolygonshape,
-	godot.convexpolygonshape;
+	godot.planeshape,
+	godot.convexpolygonshape,
+	godot.concavepolygonshape;

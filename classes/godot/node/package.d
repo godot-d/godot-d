@@ -24,7 +24,6 @@ import godot.inputevent;
 import godot.inputeventkey;
 import godot.scenetree;
 import godot.viewport;
-import godot.multiplayerapi;
 /**
 Base class for all $(I scene) objects.
 
@@ -99,25 +98,15 @@ public:
 	/// 
 	enum RPCMode : int
 	{
-		/**
-		Used with $(D rpcConfig) or $(D rsetConfig) to disable a method or property for all RPC calls, making it unavailable. Default for all methods.
-		*/
+		/** */
 		rpcModeDisabled = 0,
-		/**
-		Used with $(D rpcConfig) or $(D rsetConfig) to set a method to be called or a property to be changed only on the remote end, not locally. Analogous to the `remote` keyword.
-		*/
+		/** */
 		rpcModeRemote = 1,
-		/**
-		Used with $(D rpcConfig) or $(D rsetConfig) to set a method to be called or a property to be changed both on the remote end and locally. Analogous to the `sync` keyword.
-		*/
+		/** */
 		rpcModeSync = 2,
-		/**
-		Used with $(D rpcConfig) or $(D rsetConfig) to set a method to be called or a property to be changed only on the network master for this node. Analogous to the `master` keyword. See $(D setNetworkMaster).
-		*/
+		/** */
 		rpcModeMaster = 3,
-		/**
-		Used with $(D rpcConfig) or $(D rsetConfig) to set a method to be called or a property to be changed only on slaves for this node. Analogous to the `slave` keyword. See $(D setNetworkMaster).
-		*/
+		/** */
 		rpcModeSlave = 4,
 	}
 	/// 
@@ -125,12 +114,12 @@ public:
 	{
 		pauseModeInherit = 0,
 		rpcModeDisabled = 0,
-		rpcModeRemote = 1,
 		pauseModeStop = 1,
 		duplicateSignals = 1,
+		rpcModeRemote = 1,
 		duplicateGroups = 2,
-		rpcModeSync = 2,
 		pauseModeProcess = 2,
+		rpcModeSync = 2,
 		rpcModeMaster = 3,
 		rpcModeSlave = 4,
 		duplicateScripts = 4,
@@ -902,7 +891,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_process_internal;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_process_internal") = _GODOT_set_process_internal;
 	/**
-	Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal $(D method)_process$(D /code) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ($(D setProcess)). Only useful for advanced uses to manipulate built-in nodes behaviour.
+	Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal $(D _process) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ($(D setProcess)). Only useful for advanced uses to manipulate built-in nodes behaviour.
 	*/
 	void setProcessInternal(in bool enable)
 	{
@@ -922,7 +911,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_physics_process_internal;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_physics_process_internal") = _GODOT_set_physics_process_internal;
 	/**
-	Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal $(D method)_physics_process$(D /code) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ($(D setPhysicsProcess)). Only useful for advanced uses to manipulate built-in nodes behaviour.
+	Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal $(D _physicsProcess) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ($(D setPhysicsProcess)). Only useful for advanced uses to manipulate built-in nodes behaviour.
 	*/
 	void setPhysicsProcessInternal(in bool enable)
 	{
@@ -1050,40 +1039,10 @@ public:
 		_GODOT_is_network_master.bind("Node", "is_network_master");
 		return ptrcall!(bool)(_GODOT_is_network_master, _godot_object);
 	}
-	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_multiplayer_api;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_multiplayer_api") = _GODOT_get_multiplayer_api;
-	/**
-	
-	*/
-	Ref!MultiplayerAPI getMultiplayerApi() const
-	{
-		_GODOT_get_multiplayer_api.bind("Node", "get_multiplayer_api");
-		return ptrcall!(MultiplayerAPI)(_GODOT_get_multiplayer_api, _godot_object);
-	}
-	package(godot) static GodotMethod!(MultiplayerAPI) _GODOT_get_custom_multiplayer_api;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_multiplayer_api") = _GODOT_get_custom_multiplayer_api;
-	/**
-	
-	*/
-	Ref!MultiplayerAPI getCustomMultiplayerApi() const
-	{
-		_GODOT_get_custom_multiplayer_api.bind("Node", "get_custom_multiplayer_api");
-		return ptrcall!(MultiplayerAPI)(_GODOT_get_custom_multiplayer_api, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, MultiplayerAPI) _GODOT_set_custom_multiplayer_api;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_multiplayer_api") = _GODOT_set_custom_multiplayer_api;
-	/**
-	
-	*/
-	void setCustomMultiplayerApi(MultiplayerAPI api)
-	{
-		_GODOT_set_custom_multiplayer_api.bind("Node", "set_custom_multiplayer_api");
-		ptrcall!(void)(_GODOT_set_custom_multiplayer_api, _godot_object, api);
-	}
 	package(godot) static GodotMethod!(void, String, long) _GODOT_rpc_config;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rpc_config") = _GODOT_rpc_config;
 	/**
-	Changes the RPC mode for the given `method` to the given `mode`. See $(D rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `sync`, `master`, `slave`). By default, methods are not exposed to networking (and RPCs). Also see $(D rset) and $(D rsetConfig) for properties.
+	Changes the RPC mode for the given `method` to the given `mode`. See $(D MultiplayerAPI.rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `sync`, `master`, `slave`). By default, methods are not exposed to networking (and RPCs). Also see $(D rset) and $(D rsetConfig) for properties.
 	*/
 	void rpcConfig(StringArg0)(in StringArg0 method, in long mode)
 	{
@@ -1093,7 +1052,7 @@ public:
 	package(godot) static GodotMethod!(void, String, long) _GODOT_rset_config;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rset_config") = _GODOT_rset_config;
 	/**
-	Changes the RPC mode for the given `property` to the given `mode`. See $(D rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `sync`, `master`, `slave`). By default, properties are not exposed to networking (and RPCs). Also see $(D rpc) and $(D rpcConfig) for methods.
+	Changes the RPC mode for the given `property` to the given `mode`. See $(D MultiplayerAPI.rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `sync`, `master`, `slave`). By default, properties are not exposed to networking (and RPCs). Also see $(D rpc) and $(D rpcConfig) for methods.
 	*/
 	void rsetConfig(StringArg0)(in StringArg0 property, in long mode)
 	{
@@ -1158,7 +1117,7 @@ public:
 	package(godot) static GodotMethod!(Variant, long, String, GodotVarArgs) _GODOT_rpc_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rpc_id") = _GODOT_rpc_id;
 	/**
-	Sends a $(D rpc) to a specific peer identified by `peer_id`. Returns an empty $(D Variant).
+	Sends a $(D rpc) to a specific peer identified by `peer_id` (see $(D NetworkedMultiplayerPeer.setTargetPeer)). Returns an empty $(D Variant).
 	*/
 	Variant rpcId(StringArg1, VarArgs...)(in long peer_id, in StringArg1 method, VarArgs varArgs)
 	{
@@ -1175,7 +1134,7 @@ public:
 	package(godot) static GodotMethod!(Variant, long, String, GodotVarArgs) _GODOT_rpc_unreliable_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rpc_unreliable_id") = _GODOT_rpc_unreliable_id;
 	/**
-	Sends a $(D rpc) to a specific peer identified by `peer_id` using an unreliable protocol. Returns an empty $(D Variant).
+	Sends a $(D rpc) to a specific peer identified by `peer_id` using an unreliable protocol (see $(D NetworkedMultiplayerPeer.setTargetPeer)). Returns an empty $(D Variant).
 	*/
 	Variant rpcUnreliableId(StringArg1, VarArgs...)(in long peer_id, in StringArg1 method, VarArgs varArgs)
 	{
@@ -1202,7 +1161,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, Variant) _GODOT_rset_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rset_id") = _GODOT_rset_id;
 	/**
-	Remotely changes the property's value on a specific peer identified by `peer_id`.
+	Remotely changes the property's value on a specific peer identified by `peer_id` (see $(D NetworkedMultiplayerPeer.setTargetPeer)).
 	*/
 	void rsetId(StringArg1, VariantArg2)(in long peer_id, in StringArg1 property, in VariantArg2 value)
 	{
@@ -1222,7 +1181,7 @@ public:
 	package(godot) static GodotMethod!(void, long, String, Variant) _GODOT_rset_unreliable_id;
 	package(godot) alias _GODOT_methodBindInfo(string name : "rset_unreliable_id") = _GODOT_rset_unreliable_id;
 	/**
-	Remotely changes property's value on a specific peer identified by `peer_id` using an unreliable protocol.
+	Remotely changes property's value on a specific peer identified by `peer_id` using an unreliable protocol (see $(D NetworkedMultiplayerPeer.setTargetPeer)).
 	*/
 	void rsetUnreliableId(StringArg1, VariantArg2)(in long peer_id, in StringArg1 property, in VariantArg2 value)
 	{
@@ -1300,24 +1259,5 @@ public:
 	@property void owner(GodotObject v)
 	{
 		setOwner(v);
-	}
-	/**
-	
-	*/
-	@property MultiplayerAPI multiplayerApi()
-	{
-		return getMultiplayerApi();
-	}
-	/**
-	
-	*/
-	@property MultiplayerAPI customMultiplayerApi()
-	{
-		return getCustomMultiplayerApi();
-	}
-	/// ditto
-	@property void customMultiplayerApi(MultiplayerAPI v)
-	{
-		setCustomMultiplayerApi(v);
 	}
 }

@@ -1,5 +1,5 @@
 /**
-To be changed, ignore.
+A custom shader program.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.resource;
 import godot.texture;
 /**
-To be changed, ignore.
+A custom shader program.
 
-
+This class allows you to define a custom shader program that can be used for various materials to render objects.
 */
 @GodotBaseClass struct Shader
 {
@@ -73,7 +73,7 @@ public:
 	package(godot) static GodotMethod!(Shader.Mode) _GODOT_get_mode;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_mode") = _GODOT_get_mode;
 	/**
-	
+	Returns the shader mode for the shader, eiter `MODE_CANVAS_ITEM`, `MODE_SPATIAL` or `MODE_PARTICLES`
 	*/
 	Shader.Mode getMode() const
 	{

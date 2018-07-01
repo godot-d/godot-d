@@ -57,15 +57,15 @@ public:
 		_GODOT_create.bind("BitMap", "create");
 		ptrcall!(void)(_GODOT_create, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, Image, double) _GODOT_create_from_image_alpha;
+	package(godot) static GodotMethod!(void, Image) _GODOT_create_from_image_alpha;
 	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_image_alpha") = _GODOT_create_from_image_alpha;
 	/**
 	Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to false if the alpha value of the image at that position is equal to `threshold` or less, and true in other case.
 	*/
-	void createFromImageAlpha(Image image, in double threshold = 0.1)
+	void createFromImageAlpha(Image image)
 	{
 		_GODOT_create_from_image_alpha.bind("BitMap", "create_from_image_alpha");
-		ptrcall!(void)(_GODOT_create_from_image_alpha, _godot_object, image, threshold);
+		ptrcall!(void)(_GODOT_create_from_image_alpha, _godot_object, image);
 	}
 	package(godot) static GodotMethod!(void, Vector2, bool) _GODOT_set_bit;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_bit") = _GODOT_set_bit;

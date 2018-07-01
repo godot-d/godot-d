@@ -109,8 +109,8 @@ public:
 	{
 		nodeOutput = 0,
 		animationProcessPhysics = 0,
-		nodeAnimation = 1,
 		animationProcessIdle = 1,
+		nodeAnimation = 1,
 		nodeOneshot = 2,
 		nodeMix = 3,
 		nodeBlend2 = 4,

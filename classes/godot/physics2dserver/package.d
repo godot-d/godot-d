@@ -362,68 +362,68 @@ public:
 	/// 
 	enum Constants : int
 	{
-		infoActiveObjects = 0,
-		jointParamBias = 0,
-		ccdModeDisabled = 0,
 		bodyParamBounce = 0,
-		bodyModeStatic = 0,
 		areaBodyAdded = 0,
-		spaceParamContactRecycleRadius = 0,
-		areaParamGravity = 0,
 		jointPin = 0,
-		dampedStringRestLength = 0,
-		bodyStateTransform = 0,
-		areaSpaceOverrideDisabled = 0,
+		jointParamBias = 0,
 		shapeLine = 0,
-		bodyModeKinematic = 1,
-		bodyParamFriction = 1,
-		shapeRay = 1,
-		infoCollisionPairs = 1,
-		bodyStateLinearVelocity = 1,
-		areaSpaceOverrideCombine = 1,
-		areaBodyRemoved = 1,
+		ccdModeDisabled = 0,
+		areaParamGravity = 0,
+		areaSpaceOverrideDisabled = 0,
+		bodyStateTransform = 0,
+		infoActiveObjects = 0,
+		bodyModeStatic = 0,
+		dampedStringRestLength = 0,
+		spaceParamContactRecycleRadius = 0,
 		jointParamMaxBias = 1,
-		spaceParamContactMaxSeparation = 1,
-		areaParamGravityVector = 1,
-		ccdModeCastRay = 1,
+		bodyStateLinearVelocity = 1,
+		areaBodyRemoved = 1,
+		areaSpaceOverrideCombine = 1,
+		infoCollisionPairs = 1,
+		bodyModeKinematic = 1,
+		shapeRay = 1,
 		jointGroove = 1,
 		dampedStringStiffness = 1,
+		ccdModeCastRay = 1,
+		bodyParamFriction = 1,
+		spaceParamContactMaxSeparation = 1,
+		areaParamGravityVector = 1,
 		jointParamMaxForce = 2,
-		ccdModeCastShape = 2,
-		spaceParamBodyMaxAllowedPenetration = 2,
-		dampedStringDamping = 2,
-		bodyModeRigid = 2,
-		jointDampedSpring = 2,
 		areaParamGravityIsPoint = 2,
+		ccdModeCastShape = 2,
+		bodyModeRigid = 2,
+		dampedStringDamping = 2,
+		shapeSegment = 2,
+		jointDampedSpring = 2,
+		areaSpaceOverrideCombineReplace = 2,
+		spaceParamBodyMaxAllowedPenetration = 2,
 		bodyParamMass = 2,
 		bodyStateAngularVelocity = 2,
-		areaSpaceOverrideCombineReplace = 2,
 		infoIslandCount = 2,
-		shapeSegment = 2,
 		areaSpaceOverrideReplace = 3,
-		spaceParamBodyLinearVelocitySleepThreshold = 3,
-		bodyParamInertia = 3,
-		bodyModeCharacter = 3,
-		shapeCircle = 3,
 		bodyStateSleeping = 3,
 		areaParamGravityDistanceScale = 3,
-		bodyParamGravityScale = 4,
-		bodyStateCanSleep = 4,
-		shapeRectangle = 4,
+		bodyParamInertia = 3,
+		bodyModeCharacter = 3,
+		spaceParamBodyLinearVelocitySleepThreshold = 3,
+		shapeCircle = 3,
 		areaParamGravityPointAttenuation = 4,
+		bodyParamGravityScale = 4,
 		spaceParamBodyAngularVelocitySleepThreshold = 4,
+		shapeRectangle = 4,
+		bodyStateCanSleep = 4,
 		areaSpaceOverrideReplaceCombine = 4,
-		bodyParamLinearDamp = 5,
-		spaceParamBodyTimeToSleep = 5,
 		areaParamLinearDamp = 5,
 		shapeCapsule = 5,
-		spaceParamConstraintDefaultBias = 6,
-		shapeConvexPolygon = 6,
+		bodyParamLinearDamp = 5,
+		spaceParamBodyTimeToSleep = 5,
 		areaParamAngularDamp = 6,
 		bodyParamAngularDamp = 6,
+		shapeConvexPolygon = 6,
+		spaceParamConstraintDefaultBias = 6,
 		bodyParamMax = 7,
-		areaParamPriority = 7,
 		shapeConcavePolygon = 7,
+		areaParamPriority = 7,
 		shapeCustom = 8,
 	}
 	package(godot) static GodotMethod!(RID) _GODOT_line_shape_create;
@@ -844,7 +844,7 @@ public:
 	package(godot) static GodotMethod!(void, RID, RID) _GODOT_body_set_space;
 	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_space") = _GODOT_body_set_space;
 	/**
-	Assigns a space to the body (see $(D createSpace)).
+	Assigns a space to the body (see $(D spaceCreate)).
 	*/
 	void bodySetSpace(in RID _body, in RID space)
 	{
@@ -1215,22 +1215,22 @@ public:
 	package(godot) static GodotMethod!(void, RID, GodotObject, String, Variant) _GODOT_body_set_force_integration_callback;
 	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_force_integration_callback") = _GODOT_body_set_force_integration_callback;
 	/**
-	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForce integration)).
+	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
 	*/
 	void bodySetForceIntegrationCallback(StringArg2, VariantArg3)(in RID _body, GodotObject receiver, in StringArg2 method, in VariantArg3 userdata = Variant.nil)
 	{
 		_GODOT_body_set_force_integration_callback.bind("Physics2DServer", "body_set_force_integration_callback");
 		ptrcall!(void)(_GODOT_body_set_force_integration_callback, _godot_object, _body, receiver, method, userdata);
 	}
-	package(godot) static GodotMethod!(bool, RID, Transform2D, Vector2, bool, double, Physics2DTestMotionResult) _GODOT_body_test_motion;
+	package(godot) static GodotMethod!(bool, RID, Transform2D, Vector2, double, Physics2DTestMotionResult) _GODOT_body_test_motion;
 	package(godot) alias _GODOT_methodBindInfo(string name : "body_test_motion") = _GODOT_body_test_motion;
 	/**
 	Returns whether a body can move from a given point in a given direction. Apart from the boolean return value, a $(D Physics2DTestMotionResult) can be passed to return additional information in.
 	*/
-	bool bodyTestMotion(in RID _body, in Transform2D from, in Vector2 motion, in bool infinite_inertia, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
+	bool bodyTestMotion(in RID _body, in Transform2D from, in Vector2 motion, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
 	{
 		_GODOT_body_test_motion.bind("Physics2DServer", "body_test_motion");
-		return ptrcall!(bool)(_GODOT_body_test_motion, _godot_object, _body, from, motion, infinite_inertia, margin, result);
+		return ptrcall!(bool)(_GODOT_body_test_motion, _godot_object, _body, from, motion, margin, result);
 	}
 	package(godot) static GodotMethod!(Physics2DDirectBodyState, RID) _GODOT_body_get_direct_state;
 	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_direct_state") = _GODOT_body_get_direct_state;

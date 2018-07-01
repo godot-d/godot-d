@@ -149,14 +149,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		cursorArrow = 0,
 		mouseModeVisible = 0,
+		cursorArrow = 0,
 		mouseModeHidden = 1,
 		cursorIbeam = 1,
-		cursorPointingHand = 2,
 		mouseModeCaptured = 2,
-		mouseModeConfined = 3,
+		cursorPointingHand = 2,
 		cursorCross = 3,
+		mouseModeConfined = 3,
 		cursorWait = 4,
 		cursorBusy = 5,
 		cursorDrag = 6,
@@ -231,16 +231,6 @@ public:
 	{
 		_GODOT_is_action_just_released.bind("Input", "is_action_just_released");
 		return ptrcall!(bool)(_GODOT_is_action_just_released, _godot_object, action);
-	}
-	package(godot) static GodotMethod!(double, String) _GODOT_get_action_strength;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_action_strength") = _GODOT_get_action_strength;
-	/**
-	
-	*/
-	double getActionStrength(StringArg0)(in StringArg0 action) const
-	{
-		_GODOT_get_action_strength.bind("Input", "get_action_strength");
-		return ptrcall!(double)(_GODOT_get_action_strength, _godot_object, action);
 	}
 	package(godot) static GodotMethod!(void, String, bool) _GODOT_add_joy_mapping;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_joy_mapping") = _GODOT_add_joy_mapping;
@@ -513,20 +503,10 @@ public:
 		_GODOT_action_release.bind("Input", "action_release");
 		ptrcall!(void)(_GODOT_action_release, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_default_cursor_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_cursor_shape") = _GODOT_set_default_cursor_shape;
-	/**
-	
-	*/
-	void setDefaultCursorShape(in long shape = 0)
-	{
-		_GODOT_set_default_cursor_shape.bind("Input", "set_default_cursor_shape");
-		ptrcall!(void)(_GODOT_set_default_cursor_shape, _godot_object, shape);
-	}
 	package(godot) static GodotMethod!(void, Resource, long, Vector2) _GODOT_set_custom_mouse_cursor;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_mouse_cursor") = _GODOT_set_custom_mouse_cursor;
 	/**
-	Set a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. See enum `CURSOR_*` for the list of shapes.
+	Set a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing `null` to the image parameter resets to the system cursor. See enum `CURSOR_*` for the list of shapes.
 	*/
 	void setCustomMouseCursor(Resource image, in long shape = 0, in Vector2 hotspot = Vector2(0, 0))
 	{

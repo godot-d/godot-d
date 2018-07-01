@@ -142,8 +142,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		alignLeft = 0,
 		itemFrame = 0,
+		alignLeft = 0,
 		listNumbers = 0,
 		listLetters = 1,
 		itemText = 1,

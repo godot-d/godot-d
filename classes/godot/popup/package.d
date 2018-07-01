@@ -119,7 +119,7 @@ public:
 		return ptrcall!(bool)(_GODOT_is_exclusive, _godot_object);
 	}
 	/**
-	If `true` the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event. 
+	If `true` the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.
 	*/
 	@property bool popupExclusive()
 	{

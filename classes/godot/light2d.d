@@ -102,10 +102,10 @@ public:
 		modeAdd = 0,
 		shadowFilterPcf3 = 1,
 		modeSub = 1,
-		shadowFilterPcf5 = 2,
 		modeMix = 2,
-		modeMask = 3,
+		shadowFilterPcf5 = 2,
 		shadowFilterPcf7 = 3,
+		modeMask = 3,
 		shadowFilterPcf9 = 4,
 		shadowFilterPcf13 = 5,
 	}

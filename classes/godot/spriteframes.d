@@ -50,7 +50,7 @@ public:
 	package(godot) static GodotMethod!(void, String) _GODOT_add_animation;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_animation") = _GODOT_add_animation;
 	/**
-	Adds a new animation to the the library.
+	Adds a new animation to the library.
 	*/
 	void addAnimation(StringArg0)(in StringArg0 anim)
 	{

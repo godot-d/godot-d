@@ -97,10 +97,10 @@ public:
 	{
 		callModeSelf = 0,
 		rpcDisabled = 0,
-		callModeNodePath = 1,
 		rpcReliable = 1,
-		rpcUnreliable = 2,
+		callModeNodePath = 1,
 		callModeInstance = 2,
+		rpcUnreliable = 2,
 		callModeBasicType = 3,
 		rpcReliableToId = 3,
 		rpcUnreliableToId = 4,

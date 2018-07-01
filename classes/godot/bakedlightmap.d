@@ -100,14 +100,14 @@ public:
 	/// 
 	enum Constants : int
 	{
+		bakeModeConeTrace = 0,
 		bakeErrorOk = 0,
 		bakeQualityLow = 0,
-		bakeModeConeTrace = 0,
+		bakeQualityMedium = 1,
 		bakeModeRayTrace = 1,
 		bakeErrorNoSavePath = 1,
-		bakeQualityMedium = 1,
-		bakeQualityHigh = 2,
 		bakeErrorNoMeshes = 2,
+		bakeQualityHigh = 2,
 		bakeErrorCantCreateImage = 3,
 		bakeErrorUserAborted = 4,
 	}

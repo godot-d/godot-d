@@ -103,11 +103,11 @@ public:
 	enum Constants : int
 	{
 		accessResources = 0,
-		modeOpenFile = 0,
 		displayThumbnails = 0,
-		modeOpenFiles = 1,
+		modeOpenFile = 0,
 		displayList = 1,
 		accessUserdata = 1,
+		modeOpenFiles = 1,
 		modeOpenDir = 2,
 		accessFilesystem = 2,
 		modeOpenAny = 3,

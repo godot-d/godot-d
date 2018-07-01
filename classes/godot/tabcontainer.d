@@ -267,46 +267,6 @@ public:
 		_GODOT_get_popup.bind("TabContainer", "get_popup");
 		return ptrcall!(Popup)(_GODOT_get_popup, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_drag_to_rearrange_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_drag_to_rearrange_enabled") = _GODOT_set_drag_to_rearrange_enabled;
-	/**
-	
-	*/
-	void setDragToRearrangeEnabled(in bool enabled)
-	{
-		_GODOT_set_drag_to_rearrange_enabled.bind("TabContainer", "set_drag_to_rearrange_enabled");
-		ptrcall!(void)(_GODOT_set_drag_to_rearrange_enabled, _godot_object, enabled);
-	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_drag_to_rearrange_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_drag_to_rearrange_enabled") = _GODOT_get_drag_to_rearrange_enabled;
-	/**
-	
-	*/
-	bool getDragToRearrangeEnabled() const
-	{
-		_GODOT_get_drag_to_rearrange_enabled.bind("TabContainer", "get_drag_to_rearrange_enabled");
-		return ptrcall!(bool)(_GODOT_get_drag_to_rearrange_enabled, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_tabs_rearrange_group;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tabs_rearrange_group") = _GODOT_set_tabs_rearrange_group;
-	/**
-	
-	*/
-	void setTabsRearrangeGroup(in long group_id)
-	{
-		_GODOT_set_tabs_rearrange_group.bind("TabContainer", "set_tabs_rearrange_group");
-		ptrcall!(void)(_GODOT_set_tabs_rearrange_group, _godot_object, group_id);
-	}
-	package(godot) static GodotMethod!(long) _GODOT_get_tabs_rearrange_group;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tabs_rearrange_group") = _GODOT_get_tabs_rearrange_group;
-	/**
-	
-	*/
-	long getTabsRearrangeGroup() const
-	{
-		_GODOT_get_tabs_rearrange_group.bind("TabContainer", "get_tabs_rearrange_group");
-		return ptrcall!(long)(_GODOT_get_tabs_rearrange_group, _godot_object);
-	}
 	package(godot) static GodotMethod!(void) _GODOT__child_renamed_callback;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_child_renamed_callback") = _GODOT__child_renamed_callback;
 	/**
@@ -375,17 +335,5 @@ public:
 	@property void tabsVisible(bool v)
 	{
 		setTabsVisible(v);
-	}
-	/**
-	
-	*/
-	@property bool dragToRearrangeEnabled()
-	{
-		return getDragToRearrangeEnabled();
-	}
-	/// ditto
-	@property void dragToRearrangeEnabled(bool v)
-	{
-		setDragToRearrangeEnabled(v);
 	}
 }

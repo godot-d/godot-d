@@ -60,18 +60,6 @@ public:
 		String _GODOT_method_name = String("_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__focused;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_focused") = _GODOT__focused;
-	/**
-	
-	*/
-	void _focused(in long arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_focused");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
 	package(godot) static GodotMethod!(void, String, long) _GODOT_add_item;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_item") = _GODOT_add_item;
 	/**

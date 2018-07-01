@@ -92,7 +92,7 @@ public:
 	package(godot) static GodotMethod!(String) _GODOT_get_packet_ip;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_packet_ip") = _GODOT_get_packet_ip;
 	/**
-	Return the IP of the remote peer that sent the last packet(that was received with $(D getPacket) or $(D getVar)).
+	Return the IP of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
 	*/
 	String getPacketIp() const
 	{
@@ -102,7 +102,7 @@ public:
 	package(godot) static GodotMethod!(long) _GODOT_get_packet_port;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_packet_port") = _GODOT_get_packet_port;
 	/**
-	Return the port of the remote peer that sent the last packet(that was received with $(D getPacket) or $(D getVar)).
+	Return the port of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
 	*/
 	long getPacketPort() const
 	{

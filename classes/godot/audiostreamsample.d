@@ -304,7 +304,7 @@ public:
 		setStereo(v);
 	}
 	/**
-	
+	Contains the audio data in bytes.
 	*/
 	@property PoolByteArray data()
 	{

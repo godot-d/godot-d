@@ -90,9 +90,9 @@ public:
 	/// 
 	enum Constants : int
 	{
+		dopplerTrackingDisabled = 0,
 		projectionPerspective = 0,
 		keepWidth = 0,
-		dopplerTrackingDisabled = 0,
 		dopplerTrackingIdleStep = 1,
 		keepHeight = 1,
 		projectionOrthogonal = 1,
@@ -188,15 +188,15 @@ public:
 		_GODOT_make_current.bind("Camera", "make_current");
 		ptrcall!(void)(_GODOT_make_current, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_clear_current;
+	package(godot) static GodotMethod!(void) _GODOT_clear_current;
 	package(godot) alias _GODOT_methodBindInfo(string name : "clear_current") = _GODOT_clear_current;
 	/**
 	If this is the current Camera, remove it from being current. If `enable_next` is true, request to make the next Camera current, if any.
 	*/
-	void clearCurrent(in bool enable_next = true)
+	void clearCurrent()
 	{
 		_GODOT_clear_current.bind("Camera", "clear_current");
-		ptrcall!(void)(_GODOT_clear_current, _godot_object, enable_next);
+		ptrcall!(void)(_GODOT_clear_current, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_current;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_current") = _GODOT_set_current;

@@ -1,5 +1,5 @@
 /**
-
+Texture which displays the content of a $(D Viewport).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 /**
+Texture which displays the content of a $(D Viewport).
 
+Displays the content of a $(D Viewport) node as a dynamic $(D Texture). This can be used to mix controls, 2D, and 3D elements in the same scene.
+To create a ViewportTexture in code, use the $(D Viewport.getTexture) method on the target viewport.
 */
 @GodotBaseClass struct ViewportTexture
 {
@@ -65,7 +68,7 @@ public:
 		return ptrcall!(NodePath)(_GODOT_get_viewport_path_in_scene, _godot_object);
 	}
 	/**
-	
+	The path to the $(D Viewport) node to display. This is relative to the scene root, not to the node which uses the texture.
 	*/
 	@property NodePath viewportPath()
 	{

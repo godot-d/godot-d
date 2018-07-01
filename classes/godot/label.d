@@ -92,12 +92,12 @@ public:
 	{
 		alignLeft = 0,
 		valignTop = 0,
-		valignCenter = 1,
 		alignCenter = 1,
+		valignCenter = 1,
 		valignBottom = 2,
 		alignRight = 2,
-		valignFill = 3,
 		alignFill = 3,
+		valignFill = 3,
 	}
 	package(godot) static GodotMethod!(void, long) _GODOT_set_align;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_align") = _GODOT_set_align;

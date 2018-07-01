@@ -107,26 +107,6 @@ public:
 		_GODOT_get_color.bind("Polygon2D", "get_color");
 		return ptrcall!(Color)(_GODOT_get_color, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolIntArray) _GODOT_set_splits;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_splits") = _GODOT_set_splits;
-	/**
-	
-	*/
-	void setSplits(in PoolIntArray splits)
-	{
-		_GODOT_set_splits.bind("Polygon2D", "set_splits");
-		ptrcall!(void)(_GODOT_set_splits, _godot_object, splits);
-	}
-	package(godot) static GodotMethod!(PoolIntArray) _GODOT_get_splits;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_splits") = _GODOT_get_splits;
-	/**
-	
-	*/
-	PoolIntArray getSplits() const
-	{
-		_GODOT_get_splits.bind("Polygon2D", "get_splits");
-		return ptrcall!(PoolIntArray)(_GODOT_get_splits, _godot_object);
-	}
 	package(godot) static GodotMethod!(void, PoolColorArray) _GODOT_set_vertex_colors;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_colors") = _GODOT_set_vertex_colors;
 	/**
@@ -350,18 +330,6 @@ public:
 	@property void uv(PoolVector2Array v)
 	{
 		setUv(v);
-	}
-	/**
-	
-	*/
-	@property PoolIntArray splits()
-	{
-		return getSplits();
-	}
-	/// ditto
-	@property void splits(PoolIntArray v)
-	{
-		setSplits(v);
 	}
 	/**
 	The polygon's fill color. If `texture` is defined, it will be multiplied by this color. It will also be the default color for vertices not set in `vertex_colors`.

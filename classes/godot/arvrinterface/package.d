@@ -113,18 +113,18 @@ public:
 	/// 
 	enum Constants : int
 	{
+		arvrNone = 0,
 		eyeMono = 0,
 		arvrNormalTracking = 0,
-		arvrNone = 0,
+		arvrMono = 1,
 		arvrExcessiveMotion = 1,
 		eyeLeft = 1,
-		arvrMono = 1,
-		eyeRight = 2,
-		arvrStereo = 2,
 		arvrInsufficientFeatures = 2,
+		arvrStereo = 2,
+		eyeRight = 2,
 		arvrUnknownTracking = 3,
-		arvrNotTracking = 4,
 		arvrAr = 4,
+		arvrNotTracking = 4,
 		arvrExternal = 8,
 	}
 	package(godot) static GodotMethod!(String) _GODOT_get_name;

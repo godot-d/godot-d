@@ -25,6 +25,8 @@ import godot.spatial;
 Skeleton for characters and animated objects.
 
 Skeleton provides a hierarchical interface for managing bones, including pose, rest and animation (see $(D Animation)). Skeleton will support rag doll dynamics in the future.
+The overall transform of a bone with respect to the skeleton is determined by the following hierarchical order: rest pose, custom pose and pose.
+Note that "global pose" below refers to the overall transform of the bone with respect to skeleton, so it not the actual global/world transform of the bone.
 */
 @GodotBaseClass struct Skeleton
 {
@@ -77,7 +79,7 @@ public:
 	package(godot) static GodotMethod!(String, long) _GODOT_get_bone_name;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_name") = _GODOT_get_bone_name;
 	/**
-	Return the name of the bone at index "index"
+	Return the name of the bone at index "index".
 	*/
 	String getBoneName(in long bone_idx) const
 	{
@@ -207,7 +209,7 @@ public:
 	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_pose;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_pose") = _GODOT_get_bone_pose;
 	/**
-	Return the pose transform for bone "bone_idx".
+	Return the pose transform of the specified bone. Pose is applied on top of the custom pose, which is applied on top the rest pose.
 	*/
 	Transform getBonePose(in long bone_idx) const
 	{
@@ -237,7 +239,7 @@ public:
 	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_global_pose;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_global_pose") = _GODOT_get_bone_global_pose;
 	/**
-	
+	Return the overall transform of the specified bone, with respect to the skeleton. Being relative to the skeleton frame, this is not the actual "global" transform of the bone.
 	*/
 	Transform getBoneGlobalPose(in long bone_idx) const
 	{
@@ -247,7 +249,7 @@ public:
 	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_custom_pose;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_custom_pose") = _GODOT_get_bone_custom_pose;
 	/**
-	
+	Return the custom pose of the specified bone. Custom pose is applied on top of the rest pose.
 	*/
 	Transform getBoneCustomPose(in long bone_idx) const
 	{
@@ -267,7 +269,7 @@ public:
 	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_transform;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_transform") = _GODOT_get_bone_transform;
 	/**
-	
+	Return the combination of custom pose and pose. The returned transform is in skeleton's reference frame.
 	*/
 	Transform getBoneTransform(in long bone_idx) const
 	{

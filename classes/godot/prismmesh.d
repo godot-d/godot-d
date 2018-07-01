@@ -147,7 +147,7 @@ public:
 		return ptrcall!(long)(_GODOT_get_subdivide_depth, _godot_object);
 	}
 	/**
-	Displacement of of the upper edge along the x-axis. 0.0 positions edge straight above the bottome left edge. Defaults to 0.5 (positioned on the midpoint).
+	Displacement of the upper edge along the x-axis. 0.0 positions edge straight above the bottome left edge. Defaults to 0.5 (positioned on the midpoint).
 	*/
 	@property double leftToRight()
 	{

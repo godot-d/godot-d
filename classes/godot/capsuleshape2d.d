@@ -87,7 +87,7 @@ public:
 		return ptrcall!(double)(_GODOT_get_height, _godot_object);
 	}
 	/**
-	The capsules's radius.
+	The capsule's radius.
 	*/
 	@property double radius()
 	{

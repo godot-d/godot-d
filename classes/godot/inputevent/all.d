@@ -8,10 +8,10 @@ public import
 	godot.inputeventmousebutton,
 	godot.inputeventmousemotion,
 	godot.inputeventgesture,
-	godot.inputeventpangesture,
 	godot.inputeventmagnifygesture,
+	godot.inputeventpangesture,
 	godot.inputeventjoypadbutton,
 	godot.inputeventjoypadmotion,
-	godot.inputeventscreentouch,
 	godot.inputeventscreendrag,
+	godot.inputeventscreentouch,
 	godot.inputeventaction;

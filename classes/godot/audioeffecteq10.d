@@ -37,7 +37,6 @@ Band 7 : 2000 Hz
 Band 8 : 4000 Hz
 Band 9 : 8000 Hz
 Band 10 : 16000 Hz
-
 See also $(D AudioEffectEQ), $(D AudioEffectEQ6), $(D AudioEffectEQ21).
 */
 @GodotBaseClass struct AudioEffectEQ10

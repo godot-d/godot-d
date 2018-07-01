@@ -49,17 +49,17 @@ public:
 		return cast(KinematicBody)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(KinematicCollision, Vector3, bool) _GODOT_move_and_collide;
+	package(godot) static GodotMethod!(KinematicCollision, Vector3) _GODOT_move_and_collide;
 	package(godot) alias _GODOT_methodBindInfo(string name : "move_and_collide") = _GODOT_move_and_collide;
 	/**
 	Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a $(D KinematicCollision), which contains information about the collision.
 	*/
-	Ref!KinematicCollision moveAndCollide(in Vector3 rel_vec, in bool infinite_inertia = true)
+	Ref!KinematicCollision moveAndCollide(in Vector3 rel_vec)
 	{
 		_GODOT_move_and_collide.bind("KinematicBody", "move_and_collide");
-		return ptrcall!(KinematicCollision)(_GODOT_move_and_collide, _godot_object, rel_vec, infinite_inertia);
+		return ptrcall!(KinematicCollision)(_GODOT_move_and_collide, _godot_object, rel_vec);
 	}
-	package(godot) static GodotMethod!(Vector3, Vector3, Vector3, bool, double, long, double) _GODOT_move_and_slide;
+	package(godot) static GodotMethod!(Vector3, Vector3, Vector3, double, long, double) _GODOT_move_and_slide;
 	package(godot) alias _GODOT_methodBindInfo(string name : "move_and_slide") = _GODOT_move_and_slide;
 	/**
 	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a `KinematicBody` or $(D RigidBody), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
@@ -70,20 +70,20 @@ public:
 	`floor_max_angle` is the maximum angle (in radians) where a slope is still considered a floor (or a ceiling), rather than a wall. The default value equals 45 degrees.
 	Returns the movement that remained when the body stopped. To get more detailed information about collisions that occurred, use $(D getSlideCollision).
 	*/
-	Vector3 moveAndSlide(in Vector3 linear_velocity, in Vector3 floor_normal = Vector3(0, 0, 0), in bool infinite_inertia = true, in double slope_stop_min_velocity = 0.05, in long max_slides = 4, in double floor_max_angle = 0.785398)
+	Vector3 moveAndSlide(in Vector3 linear_velocity, in Vector3 floor_normal = Vector3(0, 0, 0), in double slope_stop_min_velocity = 0.05, in long max_slides = 4, in double floor_max_angle = 0.785398)
 	{
 		_GODOT_move_and_slide.bind("KinematicBody", "move_and_slide");
-		return ptrcall!(Vector3)(_GODOT_move_and_slide, _godot_object, linear_velocity, floor_normal, infinite_inertia, slope_stop_min_velocity, max_slides, floor_max_angle);
+		return ptrcall!(Vector3)(_GODOT_move_and_slide, _godot_object, linear_velocity, floor_normal, slope_stop_min_velocity, max_slides, floor_max_angle);
 	}
-	package(godot) static GodotMethod!(bool, Transform, Vector3, bool) _GODOT_test_move;
+	package(godot) static GodotMethod!(bool, Transform, Vector3) _GODOT_test_move;
 	package(godot) alias _GODOT_methodBindInfo(string name : "test_move") = _GODOT_test_move;
 	/**
 	Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given $(D Transform), then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
 	*/
-	bool testMove(in Transform from, in Vector3 rel_vec, in bool infinite_inertia)
+	bool testMove(in Transform from, in Vector3 rel_vec)
 	{
 		_GODOT_test_move.bind("KinematicBody", "test_move");
-		return ptrcall!(bool)(_GODOT_test_move, _godot_object, from, rel_vec, infinite_inertia);
+		return ptrcall!(bool)(_GODOT_test_move, _godot_object, from, rel_vec);
 	}
 	package(godot) static GodotMethod!(bool) _GODOT_is_on_floor;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_on_floor") = _GODOT_is_on_floor;

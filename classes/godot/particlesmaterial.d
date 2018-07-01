@@ -150,11 +150,11 @@ public:
 	enum Constants : int
 	{
 		emissionShapePoint = 0,
-		paramInitialLinearVelocity = 0,
 		flagAlignYToVelocity = 0,
+		paramInitialLinearVelocity = 0,
 		emissionShapeSphere = 1,
-		flagRotateY = 1,
 		paramAngularVelocity = 1,
+		flagRotateY = 1,
 		emissionShapeBox = 2,
 		paramOrbitVelocity = 2,
 		paramLinearAccel = 3,

@@ -129,7 +129,7 @@ public:
 		setPressed(v);
 	}
 	/**
-	Key scancode, one of the `KEY_*` constants in $(D @global Scope).
+	Key scancode, one of the `KEY_*` constants in $(D @GlobalScope).
 	*/
 	@property long scancode()
 	{

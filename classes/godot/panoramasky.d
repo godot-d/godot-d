@@ -1,5 +1,5 @@
 /**
-
+A type of $(D Sky) used to draw a background texture.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,9 @@ import godot.classdb;
 import godot.sky;
 import godot.texture;
 /**
+A type of $(D Sky) used to draw a background texture.
 
+A resource referenced in an $(D Environment) that is used to draw a background. The Panorama sky functions similar to skyboxes in other engines except it uses a equirectangular sky map instead of a cube map.
 */
 @GodotBaseClass struct PanoramaSky
 {
@@ -66,7 +68,7 @@ public:
 		return ptrcall!(Texture)(_GODOT_get_panorama, _godot_object);
 	}
 	/**
-	
+	$(D Texture) to be applied to the PanoramaSky.
 	*/
 	@property Texture panorama()
 	{

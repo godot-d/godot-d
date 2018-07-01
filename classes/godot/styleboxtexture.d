@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.stylebox;
+import godot.resource;
 import godot.texture;
 /**
 Texture Based 3x3 scale style.
@@ -70,45 +71,45 @@ public:
 		axisStretchModeTile = 1,
 		axisStretchModeTileFit = 2,
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
+	package(godot) static GodotMethod!(void, Resource) _GODOT_set_texture;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
-	void setTexture(Texture texture)
+	void setTexture(Resource texture)
 	{
 		_GODOT_set_texture.bind("StyleBoxTexture", "set_texture");
 		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
+	package(godot) static GodotMethod!(Resource) _GODOT_get_texture;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
-	Ref!Texture getTexture() const
+	Ref!Resource getTexture() const
 	{
 		_GODOT_get_texture.bind("StyleBoxTexture", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		return ptrcall!(Resource)(_GODOT_get_texture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_normal_map;
+	package(godot) static GodotMethod!(void, Resource) _GODOT_set_normal_map;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_normal_map") = _GODOT_set_normal_map;
 	/**
 	
 	*/
-	void setNormalMap(Texture normal_map)
+	void setNormalMap(Resource normal_map)
 	{
 		_GODOT_set_normal_map.bind("StyleBoxTexture", "set_normal_map");
 		ptrcall!(void)(_GODOT_set_normal_map, _godot_object, normal_map);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_normal_map;
+	package(godot) static GodotMethod!(Resource) _GODOT_get_normal_map;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_normal_map") = _GODOT_get_normal_map;
 	/**
 	
 	*/
-	Ref!Texture getNormalMap() const
+	Ref!Resource getNormalMap() const
 	{
 		_GODOT_get_normal_map.bind("StyleBoxTexture", "get_normal_map");
-		return ptrcall!(Texture)(_GODOT_get_normal_map, _godot_object);
+		return ptrcall!(Resource)(_GODOT_get_normal_map, _godot_object);
 	}
 	package(godot) static GodotMethod!(void, long, double) _GODOT_set_margin_size;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_margin_size") = _GODOT_set_margin_size;
@@ -273,24 +274,24 @@ public:
 	/**
 	
 	*/
-	@property Texture texture()
+	@property Resource texture()
 	{
 		return getTexture();
 	}
 	/// ditto
-	@property void texture(Texture v)
+	@property void texture(Resource v)
 	{
 		setTexture(v);
 	}
 	/**
 	
 	*/
-	@property Texture normalMap()
+	@property Resource normalMap()
 	{
 		return getNormalMap();
 	}
 	/// ditto
-	@property void normalMap(Texture v)
+	@property void normalMap(Resource v)
 	{
 		setNormalMap(v);
 	}

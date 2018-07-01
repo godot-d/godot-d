@@ -92,8 +92,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		alignLeft = 0,
 		cellModeString = 0,
+		alignLeft = 0,
 		cellModeCheck = 1,
 		alignCenter = 1,
 		cellModeRange = 2,
@@ -395,7 +395,7 @@ public:
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT_remove_child;
 	package(godot) alias _GODOT_methodBindInfo(string name : "remove_child") = _GODOT_remove_child;
 	/**
-	Removes the child TreeItem at index `index`.
+	Removes the given child TreeItem.
 	*/
 	void removeChild(GodotObject child)
 	{

@@ -84,12 +84,12 @@ public:
 	/// 
 	enum Constants : int
 	{
-		alphaCutDisabled = 0,
 		flagTransparent = 0,
+		alphaCutDisabled = 0,
 		alphaCutDiscard = 1,
 		flagShaded = 1,
-		flagDoubleSided = 2,
 		alphaCutOpaquePrepass = 2,
+		flagDoubleSided = 2,
 		flagMax = 3,
 	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_centered;

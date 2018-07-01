@@ -5,8 +5,8 @@ public import
 	godot.viewporttexture,
 	godot.curvetexture,
 	godot.gradienttexture,
-	godot.atlastexture,
-	godot.imagetexture,
 	godot.streamtexture,
-	godot.proxytexture,
-	godot.largetexture;
+	godot.imagetexture,
+	godot.atlastexture,
+	godot.largetexture,
+	godot.proxytexture;

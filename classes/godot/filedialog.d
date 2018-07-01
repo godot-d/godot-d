@@ -91,10 +91,10 @@ public:
 	/// 
 	enum Constants : int
 	{
-		accessResources = 0,
 		modeOpenFile = 0,
-		modeOpenFiles = 1,
+		accessResources = 0,
 		accessUserdata = 1,
+		modeOpenFiles = 1,
 		modeOpenDir = 2,
 		accessFilesystem = 2,
 		modeOpenAny = 3,
@@ -123,15 +123,15 @@ public:
 		String _GODOT_method_name = String("_tree_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__tree_item_activated;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_tree_item_activated") = _GODOT__tree_item_activated;
+	package(godot) static GodotMethod!(void) _GODOT__tree_db_selected;
+	package(godot) alias _GODOT_methodBindInfo(string name : "_tree_db_selected") = _GODOT__tree_db_selected;
 	/**
 	
 	*/
-	void _treeItemActivated()
+	void _treeDbSelected()
 	{
 		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_tree_item_activated");
+		String _GODOT_method_name = String("_tree_db_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	package(godot) static GodotMethod!(void, String) _GODOT__dir_entered;

@@ -1,5 +1,5 @@
 /**
-
+A material that uses a custom $(D Shader) program.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,9 @@ import godot.classdb;
 import godot.material;
 import godot.shader;
 /**
+A material that uses a custom $(D Shader) program.
 
+A material that uses a custom $(D Shader) program to render either items to screen or process particles. You can create multiple materials for the same shader but configure different values for the uniforms defined in the shader.
 */
 @GodotBaseClass struct ShaderMaterial
 {
@@ -68,7 +70,7 @@ public:
 	package(godot) static GodotMethod!(void, String, Variant) _GODOT_set_shader_param;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_shader_param") = _GODOT_set_shader_param;
 	/**
-	
+	Changes the value set for this material of a uniform in the shader.
 	*/
 	void setShaderParam(StringArg0, VariantArg1)(in StringArg0 param, in VariantArg1 value)
 	{
@@ -78,7 +80,7 @@ public:
 	package(godot) static GodotMethod!(Variant, String) _GODOT_get_shader_param;
 	package(godot) alias _GODOT_methodBindInfo(string name : "get_shader_param") = _GODOT_get_shader_param;
 	/**
-	
+	Returns the current value set for this material of a uniform in the shader.
 	*/
 	Variant getShaderParam(StringArg0)(in StringArg0 param) const
 	{
@@ -86,7 +88,7 @@ public:
 		return ptrcall!(Variant)(_GODOT_get_shader_param, _godot_object, param);
 	}
 	/**
-	
+	The $(D Shader) program used to render this material.
 	*/
 	@property Shader shader()
 	{

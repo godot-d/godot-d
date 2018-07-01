@@ -103,8 +103,8 @@ public:
 		resolverStatusNone = 0,
 		typeIpv4 = 1,
 		resolverStatusWaiting = 1,
-		resolverStatusDone = 2,
 		typeIpv6 = 2,
+		resolverStatusDone = 2,
 		resolverStatusError = 3,
 		typeAny = 3,
 		/**

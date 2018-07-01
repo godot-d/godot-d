@@ -31,7 +31,7 @@ Creates a sub-view into the screen.
 
 A Viewport creates a different view into the screen, or a sub-view inside another viewport. Children 2D Nodes will display on it, and children Camera 3D nodes will render on it too.
 Optionally, a viewport can have its own 2D or 3D world, so they don't share what they draw with other viewports.
-If a viewport is a child of a $(D Control), it will automatically take up its same rect and position, otherwise they must be set manually.
+If a viewport is a child of a $(D ViewportContainer), it will automatically take up its size, otherwise it must be set manually.
 Viewports can also choose to be audio listeners, so they generate positional audio depending on a 2D or 3D camera child of it.
 Also, viewports can be assigned to different screens in case the devices have multiple screens.
 Finally, viewports can also behave as render targets, in which case they will not be visible unless the associated texture is used to draw.
@@ -60,15 +60,15 @@ public:
 	enum ClearMode : int
 	{
 		/**
-		
+		Always clear the render target before drawing.
 		*/
 		clearModeAlways = 0,
 		/**
-		
+		Never clear the render target.
 		*/
 		clearModeNever = 1,
 		/**
-		
+		Clear the render target next frame, then switch to `CLEAR_MODE_NEVER`.
 		*/
 		clearModeOnlyNextFrame = 2,
 	}
@@ -136,7 +136,7 @@ public:
 		*/
 		debugDrawUnshaded = 1,
 		/**
-		
+		Objected are displayed semi-transparent with additive blending so you can see where they intersect.
 		*/
 		debugDrawOverdraw = 2,
 		/**
@@ -188,7 +188,7 @@ public:
 		*/
 		updateDisabled = 0,
 		/**
-		Update the render target once, then switch to `UPDATE_DISABLED`
+		Update the render target once, then switch to `UPDATE_DISABLED`.
 		*/
 		updateOnce = 1,
 		/**
@@ -227,40 +227,40 @@ public:
 	/// 
 	enum Constants : int
 	{
-		updateDisabled = 0,
 		clearModeAlways = 0,
 		usage2d = 0,
-		msaaDisabled = 0,
-		renderInfoObjectsInFrame = 0,
+		updateDisabled = 0,
 		debugDrawDisabled = 0,
 		shadowAtlasQuadrantSubdivDisabled = 0,
+		msaaDisabled = 0,
+		renderInfoObjectsInFrame = 0,
+		renderInfoVerticesInFrame = 1,
 		usage2dNoSampling = 1,
 		shadowAtlasQuadrantSubdiv1 = 1,
-		debugDrawUnshaded = 1,
-		msaa2x = 1,
-		renderInfoVerticesInFrame = 1,
-		updateOnce = 1,
 		clearModeNever = 1,
-		renderInfoMaterialChangesInFrame = 2,
-		debugDrawOverdraw = 2,
+		msaa2x = 1,
+		debugDrawUnshaded = 1,
+		updateOnce = 1,
 		msaa4x = 2,
-		updateWhenVisible = 2,
 		shadowAtlasQuadrantSubdiv4 = 2,
-		usage3d = 2,
 		clearModeOnlyNextFrame = 2,
-		shadowAtlasQuadrantSubdiv16 = 3,
+		debugDrawOverdraw = 2,
+		updateWhenVisible = 2,
+		renderInfoMaterialChangesInFrame = 2,
+		usage3d = 2,
 		renderInfoShaderChangesInFrame = 3,
+		updateAlways = 3,
+		shadowAtlasQuadrantSubdiv16 = 3,
 		msaa8x = 3,
 		debugDrawWireframe = 3,
 		usage3dNoEffects = 3,
-		updateAlways = 3,
 		msaa16x = 4,
 		shadowAtlasQuadrantSubdiv64 = 4,
 		renderInfoSurfaceChangesInFrame = 4,
 		shadowAtlasQuadrantSubdiv256 = 5,
 		renderInfoDrawCallsInFrame = 5,
-		shadowAtlasQuadrantSubdiv1024 = 6,
 		renderInfoMax = 6,
+		shadowAtlasQuadrantSubdiv1024 = 6,
 		shadowAtlasQuadrantSubdivMax = 7,
 	}
 	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_arvr;
@@ -929,17 +929,6 @@ public:
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_gui_remove_focus");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	package(godot) static GodotMethod!(void) _GODOT__post_gui_grab_click_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_post_gui_grab_click_focus") = _GODOT__post_gui_grab_click_focus;
-	/**
-	
-	*/
-	void _postGuiGrabClickFocus()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_post_gui_grab_click_focus");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_atlas_size;

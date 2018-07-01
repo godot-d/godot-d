@@ -102,7 +102,7 @@ public:
 	package(godot) static GodotMethod!(Button, String, bool, String) _GODOT_add_button;
 	package(godot) alias _GODOT_methodBindInfo(string name : "add_button") = _GODOT_add_button;
 	/**
-	Adds a button with label $(I text) and a custom $(I action) to the dialog and returns the created button. $(I action) will be passed to the $(D custom_action) signal when pressed.
+	Adds a button with label $(I text) and a custom $(I action) to the dialog and returns the created button. $(I action) will be passed to the $(D customAction) signal when pressed.
 	If `true`, $(I right) will place the button to the right of any sibling buttons. Default value: `false`.
 	*/
 	Button addButton(StringArg0, StringArg2)(in StringArg0 text, in bool right = false, in StringArg2 action = "")

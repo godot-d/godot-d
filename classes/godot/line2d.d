@@ -101,8 +101,8 @@ public:
 		lineCapBox = 1,
 		lineTextureTile = 1,
 		lineJointBevel = 1,
-		lineCapRound = 2,
 		lineJointRound = 2,
+		lineCapRound = 2,
 	}
 	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_points;
 	package(godot) alias _GODOT_methodBindInfo(string name : "set_points") = _GODOT_set_points;

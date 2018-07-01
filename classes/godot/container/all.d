@@ -9,11 +9,11 @@ public import
 	godot.gridcontainer,
 	godot.centercontainer,
 	godot.scrollcontainer,
+	godot.panelcontainer,
+	godot.scripteditor,
 	godot.splitcontainer,
 	godot.hsplitcontainer,
 	godot.vsplitcontainer,
-	godot.panelcontainer,
-	godot.scripteditor,
 	godot.graphnode,
 	godot.margincontainer,
 	godot.viewportcontainer;

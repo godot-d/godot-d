@@ -25,10 +25,7 @@ import godot.reference;
 Registers a custom resource importer in the editor. Use the class to parse any file and import it as a new resource type.
 
 EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your $(D EditorPlugin) with $(D EditorPlugin.addImportPlugin).
-
 EditorImportPlugins work by associating with specific file extensions and a resource type. See $(D getRecognizedExtension) and $(D getResourceType)). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the `.import` directory.
-
-
 Below is an example EditorImportPlugin that imports a $(D Mesh) from a file with the extension ".special" or ".spec":
 
 

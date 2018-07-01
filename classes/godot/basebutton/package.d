@@ -93,7 +93,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT__pressed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_pressed") = _GODOT__pressed;
 	/**
-	Called when button is pressed.
+	Called when the button is pressed.
 	*/
 	void _pressed()
 	{
@@ -104,7 +104,7 @@ public:
 	package(godot) static GodotMethod!(void, bool) _GODOT__toggled;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_toggled") = _GODOT__toggled;
 	/**
-	Called when button is toggled (only if toggle_mode is active).
+	Called when the button is toggled (only if toggle_mode is active).
 	*/
 	void _toggled(in bool button_pressed)
 	{
@@ -160,7 +160,7 @@ public:
 	package(godot) static GodotMethod!(bool) _GODOT_is_hovered;
 	package(godot) alias _GODOT_methodBindInfo(string name : "is_hovered") = _GODOT_is_hovered;
 	/**
-	Return true if mouse entered the button before it exit.
+	Return true if the mouse has entered the button and has not left it yet.
 	*/
 	bool isHovered() const
 	{

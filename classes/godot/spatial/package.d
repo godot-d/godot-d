@@ -27,7 +27,6 @@ import godot.spatialgizmo;
 Most basic 3D game object, parent of all 3D related nodes.
 
 Most basic 3D game object, with a 3D $(D Transform) and visibility settings. All other 3D game objects inherit from Spatial. Use Spatial as a parent node to move, scale, rotate and show/hide children in a 3D project.
-
 Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the Spatial object is set as top level. Affine operations in this coordinate system correspond to direct affine operations on the Spatial's transform. The word local below refers to this coordinate system. The coordinate system that is attached to the Spatial object itself is referred to as object-local coordinate system.
 */
 @GodotBaseClass struct Spatial
@@ -505,7 +504,9 @@ public:
 	package(godot) static GodotMethod!(void, Vector3, Vector3) _GODOT_look_at;
 	package(godot) alias _GODOT_methodBindInfo(string name : "look_at") = _GODOT_look_at;
 	/**
-	Rotates itself to point into direction of target position. Operations take place in global space.
+	Rotates itself so that the local -Z axis points towards the `target` position.
+	The transform will first be rotated around the given `up` vector, and then fully aligned to the target by a further rotation around an axis perpendicular to both the `target` and `up` vectors.
+	Operations take place in global space.
 	*/
 	void lookAt(in Vector3 target, in Vector3 up)
 	{
@@ -515,7 +516,7 @@ public:
 	package(godot) static GodotMethod!(void, Vector3, Vector3, Vector3) _GODOT_look_at_from_position;
 	package(godot) alias _GODOT_methodBindInfo(string name : "look_at_from_position") = _GODOT_look_at_from_position;
 	/**
-	Moves the node to specified position and then rotates itself to point into direction of target position. Operations take place in global space.
+	Moves the node to the specified `position`, and then rotates itself to point toward the `target` as per $(D lookAt). Operations take place in global space.
 	*/
 	void lookAtFromPosition(in Vector3 position, in Vector3 target, in Vector3 up)
 	{
@@ -592,7 +593,6 @@ public:
 	}
 	/**
 	Rotation part of the local transformation, specified in terms of YXZ-Euler angles in the format (X-angle, Y-angle, Z-angle), in radians.
-	
 	Note that in the mathematical sense, rotation is a matrix and not a vector. The three Euler angles, which are the three indepdent parameters of the Euler-angle parametrization of the rotation matrix, are stored in a $(D Vector3) data structure not because the rotation is a vector, but only because $(D Vector3) exists as a convenient data-structure to store 3 floating point numbers. Therefore, applying affine operations on the rotation "vector" is not meaningful.
 	*/
 	@property Vector3 rotation()

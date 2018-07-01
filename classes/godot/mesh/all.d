@@ -4,10 +4,10 @@ public import
 	godot.mesh,
 	godot.arraymesh,
 	godot.primitivemesh,
-	godot.cubemesh,
 	godot.capsulemesh,
-	godot.planemesh,
+	godot.cubemesh,
 	godot.cylindermesh,
+	godot.planemesh,
 	godot.prismmesh,
 	godot.quadmesh,
 	godot.spheremesh;

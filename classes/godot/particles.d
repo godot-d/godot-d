@@ -72,7 +72,7 @@ public:
 		drawOrderLifetime = 1,
 		drawOrderViewDepth = 2,
 		/**
-		
+		Maximum number of draw passes supported.
 		*/
 		maxDrawPasses = 4,
 	}
@@ -399,7 +399,7 @@ public:
 	package(godot) static GodotMethod!(void) _GODOT_restart;
 	package(godot) alias _GODOT_methodBindInfo(string name : "restart") = _GODOT_restart;
 	/**
-	
+	Restarts the particle emmission, clearing existing particles.
 	*/
 	void restart()
 	{
@@ -465,7 +465,7 @@ public:
 		setOneShot(v);
 	}
 	/**
-	
+	Amount of time to preprocess the particles before animation starts. Lets you start the animation some time after particles have started emitting.
 	*/
 	@property double preprocess()
 	{
@@ -537,7 +537,7 @@ public:
 		setFractionalDelta(v);
 	}
 	/**
-	
+	The $(D AABB) that determines the area of the world part of which needs to be visible on screen for the particle system to be active.
 	*/
 	@property AABB visibilityAabb()
 	{
@@ -573,7 +573,7 @@ public:
 		setDrawOrder(v);
 	}
 	/**
-	
+	The number of draw passes when rendering particles.
 	*/
 	@property long drawPasses()
 	{
@@ -585,7 +585,7 @@ public:
 		setDrawPasses(v);
 	}
 	/**
-	
+	$(D Mesh) that is drawn for the first draw pass.
 	*/
 	@property Mesh drawPass1()
 	{
@@ -597,7 +597,7 @@ public:
 		setDrawPassMesh(0, v);
 	}
 	/**
-	
+	$(D Mesh) that is drawn for the second draw pass.
 	*/
 	@property Mesh drawPass2()
 	{
@@ -609,7 +609,7 @@ public:
 		setDrawPassMesh(1, v);
 	}
 	/**
-	
+	$(D Mesh) that is drawn for the third draw pass.
 	*/
 	@property Mesh drawPass3()
 	{
@@ -621,7 +621,7 @@ public:
 		setDrawPassMesh(2, v);
 	}
 	/**
-	
+	$(D Mesh) that is drawn for the fourth draw pass.
 	*/
 	@property Mesh drawPass4()
 	{

@@ -520,15 +520,15 @@ public:
 		_GODOT_is_able_to_sleep.bind("RigidBody2D", "is_able_to_sleep");
 		return ptrcall!(bool)(_GODOT_is_able_to_sleep, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, Vector2, bool, double, Physics2DTestMotionResult) _GODOT_test_motion;
+	package(godot) static GodotMethod!(bool, Vector2, double, Physics2DTestMotionResult) _GODOT_test_motion;
 	package(godot) alias _GODOT_methodBindInfo(string name : "test_motion") = _GODOT_test_motion;
 	/**
 	Returns `true` if a collision would result from moving in the given vector. `margin` increases the size of the shapes involved in the collision detection, and `result` is an object of type $(D Physics2DTestMotionResult), which contains additional information about the collision (should there be one).
 	*/
-	bool testMotion(in Vector2 motion, in bool infinite_inertia = true, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
+	bool testMotion(in Vector2 motion, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
 	{
 		_GODOT_test_motion.bind("RigidBody2D", "test_motion");
-		return ptrcall!(bool)(_GODOT_test_motion, _godot_object, motion, infinite_inertia, margin, result);
+		return ptrcall!(bool)(_GODOT_test_motion, _godot_object, motion, margin, result);
 	}
 	package(godot) static GodotMethod!(void, GodotObject) _GODOT__direct_state_changed;
 	package(godot) alias _GODOT_methodBindInfo(string name : "_direct_state_changed") = _GODOT__direct_state_changed;

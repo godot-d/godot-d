@@ -53,22 +53,6 @@ public:
 	}
 	@disable new(size_t s);
 	/// 
-	enum TileMode : int
-	{
-		/**
-		
-		*/
-		singleTile = 0,
-		/**
-		
-		*/
-		autoTile = 1,
-		/**
-		
-		*/
-		animatedTile = 2,
-	}
-	/// 
 	enum AutotileBindings : int
 	{
 		/**
@@ -120,11 +104,8 @@ public:
 	enum Constants : int
 	{
 		bitmask2x2 = 0,
-		singleTile = 0,
 		bindTopleft = 1,
-		autoTile = 1,
 		bitmask3x3 = 1,
-		animatedTile = 2,
 		bindTop = 2,
 		bindTopright = 4,
 		bindLeft = 8,
@@ -410,26 +391,6 @@ public:
 	{
 		_GODOT_tile_get_shapes.bind("TileSet", "tile_get_shapes");
 		return ptrcall!(Array)(_GODOT_tile_get_shapes, _godot_object, id);
-	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_tile_set_tile_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_tile_mode") = _GODOT_tile_set_tile_mode;
-	/**
-	
-	*/
-	void tileSetTileMode(in long id, in long tilemode)
-	{
-		_GODOT_tile_set_tile_mode.bind("TileSet", "tile_set_tile_mode");
-		ptrcall!(void)(_GODOT_tile_set_tile_mode, _godot_object, id, tilemode);
-	}
-	package(godot) static GodotMethod!(TileSet.TileMode, long) _GODOT_tile_get_tile_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_tile_mode") = _GODOT_tile_get_tile_mode;
-	/**
-	
-	*/
-	TileSet.TileMode tileGetTileMode(in long id) const
-	{
-		_GODOT_tile_get_tile_mode.bind("TileSet", "tile_get_tile_mode");
-		return ptrcall!(TileSet.TileMode)(_GODOT_tile_get_tile_mode, _godot_object, id);
 	}
 	package(godot) static GodotMethod!(void, long, NavigationPolygon) _GODOT_tile_set_navigation_polygon;
 	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_navigation_polygon") = _GODOT_tile_set_navigation_polygon;

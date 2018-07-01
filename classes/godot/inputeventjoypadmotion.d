@@ -87,7 +87,7 @@ public:
 		return ptrcall!(double)(_GODOT_get_axis_value, _godot_object);
 	}
 	/**
-	Axis identifier. Use one of the `JOY_AXIS_*` constants in $(D @global Scope).
+	Axis identifier. Use one of the `JOY_AXIS_*` constants in $(D @GlobalScope).
 	*/
 	@property long axis()
 	{
