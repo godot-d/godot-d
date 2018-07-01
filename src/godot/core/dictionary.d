@@ -86,14 +86,16 @@ struct Dictionary
 		return cast(bool)_godot_api.godot_dictionary_empty(&_godot_dictionary);
 	}
 	
-	void erase(in Variant key)
+	void erase(K)(in K key) if(is(K : Variant) || Variant.compatibleToGodot!K)
 	{
-		_godot_api.godot_dictionary_erase(&_godot_dictionary, &key._godot_variant);
+		const Variant k = key;
+		_godot_api.godot_dictionary_erase(&_godot_dictionary, &k._godot_variant);
 	}
 	
-	bool has(in Variant key) const
+	bool has(K)(in K key) const if(is(K : Variant) || Variant.compatibleToGodot!K)
 	{
-		return cast(bool)_godot_api.godot_dictionary_has(&_godot_dictionary, &key._godot_variant);
+		const Variant k = key;
+		return cast(bool)_godot_api.godot_dictionary_has(&_godot_dictionary, &k._godot_variant);
 	}
 	
 	bool hasAll(in Array keys) const
