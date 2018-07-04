@@ -106,6 +106,8 @@ class GodotClass
 	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
 	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
+	Type[] missingEnums; /// enums that were left unregistered in Godot
+	
 	string ddocBrief;
 	string ddoc;
 	string[string] ddocConstants;
@@ -173,6 +175,16 @@ class GodotClass
 		foreach(const ref e; enums)
 		{
 			ret ~= e.source;
+		}
+		
+		foreach(const ref e; missingEnums)
+		{
+			import std.stdio;
+			writeln("Warning: The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.");
+			ret ~= "\t/// Warning: The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.\n";
+			ret ~= "\tdeprecated(\"The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.\")\n";
+			string shortName = e.d[e.d.countUntil(".")+1..$];
+			ret ~= "\talias " ~ shortName ~ " = int;\n";
 		}
 		
 		if(constants.length)

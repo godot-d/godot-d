@@ -15,6 +15,8 @@ class Type
 	static Type[string] typesByGodotName;
 	static Type[string] typesByDName;
 	
+	static Type[] enums;
+	
 	GodotClass objectClass;
 	string d;
 	string godot;
@@ -111,7 +113,11 @@ class Type
 		Type ret = new Type(godotName);
 		
 		static import api.enums;
-		if(ret.isEnum) ret.enumParent = get(api.enums.enumParent(godotName));
+		if(ret.isEnum)
+		{
+			ret.enumParent = get(api.enums.enumParent(godotName));
+			enums ~= ret;
+		}
 		
 		typesByGodotName[godotName] = ret;
 		typesByDName[ret.d] = ret;

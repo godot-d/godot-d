@@ -98,6 +98,16 @@ int main(string[] args)
 		c.base_class_ptr.descendant_ptrs ~= c;
 	}
 	
+	foreach(e; Type.enums)
+	{
+		import std.algorithm.searching : canFind;
+		auto c = e.enumParent ? e.enumParent.objectClass : null;
+		if(c && !c.enums.canFind!(ge => c.name.d~"."~ge.name == e.d))
+		{
+			c.missingEnums ~= e;
+		}
+	}
+	
 	/+
 	Break constness for methods overridden by non-const methods in descendents.
 	This kind of overload is a compile-time error in D.
