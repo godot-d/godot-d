@@ -69,7 +69,7 @@ opposite purpose: assigning a Script to D classes created from D with `memnew`.
 
 Assigned by the `register` function.
 +/
-package(godot) template NativeScriptTemplate(T) if(extendsGodotBaseClass!T)
+public template NativeScriptTemplate(T) if(extendsGodotBaseClass!T)
 {
 	private static import godot.nativescript;
 	private static import godot.d.reference;
