@@ -134,6 +134,7 @@ struct Vector2
 		real_t l = x*x + y*y;
 		if (l != 0)
 		{
+			l = sqrt(l);
 			x /= l;
 			y /= l;
 		}
