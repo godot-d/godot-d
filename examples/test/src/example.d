@@ -26,7 +26,7 @@ class Test : GodotScript!Label
 	alias owner this;
 	
 	private String _prop;
-	@Property
+	@Property @DefaultValue!"testDefaultValue"
 	String property() const
 	{
 		return _prop~String(" ~ hello from the getter!");
@@ -128,6 +128,11 @@ class Test : GodotScript!Label
 		writeln(" ---TEST--- ");
 		test();
 	}
+
+	void stringLitTest(String str = gs!"asdfTestLit")
+	{
+		print(str);
+	}
 	
 	@Method
 	void test()
@@ -141,6 +146,12 @@ class Test : GodotScript!Label
 		example game.
 		
 		+/
+
+		enum lit = gs!"testEnumLiteral";
+		stringLitTest(lit);
+		stringLitTest(gs!"testLiteral");
+		stringLitTest(gs!"testLiteral");
+		stringLitTest();
 		
 		Variant vVec2Ctor = Variant(Vector2(21, 6));
 		writefln("vVec2Ctor.type: %s", vVec2Ctor.type);

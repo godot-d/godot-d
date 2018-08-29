@@ -190,4 +190,34 @@ struct String
 	}
 }
 
- 
+struct GodotStringLiteral(string data)
+{
+	private static godot_string gs;
+	String str() const
+	{
+		static if(data.length) if(gs == godot_string.init)
+		{
+			_godot_api.godot_string_parse_utf8(&gs, data);
+		}
+		String ret = void;
+		_godot_api.godot_string_new_copy(&ret._godot_string, &gs);
+		return ret;
+	}
+	alias str this;
+}
+
+/++
+Create a GodotStringLiteral.
+
+D $(D string) to Godot $(D String) conversion is expensive and cannot be done
+at compile time. This literal does the conversion once the first time it's
+needed, then caches the String, allowing it to implicitly convert to String at
+no run time cost.
++/
+enum gs(string str) = GodotStringLiteral!str.init;
+
+
+
+
+
+
