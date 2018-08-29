@@ -307,11 +307,30 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		attr.usage = cast(godot_property_usage_flags)(uda.usage |
 			Property.Usage.scriptVariable);
 		
-		/// TODO: default value how?
+		Variant defval;
+		enum gDef = getterMatches.length && hasUDA!(getterMatches[0], DefaultValue);
+		enum sDef = getterMatches.length && hasUDA!(setterMatches[0], DefaultValue);
+		static if(gDef || sDef)
 		{
-			_godot_api.godot_variant_new_nil(&attr.default_value);
+			static if(gDef) alias defExprSeq = TemplateArgsOf!(getUDAs!(getterMatches[0], DefaultValue)[0]);
+			else alias defExprSeq = TemplateArgsOf!(getUDAs!(setterMatches[0], DefaultValue)[0]);
+			defval = defExprSeq[0];
 		}
-		
+		else static if( is(typeof( { P p; } )) ) // use type's default value
+		{
+			static if(isFloatingPoint!P)
+			{
+				// Godot doesn't support NaNs. Initialize properties to 0.0 instead.
+				defval = 0.0;
+			}
+			else defval = P.init;
+		}
+		else
+		{
+			/// FIXME: call default constructor function
+			defval = null;
+		}
+		attr.default_value = defval._godot_variant;
 		
 		static if(getterMatches.length)
 		{
@@ -375,7 +394,12 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		attr.usage = cast(godot_property_usage_flags)uda.usage |
 			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
 		
-		static if( is(typeof( { P p; } )) )
+		static if(hasUDA!(mixin("T."~pName), DefaultValue))
+		{
+			alias defExprSeq = TemplateArgsOf!(getUDAs!(mixin("T."~pName), DefaultValue)[0]);
+			Variant defval = defExprSeq[0];
+		}
+		else static if( is(typeof( { P p; } )) )
 		{
 			import std.math : isNaN;
 			static if(isFloatingPoint!P && (mixin("T."~pName).init).isNaN)
@@ -388,7 +412,6 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		else
 		{
 			/// FIXME: call default constructor function
-			pragma(msg, "Type "~P.stringof~" can't do init");
 			Variant defval = null;
 		}
 		attr.default_value = defval._godot_variant;
