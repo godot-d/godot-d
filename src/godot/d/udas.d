@@ -156,6 +156,36 @@ struct Property
 }
 
 /++
+A UDA for explicitly specifying the default value of a Property.
+
+This UDA works with getter/setter functions. It should be attached to only one
+of the two functions.
+
+The normal D default value will still be used if no `@DefaultValue` UDA is
+attached.
+
+Example:
+---
+class S : GodotScript!Node
+{
+	// UDA is needed to give getter/setter functions a default value
+	@Property @DefaultValue!5
+	int number() const
+	{
+		// ...
+	}
+	void number(int val)
+	{
+		// ...
+	}
+	
+	// plain variable; no UDA is needed
+	@Property int simpler = 6;
+}
++/
+struct DefaultValue(Expression...) {}
+
+/++
 A UDA for marking script variables that should be automatically created when
 the script is created, right before _init() is called.
 
