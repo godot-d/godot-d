@@ -99,8 +99,8 @@ struct Transform
 	{
 		Vector3 point=p_plane.normal*p_plane.d;
 		Vector3 point_dir=point+p_plane.normal;
-		xformInv(point);
-		xformInv(point_dir);
+		point = xformInv(point);
+		point_dir = xformInv(point_dir);
 	
 		Vector3 normal=point_dir-point;
 		normal.normalize();
