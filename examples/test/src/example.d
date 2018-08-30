@@ -147,6 +147,17 @@ class Test : GodotScript!Label
 		
 		+/
 
+		Vector2 ab = Vector2(1, 2);
+		print(ab.yx);
+		print(ab.yn);
+		print(ab.yn(3f));
+		print(ab.nn);
+		print(ab.ynn(4f));
+		print(ab.nnn(4f, 5f));
+		Vector3 abc = Vector3(1f, 2f, 3f);
+		print(abc.zyx);
+		print(abc.xnz);
+
 		enum lit = gs!"testEnumLiteral";
 		stringLitTest(lit);
 		stringLitTest(gs!"testLiteral");

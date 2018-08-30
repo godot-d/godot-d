@@ -16,6 +16,17 @@ import godot.core.defs;
 
 import std.math;
 
+private bool isValidSwizzle(dstring s)
+{
+	import std.algorithm : canFind;
+	if(s.length != 2 && s.length != 3) return false;
+	foreach(dchar c; s)
+	{
+		if(!"xyn".canFind(c)) return false;
+	}
+	return true;
+}
+
 /**
 2-element structure that can be used to represent positions in 2d-space, or any other pair of numeric values.
 */
@@ -40,6 +51,36 @@ struct Vector2
 		}
 
 		real_t[2] coord;
+	}
+	
+	import std.algorithm : count;
+	/++
+	Swizzle the vector with x, y, or n. Pass floats as args for any n's; if
+	there are more n's than args, the last arg is used for the rest. If no args
+	are passed at all, 0.0 is used for each n.
+	
+	The swizzle must be 2 or 3 characters, as Godot only has Vector2/3.
+	+/
+	auto opDispatch(string swizzle, size_t nArgCount)(float[nArgCount] nArgs...) const
+		if(swizzle.isValidSwizzle && nArgCount <= swizzle.count('n'))
+	{
+		import godot.core.vector3;
+		import std.algorithm : min, count;
+		static if(swizzle.length == 2) Vector2 ret = void;
+		else Vector3 ret = void;
+		/// how many n's already appeared before ci, which equals the index into nArgs for the n at ci
+		enum ni(size_t ci) = min(nArgCount-1, swizzle[0..ci].count('n'));
+		static foreach(ci, c; swizzle)
+		{
+			static if(c == 'n')
+			{
+				static if(nArgCount == 0) ret.coord[ci] = 0f;
+				else static if(ni!ci >= nArgCount) ret.coord[ci] = nArgs[nArgCount-1];
+				else ret.coord[ci] = nArgs[ni!ci];
+			}
+			else ret.coord[ci] = mixin([c]);
+		}
+		return ret;
 	}
 	
 	this(real_t x, real_t y)
@@ -305,10 +346,8 @@ struct Vector2
 			p_by.y != 0 ? .floor(y / p_by.y + 0.5) * p_by.y : y
 		);
 	}
-	
-	/+String opCast!(T : String)() const
-	{
-		return String(); /* @Todo String::num() */
-	}+/
 }
- 
+
+
+
+
