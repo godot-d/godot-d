@@ -25,9 +25,12 @@ import std.range;
 // ABI type should probably have its own `version`...
 version(X86_64)
 {
-	version(linux) version = GodotSystemV;
-	version(OSX) version = GodotSystemV;
-	version(Posix) version = GodotSystemV;
+	version(DigitalMars)
+	{
+		version(linux) version = GodotSystemV;
+		version(OSX) version = GodotSystemV;
+		version(Posix) version = GodotSystemV;
+	}
 }
 
 /**
@@ -384,56 +387,34 @@ struct Variant
 		static if(directlyCompatible!R) enum VarType = variantTypeOf!R;
 		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!R, DType)];
 		
-		mixin("auto Fa = _godot_api.godot_variant_as_"~FunctionAs!VarType~";");
-		
-		static if(VarType == Type.vector3)
+		// HACK workaround for DMD issue #5570
+		version(GodotSystemV) enum sV = true;
+		else enum sV = false;
+		static if(VarType == Type.vector3 && sV)
 		{
-			version(GodotSystemV) /// HACK workaround for DMD issue #5570
+			godot_vector3 ret = void;
+			void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
+			void* _this = cast(void*)&this;
+			
+			asm @nogc nothrow
 			{
-				godot_vector3 ret = void;
-				version(LDC)
-				{
-					import ldc.llvmasm;
-					__asm(
-						q{
-							callq $1;
-							
-							movq %rax, $2;
-							movl %edx, $3;
-						},
-						"{rdi}, r, r, r",
-						&this,
-						cast(void*)_godot_api.godot_variant_as_vector3,
-						&ret,
-						(cast(void*)&ret)+8
-					);
-				}
-				else
-				{
-					void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
-					void* _this = cast(void*)&this;
-					
-					asm @nogc nothrow
-					{
-						mov RDI, _this;
-						call _func;
-						
-						mov ret[0], RAX;
-						mov ret[8], EDX;
-					}
-				}
+				mov RDI, _this;
+				call _func;
+				
+				mov ret[0], RAX;
+				mov ret[8], EDX;
 			}
-			else InternalType[VarType] ret = Fa(&_godot_variant);
+			return *cast(Vector3*)&ret;
 		}
-		else InternalType[VarType] ret = Fa(&_godot_variant);
-		
-		// ret should NOT be destroyed by RAII here.
-		DType[VarType]* ptr = cast(DType[VarType]*)&ret;
-		
-		static if(directlyCompatible!R) return *ptr;
 		else
 		{
-			return conversionFromGodot!R(*ptr);
+			InternalType[VarType] ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
+			
+			static if(directlyCompatible!R) return *cast(DType[VarType]*)&ret;
+			else
+			{
+				return conversionFromGodot!R(*cast(DType[VarType]*)&ret);
+			}
 		}
 	}
 	
