@@ -73,12 +73,6 @@ class GodotClass
 		}
 		foreach(p; properties)
 		{
-			auto g = methods.find!(m => m.name == p.getter);
-			if(!g.empty) p.getterMethod = g.front;
-			auto s = methods.find!(m => m.name == p.setter);
-			if(!s.empty) p.setterMethod = s.front;
-			
-			
 			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
 			if(p.type.isEnum)
 			{
@@ -211,7 +205,39 @@ class GodotClass
 		
 		foreach(const p; properties)
 		{
-			ret ~= p.source;
+			import std.stdio : writeln;
+			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
+			
+			GodotMethod getterMethod, setterMethod;
+			
+			foreach(GodotClass c; BaseRange(cast()this))
+			{
+				if(!getterMethod)
+				{
+					auto g = c.methods.find!(m => m.name == p.getter);
+					if(!g.empty) getterMethod = g.front;
+				}
+				if(!setterMethod)
+				{
+					auto s = c.methods.find!(m => m.name == p.setter);
+					if(!s.empty) setterMethod = s.front;
+				}
+				
+				if(getterMethod && setterMethod) break;
+				
+				if(c.base_class_ptr is null)
+				{
+					if(!getterMethod) writeln("Warning: property ", name.godot, ".", p.name, " specifies a getter that doesn't exist: ", p.getter);
+					if(p.setter.length && !setterMethod) writeln("Warning: property ", name.godot, ".", p.name, " specifies a setter that doesn't exist: ", p.setter);
+					break;
+				}
+			}
+			
+			if(getterMethod) ret ~= p.getterSource(getterMethod);
+			if(p.setter.length)
+			{
+				if(setterMethod) ret ~= p.setterSource(setterMethod);
+			}
 		}
 		
 		
@@ -230,6 +256,14 @@ class GodotClass
 		}
 		
 		return ret;
+	}
+	
+	struct BaseRange
+	{
+		GodotClass front;
+		BaseRange save() const { return cast()this; }
+		bool empty() const { return front is null; }
+		void popFront() { front = front.base_class_ptr; }
 	}
 }
 

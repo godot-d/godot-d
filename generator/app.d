@@ -95,6 +95,12 @@ int main(string[] args)
 	foreach(c; classList.classes) if(c.base_class)
 	{
 		c.base_class_ptr = classList.dictionary.get(c.base_class, null);
+		foreach(b; GodotClass.BaseRange(c.base_class_ptr))
+		{
+			import std.algorithm.searching : canFind;
+			if(b.name.godot == "Object") break; // don't include godot.object
+			if(!c.used_classes.canFind(b.name)) c.used_classes ~= b.name;
+		}
 		c.base_class_ptr.descendant_ptrs ~= c;
 	}
 	
