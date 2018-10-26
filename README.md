@@ -136,8 +136,8 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
   with the `GodotNoAutomaticNamingConvention` version switch if you prefer to
   use camelCase even inside Godot/GDScript.
 
-Building Godot-D
-----------------
+Building Godot-D manually
+-------------------------
 DUB package releases will contain pre-generated bindings for official releases
 of Godot, but you can generate your own bindings in a few cases:  
 - using the master branch of Godot
@@ -145,8 +145,14 @@ of Godot, but you can generate your own bindings in a few cases:
 - using a custom Godot build or custom C++ modules
 
 Make a local clone of Godot-D and generate updated bindings using the
-[API generator](generator/README.md). DUB will use this local build for your
-own project if you run `dub add-local .` in the `godot-d` directory.
+[API generator](generator/README.md). In your game project, use this local
+clone's path as a dependency instead of a released version of `godot-d`:  
+```JSON
+	"dependencies":
+	{
+		"godot-d": { "path": "../godot-d-customized" },
+	},
+```
 
 Versioning
 ----------
