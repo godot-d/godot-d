@@ -95,26 +95,17 @@ class GodotMethod
 		return ret;
 	}
 	
-	string bindingStructName() const
-	{
-		return "_GODOT_" ~ name.escapeD;
-	}
-	
-	string bindingStruct() const
+	string binding() const
 	{
 		string ret;
 		
-		ret ~= "\tpackage(godot) static GodotMethod!("~return_type.d;
+		ret ~= "\t\t@GodotName(\""~name~"\") GodotMethod!("~return_type.d;
 		foreach(ai, const a; arguments)
 		{
 			ret ~= ", " ~ a.type.d;
 		}
 		if(has_varargs) ret ~= ", GodotVarArgs";
-		ret ~= ") " ~ bindingStructName ~ ";\n";
-		
-		// for accessing it
-		ret ~= "\tpackage(godot) alias _GODOT_methodBindInfo(string name : \""
-			~ name ~ "\") = " ~ bindingStructName ~ ";\n";
+		ret ~= ") " ~ name.snakeToCamel.escapeD ~ ";\n";
 		
 		return ret;
 	}
@@ -165,12 +156,12 @@ class GodotMethod
 		} // end varargs/virtual impl
 		else
 		{
-			ret ~= "\t\t" ~ bindingStructName ~ ".bind(\"" ~
-				parent.name.godot ~ "\", \"" ~ name ~ "\");\n";
+			ret ~= "\t\tcheckClassBinding!(typeof(this))();\n";
+			/// ".bind(\"" parent.name.godot ~ "\", \"" ~ name ~ "\");\n";
 			ret ~= "\t\t";
 			if(return_type.d != "void") ret ~= "return ";
-			ret ~= "ptrcall!(" ~ return_type.d ~ ")(" ~ bindingStructName
-				~ ", _godot_object";
+			ret ~= "ptrcall!(" ~ return_type.d ~ ")(_classBinding."
+				~ name.snakeToCamel.escapeD ~ ", _godot_object";
 			foreach(ai, const a; arguments)
 			{
 				ret ~= ", "~a.name.escapeD;

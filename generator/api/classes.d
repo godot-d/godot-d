@@ -108,6 +108,24 @@ class GodotClass
 	
 	string[] constantsInEnums; // names of constants that are enum members
 	
+	string bindingStruct() const
+	{
+		string ret = "\tpackage(godot) __gshared bool _classBindingInitialized = false;\n";
+		ret ~= "\tpackage(godot) static struct _classBinding\n\t{\n";
+		ret ~= "\t\t__gshared:\n";
+		if(singleton)
+		{
+			ret ~= "\t\tgodot_object _singleton;\n";
+			ret ~= "\t\timmutable char* _singletonName = \""~name.godot.chompPrefix("_")~"\";\n";
+		}
+		foreach(const m; methods)
+		{
+			ret ~= m.binding;
+		}
+		ret ~= "\t}\n";
+		return ret;
+	}
+	
 	string source() const
 	{
 		string ret;
@@ -117,19 +135,9 @@ class GodotClass
 		ret ~= "/**\n"~ddoc~"\n*/\n";
 		ret ~= "@GodotBaseClass struct "~className;
 		ret ~= "\n{\n";
-		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
+		ret ~= "\tenum string _GODOT_internal_name = \""~name.godot~"\";\n";
 		ret ~= "public:\n";
 		ret ~= "@nogc nothrow:\n";
-		if(singleton)
-		{
-			ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
-			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~name.godot.chompPrefix("_")~"\";\n";
-			ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
-			ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
-			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
-			ret ~= "\t\treturn _GODOT_singleton_ptr;\n";
-			ret ~= "\t}\n";
-		}
 		
 		// Pointer to Godot object, fake inheritance through alias this
 		if(name.godot != "Object")
@@ -145,6 +153,7 @@ class GodotClass
 			ret ~= "\talias BaseClasses = AliasSeq!();\n";
 		}
 		
+		ret ~= bindingStruct;
 		
 		// equality
 		ret ~= "\tbool opEquals(in "~className~" other) const ";
@@ -199,7 +208,6 @@ class GodotClass
 		
 		foreach(const m; methods)
 		{
-			ret ~= m.bindingStruct;
 			ret ~= m.source;
 		}
 		
@@ -251,7 +259,8 @@ class GodotClass
 			ret ~= "@property @nogc nothrow pragma(inline, true)\n";
 			ret ~= className ~ " " ~ name.d;
 			ret ~= "()\n{\n";
-			ret ~= "\treturn "~className~"._GODOT_singleton();\n";
+			ret ~= "\tcheckClassBinding!"~className~"();\n";
+			ret ~= "\treturn "~className~"("~className~"._classBinding._singleton);\n";
 			ret ~= "}\n";
 		}
 		

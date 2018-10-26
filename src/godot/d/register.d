@@ -173,7 +173,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	static if(BaseClassesTuple!T.length == 2) // base class is GodotScript; use owner
 	{
 		alias Base = typeof(T.owner);
-		enum immutable(char*) baseName = Base._GODOT_internal_name;
+		alias baseName = Base._GODOT_internal_name;
 	}
 	else // base class is another D script
 	{
@@ -300,7 +300,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			static if(vt == Variant.Type.object)
 			{
 				_godot_api.godot_string_parse_utf8(&attr.hint_string,
-					GodotClass!P._GODOT_internal_name.ptr);
+					GodotClass!P._GODOT_internal_name);
 			}
 			else _godot_api.godot_string_new(&attr.hint_string);
 		}
@@ -387,7 +387,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			static if(vt == Variant.Type.object)
 			{
 				_godot_api.godot_string_parse_utf8(&attr.hint_string,
-					GodotClass!P._GODOT_internal_name.ptr);
+					GodotClass!P._GODOT_internal_name);
 			}
 			else _godot_api.godot_string_new(&attr.hint_string);
 		}
