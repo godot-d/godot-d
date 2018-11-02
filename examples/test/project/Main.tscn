@@ -2,9 +2,9 @@
 
 [ext_resource path="res://Test.gdns" type="Script" id=1]
 
-[node name="Node" type="Node" index="0"]
+[node name="Node" type="Node"]
 
-[node name="Panel" type="Panel" parent="." index="0"]
+[node name="Panel" type="Panel" parent="."]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -20,7 +20,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Label" type="Label" parent="Panel" index="0"]
+[node name="Label" type="Label" parent="Panel"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -40,14 +40,13 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 1 )
-_sections_unfolded = [ "Margin" ]
 property = null
 number = null
 freal = 0.0
 dreal = 0.0
 long_node_path = NodePath("One/Looooong/Incredibly/Unbroken/Node/Path/Label")
 
-[node name="ColorRect" type="ColorRect" parent="Panel/Label" index="0"]
+[node name="ColorRect" type="ColorRect" parent="Panel/Label"]
 anchor_left = 1.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -64,7 +63,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 color = Color( 1, 1, 1, 1 )
 
-[node name="One" type="Panel" parent="Panel/Label" index="1"]
+[node name="One" type="Panel" parent="Panel/Label"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -80,7 +79,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Looooong" type="Panel" parent="Panel/Label/One" index="0"]
+[node name="Looooong" type="Panel" parent="Panel/Label/One"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -96,7 +95,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Incredibly" type="Panel" parent="Panel/Label/One/Looooong" index="0"]
+[node name="Incredibly" type="Panel" parent="Panel/Label/One/Looooong"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -112,7 +111,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Unbroken" type="Panel" parent="Panel/Label/One/Looooong/Incredibly" index="0"]
+[node name="Unbroken" type="Panel" parent="Panel/Label/One/Looooong/Incredibly"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -128,7 +127,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Node" type="Panel" parent="Panel/Label/One/Looooong/Incredibly/Unbroken" index="0"]
+[node name="Node" type="Panel" parent="Panel/Label/One/Looooong/Incredibly/Unbroken"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -144,7 +143,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Path" type="Panel" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node" index="0"]
+[node name="Path" type="Panel" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -160,7 +159,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Label" type="Label" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node/Path" index="0"]
+[node name="Label" type="Label" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node/Path"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -179,9 +178,8 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="Label2" type="Label" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node/Path" index="1"]
+[node name="Label2" type="Label" parent="Panel/Label/One/Looooong/Incredibly/Unbroken/Node/Path"]
 anchor_left = 0.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -200,6 +198,5 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
 [connection signal="send_message" from="Panel/Label" to="Panel/Label/One/Looooong/Incredibly/Unbroken/Node/Path/Label2" method="set_text"]

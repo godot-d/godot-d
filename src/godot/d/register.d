@@ -438,6 +438,6 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	
 	godot.d.script.NativeScriptTemplate!T = memnew!(godot.nativescript.NativeScript);
 	godot.d.script.NativeScriptTemplate!T.setLibrary(lib);
-	godot.d.script.NativeScriptTemplate!T.setClassName(name);
+	godot.d.script.NativeScriptTemplate!T.setClassName(String(name));
 }
 
