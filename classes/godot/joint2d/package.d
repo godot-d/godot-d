@@ -20,6 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
 Base node for all joint constraints in 2D physics.
 
@@ -27,12 +29,25 @@ Joints take 2 bodies and apply a custom constraint.
 */
 @GodotBaseClass struct Joint2D
 {
-	static immutable string _GODOT_internal_name = "Joint2D";
+	enum string _GODOT_internal_name = "Joint2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_node_a") GodotMethod!(void, NodePath) setNodeA;
+		@GodotName("get_node_a") GodotMethod!(NodePath) getNodeA;
+		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
+		@GodotName("get_node_b") GodotMethod!(NodePath) getNodeB;
+		@GodotName("set_bias") GodotMethod!(void, double) setBias;
+		@GodotName("get_bias") GodotMethod!(double) getBias;
+		@GodotName("set_exclude_nodes_from_collision") GodotMethod!(void, bool) setExcludeNodesFromCollision;
+		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
+	}
 	bool opEquals(in Joint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Joint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,85 +60,69 @@ public:
 		return cast(Joint2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_node_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_node_a") = _GODOT_set_node_a;
 	/**
 	
 	*/
 	void setNodeA(NodePathArg0)(in NodePathArg0 node)
 	{
-		_GODOT_set_node_a.bind("Joint2D", "set_node_a");
-		ptrcall!(void)(_GODOT_set_node_a, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_node_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_a") = _GODOT_get_node_a;
 	/**
 	
 	*/
 	NodePath getNodeA() const
 	{
-		_GODOT_get_node_a.bind("Joint2D", "get_node_a");
-		return ptrcall!(NodePath)(_GODOT_get_node_a, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodeA, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_node_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_node_b") = _GODOT_set_node_b;
 	/**
 	
 	*/
 	void setNodeB(NodePathArg0)(in NodePathArg0 node)
 	{
-		_GODOT_set_node_b.bind("Joint2D", "set_node_b");
-		ptrcall!(void)(_GODOT_set_node_b, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_node_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_b") = _GODOT_get_node_b;
 	/**
 	
 	*/
 	NodePath getNodeB() const
 	{
-		_GODOT_get_node_b.bind("Joint2D", "get_node_b");
-		return ptrcall!(NodePath)(_GODOT_get_node_b, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodeB, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bias") = _GODOT_set_bias;
 	/**
 	
 	*/
 	void setBias(in double bias)
 	{
-		_GODOT_set_bias.bind("Joint2D", "set_bias");
-		ptrcall!(void)(_GODOT_set_bias, _godot_object, bias);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBias, _godot_object, bias);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bias") = _GODOT_get_bias;
 	/**
 	
 	*/
 	double getBias() const
 	{
-		_GODOT_get_bias.bind("Joint2D", "get_bias");
-		return ptrcall!(double)(_GODOT_get_bias, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBias, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_exclude_nodes_from_collision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_exclude_nodes_from_collision") = _GODOT_set_exclude_nodes_from_collision;
 	/**
 	
 	*/
 	void setExcludeNodesFromCollision(in bool enable)
 	{
-		_GODOT_set_exclude_nodes_from_collision.bind("Joint2D", "set_exclude_nodes_from_collision");
-		ptrcall!(void)(_GODOT_set_exclude_nodes_from_collision, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExcludeNodesFromCollision, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_exclude_nodes_from_collision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_exclude_nodes_from_collision") = _GODOT_get_exclude_nodes_from_collision;
 	/**
 	
 	*/
 	bool getExcludeNodesFromCollision() const
 	{
-		_GODOT_get_exclude_nodes_from_collision.bind("Joint2D", "get_exclude_nodes_from_collision");
-		return ptrcall!(bool)(_GODOT_get_exclude_nodes_from_collision, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
 	The first body attached to the joint. Must derive from $(D PhysicsBody2D).

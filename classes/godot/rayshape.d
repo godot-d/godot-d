@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
+import godot.resource;
+import godot.reference;
 /**
 Ray shape for 3D collisions.
 
@@ -28,12 +30,21 @@ Ray shape for 3D collisions, which can be set into a $(D PhysicsBody) or $(D Are
 */
 @GodotBaseClass struct RayShape
 {
-	static immutable string _GODOT_internal_name = "RayShape";
+	enum string _GODOT_internal_name = "RayShape";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Shape _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("get_length") GodotMethod!(double) getLength;
+		@GodotName("set_slips_on_slope") GodotMethod!(void, bool) setSlipsOnSlope;
+		@GodotName("get_slips_on_slope") GodotMethod!(bool) getSlipsOnSlope;
+	}
 	bool opEquals(in RayShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RayShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,25 +57,37 @@ public:
 		return cast(RayShape)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_length") = _GODOT_set_length;
 	/**
 	
 	*/
 	void setLength(in double length)
 	{
-		_GODOT_set_length.bind("RayShape", "set_length");
-		ptrcall!(void)(_GODOT_set_length, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_length") = _GODOT_get_length;
 	/**
 	
 	*/
 	double getLength() const
 	{
-		_GODOT_get_length.bind("RayShape", "get_length");
-		return ptrcall!(double)(_GODOT_get_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLength, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSlipsOnSlope(in bool active)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSlipsOnSlope, _godot_object, active);
+	}
+	/**
+	
+	*/
+	bool getSlipsOnSlope() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getSlipsOnSlope, _godot_object);
 	}
 	/**
 	The ray's length.
@@ -77,5 +100,17 @@ public:
 	@property void length(double v)
 	{
 		setLength(v);
+	}
+	/**
+	If `true` allow the shape to return the correct normal. Default value: `false`.
+	*/
+	@property bool slipsOnSlope()
+	{
+		return getSlipsOnSlope();
+	}
+	/// ditto
+	@property void slipsOnSlope(bool v)
+	{
+		setSlipsOnSlope(v);
 	}
 }

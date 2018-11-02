@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 A Visual Script node which calls a base type constructor.
 
@@ -28,12 +30,21 @@ It can be used for type conversion as well.
 */
 @GodotBaseClass struct VisualScriptConstructor
 {
-	static immutable string _GODOT_internal_name = "VisualScriptConstructor";
+	enum string _GODOT_internal_name = "VisualScriptConstructor";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_constructor_type") GodotMethod!(void, long) setConstructorType;
+		@GodotName("get_constructor_type") GodotMethod!(Variant.Type) getConstructorType;
+		@GodotName("set_constructor") GodotMethod!(void, Dictionary) setConstructor;
+		@GodotName("get_constructor") GodotMethod!(Dictionary) getConstructor;
+	}
 	bool opEquals(in VisualScriptConstructor other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptConstructor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,45 +57,37 @@ public:
 		return cast(VisualScriptConstructor)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_constructor_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_constructor_type") = _GODOT_set_constructor_type;
 	/**
 	
 	*/
 	void setConstructorType(in long type)
 	{
-		_GODOT_set_constructor_type.bind("VisualScriptConstructor", "set_constructor_type");
-		ptrcall!(void)(_GODOT_set_constructor_type, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstructorType, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_constructor_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_constructor_type") = _GODOT_get_constructor_type;
 	/**
 	
 	*/
 	Variant.Type getConstructorType() const
 	{
-		_GODOT_get_constructor_type.bind("VisualScriptConstructor", "get_constructor_type");
-		return ptrcall!(Variant.Type)(_GODOT_get_constructor_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getConstructorType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT_set_constructor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_constructor") = _GODOT_set_constructor;
 	/**
 	
 	*/
 	void setConstructor(in Dictionary constructor)
 	{
-		_GODOT_set_constructor.bind("VisualScriptConstructor", "set_constructor");
-		ptrcall!(void)(_GODOT_set_constructor, _godot_object, constructor);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstructor, _godot_object, constructor);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT_get_constructor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_constructor") = _GODOT_get_constructor;
 	/**
 	
 	*/
 	Dictionary getConstructor() const
 	{
-		_GODOT_get_constructor.bind("VisualScriptConstructor", "get_constructor");
-		return ptrcall!(Dictionary)(_GODOT_get_constructor, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getConstructor, _godot_object);
 	}
 	/**
 	

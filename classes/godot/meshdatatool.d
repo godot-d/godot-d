@@ -1,5 +1,5 @@
 /**
-
+Helper tool to access and edit $(D Mesh) data.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,16 +24,75 @@ import godot.reference;
 import godot.arraymesh;
 import godot.material;
 /**
+Helper tool to access and edit $(D Mesh) data.
+
+The MeshDataTool provides access to individual vertices in a $(D Mesh). It allows users to read and edit vertex data of meshes. It also creates an array of faces and edges.
+To use the MeshDataTool, load a mesh with $(D createFromSurface). When you are finished editing the data commit the data to a mesh with $(D commitToSurface).
+Below is an example of how the MeshDataTool may be used.
+
+
+var mdt = MeshDataTool.new()
+mdt.create_from_surface(mesh, 0)
+for i in range(mdt.get_vertex_count()):
+	var vertex = mdt.get_vertex(i)
+	...
+	mdt.set_vertex(i, vertex)
+mesh.surface_remove(0)
+mdt.commit_to_surface(mesh)
+
 
 */
 @GodotBaseClass struct MeshDataTool
 {
-	static immutable string _GODOT_internal_name = "MeshDataTool";
+	enum string _GODOT_internal_name = "MeshDataTool";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("create_from_surface") GodotMethod!(GodotError, ArrayMesh, long) createFromSurface;
+		@GodotName("commit_to_surface") GodotMethod!(GodotError, ArrayMesh) commitToSurface;
+		@GodotName("get_format") GodotMethod!(long) getFormat;
+		@GodotName("get_vertex_count") GodotMethod!(long) getVertexCount;
+		@GodotName("get_edge_count") GodotMethod!(long) getEdgeCount;
+		@GodotName("get_face_count") GodotMethod!(long) getFaceCount;
+		@GodotName("set_vertex") GodotMethod!(void, long, Vector3) setVertex;
+		@GodotName("get_vertex") GodotMethod!(Vector3, long) getVertex;
+		@GodotName("set_vertex_normal") GodotMethod!(void, long, Vector3) setVertexNormal;
+		@GodotName("get_vertex_normal") GodotMethod!(Vector3, long) getVertexNormal;
+		@GodotName("set_vertex_tangent") GodotMethod!(void, long, Plane) setVertexTangent;
+		@GodotName("get_vertex_tangent") GodotMethod!(Plane, long) getVertexTangent;
+		@GodotName("set_vertex_uv") GodotMethod!(void, long, Vector2) setVertexUv;
+		@GodotName("get_vertex_uv") GodotMethod!(Vector2, long) getVertexUv;
+		@GodotName("set_vertex_uv2") GodotMethod!(void, long, Vector2) setVertexUv2;
+		@GodotName("get_vertex_uv2") GodotMethod!(Vector2, long) getVertexUv2;
+		@GodotName("set_vertex_color") GodotMethod!(void, long, Color) setVertexColor;
+		@GodotName("get_vertex_color") GodotMethod!(Color, long) getVertexColor;
+		@GodotName("set_vertex_bones") GodotMethod!(void, long, PoolIntArray) setVertexBones;
+		@GodotName("get_vertex_bones") GodotMethod!(PoolIntArray, long) getVertexBones;
+		@GodotName("set_vertex_weights") GodotMethod!(void, long, PoolRealArray) setVertexWeights;
+		@GodotName("get_vertex_weights") GodotMethod!(PoolRealArray, long) getVertexWeights;
+		@GodotName("set_vertex_meta") GodotMethod!(void, long, Variant) setVertexMeta;
+		@GodotName("get_vertex_meta") GodotMethod!(Variant, long) getVertexMeta;
+		@GodotName("get_vertex_edges") GodotMethod!(PoolIntArray, long) getVertexEdges;
+		@GodotName("get_vertex_faces") GodotMethod!(PoolIntArray, long) getVertexFaces;
+		@GodotName("get_edge_vertex") GodotMethod!(long, long, long) getEdgeVertex;
+		@GodotName("get_edge_faces") GodotMethod!(PoolIntArray, long) getEdgeFaces;
+		@GodotName("set_edge_meta") GodotMethod!(void, long, Variant) setEdgeMeta;
+		@GodotName("get_edge_meta") GodotMethod!(Variant, long) getEdgeMeta;
+		@GodotName("get_face_vertex") GodotMethod!(long, long, long) getFaceVertex;
+		@GodotName("get_face_edge") GodotMethod!(long, long, long) getFaceEdge;
+		@GodotName("set_face_meta") GodotMethod!(void, long, Variant) setFaceMeta;
+		@GodotName("get_face_meta") GodotMethod!(Variant, long) getFaceMeta;
+		@GodotName("get_face_normal") GodotMethod!(Vector3, long) getFaceNormal;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+	}
 	bool opEquals(in MeshDataTool other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MeshDataTool opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,384 +105,313 @@ public:
 		return cast(MeshDataTool)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
-	
+	Clears all data currently in MeshDataTool.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("MeshDataTool", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, ArrayMesh, long) _GODOT_create_from_surface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_surface") = _GODOT_create_from_surface;
 	/**
-	
+	Uses specified surface of given $(D Mesh) to populate data for MeshDataTool.
+	Requires $(D Mesh) with primitive type `PRIMITIVE_TRIANGLES`.
 	*/
 	GodotError createFromSurface(ArrayMesh mesh, in long surface)
 	{
-		_GODOT_create_from_surface.bind("MeshDataTool", "create_from_surface");
-		return ptrcall!(GodotError)(_GODOT_create_from_surface, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.createFromSurface, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(GodotError, ArrayMesh) _GODOT_commit_to_surface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "commit_to_surface") = _GODOT_commit_to_surface;
 	/**
-	
+	Adds a new surface to specified $(D Mesh) with edited data.
 	*/
 	GodotError commitToSurface(ArrayMesh mesh)
 	{
-		_GODOT_commit_to_surface.bind("MeshDataTool", "commit_to_surface");
-		return ptrcall!(GodotError)(_GODOT_commit_to_surface, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.commitToSurface, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_format") = _GODOT_get_format;
 	/**
-	
+	Returns format of $(D Mesh). Format is an integer made up of $(D Mesh) format flags combined together. For example, a mesh containing both vertices and normals would return a format of `3` becuase `ARRAY_FORMAT_VERTEX` is `1` and `ARRAY_FORMAT_NORMAL` is `2`.
+	For list of format flags see $(D ArrayMesh).
 	*/
 	long getFormat() const
 	{
-		_GODOT_get_format.bind("MeshDataTool", "get_format");
-		return ptrcall!(long)(_GODOT_get_format, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFormat, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_vertex_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_count") = _GODOT_get_vertex_count;
 	/**
-	
+	Returns the total number of vertices in $(D Mesh).
 	*/
 	long getVertexCount() const
 	{
-		_GODOT_get_vertex_count.bind("MeshDataTool", "get_vertex_count");
-		return ptrcall!(long)(_GODOT_get_vertex_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVertexCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_edge_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_count") = _GODOT_get_edge_count;
 	/**
-	
+	Returns the number of edges in this $(D Mesh).
 	*/
 	long getEdgeCount() const
 	{
-		_GODOT_get_edge_count.bind("MeshDataTool", "get_edge_count");
-		return ptrcall!(long)(_GODOT_get_edge_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getEdgeCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_face_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_face_count") = _GODOT_get_face_count;
 	/**
-	
+	Returns the number of faces in this $(D Mesh).
 	*/
 	long getFaceCount() const
 	{
-		_GODOT_get_face_count.bind("MeshDataTool", "get_face_count");
-		return ptrcall!(long)(_GODOT_get_face_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFaceCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Vector3) _GODOT_set_vertex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex") = _GODOT_set_vertex;
 	/**
-	
+	Sets the position of given vertex.
 	*/
 	void setVertex(in long idx, in Vector3 vertex)
 	{
-		_GODOT_set_vertex.bind("MeshDataTool", "set_vertex");
-		ptrcall!(void)(_GODOT_set_vertex, _godot_object, idx, vertex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertex, _godot_object, idx, vertex);
 	}
-	package(godot) static GodotMethod!(Vector3, long) _GODOT_get_vertex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex") = _GODOT_get_vertex;
 	/**
-	
+	Returns the vertex at given index.
 	*/
 	Vector3 getVertex(in long idx) const
 	{
-		_GODOT_get_vertex.bind("MeshDataTool", "get_vertex");
-		return ptrcall!(Vector3)(_GODOT_get_vertex, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getVertex, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Vector3) _GODOT_set_vertex_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_normal") = _GODOT_set_vertex_normal;
 	/**
-	
+	Sets the normal of given vertex.
 	*/
 	void setVertexNormal(in long idx, in Vector3 normal)
 	{
-		_GODOT_set_vertex_normal.bind("MeshDataTool", "set_vertex_normal");
-		ptrcall!(void)(_GODOT_set_vertex_normal, _godot_object, idx, normal);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexNormal, _godot_object, idx, normal);
 	}
-	package(godot) static GodotMethod!(Vector3, long) _GODOT_get_vertex_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_normal") = _GODOT_get_vertex_normal;
 	/**
-	
+	Returns normal of given vertex.
 	*/
 	Vector3 getVertexNormal(in long idx) const
 	{
-		_GODOT_get_vertex_normal.bind("MeshDataTool", "get_vertex_normal");
-		return ptrcall!(Vector3)(_GODOT_get_vertex_normal, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getVertexNormal, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Plane) _GODOT_set_vertex_tangent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_tangent") = _GODOT_set_vertex_tangent;
 	/**
-	
+	Sets the tangent of given vertex.
 	*/
 	void setVertexTangent(in long idx, in Plane tangent)
 	{
-		_GODOT_set_vertex_tangent.bind("MeshDataTool", "set_vertex_tangent");
-		ptrcall!(void)(_GODOT_set_vertex_tangent, _godot_object, idx, tangent);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexTangent, _godot_object, idx, tangent);
 	}
-	package(godot) static GodotMethod!(Plane, long) _GODOT_get_vertex_tangent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_tangent") = _GODOT_get_vertex_tangent;
 	/**
-	
+	Returns tangent of given vertex.
 	*/
 	Plane getVertexTangent(in long idx) const
 	{
-		_GODOT_get_vertex_tangent.bind("MeshDataTool", "get_vertex_tangent");
-		return ptrcall!(Plane)(_GODOT_get_vertex_tangent, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Plane)(_classBinding.getVertexTangent, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_set_vertex_uv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_uv") = _GODOT_set_vertex_uv;
 	/**
-	
+	Sets the UV of given vertex.
 	*/
 	void setVertexUv(in long idx, in Vector2 uv)
 	{
-		_GODOT_set_vertex_uv.bind("MeshDataTool", "set_vertex_uv");
-		ptrcall!(void)(_GODOT_set_vertex_uv, _godot_object, idx, uv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexUv, _godot_object, idx, uv);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_vertex_uv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_uv") = _GODOT_get_vertex_uv;
 	/**
-	
+	Returns UV of given vertex.
 	*/
 	Vector2 getVertexUv(in long idx) const
 	{
-		_GODOT_get_vertex_uv.bind("MeshDataTool", "get_vertex_uv");
-		return ptrcall!(Vector2)(_GODOT_get_vertex_uv, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getVertexUv, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_set_vertex_uv2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_uv2") = _GODOT_set_vertex_uv2;
 	/**
-	
+	Sets the UV2 of given vertex.
 	*/
 	void setVertexUv2(in long idx, in Vector2 uv2)
 	{
-		_GODOT_set_vertex_uv2.bind("MeshDataTool", "set_vertex_uv2");
-		ptrcall!(void)(_GODOT_set_vertex_uv2, _godot_object, idx, uv2);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexUv2, _godot_object, idx, uv2);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_vertex_uv2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_uv2") = _GODOT_get_vertex_uv2;
 	/**
-	
+	Returns UV2 of given vertex.
 	*/
 	Vector2 getVertexUv2(in long idx) const
 	{
-		_GODOT_get_vertex_uv2.bind("MeshDataTool", "get_vertex_uv2");
-		return ptrcall!(Vector2)(_GODOT_get_vertex_uv2, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getVertexUv2, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Color) _GODOT_set_vertex_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_color") = _GODOT_set_vertex_color;
 	/**
-	
+	Sets the color of given vertex.
 	*/
 	void setVertexColor(in long idx, in Color color)
 	{
-		_GODOT_set_vertex_color.bind("MeshDataTool", "set_vertex_color");
-		ptrcall!(void)(_GODOT_set_vertex_color, _godot_object, idx, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexColor, _godot_object, idx, color);
 	}
-	package(godot) static GodotMethod!(Color, long) _GODOT_get_vertex_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_color") = _GODOT_get_vertex_color;
 	/**
-	
+	Returns the color of the given vertex.
 	*/
 	Color getVertexColor(in long idx) const
 	{
-		_GODOT_get_vertex_color.bind("MeshDataTool", "get_vertex_color");
-		return ptrcall!(Color)(_GODOT_get_vertex_color, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getVertexColor, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, PoolIntArray) _GODOT_set_vertex_bones;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_bones") = _GODOT_set_vertex_bones;
 	/**
-	
+	Sets the bones of given vertex.
 	*/
 	void setVertexBones(in long idx, in PoolIntArray bones)
 	{
-		_GODOT_set_vertex_bones.bind("MeshDataTool", "set_vertex_bones");
-		ptrcall!(void)(_GODOT_set_vertex_bones, _godot_object, idx, bones);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexBones, _godot_object, idx, bones);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_vertex_bones;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_bones") = _GODOT_get_vertex_bones;
 	/**
-	
+	Returns the bones of the given vertex.
 	*/
 	PoolIntArray getVertexBones(in long idx) const
 	{
-		_GODOT_get_vertex_bones.bind("MeshDataTool", "get_vertex_bones");
-		return ptrcall!(PoolIntArray)(_GODOT_get_vertex_bones, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getVertexBones, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, PoolRealArray) _GODOT_set_vertex_weights;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_weights") = _GODOT_set_vertex_weights;
 	/**
-	
+	Sets the bone weights of given vertex.
 	*/
 	void setVertexWeights(in long idx, in PoolRealArray weights)
 	{
-		_GODOT_set_vertex_weights.bind("MeshDataTool", "set_vertex_weights");
-		ptrcall!(void)(_GODOT_set_vertex_weights, _godot_object, idx, weights);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexWeights, _godot_object, idx, weights);
 	}
-	package(godot) static GodotMethod!(PoolRealArray, long) _GODOT_get_vertex_weights;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_weights") = _GODOT_get_vertex_weights;
 	/**
-	
+	Returns bone weights of given vertex.
 	*/
 	PoolRealArray getVertexWeights(in long idx) const
 	{
-		_GODOT_get_vertex_weights.bind("MeshDataTool", "get_vertex_weights");
-		return ptrcall!(PoolRealArray)(_GODOT_get_vertex_weights, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolRealArray)(_classBinding.getVertexWeights, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Variant) _GODOT_set_vertex_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertex_meta") = _GODOT_set_vertex_meta;
 	/**
-	
+	Sets the meta data associated with given vertex.
 	*/
 	void setVertexMeta(VariantArg1)(in long idx, in VariantArg1 meta)
 	{
-		_GODOT_set_vertex_meta.bind("MeshDataTool", "set_vertex_meta");
-		ptrcall!(void)(_GODOT_set_vertex_meta, _godot_object, idx, meta);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertexMeta, _godot_object, idx, meta);
 	}
-	package(godot) static GodotMethod!(Variant, long) _GODOT_get_vertex_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_meta") = _GODOT_get_vertex_meta;
 	/**
-	
+	Returns meta data associated with given vertex.
 	*/
 	Variant getVertexMeta(in long idx) const
 	{
-		_GODOT_get_vertex_meta.bind("MeshDataTool", "get_vertex_meta");
-		return ptrcall!(Variant)(_GODOT_get_vertex_meta, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getVertexMeta, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_vertex_edges;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_edges") = _GODOT_get_vertex_edges;
 	/**
-	
+	Returns array of edges that share given vertex.
 	*/
 	PoolIntArray getVertexEdges(in long idx) const
 	{
-		_GODOT_get_vertex_edges.bind("MeshDataTool", "get_vertex_edges");
-		return ptrcall!(PoolIntArray)(_GODOT_get_vertex_edges, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getVertexEdges, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_vertex_faces;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertex_faces") = _GODOT_get_vertex_faces;
 	/**
-	
+	Returns array of faces that share given vertex.
 	*/
 	PoolIntArray getVertexFaces(in long idx) const
 	{
-		_GODOT_get_vertex_faces.bind("MeshDataTool", "get_vertex_faces");
-		return ptrcall!(PoolIntArray)(_GODOT_get_vertex_faces, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getVertexFaces, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long, long, long) _GODOT_get_edge_vertex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_vertex") = _GODOT_get_edge_vertex;
 	/**
-	
+	Returns index of specified vertex connected to given edge.
+	Vertex argument can only be 0 or 1 because edges are comprised of two vertices.
 	*/
 	long getEdgeVertex(in long idx, in long vertex) const
 	{
-		_GODOT_get_edge_vertex.bind("MeshDataTool", "get_edge_vertex");
-		return ptrcall!(long)(_GODOT_get_edge_vertex, _godot_object, idx, vertex);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getEdgeVertex, _godot_object, idx, vertex);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_edge_faces;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_faces") = _GODOT_get_edge_faces;
 	/**
-	
+	Returns array of faces that touch given edge.
 	*/
 	PoolIntArray getEdgeFaces(in long idx) const
 	{
-		_GODOT_get_edge_faces.bind("MeshDataTool", "get_edge_faces");
-		return ptrcall!(PoolIntArray)(_GODOT_get_edge_faces, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getEdgeFaces, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, Variant) _GODOT_set_edge_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_edge_meta") = _GODOT_set_edge_meta;
 	/**
-	
+	Sets the meta data of given edge.
 	*/
 	void setEdgeMeta(VariantArg1)(in long idx, in VariantArg1 meta)
 	{
-		_GODOT_set_edge_meta.bind("MeshDataTool", "set_edge_meta");
-		ptrcall!(void)(_GODOT_set_edge_meta, _godot_object, idx, meta);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEdgeMeta, _godot_object, idx, meta);
 	}
-	package(godot) static GodotMethod!(Variant, long) _GODOT_get_edge_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_meta") = _GODOT_get_edge_meta;
 	/**
-	
+	Returns meta information assigned to given edge.
 	*/
 	Variant getEdgeMeta(in long idx) const
 	{
-		_GODOT_get_edge_meta.bind("MeshDataTool", "get_edge_meta");
-		return ptrcall!(Variant)(_GODOT_get_edge_meta, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getEdgeMeta, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long, long, long) _GODOT_get_face_vertex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_face_vertex") = _GODOT_get_face_vertex;
 	/**
-	
+	Returns specified vertex of given face.
+	Vertex argument must be 2 or less becuase faces contain three vertices.
 	*/
 	long getFaceVertex(in long idx, in long vertex) const
 	{
-		_GODOT_get_face_vertex.bind("MeshDataTool", "get_face_vertex");
-		return ptrcall!(long)(_GODOT_get_face_vertex, _godot_object, idx, vertex);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFaceVertex, _godot_object, idx, vertex);
 	}
-	package(godot) static GodotMethod!(long, long, long) _GODOT_get_face_edge;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_face_edge") = _GODOT_get_face_edge;
 	/**
-	
+	Returns specified edge associated with given face.
+	Edge argument must 2 or less becuase a face only has three edges.
 	*/
 	long getFaceEdge(in long idx, in long edge) const
 	{
-		_GODOT_get_face_edge.bind("MeshDataTool", "get_face_edge");
-		return ptrcall!(long)(_GODOT_get_face_edge, _godot_object, idx, edge);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFaceEdge, _godot_object, idx, edge);
 	}
-	package(godot) static GodotMethod!(void, long, Variant) _GODOT_set_face_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_face_meta") = _GODOT_set_face_meta;
 	/**
-	
+	Sets the meta data of given face.
 	*/
 	void setFaceMeta(VariantArg1)(in long idx, in VariantArg1 meta)
 	{
-		_GODOT_set_face_meta.bind("MeshDataTool", "set_face_meta");
-		ptrcall!(void)(_GODOT_set_face_meta, _godot_object, idx, meta);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFaceMeta, _godot_object, idx, meta);
 	}
-	package(godot) static GodotMethod!(Variant, long) _GODOT_get_face_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_face_meta") = _GODOT_get_face_meta;
 	/**
-	
+	Returns meta data associated with given face.
 	*/
 	Variant getFaceMeta(in long idx) const
 	{
-		_GODOT_get_face_meta.bind("MeshDataTool", "get_face_meta");
-		return ptrcall!(Variant)(_GODOT_get_face_meta, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getFaceMeta, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Vector3, long) _GODOT_get_face_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_face_normal") = _GODOT_get_face_normal;
 	/**
-	
+	Calculates and returns face normal of given face.
 	*/
 	Vector3 getFaceNormal(in long idx) const
 	{
-		_GODOT_get_face_normal.bind("MeshDataTool", "get_face_normal");
-		return ptrcall!(Vector3)(_GODOT_get_face_normal, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getFaceNormal, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, Material) _GODOT_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_material") = _GODOT_set_material;
 	/**
-	
+	Sets the material to be used by newly constructed $(D Mesh).
 	*/
 	void setMaterial(Material material)
 	{
-		_GODOT_set_material.bind("MeshDataTool", "set_material");
-		ptrcall!(void)(_GODOT_set_material, _godot_object, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
 	}
-	package(godot) static GodotMethod!(Material) _GODOT_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_material") = _GODOT_get_material;
 	/**
-	
+	Returns material assigned to the $(D Mesh).
 	*/
 	Ref!Material getMaterial() const
 	{
-		_GODOT_get_material.bind("MeshDataTool", "get_material");
-		return ptrcall!(Material)(_GODOT_get_material, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
 }

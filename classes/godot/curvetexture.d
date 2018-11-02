@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 import godot.curve;
+import godot.resource;
+import godot.reference;
 /**
 A texture that shows a curve.
 
@@ -29,12 +31,21 @@ Renders a given $(D Curve) provided to it. Simplifies the task of drawing curves
 */
 @GodotBaseClass struct CurveTexture
 {
-	static immutable string _GODOT_internal_name = "CurveTexture";
+	enum string _GODOT_internal_name = "CurveTexture";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_width") GodotMethod!(void, long) setWidth;
+		@GodotName("set_curve") GodotMethod!(void, Curve) setCurve;
+		@GodotName("get_curve") GodotMethod!(Curve) getCurve;
+		@GodotName("_update") GodotMethod!(void) _update;
+	}
 	bool opEquals(in CurveTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CurveTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,38 +58,30 @@ public:
 		return cast(CurveTexture)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_width") = _GODOT_set_width;
 	/**
 	
 	*/
 	void setWidth(in long width)
 	{
-		_GODOT_set_width.bind("CurveTexture", "set_width");
-		ptrcall!(void)(_GODOT_set_width, _godot_object, width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
-	package(godot) static GodotMethod!(void, Curve) _GODOT_set_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_curve") = _GODOT_set_curve;
 	/**
 	
 	*/
 	void setCurve(Curve curve)
 	{
-		_GODOT_set_curve.bind("CurveTexture", "set_curve");
-		ptrcall!(void)(_GODOT_set_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(Curve) _GODOT_get_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_curve") = _GODOT_get_curve;
 	/**
 	
 	*/
 	Ref!Curve getCurve() const
 	{
-		_GODOT_get_curve.bind("CurveTexture", "get_curve");
-		return ptrcall!(Curve)(_GODOT_get_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Curve)(_classBinding.getCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update") = _GODOT__update;
 	/**
 	
 	*/

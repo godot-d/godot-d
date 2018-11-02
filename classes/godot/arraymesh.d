@@ -22,17 +22,64 @@ import godot.object;
 import godot.classdb;
 import godot.mesh;
 import godot.material;
+import godot.resource;
+import godot.reference;
 /**
+The `ArrayMesh` is used to construct a $(D Mesh) by specifying the attributes as arrays. The most basic example is the creation of a single triangle
 
+
+var vertices = PoolVector3Array()
+vertices.push_back(Vector3(0,1,0))
+vertices.push_back(Vector3(1,0,0))
+vertices.push_back(Vector3(0,0,1))
+# Initialize the ArrayMesh.
+var arr_mesh = ArrayMesh.new()
+var arrays = []
+arrays.resize(ArrayMesh.ARRAY_MAX)
+arrays$(D ArrayMesh.ARRAY_VERTEX) = vertices
+# Create the Mesh.
+arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+var m = MeshInstance.new()
+m.mesh = arr_mesh
+
+
+The `MeshInstance` is ready to be added to the SceneTree to be shown.
 */
 @GodotBaseClass struct ArrayMesh
 {
-	static immutable string _GODOT_internal_name = "ArrayMesh";
+	enum string _GODOT_internal_name = "ArrayMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Mesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_blend_shape") GodotMethod!(void, String) addBlendShape;
+		@GodotName("get_blend_shape_count") GodotMethod!(long) getBlendShapeCount;
+		@GodotName("get_blend_shape_name") GodotMethod!(String, long) getBlendShapeName;
+		@GodotName("clear_blend_shapes") GodotMethod!(void) clearBlendShapes;
+		@GodotName("set_blend_shape_mode") GodotMethod!(void, long) setBlendShapeMode;
+		@GodotName("get_blend_shape_mode") GodotMethod!(Mesh.BlendShapeMode) getBlendShapeMode;
+		@GodotName("add_surface_from_arrays") GodotMethod!(void, long, Array, Array, long) addSurfaceFromArrays;
+		@GodotName("surface_remove") GodotMethod!(void, long) surfaceRemove;
+		@GodotName("surface_update_region") GodotMethod!(void, long, long, PoolByteArray) surfaceUpdateRegion;
+		@GodotName("surface_get_array_len") GodotMethod!(long, long) surfaceGetArrayLen;
+		@GodotName("surface_get_array_index_len") GodotMethod!(long, long) surfaceGetArrayIndexLen;
+		@GodotName("surface_get_format") GodotMethod!(long, long) surfaceGetFormat;
+		@GodotName("surface_get_primitive_type") GodotMethod!(Mesh.PrimitiveType, long) surfaceGetPrimitiveType;
+		@GodotName("surface_set_material") GodotMethod!(void, long, Material) surfaceSetMaterial;
+		@GodotName("surface_find_by_name") GodotMethod!(long, String) surfaceFindByName;
+		@GodotName("surface_set_name") GodotMethod!(void, long, String) surfaceSetName;
+		@GodotName("surface_get_name") GodotMethod!(String, long) surfaceGetName;
+		@GodotName("center_geometry") GodotMethod!(void) centerGeometry;
+		@GodotName("regen_normalmaps") GodotMethod!(void) regenNormalmaps;
+		@GodotName("lightmap_unwrap") GodotMethod!(GodotError, Transform, double) lightmapUnwrap;
+		@GodotName("set_custom_aabb") GodotMethod!(void, AABB) setCustomAabb;
+		@GodotName("get_custom_aabb") GodotMethod!(AABB) getCustomAabb;
+	}
 	bool opEquals(in ArrayMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ArrayMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -138,8 +185,8 @@ public:
 		*/
 		noIndexArray = -1,
 		arrayVertex = 0,
-		arrayFormatVertex = 1,
 		arrayNormal = 1,
+		arrayFormatVertex = 1,
 		arrayFormatNormal = 2,
 		arrayTangent = 2,
 		arrayColor = 3,
@@ -147,8 +194,8 @@ public:
 		Amount of weights/bone indices per vertex (always 4).
 		*/
 		arrayWeightsSize = 4,
-		arrayFormatTangent = 4,
 		arrayTexUv = 4,
+		arrayFormatTangent = 4,
 		arrayTexUv2 = 5,
 		arrayBones = 6,
 		arrayWeights = 7,
@@ -161,259 +208,185 @@ public:
 		arrayFormatWeights = 128,
 		arrayFormatIndex = 256,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_blend_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_blend_shape") = _GODOT_add_blend_shape;
 	/**
 	
 	*/
 	void addBlendShape(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_add_blend_shape.bind("ArrayMesh", "add_blend_shape");
-		ptrcall!(void)(_GODOT_add_blend_shape, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addBlendShape, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_blend_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_blend_shape_count") = _GODOT_get_blend_shape_count;
 	/**
-	
+	Returns the number of blend shapes that the `ArrayMesh` holds.
 	*/
 	long getBlendShapeCount() const
 	{
-		_GODOT_get_blend_shape_count.bind("ArrayMesh", "get_blend_shape_count");
-		return ptrcall!(long)(_GODOT_get_blend_shape_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBlendShapeCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_blend_shape_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_blend_shape_name") = _GODOT_get_blend_shape_name;
 	/**
-	
+	Returns the name of the blend shape at this index.
 	*/
 	String getBlendShapeName(in long index) const
 	{
-		_GODOT_get_blend_shape_name.bind("ArrayMesh", "get_blend_shape_name");
-		return ptrcall!(String)(_GODOT_get_blend_shape_name, _godot_object, index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBlendShapeName, _godot_object, index);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_blend_shapes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_blend_shapes") = _GODOT_clear_blend_shapes;
 	/**
-	
+	Remove all blend shapes from this `ArrayMesh`.
 	*/
 	void clearBlendShapes()
 	{
-		_GODOT_clear_blend_shapes.bind("ArrayMesh", "clear_blend_shapes");
-		ptrcall!(void)(_GODOT_clear_blend_shapes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearBlendShapes, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_blend_shape_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_blend_shape_mode") = _GODOT_set_blend_shape_mode;
 	/**
 	
 	*/
 	void setBlendShapeMode(in long mode)
 	{
-		_GODOT_set_blend_shape_mode.bind("ArrayMesh", "set_blend_shape_mode");
-		ptrcall!(void)(_GODOT_set_blend_shape_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendShapeMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Mesh.BlendShapeMode) _GODOT_get_blend_shape_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_blend_shape_mode") = _GODOT_get_blend_shape_mode;
 	/**
 	
 	*/
 	Mesh.BlendShapeMode getBlendShapeMode() const
 	{
-		_GODOT_get_blend_shape_mode.bind("ArrayMesh", "get_blend_shape_mode");
-		return ptrcall!(Mesh.BlendShapeMode)(_GODOT_get_blend_shape_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh.BlendShapeMode)(_classBinding.getBlendShapeMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Array, Array, long) _GODOT_add_surface_from_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_surface_from_arrays") = _GODOT_add_surface_from_arrays;
 	/**
 	Creates a new surface.
-	Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. See $(D Mesh) for details. (As a note, when using indices, it is recommended to only use points, lines or triangles). $(D getSurfaceCount) will become the surf_idx for this new surface.
+	Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. See $(D Mesh) for details. (As a note, when using indices, it is recommended to only use points, lines or triangles). $(D Mesh.getSurfaceCount) will become the `surf_idx` for this new surface.
 	The `arrays` argument is an array of arrays. See $(D arraytype) for the values used in this array. For example, `arrays$(D 0)` is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for `ARRAY_INDEX` if it is used.
 	Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices.
 	Godot uses clockwise winding order for front faces of triangle primitive modes.
 	*/
-	void addSurfaceFromArrays(in long primitive, in Array arrays, in Array blend_shapes = Array.empty_array, in long compress_flags = 97792)
+	void addSurfaceFromArrays(in long primitive, in Array arrays, in Array blend_shapes = Array.empty_array, in long compress_flags = 97280)
 	{
-		_GODOT_add_surface_from_arrays.bind("ArrayMesh", "add_surface_from_arrays");
-		ptrcall!(void)(_GODOT_add_surface_from_arrays, _godot_object, primitive, arrays, blend_shapes, compress_flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSurfaceFromArrays, _godot_object, primitive, arrays, blend_shapes, compress_flags);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_surface_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_surface_count") = _GODOT_get_surface_count;
-	/**
-	Return the amount of surfaces that the `ArrayMesh` holds.
-	*/
-	long getSurfaceCount() const
-	{
-		_GODOT_get_surface_count.bind("ArrayMesh", "get_surface_count");
-		return ptrcall!(long)(_GODOT_get_surface_count, _godot_object);
-	}
-	package(godot) static GodotMethod!(void, long) _GODOT_surface_remove;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_remove") = _GODOT_surface_remove;
 	/**
 	Remove a surface at position surf_idx, shifting greater surfaces one surf_idx slot down.
 	*/
 	void surfaceRemove(in long surf_idx)
 	{
-		_GODOT_surface_remove.bind("ArrayMesh", "surface_remove");
-		ptrcall!(void)(_GODOT_surface_remove, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.surfaceRemove, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(void, long, long, PoolByteArray) _GODOT_surface_update_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_update_region") = _GODOT_surface_update_region;
 	/**
 	
 	*/
 	void surfaceUpdateRegion(in long surf_idx, in long offset, in PoolByteArray data)
 	{
-		_GODOT_surface_update_region.bind("ArrayMesh", "surface_update_region");
-		ptrcall!(void)(_GODOT_surface_update_region, _godot_object, surf_idx, offset, data);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.surfaceUpdateRegion, _godot_object, surf_idx, offset, data);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_array_len;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_array_len") = _GODOT_surface_get_array_len;
 	/**
 	Return the length in vertices of the vertex array in the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetArrayLen(in long surf_idx) const
 	{
-		_GODOT_surface_get_array_len.bind("ArrayMesh", "surface_get_array_len");
-		return ptrcall!(long)(_GODOT_surface_get_array_len, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.surfaceGetArrayLen, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_array_index_len;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_array_index_len") = _GODOT_surface_get_array_index_len;
 	/**
 	Return the length in indices of the index array in the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetArrayIndexLen(in long surf_idx) const
 	{
-		_GODOT_surface_get_array_index_len.bind("ArrayMesh", "surface_get_array_index_len");
-		return ptrcall!(long)(_GODOT_surface_get_array_index_len, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.surfaceGetArrayIndexLen, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_surface_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_format") = _GODOT_surface_get_format;
 	/**
 	Return the format mask of the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	long surfaceGetFormat(in long surf_idx) const
 	{
-		_GODOT_surface_get_format.bind("ArrayMesh", "surface_get_format");
-		return ptrcall!(long)(_GODOT_surface_get_format, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.surfaceGetFormat, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(Mesh.PrimitiveType, long) _GODOT_surface_get_primitive_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_primitive_type") = _GODOT_surface_get_primitive_type;
 	/**
 	Return the primitive type of the requested surface (see $(D addSurfaceFromArrays)).
 	*/
 	Mesh.PrimitiveType surfaceGetPrimitiveType(in long surf_idx) const
 	{
-		_GODOT_surface_get_primitive_type.bind("ArrayMesh", "surface_get_primitive_type");
-		return ptrcall!(Mesh.PrimitiveType)(_GODOT_surface_get_primitive_type, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh.PrimitiveType)(_classBinding.surfaceGetPrimitiveType, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(void, long, Material) _GODOT_surface_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_set_material") = _GODOT_surface_set_material;
-	/**
-	
-	*/
-	void surfaceSetMaterial(in long surf_idx, Material material)
-	{
-		_GODOT_surface_set_material.bind("ArrayMesh", "surface_set_material");
-		ptrcall!(void)(_GODOT_surface_set_material, _godot_object, surf_idx, material);
-	}
-	package(godot) static GodotMethod!(Material, long) _GODOT_surface_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_material") = _GODOT_surface_get_material;
-	/**
-	Return a $(D Material) in a given surface. Surface is rendered using this material.
-	*/
-	Ref!Material surfaceGetMaterial(in long surf_idx) const
-	{
-		_GODOT_surface_get_material.bind("ArrayMesh", "surface_get_material");
-		return ptrcall!(Material)(_GODOT_surface_get_material, _godot_object, surf_idx);
-	}
-	package(godot) static GodotMethod!(void, long, String) _GODOT_surface_set_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_set_name") = _GODOT_surface_set_name;
 	/**
 	Set a $(D Material) for a given surface. Surface will be rendered using this material.
 	*/
+	void surfaceSetMaterial(in long surf_idx, Material material)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
+	}
+	/**
+	Return the index of the first surface with this name held within this `ArrayMesh`. If none are found -1 is returned.
+	*/
+	long surfaceFindByName(StringArg0)(in StringArg0 name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.surfaceFindByName, _godot_object, name);
+	}
+	/**
+	Set a name for a given surface.
+	*/
 	void surfaceSetName(StringArg1)(in long surf_idx, in StringArg1 name)
 	{
-		_GODOT_surface_set_name.bind("ArrayMesh", "surface_set_name");
-		ptrcall!(void)(_GODOT_surface_set_name, _godot_object, surf_idx, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.surfaceSetName, _godot_object, surf_idx, name);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_surface_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_name") = _GODOT_surface_get_name;
 	/**
-	
+	Get the name assigned to this surface.
 	*/
 	String surfaceGetName(in long surf_idx) const
 	{
-		_GODOT_surface_get_name.bind("ArrayMesh", "surface_get_name");
-		return ptrcall!(String)(_GODOT_surface_get_name, _godot_object, surf_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.surfaceGetName, _godot_object, surf_idx);
 	}
-	package(godot) static GodotMethod!(Array, long) _GODOT_surface_get_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_arrays") = _GODOT_surface_get_arrays;
 	/**
-	
-	*/
-	Array surfaceGetArrays(in long surf_idx) const
-	{
-		_GODOT_surface_get_arrays.bind("ArrayMesh", "surface_get_arrays");
-		return ptrcall!(Array)(_GODOT_surface_get_arrays, _godot_object, surf_idx);
-	}
-	package(godot) static GodotMethod!(Array, long) _GODOT_surface_get_blend_shape_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "surface_get_blend_shape_arrays") = _GODOT_surface_get_blend_shape_arrays;
-	/**
-	
-	*/
-	Array surfaceGetBlendShapeArrays(in long surf_idx) const
-	{
-		_GODOT_surface_get_blend_shape_arrays.bind("ArrayMesh", "surface_get_blend_shape_arrays");
-		return ptrcall!(Array)(_GODOT_surface_get_blend_shape_arrays, _godot_object, surf_idx);
-	}
-	package(godot) static GodotMethod!(void) _GODOT_center_geometry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "center_geometry") = _GODOT_center_geometry;
-	/**
-	
+	Centers the geometry.
 	*/
 	void centerGeometry()
 	{
-		_GODOT_center_geometry.bind("ArrayMesh", "center_geometry");
-		ptrcall!(void)(_GODOT_center_geometry, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.centerGeometry, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_regen_normalmaps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "regen_normalmaps") = _GODOT_regen_normalmaps;
 	/**
-	
+	Will regenerate normal maps for the `ArrayMesh`.
 	*/
 	void regenNormalmaps()
 	{
-		_GODOT_regen_normalmaps.bind("ArrayMesh", "regen_normalmaps");
-		ptrcall!(void)(_GODOT_regen_normalmaps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.regenNormalmaps, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, Transform, double) _GODOT_lightmap_unwrap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_unwrap") = _GODOT_lightmap_unwrap;
 	/**
-	
+	Will perform a UV unwrap on the `ArrayMesh` to prepare the mesh for lightmapping.
 	*/
-	GodotError lightmapUnwrap(in Transform arg0, in double arg1)
+	GodotError lightmapUnwrap(in Transform transform, in double texel_size)
 	{
-		_GODOT_lightmap_unwrap.bind("ArrayMesh", "lightmap_unwrap");
-		return ptrcall!(GodotError)(_GODOT_lightmap_unwrap, _godot_object, arg0, arg1);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.lightmapUnwrap, _godot_object, transform, texel_size);
 	}
-	package(godot) static GodotMethod!(void, AABB) _GODOT_set_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_aabb") = _GODOT_set_custom_aabb;
 	/**
 	
 	*/
 	void setCustomAabb(in AABB aabb)
 	{
-		_GODOT_set_custom_aabb.bind("ArrayMesh", "set_custom_aabb");
-		ptrcall!(void)(_GODOT_set_custom_aabb, _godot_object, aabb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomAabb, _godot_object, aabb);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_get_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_aabb") = _GODOT_get_custom_aabb;
 	/**
 	
 	*/
 	AABB getCustomAabb() const
 	{
-		_GODOT_get_custom_aabb.bind("ArrayMesh", "get_custom_aabb");
-		return ptrcall!(AABB)(_GODOT_get_custom_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getCustomAabb, _godot_object);
 	}
 	/**
 	
@@ -428,7 +401,7 @@ public:
 		setBlendShapeMode(v);
 	}
 	/**
-	
+	An overriding bounding box for this mesh.
 	*/
 	@property AABB customAabb()
 	{

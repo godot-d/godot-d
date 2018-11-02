@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base node for containers.
 
@@ -29,12 +31,21 @@ A Control can inherit this to create custom container classes.
 */
 @GodotBaseClass struct Container
 {
-	static immutable string _GODOT_internal_name = "Container";
+	enum string _GODOT_internal_name = "Container";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_sort_children") GodotMethod!(void) _sortChildren;
+		@GodotName("_child_minsize_changed") GodotMethod!(void) _childMinsizeChanged;
+		@GodotName("queue_sort") GodotMethod!(void) queueSort;
+		@GodotName("fit_child_in_rect") GodotMethod!(void, GodotObject, Rect2) fitChildInRect;
+	}
 	bool opEquals(in Container other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Container opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -55,8 +66,6 @@ public:
 		*/
 		notificationSortChildren = 50,
 	}
-	package(godot) static GodotMethod!(void) _GODOT__sort_children;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_sort_children") = _GODOT__sort_children;
 	/**
 	
 	*/
@@ -66,8 +75,6 @@ public:
 		String _GODOT_method_name = String("_sort_children");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__child_minsize_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_child_minsize_changed") = _GODOT__child_minsize_changed;
 	/**
 	
 	*/
@@ -77,24 +84,20 @@ public:
 		String _GODOT_method_name = String("_child_minsize_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_queue_sort;
-	package(godot) alias _GODOT_methodBindInfo(string name : "queue_sort") = _GODOT_queue_sort;
 	/**
 	Queue resort of the contained children. This is called automatically anyway, but can be called upon request.
 	*/
 	void queueSort()
 	{
-		_GODOT_queue_sort.bind("Container", "queue_sort");
-		ptrcall!(void)(_GODOT_queue_sort, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.queueSort, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject, Rect2) _GODOT_fit_child_in_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "fit_child_in_rect") = _GODOT_fit_child_in_rect;
 	/**
 	Fit a child control in a given rect. This is mainly a helper for creating custom container classes.
 	*/
 	void fitChildInRect(GodotObject child, in Rect2 rect)
 	{
-		_GODOT_fit_child_in_rect.bind("Container", "fit_child_in_rect");
-		ptrcall!(void)(_GODOT_fit_child_in_rect, _godot_object, child, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.fitChildInRect, _godot_object, child, rect);
 	}
 }

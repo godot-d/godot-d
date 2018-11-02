@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint;
+import godot.spatial;
+import godot.node;
 /**
 A hinge between two 3D bodies.
 
@@ -28,12 +30,25 @@ Normally uses the z-axis of body A as the hinge axis, another axis can be specif
 */
 @GodotBaseClass struct HingeJoint
 {
-	static immutable string _GODOT_internal_name = "HingeJoint";
+	enum string _GODOT_internal_name = "HingeJoint";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
+		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
+		@GodotName("_set_upper_limit") GodotMethod!(void, double) _setUpperLimit;
+		@GodotName("_get_upper_limit") GodotMethod!(double) _getUpperLimit;
+		@GodotName("_set_lower_limit") GodotMethod!(void, double) _setLowerLimit;
+		@GodotName("_get_lower_limit") GodotMethod!(double) _getLowerLimit;
+	}
 	bool opEquals(in HingeJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HingeJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -107,10 +122,10 @@ public:
 	{
 		paramBias = 0,
 		flagUseLimit = 0,
-		paramLimitUpper = 1,
 		flagEnableMotor = 1,
-		paramLimitLower = 2,
+		paramLimitUpper = 1,
 		flagMax = 2,
+		paramLimitLower = 2,
 		paramLimitBias = 3,
 		paramLimitSoftness = 4,
 		paramLimitRelaxation = 5,
@@ -118,48 +133,38 @@ public:
 		paramMotorMaxImpulse = 7,
 		paramMax = 8,
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_param") = _GODOT_set_param;
 	/**
 	
 	*/
 	void setParam(in long param, in double value)
 	{
-		_GODOT_set_param.bind("HingeJoint", "set_param");
-		ptrcall!(void)(_GODOT_set_param, _godot_object, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_param") = _GODOT_get_param;
 	/**
 	
 	*/
 	double getParam(in long param) const
 	{
-		_GODOT_get_param.bind("HingeJoint", "get_param");
-		return ptrcall!(double)(_GODOT_get_param, _godot_object, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_flag") = _GODOT_set_flag;
 	/**
 	
 	*/
 	void setFlag(in long flag, in bool enabled)
 	{
-		_GODOT_set_flag.bind("HingeJoint", "set_flag");
-		ptrcall!(void)(_GODOT_set_flag, _godot_object, flag, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enabled);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_flag") = _GODOT_get_flag;
 	/**
 	
 	*/
 	bool getFlag(in long flag) const
 	{
-		_GODOT_get_flag.bind("HingeJoint", "get_flag");
-		return ptrcall!(bool)(_GODOT_get_flag, _godot_object, flag);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_upper_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_upper_limit") = _GODOT__set_upper_limit;
 	/**
 	
 	*/
@@ -170,8 +175,6 @@ public:
 		String _GODOT_method_name = String("_set_upper_limit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_upper_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_upper_limit") = _GODOT__get_upper_limit;
 	/**
 	
 	*/
@@ -181,8 +184,6 @@ public:
 		String _GODOT_method_name = String("_get_upper_limit");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_lower_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_lower_limit") = _GODOT__set_lower_limit;
 	/**
 	
 	*/
@@ -193,8 +194,6 @@ public:
 		String _GODOT_method_name = String("_set_lower_limit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_lower_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_lower_limit") = _GODOT__get_lower_limit;
 	/**
 	
 	*/

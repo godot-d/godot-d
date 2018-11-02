@@ -7,4 +7,5 @@ public import
 	godot.rigidbody,
 	godot.vehiclebody,
 	godot.kinematicbody,
+	godot.physicalbone,
 	godot.area;

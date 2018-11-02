@@ -25,12 +25,22 @@ import godot.reference;
 */
 @GodotBaseClass struct Physics2DShapeQueryResult
 {
-	static immutable string _GODOT_internal_name = "Physics2DShapeQueryResult";
+	enum string _GODOT_internal_name = "Physics2DShapeQueryResult";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_result_count") GodotMethod!(long) getResultCount;
+		@GodotName("get_result_rid") GodotMethod!(RID, long) getResultRid;
+		@GodotName("get_result_object_id") GodotMethod!(long, long) getResultObjectId;
+		@GodotName("get_result_object") GodotMethod!(GodotObject, long) getResultObject;
+		@GodotName("get_result_object_shape") GodotMethod!(long, long) getResultObjectShape;
+	}
 	bool opEquals(in Physics2DShapeQueryResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Physics2DShapeQueryResult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -43,54 +53,44 @@ public:
 		return cast(Physics2DShapeQueryResult)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(long) _GODOT_get_result_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_count") = _GODOT_get_result_count;
 	/**
 	
 	*/
 	long getResultCount() const
 	{
-		_GODOT_get_result_count.bind("Physics2DShapeQueryResult", "get_result_count");
-		return ptrcall!(long)(_GODOT_get_result_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResultCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID, long) _GODOT_get_result_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_rid") = _GODOT_get_result_rid;
 	/**
 	
 	*/
 	RID getResultRid(in long idx) const
 	{
-		_GODOT_get_result_rid.bind("Physics2DShapeQueryResult", "get_result_rid");
-		return ptrcall!(RID)(_GODOT_get_result_rid, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getResultRid, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_result_object_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_object_id") = _GODOT_get_result_object_id;
 	/**
 	
 	*/
 	long getResultObjectId(in long idx) const
 	{
-		_GODOT_get_result_object_id.bind("Physics2DShapeQueryResult", "get_result_object_id");
-		return ptrcall!(long)(_GODOT_get_result_object_id, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResultObjectId, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(GodotObject, long) _GODOT_get_result_object;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_object") = _GODOT_get_result_object;
 	/**
 	
 	*/
 	GodotObject getResultObject(in long idx) const
 	{
-		_GODOT_get_result_object.bind("Physics2DShapeQueryResult", "get_result_object");
-		return ptrcall!(GodotObject)(_GODOT_get_result_object, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.getResultObject, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_result_object_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_result_object_shape") = _GODOT_get_result_object_shape;
 	/**
 	
 	*/
 	long getResultObjectShape(in long idx) const
 	{
-		_GODOT_get_result_object_shape.bind("Physics2DShapeQueryResult", "get_result_object_shape");
-		return ptrcall!(long)(_GODOT_get_result_object_shape, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResultObjectShape, _godot_object, idx);
 	}
 }

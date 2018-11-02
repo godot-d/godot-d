@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
+import godot.mesh;
+import godot.resource;
+import godot.reference;
 /**
 Class representing a prism-shaped $(D PrimitiveMesh).
 
@@ -28,12 +31,27 @@ Class representing a prism-shaped $(D PrimitiveMesh).
 */
 @GodotBaseClass struct PrismMesh
 {
-	static immutable string _GODOT_internal_name = "PrismMesh";
+	enum string _GODOT_internal_name = "PrismMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_left_to_right") GodotMethod!(void, double) setLeftToRight;
+		@GodotName("get_left_to_right") GodotMethod!(double) getLeftToRight;
+		@GodotName("set_size") GodotMethod!(void, Vector3) setSize;
+		@GodotName("get_size") GodotMethod!(Vector3) getSize;
+		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
+		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
+		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
+		@GodotName("get_subdivide_height") GodotMethod!(long) getSubdivideHeight;
+		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
+		@GodotName("get_subdivide_depth") GodotMethod!(long) getSubdivideDepth;
+	}
 	bool opEquals(in PrismMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PrismMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,105 +64,85 @@ public:
 		return cast(PrismMesh)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_left_to_right;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_left_to_right") = _GODOT_set_left_to_right;
 	/**
 	
 	*/
 	void setLeftToRight(in double left_to_right)
 	{
-		_GODOT_set_left_to_right.bind("PrismMesh", "set_left_to_right");
-		ptrcall!(void)(_GODOT_set_left_to_right, _godot_object, left_to_right);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLeftToRight, _godot_object, left_to_right);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_left_to_right;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_left_to_right") = _GODOT_get_left_to_right;
 	/**
 	
 	*/
 	double getLeftToRight() const
 	{
-		_GODOT_get_left_to_right.bind("PrismMesh", "get_left_to_right");
-		return ptrcall!(double)(_GODOT_get_left_to_right, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLeftToRight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**
 	
 	*/
 	void setSize(in Vector3 size)
 	{
-		_GODOT_set_size.bind("PrismMesh", "set_size");
-		ptrcall!(void)(_GODOT_set_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	
 	*/
 	Vector3 getSize() const
 	{
-		_GODOT_get_size.bind("PrismMesh", "get_size");
-		return ptrcall!(Vector3)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_subdivide_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_subdivide_width") = _GODOT_set_subdivide_width;
 	/**
 	
 	*/
 	void setSubdivideWidth(in long segments)
 	{
-		_GODOT_set_subdivide_width.bind("PrismMesh", "set_subdivide_width");
-		ptrcall!(void)(_GODOT_set_subdivide_width, _godot_object, segments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, segments);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_subdivide_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_subdivide_width") = _GODOT_get_subdivide_width;
 	/**
 	
 	*/
 	long getSubdivideWidth() const
 	{
-		_GODOT_get_subdivide_width.bind("PrismMesh", "get_subdivide_width");
-		return ptrcall!(long)(_GODOT_get_subdivide_width, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_subdivide_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_subdivide_height") = _GODOT_set_subdivide_height;
 	/**
 	
 	*/
 	void setSubdivideHeight(in long segments)
 	{
-		_GODOT_set_subdivide_height.bind("PrismMesh", "set_subdivide_height");
-		ptrcall!(void)(_GODOT_set_subdivide_height, _godot_object, segments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, segments);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_subdivide_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_subdivide_height") = _GODOT_get_subdivide_height;
 	/**
 	
 	*/
 	long getSubdivideHeight() const
 	{
-		_GODOT_get_subdivide_height.bind("PrismMesh", "get_subdivide_height");
-		return ptrcall!(long)(_GODOT_get_subdivide_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSubdivideHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_subdivide_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_subdivide_depth") = _GODOT_set_subdivide_depth;
 	/**
 	
 	*/
 	void setSubdivideDepth(in long segments)
 	{
-		_GODOT_set_subdivide_depth.bind("PrismMesh", "set_subdivide_depth");
-		ptrcall!(void)(_GODOT_set_subdivide_depth, _godot_object, segments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdivideDepth, _godot_object, segments);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_subdivide_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_subdivide_depth") = _GODOT_get_subdivide_depth;
 	/**
 	
 	*/
 	long getSubdivideDepth() const
 	{
-		_GODOT_get_subdivide_depth.bind("PrismMesh", "get_subdivide_depth");
-		return ptrcall!(long)(_GODOT_get_subdivide_depth, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
 	}
 	/**
 	Displacement of the upper edge along the x-axis. 0.0 positions edge straight above the bottome left edge. Defaults to 0.5 (positioned on the midpoint).

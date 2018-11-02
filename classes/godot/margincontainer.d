@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Simple margin container.
 
@@ -28,12 +31,17 @@ Adds a left margin to anything contained.
 */
 @GodotBaseClass struct MarginContainer
 {
-	static immutable string _GODOT_internal_name = "MarginContainer";
+	enum string _GODOT_internal_name = "MarginContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
 	bool opEquals(in MarginContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MarginContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }

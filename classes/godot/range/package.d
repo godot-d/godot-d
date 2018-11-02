@@ -20,6 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Abstract base class for range-based controls.
 
@@ -27,12 +29,39 @@ Range is a base class for $(D Control) nodes that change a floating point $(I va
 */
 @GodotBaseClass struct Range
 {
-	static immutable string _GODOT_internal_name = "Range";
+	enum string _GODOT_internal_name = "Range";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_value") GodotMethod!(double) getValue;
+		@GodotName("get_min") GodotMethod!(double) getMin;
+		@GodotName("get_max") GodotMethod!(double) getMax;
+		@GodotName("get_step") GodotMethod!(double) getStep;
+		@GodotName("get_page") GodotMethod!(double) getPage;
+		@GodotName("get_as_ratio") GodotMethod!(double) getAsRatio;
+		@GodotName("set_value") GodotMethod!(void, double) setValue;
+		@GodotName("set_min") GodotMethod!(void, double) setMin;
+		@GodotName("set_max") GodotMethod!(void, double) setMax;
+		@GodotName("set_step") GodotMethod!(void, double) setStep;
+		@GodotName("set_page") GodotMethod!(void, double) setPage;
+		@GodotName("set_as_ratio") GodotMethod!(void, double) setAsRatio;
+		@GodotName("set_use_rounded_values") GodotMethod!(void, bool) setUseRoundedValues;
+		@GodotName("is_using_rounded_values") GodotMethod!(bool) isUsingRoundedValues;
+		@GodotName("set_exp_ratio") GodotMethod!(void, bool) setExpRatio;
+		@GodotName("is_ratio_exp") GodotMethod!(bool) isRatioExp;
+		@GodotName("set_allow_greater") GodotMethod!(void, bool) setAllowGreater;
+		@GodotName("is_greater_allowed") GodotMethod!(bool) isGreaterAllowed;
+		@GodotName("set_allow_lesser") GodotMethod!(void, bool) setAllowLesser;
+		@GodotName("is_lesser_allowed") GodotMethod!(bool) isLesserAllowed;
+		@GodotName("share") GodotMethod!(void, GodotObject) share;
+		@GodotName("unshare") GodotMethod!(void) unshare;
+	}
 	bool opEquals(in Range other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Range opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,188 +74,184 @@ public:
 		return cast(Range)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(double) _GODOT_get_value;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_value") = _GODOT_get_value;
 	/**
 	
 	*/
 	double getValue() const
 	{
-		_GODOT_get_value.bind("Range", "get_value");
-		return ptrcall!(double)(_GODOT_get_value, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getValue, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_min") = _GODOT_get_min;
 	/**
 	
 	*/
 	double getMin() const
 	{
-		_GODOT_get_min.bind("Range", "get_min");
-		return ptrcall!(double)(_GODOT_get_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_max") = _GODOT_get_max;
 	/**
 	
 	*/
 	double getMax() const
 	{
-		_GODOT_get_max.bind("Range", "get_max");
-		return ptrcall!(double)(_GODOT_get_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_step") = _GODOT_get_step;
 	/**
 	
 	*/
 	double getStep() const
 	{
-		_GODOT_get_step.bind("Range", "get_step");
-		return ptrcall!(double)(_GODOT_get_step, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStep, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_page;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_page") = _GODOT_get_page;
 	/**
 	
 	*/
 	double getPage() const
 	{
-		_GODOT_get_page.bind("Range", "get_page");
-		return ptrcall!(double)(_GODOT_get_page, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPage, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_as_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_as_ratio") = _GODOT_get_as_ratio;
 	/**
 	
 	*/
 	double getAsRatio() const
 	{
-		_GODOT_get_as_ratio.bind("Range", "get_as_ratio");
-		return ptrcall!(double)(_GODOT_get_as_ratio, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAsRatio, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_value;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_value") = _GODOT_set_value;
 	/**
 	
 	*/
 	void setValue(in double value)
 	{
-		_GODOT_set_value.bind("Range", "set_value");
-		ptrcall!(void)(_GODOT_set_value, _godot_object, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setValue, _godot_object, value);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_min") = _GODOT_set_min;
 	/**
 	
 	*/
 	void setMin(in double minimum)
 	{
-		_GODOT_set_min.bind("Range", "set_min");
-		ptrcall!(void)(_GODOT_set_min, _godot_object, minimum);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMin, _godot_object, minimum);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_max") = _GODOT_set_max;
 	/**
 	
 	*/
 	void setMax(in double maximum)
 	{
-		_GODOT_set_max.bind("Range", "set_max");
-		ptrcall!(void)(_GODOT_set_max, _godot_object, maximum);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMax, _godot_object, maximum);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_step") = _GODOT_set_step;
 	/**
 	
 	*/
 	void setStep(in double step)
 	{
-		_GODOT_set_step.bind("Range", "set_step");
-		ptrcall!(void)(_GODOT_set_step, _godot_object, step);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStep, _godot_object, step);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_page;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_page") = _GODOT_set_page;
 	/**
 	
 	*/
 	void setPage(in double pagesize)
 	{
-		_GODOT_set_page.bind("Range", "set_page");
-		ptrcall!(void)(_GODOT_set_page, _godot_object, pagesize);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPage, _godot_object, pagesize);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_as_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_as_ratio") = _GODOT_set_as_ratio;
 	/**
 	
 	*/
 	void setAsRatio(in double value)
 	{
-		_GODOT_set_as_ratio.bind("Range", "set_as_ratio");
-		ptrcall!(void)(_GODOT_set_as_ratio, _godot_object, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsRatio, _godot_object, value);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_rounded_values;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_rounded_values") = _GODOT_set_use_rounded_values;
 	/**
 	
 	*/
 	void setUseRoundedValues(in bool enabled)
 	{
-		_GODOT_set_use_rounded_values.bind("Range", "set_use_rounded_values");
-		ptrcall!(void)(_GODOT_set_use_rounded_values, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseRoundedValues, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_rounded_values;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_rounded_values") = _GODOT_is_using_rounded_values;
 	/**
 	
 	*/
 	bool isUsingRoundedValues() const
 	{
-		_GODOT_is_using_rounded_values.bind("Range", "is_using_rounded_values");
-		return ptrcall!(bool)(_GODOT_is_using_rounded_values, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingRoundedValues, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_exp_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_exp_ratio") = _GODOT_set_exp_ratio;
 	/**
 	
 	*/
 	void setExpRatio(in bool enabled)
 	{
-		_GODOT_set_exp_ratio.bind("Range", "set_exp_ratio");
-		ptrcall!(void)(_GODOT_set_exp_ratio, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpRatio, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ratio_exp;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ratio_exp") = _GODOT_is_ratio_exp;
 	/**
 	
 	*/
 	bool isRatioExp() const
 	{
-		_GODOT_is_ratio_exp.bind("Range", "is_ratio_exp");
-		return ptrcall!(bool)(_GODOT_is_ratio_exp, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRatioExp, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_share;
-	package(godot) alias _GODOT_methodBindInfo(string name : "share") = _GODOT_share;
 	/**
-	Binds two Ranges together along with any Ranges previously grouped with either of them. When any of Range's member variables change, it will share the new value with all other Ranges in its group.
+	
+	*/
+	void setAllowGreater(in bool allow)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAllowGreater, _godot_object, allow);
+	}
+	/**
+	
+	*/
+	bool isGreaterAllowed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isGreaterAllowed, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAllowLesser(in bool allow)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAllowLesser, _godot_object, allow);
+	}
+	/**
+	
+	*/
+	bool isLesserAllowed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLesserAllowed, _godot_object);
+	}
+	/**
+	Binds two ranges together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
 	*/
 	void share(GodotObject _with)
 	{
-		_GODOT_share.bind("Range", "share");
-		ptrcall!(void)(_GODOT_share, _godot_object, _with);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.share, _godot_object, _with);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_unshare;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unshare") = _GODOT_unshare;
 	/**
-	Stop Range from sharing its member variables with any other Range.
+	Stop range from sharing its member variables with any other.
 	*/
 	void unshare()
 	{
-		_GODOT_unshare.bind("Range", "unshare");
-		ptrcall!(void)(_GODOT_unshare, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.unshare, _godot_object);
 	}
 	/**
-	Minimum value. Range is clamped if `value` is less than `min_value`. Default value: 0.
+	Minimum value. Range is clamped if `value` is less than `min_value`. Default value: `0`.
 	*/
 	@property double minValue()
 	{
@@ -238,7 +263,7 @@ public:
 		setMin(v);
 	}
 	/**
-	Maximum value. Range is clamped if `value` is greater than `max_value`. Default value: 100.
+	Maximum value. Range is clamped if `value` is greater than `max_value`. Default value: `100`.
 	*/
 	@property double maxValue()
 	{
@@ -310,7 +335,7 @@ public:
 		setExpRatio(v);
 	}
 	/**
-	If `true`, `value` will always be rounded to the nearest integer.
+	If `true` `value` will always be rounded to the nearest integer. Default value: `false`.
 	*/
 	@property bool rounded()
 	{
@@ -320,5 +345,29 @@ public:
 	@property void rounded(bool v)
 	{
 		setUseRoundedValues(v);
+	}
+	/**
+	If `true` $(D value) may be greater than $(D maxValue). Default value: `false`.
+	*/
+	@property bool allowGreater()
+	{
+		return isGreaterAllowed();
+	}
+	/// ditto
+	@property void allowGreater(bool v)
+	{
+		setAllowGreater(v);
+	}
+	/**
+	If `true` $(D value) may be less than $(D minValue). Default value: `false`.
+	*/
+	@property bool allowLesser()
+	{
+		return isLesserAllowed();
+	}
+	/// ditto
+	@property void allowLesser(bool v)
+	{
+		setAllowLesser(v);
 	}
 }

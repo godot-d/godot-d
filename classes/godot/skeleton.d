@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
+import godot.node;
 /**
 Skeleton for characters and animated objects.
 
@@ -30,12 +31,44 @@ Note that "global pose" below refers to the overall transform of the bone with r
 */
 @GodotBaseClass struct Skeleton
 {
-	static immutable string _GODOT_internal_name = "Skeleton";
+	enum string _GODOT_internal_name = "Skeleton";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_bone") GodotMethod!(void, String) addBone;
+		@GodotName("find_bone") GodotMethod!(long, String) findBone;
+		@GodotName("get_bone_name") GodotMethod!(String, long) getBoneName;
+		@GodotName("get_bone_parent") GodotMethod!(long, long) getBoneParent;
+		@GodotName("set_bone_parent") GodotMethod!(void, long, long) setBoneParent;
+		@GodotName("get_bone_count") GodotMethod!(long) getBoneCount;
+		@GodotName("unparent_bone_and_rest") GodotMethod!(void, long) unparentBoneAndRest;
+		@GodotName("get_bone_rest") GodotMethod!(Transform, long) getBoneRest;
+		@GodotName("set_bone_rest") GodotMethod!(void, long, Transform) setBoneRest;
+		@GodotName("set_bone_disable_rest") GodotMethod!(void, long, bool) setBoneDisableRest;
+		@GodotName("is_bone_rest_disabled") GodotMethod!(bool, long) isBoneRestDisabled;
+		@GodotName("bind_child_node_to_bone") GodotMethod!(void, long, GodotObject) bindChildNodeToBone;
+		@GodotName("unbind_child_node_from_bone") GodotMethod!(void, long, GodotObject) unbindChildNodeFromBone;
+		@GodotName("get_bound_child_nodes_to_bone") GodotMethod!(Array, long) getBoundChildNodesToBone;
+		@GodotName("clear_bones") GodotMethod!(void) clearBones;
+		@GodotName("get_bone_pose") GodotMethod!(Transform, long) getBonePose;
+		@GodotName("set_bone_pose") GodotMethod!(void, long, Transform) setBonePose;
+		@GodotName("set_bone_global_pose") GodotMethod!(void, long, Transform) setBoneGlobalPose;
+		@GodotName("get_bone_global_pose") GodotMethod!(Transform, long) getBoneGlobalPose;
+		@GodotName("get_bone_custom_pose") GodotMethod!(Transform, long) getBoneCustomPose;
+		@GodotName("set_bone_custom_pose") GodotMethod!(void, long, Transform) setBoneCustomPose;
+		@GodotName("get_bone_transform") GodotMethod!(Transform, long) getBoneTransform;
+		@GodotName("physical_bones_stop_simulation") GodotMethod!(void) physicalBonesStopSimulation;
+		@GodotName("physical_bones_start_simulation") GodotMethod!(void, Array) physicalBonesStartSimulation;
+		@GodotName("physical_bones_add_collision_exception") GodotMethod!(void, RID) physicalBonesAddCollisionException;
+		@GodotName("physical_bones_remove_collision_exception") GodotMethod!(void, RID) physicalBonesRemoveCollisionException;
+		@GodotName("set_bone_ignore_animation") GodotMethod!(void, long, bool) setBoneIgnoreAnimation;
+	}
 	bool opEquals(in Skeleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Skeleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -56,224 +89,220 @@ public:
 		*/
 		notificationUpdateSkeleton = 50,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_bone;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_bone") = _GODOT_add_bone;
 	/**
 	Add a bone, with name "name". $(D getBoneCount) will become the bone index.
 	*/
 	void addBone(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_add_bone.bind("Skeleton", "add_bone");
-		ptrcall!(void)(_GODOT_add_bone, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addBone, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_find_bone;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_bone") = _GODOT_find_bone;
 	/**
 	Return the bone index that matches "name" as its name.
 	*/
 	long findBone(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_find_bone.bind("Skeleton", "find_bone");
-		return ptrcall!(long)(_GODOT_find_bone, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.findBone, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_bone_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_name") = _GODOT_get_bone_name;
 	/**
 	Return the name of the bone at index "index".
 	*/
 	String getBoneName(in long bone_idx) const
 	{
-		_GODOT_get_bone_name.bind("Skeleton", "get_bone_name");
-		return ptrcall!(String)(_GODOT_get_bone_name, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBoneName, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_bone_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_parent") = _GODOT_get_bone_parent;
 	/**
 	Return the bone index which is the parent of the bone at "bone_idx". If -1, then bone has no parent. Note that the parent bone returned will always be less than "bone_idx".
 	*/
 	long getBoneParent(in long bone_idx) const
 	{
-		_GODOT_get_bone_parent.bind("Skeleton", "get_bone_parent");
-		return ptrcall!(long)(_GODOT_get_bone_parent, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBoneParent, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_bone_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_parent") = _GODOT_set_bone_parent;
 	/**
 	Set the bone index "parent_idx" as the parent of the bone at "bone_idx". If -1, then bone has no parent. Note: "parent_idx" must be less than "bone_idx".
 	*/
 	void setBoneParent(in long bone_idx, in long parent_idx)
 	{
-		_GODOT_set_bone_parent.bind("Skeleton", "set_bone_parent");
-		ptrcall!(void)(_GODOT_set_bone_parent, _godot_object, bone_idx, parent_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneParent, _godot_object, bone_idx, parent_idx);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_bone_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_count") = _GODOT_get_bone_count;
 	/**
 	Return the amount of bones in the skeleton.
 	*/
 	long getBoneCount() const
 	{
-		_GODOT_get_bone_count.bind("Skeleton", "get_bone_count");
-		return ptrcall!(long)(_GODOT_get_bone_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBoneCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_unparent_bone_and_rest;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unparent_bone_and_rest") = _GODOT_unparent_bone_and_rest;
 	/**
 	
 	*/
 	void unparentBoneAndRest(in long bone_idx)
 	{
-		_GODOT_unparent_bone_and_rest.bind("Skeleton", "unparent_bone_and_rest");
-		ptrcall!(void)(_GODOT_unparent_bone_and_rest, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.unparentBoneAndRest, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_rest;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_rest") = _GODOT_get_bone_rest;
 	/**
 	Return the rest transform for a bone "bone_idx".
 	*/
 	Transform getBoneRest(in long bone_idx) const
 	{
-		_GODOT_get_bone_rest.bind("Skeleton", "get_bone_rest");
-		return ptrcall!(Transform)(_GODOT_get_bone_rest, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getBoneRest, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void, long, Transform) _GODOT_set_bone_rest;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_rest") = _GODOT_set_bone_rest;
 	/**
 	Set the rest transform for bone "bone_idx"
 	*/
 	void setBoneRest(in long bone_idx, in Transform rest)
 	{
-		_GODOT_set_bone_rest.bind("Skeleton", "set_bone_rest");
-		ptrcall!(void)(_GODOT_set_bone_rest, _godot_object, bone_idx, rest);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneRest, _godot_object, bone_idx, rest);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_bone_disable_rest;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_disable_rest") = _GODOT_set_bone_disable_rest;
 	/**
 	
 	*/
 	void setBoneDisableRest(in long bone_idx, in bool disable)
 	{
-		_GODOT_set_bone_disable_rest.bind("Skeleton", "set_bone_disable_rest");
-		ptrcall!(void)(_GODOT_set_bone_disable_rest, _godot_object, bone_idx, disable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneDisableRest, _godot_object, bone_idx, disable);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_bone_rest_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_bone_rest_disabled") = _GODOT_is_bone_rest_disabled;
 	/**
 	
 	*/
 	bool isBoneRestDisabled(in long bone_idx) const
 	{
-		_GODOT_is_bone_rest_disabled.bind("Skeleton", "is_bone_rest_disabled");
-		return ptrcall!(bool)(_GODOT_is_bone_rest_disabled, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBoneRestDisabled, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT_bind_child_node_to_bone;
-	package(godot) alias _GODOT_methodBindInfo(string name : "bind_child_node_to_bone") = _GODOT_bind_child_node_to_bone;
 	/**
 	Deprecated soon.
 	*/
 	void bindChildNodeToBone(in long bone_idx, GodotObject node)
 	{
-		_GODOT_bind_child_node_to_bone.bind("Skeleton", "bind_child_node_to_bone");
-		ptrcall!(void)(_GODOT_bind_child_node_to_bone, _godot_object, bone_idx, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bindChildNodeToBone, _godot_object, bone_idx, node);
 	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT_unbind_child_node_from_bone;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unbind_child_node_from_bone") = _GODOT_unbind_child_node_from_bone;
 	/**
 	Deprecated soon.
 	*/
 	void unbindChildNodeFromBone(in long bone_idx, GodotObject node)
 	{
-		_GODOT_unbind_child_node_from_bone.bind("Skeleton", "unbind_child_node_from_bone");
-		ptrcall!(void)(_GODOT_unbind_child_node_from_bone, _godot_object, bone_idx, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.unbindChildNodeFromBone, _godot_object, bone_idx, node);
 	}
-	package(godot) static GodotMethod!(Array, long) _GODOT_get_bound_child_nodes_to_bone;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bound_child_nodes_to_bone") = _GODOT_get_bound_child_nodes_to_bone;
 	/**
 	Deprecated soon.
 	*/
 	Array getBoundChildNodesToBone(in long bone_idx) const
 	{
-		_GODOT_get_bound_child_nodes_to_bone.bind("Skeleton", "get_bound_child_nodes_to_bone");
-		return ptrcall!(Array)(_GODOT_get_bound_child_nodes_to_bone, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getBoundChildNodesToBone, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_bones;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_bones") = _GODOT_clear_bones;
 	/**
 	Clear all the bones in this skeleton.
 	*/
 	void clearBones()
 	{
-		_GODOT_clear_bones.bind("Skeleton", "clear_bones");
-		ptrcall!(void)(_GODOT_clear_bones, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearBones, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_pose") = _GODOT_get_bone_pose;
 	/**
 	Return the pose transform of the specified bone. Pose is applied on top of the custom pose, which is applied on top the rest pose.
 	*/
 	Transform getBonePose(in long bone_idx) const
 	{
-		_GODOT_get_bone_pose.bind("Skeleton", "get_bone_pose");
-		return ptrcall!(Transform)(_GODOT_get_bone_pose, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getBonePose, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void, long, Transform) _GODOT_set_bone_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_pose") = _GODOT_set_bone_pose;
 	/**
 	Return the pose transform for bone "bone_idx".
 	*/
 	void setBonePose(in long bone_idx, in Transform pose)
 	{
-		_GODOT_set_bone_pose.bind("Skeleton", "set_bone_pose");
-		ptrcall!(void)(_GODOT_set_bone_pose, _godot_object, bone_idx, pose);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBonePose, _godot_object, bone_idx, pose);
 	}
-	package(godot) static GodotMethod!(void, long, Transform) _GODOT_set_bone_global_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_global_pose") = _GODOT_set_bone_global_pose;
 	/**
 	
 	*/
 	void setBoneGlobalPose(in long bone_idx, in Transform pose)
 	{
-		_GODOT_set_bone_global_pose.bind("Skeleton", "set_bone_global_pose");
-		ptrcall!(void)(_GODOT_set_bone_global_pose, _godot_object, bone_idx, pose);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneGlobalPose, _godot_object, bone_idx, pose);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_global_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_global_pose") = _GODOT_get_bone_global_pose;
 	/**
 	Return the overall transform of the specified bone, with respect to the skeleton. Being relative to the skeleton frame, this is not the actual "global" transform of the bone.
 	*/
 	Transform getBoneGlobalPose(in long bone_idx) const
 	{
-		_GODOT_get_bone_global_pose.bind("Skeleton", "get_bone_global_pose");
-		return ptrcall!(Transform)(_GODOT_get_bone_global_pose, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getBoneGlobalPose, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_custom_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_custom_pose") = _GODOT_get_bone_custom_pose;
 	/**
 	Return the custom pose of the specified bone. Custom pose is applied on top of the rest pose.
 	*/
 	Transform getBoneCustomPose(in long bone_idx) const
 	{
-		_GODOT_get_bone_custom_pose.bind("Skeleton", "get_bone_custom_pose");
-		return ptrcall!(Transform)(_GODOT_get_bone_custom_pose, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getBoneCustomPose, _godot_object, bone_idx);
 	}
-	package(godot) static GodotMethod!(void, long, Transform) _GODOT_set_bone_custom_pose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bone_custom_pose") = _GODOT_set_bone_custom_pose;
 	/**
 	
 	*/
 	void setBoneCustomPose(in long bone_idx, in Transform custom_pose)
 	{
-		_GODOT_set_bone_custom_pose.bind("Skeleton", "set_bone_custom_pose");
-		ptrcall!(void)(_GODOT_set_bone_custom_pose, _godot_object, bone_idx, custom_pose);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneCustomPose, _godot_object, bone_idx, custom_pose);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_bone_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bone_transform") = _GODOT_get_bone_transform;
 	/**
 	Return the combination of custom pose and pose. The returned transform is in skeleton's reference frame.
 	*/
 	Transform getBoneTransform(in long bone_idx) const
 	{
-		_GODOT_get_bone_transform.bind("Skeleton", "get_bone_transform");
-		return ptrcall!(Transform)(_GODOT_get_bone_transform, _godot_object, bone_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getBoneTransform, _godot_object, bone_idx);
+	}
+	/**
+	
+	*/
+	void physicalBonesStopSimulation()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.physicalBonesStopSimulation, _godot_object);
+	}
+	/**
+	
+	*/
+	void physicalBonesStartSimulation(in Array bones = Array.empty_array)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.physicalBonesStartSimulation, _godot_object, bones);
+	}
+	/**
+	
+	*/
+	void physicalBonesAddCollisionException(in RID exception)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.physicalBonesAddCollisionException, _godot_object, exception);
+	}
+	/**
+	
+	*/
+	void physicalBonesRemoveCollisionException(in RID exception)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.physicalBonesRemoveCollisionException, _godot_object, exception);
+	}
+	/**
+	
+	*/
+	void setBoneIgnoreAnimation(in long bone, in bool ignore)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneIgnoreAnimation, _godot_object, bone, ignore);
 	}
 }

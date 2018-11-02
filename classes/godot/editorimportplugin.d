@@ -56,27 +56,45 @@ func get_preset_name(i):
 func get_import_options(i):
     return $(D {"name": "my_option", "default_value": false})
 
-func load(src, dst, opts, r_platform_variants, r_gen_files):
+func import(source_file, save_path, options, r_platform_variants, r_gen_files):
     var file = File.new()
-    if file.open(src, File.READ) != OK:
+    if file.open(source_file, File.READ) != OK:
         return FAILED
 
     var mesh = Mesh.new()
+    # Fill the Mesh with data read in 'file', left as exercise to the reader
 
-    var save = dst + "." + get_save_extension()
-    ResourceSaver.save(file, mesh)
+    var filename = save_path + "." + get_save_extension()
+    ResourceSaver.save(filename, mesh)
     return OK
 
 
 */
 @GodotBaseClass struct EditorImportPlugin
 {
-	static immutable string _GODOT_internal_name = "EditorImportPlugin";
+	enum string _GODOT_internal_name = "EditorImportPlugin";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_importer_name") GodotMethod!(String) getImporterName;
+		@GodotName("get_visible_name") GodotMethod!(String) getVisibleName;
+		@GodotName("get_preset_count") GodotMethod!(long) getPresetCount;
+		@GodotName("get_preset_name") GodotMethod!(String, long) getPresetName;
+		@GodotName("get_recognized_extensions") GodotMethod!(Array) getRecognizedExtensions;
+		@GodotName("get_import_options") GodotMethod!(Array, long) getImportOptions;
+		@GodotName("get_save_extension") GodotMethod!(String) getSaveExtension;
+		@GodotName("get_resource_type") GodotMethod!(String) getResourceType;
+		@GodotName("get_priority") GodotMethod!(double) getPriority;
+		@GodotName("get_import_order") GodotMethod!(long) getImportOrder;
+		@GodotName("get_option_visibility") GodotMethod!(bool, String, Dictionary) getOptionVisibility;
+		@GodotName("import") GodotMethod!(long, String, String, Dictionary, Array, Array) _import;
+	}
 	bool opEquals(in EditorImportPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorImportPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -89,8 +107,6 @@ public:
 		return cast(EditorImportPlugin)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(String) _GODOT_get_importer_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_importer_name") = _GODOT_get_importer_name;
 	/**
 	Get the unique name of the importer.
 	*/
@@ -100,8 +116,6 @@ public:
 		String _GODOT_method_name = String("get_importer_name");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_visible_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_name") = _GODOT_get_visible_name;
 	/**
 	Get the name to display in the import window.
 	*/
@@ -111,8 +125,6 @@ public:
 		String _GODOT_method_name = String("get_visible_name");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_preset_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_preset_count") = _GODOT_get_preset_count;
 	/**
 	Get the number of initial presets defined by the plugin. Use $(D getImportOptions) to get the default options for the preset and $(D getPresetName) to get the name of the preset.
 	*/
@@ -122,8 +134,6 @@ public:
 		String _GODOT_method_name = String("get_preset_count");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_preset_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_preset_name") = _GODOT_get_preset_name;
 	/**
 	Get the name of the options preset at this index.
 	*/
@@ -134,8 +144,6 @@ public:
 		String _GODOT_method_name = String("get_preset_name");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_recognized_extensions;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_recognized_extensions") = _GODOT_get_recognized_extensions;
 	/**
 	Get the list of file extensions to associate with this loader (case insensitive). e.g. $(D "obj").
 	*/
@@ -145,8 +153,6 @@ public:
 		String _GODOT_method_name = String("get_recognized_extensions");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(Array, long) _GODOT_get_import_options;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_import_options") = _GODOT_get_import_options;
 	/**
 	Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: "name", "default_value", "property_hint" (optional), "hint_string" (optional), "usage" (optional).
 	*/
@@ -157,8 +163,6 @@ public:
 		String _GODOT_method_name = String("get_import_options");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_save_extension;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_save_extension") = _GODOT_get_save_extension;
 	/**
 	Get the extension used to save this resource in the `.import` directory.
 	*/
@@ -168,10 +172,8 @@ public:
 		String _GODOT_method_name = String("get_save_extension");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_resource_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_resource_type") = _GODOT_get_resource_type;
 	/**
-	Get the godot resource type associated with this loader. e.g. "Mesh" or "Animation".
+	Get the Godot resource type associated with this loader. e.g. "Mesh" or "Animation".
 	*/
 	String getResourceType()
 	{
@@ -179,8 +181,6 @@ public:
 		String _GODOT_method_name = String("get_resource_type");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_priority") = _GODOT_get_priority;
 	/**
 	Get the priority of this plugin for the recognized extension. Higher priority plugins will be preferred. Default value is 1.0.
 	*/
@@ -190,8 +190,6 @@ public:
 		String _GODOT_method_name = String("get_priority");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_import_order;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_import_order") = _GODOT_get_import_order;
 	/**
 	Get the order of this importer to be run when importing resources. Higher values will be called later. Use this to ensure the importer runs after the dependencies are already imported.
 	*/
@@ -201,8 +199,6 @@ public:
 		String _GODOT_method_name = String("get_import_order");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
-	package(godot) static GodotMethod!(bool, String, Dictionary) _GODOT_get_option_visibility;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_option_visibility") = _GODOT_get_option_visibility;
 	/**
 	
 	*/
@@ -214,8 +210,6 @@ public:
 		String _GODOT_method_name = String("get_option_visibility");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(long, String, String, Dictionary, Array, Array) _GODOT__import;
-	package(godot) alias _GODOT_methodBindInfo(string name : "import") = _GODOT__import;
 	/**
 	
 	*/

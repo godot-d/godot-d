@@ -28,20 +28,56 @@ This includes key presses, mouse buttons and movement, joypads, and input action
 */
 @GodotBaseClass struct InputSingleton
 {
-	static immutable string _GODOT_internal_name = "Input";
+	enum string _GODOT_internal_name = "Input";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "Input";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "Input";
+		@GodotName("is_key_pressed") GodotMethod!(bool, long) isKeyPressed;
+		@GodotName("is_mouse_button_pressed") GodotMethod!(bool, long) isMouseButtonPressed;
+		@GodotName("is_joy_button_pressed") GodotMethod!(bool, long, long) isJoyButtonPressed;
+		@GodotName("is_action_pressed") GodotMethod!(bool, String) isActionPressed;
+		@GodotName("is_action_just_pressed") GodotMethod!(bool, String) isActionJustPressed;
+		@GodotName("is_action_just_released") GodotMethod!(bool, String) isActionJustReleased;
+		@GodotName("get_action_strength") GodotMethod!(double, String) getActionStrength;
+		@GodotName("add_joy_mapping") GodotMethod!(void, String, bool) addJoyMapping;
+		@GodotName("remove_joy_mapping") GodotMethod!(void, String) removeJoyMapping;
+		@GodotName("joy_connection_changed") GodotMethod!(void, long, bool, String, String) joyConnectionChanged;
+		@GodotName("is_joy_known") GodotMethod!(bool, long) isJoyKnown;
+		@GodotName("get_joy_axis") GodotMethod!(double, long, long) getJoyAxis;
+		@GodotName("get_joy_name") GodotMethod!(String, long) getJoyName;
+		@GodotName("get_joy_guid") GodotMethod!(String, long) getJoyGuid;
+		@GodotName("get_connected_joypads") GodotMethod!(Array) getConnectedJoypads;
+		@GodotName("get_joy_vibration_strength") GodotMethod!(Vector2, long) getJoyVibrationStrength;
+		@GodotName("get_joy_vibration_duration") GodotMethod!(double, long) getJoyVibrationDuration;
+		@GodotName("get_joy_button_string") GodotMethod!(String, long) getJoyButtonString;
+		@GodotName("get_joy_button_index_from_string") GodotMethod!(long, String) getJoyButtonIndexFromString;
+		@GodotName("get_joy_axis_string") GodotMethod!(String, long) getJoyAxisString;
+		@GodotName("get_joy_axis_index_from_string") GodotMethod!(long, String) getJoyAxisIndexFromString;
+		@GodotName("start_joy_vibration") GodotMethod!(void, long, double, double, double) startJoyVibration;
+		@GodotName("stop_joy_vibration") GodotMethod!(void, long) stopJoyVibration;
+		@GodotName("get_gravity") GodotMethod!(Vector3) getGravity;
+		@GodotName("get_accelerometer") GodotMethod!(Vector3) getAccelerometer;
+		@GodotName("get_magnetometer") GodotMethod!(Vector3) getMagnetometer;
+		@GodotName("get_gyroscope") GodotMethod!(Vector3) getGyroscope;
+		@GodotName("get_last_mouse_speed") GodotMethod!(Vector2) getLastMouseSpeed;
+		@GodotName("get_mouse_button_mask") GodotMethod!(long) getMouseButtonMask;
+		@GodotName("set_mouse_mode") GodotMethod!(void, long) setMouseMode;
+		@GodotName("get_mouse_mode") GodotMethod!(Input.MouseMode) getMouseMode;
+		@GodotName("warp_mouse_position") GodotMethod!(void, Vector2) warpMousePosition;
+		@GodotName("action_press") GodotMethod!(void, String) actionPress;
+		@GodotName("action_release") GodotMethod!(void, String) actionRelease;
+		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
+		@GodotName("set_custom_mouse_cursor") GodotMethod!(void, Resource, long, Vector2) setCustomMouseCursor;
+		@GodotName("parse_input_event") GodotMethod!(void, InputEvent) parseInputEvent;
+	}
 	bool opEquals(in InputSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -90,7 +126,7 @@ public:
 		*/
 		cursorPointingHand = 2,
 		/**
-		Cross cursor. Typically appears over regions in which a drawing operation can be performance or for selections.
+		Cross cursor. Typically appears over regions in which a drawing operation can be performed or for selections.
 		*/
 		cursorCross = 3,
 		/**
@@ -149,14 +185,14 @@ public:
 	/// 
 	enum Constants : int
 	{
-		mouseModeVisible = 0,
 		cursorArrow = 0,
+		mouseModeVisible = 0,
 		mouseModeHidden = 1,
 		cursorIbeam = 1,
 		mouseModeCaptured = 2,
 		cursorPointingHand = 2,
-		cursorCross = 3,
 		mouseModeConfined = 3,
+		cursorCross = 3,
 		cursorWait = 4,
 		cursorBusy = 5,
 		cursorDrag = 6,
@@ -171,362 +207,313 @@ public:
 		cursorHsplit = 15,
 		cursorHelp = 16,
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_key_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_key_pressed") = _GODOT_is_key_pressed;
 	/**
 	Returns `true` if you are pressing the key. You can pass `KEY_*`, which are pre-defined constants listed in $(D @GlobalScope).
 	*/
 	bool isKeyPressed(in long scancode) const
 	{
-		_GODOT_is_key_pressed.bind("Input", "is_key_pressed");
-		return ptrcall!(bool)(_GODOT_is_key_pressed, _godot_object, scancode);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isKeyPressed, _godot_object, scancode);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_mouse_button_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_mouse_button_pressed") = _GODOT_is_mouse_button_pressed;
 	/**
 	Returns `true` if you are pressing the mouse button. You can pass `BUTTON_*`, which are pre-defined constants listed in $(D @GlobalScope).
 	*/
 	bool isMouseButtonPressed(in long button) const
 	{
-		_GODOT_is_mouse_button_pressed.bind("Input", "is_mouse_button_pressed");
-		return ptrcall!(bool)(_GODOT_is_mouse_button_pressed, _godot_object, button);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMouseButtonPressed, _godot_object, button);
 	}
-	package(godot) static GodotMethod!(bool, long, long) _GODOT_is_joy_button_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_joy_button_pressed") = _GODOT_is_joy_button_pressed;
 	/**
 	Returns `true` if you are pressing the joypad button. (see `JOY_*` constants in $(D @GlobalScope))
 	*/
 	bool isJoyButtonPressed(in long device, in long button) const
 	{
-		_GODOT_is_joy_button_pressed.bind("Input", "is_joy_button_pressed");
-		return ptrcall!(bool)(_GODOT_is_joy_button_pressed, _godot_object, device, button);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isJoyButtonPressed, _godot_object, device, button);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_is_action_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_action_pressed") = _GODOT_is_action_pressed;
 	/**
 	Returns `true` if you are pressing the action event.
 	*/
 	bool isActionPressed(StringArg0)(in StringArg0 action) const
 	{
-		_GODOT_is_action_pressed.bind("Input", "is_action_pressed");
-		return ptrcall!(bool)(_GODOT_is_action_pressed, _godot_object, action);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_is_action_just_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_action_just_pressed") = _GODOT_is_action_just_pressed;
 	/**
 	Returns `true` when the user starts pressing the action event, meaning it's true only on the frame that the user pressed down the button.
 	This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 	*/
 	bool isActionJustPressed(StringArg0)(in StringArg0 action) const
 	{
-		_GODOT_is_action_just_pressed.bind("Input", "is_action_just_pressed");
-		return ptrcall!(bool)(_GODOT_is_action_just_pressed, _godot_object, action);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isActionJustPressed, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_is_action_just_released;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_action_just_released") = _GODOT_is_action_just_released;
 	/**
 	Returns `true` when the user stops pressing the action event, meaning it's true only on the frame that the user released the button.
 	*/
 	bool isActionJustReleased(StringArg0)(in StringArg0 action) const
 	{
-		_GODOT_is_action_just_released.bind("Input", "is_action_just_released");
-		return ptrcall!(bool)(_GODOT_is_action_just_released, _godot_object, action);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isActionJustReleased, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(void, String, bool) _GODOT_add_joy_mapping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_joy_mapping") = _GODOT_add_joy_mapping;
+	/**
+	Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
+	*/
+	double getActionStrength(StringArg0)(in StringArg0 action) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
+	}
 	/**
 	Add a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
 	*/
 	void addJoyMapping(StringArg0)(in StringArg0 mapping, in bool update_existing = false)
 	{
-		_GODOT_add_joy_mapping.bind("Input", "add_joy_mapping");
-		ptrcall!(void)(_GODOT_add_joy_mapping, _godot_object, mapping, update_existing);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addJoyMapping, _godot_object, mapping, update_existing);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_joy_mapping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_joy_mapping") = _GODOT_remove_joy_mapping;
 	/**
 	Removes all mappings from the internal db that match the given uid.
 	*/
 	void removeJoyMapping(StringArg0)(in StringArg0 guid)
 	{
-		_GODOT_remove_joy_mapping.bind("Input", "remove_joy_mapping");
-		ptrcall!(void)(_GODOT_remove_joy_mapping, _godot_object, guid);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeJoyMapping, _godot_object, guid);
 	}
-	package(godot) static GodotMethod!(void, long, bool, String, String) _GODOT_joy_connection_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joy_connection_changed") = _GODOT_joy_connection_changed;
 	/**
 	
 	*/
 	void joyConnectionChanged(StringArg2, StringArg3)(in long device, in bool connected, in StringArg2 name, in StringArg3 guid)
 	{
-		_GODOT_joy_connection_changed.bind("Input", "joy_connection_changed");
-		ptrcall!(void)(_GODOT_joy_connection_changed, _godot_object, device, connected, name, guid);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.joyConnectionChanged, _godot_object, device, connected, name, guid);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_joy_known;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_joy_known") = _GODOT_is_joy_known;
 	/**
 	Returns `true` if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in the `JOY_*` constants (see $(D @GlobalScope)). Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
 	*/
 	bool isJoyKnown(in long device)
 	{
-		_GODOT_is_joy_known.bind("Input", "is_joy_known");
-		return ptrcall!(bool)(_GODOT_is_joy_known, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isJoyKnown, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(double, long, long) _GODOT_get_joy_axis;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_axis") = _GODOT_get_joy_axis;
 	/**
 	Returns the current value of the joypad axis at given index (see `JOY_*` constants in $(D @GlobalScope))
 	*/
 	double getJoyAxis(in long device, in long axis) const
 	{
-		_GODOT_get_joy_axis.bind("Input", "get_joy_axis");
-		return ptrcall!(double)(_GODOT_get_joy_axis, _godot_object, device, axis);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getJoyAxis, _godot_object, device, axis);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_joy_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_name") = _GODOT_get_joy_name;
 	/**
 	Returns the name of the joypad at the specified device index
 	*/
 	String getJoyName(in long device)
 	{
-		_GODOT_get_joy_name.bind("Input", "get_joy_name");
-		return ptrcall!(String)(_GODOT_get_joy_name, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyName, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_joy_guid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_guid") = _GODOT_get_joy_guid;
 	/**
 	Returns a SDL2 compatible device guid on platforms that use gamepad remapping. Returns "Default Gamepad" otherwise.
 	*/
 	String getJoyGuid(in long device) const
 	{
-		_GODOT_get_joy_guid.bind("Input", "get_joy_guid");
-		return ptrcall!(String)(_GODOT_get_joy_guid, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyGuid, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_connected_joypads;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_connected_joypads") = _GODOT_get_connected_joypads;
 	/**
 	Returns an $(D Array) containing the device IDs of all currently connected joypads.
 	*/
 	Array getConnectedJoypads()
 	{
-		_GODOT_get_connected_joypads.bind("Input", "get_connected_joypads");
-		return ptrcall!(Array)(_GODOT_get_connected_joypads, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getConnectedJoypads, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_joy_vibration_strength;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_vibration_strength") = _GODOT_get_joy_vibration_strength;
 	/**
 	Returns the strength of the joypad vibration: x is the strength of the weak motor, and y is the strength of the strong motor.
 	*/
 	Vector2 getJoyVibrationStrength(in long device)
 	{
-		_GODOT_get_joy_vibration_strength.bind("Input", "get_joy_vibration_strength");
-		return ptrcall!(Vector2)(_GODOT_get_joy_vibration_strength, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getJoyVibrationStrength, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_joy_vibration_duration;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_vibration_duration") = _GODOT_get_joy_vibration_duration;
 	/**
 	Returns the duration of the current vibration effect in seconds.
 	*/
 	double getJoyVibrationDuration(in long device)
 	{
-		_GODOT_get_joy_vibration_duration.bind("Input", "get_joy_vibration_duration");
-		return ptrcall!(double)(_GODOT_get_joy_vibration_duration, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getJoyVibrationDuration, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_joy_button_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_button_string") = _GODOT_get_joy_button_string;
 	/**
-	
+	Receives a `JOY_BUTTON_*` Enum and returns its equivalent name as a string.
 	*/
 	String getJoyButtonString(in long button_index)
 	{
-		_GODOT_get_joy_button_string.bind("Input", "get_joy_button_string");
-		return ptrcall!(String)(_GODOT_get_joy_button_string, _godot_object, button_index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyButtonString, _godot_object, button_index);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_get_joy_button_index_from_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_button_index_from_string") = _GODOT_get_joy_button_index_from_string;
 	/**
-	
+	Returns the index of the provided button name.
 	*/
 	long getJoyButtonIndexFromString(StringArg0)(in StringArg0 button)
 	{
-		_GODOT_get_joy_button_index_from_string.bind("Input", "get_joy_button_index_from_string");
-		return ptrcall!(long)(_GODOT_get_joy_button_index_from_string, _godot_object, button);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getJoyButtonIndexFromString, _godot_object, button);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_joy_axis_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_axis_string") = _GODOT_get_joy_axis_string;
 	/**
-	
+	Receives a `JOY_AXIS_*` Enum and returns its equivalent name as a string.
 	*/
 	String getJoyAxisString(in long axis_index)
 	{
-		_GODOT_get_joy_axis_string.bind("Input", "get_joy_axis_string");
-		return ptrcall!(String)(_GODOT_get_joy_axis_string, _godot_object, axis_index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyAxisString, _godot_object, axis_index);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_get_joy_axis_index_from_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joy_axis_index_from_string") = _GODOT_get_joy_axis_index_from_string;
 	/**
-	
+	Returns the index of the provided axis name.
 	*/
 	long getJoyAxisIndexFromString(StringArg0)(in StringArg0 axis)
 	{
-		_GODOT_get_joy_axis_index_from_string.bind("Input", "get_joy_axis_index_from_string");
-		return ptrcall!(long)(_GODOT_get_joy_axis_index_from_string, _godot_object, axis);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getJoyAxisIndexFromString, _godot_object, axis);
 	}
-	package(godot) static GodotMethod!(void, long, double, double, double) _GODOT_start_joy_vibration;
-	package(godot) alias _GODOT_methodBindInfo(string name : "start_joy_vibration") = _GODOT_start_joy_vibration;
 	/**
 	Starts to vibrate the joypad. Joypads usually come with two rumble motors, a strong and a weak one. weak_magnitude is the strength of the weak motor (between 0 and 1) and strong_magnitude is the strength of the strong motor (between 0 and 1). duration is the duration of the effect in seconds (a duration of 0 will try to play the vibration indefinitely).
 	Note that not every hardware is compatible with long effect durations, it is recommended to restart an effect if in need to play it for more than a few seconds.
 	*/
 	void startJoyVibration(in long device, in double weak_magnitude, in double strong_magnitude, in double duration = 0)
 	{
-		_GODOT_start_joy_vibration.bind("Input", "start_joy_vibration");
-		ptrcall!(void)(_GODOT_start_joy_vibration, _godot_object, device, weak_magnitude, strong_magnitude, duration);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.startJoyVibration, _godot_object, device, weak_magnitude, strong_magnitude, duration);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_stop_joy_vibration;
-	package(godot) alias _GODOT_methodBindInfo(string name : "stop_joy_vibration") = _GODOT_stop_joy_vibration;
 	/**
 	Stops the vibration of the joypad.
 	*/
 	void stopJoyVibration(in long device)
 	{
-		_GODOT_stop_joy_vibration.bind("Input", "stop_joy_vibration");
-		ptrcall!(void)(_GODOT_stop_joy_vibration, _godot_object, device);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stopJoyVibration, _godot_object, device);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_gravity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gravity") = _GODOT_get_gravity;
 	/**
 	If the device has an accelerometer, this will return the gravity. Otherwise, it returns an empty $(D Vector3).
 	*/
 	Vector3 getGravity() const
 	{
-		_GODOT_get_gravity.bind("Input", "get_gravity");
-		return ptrcall!(Vector3)(_GODOT_get_gravity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGravity, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_accelerometer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_accelerometer") = _GODOT_get_accelerometer;
 	/**
 	If the device has an accelerometer, this will return the acceleration. Otherwise, it returns an empty $(D Vector3).
+	Note this method returns an empty $(D Vector3) when running from the editor even when your device has an accelerometer. You must export your project to a supported device to read values from the accelerometer.
 	*/
 	Vector3 getAccelerometer() const
 	{
-		_GODOT_get_accelerometer.bind("Input", "get_accelerometer");
-		return ptrcall!(Vector3)(_GODOT_get_accelerometer, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getAccelerometer, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_magnetometer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_magnetometer") = _GODOT_get_magnetometer;
 	/**
 	If the device has a magnetometer, this will return the magnetic field strength in micro-Tesla for all axes.
 	*/
 	Vector3 getMagnetometer() const
 	{
-		_GODOT_get_magnetometer.bind("Input", "get_magnetometer");
-		return ptrcall!(Vector3)(_GODOT_get_magnetometer, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getMagnetometer, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_gyroscope;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gyroscope") = _GODOT_get_gyroscope;
 	/**
 	If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's x, y, and z axis. Otherwise, it returns an empty $(D Vector3).
 	*/
 	Vector3 getGyroscope() const
 	{
-		_GODOT_get_gyroscope.bind("Input", "get_gyroscope");
-		return ptrcall!(Vector3)(_GODOT_get_gyroscope, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGyroscope, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_last_mouse_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_mouse_speed") = _GODOT_get_last_mouse_speed;
 	/**
 	Returns the mouse speed for the last time the cursor was moved, and this until the next frame where the mouse moves. This means that even if the mouse is not moving, this function will still return the value of the last motion.
 	*/
 	Vector2 getLastMouseSpeed() const
 	{
-		_GODOT_get_last_mouse_speed.bind("Input", "get_last_mouse_speed");
-		return ptrcall!(Vector2)(_GODOT_get_last_mouse_speed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLastMouseSpeed, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_mouse_button_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mouse_button_mask") = _GODOT_get_mouse_button_mask;
 	/**
 	Returns mouse buttons as a bitmask. If multiple mouse buttons are pressed at the same time the bits are added together.
 	*/
 	long getMouseButtonMask() const
 	{
-		_GODOT_get_mouse_button_mask.bind("Input", "get_mouse_button_mask");
-		return ptrcall!(long)(_GODOT_get_mouse_button_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMouseButtonMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mouse_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mouse_mode") = _GODOT_set_mouse_mode;
 	/**
 	Set the mouse mode. See the constants for more information.
 	*/
 	void setMouseMode(in long mode)
 	{
-		_GODOT_set_mouse_mode.bind("Input", "set_mouse_mode");
-		ptrcall!(void)(_GODOT_set_mouse_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMouseMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Input.MouseMode) _GODOT_get_mouse_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mouse_mode") = _GODOT_get_mouse_mode;
 	/**
 	Return the mouse mode. See the constants for more information.
 	*/
 	Input.MouseMode getMouseMode() const
 	{
-		_GODOT_get_mouse_mode.bind("Input", "get_mouse_mode");
-		return ptrcall!(Input.MouseMode)(_GODOT_get_mouse_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Input.MouseMode)(_classBinding.getMouseMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_warp_mouse_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "warp_mouse_position") = _GODOT_warp_mouse_position;
 	/**
 	Sets the mouse position to the specified vector.
 	*/
 	void warpMousePosition(in Vector2 to)
 	{
-		_GODOT_warp_mouse_position.bind("Input", "warp_mouse_position");
-		ptrcall!(void)(_GODOT_warp_mouse_position, _godot_object, to);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.warpMousePosition, _godot_object, to);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_action_press;
-	package(godot) alias _GODOT_methodBindInfo(string name : "action_press") = _GODOT_action_press;
 	/**
 	This will simulate pressing the specified action.
 	*/
 	void actionPress(StringArg0)(in StringArg0 action)
 	{
-		_GODOT_action_press.bind("Input", "action_press");
-		ptrcall!(void)(_GODOT_action_press, _godot_object, action);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.actionPress, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_action_release;
-	package(godot) alias _GODOT_methodBindInfo(string name : "action_release") = _GODOT_action_release;
 	/**
 	If the specified action is already pressed, this will release it.
 	*/
 	void actionRelease(StringArg0)(in StringArg0 action)
 	{
-		_GODOT_action_release.bind("Input", "action_release");
-		ptrcall!(void)(_GODOT_action_release, _godot_object, action);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.actionRelease, _godot_object, action);
 	}
-	package(godot) static GodotMethod!(void, Resource, long, Vector2) _GODOT_set_custom_mouse_cursor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_mouse_cursor") = _GODOT_set_custom_mouse_cursor;
 	/**
-	Set a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing `null` to the image parameter resets to the system cursor. See enum `CURSOR_*` for the list of shapes.
+	Sets the default cursor shape to be used in the viewport instead of `CURSOR_ARROW`.
+	Note that if you want to change the default cursor shape for $(D Control)'s nodes, use $(D Control.mouseDefaultCursorShape) instead.
+	*/
+	void setDefaultCursorShape(in long shape = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
+	}
+	/**
+	Sets a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing `null` to the image parameter resets to the system cursor. See enum `CURSOR_*` for the list of shapes.
+	`image`'s size must be lower than 256x256.
+	`hotspot` must be within `image`'s size.
 	*/
 	void setCustomMouseCursor(Resource image, in long shape = 0, in Vector2 hotspot = Vector2(0, 0))
 	{
-		_GODOT_set_custom_mouse_cursor.bind("Input", "set_custom_mouse_cursor");
-		ptrcall!(void)(_GODOT_set_custom_mouse_cursor, _godot_object, image, shape, hotspot);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomMouseCursor, _godot_object, image, shape, hotspot);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT_parse_input_event;
-	package(godot) alias _GODOT_methodBindInfo(string name : "parse_input_event") = _GODOT_parse_input_event;
 	/**
 	Feeds an $(D InputEvent) to the game. Can be used to artificially trigger input events from code.
 	*/
 	void parseInputEvent(InputEvent event)
 	{
-		_GODOT_parse_input_event.bind("Input", "parse_input_event");
-		ptrcall!(void)(_GODOT_parse_input_event, _godot_object, event);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.parseInputEvent, _godot_object, event);
 	}
 }
 /// Returns: the InputSingleton
 @property @nogc nothrow pragma(inline, true)
 InputSingleton Input()
 {
-	return InputSingleton._GODOT_singleton();
+	checkClassBinding!InputSingleton();
+	return InputSingleton(InputSingleton._classBinding._singleton);
 }

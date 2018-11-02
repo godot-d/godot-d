@@ -23,6 +23,10 @@ import godot.classdb;
 import godot.windowdialog;
 import godot.button;
 import godot.label;
+import godot.popup;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base dialog for user notification.
 
@@ -30,12 +34,29 @@ This dialog is useful for small notifications to the user about an event. It can
 */
 @GodotBaseClass struct AcceptDialog
 {
-	static immutable string _GODOT_internal_name = "AcceptDialog";
+	enum string _GODOT_internal_name = "AcceptDialog";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; WindowDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_ok") GodotMethod!(void) _ok;
+		@GodotName("get_ok") GodotMethod!(Button) getOk;
+		@GodotName("get_label") GodotMethod!(Label) getLabel;
+		@GodotName("set_hide_on_ok") GodotMethod!(void, bool) setHideOnOk;
+		@GodotName("get_hide_on_ok") GodotMethod!(bool) getHideOnOk;
+		@GodotName("add_button") GodotMethod!(Button, String, bool, String) addButton;
+		@GodotName("add_cancel") GodotMethod!(Button, String) addCancel;
+		@GodotName("_builtin_text_entered") GodotMethod!(void, String) _builtinTextEntered;
+		@GodotName("register_text_enter") GodotMethod!(void, GodotObject) registerTextEnter;
+		@GodotName("_custom_action") GodotMethod!(void, String) _customAction;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("get_text") GodotMethod!(String) getText;
+	}
 	bool opEquals(in AcceptDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AcceptDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,8 +69,6 @@ public:
 		return cast(AcceptDialog)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void) _GODOT__ok;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_ok") = _GODOT__ok;
 	/**
 	
 	*/
@@ -59,69 +78,55 @@ public:
 		String _GODOT_method_name = String("_ok");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Button) _GODOT_get_ok;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ok") = _GODOT_get_ok;
 	/**
 	Return the OK Button.
 	*/
 	Button getOk()
 	{
-		_GODOT_get_ok.bind("AcceptDialog", "get_ok");
-		return ptrcall!(Button)(_GODOT_get_ok, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Button)(_classBinding.getOk, _godot_object);
 	}
-	package(godot) static GodotMethod!(Label) _GODOT_get_label;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_label") = _GODOT_get_label;
 	/**
 	Return the label used for built-in text.
 	*/
 	Label getLabel()
 	{
-		_GODOT_get_label.bind("AcceptDialog", "get_label");
-		return ptrcall!(Label)(_GODOT_get_label, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Label)(_classBinding.getLabel, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_hide_on_ok;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hide_on_ok") = _GODOT_set_hide_on_ok;
 	/**
 	
 	*/
 	void setHideOnOk(in bool enabled)
 	{
-		_GODOT_set_hide_on_ok.bind("AcceptDialog", "set_hide_on_ok");
-		ptrcall!(void)(_GODOT_set_hide_on_ok, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHideOnOk, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_hide_on_ok;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hide_on_ok") = _GODOT_get_hide_on_ok;
 	/**
 	
 	*/
 	bool getHideOnOk() const
 	{
-		_GODOT_get_hide_on_ok.bind("AcceptDialog", "get_hide_on_ok");
-		return ptrcall!(bool)(_GODOT_get_hide_on_ok, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getHideOnOk, _godot_object);
 	}
-	package(godot) static GodotMethod!(Button, String, bool, String) _GODOT_add_button;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_button") = _GODOT_add_button;
 	/**
 	Adds a button with label $(I text) and a custom $(I action) to the dialog and returns the created button. $(I action) will be passed to the $(D customAction) signal when pressed.
 	If `true`, $(I right) will place the button to the right of any sibling buttons. Default value: `false`.
 	*/
 	Button addButton(StringArg0, StringArg2)(in StringArg0 text, in bool right = false, in StringArg2 action = "")
 	{
-		_GODOT_add_button.bind("AcceptDialog", "add_button");
-		return ptrcall!(Button)(_GODOT_add_button, _godot_object, text, right, action);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Button)(_classBinding.addButton, _godot_object, text, right, action);
 	}
-	package(godot) static GodotMethod!(Button, String) _GODOT_add_cancel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_cancel") = _GODOT_add_cancel;
 	/**
 	Adds a button with label $(I name) and a cancel action to the dialog and returns the created button.
 	*/
 	Button addCancel(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_add_cancel.bind("AcceptDialog", "add_cancel");
-		return ptrcall!(Button)(_GODOT_add_cancel, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Button)(_classBinding.addCancel, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__builtin_text_entered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_builtin_text_entered") = _GODOT__builtin_text_entered;
 	/**
 	
 	*/
@@ -132,18 +137,14 @@ public:
 		String _GODOT_method_name = String("_builtin_text_entered");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_register_text_enter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "register_text_enter") = _GODOT_register_text_enter;
 	/**
 	Registers a $(D LineEdit) in the dialog. When the enter key is pressed, the dialog will be accepted.
 	*/
 	void registerTextEnter(GodotObject line_edit)
 	{
-		_GODOT_register_text_enter.bind("AcceptDialog", "register_text_enter");
-		ptrcall!(void)(_GODOT_register_text_enter, _godot_object, line_edit);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.registerTextEnter, _godot_object, line_edit);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__custom_action;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_custom_action") = _GODOT__custom_action;
 	/**
 	
 	*/
@@ -154,25 +155,21 @@ public:
 		String _GODOT_method_name = String("_custom_action");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_text") = _GODOT_set_text;
 	/**
 	
 	*/
 	void setText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_text.bind("AcceptDialog", "set_text");
-		ptrcall!(void)(_GODOT_set_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_text") = _GODOT_get_text;
 	/**
 	
 	*/
 	String getText() const
 	{
-		_GODOT_get_text.bind("AcceptDialog", "get_text");
-		return ptrcall!(String)(_GODOT_get_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
 	/**
 	The text displayed by this dialog.
@@ -187,7 +184,8 @@ public:
 		setText(v);
 	}
 	/**
-	If `true` the dialog is hidden when accepted. Default value: `true`.
+	If `true` the dialog is hidden when the OK button is pressed. You can set it to `false` if you want to do e.g. input validation when receiving the $(D confirmed) signal, and handle hiding the dialog in your own logic. Default value: `true`.
+	Note: Some nodes derived from this class can have a different default value, and potentially their own built-in logic overriding this setting. For example $(D FileDialog) defaults to `false`, and has its own input validation code that is called when you press OK, which eventually hides the dialog if the input is valid. As such this property can't be used in $(D FileDialog) to disable hiding the dialog when pressing OK.
 	*/
 	@property bool dialogHideOnOk()
 	{

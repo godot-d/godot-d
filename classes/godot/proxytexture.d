@@ -21,17 +21,26 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct ProxyTexture
 {
-	static immutable string _GODOT_internal_name = "ProxyTexture";
+	enum string _GODOT_internal_name = "ProxyTexture";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_base") GodotMethod!(void, Texture) setBase;
+		@GodotName("get_base") GodotMethod!(Texture) getBase;
+	}
 	bool opEquals(in ProxyTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProxyTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,25 +53,21 @@ public:
 		return cast(ProxyTexture)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_base;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base") = _GODOT_set_base;
 	/**
 	
 	*/
 	void setBase(Texture base)
 	{
-		_GODOT_set_base.bind("ProxyTexture", "set_base");
-		ptrcall!(void)(_GODOT_set_base, _godot_object, base);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_base;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base") = _GODOT_get_base;
 	/**
 	
 	*/
 	Ref!Texture getBase() const
 	{
-		_GODOT_get_base.bind("ProxyTexture", "get_base");
-		return ptrcall!(Texture)(_GODOT_get_base, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getBase, _godot_object);
 	}
 	/**
 	

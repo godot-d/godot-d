@@ -25,20 +25,26 @@ Server that manages all translations. Translations can be set to it and removed 
 */
 @GodotBaseClass struct TranslationServerSingleton
 {
-	static immutable string _GODOT_internal_name = "TranslationServer";
+	enum string _GODOT_internal_name = "TranslationServer";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "TranslationServer";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "TranslationServer";
+		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
+		@GodotName("get_locale") GodotMethod!(String) getLocale;
+		@GodotName("get_locale_name") GodotMethod!(String, String) getLocaleName;
+		@GodotName("translate") GodotMethod!(String, String) translate;
+		@GodotName("add_translation") GodotMethod!(void, Translation) addTranslation;
+		@GodotName("remove_translation") GodotMethod!(void, Translation) removeTranslation;
+		@GodotName("clear") GodotMethod!(void) clear;
+	}
 	bool opEquals(in TranslationServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TranslationServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -51,80 +57,67 @@ public:
 		return cast(TranslationServerSingleton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String) _GODOT_set_locale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_locale") = _GODOT_set_locale;
 	/**
 	
 	*/
 	void setLocale(StringArg0)(in StringArg0 locale)
 	{
-		_GODOT_set_locale.bind("TranslationServer", "set_locale");
-		ptrcall!(void)(_GODOT_set_locale, _godot_object, locale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_locale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_locale") = _GODOT_get_locale;
 	/**
 	
 	*/
 	String getLocale() const
 	{
-		_GODOT_get_locale.bind("TranslationServer", "get_locale");
-		return ptrcall!(String)(_GODOT_get_locale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_get_locale_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_locale_name") = _GODOT_get_locale_name;
 	/**
 	
 	*/
 	String getLocaleName(StringArg0)(in StringArg0 locale) const
 	{
-		_GODOT_get_locale_name.bind("TranslationServer", "get_locale_name");
-		return ptrcall!(String)(_GODOT_get_locale_name, _godot_object, locale);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLocaleName, _godot_object, locale);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_translate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "translate") = _GODOT_translate;
 	/**
 	
 	*/
 	String translate(StringArg0)(in StringArg0 message) const
 	{
-		_GODOT_translate.bind("TranslationServer", "translate");
-		return ptrcall!(String)(_GODOT_translate, _godot_object, message);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.translate, _godot_object, message);
 	}
-	package(godot) static GodotMethod!(void, Translation) _GODOT_add_translation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_translation") = _GODOT_add_translation;
 	/**
 	
 	*/
 	void addTranslation(Translation translation)
 	{
-		_GODOT_add_translation.bind("TranslationServer", "add_translation");
-		ptrcall!(void)(_GODOT_add_translation, _godot_object, translation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addTranslation, _godot_object, translation);
 	}
-	package(godot) static GodotMethod!(void, Translation) _GODOT_remove_translation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_translation") = _GODOT_remove_translation;
 	/**
 	
 	*/
 	void removeTranslation(Translation translation)
 	{
-		_GODOT_remove_translation.bind("TranslationServer", "remove_translation");
-		ptrcall!(void)(_GODOT_remove_translation, _godot_object, translation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeTranslation, _godot_object, translation);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("TranslationServer", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 }
 /// Returns: the TranslationServerSingleton
 @property @nogc nothrow pragma(inline, true)
 TranslationServerSingleton TranslationServer()
 {
-	return TranslationServerSingleton._GODOT_singleton();
+	checkClassBinding!TranslationServerSingleton();
+	return TranslationServerSingleton(TranslationServerSingleton._classBinding._singleton);
 }

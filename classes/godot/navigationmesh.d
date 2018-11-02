@@ -22,17 +22,66 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.mesh;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct NavigationMesh
 {
-	static immutable string _GODOT_internal_name = "NavigationMesh";
+	enum string _GODOT_internal_name = "NavigationMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_sample_partition_type") GodotMethod!(void, long) setSamplePartitionType;
+		@GodotName("get_sample_partition_type") GodotMethod!(long) getSamplePartitionType;
+		@GodotName("set_cell_size") GodotMethod!(void, double) setCellSize;
+		@GodotName("get_cell_size") GodotMethod!(double) getCellSize;
+		@GodotName("set_cell_height") GodotMethod!(void, double) setCellHeight;
+		@GodotName("get_cell_height") GodotMethod!(double) getCellHeight;
+		@GodotName("set_agent_height") GodotMethod!(void, double) setAgentHeight;
+		@GodotName("get_agent_height") GodotMethod!(double) getAgentHeight;
+		@GodotName("set_agent_radius") GodotMethod!(void, double) setAgentRadius;
+		@GodotName("get_agent_radius") GodotMethod!(double) getAgentRadius;
+		@GodotName("set_agent_max_climb") GodotMethod!(void, double) setAgentMaxClimb;
+		@GodotName("get_agent_max_climb") GodotMethod!(double) getAgentMaxClimb;
+		@GodotName("set_agent_max_slope") GodotMethod!(void, double) setAgentMaxSlope;
+		@GodotName("get_agent_max_slope") GodotMethod!(double) getAgentMaxSlope;
+		@GodotName("set_region_min_size") GodotMethod!(void, double) setRegionMinSize;
+		@GodotName("get_region_min_size") GodotMethod!(double) getRegionMinSize;
+		@GodotName("set_region_merge_size") GodotMethod!(void, double) setRegionMergeSize;
+		@GodotName("get_region_merge_size") GodotMethod!(double) getRegionMergeSize;
+		@GodotName("set_edge_max_length") GodotMethod!(void, double) setEdgeMaxLength;
+		@GodotName("get_edge_max_length") GodotMethod!(double) getEdgeMaxLength;
+		@GodotName("set_edge_max_error") GodotMethod!(void, double) setEdgeMaxError;
+		@GodotName("get_edge_max_error") GodotMethod!(double) getEdgeMaxError;
+		@GodotName("set_verts_per_poly") GodotMethod!(void, double) setVertsPerPoly;
+		@GodotName("get_verts_per_poly") GodotMethod!(double) getVertsPerPoly;
+		@GodotName("set_detail_sample_distance") GodotMethod!(void, double) setDetailSampleDistance;
+		@GodotName("get_detail_sample_distance") GodotMethod!(double) getDetailSampleDistance;
+		@GodotName("set_detail_sample_max_error") GodotMethod!(void, double) setDetailSampleMaxError;
+		@GodotName("get_detail_sample_max_error") GodotMethod!(double) getDetailSampleMaxError;
+		@GodotName("set_filter_low_hanging_obstacles") GodotMethod!(void, bool) setFilterLowHangingObstacles;
+		@GodotName("get_filter_low_hanging_obstacles") GodotMethod!(bool) getFilterLowHangingObstacles;
+		@GodotName("set_filter_ledge_spans") GodotMethod!(void, bool) setFilterLedgeSpans;
+		@GodotName("get_filter_ledge_spans") GodotMethod!(bool) getFilterLedgeSpans;
+		@GodotName("set_filter_walkable_low_height_spans") GodotMethod!(void, bool) setFilterWalkableLowHeightSpans;
+		@GodotName("get_filter_walkable_low_height_spans") GodotMethod!(bool) getFilterWalkableLowHeightSpans;
+		@GodotName("set_vertices") GodotMethod!(void, PoolVector3Array) setVertices;
+		@GodotName("get_vertices") GodotMethod!(PoolVector3Array) getVertices;
+		@GodotName("add_polygon") GodotMethod!(void, PoolIntArray) addPolygon;
+		@GodotName("get_polygon_count") GodotMethod!(long) getPolygonCount;
+		@GodotName("get_polygon") GodotMethod!(PoolIntArray, long) getPolygon;
+		@GodotName("clear_polygons") GodotMethod!(void) clearPolygons;
+		@GodotName("create_from_mesh") GodotMethod!(void, Mesh) createFromMesh;
+		@GodotName("_set_polygons") GodotMethod!(void, Array) _setPolygons;
+		@GodotName("_get_polygons") GodotMethod!(Array) _getPolygons;
+	}
 	bool opEquals(in NavigationMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NavigationMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -61,418 +110,334 @@ public:
 		*/
 		samplePartitionLayers = 2,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_sample_partition_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sample_partition_type") = _GODOT_set_sample_partition_type;
 	/**
 	
 	*/
 	void setSamplePartitionType(in long sample_partition_type)
 	{
-		_GODOT_set_sample_partition_type.bind("NavigationMesh", "set_sample_partition_type");
-		ptrcall!(void)(_GODOT_set_sample_partition_type, _godot_object, sample_partition_type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSamplePartitionType, _godot_object, sample_partition_type);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_sample_partition_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sample_partition_type") = _GODOT_get_sample_partition_type;
 	/**
 	
 	*/
 	long getSamplePartitionType() const
 	{
-		_GODOT_get_sample_partition_type.bind("NavigationMesh", "get_sample_partition_type");
-		return ptrcall!(long)(_GODOT_get_sample_partition_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSamplePartitionType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_cell_size") = _GODOT_set_cell_size;
 	/**
 	
 	*/
 	void setCellSize(in double cell_size)
 	{
-		_GODOT_set_cell_size.bind("NavigationMesh", "set_cell_size");
-		ptrcall!(void)(_GODOT_set_cell_size, _godot_object, cell_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellSize, _godot_object, cell_size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cell_size") = _GODOT_get_cell_size;
 	/**
 	
 	*/
 	double getCellSize() const
 	{
-		_GODOT_get_cell_size.bind("NavigationMesh", "get_cell_size");
-		return ptrcall!(double)(_GODOT_get_cell_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCellSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_cell_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_cell_height") = _GODOT_set_cell_height;
 	/**
 	
 	*/
 	void setCellHeight(in double cell_height)
 	{
-		_GODOT_set_cell_height.bind("NavigationMesh", "set_cell_height");
-		ptrcall!(void)(_GODOT_set_cell_height, _godot_object, cell_height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellHeight, _godot_object, cell_height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_cell_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cell_height") = _GODOT_get_cell_height;
 	/**
 	
 	*/
 	double getCellHeight() const
 	{
-		_GODOT_get_cell_height.bind("NavigationMesh", "get_cell_height");
-		return ptrcall!(double)(_GODOT_get_cell_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCellHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_agent_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_agent_height") = _GODOT_set_agent_height;
 	/**
 	
 	*/
 	void setAgentHeight(in double agent_height)
 	{
-		_GODOT_set_agent_height.bind("NavigationMesh", "set_agent_height");
-		ptrcall!(void)(_GODOT_set_agent_height, _godot_object, agent_height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAgentHeight, _godot_object, agent_height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_agent_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_agent_height") = _GODOT_get_agent_height;
 	/**
 	
 	*/
 	double getAgentHeight() const
 	{
-		_GODOT_get_agent_height.bind("NavigationMesh", "get_agent_height");
-		return ptrcall!(double)(_GODOT_get_agent_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAgentHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_agent_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_agent_radius") = _GODOT_set_agent_radius;
 	/**
 	
 	*/
 	void setAgentRadius(in double agent_radius)
 	{
-		_GODOT_set_agent_radius.bind("NavigationMesh", "set_agent_radius");
-		ptrcall!(void)(_GODOT_set_agent_radius, _godot_object, agent_radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAgentRadius, _godot_object, agent_radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_agent_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_agent_radius") = _GODOT_get_agent_radius;
 	/**
 	
 	*/
 	double getAgentRadius()
 	{
-		_GODOT_get_agent_radius.bind("NavigationMesh", "get_agent_radius");
-		return ptrcall!(double)(_GODOT_get_agent_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAgentRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_agent_max_climb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_agent_max_climb") = _GODOT_set_agent_max_climb;
 	/**
 	
 	*/
 	void setAgentMaxClimb(in double agent_max_climb)
 	{
-		_GODOT_set_agent_max_climb.bind("NavigationMesh", "set_agent_max_climb");
-		ptrcall!(void)(_GODOT_set_agent_max_climb, _godot_object, agent_max_climb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAgentMaxClimb, _godot_object, agent_max_climb);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_agent_max_climb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_agent_max_climb") = _GODOT_get_agent_max_climb;
 	/**
 	
 	*/
 	double getAgentMaxClimb() const
 	{
-		_GODOT_get_agent_max_climb.bind("NavigationMesh", "get_agent_max_climb");
-		return ptrcall!(double)(_GODOT_get_agent_max_climb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAgentMaxClimb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_agent_max_slope;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_agent_max_slope") = _GODOT_set_agent_max_slope;
 	/**
 	
 	*/
 	void setAgentMaxSlope(in double agent_max_slope)
 	{
-		_GODOT_set_agent_max_slope.bind("NavigationMesh", "set_agent_max_slope");
-		ptrcall!(void)(_GODOT_set_agent_max_slope, _godot_object, agent_max_slope);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAgentMaxSlope, _godot_object, agent_max_slope);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_agent_max_slope;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_agent_max_slope") = _GODOT_get_agent_max_slope;
 	/**
 	
 	*/
 	double getAgentMaxSlope() const
 	{
-		_GODOT_get_agent_max_slope.bind("NavigationMesh", "get_agent_max_slope");
-		return ptrcall!(double)(_GODOT_get_agent_max_slope, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAgentMaxSlope, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_region_min_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_min_size") = _GODOT_set_region_min_size;
 	/**
 	
 	*/
 	void setRegionMinSize(in double region_min_size)
 	{
-		_GODOT_set_region_min_size.bind("NavigationMesh", "set_region_min_size");
-		ptrcall!(void)(_GODOT_set_region_min_size, _godot_object, region_min_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionMinSize, _godot_object, region_min_size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_region_min_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_min_size") = _GODOT_get_region_min_size;
 	/**
 	
 	*/
 	double getRegionMinSize() const
 	{
-		_GODOT_get_region_min_size.bind("NavigationMesh", "get_region_min_size");
-		return ptrcall!(double)(_GODOT_get_region_min_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRegionMinSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_region_merge_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_merge_size") = _GODOT_set_region_merge_size;
 	/**
 	
 	*/
 	void setRegionMergeSize(in double region_merge_size)
 	{
-		_GODOT_set_region_merge_size.bind("NavigationMesh", "set_region_merge_size");
-		ptrcall!(void)(_GODOT_set_region_merge_size, _godot_object, region_merge_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionMergeSize, _godot_object, region_merge_size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_region_merge_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_merge_size") = _GODOT_get_region_merge_size;
 	/**
 	
 	*/
 	double getRegionMergeSize() const
 	{
-		_GODOT_get_region_merge_size.bind("NavigationMesh", "get_region_merge_size");
-		return ptrcall!(double)(_GODOT_get_region_merge_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRegionMergeSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_edge_max_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_edge_max_length") = _GODOT_set_edge_max_length;
 	/**
 	
 	*/
 	void setEdgeMaxLength(in double edge_max_length)
 	{
-		_GODOT_set_edge_max_length.bind("NavigationMesh", "set_edge_max_length");
-		ptrcall!(void)(_GODOT_set_edge_max_length, _godot_object, edge_max_length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEdgeMaxLength, _godot_object, edge_max_length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_edge_max_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_max_length") = _GODOT_get_edge_max_length;
 	/**
 	
 	*/
 	double getEdgeMaxLength() const
 	{
-		_GODOT_get_edge_max_length.bind("NavigationMesh", "get_edge_max_length");
-		return ptrcall!(double)(_GODOT_get_edge_max_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEdgeMaxLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_edge_max_error;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_edge_max_error") = _GODOT_set_edge_max_error;
 	/**
 	
 	*/
 	void setEdgeMaxError(in double edge_max_error)
 	{
-		_GODOT_set_edge_max_error.bind("NavigationMesh", "set_edge_max_error");
-		ptrcall!(void)(_GODOT_set_edge_max_error, _godot_object, edge_max_error);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEdgeMaxError, _godot_object, edge_max_error);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_edge_max_error;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_edge_max_error") = _GODOT_get_edge_max_error;
 	/**
 	
 	*/
 	double getEdgeMaxError() const
 	{
-		_GODOT_get_edge_max_error.bind("NavigationMesh", "get_edge_max_error");
-		return ptrcall!(double)(_GODOT_get_edge_max_error, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEdgeMaxError, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_verts_per_poly;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_verts_per_poly") = _GODOT_set_verts_per_poly;
 	/**
 	
 	*/
 	void setVertsPerPoly(in double verts_per_poly)
 	{
-		_GODOT_set_verts_per_poly.bind("NavigationMesh", "set_verts_per_poly");
-		ptrcall!(void)(_GODOT_set_verts_per_poly, _godot_object, verts_per_poly);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertsPerPoly, _godot_object, verts_per_poly);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_verts_per_poly;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_verts_per_poly") = _GODOT_get_verts_per_poly;
 	/**
 	
 	*/
 	double getVertsPerPoly() const
 	{
-		_GODOT_get_verts_per_poly.bind("NavigationMesh", "get_verts_per_poly");
-		return ptrcall!(double)(_GODOT_get_verts_per_poly, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVertsPerPoly, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_detail_sample_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_detail_sample_distance") = _GODOT_set_detail_sample_distance;
 	/**
 	
 	*/
 	void setDetailSampleDistance(in double detail_sample_dist)
 	{
-		_GODOT_set_detail_sample_distance.bind("NavigationMesh", "set_detail_sample_distance");
-		ptrcall!(void)(_GODOT_set_detail_sample_distance, _godot_object, detail_sample_dist);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDetailSampleDistance, _godot_object, detail_sample_dist);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_detail_sample_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_detail_sample_distance") = _GODOT_get_detail_sample_distance;
 	/**
 	
 	*/
 	double getDetailSampleDistance() const
 	{
-		_GODOT_get_detail_sample_distance.bind("NavigationMesh", "get_detail_sample_distance");
-		return ptrcall!(double)(_GODOT_get_detail_sample_distance, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDetailSampleDistance, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_detail_sample_max_error;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_detail_sample_max_error") = _GODOT_set_detail_sample_max_error;
 	/**
 	
 	*/
 	void setDetailSampleMaxError(in double detail_sample_max_error)
 	{
-		_GODOT_set_detail_sample_max_error.bind("NavigationMesh", "set_detail_sample_max_error");
-		ptrcall!(void)(_GODOT_set_detail_sample_max_error, _godot_object, detail_sample_max_error);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDetailSampleMaxError, _godot_object, detail_sample_max_error);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_detail_sample_max_error;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_detail_sample_max_error") = _GODOT_get_detail_sample_max_error;
 	/**
 	
 	*/
 	double getDetailSampleMaxError() const
 	{
-		_GODOT_get_detail_sample_max_error.bind("NavigationMesh", "get_detail_sample_max_error");
-		return ptrcall!(double)(_GODOT_get_detail_sample_max_error, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDetailSampleMaxError, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_filter_low_hanging_obstacles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_filter_low_hanging_obstacles") = _GODOT_set_filter_low_hanging_obstacles;
 	/**
 	
 	*/
 	void setFilterLowHangingObstacles(in bool filter_low_hanging_obstacles)
 	{
-		_GODOT_set_filter_low_hanging_obstacles.bind("NavigationMesh", "set_filter_low_hanging_obstacles");
-		ptrcall!(void)(_GODOT_set_filter_low_hanging_obstacles, _godot_object, filter_low_hanging_obstacles);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFilterLowHangingObstacles, _godot_object, filter_low_hanging_obstacles);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_filter_low_hanging_obstacles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_filter_low_hanging_obstacles") = _GODOT_get_filter_low_hanging_obstacles;
 	/**
 	
 	*/
 	bool getFilterLowHangingObstacles() const
 	{
-		_GODOT_get_filter_low_hanging_obstacles.bind("NavigationMesh", "get_filter_low_hanging_obstacles");
-		return ptrcall!(bool)(_GODOT_get_filter_low_hanging_obstacles, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFilterLowHangingObstacles, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_filter_ledge_spans;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_filter_ledge_spans") = _GODOT_set_filter_ledge_spans;
 	/**
 	
 	*/
 	void setFilterLedgeSpans(in bool filter_ledge_spans)
 	{
-		_GODOT_set_filter_ledge_spans.bind("NavigationMesh", "set_filter_ledge_spans");
-		ptrcall!(void)(_GODOT_set_filter_ledge_spans, _godot_object, filter_ledge_spans);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFilterLedgeSpans, _godot_object, filter_ledge_spans);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_filter_ledge_spans;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_filter_ledge_spans") = _GODOT_get_filter_ledge_spans;
 	/**
 	
 	*/
 	bool getFilterLedgeSpans() const
 	{
-		_GODOT_get_filter_ledge_spans.bind("NavigationMesh", "get_filter_ledge_spans");
-		return ptrcall!(bool)(_GODOT_get_filter_ledge_spans, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFilterLedgeSpans, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_filter_walkable_low_height_spans;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_filter_walkable_low_height_spans") = _GODOT_set_filter_walkable_low_height_spans;
 	/**
 	
 	*/
 	void setFilterWalkableLowHeightSpans(in bool filter_walkable_low_height_spans)
 	{
-		_GODOT_set_filter_walkable_low_height_spans.bind("NavigationMesh", "set_filter_walkable_low_height_spans");
-		ptrcall!(void)(_GODOT_set_filter_walkable_low_height_spans, _godot_object, filter_walkable_low_height_spans);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFilterWalkableLowHeightSpans, _godot_object, filter_walkable_low_height_spans);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_filter_walkable_low_height_spans;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_filter_walkable_low_height_spans") = _GODOT_get_filter_walkable_low_height_spans;
 	/**
 	
 	*/
 	bool getFilterWalkableLowHeightSpans() const
 	{
-		_GODOT_get_filter_walkable_low_height_spans.bind("NavigationMesh", "get_filter_walkable_low_height_spans");
-		return ptrcall!(bool)(_GODOT_get_filter_walkable_low_height_spans, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFilterWalkableLowHeightSpans, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolVector3Array) _GODOT_set_vertices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertices") = _GODOT_set_vertices;
 	/**
 	
 	*/
 	void setVertices(in PoolVector3Array vertices)
 	{
-		_GODOT_set_vertices.bind("NavigationMesh", "set_vertices");
-		ptrcall!(void)(_GODOT_set_vertices, _godot_object, vertices);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertices, _godot_object, vertices);
 	}
-	package(godot) static GodotMethod!(PoolVector3Array) _GODOT_get_vertices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertices") = _GODOT_get_vertices;
 	/**
 	
 	*/
 	PoolVector3Array getVertices() const
 	{
-		_GODOT_get_vertices.bind("NavigationMesh", "get_vertices");
-		return ptrcall!(PoolVector3Array)(_GODOT_get_vertices, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector3Array)(_classBinding.getVertices, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolIntArray) _GODOT_add_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_polygon") = _GODOT_add_polygon;
 	/**
 	
 	*/
 	void addPolygon(in PoolIntArray polygon)
 	{
-		_GODOT_add_polygon.bind("NavigationMesh", "add_polygon");
-		ptrcall!(void)(_GODOT_add_polygon, _godot_object, polygon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addPolygon, _godot_object, polygon);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_polygon_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_polygon_count") = _GODOT_get_polygon_count;
 	/**
 	
 	*/
 	long getPolygonCount() const
 	{
-		_GODOT_get_polygon_count.bind("NavigationMesh", "get_polygon_count");
-		return ptrcall!(long)(_GODOT_get_polygon_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPolygonCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_polygon") = _GODOT_get_polygon;
 	/**
 	
 	*/
 	PoolIntArray getPolygon(in long idx)
 	{
-		_GODOT_get_polygon.bind("NavigationMesh", "get_polygon");
-		return ptrcall!(PoolIntArray)(_GODOT_get_polygon, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getPolygon, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_polygons") = _GODOT_clear_polygons;
 	/**
 	
 	*/
 	void clearPolygons()
 	{
-		_GODOT_clear_polygons.bind("NavigationMesh", "clear_polygons");
-		ptrcall!(void)(_GODOT_clear_polygons, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearPolygons, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Mesh) _GODOT_create_from_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_mesh") = _GODOT_create_from_mesh;
 	/**
 	
 	*/
 	void createFromMesh(Mesh mesh)
 	{
-		_GODOT_create_from_mesh.bind("NavigationMesh", "create_from_mesh");
-		ptrcall!(void)(_GODOT_create_from_mesh, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.createFromMesh, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_polygons") = _GODOT__set_polygons;
 	/**
 	
 	*/
@@ -483,8 +448,6 @@ public:
 		String _GODOT_method_name = String("_set_polygons");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_polygons") = _GODOT__get_polygons;
 	/**
 	
 	*/

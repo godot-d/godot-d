@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.arvrinterface;
+import godot.reference;
 /**
 Generic mobile VR implementation
 
@@ -29,12 +30,29 @@ Note that even though there is no positional tracking the camera will assume the
 */
 @GodotBaseClass struct MobileVRInterface
 {
-	static immutable string _GODOT_internal_name = "MobileVRInterface";
+	enum string _GODOT_internal_name = "MobileVRInterface";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; ARVRInterface _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_iod") GodotMethod!(void, double) setIod;
+		@GodotName("get_iod") GodotMethod!(double) getIod;
+		@GodotName("set_display_width") GodotMethod!(void, double) setDisplayWidth;
+		@GodotName("get_display_width") GodotMethod!(double) getDisplayWidth;
+		@GodotName("set_display_to_lens") GodotMethod!(void, double) setDisplayToLens;
+		@GodotName("get_display_to_lens") GodotMethod!(double) getDisplayToLens;
+		@GodotName("set_oversample") GodotMethod!(void, double) setOversample;
+		@GodotName("get_oversample") GodotMethod!(double) getOversample;
+		@GodotName("set_k1") GodotMethod!(void, double) setK1;
+		@GodotName("get_k1") GodotMethod!(double) getK1;
+		@GodotName("set_k2") GodotMethod!(void, double) setK2;
+		@GodotName("get_k2") GodotMethod!(double) getK2;
+	}
 	bool opEquals(in MobileVRInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MobileVRInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,125 +65,101 @@ public:
 		return cast(MobileVRInterface)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_iod;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_iod") = _GODOT_set_iod;
 	/**
 	
 	*/
 	void setIod(in double iod)
 	{
-		_GODOT_set_iod.bind("MobileVRInterface", "set_iod");
-		ptrcall!(void)(_GODOT_set_iod, _godot_object, iod);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIod, _godot_object, iod);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_iod;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_iod") = _GODOT_get_iod;
 	/**
 	
 	*/
 	double getIod() const
 	{
-		_GODOT_get_iod.bind("MobileVRInterface", "get_iod");
-		return ptrcall!(double)(_GODOT_get_iod, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getIod, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_display_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_display_width") = _GODOT_set_display_width;
 	/**
 	
 	*/
 	void setDisplayWidth(in double display_width)
 	{
-		_GODOT_set_display_width.bind("MobileVRInterface", "set_display_width");
-		ptrcall!(void)(_GODOT_set_display_width, _godot_object, display_width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisplayWidth, _godot_object, display_width);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_display_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_display_width") = _GODOT_get_display_width;
 	/**
 	
 	*/
 	double getDisplayWidth() const
 	{
-		_GODOT_get_display_width.bind("MobileVRInterface", "get_display_width");
-		return ptrcall!(double)(_GODOT_get_display_width, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDisplayWidth, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_display_to_lens;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_display_to_lens") = _GODOT_set_display_to_lens;
 	/**
 	
 	*/
 	void setDisplayToLens(in double display_to_lens)
 	{
-		_GODOT_set_display_to_lens.bind("MobileVRInterface", "set_display_to_lens");
-		ptrcall!(void)(_GODOT_set_display_to_lens, _godot_object, display_to_lens);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisplayToLens, _godot_object, display_to_lens);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_display_to_lens;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_display_to_lens") = _GODOT_get_display_to_lens;
 	/**
 	
 	*/
 	double getDisplayToLens() const
 	{
-		_GODOT_get_display_to_lens.bind("MobileVRInterface", "get_display_to_lens");
-		return ptrcall!(double)(_GODOT_get_display_to_lens, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDisplayToLens, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_oversample;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_oversample") = _GODOT_set_oversample;
 	/**
 	
 	*/
 	void setOversample(in double oversample)
 	{
-		_GODOT_set_oversample.bind("MobileVRInterface", "set_oversample");
-		ptrcall!(void)(_GODOT_set_oversample, _godot_object, oversample);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOversample, _godot_object, oversample);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_oversample;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_oversample") = _GODOT_get_oversample;
 	/**
 	
 	*/
 	double getOversample() const
 	{
-		_GODOT_get_oversample.bind("MobileVRInterface", "get_oversample");
-		return ptrcall!(double)(_GODOT_get_oversample, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOversample, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_k1;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_k1") = _GODOT_set_k1;
 	/**
 	
 	*/
 	void setK1(in double k)
 	{
-		_GODOT_set_k1.bind("MobileVRInterface", "set_k1");
-		ptrcall!(void)(_GODOT_set_k1, _godot_object, k);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setK1, _godot_object, k);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_k1;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_k1") = _GODOT_get_k1;
 	/**
 	
 	*/
 	double getK1() const
 	{
-		_GODOT_get_k1.bind("MobileVRInterface", "get_k1");
-		return ptrcall!(double)(_GODOT_get_k1, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getK1, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_k2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_k2") = _GODOT_set_k2;
 	/**
 	
 	*/
 	void setK2(in double k)
 	{
-		_GODOT_set_k2.bind("MobileVRInterface", "set_k2");
-		ptrcall!(void)(_GODOT_set_k2, _godot_object, k);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setK2, _godot_object, k);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_k2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_k2") = _GODOT_get_k2;
 	/**
 	
 	*/
 	double getK2() const
 	{
-		_GODOT_get_k2.bind("MobileVRInterface", "get_k2");
-		return ptrcall!(double)(_GODOT_get_k2, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getK2, _godot_object);
 	}
 	/**
 	The interocular distance, also known as the interpupillary distance. The distance between the pupils of the left and right eye.

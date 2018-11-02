@@ -23,6 +23,9 @@ import godot.classdb;
 import godot.geometryinstance;
 import godot.material;
 import godot.mesh;
+import godot.visualinstance;
+import godot.spatial;
+import godot.node;
 /**
 3D particle emitter.
 
@@ -31,12 +34,51 @@ Use the `process_material` property to add a $(D ParticlesMaterial) to configure
 */
 @GodotBaseClass struct Particles
 {
-	static immutable string _GODOT_internal_name = "Particles";
+	enum string _GODOT_internal_name = "Particles";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
+		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
+		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
+		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
+		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
+		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
+		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
+		@GodotName("set_visibility_aabb") GodotMethod!(void, AABB) setVisibilityAabb;
+		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
+		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
+		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
+		@GodotName("set_process_material") GodotMethod!(void, Material) setProcessMaterial;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
+		@GodotName("get_amount") GodotMethod!(long) getAmount;
+		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
+		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
+		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
+		@GodotName("get_explosiveness_ratio") GodotMethod!(double) getExplosivenessRatio;
+		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
+		@GodotName("get_visibility_aabb") GodotMethod!(AABB) getVisibilityAabb;
+		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
+		@GodotName("get_fixed_fps") GodotMethod!(long) getFixedFps;
+		@GodotName("get_fractional_delta") GodotMethod!(bool) getFractionalDelta;
+		@GodotName("get_process_material") GodotMethod!(Material) getProcessMaterial;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
+		@GodotName("get_draw_order") GodotMethod!(Particles.DrawOrder) getDrawOrder;
+		@GodotName("set_draw_passes") GodotMethod!(void, long) setDrawPasses;
+		@GodotName("set_draw_pass_mesh") GodotMethod!(void, long, Mesh) setDrawPassMesh;
+		@GodotName("get_draw_passes") GodotMethod!(long) getDrawPasses;
+		@GodotName("get_draw_pass_mesh") GodotMethod!(Mesh, long) getDrawPassMesh;
+		@GodotName("restart") GodotMethod!(void) restart;
+		@GodotName("capture_aabb") GodotMethod!(AABB) captureAabb;
+	}
 	bool opEquals(in Particles other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Particles opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -76,345 +118,277 @@ public:
 		*/
 		maxDrawPasses = 4,
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_emitting;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_emitting") = _GODOT_set_emitting;
 	/**
 	
 	*/
 	void setEmitting(in bool emitting)
 	{
-		_GODOT_set_emitting.bind("Particles", "set_emitting");
-		ptrcall!(void)(_GODOT_set_emitting, _godot_object, emitting);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_amount") = _GODOT_set_amount;
 	/**
 	
 	*/
 	void setAmount(in long amount)
 	{
-		_GODOT_set_amount.bind("Particles", "set_amount");
-		ptrcall!(void)(_GODOT_set_amount, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_lifetime;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_lifetime") = _GODOT_set_lifetime;
 	/**
 	
 	*/
 	void setLifetime(in double secs)
 	{
-		_GODOT_set_lifetime.bind("Particles", "set_lifetime");
-		ptrcall!(void)(_GODOT_set_lifetime, _godot_object, secs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_one_shot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_one_shot") = _GODOT_set_one_shot;
 	/**
 	
 	*/
 	void setOneShot(in bool enable)
 	{
-		_GODOT_set_one_shot.bind("Particles", "set_one_shot");
-		ptrcall!(void)(_GODOT_set_one_shot, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_pre_process_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pre_process_time") = _GODOT_set_pre_process_time;
 	/**
 	
 	*/
 	void setPreProcessTime(in double secs)
 	{
-		_GODOT_set_pre_process_time.bind("Particles", "set_pre_process_time");
-		ptrcall!(void)(_GODOT_set_pre_process_time, _godot_object, secs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_explosiveness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_explosiveness_ratio") = _GODOT_set_explosiveness_ratio;
 	/**
 	
 	*/
 	void setExplosivenessRatio(in double ratio)
 	{
-		_GODOT_set_explosiveness_ratio.bind("Particles", "set_explosiveness_ratio");
-		ptrcall!(void)(_GODOT_set_explosiveness_ratio, _godot_object, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_randomness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_randomness_ratio") = _GODOT_set_randomness_ratio;
 	/**
 	
 	*/
 	void setRandomnessRatio(in double ratio)
 	{
-		_GODOT_set_randomness_ratio.bind("Particles", "set_randomness_ratio");
-		ptrcall!(void)(_GODOT_set_randomness_ratio, _godot_object, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
 	}
-	package(godot) static GodotMethod!(void, AABB) _GODOT_set_visibility_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_visibility_aabb") = _GODOT_set_visibility_aabb;
 	/**
 	
 	*/
 	void setVisibilityAabb(in AABB aabb)
 	{
-		_GODOT_set_visibility_aabb.bind("Particles", "set_visibility_aabb");
-		ptrcall!(void)(_GODOT_set_visibility_aabb, _godot_object, aabb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibilityAabb, _godot_object, aabb);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_local_coordinates;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_local_coordinates") = _GODOT_set_use_local_coordinates;
 	/**
 	
 	*/
 	void setUseLocalCoordinates(in bool enable)
 	{
-		_GODOT_set_use_local_coordinates.bind("Particles", "set_use_local_coordinates");
-		ptrcall!(void)(_GODOT_set_use_local_coordinates, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_fixed_fps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fixed_fps") = _GODOT_set_fixed_fps;
 	/**
 	
 	*/
 	void setFixedFps(in long fps)
 	{
-		_GODOT_set_fixed_fps.bind("Particles", "set_fixed_fps");
-		ptrcall!(void)(_GODOT_set_fixed_fps, _godot_object, fps);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_fractional_delta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fractional_delta") = _GODOT_set_fractional_delta;
 	/**
 	
 	*/
 	void setFractionalDelta(in bool enable)
 	{
-		_GODOT_set_fractional_delta.bind("Particles", "set_fractional_delta");
-		ptrcall!(void)(_GODOT_set_fractional_delta, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(void, Material) _GODOT_set_process_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_process_material") = _GODOT_set_process_material;
 	/**
 	
 	*/
 	void setProcessMaterial(Material material)
 	{
-		_GODOT_set_process_material.bind("Particles", "set_process_material");
-		ptrcall!(void)(_GODOT_set_process_material, _godot_object, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_speed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_speed_scale") = _GODOT_set_speed_scale;
 	/**
 	
 	*/
 	void setSpeedScale(in double scale)
 	{
-		_GODOT_set_speed_scale.bind("Particles", "set_speed_scale");
-		ptrcall!(void)(_GODOT_set_speed_scale, _godot_object, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_emitting;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_emitting") = _GODOT_is_emitting;
 	/**
 	
 	*/
 	bool isEmitting() const
 	{
-		_GODOT_is_emitting.bind("Particles", "is_emitting");
-		return ptrcall!(bool)(_GODOT_is_emitting, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_amount") = _GODOT_get_amount;
 	/**
 	
 	*/
 	long getAmount() const
 	{
-		_GODOT_get_amount.bind("Particles", "get_amount");
-		return ptrcall!(long)(_GODOT_get_amount, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAmount, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_lifetime;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_lifetime") = _GODOT_get_lifetime;
 	/**
 	
 	*/
 	double getLifetime() const
 	{
-		_GODOT_get_lifetime.bind("Particles", "get_lifetime");
-		return ptrcall!(double)(_GODOT_get_lifetime, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_one_shot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_one_shot") = _GODOT_get_one_shot;
 	/**
 	
 	*/
 	bool getOneShot() const
 	{
-		_GODOT_get_one_shot.bind("Particles", "get_one_shot");
-		return ptrcall!(bool)(_GODOT_get_one_shot, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_pre_process_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pre_process_time") = _GODOT_get_pre_process_time;
 	/**
 	
 	*/
 	double getPreProcessTime() const
 	{
-		_GODOT_get_pre_process_time.bind("Particles", "get_pre_process_time");
-		return ptrcall!(double)(_GODOT_get_pre_process_time, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_explosiveness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_explosiveness_ratio") = _GODOT_get_explosiveness_ratio;
 	/**
 	
 	*/
 	double getExplosivenessRatio() const
 	{
-		_GODOT_get_explosiveness_ratio.bind("Particles", "get_explosiveness_ratio");
-		return ptrcall!(double)(_GODOT_get_explosiveness_ratio, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_randomness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_randomness_ratio") = _GODOT_get_randomness_ratio;
 	/**
 	
 	*/
 	double getRandomnessRatio() const
 	{
-		_GODOT_get_randomness_ratio.bind("Particles", "get_randomness_ratio");
-		return ptrcall!(double)(_GODOT_get_randomness_ratio, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_get_visibility_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visibility_aabb") = _GODOT_get_visibility_aabb;
 	/**
 	
 	*/
 	AABB getVisibilityAabb() const
 	{
-		_GODOT_get_visibility_aabb.bind("Particles", "get_visibility_aabb");
-		return ptrcall!(AABB)(_GODOT_get_visibility_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getVisibilityAabb, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_use_local_coordinates;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_use_local_coordinates") = _GODOT_get_use_local_coordinates;
 	/**
 	
 	*/
 	bool getUseLocalCoordinates() const
 	{
-		_GODOT_get_use_local_coordinates.bind("Particles", "get_use_local_coordinates");
-		return ptrcall!(bool)(_GODOT_get_use_local_coordinates, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_fixed_fps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fixed_fps") = _GODOT_get_fixed_fps;
 	/**
 	
 	*/
 	long getFixedFps() const
 	{
-		_GODOT_get_fixed_fps.bind("Particles", "get_fixed_fps");
-		return ptrcall!(long)(_GODOT_get_fixed_fps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFixedFps, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_fractional_delta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fractional_delta") = _GODOT_get_fractional_delta;
 	/**
 	
 	*/
 	bool getFractionalDelta() const
 	{
-		_GODOT_get_fractional_delta.bind("Particles", "get_fractional_delta");
-		return ptrcall!(bool)(_GODOT_get_fractional_delta, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFractionalDelta, _godot_object);
 	}
-	package(godot) static GodotMethod!(Material) _GODOT_get_process_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_process_material") = _GODOT_get_process_material;
 	/**
 	
 	*/
 	Ref!Material getProcessMaterial() const
 	{
-		_GODOT_get_process_material.bind("Particles", "get_process_material");
-		return ptrcall!(Material)(_GODOT_get_process_material, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.getProcessMaterial, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_speed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_speed_scale") = _GODOT_get_speed_scale;
 	/**
 	
 	*/
 	double getSpeedScale() const
 	{
-		_GODOT_get_speed_scale.bind("Particles", "get_speed_scale");
-		return ptrcall!(double)(_GODOT_get_speed_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_draw_order;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_order") = _GODOT_set_draw_order;
 	/**
 	
 	*/
 	void setDrawOrder(in long order)
 	{
-		_GODOT_set_draw_order.bind("Particles", "set_draw_order");
-		ptrcall!(void)(_GODOT_set_draw_order, _godot_object, order);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawOrder, _godot_object, order);
 	}
-	package(godot) static GodotMethod!(Particles.DrawOrder) _GODOT_get_draw_order;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_draw_order") = _GODOT_get_draw_order;
 	/**
 	
 	*/
 	Particles.DrawOrder getDrawOrder() const
 	{
-		_GODOT_get_draw_order.bind("Particles", "get_draw_order");
-		return ptrcall!(Particles.DrawOrder)(_GODOT_get_draw_order, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Particles.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_draw_passes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_passes") = _GODOT_set_draw_passes;
 	/**
 	
 	*/
 	void setDrawPasses(in long passes)
 	{
-		_GODOT_set_draw_passes.bind("Particles", "set_draw_passes");
-		ptrcall!(void)(_GODOT_set_draw_passes, _godot_object, passes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawPasses, _godot_object, passes);
 	}
-	package(godot) static GodotMethod!(void, long, Mesh) _GODOT_set_draw_pass_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_pass_mesh") = _GODOT_set_draw_pass_mesh;
 	/**
 	
 	*/
 	void setDrawPassMesh(in long pass, Mesh mesh)
 	{
-		_GODOT_set_draw_pass_mesh.bind("Particles", "set_draw_pass_mesh");
-		ptrcall!(void)(_GODOT_set_draw_pass_mesh, _godot_object, pass, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawPassMesh, _godot_object, pass, mesh);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_draw_passes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_draw_passes") = _GODOT_get_draw_passes;
 	/**
 	
 	*/
 	long getDrawPasses() const
 	{
-		_GODOT_get_draw_passes.bind("Particles", "get_draw_passes");
-		return ptrcall!(long)(_GODOT_get_draw_passes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getDrawPasses, _godot_object);
 	}
-	package(godot) static GodotMethod!(Mesh, long) _GODOT_get_draw_pass_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_draw_pass_mesh") = _GODOT_get_draw_pass_mesh;
 	/**
 	
 	*/
 	Ref!Mesh getDrawPassMesh(in long pass) const
 	{
-		_GODOT_get_draw_pass_mesh.bind("Particles", "get_draw_pass_mesh");
-		return ptrcall!(Mesh)(_GODOT_get_draw_pass_mesh, _godot_object, pass);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.getDrawPassMesh, _godot_object, pass);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_restart;
-	package(godot) alias _GODOT_methodBindInfo(string name : "restart") = _GODOT_restart;
 	/**
 	Restarts the particle emmission, clearing existing particles.
 	*/
 	void restart()
 	{
-		_GODOT_restart.bind("Particles", "restart");
-		ptrcall!(void)(_GODOT_restart, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.restart, _godot_object);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_capture_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "capture_aabb") = _GODOT_capture_aabb;
 	/**
 	
 	*/
 	AABB captureAabb() const
 	{
-		_GODOT_capture_aabb.bind("Particles", "capture_aabb");
-		return ptrcall!(AABB)(_GODOT_capture_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.captureAabb, _godot_object);
 	}
 	/**
 	If `true` particles are being emitted. Default value: `true`.
@@ -477,7 +451,7 @@ public:
 		setPreProcessTime(v);
 	}
 	/**
-	Speed scaling ratio. Default value: `1`.
+	Speed scaling ratio. Default value: `1`. A value of `0` can be used to pause the particles.
 	*/
 	@property double speedScale()
 	{

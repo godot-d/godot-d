@@ -25,12 +25,22 @@ import godot.reference;
 */
 @GodotBaseClass struct PackedDataContainerRef
 {
-	static immutable string _GODOT_internal_name = "PackedDataContainerRef";
+	enum string _GODOT_internal_name = "PackedDataContainerRef";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("size") GodotMethod!(long) size;
+		@GodotName("_iter_init") GodotMethod!(Variant, Array) _iterInit;
+		@GodotName("_iter_get") GodotMethod!(Variant, Variant) _iterGet;
+		@GodotName("_iter_next") GodotMethod!(Variant, Array) _iterNext;
+		@GodotName("_is_dictionary") GodotMethod!(bool) _isDictionary;
+	}
 	bool opEquals(in PackedDataContainerRef other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PackedDataContainerRef opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -43,18 +53,14 @@ public:
 		return cast(PackedDataContainerRef)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(long) _GODOT_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "size") = _GODOT_size;
 	/**
 	
 	*/
 	long size() const
 	{
-		_GODOT_size.bind("PackedDataContainerRef", "size");
-		return ptrcall!(long)(_GODOT_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.size, _godot_object);
 	}
-	package(godot) static GodotMethod!(Variant, Array) _GODOT__iter_init;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_init") = _GODOT__iter_init;
 	/**
 	
 	*/
@@ -65,8 +71,6 @@ public:
 		String _GODOT_method_name = String("_iter_init");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, Variant) _GODOT__iter_get;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_get") = _GODOT__iter_get;
 	/**
 	
 	*/
@@ -77,8 +81,6 @@ public:
 		String _GODOT_method_name = String("_iter_get");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, Array) _GODOT__iter_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_next") = _GODOT__iter_next;
 	/**
 	
 	*/
@@ -89,8 +91,6 @@ public:
 		String _GODOT_method_name = String("_iter_next");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__is_dictionary;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_is_dictionary") = _GODOT__is_dictionary;
 	/**
 	
 	*/

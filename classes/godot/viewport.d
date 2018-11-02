@@ -26,6 +26,7 @@ import godot.world;
 import godot.inputevent;
 import godot.viewporttexture;
 import godot.camera;
+import godot.control;
 /**
 Creates a sub-view into the screen.
 
@@ -38,12 +39,95 @@ Finally, viewports can also behave as render targets, in which case they will no
 */
 @GodotBaseClass struct Viewport
 {
-	static immutable string _GODOT_internal_name = "Viewport";
+	enum string _GODOT_internal_name = "Viewport";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_use_arvr") GodotMethod!(void, bool) setUseArvr;
+		@GodotName("use_arvr") GodotMethod!(bool) useArvr;
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("set_world_2d") GodotMethod!(void, World2D) setWorld2d;
+		@GodotName("get_world_2d") GodotMethod!(World2D) getWorld2d;
+		@GodotName("find_world_2d") GodotMethod!(World2D) findWorld2d;
+		@GodotName("set_world") GodotMethod!(void, World) setWorld;
+		@GodotName("get_world") GodotMethod!(World) getWorld;
+		@GodotName("find_world") GodotMethod!(World) findWorld;
+		@GodotName("set_canvas_transform") GodotMethod!(void, Transform2D) setCanvasTransform;
+		@GodotName("get_canvas_transform") GodotMethod!(Transform2D) getCanvasTransform;
+		@GodotName("set_global_canvas_transform") GodotMethod!(void, Transform2D) setGlobalCanvasTransform;
+		@GodotName("get_global_canvas_transform") GodotMethod!(Transform2D) getGlobalCanvasTransform;
+		@GodotName("get_final_transform") GodotMethod!(Transform2D) getFinalTransform;
+		@GodotName("get_visible_rect") GodotMethod!(Rect2) getVisibleRect;
+		@GodotName("set_transparent_background") GodotMethod!(void, bool) setTransparentBackground;
+		@GodotName("has_transparent_background") GodotMethod!(bool) hasTransparentBackground;
+		@GodotName("_vp_input") GodotMethod!(void, InputEvent) _vpInput;
+		@GodotName("_vp_input_text") GodotMethod!(void, String) _vpInputText;
+		@GodotName("_vp_unhandled_input") GodotMethod!(void, InputEvent) _vpUnhandledInput;
+		@GodotName("set_size_override") GodotMethod!(void, bool, Vector2, Vector2) setSizeOverride;
+		@GodotName("get_size_override") GodotMethod!(Vector2) getSizeOverride;
+		@GodotName("is_size_override_enabled") GodotMethod!(bool) isSizeOverrideEnabled;
+		@GodotName("set_size_override_stretch") GodotMethod!(void, bool) setSizeOverrideStretch;
+		@GodotName("is_size_override_stretch_enabled") GodotMethod!(bool) isSizeOverrideStretchEnabled;
+		@GodotName("set_vflip") GodotMethod!(void, bool) setVflip;
+		@GodotName("get_vflip") GodotMethod!(bool) getVflip;
+		@GodotName("set_clear_mode") GodotMethod!(void, long) setClearMode;
+		@GodotName("get_clear_mode") GodotMethod!(Viewport.ClearMode) getClearMode;
+		@GodotName("set_update_mode") GodotMethod!(void, long) setUpdateMode;
+		@GodotName("get_update_mode") GodotMethod!(Viewport.UpdateMode) getUpdateMode;
+		@GodotName("set_msaa") GodotMethod!(void, long) setMsaa;
+		@GodotName("get_msaa") GodotMethod!(Viewport.MSAA) getMsaa;
+		@GodotName("set_hdr") GodotMethod!(void, bool) setHdr;
+		@GodotName("get_hdr") GodotMethod!(bool) getHdr;
+		@GodotName("set_usage") GodotMethod!(void, long) setUsage;
+		@GodotName("get_usage") GodotMethod!(Viewport.Usage) getUsage;
+		@GodotName("set_debug_draw") GodotMethod!(void, long) setDebugDraw;
+		@GodotName("get_debug_draw") GodotMethod!(Viewport.DebugDraw) getDebugDraw;
+		@GodotName("get_render_info") GodotMethod!(long, long) getRenderInfo;
+		@GodotName("get_texture") GodotMethod!(ViewportTexture) getTexture;
+		@GodotName("set_physics_object_picking") GodotMethod!(void, bool) setPhysicsObjectPicking;
+		@GodotName("get_physics_object_picking") GodotMethod!(bool) getPhysicsObjectPicking;
+		@GodotName("get_viewport_rid") GodotMethod!(RID) getViewportRid;
+		@GodotName("input") GodotMethod!(void, InputEvent) input;
+		@GodotName("unhandled_input") GodotMethod!(void, InputEvent) unhandledInput;
+		@GodotName("update_worlds") GodotMethod!(void) updateWorlds;
+		@GodotName("set_use_own_world") GodotMethod!(void, bool) setUseOwnWorld;
+		@GodotName("is_using_own_world") GodotMethod!(bool) isUsingOwnWorld;
+		@GodotName("get_camera") GodotMethod!(Camera) getCamera;
+		@GodotName("set_as_audio_listener") GodotMethod!(void, bool) setAsAudioListener;
+		@GodotName("is_audio_listener") GodotMethod!(bool) isAudioListener;
+		@GodotName("set_as_audio_listener_2d") GodotMethod!(void, bool) setAsAudioListener2d;
+		@GodotName("is_audio_listener_2d") GodotMethod!(bool) isAudioListener2d;
+		@GodotName("set_attach_to_screen_rect") GodotMethod!(void, Rect2) setAttachToScreenRect;
+		@GodotName("get_mouse_position") GodotMethod!(Vector2) getMousePosition;
+		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
+		@GodotName("gui_has_modal_stack") GodotMethod!(bool) guiHasModalStack;
+		@GodotName("gui_get_drag_data") GodotMethod!(Variant) guiGetDragData;
+		@GodotName("gui_is_dragging") GodotMethod!(bool) guiIsDragging;
+		@GodotName("get_modal_stack_top") GodotMethod!(Control) getModalStackTop;
+		@GodotName("set_disable_input") GodotMethod!(void, bool) setDisableInput;
+		@GodotName("is_input_disabled") GodotMethod!(bool) isInputDisabled;
+		@GodotName("set_disable_3d") GodotMethod!(void, bool) setDisable3d;
+		@GodotName("is_3d_disabled") GodotMethod!(bool) is3dDisabled;
+		@GodotName("set_keep_3d_linear") GodotMethod!(void, bool) setKeep3dLinear;
+		@GodotName("get_keep_3d_linear") GodotMethod!(bool) getKeep3dLinear;
+		@GodotName("_gui_show_tooltip") GodotMethod!(void) _guiShowTooltip;
+		@GodotName("_gui_remove_focus") GodotMethod!(void) _guiRemoveFocus;
+		@GodotName("_post_gui_grab_click_focus") GodotMethod!(void) _postGuiGrabClickFocus;
+		@GodotName("set_shadow_atlas_size") GodotMethod!(void, long) setShadowAtlasSize;
+		@GodotName("get_shadow_atlas_size") GodotMethod!(long) getShadowAtlasSize;
+		@GodotName("set_snap_controls_to_pixels") GodotMethod!(void, bool) setSnapControlsToPixels;
+		@GodotName("is_snap_controls_to_pixels_enabled") GodotMethod!(bool) isSnapControlsToPixelsEnabled;
+		@GodotName("set_shadow_atlas_quadrant_subdiv") GodotMethod!(void, long, long) setShadowAtlasQuadrantSubdiv;
+		@GodotName("get_shadow_atlas_quadrant_subdiv") GodotMethod!(Viewport.ShadowAtlasQuadrantSubdiv, long) getShadowAtlasQuadrantSubdiv;
+		@GodotName("_subwindow_visibility_changed") GodotMethod!(void) _subwindowVisibilityChanged;
+	}
 	bool opEquals(in Viewport other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Viewport opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -227,224 +311,186 @@ public:
 	/// 
 	enum Constants : int
 	{
-		clearModeAlways = 0,
-		usage2d = 0,
-		updateDisabled = 0,
 		debugDrawDisabled = 0,
 		shadowAtlasQuadrantSubdivDisabled = 0,
-		msaaDisabled = 0,
+		updateDisabled = 0,
 		renderInfoObjectsInFrame = 0,
-		renderInfoVerticesInFrame = 1,
-		usage2dNoSampling = 1,
-		shadowAtlasQuadrantSubdiv1 = 1,
-		clearModeNever = 1,
+		msaaDisabled = 0,
+		clearModeAlways = 0,
+		usage2d = 0,
+		updateOnce = 1,
 		msaa2x = 1,
 		debugDrawUnshaded = 1,
-		updateOnce = 1,
-		msaa4x = 2,
-		shadowAtlasQuadrantSubdiv4 = 2,
-		clearModeOnlyNextFrame = 2,
+		renderInfoVerticesInFrame = 1,
+		shadowAtlasQuadrantSubdiv1 = 1,
+		clearModeNever = 1,
+		usage2dNoSampling = 1,
 		debugDrawOverdraw = 2,
+		msaa4x = 2,
+		clearModeOnlyNextFrame = 2,
 		updateWhenVisible = 2,
-		renderInfoMaterialChangesInFrame = 2,
 		usage3d = 2,
-		renderInfoShaderChangesInFrame = 3,
-		updateAlways = 3,
+		renderInfoMaterialChangesInFrame = 2,
+		shadowAtlasQuadrantSubdiv4 = 2,
 		shadowAtlasQuadrantSubdiv16 = 3,
 		msaa8x = 3,
-		debugDrawWireframe = 3,
+		renderInfoShaderChangesInFrame = 3,
 		usage3dNoEffects = 3,
-		msaa16x = 4,
+		debugDrawWireframe = 3,
+		updateAlways = 3,
 		shadowAtlasQuadrantSubdiv64 = 4,
 		renderInfoSurfaceChangesInFrame = 4,
+		msaa16x = 4,
 		shadowAtlasQuadrantSubdiv256 = 5,
 		renderInfoDrawCallsInFrame = 5,
 		renderInfoMax = 6,
 		shadowAtlasQuadrantSubdiv1024 = 6,
 		shadowAtlasQuadrantSubdivMax = 7,
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_arvr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_arvr") = _GODOT_set_use_arvr;
 	/**
 	
 	*/
 	void setUseArvr(in bool use)
 	{
-		_GODOT_set_use_arvr.bind("Viewport", "set_use_arvr");
-		ptrcall!(void)(_GODOT_set_use_arvr, _godot_object, use);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseArvr, _godot_object, use);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_use_arvr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "use_arvr") = _GODOT_use_arvr;
 	/**
 	
 	*/
 	bool useArvr()
 	{
-		_GODOT_use_arvr.bind("Viewport", "use_arvr");
-		return ptrcall!(bool)(_GODOT_use_arvr, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.useArvr, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**
 	
 	*/
 	void setSize(in Vector2 size)
 	{
-		_GODOT_set_size.bind("Viewport", "set_size");
-		ptrcall!(void)(_GODOT_set_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	
 	*/
 	Vector2 getSize() const
 	{
-		_GODOT_get_size.bind("Viewport", "get_size");
-		return ptrcall!(Vector2)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, World2D) _GODOT_set_world_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_world_2d") = _GODOT_set_world_2d;
 	/**
 	
 	*/
 	void setWorld2d(World2D world_2d)
 	{
-		_GODOT_set_world_2d.bind("Viewport", "set_world_2d");
-		ptrcall!(void)(_GODOT_set_world_2d, _godot_object, world_2d);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWorld2d, _godot_object, world_2d);
 	}
-	package(godot) static GodotMethod!(World2D) _GODOT_get_world_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_world_2d") = _GODOT_get_world_2d;
 	/**
 	
 	*/
 	Ref!World2D getWorld2d() const
 	{
-		_GODOT_get_world_2d.bind("Viewport", "get_world_2d");
-		return ptrcall!(World2D)(_GODOT_get_world_2d, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(World2D)(_classBinding.getWorld2d, _godot_object);
 	}
-	package(godot) static GodotMethod!(World2D) _GODOT_find_world_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_world_2d") = _GODOT_find_world_2d;
 	/**
-	Return the 2D world of the viewport.
+	Returns the 2D world of the viewport.
 	*/
 	Ref!World2D findWorld2d() const
 	{
-		_GODOT_find_world_2d.bind("Viewport", "find_world_2d");
-		return ptrcall!(World2D)(_GODOT_find_world_2d, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(World2D)(_classBinding.findWorld2d, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, World) _GODOT_set_world;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_world") = _GODOT_set_world;
 	/**
 	
 	*/
 	void setWorld(World world)
 	{
-		_GODOT_set_world.bind("Viewport", "set_world");
-		ptrcall!(void)(_GODOT_set_world, _godot_object, world);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWorld, _godot_object, world);
 	}
-	package(godot) static GodotMethod!(World) _GODOT_get_world;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_world") = _GODOT_get_world;
 	/**
 	
 	*/
 	Ref!World getWorld() const
 	{
-		_GODOT_get_world.bind("Viewport", "get_world");
-		return ptrcall!(World)(_GODOT_get_world, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(World)(_classBinding.getWorld, _godot_object);
 	}
-	package(godot) static GodotMethod!(World) _GODOT_find_world;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_world") = _GODOT_find_world;
 	/**
-	Return the 3D world of the viewport, or if no such present, the one of the parent viewport.
+	Returns the 3D world of the viewport, or if none the world of the parent viewport.
 	*/
 	Ref!World findWorld() const
 	{
-		_GODOT_find_world.bind("Viewport", "find_world");
-		return ptrcall!(World)(_GODOT_find_world, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(World)(_classBinding.findWorld, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Transform2D) _GODOT_set_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_canvas_transform") = _GODOT_set_canvas_transform;
 	/**
 	
 	*/
 	void setCanvasTransform(in Transform2D xform)
 	{
-		_GODOT_set_canvas_transform.bind("Viewport", "set_canvas_transform");
-		ptrcall!(void)(_GODOT_set_canvas_transform, _godot_object, xform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCanvasTransform, _godot_object, xform);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas_transform") = _GODOT_get_canvas_transform;
 	/**
 	
 	*/
 	Transform2D getCanvasTransform() const
 	{
-		_GODOT_get_canvas_transform.bind("Viewport", "get_canvas_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_canvas_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getCanvasTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Transform2D) _GODOT_set_global_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_global_canvas_transform") = _GODOT_set_global_canvas_transform;
 	/**
 	
 	*/
 	void setGlobalCanvasTransform(in Transform2D xform)
 	{
-		_GODOT_set_global_canvas_transform.bind("Viewport", "set_global_canvas_transform");
-		ptrcall!(void)(_GODOT_set_global_canvas_transform, _godot_object, xform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlobalCanvasTransform, _godot_object, xform);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_global_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_canvas_transform") = _GODOT_get_global_canvas_transform;
 	/**
 	
 	*/
 	Transform2D getGlobalCanvasTransform() const
 	{
-		_GODOT_get_global_canvas_transform.bind("Viewport", "get_global_canvas_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_global_canvas_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getGlobalCanvasTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_final_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_final_transform") = _GODOT_get_final_transform;
 	/**
-	Get the total transform of the viewport.
+	Returns the total transform of the viewport.
 	*/
 	Transform2D getFinalTransform() const
 	{
-		_GODOT_get_final_transform.bind("Viewport", "get_final_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_final_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getFinalTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_visible_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_rect") = _GODOT_get_visible_rect;
 	/**
-	Return the final, visible rect in global screen coordinates.
+	Returns the visible rectangle in global screen coordinates.
 	*/
 	Rect2 getVisibleRect() const
 	{
-		_GODOT_get_visible_rect.bind("Viewport", "get_visible_rect");
-		return ptrcall!(Rect2)(_GODOT_get_visible_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getVisibleRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_transparent_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_transparent_background") = _GODOT_set_transparent_background;
 	/**
 	
 	*/
 	void setTransparentBackground(in bool enable)
 	{
-		_GODOT_set_transparent_background.bind("Viewport", "set_transparent_background");
-		ptrcall!(void)(_GODOT_set_transparent_background, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransparentBackground, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_transparent_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_transparent_background") = _GODOT_has_transparent_background;
 	/**
 	
 	*/
 	bool hasTransparentBackground() const
 	{
-		_GODOT_has_transparent_background.bind("Viewport", "has_transparent_background");
-		return ptrcall!(bool)(_GODOT_has_transparent_background, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasTransparentBackground, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__vp_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_vp_input") = _GODOT__vp_input;
 	/**
 	
 	*/
@@ -455,8 +501,6 @@ public:
 		String _GODOT_method_name = String("_vp_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__vp_input_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_vp_input_text") = _GODOT__vp_input_text;
 	/**
 	
 	*/
@@ -467,8 +511,6 @@ public:
 		String _GODOT_method_name = String("_vp_input_text");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__vp_unhandled_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_vp_unhandled_input") = _GODOT__vp_unhandled_input;
 	/**
 	
 	*/
@@ -479,438 +521,382 @@ public:
 		String _GODOT_method_name = String("_vp_unhandled_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool, Vector2, Vector2) _GODOT_set_size_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size_override") = _GODOT_set_size_override;
 	/**
-	Set the size override of the viewport. If the enable parameter is true, it would use the override, otherwise it would use the default size. If the size parameter is equal to `(-1, -1)`, it won't update the size.
+	Sets the size override of the viewport. If the `enable` parameter is `true` the override is used, otherwise it uses the default size. If the size parameter is `(-1, -1)`, it won't update the size.
 	*/
 	void setSizeOverride(in bool enable, in Vector2 size = Vector2(-1, -1), in Vector2 margin = Vector2(0, 0))
 	{
-		_GODOT_set_size_override.bind("Viewport", "set_size_override");
-		ptrcall!(void)(_GODOT_set_size_override, _godot_object, enable, size, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSizeOverride, _godot_object, enable, size, margin);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size_override") = _GODOT_get_size_override;
 	/**
-	Get the size override set with $(D setSizeOverride).
+	Returns the size override set with $(D setSizeOverride).
 	*/
 	Vector2 getSizeOverride() const
 	{
-		_GODOT_get_size_override.bind("Viewport", "get_size_override");
-		return ptrcall!(Vector2)(_GODOT_get_size_override, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSizeOverride, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_size_override_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_size_override_enabled") = _GODOT_is_size_override_enabled;
 	/**
-	Get the enabled status of the size override set with $(D setSizeOverride).
+	Returns `true` if the size override is enabled. See $(D setSizeOverride).
 	*/
 	bool isSizeOverrideEnabled() const
 	{
-		_GODOT_is_size_override_enabled.bind("Viewport", "is_size_override_enabled");
-		return ptrcall!(bool)(_GODOT_is_size_override_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSizeOverrideEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_size_override_stretch;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size_override_stretch") = _GODOT_set_size_override_stretch;
 	/**
-	Set whether the size override affects stretch as well.
+	If `true` the size override affects stretch as well.
 	*/
 	void setSizeOverrideStretch(in bool enabled)
 	{
-		_GODOT_set_size_override_stretch.bind("Viewport", "set_size_override_stretch");
-		ptrcall!(void)(_GODOT_set_size_override_stretch, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSizeOverrideStretch, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_size_override_stretch_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_size_override_stretch_enabled") = _GODOT_is_size_override_stretch_enabled;
 	/**
-	Get the enabled status of the size stretch override set with $(D setSizeOverrideStretch).
+	Returns `true` if the size stretch override is enabled. See $(D setSizeOverrideStretch).
 	*/
 	bool isSizeOverrideStretchEnabled() const
 	{
-		_GODOT_is_size_override_stretch_enabled.bind("Viewport", "is_size_override_stretch_enabled");
-		return ptrcall!(bool)(_GODOT_is_size_override_stretch_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSizeOverrideStretchEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_vflip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vflip") = _GODOT_set_vflip;
 	/**
 	
 	*/
 	void setVflip(in bool enable)
 	{
-		_GODOT_set_vflip.bind("Viewport", "set_vflip");
-		ptrcall!(void)(_GODOT_set_vflip, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVflip, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_vflip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vflip") = _GODOT_get_vflip;
 	/**
 	
 	*/
 	bool getVflip() const
 	{
-		_GODOT_get_vflip.bind("Viewport", "get_vflip");
-		return ptrcall!(bool)(_GODOT_get_vflip, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getVflip, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_clear_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_clear_mode") = _GODOT_set_clear_mode;
 	/**
 	
 	*/
 	void setClearMode(in long mode)
 	{
-		_GODOT_set_clear_mode.bind("Viewport", "set_clear_mode");
-		ptrcall!(void)(_GODOT_set_clear_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClearMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Viewport.ClearMode) _GODOT_get_clear_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_clear_mode") = _GODOT_get_clear_mode;
 	/**
 	
 	*/
 	Viewport.ClearMode getClearMode() const
 	{
-		_GODOT_get_clear_mode.bind("Viewport", "get_clear_mode");
-		return ptrcall!(Viewport.ClearMode)(_GODOT_get_clear_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.ClearMode)(_classBinding.getClearMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_update_mode") = _GODOT_set_update_mode;
 	/**
 	
 	*/
 	void setUpdateMode(in long mode)
 	{
-		_GODOT_set_update_mode.bind("Viewport", "set_update_mode");
-		ptrcall!(void)(_GODOT_set_update_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUpdateMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Viewport.UpdateMode) _GODOT_get_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_update_mode") = _GODOT_get_update_mode;
 	/**
 	
 	*/
 	Viewport.UpdateMode getUpdateMode() const
 	{
-		_GODOT_get_update_mode.bind("Viewport", "get_update_mode");
-		return ptrcall!(Viewport.UpdateMode)(_GODOT_get_update_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.UpdateMode)(_classBinding.getUpdateMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_msaa;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_msaa") = _GODOT_set_msaa;
 	/**
 	
 	*/
 	void setMsaa(in long msaa)
 	{
-		_GODOT_set_msaa.bind("Viewport", "set_msaa");
-		ptrcall!(void)(_GODOT_set_msaa, _godot_object, msaa);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMsaa, _godot_object, msaa);
 	}
-	package(godot) static GodotMethod!(Viewport.MSAA) _GODOT_get_msaa;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_msaa") = _GODOT_get_msaa;
 	/**
 	
 	*/
 	Viewport.MSAA getMsaa() const
 	{
-		_GODOT_get_msaa.bind("Viewport", "get_msaa");
-		return ptrcall!(Viewport.MSAA)(_GODOT_get_msaa, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.MSAA)(_classBinding.getMsaa, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_hdr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hdr") = _GODOT_set_hdr;
 	/**
 	
 	*/
 	void setHdr(in bool enable)
 	{
-		_GODOT_set_hdr.bind("Viewport", "set_hdr");
-		ptrcall!(void)(_GODOT_set_hdr, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHdr, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_hdr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hdr") = _GODOT_get_hdr;
 	/**
 	
 	*/
 	bool getHdr() const
 	{
-		_GODOT_get_hdr.bind("Viewport", "get_hdr");
-		return ptrcall!(bool)(_GODOT_get_hdr, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getHdr, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_usage") = _GODOT_set_usage;
 	/**
 	
 	*/
 	void setUsage(in long usage)
 	{
-		_GODOT_set_usage.bind("Viewport", "set_usage");
-		ptrcall!(void)(_GODOT_set_usage, _godot_object, usage);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUsage, _godot_object, usage);
 	}
-	package(godot) static GodotMethod!(Viewport.Usage) _GODOT_get_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_usage") = _GODOT_get_usage;
 	/**
 	
 	*/
 	Viewport.Usage getUsage() const
 	{
-		_GODOT_get_usage.bind("Viewport", "get_usage");
-		return ptrcall!(Viewport.Usage)(_GODOT_get_usage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.Usage)(_classBinding.getUsage, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_debug_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_debug_draw") = _GODOT_set_debug_draw;
 	/**
 	
 	*/
 	void setDebugDraw(in long debug_draw)
 	{
-		_GODOT_set_debug_draw.bind("Viewport", "set_debug_draw");
-		ptrcall!(void)(_GODOT_set_debug_draw, _godot_object, debug_draw);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDebugDraw, _godot_object, debug_draw);
 	}
-	package(godot) static GodotMethod!(Viewport.DebugDraw) _GODOT_get_debug_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_debug_draw") = _GODOT_get_debug_draw;
 	/**
 	
 	*/
 	Viewport.DebugDraw getDebugDraw() const
 	{
-		_GODOT_get_debug_draw.bind("Viewport", "get_debug_draw");
-		return ptrcall!(Viewport.DebugDraw)(_GODOT_get_debug_draw, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.DebugDraw)(_classBinding.getDebugDraw, _godot_object);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_render_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_render_info") = _GODOT_get_render_info;
 	/**
-	Get the specific information about the viewport from rendering pipeline.
+	Returns information about the viewport from the rendering pipeline.
 	*/
 	long getRenderInfo(in long info)
 	{
-		_GODOT_get_render_info.bind("Viewport", "get_render_info");
-		return ptrcall!(long)(_GODOT_get_render_info, _godot_object, info);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRenderInfo, _godot_object, info);
 	}
-	package(godot) static GodotMethod!(ViewportTexture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
-	Get the viewport's texture, for use with various objects that you want to texture with the viewport.
+	Returns the viewport's texture.
 	*/
 	Ref!ViewportTexture getTexture() const
 	{
-		_GODOT_get_texture.bind("Viewport", "get_texture");
-		return ptrcall!(ViewportTexture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ViewportTexture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_physics_object_picking;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_physics_object_picking") = _GODOT_set_physics_object_picking;
 	/**
 	
 	*/
 	void setPhysicsObjectPicking(in bool enable)
 	{
-		_GODOT_set_physics_object_picking.bind("Viewport", "set_physics_object_picking");
-		ptrcall!(void)(_GODOT_set_physics_object_picking, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPhysicsObjectPicking, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_physics_object_picking;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_physics_object_picking") = _GODOT_get_physics_object_picking;
 	/**
 	
 	*/
 	bool getPhysicsObjectPicking()
 	{
-		_GODOT_get_physics_object_picking.bind("Viewport", "get_physics_object_picking");
-		return ptrcall!(bool)(_GODOT_get_physics_object_picking, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getPhysicsObjectPicking, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_viewport_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_viewport_rid") = _GODOT_get_viewport_rid;
 	/**
-	Get the viewport RID from the $(D VisualServer).
+	Returns the viewport's RID from the $(D VisualServer).
 	*/
 	RID getViewportRid() const
 	{
-		_GODOT_get_viewport_rid.bind("Viewport", "get_viewport_rid");
-		return ptrcall!(RID)(_GODOT_get_viewport_rid, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getViewportRid, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "input") = _GODOT_input;
 	/**
 	
 	*/
 	void input(InputEvent local_event)
 	{
-		_GODOT_input.bind("Viewport", "input");
-		ptrcall!(void)(_GODOT_input, _godot_object, local_event);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.input, _godot_object, local_event);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT_unhandled_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unhandled_input") = _GODOT_unhandled_input;
 	/**
 	
 	*/
 	void unhandledInput(InputEvent local_event)
 	{
-		_GODOT_unhandled_input.bind("Viewport", "unhandled_input");
-		ptrcall!(void)(_GODOT_unhandled_input, _godot_object, local_event);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.unhandledInput, _godot_object, local_event);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_update_worlds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "update_worlds") = _GODOT_update_worlds;
 	/**
-	Force update of the 2D and 3D worlds.
+	Forces update of the 2D and 3D worlds.
 	*/
 	void updateWorlds()
 	{
-		_GODOT_update_worlds.bind("Viewport", "update_worlds");
-		ptrcall!(void)(_GODOT_update_worlds, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.updateWorlds, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_own_world;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_own_world") = _GODOT_set_use_own_world;
 	/**
 	
 	*/
 	void setUseOwnWorld(in bool enable)
 	{
-		_GODOT_set_use_own_world.bind("Viewport", "set_use_own_world");
-		ptrcall!(void)(_GODOT_set_use_own_world, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseOwnWorld, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_own_world;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_own_world") = _GODOT_is_using_own_world;
 	/**
 	
 	*/
 	bool isUsingOwnWorld() const
 	{
-		_GODOT_is_using_own_world.bind("Viewport", "is_using_own_world");
-		return ptrcall!(bool)(_GODOT_is_using_own_world, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingOwnWorld, _godot_object);
 	}
-	package(godot) static GodotMethod!(Camera) _GODOT_get_camera;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_camera") = _GODOT_get_camera;
 	/**
-	Return the active 3D camera.
+	Returns the active 3D camera.
 	*/
 	Camera getCamera() const
 	{
-		_GODOT_get_camera.bind("Viewport", "get_camera");
-		return ptrcall!(Camera)(_GODOT_get_camera, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera)(_classBinding.getCamera, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_as_audio_listener;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_as_audio_listener") = _GODOT_set_as_audio_listener;
 	/**
 	
 	*/
 	void setAsAudioListener(in bool enable)
 	{
-		_GODOT_set_as_audio_listener.bind("Viewport", "set_as_audio_listener");
-		ptrcall!(void)(_GODOT_set_as_audio_listener, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsAudioListener, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_audio_listener;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_audio_listener") = _GODOT_is_audio_listener;
 	/**
 	
 	*/
 	bool isAudioListener() const
 	{
-		_GODOT_is_audio_listener.bind("Viewport", "is_audio_listener");
-		return ptrcall!(bool)(_GODOT_is_audio_listener, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAudioListener, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_as_audio_listener_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_as_audio_listener_2d") = _GODOT_set_as_audio_listener_2d;
 	/**
 	
 	*/
 	void setAsAudioListener2d(in bool enable)
 	{
-		_GODOT_set_as_audio_listener_2d.bind("Viewport", "set_as_audio_listener_2d");
-		ptrcall!(void)(_GODOT_set_as_audio_listener_2d, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsAudioListener2d, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_audio_listener_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_audio_listener_2d") = _GODOT_is_audio_listener_2d;
 	/**
 	
 	*/
 	bool isAudioListener2d() const
 	{
-		_GODOT_is_audio_listener_2d.bind("Viewport", "is_audio_listener_2d");
-		return ptrcall!(bool)(_GODOT_is_audio_listener_2d, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAudioListener2d, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_attach_to_screen_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_attach_to_screen_rect") = _GODOT_set_attach_to_screen_rect;
 	/**
 	
 	*/
 	void setAttachToScreenRect(in Rect2 rect)
 	{
-		_GODOT_set_attach_to_screen_rect.bind("Viewport", "set_attach_to_screen_rect");
-		ptrcall!(void)(_GODOT_set_attach_to_screen_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAttachToScreenRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_mouse_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mouse_position") = _GODOT_get_mouse_position;
 	/**
-	Get the mouse position, relative to the viewport.
+	Returns the mouse position relative to the viewport.
 	*/
 	Vector2 getMousePosition() const
 	{
-		_GODOT_get_mouse_position.bind("Viewport", "get_mouse_position");
-		return ptrcall!(Vector2)(_GODOT_get_mouse_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMousePosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_warp_mouse;
-	package(godot) alias _GODOT_methodBindInfo(string name : "warp_mouse") = _GODOT_warp_mouse;
 	/**
-	Warp the mouse to a position, relative to the viewport.
+	Warps the mouse to a position relative to the viewport.
 	*/
 	void warpMouse(in Vector2 to_position)
 	{
-		_GODOT_warp_mouse.bind("Viewport", "warp_mouse");
-		ptrcall!(void)(_GODOT_warp_mouse, _godot_object, to_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.warpMouse, _godot_object, to_position);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_gui_has_modal_stack;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gui_has_modal_stack") = _GODOT_gui_has_modal_stack;
 	/**
-	Returns whether there are shown modals on-screen.
+	Returns `true` if there are visible modals on-screen.
 	*/
 	bool guiHasModalStack() const
 	{
-		_GODOT_gui_has_modal_stack.bind("Viewport", "gui_has_modal_stack");
-		return ptrcall!(bool)(_GODOT_gui_has_modal_stack, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.guiHasModalStack, _godot_object);
 	}
-	package(godot) static GodotMethod!(Variant) _GODOT_gui_get_drag_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gui_get_drag_data") = _GODOT_gui_get_drag_data;
 	/**
 	Returns the drag data from the GUI, that was previously returned by $(D Control.getDragData).
 	*/
 	Variant guiGetDragData() const
 	{
-		_GODOT_gui_get_drag_data.bind("Viewport", "gui_get_drag_data");
-		return ptrcall!(Variant)(_GODOT_gui_get_drag_data, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.guiGetDragData, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_disable_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_disable_input") = _GODOT_set_disable_input;
+	/**
+	
+	*/
+	bool guiIsDragging() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.guiIsDragging, _godot_object);
+	}
+	/**
+	Returns the topmost modal in the stack.
+	*/
+	Control getModalStackTop() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(_classBinding.getModalStackTop, _godot_object);
+	}
 	/**
 	
 	*/
 	void setDisableInput(in bool disable)
 	{
-		_GODOT_set_disable_input.bind("Viewport", "set_disable_input");
-		ptrcall!(void)(_GODOT_set_disable_input, _godot_object, disable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisableInput, _godot_object, disable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_input_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_input_disabled") = _GODOT_is_input_disabled;
 	/**
 	
 	*/
 	bool isInputDisabled() const
 	{
-		_GODOT_is_input_disabled.bind("Viewport", "is_input_disabled");
-		return ptrcall!(bool)(_GODOT_is_input_disabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInputDisabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_disable_3d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_disable_3d") = _GODOT_set_disable_3d;
 	/**
 	
 	*/
 	void setDisable3d(in bool disable)
 	{
-		_GODOT_set_disable_3d.bind("Viewport", "set_disable_3d");
-		ptrcall!(void)(_GODOT_set_disable_3d, _godot_object, disable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisable3d, _godot_object, disable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_3d_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_3d_disabled") = _GODOT_is_3d_disabled;
 	/**
 	
 	*/
 	bool is3dDisabled() const
 	{
-		_GODOT_is_3d_disabled.bind("Viewport", "is_3d_disabled");
-		return ptrcall!(bool)(_GODOT_is_3d_disabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.is3dDisabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__gui_show_tooltip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_show_tooltip") = _GODOT__gui_show_tooltip;
+	/**
+	
+	*/
+	void setKeep3dLinear(in bool keep_3d_linear)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setKeep3dLinear, _godot_object, keep_3d_linear);
+	}
+	/**
+	
+	*/
+	bool getKeep3dLinear() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getKeep3dLinear, _godot_object);
+	}
 	/**
 	
 	*/
@@ -920,8 +906,6 @@ public:
 		String _GODOT_method_name = String("_gui_show_tooltip");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__gui_remove_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_remove_focus") = _GODOT__gui_remove_focus;
 	/**
 	
 	*/
@@ -931,65 +915,71 @@ public:
 		String _GODOT_method_name = String("_gui_remove_focus");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_atlas_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_atlas_size") = _GODOT_set_shadow_atlas_size;
+	/**
+	
+	*/
+	void _postGuiGrabClickFocus()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_post_gui_grab_click_focus");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
 	/**
 	
 	*/
 	void setShadowAtlasSize(in long size)
 	{
-		_GODOT_set_shadow_atlas_size.bind("Viewport", "set_shadow_atlas_size");
-		ptrcall!(void)(_GODOT_set_shadow_atlas_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowAtlasSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_shadow_atlas_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_atlas_size") = _GODOT_get_shadow_atlas_size;
 	/**
 	
 	*/
 	long getShadowAtlasSize() const
 	{
-		_GODOT_get_shadow_atlas_size.bind("Viewport", "get_shadow_atlas_size");
-		return ptrcall!(long)(_GODOT_get_shadow_atlas_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getShadowAtlasSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_snap_controls_to_pixels;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_snap_controls_to_pixels") = _GODOT_set_snap_controls_to_pixels;
 	/**
 	
 	*/
 	void setSnapControlsToPixels(in bool enabled)
 	{
-		_GODOT_set_snap_controls_to_pixels.bind("Viewport", "set_snap_controls_to_pixels");
-		ptrcall!(void)(_GODOT_set_snap_controls_to_pixels, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSnapControlsToPixels, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_snap_controls_to_pixels_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_snap_controls_to_pixels_enabled") = _GODOT_is_snap_controls_to_pixels_enabled;
 	/**
 	
 	*/
 	bool isSnapControlsToPixelsEnabled() const
 	{
-		_GODOT_is_snap_controls_to_pixels_enabled.bind("Viewport", "is_snap_controls_to_pixels_enabled");
-		return ptrcall!(bool)(_GODOT_is_snap_controls_to_pixels_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSnapControlsToPixelsEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_shadow_atlas_quadrant_subdiv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_atlas_quadrant_subdiv") = _GODOT_set_shadow_atlas_quadrant_subdiv;
 	/**
 	
 	*/
 	void setShadowAtlasQuadrantSubdiv(in long quadrant, in long subdiv)
 	{
-		_GODOT_set_shadow_atlas_quadrant_subdiv.bind("Viewport", "set_shadow_atlas_quadrant_subdiv");
-		ptrcall!(void)(_GODOT_set_shadow_atlas_quadrant_subdiv, _godot_object, quadrant, subdiv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowAtlasQuadrantSubdiv, _godot_object, quadrant, subdiv);
 	}
-	package(godot) static GodotMethod!(Viewport.ShadowAtlasQuadrantSubdiv, long) _GODOT_get_shadow_atlas_quadrant_subdiv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_atlas_quadrant_subdiv") = _GODOT_get_shadow_atlas_quadrant_subdiv;
 	/**
 	
 	*/
 	Viewport.ShadowAtlasQuadrantSubdiv getShadowAtlasQuadrantSubdiv(in long quadrant) const
 	{
-		_GODOT_get_shadow_atlas_quadrant_subdiv.bind("Viewport", "get_shadow_atlas_quadrant_subdiv");
-		return ptrcall!(Viewport.ShadowAtlasQuadrantSubdiv)(_GODOT_get_shadow_atlas_quadrant_subdiv, _godot_object, quadrant);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Viewport.ShadowAtlasQuadrantSubdiv)(_classBinding.getShadowAtlasQuadrantSubdiv, _godot_object, quadrant);
+	}
+	/**
+	
+	*/
+	void _subwindowVisibilityChanged()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_subwindow_visibility_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	If `true` the viewport will be used in AR/VR process. Default value: `false`.
@@ -1098,6 +1088,18 @@ public:
 	@property void disable3d(bool v)
 	{
 		setDisable3d(v);
+	}
+	/**
+	If `true` the result after 3D rendering will not have a linear to sRGB color conversion applied. This is important when the viewport is used as a render target where the result is used as a texture on a 3D object rendered in another viewport. It is also important if the viewport is used to create data that is not color based (noise, heightmaps, pickmaps, etc.). Do not enable this when the viewport is used as a texture on a 2D object or if the viewport is your final output.
+	*/
+	@property bool keep3dLinear()
+	{
+		return getKeep3dLinear();
+	}
+	/// ditto
+	@property void keep3dLinear(bool v)
+	{
+		setKeep3dLinear(v);
 	}
 	/**
 	The rendering mode of viewport. Default value: `USAGE_3D`.

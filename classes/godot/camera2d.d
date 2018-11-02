@@ -23,6 +23,7 @@ import godot.classdb;
 import godot.node2d;
 import godot.node;
 import godot.viewport;
+import godot.canvasitem;
 /**
 Camera node for 2D scenes.
 
@@ -31,12 +32,63 @@ This node is intended to be a simple helper to get things going quickly and it m
 */
 @GodotBaseClass struct Camera2D
 {
-	static immutable string _GODOT_internal_name = "Camera2D";
+	enum string _GODOT_internal_name = "Camera2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
+		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("set_anchor_mode") GodotMethod!(void, long) setAnchorMode;
+		@GodotName("get_anchor_mode") GodotMethod!(Camera2D.AnchorMode) getAnchorMode;
+		@GodotName("set_rotating") GodotMethod!(void, bool) setRotating;
+		@GodotName("is_rotating") GodotMethod!(bool) isRotating;
+		@GodotName("make_current") GodotMethod!(void) makeCurrent;
+		@GodotName("clear_current") GodotMethod!(void) clearCurrent;
+		@GodotName("_make_current") GodotMethod!(void, GodotObject) _makeCurrent;
+		@GodotName("_update_scroll") GodotMethod!(void) _updateScroll;
+		@GodotName("_set_current") GodotMethod!(void, bool) _setCurrent;
+		@GodotName("is_current") GodotMethod!(bool) isCurrent;
+		@GodotName("set_limit") GodotMethod!(void, long, long) setLimit;
+		@GodotName("get_limit") GodotMethod!(long, long) getLimit;
+		@GodotName("set_limit_smoothing_enabled") GodotMethod!(void, bool) setLimitSmoothingEnabled;
+		@GodotName("is_limit_smoothing_enabled") GodotMethod!(bool) isLimitSmoothingEnabled;
+		@GodotName("set_v_drag_enabled") GodotMethod!(void, bool) setVDragEnabled;
+		@GodotName("is_v_drag_enabled") GodotMethod!(bool) isVDragEnabled;
+		@GodotName("set_h_drag_enabled") GodotMethod!(void, bool) setHDragEnabled;
+		@GodotName("is_h_drag_enabled") GodotMethod!(bool) isHDragEnabled;
+		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
+		@GodotName("get_v_offset") GodotMethod!(double) getVOffset;
+		@GodotName("set_h_offset") GodotMethod!(void, double) setHOffset;
+		@GodotName("get_h_offset") GodotMethod!(double) getHOffset;
+		@GodotName("set_drag_margin") GodotMethod!(void, long, double) setDragMargin;
+		@GodotName("get_drag_margin") GodotMethod!(double, long) getDragMargin;
+		@GodotName("get_camera_position") GodotMethod!(Vector2) getCameraPosition;
+		@GodotName("get_camera_screen_center") GodotMethod!(Vector2) getCameraScreenCenter;
+		@GodotName("set_zoom") GodotMethod!(void, Vector2) setZoom;
+		@GodotName("get_zoom") GodotMethod!(Vector2) getZoom;
+		@GodotName("set_custom_viewport") GodotMethod!(void, GodotObject) setCustomViewport;
+		@GodotName("get_custom_viewport") GodotMethod!(Node) getCustomViewport;
+		@GodotName("set_follow_smoothing") GodotMethod!(void, double) setFollowSmoothing;
+		@GodotName("get_follow_smoothing") GodotMethod!(double) getFollowSmoothing;
+		@GodotName("set_enable_follow_smoothing") GodotMethod!(void, bool) setEnableFollowSmoothing;
+		@GodotName("is_follow_smoothing_enabled") GodotMethod!(bool) isFollowSmoothingEnabled;
+		@GodotName("force_update_scroll") GodotMethod!(void) forceUpdateScroll;
+		@GodotName("reset_smoothing") GodotMethod!(void) resetSmoothing;
+		@GodotName("align") GodotMethod!(void) _align;
+		@GodotName("_set_old_smoothing") GodotMethod!(void, double) _setOldSmoothing;
+		@GodotName("set_screen_drawing_enabled") GodotMethod!(void, bool) setScreenDrawingEnabled;
+		@GodotName("is_screen_drawing_enabled") GodotMethod!(bool) isScreenDrawingEnabled;
+		@GodotName("set_limit_drawing_enabled") GodotMethod!(void, bool) setLimitDrawingEnabled;
+		@GodotName("is_limit_drawing_enabled") GodotMethod!(bool) isLimitDrawingEnabled;
+		@GodotName("set_margin_drawing_enabled") GodotMethod!(void, bool) setMarginDrawingEnabled;
+		@GodotName("is_margin_drawing_enabled") GodotMethod!(bool) isMarginDrawingEnabled;
+	}
 	bool opEquals(in Camera2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Camera2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -67,88 +119,70 @@ public:
 		anchorModeFixedTopLeft = 0,
 		anchorModeDragCenter = 1,
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_offset") = _GODOT_set_offset;
 	/**
 	
 	*/
 	void setOffset(in Vector2 offset)
 	{
-		_GODOT_set_offset.bind("Camera2D", "set_offset");
-		ptrcall!(void)(_GODOT_set_offset, _godot_object, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset") = _GODOT_get_offset;
 	/**
 	
 	*/
 	Vector2 getOffset() const
 	{
-		_GODOT_get_offset.bind("Camera2D", "get_offset");
-		return ptrcall!(Vector2)(_GODOT_get_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_anchor_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchor_mode") = _GODOT_set_anchor_mode;
 	/**
 	
 	*/
 	void setAnchorMode(in long anchor_mode)
 	{
-		_GODOT_set_anchor_mode.bind("Camera2D", "set_anchor_mode");
-		ptrcall!(void)(_GODOT_set_anchor_mode, _godot_object, anchor_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorMode, _godot_object, anchor_mode);
 	}
-	package(godot) static GodotMethod!(Camera2D.AnchorMode) _GODOT_get_anchor_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_anchor_mode") = _GODOT_get_anchor_mode;
 	/**
 	
 	*/
 	Camera2D.AnchorMode getAnchorMode() const
 	{
-		_GODOT_get_anchor_mode.bind("Camera2D", "get_anchor_mode");
-		return ptrcall!(Camera2D.AnchorMode)(_GODOT_get_anchor_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera2D.AnchorMode)(_classBinding.getAnchorMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_rotating;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rotating") = _GODOT_set_rotating;
 	/**
 	
 	*/
 	void setRotating(in bool rotating)
 	{
-		_GODOT_set_rotating.bind("Camera2D", "set_rotating");
-		ptrcall!(void)(_GODOT_set_rotating, _godot_object, rotating);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotating, _godot_object, rotating);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_rotating;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_rotating") = _GODOT_is_rotating;
 	/**
 	
 	*/
 	bool isRotating() const
 	{
-		_GODOT_is_rotating.bind("Camera2D", "is_rotating");
-		return ptrcall!(bool)(_GODOT_is_rotating, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRotating, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_make_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_current") = _GODOT_make_current;
 	/**
 	Make this the current 2D camera for the scene (viewport and layer), in case there's many cameras in the scene.
 	*/
 	void makeCurrent()
 	{
-		_GODOT_make_current.bind("Camera2D", "make_current");
-		ptrcall!(void)(_GODOT_make_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_current") = _GODOT_clear_current;
 	/**
 	Removes any `Camera2D` from the ancestor $(D Viewport)'s internal currently-assigned camera.
 	*/
 	void clearCurrent()
 	{
-		_GODOT_clear_current.bind("Camera2D", "clear_current");
-		ptrcall!(void)(_GODOT_clear_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearCurrent, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT__make_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_make_current") = _GODOT__make_current;
 	/**
 	
 	*/
@@ -159,8 +193,6 @@ public:
 		String _GODOT_method_name = String("_make_current");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_scroll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_scroll") = _GODOT__update_scroll;
 	/**
 	
 	*/
@@ -170,8 +202,6 @@ public:
 		String _GODOT_method_name = String("_update_scroll");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT__set_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_current") = _GODOT__set_current;
 	/**
 	
 	*/
@@ -182,289 +212,231 @@ public:
 		String _GODOT_method_name = String("_set_current");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_current") = _GODOT_is_current;
 	/**
 	
 	*/
 	bool isCurrent() const
 	{
-		_GODOT_is_current.bind("Camera2D", "is_current");
-		return ptrcall!(bool)(_GODOT_is_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_limit") = _GODOT_set_limit;
 	/**
 	
 	*/
 	void setLimit(in long margin, in long limit)
 	{
-		_GODOT_set_limit.bind("Camera2D", "set_limit");
-		ptrcall!(void)(_GODOT_set_limit, _godot_object, margin, limit);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimit, _godot_object, margin, limit);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_limit") = _GODOT_get_limit;
 	/**
 	
 	*/
 	long getLimit(in long margin) const
 	{
-		_GODOT_get_limit.bind("Camera2D", "get_limit");
-		return ptrcall!(long)(_GODOT_get_limit, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLimit, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_limit_smoothing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_limit_smoothing_enabled") = _GODOT_set_limit_smoothing_enabled;
 	/**
 	
 	*/
 	void setLimitSmoothingEnabled(in bool limit_smoothing_enabled)
 	{
-		_GODOT_set_limit_smoothing_enabled.bind("Camera2D", "set_limit_smoothing_enabled");
-		ptrcall!(void)(_GODOT_set_limit_smoothing_enabled, _godot_object, limit_smoothing_enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimitSmoothingEnabled, _godot_object, limit_smoothing_enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_limit_smoothing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_limit_smoothing_enabled") = _GODOT_is_limit_smoothing_enabled;
 	/**
 	
 	*/
 	bool isLimitSmoothingEnabled() const
 	{
-		_GODOT_is_limit_smoothing_enabled.bind("Camera2D", "is_limit_smoothing_enabled");
-		return ptrcall!(bool)(_GODOT_is_limit_smoothing_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLimitSmoothingEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_v_drag_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_drag_enabled") = _GODOT_set_v_drag_enabled;
 	/**
 	
 	*/
 	void setVDragEnabled(in bool enabled)
 	{
-		_GODOT_set_v_drag_enabled.bind("Camera2D", "set_v_drag_enabled");
-		ptrcall!(void)(_GODOT_set_v_drag_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVDragEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_v_drag_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_v_drag_enabled") = _GODOT_is_v_drag_enabled;
 	/**
 	
 	*/
 	bool isVDragEnabled() const
 	{
-		_GODOT_is_v_drag_enabled.bind("Camera2D", "is_v_drag_enabled");
-		return ptrcall!(bool)(_GODOT_is_v_drag_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isVDragEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_h_drag_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_drag_enabled") = _GODOT_set_h_drag_enabled;
 	/**
 	
 	*/
 	void setHDragEnabled(in bool enabled)
 	{
-		_GODOT_set_h_drag_enabled.bind("Camera2D", "set_h_drag_enabled");
-		ptrcall!(void)(_GODOT_set_h_drag_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHDragEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_h_drag_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_h_drag_enabled") = _GODOT_is_h_drag_enabled;
 	/**
 	
 	*/
 	bool isHDragEnabled() const
 	{
-		_GODOT_is_h_drag_enabled.bind("Camera2D", "is_h_drag_enabled");
-		return ptrcall!(bool)(_GODOT_is_h_drag_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHDragEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_offset") = _GODOT_set_v_offset;
 	/**
 	
 	*/
 	void setVOffset(in double ofs)
 	{
-		_GODOT_set_v_offset.bind("Camera2D", "set_v_offset");
-		ptrcall!(void)(_GODOT_set_v_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_offset") = _GODOT_get_v_offset;
 	/**
 	
 	*/
 	double getVOffset() const
 	{
-		_GODOT_get_v_offset.bind("Camera2D", "get_v_offset");
-		return ptrcall!(double)(_GODOT_get_v_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_offset") = _GODOT_set_h_offset;
 	/**
 	
 	*/
 	void setHOffset(in double ofs)
 	{
-		_GODOT_set_h_offset.bind("Camera2D", "set_h_offset");
-		ptrcall!(void)(_GODOT_set_h_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_offset") = _GODOT_get_h_offset;
 	/**
 	
 	*/
 	double getHOffset() const
 	{
-		_GODOT_get_h_offset.bind("Camera2D", "get_h_offset");
-		return ptrcall!(double)(_GODOT_get_h_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_drag_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_drag_margin") = _GODOT_set_drag_margin;
 	/**
 	
 	*/
 	void setDragMargin(in long margin, in double drag_margin)
 	{
-		_GODOT_set_drag_margin.bind("Camera2D", "set_drag_margin");
-		ptrcall!(void)(_GODOT_set_drag_margin, _godot_object, margin, drag_margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDragMargin, _godot_object, margin, drag_margin);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_drag_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_drag_margin") = _GODOT_get_drag_margin;
 	/**
 	
 	*/
 	double getDragMargin(in long margin) const
 	{
-		_GODOT_get_drag_margin.bind("Camera2D", "get_drag_margin");
-		return ptrcall!(double)(_GODOT_get_drag_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDragMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_camera_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_camera_position") = _GODOT_get_camera_position;
 	/**
 	Return the camera position.
 	*/
 	Vector2 getCameraPosition() const
 	{
-		_GODOT_get_camera_position.bind("Camera2D", "get_camera_position");
-		return ptrcall!(Vector2)(_GODOT_get_camera_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCameraPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_camera_screen_center;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_camera_screen_center") = _GODOT_get_camera_screen_center;
 	/**
 	Returns the location of the `Camera2D`'s screen-center, relative to the origin.
 	*/
 	Vector2 getCameraScreenCenter() const
 	{
-		_GODOT_get_camera_screen_center.bind("Camera2D", "get_camera_screen_center");
-		return ptrcall!(Vector2)(_GODOT_get_camera_screen_center, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCameraScreenCenter, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_zoom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_zoom") = _GODOT_set_zoom;
 	/**
 	
 	*/
 	void setZoom(in Vector2 zoom)
 	{
-		_GODOT_set_zoom.bind("Camera2D", "set_zoom");
-		ptrcall!(void)(_GODOT_set_zoom, _godot_object, zoom);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setZoom, _godot_object, zoom);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_zoom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_zoom") = _GODOT_get_zoom;
 	/**
 	
 	*/
 	Vector2 getZoom() const
 	{
-		_GODOT_get_zoom.bind("Camera2D", "get_zoom");
-		return ptrcall!(Vector2)(_GODOT_get_zoom, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getZoom, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_set_custom_viewport;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_viewport") = _GODOT_set_custom_viewport;
 	/**
 	
 	*/
 	void setCustomViewport(GodotObject viewport)
 	{
-		_GODOT_set_custom_viewport.bind("Camera2D", "set_custom_viewport");
-		ptrcall!(void)(_GODOT_set_custom_viewport, _godot_object, viewport);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomViewport, _godot_object, viewport);
 	}
-	package(godot) static GodotMethod!(Node) _GODOT_get_custom_viewport;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_viewport") = _GODOT_get_custom_viewport;
 	/**
 	
 	*/
 	Node getCustomViewport() const
 	{
-		_GODOT_get_custom_viewport.bind("Camera2D", "get_custom_viewport");
-		return ptrcall!(Node)(_GODOT_get_custom_viewport, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.getCustomViewport, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_follow_smoothing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_follow_smoothing") = _GODOT_set_follow_smoothing;
 	/**
 	
 	*/
 	void setFollowSmoothing(in double follow_smoothing)
 	{
-		_GODOT_set_follow_smoothing.bind("Camera2D", "set_follow_smoothing");
-		ptrcall!(void)(_GODOT_set_follow_smoothing, _godot_object, follow_smoothing);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFollowSmoothing, _godot_object, follow_smoothing);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_follow_smoothing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_follow_smoothing") = _GODOT_get_follow_smoothing;
 	/**
 	
 	*/
 	double getFollowSmoothing() const
 	{
-		_GODOT_get_follow_smoothing.bind("Camera2D", "get_follow_smoothing");
-		return ptrcall!(double)(_GODOT_get_follow_smoothing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFollowSmoothing, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_enable_follow_smoothing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_enable_follow_smoothing") = _GODOT_set_enable_follow_smoothing;
 	/**
 	
 	*/
 	void setEnableFollowSmoothing(in bool follow_smoothing)
 	{
-		_GODOT_set_enable_follow_smoothing.bind("Camera2D", "set_enable_follow_smoothing");
-		ptrcall!(void)(_GODOT_set_enable_follow_smoothing, _godot_object, follow_smoothing);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnableFollowSmoothing, _godot_object, follow_smoothing);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_follow_smoothing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_follow_smoothing_enabled") = _GODOT_is_follow_smoothing_enabled;
 	/**
 	
 	*/
 	bool isFollowSmoothingEnabled() const
 	{
-		_GODOT_is_follow_smoothing_enabled.bind("Camera2D", "is_follow_smoothing_enabled");
-		return ptrcall!(bool)(_GODOT_is_follow_smoothing_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFollowSmoothingEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_force_update_scroll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "force_update_scroll") = _GODOT_force_update_scroll;
 	/**
 	Force the camera to update scroll immediately.
 	*/
 	void forceUpdateScroll()
 	{
-		_GODOT_force_update_scroll.bind("Camera2D", "force_update_scroll");
-		ptrcall!(void)(_GODOT_force_update_scroll, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceUpdateScroll, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_reset_smoothing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reset_smoothing") = _GODOT_reset_smoothing;
 	/**
 	Set the camera's position immediately to its current smoothing destination.
 	This has no effect if smoothing is disabled.
 	*/
 	void resetSmoothing()
 	{
-		_GODOT_reset_smoothing.bind("Camera2D", "reset_smoothing");
-		ptrcall!(void)(_GODOT_reset_smoothing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.resetSmoothing, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "align") = _GODOT__align;
 	/**
 	Align the camera to the tracked node
 	*/
 	void _align()
 	{
-		_GODOT__align.bind("Camera2D", "align");
-		ptrcall!(void)(_GODOT__align, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding._align, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_old_smoothing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_old_smoothing") = _GODOT__set_old_smoothing;
 	/**
 	
 	*/
@@ -475,65 +447,53 @@ public:
 		String _GODOT_method_name = String("_set_old_smoothing");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_screen_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_screen_drawing_enabled") = _GODOT_set_screen_drawing_enabled;
 	/**
 	
 	*/
 	void setScreenDrawingEnabled(in bool screen_drawing_enabled)
 	{
-		_GODOT_set_screen_drawing_enabled.bind("Camera2D", "set_screen_drawing_enabled");
-		ptrcall!(void)(_GODOT_set_screen_drawing_enabled, _godot_object, screen_drawing_enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScreenDrawingEnabled, _godot_object, screen_drawing_enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_screen_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_screen_drawing_enabled") = _GODOT_is_screen_drawing_enabled;
 	/**
 	
 	*/
 	bool isScreenDrawingEnabled() const
 	{
-		_GODOT_is_screen_drawing_enabled.bind("Camera2D", "is_screen_drawing_enabled");
-		return ptrcall!(bool)(_GODOT_is_screen_drawing_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScreenDrawingEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_limit_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_limit_drawing_enabled") = _GODOT_set_limit_drawing_enabled;
 	/**
 	
 	*/
 	void setLimitDrawingEnabled(in bool limit_drawing_enabled)
 	{
-		_GODOT_set_limit_drawing_enabled.bind("Camera2D", "set_limit_drawing_enabled");
-		ptrcall!(void)(_GODOT_set_limit_drawing_enabled, _godot_object, limit_drawing_enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimitDrawingEnabled, _godot_object, limit_drawing_enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_limit_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_limit_drawing_enabled") = _GODOT_is_limit_drawing_enabled;
 	/**
 	
 	*/
 	bool isLimitDrawingEnabled() const
 	{
-		_GODOT_is_limit_drawing_enabled.bind("Camera2D", "is_limit_drawing_enabled");
-		return ptrcall!(bool)(_GODOT_is_limit_drawing_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLimitDrawingEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_margin_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_margin_drawing_enabled") = _GODOT_set_margin_drawing_enabled;
 	/**
 	
 	*/
 	void setMarginDrawingEnabled(in bool margin_drawing_enabled)
 	{
-		_GODOT_set_margin_drawing_enabled.bind("Camera2D", "set_margin_drawing_enabled");
-		ptrcall!(void)(_GODOT_set_margin_drawing_enabled, _godot_object, margin_drawing_enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMarginDrawingEnabled, _godot_object, margin_drawing_enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_margin_drawing_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_margin_drawing_enabled") = _GODOT_is_margin_drawing_enabled;
 	/**
 	
 	*/
 	bool isMarginDrawingEnabled() const
 	{
-		_GODOT_is_margin_drawing_enabled.bind("Camera2D", "is_margin_drawing_enabled");
-		return ptrcall!(bool)(_GODOT_is_margin_drawing_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMarginDrawingEnabled, _godot_object);
 	}
 	/**
 	The camera's offset, useful for looking around or camera shake animations.

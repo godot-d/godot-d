@@ -24,17 +24,77 @@ import godot.confirmationdialog;
 import godot.inputevent;
 import godot.vboxcontainer;
 import godot.texture;
+import godot.acceptdialog;
+import godot.windowdialog;
+import godot.popup;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 
 */
 @GodotBaseClass struct EditorFileDialog
 {
-	static immutable string _GODOT_internal_name = "EditorFileDialog";
+	enum string _GODOT_internal_name = "EditorFileDialog";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; ConfirmationDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
+		@GodotName("_item_selected") GodotMethod!(void, long) _itemSelected;
+		@GodotName("_multi_selected") GodotMethod!(void, long, bool) _multiSelected;
+		@GodotName("_items_clear_selection") GodotMethod!(void) _itemsClearSelection;
+		@GodotName("_item_list_item_rmb_selected") GodotMethod!(void, long, Vector2) _itemListItemRmbSelected;
+		@GodotName("_item_list_rmb_clicked") GodotMethod!(void, Vector2) _itemListRmbClicked;
+		@GodotName("_item_menu_id_pressed") GodotMethod!(void, long) _itemMenuIdPressed;
+		@GodotName("_item_db_selected") GodotMethod!(void, long) _itemDbSelected;
+		@GodotName("_dir_entered") GodotMethod!(void, String) _dirEntered;
+		@GodotName("_file_entered") GodotMethod!(void, String) _fileEntered;
+		@GodotName("_action_pressed") GodotMethod!(void) _actionPressed;
+		@GodotName("_cancel_pressed") GodotMethod!(void) _cancelPressed;
+		@GodotName("_filter_selected") GodotMethod!(void, long) _filterSelected;
+		@GodotName("_save_confirm_pressed") GodotMethod!(void) _saveConfirmPressed;
+		@GodotName("clear_filters") GodotMethod!(void) clearFilters;
+		@GodotName("add_filter") GodotMethod!(void, String) addFilter;
+		@GodotName("get_current_dir") GodotMethod!(String) getCurrentDir;
+		@GodotName("get_current_file") GodotMethod!(String) getCurrentFile;
+		@GodotName("get_current_path") GodotMethod!(String) getCurrentPath;
+		@GodotName("set_current_dir") GodotMethod!(void, String) setCurrentDir;
+		@GodotName("set_current_file") GodotMethod!(void, String) setCurrentFile;
+		@GodotName("set_current_path") GodotMethod!(void, String) setCurrentPath;
+		@GodotName("set_mode") GodotMethod!(void, long) setMode;
+		@GodotName("get_mode") GodotMethod!(EditorFileDialog.Mode) getMode;
+		@GodotName("get_vbox") GodotMethod!(VBoxContainer) getVbox;
+		@GodotName("set_access") GodotMethod!(void, long) setAccess;
+		@GodotName("get_access") GodotMethod!(EditorFileDialog.Access) getAccess;
+		@GodotName("set_show_hidden_files") GodotMethod!(void, bool) setShowHiddenFiles;
+		@GodotName("is_showing_hidden_files") GodotMethod!(bool) isShowingHiddenFiles;
+		@GodotName("_select_drive") GodotMethod!(void, long) _selectDrive;
+		@GodotName("_make_dir") GodotMethod!(void) _makeDir;
+		@GodotName("_make_dir_confirm") GodotMethod!(void) _makeDirConfirm;
+		@GodotName("_update_file_list") GodotMethod!(void) _updateFileList;
+		@GodotName("_update_dir") GodotMethod!(void) _updateDir;
+		@GodotName("_thumbnail_done") GodotMethod!(void, String, Texture, Texture, Variant) _thumbnailDone;
+		@GodotName("set_display_mode") GodotMethod!(void, long) setDisplayMode;
+		@GodotName("get_display_mode") GodotMethod!(EditorFileDialog.DisplayMode) getDisplayMode;
+		@GodotName("_thumbnail_result") GodotMethod!(void, String, Texture, Texture, Variant) _thumbnailResult;
+		@GodotName("set_disable_overwrite_warning") GodotMethod!(void, bool) setDisableOverwriteWarning;
+		@GodotName("is_overwrite_warning_disabled") GodotMethod!(bool) isOverwriteWarningDisabled;
+		@GodotName("_recent_selected") GodotMethod!(void, long) _recentSelected;
+		@GodotName("_go_back") GodotMethod!(void) _goBack;
+		@GodotName("_go_forward") GodotMethod!(void) _goForward;
+		@GodotName("_go_up") GodotMethod!(void) _goUp;
+		@GodotName("_favorite_toggled") GodotMethod!(void, bool) _favoriteToggled;
+		@GodotName("_favorite_selected") GodotMethod!(void, long) _favoriteSelected;
+		@GodotName("_favorite_move_up") GodotMethod!(void) _favoriteMoveUp;
+		@GodotName("_favorite_move_down") GodotMethod!(void) _favoriteMoveDown;
+		@GodotName("invalidate") GodotMethod!(void) invalidate;
+	}
 	bool opEquals(in EditorFileDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorFileDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -102,19 +162,17 @@ public:
 	/// 
 	enum Constants : int
 	{
-		accessResources = 0,
 		displayThumbnails = 0,
+		accessResources = 0,
 		modeOpenFile = 0,
-		displayList = 1,
 		accessUserdata = 1,
 		modeOpenFiles = 1,
-		modeOpenDir = 2,
+		displayList = 1,
 		accessFilesystem = 2,
+		modeOpenDir = 2,
 		modeOpenAny = 3,
 		modeSaveFile = 4,
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__unhandled_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_unhandled_input") = _GODOT__unhandled_input;
 	/**
 	
 	*/
@@ -125,8 +183,6 @@ public:
 		String _GODOT_method_name = String("_unhandled_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__item_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_item_selected") = _GODOT__item_selected;
 	/**
 	
 	*/
@@ -137,8 +193,6 @@ public:
 		String _GODOT_method_name = String("_item_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT__multi_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_multi_selected") = _GODOT__multi_selected;
 	/**
 	
 	*/
@@ -150,8 +204,6 @@ public:
 		String _GODOT_method_name = String("_multi_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__items_clear_selection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_items_clear_selection") = _GODOT__items_clear_selection;
 	/**
 	
 	*/
@@ -161,8 +213,6 @@ public:
 		String _GODOT_method_name = String("_items_clear_selection");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT__item_list_item_rmb_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_item_list_item_rmb_selected") = _GODOT__item_list_item_rmb_selected;
 	/**
 	
 	*/
@@ -174,8 +224,6 @@ public:
 		String _GODOT_method_name = String("_item_list_item_rmb_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT__item_list_rmb_clicked;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_item_list_rmb_clicked") = _GODOT__item_list_rmb_clicked;
 	/**
 	
 	*/
@@ -186,8 +234,6 @@ public:
 		String _GODOT_method_name = String("_item_list_rmb_clicked");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__item_menu_id_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_item_menu_id_pressed") = _GODOT__item_menu_id_pressed;
 	/**
 	
 	*/
@@ -198,8 +244,6 @@ public:
 		String _GODOT_method_name = String("_item_menu_id_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__item_db_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_item_db_selected") = _GODOT__item_db_selected;
 	/**
 	
 	*/
@@ -210,8 +254,6 @@ public:
 		String _GODOT_method_name = String("_item_db_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__dir_entered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_dir_entered") = _GODOT__dir_entered;
 	/**
 	
 	*/
@@ -222,8 +264,6 @@ public:
 		String _GODOT_method_name = String("_dir_entered");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__file_entered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_file_entered") = _GODOT__file_entered;
 	/**
 	
 	*/
@@ -234,8 +274,6 @@ public:
 		String _GODOT_method_name = String("_file_entered");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__action_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_action_pressed") = _GODOT__action_pressed;
 	/**
 	
 	*/
@@ -245,8 +283,6 @@ public:
 		String _GODOT_method_name = String("_action_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__cancel_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_cancel_pressed") = _GODOT__cancel_pressed;
 	/**
 	
 	*/
@@ -256,8 +292,6 @@ public:
 		String _GODOT_method_name = String("_cancel_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__filter_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_filter_selected") = _GODOT__filter_selected;
 	/**
 	
 	*/
@@ -268,8 +302,6 @@ public:
 		String _GODOT_method_name = String("_filter_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__save_confirm_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_save_confirm_pressed") = _GODOT__save_confirm_pressed;
 	/**
 	
 	*/
@@ -279,159 +311,127 @@ public:
 		String _GODOT_method_name = String("_save_confirm_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_filters;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_filters") = _GODOT_clear_filters;
 	/**
 	Removes all filters except for "All Files (*)".
 	*/
 	void clearFilters()
 	{
-		_GODOT_clear_filters.bind("EditorFileDialog", "clear_filters");
-		ptrcall!(void)(_GODOT_clear_filters, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearFilters, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_filter") = _GODOT_add_filter;
 	/**
 	Adds a comma-delimited file extension filter option to the `EditorFileDialog` with an optional semi-colon-delimited label.
 	Example: "*.tscn, *.scn; Scenes", results in filter text "Scenes (*.tscn, *.scn)".
 	*/
 	void addFilter(StringArg0)(in StringArg0 filter)
 	{
-		_GODOT_add_filter.bind("EditorFileDialog", "add_filter");
-		ptrcall!(void)(_GODOT_add_filter, _godot_object, filter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addFilter, _godot_object, filter);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_current_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_dir") = _GODOT_get_current_dir;
 	/**
 	
 	*/
 	String getCurrentDir() const
 	{
-		_GODOT_get_current_dir.bind("EditorFileDialog", "get_current_dir");
-		return ptrcall!(String)(_GODOT_get_current_dir, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCurrentDir, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_current_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_file") = _GODOT_get_current_file;
 	/**
 	
 	*/
 	String getCurrentFile() const
 	{
-		_GODOT_get_current_file.bind("EditorFileDialog", "get_current_file");
-		return ptrcall!(String)(_GODOT_get_current_file, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCurrentFile, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_current_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_path") = _GODOT_get_current_path;
 	/**
 	
 	*/
 	String getCurrentPath() const
 	{
-		_GODOT_get_current_path.bind("EditorFileDialog", "get_current_path");
-		return ptrcall!(String)(_GODOT_get_current_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCurrentPath, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_current_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_dir") = _GODOT_set_current_dir;
 	/**
 	
 	*/
 	void setCurrentDir(StringArg0)(in StringArg0 dir)
 	{
-		_GODOT_set_current_dir.bind("EditorFileDialog", "set_current_dir");
-		ptrcall!(void)(_GODOT_set_current_dir, _godot_object, dir);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentDir, _godot_object, dir);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_current_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_file") = _GODOT_set_current_file;
 	/**
 	
 	*/
 	void setCurrentFile(StringArg0)(in StringArg0 file)
 	{
-		_GODOT_set_current_file.bind("EditorFileDialog", "set_current_file");
-		ptrcall!(void)(_GODOT_set_current_file, _godot_object, file);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentFile, _godot_object, file);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_current_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_path") = _GODOT_set_current_path;
 	/**
 	
 	*/
 	void setCurrentPath(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_set_current_path.bind("EditorFileDialog", "set_current_path");
-		ptrcall!(void)(_GODOT_set_current_path, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentPath, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mode") = _GODOT_set_mode;
 	/**
 	
 	*/
 	void setMode(in long mode)
 	{
-		_GODOT_set_mode.bind("EditorFileDialog", "set_mode");
-		ptrcall!(void)(_GODOT_set_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(EditorFileDialog.Mode) _GODOT_get_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mode") = _GODOT_get_mode;
 	/**
 	
 	*/
 	EditorFileDialog.Mode getMode() const
 	{
-		_GODOT_get_mode.bind("EditorFileDialog", "get_mode");
-		return ptrcall!(EditorFileDialog.Mode)(_GODOT_get_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorFileDialog.Mode)(_classBinding.getMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(VBoxContainer) _GODOT_get_vbox;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vbox") = _GODOT_get_vbox;
 	/**
 	Returns the `VBoxContainer` used to display the file system.
 	*/
 	VBoxContainer getVbox()
 	{
-		_GODOT_get_vbox.bind("EditorFileDialog", "get_vbox");
-		return ptrcall!(VBoxContainer)(_GODOT_get_vbox, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VBoxContainer)(_classBinding.getVbox, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_access;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_access") = _GODOT_set_access;
 	/**
 	
 	*/
 	void setAccess(in long access)
 	{
-		_GODOT_set_access.bind("EditorFileDialog", "set_access");
-		ptrcall!(void)(_GODOT_set_access, _godot_object, access);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAccess, _godot_object, access);
 	}
-	package(godot) static GodotMethod!(EditorFileDialog.Access) _GODOT_get_access;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_access") = _GODOT_get_access;
 	/**
 	
 	*/
 	EditorFileDialog.Access getAccess() const
 	{
-		_GODOT_get_access.bind("EditorFileDialog", "get_access");
-		return ptrcall!(EditorFileDialog.Access)(_GODOT_get_access, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorFileDialog.Access)(_classBinding.getAccess, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_show_hidden_files;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_show_hidden_files") = _GODOT_set_show_hidden_files;
 	/**
 	
 	*/
 	void setShowHiddenFiles(in bool show)
 	{
-		_GODOT_set_show_hidden_files.bind("EditorFileDialog", "set_show_hidden_files");
-		ptrcall!(void)(_GODOT_set_show_hidden_files, _godot_object, show);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShowHiddenFiles, _godot_object, show);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_showing_hidden_files;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_showing_hidden_files") = _GODOT_is_showing_hidden_files;
 	/**
 	
 	*/
 	bool isShowingHiddenFiles() const
 	{
-		_GODOT_is_showing_hidden_files.bind("EditorFileDialog", "is_showing_hidden_files");
-		return ptrcall!(bool)(_GODOT_is_showing_hidden_files, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShowingHiddenFiles, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__select_drive;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_select_drive") = _GODOT__select_drive;
 	/**
 	
 	*/
@@ -442,8 +442,6 @@ public:
 		String _GODOT_method_name = String("_select_drive");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__make_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_make_dir") = _GODOT__make_dir;
 	/**
 	
 	*/
@@ -453,8 +451,6 @@ public:
 		String _GODOT_method_name = String("_make_dir");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__make_dir_confirm;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_make_dir_confirm") = _GODOT__make_dir_confirm;
 	/**
 	
 	*/
@@ -464,8 +460,6 @@ public:
 		String _GODOT_method_name = String("_make_dir_confirm");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_file_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_file_list") = _GODOT__update_file_list;
 	/**
 	
 	*/
@@ -475,8 +469,6 @@ public:
 		String _GODOT_method_name = String("_update_file_list");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_dir") = _GODOT__update_dir;
 	/**
 	
 	*/
@@ -486,76 +478,64 @@ public:
 		String _GODOT_method_name = String("_update_dir");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String, Texture, Variant) _GODOT__thumbnail_done;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_thumbnail_done") = _GODOT__thumbnail_done;
 	/**
 	
 	*/
-	void _thumbnailDone(StringArg0, VariantArg2)(in StringArg0 arg0, Texture arg1, in VariantArg2 arg2)
+	void _thumbnailDone(StringArg0, VariantArg3)(in StringArg0 arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
 		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
 		String _GODOT_method_name = String("_thumbnail_done");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_display_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_display_mode") = _GODOT_set_display_mode;
 	/**
 	
 	*/
 	void setDisplayMode(in long mode)
 	{
-		_GODOT_set_display_mode.bind("EditorFileDialog", "set_display_mode");
-		ptrcall!(void)(_GODOT_set_display_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisplayMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(EditorFileDialog.DisplayMode) _GODOT_get_display_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_display_mode") = _GODOT_get_display_mode;
 	/**
 	
 	*/
 	EditorFileDialog.DisplayMode getDisplayMode() const
 	{
-		_GODOT_get_display_mode.bind("EditorFileDialog", "get_display_mode");
-		return ptrcall!(EditorFileDialog.DisplayMode)(_GODOT_get_display_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorFileDialog.DisplayMode)(_classBinding.getDisplayMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Texture, Variant) _GODOT__thumbnail_result;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_thumbnail_result") = _GODOT__thumbnail_result;
 	/**
 	
 	*/
-	void _thumbnailResult(StringArg0, VariantArg2)(in StringArg0 arg0, Texture arg1, in VariantArg2 arg2)
+	void _thumbnailResult(StringArg0, VariantArg3)(in StringArg0 arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
 		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
 		String _GODOT_method_name = String("_thumbnail_result");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_disable_overwrite_warning;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_disable_overwrite_warning") = _GODOT_set_disable_overwrite_warning;
 	/**
 	
 	*/
 	void setDisableOverwriteWarning(in bool disable)
 	{
-		_GODOT_set_disable_overwrite_warning.bind("EditorFileDialog", "set_disable_overwrite_warning");
-		ptrcall!(void)(_GODOT_set_disable_overwrite_warning, _godot_object, disable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisableOverwriteWarning, _godot_object, disable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_overwrite_warning_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_overwrite_warning_disabled") = _GODOT_is_overwrite_warning_disabled;
 	/**
 	
 	*/
 	bool isOverwriteWarningDisabled() const
 	{
-		_GODOT_is_overwrite_warning_disabled.bind("EditorFileDialog", "is_overwrite_warning_disabled");
-		return ptrcall!(bool)(_GODOT_is_overwrite_warning_disabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverwriteWarningDisabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__recent_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_recent_selected") = _GODOT__recent_selected;
 	/**
 	
 	*/
@@ -566,8 +546,6 @@ public:
 		String _GODOT_method_name = String("_recent_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__go_back;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_go_back") = _GODOT__go_back;
 	/**
 	
 	*/
@@ -577,8 +555,6 @@ public:
 		String _GODOT_method_name = String("_go_back");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__go_forward;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_go_forward") = _GODOT__go_forward;
 	/**
 	
 	*/
@@ -588,8 +564,6 @@ public:
 		String _GODOT_method_name = String("_go_forward");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__go_up;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_go_up") = _GODOT__go_up;
 	/**
 	
 	*/
@@ -599,8 +573,6 @@ public:
 		String _GODOT_method_name = String("_go_up");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT__favorite_toggled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_favorite_toggled") = _GODOT__favorite_toggled;
 	/**
 	
 	*/
@@ -611,8 +583,6 @@ public:
 		String _GODOT_method_name = String("_favorite_toggled");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__favorite_selected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_favorite_selected") = _GODOT__favorite_selected;
 	/**
 	
 	*/
@@ -623,8 +593,6 @@ public:
 		String _GODOT_method_name = String("_favorite_selected");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__favorite_move_up;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_favorite_move_up") = _GODOT__favorite_move_up;
 	/**
 	
 	*/
@@ -634,8 +602,6 @@ public:
 		String _GODOT_method_name = String("_favorite_move_up");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__favorite_move_down;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_favorite_move_down") = _GODOT__favorite_move_down;
 	/**
 	
 	*/
@@ -645,15 +611,13 @@ public:
 		String _GODOT_method_name = String("_favorite_move_down");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_invalidate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "invalidate") = _GODOT_invalidate;
 	/**
 	Notify the `EditorFileDialog` that its view of the data is no longer accurate. Updates the view contents on next view update.
 	*/
 	void invalidate()
 	{
-		_GODOT_invalidate.bind("EditorFileDialog", "invalidate");
-		ptrcall!(void)(_GODOT_invalidate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.invalidate, _godot_object);
 	}
 	/**
 	The location from which the user may select a file, including `res://`, `user://`, and the local file system.

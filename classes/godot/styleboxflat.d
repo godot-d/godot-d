@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.stylebox;
+import godot.resource;
+import godot.reference;
 /**
 Customizable Stylebox with a given set of parameters. (no texture required)
 
@@ -48,12 +50,47 @@ This stylebox can be used to achieve all kinds of looks without the need of a te
 */
 @GodotBaseClass struct StyleBoxFlat
 {
-	static immutable string _GODOT_internal_name = "StyleBoxFlat";
+	enum string _GODOT_internal_name = "StyleBoxFlat";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; StyleBox _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_bg_color") GodotMethod!(void, Color) setBgColor;
+		@GodotName("get_bg_color") GodotMethod!(Color) getBgColor;
+		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
+		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
+		@GodotName("set_border_width_all") GodotMethod!(void, long) setBorderWidthAll;
+		@GodotName("get_border_width_min") GodotMethod!(long) getBorderWidthMin;
+		@GodotName("set_border_width") GodotMethod!(void, long, long) setBorderWidth;
+		@GodotName("get_border_width") GodotMethod!(long, long) getBorderWidth;
+		@GodotName("set_border_blend") GodotMethod!(void, bool) setBorderBlend;
+		@GodotName("get_border_blend") GodotMethod!(bool) getBorderBlend;
+		@GodotName("set_corner_radius_individual") GodotMethod!(void, long, long, long, long) setCornerRadiusIndividual;
+		@GodotName("set_corner_radius_all") GodotMethod!(void, long) setCornerRadiusAll;
+		@GodotName("set_corner_radius") GodotMethod!(void, long, long) setCornerRadius;
+		@GodotName("get_corner_radius") GodotMethod!(long, long) getCornerRadius;
+		@GodotName("set_expand_margin") GodotMethod!(void, long, double) setExpandMargin;
+		@GodotName("set_expand_margin_all") GodotMethod!(void, double) setExpandMarginAll;
+		@GodotName("set_expand_margin_individual") GodotMethod!(void, double, double, double, double) setExpandMarginIndividual;
+		@GodotName("get_expand_margin") GodotMethod!(double, long) getExpandMargin;
+		@GodotName("set_draw_center") GodotMethod!(void, bool) setDrawCenter;
+		@GodotName("is_draw_center_enabled") GodotMethod!(bool) isDrawCenterEnabled;
+		@GodotName("set_shadow_color") GodotMethod!(void, Color) setShadowColor;
+		@GodotName("get_shadow_color") GodotMethod!(Color) getShadowColor;
+		@GodotName("set_shadow_size") GodotMethod!(void, long) setShadowSize;
+		@GodotName("get_shadow_size") GodotMethod!(long) getShadowSize;
+		@GodotName("set_anti_aliased") GodotMethod!(void, bool) setAntiAliased;
+		@GodotName("is_anti_aliased") GodotMethod!(bool) isAntiAliased;
+		@GodotName("set_aa_size") GodotMethod!(void, long) setAaSize;
+		@GodotName("get_aa_size") GodotMethod!(long) getAaSize;
+		@GodotName("set_corner_detail") GodotMethod!(void, long) setCornerDetail;
+		@GodotName("get_corner_detail") GodotMethod!(long) getCornerDetail;
+	}
 	bool opEquals(in StyleBoxFlat other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StyleBoxFlat opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -66,305 +103,245 @@ public:
 		return cast(StyleBoxFlat)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_bg_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bg_color") = _GODOT_set_bg_color;
 	/**
 	
 	*/
 	void setBgColor(in Color color)
 	{
-		_GODOT_set_bg_color.bind("StyleBoxFlat", "set_bg_color");
-		ptrcall!(void)(_GODOT_set_bg_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_bg_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bg_color") = _GODOT_get_bg_color;
 	/**
 	
 	*/
 	Color getBgColor() const
 	{
-		_GODOT_get_bg_color.bind("StyleBoxFlat", "get_bg_color");
-		return ptrcall!(Color)(_GODOT_get_bg_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getBgColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_border_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_border_color") = _GODOT_set_border_color;
 	/**
 	
 	*/
 	void setBorderColor(in Color color)
 	{
-		_GODOT_set_border_color.bind("StyleBoxFlat", "set_border_color");
-		ptrcall!(void)(_GODOT_set_border_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_border_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_border_color") = _GODOT_get_border_color;
 	/**
 	
 	*/
 	Color getBorderColor() const
 	{
-		_GODOT_get_border_color.bind("StyleBoxFlat", "get_border_color");
-		return ptrcall!(Color)(_GODOT_get_border_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getBorderColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_border_width_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_border_width_all") = _GODOT_set_border_width_all;
 	/**
 	
 	*/
 	void setBorderWidthAll(in long width)
 	{
-		_GODOT_set_border_width_all.bind("StyleBoxFlat", "set_border_width_all");
-		ptrcall!(void)(_GODOT_set_border_width_all, _godot_object, width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderWidthAll, _godot_object, width);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_border_width_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_border_width_min") = _GODOT_get_border_width_min;
 	/**
 	
 	*/
 	long getBorderWidthMin() const
 	{
-		_GODOT_get_border_width_min.bind("StyleBoxFlat", "get_border_width_min");
-		return ptrcall!(long)(_GODOT_get_border_width_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBorderWidthMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_border_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_border_width") = _GODOT_set_border_width;
 	/**
 	
 	*/
 	void setBorderWidth(in long margin, in long width)
 	{
-		_GODOT_set_border_width.bind("StyleBoxFlat", "set_border_width");
-		ptrcall!(void)(_GODOT_set_border_width, _godot_object, margin, width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderWidth, _godot_object, margin, width);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_border_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_border_width") = _GODOT_get_border_width;
 	/**
 	
 	*/
 	long getBorderWidth(in long margin) const
 	{
-		_GODOT_get_border_width.bind("StyleBoxFlat", "get_border_width");
-		return ptrcall!(long)(_GODOT_get_border_width, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBorderWidth, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_border_blend;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_border_blend") = _GODOT_set_border_blend;
 	/**
 	
 	*/
 	void setBorderBlend(in bool blend)
 	{
-		_GODOT_set_border_blend.bind("StyleBoxFlat", "set_border_blend");
-		ptrcall!(void)(_GODOT_set_border_blend, _godot_object, blend);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderBlend, _godot_object, blend);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_border_blend;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_border_blend") = _GODOT_get_border_blend;
 	/**
 	
 	*/
 	bool getBorderBlend() const
 	{
-		_GODOT_get_border_blend.bind("StyleBoxFlat", "get_border_blend");
-		return ptrcall!(bool)(_GODOT_get_border_blend, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getBorderBlend, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long, long, long) _GODOT_set_corner_radius_individual;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_corner_radius_individual") = _GODOT_set_corner_radius_individual;
 	/**
 	
 	*/
 	void setCornerRadiusIndividual(in long radius_top_left, in long radius_top_right, in long radius_bottom_right, in long radius_bottom_left)
 	{
-		_GODOT_set_corner_radius_individual.bind("StyleBoxFlat", "set_corner_radius_individual");
-		ptrcall!(void)(_GODOT_set_corner_radius_individual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerRadiusIndividual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_corner_radius_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_corner_radius_all") = _GODOT_set_corner_radius_all;
 	/**
 	
 	*/
 	void setCornerRadiusAll(in long radius)
 	{
-		_GODOT_set_corner_radius_all.bind("StyleBoxFlat", "set_corner_radius_all");
-		ptrcall!(void)(_GODOT_set_corner_radius_all, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerRadiusAll, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_corner_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_corner_radius") = _GODOT_set_corner_radius;
 	/**
 	
 	*/
 	void setCornerRadius(in long corner, in long radius)
 	{
-		_GODOT_set_corner_radius.bind("StyleBoxFlat", "set_corner_radius");
-		ptrcall!(void)(_GODOT_set_corner_radius, _godot_object, corner, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerRadius, _godot_object, corner, radius);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_corner_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_corner_radius") = _GODOT_get_corner_radius;
 	/**
 	
 	*/
 	long getCornerRadius(in long corner) const
 	{
-		_GODOT_get_corner_radius.bind("StyleBoxFlat", "get_corner_radius");
-		return ptrcall!(long)(_GODOT_get_corner_radius, _godot_object, corner);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCornerRadius, _godot_object, corner);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_expand_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin") = _GODOT_set_expand_margin;
 	/**
 	
 	*/
 	void setExpandMargin(in long margin, in double size)
 	{
-		_GODOT_set_expand_margin.bind("StyleBoxFlat", "set_expand_margin");
-		ptrcall!(void)(_GODOT_set_expand_margin, _godot_object, margin, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMargin, _godot_object, margin, size);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_expand_margin_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin_all") = _GODOT_set_expand_margin_all;
 	/**
 	
 	*/
 	void setExpandMarginAll(in double size)
 	{
-		_GODOT_set_expand_margin_all.bind("StyleBoxFlat", "set_expand_margin_all");
-		ptrcall!(void)(_GODOT_set_expand_margin_all, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, double, double, double, double) _GODOT_set_expand_margin_individual;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin_individual") = _GODOT_set_expand_margin_individual;
 	/**
 	
 	*/
 	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
 	{
-		_GODOT_set_expand_margin_individual.bind("StyleBoxFlat", "set_expand_margin_individual");
-		ptrcall!(void)(_GODOT_set_expand_margin_individual, _godot_object, size_left, size_top, size_right, size_bottom);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_expand_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_expand_margin") = _GODOT_get_expand_margin;
 	/**
 	
 	*/
 	double getExpandMargin(in long margin) const
 	{
-		_GODOT_get_expand_margin.bind("StyleBoxFlat", "get_expand_margin");
-		return ptrcall!(double)(_GODOT_get_expand_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getExpandMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_draw_center;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_center") = _GODOT_set_draw_center;
 	/**
 	
 	*/
 	void setDrawCenter(in bool draw_center)
 	{
-		_GODOT_set_draw_center.bind("StyleBoxFlat", "set_draw_center");
-		ptrcall!(void)(_GODOT_set_draw_center, _godot_object, draw_center);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_draw_center_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_draw_center_enabled") = _GODOT_is_draw_center_enabled;
 	/**
 	
 	*/
 	bool isDrawCenterEnabled() const
 	{
-		_GODOT_is_draw_center_enabled.bind("StyleBoxFlat", "is_draw_center_enabled");
-		return ptrcall!(bool)(_GODOT_is_draw_center_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_color") = _GODOT_set_shadow_color;
 	/**
 	
 	*/
 	void setShadowColor(in Color color)
 	{
-		_GODOT_set_shadow_color.bind("StyleBoxFlat", "set_shadow_color");
-		ptrcall!(void)(_GODOT_set_shadow_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_color") = _GODOT_get_shadow_color;
 	/**
 	
 	*/
 	Color getShadowColor() const
 	{
-		_GODOT_get_shadow_color.bind("StyleBoxFlat", "get_shadow_color");
-		return ptrcall!(Color)(_GODOT_get_shadow_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_size") = _GODOT_set_shadow_size;
 	/**
 	
 	*/
 	void setShadowSize(in long size)
 	{
-		_GODOT_set_shadow_size.bind("StyleBoxFlat", "set_shadow_size");
-		ptrcall!(void)(_GODOT_set_shadow_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_shadow_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_size") = _GODOT_get_shadow_size;
 	/**
 	
 	*/
 	long getShadowSize() const
 	{
-		_GODOT_get_shadow_size.bind("StyleBoxFlat", "get_shadow_size");
-		return ptrcall!(long)(_GODOT_get_shadow_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getShadowSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_anti_aliased;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anti_aliased") = _GODOT_set_anti_aliased;
 	/**
 	
 	*/
 	void setAntiAliased(in bool anti_aliased)
 	{
-		_GODOT_set_anti_aliased.bind("StyleBoxFlat", "set_anti_aliased");
-		ptrcall!(void)(_GODOT_set_anti_aliased, _godot_object, anti_aliased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAntiAliased, _godot_object, anti_aliased);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_anti_aliased;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_anti_aliased") = _GODOT_is_anti_aliased;
 	/**
 	
 	*/
 	bool isAntiAliased() const
 	{
-		_GODOT_is_anti_aliased.bind("StyleBoxFlat", "is_anti_aliased");
-		return ptrcall!(bool)(_GODOT_is_anti_aliased, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAntiAliased, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_aa_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_aa_size") = _GODOT_set_aa_size;
 	/**
 	
 	*/
 	void setAaSize(in long size)
 	{
-		_GODOT_set_aa_size.bind("StyleBoxFlat", "set_aa_size");
-		ptrcall!(void)(_GODOT_set_aa_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAaSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_aa_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_aa_size") = _GODOT_get_aa_size;
 	/**
 	
 	*/
 	long getAaSize() const
 	{
-		_GODOT_get_aa_size.bind("StyleBoxFlat", "get_aa_size");
-		return ptrcall!(long)(_GODOT_get_aa_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAaSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_corner_detail;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_corner_detail") = _GODOT_set_corner_detail;
 	/**
 	
 	*/
 	void setCornerDetail(in long detail)
 	{
-		_GODOT_set_corner_detail.bind("StyleBoxFlat", "set_corner_detail");
-		ptrcall!(void)(_GODOT_set_corner_detail, _godot_object, detail);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerDetail, _godot_object, detail);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_corner_detail;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_corner_detail") = _GODOT_get_corner_detail;
 	/**
 	
 	*/
 	long getCornerDetail() const
 	{
-		_GODOT_get_corner_detail.bind("StyleBoxFlat", "get_corner_detail");
-		return ptrcall!(long)(_GODOT_get_corner_detail, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCornerDetail, _godot_object);
 	}
 	/**
 	The background color of the stylebox.

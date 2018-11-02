@@ -23,29 +23,54 @@ import godot.classdb;
 import godot.resource;
 import godot.node;
 import godot.scenestate;
+import godot.reference;
 /**
 An abstraction of a serialized scene.
 
 A simplified interface to a scene file. Provides access to operations and checks that can be performed on the scene resource itself.
 Can be used to save a node to a file. When saving, the node as well as all the node it owns get saved (see `owner` property on $(D Node)). Note that the node doesn't need to own itself.
-Example of saving a node:
+Example of saving a node with different owners: The following example creates 3 objects: `Node2D` (`node`), `RigidBody2D` (`rigid`) and `CollisionObject2D` (`collision`). `collision` is a child of `rigid` which is a child of `node`. Only `rigid` is owned by `node` and `pack` will therefore only save those two nodes, but not `collision`.
 
+
+# create the objects
+var node = Node2D.new()
+var rigid = RigidBody2D.new()
+var collision = CollisionShape2D.new()
+
+# create the object hierachy
+rigid.add_child(collision)
+node.add_child(rigid)
+
+# change owner of rigid, but not of collision
+rigid.set_owner(node)
 
 var scene = PackedScene.new()
-var result = scene.pack(child)
+# only node and rigid are now packed
+var result = scene.pack(node)
 if result == OK:
-    ResourceSaver.save("res://path/name.scn", scene) // or user://...
+    ResourceSaver.save("res://path/name.scn", scene) # or user://...
 
 
 */
 @GodotBaseClass struct PackedScene
 {
-	static immutable string _GODOT_internal_name = "PackedScene";
+	enum string _GODOT_internal_name = "PackedScene";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("pack") GodotMethod!(GodotError, GodotObject) pack;
+		@GodotName("instance") GodotMethod!(Node, long) instance;
+		@GodotName("can_instance") GodotMethod!(bool) canInstance;
+		@GodotName("_set_bundled_scene") GodotMethod!(void, Dictionary) _setBundledScene;
+		@GodotName("_get_bundled_scene") GodotMethod!(Dictionary) _getBundledScene;
+		@GodotName("get_state") GodotMethod!(SceneState) getState;
+	}
 	bool opEquals(in PackedScene other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PackedScene opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -81,38 +106,30 @@ public:
 		genEditStateInstance = 1,
 		genEditStateMain = 2,
 	}
-	package(godot) static GodotMethod!(GodotError, GodotObject) _GODOT_pack;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pack") = _GODOT_pack;
 	/**
 	Pack will ignore any sub-nodes not owned by given node. See $(D Node.setOwner).
 	*/
 	GodotError pack(GodotObject path)
 	{
-		_GODOT_pack.bind("PackedScene", "pack");
-		return ptrcall!(GodotError)(_GODOT_pack, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(Node, long) _GODOT_instance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance") = _GODOT_instance;
 	/**
-	Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers the $(D GodotObject.notificationInstanced) notification on the root node.
+	Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers $(D Node)'s `NOTIFICATION_INSTANCED` notification on the root node.
 	*/
 	Node instance(in long edit_state = 0) const
 	{
-		_GODOT_instance.bind("PackedScene", "instance");
-		return ptrcall!(Node)(_GODOT_instance, _godot_object, edit_state);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.instance, _godot_object, edit_state);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_can_instance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "can_instance") = _GODOT_can_instance;
 	/**
 	Returns `true` if the scene file has nodes.
 	*/
 	bool canInstance() const
 	{
-		_GODOT_can_instance.bind("PackedScene", "can_instance");
-		return ptrcall!(bool)(_GODOT_can_instance, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.canInstance, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__set_bundled_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_bundled_scene") = _GODOT__set_bundled_scene;
 	/**
 	
 	*/
@@ -123,8 +140,6 @@ public:
 		String _GODOT_method_name = String("_set_bundled_scene");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__get_bundled_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_bundled_scene") = _GODOT__get_bundled_scene;
 	/**
 	
 	*/
@@ -134,15 +149,13 @@ public:
 		String _GODOT_method_name = String("_get_bundled_scene");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
-	package(godot) static GodotMethod!(SceneState) _GODOT_get_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_state") = _GODOT_get_state;
 	/**
 	Returns the `SceneState` representing the scene file contents.
 	*/
 	Ref!SceneState getState()
 	{
-		_GODOT_get_state.bind("PackedScene", "get_state");
-		return ptrcall!(SceneState)(_GODOT_get_state, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(SceneState)(_classBinding.getState, _godot_object);
 	}
 	/**
 	A dictionary representation of the scene contents.

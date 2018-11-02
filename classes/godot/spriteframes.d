@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.texture;
+import godot.reference;
 /**
 Sprite frame library for AnimatedSprite.
 
@@ -29,12 +30,37 @@ Sprite frame library for $(D AnimatedSprite). Contains frames and animation data
 */
 @GodotBaseClass struct SpriteFrames
 {
-	static immutable string _GODOT_internal_name = "SpriteFrames";
+	enum string _GODOT_internal_name = "SpriteFrames";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_animation") GodotMethod!(void, String) addAnimation;
+		@GodotName("has_animation") GodotMethod!(bool, String) hasAnimation;
+		@GodotName("remove_animation") GodotMethod!(void, String) removeAnimation;
+		@GodotName("rename_animation") GodotMethod!(void, String, String) renameAnimation;
+		@GodotName("get_animation_names") GodotMethod!(PoolStringArray) getAnimationNames;
+		@GodotName("set_animation_speed") GodotMethod!(void, String, double) setAnimationSpeed;
+		@GodotName("get_animation_speed") GodotMethod!(double, String) getAnimationSpeed;
+		@GodotName("set_animation_loop") GodotMethod!(void, String, bool) setAnimationLoop;
+		@GodotName("get_animation_loop") GodotMethod!(bool, String) getAnimationLoop;
+		@GodotName("add_frame") GodotMethod!(void, String, Texture, long) addFrame;
+		@GodotName("get_frame_count") GodotMethod!(long, String) getFrameCount;
+		@GodotName("get_frame") GodotMethod!(Texture, String, long) getFrame;
+		@GodotName("set_frame") GodotMethod!(void, String, long, Texture) setFrame;
+		@GodotName("remove_frame") GodotMethod!(void, String, long) removeFrame;
+		@GodotName("clear") GodotMethod!(void, String) clear;
+		@GodotName("clear_all") GodotMethod!(void) clearAll;
+		@GodotName("_set_frames") GodotMethod!(void, Array) _setFrames;
+		@GodotName("_get_frames") GodotMethod!(Array) _getFrames;
+		@GodotName("_set_animations") GodotMethod!(void, Array) _setAnimations;
+		@GodotName("_get_animations") GodotMethod!(Array) _getAnimations;
+	}
 	bool opEquals(in SpriteFrames other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SpriteFrames opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,158 +73,134 @@ public:
 		return cast(SpriteFrames)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String) _GODOT_add_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_animation") = _GODOT_add_animation;
 	/**
 	Adds a new animation to the library.
 	*/
 	void addAnimation(StringArg0)(in StringArg0 anim)
 	{
-		_GODOT_add_animation.bind("SpriteFrames", "add_animation");
-		ptrcall!(void)(_GODOT_add_animation, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addAnimation, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_animation") = _GODOT_has_animation;
 	/**
 	If `true` the named animation exists.
 	*/
 	bool hasAnimation(StringArg0)(in StringArg0 anim) const
 	{
-		_GODOT_has_animation.bind("SpriteFrames", "has_animation");
-		return ptrcall!(bool)(_GODOT_has_animation, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_animation") = _GODOT_remove_animation;
 	/**
 	Removes the given animation.
 	*/
 	void removeAnimation(StringArg0)(in StringArg0 anim)
 	{
-		_GODOT_remove_animation.bind("SpriteFrames", "remove_animation");
-		ptrcall!(void)(_GODOT_remove_animation, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_rename_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "rename_animation") = _GODOT_rename_animation;
 	/**
 	Changes the animation's name to `newname`.
 	*/
 	void renameAnimation(StringArg0, StringArg1)(in StringArg0 anim, in StringArg1 newname)
 	{
-		_GODOT_rename_animation.bind("SpriteFrames", "rename_animation");
-		ptrcall!(void)(_GODOT_rename_animation, _godot_object, anim, newname);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, anim, newname);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_set_animation_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_animation_speed") = _GODOT_set_animation_speed;
+	/**
+	Returns an array containing the names associated to each animation. Values are placed in alphabetical order.
+	*/
+	PoolStringArray getAnimationNames() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getAnimationNames, _godot_object);
+	}
 	/**
 	The animation's speed in frames per second.
 	*/
 	void setAnimationSpeed(StringArg0)(in StringArg0 anim, in double speed)
 	{
-		_GODOT_set_animation_speed.bind("SpriteFrames", "set_animation_speed");
-		ptrcall!(void)(_GODOT_set_animation_speed, _godot_object, anim, speed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimationSpeed, _godot_object, anim, speed);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_get_animation_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation_speed") = _GODOT_get_animation_speed;
 	/**
 	The animation's speed in frames per second.
 	*/
 	double getAnimationSpeed(StringArg0)(in StringArg0 anim) const
 	{
-		_GODOT_get_animation_speed.bind("SpriteFrames", "get_animation_speed");
-		return ptrcall!(double)(_GODOT_get_animation_speed, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAnimationSpeed, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void, String, bool) _GODOT_set_animation_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_animation_loop") = _GODOT_set_animation_loop;
 	/**
 	If `true` the animation will loop.
 	*/
 	void setAnimationLoop(StringArg0)(in StringArg0 anim, in bool loop)
 	{
-		_GODOT_set_animation_loop.bind("SpriteFrames", "set_animation_loop");
-		ptrcall!(void)(_GODOT_set_animation_loop, _godot_object, anim, loop);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimationLoop, _godot_object, anim, loop);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_get_animation_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation_loop") = _GODOT_get_animation_loop;
 	/**
 	If `true` the given animation will loop.
 	*/
 	bool getAnimationLoop(StringArg0)(in StringArg0 anim) const
 	{
-		_GODOT_get_animation_loop.bind("SpriteFrames", "get_animation_loop");
-		return ptrcall!(bool)(_GODOT_get_animation_loop, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getAnimationLoop, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void, String, Texture, long) _GODOT_add_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_frame") = _GODOT_add_frame;
 	/**
 	Adds a frame to the given animation.
 	*/
 	void addFrame(StringArg0)(in StringArg0 anim, Texture frame, in long at_position = -1)
 	{
-		_GODOT_add_frame.bind("SpriteFrames", "add_frame");
-		ptrcall!(void)(_GODOT_add_frame, _godot_object, anim, frame, at_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addFrame, _godot_object, anim, frame, at_position);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_get_frame_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame_count") = _GODOT_get_frame_count;
 	/**
 	Returns the number of frames in the animation.
 	*/
 	long getFrameCount(StringArg0)(in StringArg0 anim) const
 	{
-		_GODOT_get_frame_count.bind("SpriteFrames", "get_frame_count");
-		return ptrcall!(long)(_GODOT_get_frame_count, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFrameCount, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(Texture, String, long) _GODOT_get_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame") = _GODOT_get_frame;
 	/**
 	Returns the animation's selected frame.
 	*/
 	Ref!Texture getFrame(StringArg0)(in StringArg0 anim, in long idx) const
 	{
-		_GODOT_get_frame.bind("SpriteFrames", "get_frame");
-		return ptrcall!(Texture)(_GODOT_get_frame, _godot_object, anim, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getFrame, _godot_object, anim, idx);
 	}
-	package(godot) static GodotMethod!(void, String, long, Texture) _GODOT_set_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_frame") = _GODOT_set_frame;
 	/**
 	Sets the texture of the given frame.
 	*/
 	void setFrame(StringArg0)(in StringArg0 anim, in long idx, Texture txt)
 	{
-		_GODOT_set_frame.bind("SpriteFrames", "set_frame");
-		ptrcall!(void)(_GODOT_set_frame, _godot_object, anim, idx, txt);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrame, _godot_object, anim, idx, txt);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_remove_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_frame") = _GODOT_remove_frame;
 	/**
 	Removes the animation's selected frame.
 	*/
 	void removeFrame(StringArg0)(in StringArg0 anim, in long idx)
 	{
-		_GODOT_remove_frame.bind("SpriteFrames", "remove_frame");
-		ptrcall!(void)(_GODOT_remove_frame, _godot_object, anim, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeFrame, _godot_object, anim, idx);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Removes all frames from the given animation.
 	*/
 	void clear(StringArg0)(in StringArg0 anim)
 	{
-		_GODOT_clear.bind("SpriteFrames", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_all") = _GODOT_clear_all;
 	/**
 	Removes all animations. A "default" animation will be created.
 	*/
 	void clearAll()
 	{
-		_GODOT_clear_all.bind("SpriteFrames", "clear_all");
-		ptrcall!(void)(_GODOT_clear_all, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearAll, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_frames;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_frames") = _GODOT__set_frames;
 	/**
 	
 	*/
@@ -209,8 +211,6 @@ public:
 		String _GODOT_method_name = String("_set_frames");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_frames;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_frames") = _GODOT__get_frames;
 	/**
 	
 	*/
@@ -220,8 +220,6 @@ public:
 		String _GODOT_method_name = String("_get_frames");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_animations;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_animations") = _GODOT__set_animations;
 	/**
 	
 	*/
@@ -232,8 +230,6 @@ public:
 		String _GODOT_method_name = String("_set_animations");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_animations;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_animations") = _GODOT__get_animations;
 	/**
 	
 	*/

@@ -22,6 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.range;
 import godot.texture;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Texture-based progress bar. Useful for loading screens and life or stamina bars.
 
@@ -29,12 +32,41 @@ TextureProgress works like $(D ProgressBar) but it uses up to 3 textures instead
 */
 @GodotBaseClass struct TextureProgress
 {
-	static immutable string _GODOT_internal_name = "TextureProgress";
+	enum string _GODOT_internal_name = "TextureProgress";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_under_texture") GodotMethod!(void, Texture) setUnderTexture;
+		@GodotName("get_under_texture") GodotMethod!(Texture) getUnderTexture;
+		@GodotName("set_progress_texture") GodotMethod!(void, Texture) setProgressTexture;
+		@GodotName("get_progress_texture") GodotMethod!(Texture) getProgressTexture;
+		@GodotName("set_over_texture") GodotMethod!(void, Texture) setOverTexture;
+		@GodotName("get_over_texture") GodotMethod!(Texture) getOverTexture;
+		@GodotName("set_fill_mode") GodotMethod!(void, long) setFillMode;
+		@GodotName("get_fill_mode") GodotMethod!(long) getFillMode;
+		@GodotName("set_tint_under") GodotMethod!(void, Color) setTintUnder;
+		@GodotName("get_tint_under") GodotMethod!(Color) getTintUnder;
+		@GodotName("set_tint_progress") GodotMethod!(void, Color) setTintProgress;
+		@GodotName("get_tint_progress") GodotMethod!(Color) getTintProgress;
+		@GodotName("set_tint_over") GodotMethod!(void, Color) setTintOver;
+		@GodotName("get_tint_over") GodotMethod!(Color) getTintOver;
+		@GodotName("set_radial_initial_angle") GodotMethod!(void, double) setRadialInitialAngle;
+		@GodotName("get_radial_initial_angle") GodotMethod!(double) getRadialInitialAngle;
+		@GodotName("set_radial_center_offset") GodotMethod!(void, Vector2) setRadialCenterOffset;
+		@GodotName("get_radial_center_offset") GodotMethod!(Vector2) getRadialCenterOffset;
+		@GodotName("set_fill_degrees") GodotMethod!(void, double) setFillDegrees;
+		@GodotName("get_fill_degrees") GodotMethod!(double) getFillDegrees;
+		@GodotName("set_stretch_margin") GodotMethod!(void, long, long) setStretchMargin;
+		@GodotName("get_stretch_margin") GodotMethod!(long, long) getStretchMargin;
+		@GodotName("set_nine_patch_stretch") GodotMethod!(void, bool) setNinePatchStretch;
+		@GodotName("get_nine_patch_stretch") GodotMethod!(bool) getNinePatchStretch;
+	}
 	bool opEquals(in TextureProgress other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextureProgress opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -67,13 +99,25 @@ public:
 		*/
 		fillBottomToTop = 3,
 		/**
-		Turns the node into a radial bar. The $(D textureProgress) fills clockwise. See $(D radialCenterOffset), $(D radialInitialAngle) and $(D radialFillDegrees) to refine its behavior.
+		Turns the node into a radial bar. The $(D textureProgress) fills clockwise. See $(D radialCenterOffset), $(D radialInitialAngle) and $(D radialFillDegrees) to control the way the bar fills up.
 		*/
 		fillClockwise = 4,
 		/**
-		Turns the node into a radial bar. The $(D textureProgress) fills counter-clockwise. See $(D radialCenterOffset), $(D radialInitialAngle) and $(D radialFillDegrees) to refine its behavior.
+		Turns the node into a radial bar. The $(D textureProgress) fills counter-clockwise. See $(D radialCenterOffset), $(D radialInitialAngle) and $(D radialFillDegrees) to control the way the bar fills up.
 		*/
 		fillCounterClockwise = 5,
+		/**
+		The $(D textureProgress) fills from the center, expanding both towards the left and the right.
+		*/
+		fillBilinearLeftAndRight = 6,
+		/**
+		The $(D textureProgress) fills from the center, expanding both towards the top and the bottom.
+		*/
+		fillBilinearTopAndBottom = 7,
+		/**
+		Turns the node into a radial bar. The $(D textureProgress) fills radially from the center, expanding both clockwise and counter-clockwise. See $(D radialCenterOffset), $(D radialInitialAngle) and $(D radialFillDegrees) to control the way the bar fills up.
+		*/
+		fillClockwiseAndCounterClockwise = 8,
 	}
 	/// 
 	enum Constants : int
@@ -84,186 +128,201 @@ public:
 		fillBottomToTop = 3,
 		fillClockwise = 4,
 		fillCounterClockwise = 5,
+		fillBilinearLeftAndRight = 6,
+		fillBilinearTopAndBottom = 7,
+		fillClockwiseAndCounterClockwise = 8,
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_under_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_under_texture") = _GODOT_set_under_texture;
 	/**
 	
 	*/
 	void setUnderTexture(Texture tex)
 	{
-		_GODOT_set_under_texture.bind("TextureProgress", "set_under_texture");
-		ptrcall!(void)(_GODOT_set_under_texture, _godot_object, tex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUnderTexture, _godot_object, tex);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_under_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_under_texture") = _GODOT_get_under_texture;
 	/**
 	
 	*/
 	Ref!Texture getUnderTexture() const
 	{
-		_GODOT_get_under_texture.bind("TextureProgress", "get_under_texture");
-		return ptrcall!(Texture)(_GODOT_get_under_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getUnderTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_progress_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_progress_texture") = _GODOT_set_progress_texture;
 	/**
 	
 	*/
 	void setProgressTexture(Texture tex)
 	{
-		_GODOT_set_progress_texture.bind("TextureProgress", "set_progress_texture");
-		ptrcall!(void)(_GODOT_set_progress_texture, _godot_object, tex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProgressTexture, _godot_object, tex);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_progress_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_progress_texture") = _GODOT_get_progress_texture;
 	/**
 	
 	*/
 	Ref!Texture getProgressTexture() const
 	{
-		_GODOT_get_progress_texture.bind("TextureProgress", "get_progress_texture");
-		return ptrcall!(Texture)(_GODOT_get_progress_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getProgressTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_over_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_over_texture") = _GODOT_set_over_texture;
 	/**
 	
 	*/
 	void setOverTexture(Texture tex)
 	{
-		_GODOT_set_over_texture.bind("TextureProgress", "set_over_texture");
-		ptrcall!(void)(_GODOT_set_over_texture, _godot_object, tex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOverTexture, _godot_object, tex);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_over_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_over_texture") = _GODOT_get_over_texture;
 	/**
 	
 	*/
 	Ref!Texture getOverTexture() const
 	{
-		_GODOT_get_over_texture.bind("TextureProgress", "get_over_texture");
-		return ptrcall!(Texture)(_GODOT_get_over_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getOverTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_fill_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fill_mode") = _GODOT_set_fill_mode;
 	/**
 	
 	*/
 	void setFillMode(in long mode)
 	{
-		_GODOT_set_fill_mode.bind("TextureProgress", "set_fill_mode");
-		ptrcall!(void)(_GODOT_set_fill_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFillMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_fill_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fill_mode") = _GODOT_get_fill_mode;
 	/**
 	
 	*/
 	long getFillMode()
 	{
-		_GODOT_get_fill_mode.bind("TextureProgress", "get_fill_mode");
-		return ptrcall!(long)(_GODOT_get_fill_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFillMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_radial_initial_angle;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radial_initial_angle") = _GODOT_set_radial_initial_angle;
+	/**
+	
+	*/
+	void setTintUnder(in Color tint)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTintUnder, _godot_object, tint);
+	}
+	/**
+	
+	*/
+	Color getTintUnder() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getTintUnder, _godot_object);
+	}
+	/**
+	
+	*/
+	void setTintProgress(in Color tint)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTintProgress, _godot_object, tint);
+	}
+	/**
+	
+	*/
+	Color getTintProgress() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getTintProgress, _godot_object);
+	}
+	/**
+	
+	*/
+	void setTintOver(in Color tint)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTintOver, _godot_object, tint);
+	}
+	/**
+	
+	*/
+	Color getTintOver() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getTintOver, _godot_object);
+	}
 	/**
 	
 	*/
 	void setRadialInitialAngle(in double mode)
 	{
-		_GODOT_set_radial_initial_angle.bind("TextureProgress", "set_radial_initial_angle");
-		ptrcall!(void)(_GODOT_set_radial_initial_angle, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadialInitialAngle, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_radial_initial_angle;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radial_initial_angle") = _GODOT_get_radial_initial_angle;
 	/**
 	
 	*/
 	double getRadialInitialAngle()
 	{
-		_GODOT_get_radial_initial_angle.bind("TextureProgress", "get_radial_initial_angle");
-		return ptrcall!(double)(_GODOT_get_radial_initial_angle, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRadialInitialAngle, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_radial_center_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radial_center_offset") = _GODOT_set_radial_center_offset;
 	/**
 	
 	*/
 	void setRadialCenterOffset(in Vector2 mode)
 	{
-		_GODOT_set_radial_center_offset.bind("TextureProgress", "set_radial_center_offset");
-		ptrcall!(void)(_GODOT_set_radial_center_offset, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadialCenterOffset, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_radial_center_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radial_center_offset") = _GODOT_get_radial_center_offset;
 	/**
 	
 	*/
 	Vector2 getRadialCenterOffset()
 	{
-		_GODOT_get_radial_center_offset.bind("TextureProgress", "get_radial_center_offset");
-		return ptrcall!(Vector2)(_GODOT_get_radial_center_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getRadialCenterOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fill_degrees;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fill_degrees") = _GODOT_set_fill_degrees;
 	/**
 	
 	*/
 	void setFillDegrees(in double mode)
 	{
-		_GODOT_set_fill_degrees.bind("TextureProgress", "set_fill_degrees");
-		ptrcall!(void)(_GODOT_set_fill_degrees, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFillDegrees, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fill_degrees;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fill_degrees") = _GODOT_get_fill_degrees;
 	/**
 	
 	*/
 	double getFillDegrees()
 	{
-		_GODOT_get_fill_degrees.bind("TextureProgress", "get_fill_degrees");
-		return ptrcall!(double)(_GODOT_get_fill_degrees, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFillDegrees, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_stretch_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch_margin") = _GODOT_set_stretch_margin;
 	/**
 	
 	*/
 	void setStretchMargin(in long margin, in long value)
 	{
-		_GODOT_set_stretch_margin.bind("TextureProgress", "set_stretch_margin");
-		ptrcall!(void)(_GODOT_set_stretch_margin, _godot_object, margin, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchMargin, _godot_object, margin, value);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_stretch_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stretch_margin") = _GODOT_get_stretch_margin;
 	/**
 	
 	*/
 	long getStretchMargin(in long margin) const
 	{
-		_GODOT_get_stretch_margin.bind("TextureProgress", "get_stretch_margin");
-		return ptrcall!(long)(_GODOT_get_stretch_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStretchMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_nine_patch_stretch;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_nine_patch_stretch") = _GODOT_set_nine_patch_stretch;
 	/**
 	
 	*/
 	void setNinePatchStretch(in bool stretch)
 	{
-		_GODOT_set_nine_patch_stretch.bind("TextureProgress", "set_nine_patch_stretch");
-		ptrcall!(void)(_GODOT_set_nine_patch_stretch, _godot_object, stretch);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNinePatchStretch, _godot_object, stretch);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_nine_patch_stretch;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_nine_patch_stretch") = _GODOT_get_nine_patch_stretch;
 	/**
 	
 	*/
 	bool getNinePatchStretch() const
 	{
-		_GODOT_get_nine_patch_stretch.bind("TextureProgress", "get_nine_patch_stretch");
-		return ptrcall!(bool)(_GODOT_get_nine_patch_stretch, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getNinePatchStretch, _godot_object);
 	}
 	/**
 	$(D Texture) that draws under the progress bar. The bar's background.
@@ -313,6 +372,42 @@ public:
 	@property void fillMode(long v)
 	{
 		setFillMode(v);
+	}
+	/**
+	Multiplies the color of the bar's `texture_under` texture.
+	*/
+	@property Color tintUnder()
+	{
+		return getTintUnder();
+	}
+	/// ditto
+	@property void tintUnder(Color v)
+	{
+		setTintUnder(v);
+	}
+	/**
+	Multiplies the color of the bar's `texture_over` texture. The effect is similar to $(D CanvasItem.modulate), except it only affects this specific texture instead of the entire node.
+	*/
+	@property Color tintOver()
+	{
+		return getTintOver();
+	}
+	/// ditto
+	@property void tintOver(Color v)
+	{
+		setTintOver(v);
+	}
+	/**
+	Multiplies the color of the bar's `texture_progress` texture.
+	*/
+	@property Color tintProgress()
+	{
+		return getTintProgress();
+	}
+	/// ditto
+	@property void tintProgress(Color v)
+	{
+		setTintProgress(v);
 	}
 	/**
 	Starting angle for the fill of $(D textureProgress) if $(D fillMode) is `FILL_CLOCKWISE` or `FILL_COUNTER_CLOCKWISE`. When the node's `value` is equal to its `min_value`, the texture doesn't show up at all. When the `value` increases, the texture fills and tends towards $(D radialFillDegrees).

@@ -28,20 +28,130 @@ Everything related to physics in 3D.
 */
 @GodotBaseClass struct PhysicsServerSingleton
 {
-	static immutable string _GODOT_internal_name = "PhysicsServer";
+	enum string _GODOT_internal_name = "PhysicsServer";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "PhysicsServer";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "PhysicsServer";
+		@GodotName("shape_create") GodotMethod!(RID, long) shapeCreate;
+		@GodotName("shape_set_data") GodotMethod!(void, RID, Variant) shapeSetData;
+		@GodotName("shape_get_type") GodotMethod!(PhysicsServer.ShapeType, RID) shapeGetType;
+		@GodotName("shape_get_data") GodotMethod!(Variant, RID) shapeGetData;
+		@GodotName("space_create") GodotMethod!(RID) spaceCreate;
+		@GodotName("space_set_active") GodotMethod!(void, RID, bool) spaceSetActive;
+		@GodotName("space_is_active") GodotMethod!(bool, RID) spaceIsActive;
+		@GodotName("space_set_param") GodotMethod!(void, RID, long, double) spaceSetParam;
+		@GodotName("space_get_param") GodotMethod!(double, RID, long) spaceGetParam;
+		@GodotName("space_get_direct_state") GodotMethod!(PhysicsDirectSpaceState, RID) spaceGetDirectState;
+		@GodotName("area_create") GodotMethod!(RID) areaCreate;
+		@GodotName("area_set_space") GodotMethod!(void, RID, RID) areaSetSpace;
+		@GodotName("area_get_space") GodotMethod!(RID, RID) areaGetSpace;
+		@GodotName("area_set_space_override_mode") GodotMethod!(void, RID, long) areaSetSpaceOverrideMode;
+		@GodotName("area_get_space_override_mode") GodotMethod!(PhysicsServer.AreaSpaceOverrideMode, RID) areaGetSpaceOverrideMode;
+		@GodotName("area_add_shape") GodotMethod!(void, RID, RID, Transform) areaAddShape;
+		@GodotName("area_set_shape") GodotMethod!(void, RID, long, RID) areaSetShape;
+		@GodotName("area_set_shape_transform") GodotMethod!(void, RID, long, Transform) areaSetShapeTransform;
+		@GodotName("area_get_shape_count") GodotMethod!(long, RID) areaGetShapeCount;
+		@GodotName("area_get_shape") GodotMethod!(RID, RID, long) areaGetShape;
+		@GodotName("area_get_shape_transform") GodotMethod!(Transform, RID, long) areaGetShapeTransform;
+		@GodotName("area_remove_shape") GodotMethod!(void, RID, long) areaRemoveShape;
+		@GodotName("area_clear_shapes") GodotMethod!(void, RID) areaClearShapes;
+		@GodotName("area_set_collision_layer") GodotMethod!(void, RID, long) areaSetCollisionLayer;
+		@GodotName("area_set_collision_mask") GodotMethod!(void, RID, long) areaSetCollisionMask;
+		@GodotName("area_set_param") GodotMethod!(void, RID, long, Variant) areaSetParam;
+		@GodotName("area_set_transform") GodotMethod!(void, RID, Transform) areaSetTransform;
+		@GodotName("area_get_param") GodotMethod!(Variant, RID, long) areaGetParam;
+		@GodotName("area_get_transform") GodotMethod!(Transform, RID) areaGetTransform;
+		@GodotName("area_attach_object_instance_id") GodotMethod!(void, RID, long) areaAttachObjectInstanceId;
+		@GodotName("area_get_object_instance_id") GodotMethod!(long, RID) areaGetObjectInstanceId;
+		@GodotName("area_set_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetMonitorCallback;
+		@GodotName("area_set_area_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetAreaMonitorCallback;
+		@GodotName("area_set_monitorable") GodotMethod!(void, RID, bool) areaSetMonitorable;
+		@GodotName("area_set_ray_pickable") GodotMethod!(void, RID, bool) areaSetRayPickable;
+		@GodotName("area_is_ray_pickable") GodotMethod!(bool, RID) areaIsRayPickable;
+		@GodotName("body_create") GodotMethod!(RID, long, bool) bodyCreate;
+		@GodotName("body_set_space") GodotMethod!(void, RID, RID) bodySetSpace;
+		@GodotName("body_get_space") GodotMethod!(RID, RID) bodyGetSpace;
+		@GodotName("body_set_mode") GodotMethod!(void, RID, long) bodySetMode;
+		@GodotName("body_get_mode") GodotMethod!(PhysicsServer.BodyMode, RID) bodyGetMode;
+		@GodotName("body_set_collision_layer") GodotMethod!(void, RID, long) bodySetCollisionLayer;
+		@GodotName("body_get_collision_layer") GodotMethod!(long, RID) bodyGetCollisionLayer;
+		@GodotName("body_set_collision_mask") GodotMethod!(void, RID, long) bodySetCollisionMask;
+		@GodotName("body_get_collision_mask") GodotMethod!(long, RID) bodyGetCollisionMask;
+		@GodotName("body_add_shape") GodotMethod!(void, RID, RID, Transform) bodyAddShape;
+		@GodotName("body_set_shape") GodotMethod!(void, RID, long, RID) bodySetShape;
+		@GodotName("body_set_shape_transform") GodotMethod!(void, RID, long, Transform) bodySetShapeTransform;
+		@GodotName("body_get_shape_count") GodotMethod!(long, RID) bodyGetShapeCount;
+		@GodotName("body_get_shape") GodotMethod!(RID, RID, long) bodyGetShape;
+		@GodotName("body_get_shape_transform") GodotMethod!(Transform, RID, long) bodyGetShapeTransform;
+		@GodotName("body_remove_shape") GodotMethod!(void, RID, long) bodyRemoveShape;
+		@GodotName("body_clear_shapes") GodotMethod!(void, RID) bodyClearShapes;
+		@GodotName("body_attach_object_instance_id") GodotMethod!(void, RID, long) bodyAttachObjectInstanceId;
+		@GodotName("body_get_object_instance_id") GodotMethod!(long, RID) bodyGetObjectInstanceId;
+		@GodotName("body_set_enable_continuous_collision_detection") GodotMethod!(void, RID, bool) bodySetEnableContinuousCollisionDetection;
+		@GodotName("body_is_continuous_collision_detection_enabled") GodotMethod!(bool, RID) bodyIsContinuousCollisionDetectionEnabled;
+		@GodotName("body_set_param") GodotMethod!(void, RID, long, double) bodySetParam;
+		@GodotName("body_get_param") GodotMethod!(double, RID, long) bodyGetParam;
+		@GodotName("body_set_kinematic_safe_margin") GodotMethod!(void, RID, double) bodySetKinematicSafeMargin;
+		@GodotName("body_get_kinematic_safe_margin") GodotMethod!(double, RID) bodyGetKinematicSafeMargin;
+		@GodotName("body_set_state") GodotMethod!(void, RID, long, Variant) bodySetState;
+		@GodotName("body_get_state") GodotMethod!(Variant, RID, long) bodyGetState;
+		@GodotName("body_add_central_force") GodotMethod!(void, RID, Vector3) bodyAddCentralForce;
+		@GodotName("body_add_force") GodotMethod!(void, RID, Vector3, Vector3) bodyAddForce;
+		@GodotName("body_add_torque") GodotMethod!(void, RID, Vector3) bodyAddTorque;
+		@GodotName("body_apply_central_impulse") GodotMethod!(void, RID, Vector3) bodyApplyCentralImpulse;
+		@GodotName("body_apply_impulse") GodotMethod!(void, RID, Vector3, Vector3) bodyApplyImpulse;
+		@GodotName("body_apply_torque_impulse") GodotMethod!(void, RID, Vector3) bodyApplyTorqueImpulse;
+		@GodotName("body_set_axis_velocity") GodotMethod!(void, RID, Vector3) bodySetAxisVelocity;
+		@GodotName("body_set_axis_lock") GodotMethod!(void, RID, long, bool) bodySetAxisLock;
+		@GodotName("body_is_axis_locked") GodotMethod!(bool, RID, long) bodyIsAxisLocked;
+		@GodotName("body_add_collision_exception") GodotMethod!(void, RID, RID) bodyAddCollisionException;
+		@GodotName("body_remove_collision_exception") GodotMethod!(void, RID, RID) bodyRemoveCollisionException;
+		@GodotName("body_set_max_contacts_reported") GodotMethod!(void, RID, long) bodySetMaxContactsReported;
+		@GodotName("body_get_max_contacts_reported") GodotMethod!(long, RID) bodyGetMaxContactsReported;
+		@GodotName("body_set_omit_force_integration") GodotMethod!(void, RID, bool) bodySetOmitForceIntegration;
+		@GodotName("body_is_omitting_force_integration") GodotMethod!(bool, RID) bodyIsOmittingForceIntegration;
+		@GodotName("body_set_force_integration_callback") GodotMethod!(void, RID, GodotObject, String, Variant) bodySetForceIntegrationCallback;
+		@GodotName("body_set_ray_pickable") GodotMethod!(void, RID, bool) bodySetRayPickable;
+		@GodotName("body_is_ray_pickable") GodotMethod!(bool, RID) bodyIsRayPickable;
+		@GodotName("body_get_direct_state") GodotMethod!(PhysicsDirectBodyState, RID) bodyGetDirectState;
+		@GodotName("joint_create_pin") GodotMethod!(RID, RID, Vector3, RID, Vector3) jointCreatePin;
+		@GodotName("pin_joint_set_param") GodotMethod!(void, RID, long, double) pinJointSetParam;
+		@GodotName("pin_joint_get_param") GodotMethod!(double, RID, long) pinJointGetParam;
+		@GodotName("pin_joint_set_local_a") GodotMethod!(void, RID, Vector3) pinJointSetLocalA;
+		@GodotName("pin_joint_get_local_a") GodotMethod!(Vector3, RID) pinJointGetLocalA;
+		@GodotName("pin_joint_set_local_b") GodotMethod!(void, RID, Vector3) pinJointSetLocalB;
+		@GodotName("pin_joint_get_local_b") GodotMethod!(Vector3, RID) pinJointGetLocalB;
+		@GodotName("joint_create_hinge") GodotMethod!(RID, RID, Transform, RID, Transform) jointCreateHinge;
+		@GodotName("hinge_joint_set_param") GodotMethod!(void, RID, long, double) hingeJointSetParam;
+		@GodotName("hinge_joint_get_param") GodotMethod!(double, RID, long) hingeJointGetParam;
+		@GodotName("hinge_joint_set_flag") GodotMethod!(void, RID, long, bool) hingeJointSetFlag;
+		@GodotName("hinge_joint_get_flag") GodotMethod!(bool, RID, long) hingeJointGetFlag;
+		@GodotName("joint_create_slider") GodotMethod!(RID, RID, Transform, RID, Transform) jointCreateSlider;
+		@GodotName("slider_joint_set_param") GodotMethod!(void, RID, long, double) sliderJointSetParam;
+		@GodotName("slider_joint_get_param") GodotMethod!(double, RID, long) sliderJointGetParam;
+		@GodotName("joint_create_cone_twist") GodotMethod!(RID, RID, Transform, RID, Transform) jointCreateConeTwist;
+		@GodotName("cone_twist_joint_set_param") GodotMethod!(void, RID, long, double) coneTwistJointSetParam;
+		@GodotName("cone_twist_joint_get_param") GodotMethod!(double, RID, long) coneTwistJointGetParam;
+		@GodotName("joint_get_type") GodotMethod!(PhysicsServer.JointType, RID) jointGetType;
+		@GodotName("joint_set_solver_priority") GodotMethod!(void, RID, long) jointSetSolverPriority;
+		@GodotName("joint_get_solver_priority") GodotMethod!(long, RID) jointGetSolverPriority;
+		@GodotName("joint_create_generic_6dof") GodotMethod!(RID, RID, Transform, RID, Transform) jointCreateGeneric6dof;
+		@GodotName("generic_6dof_joint_set_param") GodotMethod!(void, RID, long, long, double) generic6dofJointSetParam;
+		@GodotName("generic_6dof_joint_get_param") GodotMethod!(double, RID, long, long) generic6dofJointGetParam;
+		@GodotName("generic_6dof_joint_set_flag") GodotMethod!(void, RID, long, long, bool) generic6dofJointSetFlag;
+		@GodotName("generic_6dof_joint_get_flag") GodotMethod!(bool, RID, long, long) generic6dofJointGetFlag;
+		@GodotName("free_rid") GodotMethod!(void, RID) freeRid;
+		@GodotName("set_active") GodotMethod!(void, bool) setActive;
+		@GodotName("get_process_info") GodotMethod!(long, long) getProcessInfo;
+	}
 	bool opEquals(in PhysicsServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -126,13 +236,9 @@ public:
 		*/
 		bodyModeRigid = 2,
 		/**
-		
-		*/
-		bodyModeSoft = 3,
-		/**
 		Constant for rigid bodies in character mode. In this mode, a body can not rotate, and only its linear velocity is affected by physics.
 		*/
-		bodyModeCharacter = 4,
+		bodyModeCharacter = 3,
 	}
 	/// 
 	enum ShapeType : int
@@ -158,21 +264,25 @@ public:
 		*/
 		shapeCapsule = 4,
 		/**
+		The $(D Shape) is a $(D CylinderShape).
+		*/
+		shapeCylinder = 5,
+		/**
 		The $(D Shape) is a $(D ConvexPolygonShape).
 		*/
-		shapeConvexPolygon = 5,
+		shapeConvexPolygon = 6,
 		/**
 		The $(D Shape) is a $(D ConcavePolygonShape).
 		*/
-		shapeConcavePolygon = 6,
+		shapeConcavePolygon = 7,
 		/**
 		The $(D Shape) is a $(D HeightMapShape).
 		*/
-		shapeHeightmap = 7,
+		shapeHeightmap = 8,
 		/**
 		This constant is used internally by the engine. Any attempt to create this kind of shape results in an error.
 		*/
-		shapeCustom = 8,
+		shapeCustom = 9,
 	}
 	/// 
 	enum PinJointParam : int
@@ -188,7 +298,7 @@ public:
 		*/
 		pinJointDamping = 1,
 		/**
-		If above 0, this value is the maximum value for an impulse that this Joint puts on it's ends.
+		If above 0, this value is the maximum value for an impulse that this Joint puts on its ends.
 		*/
 		pinJointImpulseClamp = 2,
 	}
@@ -361,41 +471,49 @@ public:
 		*/
 		g6dofJointLinearDamping = 4,
 		/**
+		The velocity that the joint's linear motor will attempt to reach.
+		*/
+		g6dofJointLinearMotorTargetVelocity = 5,
+		/**
+		The maximum force that the linear motor can apply while trying to reach the target velocity.
+		*/
+		g6dofJointLinearMotorForceLimit = 6,
+		/**
 		The minimum rotation in negative direction to break loose and rotate around the axes.
 		*/
-		g6dofJointAngularLowerLimit = 5,
+		g6dofJointAngularLowerLimit = 7,
 		/**
 		The minimum rotation in positive direction to break loose and rotate around the axes.
 		*/
-		g6dofJointAngularUpperLimit = 6,
+		g6dofJointAngularUpperLimit = 8,
 		/**
 		A factor that gets multiplied onto all rotations across the axes.
 		*/
-		g6dofJointAngularLimitSoftness = 7,
+		g6dofJointAngularLimitSoftness = 9,
 		/**
 		The amount of rotational damping across the axes. The lower, the more dampening occurs.
 		*/
-		g6dofJointAngularDamping = 8,
+		g6dofJointAngularDamping = 10,
 		/**
 		The amount of rotational restitution across the axes. The lower, the more restitution occurs.
 		*/
-		g6dofJointAngularRestitution = 9,
+		g6dofJointAngularRestitution = 11,
 		/**
 		The maximum amount of force that can occur, when rotating around the axes.
 		*/
-		g6dofJointAngularForceLimit = 10,
+		g6dofJointAngularForceLimit = 12,
 		/**
 		When correcting the crossing of limits in rotation across the axes, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
 		*/
-		g6dofJointAngularErp = 11,
+		g6dofJointAngularErp = 13,
 		/**
 		Target speed for the motor at the axes.
 		*/
-		g6dofJointAngularMotorTargetVelocity = 12,
+		g6dofJointAngularMotorTargetVelocity = 14,
 		/**
 		Maximum acceleration for the motor at the axes.
 		*/
-		g6dofJointAngularMotorForceLimit = 13,
+		g6dofJointAngularMotorForceLimit = 15,
 	}
 	/// 
 	enum SliderJointParam : int
@@ -544,6 +662,10 @@ public:
 		If `set` there is a rotational motor across these axes.
 		*/
 		g6dofJointFlagEnableMotor = 2,
+		/**
+		If `set` there is a linear motor on this axis that targets a specific velocity.
+		*/
+		g6dofJointFlagEnableLinearMotor = 3,
 	}
 	/// 
 	enum HingeJointFlag : int
@@ -620,118 +742,121 @@ public:
 	/// 
 	enum Constants : int
 	{
-		spaceParamContactRecycleRadius = 0,
-		g6dofJointFlagEnableLinearLimit = 0,
-		bodyModeStatic = 0,
-		shapePlane = 0,
-		bodyStateTransform = 0,
-		coneTwistJointSwingSpan = 0,
-		hingeJointBias = 0,
-		areaBodyAdded = 0,
-		sliderJointLinearLimitUpper = 0,
 		infoActiveObjects = 0,
-		areaSpaceOverrideDisabled = 0,
-		areaParamGravity = 0,
+		sliderJointLinearLimitUpper = 0,
+		hingeJointBias = 0,
 		g6dofJointLinearLowerLimit = 0,
 		jointPin = 0,
-		hingeJointFlagUseLimit = 0,
+		areaSpaceOverrideDisabled = 0,
+		shapePlane = 0,
+		bodyStateTransform = 0,
 		bodyParamBounce = 0,
+		coneTwistJointSwingSpan = 0,
+		hingeJointFlagUseLimit = 0,
+		areaParamGravity = 0,
 		pinJointBias = 0,
-		coneTwistJointTwistSpan = 1,
-		g6dofJointFlagEnableAngularLimit = 1,
-		bodyModeKinematic = 1,
-		hingeJointFlagEnableMotor = 1,
-		infoCollisionPairs = 1,
-		areaSpaceOverrideCombine = 1,
-		hingeJointLimitUpper = 1,
-		pinJointDamping = 1,
-		g6dofJointLinearUpperLimit = 1,
+		bodyModeStatic = 0,
+		spaceParamContactRecycleRadius = 0,
+		areaBodyAdded = 0,
+		g6dofJointFlagEnableLinearLimit = 0,
 		areaParamGravityVector = 1,
 		spaceParamContactMaxSeparation = 1,
-		bodyParamFriction = 1,
 		shapeRay = 1,
-		areaBodyRemoved = 1,
+		pinJointDamping = 1,
+		hingeJointFlagEnableMotor = 1,
 		sliderJointLinearLimitLower = 1,
-		bodyStateLinearVelocity = 1,
-		jointHinge = 1,
+		g6dofJointLinearUpperLimit = 1,
+		areaBodyRemoved = 1,
 		bodyAxisLinearX = 1,
-		bodyAxisLinearY = 2,
-		g6dofJointFlagEnableMotor = 2,
-		areaParamGravityIsPoint = 2,
-		hingeJointLimitLower = 2,
-		spaceParamBodyMaxAllowedPenetration = 2,
+		bodyParamFriction = 1,
+		infoCollisionPairs = 1,
+		bodyModeKinematic = 1,
+		coneTwistJointTwistSpan = 1,
+		bodyStateLinearVelocity = 1,
+		g6dofJointFlagEnableAngularLimit = 1,
+		areaSpaceOverrideCombine = 1,
+		hingeJointLimitUpper = 1,
+		jointHinge = 1,
 		areaSpaceOverrideCombineReplace = 2,
-		pinJointImpulseClamp = 2,
-		sliderJointLinearLimitSoftness = 2,
-		g6dofJointLinearLimitSoftness = 2,
-		bodyParamMass = 2,
-		jointSlider = 2,
-		infoIslandCount = 2,
-		bodyModeRigid = 2,
-		coneTwistJointBias = 2,
-		bodyStateAngularVelocity = 2,
 		shapeSphere = 2,
-		shapeBox = 3,
+		infoIslandCount = 2,
+		spaceParamBodyMaxAllowedPenetration = 2,
+		sliderJointLinearLimitSoftness = 2,
+		g6dofJointFlagEnableMotor = 2,
+		pinJointImpulseClamp = 2,
+		bodyParamMass = 2,
+		hingeJointLimitLower = 2,
+		bodyAxisLinearY = 2,
+		coneTwistJointBias = 2,
+		g6dofJointLinearLimitSoftness = 2,
+		jointSlider = 2,
+		areaParamGravityIsPoint = 2,
+		bodyModeRigid = 2,
+		bodyStateAngularVelocity = 2,
 		coneTwistJointSoftness = 3,
-		spaceParamBodyLinearVelocitySleepThreshold = 3,
-		g6dofJointLinearRestitution = 3,
-		sliderJointLinearLimitRestitution = 3,
 		bodyParamGravityScale = 3,
-		areaParamGravityDistanceScale = 3,
+		bodyModeCharacter = 3,
+		sliderJointLinearLimitRestitution = 3,
 		areaSpaceOverrideReplace = 3,
-		bodyModeSoft = 3,
 		jointConeTwist = 3,
-		hingeJointLimitBias = 3,
+		g6dofJointFlagEnableLinearMotor = 3,
+		shapeBox = 3,
 		bodyStateSleeping = 3,
-		shapeCapsule = 4,
-		coneTwistJointRelaxation = 4,
+		spaceParamBodyLinearVelocitySleepThreshold = 3,
+		areaParamGravityDistanceScale = 3,
+		g6dofJointLinearRestitution = 3,
+		hingeJointLimitBias = 3,
 		areaSpaceOverrideReplaceCombine = 4,
-		sliderJointLinearLimitDamping = 4,
-		bodyModeCharacter = 4,
-		bodyAxisLinearZ = 4,
+		bodyParamLinearDamp = 4,
+		coneTwistJointRelaxation = 4,
+		hingeJointLimitSoftness = 4,
 		g6dofJointLinearDamping = 4,
 		spaceParamBodyAngularVelocitySleepThreshold = 4,
 		joint6dof = 4,
-		bodyParamLinearDamp = 4,
+		shapeCapsule = 4,
+		bodyAxisLinearZ = 4,
+		sliderJointLinearLimitDamping = 4,
 		areaParamGravityPointAttenuation = 4,
 		bodyStateCanSleep = 4,
-		hingeJointLimitSoftness = 4,
-		shapeConvexPolygon = 5,
-		spaceParamBodyTimeToSleep = 5,
-		g6dofJointAngularLowerLimit = 5,
+		bodyParamAngularDamp = 5,
 		sliderJointLinearMotionSoftness = 5,
 		areaParamLinearDamp = 5,
-		bodyParamAngularDamp = 5,
 		hingeJointLimitRelaxation = 5,
+		shapeCylinder = 5,
+		spaceParamBodyTimeToSleep = 5,
+		g6dofJointLinearMotorTargetVelocity = 5,
+		shapeConvexPolygon = 6,
 		sliderJointLinearMotionRestitution = 6,
-		areaParamAngularDamp = 6,
 		bodyParamMax = 6,
-		g6dofJointAngularUpperLimit = 6,
-		shapeConcavePolygon = 6,
-		hingeJointMotorTargetVelocity = 6,
+		g6dofJointLinearMotorForceLimit = 6,
 		spaceParamBodyAngularVelocityDampRatio = 6,
-		hingeJointMotorMaxImpulse = 7,
-		g6dofJointAngularLimitSoftness = 7,
-		sliderJointLinearMotionDamping = 7,
-		spaceParamConstraintDefaultBias = 7,
-		shapeHeightmap = 7,
+		areaParamAngularDamp = 6,
+		hingeJointMotorTargetVelocity = 6,
 		areaParamPriority = 7,
-		bodyAxisAngularX = 8,
+		g6dofJointAngularLowerLimit = 7,
+		shapeConcavePolygon = 7,
+		hingeJointMotorMaxImpulse = 7,
+		spaceParamConstraintDefaultBias = 7,
+		sliderJointLinearMotionDamping = 7,
+		shapeHeightmap = 8,
+		g6dofJointAngularUpperLimit = 8,
 		sliderJointLinearOrthogonalSoftness = 8,
-		g6dofJointAngularDamping = 8,
-		shapeCustom = 8,
+		bodyAxisAngularX = 8,
+		shapeCustom = 9,
 		sliderJointLinearOrthogonalRestitution = 9,
-		g6dofJointAngularRestitution = 9,
+		g6dofJointAngularLimitSoftness = 9,
+		g6dofJointAngularDamping = 10,
 		sliderJointLinearOrthogonalDamping = 10,
-		g6dofJointAngularForceLimit = 10,
+		g6dofJointAngularRestitution = 11,
 		sliderJointAngularLimitUpper = 11,
-		g6dofJointAngularErp = 11,
+		g6dofJointAngularForceLimit = 12,
 		sliderJointAngularLimitLower = 12,
-		g6dofJointAngularMotorTargetVelocity = 12,
+		g6dofJointAngularErp = 13,
 		sliderJointAngularLimitSoftness = 13,
-		g6dofJointAngularMotorForceLimit = 13,
 		sliderJointAngularLimitRestitution = 14,
+		g6dofJointAngularMotorTargetVelocity = 14,
 		sliderJointAngularLimitDamping = 15,
+		g6dofJointAngularMotorForceLimit = 15,
 		bodyAxisAngularY = 16,
 		sliderJointAngularMotionSoftness = 16,
 		sliderJointAngularMotionRestitution = 17,
@@ -742,318 +867,254 @@ public:
 		sliderJointMax = 22,
 		bodyAxisAngularZ = 32,
 	}
-	package(godot) static GodotMethod!(RID, long) _GODOT_shape_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shape_create") = _GODOT_shape_create;
 	/**
 	Creates a shape of type SHAPE_*. Does not assign it to a body or an area. To do so, you must use $(D areaSetShape) or $(D bodySetShape).
 	*/
 	RID shapeCreate(in long type)
 	{
-		_GODOT_shape_create.bind("PhysicsServer", "shape_create");
-		return ptrcall!(RID)(_GODOT_shape_create, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.shapeCreate, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(void, RID, Variant) _GODOT_shape_set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shape_set_data") = _GODOT_shape_set_data;
 	/**
 	Sets the shape data that defines its shape and size. The data to be passed depends on the kind of shape created $(D shapeGetType).
 	*/
 	void shapeSetData(VariantArg1)(in RID shape, in VariantArg1 data)
 	{
-		_GODOT_shape_set_data.bind("PhysicsServer", "shape_set_data");
-		ptrcall!(void)(_GODOT_shape_set_data, _godot_object, shape, data);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeSetData, _godot_object, shape, data);
 	}
-	package(godot) static GodotMethod!(PhysicsServer.ShapeType, RID) _GODOT_shape_get_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shape_get_type") = _GODOT_shape_get_type;
 	/**
 	Returns the type of shape (see SHAPE_* constants).
 	*/
 	PhysicsServer.ShapeType shapeGetType(in RID shape) const
 	{
-		_GODOT_shape_get_type.bind("PhysicsServer", "shape_get_type");
-		return ptrcall!(PhysicsServer.ShapeType)(_GODOT_shape_get_type, _godot_object, shape);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsServer.ShapeType)(_classBinding.shapeGetType, _godot_object, shape);
 	}
-	package(godot) static GodotMethod!(Variant, RID) _GODOT_shape_get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shape_get_data") = _GODOT_shape_get_data;
 	/**
 	Returns the shape data.
 	*/
 	Variant shapeGetData(in RID shape) const
 	{
-		_GODOT_shape_get_data.bind("PhysicsServer", "shape_get_data");
-		return ptrcall!(Variant)(_GODOT_shape_get_data, _godot_object, shape);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.shapeGetData, _godot_object, shape);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_space_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_create") = _GODOT_space_create;
 	/**
 	Creates a space. A space is a collection of parameters for the physics engine that can be assigned to an area or a body. It can be assigned to an area with $(D areaSetSpace), or to a body with $(D bodySetSpace).
 	*/
 	RID spaceCreate()
 	{
-		_GODOT_space_create.bind("PhysicsServer", "space_create");
-		return ptrcall!(RID)(_GODOT_space_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.spaceCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_space_set_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_set_active") = _GODOT_space_set_active;
 	/**
 	Marks a space as active. It will not have an effect, unless it is assigned to an area or body.
 	*/
 	void spaceSetActive(in RID space, in bool active)
 	{
-		_GODOT_space_set_active.bind("PhysicsServer", "space_set_active");
-		ptrcall!(void)(_GODOT_space_set_active, _godot_object, space, active);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.spaceSetActive, _godot_object, space, active);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_space_is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_is_active") = _GODOT_space_is_active;
 	/**
 	Returns whether the space is active.
 	*/
 	bool spaceIsActive(in RID space) const
 	{
-		_GODOT_space_is_active.bind("PhysicsServer", "space_is_active");
-		return ptrcall!(bool)(_GODOT_space_is_active, _godot_object, space);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.spaceIsActive, _godot_object, space);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_space_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_set_param") = _GODOT_space_set_param;
 	/**
 	Sets the value for a space parameter. A list of available parameters is on the SPACE_PARAM_* constants.
 	*/
 	void spaceSetParam(in RID space, in long param, in double value)
 	{
-		_GODOT_space_set_param.bind("PhysicsServer", "space_set_param");
-		ptrcall!(void)(_GODOT_space_set_param, _godot_object, space, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.spaceSetParam, _godot_object, space, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_space_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_get_param") = _GODOT_space_get_param;
 	/**
 	Returns the value of a space parameter.
 	*/
 	double spaceGetParam(in RID space, in long param) const
 	{
-		_GODOT_space_get_param.bind("PhysicsServer", "space_get_param");
-		return ptrcall!(double)(_GODOT_space_get_param, _godot_object, space, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.spaceGetParam, _godot_object, space, param);
 	}
-	package(godot) static GodotMethod!(PhysicsDirectSpaceState, RID) _GODOT_space_get_direct_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "space_get_direct_state") = _GODOT_space_get_direct_state;
 	/**
 	Returns the state of a space, a $(D PhysicsDirectSpaceState). This object can be used to make collision/intersection queries.
 	*/
 	PhysicsDirectSpaceState spaceGetDirectState(in RID space)
 	{
-		_GODOT_space_get_direct_state.bind("PhysicsServer", "space_get_direct_state");
-		return ptrcall!(PhysicsDirectSpaceState)(_GODOT_space_get_direct_state, _godot_object, space);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsDirectSpaceState)(_classBinding.spaceGetDirectState, _godot_object, space);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_area_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_create") = _GODOT_area_create;
 	/**
 	Creates an $(D Area).
 	*/
 	RID areaCreate()
 	{
-		_GODOT_area_create.bind("PhysicsServer", "area_create");
-		return ptrcall!(RID)(_GODOT_area_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.areaCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_area_set_space;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_space") = _GODOT_area_set_space;
 	/**
 	Assigns a space to the area.
 	*/
 	void areaSetSpace(in RID area, in RID space)
 	{
-		_GODOT_area_set_space.bind("PhysicsServer", "area_set_space");
-		ptrcall!(void)(_GODOT_area_set_space, _godot_object, area, space);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetSpace, _godot_object, area, space);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_area_get_space;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_space") = _GODOT_area_get_space;
 	/**
 	Returns the space assigned to the area.
 	*/
 	RID areaGetSpace(in RID area) const
 	{
-		_GODOT_area_get_space.bind("PhysicsServer", "area_get_space");
-		return ptrcall!(RID)(_GODOT_area_get_space, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.areaGetSpace, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_area_set_space_override_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_space_override_mode") = _GODOT_area_set_space_override_mode;
 	/**
 	Sets the space override mode for the area. The modes are described in the constants AREA_SPACE_OVERRIDE_*.
 	*/
 	void areaSetSpaceOverrideMode(in RID area, in long mode)
 	{
-		_GODOT_area_set_space_override_mode.bind("PhysicsServer", "area_set_space_override_mode");
-		ptrcall!(void)(_GODOT_area_set_space_override_mode, _godot_object, area, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetSpaceOverrideMode, _godot_object, area, mode);
 	}
-	package(godot) static GodotMethod!(PhysicsServer.AreaSpaceOverrideMode, RID) _GODOT_area_get_space_override_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_space_override_mode") = _GODOT_area_get_space_override_mode;
 	/**
 	Returns the space override mode for the area.
 	*/
 	PhysicsServer.AreaSpaceOverrideMode areaGetSpaceOverrideMode(in RID area) const
 	{
-		_GODOT_area_get_space_override_mode.bind("PhysicsServer", "area_get_space_override_mode");
-		return ptrcall!(PhysicsServer.AreaSpaceOverrideMode)(_GODOT_area_get_space_override_mode, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsServer.AreaSpaceOverrideMode)(_classBinding.areaGetSpaceOverrideMode, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, Transform) _GODOT_area_add_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_add_shape") = _GODOT_area_add_shape;
 	/**
 	Adds a shape to the area, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
 	*/
 	void areaAddShape(in RID area, in RID shape, in Transform transform = Transform.init)
 	{
-		_GODOT_area_add_shape.bind("PhysicsServer", "area_add_shape");
-		ptrcall!(void)(_GODOT_area_add_shape, _godot_object, area, shape, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaAddShape, _godot_object, area, shape, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_area_set_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_shape") = _GODOT_area_set_shape;
 	/**
 	Substitutes a given area shape by another. The old shape is selected by its index, the new one by its $(D RID).
 	*/
 	void areaSetShape(in RID area, in long shape_idx, in RID shape)
 	{
-		_GODOT_area_set_shape.bind("PhysicsServer", "area_set_shape");
-		ptrcall!(void)(_GODOT_area_set_shape, _godot_object, area, shape_idx, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetShape, _godot_object, area, shape_idx, shape);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform) _GODOT_area_set_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_shape_transform") = _GODOT_area_set_shape_transform;
 	/**
 	Sets the transform matrix for an area shape.
 	*/
 	void areaSetShapeTransform(in RID area, in long shape_idx, in Transform transform)
 	{
-		_GODOT_area_set_shape_transform.bind("PhysicsServer", "area_set_shape_transform");
-		ptrcall!(void)(_GODOT_area_set_shape_transform, _godot_object, area, shape_idx, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetShapeTransform, _godot_object, area, shape_idx, transform);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_area_get_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_shape_count") = _GODOT_area_get_shape_count;
 	/**
 	Returns the number of shapes assigned to an area.
 	*/
 	long areaGetShapeCount(in RID area) const
 	{
-		_GODOT_area_get_shape_count.bind("PhysicsServer", "area_get_shape_count");
-		return ptrcall!(long)(_GODOT_area_get_shape_count, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.areaGetShapeCount, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(RID, RID, long) _GODOT_area_get_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_shape") = _GODOT_area_get_shape;
 	/**
 	Returns the $(D RID) of the nth shape of an area.
 	*/
 	RID areaGetShape(in RID area, in long shape_idx) const
 	{
-		_GODOT_area_get_shape.bind("PhysicsServer", "area_get_shape");
-		return ptrcall!(RID)(_GODOT_area_get_shape, _godot_object, area, shape_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.areaGetShape, _godot_object, area, shape_idx);
 	}
-	package(godot) static GodotMethod!(Transform, RID, long) _GODOT_area_get_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_shape_transform") = _GODOT_area_get_shape_transform;
 	/**
 	Returns the transform matrix of a shape within an area.
 	*/
 	Transform areaGetShapeTransform(in RID area, in long shape_idx) const
 	{
-		_GODOT_area_get_shape_transform.bind("PhysicsServer", "area_get_shape_transform");
-		return ptrcall!(Transform)(_GODOT_area_get_shape_transform, _godot_object, area, shape_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.areaGetShapeTransform, _godot_object, area, shape_idx);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_area_remove_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_remove_shape") = _GODOT_area_remove_shape;
 	/**
 	Removes a shape from an area. It does not delete the shape, so it can be reassigned later.
 	*/
 	void areaRemoveShape(in RID area, in long shape_idx)
 	{
-		_GODOT_area_remove_shape.bind("PhysicsServer", "area_remove_shape");
-		ptrcall!(void)(_GODOT_area_remove_shape, _godot_object, area, shape_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaRemoveShape, _godot_object, area, shape_idx);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_area_clear_shapes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_clear_shapes") = _GODOT_area_clear_shapes;
 	/**
 	Removes all shapes from an area. It does not delete the shapes, so they can be reassigned later.
 	*/
 	void areaClearShapes(in RID area)
 	{
-		_GODOT_area_clear_shapes.bind("PhysicsServer", "area_clear_shapes");
-		ptrcall!(void)(_GODOT_area_clear_shapes, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaClearShapes, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_area_set_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_collision_layer") = _GODOT_area_set_collision_layer;
 	/**
 	Assigns the area to one or many physics layers.
 	*/
 	void areaSetCollisionLayer(in RID area, in long layer)
 	{
-		_GODOT_area_set_collision_layer.bind("PhysicsServer", "area_set_collision_layer");
-		ptrcall!(void)(_GODOT_area_set_collision_layer, _godot_object, area, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetCollisionLayer, _godot_object, area, layer);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_area_set_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_collision_mask") = _GODOT_area_set_collision_mask;
 	/**
 	Sets which physics layers the area will monitor.
 	*/
 	void areaSetCollisionMask(in RID area, in long mask)
 	{
-		_GODOT_area_set_collision_mask.bind("PhysicsServer", "area_set_collision_mask");
-		ptrcall!(void)(_GODOT_area_set_collision_mask, _godot_object, area, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetCollisionMask, _godot_object, area, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Variant) _GODOT_area_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_param") = _GODOT_area_set_param;
 	/**
 	Sets the value for an area parameter. A list of available parameters is on the AREA_PARAM_* constants.
 	*/
 	void areaSetParam(VariantArg2)(in RID area, in long param, in VariantArg2 value)
 	{
-		_GODOT_area_set_param.bind("PhysicsServer", "area_set_param");
-		ptrcall!(void)(_GODOT_area_set_param, _godot_object, area, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetParam, _godot_object, area, param, value);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_area_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_transform") = _GODOT_area_set_transform;
 	/**
 	Sets the transform matrix for an area.
 	*/
 	void areaSetTransform(in RID area, in Transform transform)
 	{
-		_GODOT_area_set_transform.bind("PhysicsServer", "area_set_transform");
-		ptrcall!(void)(_GODOT_area_set_transform, _godot_object, area, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetTransform, _godot_object, area, transform);
 	}
-	package(godot) static GodotMethod!(Variant, RID, long) _GODOT_area_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_param") = _GODOT_area_get_param;
 	/**
 	Returns an area parameter value. A list of available parameters is on the AREA_PARAM_* constants.
 	*/
 	Variant areaGetParam(in RID area, in long param) const
 	{
-		_GODOT_area_get_param.bind("PhysicsServer", "area_get_param");
-		return ptrcall!(Variant)(_GODOT_area_get_param, _godot_object, area, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.areaGetParam, _godot_object, area, param);
 	}
-	package(godot) static GodotMethod!(Transform, RID) _GODOT_area_get_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_transform") = _GODOT_area_get_transform;
 	/**
 	Returns the transform matrix for an area.
 	*/
 	Transform areaGetTransform(in RID area) const
 	{
-		_GODOT_area_get_transform.bind("PhysicsServer", "area_get_transform");
-		return ptrcall!(Transform)(_GODOT_area_get_transform, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.areaGetTransform, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_area_attach_object_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_attach_object_instance_id") = _GODOT_area_attach_object_instance_id;
 	/**
 	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
 	*/
 	void areaAttachObjectInstanceId(in RID area, in long id)
 	{
-		_GODOT_area_attach_object_instance_id.bind("PhysicsServer", "area_attach_object_instance_id");
-		ptrcall!(void)(_GODOT_area_attach_object_instance_id, _godot_object, area, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaAttachObjectInstanceId, _godot_object, area, id);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_area_get_object_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_get_object_instance_id") = _GODOT_area_get_object_instance_id;
 	/**
 	Gets the instance ID of the object the area is assigned to.
 	*/
 	long areaGetObjectInstanceId(in RID area) const
 	{
-		_GODOT_area_get_object_instance_id.bind("PhysicsServer", "area_get_object_instance_id");
-		return ptrcall!(long)(_GODOT_area_get_object_instance_id, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.areaGetObjectInstanceId, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, RID, GodotObject, String) _GODOT_area_set_monitor_callback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_monitor_callback") = _GODOT_area_set_monitor_callback;
 	/**
 	Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters:
 	1: AREA_BODY_ADDED or AREA_BODY_REMOVED, depending on whether the object entered or exited the area.
@@ -1064,746 +1125,649 @@ public:
 	*/
 	void areaSetMonitorCallback(StringArg2)(in RID area, GodotObject receiver, in StringArg2 method)
 	{
-		_GODOT_area_set_monitor_callback.bind("PhysicsServer", "area_set_monitor_callback");
-		ptrcall!(void)(_GODOT_area_set_monitor_callback, _godot_object, area, receiver, method);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetMonitorCallback, _godot_object, area, receiver, method);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_area_set_ray_pickable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_set_ray_pickable") = _GODOT_area_set_ray_pickable;
+	/**
+	
+	*/
+	void areaSetAreaMonitorCallback(StringArg2)(in RID area, GodotObject receiver, in StringArg2 method)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
+	}
+	/**
+	
+	*/
+	void areaSetMonitorable(in RID area, in bool monitorable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetMonitorable, _godot_object, area, monitorable);
+	}
 	/**
 	Sets object pickable with rays.
 	*/
 	void areaSetRayPickable(in RID area, in bool enable)
 	{
-		_GODOT_area_set_ray_pickable.bind("PhysicsServer", "area_set_ray_pickable");
-		ptrcall!(void)(_GODOT_area_set_ray_pickable, _godot_object, area, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetRayPickable, _godot_object, area, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_area_is_ray_pickable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "area_is_ray_pickable") = _GODOT_area_is_ray_pickable;
 	/**
 	If `true` area collides with rays.
 	*/
 	bool areaIsRayPickable(in RID area) const
 	{
-		_GODOT_area_is_ray_pickable.bind("PhysicsServer", "area_is_ray_pickable");
-		return ptrcall!(bool)(_GODOT_area_is_ray_pickable, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.areaIsRayPickable, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(RID, long, bool) _GODOT_body_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_create") = _GODOT_body_create;
 	/**
 	Creates a physics body. The first parameter can be any value from constants BODY_MODE*, for the type of body created. Additionally, the body can be created in sleeping state to save processing time.
 	*/
 	RID bodyCreate(in long mode = 2, in bool init_sleeping = false)
 	{
-		_GODOT_body_create.bind("PhysicsServer", "body_create");
-		return ptrcall!(RID)(_GODOT_body_create, _godot_object, mode, init_sleeping);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.bodyCreate, _godot_object, mode, init_sleeping);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_body_set_space;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_space") = _GODOT_body_set_space;
 	/**
 	Assigns a space to the body (see $(D createSpace)).
 	*/
 	void bodySetSpace(in RID _body, in RID space)
 	{
-		_GODOT_body_set_space.bind("PhysicsServer", "body_set_space");
-		ptrcall!(void)(_GODOT_body_set_space, _godot_object, _body, space);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetSpace, _godot_object, _body, space);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_body_get_space;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_space") = _GODOT_body_get_space;
 	/**
 	Returns the $(D RID) of the space assigned to a body.
 	*/
 	RID bodyGetSpace(in RID _body) const
 	{
-		_GODOT_body_get_space.bind("PhysicsServer", "body_get_space");
-		return ptrcall!(RID)(_GODOT_body_get_space, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.bodyGetSpace, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_set_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_mode") = _GODOT_body_set_mode;
 	/**
 	Sets the body mode, from one of the constants BODY_MODE*.
 	*/
 	void bodySetMode(in RID _body, in long mode)
 	{
-		_GODOT_body_set_mode.bind("PhysicsServer", "body_set_mode");
-		ptrcall!(void)(_GODOT_body_set_mode, _godot_object, _body, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetMode, _godot_object, _body, mode);
 	}
-	package(godot) static GodotMethod!(PhysicsServer.BodyMode, RID) _GODOT_body_get_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_mode") = _GODOT_body_get_mode;
 	/**
 	Returns the body mode.
 	*/
 	PhysicsServer.BodyMode bodyGetMode(in RID _body) const
 	{
-		_GODOT_body_get_mode.bind("PhysicsServer", "body_get_mode");
-		return ptrcall!(PhysicsServer.BodyMode)(_GODOT_body_get_mode, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsServer.BodyMode)(_classBinding.bodyGetMode, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_set_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_collision_layer") = _GODOT_body_set_collision_layer;
 	/**
 	Sets the physics layer or layers a body belongs to.
 	*/
 	void bodySetCollisionLayer(in RID _body, in long layer)
 	{
-		_GODOT_body_set_collision_layer.bind("PhysicsServer", "body_set_collision_layer");
-		ptrcall!(void)(_GODOT_body_set_collision_layer, _godot_object, _body, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetCollisionLayer, _godot_object, _body, layer);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_body_get_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_collision_layer") = _GODOT_body_get_collision_layer;
 	/**
 	Returns the physics layer or layers a body belongs to.
 	*/
 	long bodyGetCollisionLayer(in RID _body) const
 	{
-		_GODOT_body_get_collision_layer.bind("PhysicsServer", "body_get_collision_layer");
-		return ptrcall!(long)(_GODOT_body_get_collision_layer, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetCollisionLayer, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_set_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_collision_mask") = _GODOT_body_set_collision_mask;
 	/**
 	Sets the physics layer or layers a body can collide with.
 	*/
 	void bodySetCollisionMask(in RID _body, in long mask)
 	{
-		_GODOT_body_set_collision_mask.bind("PhysicsServer", "body_set_collision_mask");
-		ptrcall!(void)(_GODOT_body_set_collision_mask, _godot_object, _body, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetCollisionMask, _godot_object, _body, mask);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_body_get_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_collision_mask") = _GODOT_body_get_collision_mask;
 	/**
 	Returns the physics layer or layers a body can collide with.
 	-
 	*/
 	long bodyGetCollisionMask(in RID _body) const
 	{
-		_GODOT_body_get_collision_mask.bind("PhysicsServer", "body_get_collision_mask");
-		return ptrcall!(long)(_GODOT_body_get_collision_mask, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetCollisionMask, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, Transform) _GODOT_body_add_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_add_shape") = _GODOT_body_add_shape;
 	/**
 	Adds a shape to the body, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
 	*/
 	void bodyAddShape(in RID _body, in RID shape, in Transform transform = Transform.init)
 	{
-		_GODOT_body_add_shape.bind("PhysicsServer", "body_add_shape");
-		ptrcall!(void)(_GODOT_body_add_shape, _godot_object, _body, shape, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddShape, _godot_object, _body, shape, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_body_set_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_shape") = _GODOT_body_set_shape;
 	/**
 	Substitutes a given body shape by another. The old shape is selected by its index, the new one by its $(D RID).
 	*/
 	void bodySetShape(in RID _body, in long shape_idx, in RID shape)
 	{
-		_GODOT_body_set_shape.bind("PhysicsServer", "body_set_shape");
-		ptrcall!(void)(_GODOT_body_set_shape, _godot_object, _body, shape_idx, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShape, _godot_object, _body, shape_idx, shape);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform) _GODOT_body_set_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_shape_transform") = _GODOT_body_set_shape_transform;
 	/**
 	Sets the transform matrix for a body shape.
 	*/
 	void bodySetShapeTransform(in RID _body, in long shape_idx, in Transform transform)
 	{
-		_GODOT_body_set_shape_transform.bind("PhysicsServer", "body_set_shape_transform");
-		ptrcall!(void)(_GODOT_body_set_shape_transform, _godot_object, _body, shape_idx, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShapeTransform, _godot_object, _body, shape_idx, transform);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_body_get_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_shape_count") = _GODOT_body_get_shape_count;
 	/**
 	Returns the number of shapes assigned to a body.
 	*/
 	long bodyGetShapeCount(in RID _body) const
 	{
-		_GODOT_body_get_shape_count.bind("PhysicsServer", "body_get_shape_count");
-		return ptrcall!(long)(_GODOT_body_get_shape_count, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetShapeCount, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(RID, RID, long) _GODOT_body_get_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_shape") = _GODOT_body_get_shape;
 	/**
 	Returns the $(D RID) of the nth shape of a body.
 	*/
 	RID bodyGetShape(in RID _body, in long shape_idx) const
 	{
-		_GODOT_body_get_shape.bind("PhysicsServer", "body_get_shape");
-		return ptrcall!(RID)(_GODOT_body_get_shape, _godot_object, _body, shape_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.bodyGetShape, _godot_object, _body, shape_idx);
 	}
-	package(godot) static GodotMethod!(Transform, RID, long) _GODOT_body_get_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_shape_transform") = _GODOT_body_get_shape_transform;
 	/**
 	Returns the transform matrix of a body shape.
 	*/
 	Transform bodyGetShapeTransform(in RID _body, in long shape_idx) const
 	{
-		_GODOT_body_get_shape_transform.bind("PhysicsServer", "body_get_shape_transform");
-		return ptrcall!(Transform)(_GODOT_body_get_shape_transform, _godot_object, _body, shape_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.bodyGetShapeTransform, _godot_object, _body, shape_idx);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_remove_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_remove_shape") = _GODOT_body_remove_shape;
 	/**
 	Removes a shape from a body. The shape is not deleted, so it can be reused afterwards.
 	*/
 	void bodyRemoveShape(in RID _body, in long shape_idx)
 	{
-		_GODOT_body_remove_shape.bind("PhysicsServer", "body_remove_shape");
-		ptrcall!(void)(_GODOT_body_remove_shape, _godot_object, _body, shape_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyRemoveShape, _godot_object, _body, shape_idx);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_body_clear_shapes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_clear_shapes") = _GODOT_body_clear_shapes;
 	/**
 	Removes all shapes from a body.
 	*/
 	void bodyClearShapes(in RID _body)
 	{
-		_GODOT_body_clear_shapes.bind("PhysicsServer", "body_clear_shapes");
-		ptrcall!(void)(_GODOT_body_clear_shapes, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyClearShapes, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_attach_object_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_attach_object_instance_id") = _GODOT_body_attach_object_instance_id;
 	/**
 	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
 	*/
 	void bodyAttachObjectInstanceId(in RID _body, in long id)
 	{
-		_GODOT_body_attach_object_instance_id.bind("PhysicsServer", "body_attach_object_instance_id");
-		ptrcall!(void)(_GODOT_body_attach_object_instance_id, _godot_object, _body, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAttachObjectInstanceId, _godot_object, _body, id);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_body_get_object_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_object_instance_id") = _GODOT_body_get_object_instance_id;
 	/**
 	Gets the instance ID of the object the area is assigned to.
 	*/
 	long bodyGetObjectInstanceId(in RID _body) const
 	{
-		_GODOT_body_get_object_instance_id.bind("PhysicsServer", "body_get_object_instance_id");
-		return ptrcall!(long)(_GODOT_body_get_object_instance_id, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_body_set_enable_continuous_collision_detection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_enable_continuous_collision_detection") = _GODOT_body_set_enable_continuous_collision_detection;
 	/**
 	If `true` the continuous collision detection mode is enabled.
 	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
 	*/
 	void bodySetEnableContinuousCollisionDetection(in RID _body, in bool enable)
 	{
-		_GODOT_body_set_enable_continuous_collision_detection.bind("PhysicsServer", "body_set_enable_continuous_collision_detection");
-		ptrcall!(void)(_GODOT_body_set_enable_continuous_collision_detection, _godot_object, _body, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetEnableContinuousCollisionDetection, _godot_object, _body, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_body_is_continuous_collision_detection_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_is_continuous_collision_detection_enabled") = _GODOT_body_is_continuous_collision_detection_enabled;
 	/**
 	If `true` the continuous collision detection mode is enabled.
 	*/
 	bool bodyIsContinuousCollisionDetectionEnabled(in RID _body) const
 	{
-		_GODOT_body_is_continuous_collision_detection_enabled.bind("PhysicsServer", "body_is_continuous_collision_detection_enabled");
-		return ptrcall!(bool)(_GODOT_body_is_continuous_collision_detection_enabled, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyIsContinuousCollisionDetectionEnabled, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_body_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_param") = _GODOT_body_set_param;
 	/**
 	Sets a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
 	*/
 	void bodySetParam(in RID _body, in long param, in double value)
 	{
-		_GODOT_body_set_param.bind("PhysicsServer", "body_set_param");
-		ptrcall!(void)(_GODOT_body_set_param, _godot_object, _body, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetParam, _godot_object, _body, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_body_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_param") = _GODOT_body_get_param;
 	/**
 	Returns the value of a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
 	*/
 	double bodyGetParam(in RID _body, in long param) const
 	{
-		_GODOT_body_get_param.bind("PhysicsServer", "body_get_param");
-		return ptrcall!(double)(_GODOT_body_get_param, _godot_object, _body, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.bodyGetParam, _godot_object, _body, param);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_body_set_kinematic_safe_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_kinematic_safe_margin") = _GODOT_body_set_kinematic_safe_margin;
 	/**
 	
 	*/
 	void bodySetKinematicSafeMargin(in RID _body, in double margin)
 	{
-		_GODOT_body_set_kinematic_safe_margin.bind("PhysicsServer", "body_set_kinematic_safe_margin");
-		ptrcall!(void)(_GODOT_body_set_kinematic_safe_margin, _godot_object, _body, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetKinematicSafeMargin, _godot_object, _body, margin);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_body_get_kinematic_safe_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_kinematic_safe_margin") = _GODOT_body_get_kinematic_safe_margin;
 	/**
 	
 	*/
 	double bodyGetKinematicSafeMargin(in RID _body) const
 	{
-		_GODOT_body_get_kinematic_safe_margin.bind("PhysicsServer", "body_get_kinematic_safe_margin");
-		return ptrcall!(double)(_GODOT_body_get_kinematic_safe_margin, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.bodyGetKinematicSafeMargin, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Variant) _GODOT_body_set_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_state") = _GODOT_body_set_state;
 	/**
 	Sets a body state (see BODY_STATE* constants).
 	*/
 	void bodySetState(VariantArg2)(in RID _body, in long state, in VariantArg2 value)
 	{
-		_GODOT_body_set_state.bind("PhysicsServer", "body_set_state");
-		ptrcall!(void)(_GODOT_body_set_state, _godot_object, _body, state, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetState, _godot_object, _body, state, value);
 	}
-	package(godot) static GodotMethod!(Variant, RID, long) _GODOT_body_get_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_state") = _GODOT_body_get_state;
 	/**
 	Returns a body state.
 	*/
 	Variant bodyGetState(in RID _body, in long state) const
 	{
-		_GODOT_body_get_state.bind("PhysicsServer", "body_get_state");
-		return ptrcall!(Variant)(_GODOT_body_get_state, _godot_object, _body, state);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.bodyGetState, _godot_object, _body, state);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3, Vector3) _GODOT_body_apply_impulse;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_apply_impulse") = _GODOT_body_apply_impulse;
+	/**
+	
+	*/
+	void bodyAddCentralForce(in RID _body, in Vector3 force)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddCentralForce, _godot_object, _body, force);
+	}
+	/**
+	
+	*/
+	void bodyAddForce(in RID _body, in Vector3 force, in Vector3 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddForce, _godot_object, _body, force, position);
+	}
+	/**
+	
+	*/
+	void bodyAddTorque(in RID _body, in Vector3 torque)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddTorque, _godot_object, _body, torque);
+	}
+	/**
+	
+	*/
+	void bodyApplyCentralImpulse(in RID _body, in Vector3 impulse)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyApplyCentralImpulse, _godot_object, _body, impulse);
+	}
 	/**
 	Gives the body a push at a `position` in the direction of the `impulse`.
 	*/
 	void bodyApplyImpulse(in RID _body, in Vector3 position, in Vector3 impulse)
 	{
-		_GODOT_body_apply_impulse.bind("PhysicsServer", "body_apply_impulse");
-		ptrcall!(void)(_GODOT_body_apply_impulse, _godot_object, _body, position, impulse);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyApplyImpulse, _godot_object, _body, position, impulse);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_body_apply_torque_impulse;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_apply_torque_impulse") = _GODOT_body_apply_torque_impulse;
 	/**
 	Gives the body a push to rotate it.
 	*/
 	void bodyApplyTorqueImpulse(in RID _body, in Vector3 impulse)
 	{
-		_GODOT_body_apply_torque_impulse.bind("PhysicsServer", "body_apply_torque_impulse");
-		ptrcall!(void)(_GODOT_body_apply_torque_impulse, _godot_object, _body, impulse);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyApplyTorqueImpulse, _godot_object, _body, impulse);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_body_set_axis_velocity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_axis_velocity") = _GODOT_body_set_axis_velocity;
 	/**
 	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
 	*/
 	void bodySetAxisVelocity(in RID _body, in Vector3 axis_velocity)
 	{
-		_GODOT_body_set_axis_velocity.bind("PhysicsServer", "body_set_axis_velocity");
-		ptrcall!(void)(_GODOT_body_set_axis_velocity, _godot_object, _body, axis_velocity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetAxisVelocity, _godot_object, _body, axis_velocity);
 	}
-	package(godot) static GodotMethod!(void, RID, long, bool) _GODOT_body_set_axis_lock;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_axis_lock") = _GODOT_body_set_axis_lock;
 	/**
 	
 	*/
 	void bodySetAxisLock(in RID _body, in long axis, in bool lock)
 	{
-		_GODOT_body_set_axis_lock.bind("PhysicsServer", "body_set_axis_lock");
-		ptrcall!(void)(_GODOT_body_set_axis_lock, _godot_object, _body, axis, lock);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetAxisLock, _godot_object, _body, axis, lock);
 	}
-	package(godot) static GodotMethod!(bool, RID, long) _GODOT_body_is_axis_locked;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_is_axis_locked") = _GODOT_body_is_axis_locked;
 	/**
 	
 	*/
 	bool bodyIsAxisLocked(in RID _body, in long axis) const
 	{
-		_GODOT_body_is_axis_locked.bind("PhysicsServer", "body_is_axis_locked");
-		return ptrcall!(bool)(_GODOT_body_is_axis_locked, _godot_object, _body, axis);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyIsAxisLocked, _godot_object, _body, axis);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_body_add_collision_exception;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_add_collision_exception") = _GODOT_body_add_collision_exception;
 	/**
 	Adds a body to the list of bodies exempt from collisions.
 	*/
 	void bodyAddCollisionException(in RID _body, in RID excepted_body)
 	{
-		_GODOT_body_add_collision_exception.bind("PhysicsServer", "body_add_collision_exception");
-		ptrcall!(void)(_GODOT_body_add_collision_exception, _godot_object, _body, excepted_body);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddCollisionException, _godot_object, _body, excepted_body);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_body_remove_collision_exception;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_remove_collision_exception") = _GODOT_body_remove_collision_exception;
 	/**
 	Removes a body from the list of bodies exempt from collisions.
 	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
 	*/
 	void bodyRemoveCollisionException(in RID _body, in RID excepted_body)
 	{
-		_GODOT_body_remove_collision_exception.bind("PhysicsServer", "body_remove_collision_exception");
-		ptrcall!(void)(_GODOT_body_remove_collision_exception, _godot_object, _body, excepted_body);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyRemoveCollisionException, _godot_object, _body, excepted_body);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_body_set_max_contacts_reported;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_max_contacts_reported") = _GODOT_body_set_max_contacts_reported;
 	/**
 	Sets the maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
 	*/
 	void bodySetMaxContactsReported(in RID _body, in long amount)
 	{
-		_GODOT_body_set_max_contacts_reported.bind("PhysicsServer", "body_set_max_contacts_reported");
-		ptrcall!(void)(_GODOT_body_set_max_contacts_reported, _godot_object, _body, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetMaxContactsReported, _godot_object, _body, amount);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_body_get_max_contacts_reported;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_max_contacts_reported") = _GODOT_body_get_max_contacts_reported;
 	/**
 	Returns the maximum contacts that can be reported. See $(D bodySetMaxContactsReported).
 	*/
 	long bodyGetMaxContactsReported(in RID _body) const
 	{
-		_GODOT_body_get_max_contacts_reported.bind("PhysicsServer", "body_get_max_contacts_reported");
-		return ptrcall!(long)(_GODOT_body_get_max_contacts_reported, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetMaxContactsReported, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_body_set_omit_force_integration;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_omit_force_integration") = _GODOT_body_set_omit_force_integration;
 	/**
 	Sets whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
 	*/
 	void bodySetOmitForceIntegration(in RID _body, in bool enable)
 	{
-		_GODOT_body_set_omit_force_integration.bind("PhysicsServer", "body_set_omit_force_integration");
-		ptrcall!(void)(_GODOT_body_set_omit_force_integration, _godot_object, _body, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetOmitForceIntegration, _godot_object, _body, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_body_is_omitting_force_integration;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_is_omitting_force_integration") = _GODOT_body_is_omitting_force_integration;
 	/**
 	Returns whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
 	*/
 	bool bodyIsOmittingForceIntegration(in RID _body) const
 	{
-		_GODOT_body_is_omitting_force_integration.bind("PhysicsServer", "body_is_omitting_force_integration");
-		return ptrcall!(bool)(_GODOT_body_is_omitting_force_integration, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyIsOmittingForceIntegration, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, RID, GodotObject, String, Variant) _GODOT_body_set_force_integration_callback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_force_integration_callback") = _GODOT_body_set_force_integration_callback;
 	/**
 	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
 	*/
 	void bodySetForceIntegrationCallback(StringArg2, VariantArg3)(in RID _body, GodotObject receiver, in StringArg2 method, in VariantArg3 userdata = Variant.nil)
 	{
-		_GODOT_body_set_force_integration_callback.bind("PhysicsServer", "body_set_force_integration_callback");
-		ptrcall!(void)(_GODOT_body_set_force_integration_callback, _godot_object, _body, receiver, method, userdata);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_body_set_ray_pickable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_set_ray_pickable") = _GODOT_body_set_ray_pickable;
 	/**
 	Sets the body pickable with rays if `enabled` is set.
 	*/
 	void bodySetRayPickable(in RID _body, in bool enable)
 	{
-		_GODOT_body_set_ray_pickable.bind("PhysicsServer", "body_set_ray_pickable");
-		ptrcall!(void)(_GODOT_body_set_ray_pickable, _godot_object, _body, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetRayPickable, _godot_object, _body, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_body_is_ray_pickable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_is_ray_pickable") = _GODOT_body_is_ray_pickable;
 	/**
 	If `true` the body can be detected by rays
 	*/
 	bool bodyIsRayPickable(in RID _body) const
 	{
-		_GODOT_body_is_ray_pickable.bind("PhysicsServer", "body_is_ray_pickable");
-		return ptrcall!(bool)(_GODOT_body_is_ray_pickable, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyIsRayPickable, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(PhysicsDirectBodyState, RID) _GODOT_body_get_direct_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "body_get_direct_state") = _GODOT_body_get_direct_state;
 	/**
 	Returns the $(D PhysicsDirectBodyState) of the body.
 	*/
 	PhysicsDirectBodyState bodyGetDirectState(in RID _body)
 	{
-		_GODOT_body_get_direct_state.bind("PhysicsServer", "body_get_direct_state");
-		return ptrcall!(PhysicsDirectBodyState)(_GODOT_body_get_direct_state, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsDirectBodyState)(_classBinding.bodyGetDirectState, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(RID, RID, Vector3, RID, Vector3) _GODOT_joint_create_pin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_create_pin") = _GODOT_joint_create_pin;
 	/**
 	Creates a $(D PinJoint).
 	*/
 	RID jointCreatePin(in RID body_A, in Vector3 local_A, in RID body_B, in Vector3 local_B)
 	{
-		_GODOT_joint_create_pin.bind("PhysicsServer", "joint_create_pin");
-		return ptrcall!(RID)(_GODOT_joint_create_pin, _godot_object, body_A, local_A, body_B, local_B);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.jointCreatePin, _godot_object, body_A, local_A, body_B, local_B);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_pin_joint_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_set_param") = _GODOT_pin_joint_set_param;
 	/**
 	Sets a pin_joint parameter (see PIN_JOINT* constants).
 	*/
 	void pinJointSetParam(in RID joint, in long param, in double value)
 	{
-		_GODOT_pin_joint_set_param.bind("PhysicsServer", "pin_joint_set_param");
-		ptrcall!(void)(_GODOT_pin_joint_set_param, _godot_object, joint, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pinJointSetParam, _godot_object, joint, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_pin_joint_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_get_param") = _GODOT_pin_joint_get_param;
 	/**
 	Gets a pin_joint parameter (see PIN_JOINT* constants).
 	*/
 	double pinJointGetParam(in RID joint, in long param) const
 	{
-		_GODOT_pin_joint_get_param.bind("PhysicsServer", "pin_joint_get_param");
-		return ptrcall!(double)(_GODOT_pin_joint_get_param, _godot_object, joint, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.pinJointGetParam, _godot_object, joint, param);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_pin_joint_set_local_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_set_local_a") = _GODOT_pin_joint_set_local_a;
 	/**
 	Sets position of the joint in the local space of body a of the joint.
 	*/
 	void pinJointSetLocalA(in RID joint, in Vector3 local_A)
 	{
-		_GODOT_pin_joint_set_local_a.bind("PhysicsServer", "pin_joint_set_local_a");
-		ptrcall!(void)(_GODOT_pin_joint_set_local_a, _godot_object, joint, local_A);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pinJointSetLocalA, _godot_object, joint, local_A);
 	}
-	package(godot) static GodotMethod!(Vector3, RID) _GODOT_pin_joint_get_local_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_get_local_a") = _GODOT_pin_joint_get_local_a;
 	/**
 	Returns position of the joint in the local space of body a of the joint.
 	*/
 	Vector3 pinJointGetLocalA(in RID joint) const
 	{
-		_GODOT_pin_joint_get_local_a.bind("PhysicsServer", "pin_joint_get_local_a");
-		return ptrcall!(Vector3)(_GODOT_pin_joint_get_local_a, _godot_object, joint);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.pinJointGetLocalA, _godot_object, joint);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_pin_joint_set_local_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_set_local_b") = _GODOT_pin_joint_set_local_b;
 	/**
 	Sets position of the joint in the local space of body b of the joint.
 	*/
 	void pinJointSetLocalB(in RID joint, in Vector3 local_B)
 	{
-		_GODOT_pin_joint_set_local_b.bind("PhysicsServer", "pin_joint_set_local_b");
-		ptrcall!(void)(_GODOT_pin_joint_set_local_b, _godot_object, joint, local_B);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pinJointSetLocalB, _godot_object, joint, local_B);
 	}
-	package(godot) static GodotMethod!(Vector3, RID) _GODOT_pin_joint_get_local_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pin_joint_get_local_b") = _GODOT_pin_joint_get_local_b;
 	/**
 	Returns position of the joint in the local space of body b of the joint.
 	*/
 	Vector3 pinJointGetLocalB(in RID joint) const
 	{
-		_GODOT_pin_joint_get_local_b.bind("PhysicsServer", "pin_joint_get_local_b");
-		return ptrcall!(Vector3)(_GODOT_pin_joint_get_local_b, _godot_object, joint);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.pinJointGetLocalB, _godot_object, joint);
 	}
-	package(godot) static GodotMethod!(RID, RID, Transform, RID, Transform) _GODOT_joint_create_hinge;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_create_hinge") = _GODOT_joint_create_hinge;
 	/**
 	Creates a $(D HingeJoint).
 	*/
 	RID jointCreateHinge(in RID body_A, in Transform hinge_A, in RID body_B, in Transform hinge_B)
 	{
-		_GODOT_joint_create_hinge.bind("PhysicsServer", "joint_create_hinge");
-		return ptrcall!(RID)(_GODOT_joint_create_hinge, _godot_object, body_A, hinge_A, body_B, hinge_B);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.jointCreateHinge, _godot_object, body_A, hinge_A, body_B, hinge_B);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_hinge_joint_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hinge_joint_set_param") = _GODOT_hinge_joint_set_param;
 	/**
 	Sets a hinge_joint parameter (see HINGE_JOINT* constants without the HINGE_JOINT_FLAG*).
 	*/
 	void hingeJointSetParam(in RID joint, in long param, in double value)
 	{
-		_GODOT_hinge_joint_set_param.bind("PhysicsServer", "hinge_joint_set_param");
-		ptrcall!(void)(_GODOT_hinge_joint_set_param, _godot_object, joint, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.hingeJointSetParam, _godot_object, joint, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_hinge_joint_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hinge_joint_get_param") = _GODOT_hinge_joint_get_param;
 	/**
 	Gets a hinge_joint parameter (see HINGE_JOINT* constants without the HINGE_JOINT_FLAG*).
 	*/
 	double hingeJointGetParam(in RID joint, in long param) const
 	{
-		_GODOT_hinge_joint_get_param.bind("PhysicsServer", "hinge_joint_get_param");
-		return ptrcall!(double)(_GODOT_hinge_joint_get_param, _godot_object, joint, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.hingeJointGetParam, _godot_object, joint, param);
 	}
-	package(godot) static GodotMethod!(void, RID, long, bool) _GODOT_hinge_joint_set_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hinge_joint_set_flag") = _GODOT_hinge_joint_set_flag;
 	/**
 	Sets a hinge_joint flag (see HINGE_JOINT_FLAG* constants).
 	*/
 	void hingeJointSetFlag(in RID joint, in long flag, in bool enabled)
 	{
-		_GODOT_hinge_joint_set_flag.bind("PhysicsServer", "hinge_joint_set_flag");
-		ptrcall!(void)(_GODOT_hinge_joint_set_flag, _godot_object, joint, flag, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.hingeJointSetFlag, _godot_object, joint, flag, enabled);
 	}
-	package(godot) static GodotMethod!(bool, RID, long) _GODOT_hinge_joint_get_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hinge_joint_get_flag") = _GODOT_hinge_joint_get_flag;
 	/**
 	Gets a hinge_joint flag (see HINGE_JOINT_FLAG* constants).
 	*/
 	bool hingeJointGetFlag(in RID joint, in long flag) const
 	{
-		_GODOT_hinge_joint_get_flag.bind("PhysicsServer", "hinge_joint_get_flag");
-		return ptrcall!(bool)(_GODOT_hinge_joint_get_flag, _godot_object, joint, flag);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hingeJointGetFlag, _godot_object, joint, flag);
 	}
-	package(godot) static GodotMethod!(RID, RID, Transform, RID, Transform) _GODOT_joint_create_slider;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_create_slider") = _GODOT_joint_create_slider;
 	/**
 	Creates a $(D SliderJoint).
 	*/
 	RID jointCreateSlider(in RID body_A, in Transform local_ref_A, in RID body_B, in Transform local_ref_B)
 	{
-		_GODOT_joint_create_slider.bind("PhysicsServer", "joint_create_slider");
-		return ptrcall!(RID)(_GODOT_joint_create_slider, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.jointCreateSlider, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_slider_joint_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "slider_joint_set_param") = _GODOT_slider_joint_set_param;
 	/**
 	Gets a slider_joint parameter (see SLIDER_JOINT* constants).
 	*/
 	void sliderJointSetParam(in RID joint, in long param, in double value)
 	{
-		_GODOT_slider_joint_set_param.bind("PhysicsServer", "slider_joint_set_param");
-		ptrcall!(void)(_GODOT_slider_joint_set_param, _godot_object, joint, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.sliderJointSetParam, _godot_object, joint, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_slider_joint_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "slider_joint_get_param") = _GODOT_slider_joint_get_param;
 	/**
 	Gets a slider_joint parameter (see SLIDER_JOINT* constants).
 	*/
 	double sliderJointGetParam(in RID joint, in long param) const
 	{
-		_GODOT_slider_joint_get_param.bind("PhysicsServer", "slider_joint_get_param");
-		return ptrcall!(double)(_GODOT_slider_joint_get_param, _godot_object, joint, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.sliderJointGetParam, _godot_object, joint, param);
 	}
-	package(godot) static GodotMethod!(RID, RID, Transform, RID, Transform) _GODOT_joint_create_cone_twist;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_create_cone_twist") = _GODOT_joint_create_cone_twist;
 	/**
 	Creates a $(D ConeTwistJoint).
 	*/
 	RID jointCreateConeTwist(in RID body_A, in Transform local_ref_A, in RID body_B, in Transform local_ref_B)
 	{
-		_GODOT_joint_create_cone_twist.bind("PhysicsServer", "joint_create_cone_twist");
-		return ptrcall!(RID)(_GODOT_joint_create_cone_twist, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.jointCreateConeTwist, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_cone_twist_joint_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cone_twist_joint_set_param") = _GODOT_cone_twist_joint_set_param;
 	/**
 	Sets a cone_twist_joint parameter (see CONE_TWIST_JOINT* constants).
 	*/
 	void coneTwistJointSetParam(in RID joint, in long param, in double value)
 	{
-		_GODOT_cone_twist_joint_set_param.bind("PhysicsServer", "cone_twist_joint_set_param");
-		ptrcall!(void)(_GODOT_cone_twist_joint_set_param, _godot_object, joint, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.coneTwistJointSetParam, _godot_object, joint, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long) _GODOT_cone_twist_joint_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cone_twist_joint_get_param") = _GODOT_cone_twist_joint_get_param;
 	/**
 	Gets a cone_twist_joint parameter (see CONE_TWIST_JOINT* constants).
 	*/
 	double coneTwistJointGetParam(in RID joint, in long param) const
 	{
-		_GODOT_cone_twist_joint_get_param.bind("PhysicsServer", "cone_twist_joint_get_param");
-		return ptrcall!(double)(_GODOT_cone_twist_joint_get_param, _godot_object, joint, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.coneTwistJointGetParam, _godot_object, joint, param);
 	}
-	package(godot) static GodotMethod!(PhysicsServer.JointType, RID) _GODOT_joint_get_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_get_type") = _GODOT_joint_get_type;
 	/**
 	Returns the type of the Joint.
 	*/
 	PhysicsServer.JointType jointGetType(in RID joint) const
 	{
-		_GODOT_joint_get_type.bind("PhysicsServer", "joint_get_type");
-		return ptrcall!(PhysicsServer.JointType)(_GODOT_joint_get_type, _godot_object, joint);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsServer.JointType)(_classBinding.jointGetType, _godot_object, joint);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_joint_set_solver_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_set_solver_priority") = _GODOT_joint_set_solver_priority;
 	/**
 	Sets the priority value of the Joint.
 	*/
 	void jointSetSolverPriority(in RID joint, in long priority)
 	{
-		_GODOT_joint_set_solver_priority.bind("PhysicsServer", "joint_set_solver_priority");
-		ptrcall!(void)(_GODOT_joint_set_solver_priority, _godot_object, joint, priority);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.jointSetSolverPriority, _godot_object, joint, priority);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_joint_get_solver_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_get_solver_priority") = _GODOT_joint_get_solver_priority;
 	/**
 	Gets the priority value of the Joint.
 	*/
 	long jointGetSolverPriority(in RID joint) const
 	{
-		_GODOT_joint_get_solver_priority.bind("PhysicsServer", "joint_get_solver_priority");
-		return ptrcall!(long)(_GODOT_joint_get_solver_priority, _godot_object, joint);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.jointGetSolverPriority, _godot_object, joint);
 	}
-	package(godot) static GodotMethod!(RID, RID, Transform, RID, Transform) _GODOT_joint_create_generic_6dof;
-	package(godot) alias _GODOT_methodBindInfo(string name : "joint_create_generic_6dof") = _GODOT_joint_create_generic_6dof;
 	/**
 	Creates a $(D Generic6DOFJoint).
 	*/
 	RID jointCreateGeneric6dof(in RID body_A, in Transform local_ref_A, in RID body_B, in Transform local_ref_B)
 	{
-		_GODOT_joint_create_generic_6dof.bind("PhysicsServer", "joint_create_generic_6dof");
-		return ptrcall!(RID)(_GODOT_joint_create_generic_6dof, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.jointCreateGeneric6dof, _godot_object, body_A, local_ref_A, body_B, local_ref_B);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long, double) _GODOT_generic_6dof_joint_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generic_6dof_joint_set_param") = _GODOT_generic_6dof_joint_set_param;
 	/**
 	Sets a generic_6_DOF_joint parameter (see G6DOF_JOINT* constants without the G6DOF_JOINT_FLAG*).
 	*/
 	void generic6dofJointSetParam(in RID joint, in long axis, in long param, in double value)
 	{
-		_GODOT_generic_6dof_joint_set_param.bind("PhysicsServer", "generic_6dof_joint_set_param");
-		ptrcall!(void)(_GODOT_generic_6dof_joint_set_param, _godot_object, joint, axis, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.generic6dofJointSetParam, _godot_object, joint, axis, param, value);
 	}
-	package(godot) static GodotMethod!(double, RID, long, long) _GODOT_generic_6dof_joint_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generic_6dof_joint_get_param") = _GODOT_generic_6dof_joint_get_param;
 	/**
 	Gets a generic_6_DOF_joint parameter (see G6DOF_JOINT* constants without the G6DOF_JOINT_FLAG*).
 	*/
 	double generic6dofJointGetParam(in RID joint, in long axis, in long param)
 	{
-		_GODOT_generic_6dof_joint_get_param.bind("PhysicsServer", "generic_6dof_joint_get_param");
-		return ptrcall!(double)(_GODOT_generic_6dof_joint_get_param, _godot_object, joint, axis, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.generic6dofJointGetParam, _godot_object, joint, axis, param);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long, bool) _GODOT_generic_6dof_joint_set_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generic_6dof_joint_set_flag") = _GODOT_generic_6dof_joint_set_flag;
 	/**
 	Sets a generic_6_DOF_joint flag (see G6DOF_JOINT_FLAG* constants).
 	*/
 	void generic6dofJointSetFlag(in RID joint, in long axis, in long flag, in bool enable)
 	{
-		_GODOT_generic_6dof_joint_set_flag.bind("PhysicsServer", "generic_6dof_joint_set_flag");
-		ptrcall!(void)(_GODOT_generic_6dof_joint_set_flag, _godot_object, joint, axis, flag, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.generic6dofJointSetFlag, _godot_object, joint, axis, flag, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID, long, long) _GODOT_generic_6dof_joint_get_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generic_6dof_joint_get_flag") = _GODOT_generic_6dof_joint_get_flag;
 	/**
 	Gets a generic_6_DOF_joint flag (see G6DOF_JOINT_FLAG* constants).
 	*/
 	bool generic6dofJointGetFlag(in RID joint, in long axis, in long flag)
 	{
-		_GODOT_generic_6dof_joint_get_flag.bind("PhysicsServer", "generic_6dof_joint_get_flag");
-		return ptrcall!(bool)(_GODOT_generic_6dof_joint_get_flag, _godot_object, joint, axis, flag);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.generic6dofJointGetFlag, _godot_object, joint, axis, flag);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_free_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "free_rid") = _GODOT_free_rid;
 	/**
 	Destroys any of the objects created by PhysicsServer. If the $(D RID) passed is not one of the objects that can be created by PhysicsServer, an error will be sent to the console.
 	*/
 	void freeRid(in RID rid)
 	{
-		_GODOT_free_rid.bind("PhysicsServer", "free_rid");
-		ptrcall!(void)(_GODOT_free_rid, _godot_object, rid);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.freeRid, _godot_object, rid);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_active") = _GODOT_set_active;
 	/**
 	Activates or deactivates the 3D physics engine.
 	*/
 	void setActive(in bool active)
 	{
-		_GODOT_set_active.bind("PhysicsServer", "set_active");
-		ptrcall!(void)(_GODOT_set_active, _godot_object, active);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_process_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_process_info") = _GODOT_get_process_info;
 	/**
 	Returns an Info defined by the $(D ProcessInfo) input given.
 	*/
 	long getProcessInfo(in long process_info)
 	{
-		_GODOT_get_process_info.bind("PhysicsServer", "get_process_info");
-		return ptrcall!(long)(_GODOT_get_process_info, _godot_object, process_info);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getProcessInfo, _godot_object, process_info);
 	}
 }
 /// Returns: the PhysicsServerSingleton
 @property @nogc nothrow pragma(inline, true)
 PhysicsServerSingleton PhysicsServer()
 {
-	return PhysicsServerSingleton._GODOT_singleton();
+	checkClassBinding!PhysicsServerSingleton();
+	return PhysicsServerSingleton(PhysicsServerSingleton._classBinding._singleton);
 }

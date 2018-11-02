@@ -21,17 +21,33 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct PolygonPathFinder
 {
-	static immutable string _GODOT_internal_name = "PolygonPathFinder";
+	enum string _GODOT_internal_name = "PolygonPathFinder";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("setup") GodotMethod!(void, PoolVector2Array, PoolIntArray) setup;
+		@GodotName("find_path") GodotMethod!(PoolVector2Array, Vector2, Vector2) findPath;
+		@GodotName("get_intersections") GodotMethod!(PoolVector2Array, Vector2, Vector2) getIntersections;
+		@GodotName("get_closest_point") GodotMethod!(Vector2, Vector2) getClosestPoint;
+		@GodotName("is_point_inside") GodotMethod!(bool, Vector2) isPointInside;
+		@GodotName("set_point_penalty") GodotMethod!(void, long, double) setPointPenalty;
+		@GodotName("get_point_penalty") GodotMethod!(double, long) getPointPenalty;
+		@GodotName("get_bounds") GodotMethod!(Rect2) getBounds;
+		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
+		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
+	}
 	bool opEquals(in PolygonPathFinder other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PolygonPathFinder opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,88 +60,70 @@ public:
 		return cast(PolygonPathFinder)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, PoolVector2Array, PoolIntArray) _GODOT_setup;
-	package(godot) alias _GODOT_methodBindInfo(string name : "setup") = _GODOT_setup;
 	/**
 	
 	*/
 	void setup(in PoolVector2Array points, in PoolIntArray connections)
 	{
-		_GODOT_setup.bind("PolygonPathFinder", "setup");
-		ptrcall!(void)(_GODOT_setup, _godot_object, points, connections);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setup, _godot_object, points, connections);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array, Vector2, Vector2) _GODOT_find_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_path") = _GODOT_find_path;
 	/**
 	
 	*/
 	PoolVector2Array findPath(in Vector2 from, in Vector2 to)
 	{
-		_GODOT_find_path.bind("PolygonPathFinder", "find_path");
-		return ptrcall!(PoolVector2Array)(_GODOT_find_path, _godot_object, from, to);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.findPath, _godot_object, from, to);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array, Vector2, Vector2) _GODOT_get_intersections;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_intersections") = _GODOT_get_intersections;
 	/**
 	
 	*/
 	PoolVector2Array getIntersections(in Vector2 from, in Vector2 to) const
 	{
-		_GODOT_get_intersections.bind("PolygonPathFinder", "get_intersections");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_intersections, _godot_object, from, to);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getIntersections, _godot_object, from, to);
 	}
-	package(godot) static GodotMethod!(Vector2, Vector2) _GODOT_get_closest_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_closest_point") = _GODOT_get_closest_point;
 	/**
 	
 	*/
 	Vector2 getClosestPoint(in Vector2 point) const
 	{
-		_GODOT_get_closest_point.bind("PolygonPathFinder", "get_closest_point");
-		return ptrcall!(Vector2)(_GODOT_get_closest_point, _godot_object, point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, point);
 	}
-	package(godot) static GodotMethod!(bool, Vector2) _GODOT_is_point_inside;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_point_inside") = _GODOT_is_point_inside;
 	/**
 	
 	*/
 	bool isPointInside(in Vector2 point) const
 	{
-		_GODOT_is_point_inside.bind("PolygonPathFinder", "is_point_inside");
-		return ptrcall!(bool)(_GODOT_is_point_inside, _godot_object, point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPointInside, _godot_object, point);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_point_penalty;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_point_penalty") = _GODOT_set_point_penalty;
 	/**
 	
 	*/
 	void setPointPenalty(in long idx, in double penalty)
 	{
-		_GODOT_set_point_penalty.bind("PolygonPathFinder", "set_point_penalty");
-		ptrcall!(void)(_GODOT_set_point_penalty, _godot_object, idx, penalty);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointPenalty, _godot_object, idx, penalty);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_point_penalty;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_point_penalty") = _GODOT_get_point_penalty;
 	/**
 	
 	*/
 	double getPointPenalty(in long idx) const
 	{
-		_GODOT_get_point_penalty.bind("PolygonPathFinder", "get_point_penalty");
-		return ptrcall!(double)(_GODOT_get_point_penalty, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPointPenalty, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_bounds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bounds") = _GODOT_get_bounds;
 	/**
 	
 	*/
 	Rect2 getBounds() const
 	{
-		_GODOT_get_bounds.bind("PolygonPathFinder", "get_bounds");
-		return ptrcall!(Rect2)(_GODOT_get_bounds, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getBounds, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**
 	
 	*/
@@ -136,8 +134,6 @@ public:
 		String _GODOT_method_name = String("_set_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_data") = _GODOT__get_data;
 	/**
 	
 	*/

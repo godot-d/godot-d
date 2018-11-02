@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 A Visual Script node used to call built-in functions.
 
@@ -29,12 +31,19 @@ See also $(D @GDScript), for the same functions in the GDScript language.
 */
 @GodotBaseClass struct VisualScriptBuiltinFunc
 {
-	static immutable string _GODOT_internal_name = "VisualScriptBuiltinFunc";
+	enum string _GODOT_internal_name = "VisualScriptBuiltinFunc";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_func") GodotMethod!(void, long) setFunc;
+		@GodotName("get_func") GodotMethod!(VisualScriptBuiltinFunc.BuiltinFunc) getFunc;
+	}
 	bool opEquals(in VisualScriptBuiltinFunc other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptBuiltinFunc opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -375,25 +384,21 @@ public:
 		colorn = 62,
 		funcMax = 63,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_func;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_func") = _GODOT_set_func;
 	/**
 	
 	*/
 	void setFunc(in long which)
 	{
-		_GODOT_set_func.bind("VisualScriptBuiltinFunc", "set_func");
-		ptrcall!(void)(_GODOT_set_func, _godot_object, which);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunc, _godot_object, which);
 	}
-	package(godot) static GodotMethod!(VisualScriptBuiltinFunc.BuiltinFunc) _GODOT_get_func;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_func") = _GODOT_get_func;
 	/**
 	
 	*/
 	VisualScriptBuiltinFunc.BuiltinFunc getFunc()
 	{
-		_GODOT_get_func.bind("VisualScriptBuiltinFunc", "get_func");
-		return ptrcall!(VisualScriptBuiltinFunc.BuiltinFunc)(_GODOT_get_func, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptBuiltinFunc.BuiltinFunc)(_classBinding.getFunc, _godot_object);
 	}
 	/**
 	The function to be executed.

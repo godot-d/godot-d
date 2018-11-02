@@ -22,6 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.acceptdialog;
 import godot.button;
+import godot.windowdialog;
+import godot.popup;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Dialog for confirmation of actions.
 
@@ -29,12 +34,18 @@ This dialog inherits from $(D AcceptDialog), but has by default an OK and Cancel
 */
 @GodotBaseClass struct ConfirmationDialog
 {
-	static immutable string _GODOT_internal_name = "ConfirmationDialog";
+	enum string _GODOT_internal_name = "ConfirmationDialog";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AcceptDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_cancel") GodotMethod!(Button) getCancel;
+	}
 	bool opEquals(in ConfirmationDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConfirmationDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,14 +58,12 @@ public:
 		return cast(ConfirmationDialog)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Button) _GODOT_get_cancel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cancel") = _GODOT_get_cancel;
 	/**
 	Return the cancel button.
 	*/
 	Button getCancel()
 	{
-		_GODOT_get_cancel.bind("ConfirmationDialog", "get_cancel");
-		return ptrcall!(Button)(_GODOT_get_cancel, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Button)(_classBinding.getCancel, _godot_object);
 	}
 }

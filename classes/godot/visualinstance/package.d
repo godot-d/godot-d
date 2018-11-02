@@ -20,17 +20,31 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.spatial;
+import godot.node;
 /**
 
 */
 @GodotBaseClass struct VisualInstance
 {
-	static immutable string _GODOT_internal_name = "VisualInstance";
+	enum string _GODOT_internal_name = "VisualInstance";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_get_visual_instance_rid") GodotMethod!(RID) _getVisualInstanceRid;
+		@GodotName("set_base") GodotMethod!(void, RID) setBase;
+		@GodotName("set_layer_mask") GodotMethod!(void, long) setLayerMask;
+		@GodotName("get_layer_mask") GodotMethod!(long) getLayerMask;
+		@GodotName("set_layer_mask_bit") GodotMethod!(void, long, bool) setLayerMaskBit;
+		@GodotName("get_layer_mask_bit") GodotMethod!(bool, long) getLayerMaskBit;
+		@GodotName("get_transformed_aabb") GodotMethod!(AABB) getTransformedAabb;
+		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
+	}
 	bool opEquals(in VisualInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -43,8 +57,6 @@ public:
 		return cast(VisualInstance)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(RID) _GODOT__get_visual_instance_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_visual_instance_rid") = _GODOT__get_visual_instance_rid;
 	/**
 	
 	*/
@@ -54,57 +66,63 @@ public:
 		String _GODOT_method_name = String("_get_visual_instance_rid");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!RID);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_set_base;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base") = _GODOT_set_base;
 	/**
 	Sets the base of the VisualInstance, which changes how the engine handles the VisualInstance under the hood.
 	It is recommended to only use set_base if you know what you're doing.
 	*/
 	void setBase(in RID base)
 	{
-		_GODOT_set_base.bind("VisualInstance", "set_base");
-		ptrcall!(void)(_GODOT_set_base, _godot_object, base);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_layer_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_layer_mask") = _GODOT_set_layer_mask;
 	/**
 	
 	*/
 	void setLayerMask(in long mask)
 	{
-		_GODOT_set_layer_mask.bind("VisualInstance", "set_layer_mask");
-		ptrcall!(void)(_GODOT_set_layer_mask, _godot_object, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLayerMask, _godot_object, mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_layer_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_layer_mask") = _GODOT_get_layer_mask;
 	/**
 	
 	*/
 	long getLayerMask() const
 	{
-		_GODOT_get_layer_mask.bind("VisualInstance", "get_layer_mask");
-		return ptrcall!(long)(_GODOT_get_layer_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLayerMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_get_transformed_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_transformed_aabb") = _GODOT_get_transformed_aabb;
+	/**
+	
+	*/
+	void setLayerMaskBit(in long layer, in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLayerMaskBit, _godot_object, layer, enabled);
+	}
+	/**
+	
+	*/
+	bool getLayerMaskBit(in long layer) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getLayerMaskBit, _godot_object, layer);
+	}
 	/**
 	Returns the transformed $(D AABB) (also known as the bounding box) for this VisualInstance.
 	Transformed in this case means the $(D AABB) plus the position, rotation, and scale of the $(D Spatial)s $(D Transform)
 	*/
 	AABB getTransformedAabb() const
 	{
-		_GODOT_get_transformed_aabb.bind("VisualInstance", "get_transformed_aabb");
-		return ptrcall!(AABB)(_GODOT_get_transformed_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getTransformedAabb, _godot_object);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_get_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_aabb") = _GODOT_get_aabb;
 	/**
 	Returns the $(D AABB) (also known as the bounding box) for this VisualInstance.
 	*/
 	AABB getAabb() const
 	{
-		_GODOT_get_aabb.bind("VisualInstance", "get_aabb");
-		return ptrcall!(AABB)(_GODOT_get_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
 	}
 	/**
 	The render layer(s) this VisualInstance is drawn on.

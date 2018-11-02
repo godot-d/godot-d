@@ -21,6 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.rigidbody;
+import godot.physicsbody;
+import godot.collisionobject;
+import godot.spatial;
+import godot.node;
 /**
 Physics body that simulates the behaviour of a car.
 
@@ -29,12 +33,23 @@ Note that the origin point of your VehicleBody will determine the center of grav
 */
 @GodotBaseClass struct VehicleBody
 {
-	static immutable string _GODOT_internal_name = "VehicleBody";
+	enum string _GODOT_internal_name = "VehicleBody";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; RigidBody _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_engine_force") GodotMethod!(void, double) setEngineForce;
+		@GodotName("get_engine_force") GodotMethod!(double) getEngineForce;
+		@GodotName("set_brake") GodotMethod!(void, double) setBrake;
+		@GodotName("get_brake") GodotMethod!(double) getBrake;
+		@GodotName("set_steering") GodotMethod!(void, double) setSteering;
+		@GodotName("get_steering") GodotMethod!(double) getSteering;
+	}
 	bool opEquals(in VehicleBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VehicleBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,65 +62,53 @@ public:
 		return cast(VehicleBody)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_engine_force;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_engine_force") = _GODOT_set_engine_force;
 	/**
 	
 	*/
 	void setEngineForce(in double engine_force)
 	{
-		_GODOT_set_engine_force.bind("VehicleBody", "set_engine_force");
-		ptrcall!(void)(_GODOT_set_engine_force, _godot_object, engine_force);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEngineForce, _godot_object, engine_force);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_engine_force;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_engine_force") = _GODOT_get_engine_force;
 	/**
 	
 	*/
 	double getEngineForce() const
 	{
-		_GODOT_get_engine_force.bind("VehicleBody", "get_engine_force");
-		return ptrcall!(double)(_GODOT_get_engine_force, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEngineForce, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_brake;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_brake") = _GODOT_set_brake;
 	/**
 	
 	*/
 	void setBrake(in double brake)
 	{
-		_GODOT_set_brake.bind("VehicleBody", "set_brake");
-		ptrcall!(void)(_GODOT_set_brake, _godot_object, brake);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBrake, _godot_object, brake);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_brake;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_brake") = _GODOT_get_brake;
 	/**
 	
 	*/
 	double getBrake() const
 	{
-		_GODOT_get_brake.bind("VehicleBody", "get_brake");
-		return ptrcall!(double)(_GODOT_get_brake, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBrake, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_steering;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_steering") = _GODOT_set_steering;
 	/**
 	
 	*/
 	void setSteering(in double steering)
 	{
-		_GODOT_set_steering.bind("VehicleBody", "set_steering");
-		ptrcall!(void)(_GODOT_set_steering, _godot_object, steering);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSteering, _godot_object, steering);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_steering;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_steering") = _GODOT_get_steering;
 	/**
 	
 	*/
 	double getSteering() const
 	{
-		_GODOT_get_steering.bind("VehicleBody", "get_steering");
-		return ptrcall!(double)(_GODOT_get_steering, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
 	}
 	/**
 	Accelerates the vehicle by applying an engine force. The vehicle is only speed up if the wheels that have $(D VehicleWheel.setUseAsTraction) set to true and are in contact with a surface. The $(D RigidBody.mass) of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration. Note that the simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.

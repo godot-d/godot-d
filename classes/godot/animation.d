@@ -21,20 +21,99 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
 Contains data used to animate everything in the engine.
 
 An Animation resource contains data used to animate everything in the engine. Animations are divided into tracks, and each track must be linked to a node. The state of that node can be changed through time, by adding timed keys (events) to the track.
-Animations are just data containers, and must be added to odes such as an $(D AnimationPlayer) or $(D AnimationTreePlayer) to be played back.
+
+
+# This creates an animation that makes the node "Enemy" move to the right by
+# 100 pixels in 1 second. 
+var animation = Animation.new()
+var track_index = animation.add_track(Animation.TYPE_VALUE)
+animation.track_set_path(track_index, "Enemy:position.x")
+animation.track_insert_key(track_index, 0.0, 0)
+animation.track_insert_key(track_index, 0.5, 100)
+
+
+Animations are just data containers, and must be added to nodes such as an $(D AnimationPlayer) or $(D AnimationTreePlayer) to be played back.
 */
 @GodotBaseClass struct Animation
 {
-	static immutable string _GODOT_internal_name = "Animation";
+	enum string _GODOT_internal_name = "Animation";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_track") GodotMethod!(long, long, long) addTrack;
+		@GodotName("remove_track") GodotMethod!(void, long) removeTrack;
+		@GodotName("get_track_count") GodotMethod!(long) getTrackCount;
+		@GodotName("track_get_type") GodotMethod!(Animation.TrackType, long) trackGetType;
+		@GodotName("track_get_path") GodotMethod!(NodePath, long) trackGetPath;
+		@GodotName("track_set_path") GodotMethod!(void, long, NodePath) trackSetPath;
+		@GodotName("find_track") GodotMethod!(long, NodePath) findTrack;
+		@GodotName("track_move_up") GodotMethod!(void, long) trackMoveUp;
+		@GodotName("track_move_down") GodotMethod!(void, long) trackMoveDown;
+		@GodotName("track_swap") GodotMethod!(void, long, long) trackSwap;
+		@GodotName("track_set_imported") GodotMethod!(void, long, bool) trackSetImported;
+		@GodotName("track_is_imported") GodotMethod!(bool, long) trackIsImported;
+		@GodotName("track_set_enabled") GodotMethod!(void, long, bool) trackSetEnabled;
+		@GodotName("track_is_enabled") GodotMethod!(bool, long) trackIsEnabled;
+		@GodotName("transform_track_insert_key") GodotMethod!(long, long, double, Vector3, Quat, Vector3) transformTrackInsertKey;
+		@GodotName("track_insert_key") GodotMethod!(void, long, double, Variant, double) trackInsertKey;
+		@GodotName("track_remove_key") GodotMethod!(void, long, long) trackRemoveKey;
+		@GodotName("track_remove_key_at_position") GodotMethod!(void, long, double) trackRemoveKeyAtPosition;
+		@GodotName("track_set_key_value") GodotMethod!(void, long, long, Variant) trackSetKeyValue;
+		@GodotName("track_set_key_transition") GodotMethod!(void, long, long, double) trackSetKeyTransition;
+		@GodotName("track_get_key_transition") GodotMethod!(double, long, long) trackGetKeyTransition;
+		@GodotName("track_get_key_count") GodotMethod!(long, long) trackGetKeyCount;
+		@GodotName("track_get_key_value") GodotMethod!(Variant, long, long) trackGetKeyValue;
+		@GodotName("track_get_key_time") GodotMethod!(double, long, long) trackGetKeyTime;
+		@GodotName("track_find_key") GodotMethod!(long, long, double, bool) trackFindKey;
+		@GodotName("track_set_interpolation_type") GodotMethod!(void, long, long) trackSetInterpolationType;
+		@GodotName("track_get_interpolation_type") GodotMethod!(Animation.InterpolationType, long) trackGetInterpolationType;
+		@GodotName("track_set_interpolation_loop_wrap") GodotMethod!(void, long, bool) trackSetInterpolationLoopWrap;
+		@GodotName("track_get_interpolation_loop_wrap") GodotMethod!(bool, long) trackGetInterpolationLoopWrap;
+		@GodotName("transform_track_interpolate") GodotMethod!(Array, long, double) transformTrackInterpolate;
+		@GodotName("value_track_set_update_mode") GodotMethod!(void, long, long) valueTrackSetUpdateMode;
+		@GodotName("value_track_get_update_mode") GodotMethod!(Animation.UpdateMode, long) valueTrackGetUpdateMode;
+		@GodotName("value_track_get_key_indices") GodotMethod!(PoolIntArray, long, double, double) valueTrackGetKeyIndices;
+		@GodotName("method_track_get_key_indices") GodotMethod!(PoolIntArray, long, double, double) methodTrackGetKeyIndices;
+		@GodotName("method_track_get_name") GodotMethod!(String, long, long) methodTrackGetName;
+		@GodotName("method_track_get_params") GodotMethod!(Array, long, long) methodTrackGetParams;
+		@GodotName("bezier_track_insert_key") GodotMethod!(long, long, double, double, Vector2, Vector2) bezierTrackInsertKey;
+		@GodotName("bezier_track_set_key_value") GodotMethod!(void, long, long, double) bezierTrackSetKeyValue;
+		@GodotName("bezier_track_set_key_in_handle") GodotMethod!(void, long, long, Vector2) bezierTrackSetKeyInHandle;
+		@GodotName("bezier_track_set_key_out_handle") GodotMethod!(void, long, long, Vector2) bezierTrackSetKeyOutHandle;
+		@GodotName("bezier_track_get_key_value") GodotMethod!(double, long, long) bezierTrackGetKeyValue;
+		@GodotName("bezier_track_get_key_in_handle") GodotMethod!(Vector2, long, long) bezierTrackGetKeyInHandle;
+		@GodotName("bezier_track_get_key_out_handle") GodotMethod!(Vector2, long, long) bezierTrackGetKeyOutHandle;
+		@GodotName("bezier_track_interpolate") GodotMethod!(double, long, double) bezierTrackInterpolate;
+		@GodotName("audio_track_insert_key") GodotMethod!(long, long, double, Resource, double, double) audioTrackInsertKey;
+		@GodotName("audio_track_set_key_stream") GodotMethod!(void, long, long, Resource) audioTrackSetKeyStream;
+		@GodotName("audio_track_set_key_start_offset") GodotMethod!(void, long, long, double) audioTrackSetKeyStartOffset;
+		@GodotName("audio_track_set_key_end_offset") GodotMethod!(void, long, long, double) audioTrackSetKeyEndOffset;
+		@GodotName("audio_track_get_key_stream") GodotMethod!(Resource, long, long) audioTrackGetKeyStream;
+		@GodotName("audio_track_get_key_start_offset") GodotMethod!(double, long, long) audioTrackGetKeyStartOffset;
+		@GodotName("audio_track_get_key_end_offset") GodotMethod!(double, long, long) audioTrackGetKeyEndOffset;
+		@GodotName("animation_track_insert_key") GodotMethod!(long, long, double, String) animationTrackInsertKey;
+		@GodotName("animation_track_set_key_animation") GodotMethod!(void, long, long, String) animationTrackSetKeyAnimation;
+		@GodotName("animation_track_get_key_animation") GodotMethod!(String, long, long) animationTrackGetKeyAnimation;
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("get_length") GodotMethod!(double) getLength;
+		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
+		@GodotName("has_loop") GodotMethod!(bool) hasLoop;
+		@GodotName("set_step") GodotMethod!(void, double) setStep;
+		@GodotName("get_step") GodotMethod!(double) getStep;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("copy_track") GodotMethod!(void, long, Animation) copyTrack;
+	}
 	bool opEquals(in Animation other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Animation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -62,6 +141,18 @@ public:
 		Method tracks call functions with given arguments per key.
 		*/
 		typeMethod = 2,
+		/**
+		
+		*/
+		typeBezier = 3,
+		/**
+		
+		*/
+		typeAudio = 4,
+		/**
+		
+		*/
+		typeAnimation = 5,
 	}
 	/// 
 	enum UpdateMode : int
@@ -78,6 +169,10 @@ public:
 		Update at the keyframes.
 		*/
 		updateTrigger = 2,
+		/**
+		
+		*/
+		updateCapture = 3,
 	}
 	/// 
 	enum InterpolationType : int
@@ -98,445 +193,516 @@ public:
 	/// 
 	enum Constants : int
 	{
+		typeValue = 0,
 		interpolationNearest = 0,
 		updateContinuous = 0,
-		typeValue = 0,
-		typeTransform = 1,
-		updateDiscrete = 1,
 		interpolationLinear = 1,
+		updateDiscrete = 1,
+		typeTransform = 1,
 		updateTrigger = 2,
-		typeMethod = 2,
 		interpolationCubic = 2,
+		typeMethod = 2,
+		typeBezier = 3,
+		updateCapture = 3,
+		typeAudio = 4,
+		typeAnimation = 5,
 	}
-	package(godot) static GodotMethod!(long, long, long) _GODOT_add_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_track") = _GODOT_add_track;
 	/**
 	Add a track to the Animation. The track type must be specified as any of the values in the TYPE_* enumeration.
 	*/
 	long addTrack(in long type, in long at_position = -1)
 	{
-		_GODOT_add_track.bind("Animation", "add_track");
-		return ptrcall!(long)(_GODOT_add_track, _godot_object, type, at_position);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.addTrack, _godot_object, type, at_position);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_track") = _GODOT_remove_track;
 	/**
 	Remove a track by specifying the track index.
 	*/
 	void removeTrack(in long idx)
 	{
-		_GODOT_remove_track.bind("Animation", "remove_track");
-		ptrcall!(void)(_GODOT_remove_track, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeTrack, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_track_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_track_count") = _GODOT_get_track_count;
 	/**
 	Return the amount of tracks in the animation.
 	*/
 	long getTrackCount() const
 	{
-		_GODOT_get_track_count.bind("Animation", "get_track_count");
-		return ptrcall!(long)(_GODOT_get_track_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrackCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(Animation.TrackType, long) _GODOT_track_get_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_type") = _GODOT_track_get_type;
 	/**
 	Get the type of a track.
 	*/
 	Animation.TrackType trackGetType(in long idx) const
 	{
-		_GODOT_track_get_type.bind("Animation", "track_get_type");
-		return ptrcall!(Animation.TrackType)(_GODOT_track_get_type, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation.TrackType)(_classBinding.trackGetType, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(NodePath, long) _GODOT_track_get_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_path") = _GODOT_track_get_path;
 	/**
 	Get the path of a track. for more information on the path format, see $(D trackSetPath)
 	*/
 	NodePath trackGetPath(in long idx) const
 	{
-		_GODOT_track_get_path.bind("Animation", "track_get_path");
-		return ptrcall!(NodePath)(_GODOT_track_get_path, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.trackGetPath, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, NodePath) _GODOT_track_set_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_path") = _GODOT_track_set_path;
 	/**
-	Set the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by ":". Example: "character/skeleton:ankle" or "character/mesh:transform/local"
+	Set the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by ":".
+	$(B Example:) "character/skeleton:ankle" or "character/mesh:transform/local".
 	*/
 	void trackSetPath(NodePathArg1)(in long idx, in NodePathArg1 path)
 	{
-		_GODOT_track_set_path.bind("Animation", "track_set_path");
-		ptrcall!(void)(_GODOT_track_set_path, _godot_object, idx, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetPath, _godot_object, idx, path);
 	}
-	package(godot) static GodotMethod!(long, NodePath) _GODOT_find_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_track") = _GODOT_find_track;
 	/**
 	Return the index of the specified track. If the track is not found, return -1.
 	*/
 	long findTrack(NodePathArg0)(in NodePathArg0 path) const
 	{
-		_GODOT_find_track.bind("Animation", "find_track");
-		return ptrcall!(long)(_GODOT_find_track, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.findTrack, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_track_move_up;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_move_up") = _GODOT_track_move_up;
 	/**
 	Move a track up.
 	*/
 	void trackMoveUp(in long idx)
 	{
-		_GODOT_track_move_up.bind("Animation", "track_move_up");
-		ptrcall!(void)(_GODOT_track_move_up, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackMoveUp, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_track_move_down;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_move_down") = _GODOT_track_move_down;
 	/**
 	Move a track down.
 	*/
 	void trackMoveDown(in long idx)
 	{
-		_GODOT_track_move_down.bind("Animation", "track_move_down");
-		ptrcall!(void)(_GODOT_track_move_down, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackMoveDown, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_track_set_imported;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_imported") = _GODOT_track_set_imported;
+	/**
+	
+	*/
+	void trackSwap(in long idx, in long with_idx)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSwap, _godot_object, idx, with_idx);
+	}
 	/**
 	Set the given track as imported or not.
 	*/
 	void trackSetImported(in long idx, in bool imported)
 	{
-		_GODOT_track_set_imported.bind("Animation", "track_set_imported");
-		ptrcall!(void)(_GODOT_track_set_imported, _godot_object, idx, imported);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetImported, _godot_object, idx, imported);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_track_is_imported;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_is_imported") = _GODOT_track_is_imported;
 	/**
 	Return true if the given track is imported. Else, return false.
 	*/
 	bool trackIsImported(in long idx) const
 	{
-		_GODOT_track_is_imported.bind("Animation", "track_is_imported");
-		return ptrcall!(bool)(_GODOT_track_is_imported, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.trackIsImported, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_track_set_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_enabled") = _GODOT_track_set_enabled;
 	/**
 	Enables/disables the given track. Tracks are enabled by default.
 	*/
 	void trackSetEnabled(in long idx, in bool enabled)
 	{
-		_GODOT_track_set_enabled.bind("Animation", "track_set_enabled");
-		ptrcall!(void)(_GODOT_track_set_enabled, _godot_object, idx, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetEnabled, _godot_object, idx, enabled);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_track_is_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_is_enabled") = _GODOT_track_is_enabled;
 	/**
 	Returns `true` if the track at index `idx` is enabled.
 	*/
 	bool trackIsEnabled(in long idx) const
 	{
-		_GODOT_track_is_enabled.bind("Animation", "track_is_enabled");
-		return ptrcall!(bool)(_GODOT_track_is_enabled, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.trackIsEnabled, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(long, long, double, Vector3, Quat, Vector3) _GODOT_transform_track_insert_key;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transform_track_insert_key") = _GODOT_transform_track_insert_key;
 	/**
 	Insert a transform key for a transform track.
 	*/
 	long transformTrackInsertKey(in long idx, in double time, in Vector3 location, in Quat rotation, in Vector3 scale)
 	{
-		_GODOT_transform_track_insert_key.bind("Animation", "transform_track_insert_key");
-		return ptrcall!(long)(_GODOT_transform_track_insert_key, _godot_object, idx, time, location, rotation, scale);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.transformTrackInsertKey, _godot_object, idx, time, location, rotation, scale);
 	}
-	package(godot) static GodotMethod!(void, long, double, Variant, double) _GODOT_track_insert_key;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_insert_key") = _GODOT_track_insert_key;
 	/**
 	Insert a generic key in a given track.
 	*/
 	void trackInsertKey(VariantArg2)(in long idx, in double time, in VariantArg2 key, in double transition = 1)
 	{
-		_GODOT_track_insert_key.bind("Animation", "track_insert_key");
-		ptrcall!(void)(_GODOT_track_insert_key, _godot_object, idx, time, key, transition);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackInsertKey, _godot_object, idx, time, key, transition);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_track_remove_key;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_remove_key") = _GODOT_track_remove_key;
 	/**
 	Remove a key by index in a given track.
 	*/
 	void trackRemoveKey(in long idx, in long key_idx)
 	{
-		_GODOT_track_remove_key.bind("Animation", "track_remove_key");
-		ptrcall!(void)(_GODOT_track_remove_key, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackRemoveKey, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_track_remove_key_at_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_remove_key_at_position") = _GODOT_track_remove_key_at_position;
 	/**
 	Remove a key by position (seconds) in a given track.
 	*/
 	void trackRemoveKeyAtPosition(in long idx, in double position)
 	{
-		_GODOT_track_remove_key_at_position.bind("Animation", "track_remove_key_at_position");
-		ptrcall!(void)(_GODOT_track_remove_key_at_position, _godot_object, idx, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackRemoveKeyAtPosition, _godot_object, idx, position);
 	}
-	package(godot) static GodotMethod!(void, long, long, Variant) _GODOT_track_set_key_value;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_key_value") = _GODOT_track_set_key_value;
 	/**
 	Set the value of an existing key.
 	*/
 	void trackSetKeyValue(VariantArg2)(in long idx, in long key, in VariantArg2 value)
 	{
-		_GODOT_track_set_key_value.bind("Animation", "track_set_key_value");
-		ptrcall!(void)(_GODOT_track_set_key_value, _godot_object, idx, key, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetKeyValue, _godot_object, idx, key, value);
 	}
-	package(godot) static GodotMethod!(void, long, long, double) _GODOT_track_set_key_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_key_transition") = _GODOT_track_set_key_transition;
 	/**
 	Set the transition curve (easing) for a specific key (see built-in math function "ease").
 	*/
 	void trackSetKeyTransition(in long idx, in long key_idx, in double transition)
 	{
-		_GODOT_track_set_key_transition.bind("Animation", "track_set_key_transition");
-		ptrcall!(void)(_GODOT_track_set_key_transition, _godot_object, idx, key_idx, transition);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetKeyTransition, _godot_object, idx, key_idx, transition);
 	}
-	package(godot) static GodotMethod!(double, long, long) _GODOT_track_get_key_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_key_transition") = _GODOT_track_get_key_transition;
 	/**
 	Return the transition curve (easing) for a specific key (see built-in math function "ease").
 	*/
 	double trackGetKeyTransition(in long idx, in long key_idx) const
 	{
-		_GODOT_track_get_key_transition.bind("Animation", "track_get_key_transition");
-		return ptrcall!(double)(_GODOT_track_get_key_transition, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.trackGetKeyTransition, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_track_get_key_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_key_count") = _GODOT_track_get_key_count;
 	/**
 	Return the amount of keys in a given track.
 	*/
 	long trackGetKeyCount(in long idx) const
 	{
-		_GODOT_track_get_key_count.bind("Animation", "track_get_key_count");
-		return ptrcall!(long)(_GODOT_track_get_key_count, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.trackGetKeyCount, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Variant, long, long) _GODOT_track_get_key_value;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_key_value") = _GODOT_track_get_key_value;
 	/**
 	Return the value of a given key in a given track.
 	*/
 	Variant trackGetKeyValue(in long idx, in long key_idx) const
 	{
-		_GODOT_track_get_key_value.bind("Animation", "track_get_key_value");
-		return ptrcall!(Variant)(_GODOT_track_get_key_value, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.trackGetKeyValue, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(double, long, long) _GODOT_track_get_key_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_key_time") = _GODOT_track_get_key_time;
 	/**
 	Return the time at which the key is located.
 	*/
 	double trackGetKeyTime(in long idx, in long key_idx) const
 	{
-		_GODOT_track_get_key_time.bind("Animation", "track_get_key_time");
-		return ptrcall!(double)(_GODOT_track_get_key_time, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.trackGetKeyTime, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(long, long, double, bool) _GODOT_track_find_key;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_find_key") = _GODOT_track_find_key;
 	/**
 	Find the key index by time in a given track. Optionally, only find it if the exact time is given.
 	*/
 	long trackFindKey(in long idx, in double time, in bool exact = false) const
 	{
-		_GODOT_track_find_key.bind("Animation", "track_find_key");
-		return ptrcall!(long)(_GODOT_track_find_key, _godot_object, idx, time, exact);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.trackFindKey, _godot_object, idx, time, exact);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_track_set_interpolation_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_interpolation_type") = _GODOT_track_set_interpolation_type;
 	/**
 	Set the interpolation type of a given track, from the INTERPOLATION_* enum.
 	*/
 	void trackSetInterpolationType(in long idx, in long interpolation)
 	{
-		_GODOT_track_set_interpolation_type.bind("Animation", "track_set_interpolation_type");
-		ptrcall!(void)(_GODOT_track_set_interpolation_type, _godot_object, idx, interpolation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetInterpolationType, _godot_object, idx, interpolation);
 	}
-	package(godot) static GodotMethod!(Animation.InterpolationType, long) _GODOT_track_get_interpolation_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_interpolation_type") = _GODOT_track_get_interpolation_type;
 	/**
 	Return the interpolation type of a given track, from the INTERPOLATION_* enum.
 	*/
 	Animation.InterpolationType trackGetInterpolationType(in long idx) const
 	{
-		_GODOT_track_get_interpolation_type.bind("Animation", "track_get_interpolation_type");
-		return ptrcall!(Animation.InterpolationType)(_GODOT_track_get_interpolation_type, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation.InterpolationType)(_classBinding.trackGetInterpolationType, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_track_set_interpolation_loop_wrap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_set_interpolation_loop_wrap") = _GODOT_track_set_interpolation_loop_wrap;
 	/**
 	If `true` the track at `idx` wraps the interpolation loop.
 	*/
 	void trackSetInterpolationLoopWrap(in long idx, in bool interpolation)
 	{
-		_GODOT_track_set_interpolation_loop_wrap.bind("Animation", "track_set_interpolation_loop_wrap");
-		ptrcall!(void)(_GODOT_track_set_interpolation_loop_wrap, _godot_object, idx, interpolation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.trackSetInterpolationLoopWrap, _godot_object, idx, interpolation);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_track_get_interpolation_loop_wrap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "track_get_interpolation_loop_wrap") = _GODOT_track_get_interpolation_loop_wrap;
 	/**
 	Returns `true` if the track at `idx` wraps the interpolation loop. Default value: `true`.
 	*/
 	bool trackGetInterpolationLoopWrap(in long idx) const
 	{
-		_GODOT_track_get_interpolation_loop_wrap.bind("Animation", "track_get_interpolation_loop_wrap");
-		return ptrcall!(bool)(_GODOT_track_get_interpolation_loop_wrap, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.trackGetInterpolationLoopWrap, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Array, long, double) _GODOT_transform_track_interpolate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transform_track_interpolate") = _GODOT_transform_track_interpolate;
 	/**
 	Return the interpolated value of a transform track at a given time (in seconds). An array consisting of 3 elements: position ($(D Vector3)), rotation ($(D Quat)) and scale ($(D Vector3)).
 	*/
 	Array transformTrackInterpolate(in long idx, in double time_sec) const
 	{
-		_GODOT_transform_track_interpolate.bind("Animation", "transform_track_interpolate");
-		return ptrcall!(Array)(_GODOT_transform_track_interpolate, _godot_object, idx, time_sec);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.transformTrackInterpolate, _godot_object, idx, time_sec);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_value_track_set_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "value_track_set_update_mode") = _GODOT_value_track_set_update_mode;
 	/**
 	Set the update mode (UPDATE_*) of a value track.
 	*/
 	void valueTrackSetUpdateMode(in long idx, in long mode)
 	{
-		_GODOT_value_track_set_update_mode.bind("Animation", "value_track_set_update_mode");
-		ptrcall!(void)(_GODOT_value_track_set_update_mode, _godot_object, idx, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.valueTrackSetUpdateMode, _godot_object, idx, mode);
 	}
-	package(godot) static GodotMethod!(Animation.UpdateMode, long) _GODOT_value_track_get_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "value_track_get_update_mode") = _GODOT_value_track_get_update_mode;
 	/**
 	Return the update mode of a value track.
 	*/
 	Animation.UpdateMode valueTrackGetUpdateMode(in long idx) const
 	{
-		_GODOT_value_track_get_update_mode.bind("Animation", "value_track_get_update_mode");
-		return ptrcall!(Animation.UpdateMode)(_GODOT_value_track_get_update_mode, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation.UpdateMode)(_classBinding.valueTrackGetUpdateMode, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long, double, double) _GODOT_value_track_get_key_indices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "value_track_get_key_indices") = _GODOT_value_track_get_key_indices;
 	/**
 	Return all the key indices of a value track, given a position and delta time.
 	*/
 	PoolIntArray valueTrackGetKeyIndices(in long idx, in double time_sec, in double delta) const
 	{
-		_GODOT_value_track_get_key_indices.bind("Animation", "value_track_get_key_indices");
-		return ptrcall!(PoolIntArray)(_GODOT_value_track_get_key_indices, _godot_object, idx, time_sec, delta);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.valueTrackGetKeyIndices, _godot_object, idx, time_sec, delta);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long, double, double) _GODOT_method_track_get_key_indices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "method_track_get_key_indices") = _GODOT_method_track_get_key_indices;
 	/**
 	Return all the key indices of a method track, given a position and delta time.
 	*/
 	PoolIntArray methodTrackGetKeyIndices(in long idx, in double time_sec, in double delta) const
 	{
-		_GODOT_method_track_get_key_indices.bind("Animation", "method_track_get_key_indices");
-		return ptrcall!(PoolIntArray)(_GODOT_method_track_get_key_indices, _godot_object, idx, time_sec, delta);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.methodTrackGetKeyIndices, _godot_object, idx, time_sec, delta);
 	}
-	package(godot) static GodotMethod!(String, long, long) _GODOT_method_track_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "method_track_get_name") = _GODOT_method_track_get_name;
 	/**
 	Return the method name of a method track.
 	*/
 	String methodTrackGetName(in long idx, in long key_idx) const
 	{
-		_GODOT_method_track_get_name.bind("Animation", "method_track_get_name");
-		return ptrcall!(String)(_GODOT_method_track_get_name, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.methodTrackGetName, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(Array, long, long) _GODOT_method_track_get_params;
-	package(godot) alias _GODOT_methodBindInfo(string name : "method_track_get_params") = _GODOT_method_track_get_params;
 	/**
 	Return the arguments values to be called on a method track for a given key in a given track.
 	*/
 	Array methodTrackGetParams(in long idx, in long key_idx) const
 	{
-		_GODOT_method_track_get_params.bind("Animation", "method_track_get_params");
-		return ptrcall!(Array)(_GODOT_method_track_get_params, _godot_object, idx, key_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.methodTrackGetParams, _godot_object, idx, key_idx);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_length") = _GODOT_set_length;
+	/**
+	
+	*/
+	long bezierTrackInsertKey(in long track, in double time, in double value, in Vector2 in_handle = Vector2(0, 0), in Vector2 out_handle = Vector2(0, 0))
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bezierTrackInsertKey, _godot_object, track, time, value, in_handle, out_handle);
+	}
+	/**
+	
+	*/
+	void bezierTrackSetKeyValue(in long idx, in long key_idx, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bezierTrackSetKeyValue, _godot_object, idx, key_idx, value);
+	}
+	/**
+	
+	*/
+	void bezierTrackSetKeyInHandle(in long idx, in long key_idx, in Vector2 in_handle)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bezierTrackSetKeyInHandle, _godot_object, idx, key_idx, in_handle);
+	}
+	/**
+	
+	*/
+	void bezierTrackSetKeyOutHandle(in long idx, in long key_idx, in Vector2 out_handle)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bezierTrackSetKeyOutHandle, _godot_object, idx, key_idx, out_handle);
+	}
+	/**
+	
+	*/
+	double bezierTrackGetKeyValue(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.bezierTrackGetKeyValue, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	Vector2 bezierTrackGetKeyInHandle(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.bezierTrackGetKeyInHandle, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	Vector2 bezierTrackGetKeyOutHandle(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.bezierTrackGetKeyOutHandle, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	double bezierTrackInterpolate(in long track, in double time) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.bezierTrackInterpolate, _godot_object, track, time);
+	}
+	/**
+	
+	*/
+	long audioTrackInsertKey(in long track, in double time, Resource stream, in double start_offset = 0, in double end_offset = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.audioTrackInsertKey, _godot_object, track, time, stream, start_offset, end_offset);
+	}
+	/**
+	
+	*/
+	void audioTrackSetKeyStream(in long idx, in long key_idx, Resource stream)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.audioTrackSetKeyStream, _godot_object, idx, key_idx, stream);
+	}
+	/**
+	
+	*/
+	void audioTrackSetKeyStartOffset(in long idx, in long key_idx, in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.audioTrackSetKeyStartOffset, _godot_object, idx, key_idx, offset);
+	}
+	/**
+	
+	*/
+	void audioTrackSetKeyEndOffset(in long idx, in long key_idx, in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.audioTrackSetKeyEndOffset, _godot_object, idx, key_idx, offset);
+	}
+	/**
+	
+	*/
+	Ref!Resource audioTrackGetKeyStream(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Resource)(_classBinding.audioTrackGetKeyStream, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	double audioTrackGetKeyStartOffset(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.audioTrackGetKeyStartOffset, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	double audioTrackGetKeyEndOffset(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.audioTrackGetKeyEndOffset, _godot_object, idx, key_idx);
+	}
+	/**
+	
+	*/
+	long animationTrackInsertKey(StringArg2)(in long track, in double time, in StringArg2 animation)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.animationTrackInsertKey, _godot_object, track, time, animation);
+	}
+	/**
+	
+	*/
+	void animationTrackSetKeyAnimation(StringArg2)(in long idx, in long key_idx, in StringArg2 animation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.animationTrackSetKeyAnimation, _godot_object, idx, key_idx, animation);
+	}
+	/**
+	
+	*/
+	String animationTrackGetKeyAnimation(in long idx, in long key_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.animationTrackGetKeyAnimation, _godot_object, idx, key_idx);
+	}
 	/**
 	
 	*/
 	void setLength(in double time_sec)
 	{
-		_GODOT_set_length.bind("Animation", "set_length");
-		ptrcall!(void)(_GODOT_set_length, _godot_object, time_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLength, _godot_object, time_sec);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_length") = _GODOT_get_length;
 	/**
 	
 	*/
 	double getLength() const
 	{
-		_GODOT_get_length.bind("Animation", "get_length");
-		return ptrcall!(double)(_GODOT_get_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_loop") = _GODOT_set_loop;
 	/**
 	
 	*/
 	void setLoop(in bool enabled)
 	{
-		_GODOT_set_loop.bind("Animation", "set_loop");
-		ptrcall!(void)(_GODOT_set_loop, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoop, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_loop") = _GODOT_has_loop;
 	/**
 	
 	*/
 	bool hasLoop() const
 	{
-		_GODOT_has_loop.bind("Animation", "has_loop");
-		return ptrcall!(bool)(_GODOT_has_loop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_step") = _GODOT_set_step;
 	/**
 	
 	*/
 	void setStep(in double size_sec)
 	{
-		_GODOT_set_step.bind("Animation", "set_step");
-		ptrcall!(void)(_GODOT_set_step, _godot_object, size_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStep, _godot_object, size_sec);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_step") = _GODOT_get_step;
 	/**
 	
 	*/
 	double getStep() const
 	{
-		_GODOT_get_step.bind("Animation", "get_step");
-		return ptrcall!(double)(_GODOT_get_step, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStep, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Clear the animation (clear all tracks and reset all).
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("Animation", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Animation) _GODOT_copy_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "copy_track") = _GODOT_copy_track;
 	/**
 	Adds a new track that is a copy of the given track from `to_animation`.
 	*/
 	void copyTrack(in long track, Animation to_animation)
 	{
-		_GODOT_copy_track.bind("Animation", "copy_track");
-		ptrcall!(void)(_GODOT_copy_track, _godot_object, track, to_animation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.copyTrack, _godot_object, track, to_animation);
 	}
 	/**
 	The total length of the animation (in seconds). Note that length is not delimited by the last key, as this one may be before or after the end to ensure correct interpolation and looping.

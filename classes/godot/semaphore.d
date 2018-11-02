@@ -28,12 +28,19 @@ Element used to synchronize multiple $(D Thread)s. Initialized to zero on creati
 */
 @GodotBaseClass struct Semaphore
 {
-	static immutable string _GODOT_internal_name = "_Semaphore";
+	enum string _GODOT_internal_name = "_Semaphore";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("wait") GodotMethod!(GodotError) wait;
+		@GodotName("post") GodotMethod!(GodotError) post;
+	}
 	bool opEquals(in Semaphore other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Semaphore opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,24 +53,20 @@ public:
 		return cast(Semaphore)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(GodotError) _GODOT_wait;
-	package(godot) alias _GODOT_methodBindInfo(string name : "wait") = _GODOT_wait;
 	/**
 	Tries to wait for the `Semaphore`, if its value is zero, blocks until non-zero. Returns $(D OK) on success, $(D ERR_BUSY) otherwise.
 	*/
 	GodotError wait()
 	{
-		_GODOT_wait.bind("_Semaphore", "wait");
-		return ptrcall!(GodotError)(_GODOT_wait, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_post;
-	package(godot) alias _GODOT_methodBindInfo(string name : "post") = _GODOT_post;
 	/**
 	Lowers the `Semaphore`, allowing one more thread in. Returns $(D OK) on success, $(D ERR_BUSY) otherwise.
 	*/
 	GodotError post()
 	{
-		_GODOT_post.bind("_Semaphore", "post");
-		return ptrcall!(GodotError)(_GODOT_post, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.post, _godot_object);
 	}
 }

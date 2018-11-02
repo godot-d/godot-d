@@ -21,17 +21,25 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct VisualScriptSubCall
 {
-	static immutable string _GODOT_internal_name = "VisualScriptSubCall";
+	enum string _GODOT_internal_name = "VisualScriptSubCall";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_subcall") GodotMethod!(Variant, Variant) _subcall;
+	}
 	bool opEquals(in VisualScriptSubCall other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSubCall opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,8 +52,6 @@ public:
 		return cast(VisualScriptSubCall)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Variant, Variant) _GODOT__subcall;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_subcall") = _GODOT__subcall;
 	/**
 	
 	*/

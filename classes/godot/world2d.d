@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.physics2ddirectspacestate;
+import godot.reference;
 /**
 Class that has everything pertaining to a 2D world.
 
@@ -29,12 +30,20 @@ A physics space, a visual scenario and a sound space. 2D nodes register their re
 */
 @GodotBaseClass struct World2D
 {
-	static immutable string _GODOT_internal_name = "World2D";
+	enum string _GODOT_internal_name = "World2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_canvas") GodotMethod!(RID) getCanvas;
+		@GodotName("get_space") GodotMethod!(RID) getSpace;
+		@GodotName("get_direct_space_state") GodotMethod!(Physics2DDirectSpaceState) getDirectSpaceState;
+	}
 	bool opEquals(in World2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	World2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,35 +56,29 @@ public:
 		return cast(World2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(RID) _GODOT_get_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas") = _GODOT_get_canvas;
 	/**
 	
 	*/
 	RID getCanvas()
 	{
-		_GODOT_get_canvas.bind("World2D", "get_canvas");
-		return ptrcall!(RID)(_GODOT_get_canvas, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getCanvas, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_space;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_space") = _GODOT_get_space;
 	/**
 	
 	*/
 	RID getSpace()
 	{
-		_GODOT_get_space.bind("World2D", "get_space");
-		return ptrcall!(RID)(_GODOT_get_space, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
 	}
-	package(godot) static GodotMethod!(Physics2DDirectSpaceState) _GODOT_get_direct_space_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_direct_space_state") = _GODOT_get_direct_space_state;
 	/**
 	
 	*/
 	Physics2DDirectSpaceState getDirectSpaceState()
 	{
-		_GODOT_get_direct_space_state.bind("World2D", "get_direct_space_state");
-		return ptrcall!(Physics2DDirectSpaceState)(_GODOT_get_direct_space_state, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Physics2DDirectSpaceState)(_classBinding.getDirectSpaceState, _godot_object);
 	}
 	/**
 	The $(D RID) of this world's canvas resource. Used by the $(D VisualServer) for 2D drawing.

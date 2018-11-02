@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visibilitynotifier2d;
+import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
 Enable certain nodes only when visible.
 
@@ -28,12 +31,20 @@ The VisibilityEnabler2D will disable $(D RigidBody2D), $(D AnimationPlayer), and
 */
 @GodotBaseClass struct VisibilityEnabler2D
 {
-	static immutable string _GODOT_internal_name = "VisibilityEnabler2D";
+	enum string _GODOT_internal_name = "VisibilityEnabler2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisibilityNotifier2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_enabler") GodotMethod!(void, long, bool) setEnabler;
+		@GodotName("is_enabler_enabled") GodotMethod!(bool, long) isEnablerEnabled;
+		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+	}
 	bool opEquals(in VisibilityEnabler2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisibilityEnabler2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -89,28 +100,22 @@ public:
 		enablerPauseAnimatedSprites = 5,
 		enablerMax = 6,
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_enabler;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_enabler") = _GODOT_set_enabler;
 	/**
 	
 	*/
 	void setEnabler(in long enabler, in bool enabled)
 	{
-		_GODOT_set_enabler.bind("VisibilityEnabler2D", "set_enabler");
-		ptrcall!(void)(_GODOT_set_enabler, _godot_object, enabler, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabler, _godot_object, enabler, enabled);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_enabler_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_enabler_enabled") = _GODOT_is_enabler_enabled;
 	/**
 	
 	*/
 	bool isEnablerEnabled(in long enabler) const
 	{
-		_GODOT_is_enabler_enabled.bind("VisibilityEnabler2D", "is_enabler_enabled");
-		return ptrcall!(bool)(_GODOT_is_enabler_enabled, _godot_object, enabler);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEnablerEnabled, _godot_object, enabler);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT__node_removed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_node_removed") = _GODOT__node_removed;
 	/**
 	
 	*/
@@ -122,7 +127,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	If `true` $(D AnimationPlayer) nodes will be paused.
 	*/
 	@property bool pauseAnimations()
 	{
@@ -134,7 +139,7 @@ public:
 		setEnabler(0, v);
 	}
 	/**
-	
+	If `true` $(D RigidBody2D) nodes will be paused.
 	*/
 	@property bool freezeBodies()
 	{
@@ -146,7 +151,7 @@ public:
 		setEnabler(1, v);
 	}
 	/**
-	
+	If `true` $(D Particles2D) nodes will be paused.
 	*/
 	@property bool pauseParticles()
 	{
@@ -158,7 +163,7 @@ public:
 		setEnabler(2, v);
 	}
 	/**
-	
+	If `true` $(D AnimatedSprite) nodes will be paused.
 	*/
 	@property bool pauseAnimatedSprites()
 	{
@@ -170,7 +175,7 @@ public:
 		setEnabler(5, v);
 	}
 	/**
-	
+	If `true` the parent's $(D Node._process) will be stopped.
 	*/
 	@property bool processParent()
 	{
@@ -182,7 +187,7 @@ public:
 		setEnabler(3, v);
 	}
 	/**
-	
+	If `true` the parent's $(D Node._physicsProcess) will be stopped.
 	*/
 	@property bool physicsProcessParent()
 	{

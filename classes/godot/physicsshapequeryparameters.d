@@ -27,12 +27,32 @@ import godot.resource;
 */
 @GodotBaseClass struct PhysicsShapeQueryParameters
 {
-	static immutable string _GODOT_internal_name = "PhysicsShapeQueryParameters";
+	enum string _GODOT_internal_name = "PhysicsShapeQueryParameters";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_shape") GodotMethod!(void, Resource) setShape;
+		@GodotName("set_shape_rid") GodotMethod!(void, RID) setShapeRid;
+		@GodotName("get_shape_rid") GodotMethod!(RID) getShapeRid;
+		@GodotName("set_transform") GodotMethod!(void, Transform) setTransform;
+		@GodotName("get_transform") GodotMethod!(Transform) getTransform;
+		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
+		@GodotName("get_margin") GodotMethod!(double) getMargin;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
+		@GodotName("set_exclude") GodotMethod!(void, Array) setExclude;
+		@GodotName("get_exclude") GodotMethod!(Array) getExclude;
+		@GodotName("set_collide_with_bodies") GodotMethod!(void, bool) setCollideWithBodies;
+		@GodotName("is_collide_with_bodies_enabled") GodotMethod!(bool) isCollideWithBodiesEnabled;
+		@GodotName("set_collide_with_areas") GodotMethod!(void, bool) setCollideWithAreas;
+		@GodotName("is_collide_with_areas_enabled") GodotMethod!(bool) isCollideWithAreasEnabled;
+	}
 	bool opEquals(in PhysicsShapeQueryParameters other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsShapeQueryParameters opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,115 +65,125 @@ public:
 		return cast(PhysicsShapeQueryParameters)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Resource) _GODOT_set_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shape") = _GODOT_set_shape;
 	/**
 	
 	*/
 	void setShape(Resource shape)
 	{
-		_GODOT_set_shape.bind("PhysicsShapeQueryParameters", "set_shape");
-		ptrcall!(void)(_GODOT_set_shape, _godot_object, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_set_shape_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shape_rid") = _GODOT_set_shape_rid;
 	/**
 	
 	*/
 	void setShapeRid(in RID shape)
 	{
-		_GODOT_set_shape_rid.bind("PhysicsShapeQueryParameters", "set_shape_rid");
-		ptrcall!(void)(_GODOT_set_shape_rid, _godot_object, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShapeRid, _godot_object, shape);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_shape_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shape_rid") = _GODOT_get_shape_rid;
 	/**
 	
 	*/
 	RID getShapeRid() const
 	{
-		_GODOT_get_shape_rid.bind("PhysicsShapeQueryParameters", "get_shape_rid");
-		return ptrcall!(RID)(_GODOT_get_shape_rid, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getShapeRid, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Transform) _GODOT_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_transform") = _GODOT_set_transform;
 	/**
 	
 	*/
 	void setTransform(in Transform transform)
 	{
-		_GODOT_set_transform.bind("PhysicsShapeQueryParameters", "set_transform");
-		ptrcall!(void)(_GODOT_set_transform, _godot_object, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
 	}
-	package(godot) static GodotMethod!(Transform) _GODOT_get_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_transform") = _GODOT_get_transform;
 	/**
 	
 	*/
 	Transform getTransform() const
 	{
-		_GODOT_get_transform.bind("PhysicsShapeQueryParameters", "get_transform");
-		return ptrcall!(Transform)(_GODOT_get_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_margin") = _GODOT_set_margin;
 	/**
 	
 	*/
 	void setMargin(in double margin)
 	{
-		_GODOT_set_margin.bind("PhysicsShapeQueryParameters", "set_margin");
-		ptrcall!(void)(_GODOT_set_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_margin") = _GODOT_get_margin;
 	/**
 	
 	*/
 	double getMargin() const
 	{
-		_GODOT_get_margin.bind("PhysicsShapeQueryParameters", "get_margin");
-		return ptrcall!(double)(_GODOT_get_margin, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask") = _GODOT_set_collision_mask;
 	/**
 	
 	*/
 	void setCollisionMask(in long collision_mask)
 	{
-		_GODOT_set_collision_mask.bind("PhysicsShapeQueryParameters", "set_collision_mask");
-		ptrcall!(void)(_GODOT_set_collision_mask, _godot_object, collision_mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask") = _GODOT_get_collision_mask;
 	/**
 	
 	*/
 	long getCollisionMask() const
 	{
-		_GODOT_get_collision_mask.bind("PhysicsShapeQueryParameters", "get_collision_mask");
-		return ptrcall!(long)(_GODOT_get_collision_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT_set_exclude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_exclude") = _GODOT_set_exclude;
 	/**
 	
 	*/
 	void setExclude(in Array exclude)
 	{
-		_GODOT_set_exclude.bind("PhysicsShapeQueryParameters", "set_exclude");
-		ptrcall!(void)(_GODOT_set_exclude, _godot_object, exclude);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExclude, _godot_object, exclude);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_exclude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_exclude") = _GODOT_get_exclude;
 	/**
 	
 	*/
 	Array getExclude() const
 	{
-		_GODOT_get_exclude.bind("PhysicsShapeQueryParameters", "get_exclude");
-		return ptrcall!(Array)(_GODOT_get_exclude, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getExclude, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCollideWithBodies(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollideWithBodies, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isCollideWithBodiesEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCollideWithAreas(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollideWithAreas, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isCollideWithAreasEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
 	}
 	/**
 	
@@ -214,5 +244,29 @@ public:
 	@property void transform(Transform v)
 	{
 		setTransform(v);
+	}
+	/**
+	
+	*/
+	@property bool collideWithBodies()
+	{
+		return isCollideWithBodiesEnabled();
+	}
+	/// ditto
+	@property void collideWithBodies(bool v)
+	{
+		setCollideWithBodies(v);
+	}
+	/**
+	
+	*/
+	@property bool collideWithAreas()
+	{
+		return isCollideWithAreasEnabled();
+	}
+	/// ditto
+	@property void collideWithAreas(bool v)
+	{
+		setCollideWithAreas(v);
 	}
 }

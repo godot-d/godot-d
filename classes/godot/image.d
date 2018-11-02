@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
 Image datatype.
 
@@ -28,12 +29,69 @@ Native image datatype. Contains image data, which can be converted to a $(D Text
 */
 @GodotBaseClass struct Image
 {
-	static immutable string _GODOT_internal_name = "Image";
+	enum string _GODOT_internal_name = "Image";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_width") GodotMethod!(long) getWidth;
+		@GodotName("get_height") GodotMethod!(long) getHeight;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("has_mipmaps") GodotMethod!(bool) hasMipmaps;
+		@GodotName("get_format") GodotMethod!(Image.Format) getFormat;
+		@GodotName("get_data") GodotMethod!(PoolByteArray) getData;
+		@GodotName("convert") GodotMethod!(void, long) convert;
+		@GodotName("get_mipmap_offset") GodotMethod!(long, long) getMipmapOffset;
+		@GodotName("resize_to_po2") GodotMethod!(void, bool) resizeToPo2;
+		@GodotName("resize") GodotMethod!(void, long, long, long) resize;
+		@GodotName("shrink_x2") GodotMethod!(void) shrinkX2;
+		@GodotName("expand_x2_hq2x") GodotMethod!(void) expandX2Hq2x;
+		@GodotName("crop") GodotMethod!(void, long, long) crop;
+		@GodotName("flip_x") GodotMethod!(void) flipX;
+		@GodotName("flip_y") GodotMethod!(void) flipY;
+		@GodotName("generate_mipmaps") GodotMethod!(GodotError, bool) generateMipmaps;
+		@GodotName("clear_mipmaps") GodotMethod!(void) clearMipmaps;
+		@GodotName("create") GodotMethod!(void, long, long, bool, long) create;
+		@GodotName("create_from_data") GodotMethod!(void, long, long, bool, long, PoolByteArray) createFromData;
+		@GodotName("is_empty") GodotMethod!(bool) isEmpty;
+		@GodotName("load") GodotMethod!(GodotError, String) load;
+		@GodotName("save_png") GodotMethod!(GodotError, String) savePng;
+		@GodotName("detect_alpha") GodotMethod!(Image.AlphaMode) detectAlpha;
+		@GodotName("is_invisible") GodotMethod!(bool) isInvisible;
+		@GodotName("compress") GodotMethod!(GodotError, long, long, double) compress;
+		@GodotName("decompress") GodotMethod!(GodotError) decompress;
+		@GodotName("is_compressed") GodotMethod!(bool) isCompressed;
+		@GodotName("fix_alpha_edges") GodotMethod!(void) fixAlphaEdges;
+		@GodotName("premultiply_alpha") GodotMethod!(void) premultiplyAlpha;
+		@GodotName("srgb_to_linear") GodotMethod!(void) srgbToLinear;
+		@GodotName("normalmap_to_xy") GodotMethod!(void) normalmapToXy;
+		@GodotName("rgbe_to_srgb") GodotMethod!(Image) rgbeToSrgb;
+		@GodotName("bumpmap_to_normalmap") GodotMethod!(void, double) bumpmapToNormalmap;
+		@GodotName("blit_rect") GodotMethod!(void, Image, Rect2, Vector2) blitRect;
+		@GodotName("blit_rect_mask") GodotMethod!(void, Image, Image, Rect2, Vector2) blitRectMask;
+		@GodotName("blend_rect") GodotMethod!(void, Image, Rect2, Vector2) blendRect;
+		@GodotName("blend_rect_mask") GodotMethod!(void, Image, Image, Rect2, Vector2) blendRectMask;
+		@GodotName("fill") GodotMethod!(void, Color) fill;
+		@GodotName("get_used_rect") GodotMethod!(Rect2) getUsedRect;
+		@GodotName("get_rect") GodotMethod!(Image, Rect2) getRect;
+		@GodotName("copy_from") GodotMethod!(void, Image) copyFrom;
+		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
+		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
+		@GodotName("lock") GodotMethod!(void) lock;
+		@GodotName("unlock") GodotMethod!(void) unlock;
+		@GodotName("get_pixelv") GodotMethod!(Color, Vector2) getPixelv;
+		@GodotName("get_pixel") GodotMethod!(Color, long, long) getPixel;
+		@GodotName("set_pixelv") GodotMethod!(void, Vector2, Color) setPixelv;
+		@GodotName("set_pixel") GodotMethod!(void, long, long, Color) setPixel;
+		@GodotName("load_png_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadPngFromBuffer;
+		@GodotName("load_jpg_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadJpgFromBuffer;
+		@GodotName("load_webp_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadWebpFromBuffer;
+	}
 	bool opEquals(in Image other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Image opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -93,6 +151,13 @@ public:
 		
 		*/
 		interpolateCubic = 2,
+		/**
+		Performs bilinear separately on the two most suited mipmap levels, then linearly interpolates between them.
+		It's slower than `INTERPOLATE_BILINEAR`, but produces higher quality results, with much less aliasing artifacts.
+		If the image does not have mipmaps, they will be generated and used internally, but no mipmaps will be generated on the resulting image. (Note that if you intend to scale multiple copies of the original image, it's better to call `generate_mipmaps` on it in advance, to avoid wasting processing power in generating them again and again.)
+		On the other hand, if the image already has mipmaps, they will be used, and a new set will be generated for the resulting image.
+		*/
+		interpolateTrilinear = 3,
 	}
 	/// 
 	enum CompressMode : int
@@ -138,11 +203,11 @@ public:
 		*/
 		formatRg8 = 3,
 		/**
-		OpenGL texture format RGB with three components, each with a bitdepth of 8.
+		OpenGL texture format RGB with three components, each with a bitdepth of 8. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatRgb8 = 4,
 		/**
-		OpenGL texture format RGBA with four components, each with a bitdepth of 8.
+		OpenGL texture format RGBA with four components, each with a bitdepth of 8. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatRgba8 = 5,
 		/**
@@ -190,15 +255,15 @@ public:
 		*/
 		formatRgbe9995 = 16,
 		/**
-		The S3TC texture format that uses Block Compression 1, and is the smallest variation of S3TC, only providing 1 bit of alpha and color data being premultiplied with alpha. More information can be found at https://www.khronos.org/opengl/wiki/S3_Texture_Compression.
+		The S3TC texture format that uses Block Compression 1, and is the smallest variation of S3TC, only providing 1 bit of alpha and color data being premultiplied with alpha. More information can be found at https://www.khronos.org/opengl/wiki/S3_Texture_Compression. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatDxt1 = 17,
 		/**
-		The S3TC texture format that uses Block Compression 2, and color data is interpreted as not having been premultiplied by alpha. Well suited for images with sharp alpha transitions between translucent and opaque areas.
+		The S3TC texture format that uses Block Compression 2, and color data is interpreted as not having been premultiplied by alpha. Well suited for images with sharp alpha transitions between translucent and opaque areas. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatDxt3 = 18,
 		/**
-		The S3TC texture format also known as Block Compression 3 or BC3 that contains 64 bits of alpha channel data followed by 64 bits of DXT1-encoded color data. Color data is not premultiplied by alpha, same as DXT3. DXT5 generally produces superior results for transparency gradients than DXT3.
+		The S3TC texture format also known as Block Compression 3 or BC3 that contains 64 bits of alpha channel data followed by 64 bits of DXT1-encoded color data. Color data is not premultiplied by alpha, same as DXT3. DXT5 generally produces superior results for transparency gradients than DXT3. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatDxt5 = 19,
 		/**
@@ -210,7 +275,7 @@ public:
 		*/
 		formatRgtcRg = 21,
 		/**
-		Texture format that uses BPTC compression with unsigned normalized RGBA components. More information can be found at https://www.khronos.org/opengl/wiki/BPTC_Texture_Compression.
+		Texture format that uses BPTC compression with unsigned normalized RGBA components. More information can be found at https://www.khronos.org/opengl/wiki/BPTC_Texture_Compression. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatBptcRgba = 22,
 		/**
@@ -222,7 +287,7 @@ public:
 		*/
 		formatBptcRgbfu = 24,
 		/**
-		Texture format used on PowerVR-supported mobile platforms, uses 2 bit color depth with no alpha. More information on PVRTC can be found here https://en.wikipedia.org/wiki/PVRTC.
+		Texture format used on PowerVR-supported mobile platforms, uses 2 bit color depth with no alpha. More information on PVRTC can be found here https://en.wikipedia.org/wiki/PVRTC. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatPvrtc2 = 25,
 		/**
@@ -258,15 +323,15 @@ public:
 		*/
 		formatEtc2Rg11s = 33,
 		/**
-		Ericsson Texture Compression format 2 variant RGB8, which is a followup of ETC1 and compresses RGB888 data.
+		Ericsson Texture Compression format 2 variant RGB8, which is a followup of ETC1 and compresses RGB888 data. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatEtc2Rgb8 = 34,
 		/**
-		Ericsson Texture Compression format 2 variant RGBA8, which compresses RGBA8888 data with full alpha support.
+		Ericsson Texture Compression format 2 variant RGBA8, which compresses RGBA8888 data with full alpha support. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatEtc2Rgba8 = 35,
 		/**
-		Ericsson Texture Compression format 2 variant RGB8_PUNCHTHROUGH_ALPHA1, which compresses RGBA data to make alpha either fully transparent or fully opaque.
+		Ericsson Texture Compression format 2 variant RGB8_PUNCHTHROUGH_ALPHA1, which compresses RGBA data to make alpha either fully transparent or fully opaque. Note that when creating an $(D ImageTexture), an sRGB to linear color space conversion is performed.
 		*/
 		formatEtc2Rgb8a1 = 36,
 		/**
@@ -277,23 +342,24 @@ public:
 	/// 
 	enum Constants : int
 	{
-		compressS3tc = 0,
-		alphaNone = 0,
-		formatL8 = 0,
 		interpolateNearest = 0,
+		formatL8 = 0,
+		alphaNone = 0,
+		compressS3tc = 0,
 		compressSourceGeneric = 0,
-		interpolateBilinear = 1,
-		compressPvrtc2 = 1,
-		formatLa8 = 1,
-		alphaBit = 1,
 		compressSourceSrgb = 1,
-		alphaBlend = 2,
-		interpolateCubic = 2,
-		compressPvrtc4 = 2,
-		formatR8 = 2,
+		alphaBit = 1,
+		interpolateBilinear = 1,
+		formatLa8 = 1,
+		compressPvrtc2 = 1,
 		compressSourceNormal = 2,
+		interpolateCubic = 2,
+		formatR8 = 2,
+		compressPvrtc4 = 2,
+		alphaBlend = 2,
 		compressEtc = 3,
 		formatRg8 = 3,
+		interpolateTrilinear = 3,
 		formatRgb8 = 4,
 		compressEtc2 = 4,
 		formatRgba8 = 5,
@@ -330,398 +396,334 @@ public:
 		formatEtc2Rgb8a1 = 36,
 		formatMax = 37,
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_width") = _GODOT_get_width;
 	/**
 	Returns the image's width.
 	*/
 	long getWidth() const
 	{
-		_GODOT_get_width.bind("Image", "get_width");
-		return ptrcall!(long)(_GODOT_get_width, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_height") = _GODOT_get_height;
 	/**
 	Returns the image's height.
 	*/
 	long getHeight() const
 	{
-		_GODOT_get_height.bind("Image", "get_height");
-		return ptrcall!(long)(_GODOT_get_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	Returns the image's size (width and height).
 	*/
 	Vector2 getSize() const
 	{
-		_GODOT_get_size.bind("Image", "get_size");
-		return ptrcall!(Vector2)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_mipmaps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_mipmaps") = _GODOT_has_mipmaps;
 	/**
 	Returns `true` if the image has generated mipmaps.
 	*/
 	bool hasMipmaps() const
 	{
-		_GODOT_has_mipmaps.bind("Image", "has_mipmaps");
-		return ptrcall!(bool)(_GODOT_has_mipmaps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasMipmaps, _godot_object);
 	}
-	package(godot) static GodotMethod!(Image.Format) _GODOT_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_format") = _GODOT_get_format;
 	/**
 	Returns the image’s format. See `FORMAT_*` constants.
 	*/
 	Image.Format getFormat() const
 	{
-		_GODOT_get_format.bind("Image", "get_format");
-		return ptrcall!(Image.Format)(_GODOT_get_format, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image.Format)(_classBinding.getFormat, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolByteArray) _GODOT_get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_data") = _GODOT_get_data;
 	/**
 	Returns the image's raw data.
 	*/
 	PoolByteArray getData() const
 	{
-		_GODOT_get_data.bind("Image", "get_data");
-		return ptrcall!(PoolByteArray)(_GODOT_get_data, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.getData, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_convert;
-	package(godot) alias _GODOT_methodBindInfo(string name : "convert") = _GODOT_convert;
 	/**
 	Converts the image's format. See `FORMAT_*` constants.
 	*/
 	void convert(in long format)
 	{
-		_GODOT_convert.bind("Image", "convert");
-		ptrcall!(void)(_GODOT_convert, _godot_object, format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.convert, _godot_object, format);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_mipmap_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mipmap_offset") = _GODOT_get_mipmap_offset;
 	/**
 	Returns the offset where the image's mipmap with index `mipmap` is stored in the `data` dictionary.
 	*/
 	long getMipmapOffset(in long mipmap) const
 	{
-		_GODOT_get_mipmap_offset.bind("Image", "get_mipmap_offset");
-		return ptrcall!(long)(_GODOT_get_mipmap_offset, _godot_object, mipmap);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMipmapOffset, _godot_object, mipmap);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_resize_to_po2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "resize_to_po2") = _GODOT_resize_to_po2;
 	/**
 	Resizes the image to the nearest power of 2 for the width and height. If `square` is `true` then set width and height to be the same.
 	*/
 	void resizeToPo2(in bool square = false)
 	{
-		_GODOT_resize_to_po2.bind("Image", "resize_to_po2");
-		ptrcall!(void)(_GODOT_resize_to_po2, _godot_object, square);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.resizeToPo2, _godot_object, square);
 	}
-	package(godot) static GodotMethod!(void, long, long, long) _GODOT_resize;
-	package(godot) alias _GODOT_methodBindInfo(string name : "resize") = _GODOT_resize;
 	/**
 	Resizes the image to the given `width` and `height`. New pixels are calculated using `interpolation`. See `interpolation` constants.
 	*/
 	void resize(in long width, in long height, in long interpolation = 1)
 	{
-		_GODOT_resize.bind("Image", "resize");
-		ptrcall!(void)(_GODOT_resize, _godot_object, width, height, interpolation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.resize, _godot_object, width, height, interpolation);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_shrink_x2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shrink_x2") = _GODOT_shrink_x2;
 	/**
 	Shrinks the image by a factor of 2.
 	*/
 	void shrinkX2()
 	{
-		_GODOT_shrink_x2.bind("Image", "shrink_x2");
-		ptrcall!(void)(_GODOT_shrink_x2, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shrinkX2, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_expand_x2_hq2x;
-	package(godot) alias _GODOT_methodBindInfo(string name : "expand_x2_hq2x") = _GODOT_expand_x2_hq2x;
 	/**
 	Stretches the image and enlarges it by a factor of 2. No interpolation is done.
 	*/
 	void expandX2Hq2x()
 	{
-		_GODOT_expand_x2_hq2x.bind("Image", "expand_x2_hq2x");
-		ptrcall!(void)(_GODOT_expand_x2_hq2x, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.expandX2Hq2x, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_crop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "crop") = _GODOT_crop;
 	/**
 	Crops the image to the given `width` and `height`. If the specified size is larger than the current size, the extra area is filled with black pixels.
 	*/
 	void crop(in long width, in long height)
 	{
-		_GODOT_crop.bind("Image", "crop");
-		ptrcall!(void)(_GODOT_crop, _godot_object, width, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.crop, _godot_object, width, height);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_flip_x;
-	package(godot) alias _GODOT_methodBindInfo(string name : "flip_x") = _GODOT_flip_x;
 	/**
 	Flips the image horizontally.
 	*/
 	void flipX()
 	{
-		_GODOT_flip_x.bind("Image", "flip_x");
-		ptrcall!(void)(_GODOT_flip_x, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.flipX, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_flip_y;
-	package(godot) alias _GODOT_methodBindInfo(string name : "flip_y") = _GODOT_flip_y;
 	/**
 	Flips the image vertically.
 	*/
 	void flipY()
 	{
-		_GODOT_flip_y.bind("Image", "flip_y");
-		ptrcall!(void)(_GODOT_flip_y, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.flipY, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_generate_mipmaps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generate_mipmaps") = _GODOT_generate_mipmaps;
 	/**
 	Generates mipmaps for the image. Mipmaps are pre-calculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
 	*/
-	GodotError generateMipmaps()
+	GodotError generateMipmaps(in bool renormalize = false)
 	{
-		_GODOT_generate_mipmaps.bind("Image", "generate_mipmaps");
-		return ptrcall!(GodotError)(_GODOT_generate_mipmaps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.generateMipmaps, _godot_object, renormalize);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_mipmaps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_mipmaps") = _GODOT_clear_mipmaps;
 	/**
 	Removes the image's mipmaps.
 	*/
 	void clearMipmaps()
 	{
-		_GODOT_clear_mipmaps.bind("Image", "clear_mipmaps");
-		ptrcall!(void)(_GODOT_clear_mipmaps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearMipmaps, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long, bool, long) _GODOT_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create") = _GODOT_create;
 	/**
 	Creates an empty image of given size and format. See `FORMAT_*` constants. If `use_mipmaps` is true then generate mipmaps for this image. See the `generate_mipmaps` method.
 	*/
 	void create(in long width, in long height, in bool use_mipmaps, in long format)
 	{
-		_GODOT_create.bind("Image", "create");
-		ptrcall!(void)(_GODOT_create, _godot_object, width, height, use_mipmaps, format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.create, _godot_object, width, height, use_mipmaps, format);
 	}
-	package(godot) static GodotMethod!(void, long, long, bool, long, PoolByteArray) _GODOT_create_from_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_data") = _GODOT_create_from_data;
 	/**
 	Creates a new image of given size and format. See `FORMAT_*` constants. Fills the image with the given raw data. If `use_mipmaps` is true then generate mipmaps for this image. See the `generate_mipmaps` method.
 	*/
 	void createFromData(in long width, in long height, in bool use_mipmaps, in long format, in PoolByteArray data)
 	{
-		_GODOT_create_from_data.bind("Image", "create_from_data");
-		ptrcall!(void)(_GODOT_create_from_data, _godot_object, width, height, use_mipmaps, format, data);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.createFromData, _godot_object, width, height, use_mipmaps, format, data);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_empty;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_empty") = _GODOT_is_empty;
 	/**
 	Returns `true` if the image has no data.
 	*/
 	bool isEmpty() const
 	{
-		_GODOT_is_empty.bind("Image", "is_empty");
-		return ptrcall!(bool)(_GODOT_is_empty, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEmpty, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_load;
-	package(godot) alias _GODOT_methodBindInfo(string name : "load") = _GODOT_load;
 	/**
 	Loads an image from file `path`.
 	*/
 	GodotError load(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_load.bind("Image", "load");
-		return ptrcall!(GodotError)(_GODOT_load, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_save_png;
-	package(godot) alias _GODOT_methodBindInfo(string name : "save_png") = _GODOT_save_png;
 	/**
 	Saves the image as a PNG file to `path`.
 	*/
 	GodotError savePng(StringArg0)(in StringArg0 path) const
 	{
-		_GODOT_save_png.bind("Image", "save_png");
-		return ptrcall!(GodotError)(_GODOT_save_png, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.savePng, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(Image.AlphaMode) _GODOT_detect_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "detect_alpha") = _GODOT_detect_alpha;
 	/**
 	Returns ALPHA_BLEND if the image has data for alpha values. Returns ALPHA_BIT if all the alpha values are below a certain threshold or the maximum value. Returns ALPHA_NONE if no data for alpha values is found.
 	*/
 	Image.AlphaMode detectAlpha() const
 	{
-		_GODOT_detect_alpha.bind("Image", "detect_alpha");
-		return ptrcall!(Image.AlphaMode)(_GODOT_detect_alpha, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image.AlphaMode)(_classBinding.detectAlpha, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_invisible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_invisible") = _GODOT_is_invisible;
 	/**
 	Returns `true` if all the image's pixels have an alpha value of 0. Returns `false` if any pixel has an alpha value higher than 0.
 	*/
 	bool isInvisible() const
 	{
-		_GODOT_is_invisible.bind("Image", "is_invisible");
-		return ptrcall!(bool)(_GODOT_is_invisible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInvisible, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, long, long, double) _GODOT_compress;
-	package(godot) alias _GODOT_methodBindInfo(string name : "compress") = _GODOT_compress;
 	/**
 	Compresses the image to use less memory. Can not directly access pixel data while the image is compressed. Returns error if the chosen compression mode is not available. See `COMPRESS_*` constants.
 	*/
 	GodotError compress(in long mode, in long source, in double lossy_quality)
 	{
-		_GODOT_compress.bind("Image", "compress");
-		return ptrcall!(GodotError)(_GODOT_compress, _godot_object, mode, source, lossy_quality);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.compress, _godot_object, mode, source, lossy_quality);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_decompress;
-	package(godot) alias _GODOT_methodBindInfo(string name : "decompress") = _GODOT_decompress;
 	/**
 	Decompresses the image if it is compressed. Returns an error if decompress function is not available.
 	*/
 	GodotError decompress()
 	{
-		_GODOT_decompress.bind("Image", "decompress");
-		return ptrcall!(GodotError)(_GODOT_decompress, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.decompress, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_compressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_compressed") = _GODOT_is_compressed;
 	/**
 	Returns `true` if the image is compressed.
 	*/
 	bool isCompressed() const
 	{
-		_GODOT_is_compressed.bind("Image", "is_compressed");
-		return ptrcall!(bool)(_GODOT_is_compressed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCompressed, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_fix_alpha_edges;
-	package(godot) alias _GODOT_methodBindInfo(string name : "fix_alpha_edges") = _GODOT_fix_alpha_edges;
 	/**
 	Blends low-alpha pixels with nearby pixels.
 	*/
 	void fixAlphaEdges()
 	{
-		_GODOT_fix_alpha_edges.bind("Image", "fix_alpha_edges");
-		ptrcall!(void)(_GODOT_fix_alpha_edges, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.fixAlphaEdges, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_premultiply_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "premultiply_alpha") = _GODOT_premultiply_alpha;
 	/**
 	Multiplies color values with alpha values. Resulting color values for a pixel are `(color * alpha)/256`.
 	*/
 	void premultiplyAlpha()
 	{
-		_GODOT_premultiply_alpha.bind("Image", "premultiply_alpha");
-		ptrcall!(void)(_GODOT_premultiply_alpha, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.premultiplyAlpha, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_srgb_to_linear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "srgb_to_linear") = _GODOT_srgb_to_linear;
 	/**
 	Converts the raw data from the sRGB colorspace to a linear scale.
 	*/
 	void srgbToLinear()
 	{
-		_GODOT_srgb_to_linear.bind("Image", "srgb_to_linear");
-		ptrcall!(void)(_GODOT_srgb_to_linear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.srgbToLinear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_normalmap_to_xy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "normalmap_to_xy") = _GODOT_normalmap_to_xy;
 	/**
 	Converts the image's data to represent coordinates on a 3D plane. This is used when the image represents a normalmap. A normalmap can add lots of detail to a 3D surface without increasing the polygon count.
 	*/
 	void normalmapToXy()
 	{
-		_GODOT_normalmap_to_xy.bind("Image", "normalmap_to_xy");
-		ptrcall!(void)(_GODOT_normalmap_to_xy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.normalmapToXy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Image, Rect2, Vector2) _GODOT_blit_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blit_rect") = _GODOT_blit_rect;
+	/**
+	
+	*/
+	Ref!Image rgbeToSrgb()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.rgbeToSrgb, _godot_object);
+	}
+	/**
+	
+	*/
+	void bumpmapToNormalmap(in double bump_scale = 1)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bumpmapToNormalmap, _godot_object, bump_scale);
+	}
 	/**
 	Copies `src_rect` from `src` image to this image at coordinates `dst`.
 	*/
 	void blitRect(Image src, in Rect2 src_rect, in Vector2 dst)
 	{
-		_GODOT_blit_rect.bind("Image", "blit_rect");
-		ptrcall!(void)(_GODOT_blit_rect, _godot_object, src, src_rect, dst);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blitRect, _godot_object, src, src_rect, dst);
 	}
-	package(godot) static GodotMethod!(void, Image, Image, Rect2, Vector2) _GODOT_blit_rect_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blit_rect_mask") = _GODOT_blit_rect_mask;
 	/**
 	Blits `src_rect` area from `src` image to this image at the coordinates given by `dst`. `src` pixel is copied onto `dst` if the corresponding `mask` pixel's alpha value is not 0. `src` image and `mask` image $(B must) have the same size (width and height) but they can have different formats.
 	*/
 	void blitRectMask(Image src, Image mask, in Rect2 src_rect, in Vector2 dst)
 	{
-		_GODOT_blit_rect_mask.bind("Image", "blit_rect_mask");
-		ptrcall!(void)(_GODOT_blit_rect_mask, _godot_object, src, mask, src_rect, dst);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blitRectMask, _godot_object, src, mask, src_rect, dst);
 	}
-	package(godot) static GodotMethod!(void, Image, Rect2, Vector2) _GODOT_blend_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend_rect") = _GODOT_blend_rect;
 	/**
 	Alpha-blends `src_rect` from `src` image to this image at coordinates `dest`.
 	*/
 	void blendRect(Image src, in Rect2 src_rect, in Vector2 dst)
 	{
-		_GODOT_blend_rect.bind("Image", "blend_rect");
-		ptrcall!(void)(_GODOT_blend_rect, _godot_object, src, src_rect, dst);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blendRect, _godot_object, src, src_rect, dst);
 	}
-	package(godot) static GodotMethod!(void, Image, Image, Rect2, Vector2) _GODOT_blend_rect_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend_rect_mask") = _GODOT_blend_rect_mask;
 	/**
 	Alpha-blends `src_rect` from `src` image to this image using `mask` image at coordinates `dst`. Alpha channels are required for both `src` and `mask`. `dst` pixels and `src` pixels will blend if the corresponding mask pixel's alpha value is not 0. `src` image and `mask` image $(B must) have the same size (width and height) but they can have different formats.
 	*/
 	void blendRectMask(Image src, Image mask, in Rect2 src_rect, in Vector2 dst)
 	{
-		_GODOT_blend_rect_mask.bind("Image", "blend_rect_mask");
-		ptrcall!(void)(_GODOT_blend_rect_mask, _godot_object, src, mask, src_rect, dst);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blendRectMask, _godot_object, src, mask, src_rect, dst);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_fill;
-	package(godot) alias _GODOT_methodBindInfo(string name : "fill") = _GODOT_fill;
 	/**
 	Fills the image with a given $(D Color).
 	*/
 	void fill(in Color color)
 	{
-		_GODOT_fill.bind("Image", "fill");
-		ptrcall!(void)(_GODOT_fill, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.fill, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_used_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_used_rect") = _GODOT_get_used_rect;
 	/**
 	Returns a $(D Rect2) enclosing the visible portion of the image.
 	*/
 	Rect2 getUsedRect() const
 	{
-		_GODOT_get_used_rect.bind("Image", "get_used_rect");
-		return ptrcall!(Rect2)(_GODOT_get_used_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getUsedRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(Image, Rect2) _GODOT_get_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rect") = _GODOT_get_rect;
 	/**
 	Returns a new image that is a copy of the image's area specified with `rect`.
 	*/
 	Ref!Image getRect(in Rect2 rect) const
 	{
-		_GODOT_get_rect.bind("Image", "get_rect");
-		return ptrcall!(Image)(_GODOT_get_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.getRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(void, Image) _GODOT_copy_from;
-	package(godot) alias _GODOT_methodBindInfo(string name : "copy_from") = _GODOT_copy_from;
 	/**
 	Copies `src` image to this image.
 	*/
 	void copyFrom(Image src)
 	{
-		_GODOT_copy_from.bind("Image", "copy_from");
-		ptrcall!(void)(_GODOT_copy_from, _godot_object, src);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.copyFrom, _godot_object, src);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**
 	
 	*/
@@ -732,8 +734,6 @@ public:
 		String _GODOT_method_name = String("_set_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_data") = _GODOT__get_data;
 	/**
 	
 	*/
@@ -743,28 +743,46 @@ public:
 		String _GODOT_method_name = String("_get_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_lock;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lock") = _GODOT_lock;
 	/**
 	Locks the data for writing access.
 	*/
 	void lock()
 	{
-		_GODOT_lock.bind("Image", "lock");
-		ptrcall!(void)(_GODOT_lock, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lock, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_unlock;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unlock") = _GODOT_unlock;
 	/**
 	Unlocks the data and prevents changes.
 	*/
 	void unlock()
 	{
-		_GODOT_unlock.bind("Image", "unlock");
-		ptrcall!(void)(_GODOT_unlock, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.unlock, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long, Color) _GODOT_set_pixel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pixel") = _GODOT_set_pixel;
+	/**
+	
+	*/
+	Color getPixelv(in Vector2 src) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getPixelv, _godot_object, src);
+	}
+	/**
+	Returns the color of the pixel at `(x, y)` if the image is locked. If the image is unlocked it always returns a $(D Color) with the value `(0, 0, 0, 1.0)`.
+	*/
+	Color getPixel(in long x, in long y) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getPixel, _godot_object, x, y);
+	}
+	/**
+	
+	*/
+	void setPixelv(in Vector2 dst, in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPixelv, _godot_object, dst, color);
+	}
 	/**
 	Sets the $(D Color) of the pixel at `(x, y)` if the image is locked. Example:
 	
@@ -780,38 +798,32 @@ public:
 	*/
 	void setPixel(in long x, in long y, in Color color)
 	{
-		_GODOT_set_pixel.bind("Image", "set_pixel");
-		ptrcall!(void)(_GODOT_set_pixel, _godot_object, x, y, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPixel, _godot_object, x, y, color);
 	}
-	package(godot) static GodotMethod!(Color, long, long) _GODOT_get_pixel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pixel") = _GODOT_get_pixel;
-	/**
-	Returns the color of the pixel at `(x, y)` if the image is locked. If the image is unlocked it always returns a $(D Color) with the value `(0, 0, 0, 1.0)`.
-	*/
-	Color getPixel(in long x, in long y) const
-	{
-		_GODOT_get_pixel.bind("Image", "get_pixel");
-		return ptrcall!(Color)(_GODOT_get_pixel, _godot_object, x, y);
-	}
-	package(godot) static GodotMethod!(GodotError, PoolByteArray) _GODOT_load_png_from_buffer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "load_png_from_buffer") = _GODOT_load_png_from_buffer;
 	/**
 	Loads an image from the binary contents of a PNG file.
 	*/
 	GodotError loadPngFromBuffer(in PoolByteArray buffer)
 	{
-		_GODOT_load_png_from_buffer.bind("Image", "load_png_from_buffer");
-		return ptrcall!(GodotError)(_GODOT_load_png_from_buffer, _godot_object, buffer);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.loadPngFromBuffer, _godot_object, buffer);
 	}
-	package(godot) static GodotMethod!(GodotError, PoolByteArray) _GODOT_load_jpg_from_buffer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "load_jpg_from_buffer") = _GODOT_load_jpg_from_buffer;
 	/**
 	Loads an image from the binary contents of a JPEG file.
 	*/
 	GodotError loadJpgFromBuffer(in PoolByteArray buffer)
 	{
-		_GODOT_load_jpg_from_buffer.bind("Image", "load_jpg_from_buffer");
-		return ptrcall!(GodotError)(_GODOT_load_jpg_from_buffer, _godot_object, buffer);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.loadJpgFromBuffer, _godot_object, buffer);
+	}
+	/**
+	Loads an image from the binary contents of a WebP file.
+	*/
+	GodotError loadWebpFromBuffer(in PoolByteArray buffer)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.loadWebpFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Holds all of the image's color data in a given format. See `FORMAT_*` constants.

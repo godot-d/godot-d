@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
+import godot.resource;
+import godot.reference;
 /**
 Capsule shape for 2D collisions.
 
@@ -28,12 +30,21 @@ Capsule shape for 2D collisions.
 */
 @GodotBaseClass struct CapsuleShape2D
 {
-	static immutable string _GODOT_internal_name = "CapsuleShape2D";
+	enum string _GODOT_internal_name = "CapsuleShape2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Shape2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
+	}
 	bool opEquals(in CapsuleShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CapsuleShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,45 +57,37 @@ public:
 		return cast(CapsuleShape2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radius") = _GODOT_set_radius;
 	/**
 	
 	*/
 	void setRadius(in double radius)
 	{
-		_GODOT_set_radius.bind("CapsuleShape2D", "set_radius");
-		ptrcall!(void)(_GODOT_set_radius, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radius") = _GODOT_get_radius;
 	/**
 	
 	*/
 	double getRadius() const
 	{
-		_GODOT_get_radius.bind("CapsuleShape2D", "get_radius");
-		return ptrcall!(double)(_GODOT_get_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_height") = _GODOT_set_height;
 	/**
 	
 	*/
 	void setHeight(in double height)
 	{
-		_GODOT_set_height.bind("CapsuleShape2D", "set_height");
-		ptrcall!(void)(_GODOT_set_height, _godot_object, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_height") = _GODOT_get_height;
 	/**
 	
 	*/
 	double getHeight() const
 	{
-		_GODOT_get_height.bind("CapsuleShape2D", "get_height");
-		return ptrcall!(double)(_GODOT_get_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
 	/**
 	The capsule's radius.

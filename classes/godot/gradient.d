@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
 Color interpolator node.
 
@@ -28,12 +29,29 @@ Given a set of colors, this node will interpolate them in order, meaning, that i
 */
 @GodotBaseClass struct Gradient
 {
-	static immutable string _GODOT_internal_name = "Gradient";
+	enum string _GODOT_internal_name = "Gradient";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_point") GodotMethod!(void, double, Color) addPoint;
+		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("set_offset") GodotMethod!(void, long, double) setOffset;
+		@GodotName("get_offset") GodotMethod!(double, long) getOffset;
+		@GodotName("set_color") GodotMethod!(void, long, Color) setColor;
+		@GodotName("get_color") GodotMethod!(Color, long) getColor;
+		@GodotName("interpolate") GodotMethod!(Color, double) interpolate;
+		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
+		@GodotName("set_offsets") GodotMethod!(void, PoolRealArray) setOffsets;
+		@GodotName("get_offsets") GodotMethod!(PoolRealArray) getOffsets;
+		@GodotName("set_colors") GodotMethod!(void, PoolColorArray) setColors;
+		@GodotName("get_colors") GodotMethod!(PoolColorArray) getColors;
+	}
 	bool opEquals(in Gradient other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Gradient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,125 +64,101 @@ public:
 		return cast(Gradient)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double, Color) _GODOT_add_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_point") = _GODOT_add_point;
 	/**
 	Adds the specified color to the end of the ramp, with the specified offset
 	*/
 	void addPoint(in double offset, in Color color)
 	{
-		_GODOT_add_point.bind("Gradient", "add_point");
-		ptrcall!(void)(_GODOT_add_point, _godot_object, offset, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addPoint, _godot_object, offset, color);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_point") = _GODOT_remove_point;
 	/**
 	Removes the color at the index $(I offset)
 	*/
 	void removePoint(in long offset)
 	{
-		_GODOT_remove_point.bind("Gradient", "remove_point");
-		ptrcall!(void)(_GODOT_remove_point, _godot_object, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removePoint, _godot_object, offset);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_offset") = _GODOT_set_offset;
 	/**
 	Sets the offset for the ramp color at index $(I point)
 	*/
 	void setOffset(in long point, in double offset)
 	{
-		_GODOT_set_offset.bind("Gradient", "set_offset");
-		ptrcall!(void)(_GODOT_set_offset, _godot_object, point, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, point, offset);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset") = _GODOT_get_offset;
 	/**
 	Returns the offset of the ramp color at index $(I point)
 	*/
 	double getOffset(in long point) const
 	{
-		_GODOT_get_offset.bind("Gradient", "get_offset");
-		return ptrcall!(double)(_GODOT_get_offset, _godot_object, point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOffset, _godot_object, point);
 	}
-	package(godot) static GodotMethod!(void, long, Color) _GODOT_set_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_color") = _GODOT_set_color;
 	/**
 	Sets the color of the ramp color at index $(I point)
 	*/
 	void setColor(in long point, in Color color)
 	{
-		_GODOT_set_color.bind("Gradient", "set_color");
-		ptrcall!(void)(_GODOT_set_color, _godot_object, point, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, point, color);
 	}
-	package(godot) static GodotMethod!(Color, long) _GODOT_get_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_color") = _GODOT_get_color;
 	/**
 	Returns the color of the ramp color at index $(I point)
 	*/
 	Color getColor(in long point) const
 	{
-		_GODOT_get_color.bind("Gradient", "get_color");
-		return ptrcall!(Color)(_GODOT_get_color, _godot_object, point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getColor, _godot_object, point);
 	}
-	package(godot) static GodotMethod!(Color, double) _GODOT_interpolate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "interpolate") = _GODOT_interpolate;
 	/**
 	Returns the interpolated color specified by $(I offset)
 	*/
 	Color interpolate(in double offset)
 	{
-		_GODOT_interpolate.bind("Gradient", "interpolate");
-		return ptrcall!(Color)(_GODOT_interpolate, _godot_object, offset);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.interpolate, _godot_object, offset);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_point_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_point_count") = _GODOT_get_point_count;
 	/**
 	Returns the number of colors in the ramp
 	*/
 	long getPointCount() const
 	{
-		_GODOT_get_point_count.bind("Gradient", "get_point_count");
-		return ptrcall!(long)(_GODOT_get_point_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolRealArray) _GODOT_set_offsets;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_offsets") = _GODOT_set_offsets;
 	/**
 	
 	*/
 	void setOffsets(in PoolRealArray offsets)
 	{
-		_GODOT_set_offsets.bind("Gradient", "set_offsets");
-		ptrcall!(void)(_GODOT_set_offsets, _godot_object, offsets);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffsets, _godot_object, offsets);
 	}
-	package(godot) static GodotMethod!(PoolRealArray) _GODOT_get_offsets;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offsets") = _GODOT_get_offsets;
 	/**
 	
 	*/
 	PoolRealArray getOffsets() const
 	{
-		_GODOT_get_offsets.bind("Gradient", "get_offsets");
-		return ptrcall!(PoolRealArray)(_GODOT_get_offsets, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolRealArray)(_classBinding.getOffsets, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolColorArray) _GODOT_set_colors;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_colors") = _GODOT_set_colors;
 	/**
 	
 	*/
 	void setColors(in PoolColorArray colors)
 	{
-		_GODOT_set_colors.bind("Gradient", "set_colors");
-		ptrcall!(void)(_GODOT_set_colors, _godot_object, colors);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColors, _godot_object, colors);
 	}
-	package(godot) static GodotMethod!(PoolColorArray) _GODOT_get_colors;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_colors") = _GODOT_get_colors;
 	/**
 	
 	*/
 	PoolColorArray getColors() const
 	{
-		_GODOT_get_colors.bind("Gradient", "get_colors");
-		return ptrcall!(PoolColorArray)(_GODOT_get_colors, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolColorArray)(_classBinding.getColors, _godot_object);
 	}
 	/**
 	Gradient's offsets returned as a $(D PoolRealArray).

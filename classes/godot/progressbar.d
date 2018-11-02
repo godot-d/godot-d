@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.range;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 General purpose progress bar.
 
@@ -28,12 +31,19 @@ Shows fill percentage from right to left.
 */
 @GodotBaseClass struct ProgressBar
 {
-	static immutable string _GODOT_internal_name = "ProgressBar";
+	enum string _GODOT_internal_name = "ProgressBar";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_percent_visible") GodotMethod!(void, bool) setPercentVisible;
+		@GodotName("is_percent_visible") GodotMethod!(bool) isPercentVisible;
+	}
 	bool opEquals(in ProgressBar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProgressBar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,28 +56,24 @@ public:
 		return cast(ProgressBar)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_percent_visible") = _GODOT_set_percent_visible;
 	/**
 	
 	*/
 	void setPercentVisible(in bool visible)
 	{
-		_GODOT_set_percent_visible.bind("ProgressBar", "set_percent_visible");
-		ptrcall!(void)(_GODOT_set_percent_visible, _godot_object, visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, visible);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_percent_visible") = _GODOT_is_percent_visible;
 	/**
 	
 	*/
 	bool isPercentVisible() const
 	{
-		_GODOT_is_percent_visible.bind("ProgressBar", "is_percent_visible");
-		return ptrcall!(bool)(_GODOT_is_percent_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPercentVisible, _godot_object);
 	}
 	/**
-	
+	If `true` the fill percentage is displayed on the bar. Default value: `true`.
 	*/
 	@property bool percentVisible()
 	{

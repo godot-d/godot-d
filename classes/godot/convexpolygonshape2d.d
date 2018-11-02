@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
+import godot.resource;
+import godot.reference;
 /**
 Convex Polygon Shape for 2D physics.
 
@@ -29,12 +31,20 @@ The main difference between a `ConvexPolygonShape2D` and a $(D ConcavePolygonSha
 */
 @GodotBaseClass struct ConvexPolygonShape2D
 {
-	static immutable string _GODOT_internal_name = "ConvexPolygonShape2D";
+	enum string _GODOT_internal_name = "ConvexPolygonShape2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Shape2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_point_cloud") GodotMethod!(void, PoolVector2Array) setPointCloud;
+		@GodotName("set_points") GodotMethod!(void, PoolVector2Array) setPoints;
+		@GodotName("get_points") GodotMethod!(PoolVector2Array) getPoints;
+	}
 	bool opEquals(in ConvexPolygonShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConvexPolygonShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,35 +57,29 @@ public:
 		return cast(ConvexPolygonShape2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_point_cloud;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_point_cloud") = _GODOT_set_point_cloud;
 	/**
 	Currently, this method does nothing.
 	*/
 	void setPointCloud(in PoolVector2Array point_cloud)
 	{
-		_GODOT_set_point_cloud.bind("ConvexPolygonShape2D", "set_point_cloud");
-		ptrcall!(void)(_GODOT_set_point_cloud, _godot_object, point_cloud);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointCloud, _godot_object, point_cloud);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_points;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_points") = _GODOT_set_points;
 	/**
 	
 	*/
 	void setPoints(in PoolVector2Array points)
 	{
-		_GODOT_set_points.bind("ConvexPolygonShape2D", "set_points");
-		ptrcall!(void)(_GODOT_set_points, _godot_object, points);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array) _GODOT_get_points;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_points") = _GODOT_get_points;
 	/**
 	
 	*/
 	PoolVector2Array getPoints() const
 	{
-		_GODOT_get_points.bind("ConvexPolygonShape2D", "get_points");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_points, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getPoints, _godot_object);
 	}
 	/**
 	The polygon's list of vertices. Can be in either clockwise or counterclockwise order.

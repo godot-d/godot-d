@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.control;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 Scalable texture-based frame that tiles the texture's centers and sides, but keeps the corners' original size. Perfect for panels and dialog boxes.
 
@@ -29,12 +31,29 @@ Better known as 9-slice panels, NinePatchRect produces clean panels of any size,
 */
 @GodotBaseClass struct NinePatchRect
 {
-	static immutable string _GODOT_internal_name = "NinePatchRect";
+	enum string _GODOT_internal_name = "NinePatchRect";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_patch_margin") GodotMethod!(void, long, long) setPatchMargin;
+		@GodotName("get_patch_margin") GodotMethod!(long, long) getPatchMargin;
+		@GodotName("set_region_rect") GodotMethod!(void, Rect2) setRegionRect;
+		@GodotName("get_region_rect") GodotMethod!(Rect2) getRegionRect;
+		@GodotName("set_draw_center") GodotMethod!(void, bool) setDrawCenter;
+		@GodotName("is_draw_center_enabled") GodotMethod!(bool) isDrawCenterEnabled;
+		@GodotName("set_h_axis_stretch_mode") GodotMethod!(void, long) setHAxisStretchMode;
+		@GodotName("get_h_axis_stretch_mode") GodotMethod!(NinePatchRect.AxisStretchMode) getHAxisStretchMode;
+		@GodotName("set_v_axis_stretch_mode") GodotMethod!(void, long) setVAxisStretchMode;
+		@GodotName("get_v_axis_stretch_mode") GodotMethod!(NinePatchRect.AxisStretchMode) getVAxisStretchMode;
+	}
 	bool opEquals(in NinePatchRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NinePatchRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -70,125 +89,101 @@ public:
 		axisStretchModeTile = 1,
 		axisStretchModeTileFit = 2,
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("NinePatchRect", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("NinePatchRect", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_set_patch_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_patch_margin") = _GODOT_set_patch_margin;
 	/**
 	
 	*/
 	void setPatchMargin(in long margin, in long value)
 	{
-		_GODOT_set_patch_margin.bind("NinePatchRect", "set_patch_margin");
-		ptrcall!(void)(_GODOT_set_patch_margin, _godot_object, margin, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPatchMargin, _godot_object, margin, value);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_patch_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_patch_margin") = _GODOT_get_patch_margin;
 	/**
 	
 	*/
 	long getPatchMargin(in long margin) const
 	{
-		_GODOT_get_patch_margin.bind("NinePatchRect", "get_patch_margin");
-		return ptrcall!(long)(_GODOT_get_patch_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPatchMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_rect") = _GODOT_set_region_rect;
 	/**
 	
 	*/
 	void setRegionRect(in Rect2 rect)
 	{
-		_GODOT_set_region_rect.bind("NinePatchRect", "set_region_rect");
-		ptrcall!(void)(_GODOT_set_region_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_rect") = _GODOT_get_region_rect;
 	/**
 	
 	*/
 	Rect2 getRegionRect() const
 	{
-		_GODOT_get_region_rect.bind("NinePatchRect", "get_region_rect");
-		return ptrcall!(Rect2)(_GODOT_get_region_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_draw_center;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_center") = _GODOT_set_draw_center;
 	/**
 	
 	*/
 	void setDrawCenter(in bool draw_center)
 	{
-		_GODOT_set_draw_center.bind("NinePatchRect", "set_draw_center");
-		ptrcall!(void)(_GODOT_set_draw_center, _godot_object, draw_center);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_draw_center_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_draw_center_enabled") = _GODOT_is_draw_center_enabled;
 	/**
 	
 	*/
 	bool isDrawCenterEnabled() const
 	{
-		_GODOT_is_draw_center_enabled.bind("NinePatchRect", "is_draw_center_enabled");
-		return ptrcall!(bool)(_GODOT_is_draw_center_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_h_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_axis_stretch_mode") = _GODOT_set_h_axis_stretch_mode;
 	/**
 	
 	*/
 	void setHAxisStretchMode(in long mode)
 	{
-		_GODOT_set_h_axis_stretch_mode.bind("NinePatchRect", "set_h_axis_stretch_mode");
-		ptrcall!(void)(_GODOT_set_h_axis_stretch_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHAxisStretchMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(NinePatchRect.AxisStretchMode) _GODOT_get_h_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_axis_stretch_mode") = _GODOT_get_h_axis_stretch_mode;
 	/**
 	
 	*/
 	NinePatchRect.AxisStretchMode getHAxisStretchMode() const
 	{
-		_GODOT_get_h_axis_stretch_mode.bind("NinePatchRect", "get_h_axis_stretch_mode");
-		return ptrcall!(NinePatchRect.AxisStretchMode)(_GODOT_get_h_axis_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NinePatchRect.AxisStretchMode)(_classBinding.getHAxisStretchMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_v_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_axis_stretch_mode") = _GODOT_set_v_axis_stretch_mode;
 	/**
 	
 	*/
 	void setVAxisStretchMode(in long mode)
 	{
-		_GODOT_set_v_axis_stretch_mode.bind("NinePatchRect", "set_v_axis_stretch_mode");
-		ptrcall!(void)(_GODOT_set_v_axis_stretch_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVAxisStretchMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(NinePatchRect.AxisStretchMode) _GODOT_get_v_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_axis_stretch_mode") = _GODOT_get_v_axis_stretch_mode;
 	/**
 	
 	*/
 	NinePatchRect.AxisStretchMode getVAxisStretchMode() const
 	{
-		_GODOT_get_v_axis_stretch_mode.bind("NinePatchRect", "get_v_axis_stretch_mode");
-		return ptrcall!(NinePatchRect.AxisStretchMode)(_GODOT_get_v_axis_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NinePatchRect.AxisStretchMode)(_classBinding.getVAxisStretchMode, _godot_object);
 	}
 	/**
 	The node's texture resource.

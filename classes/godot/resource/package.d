@@ -29,12 +29,29 @@ Resource is the base class for all resource types. Resources are primarily data 
 */
 @GodotBaseClass struct Resource
 {
-	static immutable string _GODOT_internal_name = "Resource";
+	enum string _GODOT_internal_name = "Resource";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_setup_local_to_scene") GodotMethod!(void) _setupLocalToScene;
+		@GodotName("set_path") GodotMethod!(void, String) setPath;
+		@GodotName("take_over_path") GodotMethod!(void, String) takeOverPath;
+		@GodotName("get_path") GodotMethod!(String) getPath;
+		@GodotName("set_name") GodotMethod!(void, String) setName;
+		@GodotName("get_name") GodotMethod!(String) getName;
+		@GodotName("get_rid") GodotMethod!(RID) getRid;
+		@GodotName("set_local_to_scene") GodotMethod!(void, bool) setLocalToScene;
+		@GodotName("is_local_to_scene") GodotMethod!(bool) isLocalToScene;
+		@GodotName("get_local_scene") GodotMethod!(Node) getLocalScene;
+		@GodotName("setup_local_to_scene") GodotMethod!(void) setupLocalToScene;
+		@GodotName("duplicate") GodotMethod!(Resource, bool) duplicate;
+	}
 	bool opEquals(in Resource other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Resource opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,8 +64,6 @@ public:
 		return cast(Resource)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void) _GODOT__setup_local_to_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_setup_local_to_scene") = _GODOT__setup_local_to_scene;
 	/**
 	
 	*/
@@ -58,115 +73,93 @@ public:
 		String _GODOT_method_name = String("_setup_local_to_scene");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_path") = _GODOT_set_path;
 	/**
 	
 	*/
 	void setPath(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_set_path.bind("Resource", "set_path");
-		ptrcall!(void)(_GODOT_set_path, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPath, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_take_over_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "take_over_path") = _GODOT_take_over_path;
 	/**
 	Set the path of the resource. Differs from set_path(), if another `Resource` exists with "path" it over-takes it, instead of failing.
 	*/
 	void takeOverPath(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_take_over_path.bind("Resource", "take_over_path");
-		ptrcall!(void)(_GODOT_take_over_path, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.takeOverPath, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_path") = _GODOT_get_path;
 	/**
 	
 	*/
 	String getPath() const
 	{
-		_GODOT_get_path.bind("Resource", "get_path");
-		return ptrcall!(String)(_GODOT_get_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getPath, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_name") = _GODOT_set_name;
 	/**
 	
 	*/
 	void setName(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_name.bind("Resource", "set_name");
-		ptrcall!(void)(_GODOT_set_name, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setName, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_name") = _GODOT_get_name;
 	/**
 	
 	*/
 	String getName() const
 	{
-		_GODOT_get_name.bind("Resource", "get_name");
-		return ptrcall!(String)(_GODOT_get_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getName, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rid") = _GODOT_get_rid;
 	/**
 	Return the RID of the resource (or an empty RID). Many resources (such as $(D Texture), $(D Mesh), etc) are high level abstractions of resources stored in a server, so this function will return the original RID.
 	*/
 	RID getRid() const
 	{
-		_GODOT_get_rid.bind("Resource", "get_rid");
-		return ptrcall!(RID)(_GODOT_get_rid, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getRid, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_local_to_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_local_to_scene") = _GODOT_set_local_to_scene;
 	/**
 	
 	*/
 	void setLocalToScene(in bool enable)
 	{
-		_GODOT_set_local_to_scene.bind("Resource", "set_local_to_scene");
-		ptrcall!(void)(_GODOT_set_local_to_scene, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLocalToScene, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_local_to_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_local_to_scene") = _GODOT_is_local_to_scene;
 	/**
 	
 	*/
 	bool isLocalToScene() const
 	{
-		_GODOT_is_local_to_scene.bind("Resource", "is_local_to_scene");
-		return ptrcall!(bool)(_GODOT_is_local_to_scene, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLocalToScene, _godot_object);
 	}
-	package(godot) static GodotMethod!(Node) _GODOT_get_local_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_local_scene") = _GODOT_get_local_scene;
 	/**
 	
 	*/
 	Node getLocalScene() const
 	{
-		_GODOT_get_local_scene.bind("Resource", "get_local_scene");
-		return ptrcall!(Node)(_GODOT_get_local_scene, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.getLocalScene, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_setup_local_to_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "setup_local_to_scene") = _GODOT_setup_local_to_scene;
 	/**
 	
 	*/
 	void setupLocalToScene()
 	{
-		_GODOT_setup_local_to_scene.bind("Resource", "setup_local_to_scene");
-		ptrcall!(void)(_GODOT_setup_local_to_scene, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setupLocalToScene, _godot_object);
 	}
-	package(godot) static GodotMethod!(Resource, bool) _GODOT_duplicate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "duplicate") = _GODOT_duplicate;
 	/**
 	
 	*/
 	Ref!Resource duplicate(in bool subresources = false) const
 	{
-		_GODOT_duplicate.bind("Resource", "duplicate");
-		return ptrcall!(Resource)(_GODOT_duplicate, _godot_object, subresources);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Resource)(_classBinding.duplicate, _godot_object, subresources);
 	}
 	/**
 	

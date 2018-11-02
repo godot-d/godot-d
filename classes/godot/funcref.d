@@ -29,12 +29,20 @@ However, by creating a `FuncRef` using the $(D @GDScript.funcref) function, a re
 */
 @GodotBaseClass struct FuncRef
 {
-	static immutable string _GODOT_internal_name = "FuncRef";
+	enum string _GODOT_internal_name = "FuncRef";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("call_func") GodotMethod!(Variant, GodotVarArgs) callFunc;
+		@GodotName("set_instance") GodotMethod!(void, GodotObject) setInstance;
+		@GodotName("set_function") GodotMethod!(void, String) setFunction;
+	}
 	bool opEquals(in FuncRef other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	FuncRef opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,8 +55,6 @@ public:
 		return cast(FuncRef)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Variant, GodotVarArgs) _GODOT_call_func;
-	package(godot) alias _GODOT_methodBindInfo(string name : "call_func") = _GODOT_call_func;
 	/**
 	Calls the referenced function previously set by $(D setFunction) or $(D @GDScript.funcref).
 	*/
@@ -62,24 +68,20 @@ public:
 		String _GODOT_method_name = String("call_func");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_set_instance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_instance") = _GODOT_set_instance;
 	/**
 	The object containing the referenced function. This object must be of a type actually inheriting from $(D GodotObject), not a built-in type such as $(D long), $(D Vector2) or $(D Dictionary).
 	*/
 	void setInstance(GodotObject instance)
 	{
-		_GODOT_set_instance.bind("FuncRef", "set_instance");
-		ptrcall!(void)(_GODOT_set_instance, _godot_object, instance);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstance, _godot_object, instance);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_function;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_function") = _GODOT_set_function;
 	/**
 	The name of the referenced function to call on the object, without parentheses or any parameters.
 	*/
 	void setFunction(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_function.bind("FuncRef", "set_function");
-		ptrcall!(void)(_GODOT_set_function, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunction, _godot_object, name);
 	}
 }

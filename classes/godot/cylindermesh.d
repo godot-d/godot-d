@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
+import godot.mesh;
+import godot.resource;
+import godot.reference;
 /**
 Class representing a cylindrical $(D PrimitiveMesh).
 
@@ -28,12 +31,27 @@ Class representing a cylindrical $(D PrimitiveMesh).
 */
 @GodotBaseClass struct CylinderMesh
 {
-	static immutable string _GODOT_internal_name = "CylinderMesh";
+	enum string _GODOT_internal_name = "CylinderMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_top_radius") GodotMethod!(void, double) setTopRadius;
+		@GodotName("get_top_radius") GodotMethod!(double) getTopRadius;
+		@GodotName("set_bottom_radius") GodotMethod!(void, double) setBottomRadius;
+		@GodotName("get_bottom_radius") GodotMethod!(double) getBottomRadius;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
+		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
+		@GodotName("set_rings") GodotMethod!(void, long) setRings;
+		@GodotName("get_rings") GodotMethod!(long) getRings;
+	}
 	bool opEquals(in CylinderMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CylinderMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,105 +64,85 @@ public:
 		return cast(CylinderMesh)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_top_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_top_radius") = _GODOT_set_top_radius;
 	/**
 	
 	*/
 	void setTopRadius(in double radius)
 	{
-		_GODOT_set_top_radius.bind("CylinderMesh", "set_top_radius");
-		ptrcall!(void)(_GODOT_set_top_radius, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTopRadius, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_top_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_top_radius") = _GODOT_get_top_radius;
 	/**
 	
 	*/
 	double getTopRadius() const
 	{
-		_GODOT_get_top_radius.bind("CylinderMesh", "get_top_radius");
-		return ptrcall!(double)(_GODOT_get_top_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTopRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_bottom_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bottom_radius") = _GODOT_set_bottom_radius;
 	/**
 	
 	*/
 	void setBottomRadius(in double radius)
 	{
-		_GODOT_set_bottom_radius.bind("CylinderMesh", "set_bottom_radius");
-		ptrcall!(void)(_GODOT_set_bottom_radius, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBottomRadius, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_bottom_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bottom_radius") = _GODOT_get_bottom_radius;
 	/**
 	
 	*/
 	double getBottomRadius() const
 	{
-		_GODOT_get_bottom_radius.bind("CylinderMesh", "get_bottom_radius");
-		return ptrcall!(double)(_GODOT_get_bottom_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBottomRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_height") = _GODOT_set_height;
 	/**
 	
 	*/
 	void setHeight(in double height)
 	{
-		_GODOT_set_height.bind("CylinderMesh", "set_height");
-		ptrcall!(void)(_GODOT_set_height, _godot_object, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_height") = _GODOT_get_height;
 	/**
 	
 	*/
 	double getHeight() const
 	{
-		_GODOT_get_height.bind("CylinderMesh", "get_height");
-		return ptrcall!(double)(_GODOT_get_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_radial_segments;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radial_segments") = _GODOT_set_radial_segments;
 	/**
 	
 	*/
 	void setRadialSegments(in long segments)
 	{
-		_GODOT_set_radial_segments.bind("CylinderMesh", "set_radial_segments");
-		ptrcall!(void)(_GODOT_set_radial_segments, _godot_object, segments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_radial_segments;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radial_segments") = _GODOT_get_radial_segments;
 	/**
 	
 	*/
 	long getRadialSegments() const
 	{
-		_GODOT_get_radial_segments.bind("CylinderMesh", "get_radial_segments");
-		return ptrcall!(long)(_GODOT_get_radial_segments, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_rings;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rings") = _GODOT_set_rings;
 	/**
 	
 	*/
 	void setRings(in long rings)
 	{
-		_GODOT_set_rings.bind("CylinderMesh", "set_rings");
-		ptrcall!(void)(_GODOT_set_rings, _godot_object, rings);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_rings;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rings") = _GODOT_get_rings;
 	/**
 	
 	*/
 	long getRings() const
 	{
-		_GODOT_get_rings.bind("CylinderMesh", "get_rings");
-		return ptrcall!(long)(_GODOT_get_rings, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRings, _godot_object);
 	}
 	/**
 	Top radius of the cylinder. Defaults to 1.0.

@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.script;
+import godot.resource;
+import godot.reference;
 /**
 A script implemented in the GDScript programming language.
 
@@ -29,12 +31,19 @@ $(D _new) creates a new instance of the script. $(D GodotObject.setScript) exten
 */
 @GodotBaseClass struct GDScript
 {
-	static immutable string _GODOT_internal_name = "GDScript";
+	enum string _GODOT_internal_name = "GDScript";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Script _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("new") GodotMethod!(GodotObject, GodotVarArgs) _new;
+		@GodotName("get_as_byte_code") GodotMethod!(PoolByteArray) getAsByteCode;
+	}
 	bool opEquals(in GDScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,8 +56,6 @@ public:
 		return cast(GDScript)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(GodotObject, GodotVarArgs) _GODOT__new;
-	package(godot) alias _GODOT_methodBindInfo(string name : "new") = _GODOT__new;
 	/**
 	Returns a new instance of the script.
 	For example:
@@ -70,14 +77,12 @@ public:
 		String _GODOT_method_name = String("new");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
 	}
-	package(godot) static GodotMethod!(PoolByteArray) _GODOT_get_as_byte_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_as_byte_code") = _GODOT_get_as_byte_code;
 	/**
 	Returns byte code for the script source code.
 	*/
 	PoolByteArray getAsByteCode() const
 	{
-		_GODOT_get_as_byte_code.bind("GDScript", "get_as_byte_code");
-		return ptrcall!(PoolByteArray)(_GODOT_get_as_byte_code, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.getAsByteCode, _godot_object);
 	}
 }

@@ -22,6 +22,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a Phaser audio effect to an Audio bus.
 Combines the original signal with a copy that is slightly out of phase with the original.
@@ -30,12 +32,27 @@ Combines phase-shifted signals with the original signal. The movement of the pha
 */
 @GodotBaseClass struct AudioEffectPhaser
 {
-	static immutable string _GODOT_internal_name = "AudioEffectPhaser";
+	enum string _GODOT_internal_name = "AudioEffectPhaser";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_range_min_hz") GodotMethod!(void, double) setRangeMinHz;
+		@GodotName("get_range_min_hz") GodotMethod!(double) getRangeMinHz;
+		@GodotName("set_range_max_hz") GodotMethod!(void, double) setRangeMaxHz;
+		@GodotName("get_range_max_hz") GodotMethod!(double) getRangeMaxHz;
+		@GodotName("set_rate_hz") GodotMethod!(void, double) setRateHz;
+		@GodotName("get_rate_hz") GodotMethod!(double) getRateHz;
+		@GodotName("set_feedback") GodotMethod!(void, double) setFeedback;
+		@GodotName("get_feedback") GodotMethod!(double) getFeedback;
+		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
+		@GodotName("get_depth") GodotMethod!(double) getDepth;
+	}
 	bool opEquals(in AudioEffectPhaser other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectPhaser opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,105 +65,85 @@ public:
 		return cast(AudioEffectPhaser)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_range_min_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_range_min_hz") = _GODOT_set_range_min_hz;
 	/**
 	
 	*/
 	void setRangeMinHz(in double hz)
 	{
-		_GODOT_set_range_min_hz.bind("AudioEffectPhaser", "set_range_min_hz");
-		ptrcall!(void)(_GODOT_set_range_min_hz, _godot_object, hz);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRangeMinHz, _godot_object, hz);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_range_min_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_range_min_hz") = _GODOT_get_range_min_hz;
 	/**
 	
 	*/
 	double getRangeMinHz() const
 	{
-		_GODOT_get_range_min_hz.bind("AudioEffectPhaser", "get_range_min_hz");
-		return ptrcall!(double)(_GODOT_get_range_min_hz, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRangeMinHz, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_range_max_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_range_max_hz") = _GODOT_set_range_max_hz;
 	/**
 	
 	*/
 	void setRangeMaxHz(in double hz)
 	{
-		_GODOT_set_range_max_hz.bind("AudioEffectPhaser", "set_range_max_hz");
-		ptrcall!(void)(_GODOT_set_range_max_hz, _godot_object, hz);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRangeMaxHz, _godot_object, hz);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_range_max_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_range_max_hz") = _GODOT_get_range_max_hz;
 	/**
 	
 	*/
 	double getRangeMaxHz() const
 	{
-		_GODOT_get_range_max_hz.bind("AudioEffectPhaser", "get_range_max_hz");
-		return ptrcall!(double)(_GODOT_get_range_max_hz, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRangeMaxHz, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_rate_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rate_hz") = _GODOT_set_rate_hz;
 	/**
 	
 	*/
 	void setRateHz(in double hz)
 	{
-		_GODOT_set_rate_hz.bind("AudioEffectPhaser", "set_rate_hz");
-		ptrcall!(void)(_GODOT_set_rate_hz, _godot_object, hz);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRateHz, _godot_object, hz);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_rate_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rate_hz") = _GODOT_get_rate_hz;
 	/**
 	
 	*/
 	double getRateHz() const
 	{
-		_GODOT_get_rate_hz.bind("AudioEffectPhaser", "get_rate_hz");
-		return ptrcall!(double)(_GODOT_get_rate_hz, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRateHz, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_feedback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_feedback") = _GODOT_set_feedback;
 	/**
 	
 	*/
 	void setFeedback(in double fbk)
 	{
-		_GODOT_set_feedback.bind("AudioEffectPhaser", "set_feedback");
-		ptrcall!(void)(_GODOT_set_feedback, _godot_object, fbk);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFeedback, _godot_object, fbk);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_feedback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_feedback") = _GODOT_get_feedback;
 	/**
 	
 	*/
 	double getFeedback() const
 	{
-		_GODOT_get_feedback.bind("AudioEffectPhaser", "get_feedback");
-		return ptrcall!(double)(_GODOT_get_feedback, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFeedback, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_depth") = _GODOT_set_depth;
 	/**
 	
 	*/
 	void setDepth(in double depth)
 	{
-		_GODOT_set_depth.bind("AudioEffectPhaser", "set_depth");
-		ptrcall!(void)(_GODOT_set_depth, _godot_object, depth);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_depth") = _GODOT_get_depth;
 	/**
 	
 	*/
 	double getDepth() const
 	{
-		_GODOT_get_depth.bind("AudioEffectPhaser", "get_depth");
-		return ptrcall!(double)(_GODOT_get_depth, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
 	}
 	/**
 	Determines the minimum frequency affected by the LFO modulations. Value can range from 10 to 10000. Default value: `440hz`.

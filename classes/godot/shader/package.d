@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.texture;
+import godot.reference;
 /**
 A custom shader program.
 
@@ -29,12 +30,23 @@ This class allows you to define a custom shader program that can be used for var
 */
 @GodotBaseClass struct Shader
 {
-	static immutable string _GODOT_internal_name = "Shader";
+	enum string _GODOT_internal_name = "Shader";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_mode") GodotMethod!(Shader.Mode) getMode;
+		@GodotName("set_code") GodotMethod!(void, String) setCode;
+		@GodotName("get_code") GodotMethod!(String) getCode;
+		@GodotName("set_default_texture_param") GodotMethod!(void, String, Texture) setDefaultTextureParam;
+		@GodotName("get_default_texture_param") GodotMethod!(Texture, String) getDefaultTextureParam;
+		@GodotName("has_param") GodotMethod!(bool, String) hasParam;
+	}
 	bool opEquals(in Shader other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Shader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -70,65 +82,53 @@ public:
 		modeCanvasItem = 1,
 		modeParticles = 2,
 	}
-	package(godot) static GodotMethod!(Shader.Mode) _GODOT_get_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mode") = _GODOT_get_mode;
 	/**
-	Returns the shader mode for the shader, eiter `MODE_CANVAS_ITEM`, `MODE_SPATIAL` or `MODE_PARTICLES`
+	Returns the shader mode for the shader, either `MODE_CANVAS_ITEM`, `MODE_SPATIAL` or `MODE_PARTICLES`
 	*/
 	Shader.Mode getMode() const
 	{
-		_GODOT_get_mode.bind("Shader", "get_mode");
-		return ptrcall!(Shader.Mode)(_GODOT_get_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shader.Mode)(_classBinding.getMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_code") = _GODOT_set_code;
 	/**
 	
 	*/
 	void setCode(StringArg0)(in StringArg0 code)
 	{
-		_GODOT_set_code.bind("Shader", "set_code");
-		ptrcall!(void)(_GODOT_set_code, _godot_object, code);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCode, _godot_object, code);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_code") = _GODOT_get_code;
 	/**
 	
 	*/
 	String getCode() const
 	{
-		_GODOT_get_code.bind("Shader", "get_code");
-		return ptrcall!(String)(_GODOT_get_code, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Texture) _GODOT_set_default_texture_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_texture_param") = _GODOT_set_default_texture_param;
 	/**
 	
 	*/
 	void setDefaultTextureParam(StringArg0)(in StringArg0 param, Texture texture)
 	{
-		_GODOT_set_default_texture_param.bind("Shader", "set_default_texture_param");
-		ptrcall!(void)(_GODOT_set_default_texture_param, _godot_object, param, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultTextureParam, _godot_object, param, texture);
 	}
-	package(godot) static GodotMethod!(Texture, String) _GODOT_get_default_texture_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_default_texture_param") = _GODOT_get_default_texture_param;
 	/**
 	
 	*/
 	Ref!Texture getDefaultTextureParam(StringArg0)(in StringArg0 param) const
 	{
-		_GODOT_get_default_texture_param.bind("Shader", "get_default_texture_param");
-		return ptrcall!(Texture)(_GODOT_get_default_texture_param, _godot_object, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getDefaultTextureParam, _godot_object, param);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_param") = _GODOT_has_param;
 	/**
 	
 	*/
 	bool hasParam(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_param.bind("Shader", "has_param");
-		return ptrcall!(bool)(_GODOT_has_param, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasParam, _godot_object, name);
 	}
 	/**
 	

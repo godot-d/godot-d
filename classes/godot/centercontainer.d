@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Keeps children controls centered.
 
@@ -28,12 +31,19 @@ CenterContainer Keeps children controls centered. This container keeps all child
 */
 @GodotBaseClass struct CenterContainer
 {
-	static immutable string _GODOT_internal_name = "CenterContainer";
+	enum string _GODOT_internal_name = "CenterContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_use_top_left") GodotMethod!(void, bool) setUseTopLeft;
+		@GodotName("is_using_top_left") GodotMethod!(bool) isUsingTopLeft;
+	}
 	bool opEquals(in CenterContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CenterContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,25 +56,21 @@ public:
 		return cast(CenterContainer)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_top_left;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_top_left") = _GODOT_set_use_top_left;
 	/**
 	
 	*/
 	void setUseTopLeft(in bool enable)
 	{
-		_GODOT_set_use_top_left.bind("CenterContainer", "set_use_top_left");
-		ptrcall!(void)(_GODOT_set_use_top_left, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseTopLeft, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_top_left;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_top_left") = _GODOT_is_using_top_left;
 	/**
 	
 	*/
 	bool isUsingTopLeft() const
 	{
-		_GODOT_is_using_top_left.bind("CenterContainer", "is_using_top_left");
-		return ptrcall!(bool)(_GODOT_is_using_top_left, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingTopLeft, _godot_object);
 	}
 	/**
 	If `true` centers children relative to the `CenterContainer`'s top left corner. Default value: `false`.

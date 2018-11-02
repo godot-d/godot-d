@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Displays plain text in a line or wrapped inside a rectangle. For formatted text, use $(D RichTextLabel).
 
@@ -29,12 +31,41 @@ Note that contrarily to most other $(D Control)s, Label's $(D Control.mouseFilte
 */
 @GodotBaseClass struct Label
 {
-	static immutable string _GODOT_internal_name = "Label";
+	enum string _GODOT_internal_name = "Label";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_align") GodotMethod!(void, long) setAlign;
+		@GodotName("get_align") GodotMethod!(Label.Align) getAlign;
+		@GodotName("set_valign") GodotMethod!(void, long) setValign;
+		@GodotName("get_valign") GodotMethod!(Label.VAlign) getValign;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("set_autowrap") GodotMethod!(void, bool) setAutowrap;
+		@GodotName("has_autowrap") GodotMethod!(bool) hasAutowrap;
+		@GodotName("set_clip_text") GodotMethod!(void, bool) setClipText;
+		@GodotName("is_clipping_text") GodotMethod!(bool) isClippingText;
+		@GodotName("set_uppercase") GodotMethod!(void, bool) setUppercase;
+		@GodotName("is_uppercase") GodotMethod!(bool) isUppercase;
+		@GodotName("get_line_height") GodotMethod!(long) getLineHeight;
+		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
+		@GodotName("get_visible_line_count") GodotMethod!(long) getVisibleLineCount;
+		@GodotName("get_total_character_count") GodotMethod!(long) getTotalCharacterCount;
+		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
+		@GodotName("get_visible_characters") GodotMethod!(long) getVisibleCharacters;
+		@GodotName("set_percent_visible") GodotMethod!(void, double) setPercentVisible;
+		@GodotName("get_percent_visible") GodotMethod!(double) getPercentVisible;
+		@GodotName("set_lines_skipped") GodotMethod!(void, long) setLinesSkipped;
+		@GodotName("get_lines_skipped") GodotMethod!(long) getLinesSkipped;
+		@GodotName("set_max_lines_visible") GodotMethod!(void, long) setMaxLinesVisible;
+		@GodotName("get_max_lines_visible") GodotMethod!(long) getMaxLinesVisible;
+	}
 	bool opEquals(in Label other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Label opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -94,250 +125,202 @@ public:
 		valignTop = 0,
 		alignCenter = 1,
 		valignCenter = 1,
-		valignBottom = 2,
 		alignRight = 2,
-		alignFill = 3,
+		valignBottom = 2,
 		valignFill = 3,
+		alignFill = 3,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_align") = _GODOT_set_align;
 	/**
 	
 	*/
 	void setAlign(in long _align)
 	{
-		_GODOT_set_align.bind("Label", "set_align");
-		ptrcall!(void)(_GODOT_set_align, _godot_object, _align);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlign, _godot_object, _align);
 	}
-	package(godot) static GodotMethod!(Label.Align) _GODOT_get_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_align") = _GODOT_get_align;
 	/**
 	
 	*/
 	Label.Align getAlign() const
 	{
-		_GODOT_get_align.bind("Label", "get_align");
-		return ptrcall!(Label.Align)(_GODOT_get_align, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Label.Align)(_classBinding.getAlign, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_valign;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_valign") = _GODOT_set_valign;
 	/**
 	
 	*/
 	void setValign(in long valign)
 	{
-		_GODOT_set_valign.bind("Label", "set_valign");
-		ptrcall!(void)(_GODOT_set_valign, _godot_object, valign);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setValign, _godot_object, valign);
 	}
-	package(godot) static GodotMethod!(Label.VAlign) _GODOT_get_valign;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_valign") = _GODOT_get_valign;
 	/**
 	
 	*/
 	Label.VAlign getValign() const
 	{
-		_GODOT_get_valign.bind("Label", "get_valign");
-		return ptrcall!(Label.VAlign)(_GODOT_get_valign, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Label.VAlign)(_classBinding.getValign, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_text") = _GODOT_set_text;
 	/**
 	
 	*/
 	void setText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_text.bind("Label", "set_text");
-		ptrcall!(void)(_GODOT_set_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_text") = _GODOT_get_text;
 	/**
 	
 	*/
 	String getText() const
 	{
-		_GODOT_get_text.bind("Label", "get_text");
-		return ptrcall!(String)(_GODOT_get_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_autowrap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_autowrap") = _GODOT_set_autowrap;
 	/**
 	
 	*/
 	void setAutowrap(in bool enable)
 	{
-		_GODOT_set_autowrap.bind("Label", "set_autowrap");
-		ptrcall!(void)(_GODOT_set_autowrap, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutowrap, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_autowrap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_autowrap") = _GODOT_has_autowrap;
 	/**
 	
 	*/
 	bool hasAutowrap() const
 	{
-		_GODOT_has_autowrap.bind("Label", "has_autowrap");
-		return ptrcall!(bool)(_GODOT_has_autowrap, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAutowrap, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_clip_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_clip_text") = _GODOT_set_clip_text;
 	/**
 	
 	*/
 	void setClipText(in bool enable)
 	{
-		_GODOT_set_clip_text.bind("Label", "set_clip_text");
-		ptrcall!(void)(_GODOT_set_clip_text, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClipText, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_clipping_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_clipping_text") = _GODOT_is_clipping_text;
 	/**
 	
 	*/
 	bool isClippingText() const
 	{
-		_GODOT_is_clipping_text.bind("Label", "is_clipping_text");
-		return ptrcall!(bool)(_GODOT_is_clipping_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isClippingText, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_uppercase;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_uppercase") = _GODOT_set_uppercase;
 	/**
 	
 	*/
 	void setUppercase(in bool enable)
 	{
-		_GODOT_set_uppercase.bind("Label", "set_uppercase");
-		ptrcall!(void)(_GODOT_set_uppercase, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUppercase, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_uppercase;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_uppercase") = _GODOT_is_uppercase;
 	/**
 	
 	*/
 	bool isUppercase() const
 	{
-		_GODOT_is_uppercase.bind("Label", "is_uppercase");
-		return ptrcall!(bool)(_GODOT_is_uppercase, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUppercase, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_line_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_line_height") = _GODOT_get_line_height;
 	/**
 	Returns the font size in pixels.
 	*/
 	long getLineHeight() const
 	{
-		_GODOT_get_line_height.bind("Label", "get_line_height");
-		return ptrcall!(long)(_GODOT_get_line_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLineHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_line_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_line_count") = _GODOT_get_line_count;
 	/**
 	Returns the amount of lines of text the Label has.
 	*/
 	long getLineCount() const
 	{
-		_GODOT_get_line_count.bind("Label", "get_line_count");
-		return ptrcall!(long)(_GODOT_get_line_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_visible_line_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_line_count") = _GODOT_get_visible_line_count;
 	/**
 	Returns the number of lines shown. Useful if the `Label` 's height cannot currently display all lines.
 	*/
 	long getVisibleLineCount() const
 	{
-		_GODOT_get_visible_line_count.bind("Label", "get_visible_line_count");
-		return ptrcall!(long)(_GODOT_get_visible_line_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_total_character_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_total_character_count") = _GODOT_get_total_character_count;
 	/**
 	Returns the total length of the text.
 	*/
 	long getTotalCharacterCount() const
 	{
-		_GODOT_get_total_character_count.bind("Label", "get_total_character_count");
-		return ptrcall!(long)(_GODOT_get_total_character_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_visible_characters;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_visible_characters") = _GODOT_set_visible_characters;
 	/**
 	
 	*/
 	void setVisibleCharacters(in long amount)
 	{
-		_GODOT_set_visible_characters.bind("Label", "set_visible_characters");
-		ptrcall!(void)(_GODOT_set_visible_characters, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_visible_characters;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_characters") = _GODOT_get_visible_characters;
 	/**
 	
 	*/
 	long getVisibleCharacters() const
 	{
-		_GODOT_get_visible_characters.bind("Label", "get_visible_characters");
-		return ptrcall!(long)(_GODOT_get_visible_characters, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_percent_visible") = _GODOT_set_percent_visible;
 	/**
 	
 	*/
 	void setPercentVisible(in double percent_visible)
 	{
-		_GODOT_set_percent_visible.bind("Label", "set_percent_visible");
-		ptrcall!(void)(_GODOT_set_percent_visible, _godot_object, percent_visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, percent_visible);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_percent_visible") = _GODOT_get_percent_visible;
 	/**
 	
 	*/
 	double getPercentVisible() const
 	{
-		_GODOT_get_percent_visible.bind("Label", "get_percent_visible");
-		return ptrcall!(double)(_GODOT_get_percent_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_lines_skipped;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_lines_skipped") = _GODOT_set_lines_skipped;
 	/**
 	
 	*/
 	void setLinesSkipped(in long lines_skipped)
 	{
-		_GODOT_set_lines_skipped.bind("Label", "set_lines_skipped");
-		ptrcall!(void)(_GODOT_set_lines_skipped, _godot_object, lines_skipped);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLinesSkipped, _godot_object, lines_skipped);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_lines_skipped;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_lines_skipped") = _GODOT_get_lines_skipped;
 	/**
 	
 	*/
 	long getLinesSkipped() const
 	{
-		_GODOT_get_lines_skipped.bind("Label", "get_lines_skipped");
-		return ptrcall!(long)(_GODOT_get_lines_skipped, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLinesSkipped, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_max_lines_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_max_lines_visible") = _GODOT_set_max_lines_visible;
 	/**
 	
 	*/
 	void setMaxLinesVisible(in long lines_visible)
 	{
-		_GODOT_set_max_lines_visible.bind("Label", "set_max_lines_visible");
-		ptrcall!(void)(_GODOT_set_max_lines_visible, _godot_object, lines_visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxLinesVisible, _godot_object, lines_visible);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_max_lines_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_max_lines_visible") = _GODOT_get_max_lines_visible;
 	/**
 	
 	*/
 	long getMaxLinesVisible() const
 	{
-		_GODOT_get_max_lines_visible.bind("Label", "get_max_lines_visible");
-		return ptrcall!(long)(_GODOT_get_max_lines_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMaxLinesVisible, _godot_object);
 	}
 	/**
 	The text to display on screen.

@@ -21,17 +21,40 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct VisualScriptPropertyGet
 {
-	static immutable string _GODOT_internal_name = "VisualScriptPropertyGet";
+	enum string _GODOT_internal_name = "VisualScriptPropertyGet";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
+		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
+		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
+		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
+		@GodotName("_set_type_cache") GodotMethod!(void, long) _setTypeCache;
+		@GodotName("_get_type_cache") GodotMethod!(Variant.Type) _getTypeCache;
+		@GodotName("set_property") GodotMethod!(void, String) setProperty;
+		@GodotName("get_property") GodotMethod!(String) getProperty;
+		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
+		@GodotName("get_call_mode") GodotMethod!(VisualScriptPropertyGet.CallMode) getCallMode;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
+		@GodotName("set_index") GodotMethod!(void, String) setIndex;
+		@GodotName("get_index") GodotMethod!(String) getIndex;
+	}
 	bool opEquals(in VisualScriptPropertyGet other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptPropertyGet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -67,68 +90,54 @@ public:
 		callModeNodePath = 1,
 		callModeInstance = 2,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_base_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_type") = _GODOT_set_base_type;
 	/**
 	
 	*/
 	void setBaseType(StringArg0)(in StringArg0 base_type)
 	{
-		_GODOT_set_base_type.bind("VisualScriptPropertyGet", "set_base_type");
-		ptrcall!(void)(_GODOT_set_base_type, _godot_object, base_type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_base_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_type") = _GODOT_get_base_type;
 	/**
 	
 	*/
 	String getBaseType() const
 	{
-		_GODOT_get_base_type.bind("VisualScriptPropertyGet", "get_base_type");
-		return ptrcall!(String)(_GODOT_get_base_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_base_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_script") = _GODOT_set_base_script;
 	/**
 	
 	*/
 	void setBaseScript(StringArg0)(in StringArg0 base_script)
 	{
-		_GODOT_set_base_script.bind("VisualScriptPropertyGet", "set_base_script");
-		ptrcall!(void)(_GODOT_set_base_script, _godot_object, base_script);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_base_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_script") = _GODOT_get_base_script;
 	/**
 	
 	*/
 	String getBaseScript() const
 	{
-		_GODOT_get_base_script.bind("VisualScriptPropertyGet", "get_base_script");
-		return ptrcall!(String)(_GODOT_get_base_script, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_basic_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_basic_type") = _GODOT_set_basic_type;
 	/**
 	
 	*/
 	void setBasicType(in long basic_type)
 	{
-		_GODOT_set_basic_type.bind("VisualScriptPropertyGet", "set_basic_type");
-		ptrcall!(void)(_GODOT_set_basic_type, _godot_object, basic_type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_basic_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_basic_type") = _GODOT_get_basic_type;
 	/**
 	
 	*/
 	Variant.Type getBasicType() const
 	{
-		_GODOT_get_basic_type.bind("VisualScriptPropertyGet", "get_basic_type");
-		return ptrcall!(Variant.Type)(_GODOT_get_basic_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__set_type_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_type_cache") = _GODOT__set_type_cache;
 	/**
 	
 	*/
@@ -139,8 +148,6 @@ public:
 		String _GODOT_method_name = String("_set_type_cache");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT__get_type_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_type_cache") = _GODOT__get_type_cache;
 	/**
 	
 	*/
@@ -150,85 +157,69 @@ public:
 		String _GODOT_method_name = String("_get_type_cache");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Variant.Type);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_property;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_property") = _GODOT_set_property;
 	/**
 	
 	*/
 	void setProperty(StringArg0)(in StringArg0 property)
 	{
-		_GODOT_set_property.bind("VisualScriptPropertyGet", "set_property");
-		ptrcall!(void)(_GODOT_set_property, _godot_object, property);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProperty, _godot_object, property);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_property;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_property") = _GODOT_get_property;
 	/**
 	
 	*/
 	String getProperty() const
 	{
-		_GODOT_get_property.bind("VisualScriptPropertyGet", "get_property");
-		return ptrcall!(String)(_GODOT_get_property, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getProperty, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_call_mode") = _GODOT_set_call_mode;
 	/**
 	
 	*/
 	void setCallMode(in long mode)
 	{
-		_GODOT_set_call_mode.bind("VisualScriptPropertyGet", "set_call_mode");
-		ptrcall!(void)(_GODOT_set_call_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(VisualScriptPropertyGet.CallMode) _GODOT_get_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_call_mode") = _GODOT_get_call_mode;
 	/**
 	
 	*/
 	VisualScriptPropertyGet.CallMode getCallMode() const
 	{
-		_GODOT_get_call_mode.bind("VisualScriptPropertyGet", "get_call_mode");
-		return ptrcall!(VisualScriptPropertyGet.CallMode)(_GODOT_get_call_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptPropertyGet.CallMode)(_classBinding.getCallMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_path") = _GODOT_set_base_path;
 	/**
 	
 	*/
 	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
-		_GODOT_set_base_path.bind("VisualScriptPropertyGet", "set_base_path");
-		ptrcall!(void)(_GODOT_set_base_path, _godot_object, base_path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_path") = _GODOT_get_base_path;
 	/**
 	
 	*/
 	NodePath getBasePath() const
 	{
-		_GODOT_get_base_path.bind("VisualScriptPropertyGet", "get_base_path");
-		return ptrcall!(NodePath)(_GODOT_get_base_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_index") = _GODOT_set_index;
 	/**
 	
 	*/
 	void setIndex(StringArg0)(in StringArg0 index)
 	{
-		_GODOT_set_index.bind("VisualScriptPropertyGet", "set_index");
-		ptrcall!(void)(_GODOT_set_index, _godot_object, index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_index") = _GODOT_get_index;
 	/**
 	
 	*/
 	String getIndex() const
 	{
-		_GODOT_get_index.bind("VisualScriptPropertyGet", "get_index");
-		return ptrcall!(String)(_GODOT_get_index, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getIndex, _godot_object);
 	}
 	/**
 	

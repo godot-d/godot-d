@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.range;
 import godot.inputevent;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base class for GUI Sliders.
 
@@ -28,12 +31,26 @@ Base class for GUI Sliders.
 */
 @GodotBaseClass struct Slider
 {
-	static immutable string _GODOT_internal_name = "Slider";
+	enum string _GODOT_internal_name = "Slider";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("set_ticks") GodotMethod!(void, long) setTicks;
+		@GodotName("get_ticks") GodotMethod!(long) getTicks;
+		@GodotName("get_ticks_on_borders") GodotMethod!(bool) getTicksOnBorders;
+		@GodotName("set_ticks_on_borders") GodotMethod!(void, bool) setTicksOnBorders;
+		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
+		@GodotName("is_editable") GodotMethod!(bool) isEditable;
+		@GodotName("set_scrollable") GodotMethod!(void, bool) setScrollable;
+		@GodotName("is_scrollable") GodotMethod!(bool) isScrollable;
+	}
 	bool opEquals(in Slider other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Slider opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,8 +63,6 @@ public:
 		return cast(Slider)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -58,65 +73,69 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_ticks;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ticks") = _GODOT_set_ticks;
 	/**
 	
 	*/
 	void setTicks(in long count)
 	{
-		_GODOT_set_ticks.bind("Slider", "set_ticks");
-		ptrcall!(void)(_GODOT_set_ticks, _godot_object, count);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTicks, _godot_object, count);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_ticks;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ticks") = _GODOT_get_ticks;
 	/**
 	
 	*/
 	long getTicks() const
 	{
-		_GODOT_get_ticks.bind("Slider", "get_ticks");
-		return ptrcall!(long)(_GODOT_get_ticks, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTicks, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_ticks_on_borders;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ticks_on_borders") = _GODOT_get_ticks_on_borders;
 	/**
 	
 	*/
 	bool getTicksOnBorders() const
 	{
-		_GODOT_get_ticks_on_borders.bind("Slider", "get_ticks_on_borders");
-		return ptrcall!(bool)(_GODOT_get_ticks_on_borders, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getTicksOnBorders, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_ticks_on_borders;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ticks_on_borders") = _GODOT_set_ticks_on_borders;
 	/**
 	
 	*/
 	void setTicksOnBorders(in bool ticks_on_border)
 	{
-		_GODOT_set_ticks_on_borders.bind("Slider", "set_ticks_on_borders");
-		ptrcall!(void)(_GODOT_set_ticks_on_borders, _godot_object, ticks_on_border);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTicksOnBorders, _godot_object, ticks_on_border);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_editable") = _GODOT_set_editable;
 	/**
 	
 	*/
 	void setEditable(in bool editable)
 	{
-		_GODOT_set_editable.bind("Slider", "set_editable");
-		ptrcall!(void)(_GODOT_set_editable, _godot_object, editable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditable, _godot_object, editable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editable") = _GODOT_is_editable;
 	/**
 	
 	*/
 	bool isEditable() const
 	{
-		_GODOT_is_editable.bind("Slider", "is_editable");
-		return ptrcall!(bool)(_GODOT_is_editable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
+	}
+	/**
+	
+	*/
+	void setScrollable(in bool scrollable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollable, _godot_object, scrollable);
+	}
+	/**
+	
+	*/
+	bool isScrollable() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollable, _godot_object);
 	}
 	/**
 	
@@ -129,6 +148,18 @@ public:
 	@property void editable(bool v)
 	{
 		setEditable(v);
+	}
+	/**
+	
+	*/
+	@property bool scrollable()
+	{
+		return isScrollable();
+	}
+	/// ditto
+	@property void scrollable(bool v)
+	{
+		setScrollable(v);
 	}
 	/**
 	
@@ -157,7 +188,7 @@ public:
 	/**
 	
 	*/
-	@property long focusMode()
+	@property Control.FocusMode focusMode()
 	{
 		return getFocusMode();
 	}

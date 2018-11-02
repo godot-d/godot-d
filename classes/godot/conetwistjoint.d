@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint;
+import godot.spatial;
+import godot.node;
 /**
 A twist joint between two 3D bodies.
 
@@ -30,12 +32,23 @@ Once the Bodies swing, the twist axis is calculated as the middle of the x-axes 
 */
 @GodotBaseClass struct ConeTwistJoint
 {
-	static immutable string _GODOT_internal_name = "ConeTwistJoint";
+	enum string _GODOT_internal_name = "ConeTwistJoint";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("_set_swing_span") GodotMethod!(void, double) _setSwingSpan;
+		@GodotName("_get_swing_span") GodotMethod!(double) _getSwingSpan;
+		@GodotName("_set_twist_span") GodotMethod!(void, double) _setTwistSpan;
+		@GodotName("_get_twist_span") GodotMethod!(double) _getTwistSpan;
+	}
 	bool opEquals(in ConeTwistJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConeTwistJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -91,28 +104,22 @@ public:
 		paramRelaxation = 4,
 		paramMax = 5,
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_param") = _GODOT_set_param;
 	/**
 	
 	*/
 	void setParam(in long param, in double value)
 	{
-		_GODOT_set_param.bind("ConeTwistJoint", "set_param");
-		ptrcall!(void)(_GODOT_set_param, _godot_object, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_param") = _GODOT_get_param;
 	/**
 	
 	*/
 	double getParam(in long param) const
 	{
-		_GODOT_get_param.bind("ConeTwistJoint", "get_param");
-		return ptrcall!(double)(_GODOT_get_param, _godot_object, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_swing_span;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_swing_span") = _GODOT__set_swing_span;
 	/**
 	
 	*/
@@ -123,8 +130,6 @@ public:
 		String _GODOT_method_name = String("_set_swing_span");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_swing_span;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_swing_span") = _GODOT__get_swing_span;
 	/**
 	
 	*/
@@ -134,8 +139,6 @@ public:
 		String _GODOT_method_name = String("_get_swing_span");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_twist_span;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_twist_span") = _GODOT__set_twist_span;
 	/**
 	
 	*/
@@ -146,8 +149,6 @@ public:
 		String _GODOT_method_name = String("_set_twist_span");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_twist_span;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_twist_span") = _GODOT__get_twist_span;
 	/**
 	
 	*/

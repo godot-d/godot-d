@@ -20,8 +20,10 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
+import godot.material;
 import godot.shape;
 import godot.trianglemesh;
+import godot.reference;
 /**
 A $(D Resource) that contains vertex-array based geometry.
 
@@ -29,12 +31,28 @@ Mesh is a type of $(D Resource) that contains vertex-array based geometry, divid
 */
 @GodotBaseClass struct Mesh
 {
-	static immutable string _GODOT_internal_name = "Mesh";
+	enum string _GODOT_internal_name = "Mesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_lightmap_size_hint") GodotMethod!(void, Vector2) setLightmapSizeHint;
+		@GodotName("get_lightmap_size_hint") GodotMethod!(Vector2) getLightmapSizeHint;
+		@GodotName("get_surface_count") GodotMethod!(long) getSurfaceCount;
+		@GodotName("surface_get_arrays") GodotMethod!(Array, long) surfaceGetArrays;
+		@GodotName("surface_get_blend_shape_arrays") GodotMethod!(Array, long) surfaceGetBlendShapeArrays;
+		@GodotName("surface_get_material") GodotMethod!(Material, long) surfaceGetMaterial;
+		@GodotName("create_trimesh_shape") GodotMethod!(Shape) createTrimeshShape;
+		@GodotName("create_convex_shape") GodotMethod!(Shape) createConvexShape;
+		@GodotName("create_outline") GodotMethod!(Mesh, double) createOutline;
+		@GodotName("get_faces") GodotMethod!(PoolVector3Array) getFaces;
+		@GodotName("generate_triangle_mesh") GodotMethod!(TriangleMesh) generateTriangleMesh;
+	}
 	bool opEquals(in Mesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Mesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -169,7 +187,7 @@ public:
 		/**
 		
 		*/
-		arrayCompressDefault = 97792,
+		arrayCompressDefault = 97280,
 		/**
 		
 		*/
@@ -187,39 +205,39 @@ public:
 	enum ArrayType : int
 	{
 		/**
-		
+		Array of vertices.
 		*/
 		arrayVertex = 0,
 		/**
-		
+		Array of normals.
 		*/
 		arrayNormal = 1,
 		/**
-		
+		Array of tangents as an array of floats, 4 floats per tangent.
 		*/
 		arrayTangent = 2,
 		/**
-		
+		Array of colors.
 		*/
 		arrayColor = 3,
 		/**
-		
+		Array of UV coordinates.
 		*/
 		arrayTexUv = 4,
 		/**
-		
+		Array of second set of UV coordinates.
 		*/
 		arrayTexUv2 = 5,
 		/**
-		
+		Array of bone data.
 		*/
 		arrayBones = 6,
 		/**
-		
+		Array of weights.
 		*/
 		arrayWeights = 7,
 		/**
-		
+		Array of indices.
 		*/
 		arrayIndex = 8,
 		/**
@@ -233,27 +251,27 @@ public:
 		blendShapeModeNormalized = 0,
 		arrayVertex = 0,
 		primitivePoints = 0,
-		primitiveLines = 1,
 		arrayFormatVertex = 1,
-		arrayNormal = 1,
 		blendShapeModeRelative = 1,
-		primitiveLineStrip = 2,
+		primitiveLines = 1,
+		arrayNormal = 1,
 		arrayTangent = 2,
+		primitiveLineStrip = 2,
 		arrayFormatNormal = 2,
 		primitiveLineLoop = 3,
 		arrayColor = 3,
-		primitiveTriangles = 4,
-		arrayFormatTangent = 4,
 		arrayTexUv = 4,
+		arrayFormatTangent = 4,
+		primitiveTriangles = 4,
 		arrayTexUv2 = 5,
 		primitiveTriangleStrip = 5,
 		primitiveTriangleFan = 6,
 		arrayBones = 6,
 		arrayWeights = 7,
-		arrayFormatColor = 8,
 		arrayIndex = 8,
-		arrayMax = 9,
+		arrayFormatColor = 8,
 		arrayCompressBase = 9,
+		arrayMax = 9,
 		arrayFormatTexUv = 16,
 		arrayFormatTexUv2 = 32,
 		arrayFormatBones = 64,
@@ -267,80 +285,98 @@ public:
 		arrayCompressTexUv2 = 16384,
 		arrayCompressBones = 32768,
 		arrayCompressWeights = 65536,
-		arrayCompressDefault = 97792,
+		arrayCompressDefault = 97280,
 		arrayCompressIndex = 131072,
 		arrayFlagUse2dVertices = 262144,
 		arrayFlagUse16BitBones = 524288,
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_lightmap_size_hint;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_lightmap_size_hint") = _GODOT_set_lightmap_size_hint;
 	/**
 	
 	*/
 	void setLightmapSizeHint(in Vector2 size)
 	{
-		_GODOT_set_lightmap_size_hint.bind("Mesh", "set_lightmap_size_hint");
-		ptrcall!(void)(_GODOT_set_lightmap_size_hint, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightmapSizeHint, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_lightmap_size_hint;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_lightmap_size_hint") = _GODOT_get_lightmap_size_hint;
 	/**
 	
 	*/
 	Vector2 getLightmapSizeHint() const
 	{
-		_GODOT_get_lightmap_size_hint.bind("Mesh", "get_lightmap_size_hint");
-		return ptrcall!(Vector2)(_GODOT_get_lightmap_size_hint, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLightmapSizeHint, _godot_object);
 	}
-	package(godot) static GodotMethod!(Shape) _GODOT_create_trimesh_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_trimesh_shape") = _GODOT_create_trimesh_shape;
+	/**
+	Return the amount of surfaces that the `Mesh` holds.
+	*/
+	long getSurfaceCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSurfaceCount, _godot_object);
+	}
+	/**
+	Returns the arrays for the vertices, normals, uvs, etc. that make up the requested surface (see $(D ArrayMesh.addSurfaceFromArrays)).
+	*/
+	Array surfaceGetArrays(in long surf_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.surfaceGetArrays, _godot_object, surf_idx);
+	}
+	/**
+	Returns the blend shape arrays for the requested surface.
+	*/
+	Array surfaceGetBlendShapeArrays(in long surf_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.surfaceGetBlendShapeArrays, _godot_object, surf_idx);
+	}
+	/**
+	Return a $(D Material) in a given surface. Surface is rendered using this material.
+	*/
+	Ref!Material surfaceGetMaterial(in long surf_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.surfaceGetMaterial, _godot_object, surf_idx);
+	}
 	/**
 	Calculate a $(D ConcavePolygonShape) from the mesh.
 	*/
 	Ref!Shape createTrimeshShape() const
 	{
-		_GODOT_create_trimesh_shape.bind("Mesh", "create_trimesh_shape");
-		return ptrcall!(Shape)(_GODOT_create_trimesh_shape, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape)(_classBinding.createTrimeshShape, _godot_object);
 	}
-	package(godot) static GodotMethod!(Shape) _GODOT_create_convex_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_convex_shape") = _GODOT_create_convex_shape;
 	/**
 	Calculate a $(D ConvexPolygonShape) from the mesh.
 	*/
 	Ref!Shape createConvexShape() const
 	{
-		_GODOT_create_convex_shape.bind("Mesh", "create_convex_shape");
-		return ptrcall!(Shape)(_GODOT_create_convex_shape, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape)(_classBinding.createConvexShape, _godot_object);
 	}
-	package(godot) static GodotMethod!(Mesh, double) _GODOT_create_outline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_outline") = _GODOT_create_outline;
 	/**
 	Calculate an outline mesh at a defined offset (margin) from the original mesh. Note: Typically returns the vertices in reverse order (e.g. clockwise to anti-clockwise).
 	*/
 	Ref!Mesh createOutline(in double margin) const
 	{
-		_GODOT_create_outline.bind("Mesh", "create_outline");
-		return ptrcall!(Mesh)(_GODOT_create_outline, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.createOutline, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(PoolVector3Array) _GODOT_get_faces;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_faces") = _GODOT_get_faces;
 	/**
 	Returns all the vertices that make up the faces of the mesh. Each three vertices represent one triangle.
 	*/
 	PoolVector3Array getFaces() const
 	{
-		_GODOT_get_faces.bind("Mesh", "get_faces");
-		return ptrcall!(PoolVector3Array)(_GODOT_get_faces, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector3Array)(_classBinding.getFaces, _godot_object);
 	}
-	package(godot) static GodotMethod!(TriangleMesh) _GODOT_generate_triangle_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generate_triangle_mesh") = _GODOT_generate_triangle_mesh;
 	/**
 	Generate a $(D TriangleMesh) from the mesh.
 	*/
 	Ref!TriangleMesh generateTriangleMesh() const
 	{
-		_GODOT_generate_triangle_mesh.bind("Mesh", "generate_triangle_mesh");
-		return ptrcall!(TriangleMesh)(_GODOT_generate_triangle_mesh, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TriangleMesh)(_classBinding.generateTriangleMesh, _godot_object);
 	}
 	/**
 	

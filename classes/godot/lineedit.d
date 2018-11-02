@@ -23,6 +23,8 @@ import godot.classdb;
 import godot.control;
 import godot.inputevent;
 import godot.popupmenu;
+import godot.canvasitem;
+import godot.node;
 /**
 Control that provides single line string editing.
 
@@ -30,12 +32,56 @@ LineEdit provides a single line string editor, used for text fields.
 */
 @GodotBaseClass struct LineEdit
 {
-	static immutable string _GODOT_internal_name = "LineEdit";
+	enum string _GODOT_internal_name = "LineEdit";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_text_changed") GodotMethod!(void) _textChanged;
+		@GodotName("_toggle_draw_caret") GodotMethod!(void) _toggleDrawCaret;
+		@GodotName("_editor_settings_changed") GodotMethod!(void) _editorSettingsChanged;
+		@GodotName("set_align") GodotMethod!(void, long) setAlign;
+		@GodotName("get_align") GodotMethod!(LineEdit.Align) getAlign;
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("select") GodotMethod!(void, long, long) select;
+		@GodotName("select_all") GodotMethod!(void) selectAll;
+		@GodotName("deselect") GodotMethod!(void) deselect;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("set_placeholder") GodotMethod!(void, String) setPlaceholder;
+		@GodotName("get_placeholder") GodotMethod!(String) getPlaceholder;
+		@GodotName("set_placeholder_alpha") GodotMethod!(void, double) setPlaceholderAlpha;
+		@GodotName("get_placeholder_alpha") GodotMethod!(double) getPlaceholderAlpha;
+		@GodotName("set_cursor_position") GodotMethod!(void, long) setCursorPosition;
+		@GodotName("get_cursor_position") GodotMethod!(long) getCursorPosition;
+		@GodotName("set_expand_to_text_length") GodotMethod!(void, bool) setExpandToTextLength;
+		@GodotName("get_expand_to_text_length") GodotMethod!(bool) getExpandToTextLength;
+		@GodotName("cursor_set_blink_enabled") GodotMethod!(void, bool) cursorSetBlinkEnabled;
+		@GodotName("cursor_get_blink_enabled") GodotMethod!(bool) cursorGetBlinkEnabled;
+		@GodotName("cursor_set_blink_speed") GodotMethod!(void, double) cursorSetBlinkSpeed;
+		@GodotName("cursor_get_blink_speed") GodotMethod!(double) cursorGetBlinkSpeed;
+		@GodotName("set_max_length") GodotMethod!(void, long) setMaxLength;
+		@GodotName("get_max_length") GodotMethod!(long) getMaxLength;
+		@GodotName("append_at_cursor") GodotMethod!(void, String) appendAtCursor;
+		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
+		@GodotName("is_editable") GodotMethod!(bool) isEditable;
+		@GodotName("set_secret") GodotMethod!(void, bool) setSecret;
+		@GodotName("is_secret") GodotMethod!(bool) isSecret;
+		@GodotName("set_secret_character") GodotMethod!(void, String) setSecretCharacter;
+		@GodotName("get_secret_character") GodotMethod!(String) getSecretCharacter;
+		@GodotName("menu_option") GodotMethod!(void, long) menuOption;
+		@GodotName("get_menu") GodotMethod!(PopupMenu) getMenu;
+		@GodotName("set_context_menu_enabled") GodotMethod!(void, bool) setContextMenuEnabled;
+		@GodotName("is_context_menu_enabled") GodotMethod!(bool) isContextMenuEnabled;
+		@GodotName("set_clear_button_enabled") GodotMethod!(void, bool) setClearButtonEnabled;
+		@GodotName("is_clear_button_enabled") GodotMethod!(bool) isClearButtonEnabled;
+	}
 	bool opEquals(in LineEdit other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LineEdit opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -96,7 +142,7 @@ public:
 		*/
 		menuUndo = 5,
 		/**
-		
+		Reverse the last undo action.
 		*/
 		menuRedo = 6,
 		/**
@@ -107,8 +153,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		menuCut = 0,
 		alignLeft = 0,
+		menuCut = 0,
 		menuCopy = 1,
 		alignCenter = 1,
 		alignRight = 2,
@@ -120,8 +166,6 @@ public:
 		menuRedo = 6,
 		menuMax = 7,
 	}
-	package(godot) static GodotMethod!(void) _GODOT__text_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_text_changed") = _GODOT__text_changed;
 	/**
 	
 	*/
@@ -131,8 +175,6 @@ public:
 		String _GODOT_method_name = String("_text_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__toggle_draw_caret;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_toggle_draw_caret") = _GODOT__toggle_draw_caret;
 	/**
 	
 	*/
@@ -142,8 +184,6 @@ public:
 		String _GODOT_method_name = String("_toggle_draw_caret");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__editor_settings_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_editor_settings_changed") = _GODOT__editor_settings_changed;
 	/**
 	
 	*/
@@ -153,28 +193,22 @@ public:
 		String _GODOT_method_name = String("_editor_settings_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_align") = _GODOT_set_align;
 	/**
 	
 	*/
 	void setAlign(in long _align)
 	{
-		_GODOT_set_align.bind("LineEdit", "set_align");
-		ptrcall!(void)(_GODOT_set_align, _godot_object, _align);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlign, _godot_object, _align);
 	}
-	package(godot) static GodotMethod!(LineEdit.Align) _GODOT_get_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_align") = _GODOT_get_align;
 	/**
 	
 	*/
 	LineEdit.Align getAlign() const
 	{
-		_GODOT_get_align.bind("LineEdit", "get_align");
-		return ptrcall!(LineEdit.Align)(_GODOT_get_align, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(LineEdit.Align)(_classBinding.getAlign, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -185,18 +219,14 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Erases the $(D LineEdit) text.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("LineEdit", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_select;
-	package(godot) alias _GODOT_methodBindInfo(string name : "select") = _GODOT_select;
 	/**
 	Selects characters inside $(D LineEdit) between `from` and `to`. By default `from` is at the beginning and `to` at the end.
 	
@@ -210,278 +240,256 @@ public:
 	*/
 	void select(in long from = 0, in long to = -1)
 	{
-		_GODOT_select.bind("LineEdit", "select");
-		ptrcall!(void)(_GODOT_select, _godot_object, from, to);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.select, _godot_object, from, to);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_select_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "select_all") = _GODOT_select_all;
 	/**
 	Selects the whole $(D String).
 	*/
 	void selectAll()
 	{
-		_GODOT_select_all.bind("LineEdit", "select_all");
-		ptrcall!(void)(_GODOT_select_all, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.selectAll, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_deselect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "deselect") = _GODOT_deselect;
 	/**
 	Clears the current selection.
 	*/
 	void deselect()
 	{
-		_GODOT_deselect.bind("LineEdit", "deselect");
-		ptrcall!(void)(_GODOT_deselect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.deselect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_text") = _GODOT_set_text;
 	/**
 	
 	*/
 	void setText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_text.bind("LineEdit", "set_text");
-		ptrcall!(void)(_GODOT_set_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_text") = _GODOT_get_text;
 	/**
 	
 	*/
 	String getText() const
 	{
-		_GODOT_get_text.bind("LineEdit", "get_text");
-		return ptrcall!(String)(_GODOT_get_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_placeholder;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_placeholder") = _GODOT_set_placeholder;
 	/**
 	
 	*/
 	void setPlaceholder(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_placeholder.bind("LineEdit", "set_placeholder");
-		ptrcall!(void)(_GODOT_set_placeholder, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPlaceholder, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_placeholder;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_placeholder") = _GODOT_get_placeholder;
 	/**
 	
 	*/
 	String getPlaceholder() const
 	{
-		_GODOT_get_placeholder.bind("LineEdit", "get_placeholder");
-		return ptrcall!(String)(_GODOT_get_placeholder, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getPlaceholder, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_placeholder_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_placeholder_alpha") = _GODOT_set_placeholder_alpha;
 	/**
 	
 	*/
 	void setPlaceholderAlpha(in double alpha)
 	{
-		_GODOT_set_placeholder_alpha.bind("LineEdit", "set_placeholder_alpha");
-		ptrcall!(void)(_GODOT_set_placeholder_alpha, _godot_object, alpha);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPlaceholderAlpha, _godot_object, alpha);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_placeholder_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_placeholder_alpha") = _GODOT_get_placeholder_alpha;
 	/**
 	
 	*/
 	double getPlaceholderAlpha() const
 	{
-		_GODOT_get_placeholder_alpha.bind("LineEdit", "get_placeholder_alpha");
-		return ptrcall!(double)(_GODOT_get_placeholder_alpha, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPlaceholderAlpha, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_cursor_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_cursor_position") = _GODOT_set_cursor_position;
 	/**
 	
 	*/
 	void setCursorPosition(in long position)
 	{
-		_GODOT_set_cursor_position.bind("LineEdit", "set_cursor_position");
-		ptrcall!(void)(_GODOT_set_cursor_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCursorPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_cursor_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cursor_position") = _GODOT_get_cursor_position;
 	/**
 	
 	*/
 	long getCursorPosition() const
 	{
-		_GODOT_get_cursor_position.bind("LineEdit", "get_cursor_position");
-		return ptrcall!(long)(_GODOT_get_cursor_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCursorPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_expand_to_text_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_to_text_length") = _GODOT_set_expand_to_text_length;
 	/**
 	
 	*/
 	void setExpandToTextLength(in bool enabled)
 	{
-		_GODOT_set_expand_to_text_length.bind("LineEdit", "set_expand_to_text_length");
-		ptrcall!(void)(_GODOT_set_expand_to_text_length, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandToTextLength, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_expand_to_text_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_expand_to_text_length") = _GODOT_get_expand_to_text_length;
 	/**
 	
 	*/
 	bool getExpandToTextLength() const
 	{
-		_GODOT_get_expand_to_text_length.bind("LineEdit", "get_expand_to_text_length");
-		return ptrcall!(bool)(_GODOT_get_expand_to_text_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getExpandToTextLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_cursor_set_blink_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cursor_set_blink_enabled") = _GODOT_cursor_set_blink_enabled;
 	/**
 	
 	*/
 	void cursorSetBlinkEnabled(in bool enabled)
 	{
-		_GODOT_cursor_set_blink_enabled.bind("LineEdit", "cursor_set_blink_enabled");
-		ptrcall!(void)(_GODOT_cursor_set_blink_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cursorSetBlinkEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_cursor_get_blink_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cursor_get_blink_enabled") = _GODOT_cursor_get_blink_enabled;
 	/**
 	
 	*/
 	bool cursorGetBlinkEnabled() const
 	{
-		_GODOT_cursor_get_blink_enabled.bind("LineEdit", "cursor_get_blink_enabled");
-		return ptrcall!(bool)(_GODOT_cursor_get_blink_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.cursorGetBlinkEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_cursor_set_blink_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cursor_set_blink_speed") = _GODOT_cursor_set_blink_speed;
 	/**
 	
 	*/
 	void cursorSetBlinkSpeed(in double blink_speed)
 	{
-		_GODOT_cursor_set_blink_speed.bind("LineEdit", "cursor_set_blink_speed");
-		ptrcall!(void)(_GODOT_cursor_set_blink_speed, _godot_object, blink_speed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_cursor_get_blink_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cursor_get_blink_speed") = _GODOT_cursor_get_blink_speed;
 	/**
 	
 	*/
 	double cursorGetBlinkSpeed() const
 	{
-		_GODOT_cursor_get_blink_speed.bind("LineEdit", "cursor_get_blink_speed");
-		return ptrcall!(double)(_GODOT_cursor_get_blink_speed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.cursorGetBlinkSpeed, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_max_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_max_length") = _GODOT_set_max_length;
 	/**
 	
 	*/
 	void setMaxLength(in long chars)
 	{
-		_GODOT_set_max_length.bind("LineEdit", "set_max_length");
-		ptrcall!(void)(_GODOT_set_max_length, _godot_object, chars);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxLength, _godot_object, chars);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_max_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_max_length") = _GODOT_get_max_length;
 	/**
 	
 	*/
 	long getMaxLength() const
 	{
-		_GODOT_get_max_length.bind("LineEdit", "get_max_length");
-		return ptrcall!(long)(_GODOT_get_max_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMaxLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_append_at_cursor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "append_at_cursor") = _GODOT_append_at_cursor;
 	/**
 	Adds `text` after the cursor. If the resulting value is longer than $(D maxLength), nothing happens.
 	*/
 	void appendAtCursor(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_append_at_cursor.bind("LineEdit", "append_at_cursor");
-		ptrcall!(void)(_GODOT_append_at_cursor, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.appendAtCursor, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_editable") = _GODOT_set_editable;
 	/**
 	
 	*/
 	void setEditable(in bool enabled)
 	{
-		_GODOT_set_editable.bind("LineEdit", "set_editable");
-		ptrcall!(void)(_GODOT_set_editable, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditable, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editable") = _GODOT_is_editable;
 	/**
 	
 	*/
 	bool isEditable() const
 	{
-		_GODOT_is_editable.bind("LineEdit", "is_editable");
-		return ptrcall!(bool)(_GODOT_is_editable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_secret;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_secret") = _GODOT_set_secret;
 	/**
 	
 	*/
 	void setSecret(in bool enabled)
 	{
-		_GODOT_set_secret.bind("LineEdit", "set_secret");
-		ptrcall!(void)(_GODOT_set_secret, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSecret, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_secret;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_secret") = _GODOT_is_secret;
 	/**
 	
 	*/
 	bool isSecret() const
 	{
-		_GODOT_is_secret.bind("LineEdit", "is_secret");
-		return ptrcall!(bool)(_GODOT_is_secret, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSecret, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_menu_option;
-	package(godot) alias _GODOT_methodBindInfo(string name : "menu_option") = _GODOT_menu_option;
+	/**
+	
+	*/
+	void setSecretCharacter(StringArg0)(in StringArg0 character)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSecretCharacter, _godot_object, character);
+	}
+	/**
+	
+	*/
+	String getSecretCharacter() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSecretCharacter, _godot_object);
+	}
 	/**
 	Executes a given action as defined in the MENU_* enum.
 	*/
 	void menuOption(in long option)
 	{
-		_GODOT_menu_option.bind("LineEdit", "menu_option");
-		ptrcall!(void)(_GODOT_menu_option, _godot_object, option);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.menuOption, _godot_object, option);
 	}
-	package(godot) static GodotMethod!(PopupMenu) _GODOT_get_menu;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_menu") = _GODOT_get_menu;
 	/**
 	Returns the $(D PopupMenu) of this `LineEdit`. By default, this menu is displayed when right-clicking on the $(D LineEdit).
 	*/
 	PopupMenu getMenu() const
 	{
-		_GODOT_get_menu.bind("LineEdit", "get_menu");
-		return ptrcall!(PopupMenu)(_GODOT_get_menu, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PopupMenu)(_classBinding.getMenu, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_context_menu_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_context_menu_enabled") = _GODOT_set_context_menu_enabled;
 	/**
 	
 	*/
 	void setContextMenuEnabled(in bool enable)
 	{
-		_GODOT_set_context_menu_enabled.bind("LineEdit", "set_context_menu_enabled");
-		ptrcall!(void)(_GODOT_set_context_menu_enabled, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setContextMenuEnabled, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_context_menu_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_context_menu_enabled") = _GODOT_is_context_menu_enabled;
 	/**
 	
 	*/
 	bool isContextMenuEnabled()
 	{
-		_GODOT_is_context_menu_enabled.bind("LineEdit", "is_context_menu_enabled");
-		return ptrcall!(bool)(_GODOT_is_context_menu_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isContextMenuEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	void setClearButtonEnabled(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClearButtonEnabled, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isClearButtonEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isClearButtonEnabled, _godot_object);
 	}
 	/**
 	String value of the $(D LineEdit).
@@ -544,6 +552,18 @@ public:
 		setSecret(v);
 	}
 	/**
+	The character to use to mask secret input (defaults to "*"). Only a single character can be used as the secret character.
+	*/
+	@property String secretCharacter()
+	{
+		return getSecretCharacter();
+	}
+	/// ditto
+	@property void secretCharacter(String v)
+	{
+		setSecretCharacter(v);
+	}
+	/**
 	If `true` the $(D LineEdit) width will increase to stay longer than the $(D text). It will $(B not) compress if the $(D text) is shortened.
 	*/
 	@property bool expandToTextLength()
@@ -558,7 +578,7 @@ public:
 	/**
 	Defines how the $(D LineEdit) can grab focus (Keyboard and mouse, only keyboard, or none). See `enum FocusMode` in $(D Control) for details.
 	*/
-	@property long focusMode()
+	@property Control.FocusMode focusMode()
 	{
 		return getFocusMode();
 	}
@@ -578,6 +598,18 @@ public:
 	@property void contextMenuEnabled(bool v)
 	{
 		setContextMenuEnabled(v);
+	}
+	/**
+	If `true` the `LineEdit` will show a clear button if `text` is not empty.
+	*/
+	@property bool clearButtonEnabled()
+	{
+		return isClearButtonEnabled();
+	}
+	/// ditto
+	@property void clearButtonEnabled(bool v)
+	{
+		setClearButtonEnabled(v);
 	}
 	/**
 	Text shown when the $(D LineEdit) is empty. It is $(B not) the $(D LineEdit)'s default value (see $(D text)).

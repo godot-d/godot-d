@@ -1,5 +1,5 @@
 /**
-
+A node that has methods to draw outlines or use indices of vertices to create navigation polygons.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,17 +21,60 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
+A node that has methods to draw outlines or use indices of vertices to create navigation polygons.
 
+There are two ways to create polygons. Either by using the $(D addOutline) method or using the $(D addPolygon) method.
+Using $(D addOutline):
+$(D code)
+var polygon = NavigationPolygon.new()
+var outline = PoolVector2Array($(D Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)))
+polygon.add_outline(outline)
+polygon.make_polygons_from_outlines()
+$NavigationPolygonInstance.navpoly = polygon
+$(D /code)
+Using $(D addPolygon) and indices of the vertices array.
+$(D code)
+var polygon = NavigationPolygon.new()
+var vertices = PoolVector2Array($(D Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)))
+polygon.set_vertices(vertices)
+var indices = PoolIntArray(0, 3, 1)
+polygon.add_polygon(indices)
+$NavigationPolygonInstance.navpoly = polygon
+$(D /code)
 */
 @GodotBaseClass struct NavigationPolygon
 {
-	static immutable string _GODOT_internal_name = "NavigationPolygon";
+	enum string _GODOT_internal_name = "NavigationPolygon";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_vertices") GodotMethod!(void, PoolVector2Array) setVertices;
+		@GodotName("get_vertices") GodotMethod!(PoolVector2Array) getVertices;
+		@GodotName("add_polygon") GodotMethod!(void, PoolIntArray) addPolygon;
+		@GodotName("get_polygon_count") GodotMethod!(long) getPolygonCount;
+		@GodotName("get_polygon") GodotMethod!(PoolIntArray, long) getPolygon;
+		@GodotName("clear_polygons") GodotMethod!(void) clearPolygons;
+		@GodotName("add_outline") GodotMethod!(void, PoolVector2Array) addOutline;
+		@GodotName("add_outline_at_index") GodotMethod!(void, PoolVector2Array, long) addOutlineAtIndex;
+		@GodotName("get_outline_count") GodotMethod!(long) getOutlineCount;
+		@GodotName("set_outline") GodotMethod!(void, long, PoolVector2Array) setOutline;
+		@GodotName("get_outline") GodotMethod!(PoolVector2Array, long) getOutline;
+		@GodotName("remove_outline") GodotMethod!(void, long) removeOutline;
+		@GodotName("clear_outlines") GodotMethod!(void) clearOutlines;
+		@GodotName("make_polygons_from_outlines") GodotMethod!(void) makePolygonsFromOutlines;
+		@GodotName("_set_polygons") GodotMethod!(void, Array) _setPolygons;
+		@GodotName("_get_polygons") GodotMethod!(Array) _getPolygons;
+		@GodotName("_set_outlines") GodotMethod!(void, Array) _setOutlines;
+		@GodotName("_get_outlines") GodotMethod!(Array) _getOutlines;
+	}
 	bool opEquals(in NavigationPolygon other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NavigationPolygon opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,148 +87,118 @@ public:
 		return cast(NavigationPolygon)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_vertices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vertices") = _GODOT_set_vertices;
 	/**
-	
+	Sets the vertices that can be then indexed to create polygons with the $(D addPolygon) method.
 	*/
 	void setVertices(in PoolVector2Array vertices)
 	{
-		_GODOT_set_vertices.bind("NavigationPolygon", "set_vertices");
-		ptrcall!(void)(_GODOT_set_vertices, _godot_object, vertices);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertices, _godot_object, vertices);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array) _GODOT_get_vertices;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vertices") = _GODOT_get_vertices;
 	/**
-	
+	Returns a $(D PoolVector2Array) containing all the vertices being used to create the polygons.
 	*/
 	PoolVector2Array getVertices() const
 	{
-		_GODOT_get_vertices.bind("NavigationPolygon", "get_vertices");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_vertices, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getVertices, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolIntArray) _GODOT_add_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_polygon") = _GODOT_add_polygon;
 	/**
-	
+	Adds a polygon using the indices of the vertices you get when calling $(D getVertices).
 	*/
 	void addPolygon(in PoolIntArray polygon)
 	{
-		_GODOT_add_polygon.bind("NavigationPolygon", "add_polygon");
-		ptrcall!(void)(_GODOT_add_polygon, _godot_object, polygon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addPolygon, _godot_object, polygon);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_polygon_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_polygon_count") = _GODOT_get_polygon_count;
 	/**
-	
+	Returns the count of all polygons.
 	*/
 	long getPolygonCount() const
 	{
-		_GODOT_get_polygon_count.bind("NavigationPolygon", "get_polygon_count");
-		return ptrcall!(long)(_GODOT_get_polygon_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPolygonCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, long) _GODOT_get_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_polygon") = _GODOT_get_polygon;
 	/**
-	
+	Returns a $(D PoolIntArray) containing the indices of the vertices of a created polygon.
 	*/
 	PoolIntArray getPolygon(in long idx)
 	{
-		_GODOT_get_polygon.bind("NavigationPolygon", "get_polygon");
-		return ptrcall!(PoolIntArray)(_GODOT_get_polygon, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getPolygon, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_polygons") = _GODOT_clear_polygons;
 	/**
-	
+	Clears the array of polygons, but it doesn't clear the array of outlines and vertices.
 	*/
 	void clearPolygons()
 	{
-		_GODOT_clear_polygons.bind("NavigationPolygon", "clear_polygons");
-		ptrcall!(void)(_GODOT_clear_polygons, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearPolygons, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_add_outline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_outline") = _GODOT_add_outline;
 	/**
-	
+	Appends a $(D PoolVector2Array) that contains the vertices of an outline to the internal array that contains all the outlines. You have to call $(D makePolygonsFromOutlines) in order for this array to be converted to polygons that the engine will use.
 	*/
 	void addOutline(in PoolVector2Array outline)
 	{
-		_GODOT_add_outline.bind("NavigationPolygon", "add_outline");
-		ptrcall!(void)(_GODOT_add_outline, _godot_object, outline);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addOutline, _godot_object, outline);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, long) _GODOT_add_outline_at_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_outline_at_index") = _GODOT_add_outline_at_index;
 	/**
-	
+	Adds a $(D PoolVector2Array) that contains the vertices of an outline to the internal array that contains all the outlines at a fixed position. You have to call $(D makePolygonsFromOutlines) in order for this array to be converted to polygons that the engine will use.
 	*/
 	void addOutlineAtIndex(in PoolVector2Array outline, in long index)
 	{
-		_GODOT_add_outline_at_index.bind("NavigationPolygon", "add_outline_at_index");
-		ptrcall!(void)(_GODOT_add_outline_at_index, _godot_object, outline, index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addOutlineAtIndex, _godot_object, outline, index);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_outline_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_outline_count") = _GODOT_get_outline_count;
 	/**
-	
+	Returns the number of outlines that were created in the editor or by script.
 	*/
 	long getOutlineCount() const
 	{
-		_GODOT_get_outline_count.bind("NavigationPolygon", "get_outline_count");
-		return ptrcall!(long)(_GODOT_get_outline_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getOutlineCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, PoolVector2Array) _GODOT_set_outline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_outline") = _GODOT_set_outline;
 	/**
-	
+	Changes an outline created in the editor or by script. You have to call $(D makePolygonsFromOutlines) for the polygons to update.
 	*/
 	void setOutline(in long idx, in PoolVector2Array outline)
 	{
-		_GODOT_set_outline.bind("NavigationPolygon", "set_outline");
-		ptrcall!(void)(_GODOT_set_outline, _godot_object, idx, outline);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOutline, _godot_object, idx, outline);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array, long) _GODOT_get_outline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_outline") = _GODOT_get_outline;
 	/**
-	
+	Returns a $(D PoolVector2Array) containing the vertices of an outline that was created in the editor or by script.
 	*/
 	PoolVector2Array getOutline(in long idx) const
 	{
-		_GODOT_get_outline.bind("NavigationPolygon", "get_outline");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_outline, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getOutline, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_outline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_outline") = _GODOT_remove_outline;
 	/**
-	
+	Removes an outline created in the editor or by script. You have to call $(D makePolygonsFromOutlines) for the polygons to update.
 	*/
 	void removeOutline(in long idx)
 	{
-		_GODOT_remove_outline.bind("NavigationPolygon", "remove_outline");
-		ptrcall!(void)(_GODOT_remove_outline, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeOutline, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_outlines;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_outlines") = _GODOT_clear_outlines;
 	/**
-	
+	Clears the array of the outlines, but it doesn't clear the vertices and the polygons that were created by them.
 	*/
 	void clearOutlines()
 	{
-		_GODOT_clear_outlines.bind("NavigationPolygon", "clear_outlines");
-		ptrcall!(void)(_GODOT_clear_outlines, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearOutlines, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_make_polygons_from_outlines;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_polygons_from_outlines") = _GODOT_make_polygons_from_outlines;
 	/**
-	
+	Creates polygons from the outlines added in the editor or by script.
 	*/
 	void makePolygonsFromOutlines()
 	{
-		_GODOT_make_polygons_from_outlines.bind("NavigationPolygon", "make_polygons_from_outlines");
-		ptrcall!(void)(_GODOT_make_polygons_from_outlines, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.makePolygonsFromOutlines, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_polygons") = _GODOT__set_polygons;
 	/**
 	
 	*/
@@ -196,8 +209,6 @@ public:
 		String _GODOT_method_name = String("_set_polygons");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_polygons;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_polygons") = _GODOT__get_polygons;
 	/**
 	
 	*/
@@ -207,8 +218,6 @@ public:
 		String _GODOT_method_name = String("_get_polygons");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_outlines;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_outlines") = _GODOT__set_outlines;
 	/**
 	
 	*/
@@ -219,8 +228,6 @@ public:
 		String _GODOT_method_name = String("_set_outlines");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_outlines;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_outlines") = _GODOT__get_outlines;
 	/**
 	
 	*/

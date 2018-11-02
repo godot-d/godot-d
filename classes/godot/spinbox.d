@@ -23,6 +23,9 @@ import godot.classdb;
 import godot.range;
 import godot.inputevent;
 import godot.lineedit;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Numerical input text field.
 
@@ -30,12 +33,31 @@ SpinBox is a numerical input text field. It allows entering integers and floats.
 */
 @GodotBaseClass struct SpinBox
 {
-	static immutable string _GODOT_internal_name = "SpinBox";
+	enum string _GODOT_internal_name = "SpinBox";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_text_entered") GodotMethod!(void, String) _textEntered;
+		@GodotName("set_align") GodotMethod!(void, long) setAlign;
+		@GodotName("get_align") GodotMethod!(LineEdit.Align) getAlign;
+		@GodotName("set_suffix") GodotMethod!(void, String) setSuffix;
+		@GodotName("get_suffix") GodotMethod!(String) getSuffix;
+		@GodotName("set_prefix") GodotMethod!(void, String) setPrefix;
+		@GodotName("get_prefix") GodotMethod!(String) getPrefix;
+		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
+		@GodotName("is_editable") GodotMethod!(bool) isEditable;
+		@GodotName("_line_edit_focus_exit") GodotMethod!(void) _lineEditFocusExit;
+		@GodotName("get_line_edit") GodotMethod!(LineEdit) getLineEdit;
+		@GodotName("_line_edit_input") GodotMethod!(void, InputEvent) _lineEditInput;
+		@GodotName("_range_click_timeout") GodotMethod!(void) _rangeClickTimeout;
+	}
 	bool opEquals(in SpinBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SpinBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,8 +70,6 @@ public:
 		return cast(SpinBox)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -60,8 +80,6 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__text_entered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_text_entered") = _GODOT__text_entered;
 	/**
 	
 	*/
@@ -72,68 +90,70 @@ public:
 		String _GODOT_method_name = String("_text_entered");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_suffix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_suffix") = _GODOT_set_suffix;
+	/**
+	
+	*/
+	void setAlign(in long _align)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlign, _godot_object, _align);
+	}
+	/**
+	
+	*/
+	LineEdit.Align getAlign() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(LineEdit.Align)(_classBinding.getAlign, _godot_object);
+	}
 	/**
 	
 	*/
 	void setSuffix(StringArg0)(in StringArg0 suffix)
 	{
-		_GODOT_set_suffix.bind("SpinBox", "set_suffix");
-		ptrcall!(void)(_GODOT_set_suffix, _godot_object, suffix);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSuffix, _godot_object, suffix);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_suffix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_suffix") = _GODOT_get_suffix;
 	/**
 	
 	*/
 	String getSuffix() const
 	{
-		_GODOT_get_suffix.bind("SpinBox", "get_suffix");
-		return ptrcall!(String)(_GODOT_get_suffix, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSuffix, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_prefix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_prefix") = _GODOT_set_prefix;
 	/**
 	
 	*/
 	void setPrefix(StringArg0)(in StringArg0 prefix)
 	{
-		_GODOT_set_prefix.bind("SpinBox", "set_prefix");
-		ptrcall!(void)(_GODOT_set_prefix, _godot_object, prefix);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPrefix, _godot_object, prefix);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_prefix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_prefix") = _GODOT_get_prefix;
 	/**
 	
 	*/
 	String getPrefix() const
 	{
-		_GODOT_get_prefix.bind("SpinBox", "get_prefix");
-		return ptrcall!(String)(_GODOT_get_prefix, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getPrefix, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_editable") = _GODOT_set_editable;
 	/**
 	
 	*/
 	void setEditable(in bool editable)
 	{
-		_GODOT_set_editable.bind("SpinBox", "set_editable");
-		ptrcall!(void)(_GODOT_set_editable, _godot_object, editable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditable, _godot_object, editable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editable") = _GODOT_is_editable;
 	/**
 	
 	*/
 	bool isEditable() const
 	{
-		_GODOT_is_editable.bind("SpinBox", "is_editable");
-		return ptrcall!(bool)(_GODOT_is_editable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__line_edit_focus_exit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_line_edit_focus_exit") = _GODOT__line_edit_focus_exit;
 	/**
 	
 	*/
@@ -143,18 +163,14 @@ public:
 		String _GODOT_method_name = String("_line_edit_focus_exit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(LineEdit) _GODOT_get_line_edit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_line_edit") = _GODOT_get_line_edit;
 	/**
 	
 	*/
 	LineEdit getLineEdit()
 	{
-		_GODOT_get_line_edit.bind("SpinBox", "get_line_edit");
-		return ptrcall!(LineEdit)(_GODOT_get_line_edit, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(LineEdit)(_classBinding.getLineEdit, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__line_edit_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_line_edit_input") = _GODOT__line_edit_input;
 	/**
 	
 	*/
@@ -165,8 +181,6 @@ public:
 		String _GODOT_method_name = String("_line_edit_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__range_click_timeout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_range_click_timeout") = _GODOT__range_click_timeout;
 	/**
 	
 	*/
@@ -175,6 +189,18 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_range_click_timeout");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	@property LineEdit.Align _align()
+	{
+		return getAlign();
+	}
+	/// ditto
+	@property void _align(long v)
+	{
+		setAlign(v);
 	}
 	/**
 	

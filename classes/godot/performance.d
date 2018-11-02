@@ -27,20 +27,20 @@ Many of these monitors are not updated in real-time, so there may be a short del
 */
 @GodotBaseClass struct PerformanceSingleton
 {
-	static immutable string _GODOT_internal_name = "Performance";
+	enum string _GODOT_internal_name = "Performance";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "Performance";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "Performance";
+		@GodotName("get_monitor") GodotMethod!(double, long) getMonitor;
+	}
 	bool opEquals(in PerformanceSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PerformanceSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -167,7 +167,11 @@ public:
 		/**
 		
 		*/
-		monitorMax = 27,
+		audioOutputLatency = 27,
+		/**
+		
+		*/
+		monitorMax = 28,
 	}
 	/// 
 	enum Constants : int
@@ -199,10 +203,9 @@ public:
 		physics3dActiveObjects = 24,
 		physics3dCollisionPairs = 25,
 		physics3dIslandCount = 26,
-		monitorMax = 27,
+		audioOutputLatency = 27,
+		monitorMax = 28,
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_monitor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_monitor") = _GODOT_get_monitor;
 	/**
 	Returns the value of one of the available monitors. You should provide one of this class's constants as the argument, like this:
 	
@@ -213,13 +216,14 @@ public:
 	*/
 	double getMonitor(in long monitor) const
 	{
-		_GODOT_get_monitor.bind("Performance", "get_monitor");
-		return ptrcall!(double)(_GODOT_get_monitor, _godot_object, monitor);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMonitor, _godot_object, monitor);
 	}
 }
 /// Returns: the PerformanceSingleton
 @property @nogc nothrow pragma(inline, true)
 PerformanceSingleton Performance()
 {
-	return PerformanceSingleton._GODOT_singleton();
+	checkClassBinding!PerformanceSingleton();
+	return PerformanceSingleton(PerformanceSingleton._classBinding._singleton);
 }

@@ -30,12 +30,82 @@ It takes $(D Animation)s from an $(D AnimationPlayer) node and mixes them depend
 */
 @GodotBaseClass struct AnimationTreePlayer
 {
-	static immutable string _GODOT_internal_name = "AnimationTreePlayer";
+	enum string _GODOT_internal_name = "AnimationTreePlayer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_node") GodotMethod!(void, long, String) addNode;
+		@GodotName("node_exists") GodotMethod!(bool, String) nodeExists;
+		@GodotName("node_rename") GodotMethod!(GodotError, String, String) nodeRename;
+		@GodotName("node_get_type") GodotMethod!(AnimationTreePlayer.NodeType, String) nodeGetType;
+		@GodotName("node_get_input_count") GodotMethod!(long, String) nodeGetInputCount;
+		@GodotName("node_get_input_source") GodotMethod!(String, String, long) nodeGetInputSource;
+		@GodotName("animation_node_set_animation") GodotMethod!(void, String, Animation) animationNodeSetAnimation;
+		@GodotName("animation_node_get_animation") GodotMethod!(Animation, String) animationNodeGetAnimation;
+		@GodotName("animation_node_set_master_animation") GodotMethod!(void, String, String) animationNodeSetMasterAnimation;
+		@GodotName("animation_node_get_master_animation") GodotMethod!(String, String) animationNodeGetMasterAnimation;
+		@GodotName("animation_node_get_position") GodotMethod!(double, String) animationNodeGetPosition;
+		@GodotName("animation_node_set_filter_path") GodotMethod!(void, String, NodePath, bool) animationNodeSetFilterPath;
+		@GodotName("oneshot_node_set_fadein_time") GodotMethod!(void, String, double) oneshotNodeSetFadeinTime;
+		@GodotName("oneshot_node_get_fadein_time") GodotMethod!(double, String) oneshotNodeGetFadeinTime;
+		@GodotName("oneshot_node_set_fadeout_time") GodotMethod!(void, String, double) oneshotNodeSetFadeoutTime;
+		@GodotName("oneshot_node_get_fadeout_time") GodotMethod!(double, String) oneshotNodeGetFadeoutTime;
+		@GodotName("oneshot_node_set_autorestart") GodotMethod!(void, String, bool) oneshotNodeSetAutorestart;
+		@GodotName("oneshot_node_set_autorestart_delay") GodotMethod!(void, String, double) oneshotNodeSetAutorestartDelay;
+		@GodotName("oneshot_node_set_autorestart_random_delay") GodotMethod!(void, String, double) oneshotNodeSetAutorestartRandomDelay;
+		@GodotName("oneshot_node_has_autorestart") GodotMethod!(bool, String) oneshotNodeHasAutorestart;
+		@GodotName("oneshot_node_get_autorestart_delay") GodotMethod!(double, String) oneshotNodeGetAutorestartDelay;
+		@GodotName("oneshot_node_get_autorestart_random_delay") GodotMethod!(double, String) oneshotNodeGetAutorestartRandomDelay;
+		@GodotName("oneshot_node_start") GodotMethod!(void, String) oneshotNodeStart;
+		@GodotName("oneshot_node_stop") GodotMethod!(void, String) oneshotNodeStop;
+		@GodotName("oneshot_node_is_active") GodotMethod!(bool, String) oneshotNodeIsActive;
+		@GodotName("oneshot_node_set_filter_path") GodotMethod!(void, String, NodePath, bool) oneshotNodeSetFilterPath;
+		@GodotName("mix_node_set_amount") GodotMethod!(void, String, double) mixNodeSetAmount;
+		@GodotName("mix_node_get_amount") GodotMethod!(double, String) mixNodeGetAmount;
+		@GodotName("blend2_node_set_amount") GodotMethod!(void, String, double) blend2NodeSetAmount;
+		@GodotName("blend2_node_get_amount") GodotMethod!(double, String) blend2NodeGetAmount;
+		@GodotName("blend2_node_set_filter_path") GodotMethod!(void, String, NodePath, bool) blend2NodeSetFilterPath;
+		@GodotName("blend3_node_set_amount") GodotMethod!(void, String, double) blend3NodeSetAmount;
+		@GodotName("blend3_node_get_amount") GodotMethod!(double, String) blend3NodeGetAmount;
+		@GodotName("blend4_node_set_amount") GodotMethod!(void, String, Vector2) blend4NodeSetAmount;
+		@GodotName("blend4_node_get_amount") GodotMethod!(Vector2, String) blend4NodeGetAmount;
+		@GodotName("timescale_node_set_scale") GodotMethod!(void, String, double) timescaleNodeSetScale;
+		@GodotName("timescale_node_get_scale") GodotMethod!(double, String) timescaleNodeGetScale;
+		@GodotName("timeseek_node_seek") GodotMethod!(void, String, double) timeseekNodeSeek;
+		@GodotName("transition_node_set_input_count") GodotMethod!(void, String, long) transitionNodeSetInputCount;
+		@GodotName("transition_node_get_input_count") GodotMethod!(long, String) transitionNodeGetInputCount;
+		@GodotName("transition_node_delete_input") GodotMethod!(void, String, long) transitionNodeDeleteInput;
+		@GodotName("transition_node_set_input_auto_advance") GodotMethod!(void, String, long, bool) transitionNodeSetInputAutoAdvance;
+		@GodotName("transition_node_has_input_auto_advance") GodotMethod!(bool, String, long) transitionNodeHasInputAutoAdvance;
+		@GodotName("transition_node_set_xfade_time") GodotMethod!(void, String, double) transitionNodeSetXfadeTime;
+		@GodotName("transition_node_get_xfade_time") GodotMethod!(double, String) transitionNodeGetXfadeTime;
+		@GodotName("transition_node_set_current") GodotMethod!(void, String, long) transitionNodeSetCurrent;
+		@GodotName("transition_node_get_current") GodotMethod!(long, String) transitionNodeGetCurrent;
+		@GodotName("node_set_position") GodotMethod!(void, String, Vector2) nodeSetPosition;
+		@GodotName("node_get_position") GodotMethod!(Vector2, String) nodeGetPosition;
+		@GodotName("remove_node") GodotMethod!(void, String) removeNode;
+		@GodotName("connect_nodes") GodotMethod!(GodotError, String, String, long) connectNodes;
+		@GodotName("are_nodes_connected") GodotMethod!(bool, String, String, long) areNodesConnected;
+		@GodotName("disconnect_nodes") GodotMethod!(void, String, long) disconnectNodes;
+		@GodotName("set_active") GodotMethod!(void, bool) setActive;
+		@GodotName("is_active") GodotMethod!(bool) isActive;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
+		@GodotName("set_master_player") GodotMethod!(void, NodePath) setMasterPlayer;
+		@GodotName("get_master_player") GodotMethod!(NodePath) getMasterPlayer;
+		@GodotName("get_node_list") GodotMethod!(PoolStringArray) getNodeList;
+		@GodotName("set_animation_process_mode") GodotMethod!(void, long) setAnimationProcessMode;
+		@GodotName("get_animation_process_mode") GodotMethod!(AnimationTreePlayer.AnimationProcessMode) getAnimationProcessMode;
+		@GodotName("advance") GodotMethod!(void, double) advance;
+		@GodotName("reset") GodotMethod!(void) reset;
+		@GodotName("recompute_caches") GodotMethod!(void) recomputeCaches;
+	}
 	bool opEquals(in AnimationTreePlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationTreePlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -109,8 +179,8 @@ public:
 	{
 		nodeOutput = 0,
 		animationProcessPhysics = 0,
-		animationProcessIdle = 1,
 		nodeAnimation = 1,
+		animationProcessIdle = 1,
 		nodeOneshot = 2,
 		nodeMix = 3,
 		nodeBlend2 = 4,
@@ -120,279 +190,231 @@ public:
 		nodeTimeseek = 8,
 		nodeTransition = 9,
 	}
-	package(godot) static GodotMethod!(void, long, String) _GODOT_add_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_node") = _GODOT_add_node;
 	/**
 	Adds a `type` node to the graph with name `id`.
 	*/
 	void addNode(StringArg1)(in long type, in StringArg1 id)
 	{
-		_GODOT_add_node.bind("AnimationTreePlayer", "add_node");
-		ptrcall!(void)(_GODOT_add_node, _godot_object, type, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addNode, _godot_object, type, id);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_node_exists;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_exists") = _GODOT_node_exists;
 	/**
 	Check if a node exists (by name).
 	*/
 	bool nodeExists(StringArg0)(in StringArg0 node) const
 	{
-		_GODOT_node_exists.bind("AnimationTreePlayer", "node_exists");
-		return ptrcall!(bool)(_GODOT_node_exists, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.nodeExists, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(GodotError, String, String) _GODOT_node_rename;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_rename") = _GODOT_node_rename;
 	/**
 	Rename a node in the graph.
 	*/
 	GodotError nodeRename(StringArg0, StringArg1)(in StringArg0 node, in StringArg1 new_name)
 	{
-		_GODOT_node_rename.bind("AnimationTreePlayer", "node_rename");
-		return ptrcall!(GodotError)(_GODOT_node_rename, _godot_object, node, new_name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.nodeRename, _godot_object, node, new_name);
 	}
-	package(godot) static GodotMethod!(AnimationTreePlayer.NodeType, String) _GODOT_node_get_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_get_type") = _GODOT_node_get_type;
 	/**
 	Get the node type, will return from NODE_* enum.
 	*/
 	AnimationTreePlayer.NodeType nodeGetType(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_node_get_type.bind("AnimationTreePlayer", "node_get_type");
-		return ptrcall!(AnimationTreePlayer.NodeType)(_GODOT_node_get_type, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationTreePlayer.NodeType)(_classBinding.nodeGetType, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_node_get_input_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_get_input_count") = _GODOT_node_get_input_count;
 	/**
 	Return the input count for a given node. Different types of nodes have different amount of inputs.
 	*/
 	long nodeGetInputCount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_node_get_input_count.bind("AnimationTreePlayer", "node_get_input_count");
-		return ptrcall!(long)(_GODOT_node_get_input_count, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.nodeGetInputCount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(String, String, long) _GODOT_node_get_input_source;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_get_input_source") = _GODOT_node_get_input_source;
 	/**
 	Return the input source for a given node input.
 	*/
 	String nodeGetInputSource(StringArg0)(in StringArg0 id, in long idx) const
 	{
-		_GODOT_node_get_input_source.bind("AnimationTreePlayer", "node_get_input_source");
-		return ptrcall!(String)(_GODOT_node_get_input_source, _godot_object, id, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.nodeGetInputSource, _godot_object, id, idx);
 	}
-	package(godot) static GodotMethod!(void, String, Animation) _GODOT_animation_node_set_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_node_set_animation") = _GODOT_animation_node_set_animation;
 	/**
 	Binds a new $(D Animation) from the $(D masterPlayer) to the `AnimationTreePlayer`'s animation node with name `id`.
 	*/
 	void animationNodeSetAnimation(StringArg0)(in StringArg0 id, Animation animation)
 	{
-		_GODOT_animation_node_set_animation.bind("AnimationTreePlayer", "animation_node_set_animation");
-		ptrcall!(void)(_GODOT_animation_node_set_animation, _godot_object, id, animation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.animationNodeSetAnimation, _godot_object, id, animation);
 	}
-	package(godot) static GodotMethod!(Animation, String) _GODOT_animation_node_get_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_node_get_animation") = _GODOT_animation_node_get_animation;
 	/**
 	Returns the $(D AnimationPlayer)'s $(D Animation) bound to the `AnimationTreePlayer`'s animation node with name `id`.
 	*/
 	Ref!Animation animationNodeGetAnimation(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_animation_node_get_animation.bind("AnimationTreePlayer", "animation_node_get_animation");
-		return ptrcall!(Animation)(_GODOT_animation_node_get_animation, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation)(_classBinding.animationNodeGetAnimation, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_animation_node_set_master_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_node_set_master_animation") = _GODOT_animation_node_set_master_animation;
 	/**
 	Binds the $(D Animation) named `source` from $(D masterPlayer) to the animation node `id`. Recalculates caches.
 	*/
 	void animationNodeSetMasterAnimation(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 source)
 	{
-		_GODOT_animation_node_set_master_animation.bind("AnimationTreePlayer", "animation_node_set_master_animation");
-		ptrcall!(void)(_GODOT_animation_node_set_master_animation, _godot_object, id, source);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.animationNodeSetMasterAnimation, _godot_object, id, source);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_animation_node_get_master_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_node_get_master_animation") = _GODOT_animation_node_get_master_animation;
 	/**
 	Returns the name of the $(D masterPlayer)'s $(D Animation) bound to this animation node.
 	*/
 	String animationNodeGetMasterAnimation(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_animation_node_get_master_animation.bind("AnimationTreePlayer", "animation_node_get_master_animation");
-		return ptrcall!(String)(_GODOT_animation_node_get_master_animation, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.animationNodeGetMasterAnimation, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, NodePath, bool) _GODOT_animation_node_set_filter_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_node_set_filter_path") = _GODOT_animation_node_set_filter_path;
+	/**
+	
+	*/
+	double animationNodeGetPosition(StringArg0)(in StringArg0 id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.animationNodeGetPosition, _godot_object, id);
+	}
 	/**
 	If `enable` is `true`, the animation node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
 	void animationNodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
 	{
-		_GODOT_animation_node_set_filter_path.bind("AnimationTreePlayer", "animation_node_set_filter_path");
-		ptrcall!(void)(_GODOT_animation_node_set_filter_path, _godot_object, id, path, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.animationNodeSetFilterPath, _godot_object, id, path, enable);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_oneshot_node_set_fadein_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_fadein_time") = _GODOT_oneshot_node_set_fadein_time;
 	/**
 	Sets fade in time of a OneShot node given its name and value in seconds.
 	*/
 	void oneshotNodeSetFadeinTime(StringArg0)(in StringArg0 id, in double time_sec)
 	{
-		_GODOT_oneshot_node_set_fadein_time.bind("AnimationTreePlayer", "oneshot_node_set_fadein_time");
-		ptrcall!(void)(_GODOT_oneshot_node_set_fadein_time, _godot_object, id, time_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetFadeinTime, _godot_object, id, time_sec);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_oneshot_node_get_fadein_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_get_fadein_time") = _GODOT_oneshot_node_get_fadein_time;
 	/**
 	Returns fade in time of a OneShot node given its name.
 	*/
 	double oneshotNodeGetFadeinTime(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_get_fadein_time.bind("AnimationTreePlayer", "oneshot_node_get_fadein_time");
-		return ptrcall!(double)(_GODOT_oneshot_node_get_fadein_time, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeinTime, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_oneshot_node_set_fadeout_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_fadeout_time") = _GODOT_oneshot_node_set_fadeout_time;
 	/**
 	Sets fade out time of a OneShot node given its name and value in seconds.
 	*/
 	void oneshotNodeSetFadeoutTime(StringArg0)(in StringArg0 id, in double time_sec)
 	{
-		_GODOT_oneshot_node_set_fadeout_time.bind("AnimationTreePlayer", "oneshot_node_set_fadeout_time");
-		ptrcall!(void)(_GODOT_oneshot_node_set_fadeout_time, _godot_object, id, time_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetFadeoutTime, _godot_object, id, time_sec);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_oneshot_node_get_fadeout_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_get_fadeout_time") = _GODOT_oneshot_node_get_fadeout_time;
 	/**
 	Returns fade out time of a OneShot node given its name.
 	*/
 	double oneshotNodeGetFadeoutTime(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_get_fadeout_time.bind("AnimationTreePlayer", "oneshot_node_get_fadeout_time");
-		return ptrcall!(double)(_GODOT_oneshot_node_get_fadeout_time, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeoutTime, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, bool) _GODOT_oneshot_node_set_autorestart;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_autorestart") = _GODOT_oneshot_node_set_autorestart;
 	/**
 	Sets autorestart property of a OneShot node given its name and value.
 	*/
 	void oneshotNodeSetAutorestart(StringArg0)(in StringArg0 id, in bool enable)
 	{
-		_GODOT_oneshot_node_set_autorestart.bind("AnimationTreePlayer", "oneshot_node_set_autorestart");
-		ptrcall!(void)(_GODOT_oneshot_node_set_autorestart, _godot_object, id, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestart, _godot_object, id, enable);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_oneshot_node_set_autorestart_delay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_autorestart_delay") = _GODOT_oneshot_node_set_autorestart_delay;
 	/**
 	Sets autorestart delay of a OneShot node given its name and value in seconds.
 	*/
 	void oneshotNodeSetAutorestartDelay(StringArg0)(in StringArg0 id, in double delay_sec)
 	{
-		_GODOT_oneshot_node_set_autorestart_delay.bind("AnimationTreePlayer", "oneshot_node_set_autorestart_delay");
-		ptrcall!(void)(_GODOT_oneshot_node_set_autorestart_delay, _godot_object, id, delay_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartDelay, _godot_object, id, delay_sec);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_oneshot_node_set_autorestart_random_delay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_autorestart_random_delay") = _GODOT_oneshot_node_set_autorestart_random_delay;
 	/**
 	Sets autorestart random delay of a OneShot node given its name and value in seconds.
 	*/
 	void oneshotNodeSetAutorestartRandomDelay(StringArg0)(in StringArg0 id, in double rand_sec)
 	{
-		_GODOT_oneshot_node_set_autorestart_random_delay.bind("AnimationTreePlayer", "oneshot_node_set_autorestart_random_delay");
-		ptrcall!(void)(_GODOT_oneshot_node_set_autorestart_random_delay, _godot_object, id, rand_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartRandomDelay, _godot_object, id, rand_sec);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_oneshot_node_has_autorestart;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_has_autorestart") = _GODOT_oneshot_node_has_autorestart;
 	/**
 	Returns whether a OneShot node will auto restart given its name.
 	*/
 	bool oneshotNodeHasAutorestart(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_has_autorestart.bind("AnimationTreePlayer", "oneshot_node_has_autorestart");
-		return ptrcall!(bool)(_GODOT_oneshot_node_has_autorestart, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.oneshotNodeHasAutorestart, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_oneshot_node_get_autorestart_delay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_get_autorestart_delay") = _GODOT_oneshot_node_get_autorestart_delay;
 	/**
 	Returns autostart delay of a OneShot node given its name.
 	*/
 	double oneshotNodeGetAutorestartDelay(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_get_autorestart_delay.bind("AnimationTreePlayer", "oneshot_node_get_autorestart_delay");
-		return ptrcall!(double)(_GODOT_oneshot_node_get_autorestart_delay, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartDelay, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_oneshot_node_get_autorestart_random_delay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_get_autorestart_random_delay") = _GODOT_oneshot_node_get_autorestart_random_delay;
 	/**
 	Returns autostart random delay of a OneShot node given its name.
 	*/
 	double oneshotNodeGetAutorestartRandomDelay(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_get_autorestart_random_delay.bind("AnimationTreePlayer", "oneshot_node_get_autorestart_random_delay");
-		return ptrcall!(double)(_GODOT_oneshot_node_get_autorestart_random_delay, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartRandomDelay, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_oneshot_node_start;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_start") = _GODOT_oneshot_node_start;
 	/**
 	Starts a OneShot node given its name.
 	*/
 	void oneshotNodeStart(StringArg0)(in StringArg0 id)
 	{
-		_GODOT_oneshot_node_start.bind("AnimationTreePlayer", "oneshot_node_start");
-		ptrcall!(void)(_GODOT_oneshot_node_start, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeStart, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_oneshot_node_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_stop") = _GODOT_oneshot_node_stop;
 	/**
 	Stops the OneShot node with name `id`.
 	*/
 	void oneshotNodeStop(StringArg0)(in StringArg0 id)
 	{
-		_GODOT_oneshot_node_stop.bind("AnimationTreePlayer", "oneshot_node_stop");
-		ptrcall!(void)(_GODOT_oneshot_node_stop, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeStop, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_oneshot_node_is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_is_active") = _GODOT_oneshot_node_is_active;
 	/**
 	Returns whether a OneShot node is active given its name.
 	*/
 	bool oneshotNodeIsActive(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_oneshot_node_is_active.bind("AnimationTreePlayer", "oneshot_node_is_active");
-		return ptrcall!(bool)(_GODOT_oneshot_node_is_active, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.oneshotNodeIsActive, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, NodePath, bool) _GODOT_oneshot_node_set_filter_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "oneshot_node_set_filter_path") = _GODOT_oneshot_node_set_filter_path;
 	/**
 	If `enable` is `true`, the oneshot node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
 	void oneshotNodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
 	{
-		_GODOT_oneshot_node_set_filter_path.bind("AnimationTreePlayer", "oneshot_node_set_filter_path");
-		ptrcall!(void)(_GODOT_oneshot_node_set_filter_path, _godot_object, id, path, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.oneshotNodeSetFilterPath, _godot_object, id, path, enable);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_mix_node_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mix_node_set_amount") = _GODOT_mix_node_set_amount;
 	/**
 	Sets mix amount of a Mix node given its name and value.
 	A Mix node adds input b to input a by a the amount given by ratio.
 	*/
 	void mixNodeSetAmount(StringArg0)(in StringArg0 id, in double ratio)
 	{
-		_GODOT_mix_node_set_amount.bind("AnimationTreePlayer", "mix_node_set_amount");
-		ptrcall!(void)(_GODOT_mix_node_set_amount, _godot_object, id, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.mixNodeSetAmount, _godot_object, id, ratio);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_mix_node_get_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mix_node_get_amount") = _GODOT_mix_node_get_amount;
 	/**
 	Returns mix amount of a Mix node given its name.
 	*/
 	double mixNodeGetAmount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_mix_node_get_amount.bind("AnimationTreePlayer", "mix_node_get_amount");
-		return ptrcall!(double)(_GODOT_mix_node_get_amount, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.mixNodeGetAmount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_blend2_node_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend2_node_set_amount") = _GODOT_blend2_node_set_amount;
 	/**
 	Sets the blend amount of a Blend2 node given its name and value.
 	A Blend2 Node blends two animations with the amount between 0 and 1.
@@ -402,31 +424,25 @@ public:
 	*/
 	void blend2NodeSetAmount(StringArg0)(in StringArg0 id, in double blend)
 	{
-		_GODOT_blend2_node_set_amount.bind("AnimationTreePlayer", "blend2_node_set_amount");
-		ptrcall!(void)(_GODOT_blend2_node_set_amount, _godot_object, id, blend);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blend2NodeSetAmount, _godot_object, id, blend);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_blend2_node_get_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend2_node_get_amount") = _GODOT_blend2_node_get_amount;
 	/**
 	Returns the blend amount of a Blend2 node given its name.
 	*/
 	double blend2NodeGetAmount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_blend2_node_get_amount.bind("AnimationTreePlayer", "blend2_node_get_amount");
-		return ptrcall!(double)(_GODOT_blend2_node_get_amount, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.blend2NodeGetAmount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, NodePath, bool) _GODOT_blend2_node_set_filter_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend2_node_set_filter_path") = _GODOT_blend2_node_set_filter_path;
 	/**
 	If `enable` is `true`, the blend2 node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
 	void blend2NodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
 	{
-		_GODOT_blend2_node_set_filter_path.bind("AnimationTreePlayer", "blend2_node_set_filter_path");
-		ptrcall!(void)(_GODOT_blend2_node_set_filter_path, _godot_object, id, path, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blend2NodeSetFilterPath, _godot_object, id, path, enable);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_blend3_node_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend3_node_set_amount") = _GODOT_blend3_node_set_amount;
 	/**
 	Sets the blend amount of a Blend3 node given its name and value.
 	A Blend3 Node blends three animations with the amount between -1 and 1.
@@ -438,21 +454,17 @@ public:
 	*/
 	void blend3NodeSetAmount(StringArg0)(in StringArg0 id, in double blend)
 	{
-		_GODOT_blend3_node_set_amount.bind("AnimationTreePlayer", "blend3_node_set_amount");
-		ptrcall!(void)(_GODOT_blend3_node_set_amount, _godot_object, id, blend);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blend3NodeSetAmount, _godot_object, id, blend);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_blend3_node_get_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend3_node_get_amount") = _GODOT_blend3_node_get_amount;
 	/**
 	Returns the blend amount of a Blend3 node given its name.
 	*/
 	double blend3NodeGetAmount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_blend3_node_get_amount.bind("AnimationTreePlayer", "blend3_node_get_amount");
-		return ptrcall!(double)(_GODOT_blend3_node_get_amount, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.blend3NodeGetAmount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, Vector2) _GODOT_blend4_node_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend4_node_set_amount") = _GODOT_blend4_node_set_amount;
 	/**
 	Sets the blend amount of a Blend4 node given its name and value.
 	A Blend4 Node blends two pairs of animations.
@@ -460,21 +472,17 @@ public:
 	*/
 	void blend4NodeSetAmount(StringArg0)(in StringArg0 id, in Vector2 blend)
 	{
-		_GODOT_blend4_node_set_amount.bind("AnimationTreePlayer", "blend4_node_set_amount");
-		ptrcall!(void)(_GODOT_blend4_node_set_amount, _godot_object, id, blend);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blend4NodeSetAmount, _godot_object, id, blend);
 	}
-	package(godot) static GodotMethod!(Vector2, String) _GODOT_blend4_node_get_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "blend4_node_get_amount") = _GODOT_blend4_node_get_amount;
 	/**
 	Returns the blend amount of a Blend4 node given its name.
 	*/
 	Vector2 blend4NodeGetAmount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_blend4_node_get_amount.bind("AnimationTreePlayer", "blend4_node_get_amount");
-		return ptrcall!(Vector2)(_GODOT_blend4_node_get_amount, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.blend4NodeGetAmount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_timescale_node_set_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "timescale_node_set_scale") = _GODOT_timescale_node_set_scale;
 	/**
 	Sets the time scale of the TimeScale node with name `id` to `scale`.
 	The timescale node is used to speed $(D Animation)s up if the scale is above 1 or slow them down if it is below 1.
@@ -482,302 +490,244 @@ public:
 	*/
 	void timescaleNodeSetScale(StringArg0)(in StringArg0 id, in double scale)
 	{
-		_GODOT_timescale_node_set_scale.bind("AnimationTreePlayer", "timescale_node_set_scale");
-		ptrcall!(void)(_GODOT_timescale_node_set_scale, _godot_object, id, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.timescaleNodeSetScale, _godot_object, id, scale);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_timescale_node_get_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "timescale_node_get_scale") = _GODOT_timescale_node_get_scale;
 	/**
 	Returns time scale value of the TimeScale node with name `id`.
 	*/
 	double timescaleNodeGetScale(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_timescale_node_get_scale.bind("AnimationTreePlayer", "timescale_node_get_scale");
-		return ptrcall!(double)(_GODOT_timescale_node_get_scale, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.timescaleNodeGetScale, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_timeseek_node_seek;
-	package(godot) alias _GODOT_methodBindInfo(string name : "timeseek_node_seek") = _GODOT_timeseek_node_seek;
 	/**
 	Sets the time seek value of the TimeSeek node with name `id` to `seconds`
 	This functions as a seek in the $(D Animation) or the blend or mix of $(D Animation)s input in it.
 	*/
 	void timeseekNodeSeek(StringArg0)(in StringArg0 id, in double seconds)
 	{
-		_GODOT_timeseek_node_seek.bind("AnimationTreePlayer", "timeseek_node_seek");
-		ptrcall!(void)(_GODOT_timeseek_node_seek, _godot_object, id, seconds);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.timeseekNodeSeek, _godot_object, id, seconds);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_transition_node_set_input_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_set_input_count") = _GODOT_transition_node_set_input_count;
 	/**
 	Resizes the number of inputs available for the transition node with name `id`.
 	*/
 	void transitionNodeSetInputCount(StringArg0)(in StringArg0 id, in long count)
 	{
-		_GODOT_transition_node_set_input_count.bind("AnimationTreePlayer", "transition_node_set_input_count");
-		ptrcall!(void)(_GODOT_transition_node_set_input_count, _godot_object, id, count);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.transitionNodeSetInputCount, _godot_object, id, count);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_transition_node_get_input_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_get_input_count") = _GODOT_transition_node_get_input_count;
 	/**
 	Returns the number of inputs for the transition node with name `id`. You can add inputs by rightclicking on the transition node.
 	*/
 	long transitionNodeGetInputCount(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_transition_node_get_input_count.bind("AnimationTreePlayer", "transition_node_get_input_count");
-		return ptrcall!(long)(_GODOT_transition_node_get_input_count, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.transitionNodeGetInputCount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_transition_node_delete_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_delete_input") = _GODOT_transition_node_delete_input;
 	/**
 	Deletes the input at `input_idx` for the transition node with name `id`.
 	*/
 	void transitionNodeDeleteInput(StringArg0)(in StringArg0 id, in long input_idx)
 	{
-		_GODOT_transition_node_delete_input.bind("AnimationTreePlayer", "transition_node_delete_input");
-		ptrcall!(void)(_GODOT_transition_node_delete_input, _godot_object, id, input_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.transitionNodeDeleteInput, _godot_object, id, input_idx);
 	}
-	package(godot) static GodotMethod!(void, String, long, bool) _GODOT_transition_node_set_input_auto_advance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_set_input_auto_advance") = _GODOT_transition_node_set_input_auto_advance;
 	/**
 	The transition node with name `id` advances to its next input automatically when the input at `input_idx` completes.
 	*/
 	void transitionNodeSetInputAutoAdvance(StringArg0)(in StringArg0 id, in long input_idx, in bool enable)
 	{
-		_GODOT_transition_node_set_input_auto_advance.bind("AnimationTreePlayer", "transition_node_set_input_auto_advance");
-		ptrcall!(void)(_GODOT_transition_node_set_input_auto_advance, _godot_object, id, input_idx, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.transitionNodeSetInputAutoAdvance, _godot_object, id, input_idx, enable);
 	}
-	package(godot) static GodotMethod!(bool, String, long) _GODOT_transition_node_has_input_auto_advance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_has_input_auto_advance") = _GODOT_transition_node_has_input_auto_advance;
 	/**
 	Returns `true` if the input at `input_idx` on transition node with name `id` is set to automatically advance to the next input upon completion.
 	*/
 	bool transitionNodeHasInputAutoAdvance(StringArg0)(in StringArg0 id, in long input_idx) const
 	{
-		_GODOT_transition_node_has_input_auto_advance.bind("AnimationTreePlayer", "transition_node_has_input_auto_advance");
-		return ptrcall!(bool)(_GODOT_transition_node_has_input_auto_advance, _godot_object, id, input_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.transitionNodeHasInputAutoAdvance, _godot_object, id, input_idx);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_transition_node_set_xfade_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_set_xfade_time") = _GODOT_transition_node_set_xfade_time;
 	/**
 	The transition node with name `id` sets its cross fade time to `time_sec`.
 	*/
 	void transitionNodeSetXfadeTime(StringArg0)(in StringArg0 id, in double time_sec)
 	{
-		_GODOT_transition_node_set_xfade_time.bind("AnimationTreePlayer", "transition_node_set_xfade_time");
-		ptrcall!(void)(_GODOT_transition_node_set_xfade_time, _godot_object, id, time_sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.transitionNodeSetXfadeTime, _godot_object, id, time_sec);
 	}
-	package(godot) static GodotMethod!(double, String) _GODOT_transition_node_get_xfade_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_get_xfade_time") = _GODOT_transition_node_get_xfade_time;
 	/**
 	Returns the cross fade time for the transition node with name `id`.
 	*/
 	double transitionNodeGetXfadeTime(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_transition_node_get_xfade_time.bind("AnimationTreePlayer", "transition_node_get_xfade_time");
-		return ptrcall!(double)(_GODOT_transition_node_get_xfade_time, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.transitionNodeGetXfadeTime, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_transition_node_set_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_set_current") = _GODOT_transition_node_set_current;
 	/**
 	The transition node with name `id` sets its current input at `input_idx`.
 	*/
 	void transitionNodeSetCurrent(StringArg0)(in StringArg0 id, in long input_idx)
 	{
-		_GODOT_transition_node_set_current.bind("AnimationTreePlayer", "transition_node_set_current");
-		ptrcall!(void)(_GODOT_transition_node_set_current, _godot_object, id, input_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.transitionNodeSetCurrent, _godot_object, id, input_idx);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_transition_node_get_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "transition_node_get_current") = _GODOT_transition_node_get_current;
 	/**
 	Returns the index of the currently evaluated input for the transition node with name `id`.
 	*/
 	long transitionNodeGetCurrent(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_transition_node_get_current.bind("AnimationTreePlayer", "transition_node_get_current");
-		return ptrcall!(long)(_GODOT_transition_node_get_current, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.transitionNodeGetCurrent, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String, Vector2) _GODOT_node_set_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_set_position") = _GODOT_node_set_position;
 	/**
 	Sets position of a node in the graph given its name and position.
 	*/
 	void nodeSetPosition(StringArg0)(in StringArg0 id, in Vector2 screen_position)
 	{
-		_GODOT_node_set_position.bind("AnimationTreePlayer", "node_set_position");
-		ptrcall!(void)(_GODOT_node_set_position, _godot_object, id, screen_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.nodeSetPosition, _godot_object, id, screen_position);
 	}
-	package(godot) static GodotMethod!(Vector2, String) _GODOT_node_get_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "node_get_position") = _GODOT_node_get_position;
 	/**
 	Returns position of a node in the graph given its name.
 	*/
 	Vector2 nodeGetPosition(StringArg0)(in StringArg0 id) const
 	{
-		_GODOT_node_get_position.bind("AnimationTreePlayer", "node_get_position");
-		return ptrcall!(Vector2)(_GODOT_node_get_position, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.nodeGetPosition, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_node") = _GODOT_remove_node;
 	/**
 	Removes the animation node with name `id`.
 	*/
 	void removeNode(StringArg0)(in StringArg0 id)
 	{
-		_GODOT_remove_node.bind("AnimationTreePlayer", "remove_node");
-		ptrcall!(void)(_GODOT_remove_node, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeNode, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(GodotError, String, String, long) _GODOT_connect_nodes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect_nodes") = _GODOT_connect_nodes;
 	/**
 	Connects node `id` to `dst_id` at the specified input slot.
 	*/
 	GodotError connectNodes(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 dst_id, in long dst_input_idx)
 	{
-		_GODOT_connect_nodes.bind("AnimationTreePlayer", "connect_nodes");
-		return ptrcall!(GodotError)(_GODOT_connect_nodes, _godot_object, id, dst_id, dst_input_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.connectNodes, _godot_object, id, dst_id, dst_input_idx);
 	}
-	package(godot) static GodotMethod!(bool, String, String, long) _GODOT_are_nodes_connected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "are_nodes_connected") = _GODOT_are_nodes_connected;
 	/**
 	Returns whether node `id` and `dst_id` are connected at the specified slot.
 	*/
 	bool areNodesConnected(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 dst_id, in long dst_input_idx) const
 	{
-		_GODOT_are_nodes_connected.bind("AnimationTreePlayer", "are_nodes_connected");
-		return ptrcall!(bool)(_GODOT_are_nodes_connected, _godot_object, id, dst_id, dst_input_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.areNodesConnected, _godot_object, id, dst_id, dst_input_idx);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_disconnect_nodes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "disconnect_nodes") = _GODOT_disconnect_nodes;
 	/**
 	Disconnects nodes connected to `id` at the specified input slot.
 	*/
 	void disconnectNodes(StringArg0)(in StringArg0 id, in long dst_input_idx)
 	{
-		_GODOT_disconnect_nodes.bind("AnimationTreePlayer", "disconnect_nodes");
-		ptrcall!(void)(_GODOT_disconnect_nodes, _godot_object, id, dst_input_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnectNodes, _godot_object, id, dst_input_idx);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_active") = _GODOT_set_active;
 	/**
 	
 	*/
 	void setActive(in bool enabled)
 	{
-		_GODOT_set_active.bind("AnimationTreePlayer", "set_active");
-		ptrcall!(void)(_GODOT_set_active, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setActive, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_active") = _GODOT_is_active;
 	/**
 	
 	*/
 	bool isActive() const
 	{
-		_GODOT_is_active.bind("AnimationTreePlayer", "is_active");
-		return ptrcall!(bool)(_GODOT_is_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_path") = _GODOT_set_base_path;
 	/**
 	
 	*/
 	void setBasePath(NodePathArg0)(in NodePathArg0 path)
 	{
-		_GODOT_set_base_path.bind("AnimationTreePlayer", "set_base_path");
-		ptrcall!(void)(_GODOT_set_base_path, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasePath, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_path") = _GODOT_get_base_path;
 	/**
 	
 	*/
 	NodePath getBasePath() const
 	{
-		_GODOT_get_base_path.bind("AnimationTreePlayer", "get_base_path");
-		return ptrcall!(NodePath)(_GODOT_get_base_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_master_player;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_master_player") = _GODOT_set_master_player;
 	/**
 	
 	*/
 	void setMasterPlayer(NodePathArg0)(in NodePathArg0 nodepath)
 	{
-		_GODOT_set_master_player.bind("AnimationTreePlayer", "set_master_player");
-		ptrcall!(void)(_GODOT_set_master_player, _godot_object, nodepath);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMasterPlayer, _godot_object, nodepath);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_master_player;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_master_player") = _GODOT_get_master_player;
 	/**
 	
 	*/
 	NodePath getMasterPlayer() const
 	{
-		_GODOT_get_master_player.bind("AnimationTreePlayer", "get_master_player");
-		return ptrcall!(NodePath)(_GODOT_get_master_player, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getMasterPlayer, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_node_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_list") = _GODOT_get_node_list;
 	/**
 	Returns a $(D PoolStringArray) containing the name of all nodes.
 	*/
 	PoolStringArray getNodeList()
 	{
-		_GODOT_get_node_list.bind("AnimationTreePlayer", "get_node_list");
-		return ptrcall!(PoolStringArray)(_GODOT_get_node_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getNodeList, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_animation_process_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_animation_process_mode") = _GODOT_set_animation_process_mode;
 	/**
 	
 	*/
 	void setAnimationProcessMode(in long mode)
 	{
-		_GODOT_set_animation_process_mode.bind("AnimationTreePlayer", "set_animation_process_mode");
-		ptrcall!(void)(_GODOT_set_animation_process_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimationProcessMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(AnimationTreePlayer.AnimationProcessMode) _GODOT_get_animation_process_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation_process_mode") = _GODOT_get_animation_process_mode;
 	/**
 	
 	*/
 	AnimationTreePlayer.AnimationProcessMode getAnimationProcessMode() const
 	{
-		_GODOT_get_animation_process_mode.bind("AnimationTreePlayer", "get_animation_process_mode");
-		return ptrcall!(AnimationTreePlayer.AnimationProcessMode)(_GODOT_get_animation_process_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationTreePlayer.AnimationProcessMode)(_classBinding.getAnimationProcessMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_advance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "advance") = _GODOT_advance;
 	/**
 	Shifts position in the animation timeline. Delta is the time in seconds to shift.
 	*/
 	void advance(in double delta)
 	{
-		_GODOT_advance.bind("AnimationTreePlayer", "advance");
-		ptrcall!(void)(_GODOT_advance, _godot_object, delta);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.advance, _godot_object, delta);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_reset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reset") = _GODOT_reset;
 	/**
 	Resets this `AnimationTreePlayer`.
 	*/
 	void reset()
 	{
-		_GODOT_reset.bind("AnimationTreePlayer", "reset");
-		ptrcall!(void)(_GODOT_reset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_recompute_caches;
-	package(godot) alias _GODOT_methodBindInfo(string name : "recompute_caches") = _GODOT_recompute_caches;
 	/**
 	Manually recalculates the cache of track information generated from animation nodes. Needed when external sources modify the animation nodes' state.
 	*/
 	void recomputeCaches()
 	{
-		_GODOT_recompute_caches.bind("AnimationTreePlayer", "recompute_caches");
-		ptrcall!(void)(_GODOT_recompute_caches, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.recomputeCaches, _godot_object);
 	}
 	/**
-	The thread in which to update animations. Default value: $(D animationProcessIdle).
+	The thread in which to update animations. Default value: `ANIMATION_PROCESS_IDLE`.
 	*/
 	@property AnimationTreePlayer.AnimationProcessMode playbackProcessMode()
 	{

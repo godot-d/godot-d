@@ -26,12 +26,27 @@ import godot.reference;
 */
 @GodotBaseClass struct EditorExportPlugin
 {
-	static immutable string _GODOT_internal_name = "EditorExportPlugin";
+	enum string _GODOT_internal_name = "EditorExportPlugin";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_export_file") GodotMethod!(void, String, String, PoolStringArray) _exportFile;
+		@GodotName("_export_begin") GodotMethod!(void, PoolStringArray, bool, String, long) _exportBegin;
+		@GodotName("add_shared_object") GodotMethod!(void, String, PoolStringArray) addSharedObject;
+		@GodotName("add_file") GodotMethod!(void, String, PoolByteArray, bool) addFile;
+		@GodotName("add_ios_framework") GodotMethod!(void, String) addIosFramework;
+		@GodotName("add_ios_plist_content") GodotMethod!(void, String) addIosPlistContent;
+		@GodotName("add_ios_linker_flags") GodotMethod!(void, String) addIosLinkerFlags;
+		@GodotName("add_ios_bundle_file") GodotMethod!(void, String) addIosBundleFile;
+		@GodotName("add_ios_cpp_code") GodotMethod!(void, String) addIosCppCode;
+		@GodotName("skip") GodotMethod!(void) skip;
+	}
 	bool opEquals(in EditorExportPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorExportPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,8 +59,6 @@ public:
 		return cast(EditorExportPlugin)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String, String, PoolStringArray) _GODOT__export_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_export_file") = _GODOT__export_file;
 	/**
 	
 	*/
@@ -58,8 +71,6 @@ public:
 		String _GODOT_method_name = String("_export_file");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, PoolStringArray, bool, String, long) _GODOT__export_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_export_begin") = _GODOT__export_begin;
 	/**
 	
 	*/
@@ -73,84 +84,68 @@ public:
 		String _GODOT_method_name = String("_export_begin");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String, PoolStringArray) _GODOT_add_shared_object;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_shared_object") = _GODOT_add_shared_object;
 	/**
 	
 	*/
 	void addSharedObject(StringArg0)(in StringArg0 path, in PoolStringArray tags)
 	{
-		_GODOT_add_shared_object.bind("EditorExportPlugin", "add_shared_object");
-		ptrcall!(void)(_GODOT_add_shared_object, _godot_object, path, tags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSharedObject, _godot_object, path, tags);
 	}
-	package(godot) static GodotMethod!(void, String, PoolByteArray, bool) _GODOT_add_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_file") = _GODOT_add_file;
 	/**
 	
 	*/
 	void addFile(StringArg0)(in StringArg0 path, in PoolByteArray file, in bool remap)
 	{
-		_GODOT_add_file.bind("EditorExportPlugin", "add_file");
-		ptrcall!(void)(_GODOT_add_file, _godot_object, path, file, remap);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addFile, _godot_object, path, file, remap);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_ios_framework;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_ios_framework") = _GODOT_add_ios_framework;
 	/**
 	
 	*/
 	void addIosFramework(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_add_ios_framework.bind("EditorExportPlugin", "add_ios_framework");
-		ptrcall!(void)(_GODOT_add_ios_framework, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosFramework, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_ios_plist_content;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_ios_plist_content") = _GODOT_add_ios_plist_content;
 	/**
 	
 	*/
 	void addIosPlistContent(StringArg0)(in StringArg0 plist_content)
 	{
-		_GODOT_add_ios_plist_content.bind("EditorExportPlugin", "add_ios_plist_content");
-		ptrcall!(void)(_GODOT_add_ios_plist_content, _godot_object, plist_content);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosPlistContent, _godot_object, plist_content);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_ios_linker_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_ios_linker_flags") = _GODOT_add_ios_linker_flags;
 	/**
 	
 	*/
 	void addIosLinkerFlags(StringArg0)(in StringArg0 flags)
 	{
-		_GODOT_add_ios_linker_flags.bind("EditorExportPlugin", "add_ios_linker_flags");
-		ptrcall!(void)(_GODOT_add_ios_linker_flags, _godot_object, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosLinkerFlags, _godot_object, flags);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_ios_bundle_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_ios_bundle_file") = _GODOT_add_ios_bundle_file;
 	/**
 	
 	*/
 	void addIosBundleFile(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_add_ios_bundle_file.bind("EditorExportPlugin", "add_ios_bundle_file");
-		ptrcall!(void)(_GODOT_add_ios_bundle_file, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosBundleFile, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_ios_cpp_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_ios_cpp_code") = _GODOT_add_ios_cpp_code;
 	/**
 	
 	*/
 	void addIosCppCode(StringArg0)(in StringArg0 code)
 	{
-		_GODOT_add_ios_cpp_code.bind("EditorExportPlugin", "add_ios_cpp_code");
-		ptrcall!(void)(_GODOT_add_ios_cpp_code, _godot_object, code);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosCppCode, _godot_object, code);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_skip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skip") = _GODOT_skip;
 	/**
 	
 	*/
 	void skip()
 	{
-		_GODOT_skip.bind("EditorExportPlugin", "skip");
-		ptrcall!(void)(_GODOT_skip, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.skip, _godot_object);
 	}
 }

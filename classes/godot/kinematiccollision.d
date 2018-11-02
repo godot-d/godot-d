@@ -29,12 +29,28 @@ This object contains information about the collision, including the colliding ob
 */
 @GodotBaseClass struct KinematicCollision
 {
-	static immutable string _GODOT_internal_name = "KinematicCollision";
+	enum string _GODOT_internal_name = "KinematicCollision";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_position") GodotMethod!(Vector3) getPosition;
+		@GodotName("get_normal") GodotMethod!(Vector3) getNormal;
+		@GodotName("get_travel") GodotMethod!(Vector3) getTravel;
+		@GodotName("get_remainder") GodotMethod!(Vector3) getRemainder;
+		@GodotName("get_local_shape") GodotMethod!(GodotObject) getLocalShape;
+		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
+		@GodotName("get_collider_id") GodotMethod!(long) getColliderId;
+		@GodotName("get_collider_shape") GodotMethod!(GodotObject) getColliderShape;
+		@GodotName("get_collider_shape_index") GodotMethod!(long) getColliderShapeIndex;
+		@GodotName("get_collider_velocity") GodotMethod!(Vector3) getColliderVelocity;
+		@GodotName("get_collider_metadata") GodotMethod!(Variant) getColliderMetadata;
+	}
 	bool opEquals(in KinematicCollision other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	KinematicCollision opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,115 +63,93 @@ public:
 		return cast(KinematicCollision)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_position") = _GODOT_get_position;
 	/**
 	
 	*/
 	Vector3 getPosition() const
 	{
-		_GODOT_get_position.bind("KinematicCollision", "get_position");
-		return ptrcall!(Vector3)(_GODOT_get_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_normal") = _GODOT_get_normal;
 	/**
 	
 	*/
 	Vector3 getNormal() const
 	{
-		_GODOT_get_normal.bind("KinematicCollision", "get_normal");
-		return ptrcall!(Vector3)(_GODOT_get_normal, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getNormal, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_travel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_travel") = _GODOT_get_travel;
 	/**
 	
 	*/
 	Vector3 getTravel() const
 	{
-		_GODOT_get_travel.bind("KinematicCollision", "get_travel");
-		return ptrcall!(Vector3)(_GODOT_get_travel, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getTravel, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_remainder;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_remainder") = _GODOT_get_remainder;
 	/**
 	
 	*/
 	Vector3 getRemainder() const
 	{
-		_GODOT_get_remainder.bind("KinematicCollision", "get_remainder");
-		return ptrcall!(Vector3)(_GODOT_get_remainder, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getRemainder, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotObject) _GODOT_get_local_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_local_shape") = _GODOT_get_local_shape;
 	/**
 	
 	*/
 	GodotObject getLocalShape() const
 	{
-		_GODOT_get_local_shape.bind("KinematicCollision", "get_local_shape");
-		return ptrcall!(GodotObject)(_GODOT_get_local_shape, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.getLocalShape, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotObject) _GODOT_get_collider;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider") = _GODOT_get_collider;
 	/**
 	
 	*/
 	GodotObject getCollider() const
 	{
-		_GODOT_get_collider.bind("KinematicCollision", "get_collider");
-		return ptrcall!(GodotObject)(_GODOT_get_collider, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collider_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider_id") = _GODOT_get_collider_id;
 	/**
 	
 	*/
 	long getColliderId() const
 	{
-		_GODOT_get_collider_id.bind("KinematicCollision", "get_collider_id");
-		return ptrcall!(long)(_GODOT_get_collider_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getColliderId, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotObject) _GODOT_get_collider_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider_shape") = _GODOT_get_collider_shape;
 	/**
 	
 	*/
 	GodotObject getColliderShape() const
 	{
-		_GODOT_get_collider_shape.bind("KinematicCollision", "get_collider_shape");
-		return ptrcall!(GodotObject)(_GODOT_get_collider_shape, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.getColliderShape, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collider_shape_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider_shape_index") = _GODOT_get_collider_shape_index;
 	/**
 	
 	*/
 	long getColliderShapeIndex() const
 	{
-		_GODOT_get_collider_shape_index.bind("KinematicCollision", "get_collider_shape_index");
-		return ptrcall!(long)(_GODOT_get_collider_shape_index, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getColliderShapeIndex, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_collider_velocity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider_velocity") = _GODOT_get_collider_velocity;
 	/**
 	
 	*/
 	Vector3 getColliderVelocity() const
 	{
-		_GODOT_get_collider_velocity.bind("KinematicCollision", "get_collider_velocity");
-		return ptrcall!(Vector3)(_GODOT_get_collider_velocity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getColliderVelocity, _godot_object);
 	}
-	package(godot) static GodotMethod!(Variant) _GODOT_get_collider_metadata;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collider_metadata") = _GODOT_get_collider_metadata;
 	/**
 	
 	*/
 	Variant getColliderMetadata() const
 	{
-		_GODOT_get_collider_metadata.bind("KinematicCollision", "get_collider_metadata");
-		return ptrcall!(Variant)(_GODOT_get_collider_metadata, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getColliderMetadata, _godot_object);
 	}
 	/**
 	The point of collision.

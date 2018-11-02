@@ -21,17 +21,28 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.inputeventgesture;
+import godot.inputeventwithmodifiers;
+import godot.inputevent;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct InputEventMagnifyGesture
 {
-	static immutable string _GODOT_internal_name = "InputEventMagnifyGesture";
+	enum string _GODOT_internal_name = "InputEventMagnifyGesture";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; InputEventGesture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_factor") GodotMethod!(void, double) setFactor;
+		@GodotName("get_factor") GodotMethod!(double) getFactor;
+	}
 	bool opEquals(in InputEventMagnifyGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventMagnifyGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,25 +55,21 @@ public:
 		return cast(InputEventMagnifyGesture)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_factor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_factor") = _GODOT_set_factor;
 	/**
 	
 	*/
 	void setFactor(in double factor)
 	{
-		_GODOT_set_factor.bind("InputEventMagnifyGesture", "set_factor");
-		ptrcall!(void)(_GODOT_set_factor, _godot_object, factor);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFactor, _godot_object, factor);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_factor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_factor") = _GODOT_get_factor;
 	/**
 	
 	*/
 	double getFactor() const
 	{
-		_GODOT_get_factor.bind("InputEventMagnifyGesture", "get_factor");
-		return ptrcall!(double)(_GODOT_get_factor, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFactor, _godot_object);
 	}
 	/**
 	

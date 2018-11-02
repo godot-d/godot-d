@@ -22,6 +22,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a Compressor audio effect to an Audio bus.
 Reduces sounds that exceed a certain threshold level, smooths out the dynamics and increases the overall volume.
@@ -35,12 +37,31 @@ Compressor has many uses in the mix:
 */
 @GodotBaseClass struct AudioEffectCompressor
 {
-	static immutable string _GODOT_internal_name = "AudioEffectCompressor";
+	enum string _GODOT_internal_name = "AudioEffectCompressor";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_threshold") GodotMethod!(void, double) setThreshold;
+		@GodotName("get_threshold") GodotMethod!(double) getThreshold;
+		@GodotName("set_ratio") GodotMethod!(void, double) setRatio;
+		@GodotName("get_ratio") GodotMethod!(double) getRatio;
+		@GodotName("set_gain") GodotMethod!(void, double) setGain;
+		@GodotName("get_gain") GodotMethod!(double) getGain;
+		@GodotName("set_attack_us") GodotMethod!(void, double) setAttackUs;
+		@GodotName("get_attack_us") GodotMethod!(double) getAttackUs;
+		@GodotName("set_release_ms") GodotMethod!(void, double) setReleaseMs;
+		@GodotName("get_release_ms") GodotMethod!(double) getReleaseMs;
+		@GodotName("set_mix") GodotMethod!(void, double) setMix;
+		@GodotName("get_mix") GodotMethod!(double) getMix;
+		@GodotName("set_sidechain") GodotMethod!(void, String) setSidechain;
+		@GodotName("get_sidechain") GodotMethod!(String) getSidechain;
+	}
 	bool opEquals(in AudioEffectCompressor other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectCompressor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -53,145 +74,117 @@ public:
 		return cast(AudioEffectCompressor)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_threshold;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_threshold") = _GODOT_set_threshold;
 	/**
 	
 	*/
 	void setThreshold(in double threshold)
 	{
-		_GODOT_set_threshold.bind("AudioEffectCompressor", "set_threshold");
-		ptrcall!(void)(_GODOT_set_threshold, _godot_object, threshold);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setThreshold, _godot_object, threshold);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_threshold;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_threshold") = _GODOT_get_threshold;
 	/**
 	
 	*/
 	double getThreshold() const
 	{
-		_GODOT_get_threshold.bind("AudioEffectCompressor", "get_threshold");
-		return ptrcall!(double)(_GODOT_get_threshold, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getThreshold, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ratio") = _GODOT_set_ratio;
 	/**
 	
 	*/
 	void setRatio(in double ratio)
 	{
-		_GODOT_set_ratio.bind("AudioEffectCompressor", "set_ratio");
-		ptrcall!(void)(_GODOT_set_ratio, _godot_object, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRatio, _godot_object, ratio);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ratio") = _GODOT_get_ratio;
 	/**
 	
 	*/
 	double getRatio() const
 	{
-		_GODOT_get_ratio.bind("AudioEffectCompressor", "get_ratio");
-		return ptrcall!(double)(_GODOT_get_ratio, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRatio, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_gain;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gain") = _GODOT_set_gain;
 	/**
 	
 	*/
 	void setGain(in double gain)
 	{
-		_GODOT_set_gain.bind("AudioEffectCompressor", "set_gain");
-		ptrcall!(void)(_GODOT_set_gain, _godot_object, gain);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGain, _godot_object, gain);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_gain;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gain") = _GODOT_get_gain;
 	/**
 	
 	*/
 	double getGain() const
 	{
-		_GODOT_get_gain.bind("AudioEffectCompressor", "get_gain");
-		return ptrcall!(double)(_GODOT_get_gain, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGain, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_attack_us;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_attack_us") = _GODOT_set_attack_us;
 	/**
 	
 	*/
 	void setAttackUs(in double attack_us)
 	{
-		_GODOT_set_attack_us.bind("AudioEffectCompressor", "set_attack_us");
-		ptrcall!(void)(_GODOT_set_attack_us, _godot_object, attack_us);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAttackUs, _godot_object, attack_us);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_attack_us;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_attack_us") = _GODOT_get_attack_us;
 	/**
 	
 	*/
 	double getAttackUs() const
 	{
-		_GODOT_get_attack_us.bind("AudioEffectCompressor", "get_attack_us");
-		return ptrcall!(double)(_GODOT_get_attack_us, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAttackUs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_release_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_release_ms") = _GODOT_set_release_ms;
 	/**
 	
 	*/
 	void setReleaseMs(in double release_ms)
 	{
-		_GODOT_set_release_ms.bind("AudioEffectCompressor", "set_release_ms");
-		ptrcall!(void)(_GODOT_set_release_ms, _godot_object, release_ms);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReleaseMs, _godot_object, release_ms);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_release_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_release_ms") = _GODOT_get_release_ms;
 	/**
 	
 	*/
 	double getReleaseMs() const
 	{
-		_GODOT_get_release_ms.bind("AudioEffectCompressor", "get_release_ms");
-		return ptrcall!(double)(_GODOT_get_release_ms, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getReleaseMs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_mix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mix") = _GODOT_set_mix;
 	/**
 	
 	*/
 	void setMix(in double mix)
 	{
-		_GODOT_set_mix.bind("AudioEffectCompressor", "set_mix");
-		ptrcall!(void)(_GODOT_set_mix, _godot_object, mix);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMix, _godot_object, mix);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_mix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mix") = _GODOT_get_mix;
 	/**
 	
 	*/
 	double getMix() const
 	{
-		_GODOT_get_mix.bind("AudioEffectCompressor", "get_mix");
-		return ptrcall!(double)(_GODOT_get_mix, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMix, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_sidechain;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sidechain") = _GODOT_set_sidechain;
 	/**
 	
 	*/
 	void setSidechain(StringArg0)(in StringArg0 sidechain)
 	{
-		_GODOT_set_sidechain.bind("AudioEffectCompressor", "set_sidechain");
-		ptrcall!(void)(_GODOT_set_sidechain, _godot_object, sidechain);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSidechain, _godot_object, sidechain);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_sidechain;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sidechain") = _GODOT_get_sidechain;
 	/**
 	
 	*/
 	String getSidechain() const
 	{
-		_GODOT_get_sidechain.bind("AudioEffectCompressor", "get_sidechain");
-		return ptrcall!(String)(_GODOT_get_sidechain, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSidechain, _godot_object);
 	}
 	/**
 	The level above which compression is applied to the audio. Value can range from -60 to 0. Default value: `0`.

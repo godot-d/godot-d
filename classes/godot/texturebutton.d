@@ -23,6 +23,9 @@ import godot.classdb;
 import godot.basebutton;
 import godot.texture;
 import godot.bitmap;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Texture-based button. Supports Pressed, Hover, Disabled and Focused states.
 
@@ -31,12 +34,33 @@ The Normal state's texture is required. Others are optional.
 */
 @GodotBaseClass struct TextureButton
 {
-	static immutable string _GODOT_internal_name = "TextureButton";
+	enum string _GODOT_internal_name = "TextureButton";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; BaseButton _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_normal_texture") GodotMethod!(void, Texture) setNormalTexture;
+		@GodotName("set_pressed_texture") GodotMethod!(void, Texture) setPressedTexture;
+		@GodotName("set_hover_texture") GodotMethod!(void, Texture) setHoverTexture;
+		@GodotName("set_disabled_texture") GodotMethod!(void, Texture) setDisabledTexture;
+		@GodotName("set_focused_texture") GodotMethod!(void, Texture) setFocusedTexture;
+		@GodotName("set_click_mask") GodotMethod!(void, BitMap) setClickMask;
+		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
+		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
+		@GodotName("get_normal_texture") GodotMethod!(Texture) getNormalTexture;
+		@GodotName("get_pressed_texture") GodotMethod!(Texture) getPressedTexture;
+		@GodotName("get_hover_texture") GodotMethod!(Texture) getHoverTexture;
+		@GodotName("get_disabled_texture") GodotMethod!(Texture) getDisabledTexture;
+		@GodotName("get_focused_texture") GodotMethod!(Texture) getFocusedTexture;
+		@GodotName("get_click_mask") GodotMethod!(BitMap) getClickMask;
+		@GodotName("get_expand") GodotMethod!(bool) getExpand;
+		@GodotName("get_stretch_mode") GodotMethod!(TextureButton.StretchMode) getStretchMode;
+	}
 	bool opEquals(in TextureButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextureButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -92,165 +116,133 @@ public:
 		stretchKeepAspectCentered = 5,
 		stretchKeepAspectCovered = 6,
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_normal_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_normal_texture") = _GODOT_set_normal_texture;
 	/**
 	
 	*/
 	void setNormalTexture(Texture texture)
 	{
-		_GODOT_set_normal_texture.bind("TextureButton", "set_normal_texture");
-		ptrcall!(void)(_GODOT_set_normal_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_pressed_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pressed_texture") = _GODOT_set_pressed_texture;
 	/**
 	
 	*/
 	void setPressedTexture(Texture texture)
 	{
-		_GODOT_set_pressed_texture.bind("TextureButton", "set_pressed_texture");
-		ptrcall!(void)(_GODOT_set_pressed_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressedTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_hover_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hover_texture") = _GODOT_set_hover_texture;
 	/**
 	
 	*/
 	void setHoverTexture(Texture texture)
 	{
-		_GODOT_set_hover_texture.bind("TextureButton", "set_hover_texture");
-		ptrcall!(void)(_GODOT_set_hover_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHoverTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_disabled_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_disabled_texture") = _GODOT_set_disabled_texture;
 	/**
 	
 	*/
 	void setDisabledTexture(Texture texture)
 	{
-		_GODOT_set_disabled_texture.bind("TextureButton", "set_disabled_texture");
-		ptrcall!(void)(_GODOT_set_disabled_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabledTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_focused_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_focused_texture") = _GODOT_set_focused_texture;
 	/**
 	
 	*/
 	void setFocusedTexture(Texture texture)
 	{
-		_GODOT_set_focused_texture.bind("TextureButton", "set_focused_texture");
-		ptrcall!(void)(_GODOT_set_focused_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusedTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, BitMap) _GODOT_set_click_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_click_mask") = _GODOT_set_click_mask;
 	/**
 	
 	*/
 	void setClickMask(BitMap mask)
 	{
-		_GODOT_set_click_mask.bind("TextureButton", "set_click_mask");
-		ptrcall!(void)(_GODOT_set_click_mask, _godot_object, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClickMask, _godot_object, mask);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand") = _GODOT_set_expand;
 	/**
 	
 	*/
 	void setExpand(in bool p_expand)
 	{
-		_GODOT_set_expand.bind("TextureButton", "set_expand");
-		ptrcall!(void)(_GODOT_set_expand, _godot_object, p_expand);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpand, _godot_object, p_expand);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch_mode") = _GODOT_set_stretch_mode;
 	/**
 	
 	*/
 	void setStretchMode(in long p_mode)
 	{
-		_GODOT_set_stretch_mode.bind("TextureButton", "set_stretch_mode");
-		ptrcall!(void)(_GODOT_set_stretch_mode, _godot_object, p_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, p_mode);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_normal_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_normal_texture") = _GODOT_get_normal_texture;
 	/**
 	
 	*/
 	Ref!Texture getNormalTexture() const
 	{
-		_GODOT_get_normal_texture.bind("TextureButton", "get_normal_texture");
-		return ptrcall!(Texture)(_GODOT_get_normal_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getNormalTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_pressed_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pressed_texture") = _GODOT_get_pressed_texture;
 	/**
 	
 	*/
 	Ref!Texture getPressedTexture() const
 	{
-		_GODOT_get_pressed_texture.bind("TextureButton", "get_pressed_texture");
-		return ptrcall!(Texture)(_GODOT_get_pressed_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getPressedTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_hover_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hover_texture") = _GODOT_get_hover_texture;
 	/**
 	
 	*/
 	Ref!Texture getHoverTexture() const
 	{
-		_GODOT_get_hover_texture.bind("TextureButton", "get_hover_texture");
-		return ptrcall!(Texture)(_GODOT_get_hover_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getHoverTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_disabled_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_disabled_texture") = _GODOT_get_disabled_texture;
 	/**
 	
 	*/
 	Ref!Texture getDisabledTexture() const
 	{
-		_GODOT_get_disabled_texture.bind("TextureButton", "get_disabled_texture");
-		return ptrcall!(Texture)(_GODOT_get_disabled_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getDisabledTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_focused_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focused_texture") = _GODOT_get_focused_texture;
 	/**
 	
 	*/
 	Ref!Texture getFocusedTexture() const
 	{
-		_GODOT_get_focused_texture.bind("TextureButton", "get_focused_texture");
-		return ptrcall!(Texture)(_GODOT_get_focused_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getFocusedTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(BitMap) _GODOT_get_click_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_click_mask") = _GODOT_get_click_mask;
 	/**
 	
 	*/
 	Ref!BitMap getClickMask() const
 	{
-		_GODOT_get_click_mask.bind("TextureButton", "get_click_mask");
-		return ptrcall!(BitMap)(_GODOT_get_click_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BitMap)(_classBinding.getClickMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_expand") = _GODOT_get_expand;
 	/**
 	
 	*/
 	bool getExpand() const
 	{
-		_GODOT_get_expand.bind("TextureButton", "get_expand");
-		return ptrcall!(bool)(_GODOT_get_expand, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getExpand, _godot_object);
 	}
-	package(godot) static GodotMethod!(TextureButton.StretchMode) _GODOT_get_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stretch_mode") = _GODOT_get_stretch_mode;
 	/**
 	
 	*/
 	TextureButton.StretchMode getStretchMode() const
 	{
-		_GODOT_get_stretch_mode.bind("TextureButton", "get_stretch_mode");
-		return ptrcall!(TextureButton.StretchMode)(_GODOT_get_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TextureButton.StretchMode)(_classBinding.getStretchMode, _godot_object);
 	}
 	/**
 	Texture to display by default, when the node is $(B not) in the disabled, focused, hover or pressed state.

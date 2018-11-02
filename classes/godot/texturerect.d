@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.control;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 Control for drawing textures.
 
@@ -29,12 +31,23 @@ Used to draw icons and sprites in a user interface. The texture's placement can 
 */
 @GodotBaseClass struct TextureRect
 {
-	static immutable string _GODOT_internal_name = "TextureRect";
+	enum string _GODOT_internal_name = "TextureRect";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
+		@GodotName("has_expand") GodotMethod!(bool) hasExpand;
+		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
+		@GodotName("get_stretch_mode") GodotMethod!(TextureRect.StretchMode) getStretchMode;
+	}
 	bool opEquals(in TextureRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextureRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -95,65 +108,53 @@ public:
 		stretchKeepAspectCentered = 6,
 		stretchKeepAspectCovered = 7,
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("TextureRect", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("TextureRect", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand") = _GODOT_set_expand;
 	/**
 	
 	*/
 	void setExpand(in bool enable)
 	{
-		_GODOT_set_expand.bind("TextureRect", "set_expand");
-		ptrcall!(void)(_GODOT_set_expand, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpand, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_expand") = _GODOT_has_expand;
 	/**
 	
 	*/
 	bool hasExpand() const
 	{
-		_GODOT_has_expand.bind("TextureRect", "has_expand");
-		return ptrcall!(bool)(_GODOT_has_expand, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch_mode") = _GODOT_set_stretch_mode;
 	/**
 	
 	*/
 	void setStretchMode(in long stretch_mode)
 	{
-		_GODOT_set_stretch_mode.bind("TextureRect", "set_stretch_mode");
-		ptrcall!(void)(_GODOT_set_stretch_mode, _godot_object, stretch_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, stretch_mode);
 	}
-	package(godot) static GodotMethod!(TextureRect.StretchMode) _GODOT_get_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stretch_mode") = _GODOT_get_stretch_mode;
 	/**
 	
 	*/
 	TextureRect.StretchMode getStretchMode() const
 	{
-		_GODOT_get_stretch_mode.bind("TextureRect", "get_stretch_mode");
-		return ptrcall!(TextureRect.StretchMode)(_GODOT_get_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TextureRect.StretchMode)(_classBinding.getStretchMode, _godot_object);
 	}
 	/**
 	The node's $(D Texture) resource.

@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 General purpose Sprite node.
 
@@ -29,12 +31,43 @@ A node that displays a 2D texture. The texture displayed can be a region from a 
 */
 @GodotBaseClass struct Sprite
 {
-	static immutable string _GODOT_internal_name = "Sprite";
+	enum string _GODOT_internal_name = "Sprite";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
+		@GodotName("get_normal_map") GodotMethod!(Texture) getNormalMap;
+		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
+		@GodotName("is_centered") GodotMethod!(bool) isCentered;
+		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
+		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
+		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
+		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
+		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
+		@GodotName("set_region") GodotMethod!(void, bool) setRegion;
+		@GodotName("is_region") GodotMethod!(bool) isRegion;
+		@GodotName("is_pixel_opaque") GodotMethod!(bool, Vector2) isPixelOpaque;
+		@GodotName("set_region_rect") GodotMethod!(void, Rect2) setRegionRect;
+		@GodotName("get_region_rect") GodotMethod!(Rect2) getRegionRect;
+		@GodotName("set_region_filter_clip") GodotMethod!(void, bool) setRegionFilterClip;
+		@GodotName("is_region_filter_clip_enabled") GodotMethod!(bool) isRegionFilterClipEnabled;
+		@GodotName("set_frame") GodotMethod!(void, long) setFrame;
+		@GodotName("get_frame") GodotMethod!(long) getFrame;
+		@GodotName("set_vframes") GodotMethod!(void, long) setVframes;
+		@GodotName("get_vframes") GodotMethod!(long) getVframes;
+		@GodotName("set_hframes") GodotMethod!(void, long) setHframes;
+		@GodotName("get_hframes") GodotMethod!(long) getHframes;
+		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
+	}
 	bool opEquals(in Sprite other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Sprite opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,245 +80,213 @@ public:
 		return cast(Sprite)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("Sprite", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("Sprite", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_normal_map") = _GODOT_set_normal_map;
 	/**
 	
 	*/
 	void setNormalMap(Texture normal_map)
 	{
-		_GODOT_set_normal_map.bind("Sprite", "set_normal_map");
-		ptrcall!(void)(_GODOT_set_normal_map, _godot_object, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_normal_map") = _GODOT_get_normal_map;
 	/**
 	
 	*/
 	Ref!Texture getNormalMap() const
 	{
-		_GODOT_get_normal_map.bind("Sprite", "get_normal_map");
-		return ptrcall!(Texture)(_GODOT_get_normal_map, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_centered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_centered") = _GODOT_set_centered;
 	/**
 	
 	*/
 	void setCentered(in bool centered)
 	{
-		_GODOT_set_centered.bind("Sprite", "set_centered");
-		ptrcall!(void)(_GODOT_set_centered, _godot_object, centered);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_centered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_centered") = _GODOT_is_centered;
 	/**
 	
 	*/
 	bool isCentered() const
 	{
-		_GODOT_is_centered.bind("Sprite", "is_centered");
-		return ptrcall!(bool)(_GODOT_is_centered, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_offset") = _GODOT_set_offset;
 	/**
 	
 	*/
 	void setOffset(in Vector2 offset)
 	{
-		_GODOT_set_offset.bind("Sprite", "set_offset");
-		ptrcall!(void)(_GODOT_set_offset, _godot_object, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset") = _GODOT_get_offset;
 	/**
 	
 	*/
 	Vector2 getOffset() const
 	{
-		_GODOT_get_offset.bind("Sprite", "get_offset");
-		return ptrcall!(Vector2)(_GODOT_get_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_flip_h;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_flip_h") = _GODOT_set_flip_h;
 	/**
 	
 	*/
 	void setFlipH(in bool flip_h)
 	{
-		_GODOT_set_flip_h.bind("Sprite", "set_flip_h");
-		ptrcall!(void)(_GODOT_set_flip_h, _godot_object, flip_h);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_flipped_h;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_flipped_h") = _GODOT_is_flipped_h;
 	/**
 	
 	*/
 	bool isFlippedH() const
 	{
-		_GODOT_is_flipped_h.bind("Sprite", "is_flipped_h");
-		return ptrcall!(bool)(_GODOT_is_flipped_h, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_flip_v;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_flip_v") = _GODOT_set_flip_v;
 	/**
 	
 	*/
 	void setFlipV(in bool flip_v)
 	{
-		_GODOT_set_flip_v.bind("Sprite", "set_flip_v");
-		ptrcall!(void)(_GODOT_set_flip_v, _godot_object, flip_v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_flipped_v;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_flipped_v") = _GODOT_is_flipped_v;
 	/**
 	
 	*/
 	bool isFlippedV() const
 	{
-		_GODOT_is_flipped_v.bind("Sprite", "is_flipped_v");
-		return ptrcall!(bool)(_GODOT_is_flipped_v, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region") = _GODOT_set_region;
 	/**
 	
 	*/
 	void setRegion(in bool enabled)
 	{
-		_GODOT_set_region.bind("Sprite", "set_region");
-		ptrcall!(void)(_GODOT_set_region, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegion, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_region") = _GODOT_is_region;
 	/**
 	
 	*/
 	bool isRegion() const
 	{
-		_GODOT_is_region.bind("Sprite", "is_region");
-		return ptrcall!(bool)(_GODOT_is_region, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRegion, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_rect") = _GODOT_set_region_rect;
+	/**
+	
+	*/
+	bool isPixelOpaque(in Vector2 pos) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPixelOpaque, _godot_object, pos);
+	}
 	/**
 	
 	*/
 	void setRegionRect(in Rect2 rect)
 	{
-		_GODOT_set_region_rect.bind("Sprite", "set_region_rect");
-		ptrcall!(void)(_GODOT_set_region_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_rect") = _GODOT_get_region_rect;
 	/**
 	
 	*/
 	Rect2 getRegionRect() const
 	{
-		_GODOT_get_region_rect.bind("Sprite", "get_region_rect");
-		return ptrcall!(Rect2)(_GODOT_get_region_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_region_filter_clip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_filter_clip") = _GODOT_set_region_filter_clip;
 	/**
 	
 	*/
 	void setRegionFilterClip(in bool enabled)
 	{
-		_GODOT_set_region_filter_clip.bind("Sprite", "set_region_filter_clip");
-		ptrcall!(void)(_GODOT_set_region_filter_clip, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionFilterClip, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_region_filter_clip_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_region_filter_clip_enabled") = _GODOT_is_region_filter_clip_enabled;
 	/**
 	
 	*/
 	bool isRegionFilterClipEnabled() const
 	{
-		_GODOT_is_region_filter_clip_enabled.bind("Sprite", "is_region_filter_clip_enabled");
-		return ptrcall!(bool)(_GODOT_is_region_filter_clip_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRegionFilterClipEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_frame") = _GODOT_set_frame;
 	/**
 	
 	*/
 	void setFrame(in long frame)
 	{
-		_GODOT_set_frame.bind("Sprite", "set_frame");
-		ptrcall!(void)(_GODOT_set_frame, _godot_object, frame);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame") = _GODOT_get_frame;
 	/**
 	
 	*/
 	long getFrame() const
 	{
-		_GODOT_get_frame.bind("Sprite", "get_frame");
-		return ptrcall!(long)(_GODOT_get_frame, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_vframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vframes") = _GODOT_set_vframes;
 	/**
 	
 	*/
 	void setVframes(in long vframes)
 	{
-		_GODOT_set_vframes.bind("Sprite", "set_vframes");
-		ptrcall!(void)(_GODOT_set_vframes, _godot_object, vframes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVframes, _godot_object, vframes);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_vframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vframes") = _GODOT_get_vframes;
 	/**
 	
 	*/
 	long getVframes() const
 	{
-		_GODOT_get_vframes.bind("Sprite", "get_vframes");
-		return ptrcall!(long)(_GODOT_get_vframes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVframes, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_hframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hframes") = _GODOT_set_hframes;
 	/**
 	
 	*/
 	void setHframes(in long hframes)
 	{
-		_GODOT_set_hframes.bind("Sprite", "set_hframes");
-		ptrcall!(void)(_GODOT_set_hframes, _godot_object, hframes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHframes, _godot_object, hframes);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_hframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hframes") = _GODOT_get_hframes;
 	/**
 	
 	*/
 	long getHframes() const
 	{
-		_GODOT_get_hframes.bind("Sprite", "get_hframes");
-		return ptrcall!(long)(_GODOT_get_hframes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHframes, _godot_object);
+	}
+	/**
+	Returns a Rect2 representing the Sprite's boundary relative to its local coordinates.
+	*/
+	Rect2 getRect() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
 	}
 	/**
 	$(D Texture) object to draw.

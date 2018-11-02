@@ -26,6 +26,7 @@ import godot.shadermaterial;
 import godot.shape2d;
 import godot.navigationpolygon;
 import godot.occluderpolygon2d;
+import godot.reference;
 /**
 Tile library for tilemaps.
 
@@ -34,12 +35,67 @@ Tiles are referenced by a unique integer ID.
 */
 @GodotBaseClass struct TileSet
 {
-	static immutable string _GODOT_internal_name = "TileSet";
+	enum string _GODOT_internal_name = "TileSet";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_is_tile_bound") GodotMethod!(bool, long, long) _isTileBound;
+		@GodotName("_forward_subtile_selection") GodotMethod!(Vector2, long, long, GodotObject, Vector2) _forwardSubtileSelection;
+		@GodotName("create_tile") GodotMethod!(void, long) createTile;
+		@GodotName("autotile_set_bitmask_mode") GodotMethod!(void, long, long) autotileSetBitmaskMode;
+		@GodotName("autotile_get_bitmask_mode") GodotMethod!(TileSet.BitmaskMode, long) autotileGetBitmaskMode;
+		@GodotName("autotile_set_size") GodotMethod!(void, long, Vector2) autotileSetSize;
+		@GodotName("autotile_get_size") GodotMethod!(Vector2, long) autotileGetSize;
+		@GodotName("tile_set_name") GodotMethod!(void, long, String) tileSetName;
+		@GodotName("tile_get_name") GodotMethod!(String, long) tileGetName;
+		@GodotName("tile_set_texture") GodotMethod!(void, long, Texture) tileSetTexture;
+		@GodotName("tile_get_texture") GodotMethod!(Texture, long) tileGetTexture;
+		@GodotName("tile_set_normal_map") GodotMethod!(void, long, Texture) tileSetNormalMap;
+		@GodotName("tile_get_normal_map") GodotMethod!(Texture, long) tileGetNormalMap;
+		@GodotName("tile_set_material") GodotMethod!(void, long, ShaderMaterial) tileSetMaterial;
+		@GodotName("tile_get_material") GodotMethod!(ShaderMaterial, long) tileGetMaterial;
+		@GodotName("tile_set_modulate") GodotMethod!(void, long, Color) tileSetModulate;
+		@GodotName("tile_get_modulate") GodotMethod!(Color, long) tileGetModulate;
+		@GodotName("tile_set_texture_offset") GodotMethod!(void, long, Vector2) tileSetTextureOffset;
+		@GodotName("tile_get_texture_offset") GodotMethod!(Vector2, long) tileGetTextureOffset;
+		@GodotName("tile_set_region") GodotMethod!(void, long, Rect2) tileSetRegion;
+		@GodotName("tile_get_region") GodotMethod!(Rect2, long) tileGetRegion;
+		@GodotName("tile_set_shape") GodotMethod!(void, long, long, Shape2D) tileSetShape;
+		@GodotName("tile_get_shape") GodotMethod!(Shape2D, long, long) tileGetShape;
+		@GodotName("tile_set_shape_offset") GodotMethod!(void, long, long, Vector2) tileSetShapeOffset;
+		@GodotName("tile_get_shape_offset") GodotMethod!(Vector2, long, long) tileGetShapeOffset;
+		@GodotName("tile_set_shape_transform") GodotMethod!(void, long, long, Transform2D) tileSetShapeTransform;
+		@GodotName("tile_get_shape_transform") GodotMethod!(Transform2D, long, long) tileGetShapeTransform;
+		@GodotName("tile_set_shape_one_way") GodotMethod!(void, long, long, bool) tileSetShapeOneWay;
+		@GodotName("tile_get_shape_one_way") GodotMethod!(bool, long, long) tileGetShapeOneWay;
+		@GodotName("tile_add_shape") GodotMethod!(void, long, Shape2D, Transform2D, bool, Vector2) tileAddShape;
+		@GodotName("tile_get_shape_count") GodotMethod!(long, long) tileGetShapeCount;
+		@GodotName("tile_set_shapes") GodotMethod!(void, long, Array) tileSetShapes;
+		@GodotName("tile_get_shapes") GodotMethod!(Array, long) tileGetShapes;
+		@GodotName("tile_set_tile_mode") GodotMethod!(void, long, long) tileSetTileMode;
+		@GodotName("tile_get_tile_mode") GodotMethod!(TileSet.TileMode, long) tileGetTileMode;
+		@GodotName("tile_set_navigation_polygon") GodotMethod!(void, long, NavigationPolygon) tileSetNavigationPolygon;
+		@GodotName("tile_get_navigation_polygon") GodotMethod!(NavigationPolygon, long) tileGetNavigationPolygon;
+		@GodotName("tile_set_navigation_polygon_offset") GodotMethod!(void, long, Vector2) tileSetNavigationPolygonOffset;
+		@GodotName("tile_get_navigation_polygon_offset") GodotMethod!(Vector2, long) tileGetNavigationPolygonOffset;
+		@GodotName("tile_set_light_occluder") GodotMethod!(void, long, OccluderPolygon2D) tileSetLightOccluder;
+		@GodotName("tile_get_light_occluder") GodotMethod!(OccluderPolygon2D, long) tileGetLightOccluder;
+		@GodotName("tile_set_occluder_offset") GodotMethod!(void, long, Vector2) tileSetOccluderOffset;
+		@GodotName("tile_get_occluder_offset") GodotMethod!(Vector2, long) tileGetOccluderOffset;
+		@GodotName("tile_set_z_index") GodotMethod!(void, long, long) tileSetZIndex;
+		@GodotName("tile_get_z_index") GodotMethod!(long, long) tileGetZIndex;
+		@GodotName("remove_tile") GodotMethod!(void, long) removeTile;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("get_last_unused_tile_id") GodotMethod!(long) getLastUnusedTileId;
+		@GodotName("find_tile_by_name") GodotMethod!(long, String) findTileByName;
+		@GodotName("get_tiles_ids") GodotMethod!(Array) getTilesIds;
+	}
 	bool opEquals(in TileSet other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TileSet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -52,6 +108,22 @@ public:
 		return cast(TileSet)(constructor());
 	}
 	@disable new(size_t s);
+	/// 
+	enum TileMode : int
+	{
+		/**
+		
+		*/
+		singleTile = 0,
+		/**
+		
+		*/
+		autoTile = 1,
+		/**
+		
+		*/
+		atlasTile = 2,
+	}
 	/// 
 	enum AutotileBindings : int
 	{
@@ -98,15 +170,23 @@ public:
 		/**
 		
 		*/
-		bitmask3x3 = 1,
+		bitmask3x3Minimal = 1,
+		/**
+		
+		*/
+		bitmask3x3 = 2,
 	}
 	/// 
 	enum Constants : int
 	{
+		singleTile = 0,
 		bitmask2x2 = 0,
+		bitmask3x3Minimal = 1,
 		bindTopleft = 1,
-		bitmask3x3 = 1,
+		autoTile = 1,
 		bindTop = 2,
+		bitmask3x3 = 2,
+		atlasTile = 2,
 		bindTopright = 4,
 		bindLeft = 8,
 		bindRight = 32,
@@ -114,8 +194,6 @@ public:
 		bindBottom = 128,
 		bindBottomright = 256,
 	}
-	package(godot) static GodotMethod!(bool, long, long) _GODOT__is_tile_bound;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_is_tile_bound") = _GODOT__is_tile_bound;
 	/**
 	
 	*/
@@ -127,8 +205,6 @@ public:
 		String _GODOT_method_name = String("_is_tile_bound");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(Vector2, long, long, GodotObject, Vector2) _GODOT__forward_subtile_selection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_forward_subtile_selection") = _GODOT__forward_subtile_selection;
 	/**
 	
 	*/
@@ -142,384 +218,388 @@ public:
 		String _GODOT_method_name = String("_forward_subtile_selection");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_create_tile;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_tile") = _GODOT_create_tile;
 	/**
-	Create a new tile which will be referenced by the given ID.
+	Creates a new tile with the given ID.
 	*/
 	void createTile(in long id)
 	{
-		_GODOT_create_tile.bind("TileSet", "create_tile");
-		ptrcall!(void)(_GODOT_create_tile, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.createTile, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_autotile_set_bitmask_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "autotile_set_bitmask_mode") = _GODOT_autotile_set_bitmask_mode;
 	/**
 	
 	*/
 	void autotileSetBitmaskMode(in long id, in long mode)
 	{
-		_GODOT_autotile_set_bitmask_mode.bind("TileSet", "autotile_set_bitmask_mode");
-		ptrcall!(void)(_GODOT_autotile_set_bitmask_mode, _godot_object, id, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetBitmaskMode, _godot_object, id, mode);
 	}
-	package(godot) static GodotMethod!(TileSet.BitmaskMode, long) _GODOT_autotile_get_bitmask_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "autotile_get_bitmask_mode") = _GODOT_autotile_get_bitmask_mode;
 	/**
 	
 	*/
 	TileSet.BitmaskMode autotileGetBitmaskMode(in long id) const
 	{
-		_GODOT_autotile_get_bitmask_mode.bind("TileSet", "autotile_get_bitmask_mode");
-		return ptrcall!(TileSet.BitmaskMode)(_GODOT_autotile_get_bitmask_mode, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TileSet.BitmaskMode)(_classBinding.autotileGetBitmaskMode, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, String) _GODOT_tile_set_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_name") = _GODOT_tile_set_name;
 	/**
-	Set the name of the tile, for descriptive purposes.
+	
+	*/
+	void autotileSetSize(in long id, in Vector2 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetSize, _godot_object, id, size);
+	}
+	/**
+	
+	*/
+	Vector2 autotileGetSize(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.autotileGetSize, _godot_object, id);
+	}
+	/**
+	Sets the tile's name.
 	*/
 	void tileSetName(StringArg1)(in long id, in StringArg1 name)
 	{
-		_GODOT_tile_set_name.bind("TileSet", "tile_set_name");
-		ptrcall!(void)(_GODOT_tile_set_name, _godot_object, id, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetName, _godot_object, id, name);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_tile_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_name") = _GODOT_tile_get_name;
 	/**
-	Return the name of the tile.
+	Returns the tile's name.
 	*/
 	String tileGetName(in long id) const
 	{
-		_GODOT_tile_get_name.bind("TileSet", "tile_get_name");
-		return ptrcall!(String)(_GODOT_tile_get_name, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.tileGetName, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Texture) _GODOT_tile_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_texture") = _GODOT_tile_set_texture;
 	/**
-	Set the texture of the tile.
+	Sets the tile's texture.
 	*/
 	void tileSetTexture(in long id, Texture texture)
 	{
-		_GODOT_tile_set_texture.bind("TileSet", "tile_set_texture");
-		ptrcall!(void)(_GODOT_tile_set_texture, _godot_object, id, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetTexture, _godot_object, id, texture);
 	}
-	package(godot) static GodotMethod!(Texture, long) _GODOT_tile_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_texture") = _GODOT_tile_get_texture;
 	/**
-	Return the texture of the tile.
+	Returns the tile's texture.
 	*/
 	Ref!Texture tileGetTexture(in long id) const
 	{
-		_GODOT_tile_get_texture.bind("TileSet", "tile_get_texture");
-		return ptrcall!(Texture)(_GODOT_tile_get_texture, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.tileGetTexture, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Texture) _GODOT_tile_set_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_normal_map") = _GODOT_tile_set_normal_map;
 	/**
-	
+	Sets the tile's normal map texture.
 	*/
 	void tileSetNormalMap(in long id, Texture normal_map)
 	{
-		_GODOT_tile_set_normal_map.bind("TileSet", "tile_set_normal_map");
-		ptrcall!(void)(_GODOT_tile_set_normal_map, _godot_object, id, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetNormalMap, _godot_object, id, normal_map);
 	}
-	package(godot) static GodotMethod!(Texture, long) _GODOT_tile_get_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_normal_map") = _GODOT_tile_get_normal_map;
 	/**
-	
+	Returns the tile's normal map texture.
 	*/
 	Ref!Texture tileGetNormalMap(in long id) const
 	{
-		_GODOT_tile_get_normal_map.bind("TileSet", "tile_get_normal_map");
-		return ptrcall!(Texture)(_GODOT_tile_get_normal_map, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.tileGetNormalMap, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, ShaderMaterial) _GODOT_tile_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_material") = _GODOT_tile_set_material;
 	/**
-	Set the material of the tile.
+	Sets the tile's material.
 	*/
 	void tileSetMaterial(in long id, ShaderMaterial material)
 	{
-		_GODOT_tile_set_material.bind("TileSet", "tile_set_material");
-		ptrcall!(void)(_GODOT_tile_set_material, _godot_object, id, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetMaterial, _godot_object, id, material);
 	}
-	package(godot) static GodotMethod!(ShaderMaterial, long) _GODOT_tile_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_material") = _GODOT_tile_get_material;
 	/**
-	Return the material of the tile.
+	Returns the tile's material.
 	*/
 	Ref!ShaderMaterial tileGetMaterial(in long id) const
 	{
-		_GODOT_tile_get_material.bind("TileSet", "tile_get_material");
-		return ptrcall!(ShaderMaterial)(_GODOT_tile_get_material, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ShaderMaterial)(_classBinding.tileGetMaterial, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_tile_set_texture_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_texture_offset") = _GODOT_tile_set_texture_offset;
 	/**
-	Set the texture offset of the tile.
+	Sets the tile's modulation color.
+	*/
+	void tileSetModulate(in long id, in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetModulate, _godot_object, id, color);
+	}
+	/**
+	Returns the tile's modulation color.
+	*/
+	Color tileGetModulate(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.tileGetModulate, _godot_object, id);
+	}
+	/**
+	Sets the tile's texture offset.
 	*/
 	void tileSetTextureOffset(in long id, in Vector2 texture_offset)
 	{
-		_GODOT_tile_set_texture_offset.bind("TileSet", "tile_set_texture_offset");
-		ptrcall!(void)(_GODOT_tile_set_texture_offset, _godot_object, id, texture_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetTextureOffset, _godot_object, id, texture_offset);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_tile_get_texture_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_texture_offset") = _GODOT_tile_get_texture_offset;
 	/**
-	Return the texture offset of the tile.
+	Returns the texture offset of the tile.
 	*/
 	Vector2 tileGetTextureOffset(in long id) const
 	{
-		_GODOT_tile_get_texture_offset.bind("TileSet", "tile_get_texture_offset");
-		return ptrcall!(Vector2)(_GODOT_tile_get_texture_offset, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.tileGetTextureOffset, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Rect2) _GODOT_tile_set_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_region") = _GODOT_tile_set_region;
 	/**
-	Set the tile sub-region in the texture. This is common in texture atlases.
+	Sets the tile's sub-region in the texture. This is common in texture atlases.
 	*/
 	void tileSetRegion(in long id, in Rect2 region)
 	{
-		_GODOT_tile_set_region.bind("TileSet", "tile_set_region");
-		ptrcall!(void)(_GODOT_tile_set_region, _godot_object, id, region);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetRegion, _godot_object, id, region);
 	}
-	package(godot) static GodotMethod!(Rect2, long) _GODOT_tile_get_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_region") = _GODOT_tile_get_region;
 	/**
-	Return the tile sub-region in the texture.
+	Returns the tile sub-region in the texture.
 	*/
 	Rect2 tileGetRegion(in long id) const
 	{
-		_GODOT_tile_get_region.bind("TileSet", "tile_get_region");
-		return ptrcall!(Rect2)(_GODOT_tile_get_region, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.tileGetRegion, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, long, Shape2D) _GODOT_tile_set_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_shape") = _GODOT_tile_set_shape;
 	/**
-	
+	Sets a shape for the tile, enabling collision.
 	*/
 	void tileSetShape(in long id, in long shape_id, Shape2D shape)
 	{
-		_GODOT_tile_set_shape.bind("TileSet", "tile_set_shape");
-		ptrcall!(void)(_GODOT_tile_set_shape, _godot_object, id, shape_id, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShape, _godot_object, id, shape_id, shape);
 	}
-	package(godot) static GodotMethod!(Shape2D, long, long) _GODOT_tile_get_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_shape") = _GODOT_tile_get_shape;
 	/**
-	
+	Returns a tile's given shape.
 	*/
 	Ref!Shape2D tileGetShape(in long id, in long shape_id) const
 	{
-		_GODOT_tile_get_shape.bind("TileSet", "tile_get_shape");
-		return ptrcall!(Shape2D)(_GODOT_tile_get_shape, _godot_object, id, shape_id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape2D)(_classBinding.tileGetShape, _godot_object, id, shape_id);
 	}
-	package(godot) static GodotMethod!(void, long, long, Transform2D) _GODOT_tile_set_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_shape_transform") = _GODOT_tile_set_shape_transform;
 	/**
-	
+	Sets the offset of a tile's shape.
+	*/
+	void tileSetShapeOffset(in long id, in long shape_id, in Vector2 shape_offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShapeOffset, _godot_object, id, shape_id, shape_offset);
+	}
+	/**
+	Returns the offset of a tile's shape.
+	*/
+	Vector2 tileGetShapeOffset(in long id, in long shape_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.tileGetShapeOffset, _godot_object, id, shape_id);
+	}
+	/**
+	Sets a $(D Transform2D) on a tile's shape.
 	*/
 	void tileSetShapeTransform(in long id, in long shape_id, in Transform2D shape_transform)
 	{
-		_GODOT_tile_set_shape_transform.bind("TileSet", "tile_set_shape_transform");
-		ptrcall!(void)(_GODOT_tile_set_shape_transform, _godot_object, id, shape_id, shape_transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShapeTransform, _godot_object, id, shape_id, shape_transform);
 	}
-	package(godot) static GodotMethod!(Transform2D, long, long) _GODOT_tile_get_shape_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_shape_transform") = _GODOT_tile_get_shape_transform;
 	/**
-	
+	Returns the $(D Transform2D) of a tile's shape.
 	*/
 	Transform2D tileGetShapeTransform(in long id, in long shape_id) const
 	{
-		_GODOT_tile_get_shape_transform.bind("TileSet", "tile_get_shape_transform");
-		return ptrcall!(Transform2D)(_GODOT_tile_get_shape_transform, _godot_object, id, shape_id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.tileGetShapeTransform, _godot_object, id, shape_id);
 	}
-	package(godot) static GodotMethod!(void, long, long, bool) _GODOT_tile_set_shape_one_way;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_shape_one_way") = _GODOT_tile_set_shape_one_way;
 	/**
-	
+	Enables one-way collision on a tile's shape.
 	*/
 	void tileSetShapeOneWay(in long id, in long shape_id, in bool one_way)
 	{
-		_GODOT_tile_set_shape_one_way.bind("TileSet", "tile_set_shape_one_way");
-		ptrcall!(void)(_GODOT_tile_set_shape_one_way, _godot_object, id, shape_id, one_way);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShapeOneWay, _godot_object, id, shape_id, one_way);
 	}
-	package(godot) static GodotMethod!(bool, long, long) _GODOT_tile_get_shape_one_way;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_shape_one_way") = _GODOT_tile_get_shape_one_way;
 	/**
-	
+	Returns the one-way collision value of a tile's shape.
 	*/
 	bool tileGetShapeOneWay(in long id, in long shape_id) const
 	{
-		_GODOT_tile_get_shape_one_way.bind("TileSet", "tile_get_shape_one_way");
-		return ptrcall!(bool)(_GODOT_tile_get_shape_one_way, _godot_object, id, shape_id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.tileGetShapeOneWay, _godot_object, id, shape_id);
 	}
-	package(godot) static GodotMethod!(void, long, Shape2D, Transform2D, bool, Vector2) _GODOT_tile_add_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_add_shape") = _GODOT_tile_add_shape;
 	/**
-	
+	Adds a shape to the tile.
 	*/
 	void tileAddShape(in long id, Shape2D shape, in Transform2D shape_transform, in bool one_way = false, in Vector2 autotile_coord = Vector2(0, 0))
 	{
-		_GODOT_tile_add_shape.bind("TileSet", "tile_add_shape");
-		ptrcall!(void)(_GODOT_tile_add_shape, _godot_object, id, shape, shape_transform, one_way, autotile_coord);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileAddShape, _godot_object, id, shape, shape_transform, one_way, autotile_coord);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_tile_get_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_shape_count") = _GODOT_tile_get_shape_count;
 	/**
-	
+	Returns the number of shapes assigned to a tile.
 	*/
 	long tileGetShapeCount(in long id) const
 	{
-		_GODOT_tile_get_shape_count.bind("TileSet", "tile_get_shape_count");
-		return ptrcall!(long)(_GODOT_tile_get_shape_count, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.tileGetShapeCount, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Array) _GODOT_tile_set_shapes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_shapes") = _GODOT_tile_set_shapes;
 	/**
-	Set an array of shapes for the tile, enabling physics to collide with it.
+	Sets an array of shapes for the tile, enabling collision.
 	*/
 	void tileSetShapes(in long id, in Array shapes)
 	{
-		_GODOT_tile_set_shapes.bind("TileSet", "tile_set_shapes");
-		ptrcall!(void)(_GODOT_tile_set_shapes, _godot_object, id, shapes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShapes, _godot_object, id, shapes);
 	}
-	package(godot) static GodotMethod!(Array, long) _GODOT_tile_get_shapes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_shapes") = _GODOT_tile_get_shapes;
 	/**
-	Return the array of shapes of the tile.
+	Returns an array of the tile's shapes.
 	*/
 	Array tileGetShapes(in long id) const
 	{
-		_GODOT_tile_get_shapes.bind("TileSet", "tile_get_shapes");
-		return ptrcall!(Array)(_GODOT_tile_get_shapes, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.tileGetShapes, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, NavigationPolygon) _GODOT_tile_set_navigation_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_navigation_polygon") = _GODOT_tile_set_navigation_polygon;
 	/**
-	Set a navigation polygon for the tile.
+	Sets the tile's $(D tilemode).
+	*/
+	void tileSetTileMode(in long id, in long tilemode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetTileMode, _godot_object, id, tilemode);
+	}
+	/**
+	Returns the tile's $(D tilemode).
+	*/
+	TileSet.TileMode tileGetTileMode(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TileSet.TileMode)(_classBinding.tileGetTileMode, _godot_object, id);
+	}
+	/**
+	Sets the tile's navigation polygon.
 	*/
 	void tileSetNavigationPolygon(in long id, NavigationPolygon navigation_polygon)
 	{
-		_GODOT_tile_set_navigation_polygon.bind("TileSet", "tile_set_navigation_polygon");
-		ptrcall!(void)(_GODOT_tile_set_navigation_polygon, _godot_object, id, navigation_polygon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetNavigationPolygon, _godot_object, id, navigation_polygon);
 	}
-	package(godot) static GodotMethod!(NavigationPolygon, long) _GODOT_tile_get_navigation_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_navigation_polygon") = _GODOT_tile_get_navigation_polygon;
 	/**
-	Return the navigation polygon of the tile.
+	Returns the navigation polygon of the tile.
 	*/
 	Ref!NavigationPolygon tileGetNavigationPolygon(in long id) const
 	{
-		_GODOT_tile_get_navigation_polygon.bind("TileSet", "tile_get_navigation_polygon");
-		return ptrcall!(NavigationPolygon)(_GODOT_tile_get_navigation_polygon, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NavigationPolygon)(_classBinding.tileGetNavigationPolygon, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_tile_set_navigation_polygon_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_navigation_polygon_offset") = _GODOT_tile_set_navigation_polygon_offset;
 	/**
-	Set an offset for the tile's navigation polygon.
+	Sets an offset for the tile's navigation polygon.
 	*/
 	void tileSetNavigationPolygonOffset(in long id, in Vector2 navigation_polygon_offset)
 	{
-		_GODOT_tile_set_navigation_polygon_offset.bind("TileSet", "tile_set_navigation_polygon_offset");
-		ptrcall!(void)(_GODOT_tile_set_navigation_polygon_offset, _godot_object, id, navigation_polygon_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetNavigationPolygonOffset, _godot_object, id, navigation_polygon_offset);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_tile_get_navigation_polygon_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_navigation_polygon_offset") = _GODOT_tile_get_navigation_polygon_offset;
 	/**
-	Return the offset of the tile's navigation polygon.
+	Returns the offset of the tile's navigation polygon.
 	*/
 	Vector2 tileGetNavigationPolygonOffset(in long id) const
 	{
-		_GODOT_tile_get_navigation_polygon_offset.bind("TileSet", "tile_get_navigation_polygon_offset");
-		return ptrcall!(Vector2)(_GODOT_tile_get_navigation_polygon_offset, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.tileGetNavigationPolygonOffset, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, OccluderPolygon2D) _GODOT_tile_set_light_occluder;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_light_occluder") = _GODOT_tile_set_light_occluder;
 	/**
-	Set a light occluder for the tile.
+	Sets a light occluder for the tile.
 	*/
 	void tileSetLightOccluder(in long id, OccluderPolygon2D light_occluder)
 	{
-		_GODOT_tile_set_light_occluder.bind("TileSet", "tile_set_light_occluder");
-		ptrcall!(void)(_GODOT_tile_set_light_occluder, _godot_object, id, light_occluder);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetLightOccluder, _godot_object, id, light_occluder);
 	}
-	package(godot) static GodotMethod!(OccluderPolygon2D, long) _GODOT_tile_get_light_occluder;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_light_occluder") = _GODOT_tile_get_light_occluder;
 	/**
-	Return the light occluder of the tile.
+	Returns the tile's light occluder.
 	*/
 	Ref!OccluderPolygon2D tileGetLightOccluder(in long id) const
 	{
-		_GODOT_tile_get_light_occluder.bind("TileSet", "tile_get_light_occluder");
-		return ptrcall!(OccluderPolygon2D)(_GODOT_tile_get_light_occluder, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OccluderPolygon2D)(_classBinding.tileGetLightOccluder, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_tile_set_occluder_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_set_occluder_offset") = _GODOT_tile_set_occluder_offset;
 	/**
-	Set an offset for the tile's light occluder.
+	Sets an offset for the tile's light occluder.
 	*/
 	void tileSetOccluderOffset(in long id, in Vector2 occluder_offset)
 	{
-		_GODOT_tile_set_occluder_offset.bind("TileSet", "tile_set_occluder_offset");
-		ptrcall!(void)(_GODOT_tile_set_occluder_offset, _godot_object, id, occluder_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetOccluderOffset, _godot_object, id, occluder_offset);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_tile_get_occluder_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tile_get_occluder_offset") = _GODOT_tile_get_occluder_offset;
 	/**
-	Return the offset of the tile's light occluder.
+	Returns the offset of the tile's light occluder.
 	*/
 	Vector2 tileGetOccluderOffset(in long id) const
 	{
-		_GODOT_tile_get_occluder_offset.bind("TileSet", "tile_get_occluder_offset");
-		return ptrcall!(Vector2)(_GODOT_tile_get_occluder_offset, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.tileGetOccluderOffset, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_tile;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_tile") = _GODOT_remove_tile;
 	/**
-	Remove the tile referenced by the given ID.
+	Sets the tile's drawing index.
+	*/
+	void tileSetZIndex(in long id, in long z_index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetZIndex, _godot_object, id, z_index);
+	}
+	/**
+	Returns the tile's z-index (drawing layer).
+	*/
+	long tileGetZIndex(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.tileGetZIndex, _godot_object, id);
+	}
+	/**
+	Removes the given tile ID.
 	*/
 	void removeTile(in long id)
 	{
-		_GODOT_remove_tile.bind("TileSet", "remove_tile");
-		ptrcall!(void)(_GODOT_remove_tile, _godot_object, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeTile, _godot_object, id);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
-	Clear all tiles.
+	Clears all tiles.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("TileSet", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_last_unused_tile_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_unused_tile_id") = _GODOT_get_last_unused_tile_id;
 	/**
-	Return the ID following the last currently used ID, useful when creating a new tile.
+	Returns the ID following the last currently used ID, useful when creating a new tile.
 	*/
 	long getLastUnusedTileId() const
 	{
-		_GODOT_get_last_unused_tile_id.bind("TileSet", "get_last_unused_tile_id");
-		return ptrcall!(long)(_GODOT_get_last_unused_tile_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLastUnusedTileId, _godot_object);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_find_tile_by_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_tile_by_name") = _GODOT_find_tile_by_name;
 	/**
-	Find the first tile matching the given name.
+	Returns the first tile matching the given name.
 	*/
 	long findTileByName(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_find_tile_by_name.bind("TileSet", "find_tile_by_name");
-		return ptrcall!(long)(_GODOT_find_tile_by_name, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.findTileByName, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_tiles_ids;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tiles_ids") = _GODOT_get_tiles_ids;
 	/**
-	Return an array of all currently used tile IDs.
+	Returns an array of all currently used tile IDs.
 	*/
 	Array getTilesIds() const
 	{
-		_GODOT_get_tiles_ids.bind("TileSet", "get_tiles_ids");
-		return ptrcall!(Array)(_GODOT_get_tiles_ids, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getTilesIds, _godot_object);
 	}
 }

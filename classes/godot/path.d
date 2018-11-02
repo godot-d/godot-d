@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.curve3d;
+import godot.node;
 /**
 Container for a $(D Curve3D).
 
@@ -29,12 +30,20 @@ This class is a container/Node-ification of a $(D Curve3D), so it can have $(D S
 */
 @GodotBaseClass struct Path
 {
-	static immutable string _GODOT_internal_name = "Path";
+	enum string _GODOT_internal_name = "Path";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_curve") GodotMethod!(void, Curve3D) setCurve;
+		@GodotName("get_curve") GodotMethod!(Curve3D) getCurve;
+		@GodotName("_curve_changed") GodotMethod!(void) _curveChanged;
+	}
 	bool opEquals(in Path other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Path opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,28 +56,22 @@ public:
 		return cast(Path)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Curve3D) _GODOT_set_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_curve") = _GODOT_set_curve;
 	/**
 	
 	*/
 	void setCurve(Curve3D curve)
 	{
-		_GODOT_set_curve.bind("Path", "set_curve");
-		ptrcall!(void)(_GODOT_set_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(Curve3D) _GODOT_get_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_curve") = _GODOT_get_curve;
 	/**
 	
 	*/
 	Ref!Curve3D getCurve() const
 	{
-		_GODOT_get_curve.bind("Path", "get_curve");
-		return ptrcall!(Curve3D)(_GODOT_get_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Curve3D)(_classBinding.getCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__curve_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_curve_changed") = _GODOT__curve_changed;
 	/**
 	
 	*/

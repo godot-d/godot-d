@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.environment;
+import godot.node;
 /**
 Camera node, displays from a point of view.
 
@@ -29,12 +30,54 @@ Camera is a special node that displays what is visible from its current location
 */
 @GodotBaseClass struct Camera
 {
-	static immutable string _GODOT_internal_name = "Camera";
+	enum string _GODOT_internal_name = "Camera";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("project_ray_normal") GodotMethod!(Vector3, Vector2) projectRayNormal;
+		@GodotName("project_local_ray_normal") GodotMethod!(Vector3, Vector2) projectLocalRayNormal;
+		@GodotName("project_ray_origin") GodotMethod!(Vector3, Vector2) projectRayOrigin;
+		@GodotName("unproject_position") GodotMethod!(Vector2, Vector3) unprojectPosition;
+		@GodotName("is_position_behind") GodotMethod!(bool, Vector3) isPositionBehind;
+		@GodotName("project_position") GodotMethod!(Vector3, Vector2) projectPosition;
+		@GodotName("set_perspective") GodotMethod!(void, double, double, double) setPerspective;
+		@GodotName("set_orthogonal") GodotMethod!(void, double, double, double) setOrthogonal;
+		@GodotName("make_current") GodotMethod!(void) makeCurrent;
+		@GodotName("clear_current") GodotMethod!(void, bool) clearCurrent;
+		@GodotName("set_current") GodotMethod!(void, bool) setCurrent;
+		@GodotName("is_current") GodotMethod!(bool) isCurrent;
+		@GodotName("get_camera_transform") GodotMethod!(Transform) getCameraTransform;
+		@GodotName("get_fov") GodotMethod!(double) getFov;
+		@GodotName("get_size") GodotMethod!(double) getSize;
+		@GodotName("get_zfar") GodotMethod!(double) getZfar;
+		@GodotName("get_znear") GodotMethod!(double) getZnear;
+		@GodotName("set_fov") GodotMethod!(void, double) setFov;
+		@GodotName("set_size") GodotMethod!(void, double) setSize;
+		@GodotName("set_zfar") GodotMethod!(void, double) setZfar;
+		@GodotName("set_znear") GodotMethod!(void, double) setZnear;
+		@GodotName("get_projection") GodotMethod!(Camera.Projection) getProjection;
+		@GodotName("set_projection") GodotMethod!(void, long) setProjection;
+		@GodotName("set_h_offset") GodotMethod!(void, double) setHOffset;
+		@GodotName("get_h_offset") GodotMethod!(double) getHOffset;
+		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
+		@GodotName("get_v_offset") GodotMethod!(double) getVOffset;
+		@GodotName("set_cull_mask") GodotMethod!(void, long) setCullMask;
+		@GodotName("get_cull_mask") GodotMethod!(long) getCullMask;
+		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
+		@GodotName("get_environment") GodotMethod!(Environment) getEnvironment;
+		@GodotName("set_keep_aspect_mode") GodotMethod!(void, long) setKeepAspectMode;
+		@GodotName("get_keep_aspect_mode") GodotMethod!(Camera.KeepAspect) getKeepAspectMode;
+		@GodotName("set_doppler_tracking") GodotMethod!(void, long) setDopplerTracking;
+		@GodotName("get_doppler_tracking") GodotMethod!(Camera.DopplerTracking) getDopplerTracking;
+		@GodotName("set_cull_mask_bit") GodotMethod!(void, long, bool) setCullMaskBit;
+		@GodotName("get_cull_mask_bit") GodotMethod!(bool, long) getCullMaskBit;
+	}
 	bool opEquals(in Camera other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Camera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -90,363 +133,309 @@ public:
 	/// 
 	enum Constants : int
 	{
+		keepWidth = 0,
 		dopplerTrackingDisabled = 0,
 		projectionPerspective = 0,
-		keepWidth = 0,
-		dopplerTrackingIdleStep = 1,
 		keepHeight = 1,
+		dopplerTrackingIdleStep = 1,
 		projectionOrthogonal = 1,
 		dopplerTrackingPhysicsStep = 2,
 	}
-	package(godot) static GodotMethod!(Vector3, Vector2) _GODOT_project_ray_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "project_ray_normal") = _GODOT_project_ray_normal;
 	/**
 	Returns a normal vector in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	*/
 	Vector3 projectRayNormal(in Vector2 screen_point) const
 	{
-		_GODOT_project_ray_normal.bind("Camera", "project_ray_normal");
-		return ptrcall!(Vector3)(_GODOT_project_ray_normal, _godot_object, screen_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.projectRayNormal, _godot_object, screen_point);
 	}
-	package(godot) static GodotMethod!(Vector3, Vector2) _GODOT_project_local_ray_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "project_local_ray_normal") = _GODOT_project_local_ray_normal;
 	/**
 	Returns a normal vector from the screen point location directed along the camera. Orthogonal cameras are normalized. Perspective cameras account for perspective, screen width/height, etc.
 	*/
 	Vector3 projectLocalRayNormal(in Vector2 screen_point) const
 	{
-		_GODOT_project_local_ray_normal.bind("Camera", "project_local_ray_normal");
-		return ptrcall!(Vector3)(_GODOT_project_local_ray_normal, _godot_object, screen_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.projectLocalRayNormal, _godot_object, screen_point);
 	}
-	package(godot) static GodotMethod!(Vector3, Vector2) _GODOT_project_ray_origin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "project_ray_origin") = _GODOT_project_ray_origin;
 	/**
 	Returns a 3D position in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	*/
 	Vector3 projectRayOrigin(in Vector2 screen_point) const
 	{
-		_GODOT_project_ray_origin.bind("Camera", "project_ray_origin");
-		return ptrcall!(Vector3)(_GODOT_project_ray_origin, _godot_object, screen_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.projectRayOrigin, _godot_object, screen_point);
 	}
-	package(godot) static GodotMethod!(Vector2, Vector3) _GODOT_unproject_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unproject_position") = _GODOT_unproject_position;
 	/**
 	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in worldspace.
 	*/
 	Vector2 unprojectPosition(in Vector3 world_point) const
 	{
-		_GODOT_unproject_position.bind("Camera", "unproject_position");
-		return ptrcall!(Vector2)(_GODOT_unproject_position, _godot_object, world_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.unprojectPosition, _godot_object, world_point);
 	}
-	package(godot) static GodotMethod!(bool, Vector3) _GODOT_is_position_behind;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_position_behind") = _GODOT_is_position_behind;
 	/**
 	Returns `true` if the given position is behind the Camera. Note that a position which returns `false` may still be outside the Camera's field of view.
 	*/
 	bool isPositionBehind(in Vector3 world_point) const
 	{
-		_GODOT_is_position_behind.bind("Camera", "is_position_behind");
-		return ptrcall!(bool)(_GODOT_is_position_behind, _godot_object, world_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPositionBehind, _godot_object, world_point);
 	}
-	package(godot) static GodotMethod!(Vector3, Vector2) _GODOT_project_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "project_position") = _GODOT_project_position;
 	/**
 	Returns the 3D point in worldspace that maps to the given 2D coordinate in the $(D Viewport) rectangle.
 	*/
 	Vector3 projectPosition(in Vector2 screen_point) const
 	{
-		_GODOT_project_position.bind("Camera", "project_position");
-		return ptrcall!(Vector3)(_GODOT_project_position, _godot_object, screen_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.projectPosition, _godot_object, screen_point);
 	}
-	package(godot) static GodotMethod!(void, double, double, double) _GODOT_set_perspective;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_perspective") = _GODOT_set_perspective;
 	/**
 	Sets the camera projection to perspective mode, by specifying a $(I FOV) Y angle in degrees (FOV means Field of View), and the $(I near) and $(I far) clip planes in worldspace units.
 	*/
 	void setPerspective(in double fov, in double z_near, in double z_far)
 	{
-		_GODOT_set_perspective.bind("Camera", "set_perspective");
-		ptrcall!(void)(_GODOT_set_perspective, _godot_object, fov, z_near, z_far);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPerspective, _godot_object, fov, z_near, z_far);
 	}
-	package(godot) static GodotMethod!(void, double, double, double) _GODOT_set_orthogonal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_orthogonal") = _GODOT_set_orthogonal;
 	/**
 	Sets the camera projection to orthogonal mode, by specifying a width and the $(I near) and $(I far) clip planes in worldspace units. (As a hint, 2D games often use this projection, with values specified in pixels)
 	*/
 	void setOrthogonal(in double size, in double z_near, in double z_far)
 	{
-		_GODOT_set_orthogonal.bind("Camera", "set_orthogonal");
-		ptrcall!(void)(_GODOT_set_orthogonal, _godot_object, size, z_near, z_far);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOrthogonal, _godot_object, size, z_near, z_far);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_make_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_current") = _GODOT_make_current;
 	/**
 	Makes this camera the current Camera for the $(D Viewport) (see class description). If the Camera Node is outside the scene tree, it will attempt to become current once it's added.
 	*/
 	void makeCurrent()
 	{
-		_GODOT_make_current.bind("Camera", "make_current");
-		ptrcall!(void)(_GODOT_make_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_current") = _GODOT_clear_current;
 	/**
 	If this is the current Camera, remove it from being current. If `enable_next` is true, request to make the next Camera current, if any.
 	*/
-	void clearCurrent()
+	void clearCurrent(in bool enable_next = true)
 	{
-		_GODOT_clear_current.bind("Camera", "clear_current");
-		ptrcall!(void)(_GODOT_clear_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearCurrent, _godot_object, enable_next);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current") = _GODOT_set_current;
 	/**
 	
 	*/
 	void setCurrent(in bool arg0)
 	{
-		_GODOT_set_current.bind("Camera", "set_current");
-		ptrcall!(void)(_GODOT_set_current, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrent, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_current;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_current") = _GODOT_is_current;
 	/**
 	
 	*/
 	bool isCurrent() const
 	{
-		_GODOT_is_current.bind("Camera", "is_current");
-		return ptrcall!(bool)(_GODOT_is_current, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform) _GODOT_get_camera_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_camera_transform") = _GODOT_get_camera_transform;
 	/**
 	Gets the camera transform. Subclassed cameras (such as CharacterCamera) may provide different transforms than the $(D Node) transform.
 	*/
 	Transform getCameraTransform() const
 	{
-		_GODOT_get_camera_transform.bind("Camera", "get_camera_transform");
-		return ptrcall!(Transform)(_GODOT_get_camera_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getCameraTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fov;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fov") = _GODOT_get_fov;
 	/**
 	
 	*/
 	double getFov() const
 	{
-		_GODOT_get_fov.bind("Camera", "get_fov");
-		return ptrcall!(double)(_GODOT_get_fov, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFov, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	
 	*/
 	double getSize() const
 	{
-		_GODOT_get_size.bind("Camera", "get_size");
-		return ptrcall!(double)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_zfar;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_zfar") = _GODOT_get_zfar;
 	/**
 	
 	*/
 	double getZfar() const
 	{
-		_GODOT_get_zfar.bind("Camera", "get_zfar");
-		return ptrcall!(double)(_GODOT_get_zfar, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getZfar, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_znear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_znear") = _GODOT_get_znear;
 	/**
 	
 	*/
 	double getZnear() const
 	{
-		_GODOT_get_znear.bind("Camera", "get_znear");
-		return ptrcall!(double)(_GODOT_get_znear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getZnear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fov;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fov") = _GODOT_set_fov;
 	/**
 	
 	*/
 	void setFov(in double arg0)
 	{
-		_GODOT_set_fov.bind("Camera", "set_fov");
-		ptrcall!(void)(_GODOT_set_fov, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFov, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**
 	
 	*/
 	void setSize(in double arg0)
 	{
-		_GODOT_set_size.bind("Camera", "set_size");
-		ptrcall!(void)(_GODOT_set_size, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_zfar;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_zfar") = _GODOT_set_zfar;
 	/**
 	
 	*/
 	void setZfar(in double arg0)
 	{
-		_GODOT_set_zfar.bind("Camera", "set_zfar");
-		ptrcall!(void)(_GODOT_set_zfar, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setZfar, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_znear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_znear") = _GODOT_set_znear;
 	/**
 	
 	*/
 	void setZnear(in double arg0)
 	{
-		_GODOT_set_znear.bind("Camera", "set_znear");
-		ptrcall!(void)(_GODOT_set_znear, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setZnear, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(Camera.Projection) _GODOT_get_projection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_projection") = _GODOT_get_projection;
 	/**
 	
 	*/
 	Camera.Projection getProjection() const
 	{
-		_GODOT_get_projection.bind("Camera", "get_projection");
-		return ptrcall!(Camera.Projection)(_GODOT_get_projection, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera.Projection)(_classBinding.getProjection, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_projection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_projection") = _GODOT_set_projection;
 	/**
 	
 	*/
 	void setProjection(in long arg0)
 	{
-		_GODOT_set_projection.bind("Camera", "set_projection");
-		ptrcall!(void)(_GODOT_set_projection, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProjection, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_offset") = _GODOT_set_h_offset;
 	/**
 	
 	*/
 	void setHOffset(in double ofs)
 	{
-		_GODOT_set_h_offset.bind("Camera", "set_h_offset");
-		ptrcall!(void)(_GODOT_set_h_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_offset") = _GODOT_get_h_offset;
 	/**
 	
 	*/
 	double getHOffset() const
 	{
-		_GODOT_get_h_offset.bind("Camera", "get_h_offset");
-		return ptrcall!(double)(_GODOT_get_h_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_offset") = _GODOT_set_v_offset;
 	/**
 	
 	*/
 	void setVOffset(in double ofs)
 	{
-		_GODOT_set_v_offset.bind("Camera", "set_v_offset");
-		ptrcall!(void)(_GODOT_set_v_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_offset") = _GODOT_get_v_offset;
 	/**
 	
 	*/
 	double getVOffset() const
 	{
-		_GODOT_get_v_offset.bind("Camera", "get_v_offset");
-		return ptrcall!(double)(_GODOT_get_v_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_cull_mask") = _GODOT_set_cull_mask;
 	/**
 	
 	*/
 	void setCullMask(in long mask)
 	{
-		_GODOT_set_cull_mask.bind("Camera", "set_cull_mask");
-		ptrcall!(void)(_GODOT_set_cull_mask, _godot_object, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCullMask, _godot_object, mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cull_mask") = _GODOT_get_cull_mask;
 	/**
 	
 	*/
 	long getCullMask() const
 	{
-		_GODOT_get_cull_mask.bind("Camera", "get_cull_mask");
-		return ptrcall!(long)(_GODOT_get_cull_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCullMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Environment) _GODOT_set_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_environment") = _GODOT_set_environment;
 	/**
 	
 	*/
 	void setEnvironment(Environment env)
 	{
-		_GODOT_set_environment.bind("Camera", "set_environment");
-		ptrcall!(void)(_GODOT_set_environment, _godot_object, env);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
 	}
-	package(godot) static GodotMethod!(Environment) _GODOT_get_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_environment") = _GODOT_get_environment;
 	/**
 	
 	*/
 	Ref!Environment getEnvironment() const
 	{
-		_GODOT_get_environment.bind("Camera", "get_environment");
-		return ptrcall!(Environment)(_GODOT_get_environment, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment)(_classBinding.getEnvironment, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_keep_aspect_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_keep_aspect_mode") = _GODOT_set_keep_aspect_mode;
 	/**
 	
 	*/
 	void setKeepAspectMode(in long mode)
 	{
-		_GODOT_set_keep_aspect_mode.bind("Camera", "set_keep_aspect_mode");
-		ptrcall!(void)(_GODOT_set_keep_aspect_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setKeepAspectMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Camera.KeepAspect) _GODOT_get_keep_aspect_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_keep_aspect_mode") = _GODOT_get_keep_aspect_mode;
 	/**
 	
 	*/
 	Camera.KeepAspect getKeepAspectMode() const
 	{
-		_GODOT_get_keep_aspect_mode.bind("Camera", "get_keep_aspect_mode");
-		return ptrcall!(Camera.KeepAspect)(_GODOT_get_keep_aspect_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera.KeepAspect)(_classBinding.getKeepAspectMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_doppler_tracking;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_doppler_tracking") = _GODOT_set_doppler_tracking;
 	/**
 	
 	*/
 	void setDopplerTracking(in long mode)
 	{
-		_GODOT_set_doppler_tracking.bind("Camera", "set_doppler_tracking");
-		ptrcall!(void)(_GODOT_set_doppler_tracking, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDopplerTracking, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Camera.DopplerTracking) _GODOT_get_doppler_tracking;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_doppler_tracking") = _GODOT_get_doppler_tracking;
 	/**
 	
 	*/
 	Camera.DopplerTracking getDopplerTracking() const
 	{
-		_GODOT_get_doppler_tracking.bind("Camera", "get_doppler_tracking");
-		return ptrcall!(Camera.DopplerTracking)(_GODOT_get_doppler_tracking, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera.DopplerTracking)(_classBinding.getDopplerTracking, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCullMaskBit(in long layer, in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCullMaskBit, _godot_object, layer, enable);
+	}
+	/**
+	
+	*/
+	bool getCullMaskBit(in long layer) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCullMaskBit, _godot_object, layer);
 	}
 	/**
 	The axis to lock during $(D fov)/$(D size) adjustments. Can be either `KEEP_WIDTH` or `KEEP_HEIGHT`.

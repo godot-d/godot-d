@@ -21,6 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.boxcontainer;
+import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Vertical box container.
 
@@ -28,12 +32,17 @@ See $(D BoxContainer).
 */
 @GodotBaseClass struct VBoxContainer
 {
-	static immutable string _GODOT_internal_name = "VBoxContainer";
+	enum string _GODOT_internal_name = "VBoxContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; BoxContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
 	bool opEquals(in VBoxContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VBoxContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }

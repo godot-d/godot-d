@@ -29,12 +29,39 @@ Plays background audio.
 */
 @GodotBaseClass struct AudioStreamPlayer
 {
-	static immutable string _GODOT_internal_name = "AudioStreamPlayer";
+	enum string _GODOT_internal_name = "AudioStreamPlayer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_stream") GodotMethod!(void, AudioStream) setStream;
+		@GodotName("get_stream") GodotMethod!(AudioStream) getStream;
+		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
+		@GodotName("get_volume_db") GodotMethod!(double) getVolumeDb;
+		@GodotName("set_pitch_scale") GodotMethod!(void, double) setPitchScale;
+		@GodotName("get_pitch_scale") GodotMethod!(double) getPitchScale;
+		@GodotName("play") GodotMethod!(void, double) play;
+		@GodotName("seek") GodotMethod!(void, double) seek;
+		@GodotName("stop") GodotMethod!(void) stop;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("get_playback_position") GodotMethod!(double) getPlaybackPosition;
+		@GodotName("set_bus") GodotMethod!(void, String) setBus;
+		@GodotName("get_bus") GodotMethod!(String) getBus;
+		@GodotName("set_autoplay") GodotMethod!(void, bool) setAutoplay;
+		@GodotName("is_autoplay_enabled") GodotMethod!(bool) isAutoplayEnabled;
+		@GodotName("set_mix_target") GodotMethod!(void, long) setMixTarget;
+		@GodotName("get_mix_target") GodotMethod!(AudioStreamPlayer.MixTarget) getMixTarget;
+		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
+		@GodotName("_is_active") GodotMethod!(bool) _isActive;
+		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
+		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
+		@GodotName("get_stream_paused") GodotMethod!(bool) getStreamPaused;
+	}
 	bool opEquals(in AudioStreamPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -70,178 +97,142 @@ public:
 		mixTargetSurround = 1,
 		mixTargetCenter = 2,
 	}
-	package(godot) static GodotMethod!(void, AudioStream) _GODOT_set_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stream") = _GODOT_set_stream;
 	/**
 	
 	*/
 	void setStream(AudioStream stream)
 	{
-		_GODOT_set_stream.bind("AudioStreamPlayer", "set_stream");
-		ptrcall!(void)(_GODOT_set_stream, _godot_object, stream);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
 	}
-	package(godot) static GodotMethod!(AudioStream) _GODOT_get_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stream") = _GODOT_get_stream;
 	/**
 	
 	*/
 	Ref!AudioStream getStream() const
 	{
-		_GODOT_get_stream.bind("AudioStreamPlayer", "get_stream");
-		return ptrcall!(AudioStream)(_GODOT_get_stream, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStream)(_classBinding.getStream, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_volume_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_volume_db") = _GODOT_set_volume_db;
 	/**
 	
 	*/
 	void setVolumeDb(in double volume_db)
 	{
-		_GODOT_set_volume_db.bind("AudioStreamPlayer", "set_volume_db");
-		ptrcall!(void)(_GODOT_set_volume_db, _godot_object, volume_db);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume_db);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_volume_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_volume_db") = _GODOT_get_volume_db;
 	/**
 	
 	*/
 	double getVolumeDb() const
 	{
-		_GODOT_get_volume_db.bind("AudioStreamPlayer", "get_volume_db");
-		return ptrcall!(double)(_GODOT_get_volume_db, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVolumeDb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_pitch_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pitch_scale") = _GODOT_set_pitch_scale;
 	/**
 	
 	*/
 	void setPitchScale(in double pitch_scale)
 	{
-		_GODOT_set_pitch_scale.bind("AudioStreamPlayer", "set_pitch_scale");
-		ptrcall!(void)(_GODOT_set_pitch_scale, _godot_object, pitch_scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPitchScale, _godot_object, pitch_scale);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_pitch_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pitch_scale") = _GODOT_get_pitch_scale;
 	/**
 	
 	*/
 	double getPitchScale() const
 	{
-		_GODOT_get_pitch_scale.bind("AudioStreamPlayer", "get_pitch_scale");
-		return ptrcall!(double)(_GODOT_get_pitch_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPitchScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_play;
-	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
 	Plays the audio from the given position 'from_position', in seconds.
 	*/
 	void play(in double from_position = 0)
 	{
-		_GODOT_play.bind("AudioStreamPlayer", "play");
-		ptrcall!(void)(_GODOT_play, _godot_object, from_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.play, _godot_object, from_position);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_seek;
-	package(godot) alias _GODOT_methodBindInfo(string name : "seek") = _GODOT_seek;
 	/**
 	Sets the position from which audio will be played, in seconds.
 	*/
 	void seek(in double to_position)
 	{
-		_GODOT_seek.bind("AudioStreamPlayer", "seek");
-		ptrcall!(void)(_GODOT_seek, _godot_object, to_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.seek, _godot_object, to_position);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "stop") = _GODOT_stop;
 	/**
 	Stops the audio.
 	*/
 	void stop()
 	{
-		_GODOT_stop.bind("AudioStreamPlayer", "stop");
-		ptrcall!(void)(_GODOT_stop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_playing") = _GODOT_is_playing;
 	/**
 	
 	*/
 	bool isPlaying() const
 	{
-		_GODOT_is_playing.bind("AudioStreamPlayer", "is_playing");
-		return ptrcall!(bool)(_GODOT_is_playing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_playback_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_playback_position") = _GODOT_get_playback_position;
 	/**
-	Returns the position in the $(D AudioStream).
+	Returns the position in the $(D AudioStream) in seconds.
 	*/
 	double getPlaybackPosition()
 	{
-		_GODOT_get_playback_position.bind("AudioStreamPlayer", "get_playback_position");
-		return ptrcall!(double)(_GODOT_get_playback_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPlaybackPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bus") = _GODOT_set_bus;
 	/**
 	
 	*/
 	void setBus(StringArg0)(in StringArg0 bus)
 	{
-		_GODOT_set_bus.bind("AudioStreamPlayer", "set_bus");
-		ptrcall!(void)(_GODOT_set_bus, _godot_object, bus);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bus") = _GODOT_get_bus;
 	/**
 	
 	*/
 	String getBus() const
 	{
-		_GODOT_get_bus.bind("AudioStreamPlayer", "get_bus");
-		return ptrcall!(String)(_GODOT_get_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_autoplay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_autoplay") = _GODOT_set_autoplay;
 	/**
 	
 	*/
 	void setAutoplay(in bool enable)
 	{
-		_GODOT_set_autoplay.bind("AudioStreamPlayer", "set_autoplay");
-		ptrcall!(void)(_GODOT_set_autoplay, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_autoplay_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_autoplay_enabled") = _GODOT_is_autoplay_enabled;
 	/**
 	
 	*/
 	bool isAutoplayEnabled()
 	{
-		_GODOT_is_autoplay_enabled.bind("AudioStreamPlayer", "is_autoplay_enabled");
-		return ptrcall!(bool)(_GODOT_is_autoplay_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAutoplayEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mix_target;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mix_target") = _GODOT_set_mix_target;
 	/**
 	
 	*/
 	void setMixTarget(in long mix_target)
 	{
-		_GODOT_set_mix_target.bind("AudioStreamPlayer", "set_mix_target");
-		ptrcall!(void)(_GODOT_set_mix_target, _godot_object, mix_target);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMixTarget, _godot_object, mix_target);
 	}
-	package(godot) static GodotMethod!(AudioStreamPlayer.MixTarget) _GODOT_get_mix_target;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mix_target") = _GODOT_get_mix_target;
 	/**
 	
 	*/
 	AudioStreamPlayer.MixTarget getMixTarget() const
 	{
-		_GODOT_get_mix_target.bind("AudioStreamPlayer", "get_mix_target");
-		return ptrcall!(AudioStreamPlayer.MixTarget)(_GODOT_get_mix_target, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamPlayer.MixTarget)(_classBinding.getMixTarget, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT__set_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_playing") = _GODOT__set_playing;
 	/**
 	
 	*/
@@ -252,8 +243,6 @@ public:
 		String _GODOT_method_name = String("_set_playing");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_is_active") = _GODOT__is_active;
 	/**
 	
 	*/
@@ -263,8 +252,6 @@ public:
 		String _GODOT_method_name = String("_is_active");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__bus_layout_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_bus_layout_changed") = _GODOT__bus_layout_changed;
 	/**
 	
 	*/
@@ -273,6 +260,22 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_bus_layout_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void setStreamPaused(in bool pause)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStreamPaused, _godot_object, pause);
+	}
+	/**
+	
+	*/
+	bool getStreamPaused() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getStreamPaused, _godot_object);
 	}
 	/**
 	The $(D AudioStream) object to be played.
@@ -333,6 +336,18 @@ public:
 	@property void autoplay(bool v)
 	{
 		setAutoplay(v);
+	}
+	/**
+	
+	*/
+	@property bool streamPaused()
+	{
+		return getStreamPaused();
+	}
+	/// ditto
+	@property void streamPaused(bool v)
+	{
+		setStreamPaused(v);
 	}
 	/**
 	If the audio configuration has more than two speakers, this sets the target channels. See `MIX_TARGET_*` constants.

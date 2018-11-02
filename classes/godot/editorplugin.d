@@ -24,8 +24,6 @@ import godot.node;
 import godot.inputevent;
 import godot.control;
 import godot.camera;
-import godot.editorspatialgizmo;
-import godot.spatial;
 import godot.configfile;
 import godot.toolbutton;
 import godot.script;
@@ -34,20 +32,76 @@ import godot.undoredo;
 import godot.editorimportplugin;
 import godot.editorsceneimporter;
 import godot.editorexportplugin;
+import godot.editorinspectorplugin;
 import godot.editorinterface;
+import godot.scriptcreatedialog;
 /**
 Used by the editor to extend its functionality.
 
-Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins.
+Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins. Also see $(D EditorScript) to add functions to the editor.
 */
 @GodotBaseClass struct EditorPlugin
 {
-	static immutable string _GODOT_internal_name = "EditorPlugin";
+	enum string _GODOT_internal_name = "EditorPlugin";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("forward_canvas_gui_input") GodotMethod!(bool, InputEvent) forwardCanvasGuiInput;
+		@GodotName("forward_canvas_draw_over_viewport") GodotMethod!(void, Control) forwardCanvasDrawOverViewport;
+		@GodotName("forward_canvas_force_draw_over_viewport") GodotMethod!(void, Control) forwardCanvasForceDrawOverViewport;
+		@GodotName("forward_spatial_gui_input") GodotMethod!(bool, Camera, InputEvent) forwardSpatialGuiInput;
+		@GodotName("get_plugin_name") GodotMethod!(String) getPluginName;
+		@GodotName("get_plugin_icon") GodotMethod!(GodotObject) getPluginIcon;
+		@GodotName("has_main_screen") GodotMethod!(bool) hasMainScreen;
+		@GodotName("make_visible") GodotMethod!(void, bool) makeVisible;
+		@GodotName("edit") GodotMethod!(void, GodotObject) edit;
+		@GodotName("handles") GodotMethod!(bool, GodotObject) handles;
+		@GodotName("get_state") GodotMethod!(Dictionary) getState;
+		@GodotName("set_state") GodotMethod!(void, Dictionary) setState;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("save_external_data") GodotMethod!(void) saveExternalData;
+		@GodotName("apply_changes") GodotMethod!(void) applyChanges;
+		@GodotName("get_breakpoints") GodotMethod!(PoolStringArray) getBreakpoints;
+		@GodotName("set_window_layout") GodotMethod!(void, ConfigFile) setWindowLayout;
+		@GodotName("get_window_layout") GodotMethod!(void, ConfigFile) getWindowLayout;
+		@GodotName("build") GodotMethod!(bool) build;
+		@GodotName("add_control_to_container") GodotMethod!(void, long, GodotObject) addControlToContainer;
+		@GodotName("add_control_to_bottom_panel") GodotMethod!(ToolButton, GodotObject, String) addControlToBottomPanel;
+		@GodotName("add_control_to_dock") GodotMethod!(void, long, GodotObject) addControlToDock;
+		@GodotName("remove_control_from_docks") GodotMethod!(void, GodotObject) removeControlFromDocks;
+		@GodotName("remove_control_from_bottom_panel") GodotMethod!(void, GodotObject) removeControlFromBottomPanel;
+		@GodotName("remove_control_from_container") GodotMethod!(void, long, GodotObject) removeControlFromContainer;
+		@GodotName("add_tool_menu_item") GodotMethod!(void, String, GodotObject, String, Variant) addToolMenuItem;
+		@GodotName("add_tool_submenu_item") GodotMethod!(void, String, GodotObject) addToolSubmenuItem;
+		@GodotName("remove_tool_menu_item") GodotMethod!(void, String) removeToolMenuItem;
+		@GodotName("add_custom_type") GodotMethod!(void, String, String, Script, Texture) addCustomType;
+		@GodotName("remove_custom_type") GodotMethod!(void, String) removeCustomType;
+		@GodotName("add_autoload_singleton") GodotMethod!(void, String, String) addAutoloadSingleton;
+		@GodotName("remove_autoload_singleton") GodotMethod!(void, String) removeAutoloadSingleton;
+		@GodotName("update_overlays") GodotMethod!(long) updateOverlays;
+		@GodotName("make_bottom_panel_item_visible") GodotMethod!(void, GodotObject) makeBottomPanelItemVisible;
+		@GodotName("hide_bottom_panel") GodotMethod!(void) hideBottomPanel;
+		@GodotName("get_undo_redo") GodotMethod!(UndoRedo) getUndoRedo;
+		@GodotName("queue_save_layout") GodotMethod!(void) queueSaveLayout;
+		@GodotName("add_import_plugin") GodotMethod!(void, EditorImportPlugin) addImportPlugin;
+		@GodotName("remove_import_plugin") GodotMethod!(void, EditorImportPlugin) removeImportPlugin;
+		@GodotName("add_scene_import_plugin") GodotMethod!(void, EditorSceneImporter) addSceneImportPlugin;
+		@GodotName("remove_scene_import_plugin") GodotMethod!(void, EditorSceneImporter) removeSceneImportPlugin;
+		@GodotName("add_export_plugin") GodotMethod!(void, EditorExportPlugin) addExportPlugin;
+		@GodotName("remove_export_plugin") GodotMethod!(void, EditorExportPlugin) removeExportPlugin;
+		@GodotName("add_inspector_plugin") GodotMethod!(void, EditorInspectorPlugin) addInspectorPlugin;
+		@GodotName("remove_inspector_plugin") GodotMethod!(void, EditorInspectorPlugin) removeInspectorPlugin;
+		@GodotName("set_input_event_forwarding_always_enabled") GodotMethod!(void) setInputEventForwardingAlwaysEnabled;
+		@GodotName("set_force_draw_over_forwarding_enabled") GodotMethod!(void) setForceDrawOverForwardingEnabled;
+		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
+		@GodotName("get_script_create_dialog") GodotMethod!(ScriptCreateDialog) getScriptCreateDialog;
+	}
 	bool opEquals(in EditorPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -114,51 +168,59 @@ public:
 		/**
 		
 		*/
-		containerSpatialEditorSide = 2,
+		containerSpatialEditorSideLeft = 2,
 		/**
 		
 		*/
-		containerSpatialEditorBottom = 3,
+		containerSpatialEditorSideRight = 3,
 		/**
 		
 		*/
-		containerCanvasEditorMenu = 4,
+		containerSpatialEditorBottom = 4,
 		/**
 		
 		*/
-		containerCanvasEditorSide = 5,
+		containerCanvasEditorMenu = 5,
 		/**
 		
 		*/
-		containerCanvasEditorBottom = 6,
+		containerCanvasEditorSideLeft = 6,
 		/**
 		
 		*/
-		containerPropertyEditorBottom = 7,
+		containerCanvasEditorSideRight = 7,
+		/**
+		
+		*/
+		containerCanvasEditorBottom = 8,
+		/**
+		
+		*/
+		containerPropertyEditorBottom = 9,
 	}
 	/// 
 	enum Constants : int
 	{
-		dockSlotLeftUl = 0,
 		containerToolbar = 0,
+		dockSlotLeftUl = 0,
 		containerSpatialEditorMenu = 1,
 		dockSlotLeftBl = 1,
+		containerSpatialEditorSideLeft = 2,
 		dockSlotLeftUr = 2,
-		containerSpatialEditorSide = 2,
-		containerSpatialEditorBottom = 3,
+		containerSpatialEditorSideRight = 3,
 		dockSlotLeftBr = 3,
+		containerSpatialEditorBottom = 4,
 		dockSlotRightUl = 4,
-		containerCanvasEditorMenu = 4,
+		containerCanvasEditorMenu = 5,
 		dockSlotRightBl = 5,
-		containerCanvasEditorSide = 5,
-		containerCanvasEditorBottom = 6,
+		containerCanvasEditorSideLeft = 6,
 		dockSlotRightUr = 6,
+		containerCanvasEditorSideRight = 7,
 		dockSlotRightBr = 7,
-		containerPropertyEditorBottom = 7,
+		containerCanvasEditorBottom = 8,
 		dockSlotMax = 8,
+		containerPropertyEditorBottom = 9,
 	}
-	package(godot) static GodotMethod!(bool, InputEvent) _GODOT_forward_canvas_gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "forward_canvas_gui_input") = _GODOT_forward_canvas_gui_input;
 	/**
 	
 	*/
@@ -169,35 +231,42 @@ public:
 		String _GODOT_method_name = String("forward_canvas_gui_input");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, Control) _GODOT_forward_draw_over_viewport;
-	package(godot) alias _GODOT_methodBindInfo(string name : "forward_draw_over_viewport") = _GODOT_forward_draw_over_viewport;
 	/**
+	This method is called when there is an input event in the 2D viewport, e.g. the user clicks with the mouse in the 2D space (canvas GUI). Keep in mind that for this method to be called you have to first declare the virtual method $(D handles) so the editor knows that you want to work with the workspace:
 	
+	
+	func handles(object):
+	    return true
+	
+	
+	Also note that the edited scene must have a root node.
 	*/
-	void forwardDrawOverViewport(Control overlay)
+	void forwardCanvasDrawOverViewport(Control overlay)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(overlay);
-		String _GODOT_method_name = String("forward_draw_over_viewport");
+		String _GODOT_method_name = String("forward_canvas_draw_over_viewport");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Control) _GODOT_forward_force_draw_over_viewport;
-	package(godot) alias _GODOT_methodBindInfo(string name : "forward_force_draw_over_viewport") = _GODOT_forward_force_draw_over_viewport;
 	/**
 	
 	*/
-	void forwardForceDrawOverViewport(Control overlay)
+	void forwardCanvasForceDrawOverViewport(Control overlay)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(overlay);
-		String _GODOT_method_name = String("forward_force_draw_over_viewport");
+		String _GODOT_method_name = String("forward_canvas_force_draw_over_viewport");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool, Camera, InputEvent) _GODOT_forward_spatial_gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "forward_spatial_gui_input") = _GODOT_forward_spatial_gui_input;
 	/**
-	Implement this function if you are interested in 3D view screen input events. It will be called only if currently selected node is handled by your plugin.
-	If you would like to always gets those input events then additionally use $(D setInputForwardingAlwaysEnabled).
+	This method is called when there is an input event in the 3D viewport, e.g. the user clicks with the mouse in the 3D space (spatial GUI). Keep in mind that for this method to be called you have to first declare the virtual method $(D handles) so the editor knows that you want to work with the workspace:
+	
+	
+	func handles(object):
+	    return true
+	
+	
+	Also note that the edited scene must have a root node.
 	*/
 	bool forwardSpatialGuiInput(Camera camera, InputEvent event)
 	{
@@ -207,20 +276,6 @@ public:
 		String _GODOT_method_name = String("forward_spatial_gui_input");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(EditorSpatialGizmo, Spatial) _GODOT_create_spatial_gizmo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_spatial_gizmo") = _GODOT_create_spatial_gizmo;
-	/**
-	This is used for plugins that create gizmos used by the spatial editor. Just check that the node passed in the "for_spatial" argument matches your plugin.
-	*/
-	Ref!EditorSpatialGizmo createSpatialGizmo(Spatial for_spatial)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(for_spatial);
-		String _GODOT_method_name = String("create_spatial_gizmo");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!EditorSpatialGizmo);
-	}
-	package(godot) static GodotMethod!(String) _GODOT_get_plugin_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_plugin_name") = _GODOT_get_plugin_name;
 	/**
 	
 	*/
@@ -230,8 +285,6 @@ public:
 		String _GODOT_method_name = String("get_plugin_name");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(GodotObject) _GODOT_get_plugin_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_plugin_icon") = _GODOT_get_plugin_icon;
 	/**
 	
 	*/
@@ -241,10 +294,8 @@ public:
 		String _GODOT_method_name = String("get_plugin_icon");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_main_screen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_main_screen") = _GODOT_has_main_screen;
 	/**
-	Return true if this is a main screen editor plugin (it goes in the main screen selector together with 2D, 3D, Script).
+	Return true if this is a main screen editor plugin (it goes in the workspaces selector together with '2D', '3D', and 'Script').
 	*/
 	bool hasMainScreen()
 	{
@@ -252,8 +303,6 @@ public:
 		String _GODOT_method_name = String("has_main_screen");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_make_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_visible") = _GODOT_make_visible;
 	/**
 	This function will be called when the editor is requested to become visible. It is used for plugins that edit a specific object type.
 	Remember that you have to manage the visibility of all your editor controls manually.
@@ -265,8 +314,6 @@ public:
 		String _GODOT_method_name = String("make_visible");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_edit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "edit") = _GODOT_edit;
 	/**
 	This function is used for plugins that edit specific object types (nodes or resources). It requests the editor to edit the given object.
 	*/
@@ -277,10 +324,8 @@ public:
 		String _GODOT_method_name = String("edit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool, GodotObject) _GODOT_handles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "handles") = _GODOT_handles;
 	/**
-	Implement this function if your plugin edits a specific type of object (Resource or Node). If you return true, then you will get the functions $(D EditorPlugin.edit) and $(D EditorPlugin.makeVisible) called when the editor requests them.
+	Implement this function if your plugin edits a specific type of object (Resource or Node). If you return true, then you will get the functions $(D EditorPlugin.edit) and $(D EditorPlugin.makeVisible) called when the editor requests them. If you have declared the methods $(D forwardCanvasGuiInput) and $(D forwardSpatialGuiInput) these will be called too.
 	*/
 	bool handles(GodotObject object)
 	{
@@ -289,8 +334,6 @@ public:
 		String _GODOT_method_name = String("handles");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT_get_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_state") = _GODOT_get_state;
 	/**
 	Get the state of your plugin editor. This is used when saving the scene (so state is kept when opening it again) and for switching tabs (so state can be restored when the tab returns).
 	*/
@@ -300,8 +343,6 @@ public:
 		String _GODOT_method_name = String("get_state");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT_set_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_state") = _GODOT_set_state;
 	/**
 	Restore the state saved by $(D EditorPlugin.getState).
 	*/
@@ -312,8 +353,6 @@ public:
 		String _GODOT_method_name = String("set_state");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Clear all the state and reset the object being edited to zero. This ensures your plugin does not keep editing a currently existing node, or a node from the wrong scene.
 	*/
@@ -323,8 +362,6 @@ public:
 		String _GODOT_method_name = String("clear");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_save_external_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "save_external_data") = _GODOT_save_external_data;
 	/**
 	This method is called after the editor saves the project or when it's closed. It asks the plugin to save edited external scenes/resources.
 	*/
@@ -334,8 +371,6 @@ public:
 		String _GODOT_method_name = String("save_external_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_apply_changes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "apply_changes") = _GODOT_apply_changes;
 	/**
 	This method is called when the editor is about to save the project, switch to another tab, etc. It asks the plugin to apply any pending state changes to ensure consistency.
 	This is used, for example, in shader editors to let the plugin know that it must apply the shader code being written by the user to the object.
@@ -346,8 +381,6 @@ public:
 		String _GODOT_method_name = String("apply_changes");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_breakpoints;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_breakpoints") = _GODOT_get_breakpoints;
 	/**
 	This is for editors that edit script based objects. You can return a list of breakpoints in the format (script:line), for example: res://path_to_script.gd:25
 	*/
@@ -357,8 +390,6 @@ public:
 		String _GODOT_method_name = String("get_breakpoints");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
 	}
-	package(godot) static GodotMethod!(void, ConfigFile) _GODOT_set_window_layout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_layout") = _GODOT_set_window_layout;
 	/**
 	Restore the plugin GUI layout saved by $(D EditorPlugin.getWindowLayout).
 	*/
@@ -369,10 +400,8 @@ public:
 		String _GODOT_method_name = String("set_window_layout");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, ConfigFile) _GODOT_get_window_layout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_window_layout") = _GODOT_get_window_layout;
 	/**
-	Get the GUI layout of the plugin. This is used to save the project's editor layout when the $(D EditorPlugin.queueSaveLayout) is called or the editor layout was changed(For example changing the position of a dock).
+	Get the GUI layout of the plugin. This is used to save the project's editor layout when $(D queueSaveLayout) is called or the editor layout was changed(For example changing the position of a dock).
 	*/
 	void getWindowLayout(ConfigFile layout)
 	{
@@ -381,241 +410,260 @@ public:
 		String _GODOT_method_name = String("get_window_layout");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT_add_control_to_container;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_control_to_container") = _GODOT_add_control_to_container;
-	/**
-	Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI.
-	Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it).
-	If your plugin is being removed, also make sure to remove your custom controls too.
-	*/
-	void addControlToContainer(in long container, GodotObject control)
-	{
-		_GODOT_add_control_to_container.bind("EditorPlugin", "add_control_to_container");
-		ptrcall!(void)(_GODOT_add_control_to_container, _godot_object, container, control);
-	}
-	package(godot) static GodotMethod!(ToolButton, GodotObject, String) _GODOT_add_control_to_bottom_panel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_control_to_bottom_panel") = _GODOT_add_control_to_bottom_panel;
-	/**
-	Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. If your plugin is being removed, also make sure to remove your control by calling $(D removeControlFromBottomPanel).
-	*/
-	ToolButton addControlToBottomPanel(StringArg1)(GodotObject control, in StringArg1 title)
-	{
-		_GODOT_add_control_to_bottom_panel.bind("EditorPlugin", "add_control_to_bottom_panel");
-		return ptrcall!(ToolButton)(_GODOT_add_control_to_bottom_panel, _godot_object, control, title);
-	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT_add_control_to_dock;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_control_to_dock") = _GODOT_add_control_to_dock;
-	/**
-	Add the control to a specific dock slot (see DOCK_* enum for options).
-	If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions.
-	If your plugin is being removed, also make sure to remove your control by calling $(D removeControlFromDocks).
-	*/
-	void addControlToDock(in long slot, GodotObject control)
-	{
-		_GODOT_add_control_to_dock.bind("EditorPlugin", "add_control_to_dock");
-		ptrcall!(void)(_GODOT_add_control_to_dock, _godot_object, slot, control);
-	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_remove_control_from_docks;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_control_from_docks") = _GODOT_remove_control_from_docks;
-	/**
-	Remove the control from the dock. Don't forget to call this if you added one, so the editor can save the layout and remove it cleanly.
-	*/
-	void removeControlFromDocks(GodotObject control)
-	{
-		_GODOT_remove_control_from_docks.bind("EditorPlugin", "remove_control_from_docks");
-		ptrcall!(void)(_GODOT_remove_control_from_docks, _godot_object, control);
-	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_remove_control_from_bottom_panel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_control_from_bottom_panel") = _GODOT_remove_control_from_bottom_panel;
-	/**
-	Remove the control from the bottom panel. Don't forget to call this if you added one, so the editor can remove it cleanly.
-	*/
-	void removeControlFromBottomPanel(GodotObject control)
-	{
-		_GODOT_remove_control_from_bottom_panel.bind("EditorPlugin", "remove_control_from_bottom_panel");
-		ptrcall!(void)(_GODOT_remove_control_from_bottom_panel, _godot_object, control);
-	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT_remove_control_from_container;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_control_from_container") = _GODOT_remove_control_from_container;
-	/**
-	Remove the control from the specified container. Use it when cleaning up after adding a control with $(D addControlToContainer). Note that you can simply free the control if you won't use it anymore.
-	*/
-	void removeControlFromContainer(in long container, GodotObject control)
-	{
-		_GODOT_remove_control_from_container.bind("EditorPlugin", "remove_control_from_container");
-		ptrcall!(void)(_GODOT_remove_control_from_container, _godot_object, container, control);
-	}
-	package(godot) static GodotMethod!(void, String, GodotObject) _GODOT_add_tool_submenu_item;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_tool_submenu_item") = _GODOT_add_tool_submenu_item;
 	/**
 	
 	*/
+	bool build()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("build");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI.
+	Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it).
+	When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromContainer) and free it with `queue_free()`.
+	*/
+	void addControlToContainer(in long container, GodotObject control)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addControlToContainer, _godot_object, container, control);
+	}
+	/**
+	Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromBottomPanel) and free it with `queue_free()`.
+	*/
+	ToolButton addControlToBottomPanel(StringArg1)(GodotObject control, in StringArg1 title)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ToolButton)(_classBinding.addControlToBottomPanel, _godot_object, control, title);
+	}
+	/**
+	Add the control to a specific dock slot (see DOCK_* enum for options).
+	If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions.
+	When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromDocks) and free it with `queue_free()`.
+	*/
+	void addControlToDock(in long slot, GodotObject control)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addControlToDock, _godot_object, slot, control);
+	}
+	/**
+	Remove the control from the dock. You have to manually `queue_free()` the control.
+	*/
+	void removeControlFromDocks(GodotObject control)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeControlFromDocks, _godot_object, control);
+	}
+	/**
+	Remove the control from the bottom panel. You have to manually `queue_free()` the control.
+	*/
+	void removeControlFromBottomPanel(GodotObject control)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeControlFromBottomPanel, _godot_object, control);
+	}
+	/**
+	Remove the control from the specified container. You have to manually `queue_free()` the control.
+	*/
+	void removeControlFromContainer(in long container, GodotObject control)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeControlFromContainer, _godot_object, container, control);
+	}
+	/**
+	Add a custom menu to 'Project &gt; Tools' as `name` that calls `callback` on an instance of `handler` with a parameter `ud` when user activates it.
+	*/
+	void addToolMenuItem(StringArg0, StringArg2, VariantArg3)(in StringArg0 name, GodotObject handler, in StringArg2 callback, in VariantArg3 ud = Variant.nil)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addToolMenuItem, _godot_object, name, handler, callback, ud);
+	}
+	/**
+	Like $(D addToolMenuItem) but adds the `submenu` item inside the `name` menu.
+	*/
 	void addToolSubmenuItem(StringArg0)(in StringArg0 name, GodotObject submenu)
 	{
-		_GODOT_add_tool_submenu_item.bind("EditorPlugin", "add_tool_submenu_item");
-		ptrcall!(void)(_GODOT_add_tool_submenu_item, _godot_object, name, submenu);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addToolSubmenuItem, _godot_object, name, submenu);
 	}
-	package(godot) static GodotMethod!(void, String, String, Script, Texture) _GODOT_add_custom_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_custom_type") = _GODOT_add_custom_type;
+	/**
+	Removes a menu `name` from 'Project &gt; Tools'.
+	*/
+	void removeToolMenuItem(StringArg0)(in StringArg0 name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeToolMenuItem, _godot_object, name);
+	}
 	/**
 	Add a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed.
 	When given node or resource is selected, the base type will be instanced (ie, "Spatial", "Control", "Resource"), then the script will be loaded and set to this object.
-	You can use the $(D EditorPlugin.handles) to check if your custom object is being edited by checking the script or using 'is' keyword.
+	You can use the virtual method $(D handles) to check if your custom object is being edited by checking the script or using 'is' keyword.
 	During run-time, this will be a simple object with a script so this function does not need to be called then.
 	*/
 	void addCustomType(StringArg0, StringArg1)(in StringArg0 type, in StringArg1 base, Script script, Texture icon)
 	{
-		_GODOT_add_custom_type.bind("EditorPlugin", "add_custom_type");
-		ptrcall!(void)(_GODOT_add_custom_type, _godot_object, type, base, script, icon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addCustomType, _godot_object, type, base, script, icon);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_custom_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_custom_type") = _GODOT_remove_custom_type;
 	/**
-	Remove a custom type added by $(D EditorPlugin.addCustomType)
+	Remove a custom type added by $(D addCustomType)
 	*/
 	void removeCustomType(StringArg0)(in StringArg0 type)
 	{
-		_GODOT_remove_custom_type.bind("EditorPlugin", "remove_custom_type");
-		ptrcall!(void)(_GODOT_remove_custom_type, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeCustomType, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_update_overlays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "update_overlays") = _GODOT_update_overlays;
+	/**
+	Add a script at `path` to the Autoload list as `name`.
+	*/
+	void addAutoloadSingleton(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addAutoloadSingleton, _godot_object, name, path);
+	}
+	/**
+	Remove an Autoload `name` from the list.
+	*/
+	void removeAutoloadSingleton(StringArg0)(in StringArg0 name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeAutoloadSingleton, _godot_object, name);
+	}
 	/**
 	
 	*/
 	long updateOverlays() const
 	{
-		_GODOT_update_overlays.bind("EditorPlugin", "update_overlays");
-		return ptrcall!(long)(_GODOT_update_overlays, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.updateOverlays, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_make_bottom_panel_item_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_bottom_panel_item_visible") = _GODOT_make_bottom_panel_item_visible;
 	/**
 	
 	*/
 	void makeBottomPanelItemVisible(GodotObject item)
 	{
-		_GODOT_make_bottom_panel_item_visible.bind("EditorPlugin", "make_bottom_panel_item_visible");
-		ptrcall!(void)(_GODOT_make_bottom_panel_item_visible, _godot_object, item);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.makeBottomPanelItemVisible, _godot_object, item);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_hide_bottom_panel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hide_bottom_panel") = _GODOT_hide_bottom_panel;
 	/**
 	
 	*/
 	void hideBottomPanel()
 	{
-		_GODOT_hide_bottom_panel.bind("EditorPlugin", "hide_bottom_panel");
-		ptrcall!(void)(_GODOT_hide_bottom_panel, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.hideBottomPanel, _godot_object);
 	}
-	package(godot) static GodotMethod!(UndoRedo) _GODOT_get_undo_redo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_undo_redo") = _GODOT_get_undo_redo;
 	/**
 	Get the undo/redo object. Most actions in the editor can be undoable, so use this object to make sure this happens when it's worth it.
 	*/
 	UndoRedo getUndoRedo()
 	{
-		_GODOT_get_undo_redo.bind("EditorPlugin", "get_undo_redo");
-		return ptrcall!(UndoRedo)(_GODOT_get_undo_redo, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(UndoRedo)(_classBinding.getUndoRedo, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_queue_save_layout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "queue_save_layout") = _GODOT_queue_save_layout;
 	/**
 	Queue save the project's editor layout.
 	*/
 	void queueSaveLayout() const
 	{
-		_GODOT_queue_save_layout.bind("EditorPlugin", "queue_save_layout");
-		ptrcall!(void)(_GODOT_queue_save_layout, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.queueSaveLayout, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, EditorImportPlugin) _GODOT_add_import_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_import_plugin") = _GODOT_add_import_plugin;
 	/**
 	
 	*/
 	void addImportPlugin(EditorImportPlugin importer)
 	{
-		_GODOT_add_import_plugin.bind("EditorPlugin", "add_import_plugin");
-		ptrcall!(void)(_GODOT_add_import_plugin, _godot_object, importer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addImportPlugin, _godot_object, importer);
 	}
-	package(godot) static GodotMethod!(void, EditorImportPlugin) _GODOT_remove_import_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_import_plugin") = _GODOT_remove_import_plugin;
 	/**
 	
 	*/
 	void removeImportPlugin(EditorImportPlugin importer)
 	{
-		_GODOT_remove_import_plugin.bind("EditorPlugin", "remove_import_plugin");
-		ptrcall!(void)(_GODOT_remove_import_plugin, _godot_object, importer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeImportPlugin, _godot_object, importer);
 	}
-	package(godot) static GodotMethod!(void, EditorSceneImporter) _GODOT_add_scene_import_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_scene_import_plugin") = _GODOT_add_scene_import_plugin;
 	/**
 	
 	*/
 	void addSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
-		_GODOT_add_scene_import_plugin.bind("EditorPlugin", "add_scene_import_plugin");
-		ptrcall!(void)(_GODOT_add_scene_import_plugin, _godot_object, scene_importer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSceneImportPlugin, _godot_object, scene_importer);
 	}
-	package(godot) static GodotMethod!(void, EditorSceneImporter) _GODOT_remove_scene_import_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_scene_import_plugin") = _GODOT_remove_scene_import_plugin;
 	/**
 	
 	*/
 	void removeSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
-		_GODOT_remove_scene_import_plugin.bind("EditorPlugin", "remove_scene_import_plugin");
-		ptrcall!(void)(_GODOT_remove_scene_import_plugin, _godot_object, scene_importer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeSceneImportPlugin, _godot_object, scene_importer);
 	}
-	package(godot) static GodotMethod!(void, EditorExportPlugin) _GODOT_add_export_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_export_plugin") = _GODOT_add_export_plugin;
 	/**
 	
 	*/
-	void addExportPlugin(EditorExportPlugin exporter)
+	void addExportPlugin(EditorExportPlugin plugin)
 	{
-		_GODOT_add_export_plugin.bind("EditorPlugin", "add_export_plugin");
-		ptrcall!(void)(_GODOT_add_export_plugin, _godot_object, exporter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addExportPlugin, _godot_object, plugin);
 	}
-	package(godot) static GodotMethod!(void, EditorExportPlugin) _GODOT_remove_export_plugin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_export_plugin") = _GODOT_remove_export_plugin;
 	/**
 	
 	*/
-	void removeExportPlugin(EditorExportPlugin exporter)
+	void removeExportPlugin(EditorExportPlugin plugin)
 	{
-		_GODOT_remove_export_plugin.bind("EditorPlugin", "remove_export_plugin");
-		ptrcall!(void)(_GODOT_remove_export_plugin, _godot_object, exporter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeExportPlugin, _godot_object, plugin);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_set_input_event_forwarding_always_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_input_event_forwarding_always_enabled") = _GODOT_set_input_event_forwarding_always_enabled;
+	/**
+	
+	*/
+	void addInspectorPlugin(EditorInspectorPlugin plugin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addInspectorPlugin, _godot_object, plugin);
+	}
+	/**
+	
+	*/
+	void removeInspectorPlugin(EditorInspectorPlugin plugin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeInspectorPlugin, _godot_object, plugin);
+	}
 	/**
 	Use this method if you always want to receive inputs from 3D view screen inside $(D forwardSpatialGuiInput). It might be especially usable if your plugin will want to use raycast in the scene.
 	*/
 	void setInputEventForwardingAlwaysEnabled()
 	{
-		_GODOT_set_input_event_forwarding_always_enabled.bind("EditorPlugin", "set_input_event_forwarding_always_enabled");
-		ptrcall!(void)(_GODOT_set_input_event_forwarding_always_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInputEventForwardingAlwaysEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_set_force_draw_over_forwarding_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_force_draw_over_forwarding_enabled") = _GODOT_set_force_draw_over_forwarding_enabled;
 	/**
 	
 	*/
 	void setForceDrawOverForwardingEnabled()
 	{
-		_GODOT_set_force_draw_over_forwarding_enabled.bind("EditorPlugin", "set_force_draw_over_forwarding_enabled");
-		ptrcall!(void)(_GODOT_set_force_draw_over_forwarding_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setForceDrawOverForwardingEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(EditorInterface) _GODOT_get_editor_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_editor_interface") = _GODOT_get_editor_interface;
 	/**
-	
+	Return the $(D EditorInterface) object that gives you control over Godot editor's window and its functionalities.
 	*/
 	EditorInterface getEditorInterface()
 	{
-		_GODOT_get_editor_interface.bind("EditorPlugin", "get_editor_interface");
-		return ptrcall!(EditorInterface)(_GODOT_get_editor_interface, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorInterface)(_classBinding.getEditorInterface, _godot_object);
+	}
+	/**
+	Gets the Editor's dialogue used for making scripts. Note that users can configure it before use.
+	*/
+	ScriptCreateDialog getScriptCreateDialog()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ScriptCreateDialog)(_classBinding.getScriptCreateDialog, _godot_object);
 	}
 }

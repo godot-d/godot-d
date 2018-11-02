@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.collisionobject;
+import godot.spatial;
+import godot.node;
 /**
 General purpose area node for detection and 3D physics influence.
 
@@ -28,12 +30,67 @@ General purpose area node for detection and 3D physics influence.
 */
 @GodotBaseClass struct Area
 {
-	static immutable string _GODOT_internal_name = "Area";
+	enum string _GODOT_internal_name = "Area";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; CollisionObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
+		@GodotName("_body_exit_tree") GodotMethod!(void, long) _bodyExitTree;
+		@GodotName("_area_enter_tree") GodotMethod!(void, long) _areaEnterTree;
+		@GodotName("_area_exit_tree") GodotMethod!(void, long) _areaExitTree;
+		@GodotName("set_space_override_mode") GodotMethod!(void, long) setSpaceOverrideMode;
+		@GodotName("get_space_override_mode") GodotMethod!(Area.SpaceOverride) getSpaceOverrideMode;
+		@GodotName("set_gravity_is_point") GodotMethod!(void, bool) setGravityIsPoint;
+		@GodotName("is_gravity_a_point") GodotMethod!(bool) isGravityAPoint;
+		@GodotName("set_gravity_distance_scale") GodotMethod!(void, double) setGravityDistanceScale;
+		@GodotName("get_gravity_distance_scale") GodotMethod!(double) getGravityDistanceScale;
+		@GodotName("set_gravity_vector") GodotMethod!(void, Vector3) setGravityVector;
+		@GodotName("get_gravity_vector") GodotMethod!(Vector3) getGravityVector;
+		@GodotName("set_gravity") GodotMethod!(void, double) setGravity;
+		@GodotName("get_gravity") GodotMethod!(double) getGravity;
+		@GodotName("set_angular_damp") GodotMethod!(void, double) setAngularDamp;
+		@GodotName("get_angular_damp") GodotMethod!(double) getAngularDamp;
+		@GodotName("set_linear_damp") GodotMethod!(void, double) setLinearDamp;
+		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
+		@GodotName("set_priority") GodotMethod!(void, double) setPriority;
+		@GodotName("get_priority") GodotMethod!(double) getPriority;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
+		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
+		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
+		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
+		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
+		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
+		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
+		@GodotName("set_monitorable") GodotMethod!(void, bool) setMonitorable;
+		@GodotName("is_monitorable") GodotMethod!(bool) isMonitorable;
+		@GodotName("set_monitoring") GodotMethod!(void, bool) setMonitoring;
+		@GodotName("is_monitoring") GodotMethod!(bool) isMonitoring;
+		@GodotName("get_overlapping_bodies") GodotMethod!(Array) getOverlappingBodies;
+		@GodotName("get_overlapping_areas") GodotMethod!(Array) getOverlappingAreas;
+		@GodotName("overlaps_body") GodotMethod!(bool, GodotObject) overlapsBody;
+		@GodotName("overlaps_area") GodotMethod!(bool, GodotObject) overlapsArea;
+		@GodotName("_body_inout") GodotMethod!(void, long, RID, long, long, long) _bodyInout;
+		@GodotName("_area_inout") GodotMethod!(void, long, RID, long, long, long) _areaInout;
+		@GodotName("set_audio_bus_override") GodotMethod!(void, bool) setAudioBusOverride;
+		@GodotName("is_overriding_audio_bus") GodotMethod!(bool) isOverridingAudioBus;
+		@GodotName("set_audio_bus") GodotMethod!(void, String) setAudioBus;
+		@GodotName("get_audio_bus") GodotMethod!(String) getAudioBus;
+		@GodotName("set_use_reverb_bus") GodotMethod!(void, bool) setUseReverbBus;
+		@GodotName("is_using_reverb_bus") GodotMethod!(bool) isUsingReverbBus;
+		@GodotName("set_reverb_bus") GodotMethod!(void, String) setReverbBus;
+		@GodotName("get_reverb_bus") GodotMethod!(String) getReverbBus;
+		@GodotName("set_reverb_amount") GodotMethod!(void, double) setReverbAmount;
+		@GodotName("get_reverb_amount") GodotMethod!(double) getReverbAmount;
+		@GodotName("set_reverb_uniformity") GodotMethod!(void, double) setReverbUniformity;
+		@GodotName("get_reverb_uniformity") GodotMethod!(double) getReverbUniformity;
+	}
 	bool opEquals(in Area other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Area opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -79,8 +136,6 @@ public:
 		spaceOverrideReplace = 3,
 		spaceOverrideReplaceCombine = 4,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__body_enter_tree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_body_enter_tree") = _GODOT__body_enter_tree;
 	/**
 	
 	*/
@@ -91,8 +146,6 @@ public:
 		String _GODOT_method_name = String("_body_enter_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__body_exit_tree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_body_exit_tree") = _GODOT__body_exit_tree;
 	/**
 	
 	*/
@@ -103,8 +156,6 @@ public:
 		String _GODOT_method_name = String("_body_exit_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__area_enter_tree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_area_enter_tree") = _GODOT__area_enter_tree;
 	/**
 	
 	*/
@@ -115,8 +166,6 @@ public:
 		String _GODOT_method_name = String("_area_enter_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__area_exit_tree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_area_exit_tree") = _GODOT__area_exit_tree;
 	/**
 	
 	*/
@@ -127,328 +176,262 @@ public:
 		String _GODOT_method_name = String("_area_exit_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_space_override_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_space_override_mode") = _GODOT_set_space_override_mode;
 	/**
 	
 	*/
 	void setSpaceOverrideMode(in long enable)
 	{
-		_GODOT_set_space_override_mode.bind("Area", "set_space_override_mode");
-		ptrcall!(void)(_GODOT_set_space_override_mode, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpaceOverrideMode, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(Area.SpaceOverride) _GODOT_get_space_override_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_space_override_mode") = _GODOT_get_space_override_mode;
 	/**
 	
 	*/
 	Area.SpaceOverride getSpaceOverrideMode() const
 	{
-		_GODOT_get_space_override_mode.bind("Area", "get_space_override_mode");
-		return ptrcall!(Area.SpaceOverride)(_GODOT_get_space_override_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Area.SpaceOverride)(_classBinding.getSpaceOverrideMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_gravity_is_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gravity_is_point") = _GODOT_set_gravity_is_point;
 	/**
 	
 	*/
 	void setGravityIsPoint(in bool enable)
 	{
-		_GODOT_set_gravity_is_point.bind("Area", "set_gravity_is_point");
-		ptrcall!(void)(_GODOT_set_gravity_is_point, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityIsPoint, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_gravity_a_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_gravity_a_point") = _GODOT_is_gravity_a_point;
 	/**
 	
 	*/
 	bool isGravityAPoint() const
 	{
-		_GODOT_is_gravity_a_point.bind("Area", "is_gravity_a_point");
-		return ptrcall!(bool)(_GODOT_is_gravity_a_point, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isGravityAPoint, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_gravity_distance_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gravity_distance_scale") = _GODOT_set_gravity_distance_scale;
 	/**
 	
 	*/
 	void setGravityDistanceScale(in double distance_scale)
 	{
-		_GODOT_set_gravity_distance_scale.bind("Area", "set_gravity_distance_scale");
-		ptrcall!(void)(_GODOT_set_gravity_distance_scale, _godot_object, distance_scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityDistanceScale, _godot_object, distance_scale);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_gravity_distance_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gravity_distance_scale") = _GODOT_get_gravity_distance_scale;
 	/**
 	
 	*/
 	double getGravityDistanceScale() const
 	{
-		_GODOT_get_gravity_distance_scale.bind("Area", "get_gravity_distance_scale");
-		return ptrcall!(double)(_GODOT_get_gravity_distance_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGravityDistanceScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_set_gravity_vector;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gravity_vector") = _GODOT_set_gravity_vector;
 	/**
 	
 	*/
 	void setGravityVector(in Vector3 vector)
 	{
-		_GODOT_set_gravity_vector.bind("Area", "set_gravity_vector");
-		ptrcall!(void)(_GODOT_set_gravity_vector, _godot_object, vector);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityVector, _godot_object, vector);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_gravity_vector;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gravity_vector") = _GODOT_get_gravity_vector;
 	/**
 	
 	*/
 	Vector3 getGravityVector() const
 	{
-		_GODOT_get_gravity_vector.bind("Area", "get_gravity_vector");
-		return ptrcall!(Vector3)(_GODOT_get_gravity_vector, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGravityVector, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_gravity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gravity") = _GODOT_set_gravity;
 	/**
 	
 	*/
 	void setGravity(in double gravity)
 	{
-		_GODOT_set_gravity.bind("Area", "set_gravity");
-		ptrcall!(void)(_GODOT_set_gravity, _godot_object, gravity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravity, _godot_object, gravity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_gravity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gravity") = _GODOT_get_gravity;
 	/**
 	
 	*/
 	double getGravity() const
 	{
-		_GODOT_get_gravity.bind("Area", "get_gravity");
-		return ptrcall!(double)(_GODOT_get_gravity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGravity, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_angular_damp;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_angular_damp") = _GODOT_set_angular_damp;
 	/**
 	
 	*/
 	void setAngularDamp(in double angular_damp)
 	{
-		_GODOT_set_angular_damp.bind("Area", "set_angular_damp");
-		ptrcall!(void)(_GODOT_set_angular_damp, _godot_object, angular_damp);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_angular_damp;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_angular_damp") = _GODOT_get_angular_damp;
 	/**
 	
 	*/
 	double getAngularDamp() const
 	{
-		_GODOT_get_angular_damp.bind("Area", "get_angular_damp");
-		return ptrcall!(double)(_GODOT_get_angular_damp, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAngularDamp, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_linear_damp;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_linear_damp") = _GODOT_set_linear_damp;
 	/**
 	
 	*/
 	void setLinearDamp(in double linear_damp)
 	{
-		_GODOT_set_linear_damp.bind("Area", "set_linear_damp");
-		ptrcall!(void)(_GODOT_set_linear_damp, _godot_object, linear_damp);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_linear_damp;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_linear_damp") = _GODOT_get_linear_damp;
 	/**
 	
 	*/
 	double getLinearDamp() const
 	{
-		_GODOT_get_linear_damp.bind("Area", "get_linear_damp");
-		return ptrcall!(double)(_GODOT_get_linear_damp, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_priority") = _GODOT_set_priority;
 	/**
 	
 	*/
 	void setPriority(in double priority)
 	{
-		_GODOT_set_priority.bind("Area", "set_priority");
-		ptrcall!(void)(_GODOT_set_priority, _godot_object, priority);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPriority, _godot_object, priority);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_priority") = _GODOT_get_priority;
 	/**
 	
 	*/
 	double getPriority() const
 	{
-		_GODOT_get_priority.bind("Area", "get_priority");
-		return ptrcall!(double)(_GODOT_get_priority, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPriority, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask") = _GODOT_set_collision_mask;
 	/**
 	
 	*/
 	void setCollisionMask(in long collision_mask)
 	{
-		_GODOT_set_collision_mask.bind("Area", "set_collision_mask");
-		ptrcall!(void)(_GODOT_set_collision_mask, _godot_object, collision_mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask") = _GODOT_get_collision_mask;
 	/**
 	
 	*/
 	long getCollisionMask() const
 	{
-		_GODOT_get_collision_mask.bind("Area", "get_collision_mask");
-		return ptrcall!(long)(_GODOT_get_collision_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer") = _GODOT_set_collision_layer;
 	/**
 	
 	*/
 	void setCollisionLayer(in long collision_layer)
 	{
-		_GODOT_set_collision_layer.bind("Area", "set_collision_layer");
-		ptrcall!(void)(_GODOT_set_collision_layer, _godot_object, collision_layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_layer") = _GODOT_get_collision_layer;
 	/**
 	
 	*/
 	long getCollisionLayer() const
 	{
-		_GODOT_get_collision_layer.bind("Area", "get_collision_layer");
-		return ptrcall!(long)(_GODOT_get_collision_layer, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_mask_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask_bit") = _GODOT_set_collision_mask_bit;
 	/**
 	Set/clear individual bits on the collision mask. This simplifies editing which `Area` layers this `Area` scans.
 	*/
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
-		_GODOT_set_collision_mask_bit.bind("Area", "set_collision_mask_bit");
-		ptrcall!(void)(_GODOT_set_collision_mask_bit, _godot_object, bit, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_mask_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask_bit") = _GODOT_get_collision_mask_bit;
 	/**
 	Returns an individual bit on the collision mask.
 	*/
 	bool getCollisionMaskBit(in long bit) const
 	{
-		_GODOT_get_collision_mask_bit.bind("Area", "get_collision_mask_bit");
-		return ptrcall!(bool)(_GODOT_get_collision_mask_bit, _godot_object, bit);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_layer_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer_bit") = _GODOT_set_collision_layer_bit;
 	/**
 	Set/clear individual bits on the layer mask. This simplifies editing this $(D code)Area$(D code)'s layers.
 	*/
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
-		_GODOT_set_collision_layer_bit.bind("Area", "set_collision_layer_bit");
-		ptrcall!(void)(_GODOT_set_collision_layer_bit, _godot_object, bit, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_layer_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_layer_bit") = _GODOT_get_collision_layer_bit;
 	/**
 	Returns an individual bit on the layer mask.
 	*/
 	bool getCollisionLayerBit(in long bit) const
 	{
-		_GODOT_get_collision_layer_bit.bind("Area", "get_collision_layer_bit");
-		return ptrcall!(bool)(_GODOT_get_collision_layer_bit, _godot_object, bit);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_monitorable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_monitorable") = _GODOT_set_monitorable;
 	/**
 	
 	*/
 	void setMonitorable(in bool enable)
 	{
-		_GODOT_set_monitorable.bind("Area", "set_monitorable");
-		ptrcall!(void)(_GODOT_set_monitorable, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMonitorable, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_monitorable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_monitorable") = _GODOT_is_monitorable;
 	/**
 	
 	*/
 	bool isMonitorable() const
 	{
-		_GODOT_is_monitorable.bind("Area", "is_monitorable");
-		return ptrcall!(bool)(_GODOT_is_monitorable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMonitorable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_monitoring;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_monitoring") = _GODOT_set_monitoring;
 	/**
 	
 	*/
 	void setMonitoring(in bool enable)
 	{
-		_GODOT_set_monitoring.bind("Area", "set_monitoring");
-		ptrcall!(void)(_GODOT_set_monitoring, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMonitoring, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_monitoring;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_monitoring") = _GODOT_is_monitoring;
 	/**
 	
 	*/
 	bool isMonitoring() const
 	{
-		_GODOT_is_monitoring.bind("Area", "is_monitoring");
-		return ptrcall!(bool)(_GODOT_is_monitoring, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMonitoring, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_overlapping_bodies;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_overlapping_bodies") = _GODOT_get_overlapping_bodies;
 	/**
 	Returns a list of intersecting $(D PhysicsBody)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
 	*/
 	Array getOverlappingBodies() const
 	{
-		_GODOT_get_overlapping_bodies.bind("Area", "get_overlapping_bodies");
-		return ptrcall!(Array)(_GODOT_get_overlapping_bodies, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getOverlappingBodies, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_overlapping_areas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_overlapping_areas") = _GODOT_get_overlapping_areas;
 	/**
 	Returns a list of intersecting `Area`s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
 	*/
 	Array getOverlappingAreas() const
 	{
-		_GODOT_get_overlapping_areas.bind("Area", "get_overlapping_areas");
-		return ptrcall!(Array)(_GODOT_get_overlapping_areas, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getOverlappingAreas, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, GodotObject) _GODOT_overlaps_body;
-	package(godot) alias _GODOT_methodBindInfo(string name : "overlaps_body") = _GODOT_overlaps_body;
 	/**
 	If `true` the given body overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	bool overlapsBody(GodotObject _body) const
 	{
-		_GODOT_overlaps_body.bind("Area", "overlaps_body");
-		return ptrcall!(bool)(_GODOT_overlaps_body, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.overlapsBody, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(bool, GodotObject) _GODOT_overlaps_area;
-	package(godot) alias _GODOT_methodBindInfo(string name : "overlaps_area") = _GODOT_overlaps_area;
 	/**
 	If `true` the given area overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	bool overlapsArea(GodotObject area) const
 	{
-		_GODOT_overlaps_area.bind("Area", "overlaps_area");
-		return ptrcall!(bool)(_GODOT_overlaps_area, _godot_object, area);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.overlapsArea, _godot_object, area);
 	}
-	package(godot) static GodotMethod!(void, long, RID, long, long, long) _GODOT__body_inout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_body_inout") = _GODOT__body_inout;
 	/**
 	
 	*/
@@ -463,8 +446,6 @@ public:
 		String _GODOT_method_name = String("_body_inout");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, RID, long, long, long) _GODOT__area_inout;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_area_inout") = _GODOT__area_inout;
 	/**
 	
 	*/
@@ -479,125 +460,101 @@ public:
 		String _GODOT_method_name = String("_area_inout");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_audio_bus_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_audio_bus_override") = _GODOT_set_audio_bus_override;
 	/**
 	
 	*/
 	void setAudioBusOverride(in bool enable)
 	{
-		_GODOT_set_audio_bus_override.bind("Area", "set_audio_bus_override");
-		ptrcall!(void)(_GODOT_set_audio_bus_override, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAudioBusOverride, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_overriding_audio_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_overriding_audio_bus") = _GODOT_is_overriding_audio_bus;
 	/**
 	
 	*/
 	bool isOverridingAudioBus() const
 	{
-		_GODOT_is_overriding_audio_bus.bind("Area", "is_overriding_audio_bus");
-		return ptrcall!(bool)(_GODOT_is_overriding_audio_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverridingAudioBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_audio_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_audio_bus") = _GODOT_set_audio_bus;
 	/**
 	
 	*/
 	void setAudioBus(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_audio_bus.bind("Area", "set_audio_bus");
-		ptrcall!(void)(_GODOT_set_audio_bus, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAudioBus, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_audio_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_bus") = _GODOT_get_audio_bus;
 	/**
 	
 	*/
 	String getAudioBus() const
 	{
-		_GODOT_get_audio_bus.bind("Area", "get_audio_bus");
-		return ptrcall!(String)(_GODOT_get_audio_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAudioBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_reverb_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_reverb_bus") = _GODOT_set_use_reverb_bus;
 	/**
 	
 	*/
 	void setUseReverbBus(in bool enable)
 	{
-		_GODOT_set_use_reverb_bus.bind("Area", "set_use_reverb_bus");
-		ptrcall!(void)(_GODOT_set_use_reverb_bus, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseReverbBus, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_reverb_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_reverb_bus") = _GODOT_is_using_reverb_bus;
 	/**
 	
 	*/
 	bool isUsingReverbBus() const
 	{
-		_GODOT_is_using_reverb_bus.bind("Area", "is_using_reverb_bus");
-		return ptrcall!(bool)(_GODOT_is_using_reverb_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingReverbBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_reverb_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_reverb_bus") = _GODOT_set_reverb_bus;
 	/**
 	
 	*/
 	void setReverbBus(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_reverb_bus.bind("Area", "set_reverb_bus");
-		ptrcall!(void)(_GODOT_set_reverb_bus, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReverbBus, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_reverb_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_reverb_bus") = _GODOT_get_reverb_bus;
 	/**
 	
 	*/
 	String getReverbBus() const
 	{
-		_GODOT_get_reverb_bus.bind("Area", "get_reverb_bus");
-		return ptrcall!(String)(_GODOT_get_reverb_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getReverbBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_reverb_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_reverb_amount") = _GODOT_set_reverb_amount;
 	/**
 	
 	*/
 	void setReverbAmount(in double amount)
 	{
-		_GODOT_set_reverb_amount.bind("Area", "set_reverb_amount");
-		ptrcall!(void)(_GODOT_set_reverb_amount, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReverbAmount, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_reverb_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_reverb_amount") = _GODOT_get_reverb_amount;
 	/**
 	
 	*/
 	double getReverbAmount() const
 	{
-		_GODOT_get_reverb_amount.bind("Area", "get_reverb_amount");
-		return ptrcall!(double)(_GODOT_get_reverb_amount, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getReverbAmount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_reverb_uniformity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_reverb_uniformity") = _GODOT_set_reverb_uniformity;
 	/**
 	
 	*/
 	void setReverbUniformity(in double amount)
 	{
-		_GODOT_set_reverb_uniformity.bind("Area", "set_reverb_uniformity");
-		ptrcall!(void)(_GODOT_set_reverb_uniformity, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReverbUniformity, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_reverb_uniformity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_reverb_uniformity") = _GODOT_get_reverb_uniformity;
 	/**
 	
 	*/
 	double getReverbUniformity() const
 	{
-		_GODOT_get_reverb_uniformity.bind("Area", "get_reverb_uniformity");
-		return ptrcall!(double)(_GODOT_get_reverb_uniformity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getReverbUniformity, _godot_object);
 	}
 	/**
 	Override mode for gravity and damping calculations within this area. See the SPACE_OVERRIDE_* constants for values.

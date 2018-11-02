@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
+import godot.resource;
+import godot.reference;
 /**
 Segment shape for 2D collisions.
 
@@ -28,12 +30,21 @@ Consists of two points, `a` and `b`.
 */
 @GodotBaseClass struct SegmentShape2D
 {
-	static immutable string _GODOT_internal_name = "SegmentShape2D";
+	enum string _GODOT_internal_name = "SegmentShape2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Shape2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_a") GodotMethod!(void, Vector2) setA;
+		@GodotName("get_a") GodotMethod!(Vector2) getA;
+		@GodotName("set_b") GodotMethod!(void, Vector2) setB;
+		@GodotName("get_b") GodotMethod!(Vector2) getB;
+	}
 	bool opEquals(in SegmentShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SegmentShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,45 +57,37 @@ public:
 		return cast(SegmentShape2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_a") = _GODOT_set_a;
 	/**
 	
 	*/
 	void setA(in Vector2 a)
 	{
-		_GODOT_set_a.bind("SegmentShape2D", "set_a");
-		ptrcall!(void)(_GODOT_set_a, _godot_object, a);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setA, _godot_object, a);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_a") = _GODOT_get_a;
 	/**
 	
 	*/
 	Vector2 getA() const
 	{
-		_GODOT_get_a.bind("SegmentShape2D", "get_a");
-		return ptrcall!(Vector2)(_GODOT_get_a, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getA, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_b") = _GODOT_set_b;
 	/**
 	
 	*/
 	void setB(in Vector2 b)
 	{
-		_GODOT_set_b.bind("SegmentShape2D", "set_b");
-		ptrcall!(void)(_GODOT_set_b, _godot_object, b);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setB, _godot_object, b);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_b") = _GODOT_get_b;
 	/**
 	
 	*/
 	Vector2 getB() const
 	{
-		_GODOT_get_b.bind("SegmentShape2D", "get_b");
-		return ptrcall!(Vector2)(_GODOT_get_b, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getB, _godot_object);
 	}
 	/**
 	The segment's first point position.

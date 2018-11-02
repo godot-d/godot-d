@@ -22,6 +22,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a Reverb audio effect to an Audio bus.
 Simulates the sound of acoustic environments such as rooms, concert halls, caverns, or an open spaces.
@@ -30,12 +32,33 @@ Simulates rooms of different sizes. Its parameters can be adjusted to simulate t
 */
 @GodotBaseClass struct AudioEffectReverb
 {
-	static immutable string _GODOT_internal_name = "AudioEffectReverb";
+	enum string _GODOT_internal_name = "AudioEffectReverb";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_predelay_msec") GodotMethod!(void, double) setPredelayMsec;
+		@GodotName("get_predelay_msec") GodotMethod!(double) getPredelayMsec;
+		@GodotName("set_predelay_feedback") GodotMethod!(void, double) setPredelayFeedback;
+		@GodotName("get_predelay_feedback") GodotMethod!(double) getPredelayFeedback;
+		@GodotName("set_room_size") GodotMethod!(void, double) setRoomSize;
+		@GodotName("get_room_size") GodotMethod!(double) getRoomSize;
+		@GodotName("set_damping") GodotMethod!(void, double) setDamping;
+		@GodotName("get_damping") GodotMethod!(double) getDamping;
+		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
+		@GodotName("get_spread") GodotMethod!(double) getSpread;
+		@GodotName("set_dry") GodotMethod!(void, double) setDry;
+		@GodotName("get_dry") GodotMethod!(double) getDry;
+		@GodotName("set_wet") GodotMethod!(void, double) setWet;
+		@GodotName("get_wet") GodotMethod!(double) getWet;
+		@GodotName("set_hpf") GodotMethod!(void, double) setHpf;
+		@GodotName("get_hpf") GodotMethod!(double) getHpf;
+	}
 	bool opEquals(in AudioEffectReverb other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectReverb opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,165 +71,133 @@ public:
 		return cast(AudioEffectReverb)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_predelay_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_predelay_msec") = _GODOT_set_predelay_msec;
 	/**
 	
 	*/
 	void setPredelayMsec(in double msec)
 	{
-		_GODOT_set_predelay_msec.bind("AudioEffectReverb", "set_predelay_msec");
-		ptrcall!(void)(_GODOT_set_predelay_msec, _godot_object, msec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPredelayMsec, _godot_object, msec);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_predelay_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_predelay_msec") = _GODOT_get_predelay_msec;
 	/**
 	
 	*/
 	double getPredelayMsec() const
 	{
-		_GODOT_get_predelay_msec.bind("AudioEffectReverb", "get_predelay_msec");
-		return ptrcall!(double)(_GODOT_get_predelay_msec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPredelayMsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_predelay_feedback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_predelay_feedback") = _GODOT_set_predelay_feedback;
 	/**
 	
 	*/
 	void setPredelayFeedback(in double feedback)
 	{
-		_GODOT_set_predelay_feedback.bind("AudioEffectReverb", "set_predelay_feedback");
-		ptrcall!(void)(_GODOT_set_predelay_feedback, _godot_object, feedback);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPredelayFeedback, _godot_object, feedback);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_predelay_feedback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_predelay_feedback") = _GODOT_get_predelay_feedback;
 	/**
 	
 	*/
 	double getPredelayFeedback() const
 	{
-		_GODOT_get_predelay_feedback.bind("AudioEffectReverb", "get_predelay_feedback");
-		return ptrcall!(double)(_GODOT_get_predelay_feedback, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPredelayFeedback, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_room_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_room_size") = _GODOT_set_room_size;
 	/**
 	
 	*/
 	void setRoomSize(in double size)
 	{
-		_GODOT_set_room_size.bind("AudioEffectReverb", "set_room_size");
-		ptrcall!(void)(_GODOT_set_room_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRoomSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_room_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_room_size") = _GODOT_get_room_size;
 	/**
 	
 	*/
 	double getRoomSize() const
 	{
-		_GODOT_get_room_size.bind("AudioEffectReverb", "get_room_size");
-		return ptrcall!(double)(_GODOT_get_room_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRoomSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_damping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_damping") = _GODOT_set_damping;
 	/**
 	
 	*/
 	void setDamping(in double amount)
 	{
-		_GODOT_set_damping.bind("AudioEffectReverb", "set_damping");
-		ptrcall!(void)(_GODOT_set_damping, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDamping, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_damping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_damping") = _GODOT_get_damping;
 	/**
 	
 	*/
 	double getDamping() const
 	{
-		_GODOT_get_damping.bind("AudioEffectReverb", "get_damping");
-		return ptrcall!(double)(_GODOT_get_damping, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_spread;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_spread") = _GODOT_set_spread;
 	/**
 	
 	*/
 	void setSpread(in double amount)
 	{
-		_GODOT_set_spread.bind("AudioEffectReverb", "set_spread");
-		ptrcall!(void)(_GODOT_set_spread, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpread, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_spread;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_spread") = _GODOT_get_spread;
 	/**
 	
 	*/
 	double getSpread() const
 	{
-		_GODOT_get_spread.bind("AudioEffectReverb", "get_spread");
-		return ptrcall!(double)(_GODOT_get_spread, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpread, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dry") = _GODOT_set_dry;
 	/**
 	
 	*/
 	void setDry(in double amount)
 	{
-		_GODOT_set_dry.bind("AudioEffectReverb", "set_dry");
-		ptrcall!(void)(_GODOT_set_dry, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dry") = _GODOT_get_dry;
 	/**
 	
 	*/
 	double getDry() const
 	{
-		_GODOT_get_dry.bind("AudioEffectReverb", "get_dry");
-		return ptrcall!(double)(_GODOT_get_dry, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDry, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_wet;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_wet") = _GODOT_set_wet;
 	/**
 	
 	*/
 	void setWet(in double amount)
 	{
-		_GODOT_set_wet.bind("AudioEffectReverb", "set_wet");
-		ptrcall!(void)(_GODOT_set_wet, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_wet;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_wet") = _GODOT_get_wet;
 	/**
 	
 	*/
 	double getWet() const
 	{
-		_GODOT_get_wet.bind("AudioEffectReverb", "get_wet");
-		return ptrcall!(double)(_GODOT_get_wet, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWet, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_hpf;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hpf") = _GODOT_set_hpf;
 	/**
 	
 	*/
 	void setHpf(in double amount)
 	{
-		_GODOT_set_hpf.bind("AudioEffectReverb", "set_hpf");
-		ptrcall!(void)(_GODOT_set_hpf, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHpf, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_hpf;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hpf") = _GODOT_get_hpf;
 	/**
 	
 	*/
 	double getHpf() const
 	{
-		_GODOT_get_hpf.bind("AudioEffectReverb", "get_hpf");
-		return ptrcall!(double)(_GODOT_get_hpf, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHpf, _godot_object);
 	}
 	/**
 	Time between the original signal and the early reflections of the reverb signal. Default value: `150ms`.

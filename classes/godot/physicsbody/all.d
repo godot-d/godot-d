@@ -5,4 +5,5 @@ public import
 	godot.staticbody,
 	godot.rigidbody,
 	godot.vehiclebody,
-	godot.kinematicbody;
+	godot.kinematicbody,
+	godot.physicalbone;

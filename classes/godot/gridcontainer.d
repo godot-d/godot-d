@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Grid container used to arrange elements in a grid like layout.
 
@@ -28,12 +31,19 @@ Grid container will arrange its children in a grid like structure, the grid colu
 */
 @GodotBaseClass struct GridContainer
 {
-	static immutable string _GODOT_internal_name = "GridContainer";
+	enum string _GODOT_internal_name = "GridContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_columns") GodotMethod!(void, long) setColumns;
+		@GodotName("get_columns") GodotMethod!(long) getColumns;
+	}
 	bool opEquals(in GridContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GridContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,25 +56,21 @@ public:
 		return cast(GridContainer)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_columns;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_columns") = _GODOT_set_columns;
 	/**
 	
 	*/
 	void setColumns(in long columns)
 	{
-		_GODOT_set_columns.bind("GridContainer", "set_columns");
-		ptrcall!(void)(_GODOT_set_columns, _godot_object, columns);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColumns, _godot_object, columns);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_columns;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_columns") = _GODOT_get_columns;
 	/**
 	
 	*/
 	long getColumns() const
 	{
-		_GODOT_get_columns.bind("GridContainer", "get_columns");
-		return ptrcall!(long)(_GODOT_get_columns, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getColumns, _godot_object);
 	}
 	/**
 	The number of columns in the `GridContainer`. If modified, `GridContainer` reorders its children to accommodate the new layout.

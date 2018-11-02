@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.image;
+import godot.reference;
 /**
 Boolean matrix.
 
@@ -29,12 +30,28 @@ A two-dimensional array of boolean values, can be used to efficiently store a bi
 */
 @GodotBaseClass struct BitMap
 {
-	static immutable string _GODOT_internal_name = "BitMap";
+	enum string _GODOT_internal_name = "BitMap";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("create") GodotMethod!(void, Vector2) create;
+		@GodotName("create_from_image_alpha") GodotMethod!(void, Image, double) createFromImageAlpha;
+		@GodotName("set_bit") GodotMethod!(void, Vector2, bool) setBit;
+		@GodotName("get_bit") GodotMethod!(bool, Vector2) getBit;
+		@GodotName("set_bit_rect") GodotMethod!(void, Rect2, bool) setBitRect;
+		@GodotName("get_true_bit_count") GodotMethod!(long) getTrueBitCount;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
+		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
+		@GodotName("grow_mask") GodotMethod!(void, long, Rect2) growMask;
+		@GodotName("opaque_to_polygons") GodotMethod!(Array, Rect2, double) opaqueToPolygons;
+	}
 	bool opEquals(in BitMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BitMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,78 +64,62 @@ public:
 		return cast(BitMap)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create") = _GODOT_create;
 	/**
 	Creates a bitmap with the specified size, filled with false.
 	*/
 	void create(in Vector2 size)
 	{
-		_GODOT_create.bind("BitMap", "create");
-		ptrcall!(void)(_GODOT_create, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.create, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, Image) _GODOT_create_from_image_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "create_from_image_alpha") = _GODOT_create_from_image_alpha;
 	/**
 	Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to false if the alpha value of the image at that position is equal to `threshold` or less, and true in other case.
 	*/
-	void createFromImageAlpha(Image image)
+	void createFromImageAlpha(Image image, in double threshold = 0.1)
 	{
-		_GODOT_create_from_image_alpha.bind("BitMap", "create_from_image_alpha");
-		ptrcall!(void)(_GODOT_create_from_image_alpha, _godot_object, image);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.createFromImageAlpha, _godot_object, image, threshold);
 	}
-	package(godot) static GodotMethod!(void, Vector2, bool) _GODOT_set_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bit") = _GODOT_set_bit;
 	/**
 	Sets the bitmap's element at the specified position, to the specified value.
 	*/
 	void setBit(in Vector2 position, in bool bit)
 	{
-		_GODOT_set_bit.bind("BitMap", "set_bit");
-		ptrcall!(void)(_GODOT_set_bit, _godot_object, position, bit);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBit, _godot_object, position, bit);
 	}
-	package(godot) static GodotMethod!(bool, Vector2) _GODOT_get_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bit") = _GODOT_get_bit;
 	/**
 	Returns bitmap's value at the specified position.
 	*/
 	bool getBit(in Vector2 position) const
 	{
-		_GODOT_get_bit.bind("BitMap", "get_bit");
-		return ptrcall!(bool)(_GODOT_get_bit, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getBit, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, Rect2, bool) _GODOT_set_bit_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bit_rect") = _GODOT_set_bit_rect;
 	/**
 	Sets a rectangular portion of the bitmap to the specified value.
 	*/
 	void setBitRect(in Rect2 p_rect, in bool bit)
 	{
-		_GODOT_set_bit_rect.bind("BitMap", "set_bit_rect");
-		ptrcall!(void)(_GODOT_set_bit_rect, _godot_object, p_rect, bit);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBitRect, _godot_object, p_rect, bit);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_true_bit_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_true_bit_count") = _GODOT_get_true_bit_count;
 	/**
 	Returns the amount of bitmap elements that are set to true.
 	*/
 	long getTrueBitCount() const
 	{
-		_GODOT_get_true_bit_count.bind("BitMap", "get_true_bit_count");
-		return ptrcall!(long)(_GODOT_get_true_bit_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrueBitCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	Returns bitmap's dimensions.
 	*/
 	Vector2 getSize() const
 	{
-		_GODOT_get_size.bind("BitMap", "get_size");
-		return ptrcall!(Vector2)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**
 	
 	*/
@@ -129,8 +130,6 @@ public:
 		String _GODOT_method_name = String("_set_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_data") = _GODOT__get_data;
 	/**
 	
 	*/
@@ -139,6 +138,22 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_get_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
+	}
+	/**
+	
+	*/
+	void growMask(in long pixels, in Rect2 rect)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.growMask, _godot_object, pixels, rect);
+	}
+	/**
+	
+	*/
+	Array opaqueToPolygons(in Rect2 rect, in double epsilon = 2) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.opaqueToPolygons, _godot_object, rect, epsilon);
 	}
 	/**
 	

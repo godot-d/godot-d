@@ -41,12 +41,21 @@ Note that the script is run in the Editor context, which means the output is vis
 */
 @GodotBaseClass struct EditorScript
 {
-	static immutable string _GODOT_internal_name = "EditorScript";
+	enum string _GODOT_internal_name = "EditorScript";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_run") GodotMethod!(void) _run;
+		@GodotName("add_root_node") GodotMethod!(void, GodotObject) addRootNode;
+		@GodotName("get_scene") GodotMethod!(Node) getScene;
+		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
+	}
 	bool opEquals(in EditorScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -59,8 +68,6 @@ public:
 		return cast(EditorScript)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void) _GODOT__run;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_run") = _GODOT__run;
 	/**
 	This method is executed by the Editor when `File -&gt; Run` is used.
 	*/
@@ -70,35 +77,29 @@ public:
 		String _GODOT_method_name = String("_run");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_add_root_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_root_node") = _GODOT_add_root_node;
 	/**
 	Adds `node` as a child of the root node in the editor context.
 	WARNING: The implementation of this method is currently disabled.
 	*/
 	void addRootNode(GodotObject node)
 	{
-		_GODOT_add_root_node.bind("EditorScript", "add_root_node");
-		ptrcall!(void)(_GODOT_add_root_node, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addRootNode, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(Node) _GODOT_get_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scene") = _GODOT_get_scene;
 	/**
 	Returns the Editor's currently active scene.
 	*/
 	Node getScene()
 	{
-		_GODOT_get_scene.bind("EditorScript", "get_scene");
-		return ptrcall!(Node)(_GODOT_get_scene, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.getScene, _godot_object);
 	}
-	package(godot) static GodotMethod!(EditorInterface) _GODOT_get_editor_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_editor_interface") = _GODOT_get_editor_interface;
 	/**
 	Returns the $(D EditorInterface) singleton instance.
 	*/
 	EditorInterface getEditorInterface()
 	{
-		_GODOT_get_editor_interface.bind("EditorScript", "get_editor_interface");
-		return ptrcall!(EditorInterface)(_GODOT_get_editor_interface, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorInterface)(_classBinding.getEditorInterface, _godot_object);
 	}
 }

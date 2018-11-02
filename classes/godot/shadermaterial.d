@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.material;
 import godot.shader;
+import godot.resource;
+import godot.reference;
 /**
 A material that uses a custom $(D Shader) program.
 
@@ -29,12 +31,24 @@ A material that uses a custom $(D Shader) program to render either items to scre
 */
 @GodotBaseClass struct ShaderMaterial
 {
-	static immutable string _GODOT_internal_name = "ShaderMaterial";
+	enum string _GODOT_internal_name = "ShaderMaterial";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Material _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_shader") GodotMethod!(void, Shader) setShader;
+		@GodotName("get_shader") GodotMethod!(Shader) getShader;
+		@GodotName("set_shader_param") GodotMethod!(void, String, Variant) setShaderParam;
+		@GodotName("get_shader_param") GodotMethod!(Variant, String) getShaderParam;
+		@GodotName("_shader_changed") GodotMethod!(void) _shaderChanged;
+		@GodotName("property_can_revert") GodotMethod!(bool, String) propertyCanRevert;
+		@GodotName("property_get_revert") GodotMethod!(Variant, String) propertyGetRevert;
+	}
 	bool opEquals(in ShaderMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ShaderMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,45 +61,62 @@ public:
 		return cast(ShaderMaterial)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Shader) _GODOT_set_shader;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shader") = _GODOT_set_shader;
 	/**
 	
 	*/
 	void setShader(Shader shader)
 	{
-		_GODOT_set_shader.bind("ShaderMaterial", "set_shader");
-		ptrcall!(void)(_GODOT_set_shader, _godot_object, shader);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShader, _godot_object, shader);
 	}
-	package(godot) static GodotMethod!(Shader) _GODOT_get_shader;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shader") = _GODOT_get_shader;
 	/**
 	
 	*/
 	Ref!Shader getShader() const
 	{
-		_GODOT_get_shader.bind("ShaderMaterial", "get_shader");
-		return ptrcall!(Shader)(_GODOT_get_shader, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shader)(_classBinding.getShader, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Variant) _GODOT_set_shader_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shader_param") = _GODOT_set_shader_param;
 	/**
 	Changes the value set for this material of a uniform in the shader.
 	*/
 	void setShaderParam(StringArg0, VariantArg1)(in StringArg0 param, in VariantArg1 value)
 	{
-		_GODOT_set_shader_param.bind("ShaderMaterial", "set_shader_param");
-		ptrcall!(void)(_GODOT_set_shader_param, _godot_object, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShaderParam, _godot_object, param, value);
 	}
-	package(godot) static GodotMethod!(Variant, String) _GODOT_get_shader_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shader_param") = _GODOT_get_shader_param;
 	/**
 	Returns the current value set for this material of a uniform in the shader.
 	*/
 	Variant getShaderParam(StringArg0)(in StringArg0 param) const
 	{
-		_GODOT_get_shader_param.bind("ShaderMaterial", "get_shader_param");
-		return ptrcall!(Variant)(_GODOT_get_shader_param, _godot_object, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getShaderParam, _godot_object, param);
+	}
+	/**
+	
+	*/
+	void _shaderChanged()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_shader_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	bool propertyCanRevert(StringArg0)(in StringArg0 name)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
+	}
+	/**
+	
+	*/
+	Variant propertyGetRevert(StringArg0)(in StringArg0 name)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
 	}
 	/**
 	The $(D Shader) program used to render this material.

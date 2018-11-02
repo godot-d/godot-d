@@ -28,12 +28,30 @@ Interfaces should be written in such a way that simply enabling them will give u
 */
 @GodotBaseClass struct ARVRInterface
 {
-	static immutable string _GODOT_internal_name = "ARVRInterface";
+	enum string _GODOT_internal_name = "ARVRInterface";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_name") GodotMethod!(String) getName;
+		@GodotName("get_capabilities") GodotMethod!(long) getCapabilities;
+		@GodotName("is_primary") GodotMethod!(bool) isPrimary;
+		@GodotName("set_is_primary") GodotMethod!(void, bool) setIsPrimary;
+		@GodotName("is_initialized") GodotMethod!(bool) isInitialized;
+		@GodotName("set_is_initialized") GodotMethod!(void, bool) setIsInitialized;
+		@GodotName("initialize") GodotMethod!(bool) initialize;
+		@GodotName("uninitialize") GodotMethod!(void) uninitialize;
+		@GodotName("get_tracking_status") GodotMethod!(ARVRInterface.Tracking_status) getTrackingStatus;
+		@GodotName("get_render_targetsize") GodotMethod!(Vector2) getRenderTargetsize;
+		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
+		@GodotName("get_anchor_detection_is_enabled") GodotMethod!(bool) getAnchorDetectionIsEnabled;
+		@GodotName("set_anchor_detection_is_enabled") GodotMethod!(void, bool) setAnchorDetectionIsEnabled;
+	}
 	bool opEquals(in ARVRInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -113,82 +131,68 @@ public:
 	/// 
 	enum Constants : int
 	{
-		arvrNone = 0,
 		eyeMono = 0,
+		arvrNone = 0,
 		arvrNormalTracking = 0,
+		eyeLeft = 1,
 		arvrMono = 1,
 		arvrExcessiveMotion = 1,
-		eyeLeft = 1,
 		arvrInsufficientFeatures = 2,
-		arvrStereo = 2,
 		eyeRight = 2,
+		arvrStereo = 2,
 		arvrUnknownTracking = 3,
 		arvrAr = 4,
 		arvrNotTracking = 4,
 		arvrExternal = 8,
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_name") = _GODOT_get_name;
 	/**
 	Returns the name of this interface (OpenVR, OpenHMD, ARKit, etc).
 	*/
 	String getName() const
 	{
-		_GODOT_get_name.bind("ARVRInterface", "get_name");
-		return ptrcall!(String)(_GODOT_get_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getName, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_capabilities;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_capabilities") = _GODOT_get_capabilities;
 	/**
 	Returns a combination of flags providing information about the capabilities of this interface.
 	*/
 	long getCapabilities() const
 	{
-		_GODOT_get_capabilities.bind("ARVRInterface", "get_capabilities");
-		return ptrcall!(long)(_GODOT_get_capabilities, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCapabilities, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_primary;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_primary") = _GODOT_is_primary;
 	/**
 	
 	*/
 	bool isPrimary()
 	{
-		_GODOT_is_primary.bind("ARVRInterface", "is_primary");
-		return ptrcall!(bool)(_GODOT_is_primary, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPrimary, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_is_primary;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_is_primary") = _GODOT_set_is_primary;
 	/**
 	
 	*/
 	void setIsPrimary(in bool enable)
 	{
-		_GODOT_set_is_primary.bind("ARVRInterface", "set_is_primary");
-		ptrcall!(void)(_GODOT_set_is_primary, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIsPrimary, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_initialized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_initialized") = _GODOT_is_initialized;
 	/**
 	
 	*/
-	bool isInitialized()
+	bool isInitialized() const
 	{
-		_GODOT_is_initialized.bind("ARVRInterface", "is_initialized");
-		return ptrcall!(bool)(_GODOT_is_initialized, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInitialized, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_is_initialized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_is_initialized") = _GODOT_set_is_initialized;
 	/**
 	
 	*/
 	void setIsInitialized(in bool initialized)
 	{
-		_GODOT_set_is_initialized.bind("ARVRInterface", "set_is_initialized");
-		ptrcall!(void)(_GODOT_set_is_initialized, _godot_object, initialized);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIsInitialized, _godot_object, initialized);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_initialize;
-	package(godot) alias _GODOT_methodBindInfo(string name : "initialize") = _GODOT_initialize;
 	/**
 	Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output.
 	After initializing the interface you want to use you then need to enable the AR/VR mode of a viewport and rendering should commence. 
@@ -198,68 +202,56 @@ public:
 	*/
 	bool initialize()
 	{
-		_GODOT_initialize.bind("ARVRInterface", "initialize");
-		return ptrcall!(bool)(_GODOT_initialize, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.initialize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_uninitialize;
-	package(godot) alias _GODOT_methodBindInfo(string name : "uninitialize") = _GODOT_uninitialize;
 	/**
 	Turns the interface off.
 	*/
 	void uninitialize()
 	{
-		_GODOT_uninitialize.bind("ARVRInterface", "uninitialize");
-		ptrcall!(void)(_GODOT_uninitialize, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.uninitialize, _godot_object);
 	}
-	package(godot) static GodotMethod!(ARVRInterface.Tracking_status) _GODOT_get_tracking_status;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tracking_status") = _GODOT_get_tracking_status;
 	/**
 	If supported, returns the status of our tracking. This will allow you to provide feedback to the user whether there are issues with positional tracking.
 	*/
 	ARVRInterface.Tracking_status getTrackingStatus() const
 	{
-		_GODOT_get_tracking_status.bind("ARVRInterface", "get_tracking_status");
-		return ptrcall!(ARVRInterface.Tracking_status)(_GODOT_get_tracking_status, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ARVRInterface.Tracking_status)(_classBinding.getTrackingStatus, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_render_targetsize;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_render_targetsize") = _GODOT_get_render_targetsize;
 	/**
 	Returns the resolution at which we should render our intermediate results before things like lens distortion are applied by the VR platform.
 	*/
 	Vector2 getRenderTargetsize()
 	{
-		_GODOT_get_render_targetsize.bind("ARVRInterface", "get_render_targetsize");
-		return ptrcall!(Vector2)(_GODOT_get_render_targetsize, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getRenderTargetsize, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_stereo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_stereo") = _GODOT_is_stereo;
 	/**
 	Returns true if the current output of this interface is in stereo.
 	*/
 	bool isStereo()
 	{
-		_GODOT_is_stereo.bind("ARVRInterface", "is_stereo");
-		return ptrcall!(bool)(_GODOT_is_stereo, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isStereo, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_anchor_detection_is_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_anchor_detection_is_enabled") = _GODOT_get_anchor_detection_is_enabled;
 	/**
 	
 	*/
 	bool getAnchorDetectionIsEnabled() const
 	{
-		_GODOT_get_anchor_detection_is_enabled.bind("ARVRInterface", "get_anchor_detection_is_enabled");
-		return ptrcall!(bool)(_GODOT_get_anchor_detection_is_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getAnchorDetectionIsEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_anchor_detection_is_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchor_detection_is_enabled") = _GODOT_set_anchor_detection_is_enabled;
 	/**
 	
 	*/
 	void setAnchorDetectionIsEnabled(in bool enable)
 	{
-		_GODOT_set_anchor_detection_is_enabled.bind("ARVRInterface", "set_anchor_detection_is_enabled");
-		ptrcall!(void)(_GODOT_set_anchor_detection_is_enabled, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorDetectionIsEnabled, _godot_object, enable);
 	}
 	/**
 	Is this our primary interface?

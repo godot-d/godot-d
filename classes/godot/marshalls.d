@@ -27,20 +27,25 @@ Provides data transformation and encoding utility functions.
 */
 @GodotBaseClass struct MarshallsSingleton
 {
-	static immutable string _GODOT_internal_name = "_Marshalls";
+	enum string _GODOT_internal_name = "_Marshalls";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "Marshalls";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "Marshalls";
+		@GodotName("variant_to_base64") GodotMethod!(String, Variant) variantToBase64;
+		@GodotName("base64_to_variant") GodotMethod!(Variant, String) base64ToVariant;
+		@GodotName("raw_to_base64") GodotMethod!(String, PoolByteArray) rawToBase64;
+		@GodotName("base64_to_raw") GodotMethod!(PoolByteArray, String) base64ToRaw;
+		@GodotName("utf8_to_base64") GodotMethod!(String, String) utf8ToBase64;
+		@GodotName("base64_to_utf8") GodotMethod!(String, String) base64ToUtf8;
+	}
 	bool opEquals(in MarshallsSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MarshallsSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -53,70 +58,59 @@ public:
 		return cast(MarshallsSingleton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(String, Variant) _GODOT_variant_to_base64;
-	package(godot) alias _GODOT_methodBindInfo(string name : "variant_to_base64") = _GODOT_variant_to_base64;
 	/**
 	Return base64 encoded String of a given $(D Variant).
 	*/
 	String variantToBase64(VariantArg0)(in VariantArg0 variant)
 	{
-		_GODOT_variant_to_base64.bind("_Marshalls", "variant_to_base64");
-		return ptrcall!(String)(_GODOT_variant_to_base64, _godot_object, variant);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.variantToBase64, _godot_object, variant);
 	}
-	package(godot) static GodotMethod!(Variant, String) _GODOT_base64_to_variant;
-	package(godot) alias _GODOT_methodBindInfo(string name : "base64_to_variant") = _GODOT_base64_to_variant;
 	/**
 	Return $(D Variant) of a given base64 encoded String.
 	*/
 	Variant base64ToVariant(StringArg0)(in StringArg0 base64_str)
 	{
-		_GODOT_base64_to_variant.bind("_Marshalls", "base64_to_variant");
-		return ptrcall!(Variant)(_GODOT_base64_to_variant, _godot_object, base64_str);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.base64ToVariant, _godot_object, base64_str);
 	}
-	package(godot) static GodotMethod!(String, PoolByteArray) _GODOT_raw_to_base64;
-	package(godot) alias _GODOT_methodBindInfo(string name : "raw_to_base64") = _GODOT_raw_to_base64;
 	/**
 	Return base64 encoded String of a given $(D PoolByteArray).
 	*/
 	String rawToBase64(in PoolByteArray array)
 	{
-		_GODOT_raw_to_base64.bind("_Marshalls", "raw_to_base64");
-		return ptrcall!(String)(_GODOT_raw_to_base64, _godot_object, array);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.rawToBase64, _godot_object, array);
 	}
-	package(godot) static GodotMethod!(PoolByteArray, String) _GODOT_base64_to_raw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "base64_to_raw") = _GODOT_base64_to_raw;
 	/**
 	Return $(D PoolByteArray) of a given base64 encoded String.
 	*/
 	PoolByteArray base64ToRaw(StringArg0)(in StringArg0 base64_str)
 	{
-		_GODOT_base64_to_raw.bind("_Marshalls", "base64_to_raw");
-		return ptrcall!(PoolByteArray)(_GODOT_base64_to_raw, _godot_object, base64_str);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.base64ToRaw, _godot_object, base64_str);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_utf8_to_base64;
-	package(godot) alias _GODOT_methodBindInfo(string name : "utf8_to_base64") = _GODOT_utf8_to_base64;
 	/**
 	Return base64 encoded String of a given utf8 String.
 	*/
 	String utf8ToBase64(StringArg0)(in StringArg0 utf8_str)
 	{
-		_GODOT_utf8_to_base64.bind("_Marshalls", "utf8_to_base64");
-		return ptrcall!(String)(_GODOT_utf8_to_base64, _godot_object, utf8_str);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.utf8ToBase64, _godot_object, utf8_str);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_base64_to_utf8;
-	package(godot) alias _GODOT_methodBindInfo(string name : "base64_to_utf8") = _GODOT_base64_to_utf8;
 	/**
 	Return utf8 String of a given base64 encoded String.
 	*/
 	String base64ToUtf8(StringArg0)(in StringArg0 base64_str)
 	{
-		_GODOT_base64_to_utf8.bind("_Marshalls", "base64_to_utf8");
-		return ptrcall!(String)(_GODOT_base64_to_utf8, _godot_object, base64_str);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.base64ToUtf8, _godot_object, base64_str);
 	}
 }
 /// Returns: the MarshallsSingleton
 @property @nogc nothrow pragma(inline, true)
 MarshallsSingleton Marshalls()
 {
-	return MarshallsSingleton._GODOT_singleton();
+	checkClassBinding!MarshallsSingleton();
+	return MarshallsSingleton(MarshallsSingleton._classBinding._singleton);
 }

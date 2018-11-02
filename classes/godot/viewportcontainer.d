@@ -1,5 +1,5 @@
 /**
-
+Control for holding $(D Viewport)s.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,17 +22,32 @@ import godot.object;
 import godot.classdb;
 import godot.container;
 import godot.inputevent;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
+Control for holding $(D Viewport)s.
 
+A $(D Container) node that holds a $(D Viewport), automatically setting its size.
 */
 @GodotBaseClass struct ViewportContainer
 {
-	static immutable string _GODOT_internal_name = "ViewportContainer";
+	enum string _GODOT_internal_name = "ViewportContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
+		@GodotName("set_stretch") GodotMethod!(void, bool) setStretch;
+		@GodotName("is_stretch_enabled") GodotMethod!(bool) isStretchEnabled;
+		@GodotName("set_stretch_shrink") GodotMethod!(void, long) setStretchShrink;
+		@GodotName("get_stretch_shrink") GodotMethod!(long) getStretchShrink;
+	}
 	bool opEquals(in ViewportContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ViewportContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,8 +60,6 @@ public:
 		return cast(ViewportContainer)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_input") = _GODOT__input;
 	/**
 	
 	*/
@@ -57,48 +70,40 @@ public:
 		String _GODOT_method_name = String("_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_stretch;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch") = _GODOT_set_stretch;
 	/**
 	
 	*/
 	void setStretch(in bool enable)
 	{
-		_GODOT_set_stretch.bind("ViewportContainer", "set_stretch");
-		ptrcall!(void)(_GODOT_set_stretch, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretch, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_stretch_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_stretch_enabled") = _GODOT_is_stretch_enabled;
 	/**
 	
 	*/
 	bool isStretchEnabled() const
 	{
-		_GODOT_is_stretch_enabled.bind("ViewportContainer", "is_stretch_enabled");
-		return ptrcall!(bool)(_GODOT_is_stretch_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isStretchEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_stretch_shrink;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch_shrink") = _GODOT_set_stretch_shrink;
 	/**
 	
 	*/
 	void setStretchShrink(in long amount)
 	{
-		_GODOT_set_stretch_shrink.bind("ViewportContainer", "set_stretch_shrink");
-		ptrcall!(void)(_GODOT_set_stretch_shrink, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchShrink, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_stretch_shrink;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stretch_shrink") = _GODOT_get_stretch_shrink;
 	/**
 	
 	*/
 	long getStretchShrink() const
 	{
-		_GODOT_get_stretch_shrink.bind("ViewportContainer", "get_stretch_shrink");
-		return ptrcall!(long)(_GODOT_get_stretch_shrink, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStretchShrink, _godot_object);
 	}
 	/**
-	
+	If `true` the viewport will be scaled to the control's size. Default value:`false`.
 	*/
 	@property bool stretch()
 	{

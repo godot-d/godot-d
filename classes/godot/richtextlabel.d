@@ -25,6 +25,8 @@ import godot.inputevent;
 import godot.texture;
 import godot.font;
 import godot.vscrollbar;
+import godot.canvasitem;
+import godot.node;
 /**
 Label that displays rich text.
 
@@ -33,12 +35,66 @@ Note that assignments to $(D bbcodeText) clear the tag stack and reconstruct it 
 */
 @GodotBaseClass struct RichTextLabel
 {
-	static immutable string _GODOT_internal_name = "RichTextLabel";
+	enum string _GODOT_internal_name = "RichTextLabel";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_scroll_changed") GodotMethod!(void, double) _scrollChanged;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("add_text") GodotMethod!(void, String) addText;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("add_image") GodotMethod!(void, Texture) addImage;
+		@GodotName("newline") GodotMethod!(void) newline;
+		@GodotName("remove_line") GodotMethod!(bool, long) removeLine;
+		@GodotName("push_font") GodotMethod!(void, Font) pushFont;
+		@GodotName("push_color") GodotMethod!(void, Color) pushColor;
+		@GodotName("push_align") GodotMethod!(void, long) pushAlign;
+		@GodotName("push_indent") GodotMethod!(void, long) pushIndent;
+		@GodotName("push_list") GodotMethod!(void, long) pushList;
+		@GodotName("push_meta") GodotMethod!(void, Variant) pushMeta;
+		@GodotName("push_underline") GodotMethod!(void) pushUnderline;
+		@GodotName("push_strikethrough") GodotMethod!(void) pushStrikethrough;
+		@GodotName("push_table") GodotMethod!(void, long) pushTable;
+		@GodotName("set_table_column_expand") GodotMethod!(void, long, bool, long) setTableColumnExpand;
+		@GodotName("push_cell") GodotMethod!(void) pushCell;
+		@GodotName("pop") GodotMethod!(void) pop;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("set_meta_underline") GodotMethod!(void, bool) setMetaUnderline;
+		@GodotName("is_meta_underlined") GodotMethod!(bool) isMetaUnderlined;
+		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
+		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
+		@GodotName("set_scroll_active") GodotMethod!(void, bool) setScrollActive;
+		@GodotName("is_scroll_active") GodotMethod!(bool) isScrollActive;
+		@GodotName("set_scroll_follow") GodotMethod!(void, bool) setScrollFollow;
+		@GodotName("is_scroll_following") GodotMethod!(bool) isScrollFollowing;
+		@GodotName("get_v_scroll") GodotMethod!(VScrollBar) getVScroll;
+		@GodotName("scroll_to_line") GodotMethod!(void, long) scrollToLine;
+		@GodotName("set_tab_size") GodotMethod!(void, long) setTabSize;
+		@GodotName("get_tab_size") GodotMethod!(long) getTabSize;
+		@GodotName("set_selection_enabled") GodotMethod!(void, bool) setSelectionEnabled;
+		@GodotName("is_selection_enabled") GodotMethod!(bool) isSelectionEnabled;
+		@GodotName("parse_bbcode") GodotMethod!(GodotError, String) parseBbcode;
+		@GodotName("append_bbcode") GodotMethod!(GodotError, String) appendBbcode;
+		@GodotName("set_bbcode") GodotMethod!(void, String) setBbcode;
+		@GodotName("get_bbcode") GodotMethod!(String) getBbcode;
+		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
+		@GodotName("get_visible_characters") GodotMethod!(long) getVisibleCharacters;
+		@GodotName("set_percent_visible") GodotMethod!(void, double) setPercentVisible;
+		@GodotName("get_percent_visible") GodotMethod!(double) getPercentVisible;
+		@GodotName("get_total_character_count") GodotMethod!(long) getTotalCharacterCount;
+		@GodotName("set_use_bbcode") GodotMethod!(void, bool) setUseBbcode;
+		@GodotName("is_using_bbcode") GodotMethod!(bool) isUsingBbcode;
+		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
+		@GodotName("get_visible_line_count") GodotMethod!(long) getVisibleLineCount;
+		@GodotName("get_content_height") GodotMethod!(long) getContentHeight;
+	}
 	bool opEquals(in RichTextLabel other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RichTextLabel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -121,49 +177,52 @@ public:
 		/**
 		
 		*/
-		itemAlign = 7,
+		itemStrikethrough = 7,
 		/**
 		
 		*/
-		itemIndent = 8,
+		itemAlign = 8,
 		/**
 		
 		*/
-		itemList = 9,
+		itemIndent = 9,
 		/**
 		
 		*/
-		itemTable = 10,
+		itemList = 10,
 		/**
 		
 		*/
-		itemMeta = 11,
+		itemTable = 11,
+		/**
+		
+		*/
+		itemMeta = 12,
 	}
 	/// 
 	enum Constants : int
 	{
-		itemFrame = 0,
-		alignLeft = 0,
 		listNumbers = 0,
-		listLetters = 1,
+		alignLeft = 0,
+		itemFrame = 0,
 		itemText = 1,
 		alignCenter = 1,
+		listLetters = 1,
+		alignRight = 2,
 		listDots = 2,
 		itemImage = 2,
-		alignRight = 2,
 		alignFill = 3,
 		itemNewline = 3,
 		itemFont = 4,
 		itemColor = 5,
 		itemUnderline = 6,
-		itemAlign = 7,
-		itemIndent = 8,
-		itemList = 9,
-		itemTable = 10,
-		itemMeta = 11,
+		itemStrikethrough = 7,
+		itemAlign = 8,
+		itemIndent = 9,
+		itemList = 10,
+		itemTable = 11,
+		itemMeta = 12,
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -174,8 +233,6 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__scroll_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_scroll_changed") = _GODOT__scroll_changed;
 	/**
 	
 	*/
@@ -186,148 +243,126 @@ public:
 		String _GODOT_method_name = String("_scroll_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_text") = _GODOT_get_text;
 	/**
 	
 	*/
 	String getText()
 	{
-		_GODOT_get_text.bind("RichTextLabel", "get_text");
-		return ptrcall!(String)(_GODOT_get_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_add_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_text") = _GODOT_add_text;
 	/**
 	Adds raw non-bbcode-parsed text to the tag stack.
 	*/
 	void addText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_add_text.bind("RichTextLabel", "add_text");
-		ptrcall!(void)(_GODOT_add_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_text") = _GODOT_set_text;
 	/**
 	
 	*/
 	void setText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_text.bind("RichTextLabel", "set_text");
-		ptrcall!(void)(_GODOT_set_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_add_image;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_image") = _GODOT_add_image;
 	/**
 	Adds an image's opening and closing tags to the tag stack.
 	*/
 	void addImage(Texture image)
 	{
-		_GODOT_add_image.bind("RichTextLabel", "add_image");
-		ptrcall!(void)(_GODOT_add_image, _godot_object, image);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addImage, _godot_object, image);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_newline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "newline") = _GODOT_newline;
 	/**
 	Adds a newline tag to the tag stack.
 	*/
 	void newline()
 	{
-		_GODOT_newline.bind("RichTextLabel", "newline");
-		ptrcall!(void)(_GODOT_newline, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.newline, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_remove_line;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_line") = _GODOT_remove_line;
 	/**
 	Removes a line of content from the label. Returns `true` if the line exists.
 	*/
 	bool removeLine(in long line)
 	{
-		_GODOT_remove_line.bind("RichTextLabel", "remove_line");
-		return ptrcall!(bool)(_GODOT_remove_line, _godot_object, line);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.removeLine, _godot_object, line);
 	}
-	package(godot) static GodotMethod!(void, Font) _GODOT_push_font;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_font") = _GODOT_push_font;
 	/**
 	Adds a `$(D font)` tag to the tag stack. Overrides default fonts for its duration.
 	*/
 	void pushFont(Font font)
 	{
-		_GODOT_push_font.bind("RichTextLabel", "push_font");
-		ptrcall!(void)(_GODOT_push_font, _godot_object, font);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushFont, _godot_object, font);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_push_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_color") = _GODOT_push_color;
 	/**
 	Adds a `$(D color)` tag to the tag stack.
 	*/
 	void pushColor(in Color color)
 	{
-		_GODOT_push_color.bind("RichTextLabel", "push_color");
-		ptrcall!(void)(_GODOT_push_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_push_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_align") = _GODOT_push_align;
 	/**
-	Adds a `$(D right)` tag to the tag stack.
+	Adds an alignment tag based on the given `align` value. See $(D _align) for possible values.
 	*/
 	void pushAlign(in long _align)
 	{
-		_GODOT_push_align.bind("RichTextLabel", "push_align");
-		ptrcall!(void)(_GODOT_push_align, _godot_object, _align);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushAlign, _godot_object, _align);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_push_indent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_indent") = _GODOT_push_indent;
 	/**
 	Adds an `$(D indent)` tag to the tag stack. Multiplies "level" by current tab_size to determine new margin length.
 	*/
 	void pushIndent(in long level)
 	{
-		_GODOT_push_indent.bind("RichTextLabel", "push_indent");
-		ptrcall!(void)(_GODOT_push_indent, _godot_object, level);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushIndent, _godot_object, level);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_push_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_list") = _GODOT_push_list;
 	/**
 	Adds a list tag to the tag stack. Similar to the bbcodes `$(D ol)` or `$(D ul)`, but supports more list types. Not fully implemented!
 	*/
 	void pushList(in long type)
 	{
-		_GODOT_push_list.bind("RichTextLabel", "push_list");
-		ptrcall!(void)(_GODOT_push_list, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushList, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(void, Variant) _GODOT_push_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_meta") = _GODOT_push_meta;
 	/**
 	Adds a meta tag to the tag stack. Similar to the bbcode `$(D url=something){text}$(D /url)`, but supports non-$(D String) metadata types.
 	*/
 	void pushMeta(VariantArg0)(in VariantArg0 data)
 	{
-		_GODOT_push_meta.bind("RichTextLabel", "push_meta");
-		ptrcall!(void)(_GODOT_push_meta, _godot_object, data);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushMeta, _godot_object, data);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_push_underline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_underline") = _GODOT_push_underline;
 	/**
 	Adds a `$(D u)` tag to the tag stack.
 	*/
 	void pushUnderline()
 	{
-		_GODOT_push_underline.bind("RichTextLabel", "push_underline");
-		ptrcall!(void)(_GODOT_push_underline, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushUnderline, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_push_table;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_table") = _GODOT_push_table;
+	/**
+	Adds a `$(D s)` tag to the tag stack.
+	*/
+	void pushStrikethrough()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushStrikethrough, _godot_object);
+	}
 	/**
 	Adds a `$(D table=columns)` tag to the tag stack.
 	*/
 	void pushTable(in long columns)
 	{
-		_GODOT_push_table.bind("RichTextLabel", "push_table");
-		ptrcall!(void)(_GODOT_push_table, _godot_object, columns);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushTable, _godot_object, columns);
 	}
-	package(godot) static GodotMethod!(void, long, bool, long) _GODOT_set_table_column_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_table_column_expand") = _GODOT_set_table_column_expand;
 	/**
 	Edits the selected columns expansion options. If `expand` is `true`, the column expands in proportion to its expansion ratio versus the other columns' ratios.
 	For example, 2 columns with ratios 3 and 4 plus 70 pixels in available width would expand 30 and 40 pixels, respectively.
@@ -335,308 +370,256 @@ public:
 	*/
 	void setTableColumnExpand(in long column, in bool expand, in long ratio)
 	{
-		_GODOT_set_table_column_expand.bind("RichTextLabel", "set_table_column_expand");
-		ptrcall!(void)(_GODOT_set_table_column_expand, _godot_object, column, expand, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_push_cell;
-	package(godot) alias _GODOT_methodBindInfo(string name : "push_cell") = _GODOT_push_cell;
 	/**
 	Adds a `$(D cell)` tag to the tag stack. Must be inside a $(D table) tag. See $(D pushTable) for details.
 	*/
 	void pushCell()
 	{
-		_GODOT_push_cell.bind("RichTextLabel", "push_cell");
-		ptrcall!(void)(_GODOT_push_cell, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushCell, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_pop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pop") = _GODOT_pop;
 	/**
 	Terminates the current tag. Use after `push_*` methods to close bbcodes manually. Does not need to follow `add_*` methods.
 	*/
 	void pop()
 	{
-		_GODOT_pop.bind("RichTextLabel", "pop");
-		ptrcall!(void)(_GODOT_pop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pop, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Clears the tag stack and sets $(D bbcodeText) to an empty string.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("RichTextLabel", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_meta_underline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_meta_underline") = _GODOT_set_meta_underline;
 	/**
 	
 	*/
 	void setMetaUnderline(in bool enable)
 	{
-		_GODOT_set_meta_underline.bind("RichTextLabel", "set_meta_underline");
-		ptrcall!(void)(_GODOT_set_meta_underline, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMetaUnderline, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_meta_underlined;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_meta_underlined") = _GODOT_is_meta_underlined;
 	/**
 	
 	*/
 	bool isMetaUnderlined() const
 	{
-		_GODOT_is_meta_underlined.bind("RichTextLabel", "is_meta_underlined");
-		return ptrcall!(bool)(_GODOT_is_meta_underlined, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMetaUnderlined, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_override_selected_font_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_override_selected_font_color") = _GODOT_set_override_selected_font_color;
 	/**
 	
 	*/
 	void setOverrideSelectedFontColor(in bool _override)
 	{
-		_GODOT_set_override_selected_font_color.bind("RichTextLabel", "set_override_selected_font_color");
-		ptrcall!(void)(_GODOT_set_override_selected_font_color, _godot_object, _override);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOverrideSelectedFontColor, _godot_object, _override);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_overriding_selected_font_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_overriding_selected_font_color") = _GODOT_is_overriding_selected_font_color;
 	/**
 	
 	*/
 	bool isOverridingSelectedFontColor() const
 	{
-		_GODOT_is_overriding_selected_font_color.bind("RichTextLabel", "is_overriding_selected_font_color");
-		return ptrcall!(bool)(_GODOT_is_overriding_selected_font_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_scroll_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scroll_active") = _GODOT_set_scroll_active;
 	/**
 	
 	*/
 	void setScrollActive(in bool active)
 	{
-		_GODOT_set_scroll_active.bind("RichTextLabel", "set_scroll_active");
-		ptrcall!(void)(_GODOT_set_scroll_active, _godot_object, active);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollActive, _godot_object, active);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_scroll_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_scroll_active") = _GODOT_is_scroll_active;
 	/**
 	
 	*/
 	bool isScrollActive() const
 	{
-		_GODOT_is_scroll_active.bind("RichTextLabel", "is_scroll_active");
-		return ptrcall!(bool)(_GODOT_is_scroll_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollActive, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_scroll_follow;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scroll_follow") = _GODOT_set_scroll_follow;
 	/**
 	
 	*/
 	void setScrollFollow(in bool follow)
 	{
-		_GODOT_set_scroll_follow.bind("RichTextLabel", "set_scroll_follow");
-		ptrcall!(void)(_GODOT_set_scroll_follow, _godot_object, follow);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollFollow, _godot_object, follow);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_scroll_following;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_scroll_following") = _GODOT_is_scroll_following;
 	/**
 	
 	*/
 	bool isScrollFollowing() const
 	{
-		_GODOT_is_scroll_following.bind("RichTextLabel", "is_scroll_following");
-		return ptrcall!(bool)(_GODOT_is_scroll_following, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollFollowing, _godot_object);
 	}
-	package(godot) static GodotMethod!(VScrollBar) _GODOT_get_v_scroll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_scroll") = _GODOT_get_v_scroll;
 	/**
 	Returns the vertical scrollbar.
 	*/
 	VScrollBar getVScroll()
 	{
-		_GODOT_get_v_scroll.bind("RichTextLabel", "get_v_scroll");
-		return ptrcall!(VScrollBar)(_GODOT_get_v_scroll, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VScrollBar)(_classBinding.getVScroll, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_scroll_to_line;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scroll_to_line") = _GODOT_scroll_to_line;
 	/**
 	Scrolls the window's top line to match `line`.
 	*/
 	void scrollToLine(in long line)
 	{
-		_GODOT_scroll_to_line.bind("RichTextLabel", "scroll_to_line");
-		ptrcall!(void)(_GODOT_scroll_to_line, _godot_object, line);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.scrollToLine, _godot_object, line);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_tab_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_size") = _GODOT_set_tab_size;
 	/**
 	
 	*/
 	void setTabSize(in long spaces)
 	{
-		_GODOT_set_tab_size.bind("RichTextLabel", "set_tab_size");
-		ptrcall!(void)(_GODOT_set_tab_size, _godot_object, spaces);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabSize, _godot_object, spaces);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_tab_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_size") = _GODOT_get_tab_size;
 	/**
 	
 	*/
 	long getTabSize() const
 	{
-		_GODOT_get_tab_size.bind("RichTextLabel", "get_tab_size");
-		return ptrcall!(long)(_GODOT_get_tab_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTabSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_selection_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_selection_enabled") = _GODOT_set_selection_enabled;
 	/**
 	
 	*/
 	void setSelectionEnabled(in bool enabled)
 	{
-		_GODOT_set_selection_enabled.bind("RichTextLabel", "set_selection_enabled");
-		ptrcall!(void)(_GODOT_set_selection_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSelectionEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_selection_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_selection_enabled") = _GODOT_is_selection_enabled;
 	/**
 	
 	*/
 	bool isSelectionEnabled() const
 	{
-		_GODOT_is_selection_enabled.bind("RichTextLabel", "is_selection_enabled");
-		return ptrcall!(bool)(_GODOT_is_selection_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSelectionEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_parse_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "parse_bbcode") = _GODOT_parse_bbcode;
 	/**
 	The assignment version of $(D appendBbcode). Clears the tag stack and inserts the new content. Returns `OK` if parses `bbcode` successfully.
 	*/
 	GodotError parseBbcode(StringArg0)(in StringArg0 bbcode)
 	{
-		_GODOT_parse_bbcode.bind("RichTextLabel", "parse_bbcode");
-		return ptrcall!(GodotError)(_GODOT_parse_bbcode, _godot_object, bbcode);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.parseBbcode, _godot_object, bbcode);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_append_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "append_bbcode") = _GODOT_append_bbcode;
 	/**
 	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, `OK` if successful.
 	*/
 	GodotError appendBbcode(StringArg0)(in StringArg0 bbcode)
 	{
-		_GODOT_append_bbcode.bind("RichTextLabel", "append_bbcode");
-		return ptrcall!(GodotError)(_GODOT_append_bbcode, _godot_object, bbcode);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.appendBbcode, _godot_object, bbcode);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bbcode") = _GODOT_set_bbcode;
 	/**
 	
 	*/
 	void setBbcode(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_bbcode.bind("RichTextLabel", "set_bbcode");
-		ptrcall!(void)(_GODOT_set_bbcode, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBbcode, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bbcode") = _GODOT_get_bbcode;
 	/**
 	
 	*/
 	String getBbcode() const
 	{
-		_GODOT_get_bbcode.bind("RichTextLabel", "get_bbcode");
-		return ptrcall!(String)(_GODOT_get_bbcode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBbcode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_visible_characters;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_visible_characters") = _GODOT_set_visible_characters;
 	/**
 	
 	*/
 	void setVisibleCharacters(in long amount)
 	{
-		_GODOT_set_visible_characters.bind("RichTextLabel", "set_visible_characters");
-		ptrcall!(void)(_GODOT_set_visible_characters, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_visible_characters;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_characters") = _GODOT_get_visible_characters;
 	/**
 	
 	*/
 	long getVisibleCharacters() const
 	{
-		_GODOT_get_visible_characters.bind("RichTextLabel", "get_visible_characters");
-		return ptrcall!(long)(_GODOT_get_visible_characters, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_percent_visible") = _GODOT_set_percent_visible;
 	/**
 	
 	*/
 	void setPercentVisible(in double percent_visible)
 	{
-		_GODOT_set_percent_visible.bind("RichTextLabel", "set_percent_visible");
-		ptrcall!(void)(_GODOT_set_percent_visible, _godot_object, percent_visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, percent_visible);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_percent_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_percent_visible") = _GODOT_get_percent_visible;
 	/**
 	
 	*/
 	double getPercentVisible() const
 	{
-		_GODOT_get_percent_visible.bind("RichTextLabel", "get_percent_visible");
-		return ptrcall!(double)(_GODOT_get_percent_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_total_character_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_total_character_count") = _GODOT_get_total_character_count;
 	/**
 	Returns the total number of characters from text tags. Does not include bbcodes.
 	*/
 	long getTotalCharacterCount() const
 	{
-		_GODOT_get_total_character_count.bind("RichTextLabel", "get_total_character_count");
-		return ptrcall!(long)(_GODOT_get_total_character_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_bbcode") = _GODOT_set_use_bbcode;
 	/**
 	
 	*/
 	void setUseBbcode(in bool enable)
 	{
-		_GODOT_set_use_bbcode.bind("RichTextLabel", "set_use_bbcode");
-		ptrcall!(void)(_GODOT_set_use_bbcode, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseBbcode, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_bbcode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_bbcode") = _GODOT_is_using_bbcode;
 	/**
 	
 	*/
 	bool isUsingBbcode() const
 	{
-		_GODOT_is_using_bbcode.bind("RichTextLabel", "is_using_bbcode");
-		return ptrcall!(bool)(_GODOT_is_using_bbcode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingBbcode, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_line_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_line_count") = _GODOT_get_line_count;
 	/**
 	Returns the total number of newlines in the tag stack's text tags. Considers wrapped text as one line.
 	*/
 	long getLineCount() const
 	{
-		_GODOT_get_line_count.bind("RichTextLabel", "get_line_count");
-		return ptrcall!(long)(_GODOT_get_line_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_visible_line_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_visible_line_count") = _GODOT_get_visible_line_count;
 	/**
 	Returns the number of visible lines.
 	*/
 	long getVisibleLineCount() const
 	{
-		_GODOT_get_visible_line_count.bind("RichTextLabel", "get_visible_line_count");
-		return ptrcall!(long)(_GODOT_get_visible_line_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
+	}
+	/**
+	Returns the height of the content.
+	*/
+	long getContentHeight()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getContentHeight, _godot_object);
 	}
 	/**
 	If `true` the label uses BBCode formatting. Default value: `false`.

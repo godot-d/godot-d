@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audiostream;
+import godot.resource;
+import godot.reference;
 /**
 Plays audio.
 
@@ -28,12 +30,32 @@ Plays audio, can loop.
 */
 @GodotBaseClass struct AudioStreamSample
 {
-	static immutable string _GODOT_internal_name = "AudioStreamSample";
+	enum string _GODOT_internal_name = "AudioStreamSample";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioStream _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_data") GodotMethod!(void, PoolByteArray) setData;
+		@GodotName("get_data") GodotMethod!(PoolByteArray) getData;
+		@GodotName("set_format") GodotMethod!(void, long) setFormat;
+		@GodotName("get_format") GodotMethod!(AudioStreamSample.Format) getFormat;
+		@GodotName("set_loop_mode") GodotMethod!(void, long) setLoopMode;
+		@GodotName("get_loop_mode") GodotMethod!(AudioStreamSample.LoopMode) getLoopMode;
+		@GodotName("set_loop_begin") GodotMethod!(void, long) setLoopBegin;
+		@GodotName("get_loop_begin") GodotMethod!(long) getLoopBegin;
+		@GodotName("set_loop_end") GodotMethod!(void, long) setLoopEnd;
+		@GodotName("get_loop_end") GodotMethod!(long) getLoopEnd;
+		@GodotName("set_mix_rate") GodotMethod!(void, long) setMixRate;
+		@GodotName("get_mix_rate") GodotMethod!(long) getMixRate;
+		@GodotName("set_stereo") GodotMethod!(void, bool) setStereo;
+		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
+		@GodotName("save_to_wav") GodotMethod!(void, String) saveToWav;
+	}
 	bool opEquals(in AudioStreamSample other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamSample opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -81,155 +103,144 @@ public:
 	/// 
 	enum Constants : int
 	{
-		format8Bits = 0,
 		loopDisabled = 0,
-		format16Bits = 1,
+		format8Bits = 0,
 		loopForward = 1,
+		format16Bits = 1,
 		formatImaAdpcm = 2,
 		loopPingPong = 2,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_format") = _GODOT_set_format;
+	/**
+	
+	*/
+	void setData(in PoolByteArray data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setData, _godot_object, data);
+	}
+	/**
+	
+	*/
+	PoolByteArray getData() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.getData, _godot_object);
+	}
 	/**
 	
 	*/
 	void setFormat(in long format)
 	{
-		_GODOT_set_format.bind("AudioStreamSample", "set_format");
-		ptrcall!(void)(_GODOT_set_format, _godot_object, format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFormat, _godot_object, format);
 	}
-	package(godot) static GodotMethod!(AudioStreamSample.Format) _GODOT_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_format") = _GODOT_get_format;
 	/**
 	
 	*/
 	AudioStreamSample.Format getFormat() const
 	{
-		_GODOT_get_format.bind("AudioStreamSample", "get_format");
-		return ptrcall!(AudioStreamSample.Format)(_GODOT_get_format, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamSample.Format)(_classBinding.getFormat, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_loop_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_loop_mode") = _GODOT_set_loop_mode;
 	/**
 	
 	*/
 	void setLoopMode(in long loop_mode)
 	{
-		_GODOT_set_loop_mode.bind("AudioStreamSample", "set_loop_mode");
-		ptrcall!(void)(_GODOT_set_loop_mode, _godot_object, loop_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopMode, _godot_object, loop_mode);
 	}
-	package(godot) static GodotMethod!(AudioStreamSample.LoopMode) _GODOT_get_loop_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_loop_mode") = _GODOT_get_loop_mode;
 	/**
 	
 	*/
 	AudioStreamSample.LoopMode getLoopMode() const
 	{
-		_GODOT_get_loop_mode.bind("AudioStreamSample", "get_loop_mode");
-		return ptrcall!(AudioStreamSample.LoopMode)(_GODOT_get_loop_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamSample.LoopMode)(_classBinding.getLoopMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_loop_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_loop_begin") = _GODOT_set_loop_begin;
 	/**
 	
 	*/
 	void setLoopBegin(in long loop_begin)
 	{
-		_GODOT_set_loop_begin.bind("AudioStreamSample", "set_loop_begin");
-		ptrcall!(void)(_GODOT_set_loop_begin, _godot_object, loop_begin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopBegin, _godot_object, loop_begin);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_loop_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_loop_begin") = _GODOT_get_loop_begin;
 	/**
 	
 	*/
 	long getLoopBegin() const
 	{
-		_GODOT_get_loop_begin.bind("AudioStreamSample", "get_loop_begin");
-		return ptrcall!(long)(_GODOT_get_loop_begin, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLoopBegin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_loop_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_loop_end") = _GODOT_set_loop_end;
 	/**
 	
 	*/
 	void setLoopEnd(in long loop_end)
 	{
-		_GODOT_set_loop_end.bind("AudioStreamSample", "set_loop_end");
-		ptrcall!(void)(_GODOT_set_loop_end, _godot_object, loop_end);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopEnd, _godot_object, loop_end);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_loop_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_loop_end") = _GODOT_get_loop_end;
 	/**
 	
 	*/
 	long getLoopEnd() const
 	{
-		_GODOT_get_loop_end.bind("AudioStreamSample", "get_loop_end");
-		return ptrcall!(long)(_GODOT_get_loop_end, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLoopEnd, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mix_rate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mix_rate") = _GODOT_set_mix_rate;
 	/**
 	
 	*/
 	void setMixRate(in long mix_rate)
 	{
-		_GODOT_set_mix_rate.bind("AudioStreamSample", "set_mix_rate");
-		ptrcall!(void)(_GODOT_set_mix_rate, _godot_object, mix_rate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMixRate, _godot_object, mix_rate);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_mix_rate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mix_rate") = _GODOT_get_mix_rate;
 	/**
 	
 	*/
 	long getMixRate() const
 	{
-		_GODOT_get_mix_rate.bind("AudioStreamSample", "get_mix_rate");
-		return ptrcall!(long)(_GODOT_get_mix_rate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMixRate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_stereo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stereo") = _GODOT_set_stereo;
 	/**
 	
 	*/
 	void setStereo(in bool stereo)
 	{
-		_GODOT_set_stereo.bind("AudioStreamSample", "set_stereo");
-		ptrcall!(void)(_GODOT_set_stereo, _godot_object, stereo);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStereo, _godot_object, stereo);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_stereo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_stereo") = _GODOT_is_stereo;
 	/**
 	
 	*/
 	bool isStereo() const
 	{
-		_GODOT_is_stereo.bind("AudioStreamSample", "is_stereo");
-		return ptrcall!(bool)(_GODOT_is_stereo, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isStereo, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolByteArray) _GODOT__set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**
 	
 	*/
-	void _setData(in PoolByteArray data)
+	void saveToWav(StringArg0)(in StringArg0 path)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(data);
-		String _GODOT_method_name = String("_set_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.saveToWav, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(PoolByteArray) _GODOT__get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_data") = _GODOT__get_data;
 	/**
-	
+	Contains the audio data in bytes.
 	*/
-	PoolByteArray _getData() const
+	@property PoolByteArray data()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolByteArray);
+		return getData();
+	}
+	/// ditto
+	@property void data(PoolByteArray v)
+	{
+		setData(v);
 	}
 	/**
 	Audio format. See FORMAT_* constants for values.
@@ -302,17 +313,5 @@ public:
 	@property void stereo(bool v)
 	{
 		setStereo(v);
-	}
-	/**
-	Contains the audio data in bytes.
-	*/
-	@property PoolByteArray data()
-	{
-		return _getData();
-	}
-	/// ditto
-	@property void data(PoolByteArray v)
-	{
-		_setData(v);
 	}
 }

@@ -23,6 +23,7 @@ import godot.classdb;
 import godot.resource;
 import godot.sky;
 import godot.texture;
+import godot.reference;
 /**
 Resource for environment nodes (like $(D WorldEnvironment)) that define multiple rendering options.
 
@@ -36,12 +37,161 @@ Resource for environment nodes (like $(D WorldEnvironment)) that define multiple
 */
 @GodotBaseClass struct Environment
 {
-	static immutable string _GODOT_internal_name = "Environment";
+	enum string _GODOT_internal_name = "Environment";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_background") GodotMethod!(void, long) setBackground;
+		@GodotName("set_sky") GodotMethod!(void, Sky) setSky;
+		@GodotName("set_sky_custom_fov") GodotMethod!(void, double) setSkyCustomFov;
+		@GodotName("set_bg_color") GodotMethod!(void, Color) setBgColor;
+		@GodotName("set_bg_energy") GodotMethod!(void, double) setBgEnergy;
+		@GodotName("set_canvas_max_layer") GodotMethod!(void, long) setCanvasMaxLayer;
+		@GodotName("set_ambient_light_color") GodotMethod!(void, Color) setAmbientLightColor;
+		@GodotName("set_ambient_light_energy") GodotMethod!(void, double) setAmbientLightEnergy;
+		@GodotName("set_ambient_light_sky_contribution") GodotMethod!(void, double) setAmbientLightSkyContribution;
+		@GodotName("get_background") GodotMethod!(Environment.BGMode) getBackground;
+		@GodotName("get_sky") GodotMethod!(Sky) getSky;
+		@GodotName("get_sky_custom_fov") GodotMethod!(double) getSkyCustomFov;
+		@GodotName("get_bg_color") GodotMethod!(Color) getBgColor;
+		@GodotName("get_bg_energy") GodotMethod!(double) getBgEnergy;
+		@GodotName("get_canvas_max_layer") GodotMethod!(long) getCanvasMaxLayer;
+		@GodotName("get_ambient_light_color") GodotMethod!(Color) getAmbientLightColor;
+		@GodotName("get_ambient_light_energy") GodotMethod!(double) getAmbientLightEnergy;
+		@GodotName("get_ambient_light_sky_contribution") GodotMethod!(double) getAmbientLightSkyContribution;
+		@GodotName("set_fog_enabled") GodotMethod!(void, bool) setFogEnabled;
+		@GodotName("is_fog_enabled") GodotMethod!(bool) isFogEnabled;
+		@GodotName("set_fog_color") GodotMethod!(void, Color) setFogColor;
+		@GodotName("get_fog_color") GodotMethod!(Color) getFogColor;
+		@GodotName("set_fog_sun_color") GodotMethod!(void, Color) setFogSunColor;
+		@GodotName("get_fog_sun_color") GodotMethod!(Color) getFogSunColor;
+		@GodotName("set_fog_sun_amount") GodotMethod!(void, double) setFogSunAmount;
+		@GodotName("get_fog_sun_amount") GodotMethod!(double) getFogSunAmount;
+		@GodotName("set_fog_depth_enabled") GodotMethod!(void, bool) setFogDepthEnabled;
+		@GodotName("is_fog_depth_enabled") GodotMethod!(bool) isFogDepthEnabled;
+		@GodotName("set_fog_depth_begin") GodotMethod!(void, double) setFogDepthBegin;
+		@GodotName("get_fog_depth_begin") GodotMethod!(double) getFogDepthBegin;
+		@GodotName("set_fog_depth_curve") GodotMethod!(void, double) setFogDepthCurve;
+		@GodotName("get_fog_depth_curve") GodotMethod!(double) getFogDepthCurve;
+		@GodotName("set_fog_transmit_enabled") GodotMethod!(void, bool) setFogTransmitEnabled;
+		@GodotName("is_fog_transmit_enabled") GodotMethod!(bool) isFogTransmitEnabled;
+		@GodotName("set_fog_transmit_curve") GodotMethod!(void, double) setFogTransmitCurve;
+		@GodotName("get_fog_transmit_curve") GodotMethod!(double) getFogTransmitCurve;
+		@GodotName("set_fog_height_enabled") GodotMethod!(void, bool) setFogHeightEnabled;
+		@GodotName("is_fog_height_enabled") GodotMethod!(bool) isFogHeightEnabled;
+		@GodotName("set_fog_height_min") GodotMethod!(void, double) setFogHeightMin;
+		@GodotName("get_fog_height_min") GodotMethod!(double) getFogHeightMin;
+		@GodotName("set_fog_height_max") GodotMethod!(void, double) setFogHeightMax;
+		@GodotName("get_fog_height_max") GodotMethod!(double) getFogHeightMax;
+		@GodotName("set_fog_height_curve") GodotMethod!(void, double) setFogHeightCurve;
+		@GodotName("get_fog_height_curve") GodotMethod!(double) getFogHeightCurve;
+		@GodotName("set_tonemapper") GodotMethod!(void, long) setTonemapper;
+		@GodotName("get_tonemapper") GodotMethod!(Environment.ToneMapper) getTonemapper;
+		@GodotName("set_tonemap_exposure") GodotMethod!(void, double) setTonemapExposure;
+		@GodotName("get_tonemap_exposure") GodotMethod!(double) getTonemapExposure;
+		@GodotName("set_tonemap_white") GodotMethod!(void, double) setTonemapWhite;
+		@GodotName("get_tonemap_white") GodotMethod!(double) getTonemapWhite;
+		@GodotName("set_tonemap_auto_exposure") GodotMethod!(void, bool) setTonemapAutoExposure;
+		@GodotName("get_tonemap_auto_exposure") GodotMethod!(bool) getTonemapAutoExposure;
+		@GodotName("set_tonemap_auto_exposure_max") GodotMethod!(void, double) setTonemapAutoExposureMax;
+		@GodotName("get_tonemap_auto_exposure_max") GodotMethod!(double) getTonemapAutoExposureMax;
+		@GodotName("set_tonemap_auto_exposure_min") GodotMethod!(void, double) setTonemapAutoExposureMin;
+		@GodotName("get_tonemap_auto_exposure_min") GodotMethod!(double) getTonemapAutoExposureMin;
+		@GodotName("set_tonemap_auto_exposure_speed") GodotMethod!(void, double) setTonemapAutoExposureSpeed;
+		@GodotName("get_tonemap_auto_exposure_speed") GodotMethod!(double) getTonemapAutoExposureSpeed;
+		@GodotName("set_tonemap_auto_exposure_grey") GodotMethod!(void, double) setTonemapAutoExposureGrey;
+		@GodotName("get_tonemap_auto_exposure_grey") GodotMethod!(double) getTonemapAutoExposureGrey;
+		@GodotName("set_ssr_enabled") GodotMethod!(void, bool) setSsrEnabled;
+		@GodotName("is_ssr_enabled") GodotMethod!(bool) isSsrEnabled;
+		@GodotName("set_ssr_max_steps") GodotMethod!(void, long) setSsrMaxSteps;
+		@GodotName("get_ssr_max_steps") GodotMethod!(long) getSsrMaxSteps;
+		@GodotName("set_ssr_fade_in") GodotMethod!(void, double) setSsrFadeIn;
+		@GodotName("get_ssr_fade_in") GodotMethod!(double) getSsrFadeIn;
+		@GodotName("set_ssr_fade_out") GodotMethod!(void, double) setSsrFadeOut;
+		@GodotName("get_ssr_fade_out") GodotMethod!(double) getSsrFadeOut;
+		@GodotName("set_ssr_depth_tolerance") GodotMethod!(void, double) setSsrDepthTolerance;
+		@GodotName("get_ssr_depth_tolerance") GodotMethod!(double) getSsrDepthTolerance;
+		@GodotName("set_ssr_rough") GodotMethod!(void, bool) setSsrRough;
+		@GodotName("is_ssr_rough") GodotMethod!(bool) isSsrRough;
+		@GodotName("set_ssao_enabled") GodotMethod!(void, bool) setSsaoEnabled;
+		@GodotName("is_ssao_enabled") GodotMethod!(bool) isSsaoEnabled;
+		@GodotName("set_ssao_radius") GodotMethod!(void, double) setSsaoRadius;
+		@GodotName("get_ssao_radius") GodotMethod!(double) getSsaoRadius;
+		@GodotName("set_ssao_intensity") GodotMethod!(void, double) setSsaoIntensity;
+		@GodotName("get_ssao_intensity") GodotMethod!(double) getSsaoIntensity;
+		@GodotName("set_ssao_radius2") GodotMethod!(void, double) setSsaoRadius2;
+		@GodotName("get_ssao_radius2") GodotMethod!(double) getSsaoRadius2;
+		@GodotName("set_ssao_intensity2") GodotMethod!(void, double) setSsaoIntensity2;
+		@GodotName("get_ssao_intensity2") GodotMethod!(double) getSsaoIntensity2;
+		@GodotName("set_ssao_bias") GodotMethod!(void, double) setSsaoBias;
+		@GodotName("get_ssao_bias") GodotMethod!(double) getSsaoBias;
+		@GodotName("set_ssao_direct_light_affect") GodotMethod!(void, double) setSsaoDirectLightAffect;
+		@GodotName("get_ssao_direct_light_affect") GodotMethod!(double) getSsaoDirectLightAffect;
+		@GodotName("set_ssao_ao_channel_affect") GodotMethod!(void, double) setSsaoAoChannelAffect;
+		@GodotName("get_ssao_ao_channel_affect") GodotMethod!(double) getSsaoAoChannelAffect;
+		@GodotName("set_ssao_color") GodotMethod!(void, Color) setSsaoColor;
+		@GodotName("get_ssao_color") GodotMethod!(Color) getSsaoColor;
+		@GodotName("set_ssao_blur") GodotMethod!(void, long) setSsaoBlur;
+		@GodotName("get_ssao_blur") GodotMethod!(Environment.SSAOBlur) getSsaoBlur;
+		@GodotName("set_ssao_quality") GodotMethod!(void, long) setSsaoQuality;
+		@GodotName("get_ssao_quality") GodotMethod!(Environment.SSAOQuality) getSsaoQuality;
+		@GodotName("set_ssao_edge_sharpness") GodotMethod!(void, double) setSsaoEdgeSharpness;
+		@GodotName("get_ssao_edge_sharpness") GodotMethod!(double) getSsaoEdgeSharpness;
+		@GodotName("set_dof_blur_far_enabled") GodotMethod!(void, bool) setDofBlurFarEnabled;
+		@GodotName("is_dof_blur_far_enabled") GodotMethod!(bool) isDofBlurFarEnabled;
+		@GodotName("set_dof_blur_far_distance") GodotMethod!(void, double) setDofBlurFarDistance;
+		@GodotName("get_dof_blur_far_distance") GodotMethod!(double) getDofBlurFarDistance;
+		@GodotName("set_dof_blur_far_transition") GodotMethod!(void, double) setDofBlurFarTransition;
+		@GodotName("get_dof_blur_far_transition") GodotMethod!(double) getDofBlurFarTransition;
+		@GodotName("set_dof_blur_far_amount") GodotMethod!(void, double) setDofBlurFarAmount;
+		@GodotName("get_dof_blur_far_amount") GodotMethod!(double) getDofBlurFarAmount;
+		@GodotName("set_dof_blur_far_quality") GodotMethod!(void, long) setDofBlurFarQuality;
+		@GodotName("get_dof_blur_far_quality") GodotMethod!(Environment.DOFBlurQuality) getDofBlurFarQuality;
+		@GodotName("set_dof_blur_near_enabled") GodotMethod!(void, bool) setDofBlurNearEnabled;
+		@GodotName("is_dof_blur_near_enabled") GodotMethod!(bool) isDofBlurNearEnabled;
+		@GodotName("set_dof_blur_near_distance") GodotMethod!(void, double) setDofBlurNearDistance;
+		@GodotName("get_dof_blur_near_distance") GodotMethod!(double) getDofBlurNearDistance;
+		@GodotName("set_dof_blur_near_transition") GodotMethod!(void, double) setDofBlurNearTransition;
+		@GodotName("get_dof_blur_near_transition") GodotMethod!(double) getDofBlurNearTransition;
+		@GodotName("set_dof_blur_near_amount") GodotMethod!(void, double) setDofBlurNearAmount;
+		@GodotName("get_dof_blur_near_amount") GodotMethod!(double) getDofBlurNearAmount;
+		@GodotName("set_dof_blur_near_quality") GodotMethod!(void, long) setDofBlurNearQuality;
+		@GodotName("get_dof_blur_near_quality") GodotMethod!(Environment.DOFBlurQuality) getDofBlurNearQuality;
+		@GodotName("set_glow_enabled") GodotMethod!(void, bool) setGlowEnabled;
+		@GodotName("is_glow_enabled") GodotMethod!(bool) isGlowEnabled;
+		@GodotName("set_glow_level") GodotMethod!(void, long, bool) setGlowLevel;
+		@GodotName("is_glow_level_enabled") GodotMethod!(bool, long) isGlowLevelEnabled;
+		@GodotName("set_glow_intensity") GodotMethod!(void, double) setGlowIntensity;
+		@GodotName("get_glow_intensity") GodotMethod!(double) getGlowIntensity;
+		@GodotName("set_glow_strength") GodotMethod!(void, double) setGlowStrength;
+		@GodotName("get_glow_strength") GodotMethod!(double) getGlowStrength;
+		@GodotName("set_glow_bloom") GodotMethod!(void, double) setGlowBloom;
+		@GodotName("get_glow_bloom") GodotMethod!(double) getGlowBloom;
+		@GodotName("set_glow_blend_mode") GodotMethod!(void, long) setGlowBlendMode;
+		@GodotName("get_glow_blend_mode") GodotMethod!(Environment.GlowBlendMode) getGlowBlendMode;
+		@GodotName("set_glow_hdr_bleed_threshold") GodotMethod!(void, double) setGlowHdrBleedThreshold;
+		@GodotName("get_glow_hdr_bleed_threshold") GodotMethod!(double) getGlowHdrBleedThreshold;
+		@GodotName("set_glow_hdr_bleed_scale") GodotMethod!(void, double) setGlowHdrBleedScale;
+		@GodotName("get_glow_hdr_bleed_scale") GodotMethod!(double) getGlowHdrBleedScale;
+		@GodotName("set_glow_bicubic_upscale") GodotMethod!(void, bool) setGlowBicubicUpscale;
+		@GodotName("is_glow_bicubic_upscale_enabled") GodotMethod!(bool) isGlowBicubicUpscaleEnabled;
+		@GodotName("set_adjustment_enable") GodotMethod!(void, bool) setAdjustmentEnable;
+		@GodotName("is_adjustment_enabled") GodotMethod!(bool) isAdjustmentEnabled;
+		@GodotName("set_adjustment_brightness") GodotMethod!(void, double) setAdjustmentBrightness;
+		@GodotName("get_adjustment_brightness") GodotMethod!(double) getAdjustmentBrightness;
+		@GodotName("set_adjustment_contrast") GodotMethod!(void, double) setAdjustmentContrast;
+		@GodotName("get_adjustment_contrast") GodotMethod!(double) getAdjustmentContrast;
+		@GodotName("set_adjustment_saturation") GodotMethod!(void, double) setAdjustmentSaturation;
+		@GodotName("get_adjustment_saturation") GodotMethod!(double) getAdjustmentSaturation;
+		@GodotName("set_adjustment_color_correction") GodotMethod!(void, Texture) setAdjustmentColorCorrection;
+		@GodotName("get_adjustment_color_correction") GodotMethod!(Texture) getAdjustmentColorCorrection;
+	}
 	bool opEquals(in Environment other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Environment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -181,1451 +331,1183 @@ public:
 	/// 
 	enum Constants : int
 	{
-		toneMapperLinear = 0,
-		bgClearColor = 0,
-		ssaoQualityLow = 0,
-		dofBlurQualityLow = 0,
-		glowBlendModeAdditive = 0,
 		ssaoBlurDisabled = 0,
-		ssaoBlur1x1 = 1,
-		bgColor = 1,
-		toneMapperReinhardt = 1,
-		ssaoQualityMedium = 1,
+		dofBlurQualityLow = 0,
+		ssaoQualityLow = 0,
+		bgClearColor = 0,
+		glowBlendModeAdditive = 0,
+		toneMapperLinear = 0,
 		dofBlurQualityMedium = 1,
 		glowBlendModeScreen = 1,
-		toneMapperFilmic = 2,
+		ssaoQualityMedium = 1,
+		bgColor = 1,
+		ssaoBlur1x1 = 1,
+		toneMapperReinhardt = 1,
 		glowBlendModeSoftlight = 2,
-		bgSky = 2,
-		dofBlurQualityHigh = 2,
 		ssaoBlur2x2 = 2,
+		bgSky = 2,
 		ssaoQualityHigh = 2,
-		toneMapperAces = 3,
+		toneMapperFilmic = 2,
+		dofBlurQualityHigh = 2,
 		glowBlendModeReplace = 3,
-		ssaoBlur3x3 = 3,
 		bgColorSky = 3,
+		toneMapperAces = 3,
+		ssaoBlur3x3 = 3,
 		bgCanvas = 4,
 		bgKeep = 5,
 		bgMax = 6,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_background") = _GODOT_set_background;
 	/**
 	
 	*/
 	void setBackground(in long mode)
 	{
-		_GODOT_set_background.bind("Environment", "set_background");
-		ptrcall!(void)(_GODOT_set_background, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBackground, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(void, Sky) _GODOT_set_sky;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky") = _GODOT_set_sky;
 	/**
 	
 	*/
 	void setSky(Sky sky)
 	{
-		_GODOT_set_sky.bind("Environment", "set_sky");
-		ptrcall!(void)(_GODOT_set_sky, _godot_object, sky);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSky, _godot_object, sky);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sky_custom_fov;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky_custom_fov") = _GODOT_set_sky_custom_fov;
 	/**
 	
 	*/
 	void setSkyCustomFov(in double scale)
 	{
-		_GODOT_set_sky_custom_fov.bind("Environment", "set_sky_custom_fov");
-		ptrcall!(void)(_GODOT_set_sky_custom_fov, _godot_object, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyCustomFov, _godot_object, scale);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_bg_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bg_color") = _GODOT_set_bg_color;
 	/**
 	
 	*/
 	void setBgColor(in Color color)
 	{
-		_GODOT_set_bg_color.bind("Environment", "set_bg_color");
-		ptrcall!(void)(_GODOT_set_bg_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_bg_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bg_energy") = _GODOT_set_bg_energy;
 	/**
 	
 	*/
 	void setBgEnergy(in double energy)
 	{
-		_GODOT_set_bg_energy.bind("Environment", "set_bg_energy");
-		ptrcall!(void)(_GODOT_set_bg_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBgEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_canvas_max_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_canvas_max_layer") = _GODOT_set_canvas_max_layer;
 	/**
 	
 	*/
 	void setCanvasMaxLayer(in long layer)
 	{
-		_GODOT_set_canvas_max_layer.bind("Environment", "set_canvas_max_layer");
-		ptrcall!(void)(_GODOT_set_canvas_max_layer, _godot_object, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCanvasMaxLayer, _godot_object, layer);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_ambient_light_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ambient_light_color") = _GODOT_set_ambient_light_color;
 	/**
 	
 	*/
 	void setAmbientLightColor(in Color color)
 	{
-		_GODOT_set_ambient_light_color.bind("Environment", "set_ambient_light_color");
-		ptrcall!(void)(_GODOT_set_ambient_light_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAmbientLightColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ambient_light_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ambient_light_energy") = _GODOT_set_ambient_light_energy;
 	/**
 	
 	*/
 	void setAmbientLightEnergy(in double energy)
 	{
-		_GODOT_set_ambient_light_energy.bind("Environment", "set_ambient_light_energy");
-		ptrcall!(void)(_GODOT_set_ambient_light_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAmbientLightEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ambient_light_sky_contribution;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ambient_light_sky_contribution") = _GODOT_set_ambient_light_sky_contribution;
 	/**
 	
 	*/
 	void setAmbientLightSkyContribution(in double energy)
 	{
-		_GODOT_set_ambient_light_sky_contribution.bind("Environment", "set_ambient_light_sky_contribution");
-		ptrcall!(void)(_GODOT_set_ambient_light_sky_contribution, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAmbientLightSkyContribution, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(Environment.BGMode) _GODOT_get_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_background") = _GODOT_get_background;
 	/**
 	
 	*/
 	Environment.BGMode getBackground() const
 	{
-		_GODOT_get_background.bind("Environment", "get_background");
-		return ptrcall!(Environment.BGMode)(_GODOT_get_background, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.BGMode)(_classBinding.getBackground, _godot_object);
 	}
-	package(godot) static GodotMethod!(Sky) _GODOT_get_sky;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky") = _GODOT_get_sky;
 	/**
 	
 	*/
 	Ref!Sky getSky() const
 	{
-		_GODOT_get_sky.bind("Environment", "get_sky");
-		return ptrcall!(Sky)(_GODOT_get_sky, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Sky)(_classBinding.getSky, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sky_custom_fov;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky_custom_fov") = _GODOT_get_sky_custom_fov;
 	/**
 	
 	*/
 	double getSkyCustomFov() const
 	{
-		_GODOT_get_sky_custom_fov.bind("Environment", "get_sky_custom_fov");
-		return ptrcall!(double)(_GODOT_get_sky_custom_fov, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSkyCustomFov, _godot_object);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_bg_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bg_color") = _GODOT_get_bg_color;
 	/**
 	
 	*/
 	Color getBgColor() const
 	{
-		_GODOT_get_bg_color.bind("Environment", "get_bg_color");
-		return ptrcall!(Color)(_GODOT_get_bg_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getBgColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_bg_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bg_energy") = _GODOT_get_bg_energy;
 	/**
 	
 	*/
 	double getBgEnergy() const
 	{
-		_GODOT_get_bg_energy.bind("Environment", "get_bg_energy");
-		return ptrcall!(double)(_GODOT_get_bg_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBgEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_canvas_max_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas_max_layer") = _GODOT_get_canvas_max_layer;
 	/**
 	
 	*/
 	long getCanvasMaxLayer() const
 	{
-		_GODOT_get_canvas_max_layer.bind("Environment", "get_canvas_max_layer");
-		return ptrcall!(long)(_GODOT_get_canvas_max_layer, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCanvasMaxLayer, _godot_object);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_ambient_light_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ambient_light_color") = _GODOT_get_ambient_light_color;
 	/**
 	
 	*/
 	Color getAmbientLightColor() const
 	{
-		_GODOT_get_ambient_light_color.bind("Environment", "get_ambient_light_color");
-		return ptrcall!(Color)(_GODOT_get_ambient_light_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getAmbientLightColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ambient_light_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ambient_light_energy") = _GODOT_get_ambient_light_energy;
 	/**
 	
 	*/
 	double getAmbientLightEnergy() const
 	{
-		_GODOT_get_ambient_light_energy.bind("Environment", "get_ambient_light_energy");
-		return ptrcall!(double)(_GODOT_get_ambient_light_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAmbientLightEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ambient_light_sky_contribution;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ambient_light_sky_contribution") = _GODOT_get_ambient_light_sky_contribution;
 	/**
 	
 	*/
 	double getAmbientLightSkyContribution() const
 	{
-		_GODOT_get_ambient_light_sky_contribution.bind("Environment", "get_ambient_light_sky_contribution");
-		return ptrcall!(double)(_GODOT_get_ambient_light_sky_contribution, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAmbientLightSkyContribution, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_fog_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_enabled") = _GODOT_set_fog_enabled;
 	/**
 	
 	*/
 	void setFogEnabled(in bool enabled)
 	{
-		_GODOT_set_fog_enabled.bind("Environment", "set_fog_enabled");
-		ptrcall!(void)(_GODOT_set_fog_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_fog_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_fog_enabled") = _GODOT_is_fog_enabled;
 	/**
 	
 	*/
 	bool isFogEnabled() const
 	{
-		_GODOT_is_fog_enabled.bind("Environment", "is_fog_enabled");
-		return ptrcall!(bool)(_GODOT_is_fog_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFogEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_fog_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_color") = _GODOT_set_fog_color;
 	/**
 	
 	*/
 	void setFogColor(in Color color)
 	{
-		_GODOT_set_fog_color.bind("Environment", "set_fog_color");
-		ptrcall!(void)(_GODOT_set_fog_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_fog_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_color") = _GODOT_get_fog_color;
 	/**
 	
 	*/
 	Color getFogColor() const
 	{
-		_GODOT_get_fog_color.bind("Environment", "get_fog_color");
-		return ptrcall!(Color)(_GODOT_get_fog_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getFogColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_fog_sun_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_sun_color") = _GODOT_set_fog_sun_color;
 	/**
 	
 	*/
 	void setFogSunColor(in Color color)
 	{
-		_GODOT_set_fog_sun_color.bind("Environment", "set_fog_sun_color");
-		ptrcall!(void)(_GODOT_set_fog_sun_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogSunColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_fog_sun_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_sun_color") = _GODOT_get_fog_sun_color;
 	/**
 	
 	*/
 	Color getFogSunColor() const
 	{
-		_GODOT_get_fog_sun_color.bind("Environment", "get_fog_sun_color");
-		return ptrcall!(Color)(_GODOT_get_fog_sun_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getFogSunColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_sun_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_sun_amount") = _GODOT_set_fog_sun_amount;
 	/**
 	
 	*/
 	void setFogSunAmount(in double amount)
 	{
-		_GODOT_set_fog_sun_amount.bind("Environment", "set_fog_sun_amount");
-		ptrcall!(void)(_GODOT_set_fog_sun_amount, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogSunAmount, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_sun_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_sun_amount") = _GODOT_get_fog_sun_amount;
 	/**
 	
 	*/
 	double getFogSunAmount() const
 	{
-		_GODOT_get_fog_sun_amount.bind("Environment", "get_fog_sun_amount");
-		return ptrcall!(double)(_GODOT_get_fog_sun_amount, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogSunAmount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_fog_depth_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_depth_enabled") = _GODOT_set_fog_depth_enabled;
 	/**
 	
 	*/
 	void setFogDepthEnabled(in bool enabled)
 	{
-		_GODOT_set_fog_depth_enabled.bind("Environment", "set_fog_depth_enabled");
-		ptrcall!(void)(_GODOT_set_fog_depth_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogDepthEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_fog_depth_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_fog_depth_enabled") = _GODOT_is_fog_depth_enabled;
 	/**
 	
 	*/
 	bool isFogDepthEnabled() const
 	{
-		_GODOT_is_fog_depth_enabled.bind("Environment", "is_fog_depth_enabled");
-		return ptrcall!(bool)(_GODOT_is_fog_depth_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFogDepthEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_depth_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_depth_begin") = _GODOT_set_fog_depth_begin;
 	/**
 	
 	*/
 	void setFogDepthBegin(in double distance)
 	{
-		_GODOT_set_fog_depth_begin.bind("Environment", "set_fog_depth_begin");
-		ptrcall!(void)(_GODOT_set_fog_depth_begin, _godot_object, distance);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogDepthBegin, _godot_object, distance);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_depth_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_depth_begin") = _GODOT_get_fog_depth_begin;
 	/**
 	
 	*/
 	double getFogDepthBegin() const
 	{
-		_GODOT_get_fog_depth_begin.bind("Environment", "get_fog_depth_begin");
-		return ptrcall!(double)(_GODOT_get_fog_depth_begin, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogDepthBegin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_depth_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_depth_curve") = _GODOT_set_fog_depth_curve;
 	/**
 	
 	*/
 	void setFogDepthCurve(in double curve)
 	{
-		_GODOT_set_fog_depth_curve.bind("Environment", "set_fog_depth_curve");
-		ptrcall!(void)(_GODOT_set_fog_depth_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogDepthCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_depth_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_depth_curve") = _GODOT_get_fog_depth_curve;
 	/**
 	
 	*/
 	double getFogDepthCurve() const
 	{
-		_GODOT_get_fog_depth_curve.bind("Environment", "get_fog_depth_curve");
-		return ptrcall!(double)(_GODOT_get_fog_depth_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogDepthCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_fog_transmit_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_transmit_enabled") = _GODOT_set_fog_transmit_enabled;
 	/**
 	
 	*/
 	void setFogTransmitEnabled(in bool enabled)
 	{
-		_GODOT_set_fog_transmit_enabled.bind("Environment", "set_fog_transmit_enabled");
-		ptrcall!(void)(_GODOT_set_fog_transmit_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogTransmitEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_fog_transmit_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_fog_transmit_enabled") = _GODOT_is_fog_transmit_enabled;
 	/**
 	
 	*/
 	bool isFogTransmitEnabled() const
 	{
-		_GODOT_is_fog_transmit_enabled.bind("Environment", "is_fog_transmit_enabled");
-		return ptrcall!(bool)(_GODOT_is_fog_transmit_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFogTransmitEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_transmit_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_transmit_curve") = _GODOT_set_fog_transmit_curve;
 	/**
 	
 	*/
 	void setFogTransmitCurve(in double curve)
 	{
-		_GODOT_set_fog_transmit_curve.bind("Environment", "set_fog_transmit_curve");
-		ptrcall!(void)(_GODOT_set_fog_transmit_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogTransmitCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_transmit_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_transmit_curve") = _GODOT_get_fog_transmit_curve;
 	/**
 	
 	*/
 	double getFogTransmitCurve() const
 	{
-		_GODOT_get_fog_transmit_curve.bind("Environment", "get_fog_transmit_curve");
-		return ptrcall!(double)(_GODOT_get_fog_transmit_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogTransmitCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_fog_height_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_height_enabled") = _GODOT_set_fog_height_enabled;
 	/**
 	
 	*/
 	void setFogHeightEnabled(in bool enabled)
 	{
-		_GODOT_set_fog_height_enabled.bind("Environment", "set_fog_height_enabled");
-		ptrcall!(void)(_GODOT_set_fog_height_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogHeightEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_fog_height_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_fog_height_enabled") = _GODOT_is_fog_height_enabled;
 	/**
 	
 	*/
 	bool isFogHeightEnabled() const
 	{
-		_GODOT_is_fog_height_enabled.bind("Environment", "is_fog_height_enabled");
-		return ptrcall!(bool)(_GODOT_is_fog_height_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFogHeightEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_height_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_height_min") = _GODOT_set_fog_height_min;
 	/**
 	
 	*/
 	void setFogHeightMin(in double height)
 	{
-		_GODOT_set_fog_height_min.bind("Environment", "set_fog_height_min");
-		ptrcall!(void)(_GODOT_set_fog_height_min, _godot_object, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogHeightMin, _godot_object, height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_height_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_height_min") = _GODOT_get_fog_height_min;
 	/**
 	
 	*/
 	double getFogHeightMin() const
 	{
-		_GODOT_get_fog_height_min.bind("Environment", "get_fog_height_min");
-		return ptrcall!(double)(_GODOT_get_fog_height_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogHeightMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_height_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_height_max") = _GODOT_set_fog_height_max;
 	/**
 	
 	*/
 	void setFogHeightMax(in double height)
 	{
-		_GODOT_set_fog_height_max.bind("Environment", "set_fog_height_max");
-		ptrcall!(void)(_GODOT_set_fog_height_max, _godot_object, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogHeightMax, _godot_object, height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_height_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_height_max") = _GODOT_get_fog_height_max;
 	/**
 	
 	*/
 	double getFogHeightMax() const
 	{
-		_GODOT_get_fog_height_max.bind("Environment", "get_fog_height_max");
-		return ptrcall!(double)(_GODOT_get_fog_height_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogHeightMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_fog_height_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_fog_height_curve") = _GODOT_set_fog_height_curve;
 	/**
 	
 	*/
 	void setFogHeightCurve(in double curve)
 	{
-		_GODOT_set_fog_height_curve.bind("Environment", "set_fog_height_curve");
-		ptrcall!(void)(_GODOT_set_fog_height_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogHeightCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_fog_height_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_fog_height_curve") = _GODOT_get_fog_height_curve;
 	/**
 	
 	*/
 	double getFogHeightCurve() const
 	{
-		_GODOT_get_fog_height_curve.bind("Environment", "get_fog_height_curve");
-		return ptrcall!(double)(_GODOT_get_fog_height_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogHeightCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_tonemapper;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemapper") = _GODOT_set_tonemapper;
 	/**
 	
 	*/
 	void setTonemapper(in long mode)
 	{
-		_GODOT_set_tonemapper.bind("Environment", "set_tonemapper");
-		ptrcall!(void)(_GODOT_set_tonemapper, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapper, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Environment.ToneMapper) _GODOT_get_tonemapper;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemapper") = _GODOT_get_tonemapper;
 	/**
 	
 	*/
 	Environment.ToneMapper getTonemapper() const
 	{
-		_GODOT_get_tonemapper.bind("Environment", "get_tonemapper");
-		return ptrcall!(Environment.ToneMapper)(_GODOT_get_tonemapper, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.ToneMapper)(_classBinding.getTonemapper, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_exposure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_exposure") = _GODOT_set_tonemap_exposure;
 	/**
 	
 	*/
 	void setTonemapExposure(in double exposure)
 	{
-		_GODOT_set_tonemap_exposure.bind("Environment", "set_tonemap_exposure");
-		ptrcall!(void)(_GODOT_set_tonemap_exposure, _godot_object, exposure);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapExposure, _godot_object, exposure);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_exposure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_exposure") = _GODOT_get_tonemap_exposure;
 	/**
 	
 	*/
 	double getTonemapExposure() const
 	{
-		_GODOT_get_tonemap_exposure.bind("Environment", "get_tonemap_exposure");
-		return ptrcall!(double)(_GODOT_get_tonemap_exposure, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapExposure, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_white;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_white") = _GODOT_set_tonemap_white;
 	/**
 	
 	*/
 	void setTonemapWhite(in double white)
 	{
-		_GODOT_set_tonemap_white.bind("Environment", "set_tonemap_white");
-		ptrcall!(void)(_GODOT_set_tonemap_white, _godot_object, white);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapWhite, _godot_object, white);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_white;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_white") = _GODOT_get_tonemap_white;
 	/**
 	
 	*/
 	double getTonemapWhite() const
 	{
-		_GODOT_get_tonemap_white.bind("Environment", "get_tonemap_white");
-		return ptrcall!(double)(_GODOT_get_tonemap_white, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapWhite, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_tonemap_auto_exposure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_auto_exposure") = _GODOT_set_tonemap_auto_exposure;
 	/**
 	
 	*/
 	void setTonemapAutoExposure(in bool auto_exposure)
 	{
-		_GODOT_set_tonemap_auto_exposure.bind("Environment", "set_tonemap_auto_exposure");
-		ptrcall!(void)(_GODOT_set_tonemap_auto_exposure, _godot_object, auto_exposure);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapAutoExposure, _godot_object, auto_exposure);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_tonemap_auto_exposure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_auto_exposure") = _GODOT_get_tonemap_auto_exposure;
 	/**
 	
 	*/
 	bool getTonemapAutoExposure() const
 	{
-		_GODOT_get_tonemap_auto_exposure.bind("Environment", "get_tonemap_auto_exposure");
-		return ptrcall!(bool)(_GODOT_get_tonemap_auto_exposure, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getTonemapAutoExposure, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_auto_exposure_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_auto_exposure_max") = _GODOT_set_tonemap_auto_exposure_max;
 	/**
 	
 	*/
 	void setTonemapAutoExposureMax(in double exposure_max)
 	{
-		_GODOT_set_tonemap_auto_exposure_max.bind("Environment", "set_tonemap_auto_exposure_max");
-		ptrcall!(void)(_GODOT_set_tonemap_auto_exposure_max, _godot_object, exposure_max);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapAutoExposureMax, _godot_object, exposure_max);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_auto_exposure_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_auto_exposure_max") = _GODOT_get_tonemap_auto_exposure_max;
 	/**
 	
 	*/
 	double getTonemapAutoExposureMax() const
 	{
-		_GODOT_get_tonemap_auto_exposure_max.bind("Environment", "get_tonemap_auto_exposure_max");
-		return ptrcall!(double)(_GODOT_get_tonemap_auto_exposure_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapAutoExposureMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_auto_exposure_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_auto_exposure_min") = _GODOT_set_tonemap_auto_exposure_min;
 	/**
 	
 	*/
 	void setTonemapAutoExposureMin(in double exposure_min)
 	{
-		_GODOT_set_tonemap_auto_exposure_min.bind("Environment", "set_tonemap_auto_exposure_min");
-		ptrcall!(void)(_GODOT_set_tonemap_auto_exposure_min, _godot_object, exposure_min);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapAutoExposureMin, _godot_object, exposure_min);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_auto_exposure_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_auto_exposure_min") = _GODOT_get_tonemap_auto_exposure_min;
 	/**
 	
 	*/
 	double getTonemapAutoExposureMin() const
 	{
-		_GODOT_get_tonemap_auto_exposure_min.bind("Environment", "get_tonemap_auto_exposure_min");
-		return ptrcall!(double)(_GODOT_get_tonemap_auto_exposure_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapAutoExposureMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_auto_exposure_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_auto_exposure_speed") = _GODOT_set_tonemap_auto_exposure_speed;
 	/**
 	
 	*/
 	void setTonemapAutoExposureSpeed(in double exposure_speed)
 	{
-		_GODOT_set_tonemap_auto_exposure_speed.bind("Environment", "set_tonemap_auto_exposure_speed");
-		ptrcall!(void)(_GODOT_set_tonemap_auto_exposure_speed, _godot_object, exposure_speed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapAutoExposureSpeed, _godot_object, exposure_speed);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_auto_exposure_speed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_auto_exposure_speed") = _GODOT_get_tonemap_auto_exposure_speed;
 	/**
 	
 	*/
 	double getTonemapAutoExposureSpeed() const
 	{
-		_GODOT_get_tonemap_auto_exposure_speed.bind("Environment", "get_tonemap_auto_exposure_speed");
-		return ptrcall!(double)(_GODOT_get_tonemap_auto_exposure_speed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapAutoExposureSpeed, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tonemap_auto_exposure_grey;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tonemap_auto_exposure_grey") = _GODOT_set_tonemap_auto_exposure_grey;
 	/**
 	
 	*/
 	void setTonemapAutoExposureGrey(in double exposure_grey)
 	{
-		_GODOT_set_tonemap_auto_exposure_grey.bind("Environment", "set_tonemap_auto_exposure_grey");
-		ptrcall!(void)(_GODOT_set_tonemap_auto_exposure_grey, _godot_object, exposure_grey);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTonemapAutoExposureGrey, _godot_object, exposure_grey);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tonemap_auto_exposure_grey;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tonemap_auto_exposure_grey") = _GODOT_get_tonemap_auto_exposure_grey;
 	/**
 	
 	*/
 	double getTonemapAutoExposureGrey() const
 	{
-		_GODOT_get_tonemap_auto_exposure_grey.bind("Environment", "get_tonemap_auto_exposure_grey");
-		return ptrcall!(double)(_GODOT_get_tonemap_auto_exposure_grey, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTonemapAutoExposureGrey, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_ssr_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_enabled") = _GODOT_set_ssr_enabled;
 	/**
 	
 	*/
 	void setSsrEnabled(in bool enabled)
 	{
-		_GODOT_set_ssr_enabled.bind("Environment", "set_ssr_enabled");
-		ptrcall!(void)(_GODOT_set_ssr_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ssr_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ssr_enabled") = _GODOT_is_ssr_enabled;
 	/**
 	
 	*/
 	bool isSsrEnabled() const
 	{
-		_GODOT_is_ssr_enabled.bind("Environment", "is_ssr_enabled");
-		return ptrcall!(bool)(_GODOT_is_ssr_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSsrEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_ssr_max_steps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_max_steps") = _GODOT_set_ssr_max_steps;
 	/**
 	
 	*/
 	void setSsrMaxSteps(in long max_steps)
 	{
-		_GODOT_set_ssr_max_steps.bind("Environment", "set_ssr_max_steps");
-		ptrcall!(void)(_GODOT_set_ssr_max_steps, _godot_object, max_steps);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrMaxSteps, _godot_object, max_steps);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_ssr_max_steps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssr_max_steps") = _GODOT_get_ssr_max_steps;
 	/**
 	
 	*/
 	long getSsrMaxSteps() const
 	{
-		_GODOT_get_ssr_max_steps.bind("Environment", "get_ssr_max_steps");
-		return ptrcall!(long)(_GODOT_get_ssr_max_steps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSsrMaxSteps, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssr_fade_in;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_fade_in") = _GODOT_set_ssr_fade_in;
 	/**
 	
 	*/
 	void setSsrFadeIn(in double fade_in)
 	{
-		_GODOT_set_ssr_fade_in.bind("Environment", "set_ssr_fade_in");
-		ptrcall!(void)(_GODOT_set_ssr_fade_in, _godot_object, fade_in);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrFadeIn, _godot_object, fade_in);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssr_fade_in;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssr_fade_in") = _GODOT_get_ssr_fade_in;
 	/**
 	
 	*/
 	double getSsrFadeIn() const
 	{
-		_GODOT_get_ssr_fade_in.bind("Environment", "get_ssr_fade_in");
-		return ptrcall!(double)(_GODOT_get_ssr_fade_in, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsrFadeIn, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssr_fade_out;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_fade_out") = _GODOT_set_ssr_fade_out;
 	/**
 	
 	*/
 	void setSsrFadeOut(in double fade_out)
 	{
-		_GODOT_set_ssr_fade_out.bind("Environment", "set_ssr_fade_out");
-		ptrcall!(void)(_GODOT_set_ssr_fade_out, _godot_object, fade_out);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrFadeOut, _godot_object, fade_out);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssr_fade_out;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssr_fade_out") = _GODOT_get_ssr_fade_out;
 	/**
 	
 	*/
 	double getSsrFadeOut() const
 	{
-		_GODOT_get_ssr_fade_out.bind("Environment", "get_ssr_fade_out");
-		return ptrcall!(double)(_GODOT_get_ssr_fade_out, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsrFadeOut, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssr_depth_tolerance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_depth_tolerance") = _GODOT_set_ssr_depth_tolerance;
 	/**
 	
 	*/
 	void setSsrDepthTolerance(in double depth_tolerance)
 	{
-		_GODOT_set_ssr_depth_tolerance.bind("Environment", "set_ssr_depth_tolerance");
-		ptrcall!(void)(_GODOT_set_ssr_depth_tolerance, _godot_object, depth_tolerance);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrDepthTolerance, _godot_object, depth_tolerance);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssr_depth_tolerance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssr_depth_tolerance") = _GODOT_get_ssr_depth_tolerance;
 	/**
 	
 	*/
 	double getSsrDepthTolerance() const
 	{
-		_GODOT_get_ssr_depth_tolerance.bind("Environment", "get_ssr_depth_tolerance");
-		return ptrcall!(double)(_GODOT_get_ssr_depth_tolerance, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsrDepthTolerance, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_ssr_rough;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssr_rough") = _GODOT_set_ssr_rough;
 	/**
 	
 	*/
 	void setSsrRough(in bool rough)
 	{
-		_GODOT_set_ssr_rough.bind("Environment", "set_ssr_rough");
-		ptrcall!(void)(_GODOT_set_ssr_rough, _godot_object, rough);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsrRough, _godot_object, rough);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ssr_rough;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ssr_rough") = _GODOT_is_ssr_rough;
 	/**
 	
 	*/
 	bool isSsrRough() const
 	{
-		_GODOT_is_ssr_rough.bind("Environment", "is_ssr_rough");
-		return ptrcall!(bool)(_GODOT_is_ssr_rough, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSsrRough, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_ssao_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_enabled") = _GODOT_set_ssao_enabled;
 	/**
 	
 	*/
 	void setSsaoEnabled(in bool enabled)
 	{
-		_GODOT_set_ssao_enabled.bind("Environment", "set_ssao_enabled");
-		ptrcall!(void)(_GODOT_set_ssao_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ssao_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ssao_enabled") = _GODOT_is_ssao_enabled;
 	/**
 	
 	*/
 	bool isSsaoEnabled() const
 	{
-		_GODOT_is_ssao_enabled.bind("Environment", "is_ssao_enabled");
-		return ptrcall!(bool)(_GODOT_is_ssao_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSsaoEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_radius") = _GODOT_set_ssao_radius;
 	/**
 	
 	*/
 	void setSsaoRadius(in double radius)
 	{
-		_GODOT_set_ssao_radius.bind("Environment", "set_ssao_radius");
-		ptrcall!(void)(_GODOT_set_ssao_radius, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoRadius, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_radius") = _GODOT_get_ssao_radius;
 	/**
 	
 	*/
 	double getSsaoRadius() const
 	{
-		_GODOT_get_ssao_radius.bind("Environment", "get_ssao_radius");
-		return ptrcall!(double)(_GODOT_get_ssao_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_intensity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_intensity") = _GODOT_set_ssao_intensity;
 	/**
 	
 	*/
 	void setSsaoIntensity(in double intensity)
 	{
-		_GODOT_set_ssao_intensity.bind("Environment", "set_ssao_intensity");
-		ptrcall!(void)(_GODOT_set_ssao_intensity, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoIntensity, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_intensity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_intensity") = _GODOT_get_ssao_intensity;
 	/**
 	
 	*/
 	double getSsaoIntensity() const
 	{
-		_GODOT_get_ssao_intensity.bind("Environment", "get_ssao_intensity");
-		return ptrcall!(double)(_GODOT_get_ssao_intensity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoIntensity, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_radius2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_radius2") = _GODOT_set_ssao_radius2;
 	/**
 	
 	*/
 	void setSsaoRadius2(in double radius)
 	{
-		_GODOT_set_ssao_radius2.bind("Environment", "set_ssao_radius2");
-		ptrcall!(void)(_GODOT_set_ssao_radius2, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoRadius2, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_radius2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_radius2") = _GODOT_get_ssao_radius2;
 	/**
 	
 	*/
 	double getSsaoRadius2() const
 	{
-		_GODOT_get_ssao_radius2.bind("Environment", "get_ssao_radius2");
-		return ptrcall!(double)(_GODOT_get_ssao_radius2, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoRadius2, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_intensity2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_intensity2") = _GODOT_set_ssao_intensity2;
 	/**
 	
 	*/
 	void setSsaoIntensity2(in double intensity)
 	{
-		_GODOT_set_ssao_intensity2.bind("Environment", "set_ssao_intensity2");
-		ptrcall!(void)(_GODOT_set_ssao_intensity2, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoIntensity2, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_intensity2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_intensity2") = _GODOT_get_ssao_intensity2;
 	/**
 	
 	*/
 	double getSsaoIntensity2() const
 	{
-		_GODOT_get_ssao_intensity2.bind("Environment", "get_ssao_intensity2");
-		return ptrcall!(double)(_GODOT_get_ssao_intensity2, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoIntensity2, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_bias") = _GODOT_set_ssao_bias;
 	/**
 	
 	*/
 	void setSsaoBias(in double bias)
 	{
-		_GODOT_set_ssao_bias.bind("Environment", "set_ssao_bias");
-		ptrcall!(void)(_GODOT_set_ssao_bias, _godot_object, bias);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoBias, _godot_object, bias);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_bias") = _GODOT_get_ssao_bias;
 	/**
 	
 	*/
 	double getSsaoBias() const
 	{
-		_GODOT_get_ssao_bias.bind("Environment", "get_ssao_bias");
-		return ptrcall!(double)(_GODOT_get_ssao_bias, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoBias, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_direct_light_affect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_direct_light_affect") = _GODOT_set_ssao_direct_light_affect;
 	/**
 	
 	*/
 	void setSsaoDirectLightAffect(in double amount)
 	{
-		_GODOT_set_ssao_direct_light_affect.bind("Environment", "set_ssao_direct_light_affect");
-		ptrcall!(void)(_GODOT_set_ssao_direct_light_affect, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoDirectLightAffect, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_direct_light_affect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_direct_light_affect") = _GODOT_get_ssao_direct_light_affect;
 	/**
 	
 	*/
 	double getSsaoDirectLightAffect() const
 	{
-		_GODOT_get_ssao_direct_light_affect.bind("Environment", "get_ssao_direct_light_affect");
-		return ptrcall!(double)(_GODOT_get_ssao_direct_light_affect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoDirectLightAffect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_ssao_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_color") = _GODOT_set_ssao_color;
+	/**
+	
+	*/
+	void setSsaoAoChannelAffect(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoAoChannelAffect, _godot_object, amount);
+	}
+	/**
+	
+	*/
+	double getSsaoAoChannelAffect() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoAoChannelAffect, _godot_object);
+	}
 	/**
 	
 	*/
 	void setSsaoColor(in Color color)
 	{
-		_GODOT_set_ssao_color.bind("Environment", "set_ssao_color");
-		ptrcall!(void)(_GODOT_set_ssao_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_ssao_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_color") = _GODOT_get_ssao_color;
 	/**
 	
 	*/
 	Color getSsaoColor() const
 	{
-		_GODOT_get_ssao_color.bind("Environment", "get_ssao_color");
-		return ptrcall!(Color)(_GODOT_get_ssao_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getSsaoColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_ssao_blur;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_blur") = _GODOT_set_ssao_blur;
 	/**
 	
 	*/
 	void setSsaoBlur(in long mode)
 	{
-		_GODOT_set_ssao_blur.bind("Environment", "set_ssao_blur");
-		ptrcall!(void)(_GODOT_set_ssao_blur, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoBlur, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Environment.SSAOBlur) _GODOT_get_ssao_blur;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_blur") = _GODOT_get_ssao_blur;
 	/**
 	
 	*/
 	Environment.SSAOBlur getSsaoBlur() const
 	{
-		_GODOT_get_ssao_blur.bind("Environment", "get_ssao_blur");
-		return ptrcall!(Environment.SSAOBlur)(_GODOT_get_ssao_blur, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.SSAOBlur)(_classBinding.getSsaoBlur, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_ssao_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_quality") = _GODOT_set_ssao_quality;
 	/**
 	
 	*/
 	void setSsaoQuality(in long quality)
 	{
-		_GODOT_set_ssao_quality.bind("Environment", "set_ssao_quality");
-		ptrcall!(void)(_GODOT_set_ssao_quality, _godot_object, quality);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoQuality, _godot_object, quality);
 	}
-	package(godot) static GodotMethod!(Environment.SSAOQuality) _GODOT_get_ssao_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_quality") = _GODOT_get_ssao_quality;
 	/**
 	
 	*/
 	Environment.SSAOQuality getSsaoQuality() const
 	{
-		_GODOT_get_ssao_quality.bind("Environment", "get_ssao_quality");
-		return ptrcall!(Environment.SSAOQuality)(_GODOT_get_ssao_quality, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.SSAOQuality)(_classBinding.getSsaoQuality, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ssao_edge_sharpness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ssao_edge_sharpness") = _GODOT_set_ssao_edge_sharpness;
 	/**
 	
 	*/
 	void setSsaoEdgeSharpness(in double edge_sharpness)
 	{
-		_GODOT_set_ssao_edge_sharpness.bind("Environment", "set_ssao_edge_sharpness");
-		ptrcall!(void)(_GODOT_set_ssao_edge_sharpness, _godot_object, edge_sharpness);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSsaoEdgeSharpness, _godot_object, edge_sharpness);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ssao_edge_sharpness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ssao_edge_sharpness") = _GODOT_get_ssao_edge_sharpness;
 	/**
 	
 	*/
 	double getSsaoEdgeSharpness() const
 	{
-		_GODOT_get_ssao_edge_sharpness.bind("Environment", "get_ssao_edge_sharpness");
-		return ptrcall!(double)(_GODOT_get_ssao_edge_sharpness, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSsaoEdgeSharpness, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_dof_blur_far_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_far_enabled") = _GODOT_set_dof_blur_far_enabled;
 	/**
 	
 	*/
 	void setDofBlurFarEnabled(in bool enabled)
 	{
-		_GODOT_set_dof_blur_far_enabled.bind("Environment", "set_dof_blur_far_enabled");
-		ptrcall!(void)(_GODOT_set_dof_blur_far_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurFarEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_dof_blur_far_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_dof_blur_far_enabled") = _GODOT_is_dof_blur_far_enabled;
 	/**
 	
 	*/
 	bool isDofBlurFarEnabled() const
 	{
-		_GODOT_is_dof_blur_far_enabled.bind("Environment", "is_dof_blur_far_enabled");
-		return ptrcall!(bool)(_GODOT_is_dof_blur_far_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDofBlurFarEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_far_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_far_distance") = _GODOT_set_dof_blur_far_distance;
 	/**
 	
 	*/
 	void setDofBlurFarDistance(in double intensity)
 	{
-		_GODOT_set_dof_blur_far_distance.bind("Environment", "set_dof_blur_far_distance");
-		ptrcall!(void)(_GODOT_set_dof_blur_far_distance, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurFarDistance, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_far_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_far_distance") = _GODOT_get_dof_blur_far_distance;
 	/**
 	
 	*/
 	double getDofBlurFarDistance() const
 	{
-		_GODOT_get_dof_blur_far_distance.bind("Environment", "get_dof_blur_far_distance");
-		return ptrcall!(double)(_GODOT_get_dof_blur_far_distance, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurFarDistance, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_far_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_far_transition") = _GODOT_set_dof_blur_far_transition;
 	/**
 	
 	*/
 	void setDofBlurFarTransition(in double intensity)
 	{
-		_GODOT_set_dof_blur_far_transition.bind("Environment", "set_dof_blur_far_transition");
-		ptrcall!(void)(_GODOT_set_dof_blur_far_transition, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurFarTransition, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_far_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_far_transition") = _GODOT_get_dof_blur_far_transition;
 	/**
 	
 	*/
 	double getDofBlurFarTransition() const
 	{
-		_GODOT_get_dof_blur_far_transition.bind("Environment", "get_dof_blur_far_transition");
-		return ptrcall!(double)(_GODOT_get_dof_blur_far_transition, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurFarTransition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_far_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_far_amount") = _GODOT_set_dof_blur_far_amount;
 	/**
 	
 	*/
 	void setDofBlurFarAmount(in double intensity)
 	{
-		_GODOT_set_dof_blur_far_amount.bind("Environment", "set_dof_blur_far_amount");
-		ptrcall!(void)(_GODOT_set_dof_blur_far_amount, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurFarAmount, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_far_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_far_amount") = _GODOT_get_dof_blur_far_amount;
 	/**
 	
 	*/
 	double getDofBlurFarAmount() const
 	{
-		_GODOT_get_dof_blur_far_amount.bind("Environment", "get_dof_blur_far_amount");
-		return ptrcall!(double)(_GODOT_get_dof_blur_far_amount, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurFarAmount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_dof_blur_far_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_far_quality") = _GODOT_set_dof_blur_far_quality;
 	/**
 	
 	*/
 	void setDofBlurFarQuality(in long intensity)
 	{
-		_GODOT_set_dof_blur_far_quality.bind("Environment", "set_dof_blur_far_quality");
-		ptrcall!(void)(_GODOT_set_dof_blur_far_quality, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurFarQuality, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(Environment.DOFBlurQuality) _GODOT_get_dof_blur_far_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_far_quality") = _GODOT_get_dof_blur_far_quality;
 	/**
 	
 	*/
 	Environment.DOFBlurQuality getDofBlurFarQuality() const
 	{
-		_GODOT_get_dof_blur_far_quality.bind("Environment", "get_dof_blur_far_quality");
-		return ptrcall!(Environment.DOFBlurQuality)(_GODOT_get_dof_blur_far_quality, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.DOFBlurQuality)(_classBinding.getDofBlurFarQuality, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_dof_blur_near_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_near_enabled") = _GODOT_set_dof_blur_near_enabled;
 	/**
 	
 	*/
 	void setDofBlurNearEnabled(in bool enabled)
 	{
-		_GODOT_set_dof_blur_near_enabled.bind("Environment", "set_dof_blur_near_enabled");
-		ptrcall!(void)(_GODOT_set_dof_blur_near_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurNearEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_dof_blur_near_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_dof_blur_near_enabled") = _GODOT_is_dof_blur_near_enabled;
 	/**
 	
 	*/
 	bool isDofBlurNearEnabled() const
 	{
-		_GODOT_is_dof_blur_near_enabled.bind("Environment", "is_dof_blur_near_enabled");
-		return ptrcall!(bool)(_GODOT_is_dof_blur_near_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDofBlurNearEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_near_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_near_distance") = _GODOT_set_dof_blur_near_distance;
 	/**
 	
 	*/
 	void setDofBlurNearDistance(in double intensity)
 	{
-		_GODOT_set_dof_blur_near_distance.bind("Environment", "set_dof_blur_near_distance");
-		ptrcall!(void)(_GODOT_set_dof_blur_near_distance, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurNearDistance, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_near_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_near_distance") = _GODOT_get_dof_blur_near_distance;
 	/**
 	
 	*/
 	double getDofBlurNearDistance() const
 	{
-		_GODOT_get_dof_blur_near_distance.bind("Environment", "get_dof_blur_near_distance");
-		return ptrcall!(double)(_GODOT_get_dof_blur_near_distance, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurNearDistance, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_near_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_near_transition") = _GODOT_set_dof_blur_near_transition;
 	/**
 	
 	*/
 	void setDofBlurNearTransition(in double intensity)
 	{
-		_GODOT_set_dof_blur_near_transition.bind("Environment", "set_dof_blur_near_transition");
-		ptrcall!(void)(_GODOT_set_dof_blur_near_transition, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurNearTransition, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_near_transition;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_near_transition") = _GODOT_get_dof_blur_near_transition;
 	/**
 	
 	*/
 	double getDofBlurNearTransition() const
 	{
-		_GODOT_get_dof_blur_near_transition.bind("Environment", "get_dof_blur_near_transition");
-		return ptrcall!(double)(_GODOT_get_dof_blur_near_transition, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurNearTransition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dof_blur_near_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_near_amount") = _GODOT_set_dof_blur_near_amount;
 	/**
 	
 	*/
 	void setDofBlurNearAmount(in double intensity)
 	{
-		_GODOT_set_dof_blur_near_amount.bind("Environment", "set_dof_blur_near_amount");
-		ptrcall!(void)(_GODOT_set_dof_blur_near_amount, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurNearAmount, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dof_blur_near_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_near_amount") = _GODOT_get_dof_blur_near_amount;
 	/**
 	
 	*/
 	double getDofBlurNearAmount() const
 	{
-		_GODOT_get_dof_blur_near_amount.bind("Environment", "get_dof_blur_near_amount");
-		return ptrcall!(double)(_GODOT_get_dof_blur_near_amount, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDofBlurNearAmount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_dof_blur_near_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dof_blur_near_quality") = _GODOT_set_dof_blur_near_quality;
 	/**
 	
 	*/
 	void setDofBlurNearQuality(in long level)
 	{
-		_GODOT_set_dof_blur_near_quality.bind("Environment", "set_dof_blur_near_quality");
-		ptrcall!(void)(_GODOT_set_dof_blur_near_quality, _godot_object, level);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDofBlurNearQuality, _godot_object, level);
 	}
-	package(godot) static GodotMethod!(Environment.DOFBlurQuality) _GODOT_get_dof_blur_near_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dof_blur_near_quality") = _GODOT_get_dof_blur_near_quality;
 	/**
 	
 	*/
 	Environment.DOFBlurQuality getDofBlurNearQuality() const
 	{
-		_GODOT_get_dof_blur_near_quality.bind("Environment", "get_dof_blur_near_quality");
-		return ptrcall!(Environment.DOFBlurQuality)(_GODOT_get_dof_blur_near_quality, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.DOFBlurQuality)(_classBinding.getDofBlurNearQuality, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_glow_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_enabled") = _GODOT_set_glow_enabled;
 	/**
 	
 	*/
 	void setGlowEnabled(in bool enabled)
 	{
-		_GODOT_set_glow_enabled.bind("Environment", "set_glow_enabled");
-		ptrcall!(void)(_GODOT_set_glow_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_glow_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_glow_enabled") = _GODOT_is_glow_enabled;
 	/**
 	
 	*/
 	bool isGlowEnabled() const
 	{
-		_GODOT_is_glow_enabled.bind("Environment", "is_glow_enabled");
-		return ptrcall!(bool)(_GODOT_is_glow_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isGlowEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_glow_level;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_level") = _GODOT_set_glow_level;
 	/**
 	
 	*/
 	void setGlowLevel(in long idx, in bool enabled)
 	{
-		_GODOT_set_glow_level.bind("Environment", "set_glow_level");
-		ptrcall!(void)(_GODOT_set_glow_level, _godot_object, idx, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowLevel, _godot_object, idx, enabled);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_glow_level_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_glow_level_enabled") = _GODOT_is_glow_level_enabled;
 	/**
 	
 	*/
 	bool isGlowLevelEnabled(in long idx) const
 	{
-		_GODOT_is_glow_level_enabled.bind("Environment", "is_glow_level_enabled");
-		return ptrcall!(bool)(_GODOT_is_glow_level_enabled, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isGlowLevelEnabled, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_glow_intensity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_intensity") = _GODOT_set_glow_intensity;
 	/**
 	
 	*/
 	void setGlowIntensity(in double intensity)
 	{
-		_GODOT_set_glow_intensity.bind("Environment", "set_glow_intensity");
-		ptrcall!(void)(_GODOT_set_glow_intensity, _godot_object, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowIntensity, _godot_object, intensity);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_glow_intensity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_intensity") = _GODOT_get_glow_intensity;
 	/**
 	
 	*/
 	double getGlowIntensity() const
 	{
-		_GODOT_get_glow_intensity.bind("Environment", "get_glow_intensity");
-		return ptrcall!(double)(_GODOT_get_glow_intensity, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowIntensity, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_glow_strength;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_strength") = _GODOT_set_glow_strength;
 	/**
 	
 	*/
 	void setGlowStrength(in double strength)
 	{
-		_GODOT_set_glow_strength.bind("Environment", "set_glow_strength");
-		ptrcall!(void)(_GODOT_set_glow_strength, _godot_object, strength);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowStrength, _godot_object, strength);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_glow_strength;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_strength") = _GODOT_get_glow_strength;
 	/**
 	
 	*/
 	double getGlowStrength() const
 	{
-		_GODOT_get_glow_strength.bind("Environment", "get_glow_strength");
-		return ptrcall!(double)(_GODOT_get_glow_strength, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowStrength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_glow_bloom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_bloom") = _GODOT_set_glow_bloom;
 	/**
 	
 	*/
 	void setGlowBloom(in double amount)
 	{
-		_GODOT_set_glow_bloom.bind("Environment", "set_glow_bloom");
-		ptrcall!(void)(_GODOT_set_glow_bloom, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowBloom, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_glow_bloom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_bloom") = _GODOT_get_glow_bloom;
 	/**
 	
 	*/
 	double getGlowBloom() const
 	{
-		_GODOT_get_glow_bloom.bind("Environment", "get_glow_bloom");
-		return ptrcall!(double)(_GODOT_get_glow_bloom, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowBloom, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_glow_blend_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_blend_mode") = _GODOT_set_glow_blend_mode;
 	/**
 	
 	*/
 	void setGlowBlendMode(in long mode)
 	{
-		_GODOT_set_glow_blend_mode.bind("Environment", "set_glow_blend_mode");
-		ptrcall!(void)(_GODOT_set_glow_blend_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowBlendMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Environment.GlowBlendMode) _GODOT_get_glow_blend_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_blend_mode") = _GODOT_get_glow_blend_mode;
 	/**
 	
 	*/
 	Environment.GlowBlendMode getGlowBlendMode() const
 	{
-		_GODOT_get_glow_blend_mode.bind("Environment", "get_glow_blend_mode");
-		return ptrcall!(Environment.GlowBlendMode)(_GODOT_get_glow_blend_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Environment.GlowBlendMode)(_classBinding.getGlowBlendMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_glow_hdr_bleed_threshold;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_hdr_bleed_threshold") = _GODOT_set_glow_hdr_bleed_threshold;
 	/**
 	
 	*/
 	void setGlowHdrBleedThreshold(in double threshold)
 	{
-		_GODOT_set_glow_hdr_bleed_threshold.bind("Environment", "set_glow_hdr_bleed_threshold");
-		ptrcall!(void)(_GODOT_set_glow_hdr_bleed_threshold, _godot_object, threshold);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowHdrBleedThreshold, _godot_object, threshold);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_glow_hdr_bleed_threshold;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_hdr_bleed_threshold") = _GODOT_get_glow_hdr_bleed_threshold;
 	/**
 	
 	*/
 	double getGlowHdrBleedThreshold() const
 	{
-		_GODOT_get_glow_hdr_bleed_threshold.bind("Environment", "get_glow_hdr_bleed_threshold");
-		return ptrcall!(double)(_GODOT_get_glow_hdr_bleed_threshold, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowHdrBleedThreshold, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_glow_hdr_bleed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_hdr_bleed_scale") = _GODOT_set_glow_hdr_bleed_scale;
 	/**
 	
 	*/
 	void setGlowHdrBleedScale(in double scale)
 	{
-		_GODOT_set_glow_hdr_bleed_scale.bind("Environment", "set_glow_hdr_bleed_scale");
-		ptrcall!(void)(_GODOT_set_glow_hdr_bleed_scale, _godot_object, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowHdrBleedScale, _godot_object, scale);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_glow_hdr_bleed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_glow_hdr_bleed_scale") = _GODOT_get_glow_hdr_bleed_scale;
 	/**
 	
 	*/
 	double getGlowHdrBleedScale() const
 	{
-		_GODOT_get_glow_hdr_bleed_scale.bind("Environment", "get_glow_hdr_bleed_scale");
-		return ptrcall!(double)(_GODOT_get_glow_hdr_bleed_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowHdrBleedScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_glow_bicubic_upscale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_glow_bicubic_upscale") = _GODOT_set_glow_bicubic_upscale;
 	/**
 	
 	*/
 	void setGlowBicubicUpscale(in bool enabled)
 	{
-		_GODOT_set_glow_bicubic_upscale.bind("Environment", "set_glow_bicubic_upscale");
-		ptrcall!(void)(_GODOT_set_glow_bicubic_upscale, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowBicubicUpscale, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_glow_bicubic_upscale_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_glow_bicubic_upscale_enabled") = _GODOT_is_glow_bicubic_upscale_enabled;
 	/**
 	
 	*/
 	bool isGlowBicubicUpscaleEnabled() const
 	{
-		_GODOT_is_glow_bicubic_upscale_enabled.bind("Environment", "is_glow_bicubic_upscale_enabled");
-		return ptrcall!(bool)(_GODOT_is_glow_bicubic_upscale_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isGlowBicubicUpscaleEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_adjustment_enable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_adjustment_enable") = _GODOT_set_adjustment_enable;
 	/**
 	
 	*/
 	void setAdjustmentEnable(in bool enabled)
 	{
-		_GODOT_set_adjustment_enable.bind("Environment", "set_adjustment_enable");
-		ptrcall!(void)(_GODOT_set_adjustment_enable, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAdjustmentEnable, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_adjustment_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_adjustment_enabled") = _GODOT_is_adjustment_enabled;
 	/**
 	
 	*/
 	bool isAdjustmentEnabled() const
 	{
-		_GODOT_is_adjustment_enabled.bind("Environment", "is_adjustment_enabled");
-		return ptrcall!(bool)(_GODOT_is_adjustment_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAdjustmentEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_adjustment_brightness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_adjustment_brightness") = _GODOT_set_adjustment_brightness;
 	/**
 	
 	*/
 	void setAdjustmentBrightness(in double brightness)
 	{
-		_GODOT_set_adjustment_brightness.bind("Environment", "set_adjustment_brightness");
-		ptrcall!(void)(_GODOT_set_adjustment_brightness, _godot_object, brightness);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAdjustmentBrightness, _godot_object, brightness);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_adjustment_brightness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_adjustment_brightness") = _GODOT_get_adjustment_brightness;
 	/**
 	
 	*/
 	double getAdjustmentBrightness() const
 	{
-		_GODOT_get_adjustment_brightness.bind("Environment", "get_adjustment_brightness");
-		return ptrcall!(double)(_GODOT_get_adjustment_brightness, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAdjustmentBrightness, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_adjustment_contrast;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_adjustment_contrast") = _GODOT_set_adjustment_contrast;
 	/**
 	
 	*/
 	void setAdjustmentContrast(in double contrast)
 	{
-		_GODOT_set_adjustment_contrast.bind("Environment", "set_adjustment_contrast");
-		ptrcall!(void)(_GODOT_set_adjustment_contrast, _godot_object, contrast);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAdjustmentContrast, _godot_object, contrast);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_adjustment_contrast;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_adjustment_contrast") = _GODOT_get_adjustment_contrast;
 	/**
 	
 	*/
 	double getAdjustmentContrast() const
 	{
-		_GODOT_get_adjustment_contrast.bind("Environment", "get_adjustment_contrast");
-		return ptrcall!(double)(_GODOT_get_adjustment_contrast, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAdjustmentContrast, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_adjustment_saturation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_adjustment_saturation") = _GODOT_set_adjustment_saturation;
 	/**
 	
 	*/
 	void setAdjustmentSaturation(in double saturation)
 	{
-		_GODOT_set_adjustment_saturation.bind("Environment", "set_adjustment_saturation");
-		ptrcall!(void)(_GODOT_set_adjustment_saturation, _godot_object, saturation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAdjustmentSaturation, _godot_object, saturation);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_adjustment_saturation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_adjustment_saturation") = _GODOT_get_adjustment_saturation;
 	/**
 	
 	*/
 	double getAdjustmentSaturation() const
 	{
-		_GODOT_get_adjustment_saturation.bind("Environment", "get_adjustment_saturation");
-		return ptrcall!(double)(_GODOT_get_adjustment_saturation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAdjustmentSaturation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_adjustment_color_correction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_adjustment_color_correction") = _GODOT_set_adjustment_color_correction;
 	/**
 	
 	*/
 	void setAdjustmentColorCorrection(Texture color_correction)
 	{
-		_GODOT_set_adjustment_color_correction.bind("Environment", "set_adjustment_color_correction");
-		ptrcall!(void)(_GODOT_set_adjustment_color_correction, _godot_object, color_correction);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAdjustmentColorCorrection, _godot_object, color_correction);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_adjustment_color_correction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_adjustment_color_correction") = _GODOT_get_adjustment_color_correction;
 	/**
 	
 	*/
 	Ref!Texture getAdjustmentColorCorrection() const
 	{
-		_GODOT_get_adjustment_color_correction.bind("Environment", "get_adjustment_color_correction");
-		return ptrcall!(Texture)(_GODOT_get_adjustment_color_correction, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getAdjustmentColorCorrection, _godot_object);
 	}
 	/**
 	Defines the mode of background.
@@ -2142,6 +2024,18 @@ public:
 	@property void ssaoLightAffect(double v)
 	{
 		setSsaoDirectLightAffect(v);
+	}
+	/**
+	
+	*/
+	@property double ssaoAoChannelAffect()
+	{
+		return getSsaoAoChannelAffect();
+	}
+	/// ditto
+	@property void ssaoAoChannelAffect(double v)
+	{
+		setSsaoAoChannelAffect(v);
 	}
 	/**
 	

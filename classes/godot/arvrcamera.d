@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.camera;
+import godot.spatial;
+import godot.node;
 /**
 A camera node with a few overrules for AR/VR applied such as location tracking.
 
@@ -29,12 +31,17 @@ The position and orientation of this node is automatically updated by the ARVR S
 */
 @GodotBaseClass struct ARVRCamera
 {
-	static immutable string _GODOT_internal_name = "ARVRCamera";
+	enum string _GODOT_internal_name = "ARVRCamera";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Camera _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
 	bool opEquals(in ARVRCamera other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRCamera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }

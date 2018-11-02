@@ -23,6 +23,8 @@ import godot.classdb;
 import godot.control;
 import godot.videostream;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 Control for playing video streams.
 
@@ -30,12 +32,42 @@ Control node for playing video streams. Supported formats are WebM and OGV Theor
 */
 @GodotBaseClass struct VideoPlayer
 {
-	static immutable string _GODOT_internal_name = "VideoPlayer";
+	enum string _GODOT_internal_name = "VideoPlayer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_stream") GodotMethod!(void, VideoStream) setStream;
+		@GodotName("get_stream") GodotMethod!(VideoStream) getStream;
+		@GodotName("play") GodotMethod!(void) play;
+		@GodotName("stop") GodotMethod!(void) stop;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("set_paused") GodotMethod!(void, bool) setPaused;
+		@GodotName("is_paused") GodotMethod!(bool) isPaused;
+		@GodotName("set_volume") GodotMethod!(void, double) setVolume;
+		@GodotName("get_volume") GodotMethod!(double) getVolume;
+		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
+		@GodotName("get_volume_db") GodotMethod!(double) getVolumeDb;
+		@GodotName("set_audio_track") GodotMethod!(void, long) setAudioTrack;
+		@GodotName("get_audio_track") GodotMethod!(long) getAudioTrack;
+		@GodotName("get_stream_name") GodotMethod!(String) getStreamName;
+		@GodotName("set_stream_position") GodotMethod!(void, double) setStreamPosition;
+		@GodotName("get_stream_position") GodotMethod!(double) getStreamPosition;
+		@GodotName("set_autoplay") GodotMethod!(void, bool) setAutoplay;
+		@GodotName("has_autoplay") GodotMethod!(bool) hasAutoplay;
+		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
+		@GodotName("has_expand") GodotMethod!(bool) hasExpand;
+		@GodotName("set_buffering_msec") GodotMethod!(void, long) setBufferingMsec;
+		@GodotName("get_buffering_msec") GodotMethod!(long) getBufferingMsec;
+		@GodotName("set_bus") GodotMethod!(void, String) setBus;
+		@GodotName("get_bus") GodotMethod!(String) getBus;
+		@GodotName("get_video_texture") GodotMethod!(Texture) getVideoTexture;
+	}
 	bool opEquals(in VideoPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VideoPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,255 +80,205 @@ public:
 		return cast(VideoPlayer)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, VideoStream) _GODOT_set_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stream") = _GODOT_set_stream;
 	/**
 	
 	*/
 	void setStream(VideoStream stream)
 	{
-		_GODOT_set_stream.bind("VideoPlayer", "set_stream");
-		ptrcall!(void)(_GODOT_set_stream, _godot_object, stream);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
 	}
-	package(godot) static GodotMethod!(VideoStream) _GODOT_get_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stream") = _GODOT_get_stream;
 	/**
 	
 	*/
 	Ref!VideoStream getStream() const
 	{
-		_GODOT_get_stream.bind("VideoPlayer", "get_stream");
-		return ptrcall!(VideoStream)(_GODOT_get_stream, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VideoStream)(_classBinding.getStream, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_play;
-	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
 	Starts the video playback.
 	*/
 	void play()
 	{
-		_GODOT_play.bind("VideoPlayer", "play");
-		ptrcall!(void)(_GODOT_play, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.play, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "stop") = _GODOT_stop;
 	/**
 	Stops the video playback.
 	*/
 	void stop()
 	{
-		_GODOT_stop.bind("VideoPlayer", "stop");
-		ptrcall!(void)(_GODOT_stop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_playing") = _GODOT_is_playing;
 	/**
 	Returns `true` if the video is playing.
 	*/
 	bool isPlaying() const
 	{
-		_GODOT_is_playing.bind("VideoPlayer", "is_playing");
-		return ptrcall!(bool)(_GODOT_is_playing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_paused;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_paused") = _GODOT_set_paused;
 	/**
 	
 	*/
 	void setPaused(in bool paused)
 	{
-		_GODOT_set_paused.bind("VideoPlayer", "set_paused");
-		ptrcall!(void)(_GODOT_set_paused, _godot_object, paused);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPaused, _godot_object, paused);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_paused;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_paused") = _GODOT_is_paused;
 	/**
 	
 	*/
 	bool isPaused() const
 	{
-		_GODOT_is_paused.bind("VideoPlayer", "is_paused");
-		return ptrcall!(bool)(_GODOT_is_paused, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPaused, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_volume;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_volume") = _GODOT_set_volume;
 	/**
 	
 	*/
 	void setVolume(in double volume)
 	{
-		_GODOT_set_volume.bind("VideoPlayer", "set_volume");
-		ptrcall!(void)(_GODOT_set_volume, _godot_object, volume);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVolume, _godot_object, volume);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_volume;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_volume") = _GODOT_get_volume;
 	/**
 	
 	*/
 	double getVolume() const
 	{
-		_GODOT_get_volume.bind("VideoPlayer", "get_volume");
-		return ptrcall!(double)(_GODOT_get_volume, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVolume, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_volume_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_volume_db") = _GODOT_set_volume_db;
 	/**
 	
 	*/
 	void setVolumeDb(in double db)
 	{
-		_GODOT_set_volume_db.bind("VideoPlayer", "set_volume_db");
-		ptrcall!(void)(_GODOT_set_volume_db, _godot_object, db);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, db);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_volume_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_volume_db") = _GODOT_get_volume_db;
 	/**
 	
 	*/
 	double getVolumeDb() const
 	{
-		_GODOT_get_volume_db.bind("VideoPlayer", "get_volume_db");
-		return ptrcall!(double)(_GODOT_get_volume_db, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVolumeDb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_audio_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_audio_track") = _GODOT_set_audio_track;
 	/**
 	
 	*/
 	void setAudioTrack(in long track)
 	{
-		_GODOT_set_audio_track.bind("VideoPlayer", "set_audio_track");
-		ptrcall!(void)(_GODOT_set_audio_track, _godot_object, track);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAudioTrack, _godot_object, track);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_audio_track;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_audio_track") = _GODOT_get_audio_track;
 	/**
 	
 	*/
 	long getAudioTrack() const
 	{
-		_GODOT_get_audio_track.bind("VideoPlayer", "get_audio_track");
-		return ptrcall!(long)(_GODOT_get_audio_track, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAudioTrack, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_stream_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stream_name") = _GODOT_get_stream_name;
 	/**
 	Returns the video stream's name.
 	*/
 	String getStreamName() const
 	{
-		_GODOT_get_stream_name.bind("VideoPlayer", "get_stream_name");
-		return ptrcall!(String)(_GODOT_get_stream_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getStreamName, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_stream_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stream_position") = _GODOT_set_stream_position;
 	/**
 	
 	*/
 	void setStreamPosition(in double position)
 	{
-		_GODOT_set_stream_position.bind("VideoPlayer", "set_stream_position");
-		ptrcall!(void)(_GODOT_set_stream_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStreamPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_stream_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stream_position") = _GODOT_get_stream_position;
 	/**
 	
 	*/
 	double getStreamPosition() const
 	{
-		_GODOT_get_stream_position.bind("VideoPlayer", "get_stream_position");
-		return ptrcall!(double)(_GODOT_get_stream_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStreamPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_autoplay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_autoplay") = _GODOT_set_autoplay;
 	/**
 	
 	*/
 	void setAutoplay(in bool enabled)
 	{
-		_GODOT_set_autoplay.bind("VideoPlayer", "set_autoplay");
-		ptrcall!(void)(_GODOT_set_autoplay, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_autoplay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_autoplay") = _GODOT_has_autoplay;
 	/**
 	
 	*/
 	bool hasAutoplay() const
 	{
-		_GODOT_has_autoplay.bind("VideoPlayer", "has_autoplay");
-		return ptrcall!(bool)(_GODOT_has_autoplay, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAutoplay, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand") = _GODOT_set_expand;
 	/**
 	
 	*/
 	void setExpand(in bool enable)
 	{
-		_GODOT_set_expand.bind("VideoPlayer", "set_expand");
-		ptrcall!(void)(_GODOT_set_expand, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpand, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_expand;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_expand") = _GODOT_has_expand;
 	/**
 	
 	*/
 	bool hasExpand() const
 	{
-		_GODOT_has_expand.bind("VideoPlayer", "has_expand");
-		return ptrcall!(bool)(_GODOT_has_expand, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_buffering_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_buffering_msec") = _GODOT_set_buffering_msec;
 	/**
 	
 	*/
 	void setBufferingMsec(in long msec)
 	{
-		_GODOT_set_buffering_msec.bind("VideoPlayer", "set_buffering_msec");
-		ptrcall!(void)(_GODOT_set_buffering_msec, _godot_object, msec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBufferingMsec, _godot_object, msec);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_buffering_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_buffering_msec") = _GODOT_get_buffering_msec;
 	/**
 	
 	*/
 	long getBufferingMsec() const
 	{
-		_GODOT_get_buffering_msec.bind("VideoPlayer", "get_buffering_msec");
-		return ptrcall!(long)(_GODOT_get_buffering_msec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBufferingMsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bus") = _GODOT_set_bus;
 	/**
 	
 	*/
 	void setBus(StringArg0)(in StringArg0 bus)
 	{
-		_GODOT_set_bus.bind("VideoPlayer", "set_bus");
-		ptrcall!(void)(_GODOT_set_bus, _godot_object, bus);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_bus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bus") = _GODOT_get_bus;
 	/**
 	
 	*/
 	String getBus() const
 	{
-		_GODOT_get_bus.bind("VideoPlayer", "get_bus");
-		return ptrcall!(String)(_GODOT_get_bus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBus, _godot_object);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_video_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_video_texture") = _GODOT_get_video_texture;
 	/**
 	Returns the current frame as a $(D Texture).
 	*/
 	Ref!Texture getVideoTexture()
 	{
-		_GODOT_get_video_texture.bind("VideoPlayer", "get_video_texture");
-		return ptrcall!(Texture)(_GODOT_get_video_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getVideoTexture, _godot_object);
 	}
 	/**
 	The embedded audio track to play.

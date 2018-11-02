@@ -22,6 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 Casts light in a 2D environment.
 
@@ -29,12 +31,59 @@ Light is defined by a (usually grayscale) texture, a color, an energy value, a m
 */
 @GodotBaseClass struct Light2D
 {
-	static immutable string _GODOT_internal_name = "Light2D";
+	enum string _GODOT_internal_name = "Light2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
+		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
+		@GodotName("set_editor_only") GodotMethod!(void, bool) setEditorOnly;
+		@GodotName("is_editor_only") GodotMethod!(bool) isEditorOnly;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_texture_offset") GodotMethod!(void, Vector2) setTextureOffset;
+		@GodotName("get_texture_offset") GodotMethod!(Vector2) getTextureOffset;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
+		@GodotName("get_color") GodotMethod!(Color) getColor;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("set_texture_scale") GodotMethod!(void, double) setTextureScale;
+		@GodotName("get_texture_scale") GodotMethod!(double) getTextureScale;
+		@GodotName("set_z_range_min") GodotMethod!(void, long) setZRangeMin;
+		@GodotName("get_z_range_min") GodotMethod!(long) getZRangeMin;
+		@GodotName("set_z_range_max") GodotMethod!(void, long) setZRangeMax;
+		@GodotName("get_z_range_max") GodotMethod!(long) getZRangeMax;
+		@GodotName("set_layer_range_min") GodotMethod!(void, long) setLayerRangeMin;
+		@GodotName("get_layer_range_min") GodotMethod!(long) getLayerRangeMin;
+		@GodotName("set_layer_range_max") GodotMethod!(void, long) setLayerRangeMax;
+		@GodotName("get_layer_range_max") GodotMethod!(long) getLayerRangeMax;
+		@GodotName("set_item_cull_mask") GodotMethod!(void, long) setItemCullMask;
+		@GodotName("get_item_cull_mask") GodotMethod!(long) getItemCullMask;
+		@GodotName("set_item_shadow_cull_mask") GodotMethod!(void, long) setItemShadowCullMask;
+		@GodotName("get_item_shadow_cull_mask") GodotMethod!(long) getItemShadowCullMask;
+		@GodotName("set_mode") GodotMethod!(void, long) setMode;
+		@GodotName("get_mode") GodotMethod!(Light2D.Mode) getMode;
+		@GodotName("set_shadow_enabled") GodotMethod!(void, bool) setShadowEnabled;
+		@GodotName("is_shadow_enabled") GodotMethod!(bool) isShadowEnabled;
+		@GodotName("set_shadow_buffer_size") GodotMethod!(void, long) setShadowBufferSize;
+		@GodotName("get_shadow_buffer_size") GodotMethod!(long) getShadowBufferSize;
+		@GodotName("set_shadow_smooth") GodotMethod!(void, double) setShadowSmooth;
+		@GodotName("get_shadow_smooth") GodotMethod!(double) getShadowSmooth;
+		@GodotName("set_shadow_gradient_length") GodotMethod!(void, double) setShadowGradientLength;
+		@GodotName("get_shadow_gradient_length") GodotMethod!(double) getShadowGradientLength;
+		@GodotName("set_shadow_filter") GodotMethod!(void, long) setShadowFilter;
+		@GodotName("get_shadow_filter") GodotMethod!(Light2D.ShadowFilter) getShadowFilter;
+		@GodotName("set_shadow_color") GodotMethod!(void, Color) setShadowColor;
+		@GodotName("get_shadow_color") GodotMethod!(Color) getShadowColor;
+	}
 	bool opEquals(in Light2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Light2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -98,436 +147,352 @@ public:
 	/// 
 	enum Constants : int
 	{
-		shadowFilterNone = 0,
 		modeAdd = 0,
-		shadowFilterPcf3 = 1,
+		shadowFilterNone = 0,
 		modeSub = 1,
+		shadowFilterPcf3 = 1,
 		modeMix = 2,
 		shadowFilterPcf5 = 2,
-		shadowFilterPcf7 = 3,
 		modeMask = 3,
+		shadowFilterPcf7 = 3,
 		shadowFilterPcf9 = 4,
 		shadowFilterPcf13 = 5,
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_enabled") = _GODOT_set_enabled;
 	/**
 	
 	*/
 	void setEnabled(in bool enabled)
 	{
-		_GODOT_set_enabled.bind("Light2D", "set_enabled");
-		ptrcall!(void)(_GODOT_set_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_enabled") = _GODOT_is_enabled;
 	/**
 	
 	*/
 	bool isEnabled() const
 	{
-		_GODOT_is_enabled.bind("Light2D", "is_enabled");
-		return ptrcall!(bool)(_GODOT_is_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_editor_only;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_editor_only") = _GODOT_set_editor_only;
 	/**
 	
 	*/
 	void setEditorOnly(in bool editor_only)
 	{
-		_GODOT_set_editor_only.bind("Light2D", "set_editor_only");
-		ptrcall!(void)(_GODOT_set_editor_only, _godot_object, editor_only);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditorOnly, _godot_object, editor_only);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editor_only;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editor_only") = _GODOT_is_editor_only;
 	/**
 	
 	*/
 	bool isEditorOnly() const
 	{
-		_GODOT_is_editor_only.bind("Light2D", "is_editor_only");
-		return ptrcall!(bool)(_GODOT_is_editor_only, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditorOnly, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("Light2D", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("Light2D", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_texture_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture_offset") = _GODOT_set_texture_offset;
 	/**
 	
 	*/
 	void setTextureOffset(in Vector2 texture_offset)
 	{
-		_GODOT_set_texture_offset.bind("Light2D", "set_texture_offset");
-		ptrcall!(void)(_GODOT_set_texture_offset, _godot_object, texture_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureOffset, _godot_object, texture_offset);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_texture_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture_offset") = _GODOT_get_texture_offset;
 	/**
 	
 	*/
 	Vector2 getTextureOffset() const
 	{
-		_GODOT_get_texture_offset.bind("Light2D", "get_texture_offset");
-		return ptrcall!(Vector2)(_GODOT_get_texture_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getTextureOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_color") = _GODOT_set_color;
 	/**
 	
 	*/
 	void setColor(in Color color)
 	{
-		_GODOT_set_color.bind("Light2D", "set_color");
-		ptrcall!(void)(_GODOT_set_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_color") = _GODOT_get_color;
 	/**
 	
 	*/
 	Color getColor() const
 	{
-		_GODOT_get_color.bind("Light2D", "get_color");
-		return ptrcall!(Color)(_GODOT_get_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_height") = _GODOT_set_height;
 	/**
 	
 	*/
 	void setHeight(in double height)
 	{
-		_GODOT_set_height.bind("Light2D", "set_height");
-		ptrcall!(void)(_GODOT_set_height, _godot_object, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_height") = _GODOT_get_height;
 	/**
 	
 	*/
 	double getHeight() const
 	{
-		_GODOT_get_height.bind("Light2D", "get_height");
-		return ptrcall!(double)(_GODOT_get_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_energy") = _GODOT_set_energy;
 	/**
 	
 	*/
 	void setEnergy(in double energy)
 	{
-		_GODOT_set_energy.bind("Light2D", "set_energy");
-		ptrcall!(void)(_GODOT_set_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_energy") = _GODOT_get_energy;
 	/**
 	
 	*/
 	double getEnergy() const
 	{
-		_GODOT_get_energy.bind("Light2D", "get_energy");
-		return ptrcall!(double)(_GODOT_get_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_texture_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture_scale") = _GODOT_set_texture_scale;
 	/**
 	
 	*/
 	void setTextureScale(in double texture_scale)
 	{
-		_GODOT_set_texture_scale.bind("Light2D", "set_texture_scale");
-		ptrcall!(void)(_GODOT_set_texture_scale, _godot_object, texture_scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureScale, _godot_object, texture_scale);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_texture_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture_scale") = _GODOT_get_texture_scale;
 	/**
 	
 	*/
 	double getTextureScale() const
 	{
-		_GODOT_get_texture_scale.bind("Light2D", "get_texture_scale");
-		return ptrcall!(double)(_GODOT_get_texture_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTextureScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_z_range_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_z_range_min") = _GODOT_set_z_range_min;
 	/**
 	
 	*/
 	void setZRangeMin(in long z)
 	{
-		_GODOT_set_z_range_min.bind("Light2D", "set_z_range_min");
-		ptrcall!(void)(_GODOT_set_z_range_min, _godot_object, z);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setZRangeMin, _godot_object, z);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_z_range_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_z_range_min") = _GODOT_get_z_range_min;
 	/**
 	
 	*/
 	long getZRangeMin() const
 	{
-		_GODOT_get_z_range_min.bind("Light2D", "get_z_range_min");
-		return ptrcall!(long)(_GODOT_get_z_range_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getZRangeMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_z_range_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_z_range_max") = _GODOT_set_z_range_max;
 	/**
 	
 	*/
 	void setZRangeMax(in long z)
 	{
-		_GODOT_set_z_range_max.bind("Light2D", "set_z_range_max");
-		ptrcall!(void)(_GODOT_set_z_range_max, _godot_object, z);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setZRangeMax, _godot_object, z);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_z_range_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_z_range_max") = _GODOT_get_z_range_max;
 	/**
 	
 	*/
 	long getZRangeMax() const
 	{
-		_GODOT_get_z_range_max.bind("Light2D", "get_z_range_max");
-		return ptrcall!(long)(_GODOT_get_z_range_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getZRangeMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_layer_range_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_layer_range_min") = _GODOT_set_layer_range_min;
 	/**
 	
 	*/
 	void setLayerRangeMin(in long layer)
 	{
-		_GODOT_set_layer_range_min.bind("Light2D", "set_layer_range_min");
-		ptrcall!(void)(_GODOT_set_layer_range_min, _godot_object, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLayerRangeMin, _godot_object, layer);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_layer_range_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_layer_range_min") = _GODOT_get_layer_range_min;
 	/**
 	
 	*/
 	long getLayerRangeMin() const
 	{
-		_GODOT_get_layer_range_min.bind("Light2D", "get_layer_range_min");
-		return ptrcall!(long)(_GODOT_get_layer_range_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLayerRangeMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_layer_range_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_layer_range_max") = _GODOT_set_layer_range_max;
 	/**
 	
 	*/
 	void setLayerRangeMax(in long layer)
 	{
-		_GODOT_set_layer_range_max.bind("Light2D", "set_layer_range_max");
-		ptrcall!(void)(_GODOT_set_layer_range_max, _godot_object, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLayerRangeMax, _godot_object, layer);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_layer_range_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_layer_range_max") = _GODOT_get_layer_range_max;
 	/**
 	
 	*/
 	long getLayerRangeMax() const
 	{
-		_GODOT_get_layer_range_max.bind("Light2D", "get_layer_range_max");
-		return ptrcall!(long)(_GODOT_get_layer_range_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLayerRangeMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_item_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_cull_mask") = _GODOT_set_item_cull_mask;
 	/**
 	
 	*/
 	void setItemCullMask(in long item_cull_mask)
 	{
-		_GODOT_set_item_cull_mask.bind("Light2D", "set_item_cull_mask");
-		ptrcall!(void)(_GODOT_set_item_cull_mask, _godot_object, item_cull_mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setItemCullMask, _godot_object, item_cull_mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_item_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_cull_mask") = _GODOT_get_item_cull_mask;
 	/**
 	
 	*/
 	long getItemCullMask() const
 	{
-		_GODOT_get_item_cull_mask.bind("Light2D", "get_item_cull_mask");
-		return ptrcall!(long)(_GODOT_get_item_cull_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getItemCullMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_item_shadow_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_item_shadow_cull_mask") = _GODOT_set_item_shadow_cull_mask;
 	/**
 	
 	*/
 	void setItemShadowCullMask(in long item_shadow_cull_mask)
 	{
-		_GODOT_set_item_shadow_cull_mask.bind("Light2D", "set_item_shadow_cull_mask");
-		ptrcall!(void)(_GODOT_set_item_shadow_cull_mask, _godot_object, item_shadow_cull_mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setItemShadowCullMask, _godot_object, item_shadow_cull_mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_item_shadow_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_item_shadow_cull_mask") = _GODOT_get_item_shadow_cull_mask;
 	/**
 	
 	*/
 	long getItemShadowCullMask() const
 	{
-		_GODOT_get_item_shadow_cull_mask.bind("Light2D", "get_item_shadow_cull_mask");
-		return ptrcall!(long)(_GODOT_get_item_shadow_cull_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getItemShadowCullMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mode") = _GODOT_set_mode;
 	/**
 	
 	*/
 	void setMode(in long mode)
 	{
-		_GODOT_set_mode.bind("Light2D", "set_mode");
-		ptrcall!(void)(_GODOT_set_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Light2D.Mode) _GODOT_get_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mode") = _GODOT_get_mode;
 	/**
 	
 	*/
 	Light2D.Mode getMode() const
 	{
-		_GODOT_get_mode.bind("Light2D", "get_mode");
-		return ptrcall!(Light2D.Mode)(_GODOT_get_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Light2D.Mode)(_classBinding.getMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_shadow_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_enabled") = _GODOT_set_shadow_enabled;
 	/**
 	
 	*/
 	void setShadowEnabled(in bool enabled)
 	{
-		_GODOT_set_shadow_enabled.bind("Light2D", "set_shadow_enabled");
-		ptrcall!(void)(_GODOT_set_shadow_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_shadow_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_shadow_enabled") = _GODOT_is_shadow_enabled;
 	/**
 	
 	*/
 	bool isShadowEnabled() const
 	{
-		_GODOT_is_shadow_enabled.bind("Light2D", "is_shadow_enabled");
-		return ptrcall!(bool)(_GODOT_is_shadow_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShadowEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_buffer_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_buffer_size") = _GODOT_set_shadow_buffer_size;
 	/**
 	
 	*/
 	void setShadowBufferSize(in long size)
 	{
-		_GODOT_set_shadow_buffer_size.bind("Light2D", "set_shadow_buffer_size");
-		ptrcall!(void)(_GODOT_set_shadow_buffer_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowBufferSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_shadow_buffer_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_buffer_size") = _GODOT_get_shadow_buffer_size;
 	/**
 	
 	*/
 	long getShadowBufferSize() const
 	{
-		_GODOT_get_shadow_buffer_size.bind("Light2D", "get_shadow_buffer_size");
-		return ptrcall!(long)(_GODOT_get_shadow_buffer_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getShadowBufferSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_shadow_smooth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_smooth") = _GODOT_set_shadow_smooth;
 	/**
 	
 	*/
 	void setShadowSmooth(in double smooth)
 	{
-		_GODOT_set_shadow_smooth.bind("Light2D", "set_shadow_smooth");
-		ptrcall!(void)(_GODOT_set_shadow_smooth, _godot_object, smooth);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowSmooth, _godot_object, smooth);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_shadow_smooth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_smooth") = _GODOT_get_shadow_smooth;
 	/**
 	
 	*/
 	double getShadowSmooth() const
 	{
-		_GODOT_get_shadow_smooth.bind("Light2D", "get_shadow_smooth");
-		return ptrcall!(double)(_GODOT_get_shadow_smooth, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getShadowSmooth, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_shadow_gradient_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_gradient_length") = _GODOT_set_shadow_gradient_length;
 	/**
 	
 	*/
 	void setShadowGradientLength(in double multiplier)
 	{
-		_GODOT_set_shadow_gradient_length.bind("Light2D", "set_shadow_gradient_length");
-		ptrcall!(void)(_GODOT_set_shadow_gradient_length, _godot_object, multiplier);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowGradientLength, _godot_object, multiplier);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_shadow_gradient_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_gradient_length") = _GODOT_get_shadow_gradient_length;
 	/**
 	
 	*/
 	double getShadowGradientLength() const
 	{
-		_GODOT_get_shadow_gradient_length.bind("Light2D", "get_shadow_gradient_length");
-		return ptrcall!(double)(_GODOT_get_shadow_gradient_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getShadowGradientLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_shadow_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_filter") = _GODOT_set_shadow_filter;
 	/**
 	
 	*/
 	void setShadowFilter(in long filter)
 	{
-		_GODOT_set_shadow_filter.bind("Light2D", "set_shadow_filter");
-		ptrcall!(void)(_GODOT_set_shadow_filter, _godot_object, filter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowFilter, _godot_object, filter);
 	}
-	package(godot) static GodotMethod!(Light2D.ShadowFilter) _GODOT_get_shadow_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_filter") = _GODOT_get_shadow_filter;
 	/**
 	
 	*/
 	Light2D.ShadowFilter getShadowFilter() const
 	{
-		_GODOT_get_shadow_filter.bind("Light2D", "get_shadow_filter");
-		return ptrcall!(Light2D.ShadowFilter)(_GODOT_get_shadow_filter, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Light2D.ShadowFilter)(_classBinding.getShadowFilter, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_shadow_color") = _GODOT_set_shadow_color;
 	/**
 	
 	*/
 	void setShadowColor(in Color shadow_color)
 	{
-		_GODOT_set_shadow_color.bind("Light2D", "set_shadow_color");
-		ptrcall!(void)(_GODOT_set_shadow_color, _godot_object, shadow_color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, shadow_color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_shadow_color") = _GODOT_get_shadow_color;
 	/**
 	
 	*/
 	Color getShadowColor() const
 	{
-		_GODOT_get_shadow_color.bind("Light2D", "get_shadow_color");
-		return ptrcall!(Color)(_GODOT_get_shadow_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
 	}
 	/**
 	If `true` Light2D will emit light. Default value: `true`.
@@ -552,18 +517,6 @@ public:
 	@property void editorOnly(bool v)
 	{
 		setEditorOnly(v);
-	}
-	/**
-	$(D Texture) used for the Light2D's appearance.
-	*/
-	@property Texture texture()
-	{
-		return getTexture();
-	}
-	/// ditto
-	@property void texture(Texture v)
-	{
-		setTexture(v);
 	}
 	/**
 	The offset of the Light2D's `texture`.

@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
+import godot.node;
 /**
 Editor-only class for defining a collision polygon in 3D space.
 
@@ -28,12 +29,24 @@ Allows editing a collision polygon's vertices on a selected plane. Can also set 
 */
 @GodotBaseClass struct CollisionPolygon
 {
-	static immutable string _GODOT_internal_name = "CollisionPolygon";
+	enum string _GODOT_internal_name = "CollisionPolygon";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
+		@GodotName("get_depth") GodotMethod!(double) getDepth;
+		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
+		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
+		@GodotName("_is_editable_3d_polygon") GodotMethod!(bool) _isEditable3dPolygon;
+	}
 	bool opEquals(in CollisionPolygon other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionPolygon opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,65 +59,62 @@ public:
 		return cast(CollisionPolygon)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_depth") = _GODOT_set_depth;
 	/**
 	
 	*/
 	void setDepth(in double depth)
 	{
-		_GODOT_set_depth.bind("CollisionPolygon", "set_depth");
-		ptrcall!(void)(_GODOT_set_depth, _godot_object, depth);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_depth") = _GODOT_get_depth;
 	/**
 	
 	*/
 	double getDepth() const
 	{
-		_GODOT_get_depth.bind("CollisionPolygon", "get_depth");
-		return ptrcall!(double)(_GODOT_get_depth, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_polygon") = _GODOT_set_polygon;
 	/**
 	
 	*/
 	void setPolygon(in PoolVector2Array polygon)
 	{
-		_GODOT_set_polygon.bind("CollisionPolygon", "set_polygon");
-		ptrcall!(void)(_GODOT_set_polygon, _godot_object, polygon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array) _GODOT_get_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_polygon") = _GODOT_get_polygon;
 	/**
 	
 	*/
 	PoolVector2Array getPolygon() const
 	{
-		_GODOT_get_polygon.bind("CollisionPolygon", "get_polygon");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_polygon, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_disabled") = _GODOT_set_disabled;
 	/**
 	
 	*/
 	void setDisabled(in bool disabled)
 	{
-		_GODOT_set_disabled.bind("CollisionPolygon", "set_disabled");
-		ptrcall!(void)(_GODOT_set_disabled, _godot_object, disabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_disabled") = _GODOT_is_disabled;
 	/**
 	
 	*/
 	bool isDisabled() const
 	{
-		_GODOT_is_disabled.bind("CollisionPolygon", "is_disabled");
-		return ptrcall!(bool)(_GODOT_is_disabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool _isEditable3dPolygon() const
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_is_editable_3d_polygon");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
 	Length that the resulting collision extends in either direction perpendicular to its polygon.

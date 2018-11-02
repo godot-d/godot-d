@@ -23,6 +23,7 @@ import godot.node;
 import godot.texture;
 import godot.stylebox;
 import godot.font;
+import godot.mesh;
 import godot.world2d;
 import godot.material;
 import godot.inputevent;
@@ -37,12 +38,95 @@ Ultimately, a transform notification can be requested, which will notify the nod
 */
 @GodotBaseClass struct CanvasItem
 {
-	static immutable string _GODOT_internal_name = "CanvasItem";
+	enum string _GODOT_internal_name = "CanvasItem";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_draw") GodotMethod!(void) _draw;
+		@GodotName("_toplevel_raise_self") GodotMethod!(void) _toplevelRaiseSelf;
+		@GodotName("_update_callback") GodotMethod!(void) _updateCallback;
+		@GodotName("_edit_set_state") GodotMethod!(void, Dictionary) _editSetState;
+		@GodotName("_edit_get_state") GodotMethod!(Dictionary) _editGetState;
+		@GodotName("_edit_set_position") GodotMethod!(void, Vector2) _editSetPosition;
+		@GodotName("_edit_get_position") GodotMethod!(Vector2) _editGetPosition;
+		@GodotName("_edit_set_scale") GodotMethod!(void, Vector2) _editSetScale;
+		@GodotName("_edit_get_scale") GodotMethod!(Vector2) _editGetScale;
+		@GodotName("_edit_set_rect") GodotMethod!(void, Rect2) _editSetRect;
+		@GodotName("_edit_get_rect") GodotMethod!(Rect2) _editGetRect;
+		@GodotName("_edit_use_rect") GodotMethod!(bool) _editUseRect;
+		@GodotName("_edit_set_rotation") GodotMethod!(void, double) _editSetRotation;
+		@GodotName("_edit_get_rotation") GodotMethod!(double) _editGetRotation;
+		@GodotName("_edit_use_rotation") GodotMethod!(bool) _editUseRotation;
+		@GodotName("_edit_set_pivot") GodotMethod!(void, Vector2) _editSetPivot;
+		@GodotName("_edit_get_pivot") GodotMethod!(Vector2) _editGetPivot;
+		@GodotName("_edit_use_pivot") GodotMethod!(bool) _editUsePivot;
+		@GodotName("get_canvas_item") GodotMethod!(RID) getCanvasItem;
+		@GodotName("set_visible") GodotMethod!(void, bool) setVisible;
+		@GodotName("is_visible") GodotMethod!(bool) isVisible;
+		@GodotName("is_visible_in_tree") GodotMethod!(bool) isVisibleInTree;
+		@GodotName("show") GodotMethod!(void) show;
+		@GodotName("hide") GodotMethod!(void) hide;
+		@GodotName("update") GodotMethod!(void) update;
+		@GodotName("set_as_toplevel") GodotMethod!(void, bool) setAsToplevel;
+		@GodotName("is_set_as_toplevel") GodotMethod!(bool) isSetAsToplevel;
+		@GodotName("set_light_mask") GodotMethod!(void, long) setLightMask;
+		@GodotName("get_light_mask") GodotMethod!(long) getLightMask;
+		@GodotName("set_modulate") GodotMethod!(void, Color) setModulate;
+		@GodotName("get_modulate") GodotMethod!(Color) getModulate;
+		@GodotName("set_self_modulate") GodotMethod!(void, Color) setSelfModulate;
+		@GodotName("get_self_modulate") GodotMethod!(Color) getSelfModulate;
+		@GodotName("set_draw_behind_parent") GodotMethod!(void, bool) setDrawBehindParent;
+		@GodotName("is_draw_behind_parent_enabled") GodotMethod!(bool) isDrawBehindParentEnabled;
+		@GodotName("_set_on_top") GodotMethod!(void, bool) _setOnTop;
+		@GodotName("_is_on_top") GodotMethod!(bool) _isOnTop;
+		@GodotName("draw_line") GodotMethod!(void, Vector2, Vector2, Color, double, bool) drawLine;
+		@GodotName("draw_polyline") GodotMethod!(void, PoolVector2Array, Color, double, bool) drawPolyline;
+		@GodotName("draw_polyline_colors") GodotMethod!(void, PoolVector2Array, PoolColorArray, double, bool) drawPolylineColors;
+		@GodotName("draw_multiline") GodotMethod!(void, PoolVector2Array, Color, double, bool) drawMultiline;
+		@GodotName("draw_multiline_colors") GodotMethod!(void, PoolVector2Array, PoolColorArray, double, bool) drawMultilineColors;
+		@GodotName("draw_rect") GodotMethod!(void, Rect2, Color, bool) drawRect;
+		@GodotName("draw_circle") GodotMethod!(void, Vector2, double, Color) drawCircle;
+		@GodotName("draw_texture") GodotMethod!(void, Texture, Vector2, Color, Texture) drawTexture;
+		@GodotName("draw_texture_rect") GodotMethod!(void, Texture, Rect2, bool, Color, bool, Texture) drawTextureRect;
+		@GodotName("draw_texture_rect_region") GodotMethod!(void, Texture, Rect2, Rect2, Color, bool, Texture, bool) drawTextureRectRegion;
+		@GodotName("draw_style_box") GodotMethod!(void, StyleBox, Rect2) drawStyleBox;
+		@GodotName("draw_primitive") GodotMethod!(void, PoolVector2Array, PoolColorArray, PoolVector2Array, Texture, double, Texture) drawPrimitive;
+		@GodotName("draw_polygon") GodotMethod!(void, PoolVector2Array, PoolColorArray, PoolVector2Array, Texture, Texture, bool) drawPolygon;
+		@GodotName("draw_colored_polygon") GodotMethod!(void, PoolVector2Array, Color, PoolVector2Array, Texture, Texture, bool) drawColoredPolygon;
+		@GodotName("draw_string") GodotMethod!(void, Font, Vector2, String, Color, long) drawString;
+		@GodotName("draw_char") GodotMethod!(double, Font, Vector2, String, String, Color) drawChar;
+		@GodotName("draw_mesh") GodotMethod!(void, Mesh, Texture, Texture) drawMesh;
+		@GodotName("draw_multimesh") GodotMethod!(void, Mesh, Texture, Texture) drawMultimesh;
+		@GodotName("draw_set_transform") GodotMethod!(void, Vector2, double, Vector2) drawSetTransform;
+		@GodotName("draw_set_transform_matrix") GodotMethod!(void, Transform2D) drawSetTransformMatrix;
+		@GodotName("get_transform") GodotMethod!(Transform2D) getTransform;
+		@GodotName("get_global_transform") GodotMethod!(Transform2D) getGlobalTransform;
+		@GodotName("get_global_transform_with_canvas") GodotMethod!(Transform2D) getGlobalTransformWithCanvas;
+		@GodotName("get_viewport_transform") GodotMethod!(Transform2D) getViewportTransform;
+		@GodotName("get_viewport_rect") GodotMethod!(Rect2) getViewportRect;
+		@GodotName("get_canvas_transform") GodotMethod!(Transform2D) getCanvasTransform;
+		@GodotName("get_local_mouse_position") GodotMethod!(Vector2) getLocalMousePosition;
+		@GodotName("get_global_mouse_position") GodotMethod!(Vector2) getGlobalMousePosition;
+		@GodotName("get_canvas") GodotMethod!(RID) getCanvas;
+		@GodotName("get_world_2d") GodotMethod!(World2D) getWorld2d;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+		@GodotName("set_use_parent_material") GodotMethod!(void, bool) setUseParentMaterial;
+		@GodotName("get_use_parent_material") GodotMethod!(bool) getUseParentMaterial;
+		@GodotName("set_notify_local_transform") GodotMethod!(void, bool) setNotifyLocalTransform;
+		@GodotName("is_local_transform_notification_enabled") GodotMethod!(bool) isLocalTransformNotificationEnabled;
+		@GodotName("set_notify_transform") GodotMethod!(void, bool) setNotifyTransform;
+		@GodotName("is_transform_notification_enabled") GodotMethod!(bool) isTransformNotificationEnabled;
+		@GodotName("force_update_transform") GodotMethod!(void) forceUpdateTransform;
+		@GodotName("make_canvas_position_local") GodotMethod!(Vector2, Vector2) makeCanvasPositionLocal;
+		@GodotName("make_input_local") GodotMethod!(InputEvent, InputEvent) makeInputLocal;
+	}
 	bool opEquals(in CanvasItem other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CanvasItem opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -78,6 +162,10 @@ public:
 		Mix blending mode. Colors are assumed to be premultiplied by the alpha (opacity) value.
 		*/
 		blendModePremultAlpha = 4,
+		/**
+		Disable blending mode. Colors including alpha are written as is. Only applicable for render targets with a transparent background. No lighting will be applied.
+		*/
+		blendModeDisabled = 5,
 	}
 	/// 
 	enum Constants : int
@@ -87,8 +175,9 @@ public:
 		blendModeSub = 2,
 		blendModeMul = 3,
 		blendModePremultAlpha = 4,
+		blendModeDisabled = 5,
 		/**
-		Canvas item transform has changed. Only received if requested.
+		Canvas item transform has changed. Notification is only received if enabled by $(D setNotifyTransform) or $(D setNotifyLocalTransform).
 		*/
 		notificationTransformChanged = 29,
 		/**
@@ -108,8 +197,6 @@ public:
 		*/
 		notificationExitCanvas = 33,
 	}
-	package(godot) static GodotMethod!(void) _GODOT__draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_draw") = _GODOT__draw;
 	/**
 	Called (if exists) to draw the canvas item.
 	*/
@@ -119,8 +206,6 @@ public:
 		String _GODOT_method_name = String("_draw");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__toplevel_raise_self;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_toplevel_raise_self") = _GODOT__toplevel_raise_self;
 	/**
 	
 	*/
@@ -130,8 +215,6 @@ public:
 		String _GODOT_method_name = String("_toplevel_raise_self");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_callback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_callback") = _GODOT__update_callback;
 	/**
 	
 	*/
@@ -141,8 +224,6 @@ public:
 		String _GODOT_method_name = String("_update_callback");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__edit_set_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_state") = _GODOT__edit_set_state;
 	/**
 	
 	*/
@@ -153,8 +234,6 @@ public:
 		String _GODOT_method_name = String("_edit_set_state");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__edit_get_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_state") = _GODOT__edit_get_state;
 	/**
 	
 	*/
@@ -164,8 +243,6 @@ public:
 		String _GODOT_method_name = String("_edit_get_state");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT__edit_set_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_position") = _GODOT__edit_set_position;
 	/**
 	
 	*/
@@ -176,8 +253,6 @@ public:
 		String _GODOT_method_name = String("_edit_set_position");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT__edit_get_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_position") = _GODOT__edit_get_position;
 	/**
 	
 	*/
@@ -187,19 +262,25 @@ public:
 		String _GODOT_method_name = String("_edit_get_position");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__edit_use_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_position") = _GODOT__edit_use_position;
 	/**
 	
 	*/
-	bool _editUsePosition() const
+	void _editSetScale(in Vector2 scale)
 	{
 		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_edit_use_position");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		_GODOT_args.append(scale);
+		String _GODOT_method_name = String("_edit_set_scale");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT__edit_set_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_rect") = _GODOT__edit_set_rect;
+	/**
+	
+	*/
+	Vector2 _editGetScale() const
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_edit_get_scale");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
+	}
 	/**
 	
 	*/
@@ -210,8 +291,6 @@ public:
 		String _GODOT_method_name = String("_edit_set_rect");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT__edit_get_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_rect") = _GODOT__edit_get_rect;
 	/**
 	
 	*/
@@ -221,8 +300,6 @@ public:
 		String _GODOT_method_name = String("_edit_get_rect");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Rect2);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__edit_use_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_rect") = _GODOT__edit_use_rect;
 	/**
 	
 	*/
@@ -232,19 +309,6 @@ public:
 		String _GODOT_method_name = String("_edit_use_rect");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT__edit_get_item_and_children_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_item_and_children_rect") = _GODOT__edit_get_item_and_children_rect;
-	/**
-	
-	*/
-	Rect2 _editGetItemAndChildrenRect() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_edit_get_item_and_children_rect");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Rect2);
-	}
-	package(godot) static GodotMethod!(void, double) _GODOT__edit_set_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_rotation") = _GODOT__edit_set_rotation;
 	/**
 	
 	*/
@@ -255,8 +319,6 @@ public:
 		String _GODOT_method_name = String("_edit_set_rotation");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__edit_get_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_rotation") = _GODOT__edit_get_rotation;
 	/**
 	
 	*/
@@ -266,8 +328,6 @@ public:
 		String _GODOT_method_name = String("_edit_get_rotation");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__edit_use_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_rotation") = _GODOT__edit_use_rotation;
 	/**
 	
 	*/
@@ -277,8 +337,6 @@ public:
 		String _GODOT_method_name = String("_edit_use_rotation");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT__edit_set_pivot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_set_pivot") = _GODOT__edit_set_pivot;
 	/**
 	
 	*/
@@ -289,8 +347,6 @@ public:
 		String _GODOT_method_name = String("_edit_set_pivot");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT__edit_get_pivot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_get_pivot") = _GODOT__edit_get_pivot;
 	/**
 	
 	*/
@@ -300,8 +356,6 @@ public:
 		String _GODOT_method_name = String("_edit_get_pivot");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__edit_use_pivot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_edit_use_pivot") = _GODOT__edit_use_pivot;
 	/**
 	
 	*/
@@ -311,178 +365,142 @@ public:
 		String _GODOT_method_name = String("_edit_use_pivot");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_canvas_item;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas_item") = _GODOT_get_canvas_item;
 	/**
 	Return the canvas item RID used by $(D VisualServer) for this item.
 	*/
 	RID getCanvasItem() const
 	{
-		_GODOT_get_canvas_item.bind("CanvasItem", "get_canvas_item");
-		return ptrcall!(RID)(_GODOT_get_canvas_item, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getCanvasItem, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_visible") = _GODOT_set_visible;
 	/**
 	
 	*/
 	void setVisible(in bool visible)
 	{
-		_GODOT_set_visible.bind("CanvasItem", "set_visible");
-		ptrcall!(void)(_GODOT_set_visible, _godot_object, visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisible, _godot_object, visible);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_visible") = _GODOT_is_visible;
 	/**
 	
 	*/
 	bool isVisible() const
 	{
-		_GODOT_is_visible.bind("CanvasItem", "is_visible");
-		return ptrcall!(bool)(_GODOT_is_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isVisible, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_visible_in_tree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_visible_in_tree") = _GODOT_is_visible_in_tree;
 	/**
 	Returns `true` if the node is present in the $(D SceneTree), its $(D visible) property is `true` and its inherited visibility is also `true`.
 	*/
 	bool isVisibleInTree() const
 	{
-		_GODOT_is_visible_in_tree.bind("CanvasItem", "is_visible_in_tree");
-		return ptrcall!(bool)(_GODOT_is_visible_in_tree, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isVisibleInTree, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_show;
-	package(godot) alias _GODOT_methodBindInfo(string name : "show") = _GODOT_show;
 	/**
 	Show the CanvasItem currently hidden.
 	*/
 	void show()
 	{
-		_GODOT_show.bind("CanvasItem", "show");
-		ptrcall!(void)(_GODOT_show, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.show, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_hide;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hide") = _GODOT_hide;
 	/**
 	Hide the CanvasItem currently visible.
 	*/
 	void hide()
 	{
-		_GODOT_hide.bind("CanvasItem", "hide");
-		ptrcall!(void)(_GODOT_hide, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.hide, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_update;
-	package(godot) alias _GODOT_methodBindInfo(string name : "update") = _GODOT_update;
 	/**
 	Queue the CanvasItem for update. `NOTIFICATION_DRAW` will be called on idle time to request redraw.
 	*/
 	void update()
 	{
-		_GODOT_update.bind("CanvasItem", "update");
-		ptrcall!(void)(_GODOT_update, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.update, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_as_toplevel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_as_toplevel") = _GODOT_set_as_toplevel;
 	/**
 	Sets as top level. This means that it will not inherit transform from parent canvas items.
 	*/
 	void setAsToplevel(in bool enable)
 	{
-		_GODOT_set_as_toplevel.bind("CanvasItem", "set_as_toplevel");
-		ptrcall!(void)(_GODOT_set_as_toplevel, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsToplevel, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_set_as_toplevel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_set_as_toplevel") = _GODOT_is_set_as_toplevel;
 	/**
 	Return if set as toplevel. See $(D setAsToplevel).
 	*/
 	bool isSetAsToplevel() const
 	{
-		_GODOT_is_set_as_toplevel.bind("CanvasItem", "is_set_as_toplevel");
-		return ptrcall!(bool)(_GODOT_is_set_as_toplevel, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSetAsToplevel, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_light_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_light_mask") = _GODOT_set_light_mask;
 	/**
 	
 	*/
 	void setLightMask(in long light_mask)
 	{
-		_GODOT_set_light_mask.bind("CanvasItem", "set_light_mask");
-		ptrcall!(void)(_GODOT_set_light_mask, _godot_object, light_mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightMask, _godot_object, light_mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_light_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_light_mask") = _GODOT_get_light_mask;
 	/**
 	
 	*/
 	long getLightMask() const
 	{
-		_GODOT_get_light_mask.bind("CanvasItem", "get_light_mask");
-		return ptrcall!(long)(_GODOT_get_light_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLightMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_modulate") = _GODOT_set_modulate;
 	/**
 	
 	*/
 	void setModulate(in Color modulate)
 	{
-		_GODOT_set_modulate.bind("CanvasItem", "set_modulate");
-		ptrcall!(void)(_GODOT_set_modulate, _godot_object, modulate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setModulate, _godot_object, modulate);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_modulate") = _GODOT_get_modulate;
 	/**
 	
 	*/
 	Color getModulate() const
 	{
-		_GODOT_get_modulate.bind("CanvasItem", "get_modulate");
-		return ptrcall!(Color)(_GODOT_get_modulate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_self_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_self_modulate") = _GODOT_set_self_modulate;
 	/**
 	
 	*/
 	void setSelfModulate(in Color self_modulate)
 	{
-		_GODOT_set_self_modulate.bind("CanvasItem", "set_self_modulate");
-		ptrcall!(void)(_GODOT_set_self_modulate, _godot_object, self_modulate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSelfModulate, _godot_object, self_modulate);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_self_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_self_modulate") = _GODOT_get_self_modulate;
 	/**
 	
 	*/
 	Color getSelfModulate() const
 	{
-		_GODOT_get_self_modulate.bind("CanvasItem", "get_self_modulate");
-		return ptrcall!(Color)(_GODOT_get_self_modulate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getSelfModulate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_draw_behind_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_behind_parent") = _GODOT_set_draw_behind_parent;
 	/**
 	
 	*/
 	void setDrawBehindParent(in bool enable)
 	{
-		_GODOT_set_draw_behind_parent.bind("CanvasItem", "set_draw_behind_parent");
-		ptrcall!(void)(_GODOT_set_draw_behind_parent, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawBehindParent, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_draw_behind_parent_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_draw_behind_parent_enabled") = _GODOT_is_draw_behind_parent_enabled;
 	/**
 	
 	*/
 	bool isDrawBehindParentEnabled() const
 	{
-		_GODOT_is_draw_behind_parent_enabled.bind("CanvasItem", "is_draw_behind_parent_enabled");
-		return ptrcall!(bool)(_GODOT_is_draw_behind_parent_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawBehindParentEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT__set_on_top;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_on_top") = _GODOT__set_on_top;
 	/**
 	
 	*/
@@ -493,8 +511,6 @@ public:
 		String _GODOT_method_name = String("_set_on_top");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__is_on_top;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_is_on_top") = _GODOT__is_on_top;
 	/**
 	
 	*/
@@ -504,385 +520,333 @@ public:
 		String _GODOT_method_name = String("_is_on_top");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, Vector2, Vector2, Color, double, bool) _GODOT_draw_line;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_line") = _GODOT_draw_line;
 	/**
 	Draws a line from a 2D point to another, with a given color and width. It can be optionally antialiased.
 	*/
 	void drawLine(in Vector2 from, in Vector2 to, in Color color, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_draw_line.bind("CanvasItem", "draw_line");
-		ptrcall!(void)(_GODOT_draw_line, _godot_object, from, to, color, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawLine, _godot_object, from, to, color, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, Color, double, bool) _GODOT_draw_polyline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_polyline") = _GODOT_draw_polyline;
 	/**
 	Draws interconnected line segments with a uniform `color` and `width` and optional antialiasing.
 	*/
 	void drawPolyline(in PoolVector2Array points, in Color color, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_draw_polyline.bind("CanvasItem", "draw_polyline");
-		ptrcall!(void)(_GODOT_draw_polyline, _godot_object, points, color, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawPolyline, _godot_object, points, color, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, PoolColorArray, double, bool) _GODOT_draw_polyline_colors;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_polyline_colors") = _GODOT_draw_polyline_colors;
 	/**
 	Draws interconnected line segments with a uniform `width`, segment-by-segment coloring, and optional antialiasing. Colors assigned to line segments match by index between `points` and `colors`.
 	*/
 	void drawPolylineColors(in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_draw_polyline_colors.bind("CanvasItem", "draw_polyline_colors");
-		ptrcall!(void)(_GODOT_draw_polyline_colors, _godot_object, points, colors, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawPolylineColors, _godot_object, points, colors, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, Color, double, bool) _GODOT_draw_multiline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_multiline") = _GODOT_draw_multiline;
 	/**
 	Draws multiple, parallel lines with a uniform `color` and `width` and optional antialiasing.
 	*/
 	void drawMultiline(in PoolVector2Array points, in Color color, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_draw_multiline.bind("CanvasItem", "draw_multiline");
-		ptrcall!(void)(_GODOT_draw_multiline, _godot_object, points, color, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawMultiline, _godot_object, points, color, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, PoolColorArray, double, bool) _GODOT_draw_multiline_colors;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_multiline_colors") = _GODOT_draw_multiline_colors;
 	/**
 	Draws multiple, parallel lines with a uniform `width`, segment-by-segment coloring, and optional antialiasing. Colors assigned to line segments match by index between `points` and `colors`.
 	*/
 	void drawMultilineColors(in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_draw_multiline_colors.bind("CanvasItem", "draw_multiline_colors");
-		ptrcall!(void)(_GODOT_draw_multiline_colors, _godot_object, points, colors, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawMultilineColors, _godot_object, points, colors, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, Rect2, Color, bool) _GODOT_draw_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_rect") = _GODOT_draw_rect;
 	/**
 	Draws a colored rectangle.
 	*/
 	void drawRect(in Rect2 rect, in Color color, in bool filled = true)
 	{
-		_GODOT_draw_rect.bind("CanvasItem", "draw_rect");
-		ptrcall!(void)(_GODOT_draw_rect, _godot_object, rect, color, filled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawRect, _godot_object, rect, color, filled);
 	}
-	package(godot) static GodotMethod!(void, Vector2, double, Color) _GODOT_draw_circle;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_circle") = _GODOT_draw_circle;
 	/**
 	Draws a colored circle.
 	*/
 	void drawCircle(in Vector2 position, in double radius, in Color color)
 	{
-		_GODOT_draw_circle.bind("CanvasItem", "draw_circle");
-		ptrcall!(void)(_GODOT_draw_circle, _godot_object, position, radius, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawCircle, _godot_object, position, radius, color);
 	}
-	package(godot) static GodotMethod!(void, Texture, Vector2, Color, Texture) _GODOT_draw_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_texture") = _GODOT_draw_texture;
 	/**
 	Draws a texture at a given position.
 	*/
 	void drawTexture(Texture texture, in Vector2 position, in Color modulate = Color(1,1,1,1), Texture normal_map = Texture.init)
 	{
-		_GODOT_draw_texture.bind("CanvasItem", "draw_texture");
-		ptrcall!(void)(_GODOT_draw_texture, _godot_object, texture, position, modulate, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawTexture, _godot_object, texture, position, modulate, normal_map);
 	}
-	package(godot) static GodotMethod!(void, Texture, Rect2, bool, Color, bool, Texture) _GODOT_draw_texture_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_texture_rect") = _GODOT_draw_texture_rect;
 	/**
 	Draws a textured rectangle at a given position, optionally modulated by a color. Transpose swaps the x and y coordinates when reading the texture.
 	*/
 	void drawTextureRect(Texture texture, in Rect2 rect, in bool tile, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init)
 	{
-		_GODOT_draw_texture_rect.bind("CanvasItem", "draw_texture_rect");
-		ptrcall!(void)(_GODOT_draw_texture_rect, _godot_object, texture, rect, tile, modulate, transpose, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawTextureRect, _godot_object, texture, rect, tile, modulate, transpose, normal_map);
 	}
-	package(godot) static GodotMethod!(void, Texture, Rect2, Rect2, Color, bool, Texture, bool) _GODOT_draw_texture_rect_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_texture_rect_region") = _GODOT_draw_texture_rect_region;
 	/**
 	Draws a textured rectangle region at a given position, optionally modulated by a color. Transpose swaps the x and y coordinates when reading the texture.
 	*/
 	void drawTextureRectRegion(Texture texture, in Rect2 rect, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init, in bool clip_uv = true)
 	{
-		_GODOT_draw_texture_rect_region.bind("CanvasItem", "draw_texture_rect_region");
-		ptrcall!(void)(_GODOT_draw_texture_rect_region, _godot_object, texture, rect, src_rect, modulate, transpose, normal_map, clip_uv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawTextureRectRegion, _godot_object, texture, rect, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
-	package(godot) static GodotMethod!(void, StyleBox, Rect2) _GODOT_draw_style_box;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_style_box") = _GODOT_draw_style_box;
 	/**
 	Draws a styled rectangle.
 	*/
 	void drawStyleBox(StyleBox style_box, in Rect2 rect)
 	{
-		_GODOT_draw_style_box.bind("CanvasItem", "draw_style_box");
-		ptrcall!(void)(_GODOT_draw_style_box, _godot_object, style_box, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawStyleBox, _godot_object, style_box, rect);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, PoolColorArray, PoolVector2Array, Texture, double, Texture) _GODOT_draw_primitive;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_primitive") = _GODOT_draw_primitive;
 	/**
 	Draws a custom primitive, 1 point for a point, 2 points for a line, 3 points for a triangle and 4 points for a quad.
 	*/
 	void drawPrimitive(in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs, Texture texture = Texture.init, in double width = 1, Texture normal_map = Texture.init)
 	{
-		_GODOT_draw_primitive.bind("CanvasItem", "draw_primitive");
-		ptrcall!(void)(_GODOT_draw_primitive, _godot_object, points, colors, uvs, texture, width, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawPrimitive, _godot_object, points, colors, uvs, texture, width, normal_map);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, PoolColorArray, PoolVector2Array, Texture, Texture, bool) _GODOT_draw_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_polygon") = _GODOT_draw_polygon;
 	/**
 	Draws a polygon of any amount of points, convex or concave.
 	*/
 	void drawPolygon(in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, Texture texture = Texture.init, Texture normal_map = Texture.init, in bool antialiased = false)
 	{
-		_GODOT_draw_polygon.bind("CanvasItem", "draw_polygon");
-		ptrcall!(void)(_GODOT_draw_polygon, _godot_object, points, colors, uvs, texture, normal_map, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawPolygon, _godot_object, points, colors, uvs, texture, normal_map, antialiased);
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array, Color, PoolVector2Array, Texture, Texture, bool) _GODOT_draw_colored_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_colored_polygon") = _GODOT_draw_colored_polygon;
 	/**
 	Draws a colored polygon of any amount of points, convex or concave.
 	*/
 	void drawColoredPolygon(in PoolVector2Array points, in Color color, in PoolVector2Array uvs = PoolVector2Array.init, Texture texture = Texture.init, Texture normal_map = Texture.init, in bool antialiased = false)
 	{
-		_GODOT_draw_colored_polygon.bind("CanvasItem", "draw_colored_polygon");
-		ptrcall!(void)(_GODOT_draw_colored_polygon, _godot_object, points, color, uvs, texture, normal_map, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawColoredPolygon, _godot_object, points, color, uvs, texture, normal_map, antialiased);
 	}
-	package(godot) static GodotMethod!(void, Font, Vector2, String, Color, long) _GODOT_draw_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_string") = _GODOT_draw_string;
 	/**
 	Draws a string using a custom font.
 	*/
 	void drawString(StringArg2)(Font font, in Vector2 position, in StringArg2 text, in Color modulate = Color(1,1,1,1), in long clip_w = -1)
 	{
-		_GODOT_draw_string.bind("CanvasItem", "draw_string");
-		ptrcall!(void)(_GODOT_draw_string, _godot_object, font, position, text, modulate, clip_w);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawString, _godot_object, font, position, text, modulate, clip_w);
 	}
-	package(godot) static GodotMethod!(double, Font, Vector2, String, String, Color) _GODOT_draw_char;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_char") = _GODOT_draw_char;
 	/**
 	Draws a string character using a custom font. Returns the advance, depending on the char width and kerning with an optional next char.
 	*/
 	double drawChar(StringArg2, StringArg3)(Font font, in Vector2 position, in StringArg2 _char, in StringArg3 next, in Color modulate = Color(1,1,1,1))
 	{
-		_GODOT_draw_char.bind("CanvasItem", "draw_char");
-		return ptrcall!(double)(_GODOT_draw_char, _godot_object, font, position, _char, next, modulate);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.drawChar, _godot_object, font, position, _char, next, modulate);
 	}
-	package(godot) static GodotMethod!(void, Vector2, double, Vector2) _GODOT_draw_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_set_transform") = _GODOT_draw_set_transform;
+	/**
+	
+	*/
+	void drawMesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawMesh, _godot_object, mesh, texture, normal_map);
+	}
+	/**
+	
+	*/
+	void drawMultimesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawMultimesh, _godot_object, mesh, texture, normal_map);
+	}
 	/**
 	Sets a custom transform for drawing via components. Anything drawn afterwards will be transformed by this.
 	*/
 	void drawSetTransform(in Vector2 position, in double rotation, in Vector2 scale)
 	{
-		_GODOT_draw_set_transform.bind("CanvasItem", "draw_set_transform");
-		ptrcall!(void)(_GODOT_draw_set_transform, _godot_object, position, rotation, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawSetTransform, _godot_object, position, rotation, scale);
 	}
-	package(godot) static GodotMethod!(void, Transform2D) _GODOT_draw_set_transform_matrix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw_set_transform_matrix") = _GODOT_draw_set_transform_matrix;
 	/**
 	Sets a custom transform for drawing via matrix. Anything drawn afterwards will be transformed by this.
 	*/
 	void drawSetTransformMatrix(in Transform2D xform)
 	{
-		_GODOT_draw_set_transform_matrix.bind("CanvasItem", "draw_set_transform_matrix");
-		ptrcall!(void)(_GODOT_draw_set_transform_matrix, _godot_object, xform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawSetTransformMatrix, _godot_object, xform);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_transform") = _GODOT_get_transform;
 	/**
 	Get the transform matrix of this item.
 	*/
 	Transform2D getTransform() const
 	{
-		_GODOT_get_transform.bind("CanvasItem", "get_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_global_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_transform") = _GODOT_get_global_transform;
 	/**
 	Get the global transform matrix of this item.
 	*/
 	Transform2D getGlobalTransform() const
 	{
-		_GODOT_get_global_transform.bind("CanvasItem", "get_global_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_global_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getGlobalTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_global_transform_with_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_transform_with_canvas") = _GODOT_get_global_transform_with_canvas;
 	/**
 	Get the global transform matrix of this item in relation to the canvas.
 	*/
 	Transform2D getGlobalTransformWithCanvas() const
 	{
-		_GODOT_get_global_transform_with_canvas.bind("CanvasItem", "get_global_transform_with_canvas");
-		return ptrcall!(Transform2D)(_GODOT_get_global_transform_with_canvas, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getGlobalTransformWithCanvas, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_viewport_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_viewport_transform") = _GODOT_get_viewport_transform;
 	/**
 	Get this item's transform in relation to the viewport.
 	*/
 	Transform2D getViewportTransform() const
 	{
-		_GODOT_get_viewport_transform.bind("CanvasItem", "get_viewport_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_viewport_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getViewportTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_viewport_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_viewport_rect") = _GODOT_get_viewport_rect;
 	/**
 	Get the viewport's boundaries as a $(D Rect2).
 	*/
 	Rect2 getViewportRect() const
 	{
-		_GODOT_get_viewport_rect.bind("CanvasItem", "get_viewport_rect");
-		return ptrcall!(Rect2)(_GODOT_get_viewport_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getViewportRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(Transform2D) _GODOT_get_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas_transform") = _GODOT_get_canvas_transform;
 	/**
 	Get the transform matrix of this item's canvas.
 	*/
 	Transform2D getCanvasTransform() const
 	{
-		_GODOT_get_canvas_transform.bind("CanvasItem", "get_canvas_transform");
-		return ptrcall!(Transform2D)(_GODOT_get_canvas_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getCanvasTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_local_mouse_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_local_mouse_position") = _GODOT_get_local_mouse_position;
 	/**
 	Get the mouse position relative to this item's position.
 	*/
 	Vector2 getLocalMousePosition() const
 	{
-		_GODOT_get_local_mouse_position.bind("CanvasItem", "get_local_mouse_position");
-		return ptrcall!(Vector2)(_GODOT_get_local_mouse_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLocalMousePosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_global_mouse_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_mouse_position") = _GODOT_get_global_mouse_position;
 	/**
 	Get the global position of the mouse.
 	*/
 	Vector2 getGlobalMousePosition() const
 	{
-		_GODOT_get_global_mouse_position.bind("CanvasItem", "get_global_mouse_position");
-		return ptrcall!(Vector2)(_GODOT_get_global_mouse_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getGlobalMousePosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_canvas") = _GODOT_get_canvas;
 	/**
 	Return the $(D RID) of the $(D World2D) canvas where this item is in.
 	*/
 	RID getCanvas() const
 	{
-		_GODOT_get_canvas.bind("CanvasItem", "get_canvas");
-		return ptrcall!(RID)(_GODOT_get_canvas, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getCanvas, _godot_object);
 	}
-	package(godot) static GodotMethod!(World2D) _GODOT_get_world_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_world_2d") = _GODOT_get_world_2d;
 	/**
 	Get the $(D World2D) where this item is in.
 	*/
 	Ref!World2D getWorld2d() const
 	{
-		_GODOT_get_world_2d.bind("CanvasItem", "get_world_2d");
-		return ptrcall!(World2D)(_GODOT_get_world_2d, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(World2D)(_classBinding.getWorld2d, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Material) _GODOT_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_material") = _GODOT_set_material;
 	/**
 	
 	*/
 	void setMaterial(Material material)
 	{
-		_GODOT_set_material.bind("CanvasItem", "set_material");
-		ptrcall!(void)(_GODOT_set_material, _godot_object, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
 	}
-	package(godot) static GodotMethod!(Material) _GODOT_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_material") = _GODOT_get_material;
 	/**
 	
 	*/
 	Ref!Material getMaterial() const
 	{
-		_GODOT_get_material.bind("CanvasItem", "get_material");
-		return ptrcall!(Material)(_GODOT_get_material, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_parent_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_parent_material") = _GODOT_set_use_parent_material;
 	/**
 	
 	*/
 	void setUseParentMaterial(in bool enable)
 	{
-		_GODOT_set_use_parent_material.bind("CanvasItem", "set_use_parent_material");
-		ptrcall!(void)(_GODOT_set_use_parent_material, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseParentMaterial, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_use_parent_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_use_parent_material") = _GODOT_get_use_parent_material;
 	/**
 	
 	*/
 	bool getUseParentMaterial() const
 	{
-		_GODOT_get_use_parent_material.bind("CanvasItem", "get_use_parent_material");
-		return ptrcall!(bool)(_GODOT_get_use_parent_material, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUseParentMaterial, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_notify_local_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_notify_local_transform") = _GODOT_set_notify_local_transform;
 	/**
 	If `enable` is `true`, children will be updated with local transform data.
 	*/
 	void setNotifyLocalTransform(in bool enable)
 	{
-		_GODOT_set_notify_local_transform.bind("CanvasItem", "set_notify_local_transform");
-		ptrcall!(void)(_GODOT_set_notify_local_transform, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNotifyLocalTransform, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_local_transform_notification_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_local_transform_notification_enabled") = _GODOT_is_local_transform_notification_enabled;
 	/**
 	Returns `true` if local transform notifications are communicated to children.
 	*/
 	bool isLocalTransformNotificationEnabled() const
 	{
-		_GODOT_is_local_transform_notification_enabled.bind("CanvasItem", "is_local_transform_notification_enabled");
-		return ptrcall!(bool)(_GODOT_is_local_transform_notification_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLocalTransformNotificationEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_notify_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_notify_transform") = _GODOT_set_notify_transform;
 	/**
 	If `enable` is `true`, children will be updated with global transform data.
 	*/
 	void setNotifyTransform(in bool enable)
 	{
-		_GODOT_set_notify_transform.bind("CanvasItem", "set_notify_transform");
-		ptrcall!(void)(_GODOT_set_notify_transform, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNotifyTransform, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_transform_notification_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_transform_notification_enabled") = _GODOT_is_transform_notification_enabled;
 	/**
 	Returns `true` if global transform notifications are communicated to children.
 	*/
 	bool isTransformNotificationEnabled() const
 	{
-		_GODOT_is_transform_notification_enabled.bind("CanvasItem", "is_transform_notification_enabled");
-		return ptrcall!(bool)(_GODOT_is_transform_notification_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isTransformNotificationEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2, Vector2) _GODOT_make_canvas_position_local;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_canvas_position_local") = _GODOT_make_canvas_position_local;
+	/**
+	
+	*/
+	void forceUpdateTransform()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceUpdateTransform, _godot_object);
+	}
 	/**
 	Assigns `screen_point` as this node's new local transform.
 	*/
 	Vector2 makeCanvasPositionLocal(in Vector2 screen_point) const
 	{
-		_GODOT_make_canvas_position_local.bind("CanvasItem", "make_canvas_position_local");
-		return ptrcall!(Vector2)(_GODOT_make_canvas_position_local, _godot_object, screen_point);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.makeCanvasPositionLocal, _godot_object, screen_point);
 	}
-	package(godot) static GodotMethod!(InputEvent, InputEvent) _GODOT_make_input_local;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_input_local") = _GODOT_make_input_local;
 	/**
 	Transformations issued by `event`'s inputs are applied in local space instead of global space.
 	*/
 	Ref!InputEvent makeInputLocal(InputEvent event) const
 	{
-		_GODOT_make_input_local.bind("CanvasItem", "make_input_local");
-		return ptrcall!(InputEvent)(_GODOT_make_input_local, _godot_object, event);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(InputEvent)(_classBinding.makeInputLocal, _godot_object, event);
 	}
 	/**
 	If `true` this `CanvasItem` is drawn. Default value: `true`.

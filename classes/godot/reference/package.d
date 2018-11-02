@@ -27,12 +27,20 @@ Resource and many other helper objects inherit this. References keep an internal
 */
 @GodotBaseClass struct Reference
 {
-	static immutable string _GODOT_internal_name = "Reference";
+	enum string _GODOT_internal_name = "Reference";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("init_ref") GodotMethod!(bool) initRef;
+		@GodotName("reference") GodotMethod!(bool) reference;
+		@GodotName("unreference") GodotMethod!(bool) unreference;
+	}
 	bool opEquals(in Reference other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Reference opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,34 +53,28 @@ public:
 		return cast(Reference)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(bool) _GODOT_init_ref;
-	package(godot) alias _GODOT_methodBindInfo(string name : "init_ref") = _GODOT_init_ref;
 	/**
 	
 	*/
 	bool initRef()
 	{
-		_GODOT_init_ref.bind("Reference", "init_ref");
-		return ptrcall!(bool)(_GODOT_init_ref, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.initRef, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_reference;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reference") = _GODOT_reference;
 	/**
 	Increase the internal reference counter. Use this only if you really know what you are doing.
 	*/
 	bool reference()
 	{
-		_GODOT_reference.bind("Reference", "reference");
-		return ptrcall!(bool)(_GODOT_reference, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.reference, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_unreference;
-	package(godot) alias _GODOT_methodBindInfo(string name : "unreference") = _GODOT_unreference;
 	/**
 	Decrease the internal reference counter. Use this only if you really know what you are doing.
 	*/
 	bool unreference()
 	{
-		_GODOT_unreference.bind("Reference", "unreference");
-		return ptrcall!(bool)(_GODOT_unreference, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.unreference, _godot_object);
 	}
 }

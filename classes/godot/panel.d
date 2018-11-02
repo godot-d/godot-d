@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Provides an opaque background for $(D Control) children.
 
@@ -28,12 +30,17 @@ Panel is a $(D Control) that displays an opaque background. It's commonly used a
 */
 @GodotBaseClass struct Panel
 {
-	static immutable string _GODOT_internal_name = "Panel";
+	enum string _GODOT_internal_name = "Panel";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
 	bool opEquals(in Panel other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Panel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }

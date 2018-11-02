@@ -20,6 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.spatial;
+import godot.node;
 /**
 Base class for all 3D joints
 
@@ -27,12 +28,25 @@ All 3D joints link two nodes, has a priority, and can decide if the two bodies o
 */
 @GodotBaseClass struct Joint
 {
-	static immutable string _GODOT_internal_name = "Joint";
+	enum string _GODOT_internal_name = "Joint";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_node_a") GodotMethod!(void, NodePath) setNodeA;
+		@GodotName("get_node_a") GodotMethod!(NodePath) getNodeA;
+		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
+		@GodotName("get_node_b") GodotMethod!(NodePath) getNodeB;
+		@GodotName("set_solver_priority") GodotMethod!(void, long) setSolverPriority;
+		@GodotName("get_solver_priority") GodotMethod!(long) getSolverPriority;
+		@GodotName("set_exclude_nodes_from_collision") GodotMethod!(void, bool) setExcludeNodesFromCollision;
+		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
+	}
 	bool opEquals(in Joint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Joint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,85 +59,69 @@ public:
 		return cast(Joint)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_node_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_node_a") = _GODOT_set_node_a;
 	/**
 	
 	*/
 	void setNodeA(NodePathArg0)(in NodePathArg0 node)
 	{
-		_GODOT_set_node_a.bind("Joint", "set_node_a");
-		ptrcall!(void)(_GODOT_set_node_a, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_node_a;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_a") = _GODOT_get_node_a;
 	/**
 	
 	*/
 	NodePath getNodeA() const
 	{
-		_GODOT_get_node_a.bind("Joint", "get_node_a");
-		return ptrcall!(NodePath)(_GODOT_get_node_a, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodeA, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_node_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_node_b") = _GODOT_set_node_b;
 	/**
 	
 	*/
 	void setNodeB(NodePathArg0)(in NodePathArg0 node)
 	{
-		_GODOT_set_node_b.bind("Joint", "set_node_b");
-		ptrcall!(void)(_GODOT_set_node_b, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_node_b;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_b") = _GODOT_get_node_b;
 	/**
 	
 	*/
 	NodePath getNodeB() const
 	{
-		_GODOT_get_node_b.bind("Joint", "get_node_b");
-		return ptrcall!(NodePath)(_GODOT_get_node_b, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodeB, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_solver_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_solver_priority") = _GODOT_set_solver_priority;
 	/**
 	
 	*/
 	void setSolverPriority(in long priority)
 	{
-		_GODOT_set_solver_priority.bind("Joint", "set_solver_priority");
-		ptrcall!(void)(_GODOT_set_solver_priority, _godot_object, priority);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSolverPriority, _godot_object, priority);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_solver_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_solver_priority") = _GODOT_get_solver_priority;
 	/**
 	
 	*/
 	long getSolverPriority() const
 	{
-		_GODOT_get_solver_priority.bind("Joint", "get_solver_priority");
-		return ptrcall!(long)(_GODOT_get_solver_priority, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSolverPriority, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_exclude_nodes_from_collision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_exclude_nodes_from_collision") = _GODOT_set_exclude_nodes_from_collision;
 	/**
 	
 	*/
 	void setExcludeNodesFromCollision(in bool enable)
 	{
-		_GODOT_set_exclude_nodes_from_collision.bind("Joint", "set_exclude_nodes_from_collision");
-		ptrcall!(void)(_GODOT_set_exclude_nodes_from_collision, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExcludeNodesFromCollision, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_exclude_nodes_from_collision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_exclude_nodes_from_collision") = _GODOT_get_exclude_nodes_from_collision;
 	/**
 	
 	*/
 	bool getExcludeNodesFromCollision() const
 	{
-		_GODOT_get_exclude_nodes_from_collision.bind("Joint", "get_exclude_nodes_from_collision");
-		return ptrcall!(bool)(_GODOT_get_exclude_nodes_from_collision, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
 	The $(D Node), the first side of the Joint attaches to.

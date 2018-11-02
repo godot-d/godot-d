@@ -26,12 +26,21 @@ import godot.reference;
 */
 @GodotBaseClass struct VisualScriptFunctionState
 {
-	static immutable string _GODOT_internal_name = "VisualScriptFunctionState";
+	enum string _GODOT_internal_name = "VisualScriptFunctionState";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("connect_to_signal") GodotMethod!(void, GodotObject, String, Array) connectToSignal;
+		@GodotName("resume") GodotMethod!(Variant, Array) resume;
+		@GodotName("is_valid") GodotMethod!(bool) isValid;
+		@GodotName("_signal_callback") GodotMethod!(Variant, GodotVarArgs) _signalCallback;
+	}
 	bool opEquals(in VisualScriptFunctionState other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptFunctionState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,38 +53,30 @@ public:
 		return cast(VisualScriptFunctionState)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, GodotObject, String, Array) _GODOT_connect_to_signal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_signal") = _GODOT_connect_to_signal;
 	/**
 	
 	*/
 	void connectToSignal(StringArg1)(GodotObject obj, in StringArg1 signals, in Array args)
 	{
-		_GODOT_connect_to_signal.bind("VisualScriptFunctionState", "connect_to_signal");
-		ptrcall!(void)(_GODOT_connect_to_signal, _godot_object, obj, signals, args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.connectToSignal, _godot_object, obj, signals, args);
 	}
-	package(godot) static GodotMethod!(Variant, Array) _GODOT_resume;
-	package(godot) alias _GODOT_methodBindInfo(string name : "resume") = _GODOT_resume;
 	/**
 	
 	*/
 	Variant resume(in Array args = Array.empty_array)
 	{
-		_GODOT_resume.bind("VisualScriptFunctionState", "resume");
-		return ptrcall!(Variant)(_GODOT_resume, _godot_object, args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.resume, _godot_object, args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_valid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_valid") = _GODOT_is_valid;
 	/**
 	
 	*/
 	bool isValid() const
 	{
-		_GODOT_is_valid.bind("VisualScriptFunctionState", "is_valid");
-		return ptrcall!(bool)(_GODOT_is_valid, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
 	}
-	package(godot) static GodotMethod!(Variant, GodotVarArgs) _GODOT__signal_callback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_signal_callback") = _GODOT__signal_callback;
 	/**
 	
 	*/

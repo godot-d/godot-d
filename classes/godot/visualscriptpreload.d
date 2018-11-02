@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
 import godot.resource;
+import godot.reference;
 /**
 Creates a new $(D Resource) or loads one from the filesystem.
 
@@ -32,12 +33,19 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptPreload
 {
-	static immutable string _GODOT_internal_name = "VisualScriptPreload";
+	enum string _GODOT_internal_name = "VisualScriptPreload";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_preload") GodotMethod!(void, Resource) setPreload;
+		@GodotName("get_preload") GodotMethod!(Resource) getPreload;
+	}
 	bool opEquals(in VisualScriptPreload other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptPreload opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -50,25 +58,21 @@ public:
 		return cast(VisualScriptPreload)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Resource) _GODOT_set_preload;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_preload") = _GODOT_set_preload;
 	/**
 	
 	*/
 	void setPreload(Resource resource)
 	{
-		_GODOT_set_preload.bind("VisualScriptPreload", "set_preload");
-		ptrcall!(void)(_GODOT_set_preload, _godot_object, resource);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPreload, _godot_object, resource);
 	}
-	package(godot) static GodotMethod!(Resource) _GODOT_get_preload;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_preload") = _GODOT_get_preload;
 	/**
 	
 	*/
 	Ref!Resource getPreload() const
 	{
-		_GODOT_get_preload.bind("VisualScriptPreload", "get_preload");
-		return ptrcall!(Resource)(_GODOT_get_preload, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Resource)(_classBinding.getPreload, _godot_object);
 	}
 	/**
 	The $(D Resource) to load.

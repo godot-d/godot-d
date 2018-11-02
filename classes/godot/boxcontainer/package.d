@@ -20,6 +20,9 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base class for box containers.
 
@@ -27,12 +30,20 @@ Arranges child controls vertically or horizontally, and rearranges the controls 
 */
 @GodotBaseClass struct BoxContainer
 {
-	static immutable string _GODOT_internal_name = "BoxContainer";
+	enum string _GODOT_internal_name = "BoxContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("add_spacer") GodotMethod!(void, bool) addSpacer;
+		@GodotName("get_alignment") GodotMethod!(BoxContainer.AlignMode) getAlignment;
+		@GodotName("set_alignment") GodotMethod!(void, long) setAlignment;
+	}
 	bool opEquals(in BoxContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BoxContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -68,35 +79,29 @@ public:
 		alignCenter = 1,
 		alignEnd = 2,
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_add_spacer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_spacer") = _GODOT_add_spacer;
 	/**
 	Adds a control to the box as a spacer. If `true`, $(I begin) will insert the spacer control in front of other children.
 	*/
 	void addSpacer(in bool begin)
 	{
-		_GODOT_add_spacer.bind("BoxContainer", "add_spacer");
-		ptrcall!(void)(_GODOT_add_spacer, _godot_object, begin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSpacer, _godot_object, begin);
 	}
-	package(godot) static GodotMethod!(BoxContainer.AlignMode) _GODOT_get_alignment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_alignment") = _GODOT_get_alignment;
 	/**
 	
 	*/
 	BoxContainer.AlignMode getAlignment() const
 	{
-		_GODOT_get_alignment.bind("BoxContainer", "get_alignment");
-		return ptrcall!(BoxContainer.AlignMode)(_GODOT_get_alignment, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BoxContainer.AlignMode)(_classBinding.getAlignment, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_alignment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_alignment") = _GODOT_set_alignment;
 	/**
 	
 	*/
 	void setAlignment(in long alignment)
 	{
-		_GODOT_set_alignment.bind("BoxContainer", "set_alignment");
-		ptrcall!(void)(_GODOT_set_alignment, _godot_object, alignment);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlignment, _godot_object, alignment);
 	}
 	/**
 	The alignment of the container's children (must be one of ALIGN_BEGIN, ALIGN_CENTER, or ALIGN_END).

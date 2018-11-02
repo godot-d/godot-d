@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
+import godot.node;
 /**
 Anchor point in AR Space.
 
@@ -30,12 +31,23 @@ Keep in mind that as long as plane detection is enable the size, placing and ori
 */
 @GodotBaseClass struct ARVRAnchor
 {
-	static immutable string _GODOT_internal_name = "ARVRAnchor";
+	enum string _GODOT_internal_name = "ARVRAnchor";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_anchor_id") GodotMethod!(void, long) setAnchorId;
+		@GodotName("get_anchor_id") GodotMethod!(long) getAnchorId;
+		@GodotName("get_anchor_name") GodotMethod!(String) getAnchorName;
+		@GodotName("get_is_active") GodotMethod!(bool) getIsActive;
+		@GodotName("get_size") GodotMethod!(Vector3) getSize;
+		@GodotName("get_plane") GodotMethod!(Plane) getPlane;
+	}
 	bool opEquals(in ARVRAnchor other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRAnchor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,65 +60,53 @@ public:
 		return cast(ARVRAnchor)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_anchor_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchor_id") = _GODOT_set_anchor_id;
 	/**
 	
 	*/
 	void setAnchorId(in long anchor_id)
 	{
-		_GODOT_set_anchor_id.bind("ARVRAnchor", "set_anchor_id");
-		ptrcall!(void)(_GODOT_set_anchor_id, _godot_object, anchor_id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorId, _godot_object, anchor_id);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_anchor_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_anchor_id") = _GODOT_get_anchor_id;
 	/**
 	
 	*/
 	long getAnchorId() const
 	{
-		_GODOT_get_anchor_id.bind("ARVRAnchor", "get_anchor_id");
-		return ptrcall!(long)(_GODOT_get_anchor_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAnchorId, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_anchor_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_anchor_name") = _GODOT_get_anchor_name;
 	/**
 	Returns the name given to this anchor.
 	*/
 	String getAnchorName() const
 	{
-		_GODOT_get_anchor_name.bind("ARVRAnchor", "get_anchor_name");
-		return ptrcall!(String)(_GODOT_get_anchor_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAnchorName, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_is_active") = _GODOT_get_is_active;
 	/**
 	Returns true if the anchor is being tracked and false if no anchor with this id is currently known.
 	*/
 	bool getIsActive() const
 	{
-		_GODOT_get_is_active.bind("ARVRAnchor", "get_is_active");
-		return ptrcall!(bool)(_GODOT_get_is_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getIsActive, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	Returns the estimated size of the plane that was detected. Say when the anchor relates to a table in the real world, this is the estimated size of the surface of that table.
 	*/
 	Vector3 getSize() const
 	{
-		_GODOT_get_size.bind("ARVRAnchor", "get_size");
-		return ptrcall!(Vector3)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Plane) _GODOT_get_plane;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_plane") = _GODOT_get_plane;
 	/**
 	Returns a plane aligned with our anchor, handy for intersection testing
 	*/
 	Plane getPlane() const
 	{
-		_GODOT_get_plane.bind("ARVRAnchor", "get_plane");
-		return ptrcall!(Plane)(_GODOT_get_plane, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Plane)(_classBinding.getPlane, _godot_object);
 	}
 	/**
 	The anchor's id. You can set this before the anchor itself exists. The first anchor gets an id of `1`, the second an id of `2`, etc. When anchors get removed, the engine can then assign the corresponding id to new anchors. The most common situation where anchors 'disappear' is when the AR server identifies that two anchors represent different parts of the same plane and merges them.

@@ -25,20 +25,21 @@ import godot.script;
 */
 @GodotBaseClass struct VisualScriptEditorSingleton
 {
-	static immutable string _GODOT_internal_name = "_VisualScriptEditor";
+	enum string _GODOT_internal_name = "_VisualScriptEditor";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "VisualScriptEditor";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "VisualScriptEditor";
+		@GodotName("add_custom_node") GodotMethod!(void, String, String, Script) addCustomNode;
+		@GodotName("remove_custom_node") GodotMethod!(void, String, String) removeCustomNode;
+	}
 	bool opEquals(in VisualScriptEditorSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptEditorSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -51,30 +52,27 @@ public:
 		return cast(VisualScriptEditorSingleton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String, String, Script) _GODOT_add_custom_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_custom_node") = _GODOT_add_custom_node;
 	/**
 	Add a custom Visual Script node to the editor. It'll be placed under "Custom Nodes" with the `category` as the parameter.
 	*/
 	void addCustomNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 category, Script script)
 	{
-		_GODOT_add_custom_node.bind("_VisualScriptEditor", "add_custom_node");
-		ptrcall!(void)(_GODOT_add_custom_node, _godot_object, name, category, script);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addCustomNode, _godot_object, name, category, script);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_remove_custom_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_custom_node") = _GODOT_remove_custom_node;
 	/**
 	Remove a custom Visual Script node from the editor. Custom nodes already placed on scripts won't be removed.
 	*/
 	void removeCustomNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 category)
 	{
-		_GODOT_remove_custom_node.bind("_VisualScriptEditor", "remove_custom_node");
-		ptrcall!(void)(_GODOT_remove_custom_node, _godot_object, name, category);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeCustomNode, _godot_object, name, category);
 	}
 }
 /// Returns: the VisualScriptEditorSingleton
 @property @nogc nothrow pragma(inline, true)
 VisualScriptEditorSingleton VisualScriptEditor()
 {
-	return VisualScriptEditorSingleton._GODOT_singleton();
+	checkClassBinding!VisualScriptEditorSingleton();
+	return VisualScriptEditorSingleton(VisualScriptEditorSingleton._classBinding._singleton);
 }

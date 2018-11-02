@@ -22,20 +22,61 @@ import godot.object;
 import godot.classdb;
 import godot.sky;
 import godot.image;
+import godot.resource;
+import godot.reference;
 /**
 Type of $(D Sky) that is generated procedurally based on user input parameters.
 
 ProceduralSky provides a way to create an effective background quickly by defining procedural parameters for the sun, the sky and the ground. The sky and ground are very similar, they are defined by a color at the horizon, another color, and finally an easing curve to interpolate between these two colors. Similarly the sun is described by a position in the sky, a color, and an easing curve. However, the sun also defines a minimum and maximum angle, these two values define at what distance the easing curve begins and ends from the sun, and thus end up defining the size of the sun in the sky.
-The ProceduralSky is updated on the CPU after the parameters change and stored in a texture and then displayed as a background in the scene. This makes it relatively unsuitable for realtime updates during gameplay. But with a small texture size it is still feasible to update relatively frequently becuase it is updated on a background thread when multi-threading is available.
+The ProceduralSky is updated on the CPU after the parameters change and stored in a texture and then displayed as a background in the scene. This makes it relatively unsuitable for realtime updates during gameplay. But with a small texture size it is still feasible to update relatively frequently because it is updated on a background thread when multi-threading is available.
 */
 @GodotBaseClass struct ProceduralSky
 {
-	static immutable string _GODOT_internal_name = "ProceduralSky";
+	enum string _GODOT_internal_name = "ProceduralSky";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Sky _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_update_sky") GodotMethod!(void) _updateSky;
+		@GodotName("set_sky_top_color") GodotMethod!(void, Color) setSkyTopColor;
+		@GodotName("get_sky_top_color") GodotMethod!(Color) getSkyTopColor;
+		@GodotName("set_sky_horizon_color") GodotMethod!(void, Color) setSkyHorizonColor;
+		@GodotName("get_sky_horizon_color") GodotMethod!(Color) getSkyHorizonColor;
+		@GodotName("set_sky_curve") GodotMethod!(void, double) setSkyCurve;
+		@GodotName("get_sky_curve") GodotMethod!(double) getSkyCurve;
+		@GodotName("set_sky_energy") GodotMethod!(void, double) setSkyEnergy;
+		@GodotName("get_sky_energy") GodotMethod!(double) getSkyEnergy;
+		@GodotName("set_ground_bottom_color") GodotMethod!(void, Color) setGroundBottomColor;
+		@GodotName("get_ground_bottom_color") GodotMethod!(Color) getGroundBottomColor;
+		@GodotName("set_ground_horizon_color") GodotMethod!(void, Color) setGroundHorizonColor;
+		@GodotName("get_ground_horizon_color") GodotMethod!(Color) getGroundHorizonColor;
+		@GodotName("set_ground_curve") GodotMethod!(void, double) setGroundCurve;
+		@GodotName("get_ground_curve") GodotMethod!(double) getGroundCurve;
+		@GodotName("set_ground_energy") GodotMethod!(void, double) setGroundEnergy;
+		@GodotName("get_ground_energy") GodotMethod!(double) getGroundEnergy;
+		@GodotName("set_sun_color") GodotMethod!(void, Color) setSunColor;
+		@GodotName("get_sun_color") GodotMethod!(Color) getSunColor;
+		@GodotName("set_sun_latitude") GodotMethod!(void, double) setSunLatitude;
+		@GodotName("get_sun_latitude") GodotMethod!(double) getSunLatitude;
+		@GodotName("set_sun_longitude") GodotMethod!(void, double) setSunLongitude;
+		@GodotName("get_sun_longitude") GodotMethod!(double) getSunLongitude;
+		@GodotName("set_sun_angle_min") GodotMethod!(void, double) setSunAngleMin;
+		@GodotName("get_sun_angle_min") GodotMethod!(double) getSunAngleMin;
+		@GodotName("set_sun_angle_max") GodotMethod!(void, double) setSunAngleMax;
+		@GodotName("get_sun_angle_max") GodotMethod!(double) getSunAngleMax;
+		@GodotName("set_sun_curve") GodotMethod!(void, double) setSunCurve;
+		@GodotName("get_sun_curve") GodotMethod!(double) getSunCurve;
+		@GodotName("set_sun_energy") GodotMethod!(void, double) setSunEnergy;
+		@GodotName("get_sun_energy") GodotMethod!(double) getSunEnergy;
+		@GodotName("set_texture_size") GodotMethod!(void, long) setTextureSize;
+		@GodotName("get_texture_size") GodotMethod!(ProceduralSky.TextureSize) getTextureSize;
+		@GodotName("_thread_done") GodotMethod!(void, Image) _threadDone;
+	}
 	bool opEquals(in ProceduralSky other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProceduralSky opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -86,8 +127,6 @@ public:
 		textureSize4096 = 4,
 		textureSizeMax = 5,
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_sky;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_sky") = _GODOT__update_sky;
 	/**
 	
 	*/
@@ -97,328 +136,262 @@ public:
 		String _GODOT_method_name = String("_update_sky");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_sky_top_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky_top_color") = _GODOT_set_sky_top_color;
 	/**
 	
 	*/
 	void setSkyTopColor(in Color color)
 	{
-		_GODOT_set_sky_top_color.bind("ProceduralSky", "set_sky_top_color");
-		ptrcall!(void)(_GODOT_set_sky_top_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyTopColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_sky_top_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky_top_color") = _GODOT_get_sky_top_color;
 	/**
 	
 	*/
 	Color getSkyTopColor() const
 	{
-		_GODOT_get_sky_top_color.bind("ProceduralSky", "get_sky_top_color");
-		return ptrcall!(Color)(_GODOT_get_sky_top_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getSkyTopColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_sky_horizon_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky_horizon_color") = _GODOT_set_sky_horizon_color;
 	/**
 	
 	*/
 	void setSkyHorizonColor(in Color color)
 	{
-		_GODOT_set_sky_horizon_color.bind("ProceduralSky", "set_sky_horizon_color");
-		ptrcall!(void)(_GODOT_set_sky_horizon_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyHorizonColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_sky_horizon_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky_horizon_color") = _GODOT_get_sky_horizon_color;
 	/**
 	
 	*/
 	Color getSkyHorizonColor() const
 	{
-		_GODOT_get_sky_horizon_color.bind("ProceduralSky", "get_sky_horizon_color");
-		return ptrcall!(Color)(_GODOT_get_sky_horizon_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getSkyHorizonColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sky_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky_curve") = _GODOT_set_sky_curve;
 	/**
 	
 	*/
 	void setSkyCurve(in double curve)
 	{
-		_GODOT_set_sky_curve.bind("ProceduralSky", "set_sky_curve");
-		ptrcall!(void)(_GODOT_set_sky_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sky_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky_curve") = _GODOT_get_sky_curve;
 	/**
 	
 	*/
 	double getSkyCurve() const
 	{
-		_GODOT_get_sky_curve.bind("ProceduralSky", "get_sky_curve");
-		return ptrcall!(double)(_GODOT_get_sky_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSkyCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sky_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sky_energy") = _GODOT_set_sky_energy;
 	/**
 	
 	*/
 	void setSkyEnergy(in double energy)
 	{
-		_GODOT_set_sky_energy.bind("ProceduralSky", "set_sky_energy");
-		ptrcall!(void)(_GODOT_set_sky_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sky_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sky_energy") = _GODOT_get_sky_energy;
 	/**
 	
 	*/
 	double getSkyEnergy() const
 	{
-		_GODOT_get_sky_energy.bind("ProceduralSky", "get_sky_energy");
-		return ptrcall!(double)(_GODOT_get_sky_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSkyEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_ground_bottom_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ground_bottom_color") = _GODOT_set_ground_bottom_color;
 	/**
 	
 	*/
 	void setGroundBottomColor(in Color color)
 	{
-		_GODOT_set_ground_bottom_color.bind("ProceduralSky", "set_ground_bottom_color");
-		ptrcall!(void)(_GODOT_set_ground_bottom_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGroundBottomColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_ground_bottom_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ground_bottom_color") = _GODOT_get_ground_bottom_color;
 	/**
 	
 	*/
 	Color getGroundBottomColor() const
 	{
-		_GODOT_get_ground_bottom_color.bind("ProceduralSky", "get_ground_bottom_color");
-		return ptrcall!(Color)(_GODOT_get_ground_bottom_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getGroundBottomColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_ground_horizon_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ground_horizon_color") = _GODOT_set_ground_horizon_color;
 	/**
 	
 	*/
 	void setGroundHorizonColor(in Color color)
 	{
-		_GODOT_set_ground_horizon_color.bind("ProceduralSky", "set_ground_horizon_color");
-		ptrcall!(void)(_GODOT_set_ground_horizon_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGroundHorizonColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_ground_horizon_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ground_horizon_color") = _GODOT_get_ground_horizon_color;
 	/**
 	
 	*/
 	Color getGroundHorizonColor() const
 	{
-		_GODOT_get_ground_horizon_color.bind("ProceduralSky", "get_ground_horizon_color");
-		return ptrcall!(Color)(_GODOT_get_ground_horizon_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getGroundHorizonColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ground_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ground_curve") = _GODOT_set_ground_curve;
 	/**
 	
 	*/
 	void setGroundCurve(in double curve)
 	{
-		_GODOT_set_ground_curve.bind("ProceduralSky", "set_ground_curve");
-		ptrcall!(void)(_GODOT_set_ground_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGroundCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ground_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ground_curve") = _GODOT_get_ground_curve;
 	/**
 	
 	*/
 	double getGroundCurve() const
 	{
-		_GODOT_get_ground_curve.bind("ProceduralSky", "get_ground_curve");
-		return ptrcall!(double)(_GODOT_get_ground_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGroundCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_ground_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ground_energy") = _GODOT_set_ground_energy;
 	/**
 	
 	*/
 	void setGroundEnergy(in double energy)
 	{
-		_GODOT_set_ground_energy.bind("ProceduralSky", "set_ground_energy");
-		ptrcall!(void)(_GODOT_set_ground_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGroundEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_ground_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ground_energy") = _GODOT_get_ground_energy;
 	/**
 	
 	*/
 	double getGroundEnergy() const
 	{
-		_GODOT_get_ground_energy.bind("ProceduralSky", "get_ground_energy");
-		return ptrcall!(double)(_GODOT_get_ground_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGroundEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_sun_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_color") = _GODOT_set_sun_color;
 	/**
 	
 	*/
 	void setSunColor(in Color color)
 	{
-		_GODOT_set_sun_color.bind("ProceduralSky", "set_sun_color");
-		ptrcall!(void)(_GODOT_set_sun_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_sun_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_color") = _GODOT_get_sun_color;
 	/**
 	
 	*/
 	Color getSunColor() const
 	{
-		_GODOT_get_sun_color.bind("ProceduralSky", "get_sun_color");
-		return ptrcall!(Color)(_GODOT_get_sun_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getSunColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_latitude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_latitude") = _GODOT_set_sun_latitude;
 	/**
 	
 	*/
 	void setSunLatitude(in double degrees)
 	{
-		_GODOT_set_sun_latitude.bind("ProceduralSky", "set_sun_latitude");
-		ptrcall!(void)(_GODOT_set_sun_latitude, _godot_object, degrees);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunLatitude, _godot_object, degrees);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_latitude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_latitude") = _GODOT_get_sun_latitude;
 	/**
 	
 	*/
 	double getSunLatitude() const
 	{
-		_GODOT_get_sun_latitude.bind("ProceduralSky", "get_sun_latitude");
-		return ptrcall!(double)(_GODOT_get_sun_latitude, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunLatitude, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_longitude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_longitude") = _GODOT_set_sun_longitude;
 	/**
 	
 	*/
 	void setSunLongitude(in double degrees)
 	{
-		_GODOT_set_sun_longitude.bind("ProceduralSky", "set_sun_longitude");
-		ptrcall!(void)(_GODOT_set_sun_longitude, _godot_object, degrees);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunLongitude, _godot_object, degrees);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_longitude;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_longitude") = _GODOT_get_sun_longitude;
 	/**
 	
 	*/
 	double getSunLongitude() const
 	{
-		_GODOT_get_sun_longitude.bind("ProceduralSky", "get_sun_longitude");
-		return ptrcall!(double)(_GODOT_get_sun_longitude, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunLongitude, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_angle_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_angle_min") = _GODOT_set_sun_angle_min;
 	/**
 	
 	*/
 	void setSunAngleMin(in double degrees)
 	{
-		_GODOT_set_sun_angle_min.bind("ProceduralSky", "set_sun_angle_min");
-		ptrcall!(void)(_GODOT_set_sun_angle_min, _godot_object, degrees);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunAngleMin, _godot_object, degrees);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_angle_min;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_angle_min") = _GODOT_get_sun_angle_min;
 	/**
 	
 	*/
 	double getSunAngleMin() const
 	{
-		_GODOT_get_sun_angle_min.bind("ProceduralSky", "get_sun_angle_min");
-		return ptrcall!(double)(_GODOT_get_sun_angle_min, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunAngleMin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_angle_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_angle_max") = _GODOT_set_sun_angle_max;
 	/**
 	
 	*/
 	void setSunAngleMax(in double degrees)
 	{
-		_GODOT_set_sun_angle_max.bind("ProceduralSky", "set_sun_angle_max");
-		ptrcall!(void)(_GODOT_set_sun_angle_max, _godot_object, degrees);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunAngleMax, _godot_object, degrees);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_angle_max;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_angle_max") = _GODOT_get_sun_angle_max;
 	/**
 	
 	*/
 	double getSunAngleMax() const
 	{
-		_GODOT_get_sun_angle_max.bind("ProceduralSky", "get_sun_angle_max");
-		return ptrcall!(double)(_GODOT_get_sun_angle_max, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunAngleMax, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_curve") = _GODOT_set_sun_curve;
 	/**
 	
 	*/
 	void setSunCurve(in double curve)
 	{
-		_GODOT_set_sun_curve.bind("ProceduralSky", "set_sun_curve");
-		ptrcall!(void)(_GODOT_set_sun_curve, _godot_object, curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunCurve, _godot_object, curve);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_curve;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_curve") = _GODOT_get_sun_curve;
 	/**
 	
 	*/
 	double getSunCurve() const
 	{
-		_GODOT_get_sun_curve.bind("ProceduralSky", "get_sun_curve");
-		return ptrcall!(double)(_GODOT_get_sun_curve, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunCurve, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sun_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sun_energy") = _GODOT_set_sun_energy;
 	/**
 	
 	*/
 	void setSunEnergy(in double energy)
 	{
-		_GODOT_set_sun_energy.bind("ProceduralSky", "set_sun_energy");
-		ptrcall!(void)(_GODOT_set_sun_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSunEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sun_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sun_energy") = _GODOT_get_sun_energy;
 	/**
 	
 	*/
 	double getSunEnergy() const
 	{
-		_GODOT_get_sun_energy.bind("ProceduralSky", "get_sun_energy");
-		return ptrcall!(double)(_GODOT_get_sun_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSunEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_texture_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture_size") = _GODOT_set_texture_size;
 	/**
 	
 	*/
 	void setTextureSize(in long size)
 	{
-		_GODOT_set_texture_size.bind("ProceduralSky", "set_texture_size");
-		ptrcall!(void)(_GODOT_set_texture_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(ProceduralSky.TextureSize) _GODOT_get_texture_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture_size") = _GODOT_get_texture_size;
 	/**
 	
 	*/
 	ProceduralSky.TextureSize getTextureSize() const
 	{
-		_GODOT_get_texture_size.bind("ProceduralSky", "get_texture_size");
-		return ptrcall!(ProceduralSky.TextureSize)(_GODOT_get_texture_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ProceduralSky.TextureSize)(_classBinding.getTextureSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Image) _GODOT__thread_done;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_thread_done") = _GODOT__thread_done;
 	/**
 	
 	*/

@@ -22,6 +22,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.inputevent;
+import godot.resource;
+import godot.reference;
 /**
 Input event type for screen touch events.
 (only available on mobile devices)
@@ -30,12 +32,22 @@ Stores multi-touch press/release information. Supports touch press, touch releas
 */
 @GodotBaseClass struct InputEventScreenTouch
 {
-	static immutable string _GODOT_internal_name = "InputEventScreenTouch";
+	enum string _GODOT_internal_name = "InputEventScreenTouch";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; InputEvent _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_index") GodotMethod!(void, long) setIndex;
+		@GodotName("get_index") GodotMethod!(long) getIndex;
+		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
+		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+	}
 	bool opEquals(in InputEventScreenTouch other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventScreenTouch opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,55 +60,45 @@ public:
 		return cast(InputEventScreenTouch)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_index") = _GODOT_set_index;
 	/**
 	
 	*/
 	void setIndex(in long index)
 	{
-		_GODOT_set_index.bind("InputEventScreenTouch", "set_index");
-		ptrcall!(void)(_GODOT_set_index, _godot_object, index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_index") = _GODOT_get_index;
 	/**
 	
 	*/
 	long getIndex() const
 	{
-		_GODOT_get_index.bind("InputEventScreenTouch", "get_index");
-		return ptrcall!(long)(_GODOT_get_index, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getIndex, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_position") = _GODOT_set_position;
 	/**
 	
 	*/
 	void setPosition(in Vector2 position)
 	{
-		_GODOT_set_position.bind("InputEventScreenTouch", "set_position");
-		ptrcall!(void)(_GODOT_set_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_position") = _GODOT_get_position;
 	/**
 	
 	*/
 	Vector2 getPosition() const
 	{
-		_GODOT_get_position.bind("InputEventScreenTouch", "get_position");
-		return ptrcall!(Vector2)(_GODOT_get_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pressed") = _GODOT_set_pressed;
 	/**
 	
 	*/
 	void setPressed(in bool pressed)
 	{
-		_GODOT_set_pressed.bind("InputEventScreenTouch", "set_pressed");
-		ptrcall!(void)(_GODOT_set_pressed, _godot_object, pressed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
 	}
 	/**
 	Touch index in the case of a multi-touch event. One index = one finger.

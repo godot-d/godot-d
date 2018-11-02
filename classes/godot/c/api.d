@@ -45,10 +45,13 @@ import core.stdc.stddef : wchar_t;
 }
 private
 {
-	alias SupportedVersions(ApiType type : ApiType.core) = AliasSeq!([1, 0], );
+	alias SupportedVersions(ApiType type : ApiType.core) = AliasSeq!([1, 0], [1, 1], );
 	__gshared bool hasCore_1_0 = false;
 	version(GDNativeRequireCore_1_0) enum bool requiresCore_1_0 = true;
-	else enum bool requiresCore_1_0 = false;
+	else enum bool requiresCore_1_0 = requiresCore_1_1;
+	__gshared bool hasCore_1_1 = false;
+	version(GDNativeRequireCore_1_1) enum bool requiresCore_1_1 = true;
+	else enum bool requiresCore_1_1 = false;
 	alias SupportedVersions(ApiType type : ApiType.nativescript) = AliasSeq!([1, 0], [1, 1], );
 	__gshared bool hasNativescript_1_0 = false;
 	version(GDNativeRequireNativescript_1_0) enum bool requiresNativescript_1_0 = true;
@@ -74,6 +77,8 @@ struct GDNativeVersion
 	enum bool supportsCore(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.core)) != -1;
 	static if(requiresCore_1_0) enum bool hasCore(int major : 1, int minor : 0) = true;
 	else @property @nogc nothrow pragma(inline, true) static bool hasCore(int major : 1, int minor : 0)() { return hasCore_1_0; }
+	static if(requiresCore_1_1) enum bool hasCore(int major : 1, int minor : 1) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasCore(int major : 1, int minor : 1)() { return hasCore_1_1; }
 	@property @nogc nothrow static bool hasCore(int major, int minor)() if(!supportsCore!(major, minor))
 	{
 		static assert(0, versionError("Core", major, minor));
@@ -1615,6 +1620,8 @@ public extern(C) struct godot_gdnative_core_api_struct
 	da_godot_print_error godot_print_error;
 	da_godot_print_warning godot_print_warning;
 	da_godot_print godot_print;
+const(godot_gdnative_core_api_struct*) nextVersion() const { return cast(typeof(return))next; }
+alias nextVersion this;
 }
 __gshared const(godot_gdnative_core_api_struct)* _godot_api = null;
 private alias apiStruct(ApiType t : ApiType.core) = _godot_api;
@@ -1659,6 +1666,7 @@ private extern(C) @nogc nothrow
 	alias da_godot_nativescript_register_instance_binding_data_functions = int function(godot_instance_binding_functions p_binding_functions);
 	alias da_godot_nativescript_unregister_instance_binding_data_functions = void function(int p_idx);
 	alias da_godot_nativescript_get_instance_binding_data = void * function(int p_idx, godot_object  p_object);
+	alias da_godot_nativescript_profiling_add_data = void function(const char * p_signature, uint64_t p_line);
 }
 public extern(C) struct godot_gdnative_ext_nativescript_api_struct_1_1
 {
@@ -1677,6 +1685,7 @@ public extern(C) struct godot_gdnative_ext_nativescript_api_struct_1_1
 	da_godot_nativescript_register_instance_binding_data_functions godot_nativescript_register_instance_binding_data_functions;
 	da_godot_nativescript_unregister_instance_binding_data_functions godot_nativescript_unregister_instance_binding_data_functions;
 	da_godot_nativescript_get_instance_binding_data godot_nativescript_get_instance_binding_data;
+	da_godot_nativescript_profiling_add_data godot_nativescript_profiling_add_data;
 }
 
 private extern(C) @nogc nothrow

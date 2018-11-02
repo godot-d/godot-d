@@ -23,19 +23,36 @@ import godot.classdb;
 import godot.button;
 import godot.colorpicker;
 import godot.popuppanel;
+import godot.basebutton;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Button that pops out a $(D ColorPicker).
 
-Encapsulates a $(D ColorPicker) making it accesible by pressing a button, pressing the button will toggle the $(D ColorPicker) visibility
+Encapsulates a $(D ColorPicker) making it accessible by pressing a button. Pressing the button will toggle the $(D ColorPicker) visibility.
 */
 @GodotBaseClass struct ColorPickerButton
 {
-	static immutable string _GODOT_internal_name = "ColorPickerButton";
+	enum string _GODOT_internal_name = "ColorPickerButton";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_pick_color") GodotMethod!(void, Color) setPickColor;
+		@GodotName("get_pick_color") GodotMethod!(Color) getPickColor;
+		@GodotName("get_picker") GodotMethod!(ColorPicker) getPicker;
+		@GodotName("get_popup") GodotMethod!(PopupPanel) getPopup;
+		@GodotName("set_edit_alpha") GodotMethod!(void, bool) setEditAlpha;
+		@GodotName("is_editing_alpha") GodotMethod!(bool) isEditingAlpha;
+		@GodotName("_color_changed") GodotMethod!(void, Color) _colorChanged;
+		@GodotName("_modal_closed") GodotMethod!(void) _modalClosed;
+	}
 	bool opEquals(in ColorPickerButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ColorPickerButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,68 +65,54 @@ public:
 		return cast(ColorPickerButton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_pick_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pick_color") = _GODOT_set_pick_color;
 	/**
 	
 	*/
 	void setPickColor(in Color color)
 	{
-		_GODOT_set_pick_color.bind("ColorPickerButton", "set_pick_color");
-		ptrcall!(void)(_GODOT_set_pick_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_pick_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pick_color") = _GODOT_get_pick_color;
 	/**
 	
 	*/
 	Color getPickColor() const
 	{
-		_GODOT_get_pick_color.bind("ColorPickerButton", "get_pick_color");
-		return ptrcall!(Color)(_GODOT_get_pick_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getPickColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(ColorPicker) _GODOT_get_picker;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_picker") = _GODOT_get_picker;
 	/**
-	Returns the `ColorPicker` that this `ColorPickerButton` toggles.
+	Returns the $(D ColorPicker) that this node toggles.
 	*/
-	ColorPicker getPicker() const
+	ColorPicker getPicker()
 	{
-		_GODOT_get_picker.bind("ColorPickerButton", "get_picker");
-		return ptrcall!(ColorPicker)(_GODOT_get_picker, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ColorPicker)(_classBinding.getPicker, _godot_object);
 	}
-	package(godot) static GodotMethod!(PopupPanel) _GODOT_get_popup;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_popup") = _GODOT_get_popup;
 	/**
-	Returns the control's $(D PopupPanel) which allows you to connect to Popup Signals. This allows you to handle events when the ColorPicker is shown or hidden.
+	Returns the control's $(D PopupPanel) which allows you to connect to popup signals. This allows you to handle events when the ColorPicker is shown or hidden.
 	*/
-	PopupPanel getPopup() const
+	PopupPanel getPopup()
 	{
-		_GODOT_get_popup.bind("ColorPickerButton", "get_popup");
-		return ptrcall!(PopupPanel)(_GODOT_get_popup, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PopupPanel)(_classBinding.getPopup, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_edit_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_edit_alpha") = _GODOT_set_edit_alpha;
 	/**
 	
 	*/
 	void setEditAlpha(in bool show)
 	{
-		_GODOT_set_edit_alpha.bind("ColorPickerButton", "set_edit_alpha");
-		ptrcall!(void)(_GODOT_set_edit_alpha, _godot_object, show);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editing_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editing_alpha") = _GODOT_is_editing_alpha;
 	/**
 	
 	*/
 	bool isEditingAlpha() const
 	{
-		_GODOT_is_editing_alpha.bind("ColorPickerButton", "is_editing_alpha");
-		return ptrcall!(bool)(_GODOT_is_editing_alpha, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditingAlpha, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT__color_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_color_changed") = _GODOT__color_changed;
 	/**
 	
 	*/
@@ -118,6 +121,15 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_color_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _modalClosed()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_modal_closed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**

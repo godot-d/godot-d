@@ -22,6 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.spritebase3d;
 import godot.texture;
+import godot.geometryinstance;
+import godot.visualinstance;
+import godot.spatial;
+import godot.node;
 /**
 2D Sprite node in 3D world.
 
@@ -29,12 +33,29 @@ A node that displays a 2D texture in a 3D environment. The texture displayed can
 */
 @GodotBaseClass struct Sprite3D
 {
-	static immutable string _GODOT_internal_name = "Sprite3D";
+	enum string _GODOT_internal_name = "Sprite3D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; SpriteBase3D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_region") GodotMethod!(void, bool) setRegion;
+		@GodotName("is_region") GodotMethod!(bool) isRegion;
+		@GodotName("set_region_rect") GodotMethod!(void, Rect2) setRegionRect;
+		@GodotName("get_region_rect") GodotMethod!(Rect2) getRegionRect;
+		@GodotName("set_frame") GodotMethod!(void, long) setFrame;
+		@GodotName("get_frame") GodotMethod!(long) getFrame;
+		@GodotName("set_vframes") GodotMethod!(void, long) setVframes;
+		@GodotName("get_vframes") GodotMethod!(long) getVframes;
+		@GodotName("set_hframes") GodotMethod!(void, long) setHframes;
+		@GodotName("get_hframes") GodotMethod!(long) getHframes;
+	}
 	bool opEquals(in Sprite3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Sprite3D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,125 +68,101 @@ public:
 		return cast(Sprite3D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("Sprite3D", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("Sprite3D", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region") = _GODOT_set_region;
 	/**
 	
 	*/
 	void setRegion(in bool enabled)
 	{
-		_GODOT_set_region.bind("Sprite3D", "set_region");
-		ptrcall!(void)(_GODOT_set_region, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegion, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_region") = _GODOT_is_region;
 	/**
 	
 	*/
 	bool isRegion() const
 	{
-		_GODOT_is_region.bind("Sprite3D", "is_region");
-		return ptrcall!(bool)(_GODOT_is_region, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRegion, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_rect") = _GODOT_set_region_rect;
 	/**
 	
 	*/
 	void setRegionRect(in Rect2 rect)
 	{
-		_GODOT_set_region_rect.bind("Sprite3D", "set_region_rect");
-		ptrcall!(void)(_GODOT_set_region_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_rect") = _GODOT_get_region_rect;
 	/**
 	
 	*/
 	Rect2 getRegionRect() const
 	{
-		_GODOT_get_region_rect.bind("Sprite3D", "get_region_rect");
-		return ptrcall!(Rect2)(_GODOT_get_region_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_frame") = _GODOT_set_frame;
 	/**
 	
 	*/
 	void setFrame(in long frame)
 	{
-		_GODOT_set_frame.bind("Sprite3D", "set_frame");
-		ptrcall!(void)(_GODOT_set_frame, _godot_object, frame);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame") = _GODOT_get_frame;
 	/**
 	
 	*/
 	long getFrame() const
 	{
-		_GODOT_get_frame.bind("Sprite3D", "get_frame");
-		return ptrcall!(long)(_GODOT_get_frame, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_vframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_vframes") = _GODOT_set_vframes;
 	/**
 	
 	*/
 	void setVframes(in long vframes)
 	{
-		_GODOT_set_vframes.bind("Sprite3D", "set_vframes");
-		ptrcall!(void)(_GODOT_set_vframes, _godot_object, vframes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVframes, _godot_object, vframes);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_vframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_vframes") = _GODOT_get_vframes;
 	/**
 	
 	*/
 	long getVframes() const
 	{
-		_GODOT_get_vframes.bind("Sprite3D", "get_vframes");
-		return ptrcall!(long)(_GODOT_get_vframes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVframes, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_hframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hframes") = _GODOT_set_hframes;
 	/**
 	
 	*/
 	void setHframes(in long hframes)
 	{
-		_GODOT_set_hframes.bind("Sprite3D", "set_hframes");
-		ptrcall!(void)(_GODOT_set_hframes, _godot_object, hframes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHframes, _godot_object, hframes);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_hframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hframes") = _GODOT_get_hframes;
 	/**
 	
 	*/
 	long getHframes() const
 	{
-		_GODOT_get_hframes.bind("Sprite3D", "get_hframes");
-		return ptrcall!(long)(_GODOT_get_hframes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHframes, _godot_object);
 	}
 	/**
 	$(D Texture) object to draw.

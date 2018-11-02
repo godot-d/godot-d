@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a chorus audio effect.
 
@@ -28,12 +30,35 @@ The effect applies a filter with voices to duplicate the audio source and manipu
 */
 @GodotBaseClass struct AudioEffectChorus
 {
-	static immutable string _GODOT_internal_name = "AudioEffectChorus";
+	enum string _GODOT_internal_name = "AudioEffectChorus";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_voice_count") GodotMethod!(void, long) setVoiceCount;
+		@GodotName("get_voice_count") GodotMethod!(long) getVoiceCount;
+		@GodotName("set_voice_delay_ms") GodotMethod!(void, long, double) setVoiceDelayMs;
+		@GodotName("get_voice_delay_ms") GodotMethod!(double, long) getVoiceDelayMs;
+		@GodotName("set_voice_rate_hz") GodotMethod!(void, long, double) setVoiceRateHz;
+		@GodotName("get_voice_rate_hz") GodotMethod!(double, long) getVoiceRateHz;
+		@GodotName("set_voice_depth_ms") GodotMethod!(void, long, double) setVoiceDepthMs;
+		@GodotName("get_voice_depth_ms") GodotMethod!(double, long) getVoiceDepthMs;
+		@GodotName("set_voice_level_db") GodotMethod!(void, long, double) setVoiceLevelDb;
+		@GodotName("get_voice_level_db") GodotMethod!(double, long) getVoiceLevelDb;
+		@GodotName("set_voice_cutoff_hz") GodotMethod!(void, long, double) setVoiceCutoffHz;
+		@GodotName("get_voice_cutoff_hz") GodotMethod!(double, long) getVoiceCutoffHz;
+		@GodotName("set_voice_pan") GodotMethod!(void, long, double) setVoicePan;
+		@GodotName("get_voice_pan") GodotMethod!(double, long) getVoicePan;
+		@GodotName("set_wet") GodotMethod!(void, double) setWet;
+		@GodotName("get_wet") GodotMethod!(double) getWet;
+		@GodotName("set_dry") GodotMethod!(void, double) setDry;
+		@GodotName("get_dry") GodotMethod!(double) getDry;
+	}
 	bool opEquals(in AudioEffectChorus other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectChorus opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,185 +71,149 @@ public:
 		return cast(AudioEffectChorus)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_voice_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_count") = _GODOT_set_voice_count;
 	/**
 	
 	*/
 	void setVoiceCount(in long voices)
 	{
-		_GODOT_set_voice_count.bind("AudioEffectChorus", "set_voice_count");
-		ptrcall!(void)(_GODOT_set_voice_count, _godot_object, voices);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceCount, _godot_object, voices);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_voice_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_count") = _GODOT_get_voice_count;
 	/**
 	
 	*/
 	long getVoiceCount() const
 	{
-		_GODOT_get_voice_count.bind("AudioEffectChorus", "get_voice_count");
-		return ptrcall!(long)(_GODOT_get_voice_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVoiceCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_delay_ms") = _GODOT_set_voice_delay_ms;
 	/**
 	
 	*/
 	void setVoiceDelayMs(in long voice_idx, in double delay_ms)
 	{
-		_GODOT_set_voice_delay_ms.bind("AudioEffectChorus", "set_voice_delay_ms");
-		ptrcall!(void)(_GODOT_set_voice_delay_ms, _godot_object, voice_idx, delay_ms);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceDelayMs, _godot_object, voice_idx, delay_ms);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_delay_ms") = _GODOT_get_voice_delay_ms;
 	/**
 	
 	*/
 	double getVoiceDelayMs(in long voice_idx) const
 	{
-		_GODOT_get_voice_delay_ms.bind("AudioEffectChorus", "get_voice_delay_ms");
-		return ptrcall!(double)(_GODOT_get_voice_delay_ms, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoiceDelayMs, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_rate_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_rate_hz") = _GODOT_set_voice_rate_hz;
 	/**
 	
 	*/
 	void setVoiceRateHz(in long voice_idx, in double rate_hz)
 	{
-		_GODOT_set_voice_rate_hz.bind("AudioEffectChorus", "set_voice_rate_hz");
-		ptrcall!(void)(_GODOT_set_voice_rate_hz, _godot_object, voice_idx, rate_hz);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceRateHz, _godot_object, voice_idx, rate_hz);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_rate_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_rate_hz") = _GODOT_get_voice_rate_hz;
 	/**
 	
 	*/
 	double getVoiceRateHz(in long voice_idx) const
 	{
-		_GODOT_get_voice_rate_hz.bind("AudioEffectChorus", "get_voice_rate_hz");
-		return ptrcall!(double)(_GODOT_get_voice_rate_hz, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoiceRateHz, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_depth_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_depth_ms") = _GODOT_set_voice_depth_ms;
 	/**
 	
 	*/
 	void setVoiceDepthMs(in long voice_idx, in double depth_ms)
 	{
-		_GODOT_set_voice_depth_ms.bind("AudioEffectChorus", "set_voice_depth_ms");
-		ptrcall!(void)(_GODOT_set_voice_depth_ms, _godot_object, voice_idx, depth_ms);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceDepthMs, _godot_object, voice_idx, depth_ms);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_depth_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_depth_ms") = _GODOT_get_voice_depth_ms;
 	/**
 	
 	*/
 	double getVoiceDepthMs(in long voice_idx) const
 	{
-		_GODOT_get_voice_depth_ms.bind("AudioEffectChorus", "get_voice_depth_ms");
-		return ptrcall!(double)(_GODOT_get_voice_depth_ms, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoiceDepthMs, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_level_db") = _GODOT_set_voice_level_db;
 	/**
 	
 	*/
 	void setVoiceLevelDb(in long voice_idx, in double level_db)
 	{
-		_GODOT_set_voice_level_db.bind("AudioEffectChorus", "set_voice_level_db");
-		ptrcall!(void)(_GODOT_set_voice_level_db, _godot_object, voice_idx, level_db);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceLevelDb, _godot_object, voice_idx, level_db);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_level_db") = _GODOT_get_voice_level_db;
 	/**
 	
 	*/
 	double getVoiceLevelDb(in long voice_idx) const
 	{
-		_GODOT_get_voice_level_db.bind("AudioEffectChorus", "get_voice_level_db");
-		return ptrcall!(double)(_GODOT_get_voice_level_db, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoiceLevelDb, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_cutoff_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_cutoff_hz") = _GODOT_set_voice_cutoff_hz;
 	/**
 	
 	*/
 	void setVoiceCutoffHz(in long voice_idx, in double cutoff_hz)
 	{
-		_GODOT_set_voice_cutoff_hz.bind("AudioEffectChorus", "set_voice_cutoff_hz");
-		ptrcall!(void)(_GODOT_set_voice_cutoff_hz, _godot_object, voice_idx, cutoff_hz);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceCutoffHz, _godot_object, voice_idx, cutoff_hz);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_cutoff_hz;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_cutoff_hz") = _GODOT_get_voice_cutoff_hz;
 	/**
 	
 	*/
 	double getVoiceCutoffHz(in long voice_idx) const
 	{
-		_GODOT_get_voice_cutoff_hz.bind("AudioEffectChorus", "get_voice_cutoff_hz");
-		return ptrcall!(double)(_GODOT_get_voice_cutoff_hz, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoiceCutoffHz, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_voice_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_voice_pan") = _GODOT_set_voice_pan;
 	/**
 	
 	*/
 	void setVoicePan(in long voice_idx, in double pan)
 	{
-		_GODOT_set_voice_pan.bind("AudioEffectChorus", "set_voice_pan");
-		ptrcall!(void)(_GODOT_set_voice_pan, _godot_object, voice_idx, pan);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoicePan, _godot_object, voice_idx, pan);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_voice_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_voice_pan") = _GODOT_get_voice_pan;
 	/**
 	
 	*/
 	double getVoicePan(in long voice_idx) const
 	{
-		_GODOT_get_voice_pan.bind("AudioEffectChorus", "get_voice_pan");
-		return ptrcall!(double)(_GODOT_get_voice_pan, _godot_object, voice_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVoicePan, _godot_object, voice_idx);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_wet;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_wet") = _GODOT_set_wet;
 	/**
 	
 	*/
 	void setWet(in double amount)
 	{
-		_GODOT_set_wet.bind("AudioEffectChorus", "set_wet");
-		ptrcall!(void)(_GODOT_set_wet, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_wet;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_wet") = _GODOT_get_wet;
 	/**
 	
 	*/
 	double getWet() const
 	{
-		_GODOT_get_wet.bind("AudioEffectChorus", "get_wet");
-		return ptrcall!(double)(_GODOT_get_wet, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWet, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dry") = _GODOT_set_dry;
 	/**
 	
 	*/
 	void setDry(in double amount)
 	{
-		_GODOT_set_dry.bind("AudioEffectChorus", "set_dry");
-		ptrcall!(void)(_GODOT_set_dry, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dry") = _GODOT_get_dry;
 	/**
 	
 	*/
 	double getDry() const
 	{
-		_GODOT_get_dry.bind("AudioEffectChorus", "get_dry");
-		return ptrcall!(double)(_GODOT_get_dry, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDry, _godot_object);
 	}
 	/**
 	The amount of voices in the effect.

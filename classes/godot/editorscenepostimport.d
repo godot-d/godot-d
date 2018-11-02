@@ -1,5 +1,5 @@
 /**
-
+Post process scenes after import
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,16 +22,47 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
+Post process scenes after import
+
+Imported scenes can be automatically modified right after import by setting their $(I Custom Script) Import property to a `tool` script that inherits from this class.
+The $(D postImport) callback receives the imported scene's root node and returns the modified version of the scene. Usage example:
+
+
+tool # needed so it runs in editor
+extends EditorScenePostImport
+
+# This sample changes all node names
+
+# Called right after the scene is imported and gets the root node
+func post_import(scene):
+    # change all node names to "modified_$(D oldnodename)"
+    iterate(scene)
+    return scene # remember to return the imported scene
+
+func iterate(node):
+    if node != null:
+        node.name = "modified_"+node.name
+        for child in node.get_children():
+            iterate(child)
+
 
 */
 @GodotBaseClass struct EditorScenePostImport
 {
-	static immutable string _GODOT_internal_name = "EditorScenePostImport";
+	enum string _GODOT_internal_name = "EditorScenePostImport";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("post_import") GodotMethod!(GodotObject, GodotObject) postImport;
+		@GodotName("get_source_folder") GodotMethod!(String) getSourceFolder;
+		@GodotName("get_source_file") GodotMethod!(String) getSourceFile;
+	}
 	bool opEquals(in EditorScenePostImport other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorScenePostImport opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,16 +75,30 @@ public:
 		return cast(EditorScenePostImport)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_post_import;
-	package(godot) alias _GODOT_methodBindInfo(string name : "post_import") = _GODOT_post_import;
 	/**
-	
+	Gets called after the scene got imported and has to return the modified version of the scene.
 	*/
-	void postImport(GodotObject scene)
+	GodotObject postImport(GodotObject scene)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(scene);
 		String _GODOT_method_name = String("post_import");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+	}
+	/**
+	Returns the resource folder the imported scene file is located in.
+	*/
+	String getSourceFolder() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSourceFolder, _godot_object);
+	}
+	/**
+	Returns the source file path which got imported (e.g. `res://scene.dae`).
+	*/
+	String getSourceFile() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSourceFile, _godot_object);
 	}
 }

@@ -30,12 +30,32 @@ Can be used to make HTTP requests, i.e. download or upload files or web content 
 */
 @GodotBaseClass struct HTTPRequest
 {
-	static immutable string _GODOT_internal_name = "HTTPRequest";
+	enum string _GODOT_internal_name = "HTTPRequest";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("request") GodotMethod!(GodotError, String, PoolStringArray, bool, long, String) request;
+		@GodotName("cancel_request") GodotMethod!(void) cancelRequest;
+		@GodotName("get_http_client_status") GodotMethod!(HTTPClient.Status) getHttpClientStatus;
+		@GodotName("set_use_threads") GodotMethod!(void, bool) setUseThreads;
+		@GodotName("is_using_threads") GodotMethod!(bool) isUsingThreads;
+		@GodotName("set_body_size_limit") GodotMethod!(void, long) setBodySizeLimit;
+		@GodotName("get_body_size_limit") GodotMethod!(long) getBodySizeLimit;
+		@GodotName("set_max_redirects") GodotMethod!(void, long) setMaxRedirects;
+		@GodotName("get_max_redirects") GodotMethod!(long) getMaxRedirects;
+		@GodotName("set_download_file") GodotMethod!(void, String) setDownloadFile;
+		@GodotName("get_download_file") GodotMethod!(String) getDownloadFile;
+		@GodotName("get_downloaded_bytes") GodotMethod!(long) getDownloadedBytes;
+		@GodotName("get_body_size") GodotMethod!(long) getBodySize;
+		@GodotName("_redirect_request") GodotMethod!(void, String) _redirectRequest;
+		@GodotName("_request_done") GodotMethod!(void, long, long, PoolStringArray, PoolByteArray) _requestDone;
+	}
 	bool opEquals(in HTTPRequest other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HTTPRequest opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -116,139 +136,111 @@ public:
 		resultDownloadFileWriteError = 10,
 		resultRedirectLimitReached = 11,
 	}
-	package(godot) static GodotMethod!(GodotError, String, PoolStringArray, bool, long, String) _GODOT_request;
-	package(godot) alias _GODOT_methodBindInfo(string name : "request") = _GODOT_request;
 	/**
 	Creates request on the underlying $(D HTTPClient). If there is no configuration errors, it tries to connect using $(D HTTPClient.connectToHost) and passes parameters onto $(D HTTPClient.request).
 	Returns `OK` if request is successfully created. (Does not imply that the server has responded), `ERR_UNCONFIGURED` if not in the tree, `ERR_BUSY` if still processing previous request, `ERR_INVALID_PARAMETER` if given string is not a valid URL format, or `ERR_CANT_CONNECT` if not using thread and the $(D HTTPClient) cannot connect to host.
 	*/
 	GodotError request(StringArg0, StringArg4)(in StringArg0 url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in StringArg4 request_data = "")
 	{
-		_GODOT_request.bind("HTTPRequest", "request");
-		return ptrcall!(GodotError)(_GODOT_request, _godot_object, url, custom_headers, ssl_validate_domain, method, request_data);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.request, _godot_object, url, custom_headers, ssl_validate_domain, method, request_data);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_cancel_request;
-	package(godot) alias _GODOT_methodBindInfo(string name : "cancel_request") = _GODOT_cancel_request;
 	/**
 	Cancels the current request.
 	*/
 	void cancelRequest()
 	{
-		_GODOT_cancel_request.bind("HTTPRequest", "cancel_request");
-		ptrcall!(void)(_GODOT_cancel_request, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cancelRequest, _godot_object);
 	}
-	package(godot) static GodotMethod!(HTTPClient.Status) _GODOT_get_http_client_status;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_http_client_status") = _GODOT_get_http_client_status;
 	/**
 	Returns the current status of the underlying $(D HTTPClient). See `STATUS_*` enum on $(D HTTPClient).
 	*/
 	HTTPClient.Status getHttpClientStatus() const
 	{
-		_GODOT_get_http_client_status.bind("HTTPRequest", "get_http_client_status");
-		return ptrcall!(HTTPClient.Status)(_GODOT_get_http_client_status, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(HTTPClient.Status)(_classBinding.getHttpClientStatus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_threads;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_threads") = _GODOT_set_use_threads;
 	/**
 	
 	*/
 	void setUseThreads(in bool enable)
 	{
-		_GODOT_set_use_threads.bind("HTTPRequest", "set_use_threads");
-		ptrcall!(void)(_GODOT_set_use_threads, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseThreads, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_using_threads;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_using_threads") = _GODOT_is_using_threads;
 	/**
 	
 	*/
 	bool isUsingThreads() const
 	{
-		_GODOT_is_using_threads.bind("HTTPRequest", "is_using_threads");
-		return ptrcall!(bool)(_GODOT_is_using_threads, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingThreads, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_body_size_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_body_size_limit") = _GODOT_set_body_size_limit;
 	/**
 	
 	*/
 	void setBodySizeLimit(in long bytes)
 	{
-		_GODOT_set_body_size_limit.bind("HTTPRequest", "set_body_size_limit");
-		ptrcall!(void)(_GODOT_set_body_size_limit, _godot_object, bytes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBodySizeLimit, _godot_object, bytes);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_body_size_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_body_size_limit") = _GODOT_get_body_size_limit;
 	/**
 	
 	*/
 	long getBodySizeLimit() const
 	{
-		_GODOT_get_body_size_limit.bind("HTTPRequest", "get_body_size_limit");
-		return ptrcall!(long)(_GODOT_get_body_size_limit, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBodySizeLimit, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_max_redirects;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_max_redirects") = _GODOT_set_max_redirects;
 	/**
 	
 	*/
 	void setMaxRedirects(in long amount)
 	{
-		_GODOT_set_max_redirects.bind("HTTPRequest", "set_max_redirects");
-		ptrcall!(void)(_GODOT_set_max_redirects, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxRedirects, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_max_redirects;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_max_redirects") = _GODOT_get_max_redirects;
 	/**
 	
 	*/
 	long getMaxRedirects() const
 	{
-		_GODOT_get_max_redirects.bind("HTTPRequest", "get_max_redirects");
-		return ptrcall!(long)(_GODOT_get_max_redirects, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMaxRedirects, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_download_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_download_file") = _GODOT_set_download_file;
 	/**
 	
 	*/
 	void setDownloadFile(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_set_download_file.bind("HTTPRequest", "set_download_file");
-		ptrcall!(void)(_GODOT_set_download_file, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDownloadFile, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_download_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_download_file") = _GODOT_get_download_file;
 	/**
 	
 	*/
 	String getDownloadFile() const
 	{
-		_GODOT_get_download_file.bind("HTTPRequest", "get_download_file");
-		return ptrcall!(String)(_GODOT_get_download_file, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getDownloadFile, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_downloaded_bytes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_downloaded_bytes") = _GODOT_get_downloaded_bytes;
 	/**
 	Returns the amount of bytes this HTTPRequest downloaded.
 	*/
 	long getDownloadedBytes() const
 	{
-		_GODOT_get_downloaded_bytes.bind("HTTPRequest", "get_downloaded_bytes");
-		return ptrcall!(long)(_GODOT_get_downloaded_bytes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getDownloadedBytes, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_body_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_body_size") = _GODOT_get_body_size;
 	/**
 	Returns the response body length.
 	*/
 	long getBodySize() const
 	{
-		_GODOT_get_body_size.bind("HTTPRequest", "get_body_size");
-		return ptrcall!(long)(_GODOT_get_body_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBodySize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__redirect_request;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_redirect_request") = _GODOT__redirect_request;
 	/**
 	
 	*/
@@ -259,8 +251,6 @@ public:
 		String _GODOT_method_name = String("_redirect_request");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, long, PoolStringArray, PoolByteArray) _GODOT__request_done;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_request_done") = _GODOT__request_done;
 	/**
 	
 	*/

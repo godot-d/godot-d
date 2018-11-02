@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.range;
 import godot.inputevent;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base class for scroll bars.
 
@@ -28,12 +31,22 @@ Scrollbars are a $(D Range) based $(D Control), that display a draggable area (t
 */
 @GodotBaseClass struct ScrollBar
 {
-	static immutable string _GODOT_internal_name = "ScrollBar";
+	enum string _GODOT_internal_name = "ScrollBar";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("set_custom_step") GodotMethod!(void, double) setCustomStep;
+		@GodotName("get_custom_step") GodotMethod!(double) getCustomStep;
+		@GodotName("_drag_node_input") GodotMethod!(void, InputEvent) _dragNodeInput;
+		@GodotName("_drag_node_exit") GodotMethod!(void) _dragNodeExit;
+	}
 	bool opEquals(in ScrollBar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ScrollBar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,8 +59,6 @@ public:
 		return cast(ScrollBar)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -58,47 +69,39 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_custom_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_step") = _GODOT_set_custom_step;
 	/**
 	
 	*/
 	void setCustomStep(in double step)
 	{
-		_GODOT_set_custom_step.bind("ScrollBar", "set_custom_step");
-		ptrcall!(void)(_GODOT_set_custom_step, _godot_object, step);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomStep, _godot_object, step);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_custom_step;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_step") = _GODOT_get_custom_step;
 	/**
 	
 	*/
 	double getCustomStep() const
 	{
-		_GODOT_get_custom_step.bind("ScrollBar", "get_custom_step");
-		return ptrcall!(double)(_GODOT_get_custom_step, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCustomStep, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__drag_slave_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_drag_slave_input") = _GODOT__drag_slave_input;
 	/**
 	
 	*/
-	void _dragSlaveInput(InputEvent arg0)
+	void _dragNodeInput(InputEvent arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_drag_slave_input");
+		String _GODOT_method_name = String("_drag_node_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__drag_slave_exit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_drag_slave_exit") = _GODOT__drag_slave_exit;
 	/**
 	
 	*/
-	void _dragSlaveExit()
+	void _dragNodeExit()
 	{
 		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_drag_slave_exit");
+		String _GODOT_method_name = String("_drag_node_exit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**

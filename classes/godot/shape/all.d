@@ -6,6 +6,7 @@ public import
 	godot.sphereshape,
 	godot.boxshape,
 	godot.capsuleshape,
+	godot.cylindershape,
 	godot.planeshape,
 	godot.convexpolygonshape,
 	godot.concavepolygonshape;

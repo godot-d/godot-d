@@ -1,5 +1,5 @@
 /**
-RemoteTransform2D leads the $(D Transform2D) of another $(D CanvasItem) derived Node in the scene.
+RemoteTransform2D pushes its own $(D Transform2D) to another $(D CanvasItem) derived Node in the scene.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,20 +21,37 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
-RemoteTransform2D leads the $(D Transform2D) of another $(D CanvasItem) derived Node in the scene.
+RemoteTransform2D pushes its own $(D Transform2D) to another $(D CanvasItem) derived Node in the scene.
 
-RemoteTransform2D leads the $(D Transform2D) of another $(D CanvasItem) derived Node (called the remote node) in the scene.
-It can be set to track another Node's position, rotation and/or scale. It can update using either global or local coordinates.
+RemoteTransform2D pushes its own $(D Transform2D) to another $(D CanvasItem) derived Node (called the remote node) in the scene.
+It can be set to update another Node's position, rotation and/or scale. It can use either global or local coordinates.
 */
 @GodotBaseClass struct RemoteTransform2D
 {
-	static immutable string _GODOT_internal_name = "RemoteTransform2D";
+	enum string _GODOT_internal_name = "RemoteTransform2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_remote_node") GodotMethod!(void, NodePath) setRemoteNode;
+		@GodotName("get_remote_node") GodotMethod!(NodePath) getRemoteNode;
+		@GodotName("set_use_global_coordinates") GodotMethod!(void, bool) setUseGlobalCoordinates;
+		@GodotName("get_use_global_coordinates") GodotMethod!(bool) getUseGlobalCoordinates;
+		@GodotName("set_update_position") GodotMethod!(void, bool) setUpdatePosition;
+		@GodotName("get_update_position") GodotMethod!(bool) getUpdatePosition;
+		@GodotName("set_update_rotation") GodotMethod!(void, bool) setUpdateRotation;
+		@GodotName("get_update_rotation") GodotMethod!(bool) getUpdateRotation;
+		@GodotName("set_update_scale") GodotMethod!(void, bool) setUpdateScale;
+		@GodotName("get_update_scale") GodotMethod!(bool) getUpdateScale;
+	}
 	bool opEquals(in RemoteTransform2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RemoteTransform2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,105 +64,85 @@ public:
 		return cast(RemoteTransform2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_remote_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_remote_node") = _GODOT_set_remote_node;
 	/**
 	
 	*/
 	void setRemoteNode(NodePathArg0)(in NodePathArg0 path)
 	{
-		_GODOT_set_remote_node.bind("RemoteTransform2D", "set_remote_node");
-		ptrcall!(void)(_GODOT_set_remote_node, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRemoteNode, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_remote_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_remote_node") = _GODOT_get_remote_node;
 	/**
 	
 	*/
 	NodePath getRemoteNode() const
 	{
-		_GODOT_get_remote_node.bind("RemoteTransform2D", "get_remote_node");
-		return ptrcall!(NodePath)(_GODOT_get_remote_node, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getRemoteNode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_global_coordinates;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_global_coordinates") = _GODOT_set_use_global_coordinates;
 	/**
 	
 	*/
 	void setUseGlobalCoordinates(in bool use_global_coordinates)
 	{
-		_GODOT_set_use_global_coordinates.bind("RemoteTransform2D", "set_use_global_coordinates");
-		ptrcall!(void)(_GODOT_set_use_global_coordinates, _godot_object, use_global_coordinates);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseGlobalCoordinates, _godot_object, use_global_coordinates);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_use_global_coordinates;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_use_global_coordinates") = _GODOT_get_use_global_coordinates;
 	/**
 	
 	*/
 	bool getUseGlobalCoordinates() const
 	{
-		_GODOT_get_use_global_coordinates.bind("RemoteTransform2D", "get_use_global_coordinates");
-		return ptrcall!(bool)(_GODOT_get_use_global_coordinates, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUseGlobalCoordinates, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_update_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_update_position") = _GODOT_set_update_position;
 	/**
 	
 	*/
 	void setUpdatePosition(in bool update_remote_position)
 	{
-		_GODOT_set_update_position.bind("RemoteTransform2D", "set_update_position");
-		ptrcall!(void)(_GODOT_set_update_position, _godot_object, update_remote_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUpdatePosition, _godot_object, update_remote_position);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_update_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_update_position") = _GODOT_get_update_position;
 	/**
 	
 	*/
 	bool getUpdatePosition() const
 	{
-		_GODOT_get_update_position.bind("RemoteTransform2D", "get_update_position");
-		return ptrcall!(bool)(_GODOT_get_update_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUpdatePosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_update_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_update_rotation") = _GODOT_set_update_rotation;
 	/**
 	
 	*/
 	void setUpdateRotation(in bool update_remote_rotation)
 	{
-		_GODOT_set_update_rotation.bind("RemoteTransform2D", "set_update_rotation");
-		ptrcall!(void)(_GODOT_set_update_rotation, _godot_object, update_remote_rotation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUpdateRotation, _godot_object, update_remote_rotation);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_update_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_update_rotation") = _GODOT_get_update_rotation;
 	/**
 	
 	*/
 	bool getUpdateRotation() const
 	{
-		_GODOT_get_update_rotation.bind("RemoteTransform2D", "get_update_rotation");
-		return ptrcall!(bool)(_GODOT_get_update_rotation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUpdateRotation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_update_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_update_scale") = _GODOT_set_update_scale;
 	/**
 	
 	*/
 	void setUpdateScale(in bool update_remote_scale)
 	{
-		_GODOT_set_update_scale.bind("RemoteTransform2D", "set_update_scale");
-		ptrcall!(void)(_GODOT_set_update_scale, _godot_object, update_remote_scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUpdateScale, _godot_object, update_remote_scale);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_update_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_update_scale") = _GODOT_get_update_scale;
 	/**
 	
 	*/
 	bool getUpdateScale() const
 	{
-		_GODOT_get_update_scale.bind("RemoteTransform2D", "get_update_scale");
-		return ptrcall!(bool)(_GODOT_get_update_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUpdateScale, _godot_object);
 	}
 	/**
 	The $(D NodePath) to the remote node, relative to the RemoteTransform2D's position in the scene.
@@ -172,7 +169,7 @@ public:
 		setUseGlobalCoordinates(v);
 	}
 	/**
-	If `true` the remote node's position is tracked. Default value: `true`.
+	If `true` the remote node's position is updated. Default value: `true`.
 	*/
 	@property bool updatePosition()
 	{
@@ -184,7 +181,7 @@ public:
 		setUpdatePosition(v);
 	}
 	/**
-	If `true` the remote node's rotation is tracked. Default value: `true`.
+	If `true` the remote node's rotation is updated. Default value: `true`.
 	*/
 	@property bool updateRotation()
 	{
@@ -196,7 +193,7 @@ public:
 		setUpdateRotation(v);
 	}
 	/**
-	If `true` the remote node's scale is tracked. Default value: `true`.
+	If `true` the remote node's scale is updated. Default value: `true`.
 	*/
 	@property bool updateScale()
 	{

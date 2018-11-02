@@ -67,12 +67,26 @@ for result in regex.search_all("d01, d03, d0c, x3f and x42"):
 */
 @GodotBaseClass struct RegEx
 {
-	static immutable string _GODOT_internal_name = "RegEx";
+	enum string _GODOT_internal_name = "RegEx";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("compile") GodotMethod!(GodotError, String) compile;
+		@GodotName("search") GodotMethod!(RegExMatch, String, long, long) search;
+		@GodotName("search_all") GodotMethod!(Array, String, long, long) searchAll;
+		@GodotName("sub") GodotMethod!(String, String, String, bool, long, long) sub;
+		@GodotName("is_valid") GodotMethod!(bool) isValid;
+		@GodotName("get_pattern") GodotMethod!(String) getPattern;
+		@GodotName("get_group_count") GodotMethod!(long) getGroupCount;
+		@GodotName("get_names") GodotMethod!(Array) getNames;
+	}
 	bool opEquals(in RegEx other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RegEx opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -85,94 +99,76 @@ public:
 		return cast(RegEx)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	This method resets the state of the object, as it was freshly created. Namely, it unassigns the regular expression of this object.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("RegEx", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_compile;
-	package(godot) alias _GODOT_methodBindInfo(string name : "compile") = _GODOT_compile;
 	/**
 	Compiles and assign the search pattern to use. Returns OK if the compilation is successful. If an error is encountered the details are printed to STDOUT and FAILED is returned.
 	*/
 	GodotError compile(StringArg0)(in StringArg0 pattern)
 	{
-		_GODOT_compile.bind("RegEx", "compile");
-		return ptrcall!(GodotError)(_GODOT_compile, _godot_object, pattern);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.compile, _godot_object, pattern);
 	}
-	package(godot) static GodotMethod!(RegExMatch, String, long, long) _GODOT_search;
-	package(godot) alias _GODOT_methodBindInfo(string name : "search") = _GODOT_search;
 	/**
 	Searches the text for the compiled pattern. Returns a $(D RegExMatch) container of the first matching result if found, otherwise null. The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
 	Ref!RegExMatch search(StringArg0)(in StringArg0 subject, in long offset = 0, in long end = -1) const
 	{
-		_GODOT_search.bind("RegEx", "search");
-		return ptrcall!(RegExMatch)(_GODOT_search, _godot_object, subject, offset, end);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RegExMatch)(_classBinding.search, _godot_object, subject, offset, end);
 	}
-	package(godot) static GodotMethod!(Array, String, long, long) _GODOT_search_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "search_all") = _GODOT_search_all;
 	/**
 	Searches the text for the compiled pattern. Returns an array of $(D RegExMatch) containers for each non-overlapping result. If no results were found an empty array is returned instead. The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
 	Array searchAll(StringArg0)(in StringArg0 subject, in long offset = 0, in long end = -1) const
 	{
-		_GODOT_search_all.bind("RegEx", "search_all");
-		return ptrcall!(Array)(_GODOT_search_all, _godot_object, subject, offset, end);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.searchAll, _godot_object, subject, offset, end);
 	}
-	package(godot) static GodotMethod!(String, String, String, bool, long, long) _GODOT_sub;
-	package(godot) alias _GODOT_methodBindInfo(string name : "sub") = _GODOT_sub;
 	/**
 	Searches the text for the compiled pattern and replaces it with the specified string. Escapes and backreferences such as `\1` and `\g&lt;name&gt;` expanded and resolved. By default only the first instance is replaced but it can be changed for all instances (global replacement). The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
 	String sub(StringArg0, StringArg1)(in StringArg0 subject, in StringArg1 replacement, in bool all = false, in long offset = 0, in long end = -1) const
 	{
-		_GODOT_sub.bind("RegEx", "sub");
-		return ptrcall!(String)(_GODOT_sub, _godot_object, subject, replacement, all, offset, end);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.sub, _godot_object, subject, replacement, all, offset, end);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_valid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_valid") = _GODOT_is_valid;
 	/**
 	Returns whether this object has a valid search pattern assigned.
 	*/
 	bool isValid() const
 	{
-		_GODOT_is_valid.bind("RegEx", "is_valid");
-		return ptrcall!(bool)(_GODOT_is_valid, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_pattern;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pattern") = _GODOT_get_pattern;
 	/**
 	Returns the original search pattern that was compiled.
 	*/
 	String getPattern() const
 	{
-		_GODOT_get_pattern.bind("RegEx", "get_pattern");
-		return ptrcall!(String)(_GODOT_get_pattern, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getPattern, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_group_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_group_count") = _GODOT_get_group_count;
 	/**
 	Returns the number of capturing groups in compiled pattern.
 	*/
 	long getGroupCount() const
 	{
-		_GODOT_get_group_count.bind("RegEx", "get_group_count");
-		return ptrcall!(long)(_GODOT_get_group_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getGroupCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_names;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_names") = _GODOT_get_names;
 	/**
 	Returns an array of names of named capturing groups in the compiled pattern. They are ordered by appearance.
 	*/
 	Array getNames() const
 	{
-		_GODOT_get_names.bind("RegEx", "get_names");
-		return ptrcall!(Array)(_GODOT_get_names, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getNames, _godot_object);
 	}
 }

@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 Gets a local variable's value.
 
@@ -32,12 +34,21 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptLocalVar
 {
-	static immutable string _GODOT_internal_name = "VisualScriptLocalVar";
+	enum string _GODOT_internal_name = "VisualScriptLocalVar";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_var_name") GodotMethod!(void, String) setVarName;
+		@GodotName("get_var_name") GodotMethod!(String) getVarName;
+		@GodotName("set_var_type") GodotMethod!(void, long) setVarType;
+		@GodotName("get_var_type") GodotMethod!(Variant.Type) getVarType;
+	}
 	bool opEquals(in VisualScriptLocalVar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptLocalVar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -50,45 +61,37 @@ public:
 		return cast(VisualScriptLocalVar)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String) _GODOT_set_var_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_var_name") = _GODOT_set_var_name;
 	/**
 	
 	*/
 	void setVarName(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_var_name.bind("VisualScriptLocalVar", "set_var_name");
-		ptrcall!(void)(_GODOT_set_var_name, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVarName, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_var_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_var_name") = _GODOT_get_var_name;
 	/**
 	
 	*/
 	String getVarName() const
 	{
-		_GODOT_get_var_name.bind("VisualScriptLocalVar", "get_var_name");
-		return ptrcall!(String)(_GODOT_get_var_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getVarName, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_var_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_var_type") = _GODOT_set_var_type;
 	/**
 	
 	*/
 	void setVarType(in long type)
 	{
-		_GODOT_set_var_type.bind("VisualScriptLocalVar", "set_var_type");
-		ptrcall!(void)(_GODOT_set_var_type, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVarType, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_var_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_var_type") = _GODOT_get_var_type;
 	/**
 	
 	*/
 	Variant.Type getVarType() const
 	{
-		_GODOT_get_var_type.bind("VisualScriptLocalVar", "get_var_type");
-		return ptrcall!(Variant.Type)(_GODOT_get_var_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getVarType, _godot_object);
 	}
 	/**
 	The local variable's name.

@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.streampeer;
+import godot.reference;
 /**
 SSL Stream peer.
 
@@ -28,12 +29,24 @@ This object can be used to connect to SSL servers.
 */
 @GodotBaseClass struct StreamPeerSSL
 {
-	static immutable string _GODOT_internal_name = "StreamPeerSSL";
+	enum string _GODOT_internal_name = "StreamPeerSSL";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; StreamPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("poll") GodotMethod!(void) poll;
+		@GodotName("accept_stream") GodotMethod!(GodotError, StreamPeer) acceptStream;
+		@GodotName("connect_to_stream") GodotMethod!(GodotError, StreamPeer, bool, String) connectToStream;
+		@GodotName("get_status") GodotMethod!(StreamPeerSSL.Status) getStatus;
+		@GodotName("disconnect_from_stream") GodotMethod!(void) disconnectFromStream;
+		@GodotName("set_blocking_handshake_enabled") GodotMethod!(void, bool) setBlockingHandshakeEnabled;
+		@GodotName("is_blocking_handshake_enabled") GodotMethod!(bool) isBlockingHandshakeEnabled;
+	}
 	bool opEquals(in StreamPeerSSL other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StreamPeerSSL opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -54,64 +67,97 @@ public:
 		*/
 		statusDisconnected = 0,
 		/**
+		
+		*/
+		statusHandshaking = 1,
+		/**
 		A status representing a `StreamPeerSSL` that is connected to a host.
 		*/
-		statusConnected = 1,
+		statusConnected = 2,
 		/**
-		An errot status that shows the peer did not present a SSL certificate and validation was requested.
+		
 		*/
-		statusErrorNoCertificate = 2,
+		statusError = 3,
 		/**
 		An error status that shows a mismatch in the SSL certificate domain presented by the host and the domain requested for validation.
 		*/
-		statusErrorHostnameMismatch = 3,
+		statusErrorHostnameMismatch = 4,
 	}
 	/// 
 	enum Constants : int
 	{
 		statusDisconnected = 0,
-		statusConnected = 1,
-		statusErrorNoCertificate = 2,
-		statusErrorHostnameMismatch = 3,
+		statusHandshaking = 1,
+		statusConnected = 2,
+		statusError = 3,
+		statusErrorHostnameMismatch = 4,
 	}
-	package(godot) static GodotMethod!(GodotError, StreamPeer) _GODOT_accept_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "accept_stream") = _GODOT_accept_stream;
+	/**
+	Poll the connection to check for incoming bytes. Call this right before "get_available_bytes()" for it to work properly.
+	*/
+	void poll()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.poll, _godot_object);
+	}
 	/**
 	
 	*/
-	GodotError acceptStream(StreamPeer stream)
+	GodotError acceptStream(StreamPeer base)
 	{
-		_GODOT_accept_stream.bind("StreamPeerSSL", "accept_stream");
-		return ptrcall!(GodotError)(_GODOT_accept_stream, _godot_object, stream);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.acceptStream, _godot_object, base);
 	}
-	package(godot) static GodotMethod!(GodotError, StreamPeer, bool, String) _GODOT_connect_to_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_stream") = _GODOT_connect_to_stream;
 	/**
 	Connect to a peer using an underlying $(D StreamPeer) "stream", when "validate_certs" is true, `StreamPeerSSL` will validate that the certificate presented by the peer matches the "for_hostname".
 	*/
 	GodotError connectToStream(StringArg2)(StreamPeer stream, in bool validate_certs = false, in StringArg2 for_hostname = "")
 	{
-		_GODOT_connect_to_stream.bind("StreamPeerSSL", "connect_to_stream");
-		return ptrcall!(GodotError)(_GODOT_connect_to_stream, _godot_object, stream, validate_certs, for_hostname);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.connectToStream, _godot_object, stream, validate_certs, for_hostname);
 	}
-	package(godot) static GodotMethod!(StreamPeerSSL.Status) _GODOT_get_status;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_status") = _GODOT_get_status;
 	/**
 	Return the status of the connection, one of STATUS_* enum.
 	*/
 	StreamPeerSSL.Status getStatus() const
 	{
-		_GODOT_get_status.bind("StreamPeerSSL", "get_status");
-		return ptrcall!(StreamPeerSSL.Status)(_GODOT_get_status, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StreamPeerSSL.Status)(_classBinding.getStatus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_disconnect_from_stream;
-	package(godot) alias _GODOT_methodBindInfo(string name : "disconnect_from_stream") = _GODOT_disconnect_from_stream;
 	/**
 	Disconnect from host.
 	*/
 	void disconnectFromStream()
 	{
-		_GODOT_disconnect_from_stream.bind("StreamPeerSSL", "disconnect_from_stream");
-		ptrcall!(void)(_GODOT_disconnect_from_stream, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnectFromStream, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBlockingHandshakeEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlockingHandshakeEnabled, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	bool isBlockingHandshakeEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBlockingHandshakeEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	@property bool blockingHandshake()
+	{
+		return isBlockingHandshakeEnabled();
+	}
+	/// ditto
+	@property void blockingHandshake(bool v)
+	{
+		setBlockingHandshakeEnabled(v);
 	}
 }

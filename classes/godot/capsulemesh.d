@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
+import godot.mesh;
+import godot.resource;
+import godot.reference;
 /**
 Class representing a capsule-shaped $(D PrimitiveMesh).
 
@@ -28,12 +31,25 @@ Class representing a capsule-shaped $(D PrimitiveMesh).
 */
 @GodotBaseClass struct CapsuleMesh
 {
-	static immutable string _GODOT_internal_name = "CapsuleMesh";
+	enum string _GODOT_internal_name = "CapsuleMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("set_mid_height") GodotMethod!(void, double) setMidHeight;
+		@GodotName("get_mid_height") GodotMethod!(double) getMidHeight;
+		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
+		@GodotName("set_rings") GodotMethod!(void, long) setRings;
+		@GodotName("get_rings") GodotMethod!(long) getRings;
+	}
 	bool opEquals(in CapsuleMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CapsuleMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,85 +62,69 @@ public:
 		return cast(CapsuleMesh)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radius") = _GODOT_set_radius;
 	/**
 	
 	*/
 	void setRadius(in double radius)
 	{
-		_GODOT_set_radius.bind("CapsuleMesh", "set_radius");
-		ptrcall!(void)(_GODOT_set_radius, _godot_object, radius);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radius") = _GODOT_get_radius;
 	/**
 	
 	*/
 	double getRadius() const
 	{
-		_GODOT_get_radius.bind("CapsuleMesh", "get_radius");
-		return ptrcall!(double)(_GODOT_get_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_mid_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mid_height") = _GODOT_set_mid_height;
 	/**
 	
 	*/
 	void setMidHeight(in double mid_height)
 	{
-		_GODOT_set_mid_height.bind("CapsuleMesh", "set_mid_height");
-		ptrcall!(void)(_GODOT_set_mid_height, _godot_object, mid_height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMidHeight, _godot_object, mid_height);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_mid_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mid_height") = _GODOT_get_mid_height;
 	/**
 	
 	*/
 	double getMidHeight() const
 	{
-		_GODOT_get_mid_height.bind("CapsuleMesh", "get_mid_height");
-		return ptrcall!(double)(_GODOT_get_mid_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMidHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_radial_segments;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radial_segments") = _GODOT_set_radial_segments;
 	/**
 	
 	*/
 	void setRadialSegments(in long segments)
 	{
-		_GODOT_set_radial_segments.bind("CapsuleMesh", "set_radial_segments");
-		ptrcall!(void)(_GODOT_set_radial_segments, _godot_object, segments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_radial_segments;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radial_segments") = _GODOT_get_radial_segments;
 	/**
 	
 	*/
 	long getRadialSegments() const
 	{
-		_GODOT_get_radial_segments.bind("CapsuleMesh", "get_radial_segments");
-		return ptrcall!(long)(_GODOT_get_radial_segments, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_rings;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rings") = _GODOT_set_rings;
 	/**
 	
 	*/
 	void setRings(in long rings)
 	{
-		_GODOT_set_rings.bind("CapsuleMesh", "set_rings");
-		ptrcall!(void)(_GODOT_set_rings, _godot_object, rings);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_rings;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rings") = _GODOT_get_rings;
 	/**
 	
 	*/
 	long getRings() const
 	{
-		_GODOT_get_rings.bind("CapsuleMesh", "get_rings");
-		return ptrcall!(long)(_GODOT_get_rings, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRings, _godot_object);
 	}
 	/**
 	Radius of the capsule mesh. Defaults to 1.0.

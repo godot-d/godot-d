@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.image;
+import godot.reference;
 /**
 A CubeMap is a 6 sided 3D texture.
 
@@ -29,12 +30,27 @@ A 6-sided 3D texture typically used for faking reflections. It can be used to ma
 */
 @GodotBaseClass struct CubeMap
 {
-	static immutable string _GODOT_internal_name = "CubeMap";
+	enum string _GODOT_internal_name = "CubeMap";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_width") GodotMethod!(long) getWidth;
+		@GodotName("get_height") GodotMethod!(long) getHeight;
+		@GodotName("set_flags") GodotMethod!(void, long) setFlags;
+		@GodotName("get_flags") GodotMethod!(long) getFlags;
+		@GodotName("set_side") GodotMethod!(void, long, Image) setSide;
+		@GodotName("get_side") GodotMethod!(Image, long) getSide;
+		@GodotName("set_storage") GodotMethod!(void, long) setStorage;
+		@GodotName("get_storage") GodotMethod!(CubeMap.Storage) getStorage;
+		@GodotName("set_lossy_storage_quality") GodotMethod!(void, double) setLossyStorageQuality;
+		@GodotName("get_lossy_storage_quality") GodotMethod!(double) getLossyStorageQuality;
+	}
 	bool opEquals(in CubeMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CubeMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -114,119 +130,99 @@ public:
 	/// 
 	enum Constants : int
 	{
-		storageRaw = 0,
 		sideLeft = 0,
-		storageCompressLossy = 1,
+		storageRaw = 0,
 		sideRight = 1,
+		storageCompressLossy = 1,
 		flagMipmaps = 1,
+		sideBottom = 2,
 		storageCompressLossless = 2,
 		flagRepeat = 2,
-		sideBottom = 2,
 		sideTop = 3,
 		flagFilter = 4,
 		sideFront = 4,
 		sideBack = 5,
 		flagsDefault = 7,
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_width") = _GODOT_get_width;
 	/**
 	Returns the `CubeMap`'s width.
 	*/
 	long getWidth() const
 	{
-		_GODOT_get_width.bind("CubeMap", "get_width");
-		return ptrcall!(long)(_GODOT_get_width, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_height") = _GODOT_get_height;
 	/**
 	Returns the `CubeMap`'s height.
 	*/
 	long getHeight() const
 	{
-		_GODOT_get_height.bind("CubeMap", "get_height");
-		return ptrcall!(long)(_GODOT_get_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_flags") = _GODOT_set_flags;
 	/**
 	
 	*/
 	void setFlags(in long flags)
 	{
-		_GODOT_set_flags.bind("CubeMap", "set_flags");
-		ptrcall!(void)(_GODOT_set_flags, _godot_object, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlags, _godot_object, flags);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_flags") = _GODOT_get_flags;
 	/**
 	
 	*/
 	long getFlags() const
 	{
-		_GODOT_get_flags.bind("CubeMap", "get_flags");
-		return ptrcall!(long)(_GODOT_get_flags, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Image) _GODOT_set_side;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_side") = _GODOT_set_side;
 	/**
 	Sets an $(D Image) for a side of the `CubeMap` using one of the `SIDE_*` constants or an integer 0-5.
 	*/
 	void setSide(in long side, Image image)
 	{
-		_GODOT_set_side.bind("CubeMap", "set_side");
-		ptrcall!(void)(_GODOT_set_side, _godot_object, side, image);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSide, _godot_object, side, image);
 	}
-	package(godot) static GodotMethod!(Image, long) _GODOT_get_side;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_side") = _GODOT_get_side;
 	/**
 	Returns an $(D Image) for a side of the `CubeMap` using one of the `SIDE_*` constants or an integer 0-5.
 	*/
 	Ref!Image getSide(in long side) const
 	{
-		_GODOT_get_side.bind("CubeMap", "get_side");
-		return ptrcall!(Image)(_GODOT_get_side, _godot_object, side);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.getSide, _godot_object, side);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_storage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_storage") = _GODOT_set_storage;
 	/**
 	
 	*/
 	void setStorage(in long mode)
 	{
-		_GODOT_set_storage.bind("CubeMap", "set_storage");
-		ptrcall!(void)(_GODOT_set_storage, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStorage, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(CubeMap.Storage) _GODOT_get_storage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_storage") = _GODOT_get_storage;
 	/**
 	
 	*/
 	CubeMap.Storage getStorage() const
 	{
-		_GODOT_get_storage.bind("CubeMap", "get_storage");
-		return ptrcall!(CubeMap.Storage)(_GODOT_get_storage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CubeMap.Storage)(_classBinding.getStorage, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_lossy_storage_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_lossy_storage_quality") = _GODOT_set_lossy_storage_quality;
 	/**
 	
 	*/
 	void setLossyStorageQuality(in double quality)
 	{
-		_GODOT_set_lossy_storage_quality.bind("CubeMap", "set_lossy_storage_quality");
-		ptrcall!(void)(_GODOT_set_lossy_storage_quality, _godot_object, quality);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLossyStorageQuality, _godot_object, quality);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_lossy_storage_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_lossy_storage_quality") = _GODOT_get_lossy_storage_quality;
 	/**
 	
 	*/
 	double getLossyStorageQuality() const
 	{
-		_GODOT_get_lossy_storage_quality.bind("CubeMap", "get_lossy_storage_quality");
-		return ptrcall!(double)(_GODOT_get_lossy_storage_quality, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
 	The render flags for the `CubeMap`. See the `FLAG_*` constants for details.

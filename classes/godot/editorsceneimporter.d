@@ -28,12 +28,23 @@ import godot.animation;
 */
 @GodotBaseClass struct EditorSceneImporter
 {
-	static immutable string _GODOT_internal_name = "EditorSceneImporter";
+	enum string _GODOT_internal_name = "EditorSceneImporter";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_get_import_flags") GodotMethod!(long) _getImportFlags;
+		@GodotName("_get_extensions") GodotMethod!(Array) _getExtensions;
+		@GodotName("_import_scene") GodotMethod!(Node, String, long, long) _importScene;
+		@GodotName("_import_animation") GodotMethod!(Animation, String, long, long) _importAnimation;
+		@GodotName("import_scene_from_other_importer") GodotMethod!(Node, String, long, long) importSceneFromOtherImporter;
+		@GodotName("import_animation_from_other_importer") GodotMethod!(Animation, String, long, long) importAnimationFromOtherImporter;
+	}
 	bool opEquals(in EditorSceneImporter other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorSceneImporter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -90,8 +101,6 @@ public:
 		*/
 		importUseCompression = 2048,
 	}
-	package(godot) static GodotMethod!(long) _GODOT__get_import_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_import_flags") = _GODOT__get_import_flags;
 	/**
 	
 	*/
@@ -101,8 +110,6 @@ public:
 		String _GODOT_method_name = String("_get_import_flags");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_extensions;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_extensions") = _GODOT__get_extensions;
 	/**
 	
 	*/
@@ -112,8 +119,6 @@ public:
 		String _GODOT_method_name = String("_get_extensions");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(Node, String, long, long) _GODOT__import_scene;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_import_scene") = _GODOT__import_scene;
 	/**
 	
 	*/
@@ -126,8 +131,6 @@ public:
 		String _GODOT_method_name = String("_import_scene");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Node);
 	}
-	package(godot) static GodotMethod!(Animation, String, long, long) _GODOT__import_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_import_animation") = _GODOT__import_animation;
 	/**
 	
 	*/
@@ -140,24 +143,20 @@ public:
 		String _GODOT_method_name = String("_import_animation");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Animation);
 	}
-	package(godot) static GodotMethod!(Node, String, long, long) _GODOT_import_scene_from_other_importer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "import_scene_from_other_importer") = _GODOT_import_scene_from_other_importer;
 	/**
 	
 	*/
 	Node importSceneFromOtherImporter(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
 	{
-		_GODOT_import_scene_from_other_importer.bind("EditorSceneImporter", "import_scene_from_other_importer");
-		return ptrcall!(Node)(_GODOT_import_scene_from_other_importer, _godot_object, path, flags, bake_fps);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.importSceneFromOtherImporter, _godot_object, path, flags, bake_fps);
 	}
-	package(godot) static GodotMethod!(Animation, String, long, long) _GODOT_import_animation_from_other_importer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "import_animation_from_other_importer") = _GODOT_import_animation_from_other_importer;
 	/**
 	
 	*/
 	Ref!Animation importAnimationFromOtherImporter(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
 	{
-		_GODOT_import_animation_from_other_importer.bind("EditorSceneImporter", "import_animation_from_other_importer");
-		return ptrcall!(Animation)(_GODOT_import_animation_from_other_importer, _godot_object, path, flags, bake_fps);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation)(_classBinding.importAnimationFromOtherImporter, _godot_object, path, flags, bake_fps);
 	}
 }

@@ -22,6 +22,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a Delay audio effect to an Audio bus. Plays input signal back after a period of time.
 Two tap delay and feedback options.
@@ -30,12 +32,43 @@ Plays input signal back after a period of time. The delayed signal may be played
 */
 @GodotBaseClass struct AudioEffectDelay
 {
-	static immutable string _GODOT_internal_name = "AudioEffectDelay";
+	enum string _GODOT_internal_name = "AudioEffectDelay";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_dry") GodotMethod!(void, double) setDry;
+		@GodotName("get_dry") GodotMethod!(double) getDry;
+		@GodotName("set_tap1_active") GodotMethod!(void, bool) setTap1Active;
+		@GodotName("is_tap1_active") GodotMethod!(bool) isTap1Active;
+		@GodotName("set_tap1_delay_ms") GodotMethod!(void, double) setTap1DelayMs;
+		@GodotName("get_tap1_delay_ms") GodotMethod!(double) getTap1DelayMs;
+		@GodotName("set_tap1_level_db") GodotMethod!(void, double) setTap1LevelDb;
+		@GodotName("get_tap1_level_db") GodotMethod!(double) getTap1LevelDb;
+		@GodotName("set_tap1_pan") GodotMethod!(void, double) setTap1Pan;
+		@GodotName("get_tap1_pan") GodotMethod!(double) getTap1Pan;
+		@GodotName("set_tap2_active") GodotMethod!(void, bool) setTap2Active;
+		@GodotName("is_tap2_active") GodotMethod!(bool) isTap2Active;
+		@GodotName("set_tap2_delay_ms") GodotMethod!(void, double) setTap2DelayMs;
+		@GodotName("get_tap2_delay_ms") GodotMethod!(double) getTap2DelayMs;
+		@GodotName("set_tap2_level_db") GodotMethod!(void, double) setTap2LevelDb;
+		@GodotName("get_tap2_level_db") GodotMethod!(double) getTap2LevelDb;
+		@GodotName("set_tap2_pan") GodotMethod!(void, double) setTap2Pan;
+		@GodotName("get_tap2_pan") GodotMethod!(double) getTap2Pan;
+		@GodotName("set_feedback_active") GodotMethod!(void, bool) setFeedbackActive;
+		@GodotName("is_feedback_active") GodotMethod!(bool) isFeedbackActive;
+		@GodotName("set_feedback_delay_ms") GodotMethod!(void, double) setFeedbackDelayMs;
+		@GodotName("get_feedback_delay_ms") GodotMethod!(double) getFeedbackDelayMs;
+		@GodotName("set_feedback_level_db") GodotMethod!(void, double) setFeedbackLevelDb;
+		@GodotName("get_feedback_level_db") GodotMethod!(double) getFeedbackLevelDb;
+		@GodotName("set_feedback_lowpass") GodotMethod!(void, double) setFeedbackLowpass;
+		@GodotName("get_feedback_lowpass") GodotMethod!(double) getFeedbackLowpass;
+	}
 	bool opEquals(in AudioEffectDelay other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectDelay opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,265 +81,213 @@ public:
 		return cast(AudioEffectDelay)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_dry") = _GODOT_set_dry;
 	/**
 	
 	*/
 	void setDry(in double amount)
 	{
-		_GODOT_set_dry.bind("AudioEffectDelay", "set_dry");
-		ptrcall!(void)(_GODOT_set_dry, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_dry;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dry") = _GODOT_get_dry;
 	/**
 	
 	*/
 	double getDry()
 	{
-		_GODOT_get_dry.bind("AudioEffectDelay", "get_dry");
-		return ptrcall!(double)(_GODOT_get_dry, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDry, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_tap1_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap1_active") = _GODOT_set_tap1_active;
 	/**
 	
 	*/
 	void setTap1Active(in bool amount)
 	{
-		_GODOT_set_tap1_active.bind("AudioEffectDelay", "set_tap1_active");
-		ptrcall!(void)(_GODOT_set_tap1_active, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap1Active, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_tap1_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_tap1_active") = _GODOT_is_tap1_active;
 	/**
 	
 	*/
 	bool isTap1Active() const
 	{
-		_GODOT_is_tap1_active.bind("AudioEffectDelay", "is_tap1_active");
-		return ptrcall!(bool)(_GODOT_is_tap1_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isTap1Active, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap1_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap1_delay_ms") = _GODOT_set_tap1_delay_ms;
 	/**
 	
 	*/
 	void setTap1DelayMs(in double amount)
 	{
-		_GODOT_set_tap1_delay_ms.bind("AudioEffectDelay", "set_tap1_delay_ms");
-		ptrcall!(void)(_GODOT_set_tap1_delay_ms, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap1DelayMs, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap1_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap1_delay_ms") = _GODOT_get_tap1_delay_ms;
 	/**
 	
 	*/
 	double getTap1DelayMs() const
 	{
-		_GODOT_get_tap1_delay_ms.bind("AudioEffectDelay", "get_tap1_delay_ms");
-		return ptrcall!(double)(_GODOT_get_tap1_delay_ms, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap1DelayMs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap1_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap1_level_db") = _GODOT_set_tap1_level_db;
 	/**
 	
 	*/
 	void setTap1LevelDb(in double amount)
 	{
-		_GODOT_set_tap1_level_db.bind("AudioEffectDelay", "set_tap1_level_db");
-		ptrcall!(void)(_GODOT_set_tap1_level_db, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap1LevelDb, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap1_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap1_level_db") = _GODOT_get_tap1_level_db;
 	/**
 	
 	*/
 	double getTap1LevelDb() const
 	{
-		_GODOT_get_tap1_level_db.bind("AudioEffectDelay", "get_tap1_level_db");
-		return ptrcall!(double)(_GODOT_get_tap1_level_db, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap1LevelDb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap1_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap1_pan") = _GODOT_set_tap1_pan;
 	/**
 	
 	*/
 	void setTap1Pan(in double amount)
 	{
-		_GODOT_set_tap1_pan.bind("AudioEffectDelay", "set_tap1_pan");
-		ptrcall!(void)(_GODOT_set_tap1_pan, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap1Pan, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap1_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap1_pan") = _GODOT_get_tap1_pan;
 	/**
 	
 	*/
 	double getTap1Pan() const
 	{
-		_GODOT_get_tap1_pan.bind("AudioEffectDelay", "get_tap1_pan");
-		return ptrcall!(double)(_GODOT_get_tap1_pan, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap1Pan, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_tap2_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap2_active") = _GODOT_set_tap2_active;
 	/**
 	
 	*/
 	void setTap2Active(in bool amount)
 	{
-		_GODOT_set_tap2_active.bind("AudioEffectDelay", "set_tap2_active");
-		ptrcall!(void)(_GODOT_set_tap2_active, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap2Active, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_tap2_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_tap2_active") = _GODOT_is_tap2_active;
 	/**
 	
 	*/
 	bool isTap2Active() const
 	{
-		_GODOT_is_tap2_active.bind("AudioEffectDelay", "is_tap2_active");
-		return ptrcall!(bool)(_GODOT_is_tap2_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isTap2Active, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap2_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap2_delay_ms") = _GODOT_set_tap2_delay_ms;
 	/**
 	
 	*/
 	void setTap2DelayMs(in double amount)
 	{
-		_GODOT_set_tap2_delay_ms.bind("AudioEffectDelay", "set_tap2_delay_ms");
-		ptrcall!(void)(_GODOT_set_tap2_delay_ms, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap2DelayMs, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap2_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap2_delay_ms") = _GODOT_get_tap2_delay_ms;
 	/**
 	
 	*/
 	double getTap2DelayMs() const
 	{
-		_GODOT_get_tap2_delay_ms.bind("AudioEffectDelay", "get_tap2_delay_ms");
-		return ptrcall!(double)(_GODOT_get_tap2_delay_ms, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap2DelayMs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap2_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap2_level_db") = _GODOT_set_tap2_level_db;
 	/**
 	
 	*/
 	void setTap2LevelDb(in double amount)
 	{
-		_GODOT_set_tap2_level_db.bind("AudioEffectDelay", "set_tap2_level_db");
-		ptrcall!(void)(_GODOT_set_tap2_level_db, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap2LevelDb, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap2_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap2_level_db") = _GODOT_get_tap2_level_db;
 	/**
 	
 	*/
 	double getTap2LevelDb() const
 	{
-		_GODOT_get_tap2_level_db.bind("AudioEffectDelay", "get_tap2_level_db");
-		return ptrcall!(double)(_GODOT_get_tap2_level_db, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap2LevelDb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_tap2_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tap2_pan") = _GODOT_set_tap2_pan;
 	/**
 	
 	*/
 	void setTap2Pan(in double amount)
 	{
-		_GODOT_set_tap2_pan.bind("AudioEffectDelay", "set_tap2_pan");
-		ptrcall!(void)(_GODOT_set_tap2_pan, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTap2Pan, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_tap2_pan;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tap2_pan") = _GODOT_get_tap2_pan;
 	/**
 	
 	*/
 	double getTap2Pan() const
 	{
-		_GODOT_get_tap2_pan.bind("AudioEffectDelay", "get_tap2_pan");
-		return ptrcall!(double)(_GODOT_get_tap2_pan, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTap2Pan, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_feedback_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_feedback_active") = _GODOT_set_feedback_active;
 	/**
 	
 	*/
 	void setFeedbackActive(in bool amount)
 	{
-		_GODOT_set_feedback_active.bind("AudioEffectDelay", "set_feedback_active");
-		ptrcall!(void)(_GODOT_set_feedback_active, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFeedbackActive, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_feedback_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_feedback_active") = _GODOT_is_feedback_active;
 	/**
 	
 	*/
 	bool isFeedbackActive() const
 	{
-		_GODOT_is_feedback_active.bind("AudioEffectDelay", "is_feedback_active");
-		return ptrcall!(bool)(_GODOT_is_feedback_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFeedbackActive, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_feedback_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_feedback_delay_ms") = _GODOT_set_feedback_delay_ms;
 	/**
 	
 	*/
 	void setFeedbackDelayMs(in double amount)
 	{
-		_GODOT_set_feedback_delay_ms.bind("AudioEffectDelay", "set_feedback_delay_ms");
-		ptrcall!(void)(_GODOT_set_feedback_delay_ms, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFeedbackDelayMs, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_feedback_delay_ms;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_feedback_delay_ms") = _GODOT_get_feedback_delay_ms;
 	/**
 	
 	*/
 	double getFeedbackDelayMs() const
 	{
-		_GODOT_get_feedback_delay_ms.bind("AudioEffectDelay", "get_feedback_delay_ms");
-		return ptrcall!(double)(_GODOT_get_feedback_delay_ms, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFeedbackDelayMs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_feedback_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_feedback_level_db") = _GODOT_set_feedback_level_db;
 	/**
 	
 	*/
 	void setFeedbackLevelDb(in double amount)
 	{
-		_GODOT_set_feedback_level_db.bind("AudioEffectDelay", "set_feedback_level_db");
-		ptrcall!(void)(_GODOT_set_feedback_level_db, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFeedbackLevelDb, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_feedback_level_db;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_feedback_level_db") = _GODOT_get_feedback_level_db;
 	/**
 	
 	*/
 	double getFeedbackLevelDb() const
 	{
-		_GODOT_get_feedback_level_db.bind("AudioEffectDelay", "get_feedback_level_db");
-		return ptrcall!(double)(_GODOT_get_feedback_level_db, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFeedbackLevelDb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_feedback_lowpass;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_feedback_lowpass") = _GODOT_set_feedback_lowpass;
 	/**
 	
 	*/
 	void setFeedbackLowpass(in double amount)
 	{
-		_GODOT_set_feedback_lowpass.bind("AudioEffectDelay", "set_feedback_lowpass");
-		ptrcall!(void)(_GODOT_set_feedback_lowpass, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFeedbackLowpass, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_feedback_lowpass;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_feedback_lowpass") = _GODOT_get_feedback_lowpass;
 	/**
 	
 	*/
 	double getFeedbackLowpass() const
 	{
-		_GODOT_get_feedback_lowpass.bind("AudioEffectDelay", "get_feedback_lowpass");
-		return ptrcall!(double)(_GODOT_get_feedback_lowpass, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFeedbackLowpass, _godot_object);
 	}
 	/**
 	Output percent of original sound. At 0, only delayed sounds are output. Value can range from 0 to 1. Default value: `1`.

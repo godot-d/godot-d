@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 Node reference.
 
@@ -32,12 +34,19 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptSceneNode
 {
-	static immutable string _GODOT_internal_name = "VisualScriptSceneNode";
+	enum string _GODOT_internal_name = "VisualScriptSceneNode";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_node_path") GodotMethod!(void, NodePath) setNodePath;
+		@GodotName("get_node_path") GodotMethod!(NodePath) getNodePath;
+	}
 	bool opEquals(in VisualScriptSceneNode other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSceneNode opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -50,25 +59,21 @@ public:
 		return cast(VisualScriptSceneNode)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_node_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_node_path") = _GODOT_set_node_path;
 	/**
 	
 	*/
 	void setNodePath(NodePathArg0)(in NodePathArg0 path)
 	{
-		_GODOT_set_node_path.bind("VisualScriptSceneNode", "set_node_path");
-		ptrcall!(void)(_GODOT_set_node_path, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodePath, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_node_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_node_path") = _GODOT_get_node_path;
 	/**
 	
 	*/
 	NodePath getNodePath()
 	{
-		_GODOT_get_node_path.bind("VisualScriptSceneNode", "get_node_path");
-		return ptrcall!(NodePath)(_GODOT_get_node_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodePath, _godot_object);
 	}
 	/**
 	The node's path in the scene tree.

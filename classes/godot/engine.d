@@ -27,20 +27,41 @@ The `Engine` class allows you to query and modify the game's run-time parameters
 */
 @GodotBaseClass struct EngineSingleton
 {
-	static immutable string _GODOT_internal_name = "_Engine";
+	enum string _GODOT_internal_name = "_Engine";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "Engine";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "Engine";
+		@GodotName("set_iterations_per_second") GodotMethod!(void, long) setIterationsPerSecond;
+		@GodotName("get_iterations_per_second") GodotMethod!(long) getIterationsPerSecond;
+		@GodotName("set_physics_jitter_fix") GodotMethod!(void, double) setPhysicsJitterFix;
+		@GodotName("get_physics_jitter_fix") GodotMethod!(double) getPhysicsJitterFix;
+		@GodotName("set_target_fps") GodotMethod!(void, long) setTargetFps;
+		@GodotName("get_target_fps") GodotMethod!(long) getTargetFps;
+		@GodotName("set_time_scale") GodotMethod!(void, double) setTimeScale;
+		@GodotName("get_time_scale") GodotMethod!(double) getTimeScale;
+		@GodotName("get_frames_drawn") GodotMethod!(long) getFramesDrawn;
+		@GodotName("get_frames_per_second") GodotMethod!(double) getFramesPerSecond;
+		@GodotName("get_main_loop") GodotMethod!(MainLoop) getMainLoop;
+		@GodotName("get_version_info") GodotMethod!(Dictionary) getVersionInfo;
+		@GodotName("get_author_info") GodotMethod!(Dictionary) getAuthorInfo;
+		@GodotName("get_copyright_info") GodotMethod!(Array) getCopyrightInfo;
+		@GodotName("get_donor_info") GodotMethod!(Dictionary) getDonorInfo;
+		@GodotName("get_license_info") GodotMethod!(Dictionary) getLicenseInfo;
+		@GodotName("get_license_text") GodotMethod!(String) getLicenseText;
+		@GodotName("is_in_physics_frame") GodotMethod!(bool) isInPhysicsFrame;
+		@GodotName("has_singleton") GodotMethod!(bool, String) hasSingleton;
+		@GodotName("get_singleton") GodotMethod!(GodotObject, String) getSingleton;
+		@GodotName("set_editor_hint") GodotMethod!(void, bool) setEditorHint;
+		@GodotName("is_editor_hint") GodotMethod!(bool) isEditorHint;
+	}
 	bool opEquals(in EngineSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EngineSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -53,98 +74,94 @@ public:
 		return cast(EngineSingleton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_iterations_per_second;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_iterations_per_second") = _GODOT_set_iterations_per_second;
 	/**
 	
 	*/
 	void setIterationsPerSecond(in long iterations_per_second)
 	{
-		_GODOT_set_iterations_per_second.bind("_Engine", "set_iterations_per_second");
-		ptrcall!(void)(_GODOT_set_iterations_per_second, _godot_object, iterations_per_second);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIterationsPerSecond, _godot_object, iterations_per_second);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_iterations_per_second;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_iterations_per_second") = _GODOT_get_iterations_per_second;
 	/**
 	
 	*/
 	long getIterationsPerSecond() const
 	{
-		_GODOT_get_iterations_per_second.bind("_Engine", "get_iterations_per_second");
-		return ptrcall!(long)(_GODOT_get_iterations_per_second, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getIterationsPerSecond, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_target_fps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_target_fps") = _GODOT_set_target_fps;
+	/**
+	
+	*/
+	void setPhysicsJitterFix(in double physics_jitter_fix)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPhysicsJitterFix, _godot_object, physics_jitter_fix);
+	}
+	/**
+	
+	*/
+	double getPhysicsJitterFix() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPhysicsJitterFix, _godot_object);
+	}
 	/**
 	
 	*/
 	void setTargetFps(in long target_fps)
 	{
-		_GODOT_set_target_fps.bind("_Engine", "set_target_fps");
-		ptrcall!(void)(_GODOT_set_target_fps, _godot_object, target_fps);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTargetFps, _godot_object, target_fps);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_target_fps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_target_fps") = _GODOT_get_target_fps;
 	/**
 	
 	*/
 	long getTargetFps() const
 	{
-		_GODOT_get_target_fps.bind("_Engine", "get_target_fps");
-		return ptrcall!(long)(_GODOT_get_target_fps, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTargetFps, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_time_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_time_scale") = _GODOT_set_time_scale;
 	/**
 	
 	*/
 	void setTimeScale(in double time_scale)
 	{
-		_GODOT_set_time_scale.bind("_Engine", "set_time_scale");
-		ptrcall!(void)(_GODOT_set_time_scale, _godot_object, time_scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTimeScale, _godot_object, time_scale);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_time_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_time_scale") = _GODOT_get_time_scale;
 	/**
 	
 	*/
 	double getTimeScale()
 	{
-		_GODOT_get_time_scale.bind("_Engine", "get_time_scale");
-		return ptrcall!(double)(_GODOT_get_time_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getTimeScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_frames_drawn;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frames_drawn") = _GODOT_get_frames_drawn;
 	/**
 	Returns the total number of frames drawn.
 	*/
 	long getFramesDrawn()
 	{
-		_GODOT_get_frames_drawn.bind("_Engine", "get_frames_drawn");
-		return ptrcall!(long)(_GODOT_get_frames_drawn, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFramesDrawn, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_frames_per_second;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frames_per_second") = _GODOT_get_frames_per_second;
 	/**
 	Returns the frames per second of the running game.
 	*/
 	double getFramesPerSecond() const
 	{
-		_GODOT_get_frames_per_second.bind("_Engine", "get_frames_per_second");
-		return ptrcall!(double)(_GODOT_get_frames_per_second, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFramesPerSecond, _godot_object);
 	}
-	package(godot) static GodotMethod!(MainLoop) _GODOT_get_main_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_main_loop") = _GODOT_get_main_loop;
 	/**
 	Returns the main loop object (see $(D MainLoop) and $(D SceneTree)).
 	*/
 	MainLoop getMainLoop() const
 	{
-		_GODOT_get_main_loop.bind("_Engine", "get_main_loop");
-		return ptrcall!(MainLoop)(_GODOT_get_main_loop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(MainLoop)(_classBinding.getMainLoop, _godot_object);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT_get_version_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_version_info") = _GODOT_get_version_info;
 	/**
 	Returns the current engine version information in a Dictionary.
 	"major"    - Holds the major version number as an int
@@ -156,58 +173,95 @@ public:
 	*/
 	Dictionary getVersionInfo() const
 	{
-		_GODOT_get_version_info.bind("_Engine", "get_version_info");
-		return ptrcall!(Dictionary)(_GODOT_get_version_info, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getVersionInfo, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_in_physics_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_in_physics_frame") = _GODOT_is_in_physics_frame;
+	/**
+	Returns engine author information in a Dictionary.
+	"lead_developers" - Array of Strings, lead developer names
+	"founders" - Array of Strings, founder names
+	"project_managers" - Array of Strings, project manager names
+	"developers" - Array of Strings, developer names
+	*/
+	Dictionary getAuthorInfo() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getAuthorInfo, _godot_object);
+	}
+	/**
+	Returns an Array of copyright information Dictionaries.
+	"name" - String, component name
+	"parts" - Array of Dictionaries {"files", "copyright", "license"} describing subsections of the component
+	*/
+	Array getCopyrightInfo() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getCopyrightInfo, _godot_object);
+	}
+	/**
+	Returns a Dictionary of Arrays of donor names.
+	{"platinum_sponsors", "gold_sponsors", "mini_sponsors", "gold_donors", "silver_donors", "bronze_donors"}
+	*/
+	Dictionary getDonorInfo() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getDonorInfo, _godot_object);
+	}
+	/**
+	Returns Dictionary of licenses used by Godot and included third party components.
+	*/
+	Dictionary getLicenseInfo() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getLicenseInfo, _godot_object);
+	}
+	/**
+	Returns Godot license text.
+	*/
+	String getLicenseText() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLicenseText, _godot_object);
+	}
 	/**
 	Returns `true` if the game is inside the fixed process and physics phase of the game loop.
 	*/
 	bool isInPhysicsFrame() const
 	{
-		_GODOT_is_in_physics_frame.bind("_Engine", "is_in_physics_frame");
-		return ptrcall!(bool)(_GODOT_is_in_physics_frame, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInPhysicsFrame, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_singleton") = _GODOT_has_singleton;
 	/**
 	
 	*/
 	bool hasSingleton(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_singleton.bind("_Engine", "has_singleton");
-		return ptrcall!(bool)(_GODOT_has_singleton, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasSingleton, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(GodotObject, String) _GODOT_get_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_singleton") = _GODOT_get_singleton;
 	/**
 	
 	*/
 	GodotObject getSingleton(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_get_singleton.bind("_Engine", "get_singleton");
-		return ptrcall!(GodotObject)(_GODOT_get_singleton, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.getSingleton, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_editor_hint;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_editor_hint") = _GODOT_set_editor_hint;
 	/**
 	
 	*/
 	void setEditorHint(in bool enabled)
 	{
-		_GODOT_set_editor_hint.bind("_Engine", "set_editor_hint");
-		ptrcall!(void)(_GODOT_set_editor_hint, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditorHint, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editor_hint;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editor_hint") = _GODOT_is_editor_hint;
 	/**
 	
 	*/
 	bool isEditorHint() const
 	{
-		_GODOT_is_editor_hint.bind("_Engine", "is_editor_hint");
-		return ptrcall!(bool)(_GODOT_is_editor_hint, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditorHint, _godot_object);
 	}
 	/**
 	If `true`, it is running inside the editor. Useful for tool scripts.
@@ -257,10 +311,23 @@ public:
 	{
 		setTimeScale(v);
 	}
+	/**
+	
+	*/
+	@property double physicsJitterFix()
+	{
+		return getPhysicsJitterFix();
+	}
+	/// ditto
+	@property void physicsJitterFix(double v)
+	{
+		setPhysicsJitterFix(v);
+	}
 }
 /// Returns: the EngineSingleton
 @property @nogc nothrow pragma(inline, true)
 EngineSingleton Engine()
 {
-	return EngineSingleton._GODOT_singleton();
+	checkClassBinding!EngineSingleton();
+	return EngineSingleton(EngineSingleton._classBinding._singleton);
 }

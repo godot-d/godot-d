@@ -21,19 +21,27 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffectfilter;
+import godot.audioeffect;
+import godot.resource;
+import godot.reference;
 /**
 Adds a low pass filter to the Audio Bus.
 
-Cuts frequencies higher than the $(D cutoffHz) and allows lower frequencies to pass.
+Cuts frequencies higher than the $(D AudioEffectFilter.cutoffHz) and allows lower frequencies to pass.
 */
 @GodotBaseClass struct AudioEffectLowPassFilter
 {
-	static immutable string _GODOT_internal_name = "AudioEffectLowPassFilter";
+	enum string _GODOT_internal_name = "AudioEffectLowPassFilter";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; AudioEffectFilter _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
 	bool opEquals(in AudioEffectLowPassFilter other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectLowPassFilter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }

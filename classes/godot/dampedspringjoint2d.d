@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint2d;
+import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
 Damped spring constraint for 2D physics.
 
@@ -28,12 +31,25 @@ This resembles a spring joint that always wants to go back to a given length.
 */
 @GodotBaseClass struct DampedSpringJoint2D
 {
-	static immutable string _GODOT_internal_name = "DampedSpringJoint2D";
+	enum string _GODOT_internal_name = "DampedSpringJoint2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Joint2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("get_length") GodotMethod!(double) getLength;
+		@GodotName("set_rest_length") GodotMethod!(void, double) setRestLength;
+		@GodotName("get_rest_length") GodotMethod!(double) getRestLength;
+		@GodotName("set_stiffness") GodotMethod!(void, double) setStiffness;
+		@GodotName("get_stiffness") GodotMethod!(double) getStiffness;
+		@GodotName("set_damping") GodotMethod!(void, double) setDamping;
+		@GodotName("get_damping") GodotMethod!(double) getDamping;
+	}
 	bool opEquals(in DampedSpringJoint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	DampedSpringJoint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,85 +62,69 @@ public:
 		return cast(DampedSpringJoint2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_length") = _GODOT_set_length;
 	/**
 	
 	*/
 	void setLength(in double length)
 	{
-		_GODOT_set_length.bind("DampedSpringJoint2D", "set_length");
-		ptrcall!(void)(_GODOT_set_length, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_length") = _GODOT_get_length;
 	/**
 	
 	*/
 	double getLength() const
 	{
-		_GODOT_get_length.bind("DampedSpringJoint2D", "get_length");
-		return ptrcall!(double)(_GODOT_get_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_rest_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rest_length") = _GODOT_set_rest_length;
 	/**
 	
 	*/
 	void setRestLength(in double rest_length)
 	{
-		_GODOT_set_rest_length.bind("DampedSpringJoint2D", "set_rest_length");
-		ptrcall!(void)(_GODOT_set_rest_length, _godot_object, rest_length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRestLength, _godot_object, rest_length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_rest_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rest_length") = _GODOT_get_rest_length;
 	/**
 	
 	*/
 	double getRestLength() const
 	{
-		_GODOT_get_rest_length.bind("DampedSpringJoint2D", "get_rest_length");
-		return ptrcall!(double)(_GODOT_get_rest_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRestLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_stiffness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stiffness") = _GODOT_set_stiffness;
 	/**
 	
 	*/
 	void setStiffness(in double stiffness)
 	{
-		_GODOT_set_stiffness.bind("DampedSpringJoint2D", "set_stiffness");
-		ptrcall!(void)(_GODOT_set_stiffness, _godot_object, stiffness);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStiffness, _godot_object, stiffness);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_stiffness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stiffness") = _GODOT_get_stiffness;
 	/**
 	
 	*/
 	double getStiffness() const
 	{
-		_GODOT_get_stiffness.bind("DampedSpringJoint2D", "get_stiffness");
-		return ptrcall!(double)(_GODOT_get_stiffness, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStiffness, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_damping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_damping") = _GODOT_set_damping;
 	/**
 	
 	*/
 	void setDamping(in double damping)
 	{
-		_GODOT_set_damping.bind("DampedSpringJoint2D", "set_damping");
-		ptrcall!(void)(_GODOT_set_damping, _godot_object, damping);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDamping, _godot_object, damping);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_damping;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_damping") = _GODOT_get_damping;
 	/**
 	
 	*/
 	double getDamping() const
 	{
-		_GODOT_get_damping.bind("DampedSpringJoint2D", "get_damping");
-		return ptrcall!(double)(_GODOT_get_damping, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
 	}
 	/**
 	The spring joint's maximum length. The two attached bodies cannot stretch it past this value. Default value: `50`

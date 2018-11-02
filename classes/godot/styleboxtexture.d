@@ -21,8 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.stylebox;
-import godot.resource;
 import godot.texture;
+import godot.resource;
+import godot.reference;
 /**
 Texture Based 3x3 scale style.
 
@@ -30,12 +31,37 @@ This stylebox performs a 3x3 scaling of a texture, where only the center cell is
 */
 @GodotBaseClass struct StyleBoxTexture
 {
-	static immutable string _GODOT_internal_name = "StyleBoxTexture";
+	enum string _GODOT_internal_name = "StyleBoxTexture";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; StyleBox _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
+		@GodotName("get_normal_map") GodotMethod!(Texture) getNormalMap;
+		@GodotName("set_margin_size") GodotMethod!(void, long, double) setMarginSize;
+		@GodotName("get_margin_size") GodotMethod!(double, long) getMarginSize;
+		@GodotName("set_expand_margin_size") GodotMethod!(void, long, double) setExpandMarginSize;
+		@GodotName("set_expand_margin_all") GodotMethod!(void, double) setExpandMarginAll;
+		@GodotName("set_expand_margin_individual") GodotMethod!(void, double, double, double, double) setExpandMarginIndividual;
+		@GodotName("get_expand_margin_size") GodotMethod!(double, long) getExpandMarginSize;
+		@GodotName("set_region_rect") GodotMethod!(void, Rect2) setRegionRect;
+		@GodotName("get_region_rect") GodotMethod!(Rect2) getRegionRect;
+		@GodotName("set_draw_center") GodotMethod!(void, bool) setDrawCenter;
+		@GodotName("is_draw_center_enabled") GodotMethod!(bool) isDrawCenterEnabled;
+		@GodotName("set_modulate") GodotMethod!(void, Color) setModulate;
+		@GodotName("get_modulate") GodotMethod!(Color) getModulate;
+		@GodotName("set_h_axis_stretch_mode") GodotMethod!(void, long) setHAxisStretchMode;
+		@GodotName("get_h_axis_stretch_mode") GodotMethod!(StyleBoxTexture.AxisStretchMode) getHAxisStretchMode;
+		@GodotName("set_v_axis_stretch_mode") GodotMethod!(void, long) setVAxisStretchMode;
+		@GodotName("get_v_axis_stretch_mode") GodotMethod!(StyleBoxTexture.AxisStretchMode) getVAxisStretchMode;
+	}
 	bool opEquals(in StyleBoxTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StyleBoxTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -71,227 +97,187 @@ public:
 		axisStretchModeTile = 1,
 		axisStretchModeTileFit = 2,
 	}
-	package(godot) static GodotMethod!(void, Resource) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
-	void setTexture(Resource texture)
+	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("StyleBoxTexture", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Resource) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
-	Ref!Resource getTexture() const
+	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("StyleBoxTexture", "get_texture");
-		return ptrcall!(Resource)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Resource) _GODOT_set_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_normal_map") = _GODOT_set_normal_map;
 	/**
 	
 	*/
-	void setNormalMap(Resource normal_map)
+	void setNormalMap(Texture normal_map)
 	{
-		_GODOT_set_normal_map.bind("StyleBoxTexture", "set_normal_map");
-		ptrcall!(void)(_GODOT_set_normal_map, _godot_object, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
 	}
-	package(godot) static GodotMethod!(Resource) _GODOT_get_normal_map;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_normal_map") = _GODOT_get_normal_map;
 	/**
 	
 	*/
-	Ref!Resource getNormalMap() const
+	Ref!Texture getNormalMap() const
 	{
-		_GODOT_get_normal_map.bind("StyleBoxTexture", "get_normal_map");
-		return ptrcall!(Resource)(_GODOT_get_normal_map, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_margin_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_margin_size") = _GODOT_set_margin_size;
 	/**
 	
 	*/
 	void setMarginSize(in long margin, in double size)
 	{
-		_GODOT_set_margin_size.bind("StyleBoxTexture", "set_margin_size");
-		ptrcall!(void)(_GODOT_set_margin_size, _godot_object, margin, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMarginSize, _godot_object, margin, size);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_margin_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_margin_size") = _GODOT_get_margin_size;
 	/**
 	
 	*/
 	double getMarginSize(in long margin) const
 	{
-		_GODOT_get_margin_size.bind("StyleBoxTexture", "get_margin_size");
-		return ptrcall!(double)(_GODOT_get_margin_size, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMarginSize, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_expand_margin_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin_size") = _GODOT_set_expand_margin_size;
 	/**
 	
 	*/
 	void setExpandMarginSize(in long margin, in double size)
 	{
-		_GODOT_set_expand_margin_size.bind("StyleBoxTexture", "set_expand_margin_size");
-		ptrcall!(void)(_GODOT_set_expand_margin_size, _godot_object, margin, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginSize, _godot_object, margin, size);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_expand_margin_all;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin_all") = _GODOT_set_expand_margin_all;
 	/**
 	
 	*/
 	void setExpandMarginAll(in double size)
 	{
-		_GODOT_set_expand_margin_all.bind("StyleBoxTexture", "set_expand_margin_all");
-		ptrcall!(void)(_GODOT_set_expand_margin_all, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, double, double, double, double) _GODOT_set_expand_margin_individual;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_expand_margin_individual") = _GODOT_set_expand_margin_individual;
 	/**
 	
 	*/
 	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
 	{
-		_GODOT_set_expand_margin_individual.bind("StyleBoxTexture", "set_expand_margin_individual");
-		ptrcall!(void)(_GODOT_set_expand_margin_individual, _godot_object, size_left, size_top, size_right, size_bottom);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_expand_margin_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_expand_margin_size") = _GODOT_get_expand_margin_size;
 	/**
 	
 	*/
 	double getExpandMarginSize(in long margin) const
 	{
-		_GODOT_get_expand_margin_size.bind("StyleBoxTexture", "get_expand_margin_size");
-		return ptrcall!(double)(_GODOT_get_expand_margin_size, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getExpandMarginSize, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_region_rect") = _GODOT_set_region_rect;
 	/**
 	
 	*/
 	void setRegionRect(in Rect2 region)
 	{
-		_GODOT_set_region_rect.bind("StyleBoxTexture", "set_region_rect");
-		ptrcall!(void)(_GODOT_set_region_rect, _godot_object, region);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, region);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_region_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_region_rect") = _GODOT_get_region_rect;
 	/**
 	
 	*/
 	Rect2 getRegionRect() const
 	{
-		_GODOT_get_region_rect.bind("StyleBoxTexture", "get_region_rect");
-		return ptrcall!(Rect2)(_GODOT_get_region_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_draw_center;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_draw_center") = _GODOT_set_draw_center;
 	/**
 	
 	*/
 	void setDrawCenter(in bool enable)
 	{
-		_GODOT_set_draw_center.bind("StyleBoxTexture", "set_draw_center");
-		ptrcall!(void)(_GODOT_set_draw_center, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_draw_center_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_draw_center_enabled") = _GODOT_is_draw_center_enabled;
 	/**
 	
 	*/
 	bool isDrawCenterEnabled() const
 	{
-		_GODOT_is_draw_center_enabled.bind("StyleBoxTexture", "is_draw_center_enabled");
-		return ptrcall!(bool)(_GODOT_is_draw_center_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_modulate") = _GODOT_set_modulate;
 	/**
 	
 	*/
 	void setModulate(in Color color)
 	{
-		_GODOT_set_modulate.bind("StyleBoxTexture", "set_modulate");
-		ptrcall!(void)(_GODOT_set_modulate, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setModulate, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_modulate") = _GODOT_get_modulate;
 	/**
 	
 	*/
 	Color getModulate() const
 	{
-		_GODOT_get_modulate.bind("StyleBoxTexture", "get_modulate");
-		return ptrcall!(Color)(_GODOT_get_modulate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_h_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_axis_stretch_mode") = _GODOT_set_h_axis_stretch_mode;
 	/**
 	
 	*/
 	void setHAxisStretchMode(in long mode)
 	{
-		_GODOT_set_h_axis_stretch_mode.bind("StyleBoxTexture", "set_h_axis_stretch_mode");
-		ptrcall!(void)(_GODOT_set_h_axis_stretch_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHAxisStretchMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(StyleBoxTexture.AxisStretchMode) _GODOT_get_h_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_axis_stretch_mode") = _GODOT_get_h_axis_stretch_mode;
 	/**
 	
 	*/
 	StyleBoxTexture.AxisStretchMode getHAxisStretchMode() const
 	{
-		_GODOT_get_h_axis_stretch_mode.bind("StyleBoxTexture", "get_h_axis_stretch_mode");
-		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_GODOT_get_h_axis_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_classBinding.getHAxisStretchMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_v_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_axis_stretch_mode") = _GODOT_set_v_axis_stretch_mode;
 	/**
 	
 	*/
 	void setVAxisStretchMode(in long mode)
 	{
-		_GODOT_set_v_axis_stretch_mode.bind("StyleBoxTexture", "set_v_axis_stretch_mode");
-		ptrcall!(void)(_GODOT_set_v_axis_stretch_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVAxisStretchMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(StyleBoxTexture.AxisStretchMode) _GODOT_get_v_axis_stretch_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_axis_stretch_mode") = _GODOT_get_v_axis_stretch_mode;
 	/**
 	
 	*/
 	StyleBoxTexture.AxisStretchMode getVAxisStretchMode() const
 	{
-		_GODOT_get_v_axis_stretch_mode.bind("StyleBoxTexture", "get_v_axis_stretch_mode");
-		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_GODOT_get_v_axis_stretch_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_classBinding.getVAxisStretchMode, _godot_object);
 	}
 	/**
 	
 	*/
-	@property Resource texture()
+	@property Texture texture()
 	{
 		return getTexture();
 	}
 	/// ditto
-	@property void texture(Resource v)
+	@property void texture(Texture v)
 	{
 		setTexture(v);
 	}
 	/**
 	
 	*/
-	@property Resource normalMap()
+	@property Texture normalMap()
 	{
 		return getNormalMap();
 	}
 	/// ditto
-	@property void normalMap(Resource v)
+	@property void normalMap(Texture v)
 	{
 		setNormalMap(v);
 	}

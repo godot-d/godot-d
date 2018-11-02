@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.canvaslayer;
+import godot.node;
 /**
 A node used to create a parallax scrolling background.
 
@@ -28,12 +29,30 @@ A ParallaxBackground uses one or more $(D ParallaxLayer) child nodes to create a
 */
 @GodotBaseClass struct ParallaxBackground
 {
-	static immutable string _GODOT_internal_name = "ParallaxBackground";
+	enum string _GODOT_internal_name = "ParallaxBackground";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; CanvasLayer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_camera_moved") GodotMethod!(void, Transform2D, Vector2) _cameraMoved;
+		@GodotName("set_scroll_offset") GodotMethod!(void, Vector2) setScrollOffset;
+		@GodotName("get_scroll_offset") GodotMethod!(Vector2) getScrollOffset;
+		@GodotName("set_scroll_base_offset") GodotMethod!(void, Vector2) setScrollBaseOffset;
+		@GodotName("get_scroll_base_offset") GodotMethod!(Vector2) getScrollBaseOffset;
+		@GodotName("set_scroll_base_scale") GodotMethod!(void, Vector2) setScrollBaseScale;
+		@GodotName("get_scroll_base_scale") GodotMethod!(Vector2) getScrollBaseScale;
+		@GodotName("set_limit_begin") GodotMethod!(void, Vector2) setLimitBegin;
+		@GodotName("get_limit_begin") GodotMethod!(Vector2) getLimitBegin;
+		@GodotName("set_limit_end") GodotMethod!(void, Vector2) setLimitEnd;
+		@GodotName("get_limit_end") GodotMethod!(Vector2) getLimitEnd;
+		@GodotName("set_ignore_camera_zoom") GodotMethod!(void, bool) setIgnoreCameraZoom;
+		@GodotName("is_ignore_camera_zoom") GodotMethod!(bool) isIgnoreCameraZoom;
+	}
 	bool opEquals(in ParallaxBackground other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ParallaxBackground opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,8 +65,6 @@ public:
 		return cast(ParallaxBackground)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Transform2D, Vector2) _GODOT__camera_moved;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_camera_moved") = _GODOT__camera_moved;
 	/**
 	
 	*/
@@ -59,125 +76,101 @@ public:
 		String _GODOT_method_name = String("_camera_moved");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_scroll_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scroll_offset") = _GODOT_set_scroll_offset;
 	/**
 	
 	*/
 	void setScrollOffset(in Vector2 ofs)
 	{
-		_GODOT_set_scroll_offset.bind("ParallaxBackground", "set_scroll_offset");
-		ptrcall!(void)(_GODOT_set_scroll_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_scroll_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scroll_offset") = _GODOT_get_scroll_offset;
 	/**
 	
 	*/
 	Vector2 getScrollOffset() const
 	{
-		_GODOT_get_scroll_offset.bind("ParallaxBackground", "get_scroll_offset");
-		return ptrcall!(Vector2)(_GODOT_get_scroll_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_scroll_base_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scroll_base_offset") = _GODOT_set_scroll_base_offset;
 	/**
 	
 	*/
 	void setScrollBaseOffset(in Vector2 ofs)
 	{
-		_GODOT_set_scroll_base_offset.bind("ParallaxBackground", "set_scroll_base_offset");
-		ptrcall!(void)(_GODOT_set_scroll_base_offset, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollBaseOffset, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_scroll_base_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scroll_base_offset") = _GODOT_get_scroll_base_offset;
 	/**
 	
 	*/
 	Vector2 getScrollBaseOffset() const
 	{
-		_GODOT_get_scroll_base_offset.bind("ParallaxBackground", "get_scroll_base_offset");
-		return ptrcall!(Vector2)(_GODOT_get_scroll_base_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollBaseOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_scroll_base_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scroll_base_scale") = _GODOT_set_scroll_base_scale;
 	/**
 	
 	*/
 	void setScrollBaseScale(in Vector2 scale)
 	{
-		_GODOT_set_scroll_base_scale.bind("ParallaxBackground", "set_scroll_base_scale");
-		ptrcall!(void)(_GODOT_set_scroll_base_scale, _godot_object, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollBaseScale, _godot_object, scale);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_scroll_base_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scroll_base_scale") = _GODOT_get_scroll_base_scale;
 	/**
 	
 	*/
 	Vector2 getScrollBaseScale() const
 	{
-		_GODOT_get_scroll_base_scale.bind("ParallaxBackground", "get_scroll_base_scale");
-		return ptrcall!(Vector2)(_GODOT_get_scroll_base_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollBaseScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_limit_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_limit_begin") = _GODOT_set_limit_begin;
 	/**
 	
 	*/
 	void setLimitBegin(in Vector2 ofs)
 	{
-		_GODOT_set_limit_begin.bind("ParallaxBackground", "set_limit_begin");
-		ptrcall!(void)(_GODOT_set_limit_begin, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimitBegin, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_limit_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_limit_begin") = _GODOT_get_limit_begin;
 	/**
 	
 	*/
 	Vector2 getLimitBegin() const
 	{
-		_GODOT_get_limit_begin.bind("ParallaxBackground", "get_limit_begin");
-		return ptrcall!(Vector2)(_GODOT_get_limit_begin, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLimitBegin, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_limit_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_limit_end") = _GODOT_set_limit_end;
 	/**
 	
 	*/
 	void setLimitEnd(in Vector2 ofs)
 	{
-		_GODOT_set_limit_end.bind("ParallaxBackground", "set_limit_end");
-		ptrcall!(void)(_GODOT_set_limit_end, _godot_object, ofs);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimitEnd, _godot_object, ofs);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_limit_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_limit_end") = _GODOT_get_limit_end;
 	/**
 	
 	*/
 	Vector2 getLimitEnd() const
 	{
-		_GODOT_get_limit_end.bind("ParallaxBackground", "get_limit_end");
-		return ptrcall!(Vector2)(_GODOT_get_limit_end, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLimitEnd, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_ignore_camera_zoom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ignore_camera_zoom") = _GODOT_set_ignore_camera_zoom;
 	/**
 	
 	*/
 	void setIgnoreCameraZoom(in bool ignore)
 	{
-		_GODOT_set_ignore_camera_zoom.bind("ParallaxBackground", "set_ignore_camera_zoom");
-		ptrcall!(void)(_GODOT_set_ignore_camera_zoom, _godot_object, ignore);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIgnoreCameraZoom, _godot_object, ignore);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ignore_camera_zoom;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ignore_camera_zoom") = _GODOT_is_ignore_camera_zoom;
 	/**
 	
 	*/
 	bool isIgnoreCameraZoom()
 	{
-		_GODOT_is_ignore_camera_zoom.bind("ParallaxBackground", "is_ignore_camera_zoom");
-		return ptrcall!(bool)(_GODOT_is_ignore_camera_zoom, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isIgnoreCameraZoom, _godot_object);
 	}
 	/**
 	The ParallaxBackground's scroll value. Calculated automatically when using a $(D Camera2D), but can be used to manually manage scrolling when no camera is present.

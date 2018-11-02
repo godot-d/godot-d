@@ -22,17 +22,27 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.navigationmesh;
+import godot.node;
 /**
 
 */
 @GodotBaseClass struct NavigationMeshInstance
 {
-	static immutable string _GODOT_internal_name = "NavigationMeshInstance";
+	enum string _GODOT_internal_name = "NavigationMeshInstance";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_navigation_mesh") GodotMethod!(void, NavigationMesh) setNavigationMesh;
+		@GodotName("get_navigation_mesh") GodotMethod!(NavigationMesh) getNavigationMesh;
+		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
+		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
+	}
 	bool opEquals(in NavigationMeshInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NavigationMeshInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,45 +55,37 @@ public:
 		return cast(NavigationMeshInstance)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, NavigationMesh) _GODOT_set_navigation_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_navigation_mesh") = _GODOT_set_navigation_mesh;
 	/**
 	
 	*/
 	void setNavigationMesh(NavigationMesh navmesh)
 	{
-		_GODOT_set_navigation_mesh.bind("NavigationMeshInstance", "set_navigation_mesh");
-		ptrcall!(void)(_GODOT_set_navigation_mesh, _godot_object, navmesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNavigationMesh, _godot_object, navmesh);
 	}
-	package(godot) static GodotMethod!(NavigationMesh) _GODOT_get_navigation_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_navigation_mesh") = _GODOT_get_navigation_mesh;
 	/**
 	
 	*/
 	Ref!NavigationMesh getNavigationMesh() const
 	{
-		_GODOT_get_navigation_mesh.bind("NavigationMeshInstance", "get_navigation_mesh");
-		return ptrcall!(NavigationMesh)(_GODOT_get_navigation_mesh, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NavigationMesh)(_classBinding.getNavigationMesh, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_enabled") = _GODOT_set_enabled;
 	/**
 	
 	*/
 	void setEnabled(in bool enabled)
 	{
-		_GODOT_set_enabled.bind("NavigationMeshInstance", "set_enabled");
-		ptrcall!(void)(_GODOT_set_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_enabled") = _GODOT_is_enabled;
 	/**
 	
 	*/
 	bool isEnabled() const
 	{
-		_GODOT_is_enabled.bind("NavigationMeshInstance", "is_enabled");
-		return ptrcall!(bool)(_GODOT_is_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
 	}
 	/**
 	

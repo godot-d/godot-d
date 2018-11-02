@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
+import godot.mesh;
+import godot.resource;
+import godot.reference;
 /**
 Class representing a square mesh.
 
@@ -28,12 +31,19 @@ Class representing a square mesh with size (2,2,0). Consider using a $(D PlaneMe
 */
 @GodotBaseClass struct QuadMesh
 {
-	static immutable string _GODOT_internal_name = "QuadMesh";
+	enum string _GODOT_internal_name = "QuadMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+	}
 	bool opEquals(in QuadMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	QuadMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,25 +56,21 @@ public:
 		return cast(QuadMesh)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**
 	
 	*/
 	void setSize(in Vector2 size)
 	{
-		_GODOT_set_size.bind("QuadMesh", "set_size");
-		ptrcall!(void)(_GODOT_set_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	
 	*/
 	Vector2 getSize() const
 	{
-		_GODOT_get_size.bind("QuadMesh", "get_size");
-		return ptrcall!(Vector2)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
 	/**
 	

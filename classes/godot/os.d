@@ -27,20 +27,133 @@ OS Wraps the most common functionality to communicate with the host Operating Sy
 */
 @GodotBaseClass struct OSSingleton
 {
-	static immutable string _GODOT_internal_name = "_OS";
+	enum string _GODOT_internal_name = "_OS";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "OS";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "OS";
+		@GodotName("set_clipboard") GodotMethod!(void, String) setClipboard;
+		@GodotName("get_clipboard") GodotMethod!(String) getClipboard;
+		@GodotName("get_video_driver_count") GodotMethod!(long) getVideoDriverCount;
+		@GodotName("get_video_driver_name") GodotMethod!(String, long) getVideoDriverName;
+		@GodotName("get_audio_driver_count") GodotMethod!(long) getAudioDriverCount;
+		@GodotName("get_audio_driver_name") GodotMethod!(String, long) getAudioDriverName;
+		@GodotName("get_connected_midi_inputs") GodotMethod!(PoolStringArray) getConnectedMidiInputs;
+		@GodotName("open_midi_inputs") GodotMethod!(void) openMidiInputs;
+		@GodotName("close_midi_inputs") GodotMethod!(void) closeMidiInputs;
+		@GodotName("get_screen_count") GodotMethod!(long) getScreenCount;
+		@GodotName("get_current_screen") GodotMethod!(long) getCurrentScreen;
+		@GodotName("set_current_screen") GodotMethod!(void, long) setCurrentScreen;
+		@GodotName("get_screen_position") GodotMethod!(Vector2, long) getScreenPosition;
+		@GodotName("get_screen_size") GodotMethod!(Vector2, long) getScreenSize;
+		@GodotName("get_screen_dpi") GodotMethod!(long, long) getScreenDpi;
+		@GodotName("get_window_position") GodotMethod!(Vector2) getWindowPosition;
+		@GodotName("set_window_position") GodotMethod!(void, Vector2) setWindowPosition;
+		@GodotName("get_window_size") GodotMethod!(Vector2) getWindowSize;
+		@GodotName("set_window_size") GodotMethod!(void, Vector2) setWindowSize;
+		@GodotName("get_window_safe_area") GodotMethod!(Rect2) getWindowSafeArea;
+		@GodotName("set_window_fullscreen") GodotMethod!(void, bool) setWindowFullscreen;
+		@GodotName("is_window_fullscreen") GodotMethod!(bool) isWindowFullscreen;
+		@GodotName("set_window_resizable") GodotMethod!(void, bool) setWindowResizable;
+		@GodotName("is_window_resizable") GodotMethod!(bool) isWindowResizable;
+		@GodotName("set_window_minimized") GodotMethod!(void, bool) setWindowMinimized;
+		@GodotName("is_window_minimized") GodotMethod!(bool) isWindowMinimized;
+		@GodotName("set_window_maximized") GodotMethod!(void, bool) setWindowMaximized;
+		@GodotName("is_window_maximized") GodotMethod!(bool) isWindowMaximized;
+		@GodotName("set_window_always_on_top") GodotMethod!(void, bool) setWindowAlwaysOnTop;
+		@GodotName("is_window_always_on_top") GodotMethod!(bool) isWindowAlwaysOnTop;
+		@GodotName("request_attention") GodotMethod!(void) requestAttention;
+		@GodotName("get_real_window_size") GodotMethod!(Vector2) getRealWindowSize;
+		@GodotName("center_window") GodotMethod!(void) centerWindow;
+		@GodotName("set_borderless_window") GodotMethod!(void, bool) setBorderlessWindow;
+		@GodotName("get_borderless_window") GodotMethod!(bool) getBorderlessWindow;
+		@GodotName("get_window_per_pixel_transparency_enabled") GodotMethod!(bool) getWindowPerPixelTransparencyEnabled;
+		@GodotName("set_window_per_pixel_transparency_enabled") GodotMethod!(void, bool) setWindowPerPixelTransparencyEnabled;
+		@GodotName("set_ime_position") GodotMethod!(void, Vector2) setImePosition;
+		@GodotName("set_screen_orientation") GodotMethod!(void, long) setScreenOrientation;
+		@GodotName("get_screen_orientation") GodotMethod!(OS.ScreenOrientation) getScreenOrientation;
+		@GodotName("set_keep_screen_on") GodotMethod!(void, bool) setKeepScreenOn;
+		@GodotName("is_keep_screen_on") GodotMethod!(bool) isKeepScreenOn;
+		@GodotName("has_touchscreen_ui_hint") GodotMethod!(bool) hasTouchscreenUiHint;
+		@GodotName("set_window_title") GodotMethod!(void, String) setWindowTitle;
+		@GodotName("set_low_processor_usage_mode") GodotMethod!(void, bool) setLowProcessorUsageMode;
+		@GodotName("is_in_low_processor_usage_mode") GodotMethod!(bool) isInLowProcessorUsageMode;
+		@GodotName("get_processor_count") GodotMethod!(long) getProcessorCount;
+		@GodotName("get_executable_path") GodotMethod!(String) getExecutablePath;
+		@GodotName("execute") GodotMethod!(long, String, PoolStringArray, bool, Array) execute;
+		@GodotName("kill") GodotMethod!(GodotError, long) kill;
+		@GodotName("shell_open") GodotMethod!(GodotError, String) shellOpen;
+		@GodotName("get_process_id") GodotMethod!(long) getProcessId;
+		@GodotName("get_environment") GodotMethod!(String, String) getEnvironment;
+		@GodotName("has_environment") GodotMethod!(bool, String) hasEnvironment;
+		@GodotName("get_name") GodotMethod!(String) getName;
+		@GodotName("get_cmdline_args") GodotMethod!(PoolStringArray) getCmdlineArgs;
+		@GodotName("get_datetime") GodotMethod!(Dictionary, bool) getDatetime;
+		@GodotName("get_date") GodotMethod!(Dictionary, bool) getDate;
+		@GodotName("get_time") GodotMethod!(Dictionary, bool) getTime;
+		@GodotName("get_time_zone_info") GodotMethod!(Dictionary) getTimeZoneInfo;
+		@GodotName("get_unix_time") GodotMethod!(long) getUnixTime;
+		@GodotName("get_datetime_from_unix_time") GodotMethod!(Dictionary, long) getDatetimeFromUnixTime;
+		@GodotName("get_unix_time_from_datetime") GodotMethod!(long, Dictionary) getUnixTimeFromDatetime;
+		@GodotName("get_system_time_secs") GodotMethod!(long) getSystemTimeSecs;
+		@GodotName("set_icon") GodotMethod!(void, Image) setIcon;
+		@GodotName("get_exit_code") GodotMethod!(long) getExitCode;
+		@GodotName("set_exit_code") GodotMethod!(void, long) setExitCode;
+		@GodotName("delay_usec") GodotMethod!(void, long) delayUsec;
+		@GodotName("delay_msec") GodotMethod!(void, long) delayMsec;
+		@GodotName("get_ticks_msec") GodotMethod!(long) getTicksMsec;
+		@GodotName("get_ticks_usec") GodotMethod!(long) getTicksUsec;
+		@GodotName("get_splash_tick_msec") GodotMethod!(long) getSplashTickMsec;
+		@GodotName("get_locale") GodotMethod!(String) getLocale;
+		@GodotName("get_latin_keyboard_variant") GodotMethod!(String) getLatinKeyboardVariant;
+		@GodotName("get_model_name") GodotMethod!(String) getModelName;
+		@GodotName("can_draw") GodotMethod!(bool) canDraw;
+		@GodotName("is_userfs_persistent") GodotMethod!(bool) isUserfsPersistent;
+		@GodotName("is_stdout_verbose") GodotMethod!(bool) isStdoutVerbose;
+		@GodotName("can_use_threads") GodotMethod!(bool) canUseThreads;
+		@GodotName("is_debug_build") GodotMethod!(bool) isDebugBuild;
+		@GodotName("dump_memory_to_file") GodotMethod!(void, String) dumpMemoryToFile;
+		@GodotName("dump_resources_to_file") GodotMethod!(void, String) dumpResourcesToFile;
+		@GodotName("has_virtual_keyboard") GodotMethod!(bool) hasVirtualKeyboard;
+		@GodotName("show_virtual_keyboard") GodotMethod!(void, String) showVirtualKeyboard;
+		@GodotName("hide_virtual_keyboard") GodotMethod!(void) hideVirtualKeyboard;
+		@GodotName("get_virtual_keyboard_height") GodotMethod!(long) getVirtualKeyboardHeight;
+		@GodotName("print_resources_in_use") GodotMethod!(void, bool) printResourcesInUse;
+		@GodotName("print_all_resources") GodotMethod!(void, String) printAllResources;
+		@GodotName("get_static_memory_usage") GodotMethod!(long) getStaticMemoryUsage;
+		@GodotName("get_static_memory_peak_usage") GodotMethod!(long) getStaticMemoryPeakUsage;
+		@GodotName("get_dynamic_memory_usage") GodotMethod!(long) getDynamicMemoryUsage;
+		@GodotName("get_user_data_dir") GodotMethod!(String) getUserDataDir;
+		@GodotName("get_system_dir") GodotMethod!(String, long) getSystemDir;
+		@GodotName("get_unique_id") GodotMethod!(String) getUniqueId;
+		@GodotName("is_ok_left_and_cancel_right") GodotMethod!(bool) isOkLeftAndCancelRight;
+		@GodotName("print_all_textures_by_size") GodotMethod!(void) printAllTexturesBySize;
+		@GodotName("print_resources_by_type") GodotMethod!(void, PoolStringArray) printResourcesByType;
+		@GodotName("native_video_play") GodotMethod!(GodotError, String, double, String, String) nativeVideoPlay;
+		@GodotName("native_video_is_playing") GodotMethod!(bool) nativeVideoIsPlaying;
+		@GodotName("native_video_stop") GodotMethod!(void) nativeVideoStop;
+		@GodotName("native_video_pause") GodotMethod!(void) nativeVideoPause;
+		@GodotName("native_video_unpause") GodotMethod!(void) nativeVideoUnpause;
+		@GodotName("get_scancode_string") GodotMethod!(String, long) getScancodeString;
+		@GodotName("is_scancode_unicode") GodotMethod!(bool, long) isScancodeUnicode;
+		@GodotName("find_scancode_from_string") GodotMethod!(long, String) findScancodeFromString;
+		@GodotName("set_use_file_access_save_and_swap") GodotMethod!(void, bool) setUseFileAccessSaveAndSwap;
+		@GodotName("alert") GodotMethod!(void, String, String) alert;
+		@GodotName("set_thread_name") GodotMethod!(GodotError, String) setThreadName;
+		@GodotName("set_use_vsync") GodotMethod!(void, bool) setUseVsync;
+		@GodotName("is_vsync_enabled") GodotMethod!(bool) isVsyncEnabled;
+		@GodotName("has_feature") GodotMethod!(bool, String) hasFeature;
+		@GodotName("get_power_state") GodotMethod!(OS.PowerState) getPowerState;
+		@GodotName("get_power_seconds_left") GodotMethod!(long) getPowerSecondsLeft;
+		@GodotName("get_power_percent_left") GodotMethod!(long) getPowerPercentLeft;
+	}
 	bool opEquals(in OSSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	OSSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -233,26 +346,26 @@ public:
 	enum Constants : int
 	{
 		powerstateUnknown = 0,
-		daySunday = 0,
 		screenOrientationLandscape = 0,
 		systemDirDesktop = 0,
+		daySunday = 0,
 		screenOrientationPortrait = 1,
+		systemDirDcim = 1,
+		monthJanuary = 1,
 		dayMonday = 1,
 		powerstateOnBattery = 1,
-		monthJanuary = 1,
-		systemDirDcim = 1,
-		dayTuesday = 2,
+		powerstateNoBattery = 2,
 		monthFebruary = 2,
+		dayTuesday = 2,
 		screenOrientationReverseLandscape = 2,
 		systemDirDocuments = 2,
-		powerstateNoBattery = 2,
-		dayWednesday = 3,
 		screenOrientationReversePortrait = 3,
 		monthMarch = 3,
 		powerstateCharging = 3,
 		systemDirDownloads = 3,
-		powerstateCharged = 4,
+		dayWednesday = 3,
 		screenOrientationSensorLandscape = 4,
+		powerstateCharged = 4,
 		dayThursday = 4,
 		systemDirMovies = 4,
 		monthApril = 4,
@@ -272,78 +385,118 @@ public:
 		monthNovember = 11,
 		monthDecember = 12,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_clipboard;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_clipboard") = _GODOT_set_clipboard;
 	/**
 	
 	*/
 	void setClipboard(StringArg0)(in StringArg0 clipboard)
 	{
-		_GODOT_set_clipboard.bind("_OS", "set_clipboard");
-		ptrcall!(void)(_GODOT_set_clipboard, _godot_object, clipboard);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClipboard, _godot_object, clipboard);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_clipboard;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_clipboard") = _GODOT_get_clipboard;
 	/**
 	
 	*/
 	String getClipboard() const
 	{
-		_GODOT_get_clipboard.bind("_OS", "get_clipboard");
-		return ptrcall!(String)(_GODOT_get_clipboard, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getClipboard, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_screen_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_count") = _GODOT_get_screen_count;
+	/**
+	
+	*/
+	long getVideoDriverCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVideoDriverCount, _godot_object);
+	}
+	/**
+	
+	*/
+	String getVideoDriverName(in long driver) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getVideoDriverName, _godot_object, driver);
+	}
+	/**
+	Returns the total number of available audio drivers.
+	*/
+	long getAudioDriverCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAudioDriverCount, _godot_object);
+	}
+	/**
+	Returns the audio driver name for the given index.
+	*/
+	String getAudioDriverName(in long driver) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAudioDriverName, _godot_object, driver);
+	}
+	/**
+	
+	*/
+	PoolStringArray getConnectedMidiInputs()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getConnectedMidiInputs, _godot_object);
+	}
+	/**
+	
+	*/
+	void openMidiInputs()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.openMidiInputs, _godot_object);
+	}
+	/**
+	
+	*/
+	void closeMidiInputs()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.closeMidiInputs, _godot_object);
+	}
 	/**
 	Returns the number of displays attached to the host machine.
 	*/
 	long getScreenCount() const
 	{
-		_GODOT_get_screen_count.bind("_OS", "get_screen_count");
-		return ptrcall!(long)(_GODOT_get_screen_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getScreenCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_current_screen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_screen") = _GODOT_get_current_screen;
 	/**
 	
 	*/
 	long getCurrentScreen() const
 	{
-		_GODOT_get_current_screen.bind("_OS", "get_current_screen");
-		return ptrcall!(long)(_GODOT_get_current_screen, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCurrentScreen, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_current_screen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_screen") = _GODOT_set_current_screen;
 	/**
 	
 	*/
 	void setCurrentScreen(in long screen)
 	{
-		_GODOT_set_current_screen.bind("_OS", "set_current_screen");
-		ptrcall!(void)(_GODOT_set_current_screen, _godot_object, screen);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentScreen, _godot_object, screen);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_screen_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_position") = _GODOT_get_screen_position;
 	/**
 	Returns the position of the specified screen by index. If no screen index is provided, the current screen will be used.
 	*/
 	Vector2 getScreenPosition(in long screen = -1) const
 	{
-		_GODOT_get_screen_position.bind("_OS", "get_screen_position");
-		return ptrcall!(Vector2)(_GODOT_get_screen_position, _godot_object, screen);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScreenPosition, _godot_object, screen);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_screen_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_size") = _GODOT_get_screen_size;
 	/**
 	Returns the dimensions in pixels of the specified screen.
 	*/
 	Vector2 getScreenSize(in long screen = -1) const
 	{
-		_GODOT_get_screen_size.bind("_OS", "get_screen_size");
-		return ptrcall!(Vector2)(_GODOT_get_screen_size, _godot_object, screen);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScreenSize, _godot_object, screen);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_screen_dpi;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_dpi") = _GODOT_get_screen_dpi;
 	/**
 	Returns the dots per inch density of the specified screen.
 	On Android Devices, the actual screen densities are grouped into six generalized densities:
@@ -356,324 +509,276 @@ public:
 	*/
 	long getScreenDpi(in long screen = -1) const
 	{
-		_GODOT_get_screen_dpi.bind("_OS", "get_screen_dpi");
-		return ptrcall!(long)(_GODOT_get_screen_dpi, _godot_object, screen);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getScreenDpi, _godot_object, screen);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_window_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_window_position") = _GODOT_get_window_position;
 	/**
 	
 	*/
 	Vector2 getWindowPosition() const
 	{
-		_GODOT_get_window_position.bind("_OS", "get_window_position");
-		return ptrcall!(Vector2)(_GODOT_get_window_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getWindowPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_window_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_position") = _GODOT_set_window_position;
 	/**
 	
 	*/
 	void setWindowPosition(in Vector2 position)
 	{
-		_GODOT_set_window_position.bind("_OS", "set_window_position");
-		ptrcall!(void)(_GODOT_set_window_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_window_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_window_size") = _GODOT_get_window_size;
 	/**
 	
 	*/
 	Vector2 getWindowSize() const
 	{
-		_GODOT_get_window_size.bind("_OS", "get_window_size");
-		return ptrcall!(Vector2)(_GODOT_get_window_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getWindowSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_window_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_size") = _GODOT_set_window_size;
 	/**
 	
 	*/
 	void setWindowSize(in Vector2 size)
 	{
-		_GODOT_set_window_size.bind("_OS", "set_window_size");
-		ptrcall!(void)(_GODOT_set_window_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_window_safe_area;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_window_safe_area") = _GODOT_get_window_safe_area;
 	/**
 	
 	*/
 	Rect2 getWindowSafeArea() const
 	{
-		_GODOT_get_window_safe_area.bind("_OS", "get_window_safe_area");
-		return ptrcall!(Rect2)(_GODOT_get_window_safe_area, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getWindowSafeArea, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_fullscreen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_fullscreen") = _GODOT_set_window_fullscreen;
 	/**
 	
 	*/
 	void setWindowFullscreen(in bool enabled)
 	{
-		_GODOT_set_window_fullscreen.bind("_OS", "set_window_fullscreen");
-		ptrcall!(void)(_GODOT_set_window_fullscreen, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowFullscreen, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_window_fullscreen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_fullscreen") = _GODOT_is_window_fullscreen;
 	/**
 	
 	*/
 	bool isWindowFullscreen() const
 	{
-		_GODOT_is_window_fullscreen.bind("_OS", "is_window_fullscreen");
-		return ptrcall!(bool)(_GODOT_is_window_fullscreen, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isWindowFullscreen, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_resizable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_resizable") = _GODOT_set_window_resizable;
 	/**
 	
 	*/
 	void setWindowResizable(in bool enabled)
 	{
-		_GODOT_set_window_resizable.bind("_OS", "set_window_resizable");
-		ptrcall!(void)(_GODOT_set_window_resizable, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowResizable, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_window_resizable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_resizable") = _GODOT_is_window_resizable;
 	/**
 	
 	*/
 	bool isWindowResizable() const
 	{
-		_GODOT_is_window_resizable.bind("_OS", "is_window_resizable");
-		return ptrcall!(bool)(_GODOT_is_window_resizable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isWindowResizable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_minimized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_minimized") = _GODOT_set_window_minimized;
 	/**
 	
 	*/
 	void setWindowMinimized(in bool enabled)
 	{
-		_GODOT_set_window_minimized.bind("_OS", "set_window_minimized");
-		ptrcall!(void)(_GODOT_set_window_minimized, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowMinimized, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_window_minimized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_minimized") = _GODOT_is_window_minimized;
 	/**
 	
 	*/
 	bool isWindowMinimized() const
 	{
-		_GODOT_is_window_minimized.bind("_OS", "is_window_minimized");
-		return ptrcall!(bool)(_GODOT_is_window_minimized, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isWindowMinimized, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_maximized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_maximized") = _GODOT_set_window_maximized;
 	/**
 	
 	*/
 	void setWindowMaximized(in bool enabled)
 	{
-		_GODOT_set_window_maximized.bind("_OS", "set_window_maximized");
-		ptrcall!(void)(_GODOT_set_window_maximized, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowMaximized, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_window_maximized;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_maximized") = _GODOT_is_window_maximized;
 	/**
 	
 	*/
 	bool isWindowMaximized() const
 	{
-		_GODOT_is_window_maximized.bind("_OS", "is_window_maximized");
-		return ptrcall!(bool)(_GODOT_is_window_maximized, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isWindowMaximized, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_window_always_on_top;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_always_on_top") = _GODOT_set_window_always_on_top;
 	/**
 	Sets whether the window should always be on top.
 	*/
 	void setWindowAlwaysOnTop(in bool enabled)
 	{
-		_GODOT_set_window_always_on_top.bind("_OS", "set_window_always_on_top");
-		ptrcall!(void)(_GODOT_set_window_always_on_top, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowAlwaysOnTop, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_window_always_on_top;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_window_always_on_top") = _GODOT_is_window_always_on_top;
 	/**
 	Returns `true` if the window should always be on top of other windows.
 	*/
 	bool isWindowAlwaysOnTop() const
 	{
-		_GODOT_is_window_always_on_top.bind("_OS", "is_window_always_on_top");
-		return ptrcall!(bool)(_GODOT_is_window_always_on_top, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isWindowAlwaysOnTop, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_request_attention;
-	package(godot) alias _GODOT_methodBindInfo(string name : "request_attention") = _GODOT_request_attention;
 	/**
 	Request the user attention to the window. It'll flash the taskbar button on Windows or bounce the dock icon on OSX.
 	*/
 	void requestAttention()
 	{
-		_GODOT_request_attention.bind("_OS", "request_attention");
-		ptrcall!(void)(_GODOT_request_attention, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.requestAttention, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_real_window_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_real_window_size") = _GODOT_get_real_window_size;
 	/**
 	Returns the window size including decorations like window borders.
 	*/
 	Vector2 getRealWindowSize() const
 	{
-		_GODOT_get_real_window_size.bind("_OS", "get_real_window_size");
-		return ptrcall!(Vector2)(_GODOT_get_real_window_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getRealWindowSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_center_window;
-	package(godot) alias _GODOT_methodBindInfo(string name : "center_window") = _GODOT_center_window;
 	/**
 	Centers the window on the screen if in windowed mode.
 	*/
 	void centerWindow()
 	{
-		_GODOT_center_window.bind("_OS", "center_window");
-		ptrcall!(void)(_GODOT_center_window, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.centerWindow, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_borderless_window;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_borderless_window") = _GODOT_set_borderless_window;
 	/**
 	
 	*/
 	void setBorderlessWindow(in bool borderless)
 	{
-		_GODOT_set_borderless_window.bind("_OS", "set_borderless_window");
-		ptrcall!(void)(_GODOT_set_borderless_window, _godot_object, borderless);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderlessWindow, _godot_object, borderless);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_borderless_window;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_borderless_window") = _GODOT_get_borderless_window;
 	/**
 	
 	*/
 	bool getBorderlessWindow() const
 	{
-		_GODOT_get_borderless_window.bind("_OS", "get_borderless_window");
-		return ptrcall!(bool)(_GODOT_get_borderless_window, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getBorderlessWindow, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_ime_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_ime_position") = _GODOT_set_ime_position;
+	/**
+	
+	*/
+	bool getWindowPerPixelTransparencyEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getWindowPerPixelTransparencyEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	void setWindowPerPixelTransparencyEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowPerPixelTransparencyEnabled, _godot_object, enabled);
+	}
 	/**
 	
 	*/
 	void setImePosition(in Vector2 position)
 	{
-		_GODOT_set_ime_position.bind("_OS", "set_ime_position");
-		ptrcall!(void)(_GODOT_set_ime_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setImePosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_screen_orientation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_screen_orientation") = _GODOT_set_screen_orientation;
 	/**
 	
 	*/
 	void setScreenOrientation(in long orientation)
 	{
-		_GODOT_set_screen_orientation.bind("_OS", "set_screen_orientation");
-		ptrcall!(void)(_GODOT_set_screen_orientation, _godot_object, orientation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScreenOrientation, _godot_object, orientation);
 	}
-	package(godot) static GodotMethod!(OS.ScreenOrientation) _GODOT_get_screen_orientation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_screen_orientation") = _GODOT_get_screen_orientation;
 	/**
 	
 	*/
 	OS.ScreenOrientation getScreenOrientation() const
 	{
-		_GODOT_get_screen_orientation.bind("_OS", "get_screen_orientation");
-		return ptrcall!(OS.ScreenOrientation)(_GODOT_get_screen_orientation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OS.ScreenOrientation)(_classBinding.getScreenOrientation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_keep_screen_on;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_keep_screen_on") = _GODOT_set_keep_screen_on;
 	/**
 	
 	*/
 	void setKeepScreenOn(in bool enabled)
 	{
-		_GODOT_set_keep_screen_on.bind("_OS", "set_keep_screen_on");
-		ptrcall!(void)(_GODOT_set_keep_screen_on, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setKeepScreenOn, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_keep_screen_on;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_keep_screen_on") = _GODOT_is_keep_screen_on;
 	/**
 	
 	*/
 	bool isKeepScreenOn() const
 	{
-		_GODOT_is_keep_screen_on.bind("_OS", "is_keep_screen_on");
-		return ptrcall!(bool)(_GODOT_is_keep_screen_on, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isKeepScreenOn, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_touchscreen_ui_hint;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_touchscreen_ui_hint") = _GODOT_has_touchscreen_ui_hint;
 	/**
 	Returns `true` if the device has a touchscreen or emulates one.
 	*/
 	bool hasTouchscreenUiHint() const
 	{
-		_GODOT_has_touchscreen_ui_hint.bind("_OS", "has_touchscreen_ui_hint");
-		return ptrcall!(bool)(_GODOT_has_touchscreen_ui_hint, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasTouchscreenUiHint, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_window_title;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_window_title") = _GODOT_set_window_title;
 	/**
 	Sets the window title to the specified string.
 	*/
 	void setWindowTitle(StringArg0)(in StringArg0 title)
 	{
-		_GODOT_set_window_title.bind("_OS", "set_window_title");
-		ptrcall!(void)(_GODOT_set_window_title, _godot_object, title);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWindowTitle, _godot_object, title);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_low_processor_usage_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_low_processor_usage_mode") = _GODOT_set_low_processor_usage_mode;
 	/**
 	
 	*/
 	void setLowProcessorUsageMode(in bool enable)
 	{
-		_GODOT_set_low_processor_usage_mode.bind("_OS", "set_low_processor_usage_mode");
-		ptrcall!(void)(_GODOT_set_low_processor_usage_mode, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLowProcessorUsageMode, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_in_low_processor_usage_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_in_low_processor_usage_mode") = _GODOT_is_in_low_processor_usage_mode;
 	/**
 	
 	*/
 	bool isInLowProcessorUsageMode() const
 	{
-		_GODOT_is_in_low_processor_usage_mode.bind("_OS", "is_in_low_processor_usage_mode");
-		return ptrcall!(bool)(_GODOT_is_in_low_processor_usage_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInLowProcessorUsageMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_processor_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_processor_count") = _GODOT_get_processor_count;
 	/**
 	Returns the number of cores available in the host machine.
 	*/
 	long getProcessorCount() const
 	{
-		_GODOT_get_processor_count.bind("_OS", "get_processor_count");
-		return ptrcall!(long)(_GODOT_get_processor_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getProcessorCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_executable_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_executable_path") = _GODOT_get_executable_path;
 	/**
 	Returns the path to the current engine executable.
 	*/
 	String getExecutablePath() const
 	{
-		_GODOT_get_executable_path.bind("_OS", "get_executable_path");
-		return ptrcall!(String)(_GODOT_get_executable_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getExecutablePath, _godot_object);
 	}
-	package(godot) static GodotMethod!(long, String, PoolStringArray, bool, Array) _GODOT_execute;
-	package(godot) alias _GODOT_methodBindInfo(string name : "execute") = _GODOT_execute;
 	/**
 	Execute the file at the given path with the arguments passed as an array of strings. Platform path resolution will take place. The resolved file must exist and be executable.
-	The arguments are used in the given order and separated by a space, so `OS.execute('ping', $(D '-c', '3', 'godotengine.org'))` will resolve to `ping -c 3 godotengine.org` in the system's shell.
+	The arguments are used in the given order and separated by a space, so `OS.execute('ping', $(D '-w', '3', 'godotengine.org'), false)` will resolve to `ping -w 3 godotengine.org` in the system's shell.
 	This method has slightly different behaviour based on whether the `blocking` mode is enabled.
 	When `blocking` is enabled, the Godot thread will pause its execution while waiting for the process to terminate. The shell output of the process will be written to the `output` array as a single string. When the process terminates, the Godot thread will resume execution.
 	When `blocking` is disabled, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
@@ -700,22 +805,18 @@ public:
 	*/
 	long execute(StringArg0)(in StringArg0 path, in PoolStringArray arguments, in bool blocking, in Array output = Array.empty_array)
 	{
-		_GODOT_execute.bind("_OS", "execute");
-		return ptrcall!(long)(_GODOT_execute, _godot_object, path, arguments, blocking, output);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.execute, _godot_object, path, arguments, blocking, output);
 	}
-	package(godot) static GodotMethod!(GodotError, long) _GODOT_kill;
-	package(godot) alias _GODOT_methodBindInfo(string name : "kill") = _GODOT_kill;
 	/**
 	Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by $(D execute) in non-blocking mode.
 	Note that this method can also be used to kill processes that were not spawned by the game.
 	*/
 	GodotError kill(in long pid)
 	{
-		_GODOT_kill.bind("_OS", "kill");
-		return ptrcall!(GodotError)(_GODOT_kill, _godot_object, pid);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.kill, _godot_object, pid);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_shell_open;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shell_open") = _GODOT_shell_open;
 	/**
 	Requests the OS to open a resource with the most appropriate program. For example.
 		`OS.shell_open("C:\\Users\name\Downloads")` on Windows opens the file explorer at the downloads folders of the user.
@@ -723,122 +824,98 @@ public:
 	*/
 	GodotError shellOpen(StringArg0)(in StringArg0 uri)
 	{
-		_GODOT_shell_open.bind("_OS", "shell_open");
-		return ptrcall!(GodotError)(_GODOT_shell_open, _godot_object, uri);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.shellOpen, _godot_object, uri);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_process_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_process_id") = _GODOT_get_process_id;
 	/**
 	Returns the game process ID
 	*/
 	long getProcessId() const
 	{
-		_GODOT_get_process_id.bind("_OS", "get_process_id");
-		return ptrcall!(long)(_GODOT_get_process_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getProcessId, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_get_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_environment") = _GODOT_get_environment;
 	/**
 	Returns an environment variable.
 	*/
 	String getEnvironment(StringArg0)(in StringArg0 environment) const
 	{
-		_GODOT_get_environment.bind("_OS", "get_environment");
-		return ptrcall!(String)(_GODOT_get_environment, _godot_object, environment);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getEnvironment, _godot_object, environment);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_environment") = _GODOT_has_environment;
 	/**
 	Returns `true` if an environment variable exists.
 	*/
 	bool hasEnvironment(StringArg0)(in StringArg0 environment) const
 	{
-		_GODOT_has_environment.bind("_OS", "has_environment");
-		return ptrcall!(bool)(_GODOT_has_environment, _godot_object, environment);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasEnvironment, _godot_object, environment);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_name") = _GODOT_get_name;
 	/**
 	Returns the name of the host OS. Possible values are: "Android", "Haiku", "iOS", "HTML5", "OSX", "Server", "Windows", "UWP", "X11".
 	*/
 	String getName() const
 	{
-		_GODOT_get_name.bind("_OS", "get_name");
-		return ptrcall!(String)(_GODOT_get_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getName, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_cmdline_args;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cmdline_args") = _GODOT_get_cmdline_args;
 	/**
 	Returns the command line arguments passed to the engine.
 	*/
 	PoolStringArray getCmdlineArgs()
 	{
-		_GODOT_get_cmdline_args.bind("_OS", "get_cmdline_args");
-		return ptrcall!(PoolStringArray)(_GODOT_get_cmdline_args, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getCmdlineArgs, _godot_object);
 	}
-	package(godot) static GodotMethod!(Dictionary, bool) _GODOT_get_datetime;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_datetime") = _GODOT_get_datetime;
 	/**
 	Returns current datetime as a dictionary of keys: year, month, day, weekday, dst (daylight savings time), hour, minute, second.
 	*/
 	Dictionary getDatetime(in bool utc = false) const
 	{
-		_GODOT_get_datetime.bind("_OS", "get_datetime");
-		return ptrcall!(Dictionary)(_GODOT_get_datetime, _godot_object, utc);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getDatetime, _godot_object, utc);
 	}
-	package(godot) static GodotMethod!(Dictionary, bool) _GODOT_get_date;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_date") = _GODOT_get_date;
 	/**
 	Returns current date as a dictionary of keys: year, month, day, weekday, dst (daylight savings time).
 	*/
 	Dictionary getDate(in bool utc = false) const
 	{
-		_GODOT_get_date.bind("_OS", "get_date");
-		return ptrcall!(Dictionary)(_GODOT_get_date, _godot_object, utc);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getDate, _godot_object, utc);
 	}
-	package(godot) static GodotMethod!(Dictionary, bool) _GODOT_get_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_time") = _GODOT_get_time;
 	/**
 	Returns current time as a dictionary of keys: hour, minute, second.
 	*/
 	Dictionary getTime(in bool utc = false) const
 	{
-		_GODOT_get_time.bind("_OS", "get_time");
-		return ptrcall!(Dictionary)(_GODOT_get_time, _godot_object, utc);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getTime, _godot_object, utc);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT_get_time_zone_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_time_zone_info") = _GODOT_get_time_zone_info;
 	/**
 	Returns the current time zone as a dictionary with the keys: bias and name.
 	*/
 	Dictionary getTimeZoneInfo() const
 	{
-		_GODOT_get_time_zone_info.bind("_OS", "get_time_zone_info");
-		return ptrcall!(Dictionary)(_GODOT_get_time_zone_info, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getTimeZoneInfo, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_unix_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_unix_time") = _GODOT_get_unix_time;
 	/**
 	Returns the current unix epoch timestamp.
 	*/
 	long getUnixTime() const
 	{
-		_GODOT_get_unix_time.bind("_OS", "get_unix_time");
-		return ptrcall!(long)(_GODOT_get_unix_time, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUnixTime, _godot_object);
 	}
-	package(godot) static GodotMethod!(Dictionary, long) _GODOT_get_datetime_from_unix_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_datetime_from_unix_time") = _GODOT_get_datetime_from_unix_time;
 	/**
 	Get a dictionary of time values when given epoch time.
 	Dictionary Time values will be a union of values from $(D getTime) and $(D getDate) dictionaries (with the exception of dst = day light standard time, as it cannot be determined from epoch).
 	*/
 	Dictionary getDatetimeFromUnixTime(in long unix_time_val) const
 	{
-		_GODOT_get_datetime_from_unix_time.bind("_OS", "get_datetime_from_unix_time");
-		return ptrcall!(Dictionary)(_GODOT_get_datetime_from_unix_time, _godot_object, unix_time_val);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getDatetimeFromUnixTime, _godot_object, unix_time_val);
 	}
-	package(godot) static GodotMethod!(long, Dictionary) _GODOT_get_unix_time_from_datetime;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_unix_time_from_datetime") = _GODOT_get_unix_time_from_datetime;
 	/**
 	Get an epoch time value from a dictionary of time values.
 	`datetime` must be populated with the following keys: year, month, day, hour, minute, second.
@@ -846,162 +923,138 @@ public:
 	*/
 	long getUnixTimeFromDatetime(in Dictionary datetime) const
 	{
-		_GODOT_get_unix_time_from_datetime.bind("_OS", "get_unix_time_from_datetime");
-		return ptrcall!(long)(_GODOT_get_unix_time_from_datetime, _godot_object, datetime);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUnixTimeFromDatetime, _godot_object, datetime);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_system_time_secs;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_system_time_secs") = _GODOT_get_system_time_secs;
 	/**
 	Returns the epoch time of the operating system in seconds.
 	*/
 	long getSystemTimeSecs() const
 	{
-		_GODOT_get_system_time_secs.bind("_OS", "get_system_time_secs");
-		return ptrcall!(long)(_GODOT_get_system_time_secs, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSystemTimeSecs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Image) _GODOT_set_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_icon") = _GODOT_set_icon;
 	/**
 	Sets the game's icon.
 	*/
 	void setIcon(Image icon)
 	{
-		_GODOT_set_icon.bind("_OS", "set_icon");
-		ptrcall!(void)(_GODOT_set_icon, _godot_object, icon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIcon, _godot_object, icon);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_exit_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_exit_code") = _GODOT_get_exit_code;
 	/**
 	
 	*/
 	long getExitCode() const
 	{
-		_GODOT_get_exit_code.bind("_OS", "get_exit_code");
-		return ptrcall!(long)(_GODOT_get_exit_code, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getExitCode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_exit_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_exit_code") = _GODOT_set_exit_code;
 	/**
 	
 	*/
 	void setExitCode(in long code)
 	{
-		_GODOT_set_exit_code.bind("_OS", "set_exit_code");
-		ptrcall!(void)(_GODOT_set_exit_code, _godot_object, code);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExitCode, _godot_object, code);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_delay_usec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "delay_usec") = _GODOT_delay_usec;
 	/**
 	Delay execution of the current thread by given microseconds.
 	*/
 	void delayUsec(in long usec) const
 	{
-		_GODOT_delay_usec.bind("_OS", "delay_usec");
-		ptrcall!(void)(_GODOT_delay_usec, _godot_object, usec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.delayUsec, _godot_object, usec);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_delay_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "delay_msec") = _GODOT_delay_msec;
 	/**
 	Delay execution of the current thread by given milliseconds.
 	*/
 	void delayMsec(in long msec) const
 	{
-		_GODOT_delay_msec.bind("_OS", "delay_msec");
-		ptrcall!(void)(_GODOT_delay_msec, _godot_object, msec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.delayMsec, _godot_object, msec);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_ticks_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_ticks_msec") = _GODOT_get_ticks_msec;
 	/**
 	Returns the amount of time passed in milliseconds since the engine started.
 	*/
 	long getTicksMsec() const
 	{
-		_GODOT_get_ticks_msec.bind("_OS", "get_ticks_msec");
-		return ptrcall!(long)(_GODOT_get_ticks_msec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTicksMsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_splash_tick_msec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_splash_tick_msec") = _GODOT_get_splash_tick_msec;
+	/**
+	Returns the amount of time passed in microseconds since the engine started.
+	*/
+	long getTicksUsec() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTicksUsec, _godot_object);
+	}
 	/**
 	
 	*/
 	long getSplashTickMsec() const
 	{
-		_GODOT_get_splash_tick_msec.bind("_OS", "get_splash_tick_msec");
-		return ptrcall!(long)(_GODOT_get_splash_tick_msec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSplashTickMsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_locale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_locale") = _GODOT_get_locale;
 	/**
 	Returns the host OS locale.
 	*/
 	String getLocale() const
 	{
-		_GODOT_get_locale.bind("_OS", "get_locale");
-		return ptrcall!(String)(_GODOT_get_locale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_latin_keyboard_variant;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_latin_keyboard_variant") = _GODOT_get_latin_keyboard_variant;
 	/**
 	Returns the current latin keyboard variant as a String.
 	Possible return values are: "QWERTY", "AZERTY", "QZERTY", "DVORAK", "NEO", "COLEMAK" or "ERROR".
 	*/
 	String getLatinKeyboardVariant() const
 	{
-		_GODOT_get_latin_keyboard_variant.bind("_OS", "get_latin_keyboard_variant");
-		return ptrcall!(String)(_GODOT_get_latin_keyboard_variant, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLatinKeyboardVariant, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_model_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_model_name") = _GODOT_get_model_name;
 	/**
 	Returns the model name of the current device.
 	*/
 	String getModelName() const
 	{
-		_GODOT_get_model_name.bind("_OS", "get_model_name");
-		return ptrcall!(String)(_GODOT_get_model_name, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getModelName, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_can_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "can_draw") = _GODOT_can_draw;
 	/**
 	Returns `true` if the host OS allows drawing.
 	*/
 	bool canDraw() const
 	{
-		_GODOT_can_draw.bind("_OS", "can_draw");
-		return ptrcall!(bool)(_GODOT_can_draw, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.canDraw, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_userfs_persistent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_userfs_persistent") = _GODOT_is_userfs_persistent;
 	/**
 	If `true`, the `user://` file system is persistent, so that its state is the same after a player quits and starts the game again. Relevant to the HTML5 platform, where this persistence may be unavailable.
 	*/
 	bool isUserfsPersistent() const
 	{
-		_GODOT_is_userfs_persistent.bind("_OS", "is_userfs_persistent");
-		return ptrcall!(bool)(_GODOT_is_userfs_persistent, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUserfsPersistent, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_stdout_verbose;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_stdout_verbose") = _GODOT_is_stdout_verbose;
 	/**
 	Returns `true` if the engine was executed with -v (verbose stdout).
 	*/
 	bool isStdoutVerbose() const
 	{
-		_GODOT_is_stdout_verbose.bind("_OS", "is_stdout_verbose");
-		return ptrcall!(bool)(_GODOT_is_stdout_verbose, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isStdoutVerbose, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_can_use_threads;
-	package(godot) alias _GODOT_methodBindInfo(string name : "can_use_threads") = _GODOT_can_use_threads;
 	/**
 	Returns `true` if the current host platform is using multiple threads.
 	*/
 	bool canUseThreads() const
 	{
-		_GODOT_can_use_threads.bind("_OS", "can_use_threads");
-		return ptrcall!(bool)(_GODOT_can_use_threads, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.canUseThreads, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_debug_build;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_debug_build") = _GODOT_is_debug_build;
 	/**
 	Returns `true` if the build is a debug build.
 	Returns `true` when running in the editor.
@@ -1009,22 +1062,18 @@ public:
 	*/
 	bool isDebugBuild() const
 	{
-		_GODOT_is_debug_build.bind("_OS", "is_debug_build");
-		return ptrcall!(bool)(_GODOT_is_debug_build, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDebugBuild, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_dump_memory_to_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "dump_memory_to_file") = _GODOT_dump_memory_to_file;
 	/**
 	Dumps the memory allocation ringlist to a file (only works in debug).
 	Entry format per line: "Address - Size - Description".
 	*/
 	void dumpMemoryToFile(StringArg0)(in StringArg0 file)
 	{
-		_GODOT_dump_memory_to_file.bind("_OS", "dump_memory_to_file");
-		ptrcall!(void)(_GODOT_dump_memory_to_file, _godot_object, file);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.dumpMemoryToFile, _godot_object, file);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_dump_resources_to_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "dump_resources_to_file") = _GODOT_dump_resources_to_file;
 	/**
 	Dumps all used resources to file (only works in debug).
 	Entry format per line: "Resource Type : Resource Location".
@@ -1032,101 +1081,81 @@ public:
 	*/
 	void dumpResourcesToFile(StringArg0)(in StringArg0 file)
 	{
-		_GODOT_dump_resources_to_file.bind("_OS", "dump_resources_to_file");
-		ptrcall!(void)(_GODOT_dump_resources_to_file, _godot_object, file);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.dumpResourcesToFile, _godot_object, file);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_virtual_keyboard;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_virtual_keyboard") = _GODOT_has_virtual_keyboard;
 	/**
 	Returns `true` if the platform has a virtual keyboard, `false` otherwise.
 	*/
 	bool hasVirtualKeyboard() const
 	{
-		_GODOT_has_virtual_keyboard.bind("_OS", "has_virtual_keyboard");
-		return ptrcall!(bool)(_GODOT_has_virtual_keyboard, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasVirtualKeyboard, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_show_virtual_keyboard;
-	package(godot) alias _GODOT_methodBindInfo(string name : "show_virtual_keyboard") = _GODOT_show_virtual_keyboard;
 	/**
 	Shows the virtual keyboard if the platform has one. The $(I existing_text) parameter is useful for implementing your own LineEdit, as it tells the virtual keyboard what text has already been typed (the virtual keyboard uses it for auto-correct and predictions).
 	*/
 	void showVirtualKeyboard(StringArg0)(in StringArg0 existing_text = "")
 	{
-		_GODOT_show_virtual_keyboard.bind("_OS", "show_virtual_keyboard");
-		ptrcall!(void)(_GODOT_show_virtual_keyboard, _godot_object, existing_text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.showVirtualKeyboard, _godot_object, existing_text);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_hide_virtual_keyboard;
-	package(godot) alias _GODOT_methodBindInfo(string name : "hide_virtual_keyboard") = _GODOT_hide_virtual_keyboard;
 	/**
 	Hides the virtual keyboard if it is shown, does nothing otherwise.
 	*/
 	void hideVirtualKeyboard()
 	{
-		_GODOT_hide_virtual_keyboard.bind("_OS", "hide_virtual_keyboard");
-		ptrcall!(void)(_GODOT_hide_virtual_keyboard, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.hideVirtualKeyboard, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_virtual_keyboard_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_virtual_keyboard_height") = _GODOT_get_virtual_keyboard_height;
 	/**
 	Returns the on-screen keyboard's height in pixels. Returns 0 if there is no keyboard or it is currently hidden.
 	*/
 	long getVirtualKeyboardHeight()
 	{
-		_GODOT_get_virtual_keyboard_height.bind("_OS", "get_virtual_keyboard_height");
-		return ptrcall!(long)(_GODOT_get_virtual_keyboard_height, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVirtualKeyboardHeight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_print_resources_in_use;
-	package(godot) alias _GODOT_methodBindInfo(string name : "print_resources_in_use") = _GODOT_print_resources_in_use;
 	/**
 	Shows all resources currently used by the game.
 	*/
 	void printResourcesInUse(in bool _short = false)
 	{
-		_GODOT_print_resources_in_use.bind("_OS", "print_resources_in_use");
-		ptrcall!(void)(_GODOT_print_resources_in_use, _godot_object, _short);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.printResourcesInUse, _godot_object, _short);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_print_all_resources;
-	package(godot) alias _GODOT_methodBindInfo(string name : "print_all_resources") = _GODOT_print_all_resources;
 	/**
 	Shows all resources in the game. Optionally the list can be written to a file.
 	*/
 	void printAllResources(StringArg0)(in StringArg0 tofile = "")
 	{
-		_GODOT_print_all_resources.bind("_OS", "print_all_resources");
-		ptrcall!(void)(_GODOT_print_all_resources, _godot_object, tofile);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.printAllResources, _godot_object, tofile);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_static_memory_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_static_memory_usage") = _GODOT_get_static_memory_usage;
 	/**
 	Returns the amount of static memory being used by the program in bytes.
 	*/
 	long getStaticMemoryUsage() const
 	{
-		_GODOT_get_static_memory_usage.bind("_OS", "get_static_memory_usage");
-		return ptrcall!(long)(_GODOT_get_static_memory_usage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStaticMemoryUsage, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_static_memory_peak_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_static_memory_peak_usage") = _GODOT_get_static_memory_peak_usage;
 	/**
 	Returns the max amount of static memory used (only works in debug).
 	*/
 	long getStaticMemoryPeakUsage() const
 	{
-		_GODOT_get_static_memory_peak_usage.bind("_OS", "get_static_memory_peak_usage");
-		return ptrcall!(long)(_GODOT_get_static_memory_peak_usage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStaticMemoryPeakUsage, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_dynamic_memory_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_dynamic_memory_usage") = _GODOT_get_dynamic_memory_usage;
 	/**
 	Returns the total amount of dynamic memory used (only works in debug).
 	*/
 	long getDynamicMemoryUsage() const
 	{
-		_GODOT_get_dynamic_memory_usage.bind("_OS", "get_dynamic_memory_usage");
-		return ptrcall!(long)(_GODOT_get_dynamic_memory_usage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getDynamicMemoryUsage, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_user_data_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_user_data_dir") = _GODOT_get_user_data_dir;
 	/**
 	Returns the absolute directory path where user data is written (`user://`).
 	On Linux, this is `~/.local/share/godot/app_userdata/$(D project_name)`, or `~/.local/share/$(D custom_name)` if `use_custom_user_dir` is set.
@@ -1136,229 +1165,186 @@ public:
 	*/
 	String getUserDataDir() const
 	{
-		_GODOT_get_user_data_dir.bind("_OS", "get_user_data_dir");
-		return ptrcall!(String)(_GODOT_get_user_data_dir, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getUserDataDir, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_system_dir;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_system_dir") = _GODOT_get_system_dir;
 	/**
 	Returns the actual path to commonly used folders across different platforms. Available locations are specified in $(D OS.SystemDir).
 	*/
 	String getSystemDir(in long dir) const
 	{
-		_GODOT_get_system_dir.bind("_OS", "get_system_dir");
-		return ptrcall!(String)(_GODOT_get_system_dir, _godot_object, dir);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSystemDir, _godot_object, dir);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_unique_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_unique_id") = _GODOT_get_unique_id;
 	/**
 	Returns a string that is unique to the device.
 	Returns empty string on HTML5 and UWP which are not supported yet.
 	*/
 	String getUniqueId() const
 	{
-		_GODOT_get_unique_id.bind("_OS", "get_unique_id");
-		return ptrcall!(String)(_GODOT_get_unique_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getUniqueId, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_ok_left_and_cancel_right;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_ok_left_and_cancel_right") = _GODOT_is_ok_left_and_cancel_right;
 	/**
 	Returns `true` if the "Okay" button should appear on the left and "Cancel" on the right.
 	*/
 	bool isOkLeftAndCancelRight() const
 	{
-		_GODOT_is_ok_left_and_cancel_right.bind("_OS", "is_ok_left_and_cancel_right");
-		return ptrcall!(bool)(_GODOT_is_ok_left_and_cancel_right, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOkLeftAndCancelRight, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_print_all_textures_by_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "print_all_textures_by_size") = _GODOT_print_all_textures_by_size;
 	/**
 	Shows the list of loaded textures sorted by size in memory.
 	*/
 	void printAllTexturesBySize()
 	{
-		_GODOT_print_all_textures_by_size.bind("_OS", "print_all_textures_by_size");
-		ptrcall!(void)(_GODOT_print_all_textures_by_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.printAllTexturesBySize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolStringArray) _GODOT_print_resources_by_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "print_resources_by_type") = _GODOT_print_resources_by_type;
 	/**
 	Shows the number of resources loaded by the game of the given types.
 	*/
 	void printResourcesByType(in PoolStringArray types)
 	{
-		_GODOT_print_resources_by_type.bind("_OS", "print_resources_by_type");
-		ptrcall!(void)(_GODOT_print_resources_by_type, _godot_object, types);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.printResourcesByType, _godot_object, types);
 	}
-	package(godot) static GodotMethod!(GodotError, String, double, String, String) _GODOT_native_video_play;
-	package(godot) alias _GODOT_methodBindInfo(string name : "native_video_play") = _GODOT_native_video_play;
 	/**
 	Plays native video from the specified path, at the given volume and with audio and subtitle tracks.
+	Note: This method is only implemented on Android and iOS, and the current Android implementation does not support the `volume`, `audio_track` and `subtitle_track` options.
 	*/
 	GodotError nativeVideoPlay(StringArg0, StringArg2, StringArg3)(in StringArg0 path, in double volume, in StringArg2 audio_track, in StringArg3 subtitle_track)
 	{
-		_GODOT_native_video_play.bind("_OS", "native_video_play");
-		return ptrcall!(GodotError)(_GODOT_native_video_play, _godot_object, path, volume, audio_track, subtitle_track);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.nativeVideoPlay, _godot_object, path, volume, audio_track, subtitle_track);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_native_video_is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "native_video_is_playing") = _GODOT_native_video_is_playing;
 	/**
 	Returns `true` if native video is playing.
 	*/
 	bool nativeVideoIsPlaying()
 	{
-		_GODOT_native_video_is_playing.bind("_OS", "native_video_is_playing");
-		return ptrcall!(bool)(_GODOT_native_video_is_playing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.nativeVideoIsPlaying, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_native_video_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "native_video_stop") = _GODOT_native_video_stop;
 	/**
 	Stops native video playback.
 	*/
 	void nativeVideoStop()
 	{
-		_GODOT_native_video_stop.bind("_OS", "native_video_stop");
-		ptrcall!(void)(_GODOT_native_video_stop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.nativeVideoStop, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_native_video_pause;
-	package(godot) alias _GODOT_methodBindInfo(string name : "native_video_pause") = _GODOT_native_video_pause;
 	/**
 	Pauses native video playback.
 	*/
 	void nativeVideoPause()
 	{
-		_GODOT_native_video_pause.bind("_OS", "native_video_pause");
-		ptrcall!(void)(_GODOT_native_video_pause, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.nativeVideoPause, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_native_video_unpause;
-	package(godot) alias _GODOT_methodBindInfo(string name : "native_video_unpause") = _GODOT_native_video_unpause;
 	/**
 	Resumes native video playback.
 	*/
 	void nativeVideoUnpause()
 	{
-		_GODOT_native_video_unpause.bind("_OS", "native_video_unpause");
-		ptrcall!(void)(_GODOT_native_video_unpause, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.nativeVideoUnpause, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_scancode_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scancode_string") = _GODOT_get_scancode_string;
 	/**
 	Returns the given scancode as a string (e.g. Return values: "Escape", "Shift+Escape").
 	*/
 	String getScancodeString(in long code) const
 	{
-		_GODOT_get_scancode_string.bind("_OS", "get_scancode_string");
-		return ptrcall!(String)(_GODOT_get_scancode_string, _godot_object, code);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getScancodeString, _godot_object, code);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_is_scancode_unicode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_scancode_unicode") = _GODOT_is_scancode_unicode;
 	/**
 	Returns `true` if the input code has a unicode character.
 	*/
 	bool isScancodeUnicode(in long code) const
 	{
-		_GODOT_is_scancode_unicode.bind("_OS", "is_scancode_unicode");
-		return ptrcall!(bool)(_GODOT_is_scancode_unicode, _godot_object, code);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScancodeUnicode, _godot_object, code);
 	}
-	package(godot) static GodotMethod!(long, String) _GODOT_find_scancode_from_string;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_scancode_from_string") = _GODOT_find_scancode_from_string;
 	/**
 	Returns the scancode of the given string (e.g. "Escape")
 	*/
 	long findScancodeFromString(StringArg0)(in StringArg0 string) const
 	{
-		_GODOT_find_scancode_from_string.bind("_OS", "find_scancode_from_string");
-		return ptrcall!(long)(_GODOT_find_scancode_from_string, _godot_object, string);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.findScancodeFromString, _godot_object, string);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_file_access_save_and_swap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_file_access_save_and_swap") = _GODOT_set_use_file_access_save_and_swap;
 	/**
 	Enables backup saves if `enabled` is `true`.
 	*/
 	void setUseFileAccessSaveAndSwap(in bool enabled)
 	{
-		_GODOT_set_use_file_access_save_and_swap.bind("_OS", "set_use_file_access_save_and_swap");
-		ptrcall!(void)(_GODOT_set_use_file_access_save_and_swap, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseFileAccessSaveAndSwap, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_alert;
-	package(godot) alias _GODOT_methodBindInfo(string name : "alert") = _GODOT_alert;
 	/**
 	Displays a modal dialog box utilizing the host OS.
 	*/
 	void alert(StringArg0, StringArg1)(in StringArg0 text, in StringArg1 title = "Alert!")
 	{
-		_GODOT_alert.bind("_OS", "alert");
-		ptrcall!(void)(_GODOT_alert, _godot_object, text, title);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.alert, _godot_object, text, title);
 	}
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_set_thread_name;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_thread_name") = _GODOT_set_thread_name;
 	/**
 	Sets the name of the current thread.
 	*/
 	GodotError setThreadName(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_thread_name.bind("_OS", "set_thread_name");
-		return ptrcall!(GodotError)(_GODOT_set_thread_name, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.setThreadName, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_vsync;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_vsync") = _GODOT_set_use_vsync;
 	/**
 	
 	*/
 	void setUseVsync(in bool enable)
 	{
-		_GODOT_set_use_vsync.bind("_OS", "set_use_vsync");
-		ptrcall!(void)(_GODOT_set_use_vsync, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseVsync, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_vsync_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_vsync_enabled") = _GODOT_is_vsync_enabled;
 	/**
 	
 	*/
 	bool isVsyncEnabled() const
 	{
-		_GODOT_is_vsync_enabled.bind("_OS", "is_vsync_enabled");
-		return ptrcall!(bool)(_GODOT_is_vsync_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isVsyncEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_feature;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_feature") = _GODOT_has_feature;
 	/**
 	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. See feature tags documentation.
 	*/
 	bool hasFeature(StringArg0)(in StringArg0 tag_name) const
 	{
-		_GODOT_has_feature.bind("_OS", "has_feature");
-		return ptrcall!(bool)(_GODOT_has_feature, _godot_object, tag_name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFeature, _godot_object, tag_name);
 	}
-	package(godot) static GodotMethod!(OS.PowerState) _GODOT_get_power_state;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_power_state") = _GODOT_get_power_state;
 	/**
 	Returns the current state of the device regarding battery and power. See `POWERSTATE_*` constants.
 	*/
 	OS.PowerState getPowerState()
 	{
-		_GODOT_get_power_state.bind("_OS", "get_power_state");
-		return ptrcall!(OS.PowerState)(_GODOT_get_power_state, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OS.PowerState)(_classBinding.getPowerState, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_power_seconds_left;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_power_seconds_left") = _GODOT_get_power_seconds_left;
 	/**
 	Returns the time in seconds before the device runs out of battery.
 	*/
 	long getPowerSecondsLeft()
 	{
-		_GODOT_get_power_seconds_left.bind("_OS", "get_power_seconds_left");
-		return ptrcall!(long)(_GODOT_get_power_seconds_left, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPowerSecondsLeft, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_power_percent_left;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_power_percent_left") = _GODOT_get_power_percent_left;
 	/**
 	Returns the amount of battery left in the device as a percentage.
 	*/
 	long getPowerPercentLeft()
 	{
-		_GODOT_get_power_percent_left.bind("_OS", "get_power_percent_left");
-		return ptrcall!(long)(_GODOT_get_power_percent_left, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPowerPercentLeft, _godot_object);
 	}
 	/**
 	The clipboard from the host OS. Might be unavailable on some platforms.
@@ -1457,6 +1443,18 @@ public:
 		setBorderlessWindow(v);
 	}
 	/**
+	
+	*/
+	@property bool windowPerPixelTransparencyEnabled()
+	{
+		return getWindowPerPixelTransparencyEnabled();
+	}
+	/// ditto
+	@property void windowPerPixelTransparencyEnabled(bool v)
+	{
+		setWindowPerPixelTransparencyEnabled(v);
+	}
+	/**
 	If `true` the window is fullscreen.
 	*/
 	@property bool windowFullscreen()
@@ -1533,5 +1531,6 @@ public:
 @property @nogc nothrow pragma(inline, true)
 OSSingleton OS()
 {
-	return OSSingleton._GODOT_singleton();
+	checkClassBinding!OSSingleton();
+	return OSSingleton(OSSingleton._classBinding._singleton);
 }

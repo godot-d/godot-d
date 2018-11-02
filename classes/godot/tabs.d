@@ -23,6 +23,8 @@ import godot.classdb;
 import godot.control;
 import godot.inputevent;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 Tabs Control.
 
@@ -30,12 +32,47 @@ Simple tabs control, similar to $(D TabContainer) but is only in charge of drawi
 */
 @GodotBaseClass struct Tabs
 {
-	static immutable string _GODOT_internal_name = "Tabs";
+	enum string _GODOT_internal_name = "Tabs";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_update_hover") GodotMethod!(void) _updateHover;
+		@GodotName("get_tab_count") GodotMethod!(long) getTabCount;
+		@GodotName("set_current_tab") GodotMethod!(void, long) setCurrentTab;
+		@GodotName("get_current_tab") GodotMethod!(long) getCurrentTab;
+		@GodotName("set_tab_title") GodotMethod!(void, long, String) setTabTitle;
+		@GodotName("get_tab_title") GodotMethod!(String, long) getTabTitle;
+		@GodotName("set_tab_icon") GodotMethod!(void, long, Texture) setTabIcon;
+		@GodotName("get_tab_icon") GodotMethod!(Texture, long) getTabIcon;
+		@GodotName("set_tab_disabled") GodotMethod!(void, long, bool) setTabDisabled;
+		@GodotName("get_tab_disabled") GodotMethod!(bool, long) getTabDisabled;
+		@GodotName("remove_tab") GodotMethod!(void, long) removeTab;
+		@GodotName("add_tab") GodotMethod!(void, String, Texture) addTab;
+		@GodotName("set_tab_align") GodotMethod!(void, long) setTabAlign;
+		@GodotName("get_tab_align") GodotMethod!(Tabs.TabAlign) getTabAlign;
+		@GodotName("get_tab_offset") GodotMethod!(long) getTabOffset;
+		@GodotName("get_offset_buttons_visible") GodotMethod!(bool) getOffsetButtonsVisible;
+		@GodotName("ensure_tab_visible") GodotMethod!(void, long) ensureTabVisible;
+		@GodotName("get_tab_rect") GodotMethod!(Rect2, long) getTabRect;
+		@GodotName("move_tab") GodotMethod!(void, long, long) moveTab;
+		@GodotName("set_tab_close_display_policy") GodotMethod!(void, long) setTabCloseDisplayPolicy;
+		@GodotName("get_tab_close_display_policy") GodotMethod!(Tabs.CloseButtonDisplayPolicy) getTabCloseDisplayPolicy;
+		@GodotName("set_scrolling_enabled") GodotMethod!(void, bool) setScrollingEnabled;
+		@GodotName("get_scrolling_enabled") GodotMethod!(bool) getScrollingEnabled;
+		@GodotName("set_drag_to_rearrange_enabled") GodotMethod!(void, bool) setDragToRearrangeEnabled;
+		@GodotName("get_drag_to_rearrange_enabled") GodotMethod!(bool) getDragToRearrangeEnabled;
+		@GodotName("set_tabs_rearrange_group") GodotMethod!(void, long) setTabsRearrangeGroup;
+		@GodotName("get_tabs_rearrange_group") GodotMethod!(long) getTabsRearrangeGroup;
+		@GodotName("set_select_with_rmb") GodotMethod!(void, bool) setSelectWithRmb;
+		@GodotName("get_select_with_rmb") GodotMethod!(bool) getSelectWithRmb;
+	}
 	bool opEquals(in Tabs other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Tabs opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -72,15 +109,15 @@ public:
 	enum TabAlign : int
 	{
 		/**
-		
+		Align the tabs to the left.
 		*/
 		alignLeft = 0,
 		/**
-		
+		Align the tabs to the center.
 		*/
 		alignCenter = 1,
 		/**
-		
+		Align the tabs to the right.
 		*/
 		alignRight = 2,
 		/**
@@ -91,8 +128,8 @@ public:
 	/// 
 	enum Constants : int
 	{
-		closeButtonShowNever = 0,
 		alignLeft = 0,
+		closeButtonShowNever = 0,
 		alignCenter = 1,
 		closeButtonShowActiveOnly = 1,
 		closeButtonShowAlways = 2,
@@ -100,8 +137,6 @@ public:
 		alignMax = 3,
 		closeButtonMax = 3,
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -112,228 +147,241 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_tab_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_count") = _GODOT_get_tab_count;
 	/**
 	
 	*/
+	void _updateHover()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_update_hover");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Returns the number of tabs.
+	*/
 	long getTabCount() const
 	{
-		_GODOT_get_tab_count.bind("Tabs", "get_tab_count");
-		return ptrcall!(long)(_GODOT_get_tab_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTabCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_current_tab;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_tab") = _GODOT_set_current_tab;
 	/**
 	
 	*/
 	void setCurrentTab(in long tab_idx)
 	{
-		_GODOT_set_current_tab.bind("Tabs", "set_current_tab");
-		ptrcall!(void)(_GODOT_set_current_tab, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentTab, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_current_tab;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_tab") = _GODOT_get_current_tab;
 	/**
 	
 	*/
 	long getCurrentTab() const
 	{
-		_GODOT_get_current_tab.bind("Tabs", "get_current_tab");
-		return ptrcall!(long)(_GODOT_get_current_tab, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCurrentTab, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, String) _GODOT_set_tab_title;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_title") = _GODOT_set_tab_title;
 	/**
-	
+	Sets a title for the tab at index `tab_idx`.
 	*/
 	void setTabTitle(StringArg1)(in long tab_idx, in StringArg1 title)
 	{
-		_GODOT_set_tab_title.bind("Tabs", "set_tab_title");
-		ptrcall!(void)(_GODOT_set_tab_title, _godot_object, tab_idx, title);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabTitle, _godot_object, tab_idx, title);
 	}
-	package(godot) static GodotMethod!(String, long) _GODOT_get_tab_title;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_title") = _GODOT_get_tab_title;
 	/**
-	
+	Returns the title of the tab at index `tab_idx`. Tab titles default to the name of the indexed child node, but this can be overridden with $(D setTabTitle).
 	*/
 	String getTabTitle(in long tab_idx) const
 	{
-		_GODOT_get_tab_title.bind("Tabs", "get_tab_title");
-		return ptrcall!(String)(_GODOT_get_tab_title, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getTabTitle, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(void, long, Texture) _GODOT_set_tab_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_icon") = _GODOT_set_tab_icon;
 	/**
-	
+	Sets an icon for the tab at index `tab_idx`.
 	*/
 	void setTabIcon(in long tab_idx, Texture icon)
 	{
-		_GODOT_set_tab_icon.bind("Tabs", "set_tab_icon");
-		ptrcall!(void)(_GODOT_set_tab_icon, _godot_object, tab_idx, icon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabIcon, _godot_object, tab_idx, icon);
 	}
-	package(godot) static GodotMethod!(Texture, long) _GODOT_get_tab_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_icon") = _GODOT_get_tab_icon;
 	/**
-	
+	Returns the $(D Texture) for the tab at index `tab_idx` or null if the tab has no $(D Texture).
 	*/
 	Ref!Texture getTabIcon(in long tab_idx) const
 	{
-		_GODOT_get_tab_icon.bind("Tabs", "get_tab_icon");
-		return ptrcall!(Texture)(_GODOT_get_tab_icon, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTabIcon, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_tab_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_disabled") = _GODOT_set_tab_disabled;
 	/**
-	
+	If `disabled` is false, hides the tab at index `tab_idx`. Note that its title text will remain, unless also removed with $(D setTabTitle).
 	*/
 	void setTabDisabled(in long tab_idx, in bool disabled)
 	{
-		_GODOT_set_tab_disabled.bind("Tabs", "set_tab_disabled");
-		ptrcall!(void)(_GODOT_set_tab_disabled, _godot_object, tab_idx, disabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabDisabled, _godot_object, tab_idx, disabled);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_tab_disabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_disabled") = _GODOT_get_tab_disabled;
 	/**
-	
+	Returns `true` if the tab at index `tab_idx` is disabled.
 	*/
 	bool getTabDisabled(in long tab_idx) const
 	{
-		_GODOT_get_tab_disabled.bind("Tabs", "get_tab_disabled");
-		return ptrcall!(bool)(_GODOT_get_tab_disabled, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getTabDisabled, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_tab;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_tab") = _GODOT_remove_tab;
 	/**
-	
+	Removes tab at index `tab_idx`
 	*/
 	void removeTab(in long tab_idx)
 	{
-		_GODOT_remove_tab.bind("Tabs", "remove_tab");
-		ptrcall!(void)(_GODOT_remove_tab, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeTab, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(void, String, Texture) _GODOT_add_tab;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_tab") = _GODOT_add_tab;
 	/**
-	
+	Adds a new tab.
 	*/
 	void addTab(StringArg0)(in StringArg0 title = "", Texture icon = Texture.init)
 	{
-		_GODOT_add_tab.bind("Tabs", "add_tab");
-		ptrcall!(void)(_GODOT_add_tab, _godot_object, title, icon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addTab, _godot_object, title, icon);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_tab_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_align") = _GODOT_set_tab_align;
 	/**
 	
 	*/
 	void setTabAlign(in long _align)
 	{
-		_GODOT_set_tab_align.bind("Tabs", "set_tab_align");
-		ptrcall!(void)(_GODOT_set_tab_align, _godot_object, _align);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabAlign, _godot_object, _align);
 	}
-	package(godot) static GodotMethod!(Tabs.TabAlign) _GODOT_get_tab_align;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_align") = _GODOT_get_tab_align;
 	/**
 	
 	*/
 	Tabs.TabAlign getTabAlign() const
 	{
-		_GODOT_get_tab_align.bind("Tabs", "get_tab_align");
-		return ptrcall!(Tabs.TabAlign)(_GODOT_get_tab_align, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Tabs.TabAlign)(_classBinding.getTabAlign, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_tab_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_offset") = _GODOT_get_tab_offset;
 	/**
 	
 	*/
 	long getTabOffset() const
 	{
-		_GODOT_get_tab_offset.bind("Tabs", "get_tab_offset");
-		return ptrcall!(long)(_GODOT_get_tab_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTabOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_offset_buttons_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset_buttons_visible") = _GODOT_get_offset_buttons_visible;
 	/**
 	
 	*/
 	bool getOffsetButtonsVisible() const
 	{
-		_GODOT_get_offset_buttons_visible.bind("Tabs", "get_offset_buttons_visible");
-		return ptrcall!(bool)(_GODOT_get_offset_buttons_visible, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getOffsetButtonsVisible, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_ensure_tab_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "ensure_tab_visible") = _GODOT_ensure_tab_visible;
 	/**
-	
+	Moves the Scroll view to make the tab visible.
 	*/
 	void ensureTabVisible(in long idx)
 	{
-		_GODOT_ensure_tab_visible.bind("Tabs", "ensure_tab_visible");
-		ptrcall!(void)(_GODOT_ensure_tab_visible, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.ensureTabVisible, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Rect2, long) _GODOT_get_tab_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_rect") = _GODOT_get_tab_rect;
 	/**
 	Returns tab $(D Rect2) with local position and size.
 	*/
 	Rect2 getTabRect(in long tab_idx) const
 	{
-		_GODOT_get_tab_rect.bind("Tabs", "get_tab_rect");
-		return ptrcall!(Rect2)(_GODOT_get_tab_rect, _godot_object, tab_idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getTabRect, _godot_object, tab_idx);
 	}
-	package(godot) static GodotMethod!(void, long, long) _GODOT_move_tab;
-	package(godot) alias _GODOT_methodBindInfo(string name : "move_tab") = _GODOT_move_tab;
 	/**
 	Rearrange tab.
 	*/
 	void moveTab(in long from, in long to)
 	{
-		_GODOT_move_tab.bind("Tabs", "move_tab");
-		ptrcall!(void)(_GODOT_move_tab, _godot_object, from, to);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.moveTab, _godot_object, from, to);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_tab_close_display_policy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tab_close_display_policy") = _GODOT_set_tab_close_display_policy;
 	/**
 	
 	*/
 	void setTabCloseDisplayPolicy(in long policy)
 	{
-		_GODOT_set_tab_close_display_policy.bind("Tabs", "set_tab_close_display_policy");
-		ptrcall!(void)(_GODOT_set_tab_close_display_policy, _godot_object, policy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabCloseDisplayPolicy, _godot_object, policy);
 	}
-	package(godot) static GodotMethod!(Tabs.CloseButtonDisplayPolicy) _GODOT_get_tab_close_display_policy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tab_close_display_policy") = _GODOT_get_tab_close_display_policy;
 	/**
 	
 	*/
 	Tabs.CloseButtonDisplayPolicy getTabCloseDisplayPolicy() const
 	{
-		_GODOT_get_tab_close_display_policy.bind("Tabs", "get_tab_close_display_policy");
-		return ptrcall!(Tabs.CloseButtonDisplayPolicy)(_GODOT_get_tab_close_display_policy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Tabs.CloseButtonDisplayPolicy)(_classBinding.getTabCloseDisplayPolicy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_scrolling_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scrolling_enabled") = _GODOT_set_scrolling_enabled;
 	/**
 	
 	*/
 	void setScrollingEnabled(in bool enabled)
 	{
-		_GODOT_set_scrolling_enabled.bind("Tabs", "set_scrolling_enabled");
-		ptrcall!(void)(_GODOT_set_scrolling_enabled, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollingEnabled, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_scrolling_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scrolling_enabled") = _GODOT_get_scrolling_enabled;
 	/**
 	
 	*/
 	bool getScrollingEnabled() const
 	{
-		_GODOT_get_scrolling_enabled.bind("Tabs", "get_scrolling_enabled");
-		return ptrcall!(bool)(_GODOT_get_scrolling_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getScrollingEnabled, _godot_object);
 	}
 	/**
 	
+	*/
+	void setDragToRearrangeEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDragToRearrangeEnabled, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	bool getDragToRearrangeEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getDragToRearrangeEnabled, _godot_object);
+	}
+	/**
+	Defines rearrange group id, choose for each `Tabs` the same value to enable tab drag between `Tabs`. Enable drag with `set_drag_to_rearrange_enabled(true)`.
+	*/
+	void setTabsRearrangeGroup(in long group_id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabsRearrangeGroup, _godot_object, group_id);
+	}
+	/**
+	Returns the `Tabs` rearrange group id.
+	*/
+	long getTabsRearrangeGroup() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTabsRearrangeGroup, _godot_object);
+	}
+	/**
+	If `true` enables selecting a tab with right mouse button.
+	*/
+	void setSelectWithRmb(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSelectWithRmb, _godot_object, enabled);
+	}
+	/**
+	Returns `true` if select with right mouse button is enabled.
+	*/
+	bool getSelectWithRmb() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getSelectWithRmb, _godot_object);
+	}
+	/**
+	Select tab at index `tab_idx`.
 	*/
 	@property long currentTab()
 	{
@@ -345,7 +393,7 @@ public:
 		setCurrentTab(v);
 	}
 	/**
-	
+	The alignment of all tabs. See enum `TabAlign` constants for details.
 	*/
 	@property Tabs.TabAlign tabAlign()
 	{
@@ -379,5 +427,17 @@ public:
 	@property void scrollingEnabled(bool v)
 	{
 		setScrollingEnabled(v);
+	}
+	/**
+	If `true`, tabs can be rearranged with mouse drag.
+	*/
+	@property bool dragToRearrangeEnabled()
+	{
+		return getDragToRearrangeEnabled();
+	}
+	/// ditto
+	@property void dragToRearrangeEnabled(bool v)
+	{
+		setDragToRearrangeEnabled(v);
 	}
 }

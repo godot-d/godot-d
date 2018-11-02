@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.material;
+import godot.resource;
+import godot.reference;
 /**
 A material for $(D CanvasItem)s.
 
@@ -28,12 +30,21 @@ A material for $(D CanvasItem)s.
 */
 @GodotBaseClass struct CanvasItemMaterial
 {
-	static immutable string _GODOT_internal_name = "CanvasItemMaterial";
+	enum string _GODOT_internal_name = "CanvasItemMaterial";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Material _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
+		@GodotName("get_blend_mode") GodotMethod!(CanvasItemMaterial.BlendMode) getBlendMode;
+		@GodotName("set_light_mode") GodotMethod!(void, long) setLightMode;
+		@GodotName("get_light_mode") GodotMethod!(CanvasItemMaterial.LightMode) getLightMode;
+	}
 	bool opEquals(in CanvasItemMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CanvasItemMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -93,50 +104,42 @@ public:
 		blendModeMix = 0,
 		blendModeAdd = 1,
 		lightModeUnshaded = 1,
-		blendModeSub = 2,
 		lightModeLightOnly = 2,
+		blendModeSub = 2,
 		blendModeMul = 3,
 		blendModePremultAlpha = 4,
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_blend_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_blend_mode") = _GODOT_set_blend_mode;
 	/**
 	
 	*/
 	void setBlendMode(in long blend_mode)
 	{
-		_GODOT_set_blend_mode.bind("CanvasItemMaterial", "set_blend_mode");
-		ptrcall!(void)(_GODOT_set_blend_mode, _godot_object, blend_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, blend_mode);
 	}
-	package(godot) static GodotMethod!(CanvasItemMaterial.BlendMode) _GODOT_get_blend_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_blend_mode") = _GODOT_get_blend_mode;
 	/**
 	
 	*/
 	CanvasItemMaterial.BlendMode getBlendMode() const
 	{
-		_GODOT_get_blend_mode.bind("CanvasItemMaterial", "get_blend_mode");
-		return ptrcall!(CanvasItemMaterial.BlendMode)(_GODOT_get_blend_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CanvasItemMaterial.BlendMode)(_classBinding.getBlendMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_light_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_light_mode") = _GODOT_set_light_mode;
 	/**
 	
 	*/
 	void setLightMode(in long light_mode)
 	{
-		_GODOT_set_light_mode.bind("CanvasItemMaterial", "set_light_mode");
-		ptrcall!(void)(_GODOT_set_light_mode, _godot_object, light_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightMode, _godot_object, light_mode);
 	}
-	package(godot) static GodotMethod!(CanvasItemMaterial.LightMode) _GODOT_get_light_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_light_mode") = _GODOT_get_light_mode;
 	/**
 	
 	*/
 	CanvasItemMaterial.LightMode getLightMode() const
 	{
-		_GODOT_get_light_mode.bind("CanvasItemMaterial", "get_light_mode");
-		return ptrcall!(CanvasItemMaterial.LightMode)(_GODOT_get_light_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CanvasItemMaterial.LightMode)(_classBinding.getLightMode, _godot_object);
 	}
 	/**
 	The manner in which a material's rendering is applied to underlying textures.

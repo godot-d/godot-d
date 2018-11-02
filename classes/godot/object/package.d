@@ -31,11 +31,58 @@ Objects also receive notifications ($(D _notification)). Notifications are a sim
 */
 @GodotBaseClass struct GodotObject
 {
-	static immutable string _GODOT_internal_name = "Object";
+	enum string _GODOT_internal_name = "Object";
 public:
 @nogc nothrow:
 	godot_object _godot_object;
 	alias BaseClasses = AliasSeq!();
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("free") GodotMethod!(void) free;
+		@GodotName("_notification") GodotMethod!(void, long) _notification;
+		@GodotName("_set") GodotMethod!(bool, String, Variant) _set;
+		@GodotName("_get") GodotMethod!(Variant, String) _get;
+		@GodotName("_get_property_list") GodotMethod!(Array) _getPropertyList;
+		@GodotName("_init") GodotMethod!(void) _init;
+		@GodotName("get_class") GodotMethod!(String) getClass;
+		@GodotName("is_class") GodotMethod!(bool, String) isClass;
+		@GodotName("set") GodotMethod!(void, String, Variant) set;
+		@GodotName("get") GodotMethod!(Variant, String) get;
+		@GodotName("set_indexed") GodotMethod!(void, NodePath, Variant) setIndexed;
+		@GodotName("get_indexed") GodotMethod!(Variant, NodePath) getIndexed;
+		@GodotName("get_property_list") GodotMethod!(Array) getPropertyList;
+		@GodotName("get_method_list") GodotMethod!(Array) getMethodList;
+		@GodotName("notification") GodotMethod!(void, long, bool) notification;
+		@GodotName("get_instance_id") GodotMethod!(long) getInstanceId;
+		@GodotName("set_script") GodotMethod!(void, Reference) setScript;
+		@GodotName("get_script") GodotMethod!(Reference) getScript;
+		@GodotName("set_meta") GodotMethod!(void, String, Variant) setMeta;
+		@GodotName("get_meta") GodotMethod!(Variant, String) getMeta;
+		@GodotName("has_meta") GodotMethod!(bool, String) hasMeta;
+		@GodotName("get_meta_list") GodotMethod!(PoolStringArray) getMetaList;
+		@GodotName("add_user_signal") GodotMethod!(void, String, Array) addUserSignal;
+		@GodotName("has_user_signal") GodotMethod!(bool, String) hasUserSignal;
+		@GodotName("emit_signal") GodotMethod!(Variant, String, GodotVarArgs) emitSignal;
+		@GodotName("call") GodotMethod!(Variant, String, GodotVarArgs) call;
+		@GodotName("call_deferred") GodotMethod!(Variant, String, GodotVarArgs) callDeferred;
+		@GodotName("callv") GodotMethod!(Variant, String, Array) callv;
+		@GodotName("has_method") GodotMethod!(bool, String) hasMethod;
+		@GodotName("get_signal_list") GodotMethod!(Array) getSignalList;
+		@GodotName("get_signal_connection_list") GodotMethod!(Array, String) getSignalConnectionList;
+		@GodotName("get_incoming_connections") GodotMethod!(Array) getIncomingConnections;
+		@GodotName("connect") GodotMethod!(GodotError, String, GodotObject, String, Array, long) connect;
+		@GodotName("disconnect") GodotMethod!(void, String, GodotObject, String) disconnect;
+		@GodotName("is_connected") GodotMethod!(bool, String, GodotObject, String) isConnected;
+		@GodotName("set_block_signals") GodotMethod!(void, bool) setBlockSignals;
+		@GodotName("is_blocking_signals") GodotMethod!(bool) isBlockingSignals;
+		@GodotName("property_list_changed_notify") GodotMethod!(void) propertyListChangedNotify;
+		@GodotName("set_message_translation") GodotMethod!(void, bool) setMessageTranslation;
+		@GodotName("can_translate_messages") GodotMethod!(bool) canTranslateMessages;
+		@GodotName("tr") GodotMethod!(String, String) tr;
+		@GodotName("is_queued_for_deletion") GodotMethod!(bool) isQueuedForDeletion;
+	}
 	bool opEquals(in GodotObject other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GodotObject opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -63,6 +110,10 @@ public:
 		One shot connections disconnect themselves after emission.
 		*/
 		connectOneshot = 4,
+		/**
+		
+		*/
+		connectReferenceCounted = 8,
 	}
 	/// 
 	enum Constants : int
@@ -78,19 +129,16 @@ public:
 		notificationPredelete = 1,
 		connectPersist = 2,
 		connectOneshot = 4,
+		connectReferenceCounted = 8,
 	}
-	package(godot) static GodotMethod!(void) _GODOT_free;
-	package(godot) alias _GODOT_methodBindInfo(string name : "free") = _GODOT_free;
 	/**
 	Deletes the object from memory.
 	*/
 	void free()
 	{
-		_GODOT_free.bind("Object", "free");
-		ptrcall!(void)(_GODOT_free, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.free, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__notification;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_notification") = _GODOT__notification;
 	/**
 	Notify the object internally using an ID.
 	*/
@@ -101,8 +149,6 @@ public:
 		String _GODOT_method_name = String("_notification");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool, String, Variant) _GODOT__set;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set") = _GODOT__set;
 	/**
 	Sets a property. Returns `true` if the `property` exists.
 	*/
@@ -114,20 +160,16 @@ public:
 		String _GODOT_method_name = String("_set");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__get;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get") = _GODOT__get;
 	/**
 	Returns the given property. Returns `null` if the `property` does not exist.
 	*/
-	void _get(StringArg0)(in StringArg0 property)
+	Variant _get(StringArg0)(in StringArg0 property)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(property);
 		String _GODOT_method_name = String("_get");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_property_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_property_list") = _GODOT__get_property_list;
 	/**
 	Returns the object's property list as an $(D Array) of dictionaries. Dictionaries must contain: name:String, type:int (see TYPE_* enum in $(D @GlobalScope)) and optionally: hint:int (see PROPERTY_HINT_* in $(D @GlobalScope)), hint_string:String, usage:int (see PROPERTY_USAGE_* in $(D @GlobalScope)).
 	*/
@@ -137,8 +179,6 @@ public:
 		String _GODOT_method_name = String("_get_property_list");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__init;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_init") = _GODOT__init;
 	/**
 	The virtual method called upon initialization.
 	*/
@@ -148,188 +188,151 @@ public:
 		String _GODOT_method_name = String("_init");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_class;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_class") = _GODOT_get_class;
 	/**
 	Returns the object's class as a $(D String).
 	*/
 	String getClass() const
 	{
-		_GODOT_get_class.bind("Object", "get_class");
-		return ptrcall!(String)(_GODOT_get_class, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getClass, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_is_class;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_class") = _GODOT_is_class;
 	/**
 	Returns `true` if the object inherits from the given `type`.
 	*/
 	bool isClass(StringArg0)(in StringArg0 type) const
 	{
-		_GODOT_is_class.bind("Object", "is_class");
-		return ptrcall!(bool)(_GODOT_is_class, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isClass, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(void, String, Variant) _GODOT_set;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set") = _GODOT_set;
 	/**
 	Set property into the object.
 	*/
 	void set(StringArg0, VariantArg1)(in StringArg0 property, in VariantArg1 value)
 	{
-		_GODOT_set.bind("Object", "set");
-		ptrcall!(void)(_GODOT_set, _godot_object, property, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.set, _godot_object, property, value);
 	}
-	package(godot) static GodotMethod!(Variant, String) _GODOT_get;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get") = _GODOT_get;
 	/**
 	Returns a $(D Variant) for a `property`.
 	*/
 	Variant get(StringArg0)(in StringArg0 property) const
 	{
-		_GODOT_get.bind("Object", "get");
-		return ptrcall!(Variant)(_GODOT_get, _godot_object, property);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.get, _godot_object, property);
 	}
-	package(godot) static GodotMethod!(void, NodePath, Variant) _GODOT_set_indexed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_indexed") = _GODOT_set_indexed;
 	/**
 	
 	*/
 	void setIndexed(NodePathArg0, VariantArg1)(in NodePathArg0 property, in VariantArg1 value)
 	{
-		_GODOT_set_indexed.bind("Object", "set_indexed");
-		ptrcall!(void)(_GODOT_set_indexed, _godot_object, property, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIndexed, _godot_object, property, value);
 	}
-	package(godot) static GodotMethod!(Variant, NodePath) _GODOT_get_indexed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_indexed") = _GODOT_get_indexed;
 	/**
-	
+	Get indexed object property by String.
+	Property indices get accessed with colon separation, for example: `position:x`
 	*/
 	Variant getIndexed(NodePathArg0)(in NodePathArg0 property) const
 	{
-		_GODOT_get_indexed.bind("Object", "get_indexed");
-		return ptrcall!(Variant)(_GODOT_get_indexed, _godot_object, property);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getIndexed, _godot_object, property);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_property_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_property_list") = _GODOT_get_property_list;
 	/**
 	Returns the list of properties as an $(D Array) of dictionaries. Dictionaries contain: name:String, type:int (see TYPE_* enum in $(D @GlobalScope)) and optionally: hint:int (see PROPERTY_HINT_* in $(D @GlobalScope)), hint_string:String, usage:int (see PROPERTY_USAGE_* in $(D @GlobalScope)).
 	*/
 	Array getPropertyList() const
 	{
-		_GODOT_get_property_list.bind("Object", "get_property_list");
-		return ptrcall!(Array)(_GODOT_get_property_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getPropertyList, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_method_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_method_list") = _GODOT_get_method_list;
 	/**
 	Returns the object's methods and their signatures as an $(D Array).
 	*/
 	Array getMethodList() const
 	{
-		_GODOT_get_method_list.bind("Object", "get_method_list");
-		return ptrcall!(Array)(_GODOT_get_method_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getMethodList, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_notification;
-	package(godot) alias _GODOT_methodBindInfo(string name : "notification") = _GODOT_notification;
 	/**
 	Notify the object of something.
 	*/
 	void notification(in long what, in bool reversed = false)
 	{
-		_GODOT_notification.bind("Object", "notification");
-		ptrcall!(void)(_GODOT_notification, _godot_object, what, reversed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.notification, _godot_object, what, reversed);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_instance_id") = _GODOT_get_instance_id;
 	/**
 	Returns the object's unique instance ID.
 	*/
 	long getInstanceId() const
 	{
-		_GODOT_get_instance_id.bind("Object", "get_instance_id");
-		return ptrcall!(long)(_GODOT_get_instance_id, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getInstanceId, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Reference) _GODOT_set_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_script") = _GODOT_set_script;
 	/**
 	Set a script into the object, scripts extend the object functionality.
 	*/
 	void setScript(Reference script)
 	{
-		_GODOT_set_script.bind("Object", "set_script");
-		ptrcall!(void)(_GODOT_set_script, _godot_object, script);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScript, _godot_object, script);
 	}
-	package(godot) static GodotMethod!(Reference) _GODOT_get_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_script") = _GODOT_get_script;
 	/**
 	Returns the object's $(D Script) or `null` if one doesn't exist.
 	*/
 	Reference getScript() const
 	{
-		_GODOT_get_script.bind("Object", "get_script");
-		return ptrcall!(Reference)(_GODOT_get_script, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Reference)(_classBinding.getScript, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Variant) _GODOT_set_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_meta") = _GODOT_set_meta;
 	/**
 	Set a metadata into the object. Metadata is serialized. Metadata can be $(I anything).
 	*/
 	void setMeta(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
 	{
-		_GODOT_set_meta.bind("Object", "set_meta");
-		ptrcall!(void)(_GODOT_set_meta, _godot_object, name, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMeta, _godot_object, name, value);
 	}
-	package(godot) static GodotMethod!(Variant, String) _GODOT_get_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_meta") = _GODOT_get_meta;
 	/**
 	Returns the object's metadata for the given `name`.
 	*/
 	Variant getMeta(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_get_meta.bind("Object", "get_meta");
-		return ptrcall!(Variant)(_GODOT_get_meta, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getMeta, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_meta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_meta") = _GODOT_has_meta;
 	/**
 	Returns `true` if a metadata is found with the given `name`.
 	*/
 	bool hasMeta(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_meta.bind("Object", "has_meta");
-		return ptrcall!(bool)(_GODOT_has_meta, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasMeta, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_meta_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_meta_list") = _GODOT_get_meta_list;
 	/**
 	Returns the object's metadata as a $(D PoolStringArray).
 	*/
 	PoolStringArray getMetaList() const
 	{
-		_GODOT_get_meta_list.bind("Object", "get_meta_list");
-		return ptrcall!(PoolStringArray)(_GODOT_get_meta_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getMetaList, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Array) _GODOT_add_user_signal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_user_signal") = _GODOT_add_user_signal;
 	/**
 	Adds a user-defined `signal`. Arguments are optional, but can be added as an $(D Array) of dictionaries, each containing "name" and "type" (from $(D @GlobalScope) TYPE_*).
 	*/
 	void addUserSignal(StringArg0)(in StringArg0 signal, in Array arguments = Array.empty_array)
 	{
-		_GODOT_add_user_signal.bind("Object", "add_user_signal");
-		ptrcall!(void)(_GODOT_add_user_signal, _godot_object, signal, arguments);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addUserSignal, _godot_object, signal, arguments);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_user_signal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_user_signal") = _GODOT_has_user_signal;
 	/**
 	Returns `true` if the given user-defined `signal` exists.
 	*/
 	bool hasUserSignal(StringArg0)(in StringArg0 signal) const
 	{
-		_GODOT_has_user_signal.bind("Object", "has_user_signal");
-		return ptrcall!(bool)(_GODOT_has_user_signal, _godot_object, signal);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasUserSignal, _godot_object, signal);
 	}
-	package(godot) static GodotMethod!(Variant, String, GodotVarArgs) _GODOT_emit_signal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "emit_signal") = _GODOT_emit_signal;
 	/**
 	Emits the given `signal`.
 	*/
@@ -344,8 +347,6 @@ public:
 		String _GODOT_method_name = String("emit_signal");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, String, GodotVarArgs) _GODOT_call;
-	package(godot) alias _GODOT_methodBindInfo(string name : "call") = _GODOT_call;
 	/**
 	Calls the `method` on the object and returns a result. Pass parameters as a comma separated list.
 	*/
@@ -360,8 +361,6 @@ public:
 		String _GODOT_method_name = String("call");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, String, GodotVarArgs) _GODOT_call_deferred;
-	package(godot) alias _GODOT_methodBindInfo(string name : "call_deferred") = _GODOT_call_deferred;
 	/**
 	Calls the `method` on the object during idle time and returns a result. Pass parameters as a comma separated list.
 	*/
@@ -376,48 +375,38 @@ public:
 		String _GODOT_method_name = String("call_deferred");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, String, Array) _GODOT_callv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "callv") = _GODOT_callv;
 	/**
 	Calls the `method` on the object and returns a result. Pass parameters as an $(D Array).
 	*/
 	Variant callv(StringArg0)(in StringArg0 method, in Array arg_array) const
 	{
-		_GODOT_callv.bind("Object", "callv");
-		return ptrcall!(Variant)(_GODOT_callv, _godot_object, method, arg_array);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.callv, _godot_object, method, arg_array);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_method;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_method") = _GODOT_has_method;
 	/**
 	Returns `true` if the object contains the given `method`.
 	*/
 	bool hasMethod(StringArg0)(in StringArg0 method) const
 	{
-		_GODOT_has_method.bind("Object", "has_method");
-		return ptrcall!(bool)(_GODOT_has_method, _godot_object, method);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasMethod, _godot_object, method);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_signal_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_signal_list") = _GODOT_get_signal_list;
 	/**
 	Returns the list of signals as an $(D Array) of dictionaries.
 	*/
 	Array getSignalList() const
 	{
-		_GODOT_get_signal_list.bind("Object", "get_signal_list");
-		return ptrcall!(Array)(_GODOT_get_signal_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getSignalList, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array, String) _GODOT_get_signal_connection_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_signal_connection_list") = _GODOT_get_signal_connection_list;
 	/**
 	Returns an $(D Array) of connections for the given `signal`.
 	*/
 	Array getSignalConnectionList(StringArg0)(in StringArg0 signal) const
 	{
-		_GODOT_get_signal_connection_list.bind("Object", "get_signal_connection_list");
-		return ptrcall!(Array)(_GODOT_get_signal_connection_list, _godot_object, signal);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getSignalConnectionList, _godot_object, signal);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_incoming_connections;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_incoming_connections") = _GODOT_get_incoming_connections;
 	/**
 	Returns an $(D Array) of dictionaries with information about signals that are connected to the object.
 	Inside each $(D Dictionary) there are 3 fields:
@@ -427,107 +416,87 @@ public:
 	*/
 	Array getIncomingConnections() const
 	{
-		_GODOT_get_incoming_connections.bind("Object", "get_incoming_connections");
-		return ptrcall!(Array)(_GODOT_get_incoming_connections, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getIncomingConnections, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, String, GodotObject, String, Array, long) _GODOT_connect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect") = _GODOT_connect;
 	/**
 	Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call. Use `flags` to set deferred or one shot connections. See `CONNECT_*` constants. A `signal` can only be connected once to a `method`. It will throw an error if already connected. To avoid this, first use $(D isConnected) to check for existing connections.
 	*/
 	GodotError connect(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method, in Array binds = Array.empty_array, in long flags = 0)
 	{
-		_GODOT_connect.bind("Object", "connect");
-		return ptrcall!(GodotError)(_GODOT_connect, _godot_object, signal, target, method, binds, flags);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.connect, _godot_object, signal, target, method, binds, flags);
 	}
-	package(godot) static GodotMethod!(void, String, GodotObject, String) _GODOT_disconnect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "disconnect") = _GODOT_disconnect;
 	/**
 	Disconnects a `signal` from a `method` on the given `target`.
 	*/
 	void disconnect(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method)
 	{
-		_GODOT_disconnect.bind("Object", "disconnect");
-		ptrcall!(void)(_GODOT_disconnect, _godot_object, signal, target, method);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnect, _godot_object, signal, target, method);
 	}
-	package(godot) static GodotMethod!(bool, String, GodotObject, String) _GODOT_is_connected;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_connected") = _GODOT_is_connected;
 	/**
 	Returns `true` if a connection exists for a given `signal`, `target`, and `method`.
 	*/
 	bool isConnected(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method) const
 	{
-		_GODOT_is_connected.bind("Object", "is_connected");
-		return ptrcall!(bool)(_GODOT_is_connected, _godot_object, signal, target, method);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isConnected, _godot_object, signal, target, method);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_block_signals;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_block_signals") = _GODOT_set_block_signals;
 	/**
 	If set to true, signal emission is blocked.
 	*/
 	void setBlockSignals(in bool enable)
 	{
-		_GODOT_set_block_signals.bind("Object", "set_block_signals");
-		ptrcall!(void)(_GODOT_set_block_signals, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlockSignals, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_blocking_signals;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_blocking_signals") = _GODOT_is_blocking_signals;
 	/**
 	Returns `true` if signal emission blocking is enabled.
 	*/
 	bool isBlockingSignals() const
 	{
-		_GODOT_is_blocking_signals.bind("Object", "is_blocking_signals");
-		return ptrcall!(bool)(_GODOT_is_blocking_signals, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBlockingSignals, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_property_list_changed_notify;
-	package(godot) alias _GODOT_methodBindInfo(string name : "property_list_changed_notify") = _GODOT_property_list_changed_notify;
 	/**
 	
 	*/
 	void propertyListChangedNotify()
 	{
-		_GODOT_property_list_changed_notify.bind("Object", "property_list_changed_notify");
-		ptrcall!(void)(_GODOT_property_list_changed_notify, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.propertyListChangedNotify, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_message_translation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_message_translation") = _GODOT_set_message_translation;
 	/**
 	Define whether the object can translate strings (with calls to $(D tr)). Default is true.
 	*/
 	void setMessageTranslation(in bool enable)
 	{
-		_GODOT_set_message_translation.bind("Object", "set_message_translation");
-		ptrcall!(void)(_GODOT_set_message_translation, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMessageTranslation, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_can_translate_messages;
-	package(godot) alias _GODOT_methodBindInfo(string name : "can_translate_messages") = _GODOT_can_translate_messages;
 	/**
 	Returns `true` if the object can translate strings.
 	*/
 	bool canTranslateMessages() const
 	{
-		_GODOT_can_translate_messages.bind("Object", "can_translate_messages");
-		return ptrcall!(bool)(_GODOT_can_translate_messages, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.canTranslateMessages, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_tr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "tr") = _GODOT_tr;
 	/**
 	Translate a message. Only works if message translation is enabled (which it is by default). See $(D setMessageTranslation).
 	*/
 	String tr(StringArg0)(in StringArg0 message) const
 	{
-		_GODOT_tr.bind("Object", "tr");
-		return ptrcall!(String)(_GODOT_tr, _godot_object, message);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.tr, _godot_object, message);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_queued_for_deletion;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_queued_for_deletion") = _GODOT_is_queued_for_deletion;
 	/**
 	Returns `true` if the `queue_free` method was called for the object.
 	*/
 	bool isQueuedForDeletion() const
 	{
-		_GODOT_is_queued_for_deletion.bind("Object", "is_queued_for_deletion");
-		return ptrcall!(bool)(_GODOT_is_queued_for_deletion, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isQueuedForDeletion, _godot_object);
 	}
 }

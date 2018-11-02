@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 $(B Input Ports:)
 - Data (variant): `A`
@@ -30,12 +32,21 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptOperator
 {
-	static immutable string _GODOT_internal_name = "VisualScriptOperator";
+	enum string _GODOT_internal_name = "VisualScriptOperator";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
+		@GodotName("get_operator") GodotMethod!(Variant.Operator) getOperator;
+		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
+		@GodotName("get_typed") GodotMethod!(Variant.Type) getTyped;
+	}
 	bool opEquals(in VisualScriptOperator other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptOperator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,45 +59,37 @@ public:
 		return cast(VisualScriptOperator)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_operator;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_operator") = _GODOT_set_operator;
 	/**
 	
 	*/
 	void setOperator(in long op)
 	{
-		_GODOT_set_operator.bind("VisualScriptOperator", "set_operator");
-		ptrcall!(void)(_GODOT_set_operator, _godot_object, op);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
 	}
-	package(godot) static GodotMethod!(Variant.Operator) _GODOT_get_operator;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_operator") = _GODOT_get_operator;
 	/**
 	
 	*/
 	Variant.Operator getOperator() const
 	{
-		_GODOT_get_operator.bind("VisualScriptOperator", "get_operator");
-		return ptrcall!(Variant.Operator)(_GODOT_get_operator, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Operator)(_classBinding.getOperator, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_typed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_typed") = _GODOT_set_typed;
 	/**
 	
 	*/
 	void setTyped(in long type)
 	{
-		_GODOT_set_typed.bind("VisualScriptOperator", "set_typed");
-		ptrcall!(void)(_GODOT_set_typed, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_typed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_typed") = _GODOT_get_typed;
 	/**
 	
 	*/
 	Variant.Type getTyped() const
 	{
-		_GODOT_get_typed.bind("VisualScriptOperator", "get_typed");
-		return ptrcall!(Variant.Type)(_GODOT_get_typed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getTyped, _godot_object);
 	}
 	/**
 	

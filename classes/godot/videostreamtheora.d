@@ -21,17 +21,26 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.videostream;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct VideoStreamTheora
 {
-	static immutable string _GODOT_internal_name = "VideoStreamTheora";
+	enum string _GODOT_internal_name = "VideoStreamTheora";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VideoStream _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_file") GodotMethod!(void, String) setFile;
+		@GodotName("get_file") GodotMethod!(String) getFile;
+	}
 	bool opEquals(in VideoStreamTheora other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VideoStreamTheora opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,25 +53,21 @@ public:
 		return cast(VideoStreamTheora)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, String) _GODOT_set_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_file") = _GODOT_set_file;
 	/**
 	
 	*/
 	void setFile(StringArg0)(in StringArg0 file)
 	{
-		_GODOT_set_file.bind("VideoStreamTheora", "set_file");
-		ptrcall!(void)(_GODOT_set_file, _godot_object, file);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFile, _godot_object, file);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_file") = _GODOT_get_file;
 	/**
 	
 	*/
 	String getFile()
 	{
-		_GODOT_get_file.bind("VideoStreamTheora", "get_file");
-		return ptrcall!(String)(_GODOT_get_file, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getFile, _godot_object);
 	}
 	/**
 	

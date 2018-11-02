@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.mesh;
+import godot.reference;
 /**
 Provides high performance mesh instancing.
 
@@ -32,12 +33,40 @@ Since instances may have any behavior, the AABB used for visibility must be prov
 */
 @GodotBaseClass struct MultiMesh
 {
-	static immutable string _GODOT_internal_name = "MultiMesh";
+	enum string _GODOT_internal_name = "MultiMesh";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
+		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
+		@GodotName("set_color_format") GodotMethod!(void, long) setColorFormat;
+		@GodotName("get_color_format") GodotMethod!(MultiMesh.ColorFormat) getColorFormat;
+		@GodotName("set_custom_data_format") GodotMethod!(void, long) setCustomDataFormat;
+		@GodotName("get_custom_data_format") GodotMethod!(MultiMesh.CustomDataFormat) getCustomDataFormat;
+		@GodotName("set_transform_format") GodotMethod!(void, long) setTransformFormat;
+		@GodotName("get_transform_format") GodotMethod!(MultiMesh.TransformFormat) getTransformFormat;
+		@GodotName("set_instance_count") GodotMethod!(void, long) setInstanceCount;
+		@GodotName("get_instance_count") GodotMethod!(long) getInstanceCount;
+		@GodotName("set_instance_transform") GodotMethod!(void, long, Transform) setInstanceTransform;
+		@GodotName("get_instance_transform") GodotMethod!(Transform, long) getInstanceTransform;
+		@GodotName("set_instance_color") GodotMethod!(void, long, Color) setInstanceColor;
+		@GodotName("get_instance_color") GodotMethod!(Color, long) getInstanceColor;
+		@GodotName("set_instance_custom_data") GodotMethod!(void, long, Color) setInstanceCustomData;
+		@GodotName("get_instance_custom_data") GodotMethod!(Color, long) getInstanceCustomData;
+		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
+		@GodotName("_set_transform_array") GodotMethod!(void, PoolVector3Array) _setTransformArray;
+		@GodotName("_get_transform_array") GodotMethod!(PoolVector3Array) _getTransformArray;
+		@GodotName("_set_color_array") GodotMethod!(void, PoolColorArray) _setColorArray;
+		@GodotName("_get_color_array") GodotMethod!(PoolColorArray) _getColorArray;
+		@GodotName("_set_custom_data_array") GodotMethod!(void, PoolColorArray) _setCustomDataArray;
+		@GodotName("_get_custom_data_array") GodotMethod!(PoolColorArray) _getCustomDataArray;
+	}
 	bool opEquals(in MultiMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MultiMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -63,6 +92,22 @@ public:
 		transform3d = 1,
 	}
 	/// 
+	enum CustomDataFormat : int
+	{
+		/**
+		
+		*/
+		customDataNone = 0,
+		/**
+		
+		*/
+		customData8bit = 1,
+		/**
+		
+		*/
+		customDataFloat = 2,
+	}
+	/// 
 	enum ColorFormat : int
 	{
 		/**
@@ -83,142 +128,149 @@ public:
 	{
 		colorNone = 0,
 		transform2d = 0,
-		color8bit = 1,
+		customDataNone = 0,
+		customData8bit = 1,
 		transform3d = 1,
+		color8bit = 1,
 		colorFloat = 2,
+		customDataFloat = 2,
 	}
-	package(godot) static GodotMethod!(void, Mesh) _GODOT_set_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mesh") = _GODOT_set_mesh;
 	/**
 	
 	*/
 	void setMesh(Mesh mesh)
 	{
-		_GODOT_set_mesh.bind("MultiMesh", "set_mesh");
-		ptrcall!(void)(_GODOT_set_mesh, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(Mesh) _GODOT_get_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mesh") = _GODOT_get_mesh;
 	/**
 	
 	*/
 	Ref!Mesh getMesh() const
 	{
-		_GODOT_get_mesh.bind("MultiMesh", "get_mesh");
-		return ptrcall!(Mesh)(_GODOT_get_mesh, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_color_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_color_format") = _GODOT_set_color_format;
 	/**
 	
 	*/
 	void setColorFormat(in long format)
 	{
-		_GODOT_set_color_format.bind("MultiMesh", "set_color_format");
-		ptrcall!(void)(_GODOT_set_color_format, _godot_object, format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColorFormat, _godot_object, format);
 	}
-	package(godot) static GodotMethod!(MultiMesh.ColorFormat) _GODOT_get_color_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_color_format") = _GODOT_get_color_format;
 	/**
 	
 	*/
 	MultiMesh.ColorFormat getColorFormat() const
 	{
-		_GODOT_get_color_format.bind("MultiMesh", "get_color_format");
-		return ptrcall!(MultiMesh.ColorFormat)(_GODOT_get_color_format, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(MultiMesh.ColorFormat)(_classBinding.getColorFormat, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_transform_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_transform_format") = _GODOT_set_transform_format;
+	/**
+	
+	*/
+	void setCustomDataFormat(in long format)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomDataFormat, _godot_object, format);
+	}
+	/**
+	
+	*/
+	MultiMesh.CustomDataFormat getCustomDataFormat() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(MultiMesh.CustomDataFormat)(_classBinding.getCustomDataFormat, _godot_object);
+	}
 	/**
 	
 	*/
 	void setTransformFormat(in long format)
 	{
-		_GODOT_set_transform_format.bind("MultiMesh", "set_transform_format");
-		ptrcall!(void)(_GODOT_set_transform_format, _godot_object, format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransformFormat, _godot_object, format);
 	}
-	package(godot) static GodotMethod!(MultiMesh.TransformFormat) _GODOT_get_transform_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_transform_format") = _GODOT_get_transform_format;
 	/**
 	
 	*/
 	MultiMesh.TransformFormat getTransformFormat() const
 	{
-		_GODOT_get_transform_format.bind("MultiMesh", "get_transform_format");
-		return ptrcall!(MultiMesh.TransformFormat)(_GODOT_get_transform_format, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(MultiMesh.TransformFormat)(_classBinding.getTransformFormat, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_instance_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_instance_count") = _GODOT_set_instance_count;
 	/**
 	
 	*/
 	void setInstanceCount(in long count)
 	{
-		_GODOT_set_instance_count.bind("MultiMesh", "set_instance_count");
-		ptrcall!(void)(_GODOT_set_instance_count, _godot_object, count);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceCount, _godot_object, count);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_instance_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_instance_count") = _GODOT_get_instance_count;
 	/**
 	
 	*/
 	long getInstanceCount() const
 	{
-		_GODOT_get_instance_count.bind("MultiMesh", "get_instance_count");
-		return ptrcall!(long)(_GODOT_get_instance_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getInstanceCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Transform) _GODOT_set_instance_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_instance_transform") = _GODOT_set_instance_transform;
 	/**
 	Set the transform for a specific instance.
 	*/
 	void setInstanceTransform(in long instance, in Transform transform)
 	{
-		_GODOT_set_instance_transform.bind("MultiMesh", "set_instance_transform");
-		ptrcall!(void)(_GODOT_set_instance_transform, _godot_object, instance, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceTransform, _godot_object, instance, transform);
 	}
-	package(godot) static GodotMethod!(Transform, long) _GODOT_get_instance_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_instance_transform") = _GODOT_get_instance_transform;
 	/**
 	Return the transform of a specific instance.
 	*/
 	Transform getInstanceTransform(in long instance) const
 	{
-		_GODOT_get_instance_transform.bind("MultiMesh", "get_instance_transform");
-		return ptrcall!(Transform)(_GODOT_get_instance_transform, _godot_object, instance);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getInstanceTransform, _godot_object, instance);
 	}
-	package(godot) static GodotMethod!(void, long, Color) _GODOT_set_instance_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_instance_color") = _GODOT_set_instance_color;
 	/**
 	Set the color of a specific instance.
 	*/
 	void setInstanceColor(in long instance, in Color color)
 	{
-		_GODOT_set_instance_color.bind("MultiMesh", "set_instance_color");
-		ptrcall!(void)(_GODOT_set_instance_color, _godot_object, instance, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceColor, _godot_object, instance, color);
 	}
-	package(godot) static GodotMethod!(Color, long) _GODOT_get_instance_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_instance_color") = _GODOT_get_instance_color;
 	/**
 	Get the color of a specific instance.
 	*/
 	Color getInstanceColor(in long instance) const
 	{
-		_GODOT_get_instance_color.bind("MultiMesh", "get_instance_color");
-		return ptrcall!(Color)(_GODOT_get_instance_color, _godot_object, instance);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getInstanceColor, _godot_object, instance);
 	}
-	package(godot) static GodotMethod!(AABB) _GODOT_get_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_aabb") = _GODOT_get_aabb;
+	/**
+	
+	*/
+	void setInstanceCustomData(in long instance, in Color custom_data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceCustomData, _godot_object, instance, custom_data);
+	}
+	/**
+	
+	*/
+	Color getInstanceCustomData(in long instance) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getInstanceCustomData, _godot_object, instance);
+	}
 	/**
 	Return the visibility AABB.
 	*/
 	AABB getAabb() const
 	{
-		_GODOT_get_aabb.bind("MultiMesh", "get_aabb");
-		return ptrcall!(AABB)(_GODOT_get_aabb, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, PoolVector3Array) _GODOT__set_transform_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_transform_array") = _GODOT__set_transform_array;
 	/**
 	
 	*/
@@ -229,8 +281,6 @@ public:
 		String _GODOT_method_name = String("_set_transform_array");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(PoolVector3Array) _GODOT__get_transform_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_transform_array") = _GODOT__get_transform_array;
 	/**
 	
 	*/
@@ -240,8 +290,6 @@ public:
 		String _GODOT_method_name = String("_get_transform_array");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolVector3Array);
 	}
-	package(godot) static GodotMethod!(void, PoolColorArray) _GODOT__set_color_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_color_array") = _GODOT__set_color_array;
 	/**
 	
 	*/
@@ -252,8 +300,6 @@ public:
 		String _GODOT_method_name = String("_set_color_array");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(PoolColorArray) _GODOT__get_color_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_color_array") = _GODOT__get_color_array;
 	/**
 	
 	*/
@@ -261,6 +307,25 @@ public:
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_get_color_array");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
+	}
+	/**
+	
+	*/
+	void _setCustomDataArray(in PoolColorArray arg0)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_custom_data_array");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	PoolColorArray _getCustomDataArray() const
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_get_custom_data_array");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
 	}
 	/**
@@ -286,6 +351,18 @@ public:
 	@property void transformFormat(long v)
 	{
 		setTransformFormat(v);
+	}
+	/**
+	
+	*/
+	@property MultiMesh.CustomDataFormat customDataFormat()
+	{
+		return getCustomDataFormat();
+	}
+	/// ditto
+	@property void customDataFormat(long v)
+	{
+		setCustomDataFormat(v);
 	}
 	/**
 	
@@ -334,5 +411,17 @@ public:
 	@property void colorArray(PoolColorArray v)
 	{
 		_setColorArray(v);
+	}
+	/**
+	
+	*/
+	@property PoolColorArray customDataArray()
+	{
+		return _getCustomDataArray();
+	}
+	/// ditto
+	@property void customDataArray(PoolColorArray v)
+	{
+		_setCustomDataArray(v);
 	}
 }

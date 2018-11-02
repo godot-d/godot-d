@@ -21,17 +21,26 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct PlaneShape
 {
-	static immutable string _GODOT_internal_name = "PlaneShape";
+	enum string _GODOT_internal_name = "PlaneShape";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Shape _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_plane") GodotMethod!(void, Plane) setPlane;
+		@GodotName("get_plane") GodotMethod!(Plane) getPlane;
+	}
 	bool opEquals(in PlaneShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PlaneShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,25 +53,21 @@ public:
 		return cast(PlaneShape)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Plane) _GODOT_set_plane;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_plane") = _GODOT_set_plane;
 	/**
 	
 	*/
 	void setPlane(in Plane plane)
 	{
-		_GODOT_set_plane.bind("PlaneShape", "set_plane");
-		ptrcall!(void)(_GODOT_set_plane, _godot_object, plane);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPlane, _godot_object, plane);
 	}
-	package(godot) static GodotMethod!(Plane) _GODOT_get_plane;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_plane") = _GODOT_get_plane;
 	/**
 	
 	*/
 	Plane getPlane() const
 	{
-		_GODOT_get_plane.bind("PlaneShape", "get_plane");
-		return ptrcall!(Plane)(_GODOT_get_plane, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Plane)(_classBinding.getPlane, _godot_object);
 	}
 	/**
 	

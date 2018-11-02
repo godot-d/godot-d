@@ -10,7 +10,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 
 
 */
-module godot.resourceimporterwebm;
+module godot.rootmotionview;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
 import godot.d.meta;
@@ -19,28 +19,35 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.resourceimporter;
+import godot.visualinstance;
+import godot.spatial;
+import godot.node;
 /**
 
 */
-@GodotBaseClass struct ResourceImporterWebm
+@GodotBaseClass struct RootMotionView
 {
-	static immutable string _GODOT_internal_name = "ResourceImporterWebm";
+	enum string _GODOT_internal_name = "RootMotionView";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ResourceImporter _GODOT_base; }
+	union { godot_object _godot_object; VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
-	bool opEquals(in ResourceImporterWebm other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourceImporterWebm opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
+	bool opEquals(in RootMotionView other) const { return _godot_object.ptr is other._godot_object.ptr; }
+	RootMotionView opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
 	mixin baseCasts;
-	static ResourceImporterWebm _new()
+	static RootMotionView _new()
 	{
 		static godot_class_constructor constructor;
-		if(constructor is null) constructor = _godot_api.godot_get_class_constructor("ResourceImporterWebm");
+		if(constructor is null) constructor = _godot_api.godot_get_class_constructor("RootMotionView");
 		if(constructor is null) return typeof(this).init;
-		return cast(ResourceImporterWebm)(constructor());
+		return cast(RootMotionView)(constructor());
 	}
 	@disable new(size_t s);
 }

@@ -8,5 +8,6 @@ public import
 	godot.confirmationdialog,
 	godot.filedialog,
 	godot.editorfiledialog,
+	godot.scriptcreatedialog,
 	godot.popupmenu,
 	godot.popupdialog;

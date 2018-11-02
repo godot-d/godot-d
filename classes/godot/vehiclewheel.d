@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
+import godot.node;
 /**
 Physics object that simulates the behaviour of a wheel.
 
@@ -28,12 +29,41 @@ This node needs to be used as a child node of $(D VehicleBody) and simulates the
 */
 @GodotBaseClass struct VehicleWheel
 {
-	static immutable string _GODOT_internal_name = "VehicleWheel";
+	enum string _GODOT_internal_name = "VehicleWheel";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("set_suspension_rest_length") GodotMethod!(void, double) setSuspensionRestLength;
+		@GodotName("get_suspension_rest_length") GodotMethod!(double) getSuspensionRestLength;
+		@GodotName("set_suspension_travel") GodotMethod!(void, double) setSuspensionTravel;
+		@GodotName("get_suspension_travel") GodotMethod!(double) getSuspensionTravel;
+		@GodotName("set_suspension_stiffness") GodotMethod!(void, double) setSuspensionStiffness;
+		@GodotName("get_suspension_stiffness") GodotMethod!(double) getSuspensionStiffness;
+		@GodotName("set_suspension_max_force") GodotMethod!(void, double) setSuspensionMaxForce;
+		@GodotName("get_suspension_max_force") GodotMethod!(double) getSuspensionMaxForce;
+		@GodotName("set_damping_compression") GodotMethod!(void, double) setDampingCompression;
+		@GodotName("get_damping_compression") GodotMethod!(double) getDampingCompression;
+		@GodotName("set_damping_relaxation") GodotMethod!(void, double) setDampingRelaxation;
+		@GodotName("get_damping_relaxation") GodotMethod!(double) getDampingRelaxation;
+		@GodotName("set_use_as_traction") GodotMethod!(void, bool) setUseAsTraction;
+		@GodotName("is_used_as_traction") GodotMethod!(bool) isUsedAsTraction;
+		@GodotName("set_use_as_steering") GodotMethod!(void, bool) setUseAsSteering;
+		@GodotName("is_used_as_steering") GodotMethod!(bool) isUsedAsSteering;
+		@GodotName("set_friction_slip") GodotMethod!(void, double) setFrictionSlip;
+		@GodotName("get_friction_slip") GodotMethod!(double) getFrictionSlip;
+		@GodotName("is_in_contact") GodotMethod!(bool) isInContact;
+		@GodotName("set_roll_influence") GodotMethod!(void, double) setRollInfluence;
+		@GodotName("get_roll_influence") GodotMethod!(double) getRollInfluence;
+		@GodotName("get_skidinfo") GodotMethod!(double) getSkidinfo;
+	}
 	bool opEquals(in VehicleWheel other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VehicleWheel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,245 +76,197 @@ public:
 		return cast(VehicleWheel)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_radius") = _GODOT_set_radius;
 	/**
 	
 	*/
 	void setRadius(in double length)
 	{
-		_GODOT_set_radius.bind("VehicleWheel", "set_radius");
-		ptrcall!(void)(_GODOT_set_radius, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_radius;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_radius") = _GODOT_get_radius;
 	/**
 	
 	*/
 	double getRadius() const
 	{
-		_GODOT_get_radius.bind("VehicleWheel", "get_radius");
-		return ptrcall!(double)(_GODOT_get_radius, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_suspension_rest_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_suspension_rest_length") = _GODOT_set_suspension_rest_length;
 	/**
 	
 	*/
 	void setSuspensionRestLength(in double length)
 	{
-		_GODOT_set_suspension_rest_length.bind("VehicleWheel", "set_suspension_rest_length");
-		ptrcall!(void)(_GODOT_set_suspension_rest_length, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSuspensionRestLength, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_suspension_rest_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_suspension_rest_length") = _GODOT_get_suspension_rest_length;
 	/**
 	
 	*/
 	double getSuspensionRestLength() const
 	{
-		_GODOT_get_suspension_rest_length.bind("VehicleWheel", "get_suspension_rest_length");
-		return ptrcall!(double)(_GODOT_get_suspension_rest_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSuspensionRestLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_suspension_travel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_suspension_travel") = _GODOT_set_suspension_travel;
 	/**
 	
 	*/
 	void setSuspensionTravel(in double length)
 	{
-		_GODOT_set_suspension_travel.bind("VehicleWheel", "set_suspension_travel");
-		ptrcall!(void)(_GODOT_set_suspension_travel, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSuspensionTravel, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_suspension_travel;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_suspension_travel") = _GODOT_get_suspension_travel;
 	/**
 	
 	*/
 	double getSuspensionTravel() const
 	{
-		_GODOT_get_suspension_travel.bind("VehicleWheel", "get_suspension_travel");
-		return ptrcall!(double)(_GODOT_get_suspension_travel, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSuspensionTravel, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_suspension_stiffness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_suspension_stiffness") = _GODOT_set_suspension_stiffness;
 	/**
 	
 	*/
 	void setSuspensionStiffness(in double length)
 	{
-		_GODOT_set_suspension_stiffness.bind("VehicleWheel", "set_suspension_stiffness");
-		ptrcall!(void)(_GODOT_set_suspension_stiffness, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSuspensionStiffness, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_suspension_stiffness;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_suspension_stiffness") = _GODOT_get_suspension_stiffness;
 	/**
 	
 	*/
 	double getSuspensionStiffness() const
 	{
-		_GODOT_get_suspension_stiffness.bind("VehicleWheel", "get_suspension_stiffness");
-		return ptrcall!(double)(_GODOT_get_suspension_stiffness, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSuspensionStiffness, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_suspension_max_force;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_suspension_max_force") = _GODOT_set_suspension_max_force;
 	/**
 	
 	*/
 	void setSuspensionMaxForce(in double length)
 	{
-		_GODOT_set_suspension_max_force.bind("VehicleWheel", "set_suspension_max_force");
-		ptrcall!(void)(_GODOT_set_suspension_max_force, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSuspensionMaxForce, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_suspension_max_force;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_suspension_max_force") = _GODOT_get_suspension_max_force;
 	/**
 	
 	*/
 	double getSuspensionMaxForce() const
 	{
-		_GODOT_get_suspension_max_force.bind("VehicleWheel", "get_suspension_max_force");
-		return ptrcall!(double)(_GODOT_get_suspension_max_force, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSuspensionMaxForce, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_damping_compression;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_damping_compression") = _GODOT_set_damping_compression;
 	/**
 	
 	*/
 	void setDampingCompression(in double length)
 	{
-		_GODOT_set_damping_compression.bind("VehicleWheel", "set_damping_compression");
-		ptrcall!(void)(_GODOT_set_damping_compression, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDampingCompression, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_damping_compression;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_damping_compression") = _GODOT_get_damping_compression;
 	/**
 	
 	*/
 	double getDampingCompression() const
 	{
-		_GODOT_get_damping_compression.bind("VehicleWheel", "get_damping_compression");
-		return ptrcall!(double)(_GODOT_get_damping_compression, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDampingCompression, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_damping_relaxation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_damping_relaxation") = _GODOT_set_damping_relaxation;
 	/**
 	
 	*/
 	void setDampingRelaxation(in double length)
 	{
-		_GODOT_set_damping_relaxation.bind("VehicleWheel", "set_damping_relaxation");
-		ptrcall!(void)(_GODOT_set_damping_relaxation, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDampingRelaxation, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_damping_relaxation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_damping_relaxation") = _GODOT_get_damping_relaxation;
 	/**
 	
 	*/
 	double getDampingRelaxation() const
 	{
-		_GODOT_get_damping_relaxation.bind("VehicleWheel", "get_damping_relaxation");
-		return ptrcall!(double)(_GODOT_get_damping_relaxation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDampingRelaxation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_as_traction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_as_traction") = _GODOT_set_use_as_traction;
 	/**
 	
 	*/
 	void setUseAsTraction(in bool enable)
 	{
-		_GODOT_set_use_as_traction.bind("VehicleWheel", "set_use_as_traction");
-		ptrcall!(void)(_GODOT_set_use_as_traction, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseAsTraction, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_used_as_traction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_used_as_traction") = _GODOT_is_used_as_traction;
 	/**
 	
 	*/
 	bool isUsedAsTraction() const
 	{
-		_GODOT_is_used_as_traction.bind("VehicleWheel", "is_used_as_traction");
-		return ptrcall!(bool)(_GODOT_is_used_as_traction, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsedAsTraction, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_use_as_steering;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_as_steering") = _GODOT_set_use_as_steering;
 	/**
 	
 	*/
 	void setUseAsSteering(in bool enable)
 	{
-		_GODOT_set_use_as_steering.bind("VehicleWheel", "set_use_as_steering");
-		ptrcall!(void)(_GODOT_set_use_as_steering, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseAsSteering, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_used_as_steering;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_used_as_steering") = _GODOT_is_used_as_steering;
 	/**
 	
 	*/
 	bool isUsedAsSteering() const
 	{
-		_GODOT_is_used_as_steering.bind("VehicleWheel", "is_used_as_steering");
-		return ptrcall!(bool)(_GODOT_is_used_as_steering, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsedAsSteering, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_friction_slip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_friction_slip") = _GODOT_set_friction_slip;
 	/**
 	
 	*/
 	void setFrictionSlip(in double length)
 	{
-		_GODOT_set_friction_slip.bind("VehicleWheel", "set_friction_slip");
-		ptrcall!(void)(_GODOT_set_friction_slip, _godot_object, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrictionSlip, _godot_object, length);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_friction_slip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_friction_slip") = _GODOT_get_friction_slip;
 	/**
 	
 	*/
 	double getFrictionSlip() const
 	{
-		_GODOT_get_friction_slip.bind("VehicleWheel", "get_friction_slip");
-		return ptrcall!(double)(_GODOT_get_friction_slip, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFrictionSlip, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_in_contact;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_in_contact") = _GODOT_is_in_contact;
 	/**
 	Returns true if this wheel is in contact with a surface.
 	*/
 	bool isInContact() const
 	{
-		_GODOT_is_in_contact.bind("VehicleWheel", "is_in_contact");
-		return ptrcall!(bool)(_GODOT_is_in_contact, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInContact, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_roll_influence;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_roll_influence") = _GODOT_set_roll_influence;
 	/**
 	
 	*/
 	void setRollInfluence(in double roll_influence)
 	{
-		_GODOT_set_roll_influence.bind("VehicleWheel", "set_roll_influence");
-		ptrcall!(void)(_GODOT_set_roll_influence, _godot_object, roll_influence);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRollInfluence, _godot_object, roll_influence);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_roll_influence;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_roll_influence") = _GODOT_get_roll_influence;
 	/**
 	
 	*/
 	double getRollInfluence() const
 	{
-		_GODOT_get_roll_influence.bind("VehicleWheel", "get_roll_influence");
-		return ptrcall!(double)(_GODOT_get_roll_influence, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRollInfluence, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_skidinfo;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_skidinfo") = _GODOT_get_skidinfo;
 	/**
 	Returns a value between 0.0 and 1.0 that indicates whether this wheel is skidding. 0.0 is not skidding, 1.0 means the wheel has lost grip.
 	*/
 	double getSkidinfo() const
 	{
-		_GODOT_get_skidinfo.bind("VehicleWheel", "get_skidinfo");
-		return ptrcall!(double)(_GODOT_get_skidinfo, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSkidinfo, _godot_object);
 	}
 	/**
 	If true this wheel transfers engine force to the ground to propel the vehicle forward.

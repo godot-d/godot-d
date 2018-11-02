@@ -22,17 +22,35 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.configfile;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct GDNativeLibrary
 {
-	static immutable string _GODOT_internal_name = "GDNativeLibrary";
+	enum string _GODOT_internal_name = "GDNativeLibrary";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_config_file") GodotMethod!(ConfigFile) getConfigFile;
+		@GodotName("set_config_file") GodotMethod!(void, ConfigFile) setConfigFile;
+		@GodotName("get_current_library_path") GodotMethod!(String) getCurrentLibraryPath;
+		@GodotName("get_current_dependencies") GodotMethod!(PoolStringArray) getCurrentDependencies;
+		@GodotName("should_load_once") GodotMethod!(bool) shouldLoadOnce;
+		@GodotName("is_singleton") GodotMethod!(bool) isSingleton;
+		@GodotName("get_symbol_prefix") GodotMethod!(String) getSymbolPrefix;
+		@GodotName("is_reloadable") GodotMethod!(bool) isReloadable;
+		@GodotName("set_load_once") GodotMethod!(void, bool) setLoadOnce;
+		@GodotName("set_singleton") GodotMethod!(void, bool) setSingleton;
+		@GodotName("set_symbol_prefix") GodotMethod!(void, String) setSymbolPrefix;
+		@GodotName("set_reloadable") GodotMethod!(void, bool) setReloadable;
+	}
 	bool opEquals(in GDNativeLibrary other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDNativeLibrary opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,115 +63,113 @@ public:
 		return cast(GDNativeLibrary)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(ConfigFile) _GODOT_get_config_file;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_config_file") = _GODOT_get_config_file;
 	/**
 	
 	*/
 	Ref!ConfigFile getConfigFile()
 	{
-		_GODOT_get_config_file.bind("GDNativeLibrary", "get_config_file");
-		return ptrcall!(ConfigFile)(_GODOT_get_config_file, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ConfigFile)(_classBinding.getConfigFile, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_current_library_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_library_path") = _GODOT_get_current_library_path;
+	/**
+	
+	*/
+	void setConfigFile(ConfigFile config_file)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConfigFile, _godot_object, config_file);
+	}
 	/**
 	
 	*/
 	String getCurrentLibraryPath() const
 	{
-		_GODOT_get_current_library_path.bind("GDNativeLibrary", "get_current_library_path");
-		return ptrcall!(String)(_GODOT_get_current_library_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCurrentLibraryPath, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_current_dependencies;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_dependencies") = _GODOT_get_current_dependencies;
 	/**
 	
 	*/
 	PoolStringArray getCurrentDependencies() const
 	{
-		_GODOT_get_current_dependencies.bind("GDNativeLibrary", "get_current_dependencies");
-		return ptrcall!(PoolStringArray)(_GODOT_get_current_dependencies, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getCurrentDependencies, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_should_load_once;
-	package(godot) alias _GODOT_methodBindInfo(string name : "should_load_once") = _GODOT_should_load_once;
 	/**
 	
 	*/
 	bool shouldLoadOnce() const
 	{
-		_GODOT_should_load_once.bind("GDNativeLibrary", "should_load_once");
-		return ptrcall!(bool)(_GODOT_should_load_once, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.shouldLoadOnce, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_singleton") = _GODOT_is_singleton;
 	/**
 	
 	*/
 	bool isSingleton() const
 	{
-		_GODOT_is_singleton.bind("GDNativeLibrary", "is_singleton");
-		return ptrcall!(bool)(_GODOT_is_singleton, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSingleton, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_symbol_prefix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_symbol_prefix") = _GODOT_get_symbol_prefix;
 	/**
 	
 	*/
 	String getSymbolPrefix() const
 	{
-		_GODOT_get_symbol_prefix.bind("GDNativeLibrary", "get_symbol_prefix");
-		return ptrcall!(String)(_GODOT_get_symbol_prefix, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSymbolPrefix, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_reloadable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_reloadable") = _GODOT_is_reloadable;
 	/**
 	
 	*/
 	bool isReloadable() const
 	{
-		_GODOT_is_reloadable.bind("GDNativeLibrary", "is_reloadable");
-		return ptrcall!(bool)(_GODOT_is_reloadable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isReloadable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_load_once;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_load_once") = _GODOT_set_load_once;
 	/**
 	
 	*/
 	void setLoadOnce(in bool load_once)
 	{
-		_GODOT_set_load_once.bind("GDNativeLibrary", "set_load_once");
-		ptrcall!(void)(_GODOT_set_load_once, _godot_object, load_once);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoadOnce, _godot_object, load_once);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_singleton") = _GODOT_set_singleton;
 	/**
 	
 	*/
 	void setSingleton(in bool singleton)
 	{
-		_GODOT_set_singleton.bind("GDNativeLibrary", "set_singleton");
-		ptrcall!(void)(_GODOT_set_singleton, _godot_object, singleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_symbol_prefix;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_symbol_prefix") = _GODOT_set_symbol_prefix;
 	/**
 	
 	*/
 	void setSymbolPrefix(StringArg0)(in StringArg0 symbol_prefix)
 	{
-		_GODOT_set_symbol_prefix.bind("GDNativeLibrary", "set_symbol_prefix");
-		ptrcall!(void)(_GODOT_set_symbol_prefix, _godot_object, symbol_prefix);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSymbolPrefix, _godot_object, symbol_prefix);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_reloadable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_reloadable") = _GODOT_set_reloadable;
 	/**
 	
 	*/
 	void setReloadable(in bool reloadable)
 	{
-		_GODOT_set_reloadable.bind("GDNativeLibrary", "set_reloadable");
-		ptrcall!(void)(_GODOT_set_reloadable, _godot_object, reloadable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReloadable, _godot_object, reloadable);
+	}
+	/**
+	
+	*/
+	@property ConfigFile configFile()
+	{
+		return getConfigFile();
+	}
+	/// ditto
+	@property void configFile(ConfigFile v)
+	{
+		setConfigFile(v);
 	}
 	/**
 	

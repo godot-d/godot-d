@@ -32,12 +32,36 @@ For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/H
 */
 @GodotBaseClass struct HTTPClient
 {
-	static immutable string _GODOT_internal_name = "HTTPClient";
+	enum string _GODOT_internal_name = "HTTPClient";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long, bool, bool) connectToHost;
+		@GodotName("set_connection") GodotMethod!(void, StreamPeer) setConnection;
+		@GodotName("get_connection") GodotMethod!(StreamPeer) getConnection;
+		@GodotName("request_raw") GodotMethod!(GodotError, long, String, PoolStringArray, PoolByteArray) requestRaw;
+		@GodotName("request") GodotMethod!(GodotError, long, String, PoolStringArray, String) request;
+		@GodotName("close") GodotMethod!(void) close;
+		@GodotName("has_response") GodotMethod!(bool) hasResponse;
+		@GodotName("is_response_chunked") GodotMethod!(bool) isResponseChunked;
+		@GodotName("get_response_code") GodotMethod!(long) getResponseCode;
+		@GodotName("get_response_headers") GodotMethod!(PoolStringArray) getResponseHeaders;
+		@GodotName("get_response_headers_as_dictionary") GodotMethod!(Dictionary) getResponseHeadersAsDictionary;
+		@GodotName("get_response_body_length") GodotMethod!(long) getResponseBodyLength;
+		@GodotName("read_response_body_chunk") GodotMethod!(PoolByteArray) readResponseBodyChunk;
+		@GodotName("set_read_chunk_size") GodotMethod!(void, long) setReadChunkSize;
+		@GodotName("set_blocking_mode") GodotMethod!(void, bool) setBlockingMode;
+		@GodotName("is_blocking_mode_enabled") GodotMethod!(bool) isBlockingModeEnabled;
+		@GodotName("get_status") GodotMethod!(HTTPClient.Status) getStatus;
+		@GodotName("poll") GodotMethod!(GodotError) poll;
+		@GodotName("query_string_from_dict") GodotMethod!(String, Dictionary) queryStringFromDict;
+	}
 	bool opEquals(in HTTPClient other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HTTPClient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -389,26 +413,26 @@ public:
 	/// 
 	enum Constants : int
 	{
-		statusDisconnected = 0,
 		methodGet = 0,
+		statusDisconnected = 0,
 		methodHead = 1,
 		statusResolving = 1,
-		methodPost = 2,
 		statusCantResolve = 2,
-		statusConnecting = 3,
+		methodPost = 2,
 		methodPut = 3,
+		statusConnecting = 3,
 		statusCantConnect = 4,
 		methodDelete = 4,
-		statusConnected = 5,
 		methodOptions = 5,
-		statusRequesting = 6,
+		statusConnected = 5,
 		methodTrace = 6,
-		statusBody = 7,
+		statusRequesting = 6,
 		methodConnect = 7,
+		statusBody = 7,
 		methodPatch = 8,
 		statusConnectionError = 8,
-		methodMax = 9,
 		statusSslHandshakeError = 9,
+		methodMax = 9,
 		responseContinue = 100,
 		responseSwitchingProtocols = 101,
 		responseProcessing = 102,
@@ -471,8 +495,6 @@ public:
 		responseNotExtended = 510,
 		responseNetworkAuthRequired = 511,
 	}
-	package(godot) static GodotMethod!(GodotError, String, long, bool, bool) _GODOT_connect_to_host;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_host") = _GODOT_connect_to_host;
 	/**
 	Connect to a host. This needs to be done before any requests are sent.
 	The host should not have http:// prepended but will strip the protocol identifier if provided.
@@ -481,31 +503,25 @@ public:
 	*/
 	GodotError connectToHost(StringArg0)(in StringArg0 host, in long port = -1, in bool use_ssl = false, in bool verify_host = true)
 	{
-		_GODOT_connect_to_host.bind("HTTPClient", "connect_to_host");
-		return ptrcall!(GodotError)(_GODOT_connect_to_host, _godot_object, host, port, use_ssl, verify_host);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port, use_ssl, verify_host);
 	}
-	package(godot) static GodotMethod!(void, StreamPeer) _GODOT_set_connection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_connection") = _GODOT_set_connection;
 	/**
 	
 	*/
 	void setConnection(StreamPeer connection)
 	{
-		_GODOT_set_connection.bind("HTTPClient", "set_connection");
-		ptrcall!(void)(_GODOT_set_connection, _godot_object, connection);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConnection, _godot_object, connection);
 	}
-	package(godot) static GodotMethod!(StreamPeer) _GODOT_get_connection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_connection") = _GODOT_get_connection;
 	/**
 	
 	*/
 	Ref!StreamPeer getConnection() const
 	{
-		_GODOT_get_connection.bind("HTTPClient", "get_connection");
-		return ptrcall!(StreamPeer)(_GODOT_get_connection, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StreamPeer)(_classBinding.getConnection, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError, long, String, PoolStringArray, PoolByteArray) _GODOT_request_raw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "request_raw") = _GODOT_request_raw;
 	/**
 	Sends a raw request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
 	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
@@ -513,11 +529,9 @@ public:
 	*/
 	GodotError requestRaw(StringArg1)(in long method, in StringArg1 url, in PoolStringArray headers, in PoolByteArray _body)
 	{
-		_GODOT_request_raw.bind("HTTPClient", "request_raw");
-		return ptrcall!(GodotError)(_GODOT_request_raw, _godot_object, method, url, headers, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.requestRaw, _godot_object, method, url, headers, _body);
 	}
-	package(godot) static GodotMethod!(GodotError, long, String, PoolStringArray, String) _GODOT_request;
-	package(godot) alias _GODOT_methodBindInfo(string name : "request") = _GODOT_request;
 	/**
 	Sends a request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
 	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
@@ -533,61 +547,49 @@ public:
 	*/
 	GodotError request(StringArg1, StringArg3)(in long method, in StringArg1 url, in PoolStringArray headers, in StringArg3 _body = "")
 	{
-		_GODOT_request.bind("HTTPClient", "request");
-		return ptrcall!(GodotError)(_GODOT_request, _godot_object, method, url, headers, _body);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_close;
-	package(godot) alias _GODOT_methodBindInfo(string name : "close") = _GODOT_close;
 	/**
 	Closes the current connection, allowing reuse of this `HTTPClient`.
 	*/
 	void close()
 	{
-		_GODOT_close.bind("HTTPClient", "close");
-		ptrcall!(void)(_GODOT_close, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.close, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_response;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_response") = _GODOT_has_response;
 	/**
 	If `true` this `HTTPClient` has a response available.
 	*/
 	bool hasResponse() const
 	{
-		_GODOT_has_response.bind("HTTPClient", "has_response");
-		return ptrcall!(bool)(_GODOT_has_response, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasResponse, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_response_chunked;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_response_chunked") = _GODOT_is_response_chunked;
 	/**
 	If `true` this `HTTPClient` has a response that is chunked.
 	*/
 	bool isResponseChunked() const
 	{
-		_GODOT_is_response_chunked.bind("HTTPClient", "is_response_chunked");
-		return ptrcall!(bool)(_GODOT_is_response_chunked, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isResponseChunked, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_response_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_response_code") = _GODOT_get_response_code;
 	/**
 	Returns the response's HTTP status code.
 	*/
 	long getResponseCode() const
 	{
-		_GODOT_get_response_code.bind("HTTPClient", "get_response_code");
-		return ptrcall!(long)(_GODOT_get_response_code, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResponseCode, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_response_headers;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_response_headers") = _GODOT_get_response_headers;
 	/**
 	Returns the response headers.
 	*/
 	PoolStringArray getResponseHeaders()
 	{
-		_GODOT_get_response_headers.bind("HTTPClient", "get_response_headers");
-		return ptrcall!(PoolStringArray)(_GODOT_get_response_headers, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getResponseHeaders, _godot_object);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT_get_response_headers_as_dictionary;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_response_headers_as_dictionary") = _GODOT_get_response_headers_as_dictionary;
 	/**
 	Returns all response headers as dictionary where the case-sensitivity of the keys and values is kept like the server delivers it. A value is a simple String, this string can have more than one value where "; " is used as separator.
 	Structure: ("key":"value1; value2")
@@ -595,81 +597,65 @@ public:
 	*/
 	Dictionary getResponseHeadersAsDictionary()
 	{
-		_GODOT_get_response_headers_as_dictionary.bind("HTTPClient", "get_response_headers_as_dictionary");
-		return ptrcall!(Dictionary)(_GODOT_get_response_headers_as_dictionary, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getResponseHeadersAsDictionary, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_response_body_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_response_body_length") = _GODOT_get_response_body_length;
 	/**
 	Returns the response's body length.
 	*/
 	long getResponseBodyLength() const
 	{
-		_GODOT_get_response_body_length.bind("HTTPClient", "get_response_body_length");
-		return ptrcall!(long)(_GODOT_get_response_body_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResponseBodyLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(PoolByteArray) _GODOT_read_response_body_chunk;
-	package(godot) alias _GODOT_methodBindInfo(string name : "read_response_body_chunk") = _GODOT_read_response_body_chunk;
 	/**
 	Reads one chunk from the response.
 	*/
 	PoolByteArray readResponseBodyChunk()
 	{
-		_GODOT_read_response_body_chunk.bind("HTTPClient", "read_response_body_chunk");
-		return ptrcall!(PoolByteArray)(_GODOT_read_response_body_chunk, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.readResponseBodyChunk, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_read_chunk_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_read_chunk_size") = _GODOT_set_read_chunk_size;
 	/**
 	Sets the size of the buffer used and maximum bytes to read per iteration. see $(D readResponseBodyChunk)
 	*/
 	void setReadChunkSize(in long bytes)
 	{
-		_GODOT_set_read_chunk_size.bind("HTTPClient", "set_read_chunk_size");
-		ptrcall!(void)(_GODOT_set_read_chunk_size, _godot_object, bytes);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReadChunkSize, _godot_object, bytes);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_blocking_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_blocking_mode") = _GODOT_set_blocking_mode;
 	/**
 	
 	*/
 	void setBlockingMode(in bool enabled)
 	{
-		_GODOT_set_blocking_mode.bind("HTTPClient", "set_blocking_mode");
-		ptrcall!(void)(_GODOT_set_blocking_mode, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlockingMode, _godot_object, enabled);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_blocking_mode_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_blocking_mode_enabled") = _GODOT_is_blocking_mode_enabled;
 	/**
 	
 	*/
 	bool isBlockingModeEnabled() const
 	{
-		_GODOT_is_blocking_mode_enabled.bind("HTTPClient", "is_blocking_mode_enabled");
-		return ptrcall!(bool)(_GODOT_is_blocking_mode_enabled, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBlockingModeEnabled, _godot_object);
 	}
-	package(godot) static GodotMethod!(HTTPClient.Status) _GODOT_get_status;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_status") = _GODOT_get_status;
 	/**
 	Returns a STATUS_* enum constant. Need to call $(D poll) in order to get status updates.
 	*/
 	HTTPClient.Status getStatus() const
 	{
-		_GODOT_get_status.bind("HTTPClient", "get_status");
-		return ptrcall!(HTTPClient.Status)(_GODOT_get_status, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(HTTPClient.Status)(_classBinding.getStatus, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_poll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "poll") = _GODOT_poll;
 	/**
 	This needs to be called in order to have any request processed. Check results with $(D getStatus)
 	*/
 	GodotError poll()
 	{
-		_GODOT_poll.bind("HTTPClient", "poll");
-		return ptrcall!(GodotError)(_GODOT_poll, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, Dictionary) _GODOT_query_string_from_dict;
-	package(godot) alias _GODOT_methodBindInfo(string name : "query_string_from_dict") = _GODOT_query_string_from_dict;
 	/**
 	Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:
 	
@@ -690,8 +676,8 @@ public:
 	*/
 	String queryStringFromDict(in Dictionary fields)
 	{
-		_GODOT_query_string_from_dict.bind("HTTPClient", "query_string_from_dict");
-		return ptrcall!(String)(_GODOT_query_string_from_dict, _godot_object, fields);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.queryStringFromDict, _godot_object, fields);
 	}
 	/**
 	If `true`, execution will block until all data is read from the response.

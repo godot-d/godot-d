@@ -20,6 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.collisionobject;
+import godot.spatial;
+import godot.node;
 /**
 Base class for all objects affected by physics in 3D space.
 
@@ -27,12 +29,30 @@ PhysicsBody is an abstract base class for implementing a physics body. All *Body
 */
 @GodotBaseClass struct PhysicsBody
 {
-	static immutable string _GODOT_internal_name = "PhysicsBody";
+	enum string _GODOT_internal_name = "PhysicsBody";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; CollisionObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
+		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
+		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
+		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
+		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
+		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
+		@GodotName("_set_layers") GodotMethod!(void, long) _setLayers;
+		@GodotName("_get_layers") GodotMethod!(long) _getLayers;
+		@GodotName("get_collision_exceptions") GodotMethod!(Array) getCollisionExceptions;
+		@GodotName("add_collision_exception_with") GodotMethod!(void, GodotObject) addCollisionExceptionWith;
+		@GodotName("remove_collision_exception_with") GodotMethod!(void, GodotObject) removeCollisionExceptionWith;
+	}
 	bool opEquals(in PhysicsBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,88 +65,70 @@ public:
 		return cast(PhysicsBody)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer") = _GODOT_set_collision_layer;
 	/**
 	
 	*/
 	void setCollisionLayer(in long layer)
 	{
-		_GODOT_set_collision_layer.bind("PhysicsBody", "set_collision_layer");
-		ptrcall!(void)(_GODOT_set_collision_layer, _godot_object, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collision_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_layer") = _GODOT_get_collision_layer;
 	/**
 	
 	*/
 	long getCollisionLayer() const
 	{
-		_GODOT_get_collision_layer.bind("PhysicsBody", "get_collision_layer");
-		return ptrcall!(long)(_GODOT_get_collision_layer, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask") = _GODOT_set_collision_mask;
 	/**
 	
 	*/
 	void setCollisionMask(in long mask)
 	{
-		_GODOT_set_collision_mask.bind("PhysicsBody", "set_collision_mask");
-		ptrcall!(void)(_GODOT_set_collision_mask, _godot_object, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_collision_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask") = _GODOT_get_collision_mask;
 	/**
 	
 	*/
 	long getCollisionMask() const
 	{
-		_GODOT_get_collision_mask.bind("PhysicsBody", "get_collision_mask");
-		return ptrcall!(long)(_GODOT_get_collision_mask, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_mask_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_mask_bit") = _GODOT_set_collision_mask_bit;
 	/**
-	
+	Sets individual bits on the collision mask. Use this if you only need to change one layer's value.
 	*/
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
-		_GODOT_set_collision_mask_bit.bind("PhysicsBody", "set_collision_mask_bit");
-		ptrcall!(void)(_GODOT_set_collision_mask_bit, _godot_object, bit, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_mask_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_mask_bit") = _GODOT_get_collision_mask_bit;
 	/**
-	
+	Returns an individual bit on the collision mask.
 	*/
 	bool getCollisionMaskBit(in long bit) const
 	{
-		_GODOT_get_collision_mask_bit.bind("PhysicsBody", "get_collision_mask_bit");
-		return ptrcall!(bool)(_GODOT_get_collision_mask_bit, _godot_object, bit);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_collision_layer_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_collision_layer_bit") = _GODOT_set_collision_layer_bit;
 	/**
-	
+	Sets individual bits on the layer mask. Use this if you only need to change one layer's value.
 	*/
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
-		_GODOT_set_collision_layer_bit.bind("PhysicsBody", "set_collision_layer_bit");
-		ptrcall!(void)(_GODOT_set_collision_layer_bit, _godot_object, bit, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_get_collision_layer_bit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_collision_layer_bit") = _GODOT_get_collision_layer_bit;
 	/**
-	
+	Returns an individual bit on the collision mask.
 	*/
 	bool getCollisionLayerBit(in long bit) const
 	{
-		_GODOT_get_collision_layer_bit.bind("PhysicsBody", "get_collision_layer_bit");
-		return ptrcall!(bool)(_GODOT_get_collision_layer_bit, _godot_object, bit);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT__set_layers;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_layers") = _GODOT__set_layers;
 	/**
 	
 	*/
@@ -137,8 +139,6 @@ public:
 		String _GODOT_method_name = String("_set_layers");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(long) _GODOT__get_layers;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_layers") = _GODOT__get_layers;
 	/**
 	
 	*/
@@ -148,25 +148,29 @@ public:
 		String _GODOT_method_name = String("_get_layers");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_add_collision_exception_with;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_collision_exception_with") = _GODOT_add_collision_exception_with;
+	/**
+	Returns an array of nodes that were added as collision exceptions for this body.
+	*/
+	Array getCollisionExceptions()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getCollisionExceptions, _godot_object);
+	}
 	/**
 	Adds a body to the list of bodies that this body can't collide with.
 	*/
 	void addCollisionExceptionWith(GodotObject _body)
 	{
-		_GODOT_add_collision_exception_with.bind("PhysicsBody", "add_collision_exception_with");
-		ptrcall!(void)(_GODOT_add_collision_exception_with, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addCollisionExceptionWith, _godot_object, _body);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_remove_collision_exception_with;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_collision_exception_with") = _GODOT_remove_collision_exception_with;
 	/**
 	Removes a body from the list of bodies that this body can't collide with.
 	*/
 	void removeCollisionExceptionWith(GodotObject _body)
 	{
-		_GODOT_remove_collision_exception_with.bind("PhysicsBody", "remove_collision_exception_with");
-		ptrcall!(void)(_GODOT_remove_collision_exception_with, _godot_object, _body);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeCollisionExceptionWith, _godot_object, _body);
 	}
 	/**
 	The physics layers this area is in.
@@ -183,7 +187,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The physics layers this area can scan for collisions.
+	The physics layers this area scans for collisions.
 	*/
 	@property long collisionMask()
 	{

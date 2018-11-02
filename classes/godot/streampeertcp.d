@@ -21,19 +21,32 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.streampeer;
+import godot.reference;
 /**
 TCP Stream peer.
 
-This object can be used to connect to TCP servers, or also is returned by a tcp server.
+This object can be used to connect to TCP servers, or also is returned by a TCP server.
 */
 @GodotBaseClass struct StreamPeerTCP
 {
-	static immutable string _GODOT_internal_name = "StreamPeerTCP";
+	enum string _GODOT_internal_name = "StreamPeerTCP";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; StreamPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long) connectToHost;
+		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
+		@GodotName("get_status") GodotMethod!(StreamPeerTCP.Status) getStatus;
+		@GodotName("get_connected_host") GodotMethod!(String) getConnectedHost;
+		@GodotName("get_connected_port") GodotMethod!(long) getConnectedPort;
+		@GodotName("disconnect_from_host") GodotMethod!(void) disconnectFromHost;
+		@GodotName("set_no_delay") GodotMethod!(void, bool) setNoDelay;
+	}
 	bool opEquals(in StreamPeerTCP other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StreamPeerTCP opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -62,7 +75,7 @@ public:
 		*/
 		statusConnected = 2,
 		/**
-		A staus representing a `StreamPeerTCP` in error state.
+		A status representing a `StreamPeerTCP` in error state.
 		*/
 		statusError = 3,
 	}
@@ -74,75 +87,61 @@ public:
 		statusConnected = 2,
 		statusError = 3,
 	}
-	package(godot) static GodotMethod!(GodotError, String, long) _GODOT_connect_to_host;
-	package(godot) alias _GODOT_methodBindInfo(string name : "connect_to_host") = _GODOT_connect_to_host;
 	/**
 	Connect to the specified host:port pair. A hostname will be resolved if valid. Returns $(D OK) on success or $(D FAILED) on failure.
 	*/
 	GodotError connectToHost(StringArg0)(in StringArg0 host, in long port)
 	{
-		_GODOT_connect_to_host.bind("StreamPeerTCP", "connect_to_host");
-		return ptrcall!(GodotError)(_GODOT_connect_to_host, _godot_object, host, port);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_connected_to_host;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_connected_to_host") = _GODOT_is_connected_to_host;
 	/**
-	
+	Returns `true` if this peer is currently connected to a host, $(D code)false$(D code) otherwise.
 	*/
 	bool isConnectedToHost() const
 	{
-		_GODOT_is_connected_to_host.bind("StreamPeerTCP", "is_connected_to_host");
-		return ptrcall!(bool)(_GODOT_is_connected_to_host, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
 	}
-	package(godot) static GodotMethod!(StreamPeerTCP.Status) _GODOT_get_status;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_status") = _GODOT_get_status;
 	/**
 	Return the status of the connection, one of STATUS_* enum.
 	*/
-	StreamPeerTCP.Status getStatus() const
+	StreamPeerTCP.Status getStatus()
 	{
-		_GODOT_get_status.bind("StreamPeerTCP", "get_status");
-		return ptrcall!(StreamPeerTCP.Status)(_GODOT_get_status, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StreamPeerTCP.Status)(_classBinding.getStatus, _godot_object);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_connected_host;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_connected_host") = _GODOT_get_connected_host;
 	/**
 	Return the IP of this peer.
 	*/
 	String getConnectedHost() const
 	{
-		_GODOT_get_connected_host.bind("StreamPeerTCP", "get_connected_host");
-		return ptrcall!(String)(_GODOT_get_connected_host, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_connected_port;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_connected_port") = _GODOT_get_connected_port;
 	/**
 	Return the port of this peer.
 	*/
 	long getConnectedPort() const
 	{
-		_GODOT_get_connected_port.bind("StreamPeerTCP", "get_connected_port");
-		return ptrcall!(long)(_GODOT_get_connected_port, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_disconnect_from_host;
-	package(godot) alias _GODOT_methodBindInfo(string name : "disconnect_from_host") = _GODOT_disconnect_from_host;
 	/**
 	Disconnect from host.
 	*/
 	void disconnectFromHost()
 	{
-		_GODOT_disconnect_from_host.bind("StreamPeerTCP", "disconnect_from_host");
-		ptrcall!(void)(_GODOT_disconnect_from_host, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_no_delay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_no_delay") = _GODOT_set_no_delay;
 	/**
 	Disable Nagle algorithm to improve latency for small packets.
 	Note that for applications that send large packets, or need to transfer a lot of data, this can reduce total bandwidth.
 	*/
 	void setNoDelay(in bool enabled)
 	{
-		_GODOT_set_no_delay.bind("StreamPeerTCP", "set_no_delay");
-		ptrcall!(void)(_GODOT_set_no_delay, _godot_object, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNoDelay, _godot_object, enabled);
 	}
 }

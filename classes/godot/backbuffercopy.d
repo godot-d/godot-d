@@ -1,5 +1,5 @@
 /**
-Copies a region of the screen (or the whole screen) to a buffer so it can be accessed with the texscreen() shader instruction.
+Copies a region of the screen (or the whole screen) to a buffer so it can be accessed with `SCREEN_TEXTURE` in the `texture()` function.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,19 +21,30 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
-Copies a region of the screen (or the whole screen) to a buffer so it can be accessed with the texscreen() shader instruction.
+Copies a region of the screen (or the whole screen) to a buffer so it can be accessed with `SCREEN_TEXTURE` in the `texture()` function.
 
-Node for back-buffering the currently displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Accessing this buffer is done with the texscreen() shader instruction.
+Node for back-buffering the currently displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Use `SCREEN_TEXTURE` in the `texture()` function to access the buffer.
 */
 @GodotBaseClass struct BackBufferCopy
 {
-	static immutable string _GODOT_internal_name = "BackBufferCopy";
+	enum string _GODOT_internal_name = "BackBufferCopy";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_rect") GodotMethod!(void, Rect2) setRect;
+		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
+		@GodotName("set_copy_mode") GodotMethod!(void, long) setCopyMode;
+		@GodotName("get_copy_mode") GodotMethod!(BackBufferCopy.CopyMode) getCopyMode;
+	}
 	bool opEquals(in BackBufferCopy other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BackBufferCopy opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -69,45 +80,37 @@ public:
 		copyModeRect = 1,
 		copyModeViewport = 2,
 	}
-	package(godot) static GodotMethod!(void, Rect2) _GODOT_set_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rect") = _GODOT_set_rect;
 	/**
 	
 	*/
 	void setRect(in Rect2 rect)
 	{
-		_GODOT_set_rect.bind("BackBufferCopy", "set_rect");
-		ptrcall!(void)(_GODOT_set_rect, _godot_object, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRect, _godot_object, rect);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rect") = _GODOT_get_rect;
 	/**
 	
 	*/
 	Rect2 getRect() const
 	{
-		_GODOT_get_rect.bind("BackBufferCopy", "get_rect");
-		return ptrcall!(Rect2)(_GODOT_get_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_copy_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_copy_mode") = _GODOT_set_copy_mode;
 	/**
 	
 	*/
 	void setCopyMode(in long copy_mode)
 	{
-		_GODOT_set_copy_mode.bind("BackBufferCopy", "set_copy_mode");
-		ptrcall!(void)(_GODOT_set_copy_mode, _godot_object, copy_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCopyMode, _godot_object, copy_mode);
 	}
-	package(godot) static GodotMethod!(BackBufferCopy.CopyMode) _GODOT_get_copy_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_copy_mode") = _GODOT_get_copy_mode;
 	/**
 	
 	*/
 	BackBufferCopy.CopyMode getCopyMode() const
 	{
-		_GODOT_get_copy_mode.bind("BackBufferCopy", "get_copy_mode");
-		return ptrcall!(BackBufferCopy.CopyMode)(_GODOT_get_copy_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BackBufferCopy.CopyMode)(_classBinding.getCopyMode, _godot_object);
 	}
 	/**
 	Buffer mode. See `COPY_MODE_*` constants.

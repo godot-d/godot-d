@@ -4,4 +4,5 @@ public import
 	godot.streampeer,
 	godot.streampeerbuffer,
 	godot.streampeertcp,
-	godot.streampeerssl;
+	godot.streampeerssl,
+	godot.streampeergdnative;

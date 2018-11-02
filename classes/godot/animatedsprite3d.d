@@ -22,6 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.spritebase3d;
 import godot.spriteframes;
+import godot.geometryinstance;
+import godot.visualinstance;
+import godot.spatial;
+import godot.node;
 /**
 2D sprite node in 3D world, that can use multiple 2D textures for animation.
 
@@ -29,12 +33,29 @@ Animations are created using a $(D SpriteFrames) resource, which can be configur
 */
 @GodotBaseClass struct AnimatedSprite3D
 {
-	static immutable string _GODOT_internal_name = "AnimatedSprite3D";
+	enum string _GODOT_internal_name = "AnimatedSprite3D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; SpriteBase3D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_sprite_frames") GodotMethod!(void, SpriteFrames) setSpriteFrames;
+		@GodotName("get_sprite_frames") GodotMethod!(SpriteFrames) getSpriteFrames;
+		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
+		@GodotName("get_animation") GodotMethod!(String) getAnimation;
+		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
+		@GodotName("_is_playing") GodotMethod!(bool) _isPlaying;
+		@GodotName("play") GodotMethod!(void, String) play;
+		@GodotName("stop") GodotMethod!(void) stop;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("set_frame") GodotMethod!(void, long) setFrame;
+		@GodotName("get_frame") GodotMethod!(long) getFrame;
+		@GodotName("_res_changed") GodotMethod!(void) _resChanged;
+	}
 	bool opEquals(in AnimatedSprite3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimatedSprite3D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,48 +68,38 @@ public:
 		return cast(AnimatedSprite3D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, SpriteFrames) _GODOT_set_sprite_frames;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sprite_frames") = _GODOT_set_sprite_frames;
 	/**
 	
 	*/
 	void setSpriteFrames(SpriteFrames sprite_frames)
 	{
-		_GODOT_set_sprite_frames.bind("AnimatedSprite3D", "set_sprite_frames");
-		ptrcall!(void)(_GODOT_set_sprite_frames, _godot_object, sprite_frames);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpriteFrames, _godot_object, sprite_frames);
 	}
-	package(godot) static GodotMethod!(SpriteFrames) _GODOT_get_sprite_frames;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sprite_frames") = _GODOT_get_sprite_frames;
 	/**
 	
 	*/
 	Ref!SpriteFrames getSpriteFrames() const
 	{
-		_GODOT_get_sprite_frames.bind("AnimatedSprite3D", "get_sprite_frames");
-		return ptrcall!(SpriteFrames)(_GODOT_get_sprite_frames, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(SpriteFrames)(_classBinding.getSpriteFrames, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_animation") = _GODOT_set_animation;
 	/**
 	
 	*/
 	void setAnimation(StringArg0)(in StringArg0 animation)
 	{
-		_GODOT_set_animation.bind("AnimatedSprite3D", "set_animation");
-		ptrcall!(void)(_GODOT_set_animation, _godot_object, animation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimation, _godot_object, animation);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation") = _GODOT_get_animation;
 	/**
 	
 	*/
 	String getAnimation() const
 	{
-		_GODOT_get_animation.bind("AnimatedSprite3D", "get_animation");
-		return ptrcall!(String)(_GODOT_get_animation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAnimation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT__set_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_playing") = _GODOT__set_playing;
 	/**
 	
 	*/
@@ -99,8 +110,6 @@ public:
 		String _GODOT_method_name = String("_set_playing");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT__is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_is_playing") = _GODOT__is_playing;
 	/**
 	
 	*/
@@ -110,58 +119,46 @@ public:
 		String _GODOT_method_name = String("_is_playing");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_play;
-	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
 	Play the animation set in parameter. If no parameter is provided, the current animation is played.
 	*/
 	void play(StringArg0)(in StringArg0 anim = "")
 	{
-		_GODOT_play.bind("AnimatedSprite3D", "play");
-		ptrcall!(void)(_GODOT_play, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.play, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "stop") = _GODOT_stop;
 	/**
 	Stop the current animation (does not reset the frame counter).
 	*/
 	void stop()
 	{
-		_GODOT_stop.bind("AnimatedSprite3D", "stop");
-		ptrcall!(void)(_GODOT_stop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_playing") = _GODOT_is_playing;
 	/**
 	Return true if an animation if currently being played.
 	*/
 	bool isPlaying() const
 	{
-		_GODOT_is_playing.bind("AnimatedSprite3D", "is_playing");
-		return ptrcall!(bool)(_GODOT_is_playing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_frame") = _GODOT_set_frame;
 	/**
 	
 	*/
 	void setFrame(in long frame)
 	{
-		_GODOT_set_frame.bind("AnimatedSprite3D", "set_frame");
-		ptrcall!(void)(_GODOT_set_frame, _godot_object, frame);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame") = _GODOT_get_frame;
 	/**
 	
 	*/
 	long getFrame() const
 	{
-		_GODOT_get_frame.bind("AnimatedSprite3D", "get_frame");
-		return ptrcall!(long)(_GODOT_get_frame, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__res_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_res_changed") = _GODOT__res_changed;
 	/**
 	
 	*/

@@ -21,17 +21,30 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct PackedDataContainer
 {
-	static immutable string _GODOT_internal_name = "PackedDataContainer";
+	enum string _GODOT_internal_name = "PackedDataContainer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_set_data") GodotMethod!(void, PoolByteArray) _setData;
+		@GodotName("_get_data") GodotMethod!(PoolByteArray) _getData;
+		@GodotName("_iter_init") GodotMethod!(Variant, Array) _iterInit;
+		@GodotName("_iter_get") GodotMethod!(Variant, Variant) _iterGet;
+		@GodotName("_iter_next") GodotMethod!(Variant, Array) _iterNext;
+		@GodotName("pack") GodotMethod!(GodotError, Variant) pack;
+		@GodotName("size") GodotMethod!(long) size;
+	}
 	bool opEquals(in PackedDataContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PackedDataContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -44,8 +57,6 @@ public:
 		return cast(PackedDataContainer)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, PoolByteArray) _GODOT__set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_data") = _GODOT__set_data;
 	/**
 	
 	*/
@@ -56,8 +67,6 @@ public:
 		String _GODOT_method_name = String("_set_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(PoolByteArray) _GODOT__get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_data") = _GODOT__get_data;
 	/**
 	
 	*/
@@ -67,8 +76,6 @@ public:
 		String _GODOT_method_name = String("_get_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolByteArray);
 	}
-	package(godot) static GodotMethod!(Variant, Array) _GODOT__iter_init;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_init") = _GODOT__iter_init;
 	/**
 	
 	*/
@@ -79,8 +86,6 @@ public:
 		String _GODOT_method_name = String("_iter_init");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, Variant) _GODOT__iter_get;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_get") = _GODOT__iter_get;
 	/**
 	
 	*/
@@ -91,8 +96,6 @@ public:
 		String _GODOT_method_name = String("_iter_get");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Variant, Array) _GODOT__iter_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_iter_next") = _GODOT__iter_next;
 	/**
 	
 	*/
@@ -103,25 +106,21 @@ public:
 		String _GODOT_method_name = String("_iter_next");
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(GodotError, Variant) _GODOT_pack;
-	package(godot) alias _GODOT_methodBindInfo(string name : "pack") = _GODOT_pack;
 	/**
 	
 	*/
 	GodotError pack(VariantArg0)(in VariantArg0 value)
 	{
-		_GODOT_pack.bind("PackedDataContainer", "pack");
-		return ptrcall!(GodotError)(_GODOT_pack, _godot_object, value);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, value);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "size") = _GODOT_size;
 	/**
 	
 	*/
 	long size() const
 	{
-		_GODOT_size.bind("PackedDataContainer", "size");
-		return ptrcall!(long)(_GODOT_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.size, _godot_object);
 	}
 	/**
 	

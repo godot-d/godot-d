@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 A Visual Script node which deconstructs a base type instance into its parts.
 
@@ -28,12 +30,21 @@ A Visual Script node which deconstructs a base type instance into its parts.
 */
 @GodotBaseClass struct VisualScriptDeconstruct
 {
-	static immutable string _GODOT_internal_name = "VisualScriptDeconstruct";
+	enum string _GODOT_internal_name = "VisualScriptDeconstruct";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_deconstruct_type") GodotMethod!(void, long) setDeconstructType;
+		@GodotName("get_deconstruct_type") GodotMethod!(Variant.Type) getDeconstructType;
+		@GodotName("_set_elem_cache") GodotMethod!(void, Array) _setElemCache;
+		@GodotName("_get_elem_cache") GodotMethod!(Array) _getElemCache;
+	}
 	bool opEquals(in VisualScriptDeconstruct other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptDeconstruct opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,28 +57,22 @@ public:
 		return cast(VisualScriptDeconstruct)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_deconstruct_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_deconstruct_type") = _GODOT_set_deconstruct_type;
 	/**
 	
 	*/
 	void setDeconstructType(in long type)
 	{
-		_GODOT_set_deconstruct_type.bind("VisualScriptDeconstruct", "set_deconstruct_type");
-		ptrcall!(void)(_GODOT_set_deconstruct_type, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDeconstructType, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_deconstruct_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_deconstruct_type") = _GODOT_get_deconstruct_type;
 	/**
 	
 	*/
 	Variant.Type getDeconstructType() const
 	{
-		_GODOT_get_deconstruct_type.bind("VisualScriptDeconstruct", "get_deconstruct_type");
-		return ptrcall!(Variant.Type)(_GODOT_get_deconstruct_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getDeconstructType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Array) _GODOT__set_elem_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_elem_cache") = _GODOT__set_elem_cache;
 	/**
 	
 	*/
@@ -78,8 +83,6 @@ public:
 		String _GODOT_method_name = String("_set_elem_cache");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT__get_elem_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_elem_cache") = _GODOT__get_elem_cache;
 	/**
 	
 	*/

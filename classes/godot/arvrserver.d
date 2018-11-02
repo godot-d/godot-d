@@ -28,20 +28,35 @@ The AR/VR Server is the heart of our AR/VR solution and handles all the processi
 */
 @GodotBaseClass struct ARVRServerSingleton
 {
-	static immutable string _GODOT_internal_name = "ARVRServer";
+	enum string _GODOT_internal_name = "ARVRServer";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "ARVRServer";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "ARVRServer";
+		@GodotName("get_world_scale") GodotMethod!(double) getWorldScale;
+		@GodotName("set_world_scale") GodotMethod!(void, double) setWorldScale;
+		@GodotName("get_reference_frame") GodotMethod!(Transform) getReferenceFrame;
+		@GodotName("center_on_hmd") GodotMethod!(void, long, bool) centerOnHmd;
+		@GodotName("get_hmd_transform") GodotMethod!(Transform) getHmdTransform;
+		@GodotName("get_interface_count") GodotMethod!(long) getInterfaceCount;
+		@GodotName("get_interface") GodotMethod!(ARVRInterface, long) getInterface;
+		@GodotName("get_interfaces") GodotMethod!(Array) getInterfaces;
+		@GodotName("find_interface") GodotMethod!(ARVRInterface, String) findInterface;
+		@GodotName("get_tracker_count") GodotMethod!(long) getTrackerCount;
+		@GodotName("get_tracker") GodotMethod!(ARVRPositionalTracker, long) getTracker;
+		@GodotName("get_primary_interface") GodotMethod!(ARVRInterface) getPrimaryInterface;
+		@GodotName("set_primary_interface") GodotMethod!(void, ARVRInterface) setPrimaryInterface;
+		@GodotName("get_last_process_usec") GodotMethod!(long) getLastProcessUsec;
+		@GodotName("get_last_commit_usec") GodotMethod!(long) getLastCommitUsec;
+		@GodotName("get_last_frame_usec") GodotMethod!(long) getLastFrameUsec;
+	}
 	bool opEquals(in ARVRServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -102,47 +117,39 @@ public:
 	enum Constants : int
 	{
 		resetFullRotation = 0,
-		trackerController = 1,
 		resetButKeepTilt = 1,
-		trackerBasestation = 2,
+		trackerController = 1,
 		dontResetRotation = 2,
+		trackerBasestation = 2,
 		trackerAnchor = 4,
 		trackerAnyKnown = 127,
 		trackerUnknown = 128,
 		trackerAny = 255,
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_world_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_world_scale") = _GODOT_get_world_scale;
 	/**
 	
 	*/
 	double getWorldScale() const
 	{
-		_GODOT_get_world_scale.bind("ARVRServer", "get_world_scale");
-		return ptrcall!(double)(_GODOT_get_world_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWorldScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_world_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_world_scale") = _GODOT_set_world_scale;
 	/**
 	
 	*/
 	void setWorldScale(in double arg0)
 	{
-		_GODOT_set_world_scale.bind("ARVRServer", "set_world_scale");
-		ptrcall!(void)(_GODOT_set_world_scale, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWorldScale, _godot_object, arg0);
 	}
-	package(godot) static GodotMethod!(Transform) _GODOT_get_reference_frame;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_reference_frame") = _GODOT_get_reference_frame;
 	/**
 	Gets our reference frame transform, mostly used internally and exposed for GDNative build interfaces.
 	*/
 	Transform getReferenceFrame() const
 	{
-		_GODOT_get_reference_frame.bind("ARVRServer", "get_reference_frame");
-		return ptrcall!(Transform)(_GODOT_get_reference_frame, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getReferenceFrame, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_center_on_hmd;
-	package(godot) alias _GODOT_methodBindInfo(string name : "center_on_hmd") = _GODOT_center_on_hmd;
 	/**
 	This is a really important function to understand correctly. AR and VR platforms all handle positioning slightly differently.
 	For platforms that do not offer spatial tracking our origin point (0,0,0) is the location of our HMD but you have little control over the direction the player is facing in the real world.
@@ -153,128 +160,104 @@ public:
 	*/
 	void centerOnHmd(in long rotation_mode, in bool keep_height)
 	{
-		_GODOT_center_on_hmd.bind("ARVRServer", "center_on_hmd");
-		ptrcall!(void)(_GODOT_center_on_hmd, _godot_object, rotation_mode, keep_height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.centerOnHmd, _godot_object, rotation_mode, keep_height);
 	}
-	package(godot) static GodotMethod!(Transform) _GODOT_get_hmd_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_hmd_transform") = _GODOT_get_hmd_transform;
 	/**
 	Returns the primary interface's transformation.
 	*/
 	Transform getHmdTransform()
 	{
-		_GODOT_get_hmd_transform.bind("ARVRServer", "get_hmd_transform");
-		return ptrcall!(Transform)(_GODOT_get_hmd_transform, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getHmdTransform, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_interface_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_interface_count") = _GODOT_get_interface_count;
 	/**
 	Get the number of interfaces currently registered with the AR/VR server. If you're game supports multiple AR/VR platforms you can look through the available interface and either present the user with a selection or simply try an initialize each interface and use the first one that returns true.
 	*/
 	long getInterfaceCount() const
 	{
-		_GODOT_get_interface_count.bind("ARVRServer", "get_interface_count");
-		return ptrcall!(long)(_GODOT_get_interface_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getInterfaceCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(ARVRInterface, long) _GODOT_get_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_interface") = _GODOT_get_interface;
 	/**
 	Get the interface registered at a given index in our list of interfaces.
 	*/
 	Ref!ARVRInterface getInterface(in long idx) const
 	{
-		_GODOT_get_interface.bind("ARVRServer", "get_interface");
-		return ptrcall!(ARVRInterface)(_GODOT_get_interface, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ARVRInterface)(_classBinding.getInterface, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_interfaces;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_interfaces") = _GODOT_get_interfaces;
 	/**
 	Returns a list of available interfaces with both id and name of the interface.
 	*/
 	Array getInterfaces() const
 	{
-		_GODOT_get_interfaces.bind("ARVRServer", "get_interfaces");
-		return ptrcall!(Array)(_GODOT_get_interfaces, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getInterfaces, _godot_object);
 	}
-	package(godot) static GodotMethod!(ARVRInterface, String) _GODOT_find_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_interface") = _GODOT_find_interface;
 	/**
 	Find an interface by its name. Say that you're making a game that uses specific capabilities of an AR/VR platform you can find the interface for that platform by name and initialize it.
 	*/
 	Ref!ARVRInterface findInterface(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_find_interface.bind("ARVRServer", "find_interface");
-		return ptrcall!(ARVRInterface)(_GODOT_find_interface, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ARVRInterface)(_classBinding.findInterface, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_tracker_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tracker_count") = _GODOT_get_tracker_count;
 	/**
 	Get the number of trackers currently registered.
 	*/
 	long getTrackerCount() const
 	{
-		_GODOT_get_tracker_count.bind("ARVRServer", "get_tracker_count");
-		return ptrcall!(long)(_GODOT_get_tracker_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrackerCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(ARVRPositionalTracker, long) _GODOT_get_tracker;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tracker") = _GODOT_get_tracker;
 	/**
 	Get the positional tracker at the given ID.
 	*/
 	ARVRPositionalTracker getTracker(in long idx) const
 	{
-		_GODOT_get_tracker.bind("ARVRServer", "get_tracker");
-		return ptrcall!(ARVRPositionalTracker)(_GODOT_get_tracker, _godot_object, idx);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ARVRPositionalTracker)(_classBinding.getTracker, _godot_object, idx);
 	}
-	package(godot) static GodotMethod!(ARVRInterface) _GODOT_get_primary_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_primary_interface") = _GODOT_get_primary_interface;
 	/**
 	
 	*/
 	Ref!ARVRInterface getPrimaryInterface() const
 	{
-		_GODOT_get_primary_interface.bind("ARVRServer", "get_primary_interface");
-		return ptrcall!(ARVRInterface)(_GODOT_get_primary_interface, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ARVRInterface)(_classBinding.getPrimaryInterface, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, ARVRInterface) _GODOT_set_primary_interface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_primary_interface") = _GODOT_set_primary_interface;
 	/**
 	
 	*/
 	void setPrimaryInterface(ARVRInterface _interface)
 	{
-		_GODOT_set_primary_interface.bind("ARVRServer", "set_primary_interface");
-		ptrcall!(void)(_GODOT_set_primary_interface, _godot_object, _interface);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPrimaryInterface, _godot_object, _interface);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_last_process_usec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_process_usec") = _GODOT_get_last_process_usec;
 	/**
 	
 	*/
 	long getLastProcessUsec()
 	{
-		_GODOT_get_last_process_usec.bind("ARVRServer", "get_last_process_usec");
-		return ptrcall!(long)(_GODOT_get_last_process_usec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLastProcessUsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_last_commit_usec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_commit_usec") = _GODOT_get_last_commit_usec;
 	/**
 	
 	*/
 	long getLastCommitUsec()
 	{
-		_GODOT_get_last_commit_usec.bind("ARVRServer", "get_last_commit_usec");
-		return ptrcall!(long)(_GODOT_get_last_commit_usec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLastCommitUsec, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_last_frame_usec;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_last_frame_usec") = _GODOT_get_last_frame_usec;
 	/**
 	
 	*/
 	long getLastFrameUsec()
 	{
-		_GODOT_get_last_frame_usec.bind("ARVRServer", "get_last_frame_usec");
-		return ptrcall!(long)(_GODOT_get_last_frame_usec, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLastFrameUsec, _godot_object);
 	}
 	/**
 	Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 meter in the real world.
@@ -288,10 +271,23 @@ public:
 	{
 		setWorldScale(v);
 	}
+	/**
+	
+	*/
+	@property ARVRInterface primaryInterface()
+	{
+		return getPrimaryInterface();
+	}
+	/// ditto
+	@property void primaryInterface(ARVRInterface v)
+	{
+		setPrimaryInterface(v);
+	}
 }
 /// Returns: the ARVRServerSingleton
 @property @nogc nothrow pragma(inline, true)
 ARVRServerSingleton ARVRServer()
 {
-	return ARVRServerSingleton._GODOT_singleton();
+	checkClassBinding!ARVRServerSingleton();
+	return ARVRServerSingleton(ARVRServerSingleton._classBinding._singleton);
 }

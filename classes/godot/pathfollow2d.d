@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
+import godot.canvasitem;
+import godot.node;
 /**
 Point sampler for a $(D Path2D).
 
@@ -29,12 +31,33 @@ It is useful for making other nodes follow a path, without coding the movement p
 */
 @GodotBaseClass struct PathFollow2D
 {
-	static immutable string _GODOT_internal_name = "PathFollow2D";
+	enum string _GODOT_internal_name = "PathFollow2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_offset") GodotMethod!(void, double) setOffset;
+		@GodotName("get_offset") GodotMethod!(double) getOffset;
+		@GodotName("set_h_offset") GodotMethod!(void, double) setHOffset;
+		@GodotName("get_h_offset") GodotMethod!(double) getHOffset;
+		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
+		@GodotName("get_v_offset") GodotMethod!(double) getVOffset;
+		@GodotName("set_unit_offset") GodotMethod!(void, double) setUnitOffset;
+		@GodotName("get_unit_offset") GodotMethod!(double) getUnitOffset;
+		@GodotName("set_rotate") GodotMethod!(void, bool) setRotate;
+		@GodotName("is_rotating") GodotMethod!(bool) isRotating;
+		@GodotName("set_cubic_interpolation") GodotMethod!(void, bool) setCubicInterpolation;
+		@GodotName("get_cubic_interpolation") GodotMethod!(bool) getCubicInterpolation;
+		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
+		@GodotName("has_loop") GodotMethod!(bool) hasLoop;
+		@GodotName("set_lookahead") GodotMethod!(void, double) setLookahead;
+		@GodotName("get_lookahead") GodotMethod!(double) getLookahead;
+	}
 	bool opEquals(in PathFollow2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PathFollow2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,165 +70,133 @@ public:
 		return cast(PathFollow2D)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, double) _GODOT_set_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_offset") = _GODOT_set_offset;
 	/**
 	
 	*/
 	void setOffset(in double offset)
 	{
-		_GODOT_set_offset.bind("PathFollow2D", "set_offset");
-		ptrcall!(void)(_GODOT_set_offset, _godot_object, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset") = _GODOT_get_offset;
 	/**
 	
 	*/
 	double getOffset() const
 	{
-		_GODOT_get_offset.bind("PathFollow2D", "get_offset");
-		return ptrcall!(double)(_GODOT_get_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_offset") = _GODOT_set_h_offset;
 	/**
 	
 	*/
 	void setHOffset(in double h_offset)
 	{
-		_GODOT_set_h_offset.bind("PathFollow2D", "set_h_offset");
-		ptrcall!(void)(_GODOT_set_h_offset, _godot_object, h_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHOffset, _godot_object, h_offset);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_h_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_offset") = _GODOT_get_h_offset;
 	/**
 	
 	*/
 	double getHOffset() const
 	{
-		_GODOT_get_h_offset.bind("PathFollow2D", "get_h_offset");
-		return ptrcall!(double)(_GODOT_get_h_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_offset") = _GODOT_set_v_offset;
 	/**
 	
 	*/
 	void setVOffset(in double v_offset)
 	{
-		_GODOT_set_v_offset.bind("PathFollow2D", "set_v_offset");
-		ptrcall!(void)(_GODOT_set_v_offset, _godot_object, v_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVOffset, _godot_object, v_offset);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_v_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_offset") = _GODOT_get_v_offset;
 	/**
 	
 	*/
 	double getVOffset() const
 	{
-		_GODOT_get_v_offset.bind("PathFollow2D", "get_v_offset");
-		return ptrcall!(double)(_GODOT_get_v_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_unit_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_unit_offset") = _GODOT_set_unit_offset;
 	/**
 	
 	*/
 	void setUnitOffset(in double unit_offset)
 	{
-		_GODOT_set_unit_offset.bind("PathFollow2D", "set_unit_offset");
-		ptrcall!(void)(_GODOT_set_unit_offset, _godot_object, unit_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUnitOffset, _godot_object, unit_offset);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_unit_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_unit_offset") = _GODOT_get_unit_offset;
 	/**
 	
 	*/
 	double getUnitOffset() const
 	{
-		_GODOT_get_unit_offset.bind("PathFollow2D", "get_unit_offset");
-		return ptrcall!(double)(_GODOT_get_unit_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getUnitOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_rotate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rotate") = _GODOT_set_rotate;
 	/**
 	
 	*/
 	void setRotate(in bool enable)
 	{
-		_GODOT_set_rotate.bind("PathFollow2D", "set_rotate");
-		ptrcall!(void)(_GODOT_set_rotate, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotate, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_rotating;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_rotating") = _GODOT_is_rotating;
 	/**
 	
 	*/
 	bool isRotating() const
 	{
-		_GODOT_is_rotating.bind("PathFollow2D", "is_rotating");
-		return ptrcall!(bool)(_GODOT_is_rotating, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRotating, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_cubic_interpolation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_cubic_interpolation") = _GODOT_set_cubic_interpolation;
 	/**
 	
 	*/
 	void setCubicInterpolation(in bool enable)
 	{
-		_GODOT_set_cubic_interpolation.bind("PathFollow2D", "set_cubic_interpolation");
-		ptrcall!(void)(_GODOT_set_cubic_interpolation, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCubicInterpolation, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_cubic_interpolation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cubic_interpolation") = _GODOT_get_cubic_interpolation;
 	/**
 	
 	*/
 	bool getCubicInterpolation() const
 	{
-		_GODOT_get_cubic_interpolation.bind("PathFollow2D", "get_cubic_interpolation");
-		return ptrcall!(bool)(_GODOT_get_cubic_interpolation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCubicInterpolation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_loop") = _GODOT_set_loop;
 	/**
 	
 	*/
 	void setLoop(in bool loop)
 	{
-		_GODOT_set_loop.bind("PathFollow2D", "set_loop");
-		ptrcall!(void)(_GODOT_set_loop, _godot_object, loop);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoop, _godot_object, loop);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_loop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_loop") = _GODOT_has_loop;
 	/**
 	
 	*/
 	bool hasLoop() const
 	{
-		_GODOT_has_loop.bind("PathFollow2D", "has_loop");
-		return ptrcall!(bool)(_GODOT_has_loop, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_lookahead;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_lookahead") = _GODOT_set_lookahead;
 	/**
 	
 	*/
 	void setLookahead(in double lookahead)
 	{
-		_GODOT_set_lookahead.bind("PathFollow2D", "set_lookahead");
-		ptrcall!(void)(_GODOT_set_lookahead, _godot_object, lookahead);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLookahead, _godot_object, lookahead);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_lookahead;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_lookahead") = _GODOT_get_lookahead;
 	/**
 	
 	*/
 	double getLookahead() const
 	{
-		_GODOT_get_lookahead.bind("PathFollow2D", "get_lookahead");
-		return ptrcall!(double)(_GODOT_get_lookahead, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLookahead, _godot_object);
 	}
 	/**
 	The distance along the path in pixels.
@@ -294,7 +285,7 @@ public:
 		setLoop(v);
 	}
 	/**
-	
+	How far to look ahead of the curve to calculate the tangent if the node is rotating. E.g. shorter lookaheads will lead to faster rotations. Default value: `4`.
 	*/
 	@property double lookahead()
 	{

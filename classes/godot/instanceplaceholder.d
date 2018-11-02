@@ -29,12 +29,21 @@ The InstancePlaceholder does not have a transform. This causes any child nodes t
 */
 @GodotBaseClass struct InstancePlaceholder
 {
-	static immutable string _GODOT_internal_name = "InstancePlaceholder";
+	enum string _GODOT_internal_name = "InstancePlaceholder";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_stored_values") GodotMethod!(Dictionary, bool) getStoredValues;
+		@GodotName("create_instance") GodotMethod!(Node, bool, PackedScene) createInstance;
+		@GodotName("replace_by_instance") GodotMethod!(void, PackedScene) replaceByInstance;
+		@GodotName("get_instance_path") GodotMethod!(String) getInstancePath;
+	}
 	bool opEquals(in InstancePlaceholder other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InstancePlaceholder opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,34 +56,36 @@ public:
 		return cast(InstancePlaceholder)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Dictionary, bool) _GODOT_get_stored_values;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stored_values") = _GODOT_get_stored_values;
 	/**
 	
 	*/
 	Dictionary getStoredValues(in bool with_order = false)
 	{
-		_GODOT_get_stored_values.bind("InstancePlaceholder", "get_stored_values");
-		return ptrcall!(Dictionary)(_GODOT_get_stored_values, _godot_object, with_order);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getStoredValues, _godot_object, with_order);
 	}
-	package(godot) static GodotMethod!(void, PackedScene) _GODOT_replace_by_instance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "replace_by_instance") = _GODOT_replace_by_instance;
+	/**
+	
+	*/
+	Node createInstance(in bool replace = false, PackedScene custom_scene = PackedScene.init)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.createInstance, _godot_object, replace, custom_scene);
+	}
 	/**
 	Replace this placeholder by the scene handed as an argument, or the original scene if no argument is given. As for all resources, the scene is loaded only if it's not loaded already. By manually loading the scene beforehand, delays caused by this function can be avoided.
 	*/
 	void replaceByInstance(PackedScene custom_scene = PackedScene.init)
 	{
-		_GODOT_replace_by_instance.bind("InstancePlaceholder", "replace_by_instance");
-		ptrcall!(void)(_GODOT_replace_by_instance, _godot_object, custom_scene);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.replaceByInstance, _godot_object, custom_scene);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_instance_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_instance_path") = _GODOT_get_instance_path;
 	/**
 	Retrieve the path to the $(D PackedScene) resource file that is loaded by default when calling $(D replaceByInstance).
 	*/
 	String getInstancePath() const
 	{
-		_GODOT_get_instance_path.bind("InstancePlaceholder", "get_instance_path");
-		return ptrcall!(String)(_GODOT_get_instance_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getInstancePath, _godot_object);
 	}
 }

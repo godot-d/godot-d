@@ -23,6 +23,8 @@ import godot.classdb;
 import godot.node2d;
 import godot.gradient;
 import godot.texture;
+import godot.canvasitem;
+import godot.node;
 /**
 A 2D line.
 
@@ -30,12 +32,45 @@ A line through several points in 2D space.
 */
 @GodotBaseClass struct Line2D
 {
-	static immutable string _GODOT_internal_name = "Line2D";
+	enum string _GODOT_internal_name = "Line2D";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_points") GodotMethod!(void, PoolVector2Array) setPoints;
+		@GodotName("get_points") GodotMethod!(PoolVector2Array) getPoints;
+		@GodotName("set_point_position") GodotMethod!(void, long, Vector2) setPointPosition;
+		@GodotName("get_point_position") GodotMethod!(Vector2, long) getPointPosition;
+		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
+		@GodotName("add_point") GodotMethod!(void, Vector2) addPoint;
+		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("set_width") GodotMethod!(void, double) setWidth;
+		@GodotName("get_width") GodotMethod!(double) getWidth;
+		@GodotName("set_default_color") GodotMethod!(void, Color) setDefaultColor;
+		@GodotName("get_default_color") GodotMethod!(Color) getDefaultColor;
+		@GodotName("set_gradient") GodotMethod!(void, Gradient) setGradient;
+		@GodotName("get_gradient") GodotMethod!(Gradient) getGradient;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_texture_mode") GodotMethod!(void, long) setTextureMode;
+		@GodotName("get_texture_mode") GodotMethod!(Line2D.LineTextureMode) getTextureMode;
+		@GodotName("set_joint_mode") GodotMethod!(void, long) setJointMode;
+		@GodotName("get_joint_mode") GodotMethod!(Line2D.LineJointMode) getJointMode;
+		@GodotName("set_begin_cap_mode") GodotMethod!(void, long) setBeginCapMode;
+		@GodotName("get_begin_cap_mode") GodotMethod!(Line2D.LineCapMode) getBeginCapMode;
+		@GodotName("set_end_cap_mode") GodotMethod!(void, long) setEndCapMode;
+		@GodotName("get_end_cap_mode") GodotMethod!(Line2D.LineCapMode) getEndCapMode;
+		@GodotName("set_sharp_limit") GodotMethod!(void, double) setSharpLimit;
+		@GodotName("get_sharp_limit") GodotMethod!(double) getSharpLimit;
+		@GodotName("set_round_precision") GodotMethod!(void, long) setRoundPrecision;
+		@GodotName("get_round_precision") GodotMethod!(long) getRoundPrecision;
+		@GodotName("_gradient_changed") GodotMethod!(void) _gradientChanged;
+	}
 	bool opEquals(in Line2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Line2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -59,6 +94,10 @@ public:
 		Tiles the texture over the line. The texture need to be imported with Repeat Enabled for it to work properly.
 		*/
 		lineTextureTile = 1,
+		/**
+		Stretches the texture across the line. Import the texture with Repeat Disabled for best results.
+		*/
+		lineTextureStretch = 2,
 	}
 	/// 
 	enum LineCapMode : int
@@ -96,286 +135,231 @@ public:
 	enum Constants : int
 	{
 		lineCapNone = 0,
-		lineTextureNone = 0,
 		lineJointSharp = 0,
+		lineTextureNone = 0,
 		lineCapBox = 1,
 		lineTextureTile = 1,
 		lineJointBevel = 1,
 		lineJointRound = 2,
+		lineTextureStretch = 2,
 		lineCapRound = 2,
 	}
-	package(godot) static GodotMethod!(void, PoolVector2Array) _GODOT_set_points;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_points") = _GODOT_set_points;
 	/**
 	
 	*/
 	void setPoints(in PoolVector2Array points)
 	{
-		_GODOT_set_points.bind("Line2D", "set_points");
-		ptrcall!(void)(_GODOT_set_points, _godot_object, points);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
 	}
-	package(godot) static GodotMethod!(PoolVector2Array) _GODOT_get_points;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_points") = _GODOT_get_points;
 	/**
 	
 	*/
 	PoolVector2Array getPoints() const
 	{
-		_GODOT_get_points.bind("Line2D", "get_points");
-		return ptrcall!(PoolVector2Array)(_GODOT_get_points, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getPoints, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, Vector2) _GODOT_set_point_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_point_position") = _GODOT_set_point_position;
 	/**
 	Overwrites the position in point `i` with the supplied `position`.
 	*/
 	void setPointPosition(in long i, in Vector2 position)
 	{
-		_GODOT_set_point_position.bind("Line2D", "set_point_position");
-		ptrcall!(void)(_GODOT_set_point_position, _godot_object, i, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, i, position);
 	}
-	package(godot) static GodotMethod!(Vector2, long) _GODOT_get_point_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_point_position") = _GODOT_get_point_position;
 	/**
 	Returns point `i`'s position.
 	*/
 	Vector2 getPointPosition(in long i) const
 	{
-		_GODOT_get_point_position.bind("Line2D", "get_point_position");
-		return ptrcall!(Vector2)(_GODOT_get_point_position, _godot_object, i);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, i);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_point_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_point_count") = _GODOT_get_point_count;
 	/**
 	Returns the Line2D's amount of points.
 	*/
 	long getPointCount() const
 	{
-		_GODOT_get_point_count.bind("Line2D", "get_point_count");
-		return ptrcall!(long)(_GODOT_get_point_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_add_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_point") = _GODOT_add_point;
 	/**
 	Add a point at the `position`. Appends the point at the end of the line.
 	*/
 	void addPoint(in Vector2 position)
 	{
-		_GODOT_add_point.bind("Line2D", "add_point");
-		ptrcall!(void)(_GODOT_add_point, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addPoint, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_remove_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_point") = _GODOT_remove_point;
 	/**
 	Remove the point at index `i` from the line.
 	*/
 	void removePoint(in long i)
 	{
-		_GODOT_remove_point.bind("Line2D", "remove_point");
-		ptrcall!(void)(_GODOT_remove_point, _godot_object, i);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removePoint, _godot_object, i);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_width") = _GODOT_set_width;
 	/**
 	
 	*/
 	void setWidth(in double width)
 	{
-		_GODOT_set_width.bind("Line2D", "set_width");
-		ptrcall!(void)(_GODOT_set_width, _godot_object, width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_width") = _GODOT_get_width;
 	/**
 	
 	*/
 	double getWidth() const
 	{
-		_GODOT_get_width.bind("Line2D", "get_width");
-		return ptrcall!(double)(_GODOT_get_width, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWidth, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_default_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_color") = _GODOT_set_default_color;
 	/**
 	
 	*/
 	void setDefaultColor(in Color color)
 	{
-		_GODOT_set_default_color.bind("Line2D", "set_default_color");
-		ptrcall!(void)(_GODOT_set_default_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_default_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_default_color") = _GODOT_get_default_color;
 	/**
 	
 	*/
 	Color getDefaultColor() const
 	{
-		_GODOT_get_default_color.bind("Line2D", "get_default_color");
-		return ptrcall!(Color)(_GODOT_get_default_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getDefaultColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Gradient) _GODOT_set_gradient;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_gradient") = _GODOT_set_gradient;
 	/**
 	
 	*/
 	void setGradient(Gradient color)
 	{
-		_GODOT_set_gradient.bind("Line2D", "set_gradient");
-		ptrcall!(void)(_GODOT_set_gradient, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGradient, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Gradient) _GODOT_get_gradient;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_gradient") = _GODOT_get_gradient;
 	/**
 	
 	*/
 	Ref!Gradient getGradient() const
 	{
-		_GODOT_get_gradient.bind("Line2D", "get_gradient");
-		return ptrcall!(Gradient)(_GODOT_get_gradient, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Gradient)(_classBinding.getGradient, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Texture) _GODOT_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture") = _GODOT_set_texture;
 	/**
 	
 	*/
 	void setTexture(Texture texture)
 	{
-		_GODOT_set_texture.bind("Line2D", "set_texture");
-		ptrcall!(void)(_GODOT_set_texture, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Texture) _GODOT_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture") = _GODOT_get_texture;
 	/**
 	
 	*/
 	Ref!Texture getTexture() const
 	{
-		_GODOT_get_texture.bind("Line2D", "get_texture");
-		return ptrcall!(Texture)(_GODOT_get_texture, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_texture_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_texture_mode") = _GODOT_set_texture_mode;
 	/**
 	
 	*/
 	void setTextureMode(in long mode)
 	{
-		_GODOT_set_texture_mode.bind("Line2D", "set_texture_mode");
-		ptrcall!(void)(_GODOT_set_texture_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Line2D.LineTextureMode) _GODOT_get_texture_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_texture_mode") = _GODOT_get_texture_mode;
 	/**
 	
 	*/
 	Line2D.LineTextureMode getTextureMode() const
 	{
-		_GODOT_get_texture_mode.bind("Line2D", "get_texture_mode");
-		return ptrcall!(Line2D.LineTextureMode)(_GODOT_get_texture_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Line2D.LineTextureMode)(_classBinding.getTextureMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_joint_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_joint_mode") = _GODOT_set_joint_mode;
 	/**
 	
 	*/
 	void setJointMode(in long mode)
 	{
-		_GODOT_set_joint_mode.bind("Line2D", "set_joint_mode");
-		ptrcall!(void)(_GODOT_set_joint_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setJointMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Line2D.LineJointMode) _GODOT_get_joint_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_joint_mode") = _GODOT_get_joint_mode;
 	/**
 	
 	*/
 	Line2D.LineJointMode getJointMode() const
 	{
-		_GODOT_get_joint_mode.bind("Line2D", "get_joint_mode");
-		return ptrcall!(Line2D.LineJointMode)(_GODOT_get_joint_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Line2D.LineJointMode)(_classBinding.getJointMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_begin_cap_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_begin_cap_mode") = _GODOT_set_begin_cap_mode;
 	/**
 	
 	*/
 	void setBeginCapMode(in long mode)
 	{
-		_GODOT_set_begin_cap_mode.bind("Line2D", "set_begin_cap_mode");
-		ptrcall!(void)(_GODOT_set_begin_cap_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBeginCapMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Line2D.LineCapMode) _GODOT_get_begin_cap_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_begin_cap_mode") = _GODOT_get_begin_cap_mode;
 	/**
 	
 	*/
 	Line2D.LineCapMode getBeginCapMode() const
 	{
-		_GODOT_get_begin_cap_mode.bind("Line2D", "get_begin_cap_mode");
-		return ptrcall!(Line2D.LineCapMode)(_GODOT_get_begin_cap_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Line2D.LineCapMode)(_classBinding.getBeginCapMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_end_cap_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_end_cap_mode") = _GODOT_set_end_cap_mode;
 	/**
 	
 	*/
 	void setEndCapMode(in long mode)
 	{
-		_GODOT_set_end_cap_mode.bind("Line2D", "set_end_cap_mode");
-		ptrcall!(void)(_GODOT_set_end_cap_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEndCapMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Line2D.LineCapMode) _GODOT_get_end_cap_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_end_cap_mode") = _GODOT_get_end_cap_mode;
 	/**
 	
 	*/
 	Line2D.LineCapMode getEndCapMode() const
 	{
-		_GODOT_get_end_cap_mode.bind("Line2D", "get_end_cap_mode");
-		return ptrcall!(Line2D.LineCapMode)(_GODOT_get_end_cap_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Line2D.LineCapMode)(_classBinding.getEndCapMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_sharp_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_sharp_limit") = _GODOT_set_sharp_limit;
 	/**
 	
 	*/
 	void setSharpLimit(in double limit)
 	{
-		_GODOT_set_sharp_limit.bind("Line2D", "set_sharp_limit");
-		ptrcall!(void)(_GODOT_set_sharp_limit, _godot_object, limit);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSharpLimit, _godot_object, limit);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_sharp_limit;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_sharp_limit") = _GODOT_get_sharp_limit;
 	/**
 	
 	*/
 	double getSharpLimit() const
 	{
-		_GODOT_get_sharp_limit.bind("Line2D", "get_sharp_limit");
-		return ptrcall!(double)(_GODOT_get_sharp_limit, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSharpLimit, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_round_precision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_round_precision") = _GODOT_set_round_precision;
 	/**
 	
 	*/
 	void setRoundPrecision(in long precision)
 	{
-		_GODOT_set_round_precision.bind("Line2D", "set_round_precision");
-		ptrcall!(void)(_GODOT_set_round_precision, _godot_object, precision);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRoundPrecision, _godot_object, precision);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_round_precision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_round_precision") = _GODOT_get_round_precision;
 	/**
 	
 	*/
 	long getRoundPrecision() const
 	{
-		_GODOT_get_round_precision.bind("Line2D", "get_round_precision");
-		return ptrcall!(long)(_GODOT_get_round_precision, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRoundPrecision, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__gradient_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gradient_changed") = _GODOT__gradient_changed;
 	/**
 	
 	*/

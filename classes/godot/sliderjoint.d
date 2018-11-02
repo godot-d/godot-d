@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint;
+import godot.spatial;
+import godot.node;
 /**
 Piston kind of slider between two bodies in 3D.
 
@@ -28,12 +30,23 @@ Slides across the x-axis of the $(D Pivot) object.
 */
 @GodotBaseClass struct SliderJoint
 {
-	static immutable string _GODOT_internal_name = "SliderJoint";
+	enum string _GODOT_internal_name = "SliderJoint";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("_set_upper_limit_angular") GodotMethod!(void, double) _setUpperLimitAngular;
+		@GodotName("_get_upper_limit_angular") GodotMethod!(double) _getUpperLimitAngular;
+		@GodotName("_set_lower_limit_angular") GodotMethod!(void, double) _setLowerLimitAngular;
+		@GodotName("_get_lower_limit_angular") GodotMethod!(double) _getLowerLimitAngular;
+	}
 	bool opEquals(in SliderJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SliderJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -169,28 +182,22 @@ public:
 		paramAngularOrthogonalDamping = 21,
 		paramMax = 22,
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_param") = _GODOT_set_param;
 	/**
 	
 	*/
 	void setParam(in long param, in double value)
 	{
-		_GODOT_set_param.bind("SliderJoint", "set_param");
-		ptrcall!(void)(_GODOT_set_param, _godot_object, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_param") = _GODOT_get_param;
 	/**
 	
 	*/
 	double getParam(in long param) const
 	{
-		_GODOT_get_param.bind("SliderJoint", "get_param");
-		return ptrcall!(double)(_GODOT_get_param, _godot_object, param);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_upper_limit_angular;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_upper_limit_angular") = _GODOT__set_upper_limit_angular;
 	/**
 	
 	*/
@@ -201,8 +208,6 @@ public:
 		String _GODOT_method_name = String("_set_upper_limit_angular");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_upper_limit_angular;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_upper_limit_angular") = _GODOT__get_upper_limit_angular;
 	/**
 	
 	*/
@@ -212,8 +217,6 @@ public:
 		String _GODOT_method_name = String("_get_upper_limit_angular");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__set_lower_limit_angular;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_lower_limit_angular") = _GODOT__set_lower_limit_angular;
 	/**
 	
 	*/
@@ -224,8 +227,6 @@ public:
 		String _GODOT_method_name = String("_set_lower_limit_angular");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double) _GODOT__get_lower_limit_angular;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_lower_limit_angular") = _GODOT__get_lower_limit_angular;
 	/**
 	
 	*/

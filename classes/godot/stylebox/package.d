@@ -20,6 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
+import godot.reference;
 /**
 Base class for drawing stylized boxes for the UI.
 
@@ -27,12 +28,25 @@ StyleBox is $(D Resource) that provides an abstract base class for drawing styli
 */
 @GodotBaseClass struct StyleBox
 {
-	static immutable string _GODOT_internal_name = "StyleBox";
+	enum string _GODOT_internal_name = "StyleBox";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("test_mask") GodotMethod!(bool, Vector2, Rect2) testMask;
+		@GodotName("set_default_margin") GodotMethod!(void, long, double) setDefaultMargin;
+		@GodotName("get_default_margin") GodotMethod!(double, long) getDefaultMargin;
+		@GodotName("get_margin") GodotMethod!(double, long) getMargin;
+		@GodotName("get_minimum_size") GodotMethod!(Vector2) getMinimumSize;
+		@GodotName("get_center_size") GodotMethod!(Vector2) getCenterSize;
+		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("draw") GodotMethod!(void, RID, Rect2) draw;
+	}
 	bool opEquals(in StyleBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StyleBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,85 +59,69 @@ public:
 		return cast(StyleBox)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(bool, Vector2, Rect2) _GODOT_test_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "test_mask") = _GODOT_test_mask;
 	/**
 	Test a position in a rectangle, return whether it passes the mask test.
 	*/
 	bool testMask(in Vector2 point, in Rect2 rect) const
 	{
-		_GODOT_test_mask.bind("StyleBox", "test_mask");
-		return ptrcall!(bool)(_GODOT_test_mask, _godot_object, point, rect);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.testMask, _godot_object, point, rect);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_default_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_margin") = _GODOT_set_default_margin;
 	/**
 	
 	*/
 	void setDefaultMargin(in long margin, in double offset)
 	{
-		_GODOT_set_default_margin.bind("StyleBox", "set_default_margin");
-		ptrcall!(void)(_GODOT_set_default_margin, _godot_object, margin, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultMargin, _godot_object, margin, offset);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_default_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_default_margin") = _GODOT_get_default_margin;
 	/**
 	
 	*/
 	double getDefaultMargin(in long margin) const
 	{
-		_GODOT_get_default_margin.bind("StyleBox", "get_default_margin");
-		return ptrcall!(double)(_GODOT_get_default_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDefaultMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_margin") = _GODOT_get_margin;
 	/**
 	Return the offset of margin "margin" (see MARGIN_* enum).
 	*/
 	double getMargin(in long margin) const
 	{
-		_GODOT_get_margin.bind("StyleBox", "get_margin");
-		return ptrcall!(double)(_GODOT_get_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_minimum_size") = _GODOT_get_minimum_size;
 	/**
 	Return the minimum size that this stylebox can be shrunk to.
 	*/
 	Vector2 getMinimumSize() const
 	{
-		_GODOT_get_minimum_size.bind("StyleBox", "get_minimum_size");
-		return ptrcall!(Vector2)(_GODOT_get_minimum_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_center_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_center_size") = _GODOT_get_center_size;
 	/**
 	
 	*/
 	Vector2 getCenterSize() const
 	{
-		_GODOT_get_center_size.bind("StyleBox", "get_center_size");
-		return ptrcall!(Vector2)(_GODOT_get_center_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCenterSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_offset") = _GODOT_get_offset;
 	/**
 	Return the "offset" of a stylebox, this is a helper function, like writing `Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))`.
 	*/
 	Vector2 getOffset() const
 	{
-		_GODOT_get_offset.bind("StyleBox", "get_offset");
-		return ptrcall!(Vector2)(_GODOT_get_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2) _GODOT_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw") = _GODOT_draw;
 	/**
 	
 	*/
 	void draw(in RID canvas_item, in Rect2 rect) const
 	{
-		_GODOT_draw.bind("StyleBox", "draw");
-		ptrcall!(void)(_GODOT_draw, _godot_object, canvas_item, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, rect);
 	}
 	/**
 	

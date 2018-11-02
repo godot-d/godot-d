@@ -21,17 +21,46 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 
 */
 @GodotBaseClass struct VisualScriptFunctionCall
 {
-	static immutable string _GODOT_internal_name = "VisualScriptFunctionCall";
+	enum string _GODOT_internal_name = "VisualScriptFunctionCall";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
+		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
+		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
+		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
+		@GodotName("set_singleton") GodotMethod!(void, String) setSingleton;
+		@GodotName("get_singleton") GodotMethod!(String) getSingleton;
+		@GodotName("set_function") GodotMethod!(void, String) setFunction;
+		@GodotName("get_function") GodotMethod!(String) getFunction;
+		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
+		@GodotName("get_call_mode") GodotMethod!(VisualScriptFunctionCall.CallMode) getCallMode;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
+		@GodotName("set_use_default_args") GodotMethod!(void, long) setUseDefaultArgs;
+		@GodotName("get_use_default_args") GodotMethod!(long) getUseDefaultArgs;
+		@GodotName("_set_argument_cache") GodotMethod!(void, Dictionary) _setArgumentCache;
+		@GodotName("_get_argument_cache") GodotMethod!(Dictionary) _getArgumentCache;
+		@GodotName("set_rpc_call_mode") GodotMethod!(void, long) setRpcCallMode;
+		@GodotName("get_rpc_call_mode") GodotMethod!(VisualScriptFunctionCall.RPCCallMode) getRpcCallMode;
+		@GodotName("set_validate") GodotMethod!(void, bool) setValidate;
+		@GodotName("get_validate") GodotMethod!(bool) getValidate;
+	}
 	bool opEquals(in VisualScriptFunctionCall other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptFunctionCall opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -99,175 +128,141 @@ public:
 		rpcDisabled = 0,
 		rpcReliable = 1,
 		callModeNodePath = 1,
-		callModeInstance = 2,
 		rpcUnreliable = 2,
+		callModeInstance = 2,
 		callModeBasicType = 3,
 		rpcReliableToId = 3,
-		rpcUnreliableToId = 4,
 		callModeSingleton = 4,
+		rpcUnreliableToId = 4,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_base_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_type") = _GODOT_set_base_type;
 	/**
 	
 	*/
 	void setBaseType(StringArg0)(in StringArg0 base_type)
 	{
-		_GODOT_set_base_type.bind("VisualScriptFunctionCall", "set_base_type");
-		ptrcall!(void)(_GODOT_set_base_type, _godot_object, base_type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_base_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_type") = _GODOT_get_base_type;
 	/**
 	
 	*/
 	String getBaseType() const
 	{
-		_GODOT_get_base_type.bind("VisualScriptFunctionCall", "get_base_type");
-		return ptrcall!(String)(_GODOT_get_base_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_base_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_script") = _GODOT_set_base_script;
 	/**
 	
 	*/
 	void setBaseScript(StringArg0)(in StringArg0 base_script)
 	{
-		_GODOT_set_base_script.bind("VisualScriptFunctionCall", "set_base_script");
-		ptrcall!(void)(_GODOT_set_base_script, _godot_object, base_script);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_base_script;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_script") = _GODOT_get_base_script;
 	/**
 	
 	*/
 	String getBaseScript() const
 	{
-		_GODOT_get_base_script.bind("VisualScriptFunctionCall", "get_base_script");
-		return ptrcall!(String)(_GODOT_get_base_script, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_basic_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_basic_type") = _GODOT_set_basic_type;
 	/**
 	
 	*/
 	void setBasicType(in long basic_type)
 	{
-		_GODOT_set_basic_type.bind("VisualScriptFunctionCall", "set_basic_type");
-		ptrcall!(void)(_GODOT_set_basic_type, _godot_object, basic_type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_basic_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_basic_type") = _GODOT_get_basic_type;
 	/**
 	
 	*/
 	Variant.Type getBasicType() const
 	{
-		_GODOT_get_basic_type.bind("VisualScriptFunctionCall", "get_basic_type");
-		return ptrcall!(Variant.Type)(_GODOT_get_basic_type, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_singleton") = _GODOT_set_singleton;
 	/**
 	
 	*/
 	void setSingleton(StringArg0)(in StringArg0 singleton)
 	{
-		_GODOT_set_singleton.bind("VisualScriptFunctionCall", "set_singleton");
-		ptrcall!(void)(_GODOT_set_singleton, _godot_object, singleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_singleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_singleton") = _GODOT_get_singleton;
 	/**
 	
 	*/
 	String getSingleton() const
 	{
-		_GODOT_get_singleton.bind("VisualScriptFunctionCall", "get_singleton");
-		return ptrcall!(String)(_GODOT_get_singleton, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSingleton, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_function;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_function") = _GODOT_set_function;
 	/**
 	
 	*/
 	void setFunction(StringArg0)(in StringArg0 _function)
 	{
-		_GODOT_set_function.bind("VisualScriptFunctionCall", "set_function");
-		ptrcall!(void)(_GODOT_set_function, _godot_object, _function);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunction, _godot_object, _function);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_function;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_function") = _GODOT_get_function;
 	/**
 	
 	*/
 	String getFunction() const
 	{
-		_GODOT_get_function.bind("VisualScriptFunctionCall", "get_function");
-		return ptrcall!(String)(_GODOT_get_function, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getFunction, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_call_mode") = _GODOT_set_call_mode;
 	/**
 	
 	*/
 	void setCallMode(in long mode)
 	{
-		_GODOT_set_call_mode.bind("VisualScriptFunctionCall", "set_call_mode");
-		ptrcall!(void)(_GODOT_set_call_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(VisualScriptFunctionCall.CallMode) _GODOT_get_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_call_mode") = _GODOT_get_call_mode;
 	/**
 	
 	*/
 	VisualScriptFunctionCall.CallMode getCallMode() const
 	{
-		_GODOT_get_call_mode.bind("VisualScriptFunctionCall", "get_call_mode");
-		return ptrcall!(VisualScriptFunctionCall.CallMode)(_GODOT_get_call_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptFunctionCall.CallMode)(_classBinding.getCallMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_base_path") = _GODOT_set_base_path;
 	/**
 	
 	*/
 	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
-		_GODOT_set_base_path.bind("VisualScriptFunctionCall", "set_base_path");
-		ptrcall!(void)(_GODOT_set_base_path, _godot_object, base_path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_base_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_base_path") = _GODOT_get_base_path;
 	/**
 	
 	*/
 	NodePath getBasePath() const
 	{
-		_GODOT_get_base_path.bind("VisualScriptFunctionCall", "get_base_path");
-		return ptrcall!(NodePath)(_GODOT_get_base_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_use_default_args;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_use_default_args") = _GODOT_set_use_default_args;
 	/**
 	
 	*/
 	void setUseDefaultArgs(in long amount)
 	{
-		_GODOT_set_use_default_args.bind("VisualScriptFunctionCall", "set_use_default_args");
-		ptrcall!(void)(_GODOT_set_use_default_args, _godot_object, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseDefaultArgs, _godot_object, amount);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_use_default_args;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_use_default_args") = _GODOT_get_use_default_args;
 	/**
 	
 	*/
 	long getUseDefaultArgs() const
 	{
-		_GODOT_get_use_default_args.bind("VisualScriptFunctionCall", "get_use_default_args");
-		return ptrcall!(long)(_GODOT_get_use_default_args, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUseDefaultArgs, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Dictionary) _GODOT__set_argument_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_argument_cache") = _GODOT__set_argument_cache;
 	/**
 	
 	*/
@@ -278,8 +273,6 @@ public:
 		String _GODOT_method_name = String("_set_argument_cache");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Dictionary) _GODOT__get_argument_cache;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_argument_cache") = _GODOT__get_argument_cache;
 	/**
 	
 	*/
@@ -289,45 +282,37 @@ public:
 		String _GODOT_method_name = String("_get_argument_cache");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_rpc_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rpc_call_mode") = _GODOT_set_rpc_call_mode;
 	/**
 	
 	*/
 	void setRpcCallMode(in long mode)
 	{
-		_GODOT_set_rpc_call_mode.bind("VisualScriptFunctionCall", "set_rpc_call_mode");
-		ptrcall!(void)(_GODOT_set_rpc_call_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRpcCallMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(VisualScriptFunctionCall.RPCCallMode) _GODOT_get_rpc_call_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rpc_call_mode") = _GODOT_get_rpc_call_mode;
 	/**
 	
 	*/
 	VisualScriptFunctionCall.RPCCallMode getRpcCallMode() const
 	{
-		_GODOT_get_rpc_call_mode.bind("VisualScriptFunctionCall", "get_rpc_call_mode");
-		return ptrcall!(VisualScriptFunctionCall.RPCCallMode)(_GODOT_get_rpc_call_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptFunctionCall.RPCCallMode)(_classBinding.getRpcCallMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_validate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_validate") = _GODOT_set_validate;
 	/**
 	
 	*/
 	void setValidate(in bool enable)
 	{
-		_GODOT_set_validate.bind("VisualScriptFunctionCall", "set_validate");
-		ptrcall!(void)(_GODOT_set_validate, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setValidate, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_validate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_validate") = _GODOT_get_validate;
 	/**
 	
 	*/
 	bool getValidate() const
 	{
-		_GODOT_get_validate.bind("VisualScriptFunctionCall", "get_validate");
-		return ptrcall!(bool)(_GODOT_get_validate, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getValidate, _godot_object);
 	}
 	/**
 	

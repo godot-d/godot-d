@@ -27,12 +27,24 @@ This object manages the SceneTree selection in the editor.
 */
 @GodotBaseClass struct EditorSelection
 {
-	static immutable string _GODOT_internal_name = "EditorSelection";
+	enum string _GODOT_internal_name = "EditorSelection";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("add_node") GodotMethod!(void, GodotObject) addNode;
+		@GodotName("remove_node") GodotMethod!(void, GodotObject) removeNode;
+		@GodotName("get_selected_nodes") GodotMethod!(Array) getSelectedNodes;
+		@GodotName("get_transformable_selected_nodes") GodotMethod!(Array) getTransformableSelectedNodes;
+		@GodotName("_emit_change") GodotMethod!(void) _emitChange;
+	}
 	bool opEquals(in EditorSelection other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorSelection opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -45,8 +57,6 @@ public:
 		return cast(EditorSelection)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT__node_removed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_node_removed") = _GODOT__node_removed;
 	/**
 	
 	*/
@@ -57,58 +67,46 @@ public:
 		String _GODOT_method_name = String("_node_removed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear") = _GODOT_clear;
 	/**
 	Clear the selection.
 	*/
 	void clear()
 	{
-		_GODOT_clear.bind("EditorSelection", "clear");
-		ptrcall!(void)(_GODOT_clear, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_add_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_node") = _GODOT_add_node;
 	/**
 	Add a node to the selection.
 	*/
 	void addNode(GodotObject node)
 	{
-		_GODOT_add_node.bind("EditorSelection", "add_node");
-		ptrcall!(void)(_GODOT_add_node, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addNode, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_remove_node;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_node") = _GODOT_remove_node;
 	/**
 	Remove a node from the selection.
 	*/
 	void removeNode(GodotObject node)
 	{
-		_GODOT_remove_node.bind("EditorSelection", "remove_node");
-		ptrcall!(void)(_GODOT_remove_node, _godot_object, node);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeNode, _godot_object, node);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_selected_nodes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_selected_nodes") = _GODOT_get_selected_nodes;
 	/**
 	Get the list of selected nodes.
 	*/
 	Array getSelectedNodes()
 	{
-		_GODOT_get_selected_nodes.bind("EditorSelection", "get_selected_nodes");
-		return ptrcall!(Array)(_GODOT_get_selected_nodes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getSelectedNodes, _godot_object);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_get_transformable_selected_nodes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_transformable_selected_nodes") = _GODOT_get_transformable_selected_nodes;
 	/**
 	Get the list of selected nodes, optimized for transform operations (ie, moving them, rotating, etc). This list avoids situations where a node is selected and also chid/grandchild.
 	*/
 	Array getTransformableSelectedNodes()
 	{
-		_GODOT_get_transformable_selected_nodes.bind("EditorSelection", "get_transformable_selected_nodes");
-		return ptrcall!(Array)(_GODOT_get_transformable_selected_nodes, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getTransformableSelectedNodes, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__emit_change;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_emit_change") = _GODOT__emit_change;
 	/**
 	
 	*/

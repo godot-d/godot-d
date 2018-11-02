@@ -28,20 +28,374 @@ The visual server is completely opaque, the internals are entirely implementatio
 */
 @GodotBaseClass struct VisualServerSingleton
 {
-	static immutable string _GODOT_internal_name = "VisualServer";
+	enum string _GODOT_internal_name = "VisualServer";
 public:
 @nogc nothrow:
-	static typeof(this) _GODOT_singleton()
-	{
-		static immutable char* _GODOT_singleton_name = "VisualServer";
-		static typeof(this) _GODOT_singleton_ptr;
-		if(_GODOT_singleton_ptr == null)
-			_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);
-		return _GODOT_singleton_ptr;
-	}
 	union { godot_object _godot_object; GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		godot_object _singleton;
+		immutable char* _singletonName = "VisualServer";
+		@GodotName("force_sync") GodotMethod!(void) forceSync;
+		@GodotName("force_draw") GodotMethod!(void, bool, double) forceDraw;
+		@GodotName("sync") GodotMethod!(void) sync;
+		@GodotName("draw") GodotMethod!(void, bool, double) draw;
+		@GodotName("texture_create") GodotMethod!(RID) textureCreate;
+		@GodotName("texture_create_from_image") GodotMethod!(RID, Image, long) textureCreateFromImage;
+		@GodotName("texture_allocate") GodotMethod!(void, RID, long, long, long, long, long, long) textureAllocate;
+		@GodotName("texture_set_data") GodotMethod!(void, RID, Image, long) textureSetData;
+		@GodotName("texture_set_data_partial") GodotMethod!(void, RID, Image, long, long, long, long, long, long, long, long) textureSetDataPartial;
+		@GodotName("texture_get_data") GodotMethod!(Image, RID, long) textureGetData;
+		@GodotName("texture_set_flags") GodotMethod!(void, RID, long) textureSetFlags;
+		@GodotName("texture_get_flags") GodotMethod!(long, RID) textureGetFlags;
+		@GodotName("texture_get_format") GodotMethod!(Image.Format, RID) textureGetFormat;
+		@GodotName("texture_get_type") GodotMethod!(VisualServer.TextureType, RID) textureGetType;
+		@GodotName("texture_get_texid") GodotMethod!(long, RID) textureGetTexid;
+		@GodotName("texture_get_width") GodotMethod!(long, RID) textureGetWidth;
+		@GodotName("texture_get_height") GodotMethod!(long, RID) textureGetHeight;
+		@GodotName("texture_get_depth") GodotMethod!(long, RID) textureGetDepth;
+		@GodotName("texture_set_size_override") GodotMethod!(void, RID, long, long, long) textureSetSizeOverride;
+		@GodotName("texture_set_path") GodotMethod!(void, RID, String) textureSetPath;
+		@GodotName("texture_get_path") GodotMethod!(String, RID) textureGetPath;
+		@GodotName("texture_set_shrink_all_x2_on_set_data") GodotMethod!(void, bool) textureSetShrinkAllX2OnSetData;
+		@GodotName("texture_debug_usage") GodotMethod!(Array) textureDebugUsage;
+		@GodotName("textures_keep_original") GodotMethod!(void, bool) texturesKeepOriginal;
+		@GodotName("sky_create") GodotMethod!(RID) skyCreate;
+		@GodotName("sky_set_texture") GodotMethod!(void, RID, RID, long) skySetTexture;
+		@GodotName("shader_create") GodotMethod!(RID) shaderCreate;
+		@GodotName("shader_set_code") GodotMethod!(void, RID, String) shaderSetCode;
+		@GodotName("shader_get_code") GodotMethod!(String, RID) shaderGetCode;
+		@GodotName("shader_get_param_list") GodotMethod!(Array, RID) shaderGetParamList;
+		@GodotName("shader_set_default_texture_param") GodotMethod!(void, RID, String, RID) shaderSetDefaultTextureParam;
+		@GodotName("shader_get_default_texture_param") GodotMethod!(RID, RID, String) shaderGetDefaultTextureParam;
+		@GodotName("material_create") GodotMethod!(RID) materialCreate;
+		@GodotName("material_set_shader") GodotMethod!(void, RID, RID) materialSetShader;
+		@GodotName("material_get_shader") GodotMethod!(RID, RID) materialGetShader;
+		@GodotName("material_set_param") GodotMethod!(void, RID, String, Variant) materialSetParam;
+		@GodotName("material_get_param") GodotMethod!(Variant, RID, String) materialGetParam;
+		@GodotName("material_get_param_default") GodotMethod!(Variant, RID, String) materialGetParamDefault;
+		@GodotName("material_set_render_priority") GodotMethod!(void, RID, long) materialSetRenderPriority;
+		@GodotName("material_set_line_width") GodotMethod!(void, RID, double) materialSetLineWidth;
+		@GodotName("material_set_next_pass") GodotMethod!(void, RID, RID) materialSetNextPass;
+		@GodotName("mesh_create") GodotMethod!(RID) meshCreate;
+		@GodotName("mesh_surface_get_format_offset") GodotMethod!(long, long, long, long, long) meshSurfaceGetFormatOffset;
+		@GodotName("mesh_surface_get_format_stride") GodotMethod!(long, long, long, long) meshSurfaceGetFormatStride;
+		@GodotName("mesh_add_surface_from_arrays") GodotMethod!(void, RID, long, Array, Array, long) meshAddSurfaceFromArrays;
+		@GodotName("mesh_set_blend_shape_count") GodotMethod!(void, RID, long) meshSetBlendShapeCount;
+		@GodotName("mesh_get_blend_shape_count") GodotMethod!(long, RID) meshGetBlendShapeCount;
+		@GodotName("mesh_set_blend_shape_mode") GodotMethod!(void, RID, long) meshSetBlendShapeMode;
+		@GodotName("mesh_get_blend_shape_mode") GodotMethod!(VisualServer.BlendShapeMode, RID) meshGetBlendShapeMode;
+		@GodotName("mesh_surface_update_region") GodotMethod!(void, RID, long, long, PoolByteArray) meshSurfaceUpdateRegion;
+		@GodotName("mesh_surface_set_material") GodotMethod!(void, RID, long, RID) meshSurfaceSetMaterial;
+		@GodotName("mesh_surface_get_material") GodotMethod!(RID, RID, long) meshSurfaceGetMaterial;
+		@GodotName("mesh_surface_get_array_len") GodotMethod!(long, RID, long) meshSurfaceGetArrayLen;
+		@GodotName("mesh_surface_get_array_index_len") GodotMethod!(long, RID, long) meshSurfaceGetArrayIndexLen;
+		@GodotName("mesh_surface_get_array") GodotMethod!(PoolByteArray, RID, long) meshSurfaceGetArray;
+		@GodotName("mesh_surface_get_index_array") GodotMethod!(PoolByteArray, RID, long) meshSurfaceGetIndexArray;
+		@GodotName("mesh_surface_get_arrays") GodotMethod!(Array, RID, long) meshSurfaceGetArrays;
+		@GodotName("mesh_surface_get_blend_shape_arrays") GodotMethod!(Array, RID, long) meshSurfaceGetBlendShapeArrays;
+		@GodotName("mesh_surface_get_format") GodotMethod!(long, RID, long) meshSurfaceGetFormat;
+		@GodotName("mesh_surface_get_primitive_type") GodotMethod!(VisualServer.PrimitiveType, RID, long) meshSurfaceGetPrimitiveType;
+		@GodotName("mesh_surface_get_aabb") GodotMethod!(AABB, RID, long) meshSurfaceGetAabb;
+		@GodotName("mesh_surface_get_skeleton_aabb") GodotMethod!(Array, RID, long) meshSurfaceGetSkeletonAabb;
+		@GodotName("mesh_remove_surface") GodotMethod!(void, RID, long) meshRemoveSurface;
+		@GodotName("mesh_get_surface_count") GodotMethod!(long, RID) meshGetSurfaceCount;
+		@GodotName("mesh_set_custom_aabb") GodotMethod!(void, RID, AABB) meshSetCustomAabb;
+		@GodotName("mesh_get_custom_aabb") GodotMethod!(AABB, RID) meshGetCustomAabb;
+		@GodotName("mesh_clear") GodotMethod!(void, RID) meshClear;
+		@GodotName("multimesh_allocate") GodotMethod!(void, RID, long, long, long, long) multimeshAllocate;
+		@GodotName("multimesh_get_instance_count") GodotMethod!(long, RID) multimeshGetInstanceCount;
+		@GodotName("multimesh_set_mesh") GodotMethod!(void, RID, RID) multimeshSetMesh;
+		@GodotName("multimesh_instance_set_transform") GodotMethod!(void, RID, long, Transform) multimeshInstanceSetTransform;
+		@GodotName("multimesh_instance_set_transform_2d") GodotMethod!(void, RID, long, Transform2D) multimeshInstanceSetTransform2d;
+		@GodotName("multimesh_instance_set_color") GodotMethod!(void, RID, long, Color) multimeshInstanceSetColor;
+		@GodotName("multimesh_instance_set_custom_data") GodotMethod!(void, RID, long, Color) multimeshInstanceSetCustomData;
+		@GodotName("multimesh_get_mesh") GodotMethod!(RID, RID) multimeshGetMesh;
+		@GodotName("multimesh_get_aabb") GodotMethod!(AABB, RID) multimeshGetAabb;
+		@GodotName("multimesh_instance_get_transform") GodotMethod!(Transform, RID, long) multimeshInstanceGetTransform;
+		@GodotName("multimesh_instance_get_transform_2d") GodotMethod!(Transform2D, RID, long) multimeshInstanceGetTransform2d;
+		@GodotName("multimesh_instance_get_color") GodotMethod!(Color, RID, long) multimeshInstanceGetColor;
+		@GodotName("multimesh_instance_get_custom_data") GodotMethod!(Color, RID, long) multimeshInstanceGetCustomData;
+		@GodotName("multimesh_set_visible_instances") GodotMethod!(void, RID, long) multimeshSetVisibleInstances;
+		@GodotName("multimesh_get_visible_instances") GodotMethod!(long, RID) multimeshGetVisibleInstances;
+		@GodotName("multimesh_set_as_bulk_array") GodotMethod!(void, RID, PoolRealArray) multimeshSetAsBulkArray;
+		@GodotName("immediate_create") GodotMethod!(RID) immediateCreate;
+		@GodotName("immediate_begin") GodotMethod!(void, RID, long, RID) immediateBegin;
+		@GodotName("immediate_vertex") GodotMethod!(void, RID, Vector3) immediateVertex;
+		@GodotName("immediate_vertex_2d") GodotMethod!(void, RID, Vector2) immediateVertex2d;
+		@GodotName("immediate_normal") GodotMethod!(void, RID, Vector3) immediateNormal;
+		@GodotName("immediate_tangent") GodotMethod!(void, RID, Plane) immediateTangent;
+		@GodotName("immediate_color") GodotMethod!(void, RID, Color) immediateColor;
+		@GodotName("immediate_uv") GodotMethod!(void, RID, Vector2) immediateUv;
+		@GodotName("immediate_uv2") GodotMethod!(void, RID, Vector2) immediateUv2;
+		@GodotName("immediate_end") GodotMethod!(void, RID) immediateEnd;
+		@GodotName("immediate_clear") GodotMethod!(void, RID) immediateClear;
+		@GodotName("immediate_set_material") GodotMethod!(void, RID, RID) immediateSetMaterial;
+		@GodotName("immediate_get_material") GodotMethod!(RID, RID) immediateGetMaterial;
+		@GodotName("skeleton_create") GodotMethod!(RID) skeletonCreate;
+		@GodotName("skeleton_allocate") GodotMethod!(void, RID, long, bool) skeletonAllocate;
+		@GodotName("skeleton_get_bone_count") GodotMethod!(long, RID) skeletonGetBoneCount;
+		@GodotName("skeleton_bone_set_transform") GodotMethod!(void, RID, long, Transform) skeletonBoneSetTransform;
+		@GodotName("skeleton_bone_get_transform") GodotMethod!(Transform, RID, long) skeletonBoneGetTransform;
+		@GodotName("skeleton_bone_set_transform_2d") GodotMethod!(void, RID, long, Transform2D) skeletonBoneSetTransform2d;
+		@GodotName("skeleton_bone_get_transform_2d") GodotMethod!(Transform2D, RID, long) skeletonBoneGetTransform2d;
+		@GodotName("directional_light_create") GodotMethod!(RID) directionalLightCreate;
+		@GodotName("omni_light_create") GodotMethod!(RID) omniLightCreate;
+		@GodotName("spot_light_create") GodotMethod!(RID) spotLightCreate;
+		@GodotName("light_set_color") GodotMethod!(void, RID, Color) lightSetColor;
+		@GodotName("light_set_param") GodotMethod!(void, RID, long, double) lightSetParam;
+		@GodotName("light_set_shadow") GodotMethod!(void, RID, bool) lightSetShadow;
+		@GodotName("light_set_shadow_color") GodotMethod!(void, RID, Color) lightSetShadowColor;
+		@GodotName("light_set_projector") GodotMethod!(void, RID, RID) lightSetProjector;
+		@GodotName("light_set_negative") GodotMethod!(void, RID, bool) lightSetNegative;
+		@GodotName("light_set_cull_mask") GodotMethod!(void, RID, long) lightSetCullMask;
+		@GodotName("light_set_reverse_cull_face_mode") GodotMethod!(void, RID, bool) lightSetReverseCullFaceMode;
+		@GodotName("light_omni_set_shadow_mode") GodotMethod!(void, RID, long) lightOmniSetShadowMode;
+		@GodotName("light_omni_set_shadow_detail") GodotMethod!(void, RID, long) lightOmniSetShadowDetail;
+		@GodotName("light_directional_set_shadow_mode") GodotMethod!(void, RID, long) lightDirectionalSetShadowMode;
+		@GodotName("light_directional_set_blend_splits") GodotMethod!(void, RID, bool) lightDirectionalSetBlendSplits;
+		@GodotName("light_directional_set_shadow_depth_range_mode") GodotMethod!(void, RID, long) lightDirectionalSetShadowDepthRangeMode;
+		@GodotName("reflection_probe_create") GodotMethod!(RID) reflectionProbeCreate;
+		@GodotName("reflection_probe_set_update_mode") GodotMethod!(void, RID, long) reflectionProbeSetUpdateMode;
+		@GodotName("reflection_probe_set_intensity") GodotMethod!(void, RID, double) reflectionProbeSetIntensity;
+		@GodotName("reflection_probe_set_interior_ambient") GodotMethod!(void, RID, Color) reflectionProbeSetInteriorAmbient;
+		@GodotName("reflection_probe_set_interior_ambient_energy") GodotMethod!(void, RID, double) reflectionProbeSetInteriorAmbientEnergy;
+		@GodotName("reflection_probe_set_interior_ambient_probe_contribution") GodotMethod!(void, RID, double) reflectionProbeSetInteriorAmbientProbeContribution;
+		@GodotName("reflection_probe_set_max_distance") GodotMethod!(void, RID, double) reflectionProbeSetMaxDistance;
+		@GodotName("reflection_probe_set_extents") GodotMethod!(void, RID, Vector3) reflectionProbeSetExtents;
+		@GodotName("reflection_probe_set_origin_offset") GodotMethod!(void, RID, Vector3) reflectionProbeSetOriginOffset;
+		@GodotName("reflection_probe_set_as_interior") GodotMethod!(void, RID, bool) reflectionProbeSetAsInterior;
+		@GodotName("reflection_probe_set_enable_box_projection") GodotMethod!(void, RID, bool) reflectionProbeSetEnableBoxProjection;
+		@GodotName("reflection_probe_set_enable_shadows") GodotMethod!(void, RID, bool) reflectionProbeSetEnableShadows;
+		@GodotName("reflection_probe_set_cull_mask") GodotMethod!(void, RID, long) reflectionProbeSetCullMask;
+		@GodotName("gi_probe_create") GodotMethod!(RID) giProbeCreate;
+		@GodotName("gi_probe_set_bounds") GodotMethod!(void, RID, AABB) giProbeSetBounds;
+		@GodotName("gi_probe_get_bounds") GodotMethod!(AABB, RID) giProbeGetBounds;
+		@GodotName("gi_probe_set_cell_size") GodotMethod!(void, RID, double) giProbeSetCellSize;
+		@GodotName("gi_probe_get_cell_size") GodotMethod!(double, RID) giProbeGetCellSize;
+		@GodotName("gi_probe_set_to_cell_xform") GodotMethod!(void, RID, Transform) giProbeSetToCellXform;
+		@GodotName("gi_probe_get_to_cell_xform") GodotMethod!(Transform, RID) giProbeGetToCellXform;
+		@GodotName("gi_probe_set_dynamic_data") GodotMethod!(void, RID, PoolIntArray) giProbeSetDynamicData;
+		@GodotName("gi_probe_get_dynamic_data") GodotMethod!(PoolIntArray, RID) giProbeGetDynamicData;
+		@GodotName("gi_probe_set_dynamic_range") GodotMethod!(void, RID, long) giProbeSetDynamicRange;
+		@GodotName("gi_probe_get_dynamic_range") GodotMethod!(long, RID) giProbeGetDynamicRange;
+		@GodotName("gi_probe_set_energy") GodotMethod!(void, RID, double) giProbeSetEnergy;
+		@GodotName("gi_probe_get_energy") GodotMethod!(double, RID) giProbeGetEnergy;
+		@GodotName("gi_probe_set_bias") GodotMethod!(void, RID, double) giProbeSetBias;
+		@GodotName("gi_probe_get_bias") GodotMethod!(double, RID) giProbeGetBias;
+		@GodotName("gi_probe_set_normal_bias") GodotMethod!(void, RID, double) giProbeSetNormalBias;
+		@GodotName("gi_probe_get_normal_bias") GodotMethod!(double, RID) giProbeGetNormalBias;
+		@GodotName("gi_probe_set_propagation") GodotMethod!(void, RID, double) giProbeSetPropagation;
+		@GodotName("gi_probe_get_propagation") GodotMethod!(double, RID) giProbeGetPropagation;
+		@GodotName("gi_probe_set_interior") GodotMethod!(void, RID, bool) giProbeSetInterior;
+		@GodotName("gi_probe_is_interior") GodotMethod!(bool, RID) giProbeIsInterior;
+		@GodotName("gi_probe_set_compress") GodotMethod!(void, RID, bool) giProbeSetCompress;
+		@GodotName("gi_probe_is_compressed") GodotMethod!(bool, RID) giProbeIsCompressed;
+		@GodotName("lightmap_capture_create") GodotMethod!(RID) lightmapCaptureCreate;
+		@GodotName("lightmap_capture_set_bounds") GodotMethod!(void, RID, AABB) lightmapCaptureSetBounds;
+		@GodotName("lightmap_capture_get_bounds") GodotMethod!(AABB, RID) lightmapCaptureGetBounds;
+		@GodotName("lightmap_capture_set_octree") GodotMethod!(void, RID, PoolByteArray) lightmapCaptureSetOctree;
+		@GodotName("lightmap_capture_set_octree_cell_transform") GodotMethod!(void, RID, Transform) lightmapCaptureSetOctreeCellTransform;
+		@GodotName("lightmap_capture_get_octree_cell_transform") GodotMethod!(Transform, RID) lightmapCaptureGetOctreeCellTransform;
+		@GodotName("lightmap_capture_set_octree_cell_subdiv") GodotMethod!(void, RID, long) lightmapCaptureSetOctreeCellSubdiv;
+		@GodotName("lightmap_capture_get_octree_cell_subdiv") GodotMethod!(long, RID) lightmapCaptureGetOctreeCellSubdiv;
+		@GodotName("lightmap_capture_get_octree") GodotMethod!(PoolByteArray, RID) lightmapCaptureGetOctree;
+		@GodotName("lightmap_capture_set_energy") GodotMethod!(void, RID, double) lightmapCaptureSetEnergy;
+		@GodotName("lightmap_capture_get_energy") GodotMethod!(double, RID) lightmapCaptureGetEnergy;
+		@GodotName("particles_create") GodotMethod!(RID) particlesCreate;
+		@GodotName("particles_set_emitting") GodotMethod!(void, RID, bool) particlesSetEmitting;
+		@GodotName("particles_get_emitting") GodotMethod!(bool, RID) particlesGetEmitting;
+		@GodotName("particles_set_amount") GodotMethod!(void, RID, long) particlesSetAmount;
+		@GodotName("particles_set_lifetime") GodotMethod!(void, RID, double) particlesSetLifetime;
+		@GodotName("particles_set_one_shot") GodotMethod!(void, RID, bool) particlesSetOneShot;
+		@GodotName("particles_set_pre_process_time") GodotMethod!(void, RID, double) particlesSetPreProcessTime;
+		@GodotName("particles_set_explosiveness_ratio") GodotMethod!(void, RID, double) particlesSetExplosivenessRatio;
+		@GodotName("particles_set_randomness_ratio") GodotMethod!(void, RID, double) particlesSetRandomnessRatio;
+		@GodotName("particles_set_custom_aabb") GodotMethod!(void, RID, AABB) particlesSetCustomAabb;
+		@GodotName("particles_set_speed_scale") GodotMethod!(void, RID, double) particlesSetSpeedScale;
+		@GodotName("particles_set_use_local_coordinates") GodotMethod!(void, RID, bool) particlesSetUseLocalCoordinates;
+		@GodotName("particles_set_process_material") GodotMethod!(void, RID, RID) particlesSetProcessMaterial;
+		@GodotName("particles_set_fixed_fps") GodotMethod!(void, RID, long) particlesSetFixedFps;
+		@GodotName("particles_set_fractional_delta") GodotMethod!(void, RID, bool) particlesSetFractionalDelta;
+		@GodotName("particles_restart") GodotMethod!(void, RID) particlesRestart;
+		@GodotName("particles_set_draw_order") GodotMethod!(void, RID, long) particlesSetDrawOrder;
+		@GodotName("particles_set_draw_passes") GodotMethod!(void, RID, long) particlesSetDrawPasses;
+		@GodotName("particles_set_draw_pass_mesh") GodotMethod!(void, RID, long, RID) particlesSetDrawPassMesh;
+		@GodotName("particles_get_current_aabb") GodotMethod!(AABB, RID) particlesGetCurrentAabb;
+		@GodotName("particles_set_emission_transform") GodotMethod!(void, RID, Transform) particlesSetEmissionTransform;
+		@GodotName("camera_create") GodotMethod!(RID) cameraCreate;
+		@GodotName("camera_set_perspective") GodotMethod!(void, RID, double, double, double) cameraSetPerspective;
+		@GodotName("camera_set_orthogonal") GodotMethod!(void, RID, double, double, double) cameraSetOrthogonal;
+		@GodotName("camera_set_transform") GodotMethod!(void, RID, Transform) cameraSetTransform;
+		@GodotName("camera_set_cull_mask") GodotMethod!(void, RID, long) cameraSetCullMask;
+		@GodotName("camera_set_environment") GodotMethod!(void, RID, RID) cameraSetEnvironment;
+		@GodotName("camera_set_use_vertical_aspect") GodotMethod!(void, RID, bool) cameraSetUseVerticalAspect;
+		@GodotName("viewport_create") GodotMethod!(RID) viewportCreate;
+		@GodotName("viewport_set_use_arvr") GodotMethod!(void, RID, bool) viewportSetUseArvr;
+		@GodotName("viewport_set_size") GodotMethod!(void, RID, long, long) viewportSetSize;
+		@GodotName("viewport_set_active") GodotMethod!(void, RID, bool) viewportSetActive;
+		@GodotName("viewport_set_parent_viewport") GodotMethod!(void, RID, RID) viewportSetParentViewport;
+		@GodotName("viewport_attach_to_screen") GodotMethod!(void, RID, Rect2, long) viewportAttachToScreen;
+		@GodotName("viewport_detach") GodotMethod!(void, RID) viewportDetach;
+		@GodotName("viewport_set_update_mode") GodotMethod!(void, RID, long) viewportSetUpdateMode;
+		@GodotName("viewport_set_vflip") GodotMethod!(void, RID, bool) viewportSetVflip;
+		@GodotName("viewport_set_clear_mode") GodotMethod!(void, RID, long) viewportSetClearMode;
+		@GodotName("viewport_get_texture") GodotMethod!(RID, RID) viewportGetTexture;
+		@GodotName("viewport_set_hide_scenario") GodotMethod!(void, RID, bool) viewportSetHideScenario;
+		@GodotName("viewport_set_hide_canvas") GodotMethod!(void, RID, bool) viewportSetHideCanvas;
+		@GodotName("viewport_set_disable_environment") GodotMethod!(void, RID, bool) viewportSetDisableEnvironment;
+		@GodotName("viewport_set_disable_3d") GodotMethod!(void, RID, bool) viewportSetDisable3d;
+		@GodotName("viewport_attach_camera") GodotMethod!(void, RID, RID) viewportAttachCamera;
+		@GodotName("viewport_set_scenario") GodotMethod!(void, RID, RID) viewportSetScenario;
+		@GodotName("viewport_attach_canvas") GodotMethod!(void, RID, RID) viewportAttachCanvas;
+		@GodotName("viewport_remove_canvas") GodotMethod!(void, RID, RID) viewportRemoveCanvas;
+		@GodotName("viewport_set_canvas_transform") GodotMethod!(void, RID, RID, Transform2D) viewportSetCanvasTransform;
+		@GodotName("viewport_set_transparent_background") GodotMethod!(void, RID, bool) viewportSetTransparentBackground;
+		@GodotName("viewport_set_global_canvas_transform") GodotMethod!(void, RID, Transform2D) viewportSetGlobalCanvasTransform;
+		@GodotName("viewport_set_canvas_layer") GodotMethod!(void, RID, RID, long) viewportSetCanvasLayer;
+		@GodotName("viewport_set_shadow_atlas_size") GodotMethod!(void, RID, long) viewportSetShadowAtlasSize;
+		@GodotName("viewport_set_shadow_atlas_quadrant_subdivision") GodotMethod!(void, RID, long, long) viewportSetShadowAtlasQuadrantSubdivision;
+		@GodotName("viewport_set_msaa") GodotMethod!(void, RID, long) viewportSetMsaa;
+		@GodotName("viewport_set_hdr") GodotMethod!(void, RID, bool) viewportSetHdr;
+		@GodotName("viewport_set_usage") GodotMethod!(void, RID, long) viewportSetUsage;
+		@GodotName("viewport_get_render_info") GodotMethod!(long, RID, long) viewportGetRenderInfo;
+		@GodotName("viewport_set_debug_draw") GodotMethod!(void, RID, long) viewportSetDebugDraw;
+		@GodotName("environment_create") GodotMethod!(RID) environmentCreate;
+		@GodotName("environment_set_background") GodotMethod!(void, RID, long) environmentSetBackground;
+		@GodotName("environment_set_sky") GodotMethod!(void, RID, RID) environmentSetSky;
+		@GodotName("environment_set_sky_custom_fov") GodotMethod!(void, RID, double) environmentSetSkyCustomFov;
+		@GodotName("environment_set_bg_color") GodotMethod!(void, RID, Color) environmentSetBgColor;
+		@GodotName("environment_set_bg_energy") GodotMethod!(void, RID, double) environmentSetBgEnergy;
+		@GodotName("environment_set_canvas_max_layer") GodotMethod!(void, RID, long) environmentSetCanvasMaxLayer;
+		@GodotName("environment_set_ambient_light") GodotMethod!(void, RID, Color, double, double) environmentSetAmbientLight;
+		@GodotName("environment_set_dof_blur_near") GodotMethod!(void, RID, bool, double, double, double, long) environmentSetDofBlurNear;
+		@GodotName("environment_set_dof_blur_far") GodotMethod!(void, RID, bool, double, double, double, long) environmentSetDofBlurFar;
+		@GodotName("environment_set_glow") GodotMethod!(void, RID, bool, long, double, double, double, long, double, double, bool) environmentSetGlow;
+		@GodotName("environment_set_tonemap") GodotMethod!(void, RID, long, double, double, bool, double, double, double, double) environmentSetTonemap;
+		@GodotName("environment_set_adjustment") GodotMethod!(void, RID, bool, double, double, double, RID) environmentSetAdjustment;
+		@GodotName("environment_set_ssr") GodotMethod!(void, RID, bool, long, double, double, double, bool) environmentSetSsr;
+		@GodotName("environment_set_ssao") GodotMethod!(void, RID, bool, double, double, double, double, double, double, double, Color, long, long, double) environmentSetSsao;
+		@GodotName("environment_set_fog") GodotMethod!(void, RID, bool, Color, Color, double) environmentSetFog;
+		@GodotName("environment_set_fog_depth") GodotMethod!(void, RID, bool, double, double, bool, double) environmentSetFogDepth;
+		@GodotName("environment_set_fog_height") GodotMethod!(void, RID, bool, double, double, double) environmentSetFogHeight;
+		@GodotName("scenario_create") GodotMethod!(RID) scenarioCreate;
+		@GodotName("scenario_set_debug") GodotMethod!(void, RID, long) scenarioSetDebug;
+		@GodotName("scenario_set_environment") GodotMethod!(void, RID, RID) scenarioSetEnvironment;
+		@GodotName("scenario_set_reflection_atlas_size") GodotMethod!(void, RID, long, long) scenarioSetReflectionAtlasSize;
+		@GodotName("scenario_set_fallback_environment") GodotMethod!(void, RID, RID) scenarioSetFallbackEnvironment;
+		@GodotName("instance_create2") GodotMethod!(RID, RID, RID) instanceCreate2;
+		@GodotName("instance_create") GodotMethod!(RID) instanceCreate;
+		@GodotName("instance_set_base") GodotMethod!(void, RID, RID) instanceSetBase;
+		@GodotName("instance_set_scenario") GodotMethod!(void, RID, RID) instanceSetScenario;
+		@GodotName("instance_set_layer_mask") GodotMethod!(void, RID, long) instanceSetLayerMask;
+		@GodotName("instance_set_transform") GodotMethod!(void, RID, Transform) instanceSetTransform;
+		@GodotName("instance_attach_object_instance_id") GodotMethod!(void, RID, long) instanceAttachObjectInstanceId;
+		@GodotName("instance_set_blend_shape_weight") GodotMethod!(void, RID, long, double) instanceSetBlendShapeWeight;
+		@GodotName("instance_set_surface_material") GodotMethod!(void, RID, long, RID) instanceSetSurfaceMaterial;
+		@GodotName("instance_set_visible") GodotMethod!(void, RID, bool) instanceSetVisible;
+		@GodotName("instance_set_use_lightmap") GodotMethod!(void, RID, RID, RID) instanceSetUseLightmap;
+		@GodotName("instance_set_custom_aabb") GodotMethod!(void, RID, AABB) instanceSetCustomAabb;
+		@GodotName("instance_attach_skeleton") GodotMethod!(void, RID, RID) instanceAttachSkeleton;
+		@GodotName("instance_set_exterior") GodotMethod!(void, RID, bool) instanceSetExterior;
+		@GodotName("instance_set_extra_visibility_margin") GodotMethod!(void, RID, double) instanceSetExtraVisibilityMargin;
+		@GodotName("instance_geometry_set_flag") GodotMethod!(void, RID, long, bool) instanceGeometrySetFlag;
+		@GodotName("instance_geometry_set_cast_shadows_setting") GodotMethod!(void, RID, long) instanceGeometrySetCastShadowsSetting;
+		@GodotName("instance_geometry_set_material_override") GodotMethod!(void, RID, RID) instanceGeometrySetMaterialOverride;
+		@GodotName("instance_geometry_set_draw_range") GodotMethod!(void, RID, double, double, double, double) instanceGeometrySetDrawRange;
+		@GodotName("instance_geometry_set_as_instance_lod") GodotMethod!(void, RID, RID) instanceGeometrySetAsInstanceLod;
+		@GodotName("instances_cull_aabb") GodotMethod!(Array, AABB, RID) instancesCullAabb;
+		@GodotName("instances_cull_ray") GodotMethod!(Array, Vector3, Vector3, RID) instancesCullRay;
+		@GodotName("instances_cull_convex") GodotMethod!(Array, Array, RID) instancesCullConvex;
+		@GodotName("canvas_create") GodotMethod!(RID) canvasCreate;
+		@GodotName("canvas_set_item_mirroring") GodotMethod!(void, RID, RID, Vector2) canvasSetItemMirroring;
+		@GodotName("canvas_set_modulate") GodotMethod!(void, RID, Color) canvasSetModulate;
+		@GodotName("canvas_item_create") GodotMethod!(RID) canvasItemCreate;
+		@GodotName("canvas_item_set_parent") GodotMethod!(void, RID, RID) canvasItemSetParent;
+		@GodotName("canvas_item_set_visible") GodotMethod!(void, RID, bool) canvasItemSetVisible;
+		@GodotName("canvas_item_set_light_mask") GodotMethod!(void, RID, long) canvasItemSetLightMask;
+		@GodotName("canvas_item_set_transform") GodotMethod!(void, RID, Transform2D) canvasItemSetTransform;
+		@GodotName("canvas_item_set_clip") GodotMethod!(void, RID, bool) canvasItemSetClip;
+		@GodotName("canvas_item_set_distance_field_mode") GodotMethod!(void, RID, bool) canvasItemSetDistanceFieldMode;
+		@GodotName("canvas_item_set_custom_rect") GodotMethod!(void, RID, bool, Rect2) canvasItemSetCustomRect;
+		@GodotName("canvas_item_set_modulate") GodotMethod!(void, RID, Color) canvasItemSetModulate;
+		@GodotName("canvas_item_set_self_modulate") GodotMethod!(void, RID, Color) canvasItemSetSelfModulate;
+		@GodotName("canvas_item_set_draw_behind_parent") GodotMethod!(void, RID, bool) canvasItemSetDrawBehindParent;
+		@GodotName("canvas_item_add_line") GodotMethod!(void, RID, Vector2, Vector2, Color, double, bool) canvasItemAddLine;
+		@GodotName("canvas_item_add_polyline") GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, double, bool) canvasItemAddPolyline;
+		@GodotName("canvas_item_add_rect") GodotMethod!(void, RID, Rect2, Color) canvasItemAddRect;
+		@GodotName("canvas_item_add_circle") GodotMethod!(void, RID, Vector2, double, Color) canvasItemAddCircle;
+		@GodotName("canvas_item_add_texture_rect") GodotMethod!(void, RID, Rect2, RID, bool, Color, bool, RID) canvasItemAddTextureRect;
+		@GodotName("canvas_item_add_texture_rect_region") GodotMethod!(void, RID, Rect2, RID, Rect2, Color, bool, RID, bool) canvasItemAddTextureRectRegion;
+		@GodotName("canvas_item_add_nine_patch") GodotMethod!(void, RID, Rect2, Rect2, RID, Vector2, Vector2, long, long, bool, Color, RID) canvasItemAddNinePatch;
+		@GodotName("canvas_item_add_primitive") GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, PoolVector2Array, RID, double, RID) canvasItemAddPrimitive;
+		@GodotName("canvas_item_add_polygon") GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, PoolVector2Array, RID, RID, bool) canvasItemAddPolygon;
+		@GodotName("canvas_item_add_triangle_array") GodotMethod!(void, RID, PoolIntArray, PoolVector2Array, PoolColorArray, PoolVector2Array, PoolIntArray, PoolRealArray, RID, long, RID) canvasItemAddTriangleArray;
+		@GodotName("canvas_item_add_mesh") GodotMethod!(void, RID, RID, RID, RID) canvasItemAddMesh;
+		@GodotName("canvas_item_add_multimesh") GodotMethod!(void, RID, RID, RID, RID) canvasItemAddMultimesh;
+		@GodotName("canvas_item_add_particles") GodotMethod!(void, RID, RID, RID, RID, long, long) canvasItemAddParticles;
+		@GodotName("canvas_item_add_set_transform") GodotMethod!(void, RID, Transform2D) canvasItemAddSetTransform;
+		@GodotName("canvas_item_add_clip_ignore") GodotMethod!(void, RID, bool) canvasItemAddClipIgnore;
+		@GodotName("canvas_item_set_sort_children_by_y") GodotMethod!(void, RID, bool) canvasItemSetSortChildrenByY;
+		@GodotName("canvas_item_set_z_index") GodotMethod!(void, RID, long) canvasItemSetZIndex;
+		@GodotName("canvas_item_set_z_as_relative_to_parent") GodotMethod!(void, RID, bool) canvasItemSetZAsRelativeToParent;
+		@GodotName("canvas_item_set_copy_to_backbuffer") GodotMethod!(void, RID, bool, Rect2) canvasItemSetCopyToBackbuffer;
+		@GodotName("canvas_item_clear") GodotMethod!(void, RID) canvasItemClear;
+		@GodotName("canvas_item_set_draw_index") GodotMethod!(void, RID, long) canvasItemSetDrawIndex;
+		@GodotName("canvas_item_set_material") GodotMethod!(void, RID, RID) canvasItemSetMaterial;
+		@GodotName("canvas_item_set_use_parent_material") GodotMethod!(void, RID, bool) canvasItemSetUseParentMaterial;
+		@GodotName("canvas_light_create") GodotMethod!(RID) canvasLightCreate;
+		@GodotName("canvas_light_attach_to_canvas") GodotMethod!(void, RID, RID) canvasLightAttachToCanvas;
+		@GodotName("canvas_light_set_enabled") GodotMethod!(void, RID, bool) canvasLightSetEnabled;
+		@GodotName("canvas_light_set_scale") GodotMethod!(void, RID, double) canvasLightSetScale;
+		@GodotName("canvas_light_set_transform") GodotMethod!(void, RID, Transform2D) canvasLightSetTransform;
+		@GodotName("canvas_light_set_texture") GodotMethod!(void, RID, RID) canvasLightSetTexture;
+		@GodotName("canvas_light_set_texture_offset") GodotMethod!(void, RID, Vector2) canvasLightSetTextureOffset;
+		@GodotName("canvas_light_set_color") GodotMethod!(void, RID, Color) canvasLightSetColor;
+		@GodotName("canvas_light_set_height") GodotMethod!(void, RID, double) canvasLightSetHeight;
+		@GodotName("canvas_light_set_energy") GodotMethod!(void, RID, double) canvasLightSetEnergy;
+		@GodotName("canvas_light_set_z_range") GodotMethod!(void, RID, long, long) canvasLightSetZRange;
+		@GodotName("canvas_light_set_layer_range") GodotMethod!(void, RID, long, long) canvasLightSetLayerRange;
+		@GodotName("canvas_light_set_item_cull_mask") GodotMethod!(void, RID, long) canvasLightSetItemCullMask;
+		@GodotName("canvas_light_set_item_shadow_cull_mask") GodotMethod!(void, RID, long) canvasLightSetItemShadowCullMask;
+		@GodotName("canvas_light_set_mode") GodotMethod!(void, RID, long) canvasLightSetMode;
+		@GodotName("canvas_light_set_shadow_enabled") GodotMethod!(void, RID, bool) canvasLightSetShadowEnabled;
+		@GodotName("canvas_light_set_shadow_buffer_size") GodotMethod!(void, RID, long) canvasLightSetShadowBufferSize;
+		@GodotName("canvas_light_set_shadow_gradient_length") GodotMethod!(void, RID, double) canvasLightSetShadowGradientLength;
+		@GodotName("canvas_light_set_shadow_filter") GodotMethod!(void, RID, long) canvasLightSetShadowFilter;
+		@GodotName("canvas_light_set_shadow_color") GodotMethod!(void, RID, Color) canvasLightSetShadowColor;
+		@GodotName("canvas_light_set_shadow_smooth") GodotMethod!(void, RID, double) canvasLightSetShadowSmooth;
+		@GodotName("canvas_light_occluder_create") GodotMethod!(RID) canvasLightOccluderCreate;
+		@GodotName("canvas_light_occluder_attach_to_canvas") GodotMethod!(void, RID, RID) canvasLightOccluderAttachToCanvas;
+		@GodotName("canvas_light_occluder_set_enabled") GodotMethod!(void, RID, bool) canvasLightOccluderSetEnabled;
+		@GodotName("canvas_light_occluder_set_polygon") GodotMethod!(void, RID, RID) canvasLightOccluderSetPolygon;
+		@GodotName("canvas_light_occluder_set_transform") GodotMethod!(void, RID, Transform2D) canvasLightOccluderSetTransform;
+		@GodotName("canvas_light_occluder_set_light_mask") GodotMethod!(void, RID, long) canvasLightOccluderSetLightMask;
+		@GodotName("canvas_occluder_polygon_create") GodotMethod!(RID) canvasOccluderPolygonCreate;
+		@GodotName("canvas_occluder_polygon_set_shape") GodotMethod!(void, RID, PoolVector2Array, bool) canvasOccluderPolygonSetShape;
+		@GodotName("canvas_occluder_polygon_set_shape_as_lines") GodotMethod!(void, RID, PoolVector2Array) canvasOccluderPolygonSetShapeAsLines;
+		@GodotName("canvas_occluder_polygon_set_cull_mode") GodotMethod!(void, RID, long) canvasOccluderPolygonSetCullMode;
+		@GodotName("black_bars_set_margins") GodotMethod!(void, long, long, long, long) blackBarsSetMargins;
+		@GodotName("black_bars_set_images") GodotMethod!(void, RID, RID, RID, RID) blackBarsSetImages;
+		@GodotName("free_rid") GodotMethod!(void, RID) freeRid;
+		@GodotName("request_frame_drawn_callback") GodotMethod!(void, GodotObject, String, Variant) requestFrameDrawnCallback;
+		@GodotName("has_changed") GodotMethod!(bool) hasChanged;
+		@GodotName("init") GodotMethod!(void) _init;
+		@GodotName("finish") GodotMethod!(void) finish;
+		@GodotName("get_render_info") GodotMethod!(long, long) getRenderInfo;
+		@GodotName("make_sphere_mesh") GodotMethod!(RID, long, long, double) makeSphereMesh;
+		@GodotName("get_test_cube") GodotMethod!(RID) getTestCube;
+		@GodotName("get_test_texture") GodotMethod!(RID) getTestTexture;
+		@GodotName("get_white_texture") GodotMethod!(RID) getWhiteTexture;
+		@GodotName("set_boot_image") GodotMethod!(void, Image, Color, bool) setBootImage;
+		@GodotName("set_default_clear_color") GodotMethod!(void, Color) setDefaultClearColor;
+		@GodotName("has_feature") GodotMethod!(bool, long) hasFeature;
+		@GodotName("has_os_feature") GodotMethod!(bool, String) hasOsFeature;
+		@GodotName("set_debug_generate_wireframes") GodotMethod!(void, bool) setDebugGenerateWireframes;
+	}
 	bool opEquals(in VisualServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -125,6 +479,26 @@ public:
 		Marks the primitive types endpoint. used internally.
 		*/
 		primitiveMax = 7,
+	}
+	/// 
+	enum TextureType : int
+	{
+		/**
+		
+		*/
+		textureType2d = 0,
+		/**
+		
+		*/
+		textureTypeCubemap = 1,
+		/**
+		
+		*/
+		textureType2dArray = 2,
+		/**
+		
+		*/
+		textureType3d = 3,
 	}
 	/// 
 	enum EnvironmentSSAOQuality : int
@@ -447,13 +821,9 @@ public:
 		*/
 		textureFlagMirroredRepeat = 32,
 		/**
-		Texture is a cubemap.
-		*/
-		textureFlagCubemap = 2048,
-		/**
 		Texture is a video surface.
 		*/
-		textureFlagUsedForStreaming = 4096,
+		textureFlagUsedForStreaming = 2048,
 	}
 	/// 
 	enum Features : int
@@ -545,7 +915,7 @@ public:
 		/**
 		
 		*/
-		envToneMapperReinhardt = 1,
+		envToneMapperReinhard = 1,
 		/**
 		
 		*/
@@ -733,7 +1103,7 @@ public:
 		/**
 		Used to set flags ARRAY_COMPRESS_VERTEX, ARRAY_COMPRESS_NORMAL, ARRAY_COMPRESS_TANGENT, ARRAY_COMPRESS_COLOR, ARRAY_COMPRESS_TEX_UV, ARRAY_COMPRESS_TEX_UV2 and ARRAY_COMPRESS_WEIGHTS quickly.
 		*/
-		arrayCompressDefault = 97792,
+		arrayCompressDefault = 97280,
 		/**
 		
 		*/
@@ -933,7 +1303,11 @@ public:
 		/**
 		
 		*/
-		instanceFlagMax = 1,
+		instanceFlagDrawNextFrameIfVisible = 1,
+		/**
+		
+		*/
+		instanceFlagMax = 2,
 	}
 	/// 
 	enum ViewportMSAA : int
@@ -1018,188 +1392,193 @@ public:
 		Marks an error that shows that the index array is empty.
 		*/
 		noIndexArray = -1,
-		envToneMapperLinear = 0,
-		shaderSpatial = 0,
-		viewportClearAlways = 0,
-		scenarioDebugDisabled = 0,
-		cubemapLeft = 0,
-		multimeshColorNone = 0,
-		arrayVertex = 0,
-		lightDirectional = 0,
-		instanceFlagUseBakedLight = 0,
-		viewportRenderInfoObjectsInFrame = 0,
-		instanceNone = 0,
-		viewportUpdateDisabled = 0,
-		glowBlendModeAdditive = 0,
-		lightParamEnergy = 0,
-		lightDirectionalShadowDepthRangeStable = 0,
-		envSsaoBlurDisabled = 0,
-		canvasLightFilterNone = 0,
-		viewportMsaaDisabled = 0,
 		ninePatchStretch = 0,
-		infoObjectsInFrame = 0,
-		blendShapeModeNormalized = 0,
-		envSsaoQualityLow = 0,
-		lightOmniShadowDualParaboloid = 0,
-		featureShaders = 0,
-		multimeshTransform2d = 0,
 		viewportUsage2d = 0,
+		textureType2d = 0,
 		lightOmniShadowDetailVertical = 0,
+		instanceNone = 0,
+		envSsaoBlurDisabled = 0,
 		shadowCastingSettingOff = 0,
-		canvasOccluderPolygonCullDisabled = 0,
+		lightOmniShadowDualParaboloid = 0,
+		lightDirectional = 0,
+		shaderSpatial = 0,
 		viewportDebugDrawDisabled = 0,
-		envDofBlurQualityLow = 0,
-		lightDirectionalShadowOrthogonal = 0,
-		reflectionProbeUpdateOnce = 0,
-		canvasLightModeAdd = 0,
 		primitivePoints = 0,
-		particlesDrawOrderIndex = 0,
+		lightDirectionalShadowDepthRangeStable = 0,
+		canvasLightFilterNone = 0,
 		envBgClearColor = 0,
-		viewportRenderInfoVerticesInFrame = 1,
-		lightDirectionalShadowParallel2Splits = 1,
-		textureFlagMipmaps = 1,
-		envSsaoBlur1x1 = 1,
-		multimeshColor8bit = 1,
-		shaderCanvasItem = 1,
-		instanceFlagMax = 1,
-		arrayFormatVertex = 1,
-		envToneMapperReinhardt = 1,
-		infoVerticesInFrame = 1,
-		featureMultithreaded = 1,
-		arrayNormal = 1,
-		lightOmniShadowDetailHorizontal = 1,
-		multimeshTransform3d = 1,
-		blendShapeModeRelative = 1,
-		envDofBlurQualityMedium = 1,
-		canvasOccluderPolygonCullClockwise = 1,
-		viewportMsaa2x = 1,
+		featureShaders = 0,
+		arrayVertex = 0,
+		viewportMsaaDisabled = 0,
+		glowBlendModeAdditive = 0,
+		particlesDrawOrderIndex = 0,
+		viewportClearAlways = 0,
+		canvasOccluderPolygonCullDisabled = 0,
+		multimeshColorNone = 0,
+		cubemapLeft = 0,
+		infoObjectsInFrame = 0,
+		canvasLightModeAdd = 0,
+		viewportRenderInfoObjectsInFrame = 0,
+		blendShapeModeNormalized = 0,
+		multimeshTransform2d = 0,
+		scenarioDebugDisabled = 0,
+		instanceFlagUseBakedLight = 0,
+		envToneMapperLinear = 0,
+		lightDirectionalShadowOrthogonal = 0,
+		envDofBlurQualityLow = 0,
+		reflectionProbeUpdateOnce = 0,
+		lightParamEnergy = 0,
+		viewportUpdateDisabled = 0,
+		envSsaoQualityLow = 0,
 		viewportUsage2dNoSampling = 1,
-		ninePatchTile = 1,
-		envSsaoQualityMedium = 1,
-		viewportDebugDrawUnshaded = 1,
-		lightDirectionalShadowDepthRangeOptimized = 1,
-		viewportUpdateOnce = 1,
-		envBgColor = 1,
-		particlesDrawOrderLifetime = 1,
-		cubemapRight = 1,
-		scenarioDebugWireframe = 1,
-		lightOmniShadowCube = 1,
-		canvasLightFilterPcf3 = 1,
-		glowBlendModeScreen = 1,
-		canvasLightModeSub = 1,
-		shadowCastingSettingOn = 1,
+		viewportRenderInfoVerticesInFrame = 1,
 		instanceMesh = 1,
+		featureMultithreaded = 1,
 		primitiveLines = 1,
-		lightOmni = 1,
+		envSsaoBlur1x1 = 1,
+		envSsaoQualityMedium = 1,
+		lightDirectionalShadowParallel2Splits = 1,
+		multimeshTransform3d = 1,
+		glowBlendModeScreen = 1,
+		scenarioDebugWireframe = 1,
+		viewportDebugDrawUnshaded = 1,
+		blendShapeModeRelative = 1,
+		multimeshColor8bit = 1,
+		ninePatchTile = 1,
+		envToneMapperReinhard = 1,
+		arrayNormal = 1,
+		textureFlagMipmaps = 1,
+		shaderCanvasItem = 1,
+		instanceFlagDrawNextFrameIfVisible = 1,
 		reflectionProbeUpdateAlways = 1,
 		viewportClearNever = 1,
-		canvasLightFilterPcf5 = 2,
-		lightDirectionalShadowParallel4Splits = 2,
-		textureFlagRepeat = 2,
-		envSsaoBlur2x2 = 2,
-		envSsaoQualityHigh = 2,
-		particlesDrawOrderViewDepth = 2,
-		cubemapBottom = 2,
-		lightParamSpecular = 2,
-		shaderParticles = 2,
-		infoMaterialChangesInFrame = 2,
-		ninePatchTileFit = 2,
-		primitiveLineStrip = 2,
-		viewportClearOnlyNextFrame = 2,
-		envToneMapperFilmic = 2,
-		canvasLightModeMix = 2,
-		multimeshColorFloat = 2,
-		viewportMsaa4x = 2,
+		lightOmniShadowDetailHorizontal = 1,
+		shadowCastingSettingOn = 1,
+		textureTypeCubemap = 1,
+		viewportMsaa2x = 1,
+		infoVerticesInFrame = 1,
+		envDofBlurQualityMedium = 1,
+		lightOmniShadowCube = 1,
+		viewportUpdateOnce = 1,
+		envBgColor = 1,
+		lightOmni = 1,
+		arrayFormatVertex = 1,
+		cubemapRight = 1,
+		canvasLightFilterPcf3 = 1,
+		lightDirectionalShadowDepthRangeOptimized = 1,
+		particlesDrawOrderLifetime = 1,
+		canvasOccluderPolygonCullClockwise = 1,
+		canvasLightModeSub = 1,
 		viewportDebugDrawOverdraw = 2,
-		lightSpot = 2,
-		arrayTangent = 2,
-		arrayFormatNormal = 2,
-		viewportUsage3d = 2,
-		scenarioDebugOverdraw = 2,
-		viewportRenderInfoMaterialChangesInFrame = 2,
 		envDofBlurQualityHigh = 2,
-		canvasOccluderPolygonCullCounterClockwise = 2,
+		lightParamSpecular = 2,
+		envSsaoBlur2x2 = 2,
+		viewportClearOnlyNextFrame = 2,
+		viewportRenderInfoMaterialChangesInFrame = 2,
 		shadowCastingSettingDoubleSided = 2,
-		viewportUpdateWhenVisible = 2,
+		primitiveLineStrip = 2,
+		multimeshColorFloat = 2,
+		arrayTangent = 2,
+		canvasLightModeMix = 2,
+		scenarioDebugOverdraw = 2,
+		shaderParticles = 2,
+		envSsaoQualityHigh = 2,
+		instanceFlagMax = 2,
+		lightDirectionalShadowParallel4Splits = 2,
+		infoMaterialChangesInFrame = 2,
+		cubemapBottom = 2,
+		arrayFormatNormal = 2,
 		envBgSky = 2,
-		instanceMultimesh = 2,
+		canvasLightFilterPcf5 = 2,
+		lightSpot = 2,
+		textureType2dArray = 2,
 		glowBlendModeSoftlight = 2,
-		viewportUpdateAlways = 3,
-		scenarioDebugShadeless = 3,
-		shadowCastingSettingShadowsOnly = 3,
+		envToneMapperFilmic = 2,
+		particlesDrawOrderViewDepth = 2,
+		viewportMsaa4x = 2,
+		viewportUsage3d = 2,
+		viewportUpdateWhenVisible = 2,
+		instanceMultimesh = 2,
+		ninePatchTileFit = 2,
+		canvasOccluderPolygonCullCounterClockwise = 2,
+		textureFlagRepeat = 2,
 		viewportUsage3dNoEffects = 3,
-		envSsaoBlur3x3 = 3,
-		viewportRenderInfoShaderChangesInFrame = 3,
-		glowBlendModeReplace = 3,
 		instanceImmediate = 3,
-		infoShaderChangesInFrame = 3,
-		lightParamRange = 3,
-		primitiveLineLoop = 3,
 		envBgColorSky = 3,
+		primitiveLineLoop = 3,
 		envToneMapperAces = 3,
-		arrayColor = 3,
-		cubemapTop = 3,
-		shaderMax = 3,
-		viewportMsaa8x = 3,
 		canvasLightFilterPcf7 = 3,
-		viewportDebugDrawWireframe = 3,
+		shaderMax = 3,
+		infoShaderChangesInFrame = 3,
 		canvasLightModeMask = 3,
-		lightParamAttenuation = 4,
-		infoSurfaceChangesInFrame = 4,
+		cubemapTop = 3,
+		shadowCastingSettingShadowsOnly = 3,
+		arrayColor = 3,
+		viewportRenderInfoShaderChangesInFrame = 3,
+		textureType3d = 3,
+		viewportMsaa8x = 3,
+		glowBlendModeReplace = 3,
+		viewportDebugDrawWireframe = 3,
+		viewportUpdateAlways = 3,
+		lightParamRange = 3,
+		scenarioDebugShadeless = 3,
+		envSsaoBlur3x3 = 3,
+		arrayFormatTangent = 4,
+		envBgCanvas = 4,
+		cubemapFront = 4,
 		viewportMsaa16x = 4,
+		lightParamAttenuation = 4,
+		viewportRenderInfoSurfaceChangesInFrame = 4,
+		arrayTexUv = 4,
+		instanceParticles = 4,
+		textureFlagFilter = 4,
+		canvasLightFilterPcf9 = 4,
 		primitiveTriangles = 4,
+		infoSurfaceChangesInFrame = 4,
 		/**
 		
 		*/
 		arrayWeightsSize = 4,
-		textureFlagFilter = 4,
-		cubemapFront = 4,
-		instanceParticles = 4,
-		arrayTexUv = 4,
-		arrayFormatTangent = 4,
-		viewportRenderInfoSurfaceChangesInFrame = 4,
-		canvasLightFilterPcf9 = 4,
-		envBgCanvas = 4,
-		arrayTexUv2 = 5,
-		infoDrawCallsInFrame = 5,
-		cubemapBack = 5,
-		primitiveTriangleStrip = 5,
-		lightParamSpotAngle = 5,
 		instanceLight = 5,
-		envBgKeep = 5,
+		infoDrawCallsInFrame = 5,
+		primitiveTriangleStrip = 5,
+		cubemapBack = 5,
 		canvasLightFilterPcf13 = 5,
+		envBgKeep = 5,
+		arrayTexUv2 = 5,
 		viewportRenderInfoDrawCallsInFrame = 5,
-		infoUsageVideoMemTotal = 6,
+		lightParamSpotAngle = 5,
+		primitiveTriangleFan = 6,
 		arrayBones = 6,
-		envBgMax = 6,
+		infoUsageVideoMemTotal = 6,
 		viewportRenderInfoMax = 6,
 		lightParamSpotAttenuation = 6,
-		primitiveTriangleFan = 6,
 		instanceReflectionProbe = 6,
-		instanceGiProbe = 7,
-		infoVideoMemUsed = 7,
-		lightParamContactShadowSize = 7,
-		primitiveMax = 7,
+		envBgMax = 6,
 		arrayWeights = 7,
+		textureFlagsDefault = 7,
+		instanceGiProbe = 7,
 		/**
 		
 		*/
 		maxGlowLevels = 7,
-		textureFlagsDefault = 7,
-		infoTextureMemUsed = 8,
-		textureFlagAnisotropicFilter = 8,
-		arrayFormatColor = 8,
+		primitiveMax = 7,
+		infoVideoMemUsed = 7,
+		lightParamContactShadowSize = 7,
 		/**
 		
 		*/
 		maxCursors = 8,
+		arrayIndex = 8,
+		infoTextureMemUsed = 8,
+		textureFlagAnisotropicFilter = 8,
+		arrayFormatColor = 8,
 		lightParamShadowMaxDistance = 8,
 		instanceLightmapCapture = 8,
-		arrayIndex = 8,
-		arrayMax = 9,
+		infoVertexMemUsed = 9,
 		instanceMax = 9,
 		lightParamShadowSplit1Offset = 9,
-		infoVertexMemUsed = 9,
+		arrayMax = 9,
 		lightParamShadowSplit2Offset = 10,
 		lightParamShadowSplit3Offset = 11,
 		lightParamShadowNormalBias = 12,
@@ -1209,8 +1588,8 @@ public:
 		textureFlagConvertToLinear = 16,
 		arrayFormatTexUv = 16,
 		instanceGeometryMask = 30,
-		arrayFormatTexUv2 = 32,
 		textureFlagMirroredRepeat = 32,
+		arrayFormatTexUv2 = 32,
 		arrayFormatBones = 64,
 		/**
 		The maximum renderpriority of all materials.
@@ -1220,9 +1599,8 @@ public:
 		arrayFormatIndex = 256,
 		arrayCompressVertex = 512,
 		arrayCompressNormal = 1024,
-		textureFlagCubemap = 2048,
+		textureFlagUsedForStreaming = 2048,
 		arrayCompressTangent = 2048,
-		textureFlagUsedForStreaming = 4096,
 		/**
 		The maximum Z-layer for canvas items.
 		*/
@@ -1232,3469 +1610,2860 @@ public:
 		arrayCompressTexUv2 = 16384,
 		arrayCompressBones = 32768,
 		arrayCompressWeights = 65536,
-		arrayCompressDefault = 97792,
+		arrayCompressDefault = 97280,
 		arrayCompressIndex = 131072,
 		arrayFlagUse2dVertices = 262144,
 		arrayFlagUse16BitBones = 524288,
 	}
-	package(godot) static GodotMethod!(void) _GODOT_force_sync;
-	package(godot) alias _GODOT_methodBindInfo(string name : "force_sync") = _GODOT_force_sync;
 	/**
 	Synchronizes threads.
 	*/
 	void forceSync()
 	{
-		_GODOT_force_sync.bind("VisualServer", "force_sync");
-		ptrcall!(void)(_GODOT_force_sync, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceSync, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_force_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "force_draw") = _GODOT_force_draw;
 	/**
-	Draws a frame. Same as $(D draw).
+	
 	*/
-	void forceDraw(in bool swap_buffers = true)
+	void forceDraw(in bool swap_buffers = true, in double frame_step = 0)
 	{
-		_GODOT_force_draw.bind("VisualServer", "force_draw");
-		ptrcall!(void)(_GODOT_force_draw, _godot_object, swap_buffers);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceDraw, _godot_object, swap_buffers, frame_step);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_sync;
-	package(godot) alias _GODOT_methodBindInfo(string name : "sync") = _GODOT_sync;
 	/**
 	
 	*/
 	void sync()
 	{
-		_GODOT_sync.bind("VisualServer", "sync");
-		ptrcall!(void)(_GODOT_sync, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.sync, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "draw") = _GODOT_draw;
 	/**
-	Draws a frame.
+	
 	*/
-	void draw(in bool swap_buffers = true)
+	void draw(in bool swap_buffers = true, in double frame_step = 0)
 	{
-		_GODOT_draw.bind("VisualServer", "draw");
-		ptrcall!(void)(_GODOT_draw, _godot_object, swap_buffers);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.draw, _godot_object, swap_buffers, frame_step);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_texture_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_create") = _GODOT_texture_create;
 	/**
 	Creates an empty texture.
 	*/
 	RID textureCreate()
 	{
-		_GODOT_texture_create.bind("VisualServer", "texture_create");
-		return ptrcall!(RID)(_GODOT_texture_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.textureCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID, Image, long) _GODOT_texture_create_from_image;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_create_from_image") = _GODOT_texture_create_from_image;
 	/**
 	Creates a texture, allocates the space for an image, and fills in the image.
 	*/
 	RID textureCreateFromImage(Image image, in long flags = 7)
 	{
-		_GODOT_texture_create_from_image.bind("VisualServer", "texture_create_from_image");
-		return ptrcall!(RID)(_GODOT_texture_create_from_image, _godot_object, image, flags);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.textureCreateFromImage, _godot_object, image, flags);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long, long, long) _GODOT_texture_allocate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_allocate") = _GODOT_texture_allocate;
 	/**
-	Allocates space for a texture's image or video.
+	
 	*/
-	void textureAllocate(in RID texture, in long width, in long height, in long format, in long flags = 7)
+	void textureAllocate(in RID texture, in long width, in long height, in long depth_3d, in long format, in long type, in long flags = 7)
 	{
-		_GODOT_texture_allocate.bind("VisualServer", "texture_allocate");
-		ptrcall!(void)(_GODOT_texture_allocate, _godot_object, texture, width, height, format, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureAllocate, _godot_object, texture, width, height, depth_3d, format, type, flags);
 	}
-	package(godot) static GodotMethod!(void, RID, Image, long) _GODOT_texture_set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_set_data") = _GODOT_texture_set_data;
 	/**
 	Sets the texture's image data. If it's a CubeMap, it sets the image data at a cube side.
 	*/
-	void textureSetData(in RID texture, Image image, in long cube_side = 0)
+	void textureSetData(in RID texture, Image image, in long layer = 0)
 	{
-		_GODOT_texture_set_data.bind("VisualServer", "texture_set_data");
-		ptrcall!(void)(_GODOT_texture_set_data, _godot_object, texture, image, cube_side);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetData, _godot_object, texture, image, layer);
 	}
-	package(godot) static GodotMethod!(Image, RID, long) _GODOT_texture_get_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_data") = _GODOT_texture_get_data;
+	/**
+	
+	*/
+	void textureSetDataPartial(in RID texture, Image image, in long src_x, in long src_y, in long src_w, in long src_h, in long dst_x, in long dst_y, in long dst_mip, in long layer = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetDataPartial, _godot_object, texture, image, src_x, src_y, src_w, src_h, dst_x, dst_y, dst_mip, layer);
+	}
 	/**
 	Returns a copy of a texture's image unless it's a CubeMap, in which case it returns the $(D RID) of the image at one of the cubes sides.
 	*/
 	Ref!Image textureGetData(in RID texture, in long cube_side = 0) const
 	{
-		_GODOT_texture_get_data.bind("VisualServer", "texture_get_data");
-		return ptrcall!(Image)(_GODOT_texture_get_data, _godot_object, texture, cube_side);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.textureGetData, _godot_object, texture, cube_side);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_texture_set_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_set_flags") = _GODOT_texture_set_flags;
 	/**
 	Sets the texture's flags. See $(D textureflags) for options
 	*/
 	void textureSetFlags(in RID texture, in long flags)
 	{
-		_GODOT_texture_set_flags.bind("VisualServer", "texture_set_flags");
-		ptrcall!(void)(_GODOT_texture_set_flags, _godot_object, texture, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetFlags, _godot_object, texture, flags);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_texture_get_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_flags") = _GODOT_texture_get_flags;
 	/**
 	Returns the flags of a texture.
 	*/
 	long textureGetFlags(in RID texture) const
 	{
-		_GODOT_texture_get_flags.bind("VisualServer", "texture_get_flags");
-		return ptrcall!(long)(_GODOT_texture_get_flags, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.textureGetFlags, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(Image.Format, RID) _GODOT_texture_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_format") = _GODOT_texture_get_format;
 	/**
 	Returns the format of the texture's image.
 	*/
 	Image.Format textureGetFormat(in RID texture) const
 	{
-		_GODOT_texture_get_format.bind("VisualServer", "texture_get_format");
-		return ptrcall!(Image.Format)(_GODOT_texture_get_format, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image.Format)(_classBinding.textureGetFormat, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_texture_get_texid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_texid") = _GODOT_texture_get_texid;
+	/**
+	
+	*/
+	VisualServer.TextureType textureGetType(in RID texture) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualServer.TextureType)(_classBinding.textureGetType, _godot_object, texture);
+	}
 	/**
 	Returns the opengl id of the texture's image.
 	*/
 	long textureGetTexid(in RID texture) const
 	{
-		_GODOT_texture_get_texid.bind("VisualServer", "texture_get_texid");
-		return ptrcall!(long)(_GODOT_texture_get_texid, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.textureGetTexid, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_texture_get_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_width") = _GODOT_texture_get_width;
 	/**
 	Returns the texture's width.
 	*/
 	long textureGetWidth(in RID texture) const
 	{
-		_GODOT_texture_get_width.bind("VisualServer", "texture_get_width");
-		return ptrcall!(long)(_GODOT_texture_get_width, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.textureGetWidth, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_texture_get_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_height") = _GODOT_texture_get_height;
 	/**
 	Returns the texture's height.
 	*/
 	long textureGetHeight(in RID texture) const
 	{
-		_GODOT_texture_get_height.bind("VisualServer", "texture_get_height");
-		return ptrcall!(long)(_GODOT_texture_get_height, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.textureGetHeight, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_texture_set_size_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_set_size_override") = _GODOT_texture_set_size_override;
 	/**
-	Overwrites the texture's width and height.
+	
 	*/
-	void textureSetSizeOverride(in RID texture, in long width, in long height)
+	long textureGetDepth(in RID texture) const
 	{
-		_GODOT_texture_set_size_override.bind("VisualServer", "texture_set_size_override");
-		ptrcall!(void)(_GODOT_texture_set_size_override, _godot_object, texture, width, height);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.textureGetDepth, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, RID, String) _GODOT_texture_set_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_set_path") = _GODOT_texture_set_path;
+	/**
+	
+	*/
+	void textureSetSizeOverride(in RID texture, in long width, in long height, in long depth)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetSizeOverride, _godot_object, texture, width, height, depth);
+	}
 	/**
 	Sets the texture's path.
 	*/
 	void textureSetPath(StringArg1)(in RID texture, in StringArg1 path)
 	{
-		_GODOT_texture_set_path.bind("VisualServer", "texture_set_path");
-		ptrcall!(void)(_GODOT_texture_set_path, _godot_object, texture, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetPath, _godot_object, texture, path);
 	}
-	package(godot) static GodotMethod!(String, RID) _GODOT_texture_get_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_get_path") = _GODOT_texture_get_path;
 	/**
 	Returns the texture's path.
 	*/
 	String textureGetPath(in RID texture) const
 	{
-		_GODOT_texture_get_path.bind("VisualServer", "texture_get_path");
-		return ptrcall!(String)(_GODOT_texture_get_path, _godot_object, texture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.textureGetPath, _godot_object, texture);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_texture_set_shrink_all_x2_on_set_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_set_shrink_all_x2_on_set_data") = _GODOT_texture_set_shrink_all_x2_on_set_data;
 	/**
-	If `true`, sets internal processes to shrink all image data to half the size.
+	If `true` sets internal processes to shrink all image data to half the size.
 	*/
 	void textureSetShrinkAllX2OnSetData(in bool shrink)
 	{
-		_GODOT_texture_set_shrink_all_x2_on_set_data.bind("VisualServer", "texture_set_shrink_all_x2_on_set_data");
-		ptrcall!(void)(_GODOT_texture_set_shrink_all_x2_on_set_data, _godot_object, shrink);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.textureSetShrinkAllX2OnSetData, _godot_object, shrink);
 	}
-	package(godot) static GodotMethod!(Array) _GODOT_texture_debug_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "texture_debug_usage") = _GODOT_texture_debug_usage;
 	/**
 	Returns a list of all the textures and their information.
 	*/
 	Array textureDebugUsage()
 	{
-		_GODOT_texture_debug_usage.bind("VisualServer", "texture_debug_usage");
-		return ptrcall!(Array)(_GODOT_texture_debug_usage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.textureDebugUsage, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_textures_keep_original;
-	package(godot) alias _GODOT_methodBindInfo(string name : "textures_keep_original") = _GODOT_textures_keep_original;
 	/**
-	If `true`, the image will be stored in the texture's images array if overwritten.
+	If `true` the image will be stored in the texture's images array if overwritten.
 	*/
 	void texturesKeepOriginal(in bool enable)
 	{
-		_GODOT_textures_keep_original.bind("VisualServer", "textures_keep_original");
-		ptrcall!(void)(_GODOT_textures_keep_original, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.texturesKeepOriginal, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_sky_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "sky_create") = _GODOT_sky_create;
 	/**
 	Creates an empty sky.
 	*/
 	RID skyCreate()
 	{
-		_GODOT_sky_create.bind("VisualServer", "sky_create");
-		return ptrcall!(RID)(_GODOT_sky_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.skyCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, long) _GODOT_sky_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "sky_set_texture") = _GODOT_sky_set_texture;
 	/**
 	Sets a sky's texture.
 	*/
 	void skySetTexture(in RID sky, in RID cube_map, in long radiance_size)
 	{
-		_GODOT_sky_set_texture.bind("VisualServer", "sky_set_texture");
-		ptrcall!(void)(_GODOT_sky_set_texture, _godot_object, sky, cube_map, radiance_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.skySetTexture, _godot_object, sky, cube_map, radiance_size);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_shader_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_create") = _GODOT_shader_create;
 	/**
 	Creates an empty shader.
 	*/
 	RID shaderCreate()
 	{
-		_GODOT_shader_create.bind("VisualServer", "shader_create");
-		return ptrcall!(RID)(_GODOT_shader_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.shaderCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, String) _GODOT_shader_set_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_set_code") = _GODOT_shader_set_code;
 	/**
 	Sets a shader's code.
 	*/
 	void shaderSetCode(StringArg1)(in RID shader, in StringArg1 code)
 	{
-		_GODOT_shader_set_code.bind("VisualServer", "shader_set_code");
-		ptrcall!(void)(_GODOT_shader_set_code, _godot_object, shader, code);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shaderSetCode, _godot_object, shader, code);
 	}
-	package(godot) static GodotMethod!(String, RID) _GODOT_shader_get_code;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_get_code") = _GODOT_shader_get_code;
 	/**
 	Returns a shader's code.
 	*/
 	String shaderGetCode(in RID shader) const
 	{
-		_GODOT_shader_get_code.bind("VisualServer", "shader_get_code");
-		return ptrcall!(String)(_GODOT_shader_get_code, _godot_object, shader);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.shaderGetCode, _godot_object, shader);
 	}
-	package(godot) static GodotMethod!(Array, RID) _GODOT_shader_get_param_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_get_param_list") = _GODOT_shader_get_param_list;
 	/**
 	Returns the parameters of a shader.
 	*/
 	Array shaderGetParamList(in RID shader) const
 	{
-		_GODOT_shader_get_param_list.bind("VisualServer", "shader_get_param_list");
-		return ptrcall!(Array)(_GODOT_shader_get_param_list, _godot_object, shader);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.shaderGetParamList, _godot_object, shader);
 	}
-	package(godot) static GodotMethod!(void, RID, String, RID) _GODOT_shader_set_default_texture_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_set_default_texture_param") = _GODOT_shader_set_default_texture_param;
 	/**
 	Sets a shader's default texture. Overwrites the texture given by name.
 	*/
 	void shaderSetDefaultTextureParam(StringArg1)(in RID shader, in StringArg1 name, in RID texture)
 	{
-		_GODOT_shader_set_default_texture_param.bind("VisualServer", "shader_set_default_texture_param");
-		ptrcall!(void)(_GODOT_shader_set_default_texture_param, _godot_object, shader, name, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shaderSetDefaultTextureParam, _godot_object, shader, name, texture);
 	}
-	package(godot) static GodotMethod!(RID, RID, String) _GODOT_shader_get_default_texture_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "shader_get_default_texture_param") = _GODOT_shader_get_default_texture_param;
 	/**
 	Returns a default texture from a shader searched by name.
 	*/
 	RID shaderGetDefaultTextureParam(StringArg1)(in RID shader, in StringArg1 name) const
 	{
-		_GODOT_shader_get_default_texture_param.bind("VisualServer", "shader_get_default_texture_param");
-		return ptrcall!(RID)(_GODOT_shader_get_default_texture_param, _godot_object, shader, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.shaderGetDefaultTextureParam, _godot_object, shader, name);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_material_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_create") = _GODOT_material_create;
 	/**
 	Returns an empty material.
 	*/
 	RID materialCreate()
 	{
-		_GODOT_material_create.bind("VisualServer", "material_create");
-		return ptrcall!(RID)(_GODOT_material_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.materialCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_material_set_shader;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_set_shader") = _GODOT_material_set_shader;
 	/**
 	Sets a shader material's shader.
 	*/
 	void materialSetShader(in RID shader_material, in RID shader)
 	{
-		_GODOT_material_set_shader.bind("VisualServer", "material_set_shader");
-		ptrcall!(void)(_GODOT_material_set_shader, _godot_object, shader_material, shader);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.materialSetShader, _godot_object, shader_material, shader);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_material_get_shader;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_get_shader") = _GODOT_material_get_shader;
 	/**
 	Returns the shader of a certain material's shader. Returns an empty RID if the material doesn't have a shader.
 	*/
 	RID materialGetShader(in RID shader_material) const
 	{
-		_GODOT_material_get_shader.bind("VisualServer", "material_get_shader");
-		return ptrcall!(RID)(_GODOT_material_get_shader, _godot_object, shader_material);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.materialGetShader, _godot_object, shader_material);
 	}
-	package(godot) static GodotMethod!(void, RID, String, Variant) _GODOT_material_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_set_param") = _GODOT_material_set_param;
 	/**
 	Sets a materials parameter.
 	*/
 	void materialSetParam(StringArg1, VariantArg2)(in RID material, in StringArg1 parameter, in VariantArg2 value)
 	{
-		_GODOT_material_set_param.bind("VisualServer", "material_set_param");
-		ptrcall!(void)(_GODOT_material_set_param, _godot_object, material, parameter, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.materialSetParam, _godot_object, material, parameter, value);
 	}
-	package(godot) static GodotMethod!(Variant, RID, String) _GODOT_material_get_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_get_param") = _GODOT_material_get_param;
 	/**
 	Returns the value of a certain material's parameter.
 	*/
 	Variant materialGetParam(StringArg1)(in RID material, in StringArg1 parameter) const
 	{
-		_GODOT_material_get_param.bind("VisualServer", "material_get_param");
-		return ptrcall!(Variant)(_GODOT_material_get_param, _godot_object, material, parameter);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.materialGetParam, _godot_object, material, parameter);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_material_set_render_priority;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_set_render_priority") = _GODOT_material_set_render_priority;
+	/**
+	
+	*/
+	Variant materialGetParamDefault(StringArg1)(in RID material, in StringArg1 parameter) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.materialGetParamDefault, _godot_object, material, parameter);
+	}
 	/**
 	Sets a material's render priority.
 	*/
 	void materialSetRenderPriority(in RID material, in long priority)
 	{
-		_GODOT_material_set_render_priority.bind("VisualServer", "material_set_render_priority");
-		ptrcall!(void)(_GODOT_material_set_render_priority, _godot_object, material, priority);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.materialSetRenderPriority, _godot_object, material, priority);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_material_set_line_width;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_set_line_width") = _GODOT_material_set_line_width;
 	/**
 	Sets a materials line width.
 	*/
 	void materialSetLineWidth(in RID material, in double width)
 	{
-		_GODOT_material_set_line_width.bind("VisualServer", "material_set_line_width");
-		ptrcall!(void)(_GODOT_material_set_line_width, _godot_object, material, width);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.materialSetLineWidth, _godot_object, material, width);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_material_set_next_pass;
-	package(godot) alias _GODOT_methodBindInfo(string name : "material_set_next_pass") = _GODOT_material_set_next_pass;
 	/**
 	Sets an objects next material.
 	*/
 	void materialSetNextPass(in RID material, in RID next_material)
 	{
-		_GODOT_material_set_next_pass.bind("VisualServer", "material_set_next_pass");
-		ptrcall!(void)(_GODOT_material_set_next_pass, _godot_object, material, next_material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.materialSetNextPass, _godot_object, material, next_material);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_mesh_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_create") = _GODOT_mesh_create;
 	/**
 	Creates a new mesh.
 	*/
 	RID meshCreate()
 	{
-		_GODOT_mesh_create.bind("VisualServer", "mesh_create");
-		return ptrcall!(RID)(_GODOT_mesh_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.meshCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Array, Array, long) _GODOT_mesh_add_surface_from_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_add_surface_from_arrays") = _GODOT_mesh_add_surface_from_arrays;
+	/**
+	
+	*/
+	long meshSurfaceGetFormatOffset(in long format, in long vertex_len, in long index_len, in long array_index) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshSurfaceGetFormatOffset, _godot_object, format, vertex_len, index_len, array_index);
+	}
+	/**
+	
+	*/
+	long meshSurfaceGetFormatStride(in long format, in long vertex_len, in long index_len) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshSurfaceGetFormatStride, _godot_object, format, vertex_len, index_len);
+	}
 	/**
 	Adds a surface generated from the Arrays to a mesh. See PRIMITIVE_TYPE_* constants for types.
 	*/
-	void meshAddSurfaceFromArrays(in RID mesh, in long primtive, in Array arrays, in Array blend_shapes = Array.empty_array, in long compress_format = 97792)
+	void meshAddSurfaceFromArrays(in RID mesh, in long primtive, in Array arrays, in Array blend_shapes = Array.empty_array, in long compress_format = 97280)
 	{
-		_GODOT_mesh_add_surface_from_arrays.bind("VisualServer", "mesh_add_surface_from_arrays");
-		ptrcall!(void)(_GODOT_mesh_add_surface_from_arrays, _godot_object, mesh, primtive, arrays, blend_shapes, compress_format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshAddSurfaceFromArrays, _godot_object, mesh, primtive, arrays, blend_shapes, compress_format);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_mesh_set_blend_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_set_blend_shape_count") = _GODOT_mesh_set_blend_shape_count;
 	/**
 	Sets a mesh's blend shape count.
 	*/
 	void meshSetBlendShapeCount(in RID mesh, in long amount)
 	{
-		_GODOT_mesh_set_blend_shape_count.bind("VisualServer", "mesh_set_blend_shape_count");
-		ptrcall!(void)(_GODOT_mesh_set_blend_shape_count, _godot_object, mesh, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshSetBlendShapeCount, _godot_object, mesh, amount);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_mesh_get_blend_shape_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_get_blend_shape_count") = _GODOT_mesh_get_blend_shape_count;
 	/**
 	Returns a mesh's blend shape count.
 	*/
 	long meshGetBlendShapeCount(in RID mesh) const
 	{
-		_GODOT_mesh_get_blend_shape_count.bind("VisualServer", "mesh_get_blend_shape_count");
-		return ptrcall!(long)(_GODOT_mesh_get_blend_shape_count, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshGetBlendShapeCount, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_mesh_set_blend_shape_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_set_blend_shape_mode") = _GODOT_mesh_set_blend_shape_mode;
 	/**
 	Sets a mesh's blend shape mode.
 	*/
 	void meshSetBlendShapeMode(in RID mesh, in long mode)
 	{
-		_GODOT_mesh_set_blend_shape_mode.bind("VisualServer", "mesh_set_blend_shape_mode");
-		ptrcall!(void)(_GODOT_mesh_set_blend_shape_mode, _godot_object, mesh, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshSetBlendShapeMode, _godot_object, mesh, mode);
 	}
-	package(godot) static GodotMethod!(VisualServer.BlendShapeMode, RID) _GODOT_mesh_get_blend_shape_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_get_blend_shape_mode") = _GODOT_mesh_get_blend_shape_mode;
 	/**
 	Returns a mesh's blend shape mode.
 	*/
 	VisualServer.BlendShapeMode meshGetBlendShapeMode(in RID mesh) const
 	{
-		_GODOT_mesh_get_blend_shape_mode.bind("VisualServer", "mesh_get_blend_shape_mode");
-		return ptrcall!(VisualServer.BlendShapeMode)(_GODOT_mesh_get_blend_shape_mode, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualServer.BlendShapeMode)(_classBinding.meshGetBlendShapeMode, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_mesh_surface_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_set_material") = _GODOT_mesh_surface_set_material;
+	/**
+	
+	*/
+	void meshSurfaceUpdateRegion(in RID mesh, in long surface, in long offset, in PoolByteArray data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshSurfaceUpdateRegion, _godot_object, mesh, surface, offset, data);
+	}
 	/**
 	Sets a mesh's surface's material.
 	*/
 	void meshSurfaceSetMaterial(in RID mesh, in long surface, in RID material)
 	{
-		_GODOT_mesh_surface_set_material.bind("VisualServer", "mesh_surface_set_material");
-		ptrcall!(void)(_GODOT_mesh_surface_set_material, _godot_object, mesh, surface, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshSurfaceSetMaterial, _godot_object, mesh, surface, material);
 	}
-	package(godot) static GodotMethod!(RID, RID, long) _GODOT_mesh_surface_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_material") = _GODOT_mesh_surface_get_material;
 	/**
 	Returns a mesh's surface's material.
 	*/
 	RID meshSurfaceGetMaterial(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_material.bind("VisualServer", "mesh_surface_get_material");
-		return ptrcall!(RID)(_GODOT_mesh_surface_get_material, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.meshSurfaceGetMaterial, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(long, RID, long) _GODOT_mesh_surface_get_array_len;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_array_len") = _GODOT_mesh_surface_get_array_len;
 	/**
 	Returns a mesh's surface's amount of vertices.
 	*/
 	long meshSurfaceGetArrayLen(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_array_len.bind("VisualServer", "mesh_surface_get_array_len");
-		return ptrcall!(long)(_GODOT_mesh_surface_get_array_len, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshSurfaceGetArrayLen, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(long, RID, long) _GODOT_mesh_surface_get_array_index_len;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_array_index_len") = _GODOT_mesh_surface_get_array_index_len;
 	/**
 	Returns a mesh's surface's amount of indices.
 	*/
 	long meshSurfaceGetArrayIndexLen(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_array_index_len.bind("VisualServer", "mesh_surface_get_array_index_len");
-		return ptrcall!(long)(_GODOT_mesh_surface_get_array_index_len, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshSurfaceGetArrayIndexLen, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(PoolByteArray, RID, long) _GODOT_mesh_surface_get_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_array") = _GODOT_mesh_surface_get_array;
 	/**
 	Returns a mesh's surface's vertex buffer.
 	*/
 	PoolByteArray meshSurfaceGetArray(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_array.bind("VisualServer", "mesh_surface_get_array");
-		return ptrcall!(PoolByteArray)(_GODOT_mesh_surface_get_array, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.meshSurfaceGetArray, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(PoolByteArray, RID, long) _GODOT_mesh_surface_get_index_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_index_array") = _GODOT_mesh_surface_get_index_array;
 	/**
 	Returns a mesh's surface's index buffer.
 	*/
 	PoolByteArray meshSurfaceGetIndexArray(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_index_array.bind("VisualServer", "mesh_surface_get_index_array");
-		return ptrcall!(PoolByteArray)(_GODOT_mesh_surface_get_index_array, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.meshSurfaceGetIndexArray, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(Array, RID, long) _GODOT_mesh_surface_get_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_arrays") = _GODOT_mesh_surface_get_arrays;
 	/**
 	Returns a mesh's surface's buffer arrays.
 	*/
 	Array meshSurfaceGetArrays(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_arrays.bind("VisualServer", "mesh_surface_get_arrays");
-		return ptrcall!(Array)(_GODOT_mesh_surface_get_arrays, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.meshSurfaceGetArrays, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(Array, RID, long) _GODOT_mesh_surface_get_blend_shape_arrays;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_blend_shape_arrays") = _GODOT_mesh_surface_get_blend_shape_arrays;
 	/**
 	Returns a mesh's surface's arrays for blend shapes
 	*/
 	Array meshSurfaceGetBlendShapeArrays(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_blend_shape_arrays.bind("VisualServer", "mesh_surface_get_blend_shape_arrays");
-		return ptrcall!(Array)(_GODOT_mesh_surface_get_blend_shape_arrays, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.meshSurfaceGetBlendShapeArrays, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(long, RID, long) _GODOT_mesh_surface_get_format;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_format") = _GODOT_mesh_surface_get_format;
 	/**
 	Returns the format of a mesh's surface.
 	*/
 	long meshSurfaceGetFormat(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_format.bind("VisualServer", "mesh_surface_get_format");
-		return ptrcall!(long)(_GODOT_mesh_surface_get_format, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshSurfaceGetFormat, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(VisualServer.PrimitiveType, RID, long) _GODOT_mesh_surface_get_primitive_type;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_primitive_type") = _GODOT_mesh_surface_get_primitive_type;
 	/**
 	Returns the primitive type of a mesh's surface.
 	*/
 	VisualServer.PrimitiveType meshSurfaceGetPrimitiveType(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_primitive_type.bind("VisualServer", "mesh_surface_get_primitive_type");
-		return ptrcall!(VisualServer.PrimitiveType)(_GODOT_mesh_surface_get_primitive_type, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualServer.PrimitiveType)(_classBinding.meshSurfaceGetPrimitiveType, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(AABB, RID, long) _GODOT_mesh_surface_get_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_aabb") = _GODOT_mesh_surface_get_aabb;
 	/**
 	Returns a mesh's surface's aabb.
 	*/
 	AABB meshSurfaceGetAabb(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_aabb.bind("VisualServer", "mesh_surface_get_aabb");
-		return ptrcall!(AABB)(_GODOT_mesh_surface_get_aabb, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.meshSurfaceGetAabb, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(Array, RID, long) _GODOT_mesh_surface_get_skeleton_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_surface_get_skeleton_aabb") = _GODOT_mesh_surface_get_skeleton_aabb;
 	/**
 	Returns the aabb of a mesh's surface's skeleton.
 	*/
 	Array meshSurfaceGetSkeletonAabb(in RID mesh, in long surface) const
 	{
-		_GODOT_mesh_surface_get_skeleton_aabb.bind("VisualServer", "mesh_surface_get_skeleton_aabb");
-		return ptrcall!(Array)(_GODOT_mesh_surface_get_skeleton_aabb, _godot_object, mesh, surface);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.meshSurfaceGetSkeletonAabb, _godot_object, mesh, surface);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_mesh_remove_surface;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_remove_surface") = _GODOT_mesh_remove_surface;
 	/**
 	Removes a mesh's surface.
 	*/
 	void meshRemoveSurface(in RID mesh, in long index)
 	{
-		_GODOT_mesh_remove_surface.bind("VisualServer", "mesh_remove_surface");
-		ptrcall!(void)(_GODOT_mesh_remove_surface, _godot_object, mesh, index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshRemoveSurface, _godot_object, mesh, index);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_mesh_get_surface_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_get_surface_count") = _GODOT_mesh_get_surface_count;
 	/**
 	Returns a mesh's number of surfaces.
 	*/
 	long meshGetSurfaceCount(in RID mesh) const
 	{
-		_GODOT_mesh_get_surface_count.bind("VisualServer", "mesh_get_surface_count");
-		return ptrcall!(long)(_GODOT_mesh_get_surface_count, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.meshGetSurfaceCount, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID, AABB) _GODOT_mesh_set_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_set_custom_aabb") = _GODOT_mesh_set_custom_aabb;
 	/**
 	Sets a mesh's custom aabb.
 	*/
 	void meshSetCustomAabb(in RID mesh, in AABB aabb)
 	{
-		_GODOT_mesh_set_custom_aabb.bind("VisualServer", "mesh_set_custom_aabb");
-		ptrcall!(void)(_GODOT_mesh_set_custom_aabb, _godot_object, mesh, aabb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshSetCustomAabb, _godot_object, mesh, aabb);
 	}
-	package(godot) static GodotMethod!(AABB, RID) _GODOT_mesh_get_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_get_custom_aabb") = _GODOT_mesh_get_custom_aabb;
 	/**
 	Returns a mesh's custom aabb.
 	*/
 	AABB meshGetCustomAabb(in RID mesh) const
 	{
-		_GODOT_mesh_get_custom_aabb.bind("VisualServer", "mesh_get_custom_aabb");
-		return ptrcall!(AABB)(_GODOT_mesh_get_custom_aabb, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.meshGetCustomAabb, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_mesh_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "mesh_clear") = _GODOT_mesh_clear;
 	/**
 	Removes all surfaces from a mesh.
 	*/
 	void meshClear(in RID mesh)
 	{
-		_GODOT_mesh_clear.bind("VisualServer", "mesh_clear");
-		ptrcall!(void)(_GODOT_mesh_clear, _godot_object, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.meshClear, _godot_object, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long, long) _GODOT_multimesh_allocate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_allocate") = _GODOT_multimesh_allocate;
 	/**
 	
 	*/
-	void multimeshAllocate(in RID multimesh, in long instances, in long transform_format, in long color_format)
+	void multimeshAllocate(in RID multimesh, in long instances, in long transform_format, in long color_format, in long custom_data_format = 0)
 	{
-		_GODOT_multimesh_allocate.bind("VisualServer", "multimesh_allocate");
-		ptrcall!(void)(_GODOT_multimesh_allocate, _godot_object, multimesh, instances, transform_format, color_format);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshAllocate, _godot_object, multimesh, instances, transform_format, color_format, custom_data_format);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_multimesh_get_instance_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_get_instance_count") = _GODOT_multimesh_get_instance_count;
 	/**
 	
 	*/
 	long multimeshGetInstanceCount(in RID multimesh) const
 	{
-		_GODOT_multimesh_get_instance_count.bind("VisualServer", "multimesh_get_instance_count");
-		return ptrcall!(long)(_GODOT_multimesh_get_instance_count, _godot_object, multimesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.multimeshGetInstanceCount, _godot_object, multimesh);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_multimesh_set_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_set_mesh") = _GODOT_multimesh_set_mesh;
 	/**
 	
 	*/
 	void multimeshSetMesh(in RID multimesh, in RID mesh)
 	{
-		_GODOT_multimesh_set_mesh.bind("VisualServer", "multimesh_set_mesh");
-		ptrcall!(void)(_GODOT_multimesh_set_mesh, _godot_object, multimesh, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshSetMesh, _godot_object, multimesh, mesh);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform) _GODOT_multimesh_instance_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_set_transform") = _GODOT_multimesh_instance_set_transform;
 	/**
 	
 	*/
 	void multimeshInstanceSetTransform(in RID multimesh, in long index, in Transform transform)
 	{
-		_GODOT_multimesh_instance_set_transform.bind("VisualServer", "multimesh_instance_set_transform");
-		ptrcall!(void)(_GODOT_multimesh_instance_set_transform, _godot_object, multimesh, index, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshInstanceSetTransform, _godot_object, multimesh, index, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform2D) _GODOT_multimesh_instance_set_transform_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_set_transform_2d") = _GODOT_multimesh_instance_set_transform_2d;
 	/**
 	
 	*/
 	void multimeshInstanceSetTransform2d(in RID multimesh, in long index, in Transform2D transform)
 	{
-		_GODOT_multimesh_instance_set_transform_2d.bind("VisualServer", "multimesh_instance_set_transform_2d");
-		ptrcall!(void)(_GODOT_multimesh_instance_set_transform_2d, _godot_object, multimesh, index, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshInstanceSetTransform2d, _godot_object, multimesh, index, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Color) _GODOT_multimesh_instance_set_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_set_color") = _GODOT_multimesh_instance_set_color;
 	/**
 	
 	*/
 	void multimeshInstanceSetColor(in RID multimesh, in long index, in Color color)
 	{
-		_GODOT_multimesh_instance_set_color.bind("VisualServer", "multimesh_instance_set_color");
-		ptrcall!(void)(_GODOT_multimesh_instance_set_color, _godot_object, multimesh, index, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshInstanceSetColor, _godot_object, multimesh, index, color);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_multimesh_get_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_get_mesh") = _GODOT_multimesh_get_mesh;
+	/**
+	
+	*/
+	void multimeshInstanceSetCustomData(in RID multimesh, in long index, in Color custom_data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshInstanceSetCustomData, _godot_object, multimesh, index, custom_data);
+	}
 	/**
 	
 	*/
 	RID multimeshGetMesh(in RID multimesh) const
 	{
-		_GODOT_multimesh_get_mesh.bind("VisualServer", "multimesh_get_mesh");
-		return ptrcall!(RID)(_GODOT_multimesh_get_mesh, _godot_object, multimesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.multimeshGetMesh, _godot_object, multimesh);
 	}
-	package(godot) static GodotMethod!(AABB, RID) _GODOT_multimesh_get_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_get_aabb") = _GODOT_multimesh_get_aabb;
 	/**
 	
 	*/
 	AABB multimeshGetAabb(in RID multimesh) const
 	{
-		_GODOT_multimesh_get_aabb.bind("VisualServer", "multimesh_get_aabb");
-		return ptrcall!(AABB)(_GODOT_multimesh_get_aabb, _godot_object, multimesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.multimeshGetAabb, _godot_object, multimesh);
 	}
-	package(godot) static GodotMethod!(Transform, RID, long) _GODOT_multimesh_instance_get_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_get_transform") = _GODOT_multimesh_instance_get_transform;
 	/**
 	
 	*/
 	Transform multimeshInstanceGetTransform(in RID multimesh, in long index) const
 	{
-		_GODOT_multimesh_instance_get_transform.bind("VisualServer", "multimesh_instance_get_transform");
-		return ptrcall!(Transform)(_GODOT_multimesh_instance_get_transform, _godot_object, multimesh, index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.multimeshInstanceGetTransform, _godot_object, multimesh, index);
 	}
-	package(godot) static GodotMethod!(Transform2D, RID, long) _GODOT_multimesh_instance_get_transform_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_get_transform_2d") = _GODOT_multimesh_instance_get_transform_2d;
 	/**
 	
 	*/
 	Transform2D multimeshInstanceGetTransform2d(in RID multimesh, in long index) const
 	{
-		_GODOT_multimesh_instance_get_transform_2d.bind("VisualServer", "multimesh_instance_get_transform_2d");
-		return ptrcall!(Transform2D)(_GODOT_multimesh_instance_get_transform_2d, _godot_object, multimesh, index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.multimeshInstanceGetTransform2d, _godot_object, multimesh, index);
 	}
-	package(godot) static GodotMethod!(Color, RID, long) _GODOT_multimesh_instance_get_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_instance_get_color") = _GODOT_multimesh_instance_get_color;
 	/**
 	
 	*/
 	Color multimeshInstanceGetColor(in RID multimesh, in long index) const
 	{
-		_GODOT_multimesh_instance_get_color.bind("VisualServer", "multimesh_instance_get_color");
-		return ptrcall!(Color)(_GODOT_multimesh_instance_get_color, _godot_object, multimesh, index);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.multimeshInstanceGetColor, _godot_object, multimesh, index);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_multimesh_set_visible_instances;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_set_visible_instances") = _GODOT_multimesh_set_visible_instances;
+	/**
+	
+	*/
+	Color multimeshInstanceGetCustomData(in RID multimesh, in long index) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.multimeshInstanceGetCustomData, _godot_object, multimesh, index);
+	}
 	/**
 	
 	*/
 	void multimeshSetVisibleInstances(in RID multimesh, in long visible)
 	{
-		_GODOT_multimesh_set_visible_instances.bind("VisualServer", "multimesh_set_visible_instances");
-		ptrcall!(void)(_GODOT_multimesh_set_visible_instances, _godot_object, multimesh, visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshSetVisibleInstances, _godot_object, multimesh, visible);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_multimesh_get_visible_instances;
-	package(godot) alias _GODOT_methodBindInfo(string name : "multimesh_get_visible_instances") = _GODOT_multimesh_get_visible_instances;
 	/**
 	
 	*/
 	long multimeshGetVisibleInstances(in RID multimesh) const
 	{
-		_GODOT_multimesh_get_visible_instances.bind("VisualServer", "multimesh_get_visible_instances");
-		return ptrcall!(long)(_GODOT_multimesh_get_visible_instances, _godot_object, multimesh);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.multimeshGetVisibleInstances, _godot_object, multimesh);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_immediate_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_create") = _GODOT_immediate_create;
+	/**
+	
+	*/
+	void multimeshSetAsBulkArray(in RID multimesh, in PoolRealArray array)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.multimeshSetAsBulkArray, _godot_object, multimesh, array);
+	}
 	/**
 	
 	*/
 	RID immediateCreate()
 	{
-		_GODOT_immediate_create.bind("VisualServer", "immediate_create");
-		return ptrcall!(RID)(_GODOT_immediate_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.immediateCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_immediate_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_begin") = _GODOT_immediate_begin;
 	/**
 	
 	*/
 	void immediateBegin(in RID immediate, in long primitive, in RID texture = RID.init)
 	{
-		_GODOT_immediate_begin.bind("VisualServer", "immediate_begin");
-		ptrcall!(void)(_GODOT_immediate_begin, _godot_object, immediate, primitive, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateBegin, _godot_object, immediate, primitive, texture);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_immediate_vertex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_vertex") = _GODOT_immediate_vertex;
 	/**
 	
 	*/
 	void immediateVertex(in RID immediate, in Vector3 vertex)
 	{
-		_GODOT_immediate_vertex.bind("VisualServer", "immediate_vertex");
-		ptrcall!(void)(_GODOT_immediate_vertex, _godot_object, immediate, vertex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateVertex, _godot_object, immediate, vertex);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2) _GODOT_immediate_vertex_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_vertex_2d") = _GODOT_immediate_vertex_2d;
 	/**
 	
 	*/
 	void immediateVertex2d(in RID immediate, in Vector2 vertex)
 	{
-		_GODOT_immediate_vertex_2d.bind("VisualServer", "immediate_vertex_2d");
-		ptrcall!(void)(_GODOT_immediate_vertex_2d, _godot_object, immediate, vertex);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateVertex2d, _godot_object, immediate, vertex);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_immediate_normal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_normal") = _GODOT_immediate_normal;
 	/**
 	
 	*/
 	void immediateNormal(in RID immediate, in Vector3 normal)
 	{
-		_GODOT_immediate_normal.bind("VisualServer", "immediate_normal");
-		ptrcall!(void)(_GODOT_immediate_normal, _godot_object, immediate, normal);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateNormal, _godot_object, immediate, normal);
 	}
-	package(godot) static GodotMethod!(void, RID, Plane) _GODOT_immediate_tangent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_tangent") = _GODOT_immediate_tangent;
 	/**
 	
 	*/
 	void immediateTangent(in RID immediate, in Plane tangent)
 	{
-		_GODOT_immediate_tangent.bind("VisualServer", "immediate_tangent");
-		ptrcall!(void)(_GODOT_immediate_tangent, _godot_object, immediate, tangent);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateTangent, _godot_object, immediate, tangent);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_immediate_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_color") = _GODOT_immediate_color;
 	/**
 	
 	*/
 	void immediateColor(in RID immediate, in Color color)
 	{
-		_GODOT_immediate_color.bind("VisualServer", "immediate_color");
-		ptrcall!(void)(_GODOT_immediate_color, _godot_object, immediate, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateColor, _godot_object, immediate, color);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2) _GODOT_immediate_uv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_uv") = _GODOT_immediate_uv;
 	/**
 	
 	*/
 	void immediateUv(in RID immediate, in Vector2 tex_uv)
 	{
-		_GODOT_immediate_uv.bind("VisualServer", "immediate_uv");
-		ptrcall!(void)(_GODOT_immediate_uv, _godot_object, immediate, tex_uv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateUv, _godot_object, immediate, tex_uv);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2) _GODOT_immediate_uv2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_uv2") = _GODOT_immediate_uv2;
 	/**
 	
 	*/
 	void immediateUv2(in RID immediate, in Vector2 tex_uv)
 	{
-		_GODOT_immediate_uv2.bind("VisualServer", "immediate_uv2");
-		ptrcall!(void)(_GODOT_immediate_uv2, _godot_object, immediate, tex_uv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateUv2, _godot_object, immediate, tex_uv);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_immediate_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_end") = _GODOT_immediate_end;
 	/**
 	
 	*/
 	void immediateEnd(in RID immediate)
 	{
-		_GODOT_immediate_end.bind("VisualServer", "immediate_end");
-		ptrcall!(void)(_GODOT_immediate_end, _godot_object, immediate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateEnd, _godot_object, immediate);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_immediate_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_clear") = _GODOT_immediate_clear;
 	/**
 	
 	*/
 	void immediateClear(in RID immediate)
 	{
-		_GODOT_immediate_clear.bind("VisualServer", "immediate_clear");
-		ptrcall!(void)(_GODOT_immediate_clear, _godot_object, immediate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateClear, _godot_object, immediate);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_immediate_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_set_material") = _GODOT_immediate_set_material;
 	/**
 	
 	*/
 	void immediateSetMaterial(in RID immediate, in RID material)
 	{
-		_GODOT_immediate_set_material.bind("VisualServer", "immediate_set_material");
-		ptrcall!(void)(_GODOT_immediate_set_material, _godot_object, immediate, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.immediateSetMaterial, _godot_object, immediate, material);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_immediate_get_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "immediate_get_material") = _GODOT_immediate_get_material;
 	/**
 	
 	*/
 	RID immediateGetMaterial(in RID immediate) const
 	{
-		_GODOT_immediate_get_material.bind("VisualServer", "immediate_get_material");
-		return ptrcall!(RID)(_GODOT_immediate_get_material, _godot_object, immediate);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.immediateGetMaterial, _godot_object, immediate);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_skeleton_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_create") = _GODOT_skeleton_create;
 	/**
 	
 	*/
 	RID skeletonCreate()
 	{
-		_GODOT_skeleton_create.bind("VisualServer", "skeleton_create");
-		return ptrcall!(RID)(_GODOT_skeleton_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.skeletonCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long, bool) _GODOT_skeleton_allocate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_allocate") = _GODOT_skeleton_allocate;
 	/**
 	
 	*/
 	void skeletonAllocate(in RID skeleton, in long bones, in bool is_2d_skeleton = false)
 	{
-		_GODOT_skeleton_allocate.bind("VisualServer", "skeleton_allocate");
-		ptrcall!(void)(_GODOT_skeleton_allocate, _godot_object, skeleton, bones, is_2d_skeleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.skeletonAllocate, _godot_object, skeleton, bones, is_2d_skeleton);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_skeleton_get_bone_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_get_bone_count") = _GODOT_skeleton_get_bone_count;
 	/**
 	
 	*/
 	long skeletonGetBoneCount(in RID skeleton) const
 	{
-		_GODOT_skeleton_get_bone_count.bind("VisualServer", "skeleton_get_bone_count");
-		return ptrcall!(long)(_GODOT_skeleton_get_bone_count, _godot_object, skeleton);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.skeletonGetBoneCount, _godot_object, skeleton);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform) _GODOT_skeleton_bone_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_bone_set_transform") = _GODOT_skeleton_bone_set_transform;
 	/**
 	
 	*/
 	void skeletonBoneSetTransform(in RID skeleton, in long bone, in Transform transform)
 	{
-		_GODOT_skeleton_bone_set_transform.bind("VisualServer", "skeleton_bone_set_transform");
-		ptrcall!(void)(_GODOT_skeleton_bone_set_transform, _godot_object, skeleton, bone, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.skeletonBoneSetTransform, _godot_object, skeleton, bone, transform);
 	}
-	package(godot) static GodotMethod!(Transform, RID, long) _GODOT_skeleton_bone_get_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_bone_get_transform") = _GODOT_skeleton_bone_get_transform;
 	/**
 	
 	*/
 	Transform skeletonBoneGetTransform(in RID skeleton, in long bone) const
 	{
-		_GODOT_skeleton_bone_get_transform.bind("VisualServer", "skeleton_bone_get_transform");
-		return ptrcall!(Transform)(_GODOT_skeleton_bone_get_transform, _godot_object, skeleton, bone);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.skeletonBoneGetTransform, _godot_object, skeleton, bone);
 	}
-	package(godot) static GodotMethod!(void, RID, long, Transform2D) _GODOT_skeleton_bone_set_transform_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_bone_set_transform_2d") = _GODOT_skeleton_bone_set_transform_2d;
 	/**
 	
 	*/
 	void skeletonBoneSetTransform2d(in RID skeleton, in long bone, in Transform2D transform)
 	{
-		_GODOT_skeleton_bone_set_transform_2d.bind("VisualServer", "skeleton_bone_set_transform_2d");
-		ptrcall!(void)(_GODOT_skeleton_bone_set_transform_2d, _godot_object, skeleton, bone, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.skeletonBoneSetTransform2d, _godot_object, skeleton, bone, transform);
 	}
-	package(godot) static GodotMethod!(Transform2D, RID, long) _GODOT_skeleton_bone_get_transform_2d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "skeleton_bone_get_transform_2d") = _GODOT_skeleton_bone_get_transform_2d;
 	/**
 	
 	*/
 	Transform2D skeletonBoneGetTransform2d(in RID skeleton, in long bone) const
 	{
-		_GODOT_skeleton_bone_get_transform_2d.bind("VisualServer", "skeleton_bone_get_transform_2d");
-		return ptrcall!(Transform2D)(_GODOT_skeleton_bone_get_transform_2d, _godot_object, skeleton, bone);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.skeletonBoneGetTransform2d, _godot_object, skeleton, bone);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_directional_light_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "directional_light_create") = _GODOT_directional_light_create;
 	/**
 	
 	*/
 	RID directionalLightCreate()
 	{
-		_GODOT_directional_light_create.bind("VisualServer", "directional_light_create");
-		return ptrcall!(RID)(_GODOT_directional_light_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.directionalLightCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_omni_light_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "omni_light_create") = _GODOT_omni_light_create;
 	/**
 	
 	*/
 	RID omniLightCreate()
 	{
-		_GODOT_omni_light_create.bind("VisualServer", "omni_light_create");
-		return ptrcall!(RID)(_GODOT_omni_light_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.omniLightCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_spot_light_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "spot_light_create") = _GODOT_spot_light_create;
 	/**
 	
 	*/
 	RID spotLightCreate()
 	{
-		_GODOT_spot_light_create.bind("VisualServer", "spot_light_create");
-		return ptrcall!(RID)(_GODOT_spot_light_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.spotLightCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_light_set_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_color") = _GODOT_light_set_color;
 	/**
 	
 	*/
 	void lightSetColor(in RID light, in Color color)
 	{
-		_GODOT_light_set_color.bind("VisualServer", "light_set_color");
-		ptrcall!(void)(_GODOT_light_set_color, _godot_object, light, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetColor, _godot_object, light, color);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_light_set_param;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_param") = _GODOT_light_set_param;
 	/**
 	
 	*/
 	void lightSetParam(in RID light, in long param, in double value)
 	{
-		_GODOT_light_set_param.bind("VisualServer", "light_set_param");
-		ptrcall!(void)(_GODOT_light_set_param, _godot_object, light, param, value);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetParam, _godot_object, light, param, value);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_light_set_shadow;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_shadow") = _GODOT_light_set_shadow;
 	/**
 	
 	*/
 	void lightSetShadow(in RID light, in bool enabled)
 	{
-		_GODOT_light_set_shadow.bind("VisualServer", "light_set_shadow");
-		ptrcall!(void)(_GODOT_light_set_shadow, _godot_object, light, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetShadow, _godot_object, light, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_light_set_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_shadow_color") = _GODOT_light_set_shadow_color;
 	/**
 	
 	*/
 	void lightSetShadowColor(in RID light, in Color color)
 	{
-		_GODOT_light_set_shadow_color.bind("VisualServer", "light_set_shadow_color");
-		ptrcall!(void)(_GODOT_light_set_shadow_color, _godot_object, light, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetShadowColor, _godot_object, light, color);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_light_set_projector;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_projector") = _GODOT_light_set_projector;
 	/**
 	
 	*/
 	void lightSetProjector(in RID light, in RID texture)
 	{
-		_GODOT_light_set_projector.bind("VisualServer", "light_set_projector");
-		ptrcall!(void)(_GODOT_light_set_projector, _godot_object, light, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetProjector, _godot_object, light, texture);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_light_set_negative;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_negative") = _GODOT_light_set_negative;
 	/**
 	
 	*/
 	void lightSetNegative(in RID light, in bool enable)
 	{
-		_GODOT_light_set_negative.bind("VisualServer", "light_set_negative");
-		ptrcall!(void)(_GODOT_light_set_negative, _godot_object, light, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetNegative, _godot_object, light, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_light_set_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_cull_mask") = _GODOT_light_set_cull_mask;
 	/**
 	
 	*/
 	void lightSetCullMask(in RID light, in long mask)
 	{
-		_GODOT_light_set_cull_mask.bind("VisualServer", "light_set_cull_mask");
-		ptrcall!(void)(_GODOT_light_set_cull_mask, _godot_object, light, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetCullMask, _godot_object, light, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_light_set_reverse_cull_face_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_set_reverse_cull_face_mode") = _GODOT_light_set_reverse_cull_face_mode;
 	/**
 	
 	*/
 	void lightSetReverseCullFaceMode(in RID light, in bool enabled)
 	{
-		_GODOT_light_set_reverse_cull_face_mode.bind("VisualServer", "light_set_reverse_cull_face_mode");
-		ptrcall!(void)(_GODOT_light_set_reverse_cull_face_mode, _godot_object, light, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightSetReverseCullFaceMode, _godot_object, light, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_light_omni_set_shadow_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_omni_set_shadow_mode") = _GODOT_light_omni_set_shadow_mode;
 	/**
 	
 	*/
 	void lightOmniSetShadowMode(in RID light, in long mode)
 	{
-		_GODOT_light_omni_set_shadow_mode.bind("VisualServer", "light_omni_set_shadow_mode");
-		ptrcall!(void)(_GODOT_light_omni_set_shadow_mode, _godot_object, light, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightOmniSetShadowMode, _godot_object, light, mode);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_light_omni_set_shadow_detail;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_omni_set_shadow_detail") = _GODOT_light_omni_set_shadow_detail;
 	/**
 	
 	*/
 	void lightOmniSetShadowDetail(in RID light, in long detail)
 	{
-		_GODOT_light_omni_set_shadow_detail.bind("VisualServer", "light_omni_set_shadow_detail");
-		ptrcall!(void)(_GODOT_light_omni_set_shadow_detail, _godot_object, light, detail);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightOmniSetShadowDetail, _godot_object, light, detail);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_light_directional_set_shadow_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_directional_set_shadow_mode") = _GODOT_light_directional_set_shadow_mode;
 	/**
 	
 	*/
 	void lightDirectionalSetShadowMode(in RID light, in long mode)
 	{
-		_GODOT_light_directional_set_shadow_mode.bind("VisualServer", "light_directional_set_shadow_mode");
-		ptrcall!(void)(_GODOT_light_directional_set_shadow_mode, _godot_object, light, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightDirectionalSetShadowMode, _godot_object, light, mode);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_light_directional_set_blend_splits;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_directional_set_blend_splits") = _GODOT_light_directional_set_blend_splits;
 	/**
 	
 	*/
 	void lightDirectionalSetBlendSplits(in RID light, in bool enable)
 	{
-		_GODOT_light_directional_set_blend_splits.bind("VisualServer", "light_directional_set_blend_splits");
-		ptrcall!(void)(_GODOT_light_directional_set_blend_splits, _godot_object, light, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightDirectionalSetBlendSplits, _godot_object, light, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_light_directional_set_shadow_depth_range_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "light_directional_set_shadow_depth_range_mode") = _GODOT_light_directional_set_shadow_depth_range_mode;
 	/**
 	
 	*/
 	void lightDirectionalSetShadowDepthRangeMode(in RID light, in long range_mode)
 	{
-		_GODOT_light_directional_set_shadow_depth_range_mode.bind("VisualServer", "light_directional_set_shadow_depth_range_mode");
-		ptrcall!(void)(_GODOT_light_directional_set_shadow_depth_range_mode, _godot_object, light, range_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightDirectionalSetShadowDepthRangeMode, _godot_object, light, range_mode);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_reflection_probe_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_create") = _GODOT_reflection_probe_create;
 	/**
 	
 	*/
 	RID reflectionProbeCreate()
 	{
-		_GODOT_reflection_probe_create.bind("VisualServer", "reflection_probe_create");
-		return ptrcall!(RID)(_GODOT_reflection_probe_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.reflectionProbeCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_reflection_probe_set_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_update_mode") = _GODOT_reflection_probe_set_update_mode;
 	/**
 	
 	*/
 	void reflectionProbeSetUpdateMode(in RID probe, in long mode)
 	{
-		_GODOT_reflection_probe_set_update_mode.bind("VisualServer", "reflection_probe_set_update_mode");
-		ptrcall!(void)(_GODOT_reflection_probe_set_update_mode, _godot_object, probe, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetUpdateMode, _godot_object, probe, mode);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_reflection_probe_set_intensity;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_intensity") = _GODOT_reflection_probe_set_intensity;
 	/**
 	
 	*/
 	void reflectionProbeSetIntensity(in RID probe, in double intensity)
 	{
-		_GODOT_reflection_probe_set_intensity.bind("VisualServer", "reflection_probe_set_intensity");
-		ptrcall!(void)(_GODOT_reflection_probe_set_intensity, _godot_object, probe, intensity);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetIntensity, _godot_object, probe, intensity);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_reflection_probe_set_interior_ambient;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_interior_ambient") = _GODOT_reflection_probe_set_interior_ambient;
 	/**
 	
 	*/
 	void reflectionProbeSetInteriorAmbient(in RID probe, in Color color)
 	{
-		_GODOT_reflection_probe_set_interior_ambient.bind("VisualServer", "reflection_probe_set_interior_ambient");
-		ptrcall!(void)(_GODOT_reflection_probe_set_interior_ambient, _godot_object, probe, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbient, _godot_object, probe, color);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_reflection_probe_set_interior_ambient_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_interior_ambient_energy") = _GODOT_reflection_probe_set_interior_ambient_energy;
 	/**
 	
 	*/
 	void reflectionProbeSetInteriorAmbientEnergy(in RID probe, in double energy)
 	{
-		_GODOT_reflection_probe_set_interior_ambient_energy.bind("VisualServer", "reflection_probe_set_interior_ambient_energy");
-		ptrcall!(void)(_GODOT_reflection_probe_set_interior_ambient_energy, _godot_object, probe, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbientEnergy, _godot_object, probe, energy);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_reflection_probe_set_interior_ambient_probe_contribution;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_interior_ambient_probe_contribution") = _GODOT_reflection_probe_set_interior_ambient_probe_contribution;
 	/**
 	
 	*/
 	void reflectionProbeSetInteriorAmbientProbeContribution(in RID probe, in double contrib)
 	{
-		_GODOT_reflection_probe_set_interior_ambient_probe_contribution.bind("VisualServer", "reflection_probe_set_interior_ambient_probe_contribution");
-		ptrcall!(void)(_GODOT_reflection_probe_set_interior_ambient_probe_contribution, _godot_object, probe, contrib);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbientProbeContribution, _godot_object, probe, contrib);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_reflection_probe_set_max_distance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_max_distance") = _GODOT_reflection_probe_set_max_distance;
 	/**
 	
 	*/
 	void reflectionProbeSetMaxDistance(in RID probe, in double distance)
 	{
-		_GODOT_reflection_probe_set_max_distance.bind("VisualServer", "reflection_probe_set_max_distance");
-		ptrcall!(void)(_GODOT_reflection_probe_set_max_distance, _godot_object, probe, distance);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetMaxDistance, _godot_object, probe, distance);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_reflection_probe_set_extents;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_extents") = _GODOT_reflection_probe_set_extents;
 	/**
 	
 	*/
 	void reflectionProbeSetExtents(in RID probe, in Vector3 extents)
 	{
-		_GODOT_reflection_probe_set_extents.bind("VisualServer", "reflection_probe_set_extents");
-		ptrcall!(void)(_GODOT_reflection_probe_set_extents, _godot_object, probe, extents);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetExtents, _godot_object, probe, extents);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector3) _GODOT_reflection_probe_set_origin_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_origin_offset") = _GODOT_reflection_probe_set_origin_offset;
 	/**
 	
 	*/
 	void reflectionProbeSetOriginOffset(in RID probe, in Vector3 offset)
 	{
-		_GODOT_reflection_probe_set_origin_offset.bind("VisualServer", "reflection_probe_set_origin_offset");
-		ptrcall!(void)(_GODOT_reflection_probe_set_origin_offset, _godot_object, probe, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetOriginOffset, _godot_object, probe, offset);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_reflection_probe_set_as_interior;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_as_interior") = _GODOT_reflection_probe_set_as_interior;
 	/**
 	
 	*/
 	void reflectionProbeSetAsInterior(in RID probe, in bool enable)
 	{
-		_GODOT_reflection_probe_set_as_interior.bind("VisualServer", "reflection_probe_set_as_interior");
-		ptrcall!(void)(_GODOT_reflection_probe_set_as_interior, _godot_object, probe, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetAsInterior, _godot_object, probe, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_reflection_probe_set_enable_box_projection;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_enable_box_projection") = _GODOT_reflection_probe_set_enable_box_projection;
 	/**
 	
 	*/
 	void reflectionProbeSetEnableBoxProjection(in RID probe, in bool enable)
 	{
-		_GODOT_reflection_probe_set_enable_box_projection.bind("VisualServer", "reflection_probe_set_enable_box_projection");
-		ptrcall!(void)(_GODOT_reflection_probe_set_enable_box_projection, _godot_object, probe, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetEnableBoxProjection, _godot_object, probe, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_reflection_probe_set_enable_shadows;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_enable_shadows") = _GODOT_reflection_probe_set_enable_shadows;
 	/**
 	
 	*/
 	void reflectionProbeSetEnableShadows(in RID probe, in bool enable)
 	{
-		_GODOT_reflection_probe_set_enable_shadows.bind("VisualServer", "reflection_probe_set_enable_shadows");
-		ptrcall!(void)(_GODOT_reflection_probe_set_enable_shadows, _godot_object, probe, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetEnableShadows, _godot_object, probe, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_reflection_probe_set_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "reflection_probe_set_cull_mask") = _GODOT_reflection_probe_set_cull_mask;
 	/**
 	
 	*/
 	void reflectionProbeSetCullMask(in RID probe, in long layers)
 	{
-		_GODOT_reflection_probe_set_cull_mask.bind("VisualServer", "reflection_probe_set_cull_mask");
-		ptrcall!(void)(_GODOT_reflection_probe_set_cull_mask, _godot_object, probe, layers);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reflectionProbeSetCullMask, _godot_object, probe, layers);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_gi_probe_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_create") = _GODOT_gi_probe_create;
 	/**
 	
 	*/
 	RID giProbeCreate()
 	{
-		_GODOT_gi_probe_create.bind("VisualServer", "gi_probe_create");
-		return ptrcall!(RID)(_GODOT_gi_probe_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.giProbeCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, AABB) _GODOT_gi_probe_set_bounds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_bounds") = _GODOT_gi_probe_set_bounds;
 	/**
 	
 	*/
 	void giProbeSetBounds(in RID probe, in AABB bounds)
 	{
-		_GODOT_gi_probe_set_bounds.bind("VisualServer", "gi_probe_set_bounds");
-		ptrcall!(void)(_GODOT_gi_probe_set_bounds, _godot_object, probe, bounds);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetBounds, _godot_object, probe, bounds);
 	}
-	package(godot) static GodotMethod!(AABB, RID) _GODOT_gi_probe_get_bounds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_bounds") = _GODOT_gi_probe_get_bounds;
 	/**
 	
 	*/
 	AABB giProbeGetBounds(in RID probe) const
 	{
-		_GODOT_gi_probe_get_bounds.bind("VisualServer", "gi_probe_get_bounds");
-		return ptrcall!(AABB)(_GODOT_gi_probe_get_bounds, _godot_object, probe);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.giProbeGetBounds, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_gi_probe_set_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_cell_size") = _GODOT_gi_probe_set_cell_size;
 	/**
 	
 	*/
 	void giProbeSetCellSize(in RID probe, in double range)
 	{
-		_GODOT_gi_probe_set_cell_size.bind("VisualServer", "gi_probe_set_cell_size");
-		ptrcall!(void)(_GODOT_gi_probe_set_cell_size, _godot_object, probe, range);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetCellSize, _godot_object, probe, range);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_gi_probe_get_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_cell_size") = _GODOT_gi_probe_get_cell_size;
 	/**
 	
 	*/
 	double giProbeGetCellSize(in RID probe) const
 	{
-		_GODOT_gi_probe_get_cell_size.bind("VisualServer", "gi_probe_get_cell_size");
-		return ptrcall!(double)(_GODOT_gi_probe_get_cell_size, _godot_object, probe);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.giProbeGetCellSize, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_gi_probe_set_to_cell_xform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_to_cell_xform") = _GODOT_gi_probe_set_to_cell_xform;
 	/**
 	
 	*/
-	void giProbeSetToCellXform(in RID xform, in Transform arg1)
+	void giProbeSetToCellXform(in RID probe, in Transform xform)
 	{
-		_GODOT_gi_probe_set_to_cell_xform.bind("VisualServer", "gi_probe_set_to_cell_xform");
-		ptrcall!(void)(_GODOT_gi_probe_set_to_cell_xform, _godot_object, xform, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetToCellXform, _godot_object, probe, xform);
 	}
-	package(godot) static GodotMethod!(Transform, RID) _GODOT_gi_probe_get_to_cell_xform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_to_cell_xform") = _GODOT_gi_probe_get_to_cell_xform;
 	/**
 	
 	*/
-	Transform giProbeGetToCellXform(in RID arg0) const
+	Transform giProbeGetToCellXform(in RID probe) const
 	{
-		_GODOT_gi_probe_get_to_cell_xform.bind("VisualServer", "gi_probe_get_to_cell_xform");
-		return ptrcall!(Transform)(_GODOT_gi_probe_get_to_cell_xform, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.giProbeGetToCellXform, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolIntArray) _GODOT_gi_probe_set_dynamic_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_dynamic_data") = _GODOT_gi_probe_set_dynamic_data;
 	/**
 	
 	*/
-	void giProbeSetDynamicData(in RID data, in PoolIntArray arg1)
+	void giProbeSetDynamicData(in RID probe, in PoolIntArray data)
 	{
-		_GODOT_gi_probe_set_dynamic_data.bind("VisualServer", "gi_probe_set_dynamic_data");
-		ptrcall!(void)(_GODOT_gi_probe_set_dynamic_data, _godot_object, data, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetDynamicData, _godot_object, probe, data);
 	}
-	package(godot) static GodotMethod!(PoolIntArray, RID) _GODOT_gi_probe_get_dynamic_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_dynamic_data") = _GODOT_gi_probe_get_dynamic_data;
 	/**
 	
 	*/
-	PoolIntArray giProbeGetDynamicData(in RID arg0) const
+	PoolIntArray giProbeGetDynamicData(in RID probe) const
 	{
-		_GODOT_gi_probe_get_dynamic_data.bind("VisualServer", "gi_probe_get_dynamic_data");
-		return ptrcall!(PoolIntArray)(_GODOT_gi_probe_get_dynamic_data, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.giProbeGetDynamicData, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_gi_probe_set_dynamic_range;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_dynamic_range") = _GODOT_gi_probe_set_dynamic_range;
 	/**
 	
 	*/
-	void giProbeSetDynamicRange(in RID range, in long arg1)
+	void giProbeSetDynamicRange(in RID probe, in long range)
 	{
-		_GODOT_gi_probe_set_dynamic_range.bind("VisualServer", "gi_probe_set_dynamic_range");
-		ptrcall!(void)(_GODOT_gi_probe_set_dynamic_range, _godot_object, range, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetDynamicRange, _godot_object, probe, range);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_gi_probe_get_dynamic_range;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_dynamic_range") = _GODOT_gi_probe_get_dynamic_range;
 	/**
 	
 	*/
-	long giProbeGetDynamicRange(in RID arg0) const
+	long giProbeGetDynamicRange(in RID probe) const
 	{
-		_GODOT_gi_probe_get_dynamic_range.bind("VisualServer", "gi_probe_get_dynamic_range");
-		return ptrcall!(long)(_GODOT_gi_probe_get_dynamic_range, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.giProbeGetDynamicRange, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_gi_probe_set_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_energy") = _GODOT_gi_probe_set_energy;
 	/**
 	
 	*/
-	void giProbeSetEnergy(in RID energy, in double arg1)
+	void giProbeSetEnergy(in RID probe, in double energy)
 	{
-		_GODOT_gi_probe_set_energy.bind("VisualServer", "gi_probe_set_energy");
-		ptrcall!(void)(_GODOT_gi_probe_set_energy, _godot_object, energy, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetEnergy, _godot_object, probe, energy);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_gi_probe_get_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_energy") = _GODOT_gi_probe_get_energy;
 	/**
 	
 	*/
-	double giProbeGetEnergy(in RID arg0) const
+	double giProbeGetEnergy(in RID probe) const
 	{
-		_GODOT_gi_probe_get_energy.bind("VisualServer", "gi_probe_get_energy");
-		return ptrcall!(double)(_GODOT_gi_probe_get_energy, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.giProbeGetEnergy, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_gi_probe_set_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_bias") = _GODOT_gi_probe_set_bias;
 	/**
 	
 	*/
-	void giProbeSetBias(in RID bias, in double arg1)
+	void giProbeSetBias(in RID probe, in double bias)
 	{
-		_GODOT_gi_probe_set_bias.bind("VisualServer", "gi_probe_set_bias");
-		ptrcall!(void)(_GODOT_gi_probe_set_bias, _godot_object, bias, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetBias, _godot_object, probe, bias);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_gi_probe_get_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_bias") = _GODOT_gi_probe_get_bias;
 	/**
 	
 	*/
-	double giProbeGetBias(in RID arg0) const
+	double giProbeGetBias(in RID probe) const
 	{
-		_GODOT_gi_probe_get_bias.bind("VisualServer", "gi_probe_get_bias");
-		return ptrcall!(double)(_GODOT_gi_probe_get_bias, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.giProbeGetBias, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_gi_probe_set_normal_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_normal_bias") = _GODOT_gi_probe_set_normal_bias;
 	/**
 	
 	*/
-	void giProbeSetNormalBias(in RID bias, in double arg1)
+	void giProbeSetNormalBias(in RID probe, in double bias)
 	{
-		_GODOT_gi_probe_set_normal_bias.bind("VisualServer", "gi_probe_set_normal_bias");
-		ptrcall!(void)(_GODOT_gi_probe_set_normal_bias, _godot_object, bias, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetNormalBias, _godot_object, probe, bias);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_gi_probe_get_normal_bias;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_normal_bias") = _GODOT_gi_probe_get_normal_bias;
 	/**
 	
 	*/
-	double giProbeGetNormalBias(in RID arg0) const
+	double giProbeGetNormalBias(in RID probe) const
 	{
-		_GODOT_gi_probe_get_normal_bias.bind("VisualServer", "gi_probe_get_normal_bias");
-		return ptrcall!(double)(_GODOT_gi_probe_get_normal_bias, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.giProbeGetNormalBias, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_gi_probe_set_propagation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_propagation") = _GODOT_gi_probe_set_propagation;
 	/**
 	
 	*/
-	void giProbeSetPropagation(in RID propagation, in double arg1)
+	void giProbeSetPropagation(in RID probe, in double propagation)
 	{
-		_GODOT_gi_probe_set_propagation.bind("VisualServer", "gi_probe_set_propagation");
-		ptrcall!(void)(_GODOT_gi_probe_set_propagation, _godot_object, propagation, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetPropagation, _godot_object, probe, propagation);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_gi_probe_get_propagation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_get_propagation") = _GODOT_gi_probe_get_propagation;
 	/**
 	
 	*/
-	double giProbeGetPropagation(in RID arg0) const
+	double giProbeGetPropagation(in RID probe) const
 	{
-		_GODOT_gi_probe_get_propagation.bind("VisualServer", "gi_probe_get_propagation");
-		return ptrcall!(double)(_GODOT_gi_probe_get_propagation, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.giProbeGetPropagation, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_gi_probe_set_interior;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_interior") = _GODOT_gi_probe_set_interior;
 	/**
 	
 	*/
-	void giProbeSetInterior(in RID enable, in bool arg1)
+	void giProbeSetInterior(in RID probe, in bool enable)
 	{
-		_GODOT_gi_probe_set_interior.bind("VisualServer", "gi_probe_set_interior");
-		ptrcall!(void)(_GODOT_gi_probe_set_interior, _godot_object, enable, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetInterior, _godot_object, probe, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_gi_probe_is_interior;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_is_interior") = _GODOT_gi_probe_is_interior;
 	/**
 	
 	*/
-	bool giProbeIsInterior(in RID arg0) const
+	bool giProbeIsInterior(in RID probe) const
 	{
-		_GODOT_gi_probe_is_interior.bind("VisualServer", "gi_probe_is_interior");
-		return ptrcall!(bool)(_GODOT_gi_probe_is_interior, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.giProbeIsInterior, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_gi_probe_set_compress;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_set_compress") = _GODOT_gi_probe_set_compress;
 	/**
 	
 	*/
-	void giProbeSetCompress(in RID enable, in bool arg1)
+	void giProbeSetCompress(in RID probe, in bool enable)
 	{
-		_GODOT_gi_probe_set_compress.bind("VisualServer", "gi_probe_set_compress");
-		ptrcall!(void)(_GODOT_gi_probe_set_compress, _godot_object, enable, arg1);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.giProbeSetCompress, _godot_object, probe, enable);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_gi_probe_is_compressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "gi_probe_is_compressed") = _GODOT_gi_probe_is_compressed;
 	/**
 	
 	*/
-	bool giProbeIsCompressed(in RID arg0) const
+	bool giProbeIsCompressed(in RID probe) const
 	{
-		_GODOT_gi_probe_is_compressed.bind("VisualServer", "gi_probe_is_compressed");
-		return ptrcall!(bool)(_GODOT_gi_probe_is_compressed, _godot_object, arg0);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.giProbeIsCompressed, _godot_object, probe);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_lightmap_capture_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_create") = _GODOT_lightmap_capture_create;
 	/**
 	
 	*/
 	RID lightmapCaptureCreate()
 	{
-		_GODOT_lightmap_capture_create.bind("VisualServer", "lightmap_capture_create");
-		return ptrcall!(RID)(_GODOT_lightmap_capture_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.lightmapCaptureCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, AABB) _GODOT_lightmap_capture_set_bounds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_set_bounds") = _GODOT_lightmap_capture_set_bounds;
 	/**
 	
 	*/
 	void lightmapCaptureSetBounds(in RID capture, in AABB bounds)
 	{
-		_GODOT_lightmap_capture_set_bounds.bind("VisualServer", "lightmap_capture_set_bounds");
-		ptrcall!(void)(_GODOT_lightmap_capture_set_bounds, _godot_object, capture, bounds);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightmapCaptureSetBounds, _godot_object, capture, bounds);
 	}
-	package(godot) static GodotMethod!(AABB, RID) _GODOT_lightmap_capture_get_bounds;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_get_bounds") = _GODOT_lightmap_capture_get_bounds;
 	/**
 	
 	*/
 	AABB lightmapCaptureGetBounds(in RID capture) const
 	{
-		_GODOT_lightmap_capture_get_bounds.bind("VisualServer", "lightmap_capture_get_bounds");
-		return ptrcall!(AABB)(_GODOT_lightmap_capture_get_bounds, _godot_object, capture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.lightmapCaptureGetBounds, _godot_object, capture);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolByteArray) _GODOT_lightmap_capture_set_octree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_set_octree") = _GODOT_lightmap_capture_set_octree;
 	/**
 	
 	*/
 	void lightmapCaptureSetOctree(in RID capture, in PoolByteArray octree)
 	{
-		_GODOT_lightmap_capture_set_octree.bind("VisualServer", "lightmap_capture_set_octree");
-		ptrcall!(void)(_GODOT_lightmap_capture_set_octree, _godot_object, capture, octree);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightmapCaptureSetOctree, _godot_object, capture, octree);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_lightmap_capture_set_octree_cell_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_set_octree_cell_transform") = _GODOT_lightmap_capture_set_octree_cell_transform;
 	/**
 	
 	*/
 	void lightmapCaptureSetOctreeCellTransform(in RID capture, in Transform xform)
 	{
-		_GODOT_lightmap_capture_set_octree_cell_transform.bind("VisualServer", "lightmap_capture_set_octree_cell_transform");
-		ptrcall!(void)(_GODOT_lightmap_capture_set_octree_cell_transform, _godot_object, capture, xform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightmapCaptureSetOctreeCellTransform, _godot_object, capture, xform);
 	}
-	package(godot) static GodotMethod!(Transform, RID) _GODOT_lightmap_capture_get_octree_cell_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_get_octree_cell_transform") = _GODOT_lightmap_capture_get_octree_cell_transform;
 	/**
 	
 	*/
 	Transform lightmapCaptureGetOctreeCellTransform(in RID capture) const
 	{
-		_GODOT_lightmap_capture_get_octree_cell_transform.bind("VisualServer", "lightmap_capture_get_octree_cell_transform");
-		return ptrcall!(Transform)(_GODOT_lightmap_capture_get_octree_cell_transform, _godot_object, capture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.lightmapCaptureGetOctreeCellTransform, _godot_object, capture);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_lightmap_capture_set_octree_cell_subdiv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_set_octree_cell_subdiv") = _GODOT_lightmap_capture_set_octree_cell_subdiv;
 	/**
 	
 	*/
 	void lightmapCaptureSetOctreeCellSubdiv(in RID capture, in long subdiv)
 	{
-		_GODOT_lightmap_capture_set_octree_cell_subdiv.bind("VisualServer", "lightmap_capture_set_octree_cell_subdiv");
-		ptrcall!(void)(_GODOT_lightmap_capture_set_octree_cell_subdiv, _godot_object, capture, subdiv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightmapCaptureSetOctreeCellSubdiv, _godot_object, capture, subdiv);
 	}
-	package(godot) static GodotMethod!(long, RID) _GODOT_lightmap_capture_get_octree_cell_subdiv;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_get_octree_cell_subdiv") = _GODOT_lightmap_capture_get_octree_cell_subdiv;
 	/**
 	
 	*/
 	long lightmapCaptureGetOctreeCellSubdiv(in RID capture) const
 	{
-		_GODOT_lightmap_capture_get_octree_cell_subdiv.bind("VisualServer", "lightmap_capture_get_octree_cell_subdiv");
-		return ptrcall!(long)(_GODOT_lightmap_capture_get_octree_cell_subdiv, _godot_object, capture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.lightmapCaptureGetOctreeCellSubdiv, _godot_object, capture);
 	}
-	package(godot) static GodotMethod!(PoolByteArray, RID) _GODOT_lightmap_capture_get_octree;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_get_octree") = _GODOT_lightmap_capture_get_octree;
 	/**
 	
 	*/
 	PoolByteArray lightmapCaptureGetOctree(in RID capture) const
 	{
-		_GODOT_lightmap_capture_get_octree.bind("VisualServer", "lightmap_capture_get_octree");
-		return ptrcall!(PoolByteArray)(_GODOT_lightmap_capture_get_octree, _godot_object, capture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.lightmapCaptureGetOctree, _godot_object, capture);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_lightmap_capture_set_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_set_energy") = _GODOT_lightmap_capture_set_energy;
 	/**
 	
 	*/
 	void lightmapCaptureSetEnergy(in RID capture, in double energy)
 	{
-		_GODOT_lightmap_capture_set_energy.bind("VisualServer", "lightmap_capture_set_energy");
-		ptrcall!(void)(_GODOT_lightmap_capture_set_energy, _godot_object, capture, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.lightmapCaptureSetEnergy, _godot_object, capture, energy);
 	}
-	package(godot) static GodotMethod!(double, RID) _GODOT_lightmap_capture_get_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "lightmap_capture_get_energy") = _GODOT_lightmap_capture_get_energy;
 	/**
 	
 	*/
 	double lightmapCaptureGetEnergy(in RID capture) const
 	{
-		_GODOT_lightmap_capture_get_energy.bind("VisualServer", "lightmap_capture_get_energy");
-		return ptrcall!(double)(_GODOT_lightmap_capture_get_energy, _godot_object, capture);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.lightmapCaptureGetEnergy, _godot_object, capture);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_particles_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_create") = _GODOT_particles_create;
 	/**
 	
 	*/
 	RID particlesCreate()
 	{
-		_GODOT_particles_create.bind("VisualServer", "particles_create");
-		return ptrcall!(RID)(_GODOT_particles_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.particlesCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_particles_set_emitting;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_emitting") = _GODOT_particles_set_emitting;
 	/**
 	
 	*/
 	void particlesSetEmitting(in RID particles, in bool emitting)
 	{
-		_GODOT_particles_set_emitting.bind("VisualServer", "particles_set_emitting");
-		ptrcall!(void)(_GODOT_particles_set_emitting, _godot_object, particles, emitting);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetEmitting, _godot_object, particles, emitting);
 	}
-	package(godot) static GodotMethod!(bool, RID) _GODOT_particles_get_emitting;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_get_emitting") = _GODOT_particles_get_emitting;
 	/**
 	
 	*/
 	bool particlesGetEmitting(in RID particles)
 	{
-		_GODOT_particles_get_emitting.bind("VisualServer", "particles_get_emitting");
-		return ptrcall!(bool)(_GODOT_particles_get_emitting, _godot_object, particles);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.particlesGetEmitting, _godot_object, particles);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_particles_set_amount;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_amount") = _GODOT_particles_set_amount;
 	/**
 	
 	*/
 	void particlesSetAmount(in RID particles, in long amount)
 	{
-		_GODOT_particles_set_amount.bind("VisualServer", "particles_set_amount");
-		ptrcall!(void)(_GODOT_particles_set_amount, _godot_object, particles, amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetAmount, _godot_object, particles, amount);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_particles_set_lifetime;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_lifetime") = _GODOT_particles_set_lifetime;
 	/**
 	
 	*/
 	void particlesSetLifetime(in RID particles, in double lifetime)
 	{
-		_GODOT_particles_set_lifetime.bind("VisualServer", "particles_set_lifetime");
-		ptrcall!(void)(_GODOT_particles_set_lifetime, _godot_object, particles, lifetime);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetLifetime, _godot_object, particles, lifetime);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_particles_set_one_shot;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_one_shot") = _GODOT_particles_set_one_shot;
 	/**
 	
 	*/
 	void particlesSetOneShot(in RID particles, in bool one_shot)
 	{
-		_GODOT_particles_set_one_shot.bind("VisualServer", "particles_set_one_shot");
-		ptrcall!(void)(_GODOT_particles_set_one_shot, _godot_object, particles, one_shot);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetOneShot, _godot_object, particles, one_shot);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_particles_set_pre_process_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_pre_process_time") = _GODOT_particles_set_pre_process_time;
 	/**
 	
 	*/
 	void particlesSetPreProcessTime(in RID particles, in double time)
 	{
-		_GODOT_particles_set_pre_process_time.bind("VisualServer", "particles_set_pre_process_time");
-		ptrcall!(void)(_GODOT_particles_set_pre_process_time, _godot_object, particles, time);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetPreProcessTime, _godot_object, particles, time);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_particles_set_explosiveness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_explosiveness_ratio") = _GODOT_particles_set_explosiveness_ratio;
 	/**
 	
 	*/
 	void particlesSetExplosivenessRatio(in RID particles, in double ratio)
 	{
-		_GODOT_particles_set_explosiveness_ratio.bind("VisualServer", "particles_set_explosiveness_ratio");
-		ptrcall!(void)(_GODOT_particles_set_explosiveness_ratio, _godot_object, particles, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetExplosivenessRatio, _godot_object, particles, ratio);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_particles_set_randomness_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_randomness_ratio") = _GODOT_particles_set_randomness_ratio;
 	/**
 	
 	*/
 	void particlesSetRandomnessRatio(in RID particles, in double ratio)
 	{
-		_GODOT_particles_set_randomness_ratio.bind("VisualServer", "particles_set_randomness_ratio");
-		ptrcall!(void)(_GODOT_particles_set_randomness_ratio, _godot_object, particles, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetRandomnessRatio, _godot_object, particles, ratio);
 	}
-	package(godot) static GodotMethod!(void, RID, AABB) _GODOT_particles_set_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_custom_aabb") = _GODOT_particles_set_custom_aabb;
 	/**
 	
 	*/
 	void particlesSetCustomAabb(in RID particles, in AABB aabb)
 	{
-		_GODOT_particles_set_custom_aabb.bind("VisualServer", "particles_set_custom_aabb");
-		ptrcall!(void)(_GODOT_particles_set_custom_aabb, _godot_object, particles, aabb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetCustomAabb, _godot_object, particles, aabb);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_particles_set_speed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_speed_scale") = _GODOT_particles_set_speed_scale;
 	/**
 	
 	*/
 	void particlesSetSpeedScale(in RID particles, in double scale)
 	{
-		_GODOT_particles_set_speed_scale.bind("VisualServer", "particles_set_speed_scale");
-		ptrcall!(void)(_GODOT_particles_set_speed_scale, _godot_object, particles, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetSpeedScale, _godot_object, particles, scale);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_particles_set_use_local_coordinates;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_use_local_coordinates") = _GODOT_particles_set_use_local_coordinates;
 	/**
 	
 	*/
 	void particlesSetUseLocalCoordinates(in RID particles, in bool enable)
 	{
-		_GODOT_particles_set_use_local_coordinates.bind("VisualServer", "particles_set_use_local_coordinates");
-		ptrcall!(void)(_GODOT_particles_set_use_local_coordinates, _godot_object, particles, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetUseLocalCoordinates, _godot_object, particles, enable);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_particles_set_process_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_process_material") = _GODOT_particles_set_process_material;
 	/**
 	
 	*/
 	void particlesSetProcessMaterial(in RID particles, in RID material)
 	{
-		_GODOT_particles_set_process_material.bind("VisualServer", "particles_set_process_material");
-		ptrcall!(void)(_GODOT_particles_set_process_material, _godot_object, particles, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetProcessMaterial, _godot_object, particles, material);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_particles_set_fixed_fps;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_fixed_fps") = _GODOT_particles_set_fixed_fps;
 	/**
 	
 	*/
 	void particlesSetFixedFps(in RID particles, in long fps)
 	{
-		_GODOT_particles_set_fixed_fps.bind("VisualServer", "particles_set_fixed_fps");
-		ptrcall!(void)(_GODOT_particles_set_fixed_fps, _godot_object, particles, fps);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetFixedFps, _godot_object, particles, fps);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_particles_set_fractional_delta;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_fractional_delta") = _GODOT_particles_set_fractional_delta;
 	/**
 	
 	*/
 	void particlesSetFractionalDelta(in RID particles, in bool enable)
 	{
-		_GODOT_particles_set_fractional_delta.bind("VisualServer", "particles_set_fractional_delta");
-		ptrcall!(void)(_GODOT_particles_set_fractional_delta, _godot_object, particles, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetFractionalDelta, _godot_object, particles, enable);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_particles_restart;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_restart") = _GODOT_particles_restart;
 	/**
 	
 	*/
 	void particlesRestart(in RID particles)
 	{
-		_GODOT_particles_restart.bind("VisualServer", "particles_restart");
-		ptrcall!(void)(_GODOT_particles_restart, _godot_object, particles);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesRestart, _godot_object, particles);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_particles_set_draw_order;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_draw_order") = _GODOT_particles_set_draw_order;
 	/**
 	
 	*/
 	void particlesSetDrawOrder(in RID particles, in long order)
 	{
-		_GODOT_particles_set_draw_order.bind("VisualServer", "particles_set_draw_order");
-		ptrcall!(void)(_GODOT_particles_set_draw_order, _godot_object, particles, order);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetDrawOrder, _godot_object, particles, order);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_particles_set_draw_passes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_draw_passes") = _GODOT_particles_set_draw_passes;
 	/**
 	
 	*/
 	void particlesSetDrawPasses(in RID particles, in long count)
 	{
-		_GODOT_particles_set_draw_passes.bind("VisualServer", "particles_set_draw_passes");
-		ptrcall!(void)(_GODOT_particles_set_draw_passes, _godot_object, particles, count);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetDrawPasses, _godot_object, particles, count);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_particles_set_draw_pass_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_draw_pass_mesh") = _GODOT_particles_set_draw_pass_mesh;
 	/**
 	
 	*/
 	void particlesSetDrawPassMesh(in RID particles, in long pass, in RID mesh)
 	{
-		_GODOT_particles_set_draw_pass_mesh.bind("VisualServer", "particles_set_draw_pass_mesh");
-		ptrcall!(void)(_GODOT_particles_set_draw_pass_mesh, _godot_object, particles, pass, mesh);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetDrawPassMesh, _godot_object, particles, pass, mesh);
 	}
-	package(godot) static GodotMethod!(AABB, RID) _GODOT_particles_get_current_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_get_current_aabb") = _GODOT_particles_get_current_aabb;
 	/**
 	
 	*/
 	AABB particlesGetCurrentAabb(in RID particles)
 	{
-		_GODOT_particles_get_current_aabb.bind("VisualServer", "particles_get_current_aabb");
-		return ptrcall!(AABB)(_GODOT_particles_get_current_aabb, _godot_object, particles);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.particlesGetCurrentAabb, _godot_object, particles);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_particles_set_emission_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "particles_set_emission_transform") = _GODOT_particles_set_emission_transform;
 	/**
 	
 	*/
 	void particlesSetEmissionTransform(in RID particles, in Transform transform)
 	{
-		_GODOT_particles_set_emission_transform.bind("VisualServer", "particles_set_emission_transform");
-		ptrcall!(void)(_GODOT_particles_set_emission_transform, _godot_object, particles, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.particlesSetEmissionTransform, _godot_object, particles, transform);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_camera_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_create") = _GODOT_camera_create;
 	/**
 	
 	*/
 	RID cameraCreate()
 	{
-		_GODOT_camera_create.bind("VisualServer", "camera_create");
-		return ptrcall!(RID)(_GODOT_camera_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.cameraCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, double, double, double) _GODOT_camera_set_perspective;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_perspective") = _GODOT_camera_set_perspective;
 	/**
 	
 	*/
 	void cameraSetPerspective(in RID camera, in double fovy_degrees, in double z_near, in double z_far)
 	{
-		_GODOT_camera_set_perspective.bind("VisualServer", "camera_set_perspective");
-		ptrcall!(void)(_GODOT_camera_set_perspective, _godot_object, camera, fovy_degrees, z_near, z_far);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetPerspective, _godot_object, camera, fovy_degrees, z_near, z_far);
 	}
-	package(godot) static GodotMethod!(void, RID, double, double, double) _GODOT_camera_set_orthogonal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_orthogonal") = _GODOT_camera_set_orthogonal;
 	/**
 	
 	*/
 	void cameraSetOrthogonal(in RID camera, in double size, in double z_near, in double z_far)
 	{
-		_GODOT_camera_set_orthogonal.bind("VisualServer", "camera_set_orthogonal");
-		ptrcall!(void)(_GODOT_camera_set_orthogonal, _godot_object, camera, size, z_near, z_far);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetOrthogonal, _godot_object, camera, size, z_near, z_far);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_camera_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_transform") = _GODOT_camera_set_transform;
 	/**
 	
 	*/
 	void cameraSetTransform(in RID camera, in Transform transform)
 	{
-		_GODOT_camera_set_transform.bind("VisualServer", "camera_set_transform");
-		ptrcall!(void)(_GODOT_camera_set_transform, _godot_object, camera, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetTransform, _godot_object, camera, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_camera_set_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_cull_mask") = _GODOT_camera_set_cull_mask;
 	/**
 	
 	*/
 	void cameraSetCullMask(in RID camera, in long layers)
 	{
-		_GODOT_camera_set_cull_mask.bind("VisualServer", "camera_set_cull_mask");
-		ptrcall!(void)(_GODOT_camera_set_cull_mask, _godot_object, camera, layers);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetCullMask, _godot_object, camera, layers);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_camera_set_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_environment") = _GODOT_camera_set_environment;
 	/**
 	
 	*/
 	void cameraSetEnvironment(in RID camera, in RID env)
 	{
-		_GODOT_camera_set_environment.bind("VisualServer", "camera_set_environment");
-		ptrcall!(void)(_GODOT_camera_set_environment, _godot_object, camera, env);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetEnvironment, _godot_object, camera, env);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_camera_set_use_vertical_aspect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "camera_set_use_vertical_aspect") = _GODOT_camera_set_use_vertical_aspect;
 	/**
 	
 	*/
 	void cameraSetUseVerticalAspect(in RID camera, in bool enable)
 	{
-		_GODOT_camera_set_use_vertical_aspect.bind("VisualServer", "camera_set_use_vertical_aspect");
-		ptrcall!(void)(_GODOT_camera_set_use_vertical_aspect, _godot_object, camera, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cameraSetUseVerticalAspect, _godot_object, camera, enable);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_viewport_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_create") = _GODOT_viewport_create;
 	/**
 	Creates an empty viewport.
 	*/
 	RID viewportCreate()
 	{
-		_GODOT_viewport_create.bind("VisualServer", "viewport_create");
-		return ptrcall!(RID)(_GODOT_viewport_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.viewportCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_use_arvr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_use_arvr") = _GODOT_viewport_set_use_arvr;
 	/**
-	If `true` the viewport should use augmented or virtual reality technologies. See $(D ARVRInterface).
+	If `true` the viewport uses augmented or virtual reality technologies. See $(D ARVRInterface).
 	*/
 	void viewportSetUseArvr(in RID viewport, in bool use_arvr)
 	{
-		_GODOT_viewport_set_use_arvr.bind("VisualServer", "viewport_set_use_arvr");
-		ptrcall!(void)(_GODOT_viewport_set_use_arvr, _godot_object, viewport, use_arvr);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetUseArvr, _godot_object, viewport, use_arvr);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_viewport_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_size") = _GODOT_viewport_set_size;
 	/**
 	Sets the viewport's width and height.
 	*/
 	void viewportSetSize(in RID viewport, in long width, in long height)
 	{
-		_GODOT_viewport_set_size.bind("VisualServer", "viewport_set_size");
-		ptrcall!(void)(_GODOT_viewport_set_size, _godot_object, viewport, width, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetSize, _godot_object, viewport, width, height);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_active") = _GODOT_viewport_set_active;
 	/**
-	If `true`, sets the viewport active, else sets it inactive.
+	If `true` sets the viewport active, else sets it inactive.
 	*/
 	void viewportSetActive(in RID viewport, in bool active)
 	{
-		_GODOT_viewport_set_active.bind("VisualServer", "viewport_set_active");
-		ptrcall!(void)(_GODOT_viewport_set_active, _godot_object, viewport, active);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetActive, _godot_object, viewport, active);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_viewport_set_parent_viewport;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_parent_viewport") = _GODOT_viewport_set_parent_viewport;
 	/**
 	Sets the viewport's parent to another viewport.
 	*/
 	void viewportSetParentViewport(in RID viewport, in RID parent_viewport)
 	{
-		_GODOT_viewport_set_parent_viewport.bind("VisualServer", "viewport_set_parent_viewport");
-		ptrcall!(void)(_GODOT_viewport_set_parent_viewport, _godot_object, viewport, parent_viewport);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetParentViewport, _godot_object, viewport, parent_viewport);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2, long) _GODOT_viewport_attach_to_screen;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_attach_to_screen") = _GODOT_viewport_attach_to_screen;
 	/**
 	Attaches a viewport to a screen.
 	*/
 	void viewportAttachToScreen(in RID viewport, in Rect2 rect = Rect2(0, 0, 0, 0), in long screen = 0)
 	{
-		_GODOT_viewport_attach_to_screen.bind("VisualServer", "viewport_attach_to_screen");
-		ptrcall!(void)(_GODOT_viewport_attach_to_screen, _godot_object, viewport, rect, screen);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportAttachToScreen, _godot_object, viewport, rect, screen);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_viewport_detach;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_detach") = _GODOT_viewport_detach;
 	/**
 	Detaches the viewport from the screen.
 	*/
 	void viewportDetach(in RID viewport)
 	{
-		_GODOT_viewport_detach.bind("VisualServer", "viewport_detach");
-		ptrcall!(void)(_GODOT_viewport_detach, _godot_object, viewport);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportDetach, _godot_object, viewport);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_update_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_update_mode") = _GODOT_viewport_set_update_mode;
 	/**
-	Sets when the viewport should be updated. See VIEWPORT_UPDATE_MODE_* constants for options.
+	Sets when the viewport should be updated. See $(D viewportupdatemode) constants for options.
 	*/
 	void viewportSetUpdateMode(in RID viewport, in long update_mode)
 	{
-		_GODOT_viewport_set_update_mode.bind("VisualServer", "viewport_set_update_mode");
-		ptrcall!(void)(_GODOT_viewport_set_update_mode, _godot_object, viewport, update_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetUpdateMode, _godot_object, viewport, update_mode);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_vflip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_vflip") = _GODOT_viewport_set_vflip;
 	/**
-	If `true` the viewport's rendering should be flipped vertically.
+	If `true` the viewport's rendering is flipped vertically.
 	*/
 	void viewportSetVflip(in RID viewport, in bool enabled)
 	{
-		_GODOT_viewport_set_vflip.bind("VisualServer", "viewport_set_vflip");
-		ptrcall!(void)(_GODOT_viewport_set_vflip, _godot_object, viewport, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetVflip, _godot_object, viewport, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_clear_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_clear_mode") = _GODOT_viewport_set_clear_mode;
 	/**
 	Sets the clear mode of a viewport. See VIEWPORT_CLEAR_MODE_* constants for options.
 	*/
 	void viewportSetClearMode(in RID viewport, in long clear_mode)
 	{
-		_GODOT_viewport_set_clear_mode.bind("VisualServer", "viewport_set_clear_mode");
-		ptrcall!(void)(_GODOT_viewport_set_clear_mode, _godot_object, viewport, clear_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetClearMode, _godot_object, viewport, clear_mode);
 	}
-	package(godot) static GodotMethod!(RID, RID) _GODOT_viewport_get_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_get_texture") = _GODOT_viewport_get_texture;
 	/**
 	Returns the viewport's last rendered frame.
 	*/
 	RID viewportGetTexture(in RID viewport) const
 	{
-		_GODOT_viewport_get_texture.bind("VisualServer", "viewport_get_texture");
-		return ptrcall!(RID)(_GODOT_viewport_get_texture, _godot_object, viewport);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.viewportGetTexture, _godot_object, viewport);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_hide_scenario;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_hide_scenario") = _GODOT_viewport_set_hide_scenario;
 	/**
 	
 	*/
 	void viewportSetHideScenario(in RID viewport, in bool hidden)
 	{
-		_GODOT_viewport_set_hide_scenario.bind("VisualServer", "viewport_set_hide_scenario");
-		ptrcall!(void)(_GODOT_viewport_set_hide_scenario, _godot_object, viewport, hidden);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetHideScenario, _godot_object, viewport, hidden);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_hide_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_hide_canvas") = _GODOT_viewport_set_hide_canvas;
 	/**
-	If `true` the viewport's canvas should not be rendered.
+	If `true` the viewport's canvas is not rendered.
 	*/
 	void viewportSetHideCanvas(in RID viewport, in bool hidden)
 	{
-		_GODOT_viewport_set_hide_canvas.bind("VisualServer", "viewport_set_hide_canvas");
-		ptrcall!(void)(_GODOT_viewport_set_hide_canvas, _godot_object, viewport, hidden);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetHideCanvas, _godot_object, viewport, hidden);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_disable_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_disable_environment") = _GODOT_viewport_set_disable_environment;
 	/**
-	If `true` rendering of a viewport's environment should be disabled.
+	If `true` rendering of a viewport's environment is disabled.
 	*/
 	void viewportSetDisableEnvironment(in RID viewport, in bool disabled)
 	{
-		_GODOT_viewport_set_disable_environment.bind("VisualServer", "viewport_set_disable_environment");
-		ptrcall!(void)(_GODOT_viewport_set_disable_environment, _godot_object, viewport, disabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetDisableEnvironment, _godot_object, viewport, disabled);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_disable_3d;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_disable_3d") = _GODOT_viewport_set_disable_3d;
 	/**
-	If `true` a viewport's 3D rendering should be disabled.
+	If `true` a viewport's 3D rendering is disabled.
 	*/
 	void viewportSetDisable3d(in RID viewport, in bool disabled)
 	{
-		_GODOT_viewport_set_disable_3d.bind("VisualServer", "viewport_set_disable_3d");
-		ptrcall!(void)(_GODOT_viewport_set_disable_3d, _godot_object, viewport, disabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetDisable3d, _godot_object, viewport, disabled);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_viewport_attach_camera;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_attach_camera") = _GODOT_viewport_attach_camera;
 	/**
 	Sets a viewport's camera.
 	*/
 	void viewportAttachCamera(in RID viewport, in RID camera)
 	{
-		_GODOT_viewport_attach_camera.bind("VisualServer", "viewport_attach_camera");
-		ptrcall!(void)(_GODOT_viewport_attach_camera, _godot_object, viewport, camera);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportAttachCamera, _godot_object, viewport, camera);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_viewport_set_scenario;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_scenario") = _GODOT_viewport_set_scenario;
 	/**
 	Sets a viewport's scenario.
 	The scenario contains information about the $(D scenariodebugmode), environment information, reflection atlas etc.
 	*/
 	void viewportSetScenario(in RID viewport, in RID scenario)
 	{
-		_GODOT_viewport_set_scenario.bind("VisualServer", "viewport_set_scenario");
-		ptrcall!(void)(_GODOT_viewport_set_scenario, _godot_object, viewport, scenario);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetScenario, _godot_object, viewport, scenario);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_viewport_attach_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_attach_canvas") = _GODOT_viewport_attach_canvas;
 	/**
 	Sets a viewport's canvas.
 	*/
 	void viewportAttachCanvas(in RID viewport, in RID canvas)
 	{
-		_GODOT_viewport_attach_canvas.bind("VisualServer", "viewport_attach_canvas");
-		ptrcall!(void)(_GODOT_viewport_attach_canvas, _godot_object, viewport, canvas);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportAttachCanvas, _godot_object, viewport, canvas);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_viewport_remove_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_remove_canvas") = _GODOT_viewport_remove_canvas;
 	/**
 	Detaches a viewport from a canvas and vice versa.
 	*/
 	void viewportRemoveCanvas(in RID viewport, in RID canvas)
 	{
-		_GODOT_viewport_remove_canvas.bind("VisualServer", "viewport_remove_canvas");
-		ptrcall!(void)(_GODOT_viewport_remove_canvas, _godot_object, viewport, canvas);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportRemoveCanvas, _godot_object, viewport, canvas);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, Transform2D) _GODOT_viewport_set_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_canvas_transform") = _GODOT_viewport_set_canvas_transform;
 	/**
 	Sets the transformation of a viewport's canvas.
 	*/
 	void viewportSetCanvasTransform(in RID viewport, in RID canvas, in Transform2D offset)
 	{
-		_GODOT_viewport_set_canvas_transform.bind("VisualServer", "viewport_set_canvas_transform");
-		ptrcall!(void)(_GODOT_viewport_set_canvas_transform, _godot_object, viewport, canvas, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetCanvasTransform, _godot_object, viewport, canvas, offset);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_transparent_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_transparent_background") = _GODOT_viewport_set_transparent_background;
 	/**
-	If `true` the viewport should render its background as transparent.
+	If `true` the viewport renders its background as transparent.
 	*/
 	void viewportSetTransparentBackground(in RID viewport, in bool enabled)
 	{
-		_GODOT_viewport_set_transparent_background.bind("VisualServer", "viewport_set_transparent_background");
-		ptrcall!(void)(_GODOT_viewport_set_transparent_background, _godot_object, viewport, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetTransparentBackground, _godot_object, viewport, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform2D) _GODOT_viewport_set_global_canvas_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_global_canvas_transform") = _GODOT_viewport_set_global_canvas_transform;
 	/**
 	Sets the viewport's global transformation matrix.
 	*/
 	void viewportSetGlobalCanvasTransform(in RID viewport, in Transform2D transform)
 	{
-		_GODOT_viewport_set_global_canvas_transform.bind("VisualServer", "viewport_set_global_canvas_transform");
-		ptrcall!(void)(_GODOT_viewport_set_global_canvas_transform, _godot_object, viewport, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetGlobalCanvasTransform, _godot_object, viewport, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, long) _GODOT_viewport_set_canvas_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_canvas_layer") = _GODOT_viewport_set_canvas_layer;
 	/**
-	Sets the renderlayer for a viewport's canvas.
+	
 	*/
 	void viewportSetCanvasLayer(in RID viewport, in RID canvas, in long layer)
 	{
-		_GODOT_viewport_set_canvas_layer.bind("VisualServer", "viewport_set_canvas_layer");
-		ptrcall!(void)(_GODOT_viewport_set_canvas_layer, _godot_object, viewport, canvas, layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetCanvasLayer, _godot_object, viewport, canvas, layer);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_shadow_atlas_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_shadow_atlas_size") = _GODOT_viewport_set_shadow_atlas_size;
 	/**
 	Sets the size of the shadow atlas's images.
 	*/
 	void viewportSetShadowAtlasSize(in RID viewport, in long size)
 	{
-		_GODOT_viewport_set_shadow_atlas_size.bind("VisualServer", "viewport_set_shadow_atlas_size");
-		ptrcall!(void)(_GODOT_viewport_set_shadow_atlas_size, _godot_object, viewport, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetShadowAtlasSize, _godot_object, viewport, size);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_viewport_set_shadow_atlas_quadrant_subdivision;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_shadow_atlas_quadrant_subdivision") = _GODOT_viewport_set_shadow_atlas_quadrant_subdivision;
 	/**
 	Sets the shadow atlas quadrant's subdivision.
 	*/
 	void viewportSetShadowAtlasQuadrantSubdivision(in RID viewport, in long quadrant, in long subdivision)
 	{
-		_GODOT_viewport_set_shadow_atlas_quadrant_subdivision.bind("VisualServer", "viewport_set_shadow_atlas_quadrant_subdivision");
-		ptrcall!(void)(_GODOT_viewport_set_shadow_atlas_quadrant_subdivision, _godot_object, viewport, quadrant, subdivision);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetShadowAtlasQuadrantSubdivision, _godot_object, viewport, quadrant, subdivision);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_msaa;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_msaa") = _GODOT_viewport_set_msaa;
 	/**
 	Sets the anti-aliasing mode. see $(D viewportmsaa) for options.
 	*/
 	void viewportSetMsaa(in RID viewport, in long msaa)
 	{
-		_GODOT_viewport_set_msaa.bind("VisualServer", "viewport_set_msaa");
-		ptrcall!(void)(_GODOT_viewport_set_msaa, _godot_object, viewport, msaa);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetMsaa, _godot_object, viewport, msaa);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_viewport_set_hdr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_hdr") = _GODOT_viewport_set_hdr;
 	/**
-	If `true` the viewport should render to hdr.
+	If `true` the viewport renders to hdr.
 	*/
 	void viewportSetHdr(in RID viewport, in bool enabled)
 	{
-		_GODOT_viewport_set_hdr.bind("VisualServer", "viewport_set_hdr");
-		ptrcall!(void)(_GODOT_viewport_set_hdr, _godot_object, viewport, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetHdr, _godot_object, viewport, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_usage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_usage") = _GODOT_viewport_set_usage;
 	/**
-	Sets what should be rendered in the viewport. See VIEWPORT_USAGE_* constants for options.
+	Sets the viewport's 2D/3D mode. See $(D viewportusage) constants for options.
 	*/
 	void viewportSetUsage(in RID viewport, in long usage)
 	{
-		_GODOT_viewport_set_usage.bind("VisualServer", "viewport_set_usage");
-		ptrcall!(void)(_GODOT_viewport_set_usage, _godot_object, viewport, usage);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetUsage, _godot_object, viewport, usage);
 	}
-	package(godot) static GodotMethod!(long, RID, long) _GODOT_viewport_get_render_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_get_render_info") = _GODOT_viewport_get_render_info;
 	/**
 	Returns a viewport's render info. for options see VIEWPORT_RENDER_INFO* constants.
 	*/
 	long viewportGetRenderInfo(in RID viewport, in long info)
 	{
-		_GODOT_viewport_get_render_info.bind("VisualServer", "viewport_get_render_info");
-		return ptrcall!(long)(_GODOT_viewport_get_render_info, _godot_object, viewport, info);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.viewportGetRenderInfo, _godot_object, viewport, info);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_viewport_set_debug_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "viewport_set_debug_draw") = _GODOT_viewport_set_debug_draw;
 	/**
 	Sets the debug draw mode of a viewport. See VIEWPORT_DEBUG_DRAW_* constants for options.
 	*/
 	void viewportSetDebugDraw(in RID viewport, in long draw)
 	{
-		_GODOT_viewport_set_debug_draw.bind("VisualServer", "viewport_set_debug_draw");
-		ptrcall!(void)(_GODOT_viewport_set_debug_draw, _godot_object, viewport, draw);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.viewportSetDebugDraw, _godot_object, viewport, draw);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_environment_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_create") = _GODOT_environment_create;
 	/**
 	
 	*/
 	RID environmentCreate()
 	{
-		_GODOT_environment_create.bind("VisualServer", "environment_create");
-		return ptrcall!(RID)(_GODOT_environment_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.environmentCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_environment_set_background;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_background") = _GODOT_environment_set_background;
 	/**
 	
 	*/
 	void environmentSetBackground(in RID env, in long bg)
 	{
-		_GODOT_environment_set_background.bind("VisualServer", "environment_set_background");
-		ptrcall!(void)(_GODOT_environment_set_background, _godot_object, env, bg);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetBackground, _godot_object, env, bg);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_environment_set_sky;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_sky") = _GODOT_environment_set_sky;
 	/**
 	
 	*/
 	void environmentSetSky(in RID env, in RID sky)
 	{
-		_GODOT_environment_set_sky.bind("VisualServer", "environment_set_sky");
-		ptrcall!(void)(_GODOT_environment_set_sky, _godot_object, env, sky);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetSky, _godot_object, env, sky);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_environment_set_sky_custom_fov;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_sky_custom_fov") = _GODOT_environment_set_sky_custom_fov;
 	/**
 	
 	*/
 	void environmentSetSkyCustomFov(in RID env, in double scale)
 	{
-		_GODOT_environment_set_sky_custom_fov.bind("VisualServer", "environment_set_sky_custom_fov");
-		ptrcall!(void)(_GODOT_environment_set_sky_custom_fov, _godot_object, env, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetSkyCustomFov, _godot_object, env, scale);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_environment_set_bg_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_bg_color") = _GODOT_environment_set_bg_color;
 	/**
 	
 	*/
 	void environmentSetBgColor(in RID env, in Color color)
 	{
-		_GODOT_environment_set_bg_color.bind("VisualServer", "environment_set_bg_color");
-		ptrcall!(void)(_GODOT_environment_set_bg_color, _godot_object, env, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetBgColor, _godot_object, env, color);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_environment_set_bg_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_bg_energy") = _GODOT_environment_set_bg_energy;
 	/**
 	
 	*/
 	void environmentSetBgEnergy(in RID env, in double energy)
 	{
-		_GODOT_environment_set_bg_energy.bind("VisualServer", "environment_set_bg_energy");
-		ptrcall!(void)(_GODOT_environment_set_bg_energy, _godot_object, env, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetBgEnergy, _godot_object, env, energy);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_environment_set_canvas_max_layer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_canvas_max_layer") = _GODOT_environment_set_canvas_max_layer;
 	/**
 	
 	*/
 	void environmentSetCanvasMaxLayer(in RID env, in long max_layer)
 	{
-		_GODOT_environment_set_canvas_max_layer.bind("VisualServer", "environment_set_canvas_max_layer");
-		ptrcall!(void)(_GODOT_environment_set_canvas_max_layer, _godot_object, env, max_layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetCanvasMaxLayer, _godot_object, env, max_layer);
 	}
-	package(godot) static GodotMethod!(void, RID, Color, double, double) _GODOT_environment_set_ambient_light;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_ambient_light") = _GODOT_environment_set_ambient_light;
 	/**
 	
 	*/
 	void environmentSetAmbientLight(in RID env, in Color color, in double energy = 1, in double sky_contibution = 0)
 	{
-		_GODOT_environment_set_ambient_light.bind("VisualServer", "environment_set_ambient_light");
-		ptrcall!(void)(_GODOT_environment_set_ambient_light, _godot_object, env, color, energy, sky_contibution);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetAmbientLight, _godot_object, env, color, energy, sky_contibution);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, double, long) _GODOT_environment_set_dof_blur_near;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_dof_blur_near") = _GODOT_environment_set_dof_blur_near;
 	/**
 	
 	*/
 	void environmentSetDofBlurNear(in RID env, in bool enable, in double distance, in double transition, in double far_amount, in long quality)
 	{
-		_GODOT_environment_set_dof_blur_near.bind("VisualServer", "environment_set_dof_blur_near");
-		ptrcall!(void)(_GODOT_environment_set_dof_blur_near, _godot_object, env, enable, distance, transition, far_amount, quality);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetDofBlurNear, _godot_object, env, enable, distance, transition, far_amount, quality);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, double, long) _GODOT_environment_set_dof_blur_far;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_dof_blur_far") = _GODOT_environment_set_dof_blur_far;
 	/**
 	
 	*/
 	void environmentSetDofBlurFar(in RID env, in bool enable, in double distance, in double transition, in double far_amount, in long quality)
 	{
-		_GODOT_environment_set_dof_blur_far.bind("VisualServer", "environment_set_dof_blur_far");
-		ptrcall!(void)(_GODOT_environment_set_dof_blur_far, _godot_object, env, enable, distance, transition, far_amount, quality);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetDofBlurFar, _godot_object, env, enable, distance, transition, far_amount, quality);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, long, double, double, double, long, double, double, bool) _GODOT_environment_set_glow;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_glow") = _GODOT_environment_set_glow;
 	/**
 	
 	*/
 	void environmentSetGlow(in RID env, in bool enable, in long level_flags, in double intensity, in double strength, in double bloom_threshold, in long blend_mode, in double hdr_bleed_threshold, in double hdr_bleed_scale, in bool bicubic_upscale)
 	{
-		_GODOT_environment_set_glow.bind("VisualServer", "environment_set_glow");
-		ptrcall!(void)(_GODOT_environment_set_glow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, bicubic_upscale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetGlow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, bicubic_upscale);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double, double, bool, double, double, double, double) _GODOT_environment_set_tonemap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_tonemap") = _GODOT_environment_set_tonemap;
 	/**
 	
 	*/
 	void environmentSetTonemap(in RID env, in long tone_mapper, in double exposure, in double white, in bool auto_exposure, in double min_luminance, in double max_luminance, in double auto_exp_speed, in double auto_exp_grey)
 	{
-		_GODOT_environment_set_tonemap.bind("VisualServer", "environment_set_tonemap");
-		ptrcall!(void)(_GODOT_environment_set_tonemap, _godot_object, env, tone_mapper, exposure, white, auto_exposure, min_luminance, max_luminance, auto_exp_speed, auto_exp_grey);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetTonemap, _godot_object, env, tone_mapper, exposure, white, auto_exposure, min_luminance, max_luminance, auto_exp_speed, auto_exp_grey);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, double, RID) _GODOT_environment_set_adjustment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_adjustment") = _GODOT_environment_set_adjustment;
 	/**
 	
 	*/
 	void environmentSetAdjustment(in RID env, in bool enable, in double brightness, in double contrast, in double saturation, in RID ramp)
 	{
-		_GODOT_environment_set_adjustment.bind("VisualServer", "environment_set_adjustment");
-		ptrcall!(void)(_GODOT_environment_set_adjustment, _godot_object, env, enable, brightness, contrast, saturation, ramp);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetAdjustment, _godot_object, env, enable, brightness, contrast, saturation, ramp);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, long, double, double, double, bool) _GODOT_environment_set_ssr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_ssr") = _GODOT_environment_set_ssr;
 	/**
 	
 	*/
 	void environmentSetSsr(in RID env, in bool enable, in long max_steps, in double fade_in, in double fade_out, in double depth_tolerance, in bool roughness)
 	{
-		_GODOT_environment_set_ssr.bind("VisualServer", "environment_set_ssr");
-		ptrcall!(void)(_GODOT_environment_set_ssr, _godot_object, env, enable, max_steps, fade_in, fade_out, depth_tolerance, roughness);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetSsr, _godot_object, env, enable, max_steps, fade_in, fade_out, depth_tolerance, roughness);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, double, double, double, double, Color, long, long, double) _GODOT_environment_set_ssao;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_ssao") = _GODOT_environment_set_ssao;
 	/**
 	
 	*/
-	void environmentSetSsao(in RID env, in bool enable, in double radius, in double intensity, in double radius2, in double intensity2, in double bias, in double light_affect, in Color color, in long quality, in long blur, in double bilateral_sharpness)
+	void environmentSetSsao(in RID env, in bool enable, in double radius, in double intensity, in double radius2, in double intensity2, in double bias, in double light_affect, in double ao_channel_affect, in Color color, in long quality, in long blur, in double bilateral_sharpness)
 	{
-		_GODOT_environment_set_ssao.bind("VisualServer", "environment_set_ssao");
-		ptrcall!(void)(_GODOT_environment_set_ssao, _godot_object, env, enable, radius, intensity, radius2, intensity2, bias, light_affect, color, quality, blur, bilateral_sharpness);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetSsao, _godot_object, env, enable, radius, intensity, radius2, intensity2, bias, light_affect, ao_channel_affect, color, quality, blur, bilateral_sharpness);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, Color, Color, double) _GODOT_environment_set_fog;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_fog") = _GODOT_environment_set_fog;
 	/**
 	
 	*/
 	void environmentSetFog(in RID env, in bool enable, in Color color, in Color sun_color, in double sun_amount)
 	{
-		_GODOT_environment_set_fog.bind("VisualServer", "environment_set_fog");
-		ptrcall!(void)(_GODOT_environment_set_fog, _godot_object, env, enable, color, sun_color, sun_amount);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetFog, _godot_object, env, enable, color, sun_color, sun_amount);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, bool, double) _GODOT_environment_set_fog_depth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_fog_depth") = _GODOT_environment_set_fog_depth;
 	/**
 	
 	*/
 	void environmentSetFogDepth(in RID env, in bool enable, in double depth_begin, in double depth_curve, in bool transmit, in double transmit_curve)
 	{
-		_GODOT_environment_set_fog_depth.bind("VisualServer", "environment_set_fog_depth");
-		ptrcall!(void)(_GODOT_environment_set_fog_depth, _godot_object, env, enable, depth_begin, depth_curve, transmit, transmit_curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetFogDepth, _godot_object, env, enable, depth_begin, depth_curve, transmit, transmit_curve);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, double, double, double) _GODOT_environment_set_fog_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "environment_set_fog_height") = _GODOT_environment_set_fog_height;
 	/**
 	
 	*/
 	void environmentSetFogHeight(in RID env, in bool enable, in double min_height, in double max_height, in double height_curve)
 	{
-		_GODOT_environment_set_fog_height.bind("VisualServer", "environment_set_fog_height");
-		ptrcall!(void)(_GODOT_environment_set_fog_height, _godot_object, env, enable, min_height, max_height, height_curve);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetFogHeight, _godot_object, env, enable, min_height, max_height, height_curve);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_scenario_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scenario_create") = _GODOT_scenario_create;
 	/**
 	
 	*/
 	RID scenarioCreate()
 	{
-		_GODOT_scenario_create.bind("VisualServer", "scenario_create");
-		return ptrcall!(RID)(_GODOT_scenario_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.scenarioCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_scenario_set_debug;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scenario_set_debug") = _GODOT_scenario_set_debug;
 	/**
 	
 	*/
 	void scenarioSetDebug(in RID scenario, in long debug_mode)
 	{
-		_GODOT_scenario_set_debug.bind("VisualServer", "scenario_set_debug");
-		ptrcall!(void)(_GODOT_scenario_set_debug, _godot_object, scenario, debug_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.scenarioSetDebug, _godot_object, scenario, debug_mode);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_scenario_set_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scenario_set_environment") = _GODOT_scenario_set_environment;
 	/**
 	
 	*/
 	void scenarioSetEnvironment(in RID scenario, in RID environment)
 	{
-		_GODOT_scenario_set_environment.bind("VisualServer", "scenario_set_environment");
-		ptrcall!(void)(_GODOT_scenario_set_environment, _godot_object, scenario, environment);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.scenarioSetEnvironment, _godot_object, scenario, environment);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_scenario_set_reflection_atlas_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scenario_set_reflection_atlas_size") = _GODOT_scenario_set_reflection_atlas_size;
 	/**
 	
 	*/
 	void scenarioSetReflectionAtlasSize(in RID scenario, in long p_size, in long subdiv)
 	{
-		_GODOT_scenario_set_reflection_atlas_size.bind("VisualServer", "scenario_set_reflection_atlas_size");
-		ptrcall!(void)(_GODOT_scenario_set_reflection_atlas_size, _godot_object, scenario, p_size, subdiv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.scenarioSetReflectionAtlasSize, _godot_object, scenario, p_size, subdiv);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_scenario_set_fallback_environment;
-	package(godot) alias _GODOT_methodBindInfo(string name : "scenario_set_fallback_environment") = _GODOT_scenario_set_fallback_environment;
 	/**
 	
 	*/
 	void scenarioSetFallbackEnvironment(in RID scenario, in RID environment)
 	{
-		_GODOT_scenario_set_fallback_environment.bind("VisualServer", "scenario_set_fallback_environment");
-		ptrcall!(void)(_GODOT_scenario_set_fallback_environment, _godot_object, scenario, environment);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.scenarioSetFallbackEnvironment, _godot_object, scenario, environment);
 	}
-	package(godot) static GodotMethod!(RID, RID, RID) _GODOT_instance_create2;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_create2") = _GODOT_instance_create2;
 	/**
 	
 	*/
 	RID instanceCreate2(in RID base, in RID scenario)
 	{
-		_GODOT_instance_create2.bind("VisualServer", "instance_create2");
-		return ptrcall!(RID)(_GODOT_instance_create2, _godot_object, base, scenario);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.instanceCreate2, _godot_object, base, scenario);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_instance_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_create") = _GODOT_instance_create;
 	/**
 	
 	*/
 	RID instanceCreate()
 	{
-		_GODOT_instance_create.bind("VisualServer", "instance_create");
-		return ptrcall!(RID)(_GODOT_instance_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.instanceCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_instance_set_base;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_base") = _GODOT_instance_set_base;
 	/**
 	
 	*/
 	void instanceSetBase(in RID instance, in RID base)
 	{
-		_GODOT_instance_set_base.bind("VisualServer", "instance_set_base");
-		ptrcall!(void)(_GODOT_instance_set_base, _godot_object, instance, base);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetBase, _godot_object, instance, base);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_instance_set_scenario;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_scenario") = _GODOT_instance_set_scenario;
 	/**
 	
 	*/
 	void instanceSetScenario(in RID instance, in RID scenario)
 	{
-		_GODOT_instance_set_scenario.bind("VisualServer", "instance_set_scenario");
-		ptrcall!(void)(_GODOT_instance_set_scenario, _godot_object, instance, scenario);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetScenario, _godot_object, instance, scenario);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_instance_set_layer_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_layer_mask") = _GODOT_instance_set_layer_mask;
 	/**
 	
 	*/
 	void instanceSetLayerMask(in RID instance, in long mask)
 	{
-		_GODOT_instance_set_layer_mask.bind("VisualServer", "instance_set_layer_mask");
-		ptrcall!(void)(_GODOT_instance_set_layer_mask, _godot_object, instance, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetLayerMask, _godot_object, instance, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform) _GODOT_instance_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_transform") = _GODOT_instance_set_transform;
 	/**
 	
 	*/
 	void instanceSetTransform(in RID instance, in Transform transform)
 	{
-		_GODOT_instance_set_transform.bind("VisualServer", "instance_set_transform");
-		ptrcall!(void)(_GODOT_instance_set_transform, _godot_object, instance, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetTransform, _godot_object, instance, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_instance_attach_object_instance_id;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_attach_object_instance_id") = _GODOT_instance_attach_object_instance_id;
 	/**
 	
 	*/
 	void instanceAttachObjectInstanceId(in RID instance, in long id)
 	{
-		_GODOT_instance_attach_object_instance_id.bind("VisualServer", "instance_attach_object_instance_id");
-		ptrcall!(void)(_GODOT_instance_attach_object_instance_id, _godot_object, instance, id);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceAttachObjectInstanceId, _godot_object, instance, id);
 	}
-	package(godot) static GodotMethod!(void, RID, long, double) _GODOT_instance_set_blend_shape_weight;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_blend_shape_weight") = _GODOT_instance_set_blend_shape_weight;
 	/**
 	
 	*/
 	void instanceSetBlendShapeWeight(in RID instance, in long shape, in double weight)
 	{
-		_GODOT_instance_set_blend_shape_weight.bind("VisualServer", "instance_set_blend_shape_weight");
-		ptrcall!(void)(_GODOT_instance_set_blend_shape_weight, _godot_object, instance, shape, weight);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetBlendShapeWeight, _godot_object, instance, shape, weight);
 	}
-	package(godot) static GodotMethod!(void, RID, long, RID) _GODOT_instance_set_surface_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_surface_material") = _GODOT_instance_set_surface_material;
 	/**
 	
 	*/
 	void instanceSetSurfaceMaterial(in RID instance, in long surface, in RID material)
 	{
-		_GODOT_instance_set_surface_material.bind("VisualServer", "instance_set_surface_material");
-		ptrcall!(void)(_GODOT_instance_set_surface_material, _godot_object, instance, surface, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetSurfaceMaterial, _godot_object, instance, surface, material);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_instance_set_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_visible") = _GODOT_instance_set_visible;
 	/**
 	
 	*/
 	void instanceSetVisible(in RID instance, in bool visible)
 	{
-		_GODOT_instance_set_visible.bind("VisualServer", "instance_set_visible");
-		ptrcall!(void)(_GODOT_instance_set_visible, _godot_object, instance, visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetVisible, _godot_object, instance, visible);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, RID) _GODOT_instance_set_use_lightmap;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_use_lightmap") = _GODOT_instance_set_use_lightmap;
 	/**
 	
 	*/
 	void instanceSetUseLightmap(in RID instance, in RID lightmap_instance, in RID lightmap)
 	{
-		_GODOT_instance_set_use_lightmap.bind("VisualServer", "instance_set_use_lightmap");
-		ptrcall!(void)(_GODOT_instance_set_use_lightmap, _godot_object, instance, lightmap_instance, lightmap);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetUseLightmap, _godot_object, instance, lightmap_instance, lightmap);
 	}
-	package(godot) static GodotMethod!(void, RID, AABB) _GODOT_instance_set_custom_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_custom_aabb") = _GODOT_instance_set_custom_aabb;
 	/**
 	
 	*/
 	void instanceSetCustomAabb(in RID instance, in AABB aabb)
 	{
-		_GODOT_instance_set_custom_aabb.bind("VisualServer", "instance_set_custom_aabb");
-		ptrcall!(void)(_GODOT_instance_set_custom_aabb, _godot_object, instance, aabb);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetCustomAabb, _godot_object, instance, aabb);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_instance_attach_skeleton;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_attach_skeleton") = _GODOT_instance_attach_skeleton;
 	/**
 	
 	*/
 	void instanceAttachSkeleton(in RID instance, in RID skeleton)
 	{
-		_GODOT_instance_attach_skeleton.bind("VisualServer", "instance_attach_skeleton");
-		ptrcall!(void)(_GODOT_instance_attach_skeleton, _godot_object, instance, skeleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceAttachSkeleton, _godot_object, instance, skeleton);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_instance_set_exterior;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_exterior") = _GODOT_instance_set_exterior;
 	/**
 	
 	*/
 	void instanceSetExterior(in RID instance, in bool enabled)
 	{
-		_GODOT_instance_set_exterior.bind("VisualServer", "instance_set_exterior");
-		ptrcall!(void)(_GODOT_instance_set_exterior, _godot_object, instance, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetExterior, _godot_object, instance, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_instance_set_extra_visibility_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_set_extra_visibility_margin") = _GODOT_instance_set_extra_visibility_margin;
 	/**
 	
 	*/
 	void instanceSetExtraVisibilityMargin(in RID instance, in double margin)
 	{
-		_GODOT_instance_set_extra_visibility_margin.bind("VisualServer", "instance_set_extra_visibility_margin");
-		ptrcall!(void)(_GODOT_instance_set_extra_visibility_margin, _godot_object, instance, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceSetExtraVisibilityMargin, _godot_object, instance, margin);
 	}
-	package(godot) static GodotMethod!(void, RID, long, bool) _GODOT_instance_geometry_set_flag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_geometry_set_flag") = _GODOT_instance_geometry_set_flag;
 	/**
 	
 	*/
 	void instanceGeometrySetFlag(in RID instance, in long flag, in bool enabled)
 	{
-		_GODOT_instance_geometry_set_flag.bind("VisualServer", "instance_geometry_set_flag");
-		ptrcall!(void)(_GODOT_instance_geometry_set_flag, _godot_object, instance, flag, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceGeometrySetFlag, _godot_object, instance, flag, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_instance_geometry_set_cast_shadows_setting;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_geometry_set_cast_shadows_setting") = _GODOT_instance_geometry_set_cast_shadows_setting;
 	/**
 	
 	*/
 	void instanceGeometrySetCastShadowsSetting(in RID instance, in long shadow_casting_setting)
 	{
-		_GODOT_instance_geometry_set_cast_shadows_setting.bind("VisualServer", "instance_geometry_set_cast_shadows_setting");
-		ptrcall!(void)(_GODOT_instance_geometry_set_cast_shadows_setting, _godot_object, instance, shadow_casting_setting);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceGeometrySetCastShadowsSetting, _godot_object, instance, shadow_casting_setting);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_instance_geometry_set_material_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_geometry_set_material_override") = _GODOT_instance_geometry_set_material_override;
 	/**
 	
 	*/
 	void instanceGeometrySetMaterialOverride(in RID instance, in RID material)
 	{
-		_GODOT_instance_geometry_set_material_override.bind("VisualServer", "instance_geometry_set_material_override");
-		ptrcall!(void)(_GODOT_instance_geometry_set_material_override, _godot_object, instance, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceGeometrySetMaterialOverride, _godot_object, instance, material);
 	}
-	package(godot) static GodotMethod!(void, RID, double, double, double, double) _GODOT_instance_geometry_set_draw_range;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_geometry_set_draw_range") = _GODOT_instance_geometry_set_draw_range;
 	/**
 	
 	*/
 	void instanceGeometrySetDrawRange(in RID instance, in double min, in double max, in double min_margin, in double max_margin)
 	{
-		_GODOT_instance_geometry_set_draw_range.bind("VisualServer", "instance_geometry_set_draw_range");
-		ptrcall!(void)(_GODOT_instance_geometry_set_draw_range, _godot_object, instance, min, max, min_margin, max_margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceGeometrySetDrawRange, _godot_object, instance, min, max, min_margin, max_margin);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_instance_geometry_set_as_instance_lod;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instance_geometry_set_as_instance_lod") = _GODOT_instance_geometry_set_as_instance_lod;
 	/**
 	
 	*/
 	void instanceGeometrySetAsInstanceLod(in RID instance, in RID as_lod_of_instance)
 	{
-		_GODOT_instance_geometry_set_as_instance_lod.bind("VisualServer", "instance_geometry_set_as_instance_lod");
-		ptrcall!(void)(_GODOT_instance_geometry_set_as_instance_lod, _godot_object, instance, as_lod_of_instance);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.instanceGeometrySetAsInstanceLod, _godot_object, instance, as_lod_of_instance);
 	}
-	package(godot) static GodotMethod!(Array, AABB, RID) _GODOT_instances_cull_aabb;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instances_cull_aabb") = _GODOT_instances_cull_aabb;
 	/**
 	
 	*/
 	Array instancesCullAabb(in AABB aabb, in RID scenario = RID.init) const
 	{
-		_GODOT_instances_cull_aabb.bind("VisualServer", "instances_cull_aabb");
-		return ptrcall!(Array)(_GODOT_instances_cull_aabb, _godot_object, aabb, scenario);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.instancesCullAabb, _godot_object, aabb, scenario);
 	}
-	package(godot) static GodotMethod!(Array, Vector3, Vector3, RID) _GODOT_instances_cull_ray;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instances_cull_ray") = _GODOT_instances_cull_ray;
 	/**
 	
 	*/
 	Array instancesCullRay(in Vector3 from, in Vector3 to, in RID scenario = RID.init) const
 	{
-		_GODOT_instances_cull_ray.bind("VisualServer", "instances_cull_ray");
-		return ptrcall!(Array)(_GODOT_instances_cull_ray, _godot_object, from, to, scenario);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.instancesCullRay, _godot_object, from, to, scenario);
 	}
-	package(godot) static GodotMethod!(Array, Array, RID) _GODOT_instances_cull_convex;
-	package(godot) alias _GODOT_methodBindInfo(string name : "instances_cull_convex") = _GODOT_instances_cull_convex;
 	/**
 	
 	*/
 	Array instancesCullConvex(in Array convex, in RID scenario = RID.init) const
 	{
-		_GODOT_instances_cull_convex.bind("VisualServer", "instances_cull_convex");
-		return ptrcall!(Array)(_GODOT_instances_cull_convex, _godot_object, convex, scenario);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.instancesCullConvex, _godot_object, convex, scenario);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_canvas_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_create") = _GODOT_canvas_create;
 	/**
 	Creates a canvas and returns the assigned $(D RID).
 	*/
 	RID canvasCreate()
 	{
-		_GODOT_canvas_create.bind("VisualServer", "canvas_create");
-		return ptrcall!(RID)(_GODOT_canvas_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.canvasCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, Vector2) _GODOT_canvas_set_item_mirroring;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_set_item_mirroring") = _GODOT_canvas_set_item_mirroring;
 	/**
 	A copy of the canvas item will be drawn with a local offset of the mirroring $(D Vector2).
 	*/
 	void canvasSetItemMirroring(in RID canvas, in RID item, in Vector2 mirroring)
 	{
-		_GODOT_canvas_set_item_mirroring.bind("VisualServer", "canvas_set_item_mirroring");
-		ptrcall!(void)(_GODOT_canvas_set_item_mirroring, _godot_object, canvas, item, mirroring);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasSetItemMirroring, _godot_object, canvas, item, mirroring);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_canvas_set_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_set_modulate") = _GODOT_canvas_set_modulate;
 	/**
 	Modulates all colors in the given canvas.
 	*/
 	void canvasSetModulate(in RID canvas, in Color color)
 	{
-		_GODOT_canvas_set_modulate.bind("VisualServer", "canvas_set_modulate");
-		ptrcall!(void)(_GODOT_canvas_set_modulate, _godot_object, canvas, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasSetModulate, _godot_object, canvas, color);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_canvas_item_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_create") = _GODOT_canvas_item_create;
 	/**
 	Creates a new $(D CanvasItem) and returns its $(D RID).
 	*/
 	RID canvasItemCreate()
 	{
-		_GODOT_canvas_item_create.bind("VisualServer", "canvas_item_create");
-		return ptrcall!(RID)(_GODOT_canvas_item_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.canvasItemCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_item_set_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_parent") = _GODOT_canvas_item_set_parent;
 	/**
 	Sets the parent for the $(D CanvasItem).
 	*/
 	void canvasItemSetParent(in RID item, in RID parent)
 	{
-		_GODOT_canvas_item_set_parent.bind("VisualServer", "canvas_item_set_parent");
-		ptrcall!(void)(_GODOT_canvas_item_set_parent, _godot_object, item, parent);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetParent, _godot_object, item, parent);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_visible;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_visible") = _GODOT_canvas_item_set_visible;
 	/**
 	Sets if the canvas item (including its children) is visible.
 	*/
 	void canvasItemSetVisible(in RID item, in bool visible)
 	{
-		_GODOT_canvas_item_set_visible.bind("VisualServer", "canvas_item_set_visible");
-		ptrcall!(void)(_GODOT_canvas_item_set_visible, _godot_object, item, visible);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetVisible, _godot_object, item, visible);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_item_set_light_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_light_mask") = _GODOT_canvas_item_set_light_mask;
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks.
 	*/
 	void canvasItemSetLightMask(in RID item, in long mask)
 	{
-		_GODOT_canvas_item_set_light_mask.bind("VisualServer", "canvas_item_set_light_mask");
-		ptrcall!(void)(_GODOT_canvas_item_set_light_mask, _godot_object, item, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetLightMask, _godot_object, item, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform2D) _GODOT_canvas_item_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_transform") = _GODOT_canvas_item_set_transform;
 	/**
 	Sets the $(D CanvasItem)'s $(D Transform2D).
 	*/
 	void canvasItemSetTransform(in RID item, in Transform2D transform)
 	{
-		_GODOT_canvas_item_set_transform.bind("VisualServer", "canvas_item_set_transform");
-		ptrcall!(void)(_GODOT_canvas_item_set_transform, _godot_object, item, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetTransform, _godot_object, item, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_clip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_clip") = _GODOT_canvas_item_set_clip;
 	/**
 	Sets clipping for the $(D CanvasItem).
 	*/
 	void canvasItemSetClip(in RID item, in bool clip)
 	{
-		_GODOT_canvas_item_set_clip.bind("VisualServer", "canvas_item_set_clip");
-		ptrcall!(void)(_GODOT_canvas_item_set_clip, _godot_object, item, clip);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetClip, _godot_object, item, clip);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_distance_field_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_distance_field_mode") = _GODOT_canvas_item_set_distance_field_mode;
 	/**
 	
 	*/
 	void canvasItemSetDistanceFieldMode(in RID item, in bool enabled)
 	{
-		_GODOT_canvas_item_set_distance_field_mode.bind("VisualServer", "canvas_item_set_distance_field_mode");
-		ptrcall!(void)(_GODOT_canvas_item_set_distance_field_mode, _godot_object, item, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetDistanceFieldMode, _godot_object, item, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, Rect2) _GODOT_canvas_item_set_custom_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_custom_rect") = _GODOT_canvas_item_set_custom_rect;
 	/**
 	Defines a custom drawing rectangle for the $(D CanvasItem).
 	*/
 	void canvasItemSetCustomRect(in RID item, in bool use_custom_rect, in Rect2 rect = Rect2(0, 0, 0, 0))
 	{
-		_GODOT_canvas_item_set_custom_rect.bind("VisualServer", "canvas_item_set_custom_rect");
-		ptrcall!(void)(_GODOT_canvas_item_set_custom_rect, _godot_object, item, use_custom_rect, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetCustomRect, _godot_object, item, use_custom_rect, rect);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_canvas_item_set_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_modulate") = _GODOT_canvas_item_set_modulate;
 	/**
 	Sets the color that modulates the $(D CanvasItem) and its children.
 	*/
 	void canvasItemSetModulate(in RID item, in Color color)
 	{
-		_GODOT_canvas_item_set_modulate.bind("VisualServer", "canvas_item_set_modulate");
-		ptrcall!(void)(_GODOT_canvas_item_set_modulate, _godot_object, item, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetModulate, _godot_object, item, color);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_canvas_item_set_self_modulate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_self_modulate") = _GODOT_canvas_item_set_self_modulate;
 	/**
 	Sets the color that modulates the $(D CanvasItem) without children.
 	*/
 	void canvasItemSetSelfModulate(in RID item, in Color color)
 	{
-		_GODOT_canvas_item_set_self_modulate.bind("VisualServer", "canvas_item_set_self_modulate");
-		ptrcall!(void)(_GODOT_canvas_item_set_self_modulate, _godot_object, item, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetSelfModulate, _godot_object, item, color);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_draw_behind_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_draw_behind_parent") = _GODOT_canvas_item_set_draw_behind_parent;
 	/**
 	Sets $(D CanvasItem) to be drawn behind its parent.
 	*/
 	void canvasItemSetDrawBehindParent(in RID item, in bool enabled)
 	{
-		_GODOT_canvas_item_set_draw_behind_parent.bind("VisualServer", "canvas_item_set_draw_behind_parent");
-		ptrcall!(void)(_GODOT_canvas_item_set_draw_behind_parent, _godot_object, item, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetDrawBehindParent, _godot_object, item, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2, Vector2, Color, double, bool) _GODOT_canvas_item_add_line;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_line") = _GODOT_canvas_item_add_line;
 	/**
 	Adds a line command to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddLine(in RID item, in Vector2 from, in Vector2 to, in Color color, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_canvas_item_add_line.bind("VisualServer", "canvas_item_add_line");
-		ptrcall!(void)(_GODOT_canvas_item_add_line, _godot_object, item, from, to, color, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddLine, _godot_object, item, from, to, color, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, double, bool) _GODOT_canvas_item_add_polyline;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_polyline") = _GODOT_canvas_item_add_polyline;
 	/**
 	Adds a polyline, which is a line from multiple points with a width, to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddPolyline(in RID item, in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
-		_GODOT_canvas_item_add_polyline.bind("VisualServer", "canvas_item_add_polyline");
-		ptrcall!(void)(_GODOT_canvas_item_add_polyline, _godot_object, item, points, colors, width, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddPolyline, _godot_object, item, points, colors, width, antialiased);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2, Color) _GODOT_canvas_item_add_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_rect") = _GODOT_canvas_item_add_rect;
 	/**
 	Adds a rectangle to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddRect(in RID item, in Rect2 rect, in Color color)
 	{
-		_GODOT_canvas_item_add_rect.bind("VisualServer", "canvas_item_add_rect");
-		ptrcall!(void)(_GODOT_canvas_item_add_rect, _godot_object, item, rect, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddRect, _godot_object, item, rect, color);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2, double, Color) _GODOT_canvas_item_add_circle;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_circle") = _GODOT_canvas_item_add_circle;
 	/**
 	Adds a circle command to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddCircle(in RID item, in Vector2 pos, in double radius, in Color color)
 	{
-		_GODOT_canvas_item_add_circle.bind("VisualServer", "canvas_item_add_circle");
-		ptrcall!(void)(_GODOT_canvas_item_add_circle, _godot_object, item, pos, radius, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddCircle, _godot_object, item, pos, radius, color);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2, RID, bool, Color, bool, RID) _GODOT_canvas_item_add_texture_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_texture_rect") = _GODOT_canvas_item_add_texture_rect;
 	/**
 	Adds a textured rect to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddTextureRect(in RID item, in Rect2 rect, in RID texture, in bool tile = false, in Color modulate = Color(1,1,1,1), in bool transpose = false, in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_texture_rect.bind("VisualServer", "canvas_item_add_texture_rect");
-		ptrcall!(void)(_GODOT_canvas_item_add_texture_rect, _godot_object, item, rect, texture, tile, modulate, transpose, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddTextureRect, _godot_object, item, rect, texture, tile, modulate, transpose, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2, RID, Rect2, Color, bool, RID, bool) _GODOT_canvas_item_add_texture_rect_region;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_texture_rect_region") = _GODOT_canvas_item_add_texture_rect_region;
 	/**
 	Adds a texture rect with region setting to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddTextureRectRegion(in RID item, in Rect2 rect, in RID texture, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, in RID normal_map = RID.init, in bool clip_uv = true)
 	{
-		_GODOT_canvas_item_add_texture_rect_region.bind("VisualServer", "canvas_item_add_texture_rect_region");
-		ptrcall!(void)(_GODOT_canvas_item_add_texture_rect_region, _godot_object, item, rect, texture, src_rect, modulate, transpose, normal_map, clip_uv);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddTextureRectRegion, _godot_object, item, rect, texture, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
-	package(godot) static GodotMethod!(void, RID, Rect2, Rect2, RID, Vector2, Vector2, long, long, bool, Color, RID) _GODOT_canvas_item_add_nine_patch;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_nine_patch") = _GODOT_canvas_item_add_nine_patch;
 	/**
 	Adds a nine patch image to the $(D CanvasItem)'s draw commands.
 	See $(D NinePatchRect) for more explanation.
 	*/
 	void canvasItemAddNinePatch(in RID item, in Rect2 rect, in Rect2 source, in RID texture, in Vector2 topleft, in Vector2 bottomright, in long x_axis_mode = 0, in long y_axis_mode = 0, in bool draw_center = true, in Color modulate = Color(1,1,1,1), in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_nine_patch.bind("VisualServer", "canvas_item_add_nine_patch");
-		ptrcall!(void)(_GODOT_canvas_item_add_nine_patch, _godot_object, item, rect, source, texture, topleft, bottomright, x_axis_mode, y_axis_mode, draw_center, modulate, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddNinePatch, _godot_object, item, rect, source, texture, topleft, bottomright, x_axis_mode, y_axis_mode, draw_center, modulate, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, PoolVector2Array, RID, double, RID) _GODOT_canvas_item_add_primitive;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_primitive") = _GODOT_canvas_item_add_primitive;
 	/**
 	Adds a primitive to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddPrimitive(in RID item, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs, in RID texture, in double width = 1, in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_primitive.bind("VisualServer", "canvas_item_add_primitive");
-		ptrcall!(void)(_GODOT_canvas_item_add_primitive, _godot_object, item, points, colors, uvs, texture, width, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddPrimitive, _godot_object, item, points, colors, uvs, texture, width, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolVector2Array, PoolColorArray, PoolVector2Array, RID, RID, bool) _GODOT_canvas_item_add_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_polygon") = _GODOT_canvas_item_add_polygon;
 	/**
 	Adds a polygon to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddPolygon(in RID item, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, in RID texture = RID.init, in RID normal_map = RID.init, in bool antialiased = false)
 	{
-		_GODOT_canvas_item_add_polygon.bind("VisualServer", "canvas_item_add_polygon");
-		ptrcall!(void)(_GODOT_canvas_item_add_polygon, _godot_object, item, points, colors, uvs, texture, normal_map, antialiased);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddPolygon, _godot_object, item, points, colors, uvs, texture, normal_map, antialiased);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolIntArray, PoolVector2Array, PoolColorArray, PoolVector2Array, RID, long, RID) _GODOT_canvas_item_add_triangle_array;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_triangle_array") = _GODOT_canvas_item_add_triangle_array;
 	/**
 	
 	*/
-	void canvasItemAddTriangleArray(in RID item, in PoolIntArray indices, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, in RID texture = RID.init, in long count = -1, in RID normal_map = RID.init)
+	void canvasItemAddTriangleArray(in RID item, in PoolIntArray indices, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, in PoolIntArray bones = PoolIntArray.init, in PoolRealArray weights = PoolRealArray.init, in RID texture = RID.init, in long count = -1, in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_triangle_array.bind("VisualServer", "canvas_item_add_triangle_array");
-		ptrcall!(void)(_GODOT_canvas_item_add_triangle_array, _godot_object, item, indices, points, colors, uvs, texture, count, normal_map);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddTriangleArray, _godot_object, item, indices, points, colors, uvs, bones, weights, texture, count, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, RID) _GODOT_canvas_item_add_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_mesh") = _GODOT_canvas_item_add_mesh;
 	/**
 	Adds a $(D Mesh) to the $(D CanvasItem)'s draw commands. Only affects its aabb at the moment.
 	*/
-	void canvasItemAddMesh(in RID item, in RID mesh, in RID skeleton = RID.init)
+	void canvasItemAddMesh(in RID item, in RID mesh, in RID texture, in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_mesh.bind("VisualServer", "canvas_item_add_mesh");
-		ptrcall!(void)(_GODOT_canvas_item_add_mesh, _godot_object, item, mesh, skeleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddMesh, _godot_object, item, mesh, texture, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, RID) _GODOT_canvas_item_add_multimesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_multimesh") = _GODOT_canvas_item_add_multimesh;
 	/**
 	Adds a $(D MultiMesh) to the $(D CanvasItem)'s draw commands. Only affects its aabb at the moment.
 	*/
-	void canvasItemAddMultimesh(in RID item, in RID mesh, in RID skeleton = RID.init)
+	void canvasItemAddMultimesh(in RID item, in RID mesh, in RID texture, in RID normal_map = RID.init)
 	{
-		_GODOT_canvas_item_add_multimesh.bind("VisualServer", "canvas_item_add_multimesh");
-		ptrcall!(void)(_GODOT_canvas_item_add_multimesh, _godot_object, item, mesh, skeleton);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddMultimesh, _godot_object, item, mesh, texture, normal_map);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, RID, RID, long, long) _GODOT_canvas_item_add_particles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_particles") = _GODOT_canvas_item_add_particles;
 	/**
 	Adds a particles system to the $(D CanvasItem)'s draw commands.
 	*/
 	void canvasItemAddParticles(in RID item, in RID particles, in RID texture, in RID normal_map, in long h_frames, in long v_frames)
 	{
-		_GODOT_canvas_item_add_particles.bind("VisualServer", "canvas_item_add_particles");
-		ptrcall!(void)(_GODOT_canvas_item_add_particles, _godot_object, item, particles, texture, normal_map, h_frames, v_frames);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddParticles, _godot_object, item, particles, texture, normal_map, h_frames, v_frames);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform2D) _GODOT_canvas_item_add_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_set_transform") = _GODOT_canvas_item_add_set_transform;
 	/**
 	Adds a $(D Transform2D) command to the $(D CanvasItem)'s draw commands.
 	This sets the extra_matrix uniform when executed. This affects the later commands of the canvas item.
 	*/
 	void canvasItemAddSetTransform(in RID item, in Transform2D transform)
 	{
-		_GODOT_canvas_item_add_set_transform.bind("VisualServer", "canvas_item_add_set_transform");
-		ptrcall!(void)(_GODOT_canvas_item_add_set_transform, _godot_object, item, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddSetTransform, _godot_object, item, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_add_clip_ignore;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_add_clip_ignore") = _GODOT_canvas_item_add_clip_ignore;
 	/**
 	If ignore is `true`, the VisualServer does not perform clipping.
 	*/
 	void canvasItemAddClipIgnore(in RID item, in bool ignore)
 	{
-		_GODOT_canvas_item_add_clip_ignore.bind("VisualServer", "canvas_item_add_clip_ignore");
-		ptrcall!(void)(_GODOT_canvas_item_add_clip_ignore, _godot_object, item, ignore);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemAddClipIgnore, _godot_object, item, ignore);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_sort_children_by_y;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_sort_children_by_y") = _GODOT_canvas_item_set_sort_children_by_y;
 	/**
 	Sets if $(D CanvasItem)'s children should be sorted by y-position.
 	*/
 	void canvasItemSetSortChildrenByY(in RID item, in bool enabled)
 	{
-		_GODOT_canvas_item_set_sort_children_by_y.bind("VisualServer", "canvas_item_set_sort_children_by_y");
-		ptrcall!(void)(_GODOT_canvas_item_set_sort_children_by_y, _godot_object, item, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetSortChildrenByY, _godot_object, item, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_item_set_z_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_z_index") = _GODOT_canvas_item_set_z_index;
 	/**
 	Sets the $(D CanvasItem)'s z-index, i.e. its draw order (lower indexes are drawn first).
 	*/
 	void canvasItemSetZIndex(in RID item, in long z_index)
 	{
-		_GODOT_canvas_item_set_z_index.bind("VisualServer", "canvas_item_set_z_index");
-		ptrcall!(void)(_GODOT_canvas_item_set_z_index, _godot_object, item, z_index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetZIndex, _godot_object, item, z_index);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_z_as_relative_to_parent;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_z_as_relative_to_parent") = _GODOT_canvas_item_set_z_as_relative_to_parent;
 	/**
 	If this is enabled, the z-index of the parent will be added to the children's z-index.
 	*/
 	void canvasItemSetZAsRelativeToParent(in RID item, in bool enabled)
 	{
-		_GODOT_canvas_item_set_z_as_relative_to_parent.bind("VisualServer", "canvas_item_set_z_as_relative_to_parent");
-		ptrcall!(void)(_GODOT_canvas_item_set_z_as_relative_to_parent, _godot_object, item, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetZAsRelativeToParent, _godot_object, item, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, bool, Rect2) _GODOT_canvas_item_set_copy_to_backbuffer;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_copy_to_backbuffer") = _GODOT_canvas_item_set_copy_to_backbuffer;
 	/**
 	Sets the $(D CanvasItem) to copy a rect to the backbuffer.
 	*/
 	void canvasItemSetCopyToBackbuffer(in RID item, in bool enabled, in Rect2 rect)
 	{
-		_GODOT_canvas_item_set_copy_to_backbuffer.bind("VisualServer", "canvas_item_set_copy_to_backbuffer");
-		ptrcall!(void)(_GODOT_canvas_item_set_copy_to_backbuffer, _godot_object, item, enabled, rect);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetCopyToBackbuffer, _godot_object, item, enabled, rect);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_canvas_item_clear;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_clear") = _GODOT_canvas_item_clear;
 	/**
 	Clears the $(D CanvasItem) and removes all commands in it.
 	*/
 	void canvasItemClear(in RID item)
 	{
-		_GODOT_canvas_item_clear.bind("VisualServer", "canvas_item_clear");
-		ptrcall!(void)(_GODOT_canvas_item_clear, _godot_object, item);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemClear, _godot_object, item);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_item_set_draw_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_draw_index") = _GODOT_canvas_item_set_draw_index;
 	/**
 	Sets the index for the $(D CanvasItem).
 	*/
 	void canvasItemSetDrawIndex(in RID item, in long index)
 	{
-		_GODOT_canvas_item_set_draw_index.bind("VisualServer", "canvas_item_set_draw_index");
-		ptrcall!(void)(_GODOT_canvas_item_set_draw_index, _godot_object, item, index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetDrawIndex, _godot_object, item, index);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_item_set_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_material") = _GODOT_canvas_item_set_material;
 	/**
 	Sets a new material to the $(D CanvasItem).
 	*/
 	void canvasItemSetMaterial(in RID item, in RID material)
 	{
-		_GODOT_canvas_item_set_material.bind("VisualServer", "canvas_item_set_material");
-		ptrcall!(void)(_GODOT_canvas_item_set_material, _godot_object, item, material);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetMaterial, _godot_object, item, material);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_item_set_use_parent_material;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_item_set_use_parent_material") = _GODOT_canvas_item_set_use_parent_material;
 	/**
 	Sets if the $(D CanvasItem) uses its parent's material.
 	*/
 	void canvasItemSetUseParentMaterial(in RID item, in bool enabled)
 	{
-		_GODOT_canvas_item_set_use_parent_material.bind("VisualServer", "canvas_item_set_use_parent_material");
-		ptrcall!(void)(_GODOT_canvas_item_set_use_parent_material, _godot_object, item, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasItemSetUseParentMaterial, _godot_object, item, enabled);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_canvas_light_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_create") = _GODOT_canvas_light_create;
 	/**
 	Creates a canvas light.
 	*/
 	RID canvasLightCreate()
 	{
-		_GODOT_canvas_light_create.bind("VisualServer", "canvas_light_create");
-		return ptrcall!(RID)(_GODOT_canvas_light_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.canvasLightCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_light_attach_to_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_attach_to_canvas") = _GODOT_canvas_light_attach_to_canvas;
 	/**
 	Attaches the canvas light to the canvas. Removes it from its previous canvas.
 	*/
 	void canvasLightAttachToCanvas(in RID light, in RID canvas)
 	{
-		_GODOT_canvas_light_attach_to_canvas.bind("VisualServer", "canvas_light_attach_to_canvas");
-		ptrcall!(void)(_GODOT_canvas_light_attach_to_canvas, _godot_object, light, canvas);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightAttachToCanvas, _godot_object, light, canvas);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_light_set_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_enabled") = _GODOT_canvas_light_set_enabled;
 	/**
 	Enables or disables a canvas light.
 	*/
 	void canvasLightSetEnabled(in RID light, in bool enabled)
 	{
-		_GODOT_canvas_light_set_enabled.bind("VisualServer", "canvas_light_set_enabled");
-		ptrcall!(void)(_GODOT_canvas_light_set_enabled, _godot_object, light, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetEnabled, _godot_object, light, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_canvas_light_set_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_scale") = _GODOT_canvas_light_set_scale;
 	/**
 	
 	*/
 	void canvasLightSetScale(in RID light, in double scale)
 	{
-		_GODOT_canvas_light_set_scale.bind("VisualServer", "canvas_light_set_scale");
-		ptrcall!(void)(_GODOT_canvas_light_set_scale, _godot_object, light, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetScale, _godot_object, light, scale);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform2D) _GODOT_canvas_light_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_transform") = _GODOT_canvas_light_set_transform;
 	/**
 	Sets the canvas light's $(D Transform2D).
 	*/
 	void canvasLightSetTransform(in RID light, in Transform2D transform)
 	{
-		_GODOT_canvas_light_set_transform.bind("VisualServer", "canvas_light_set_transform");
-		ptrcall!(void)(_GODOT_canvas_light_set_transform, _godot_object, light, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetTransform, _godot_object, light, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_light_set_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_texture") = _GODOT_canvas_light_set_texture;
 	/**
 	
 	*/
 	void canvasLightSetTexture(in RID light, in RID texture)
 	{
-		_GODOT_canvas_light_set_texture.bind("VisualServer", "canvas_light_set_texture");
-		ptrcall!(void)(_GODOT_canvas_light_set_texture, _godot_object, light, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetTexture, _godot_object, light, texture);
 	}
-	package(godot) static GodotMethod!(void, RID, Vector2) _GODOT_canvas_light_set_texture_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_texture_offset") = _GODOT_canvas_light_set_texture_offset;
 	/**
 	
 	*/
 	void canvasLightSetTextureOffset(in RID light, in Vector2 offset)
 	{
-		_GODOT_canvas_light_set_texture_offset.bind("VisualServer", "canvas_light_set_texture_offset");
-		ptrcall!(void)(_GODOT_canvas_light_set_texture_offset, _godot_object, light, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetTextureOffset, _godot_object, light, offset);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_canvas_light_set_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_color") = _GODOT_canvas_light_set_color;
 	/**
 	Sets the color for a light.
 	*/
 	void canvasLightSetColor(in RID light, in Color color)
 	{
-		_GODOT_canvas_light_set_color.bind("VisualServer", "canvas_light_set_color");
-		ptrcall!(void)(_GODOT_canvas_light_set_color, _godot_object, light, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetColor, _godot_object, light, color);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_canvas_light_set_height;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_height") = _GODOT_canvas_light_set_height;
 	/**
 	Sets a canvas light's height.
 	*/
 	void canvasLightSetHeight(in RID light, in double height)
 	{
-		_GODOT_canvas_light_set_height.bind("VisualServer", "canvas_light_set_height");
-		ptrcall!(void)(_GODOT_canvas_light_set_height, _godot_object, light, height);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetHeight, _godot_object, light, height);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_canvas_light_set_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_energy") = _GODOT_canvas_light_set_energy;
 	/**
 	Sets a canvas light's energy.
 	*/
 	void canvasLightSetEnergy(in RID light, in double energy)
 	{
-		_GODOT_canvas_light_set_energy.bind("VisualServer", "canvas_light_set_energy");
-		ptrcall!(void)(_GODOT_canvas_light_set_energy, _godot_object, light, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetEnergy, _godot_object, light, energy);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_canvas_light_set_z_range;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_z_range") = _GODOT_canvas_light_set_z_range;
 	/**
 	
 	*/
 	void canvasLightSetZRange(in RID light, in long min_z, in long max_z)
 	{
-		_GODOT_canvas_light_set_z_range.bind("VisualServer", "canvas_light_set_z_range");
-		ptrcall!(void)(_GODOT_canvas_light_set_z_range, _godot_object, light, min_z, max_z);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetZRange, _godot_object, light, min_z, max_z);
 	}
-	package(godot) static GodotMethod!(void, RID, long, long) _GODOT_canvas_light_set_layer_range;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_layer_range") = _GODOT_canvas_light_set_layer_range;
 	/**
 	The layer range that gets rendered with this light.
 	*/
 	void canvasLightSetLayerRange(in RID light, in long min_layer, in long max_layer)
 	{
-		_GODOT_canvas_light_set_layer_range.bind("VisualServer", "canvas_light_set_layer_range");
-		ptrcall!(void)(_GODOT_canvas_light_set_layer_range, _godot_object, light, min_layer, max_layer);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetLayerRange, _godot_object, light, min_layer, max_layer);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_set_item_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_item_cull_mask") = _GODOT_canvas_light_set_item_cull_mask;
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks
 	*/
 	void canvasLightSetItemCullMask(in RID light, in long mask)
 	{
-		_GODOT_canvas_light_set_item_cull_mask.bind("VisualServer", "canvas_light_set_item_cull_mask");
-		ptrcall!(void)(_GODOT_canvas_light_set_item_cull_mask, _godot_object, light, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetItemCullMask, _godot_object, light, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_set_item_shadow_cull_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_item_shadow_cull_mask") = _GODOT_canvas_light_set_item_shadow_cull_mask;
 	/**
 	The shadow mask. binary about which layers this canvas light affects which canvas item's shadows. See $(D LightOccluder2D) for more information on light masks.
 	*/
 	void canvasLightSetItemShadowCullMask(in RID light, in long mask)
 	{
-		_GODOT_canvas_light_set_item_shadow_cull_mask.bind("VisualServer", "canvas_light_set_item_shadow_cull_mask");
-		ptrcall!(void)(_GODOT_canvas_light_set_item_shadow_cull_mask, _godot_object, light, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetItemShadowCullMask, _godot_object, light, mask);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_set_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_mode") = _GODOT_canvas_light_set_mode;
 	/**
 	The mode of the light, see CANVAS_LIGHT_MODE_* constants.
 	*/
 	void canvasLightSetMode(in RID light, in long mode)
 	{
-		_GODOT_canvas_light_set_mode.bind("VisualServer", "canvas_light_set_mode");
-		ptrcall!(void)(_GODOT_canvas_light_set_mode, _godot_object, light, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetMode, _godot_object, light, mode);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_light_set_shadow_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_enabled") = _GODOT_canvas_light_set_shadow_enabled;
 	/**
 	Enables or disables the canvas light's shadow.
 	*/
 	void canvasLightSetShadowEnabled(in RID light, in bool enabled)
 	{
-		_GODOT_canvas_light_set_shadow_enabled.bind("VisualServer", "canvas_light_set_shadow_enabled");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_enabled, _godot_object, light, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowEnabled, _godot_object, light, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_set_shadow_buffer_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_buffer_size") = _GODOT_canvas_light_set_shadow_buffer_size;
 	/**
 	Sets the width of the shadow buffer, size gets scaled to the next power of two for this.
 	*/
 	void canvasLightSetShadowBufferSize(in RID light, in long size)
 	{
-		_GODOT_canvas_light_set_shadow_buffer_size.bind("VisualServer", "canvas_light_set_shadow_buffer_size");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_buffer_size, _godot_object, light, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowBufferSize, _godot_object, light, size);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_canvas_light_set_shadow_gradient_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_gradient_length") = _GODOT_canvas_light_set_shadow_gradient_length;
 	/**
 	Sets the length of the shadow's gradient.
 	*/
 	void canvasLightSetShadowGradientLength(in RID light, in double length)
 	{
-		_GODOT_canvas_light_set_shadow_gradient_length.bind("VisualServer", "canvas_light_set_shadow_gradient_length");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_gradient_length, _godot_object, light, length);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowGradientLength, _godot_object, light, length);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_set_shadow_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_filter") = _GODOT_canvas_light_set_shadow_filter;
 	/**
 	Sets the canvas light's shadow's filter, see CANVAS_LIGHT_SHADOW_FILTER_* constants.
 	*/
 	void canvasLightSetShadowFilter(in RID light, in long filter)
 	{
-		_GODOT_canvas_light_set_shadow_filter.bind("VisualServer", "canvas_light_set_shadow_filter");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_filter, _godot_object, light, filter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowFilter, _godot_object, light, filter);
 	}
-	package(godot) static GodotMethod!(void, RID, Color) _GODOT_canvas_light_set_shadow_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_color") = _GODOT_canvas_light_set_shadow_color;
 	/**
 	Sets the color of the canvas light's shadow.
 	*/
 	void canvasLightSetShadowColor(in RID light, in Color color)
 	{
-		_GODOT_canvas_light_set_shadow_color.bind("VisualServer", "canvas_light_set_shadow_color");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_color, _godot_object, light, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowColor, _godot_object, light, color);
 	}
-	package(godot) static GodotMethod!(void, RID, double) _GODOT_canvas_light_set_shadow_smooth;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_set_shadow_smooth") = _GODOT_canvas_light_set_shadow_smooth;
 	/**
 	Smoothens the shadow. The lower, the more smooth.
 	*/
 	void canvasLightSetShadowSmooth(in RID light, in double smooth)
 	{
-		_GODOT_canvas_light_set_shadow_smooth.bind("VisualServer", "canvas_light_set_shadow_smooth");
-		ptrcall!(void)(_GODOT_canvas_light_set_shadow_smooth, _godot_object, light, smooth);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightSetShadowSmooth, _godot_object, light, smooth);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_canvas_light_occluder_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_create") = _GODOT_canvas_light_occluder_create;
 	/**
 	Creates a light occluder.
 	*/
 	RID canvasLightOccluderCreate()
 	{
-		_GODOT_canvas_light_occluder_create.bind("VisualServer", "canvas_light_occluder_create");
-		return ptrcall!(RID)(_GODOT_canvas_light_occluder_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.canvasLightOccluderCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_light_occluder_attach_to_canvas;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_attach_to_canvas") = _GODOT_canvas_light_occluder_attach_to_canvas;
 	/**
 	Attaches a light occluder to the canvas. Removes it from its previous canvas.
 	*/
 	void canvasLightOccluderAttachToCanvas(in RID occluder, in RID canvas)
 	{
-		_GODOT_canvas_light_occluder_attach_to_canvas.bind("VisualServer", "canvas_light_occluder_attach_to_canvas");
-		ptrcall!(void)(_GODOT_canvas_light_occluder_attach_to_canvas, _godot_object, occluder, canvas);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightOccluderAttachToCanvas, _godot_object, occluder, canvas);
 	}
-	package(godot) static GodotMethod!(void, RID, bool) _GODOT_canvas_light_occluder_set_enabled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_set_enabled") = _GODOT_canvas_light_occluder_set_enabled;
 	/**
 	Enables or disables light occluder.
 	*/
 	void canvasLightOccluderSetEnabled(in RID occluder, in bool enabled)
 	{
-		_GODOT_canvas_light_occluder_set_enabled.bind("VisualServer", "canvas_light_occluder_set_enabled");
-		ptrcall!(void)(_GODOT_canvas_light_occluder_set_enabled, _godot_object, occluder, enabled);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightOccluderSetEnabled, _godot_object, occluder, enabled);
 	}
-	package(godot) static GodotMethod!(void, RID, RID) _GODOT_canvas_light_occluder_set_polygon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_set_polygon") = _GODOT_canvas_light_occluder_set_polygon;
 	/**
 	Sets a light occluder's polygon.
 	*/
 	void canvasLightOccluderSetPolygon(in RID occluder, in RID polygon)
 	{
-		_GODOT_canvas_light_occluder_set_polygon.bind("VisualServer", "canvas_light_occluder_set_polygon");
-		ptrcall!(void)(_GODOT_canvas_light_occluder_set_polygon, _godot_object, occluder, polygon);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightOccluderSetPolygon, _godot_object, occluder, polygon);
 	}
-	package(godot) static GodotMethod!(void, RID, Transform2D) _GODOT_canvas_light_occluder_set_transform;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_set_transform") = _GODOT_canvas_light_occluder_set_transform;
 	/**
 	Sets a light occluder's $(D Transform2D).
 	*/
 	void canvasLightOccluderSetTransform(in RID occluder, in Transform2D transform)
 	{
-		_GODOT_canvas_light_occluder_set_transform.bind("VisualServer", "canvas_light_occluder_set_transform");
-		ptrcall!(void)(_GODOT_canvas_light_occluder_set_transform, _godot_object, occluder, transform);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightOccluderSetTransform, _godot_object, occluder, transform);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_light_occluder_set_light_mask;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_light_occluder_set_light_mask") = _GODOT_canvas_light_occluder_set_light_mask;
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks
 	*/
 	void canvasLightOccluderSetLightMask(in RID occluder, in long mask)
 	{
-		_GODOT_canvas_light_occluder_set_light_mask.bind("VisualServer", "canvas_light_occluder_set_light_mask");
-		ptrcall!(void)(_GODOT_canvas_light_occluder_set_light_mask, _godot_object, occluder, mask);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasLightOccluderSetLightMask, _godot_object, occluder, mask);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_canvas_occluder_polygon_create;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_occluder_polygon_create") = _GODOT_canvas_occluder_polygon_create;
 	/**
 	Creates a new light occluder polygon.
 	*/
 	RID canvasOccluderPolygonCreate()
 	{
-		_GODOT_canvas_occluder_polygon_create.bind("VisualServer", "canvas_occluder_polygon_create");
-		return ptrcall!(RID)(_GODOT_canvas_occluder_polygon_create, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.canvasOccluderPolygonCreate, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolVector2Array, bool) _GODOT_canvas_occluder_polygon_set_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_occluder_polygon_set_shape") = _GODOT_canvas_occluder_polygon_set_shape;
 	/**
 	Sets the shape of the occluder polygon.
 	*/
 	void canvasOccluderPolygonSetShape(in RID occluder_polygon, in PoolVector2Array shape, in bool closed)
 	{
-		_GODOT_canvas_occluder_polygon_set_shape.bind("VisualServer", "canvas_occluder_polygon_set_shape");
-		ptrcall!(void)(_GODOT_canvas_occluder_polygon_set_shape, _godot_object, occluder_polygon, shape, closed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetShape, _godot_object, occluder_polygon, shape, closed);
 	}
-	package(godot) static GodotMethod!(void, RID, PoolVector2Array) _GODOT_canvas_occluder_polygon_set_shape_as_lines;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_occluder_polygon_set_shape_as_lines") = _GODOT_canvas_occluder_polygon_set_shape_as_lines;
 	/**
 	Sets the shape of the occluder polygon as lines.
 	*/
 	void canvasOccluderPolygonSetShapeAsLines(in RID occluder_polygon, in PoolVector2Array shape)
 	{
-		_GODOT_canvas_occluder_polygon_set_shape_as_lines.bind("VisualServer", "canvas_occluder_polygon_set_shape_as_lines");
-		ptrcall!(void)(_GODOT_canvas_occluder_polygon_set_shape_as_lines, _godot_object, occluder_polygon, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetShapeAsLines, _godot_object, occluder_polygon, shape);
 	}
-	package(godot) static GodotMethod!(void, RID, long) _GODOT_canvas_occluder_polygon_set_cull_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "canvas_occluder_polygon_set_cull_mode") = _GODOT_canvas_occluder_polygon_set_cull_mode;
 	/**
 	Sets an occluder polygons cull mode. See CANVAS_OCCLUDER_POLYGON_CULL_MODE_* constants.
 	*/
 	void canvasOccluderPolygonSetCullMode(in RID occluder_polygon, in long mode)
 	{
-		_GODOT_canvas_occluder_polygon_set_cull_mode.bind("VisualServer", "canvas_occluder_polygon_set_cull_mode");
-		ptrcall!(void)(_GODOT_canvas_occluder_polygon_set_cull_mode, _godot_object, occluder_polygon, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetCullMode, _godot_object, occluder_polygon, mode);
 	}
-	package(godot) static GodotMethod!(void, long, long, long, long) _GODOT_black_bars_set_margins;
-	package(godot) alias _GODOT_methodBindInfo(string name : "black_bars_set_margins") = _GODOT_black_bars_set_margins;
 	/**
 	Sets margin size, where black bars (or images, if $(D blackBarsSetImages) was used) are rendered.
 	*/
 	void blackBarsSetMargins(in long left, in long top, in long right, in long bottom)
 	{
-		_GODOT_black_bars_set_margins.bind("VisualServer", "black_bars_set_margins");
-		ptrcall!(void)(_GODOT_black_bars_set_margins, _godot_object, left, top, right, bottom);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blackBarsSetMargins, _godot_object, left, top, right, bottom);
 	}
-	package(godot) static GodotMethod!(void, RID, RID, RID, RID) _GODOT_black_bars_set_images;
-	package(godot) alias _GODOT_methodBindInfo(string name : "black_bars_set_images") = _GODOT_black_bars_set_images;
 	/**
 	Sets images to be rendered in the window margin.
 	*/
 	void blackBarsSetImages(in RID left, in RID top, in RID right, in RID bottom)
 	{
-		_GODOT_black_bars_set_images.bind("VisualServer", "black_bars_set_images");
-		ptrcall!(void)(_GODOT_black_bars_set_images, _godot_object, left, top, right, bottom);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.blackBarsSetImages, _godot_object, left, top, right, bottom);
 	}
-	package(godot) static GodotMethod!(void, RID) _GODOT_free_rid;
-	package(godot) alias _GODOT_methodBindInfo(string name : "free_rid") = _GODOT_free_rid;
 	/**
 	Tries to free an object in the VisualServer.
 	*/
 	void freeRid(in RID rid)
 	{
-		_GODOT_free_rid.bind("VisualServer", "free_rid");
-		ptrcall!(void)(_GODOT_free_rid, _godot_object, rid);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.freeRid, _godot_object, rid);
 	}
-	package(godot) static GodotMethod!(void, GodotObject, String, Variant) _GODOT_request_frame_drawn_callback;
-	package(godot) alias _GODOT_methodBindInfo(string name : "request_frame_drawn_callback") = _GODOT_request_frame_drawn_callback;
 	/**
 	Schedules a callback to the corresponding named 'method' on 'where' after a frame has been drawn.
 	The callback method must use only 1 argument which will be called with 'userdata'.
 	*/
 	void requestFrameDrawnCallback(StringArg1, VariantArg2)(GodotObject where, in StringArg1 method, in VariantArg2 userdata)
 	{
-		_GODOT_request_frame_drawn_callback.bind("VisualServer", "request_frame_drawn_callback");
-		ptrcall!(void)(_GODOT_request_frame_drawn_callback, _godot_object, where, method, userdata);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.requestFrameDrawnCallback, _godot_object, where, method, userdata);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_changed") = _GODOT_has_changed;
 	/**
 	Returns `true` if changes have been made to the VisualServer's data. $(D draw) is usually called if this happens.
 	*/
 	bool hasChanged() const
 	{
-		_GODOT_has_changed.bind("VisualServer", "has_changed");
-		return ptrcall!(bool)(_GODOT_has_changed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasChanged, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__init;
-	package(godot) alias _GODOT_methodBindInfo(string name : "init") = _GODOT__init;
 	/**
 	Initializes the visual server.
 	*/
 	void _init()
 	{
-		_GODOT__init.bind("VisualServer", "init");
-		ptrcall!(void)(_GODOT__init, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding._init, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_finish;
-	package(godot) alias _GODOT_methodBindInfo(string name : "finish") = _GODOT_finish;
 	/**
 	Removes buffers and clears testcubes.
 	*/
 	void finish()
 	{
-		_GODOT_finish.bind("VisualServer", "finish");
-		ptrcall!(void)(_GODOT_finish, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.finish, _godot_object);
 	}
-	package(godot) static GodotMethod!(long, long) _GODOT_get_render_info;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_render_info") = _GODOT_get_render_info;
 	/**
 	Returns a certain information, see RENDER_INFO_* for options.
 	*/
 	long getRenderInfo(in long info)
 	{
-		_GODOT_get_render_info.bind("VisualServer", "get_render_info");
-		return ptrcall!(long)(_GODOT_get_render_info, _godot_object, info);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRenderInfo, _godot_object, info);
 	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_test_cube;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_test_cube") = _GODOT_get_test_cube;
-	/**
-	Returns the id of the test cube. Creates one if none exists.
-	*/
-	RID getTestCube()
-	{
-		_GODOT_get_test_cube.bind("VisualServer", "get_test_cube");
-		return ptrcall!(RID)(_GODOT_get_test_cube, _godot_object);
-	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_test_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_test_texture") = _GODOT_get_test_texture;
-	/**
-	Returns the id of the test texture. Creates one if none exists.
-	*/
-	RID getTestTexture()
-	{
-		_GODOT_get_test_texture.bind("VisualServer", "get_test_texture");
-		return ptrcall!(RID)(_GODOT_get_test_texture, _godot_object);
-	}
-	package(godot) static GodotMethod!(RID) _GODOT_get_white_texture;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_white_texture") = _GODOT_get_white_texture;
-	/**
-	Returns the id of a white texture. Creates one if none exists.
-	*/
-	RID getWhiteTexture()
-	{
-		_GODOT_get_white_texture.bind("VisualServer", "get_white_texture");
-		return ptrcall!(RID)(_GODOT_get_white_texture, _godot_object);
-	}
-	package(godot) static GodotMethod!(RID, long, long, double) _GODOT_make_sphere_mesh;
-	package(godot) alias _GODOT_methodBindInfo(string name : "make_sphere_mesh") = _GODOT_make_sphere_mesh;
 	/**
 	Returns a mesh of a sphere with the given amount of horizontal and vertical subdivisions.
 	*/
 	RID makeSphereMesh(in long latitudes, in long longitudes, in double radius)
 	{
-		_GODOT_make_sphere_mesh.bind("VisualServer", "make_sphere_mesh");
-		return ptrcall!(RID)(_GODOT_make_sphere_mesh, _godot_object, latitudes, longitudes, radius);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.makeSphereMesh, _godot_object, latitudes, longitudes, radius);
 	}
-	package(godot) static GodotMethod!(void, Image, Color, bool) _GODOT_set_boot_image;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_boot_image") = _GODOT_set_boot_image;
 	/**
-	Sets a boot image. The color defines the background color and if scale is `true`, the image will be scaled to fit the screen size.
+	Returns the id of the test cube. Creates one if none exists.
+	*/
+	RID getTestCube()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getTestCube, _godot_object);
+	}
+	/**
+	Returns the id of the test texture. Creates one if none exists.
+	*/
+	RID getTestTexture()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getTestTexture, _godot_object);
+	}
+	/**
+	Returns the id of a white texture. Creates one if none exists.
+	*/
+	RID getWhiteTexture()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getWhiteTexture, _godot_object);
+	}
+	/**
+	Sets a boot image. The color defines the background color and if scale is `true` the image will be scaled to fit the screen size.
 	*/
 	void setBootImage(Image image, in Color color, in bool scale)
 	{
-		_GODOT_set_boot_image.bind("VisualServer", "set_boot_image");
-		ptrcall!(void)(_GODOT_set_boot_image, _godot_object, image, color, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBootImage, _godot_object, image, color, scale);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_default_clear_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_clear_color") = _GODOT_set_default_clear_color;
 	/**
 	
 	*/
 	void setDefaultClearColor(in Color color)
 	{
-		_GODOT_set_default_clear_color.bind("VisualServer", "set_default_clear_color");
-		ptrcall!(void)(_GODOT_set_default_clear_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultClearColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(bool, long) _GODOT_has_feature;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_feature") = _GODOT_has_feature;
 	/**
 	
 	*/
 	bool hasFeature(in long feature) const
 	{
-		_GODOT_has_feature.bind("VisualServer", "has_feature");
-		return ptrcall!(bool)(_GODOT_has_feature, _godot_object, feature);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFeature, _godot_object, feature);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_os_feature;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_os_feature") = _GODOT_has_os_feature;
 	/**
-	Returns true, if the OS supports a certain feature. Features might be s3tc, etc, etc2 and pvrtc,
+	Returns `true` if the OS supports a certain feature. Features might be s3tc, etc, etc2 and pvrtc,
 	*/
 	bool hasOsFeature(StringArg0)(in StringArg0 feature) const
 	{
-		_GODOT_has_os_feature.bind("VisualServer", "has_os_feature");
-		return ptrcall!(bool)(_GODOT_has_os_feature, _godot_object, feature);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasOsFeature, _godot_object, feature);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_debug_generate_wireframes;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_debug_generate_wireframes") = _GODOT_set_debug_generate_wireframes;
 	/**
 	
 	*/
 	void setDebugGenerateWireframes(in bool generate)
 	{
-		_GODOT_set_debug_generate_wireframes.bind("VisualServer", "set_debug_generate_wireframes");
-		ptrcall!(void)(_GODOT_set_debug_generate_wireframes, _godot_object, generate);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDebugGenerateWireframes, _godot_object, generate);
 	}
 }
 /// Returns: the VisualServerSingleton
 @property @nogc nothrow pragma(inline, true)
 VisualServerSingleton VisualServer()
 {
-	return VisualServerSingleton._GODOT_singleton();
+	checkClassBinding!VisualServerSingleton();
+	return VisualServerSingleton(VisualServerSingleton._classBinding._singleton);
 }

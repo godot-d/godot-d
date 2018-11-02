@@ -10,7 +10,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 
 
 */
-module godot.resourceimportertheora;
+module godot.texturearray;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
 import godot.d.meta;
@@ -19,28 +19,36 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.resourceimporter;
+import godot.classdb;
+import godot.texturelayered;
+import godot.resource;
+import godot.reference;
 /**
 
 */
-@GodotBaseClass struct ResourceImporterTheora
+@GodotBaseClass struct TextureArray
 {
-	static immutable string _GODOT_internal_name = "ResourceImporterTheora";
+	enum string _GODOT_internal_name = "TextureArray";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ResourceImporter _GODOT_base; }
+	union { godot_object _godot_object; TextureLayered _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
-	bool opEquals(in ResourceImporterTheora other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourceImporterTheora opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+	}
+	bool opEquals(in TextureArray other) const { return _godot_object.ptr is other._godot_object.ptr; }
+	TextureArray opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
 	mixin baseCasts;
-	static ResourceImporterTheora _new()
+	static TextureArray _new()
 	{
 		static godot_class_constructor constructor;
-		if(constructor is null) constructor = _godot_api.godot_get_class_constructor("ResourceImporterTheora");
+		if(constructor is null) constructor = _godot_api.godot_get_class_constructor("TextureArray");
 		if(constructor is null) return typeof(this).init;
-		return cast(ResourceImporterTheora)(constructor());
+		return cast(TextureArray)(constructor());
 	}
 	@disable new(size_t s);
 }

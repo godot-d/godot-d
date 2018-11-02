@@ -4,5 +4,5 @@ public import
 	godot.material,
 	godot.shadermaterial,
 	godot.canvasitemmaterial,
-	godot.spatialmaterial,
-	godot.particlesmaterial;
+	godot.particlesmaterial,
+	godot.spatialmaterial;

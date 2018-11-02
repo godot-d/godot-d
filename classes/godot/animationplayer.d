@@ -29,12 +29,58 @@ An animation player is used for general purpose playback of $(D Animation) resou
 */
 @GodotBaseClass struct AnimationPlayer
 {
-	static immutable string _GODOT_internal_name = "AnimationPlayer";
+	enum string _GODOT_internal_name = "AnimationPlayer";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_animation_changed") GodotMethod!(void) _animationChanged;
+		@GodotName("add_animation") GodotMethod!(GodotError, String, Animation) addAnimation;
+		@GodotName("remove_animation") GodotMethod!(void, String) removeAnimation;
+		@GodotName("rename_animation") GodotMethod!(void, String, String) renameAnimation;
+		@GodotName("has_animation") GodotMethod!(bool, String) hasAnimation;
+		@GodotName("get_animation") GodotMethod!(Animation, String) getAnimation;
+		@GodotName("get_animation_list") GodotMethod!(PoolStringArray) getAnimationList;
+		@GodotName("animation_set_next") GodotMethod!(void, String, String) animationSetNext;
+		@GodotName("animation_get_next") GodotMethod!(String, String) animationGetNext;
+		@GodotName("set_blend_time") GodotMethod!(void, String, String, double) setBlendTime;
+		@GodotName("get_blend_time") GodotMethod!(double, String, String) getBlendTime;
+		@GodotName("set_default_blend_time") GodotMethod!(void, double) setDefaultBlendTime;
+		@GodotName("get_default_blend_time") GodotMethod!(double) getDefaultBlendTime;
+		@GodotName("play") GodotMethod!(void, String, double, double, bool) play;
+		@GodotName("play_backwards") GodotMethod!(void, String, double) playBackwards;
+		@GodotName("stop") GodotMethod!(void, bool) stop;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("set_current_animation") GodotMethod!(void, String) setCurrentAnimation;
+		@GodotName("get_current_animation") GodotMethod!(String) getCurrentAnimation;
+		@GodotName("set_assigned_animation") GodotMethod!(void, String) setAssignedAnimation;
+		@GodotName("get_assigned_animation") GodotMethod!(String) getAssignedAnimation;
+		@GodotName("queue") GodotMethod!(void, String) queue;
+		@GodotName("clear_queue") GodotMethod!(void) clearQueue;
+		@GodotName("set_active") GodotMethod!(void, bool) setActive;
+		@GodotName("is_active") GodotMethod!(bool) isActive;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("get_playing_speed") GodotMethod!(double) getPlayingSpeed;
+		@GodotName("set_autoplay") GodotMethod!(void, String) setAutoplay;
+		@GodotName("get_autoplay") GodotMethod!(String) getAutoplay;
+		@GodotName("set_root") GodotMethod!(void, NodePath) setRoot;
+		@GodotName("get_root") GodotMethod!(NodePath) getRoot;
+		@GodotName("find_animation") GodotMethod!(String, Animation) findAnimation;
+		@GodotName("clear_caches") GodotMethod!(void) clearCaches;
+		@GodotName("set_animation_process_mode") GodotMethod!(void, long) setAnimationProcessMode;
+		@GodotName("get_animation_process_mode") GodotMethod!(AnimationPlayer.AnimationProcessMode) getAnimationProcessMode;
+		@GodotName("get_current_animation_position") GodotMethod!(double) getCurrentAnimationPosition;
+		@GodotName("get_current_animation_length") GodotMethod!(double) getCurrentAnimationLength;
+		@GodotName("seek") GodotMethod!(void, double, bool) seek;
+		@GodotName("advance") GodotMethod!(void, double) advance;
+	}
 	bool opEquals(in AnimationPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -58,15 +104,18 @@ public:
 		Process animation during the idle process.
 		*/
 		animationProcessIdle = 1,
+		/**
+		Do not process animation. Use the 'advance' method to process the animation manually.
+		*/
+		animationProcessManual = 2,
 	}
 	/// 
 	enum Constants : int
 	{
 		animationProcessPhysics = 0,
 		animationProcessIdle = 1,
+		animationProcessManual = 2,
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT__node_removed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_node_removed") = _GODOT__node_removed;
 	/**
 	
 	*/
@@ -77,8 +126,6 @@ public:
 		String _GODOT_method_name = String("_node_removed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__animation_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_animation_changed") = _GODOT__animation_changed;
 	/**
 	
 	*/
@@ -88,385 +135,317 @@ public:
 		String _GODOT_method_name = String("_animation_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(GodotError, String, Animation) _GODOT_add_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_animation") = _GODOT_add_animation;
 	/**
 	Adds `animation` to the player accessible with the key `name`.
 	*/
 	GodotError addAnimation(StringArg0)(in StringArg0 name, Animation animation)
 	{
-		_GODOT_add_animation.bind("AnimationPlayer", "add_animation");
-		return ptrcall!(GodotError)(_GODOT_add_animation, _godot_object, name, animation);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.addAnimation, _godot_object, name, animation);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_remove_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "remove_animation") = _GODOT_remove_animation;
 	/**
 	Remove the animation with key `name`.
 	*/
 	void removeAnimation(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_remove_animation.bind("AnimationPlayer", "remove_animation");
-		ptrcall!(void)(_GODOT_remove_animation, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_rename_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "rename_animation") = _GODOT_rename_animation;
 	/**
 	Rename an existing animation with key `name` to `newname`.
 	*/
 	void renameAnimation(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 newname)
 	{
-		_GODOT_rename_animation.bind("AnimationPlayer", "rename_animation");
-		ptrcall!(void)(_GODOT_rename_animation, _godot_object, name, newname);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, name, newname);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_animation") = _GODOT_has_animation;
 	/**
 	Returns `true` if the `AnimationPlayer` stores an $(D Animation) with key `name`.
 	*/
 	bool hasAnimation(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_animation.bind("AnimationPlayer", "has_animation");
-		return ptrcall!(bool)(_GODOT_has_animation, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(Animation, String) _GODOT_get_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation") = _GODOT_get_animation;
 	/**
 	Returns the $(D Animation) with key `name` or `null` if not found.
 	*/
 	Ref!Animation getAnimation(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_get_animation.bind("AnimationPlayer", "get_animation");
-		return ptrcall!(Animation)(_GODOT_get_animation, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Animation)(_classBinding.getAnimation, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(PoolStringArray) _GODOT_get_animation_list;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation_list") = _GODOT_get_animation_list;
 	/**
 	Returns the list of stored animation names.
 	*/
 	PoolStringArray getAnimationList() const
 	{
-		_GODOT_get_animation_list.bind("AnimationPlayer", "get_animation_list");
-		return ptrcall!(PoolStringArray)(_GODOT_get_animation_list, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getAnimationList, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, String) _GODOT_animation_set_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_set_next") = _GODOT_animation_set_next;
 	/**
 	Triggers the `anim_to` animation when the `anim_from` animation completes.
 	*/
 	void animationSetNext(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to)
 	{
-		_GODOT_animation_set_next.bind("AnimationPlayer", "animation_set_next");
-		ptrcall!(void)(_GODOT_animation_set_next, _godot_object, anim_from, anim_to);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.animationSetNext, _godot_object, anim_from, anim_to);
 	}
-	package(godot) static GodotMethod!(String, String) _GODOT_animation_get_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "animation_get_next") = _GODOT_animation_get_next;
 	/**
 	Returns the name of the next animation in the queue.
 	*/
 	String animationGetNext(StringArg0)(in StringArg0 anim_from) const
 	{
-		_GODOT_animation_get_next.bind("AnimationPlayer", "animation_get_next");
-		return ptrcall!(String)(_GODOT_animation_get_next, _godot_object, anim_from);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.animationGetNext, _godot_object, anim_from);
 	}
-	package(godot) static GodotMethod!(void, String, String, double) _GODOT_set_blend_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_blend_time") = _GODOT_set_blend_time;
 	/**
 	Specify a blend time (in seconds) between two animations, referenced by their names.
 	*/
 	void setBlendTime(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to, in double sec)
 	{
-		_GODOT_set_blend_time.bind("AnimationPlayer", "set_blend_time");
-		ptrcall!(void)(_GODOT_set_blend_time, _godot_object, anim_from, anim_to, sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendTime, _godot_object, anim_from, anim_to, sec);
 	}
-	package(godot) static GodotMethod!(double, String, String) _GODOT_get_blend_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_blend_time") = _GODOT_get_blend_time;
 	/**
 	Get the blend time (in seconds) between two animations, referenced by their names.
 	*/
 	double getBlendTime(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to) const
 	{
-		_GODOT_get_blend_time.bind("AnimationPlayer", "get_blend_time");
-		return ptrcall!(double)(_GODOT_get_blend_time, _godot_object, anim_from, anim_to);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBlendTime, _godot_object, anim_from, anim_to);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_default_blend_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_blend_time") = _GODOT_set_default_blend_time;
 	/**
 	
 	*/
 	void setDefaultBlendTime(in double sec)
 	{
-		_GODOT_set_default_blend_time.bind("AnimationPlayer", "set_default_blend_time");
-		ptrcall!(void)(_GODOT_set_default_blend_time, _godot_object, sec);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultBlendTime, _godot_object, sec);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_default_blend_time;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_default_blend_time") = _GODOT_get_default_blend_time;
 	/**
 	
 	*/
 	double getDefaultBlendTime() const
 	{
-		_GODOT_get_default_blend_time.bind("AnimationPlayer", "get_default_blend_time");
-		return ptrcall!(double)(_GODOT_get_default_blend_time, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDefaultBlendTime, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, double, double, bool) _GODOT_play;
-	package(godot) alias _GODOT_methodBindInfo(string name : "play") = _GODOT_play;
 	/**
 	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the animation backwards.
 	*/
 	void play(StringArg0)(in StringArg0 name = "", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
 	{
-		_GODOT_play.bind("AnimationPlayer", "play");
-		ptrcall!(void)(_GODOT_play, _godot_object, name, custom_blend, custom_speed, from_end);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.play, _godot_object, name, custom_blend, custom_speed, from_end);
 	}
-	package(godot) static GodotMethod!(void, String, double) _GODOT_play_backwards;
-	package(godot) alias _GODOT_methodBindInfo(string name : "play_backwards") = _GODOT_play_backwards;
 	/**
 	Play the animation with key `name` in reverse.
 	*/
 	void playBackwards(StringArg0)(in StringArg0 name = "", in double custom_blend = -1)
 	{
-		_GODOT_play_backwards.bind("AnimationPlayer", "play_backwards");
-		ptrcall!(void)(_GODOT_play_backwards, _godot_object, name, custom_blend);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.playBackwards, _godot_object, name, custom_blend);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_stop;
-	package(godot) alias _GODOT_methodBindInfo(string name : "stop") = _GODOT_stop;
 	/**
 	Stop the currently playing animation. If `reset` is `true`, the anim position is reset to `0`.
 	*/
 	void stop(in bool reset = true)
 	{
-		_GODOT_stop.bind("AnimationPlayer", "stop");
-		ptrcall!(void)(_GODOT_stop, _godot_object, reset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object, reset);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_playing;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_playing") = _GODOT_is_playing;
 	/**
 	Returns `true` if playing an animation.
 	*/
 	bool isPlaying() const
 	{
-		_GODOT_is_playing.bind("AnimationPlayer", "is_playing");
-		return ptrcall!(bool)(_GODOT_is_playing, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_current_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_current_animation") = _GODOT_set_current_animation;
 	/**
 	
 	*/
 	void setCurrentAnimation(StringArg0)(in StringArg0 anim)
 	{
-		_GODOT_set_current_animation.bind("AnimationPlayer", "set_current_animation");
-		ptrcall!(void)(_GODOT_set_current_animation, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurrentAnimation, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_current_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_animation") = _GODOT_get_current_animation;
 	/**
 	
 	*/
 	String getCurrentAnimation() const
 	{
-		_GODOT_get_current_animation.bind("AnimationPlayer", "get_current_animation");
-		return ptrcall!(String)(_GODOT_get_current_animation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getCurrentAnimation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_assigned_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_assigned_animation") = _GODOT_set_assigned_animation;
 	/**
 	
 	*/
 	void setAssignedAnimation(StringArg0)(in StringArg0 anim)
 	{
-		_GODOT_set_assigned_animation.bind("AnimationPlayer", "set_assigned_animation");
-		ptrcall!(void)(_GODOT_set_assigned_animation, _godot_object, anim);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAssignedAnimation, _godot_object, anim);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_assigned_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_assigned_animation") = _GODOT_get_assigned_animation;
 	/**
 	
 	*/
 	String getAssignedAnimation() const
 	{
-		_GODOT_get_assigned_animation.bind("AnimationPlayer", "get_assigned_animation");
-		return ptrcall!(String)(_GODOT_get_assigned_animation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAssignedAnimation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_queue;
-	package(godot) alias _GODOT_methodBindInfo(string name : "queue") = _GODOT_queue;
 	/**
 	Queue an animation for playback once the current one is done.
 	*/
 	void queue(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_queue.bind("AnimationPlayer", "queue");
-		ptrcall!(void)(_GODOT_queue, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.queue, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_queue;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_queue") = _GODOT_clear_queue;
 	/**
 	Clears all queued, unplayed animations.
 	*/
 	void clearQueue()
 	{
-		_GODOT_clear_queue.bind("AnimationPlayer", "clear_queue");
-		ptrcall!(void)(_GODOT_clear_queue, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearQueue, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_active") = _GODOT_set_active;
 	/**
 	
 	*/
 	void setActive(in bool active)
 	{
-		_GODOT_set_active.bind("AnimationPlayer", "set_active");
-		ptrcall!(void)(_GODOT_set_active, _godot_object, active);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_active;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_active") = _GODOT_is_active;
 	/**
 	
 	*/
 	bool isActive() const
 	{
-		_GODOT_is_active.bind("AnimationPlayer", "is_active");
-		return ptrcall!(bool)(_GODOT_is_active, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_speed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_speed_scale") = _GODOT_set_speed_scale;
 	/**
 	
 	*/
 	void setSpeedScale(in double speed)
 	{
-		_GODOT_set_speed_scale.bind("AnimationPlayer", "set_speed_scale");
-		ptrcall!(void)(_GODOT_set_speed_scale, _godot_object, speed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, speed);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_speed_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_speed_scale") = _GODOT_get_speed_scale;
 	/**
 	
 	*/
 	double getSpeedScale() const
 	{
-		_GODOT_get_speed_scale.bind("AnimationPlayer", "get_speed_scale");
-		return ptrcall!(double)(_GODOT_get_speed_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_autoplay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_autoplay") = _GODOT_set_autoplay;
+	/**
+	Get the actual playing speed of current animation or 0 if not playing. This speed is the `playback_speed` property multiplied by `custom_speed` argument specified when calling the `play` method.
+	*/
+	double getPlayingSpeed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPlayingSpeed, _godot_object);
+	}
 	/**
 	
 	*/
 	void setAutoplay(StringArg0)(in StringArg0 name)
 	{
-		_GODOT_set_autoplay.bind("AnimationPlayer", "set_autoplay");
-		ptrcall!(void)(_GODOT_set_autoplay, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_autoplay;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_autoplay") = _GODOT_get_autoplay;
 	/**
 	
 	*/
 	String getAutoplay() const
 	{
-		_GODOT_get_autoplay.bind("AnimationPlayer", "get_autoplay");
-		return ptrcall!(String)(_GODOT_get_autoplay, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getAutoplay, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_root;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_root") = _GODOT_set_root;
 	/**
 	
 	*/
 	void setRoot(NodePathArg0)(in NodePathArg0 path)
 	{
-		_GODOT_set_root.bind("AnimationPlayer", "set_root");
-		ptrcall!(void)(_GODOT_set_root, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRoot, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_root;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_root") = _GODOT_get_root;
 	/**
 	
 	*/
 	NodePath getRoot() const
 	{
-		_GODOT_get_root.bind("AnimationPlayer", "get_root");
-		return ptrcall!(NodePath)(_GODOT_get_root, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getRoot, _godot_object);
 	}
-	package(godot) static GodotMethod!(String, Animation) _GODOT_find_animation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "find_animation") = _GODOT_find_animation;
 	/**
 	Returns the name of `animation` or empty string if not found.
 	*/
 	String findAnimation(Animation animation) const
 	{
-		_GODOT_find_animation.bind("AnimationPlayer", "find_animation");
-		return ptrcall!(String)(_GODOT_find_animation, _godot_object, animation);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.findAnimation, _godot_object, animation);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_clear_caches;
-	package(godot) alias _GODOT_methodBindInfo(string name : "clear_caches") = _GODOT_clear_caches;
 	/**
 	`AnimationPlayer` caches animated nodes. It may not notice if a node disappears, so clear_caches forces it to update the cache again.
 	*/
 	void clearCaches()
 	{
-		_GODOT_clear_caches.bind("AnimationPlayer", "clear_caches");
-		ptrcall!(void)(_GODOT_clear_caches, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearCaches, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_animation_process_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_animation_process_mode") = _GODOT_set_animation_process_mode;
 	/**
 	
 	*/
 	void setAnimationProcessMode(in long mode)
 	{
-		_GODOT_set_animation_process_mode.bind("AnimationPlayer", "set_animation_process_mode");
-		ptrcall!(void)(_GODOT_set_animation_process_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimationProcessMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(AnimationPlayer.AnimationProcessMode) _GODOT_get_animation_process_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_animation_process_mode") = _GODOT_get_animation_process_mode;
 	/**
 	
 	*/
 	AnimationPlayer.AnimationProcessMode getAnimationProcessMode() const
 	{
-		_GODOT_get_animation_process_mode.bind("AnimationPlayer", "get_animation_process_mode");
-		return ptrcall!(AnimationPlayer.AnimationProcessMode)(_GODOT_get_animation_process_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationPlayer.AnimationProcessMode)(_classBinding.getAnimationProcessMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_current_animation_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_animation_position") = _GODOT_get_current_animation_position;
 	/**
 	
 	*/
 	double getCurrentAnimationPosition() const
 	{
-		_GODOT_get_current_animation_position.bind("AnimationPlayer", "get_current_animation_position");
-		return ptrcall!(double)(_GODOT_get_current_animation_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCurrentAnimationPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_current_animation_length;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_current_animation_length") = _GODOT_get_current_animation_length;
 	/**
 	
 	*/
 	double getCurrentAnimationLength() const
 	{
-		_GODOT_get_current_animation_length.bind("AnimationPlayer", "get_current_animation_length");
-		return ptrcall!(double)(_GODOT_get_current_animation_length, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCurrentAnimationLength, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double, bool) _GODOT_seek;
-	package(godot) alias _GODOT_methodBindInfo(string name : "seek") = _GODOT_seek;
 	/**
 	Seek the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time.
 	*/
 	void seek(in double seconds, in bool update = false)
 	{
-		_GODOT_seek.bind("AnimationPlayer", "seek");
-		ptrcall!(void)(_GODOT_seek, _godot_object, seconds, update);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.seek, _godot_object, seconds, update);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_advance;
-	package(godot) alias _GODOT_methodBindInfo(string name : "advance") = _GODOT_advance;
 	/**
 	Shifts position in the animation timeline. Delta is the time in seconds to shift.
 	*/
 	void advance(in double delta)
 	{
-		_GODOT_advance.bind("AnimationPlayer", "advance");
-		ptrcall!(void)(_GODOT_advance, _godot_object, delta);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.advance, _godot_object, delta);
 	}
 	/**
 	The node from which node path references will travel. Default value: `".."`.
@@ -531,7 +510,7 @@ public:
 		return getCurrentAnimationPosition();
 	}
 	/**
-	The process notification in which to update animations. Default value: $(D animationProcessIdle).
+	The process notification in which to update animations. Default value: `ANIMATION_PROCESS_IDLE`.
 	*/
 	@property AnimationPlayer.AnimationProcessMode playbackProcessMode()
 	{

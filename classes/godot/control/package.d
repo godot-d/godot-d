@@ -1,5 +1,5 @@
 /**
-All User Interface nodes inherit from Control. Features anchors and margins to adapt its position and size to its parent.
+All User Interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -27,8 +27,9 @@ import godot.texture;
 import godot.shader;
 import godot.stylebox;
 import godot.font;
+import godot.node;
 /**
-All User Interface nodes inherit from Control. Features anchors and margins to adapt its position and size to its parent.
+All User Interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
 
 Base class for all User Interface or $(I UI) related nodes. `Control` features a bounding rectangle that defines its extents, an anchor position relative to its parent and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
 For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from `Control` and $(D Container) nodes.
@@ -40,12 +41,128 @@ $(D Theme) resources change the Control's appearance. If you change the $(D Them
 */
 @GodotBaseClass struct Control
 {
-	static immutable string _GODOT_internal_name = "Control";
+	enum string _GODOT_internal_name = "Control";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; CanvasItem _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_get_minimum_size") GodotMethod!(Vector2) _getMinimumSize;
+		@GodotName("get_drag_data") GodotMethod!(GodotObject, Vector2) getDragData;
+		@GodotName("can_drop_data") GodotMethod!(bool, Vector2, Variant) canDropData;
+		@GodotName("drop_data") GodotMethod!(void, Vector2, Variant) dropData;
+		@GodotName("_make_custom_tooltip") GodotMethod!(GodotObject, String) _makeCustomTooltip;
+		@GodotName("_clips_input") GodotMethod!(bool) _clipsInput;
+		@GodotName("has_point") GodotMethod!(bool, Vector2) hasPoint;
+		@GodotName("_size_changed") GodotMethod!(void) _sizeChanged;
+		@GodotName("_update_minimum_size") GodotMethod!(void) _updateMinimumSize;
+		@GodotName("accept_event") GodotMethod!(void) acceptEvent;
+		@GodotName("get_minimum_size") GodotMethod!(Vector2) getMinimumSize;
+		@GodotName("get_combined_minimum_size") GodotMethod!(Vector2) getCombinedMinimumSize;
+		@GodotName("set_anchors_preset") GodotMethod!(void, long, bool) setAnchorsPreset;
+		@GodotName("set_margins_preset") GodotMethod!(void, long, long, long) setMarginsPreset;
+		@GodotName("set_anchors_and_margins_preset") GodotMethod!(void, long, long, long) setAnchorsAndMarginsPreset;
+		@GodotName("set_anchor") GodotMethod!(void, long, double, bool, bool) setAnchor;
+		@GodotName("_set_anchor") GodotMethod!(void, long, double) _setAnchor;
+		@GodotName("get_anchor") GodotMethod!(double, long) getAnchor;
+		@GodotName("set_margin") GodotMethod!(void, long, double) setMargin;
+		@GodotName("set_anchor_and_margin") GodotMethod!(void, long, double, double, bool) setAnchorAndMargin;
+		@GodotName("set_begin") GodotMethod!(void, Vector2) setBegin;
+		@GodotName("set_end") GodotMethod!(void, Vector2) setEnd;
+		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
+		@GodotName("set_custom_minimum_size") GodotMethod!(void, Vector2) setCustomMinimumSize;
+		@GodotName("set_global_position") GodotMethod!(void, Vector2) setGlobalPosition;
+		@GodotName("set_rotation") GodotMethod!(void, double) setRotation;
+		@GodotName("set_rotation_degrees") GodotMethod!(void, double) setRotationDegrees;
+		@GodotName("set_scale") GodotMethod!(void, Vector2) setScale;
+		@GodotName("set_pivot_offset") GodotMethod!(void, Vector2) setPivotOffset;
+		@GodotName("get_margin") GodotMethod!(double, long) getMargin;
+		@GodotName("get_begin") GodotMethod!(Vector2) getBegin;
+		@GodotName("get_end") GodotMethod!(Vector2) getEnd;
+		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("get_rotation") GodotMethod!(double) getRotation;
+		@GodotName("get_rotation_degrees") GodotMethod!(double) getRotationDegrees;
+		@GodotName("get_scale") GodotMethod!(Vector2) getScale;
+		@GodotName("get_pivot_offset") GodotMethod!(Vector2) getPivotOffset;
+		@GodotName("get_custom_minimum_size") GodotMethod!(Vector2) getCustomMinimumSize;
+		@GodotName("get_parent_area_size") GodotMethod!(Vector2) getParentAreaSize;
+		@GodotName("get_global_position") GodotMethod!(Vector2) getGlobalPosition;
+		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
+		@GodotName("get_global_rect") GodotMethod!(Rect2) getGlobalRect;
+		@GodotName("show_modal") GodotMethod!(void, bool) showModal;
+		@GodotName("set_focus_mode") GodotMethod!(void, long) setFocusMode;
+		@GodotName("get_focus_mode") GodotMethod!(Control.FocusMode) getFocusMode;
+		@GodotName("has_focus") GodotMethod!(bool) hasFocus;
+		@GodotName("grab_focus") GodotMethod!(void) grabFocus;
+		@GodotName("release_focus") GodotMethod!(void) releaseFocus;
+		@GodotName("get_focus_owner") GodotMethod!(Control) getFocusOwner;
+		@GodotName("set_h_size_flags") GodotMethod!(void, long) setHSizeFlags;
+		@GodotName("get_h_size_flags") GodotMethod!(long) getHSizeFlags;
+		@GodotName("set_stretch_ratio") GodotMethod!(void, double) setStretchRatio;
+		@GodotName("get_stretch_ratio") GodotMethod!(double) getStretchRatio;
+		@GodotName("set_v_size_flags") GodotMethod!(void, long) setVSizeFlags;
+		@GodotName("get_v_size_flags") GodotMethod!(long) getVSizeFlags;
+		@GodotName("set_theme") GodotMethod!(void, Theme) setTheme;
+		@GodotName("get_theme") GodotMethod!(Theme) getTheme;
+		@GodotName("add_icon_override") GodotMethod!(void, String, Texture) addIconOverride;
+		@GodotName("add_shader_override") GodotMethod!(void, String, Shader) addShaderOverride;
+		@GodotName("add_stylebox_override") GodotMethod!(void, String, StyleBox) addStyleboxOverride;
+		@GodotName("add_font_override") GodotMethod!(void, String, Font) addFontOverride;
+		@GodotName("add_color_override") GodotMethod!(void, String, Color) addColorOverride;
+		@GodotName("add_constant_override") GodotMethod!(void, String, long) addConstantOverride;
+		@GodotName("get_icon") GodotMethod!(Texture, String, String) getIcon;
+		@GodotName("get_stylebox") GodotMethod!(StyleBox, String, String) getStylebox;
+		@GodotName("get_font") GodotMethod!(Font, String, String) getFont;
+		@GodotName("get_color") GodotMethod!(Color, String, String) getColor;
+		@GodotName("get_constant") GodotMethod!(long, String, String) getConstant;
+		@GodotName("has_icon_override") GodotMethod!(bool, String) hasIconOverride;
+		@GodotName("has_shader_override") GodotMethod!(bool, String) hasShaderOverride;
+		@GodotName("has_stylebox_override") GodotMethod!(bool, String) hasStyleboxOverride;
+		@GodotName("has_font_override") GodotMethod!(bool, String) hasFontOverride;
+		@GodotName("has_color_override") GodotMethod!(bool, String) hasColorOverride;
+		@GodotName("has_constant_override") GodotMethod!(bool, String) hasConstantOverride;
+		@GodotName("has_icon") GodotMethod!(bool, String, String) hasIcon;
+		@GodotName("has_stylebox") GodotMethod!(bool, String, String) hasStylebox;
+		@GodotName("has_font") GodotMethod!(bool, String, String) hasFont;
+		@GodotName("has_color") GodotMethod!(bool, String, String) hasColor;
+		@GodotName("has_constant") GodotMethod!(bool, String, String) hasConstant;
+		@GodotName("get_parent_control") GodotMethod!(Control) getParentControl;
+		@GodotName("set_h_grow_direction") GodotMethod!(void, long) setHGrowDirection;
+		@GodotName("get_h_grow_direction") GodotMethod!(Control.GrowDirection) getHGrowDirection;
+		@GodotName("set_v_grow_direction") GodotMethod!(void, long) setVGrowDirection;
+		@GodotName("get_v_grow_direction") GodotMethod!(Control.GrowDirection) getVGrowDirection;
+		@GodotName("set_tooltip") GodotMethod!(void, String) setTooltip;
+		@GodotName("get_tooltip") GodotMethod!(String, Vector2) getTooltip;
+		@GodotName("_get_tooltip") GodotMethod!(String) _getTooltip;
+		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
+		@GodotName("get_default_cursor_shape") GodotMethod!(Control.CursorShape) getDefaultCursorShape;
+		@GodotName("get_cursor_shape") GodotMethod!(Control.CursorShape, Vector2) getCursorShape;
+		@GodotName("set_focus_neighbour") GodotMethod!(void, long, NodePath) setFocusNeighbour;
+		@GodotName("get_focus_neighbour") GodotMethod!(NodePath, long) getFocusNeighbour;
+		@GodotName("set_focus_next") GodotMethod!(void, NodePath) setFocusNext;
+		@GodotName("get_focus_next") GodotMethod!(NodePath) getFocusNext;
+		@GodotName("set_focus_previous") GodotMethod!(void, NodePath) setFocusPrevious;
+		@GodotName("get_focus_previous") GodotMethod!(NodePath) getFocusPrevious;
+		@GodotName("force_drag") GodotMethod!(void, Variant, GodotObject) forceDrag;
+		@GodotName("set_mouse_filter") GodotMethod!(void, long) setMouseFilter;
+		@GodotName("get_mouse_filter") GodotMethod!(Control.MouseFilter) getMouseFilter;
+		@GodotName("set_clip_contents") GodotMethod!(void, bool) setClipContents;
+		@GodotName("is_clipping_contents") GodotMethod!(bool) isClippingContents;
+		@GodotName("grab_click_focus") GodotMethod!(void) grabClickFocus;
+		@GodotName("set_drag_forwarding") GodotMethod!(void, GodotObject) setDragForwarding;
+		@GodotName("set_drag_preview") GodotMethod!(void, GodotObject) setDragPreview;
+		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
+		@GodotName("minimum_size_changed") GodotMethod!(void) minimumSizeChanged;
+		@GodotName("_theme_changed") GodotMethod!(void) _themeChanged;
+		@GodotName("_font_changed") GodotMethod!(void) _fontChanged;
+	}
 	bool opEquals(in Control other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Control opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -74,15 +191,15 @@ public:
 	enum FocusMode : int
 	{
 		/**
-		The node cannot grab focus. Use with $(D setFocusMode).
+		The node cannot grab focus. Use with $(D focusMode).
 		*/
 		focusNone = 0,
 		/**
-		The node can only grab focus on mouse clicks. Use with $(D setFocusMode).
+		The node can only grab focus on mouse clicks. Use with $(D focusMode).
 		*/
 		focusClick = 1,
 		/**
-		The node can grab focus on mouse click or using the arrows and the Tab keys on the keyboard. Use with $(D setFocusMode).
+		The node can grab focus on mouse click or using the arrows and the Tab keys on the keyboard. Use with $(D focusMode).
 		*/
 		focusAll = 2,
 	}
@@ -205,6 +322,10 @@ public:
 		
 		*/
 		growDirectionEnd = 1,
+		/**
+		
+		*/
+		growDirectionBoth = 2,
 	}
 	/// 
 	enum SizeFlags : int
@@ -222,7 +343,7 @@ public:
 		*/
 		sizeExpandFill = 3,
 		/**
-		Tells the parent $(D Container) to center the node in itself. It centers the `Control` based on its bounding box, so it doesn't work with the fill or expand size flags. Use with $(D sizeFlagsHorizontal) and $(D sizeFlagsVertical).
+		Tells the parent $(D Container) to center the node in itself. It centers the control based on its bounding box, so it doesn't work with the fill or expand size flags. Use with $(D sizeFlagsHorizontal) and $(D sizeFlagsVertical).
 		*/
 		sizeShrinkCenter = 4,
 		/**
@@ -301,55 +422,56 @@ public:
 	/// 
 	enum Constants : int
 	{
+		anchorBegin = 0,
+		mouseFilterStop = 0,
+		focusNone = 0,
 		cursorArrow = 0,
 		growDirectionBegin = 0,
-		anchorBegin = 0,
 		presetModeMinsize = 0,
 		presetTopLeft = 0,
-		focusNone = 0,
-		mouseFilterStop = 0,
-		cursorIbeam = 1,
-		sizeFill = 1,
-		focusClick = 1,
+		mouseFilterPass = 1,
 		anchorEnd = 1,
+		sizeFill = 1,
 		presetModeKeepWidth = 1,
 		growDirectionEnd = 1,
-		mouseFilterPass = 1,
+		cursorIbeam = 1,
+		focusClick = 1,
 		presetTopRight = 1,
 		focusAll = 2,
 		sizeExpand = 2,
-		cursorPointingHand = 2,
-		presetBottomLeft = 2,
-		mouseFilterIgnore = 2,
 		presetModeKeepHeight = 2,
-		cursorCross = 3,
+		cursorPointingHand = 2,
+		mouseFilterIgnore = 2,
+		growDirectionBoth = 2,
+		presetBottomLeft = 2,
+		presetBottomRight = 3,
 		sizeExpandFill = 3,
 		presetModeKeepSize = 3,
-		presetBottomRight = 3,
-		sizeShrinkCenter = 4,
+		cursorCross = 3,
 		presetCenterLeft = 4,
 		cursorWait = 4,
+		sizeShrinkCenter = 4,
 		cursorBusy = 5,
 		presetCenterTop = 5,
 		cursorDrag = 6,
 		presetCenterRight = 6,
-		cursorCanDrop = 7,
 		presetCenterBottom = 7,
-		sizeShrinkEnd = 8,
+		cursorCanDrop = 7,
 		cursorForbidden = 8,
 		presetCenter = 8,
-		cursorVsize = 9,
+		sizeShrinkEnd = 8,
 		presetLeftWide = 9,
+		cursorVsize = 9,
 		presetTopWide = 10,
 		cursorHsize = 10,
-		cursorBdiagsize = 11,
 		presetRightWide = 11,
+		cursorBdiagsize = 11,
 		cursorFdiagsize = 12,
 		presetBottomWide = 12,
-		presetVcenterWide = 13,
 		cursorMove = 13,
-		presetHcenterWide = 14,
+		presetVcenterWide = 13,
 		cursorVsplit = 14,
+		presetHcenterWide = 14,
 		cursorHsplit = 15,
 		presetWide = 15,
 		cursorHelp = 16,
@@ -358,11 +480,11 @@ public:
 		*/
 		notificationResized = 40,
 		/**
-		Sent when the mouse pointer enters the node's `Rect` area.
+		Sent when the mouse pointer enters the node.
 		*/
 		notificationMouseEnter = 41,
 		/**
-		Sent when the mouse pointer exits the node's `Rect` area.
+		Sent when the mouse pointer exits the node.
 		*/
 		notificationMouseExit = 42,
 		/**
@@ -374,7 +496,7 @@ public:
 		*/
 		notificationFocusExit = 44,
 		/**
-		Sent when the node's $(D theme) changes, right before Godot redraws the `Control`. Happens when you call one of the `add_*_override`
+		Sent when the node's $(D theme) changes, right before Godot redraws the control. Happens when you call one of the `add_*_override`
 		*/
 		notificationThemeChanged = 45,
 		/**
@@ -390,10 +512,8 @@ public:
 		*/
 		notificationScrollEnd = 48,
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
-	The node's parent forwards input events to this method. Use it to process and accept inputs on UI elements. See $(D acceptEvent).
+	Use this method to process and accept inputs on UI elements. See $(D acceptEvent).
 	Replaces Godot 2's `_input_event`.
 	*/
 	void _guiInput(InputEvent event)
@@ -403,10 +523,8 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT__get_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_minimum_size") = _GODOT__get_minimum_size;
 	/**
-	Returns the minimum size this Control can shrink to. The node can never be smaller than this minimum size.
+	Returns the minimum size for this control. See $(D rectMinSize).
 	*/
 	Vector2 _getMinimumSize()
 	{
@@ -414,8 +532,6 @@ public:
 		String _GODOT_method_name = String("_get_minimum_size");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
-	package(godot) static GodotMethod!(GodotObject, Vector2) _GODOT_get_drag_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_drag_data") = _GODOT_get_drag_data;
 	/**
 	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Return null if there is no data to drag. Controls that want to receive drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
 	A preview that will follow the mouse that should represent the data can be set with $(D setDragPreview). A good time to set the preview is in this method.
@@ -424,9 +540,9 @@ public:
 	extends Control
 	
 	func get_drag_data(position):
-		var mydata = make_data()
-		set_drag_preview(make_preview(mydata))
-		return mydata
+	    var mydata = make_data()
+	    set_drag_preview(make_preview(mydata))
+	    return mydata
 	
 	
 	*/
@@ -437,8 +553,6 @@ public:
 		String _GODOT_method_name = String("get_drag_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
 	}
-	package(godot) static GodotMethod!(bool, Vector2, Variant) _GODOT_can_drop_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "can_drop_data") = _GODOT_can_drop_data;
 	/**
 	Godot calls this method to test if `data` from a control's $(D getDragData) can be dropped at `position`. `position` is local to this control.
 	This method should only be used to test the data. Process the data in $(D dropData).
@@ -461,8 +575,6 @@ public:
 		String _GODOT_method_name = String("can_drop_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void, Vector2, Variant) _GODOT_drop_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "drop_data") = _GODOT_drop_data;
 	/**
 	Godot calls this method to pass you the `data` from a control's $(D getDragData) result. Godot first calls $(D canDropData) to test if `data` is allowed to drop at `position` where `position` is local to this control.
 	
@@ -485,8 +597,25 @@ public:
 		String _GODOT_method_name = String("drop_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(bool, Vector2) _GODOT_has_point;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_point") = _GODOT_has_point;
+	/**
+	
+	*/
+	GodotObject _makeCustomTooltip(StringArg0)(in StringArg0 for_text)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(for_text);
+		String _GODOT_method_name = String("_make_custom_tooltip");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+	}
+	/**
+	
+	*/
+	bool _clipsInput()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_clips_input");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
 	/**
 	
 	*/
@@ -497,8 +626,6 @@ public:
 		String _GODOT_method_name = String("has_point");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__size_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_size_changed") = _GODOT__size_changed;
 	/**
 	
 	*/
@@ -508,8 +635,6 @@ public:
 		String _GODOT_method_name = String("_size_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_minimum_size") = _GODOT__update_minimum_size;
 	/**
 	
 	*/
@@ -519,78 +644,62 @@ public:
 		String _GODOT_method_name = String("_update_minimum_size");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_accept_event;
-	package(godot) alias _GODOT_methodBindInfo(string name : "accept_event") = _GODOT_accept_event;
 	/**
 	Marks an input event as handled. Once you accept an input event, it stops propagating, even to nodes listening to $(D Node._unhandledInput) or $(D Node._unhandledKeyInput).
 	*/
 	void acceptEvent()
 	{
-		_GODOT_accept_event.bind("Control", "accept_event");
-		ptrcall!(void)(_GODOT_accept_event, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.acceptEvent, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_minimum_size") = _GODOT_get_minimum_size;
 	/**
-	Return the minimum size this Control can shrink to. A control will never be displayed or resized smaller than its minimum size.
+	Returns the minimum size for this control. See $(D rectMinSize).
 	*/
 	Vector2 getMinimumSize() const
 	{
-		_GODOT_get_minimum_size.bind("Control", "get_minimum_size");
-		return ptrcall!(Vector2)(_GODOT_get_minimum_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_combined_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_combined_minimum_size") = _GODOT_get_combined_minimum_size;
 	/**
 	
 	*/
 	Vector2 getCombinedMinimumSize() const
 	{
-		_GODOT_get_combined_minimum_size.bind("Control", "get_combined_minimum_size");
-		return ptrcall!(Vector2)(_GODOT_get_combined_minimum_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCombinedMinimumSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long, bool) _GODOT_set_anchors_preset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchors_preset") = _GODOT_set_anchors_preset;
 	/**
 	
 	*/
 	void setAnchorsPreset(in long preset, in bool keep_margin = false)
 	{
-		_GODOT_set_anchors_preset.bind("Control", "set_anchors_preset");
-		ptrcall!(void)(_GODOT_set_anchors_preset, _godot_object, preset, keep_margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorsPreset, _godot_object, preset, keep_margin);
 	}
-	package(godot) static GodotMethod!(void, long, long, long) _GODOT_set_margins_preset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_margins_preset") = _GODOT_set_margins_preset;
 	/**
 	
 	*/
 	void setMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
 	{
-		_GODOT_set_margins_preset.bind("Control", "set_margins_preset");
-		ptrcall!(void)(_GODOT_set_margins_preset, _godot_object, preset, resize_mode, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
-	package(godot) static GodotMethod!(void, long, long, long) _GODOT_set_anchors_and_margins_preset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchors_and_margins_preset") = _GODOT_set_anchors_and_margins_preset;
 	/**
 	
 	*/
 	void setAnchorsAndMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
 	{
-		_GODOT_set_anchors_and_margins_preset.bind("Control", "set_anchors_and_margins_preset");
-		ptrcall!(void)(_GODOT_set_anchors_and_margins_preset, _godot_object, preset, resize_mode, margin);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
-	package(godot) static GodotMethod!(void, long, double, bool, bool) _GODOT_set_anchor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchor") = _GODOT_set_anchor;
 	/**
 	
 	*/
 	void setAnchor(in long margin, in double anchor, in bool keep_margin = false, in bool push_opposite_anchor = true)
 	{
-		_GODOT_set_anchor.bind("Control", "set_anchor");
-		ptrcall!(void)(_GODOT_set_anchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT__set_anchor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_set_anchor") = _GODOT__set_anchor;
 	/**
 	
 	*/
@@ -602,718 +711,574 @@ public:
 		String _GODOT_method_name = String("_set_anchor");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_anchor;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_anchor") = _GODOT_get_anchor;
 	/**
 	
 	*/
 	double getAnchor(in long margin) const
 	{
-		_GODOT_get_anchor.bind("Control", "get_anchor");
-		return ptrcall!(double)(_GODOT_get_anchor, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAnchor, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, long, double) _GODOT_set_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_margin") = _GODOT_set_margin;
 	/**
 	
 	*/
 	void setMargin(in long margin, in double offset)
 	{
-		_GODOT_set_margin.bind("Control", "set_margin");
-		ptrcall!(void)(_GODOT_set_margin, _godot_object, margin, offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin, offset);
 	}
-	package(godot) static GodotMethod!(void, long, double, double, bool) _GODOT_set_anchor_and_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_anchor_and_margin") = _GODOT_set_anchor_and_margin;
 	/**
 	
 	*/
 	void setAnchorAndMargin(in long margin, in double anchor, in double offset, in bool push_opposite_anchor = false)
 	{
-		_GODOT_set_anchor_and_margin.bind("Control", "set_anchor_and_margin");
-		ptrcall!(void)(_GODOT_set_anchor_and_margin, _godot_object, margin, anchor, offset, push_opposite_anchor);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorAndMargin, _godot_object, margin, anchor, offset, push_opposite_anchor);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_begin") = _GODOT_set_begin;
 	/**
-	Sets MARGIN_LEFT and MARGIN_TOP at the same time. This is a helper (see $(D setMargin)).
+	Sets $(D marginLeft) and $(D marginTop) at the same time.
 	*/
 	void setBegin(in Vector2 position)
 	{
-		_GODOT_set_begin.bind("Control", "set_begin");
-		ptrcall!(void)(_GODOT_set_begin, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBegin, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_end") = _GODOT_set_end;
 	/**
-	Sets MARGIN_RIGHT and MARGIN_BOTTOM at the same time. This is a helper (see $(D setMargin)).
+	Sets $(D marginRight) and $(D marginBottom) at the same time.
 	*/
 	void setEnd(in Vector2 position)
 	{
-		_GODOT_set_end.bind("Control", "set_end");
-		ptrcall!(void)(_GODOT_set_end, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnd, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_position") = _GODOT_set_position;
 	/**
 	
 	*/
 	void setPosition(in Vector2 position)
 	{
-		_GODOT_set_position.bind("Control", "set_position");
-		ptrcall!(void)(_GODOT_set_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_size") = _GODOT_set_size;
 	/**
 	
 	*/
 	void setSize(in Vector2 size)
 	{
-		_GODOT_set_size.bind("Control", "set_size");
-		ptrcall!(void)(_GODOT_set_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_custom_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_custom_minimum_size") = _GODOT_set_custom_minimum_size;
 	/**
 	
 	*/
 	void setCustomMinimumSize(in Vector2 size)
 	{
-		_GODOT_set_custom_minimum_size.bind("Control", "set_custom_minimum_size");
-		ptrcall!(void)(_GODOT_set_custom_minimum_size, _godot_object, size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomMinimumSize, _godot_object, size);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_global_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_global_position") = _GODOT_set_global_position;
 	/**
 	
 	*/
 	void setGlobalPosition(in Vector2 position)
 	{
-		_GODOT_set_global_position.bind("Control", "set_global_position");
-		ptrcall!(void)(_GODOT_set_global_position, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rotation") = _GODOT_set_rotation;
 	/**
-	Set the rotation (in radians).
+	Sets the rotation (in radians).
 	*/
 	void setRotation(in double radians)
 	{
-		_GODOT_set_rotation.bind("Control", "set_rotation");
-		ptrcall!(void)(_GODOT_set_rotation, _godot_object, radians);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_rotation_degrees;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_rotation_degrees") = _GODOT_set_rotation_degrees;
 	/**
 	
 	*/
 	void setRotationDegrees(in double degrees)
 	{
-		_GODOT_set_rotation_degrees.bind("Control", "set_rotation_degrees");
-		ptrcall!(void)(_GODOT_set_rotation_degrees, _godot_object, degrees);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_scale") = _GODOT_set_scale;
 	/**
 	
 	*/
 	void setScale(in Vector2 scale)
 	{
-		_GODOT_set_scale.bind("Control", "set_scale");
-		ptrcall!(void)(_GODOT_set_scale, _godot_object, scale);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_set_pivot_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pivot_offset") = _GODOT_set_pivot_offset;
 	/**
 	
 	*/
 	void setPivotOffset(in Vector2 pivot_offset)
 	{
-		_GODOT_set_pivot_offset.bind("Control", "set_pivot_offset");
-		ptrcall!(void)(_GODOT_set_pivot_offset, _godot_object, pivot_offset);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPivotOffset, _godot_object, pivot_offset);
 	}
-	package(godot) static GodotMethod!(double, long) _GODOT_get_margin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_margin") = _GODOT_get_margin;
 	/**
 	
 	*/
 	double getMargin(in long margin) const
 	{
-		_GODOT_get_margin.bind("Control", "get_margin");
-		return ptrcall!(double)(_GODOT_get_margin, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_begin;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_begin") = _GODOT_get_begin;
 	/**
-	
+	Returns $(D marginLeft) and $(D marginTop). See also $(D rectPosition).
 	*/
 	Vector2 getBegin() const
 	{
-		_GODOT_get_begin.bind("Control", "get_begin");
-		return ptrcall!(Vector2)(_GODOT_get_begin, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getBegin, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_end;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_end") = _GODOT_get_end;
 	/**
-	Returns MARGIN_LEFT and MARGIN_TOP at the same time. This is a helper (see $(D setMargin)).
+	Returns $(D marginRight) and $(D marginBottom).
 	*/
 	Vector2 getEnd() const
 	{
-		_GODOT_get_end.bind("Control", "get_end");
-		return ptrcall!(Vector2)(_GODOT_get_end, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getEnd, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_position") = _GODOT_get_position;
 	/**
 	
 	*/
 	Vector2 getPosition() const
 	{
-		_GODOT_get_position.bind("Control", "get_position");
-		return ptrcall!(Vector2)(_GODOT_get_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_size") = _GODOT_get_size;
 	/**
 	
 	*/
 	Vector2 getSize() const
 	{
-		_GODOT_get_size.bind("Control", "get_size");
-		return ptrcall!(Vector2)(_GODOT_get_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_rotation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rotation") = _GODOT_get_rotation;
 	/**
-	Return the rotation (in radians)
+	Returns the rotation (in radians).
 	*/
 	double getRotation() const
 	{
-		_GODOT_get_rotation.bind("Control", "get_rotation");
-		return ptrcall!(double)(_GODOT_get_rotation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRotation, _godot_object);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_rotation_degrees;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rotation_degrees") = _GODOT_get_rotation_degrees;
 	/**
 	
 	*/
 	double getRotationDegrees() const
 	{
-		_GODOT_get_rotation_degrees.bind("Control", "get_rotation_degrees");
-		return ptrcall!(double)(_GODOT_get_rotation_degrees, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRotationDegrees, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_scale;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_scale") = _GODOT_get_scale;
 	/**
 	
 	*/
 	Vector2 getScale() const
 	{
-		_GODOT_get_scale.bind("Control", "get_scale");
-		return ptrcall!(Vector2)(_GODOT_get_scale, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScale, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_pivot_offset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pivot_offset") = _GODOT_get_pivot_offset;
 	/**
 	
 	*/
 	Vector2 getPivotOffset() const
 	{
-		_GODOT_get_pivot_offset.bind("Control", "get_pivot_offset");
-		return ptrcall!(Vector2)(_GODOT_get_pivot_offset, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPivotOffset, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_custom_minimum_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_custom_minimum_size") = _GODOT_get_custom_minimum_size;
 	/**
 	
 	*/
 	Vector2 getCustomMinimumSize() const
 	{
-		_GODOT_get_custom_minimum_size.bind("Control", "get_custom_minimum_size");
-		return ptrcall!(Vector2)(_GODOT_get_custom_minimum_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCustomMinimumSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_parent_area_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_parent_area_size") = _GODOT_get_parent_area_size;
 	/**
-	
+	Returns the width/height occupied in the parent control.
 	*/
 	Vector2 getParentAreaSize() const
 	{
-		_GODOT_get_parent_area_size.bind("Control", "get_parent_area_size");
-		return ptrcall!(Vector2)(_GODOT_get_parent_area_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getParentAreaSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(Vector2) _GODOT_get_global_position;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_position") = _GODOT_get_global_position;
 	/**
 	
 	*/
 	Vector2 getGlobalPosition() const
 	{
-		_GODOT_get_global_position.bind("Control", "get_global_position");
-		return ptrcall!(Vector2)(_GODOT_get_global_position, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_rect") = _GODOT_get_rect;
 	/**
-	Return position and size of the Control, relative to the top-left corner of the parent Control. This is a helper (see $(D getPosition), $(D getSize)).
+	Returns the position and size of the control relative to the top-left corner of the parent Control. See $(D rectPosition) and $(D rectSize).
 	*/
 	Rect2 getRect() const
 	{
-		_GODOT_get_rect.bind("Control", "get_rect");
-		return ptrcall!(Rect2)(_GODOT_get_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(Rect2) _GODOT_get_global_rect;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_global_rect") = _GODOT_get_global_rect;
 	/**
-	Return position and size of the Control, relative to the top-left corner of the $(I window) Control. This is a helper (see $(D getGlobalPosition), $(D getSize)).
+	Returns the position and size of the control relative to the top-left corner of the screen. See $(D rectPosition) and $(D rectSize).
 	*/
 	Rect2 getGlobalRect() const
 	{
-		_GODOT_get_global_rect.bind("Control", "get_global_rect");
-		return ptrcall!(Rect2)(_GODOT_get_global_rect, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getGlobalRect, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_show_modal;
-	package(godot) alias _GODOT_methodBindInfo(string name : "show_modal") = _GODOT_show_modal;
 	/**
-	Display a Control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
+	Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
 	*/
 	void showModal(in bool exclusive = false)
 	{
-		_GODOT_show_modal.bind("Control", "show_modal");
-		ptrcall!(void)(_GODOT_show_modal, _godot_object, exclusive);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.showModal, _godot_object, exclusive);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_focus_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_focus_mode") = _GODOT_set_focus_mode;
 	/**
 	
 	*/
 	void setFocusMode(in long mode)
 	{
-		_GODOT_set_focus_mode.bind("Control", "set_focus_mode");
-		ptrcall!(void)(_GODOT_set_focus_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(Control.FocusMode) _GODOT_get_focus_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focus_mode") = _GODOT_get_focus_mode;
 	/**
 	
 	*/
 	Control.FocusMode getFocusMode() const
 	{
-		_GODOT_get_focus_mode.bind("Control", "get_focus_mode");
-		return ptrcall!(Control.FocusMode)(_GODOT_get_focus_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.FocusMode)(_classBinding.getFocusMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_has_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_focus") = _GODOT_has_focus;
 	/**
-	Return whether the Control is the current focused control (see $(D setFocusMode)).
+	Returns `true` if this is the current focused control. See $(D focusMode).
 	*/
 	bool hasFocus() const
 	{
-		_GODOT_has_focus.bind("Control", "has_focus");
-		return ptrcall!(bool)(_GODOT_has_focus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFocus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_grab_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "grab_focus") = _GODOT_grab_focus;
 	/**
 	Steal the focus from another control and become the focused control (see $(D setFocusMode)).
 	*/
 	void grabFocus()
 	{
-		_GODOT_grab_focus.bind("Control", "grab_focus");
-		ptrcall!(void)(_GODOT_grab_focus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.grabFocus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_release_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "release_focus") = _GODOT_release_focus;
 	/**
-	Give up the focus, no other control will be able to receive keyboard input.
+	Give up the focus. No other control will be able to receive keyboard input.
 	*/
 	void releaseFocus()
 	{
-		_GODOT_release_focus.bind("Control", "release_focus");
-		ptrcall!(void)(_GODOT_release_focus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.releaseFocus, _godot_object);
 	}
-	package(godot) static GodotMethod!(Control) _GODOT_get_focus_owner;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focus_owner") = _GODOT_get_focus_owner;
 	/**
-	Return which control is owning the keyboard focus, or null if no one.
+	Returns the control that has the keyboard focus or `null` if none.
 	*/
 	Control getFocusOwner() const
 	{
-		_GODOT_get_focus_owner.bind("Control", "get_focus_owner");
-		return ptrcall!(Control)(_GODOT_get_focus_owner, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(_classBinding.getFocusOwner, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_h_size_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_size_flags") = _GODOT_set_h_size_flags;
 	/**
 	
 	*/
 	void setHSizeFlags(in long flags)
 	{
-		_GODOT_set_h_size_flags.bind("Control", "set_h_size_flags");
-		ptrcall!(void)(_GODOT_set_h_size_flags, _godot_object, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHSizeFlags, _godot_object, flags);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_h_size_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_size_flags") = _GODOT_get_h_size_flags;
 	/**
 	
 	*/
 	long getHSizeFlags() const
 	{
-		_GODOT_get_h_size_flags.bind("Control", "get_h_size_flags");
-		return ptrcall!(long)(_GODOT_get_h_size_flags, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHSizeFlags, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_stretch_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_stretch_ratio") = _GODOT_set_stretch_ratio;
 	/**
 	
 	*/
 	void setStretchRatio(in double ratio)
 	{
-		_GODOT_set_stretch_ratio.bind("Control", "set_stretch_ratio");
-		ptrcall!(void)(_GODOT_set_stretch_ratio, _godot_object, ratio);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchRatio, _godot_object, ratio);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_stretch_ratio;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stretch_ratio") = _GODOT_get_stretch_ratio;
 	/**
 	
 	*/
 	double getStretchRatio() const
 	{
-		_GODOT_get_stretch_ratio.bind("Control", "get_stretch_ratio");
-		return ptrcall!(double)(_GODOT_get_stretch_ratio, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStretchRatio, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_v_size_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_size_flags") = _GODOT_set_v_size_flags;
 	/**
 	
 	*/
 	void setVSizeFlags(in long flags)
 	{
-		_GODOT_set_v_size_flags.bind("Control", "set_v_size_flags");
-		ptrcall!(void)(_GODOT_set_v_size_flags, _godot_object, flags);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVSizeFlags, _godot_object, flags);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_v_size_flags;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_size_flags") = _GODOT_get_v_size_flags;
 	/**
 	
 	*/
 	long getVSizeFlags() const
 	{
-		_GODOT_get_v_size_flags.bind("Control", "get_v_size_flags");
-		return ptrcall!(long)(_GODOT_get_v_size_flags, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVSizeFlags, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Theme) _GODOT_set_theme;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_theme") = _GODOT_set_theme;
 	/**
 	
 	*/
 	void setTheme(Theme theme)
 	{
-		_GODOT_set_theme.bind("Control", "set_theme");
-		ptrcall!(void)(_GODOT_set_theme, _godot_object, theme);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTheme, _godot_object, theme);
 	}
-	package(godot) static GodotMethod!(Theme) _GODOT_get_theme;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_theme") = _GODOT_get_theme;
 	/**
 	
 	*/
 	Ref!Theme getTheme() const
 	{
-		_GODOT_get_theme.bind("Control", "get_theme");
-		return ptrcall!(Theme)(_GODOT_get_theme, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Theme)(_classBinding.getTheme, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String, Texture) _GODOT_add_icon_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_icon_override") = _GODOT_add_icon_override;
 	/**
 	Overrides the `name` icon in the $(D theme) resource the node uses. If `icon` is empty, Godot clears the override.
 	*/
 	void addIconOverride(StringArg0)(in StringArg0 name, Texture texture)
 	{
-		_GODOT_add_icon_override.bind("Control", "add_icon_override");
-		ptrcall!(void)(_GODOT_add_icon_override, _godot_object, name, texture);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIconOverride, _godot_object, name, texture);
 	}
-	package(godot) static GodotMethod!(void, String, Shader) _GODOT_add_shader_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_shader_override") = _GODOT_add_shader_override;
 	/**
 	Overrides the `name` shader in the $(D theme) resource the node uses. If `shader` is empty, Godot clears the override.
 	*/
 	void addShaderOverride(StringArg0)(in StringArg0 name, Shader shader)
 	{
-		_GODOT_add_shader_override.bind("Control", "add_shader_override");
-		ptrcall!(void)(_GODOT_add_shader_override, _godot_object, name, shader);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
 	}
-	package(godot) static GodotMethod!(void, String, StyleBox) _GODOT_add_stylebox_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_stylebox_override") = _GODOT_add_stylebox_override;
 	/**
 	Overrides the `name` $(D Stylebox) in the $(D theme) resource the node uses. If `stylebox` is empty, Godot clears the override.
 	*/
 	void addStyleboxOverride(StringArg0)(in StringArg0 name, StyleBox stylebox)
 	{
-		_GODOT_add_stylebox_override.bind("Control", "add_stylebox_override");
-		ptrcall!(void)(_GODOT_add_stylebox_override, _godot_object, name, stylebox);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addStyleboxOverride, _godot_object, name, stylebox);
 	}
-	package(godot) static GodotMethod!(void, String, Font) _GODOT_add_font_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_font_override") = _GODOT_add_font_override;
 	/**
 	Overrides the `name` font in the $(D theme) resource the node uses. If `font` is empty, Godot clears the override.
 	*/
 	void addFontOverride(StringArg0)(in StringArg0 name, Font font)
 	{
-		_GODOT_add_font_override.bind("Control", "add_font_override");
-		ptrcall!(void)(_GODOT_add_font_override, _godot_object, name, font);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addFontOverride, _godot_object, name, font);
 	}
-	package(godot) static GodotMethod!(void, String, Color) _GODOT_add_color_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_color_override") = _GODOT_add_color_override;
 	/**
 	Overrides the color in the $(D theme) resource the node uses.
 	*/
 	void addColorOverride(StringArg0)(in StringArg0 name, in Color color)
 	{
-		_GODOT_add_color_override.bind("Control", "add_color_override");
-		ptrcall!(void)(_GODOT_add_color_override, _godot_object, name, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addColorOverride, _godot_object, name, color);
 	}
-	package(godot) static GodotMethod!(void, String, long) _GODOT_add_constant_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_constant_override") = _GODOT_add_constant_override;
 	/**
-	Overrides an integer constant in the $(D theme) resource the node uses. If the `constant` is invalid, Godot clears the override. See $(D Theme.invalidConstant) for more information.
+	Overrides an integer constant in the $(D theme) resource the node uses. If the `constant` is invalid, Godot clears the override.
 	*/
 	void addConstantOverride(StringArg0)(in StringArg0 name, in long constant)
 	{
-		_GODOT_add_constant_override.bind("Control", "add_constant_override");
-		ptrcall!(void)(_GODOT_add_constant_override, _godot_object, name, constant);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addConstantOverride, _godot_object, name, constant);
 	}
-	package(godot) static GodotMethod!(Texture, String, String) _GODOT_get_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_icon") = _GODOT_get_icon;
 	/**
 	
 	*/
 	Ref!Texture getIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_get_icon.bind("Control", "get_icon");
-		return ptrcall!(Texture)(_GODOT_get_icon, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(StyleBox, String, String) _GODOT_get_stylebox;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stylebox") = _GODOT_get_stylebox;
 	/**
 	
 	*/
 	Ref!StyleBox getStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_get_stylebox.bind("Control", "get_stylebox");
-		return ptrcall!(StyleBox)(_GODOT_get_stylebox, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(Font, String, String) _GODOT_get_font;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_font") = _GODOT_get_font;
 	/**
 	
 	*/
 	Ref!Font getFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_get_font.bind("Control", "get_font");
-		return ptrcall!(Font)(_GODOT_get_font, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(Color, String, String) _GODOT_get_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_color") = _GODOT_get_color;
 	/**
 	
 	*/
 	Color getColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_get_color.bind("Control", "get_color");
-		return ptrcall!(Color)(_GODOT_get_color, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(long, String, String) _GODOT_get_constant;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_constant") = _GODOT_get_constant;
 	/**
 	
 	*/
 	long getConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_get_constant.bind("Control", "get_constant");
-		return ptrcall!(long)(_GODOT_get_constant, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_icon_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_icon_override") = _GODOT_has_icon_override;
 	/**
 	
 	*/
 	bool hasIconOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_icon_override.bind("Control", "has_icon_override");
-		return ptrcall!(bool)(_GODOT_has_icon_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasIconOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_shader_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_shader_override") = _GODOT_has_shader_override;
 	/**
 	
 	*/
 	bool hasShaderOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_shader_override.bind("Control", "has_shader_override");
-		return ptrcall!(bool)(_GODOT_has_shader_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasShaderOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_stylebox_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_stylebox_override") = _GODOT_has_stylebox_override;
 	/**
 	
 	*/
 	bool hasStyleboxOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_stylebox_override.bind("Control", "has_stylebox_override");
-		return ptrcall!(bool)(_GODOT_has_stylebox_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasStyleboxOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_font_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_font_override") = _GODOT_has_font_override;
 	/**
 	
 	*/
 	bool hasFontOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_font_override.bind("Control", "has_font_override");
-		return ptrcall!(bool)(_GODOT_has_font_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFontOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_color_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_color_override") = _GODOT_has_color_override;
 	/**
 	
 	*/
 	bool hasColorOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_color_override.bind("Control", "has_color_override");
-		return ptrcall!(bool)(_GODOT_has_color_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasColorOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String) _GODOT_has_constant_override;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_constant_override") = _GODOT_has_constant_override;
 	/**
 	
 	*/
 	bool hasConstantOverride(StringArg0)(in StringArg0 name) const
 	{
-		_GODOT_has_constant_override.bind("Control", "has_constant_override");
-		return ptrcall!(bool)(_GODOT_has_constant_override, _godot_object, name);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasConstantOverride, _godot_object, name);
 	}
-	package(godot) static GodotMethod!(bool, String, String) _GODOT_has_icon;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_icon") = _GODOT_has_icon;
 	/**
 	
 	*/
 	bool hasIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_has_icon.bind("Control", "has_icon");
-		return ptrcall!(bool)(_GODOT_has_icon, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(bool, String, String) _GODOT_has_stylebox;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_stylebox") = _GODOT_has_stylebox;
 	/**
 	
 	*/
 	bool hasStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_has_stylebox.bind("Control", "has_stylebox");
-		return ptrcall!(bool)(_GODOT_has_stylebox, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(bool, String, String) _GODOT_has_font;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_font") = _GODOT_has_font;
 	/**
 	
 	*/
 	bool hasFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_has_font.bind("Control", "has_font");
-		return ptrcall!(bool)(_GODOT_has_font, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(bool, String, String) _GODOT_has_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_color") = _GODOT_has_color;
 	/**
 	
 	*/
 	bool hasColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_has_color.bind("Control", "has_color");
-		return ptrcall!(bool)(_GODOT_has_color, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(bool, String, String) _GODOT_has_constant;
-	package(godot) alias _GODOT_methodBindInfo(string name : "has_constant") = _GODOT_has_constant;
 	/**
 	
 	*/
 	bool hasConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
 	{
-		_GODOT_has_constant.bind("Control", "has_constant");
-		return ptrcall!(bool)(_GODOT_has_constant, _godot_object, name, type);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
 	}
-	package(godot) static GodotMethod!(Control) _GODOT_get_parent_control;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_parent_control") = _GODOT_get_parent_control;
 	/**
-	
+	Returns the parent control node.
 	*/
 	Control getParentControl() const
 	{
-		_GODOT_get_parent_control.bind("Control", "get_parent_control");
-		return ptrcall!(Control)(_GODOT_get_parent_control, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(_classBinding.getParentControl, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_h_grow_direction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_h_grow_direction") = _GODOT_set_h_grow_direction;
 	/**
 	
 	*/
 	void setHGrowDirection(in long direction)
 	{
-		_GODOT_set_h_grow_direction.bind("Control", "set_h_grow_direction");
-		ptrcall!(void)(_GODOT_set_h_grow_direction, _godot_object, direction);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHGrowDirection, _godot_object, direction);
 	}
-	package(godot) static GodotMethod!(Control.GrowDirection) _GODOT_get_h_grow_direction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_h_grow_direction") = _GODOT_get_h_grow_direction;
 	/**
 	
 	*/
 	Control.GrowDirection getHGrowDirection() const
 	{
-		_GODOT_get_h_grow_direction.bind("Control", "get_h_grow_direction");
-		return ptrcall!(Control.GrowDirection)(_GODOT_get_h_grow_direction, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.GrowDirection)(_classBinding.getHGrowDirection, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_v_grow_direction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_v_grow_direction") = _GODOT_set_v_grow_direction;
 	/**
 	
 	*/
 	void setVGrowDirection(in long direction)
 	{
-		_GODOT_set_v_grow_direction.bind("Control", "set_v_grow_direction");
-		ptrcall!(void)(_GODOT_set_v_grow_direction, _godot_object, direction);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVGrowDirection, _godot_object, direction);
 	}
-	package(godot) static GodotMethod!(Control.GrowDirection) _GODOT_get_v_grow_direction;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_v_grow_direction") = _GODOT_get_v_grow_direction;
 	/**
 	
 	*/
 	Control.GrowDirection getVGrowDirection() const
 	{
-		_GODOT_get_v_grow_direction.bind("Control", "get_v_grow_direction");
-		return ptrcall!(Control.GrowDirection)(_GODOT_get_v_grow_direction, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.GrowDirection)(_classBinding.getVGrowDirection, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_tooltip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_tooltip") = _GODOT_set_tooltip;
 	/**
 	
 	*/
 	void setTooltip(StringArg0)(in StringArg0 tooltip)
 	{
-		_GODOT_set_tooltip.bind("Control", "set_tooltip");
-		ptrcall!(void)(_GODOT_set_tooltip, _godot_object, tooltip);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTooltip, _godot_object, tooltip);
 	}
-	package(godot) static GodotMethod!(String, Vector2) _GODOT_get_tooltip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_tooltip") = _GODOT_get_tooltip;
 	/**
-	Return the tooltip, which will appear when the cursor is resting over this control.
+	Returns the tooltip, which will appear when the cursor is resting over this control.
 	*/
 	String getTooltip(in Vector2 at_position = Vector2(0, 0)) const
 	{
-		_GODOT_get_tooltip.bind("Control", "get_tooltip");
-		return ptrcall!(String)(_GODOT_get_tooltip, _godot_object, at_position);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getTooltip, _godot_object, at_position);
 	}
-	package(godot) static GodotMethod!(String) _GODOT__get_tooltip;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_get_tooltip") = _GODOT__get_tooltip;
 	/**
 	
 	*/
@@ -1323,159 +1288,127 @@ public:
 		String _GODOT_method_name = String("_get_tooltip");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_default_cursor_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_default_cursor_shape") = _GODOT_set_default_cursor_shape;
 	/**
 	
 	*/
 	void setDefaultCursorShape(in long shape)
 	{
-		_GODOT_set_default_cursor_shape.bind("Control", "set_default_cursor_shape");
-		ptrcall!(void)(_GODOT_set_default_cursor_shape, _godot_object, shape);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
 	}
-	package(godot) static GodotMethod!(Control.CursorShape) _GODOT_get_default_cursor_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_default_cursor_shape") = _GODOT_get_default_cursor_shape;
 	/**
 	
 	*/
 	Control.CursorShape getDefaultCursorShape() const
 	{
-		_GODOT_get_default_cursor_shape.bind("Control", "get_default_cursor_shape");
-		return ptrcall!(Control.CursorShape)(_GODOT_get_default_cursor_shape, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.CursorShape)(_classBinding.getDefaultCursorShape, _godot_object);
 	}
-	package(godot) static GodotMethod!(Control.CursorShape, Vector2) _GODOT_get_cursor_shape;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_cursor_shape") = _GODOT_get_cursor_shape;
 	/**
-	Returns the mouse cursor shape the control displays on mouse hover, one of the `CURSOR_*` constants.
+	Returns the mouse cursor shape the control displays on mouse hover. See $(D cursorshape).
 	*/
 	Control.CursorShape getCursorShape(in Vector2 position = Vector2(0, 0)) const
 	{
-		_GODOT_get_cursor_shape.bind("Control", "get_cursor_shape");
-		return ptrcall!(Control.CursorShape)(_GODOT_get_cursor_shape, _godot_object, position);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.CursorShape)(_classBinding.getCursorShape, _godot_object, position);
 	}
-	package(godot) static GodotMethod!(void, long, NodePath) _GODOT_set_focus_neighbour;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_focus_neighbour") = _GODOT_set_focus_neighbour;
 	/**
 	
 	*/
 	void setFocusNeighbour(NodePathArg1)(in long margin, in NodePathArg1 neighbour)
 	{
-		_GODOT_set_focus_neighbour.bind("Control", "set_focus_neighbour");
-		ptrcall!(void)(_GODOT_set_focus_neighbour, _godot_object, margin, neighbour);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusNeighbour, _godot_object, margin, neighbour);
 	}
-	package(godot) static GodotMethod!(NodePath, long) _GODOT_get_focus_neighbour;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focus_neighbour") = _GODOT_get_focus_neighbour;
 	/**
 	
 	*/
 	NodePath getFocusNeighbour(in long margin) const
 	{
-		_GODOT_get_focus_neighbour.bind("Control", "get_focus_neighbour");
-		return ptrcall!(NodePath)(_GODOT_get_focus_neighbour, _godot_object, margin);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusNeighbour, _godot_object, margin);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_focus_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_focus_next") = _GODOT_set_focus_next;
 	/**
 	
 	*/
 	void setFocusNext(NodePathArg0)(in NodePathArg0 next)
 	{
-		_GODOT_set_focus_next.bind("Control", "set_focus_next");
-		ptrcall!(void)(_GODOT_set_focus_next, _godot_object, next);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusNext, _godot_object, next);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_focus_next;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focus_next") = _GODOT_get_focus_next;
 	/**
 	
 	*/
 	NodePath getFocusNext() const
 	{
-		_GODOT_get_focus_next.bind("Control", "get_focus_next");
-		return ptrcall!(NodePath)(_GODOT_get_focus_next, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusNext, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, NodePath) _GODOT_set_focus_previous;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_focus_previous") = _GODOT_set_focus_previous;
 	/**
 	
 	*/
 	void setFocusPrevious(NodePathArg0)(in NodePathArg0 previous)
 	{
-		_GODOT_set_focus_previous.bind("Control", "set_focus_previous");
-		ptrcall!(void)(_GODOT_set_focus_previous, _godot_object, previous);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusPrevious, _godot_object, previous);
 	}
-	package(godot) static GodotMethod!(NodePath) _GODOT_get_focus_previous;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_focus_previous") = _GODOT_get_focus_previous;
 	/**
 	
 	*/
 	NodePath getFocusPrevious() const
 	{
-		_GODOT_get_focus_previous.bind("Control", "get_focus_previous");
-		return ptrcall!(NodePath)(_GODOT_get_focus_previous, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusPrevious, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Variant, GodotObject) _GODOT_force_drag;
-	package(godot) alias _GODOT_methodBindInfo(string name : "force_drag") = _GODOT_force_drag;
 	/**
 	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
 	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
 	*/
 	void forceDrag(VariantArg0)(in VariantArg0 data, GodotObject preview)
 	{
-		_GODOT_force_drag.bind("Control", "force_drag");
-		ptrcall!(void)(_GODOT_force_drag, _godot_object, data, preview);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceDrag, _godot_object, data, preview);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_mouse_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_mouse_filter") = _GODOT_set_mouse_filter;
 	/**
 	
 	*/
 	void setMouseFilter(in long filter)
 	{
-		_GODOT_set_mouse_filter.bind("Control", "set_mouse_filter");
-		ptrcall!(void)(_GODOT_set_mouse_filter, _godot_object, filter);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMouseFilter, _godot_object, filter);
 	}
-	package(godot) static GodotMethod!(Control.MouseFilter) _GODOT_get_mouse_filter;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_mouse_filter") = _GODOT_get_mouse_filter;
 	/**
 	
 	*/
 	Control.MouseFilter getMouseFilter() const
 	{
-		_GODOT_get_mouse_filter.bind("Control", "get_mouse_filter");
-		return ptrcall!(Control.MouseFilter)(_GODOT_get_mouse_filter, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.MouseFilter)(_classBinding.getMouseFilter, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_clip_contents;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_clip_contents") = _GODOT_set_clip_contents;
 	/**
 	
 	*/
 	void setClipContents(in bool enable)
 	{
-		_GODOT_set_clip_contents.bind("Control", "set_clip_contents");
-		ptrcall!(void)(_GODOT_set_clip_contents, _godot_object, enable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClipContents, _godot_object, enable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_clipping_contents;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_clipping_contents") = _GODOT_is_clipping_contents;
 	/**
 	
 	*/
 	bool isClippingContents()
 	{
-		_GODOT_is_clipping_contents.bind("Control", "is_clipping_contents");
-		return ptrcall!(bool)(_GODOT_is_clipping_contents, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isClippingContents, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_grab_click_focus;
-	package(godot) alias _GODOT_methodBindInfo(string name : "grab_click_focus") = _GODOT_grab_click_focus;
 	/**
 	
 	*/
 	void grabClickFocus()
 	{
-		_GODOT_grab_click_focus.bind("Control", "grab_click_focus");
-		ptrcall!(void)(_GODOT_grab_click_focus, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.grabClickFocus, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_set_drag_forwarding;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_drag_forwarding") = _GODOT_set_drag_forwarding;
 	/**
 	Forwards the handling of this control's drag and drop to `target` control.
 	Forwarding can be implemented in the target control similar to the methods $(D getDragData), $(D canDropData), and $(D dropData) but with two differences:
@@ -1504,41 +1437,33 @@ public:
 	*/
 	void setDragForwarding(GodotObject target)
 	{
-		_GODOT_set_drag_forwarding.bind("Control", "set_drag_forwarding");
-		ptrcall!(void)(_GODOT_set_drag_forwarding, _godot_object, target);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDragForwarding, _godot_object, target);
 	}
-	package(godot) static GodotMethod!(void, GodotObject) _GODOT_set_drag_preview;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_drag_preview") = _GODOT_set_drag_preview;
 	/**
 	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData).
 	*/
 	void setDragPreview(GodotObject control)
 	{
-		_GODOT_set_drag_preview.bind("Control", "set_drag_preview");
-		ptrcall!(void)(_GODOT_set_drag_preview, _godot_object, control);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDragPreview, _godot_object, control);
 	}
-	package(godot) static GodotMethod!(void, Vector2) _GODOT_warp_mouse;
-	package(godot) alias _GODOT_methodBindInfo(string name : "warp_mouse") = _GODOT_warp_mouse;
 	/**
 	
 	*/
 	void warpMouse(in Vector2 to_position)
 	{
-		_GODOT_warp_mouse.bind("Control", "warp_mouse");
-		ptrcall!(void)(_GODOT_warp_mouse, _godot_object, to_position);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.warpMouse, _godot_object, to_position);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_minimum_size_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "minimum_size_changed") = _GODOT_minimum_size_changed;
 	/**
 	
 	*/
 	void minimumSizeChanged()
 	{
-		_GODOT_minimum_size_changed.bind("Control", "minimum_size_changed");
-		ptrcall!(void)(_GODOT_minimum_size_changed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.minimumSizeChanged, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__theme_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_theme_changed") = _GODOT__theme_changed;
 	/**
 	
 	*/
@@ -1548,8 +1473,6 @@ public:
 		String _GODOT_method_name = String("_theme_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__font_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_font_changed") = _GODOT__font_changed;
 	/**
 	
 	*/
@@ -1887,6 +1810,7 @@ public:
 	}
 	/**
 	The default cursor shape for this control. Useful for Godot plugins and applications or games that use the system's mouse cursors.
+	$(B Note:) On Linux, shapes may vary depending on the cursor theme of the system.
 	*/
 	@property Control.CursorShape mouseDefaultCursorShape()
 	{

@@ -1,5 +1,5 @@
 /**
-
+Prerendered indirect light map for a scene.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,17 +22,48 @@ import godot.object;
 import godot.classdb;
 import godot.visualinstance;
 import godot.bakedlightmapdata;
+import godot.spatial;
+import godot.node;
 /**
+Prerendered indirect light map for a scene.
 
+Baked lightmaps are an alternative workflow for adding indirect (or baked) lighting to a scene. Unlike the $(D GIProbe) approach, baked lightmaps work fine on low-end PCs and mobile devices as they consume almost no resources in run-time.
 */
 @GodotBaseClass struct BakedLightmap
 {
-	static immutable string _GODOT_internal_name = "BakedLightmap";
+	enum string _GODOT_internal_name = "BakedLightmap";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_light_data") GodotMethod!(void, BakedLightmapData) setLightData;
+		@GodotName("get_light_data") GodotMethod!(BakedLightmapData) getLightData;
+		@GodotName("set_bake_cell_size") GodotMethod!(void, double) setBakeCellSize;
+		@GodotName("get_bake_cell_size") GodotMethod!(double) getBakeCellSize;
+		@GodotName("set_capture_cell_size") GodotMethod!(void, double) setCaptureCellSize;
+		@GodotName("get_capture_cell_size") GodotMethod!(double) getCaptureCellSize;
+		@GodotName("set_bake_quality") GodotMethod!(void, long) setBakeQuality;
+		@GodotName("get_bake_quality") GodotMethod!(BakedLightmap.BakeQuality) getBakeQuality;
+		@GodotName("set_bake_mode") GodotMethod!(void, long) setBakeMode;
+		@GodotName("get_bake_mode") GodotMethod!(BakedLightmap.BakeMode) getBakeMode;
+		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
+		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
+		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
+		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("set_hdr") GodotMethod!(void, bool) setHdr;
+		@GodotName("is_hdr") GodotMethod!(bool) isHdr;
+		@GodotName("set_image_path") GodotMethod!(void, String) setImagePath;
+		@GodotName("get_image_path") GodotMethod!(String) getImagePath;
+		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, GodotObject, bool) bake;
+		@GodotName("debug_bake") GodotMethod!(void) debugBake;
+	}
 	bool opEquals(in BakedLightmap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BakedLightmap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -49,15 +80,15 @@ public:
 	enum BakeQuality : int
 	{
 		/**
-		
+		Lowest bake quality mode. Fastest to calculate.
 		*/
 		bakeQualityLow = 0,
 		/**
-		
+		Default bake quality mode.
 		*/
 		bakeQualityMedium = 1,
 		/**
-		
+		Highest bake quality mode. Takes longer to calculate.
 		*/
 		bakeQualityHigh = 2,
 	}
@@ -89,250 +120,206 @@ public:
 	enum BakeMode : int
 	{
 		/**
-		
+		Less precise but faster bake mode.
 		*/
 		bakeModeConeTrace = 0,
 		/**
-		
+		More precise bake mode but can take considerably longer to bake.
 		*/
 		bakeModeRayTrace = 1,
 	}
 	/// 
 	enum Constants : int
 	{
-		bakeModeConeTrace = 0,
 		bakeErrorOk = 0,
 		bakeQualityLow = 0,
+		bakeModeConeTrace = 0,
+		bakeErrorNoSavePath = 1,
 		bakeQualityMedium = 1,
 		bakeModeRayTrace = 1,
-		bakeErrorNoSavePath = 1,
-		bakeErrorNoMeshes = 2,
 		bakeQualityHigh = 2,
+		bakeErrorNoMeshes = 2,
 		bakeErrorCantCreateImage = 3,
 		bakeErrorUserAborted = 4,
 	}
-	package(godot) static GodotMethod!(void, BakedLightmapData) _GODOT_set_light_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_light_data") = _GODOT_set_light_data;
 	/**
 	
 	*/
 	void setLightData(BakedLightmapData data)
 	{
-		_GODOT_set_light_data.bind("BakedLightmap", "set_light_data");
-		ptrcall!(void)(_GODOT_set_light_data, _godot_object, data);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightData, _godot_object, data);
 	}
-	package(godot) static GodotMethod!(BakedLightmapData) _GODOT_get_light_data;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_light_data") = _GODOT_get_light_data;
 	/**
 	
 	*/
 	Ref!BakedLightmapData getLightData() const
 	{
-		_GODOT_get_light_data.bind("BakedLightmap", "get_light_data");
-		return ptrcall!(BakedLightmapData)(_GODOT_get_light_data, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmapData)(_classBinding.getLightData, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_bake_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bake_cell_size") = _GODOT_set_bake_cell_size;
 	/**
 	
 	*/
 	void setBakeCellSize(in double bake_cell_size)
 	{
-		_GODOT_set_bake_cell_size.bind("BakedLightmap", "set_bake_cell_size");
-		ptrcall!(void)(_GODOT_set_bake_cell_size, _godot_object, bake_cell_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeCellSize, _godot_object, bake_cell_size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_bake_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bake_cell_size") = _GODOT_get_bake_cell_size;
 	/**
 	
 	*/
 	double getBakeCellSize() const
 	{
-		_GODOT_get_bake_cell_size.bind("BakedLightmap", "get_bake_cell_size");
-		return ptrcall!(double)(_GODOT_get_bake_cell_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBakeCellSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_capture_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_capture_cell_size") = _GODOT_set_capture_cell_size;
 	/**
 	
 	*/
 	void setCaptureCellSize(in double capture_cell_size)
 	{
-		_GODOT_set_capture_cell_size.bind("BakedLightmap", "set_capture_cell_size");
-		ptrcall!(void)(_GODOT_set_capture_cell_size, _godot_object, capture_cell_size);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCaptureCellSize, _godot_object, capture_cell_size);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_capture_cell_size;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_capture_cell_size") = _GODOT_get_capture_cell_size;
 	/**
 	
 	*/
 	double getCaptureCellSize() const
 	{
-		_GODOT_get_capture_cell_size.bind("BakedLightmap", "get_capture_cell_size");
-		return ptrcall!(double)(_GODOT_get_capture_cell_size, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCaptureCellSize, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_bake_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bake_quality") = _GODOT_set_bake_quality;
 	/**
 	
 	*/
 	void setBakeQuality(in long bake_quality)
 	{
-		_GODOT_set_bake_quality.bind("BakedLightmap", "set_bake_quality");
-		ptrcall!(void)(_GODOT_set_bake_quality, _godot_object, bake_quality);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeQuality, _godot_object, bake_quality);
 	}
-	package(godot) static GodotMethod!(BakedLightmap.BakeQuality) _GODOT_get_bake_quality;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bake_quality") = _GODOT_get_bake_quality;
 	/**
 	
 	*/
 	BakedLightmap.BakeQuality getBakeQuality() const
 	{
-		_GODOT_get_bake_quality.bind("BakedLightmap", "get_bake_quality");
-		return ptrcall!(BakedLightmap.BakeQuality)(_GODOT_get_bake_quality, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmap.BakeQuality)(_classBinding.getBakeQuality, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_bake_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_bake_mode") = _GODOT_set_bake_mode;
 	/**
 	
 	*/
 	void setBakeMode(in long bake_mode)
 	{
-		_GODOT_set_bake_mode.bind("BakedLightmap", "set_bake_mode");
-		ptrcall!(void)(_GODOT_set_bake_mode, _godot_object, bake_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeMode, _godot_object, bake_mode);
 	}
-	package(godot) static GodotMethod!(BakedLightmap.BakeMode) _GODOT_get_bake_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_bake_mode") = _GODOT_get_bake_mode;
 	/**
 	
 	*/
 	BakedLightmap.BakeMode getBakeMode() const
 	{
-		_GODOT_get_bake_mode.bind("BakedLightmap", "get_bake_mode");
-		return ptrcall!(BakedLightmap.BakeMode)(_GODOT_get_bake_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmap.BakeMode)(_classBinding.getBakeMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Vector3) _GODOT_set_extents;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_extents") = _GODOT_set_extents;
 	/**
 	
 	*/
 	void setExtents(in Vector3 extents)
 	{
-		_GODOT_set_extents.bind("BakedLightmap", "set_extents");
-		ptrcall!(void)(_GODOT_set_extents, _godot_object, extents);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
 	}
-	package(godot) static GodotMethod!(Vector3) _GODOT_get_extents;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_extents") = _GODOT_get_extents;
 	/**
 	
 	*/
 	Vector3 getExtents() const
 	{
-		_GODOT_get_extents.bind("BakedLightmap", "get_extents");
-		return ptrcall!(Vector3)(_GODOT_get_extents, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_propagation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_propagation") = _GODOT_set_propagation;
 	/**
 	
 	*/
 	void setPropagation(in double propagation)
 	{
-		_GODOT_set_propagation.bind("BakedLightmap", "set_propagation");
-		ptrcall!(void)(_GODOT_set_propagation, _godot_object, propagation);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_propagation;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_propagation") = _GODOT_get_propagation;
 	/**
 	
 	*/
 	double getPropagation() const
 	{
-		_GODOT_get_propagation.bind("BakedLightmap", "get_propagation");
-		return ptrcall!(double)(_GODOT_get_propagation, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPropagation, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_energy") = _GODOT_set_energy;
 	/**
 	
 	*/
 	void setEnergy(in double energy)
 	{
-		_GODOT_set_energy.bind("BakedLightmap", "set_energy");
-		ptrcall!(void)(_GODOT_set_energy, _godot_object, energy);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_energy;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_energy") = _GODOT_get_energy;
 	/**
 	
 	*/
 	double getEnergy() const
 	{
-		_GODOT_get_energy.bind("BakedLightmap", "get_energy");
-		return ptrcall!(double)(_GODOT_get_energy, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_hdr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_hdr") = _GODOT_set_hdr;
 	/**
 	
 	*/
 	void setHdr(in bool hdr)
 	{
-		_GODOT_set_hdr.bind("BakedLightmap", "set_hdr");
-		ptrcall!(void)(_GODOT_set_hdr, _godot_object, hdr);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHdr, _godot_object, hdr);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_hdr;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_hdr") = _GODOT_is_hdr;
 	/**
 	
 	*/
 	bool isHdr() const
 	{
-		_GODOT_is_hdr.bind("BakedLightmap", "is_hdr");
-		return ptrcall!(bool)(_GODOT_is_hdr, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHdr, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_image_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_image_path") = _GODOT_set_image_path;
 	/**
 	
 	*/
 	void setImagePath(StringArg0)(in StringArg0 image_path)
 	{
-		_GODOT_set_image_path.bind("BakedLightmap", "set_image_path");
-		ptrcall!(void)(_GODOT_set_image_path, _godot_object, image_path);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setImagePath, _godot_object, image_path);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_image_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_image_path") = _GODOT_get_image_path;
 	/**
 	
 	*/
 	String getImagePath() const
 	{
-		_GODOT_get_image_path.bind("BakedLightmap", "get_image_path");
-		return ptrcall!(String)(_GODOT_get_image_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getImagePath, _godot_object);
 	}
-	package(godot) static GodotMethod!(BakedLightmap.BakeError, GodotObject, bool) _GODOT_bake;
-	package(godot) alias _GODOT_methodBindInfo(string name : "bake") = _GODOT_bake;
 	/**
 	
 	*/
 	BakedLightmap.BakeError bake(GodotObject from_node = GodotObject.init, in bool create_visual_debug = false)
 	{
-		_GODOT_bake.bind("BakedLightmap", "bake");
-		return ptrcall!(BakedLightmap.BakeError)(_GODOT_bake, _godot_object, from_node, create_visual_debug);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmap.BakeError)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
 	}
-	package(godot) static GodotMethod!(void) _GODOT_debug_bake;
-	package(godot) alias _GODOT_methodBindInfo(string name : "debug_bake") = _GODOT_debug_bake;
 	/**
 	
 	*/
 	void debugBake()
 	{
-		_GODOT_debug_bake.bind("BakedLightmap", "debug_bake");
-		ptrcall!(void)(_GODOT_debug_bake, _godot_object);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.debugBake, _godot_object);
 	}
 	/**
-	
+	Grid subdivision size for lightmapper calculation. Default value of `0.25` will work for most cases. Increase for better lighting on small details or if your scene is very large.
 	*/
 	@property double bakeCellSize()
 	{
@@ -344,7 +331,7 @@ public:
 		setBakeCellSize(v);
 	}
 	/**
-	
+	Three quality modes are available. Higher quality requires more rendering time. See $(D bakequality).
 	*/
 	@property BakedLightmap.BakeQuality bakeQuality()
 	{
@@ -356,7 +343,7 @@ public:
 		setBakeQuality(v);
 	}
 	/**
-	
+	Lightmapping mode. See $(D bakemode).
 	*/
 	@property BakedLightmap.BakeMode bakeMode()
 	{
@@ -392,7 +379,7 @@ public:
 		setEnergy(v);
 	}
 	/**
-	
+	If `true` lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller lightmap. Default value:`false`.
 	*/
 	@property bool bakeHdr()
 	{
@@ -404,7 +391,7 @@ public:
 		setHdr(v);
 	}
 	/**
-	
+	Size of affected area.
 	*/
 	@property Vector3 bakeExtents()
 	{
@@ -416,7 +403,7 @@ public:
 		setExtents(v);
 	}
 	/**
-	
+	Grid size used for real-time capture information on dynamic objects. Cannot be larger than $(D bakeCellSize).
 	*/
 	@property double captureCellSize()
 	{
@@ -428,7 +415,7 @@ public:
 		setCaptureCellSize(v);
 	}
 	/**
-	
+	Location where lightmaps will be saved.
 	*/
 	@property String imagePath()
 	{
@@ -440,7 +427,7 @@ public:
 		setImagePath(v);
 	}
 	/**
-	
+	The calculated light data.
 	*/
 	@property BakedLightmapData lightData()
 	{

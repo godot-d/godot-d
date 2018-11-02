@@ -23,6 +23,9 @@ import godot.classdb;
 import godot.popup;
 import godot.inputevent;
 import godot.texturebutton;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Base class for window dialogs.
 
@@ -30,12 +33,24 @@ Windowdialog is the base class for all window-based dialogs. It's a by-default t
 */
 @GodotBaseClass struct WindowDialog
 {
-	static immutable string _GODOT_internal_name = "WindowDialog";
+	enum string _GODOT_internal_name = "WindowDialog";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Popup _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("set_title") GodotMethod!(void, String) setTitle;
+		@GodotName("get_title") GodotMethod!(String) getTitle;
+		@GodotName("set_resizable") GodotMethod!(void, bool) setResizable;
+		@GodotName("get_resizable") GodotMethod!(bool) getResizable;
+		@GodotName("_closed") GodotMethod!(void) _closed;
+		@GodotName("get_close_button") GodotMethod!(TextureButton) getCloseButton;
+	}
 	bool opEquals(in WindowDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	WindowDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,8 +63,6 @@ public:
 		return cast(WindowDialog)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__gui_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_gui_input") = _GODOT__gui_input;
 	/**
 	
 	*/
@@ -60,48 +73,38 @@ public:
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_title;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_title") = _GODOT_set_title;
 	/**
 	
 	*/
 	void setTitle(StringArg0)(in StringArg0 title)
 	{
-		_GODOT_set_title.bind("WindowDialog", "set_title");
-		ptrcall!(void)(_GODOT_set_title, _godot_object, title);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_title;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_title") = _GODOT_get_title;
 	/**
 	
 	*/
 	String getTitle() const
 	{
-		_GODOT_get_title.bind("WindowDialog", "get_title");
-		return ptrcall!(String)(_GODOT_get_title, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getTitle, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_resizable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_resizable") = _GODOT_set_resizable;
 	/**
 	
 	*/
 	void setResizable(in bool resizable)
 	{
-		_GODOT_set_resizable.bind("WindowDialog", "set_resizable");
-		ptrcall!(void)(_GODOT_set_resizable, _godot_object, resizable);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setResizable, _godot_object, resizable);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_get_resizable;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_resizable") = _GODOT_get_resizable;
 	/**
 	
 	*/
 	bool getResizable() const
 	{
-		_GODOT_get_resizable.bind("WindowDialog", "get_resizable");
-		return ptrcall!(bool)(_GODOT_get_resizable, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getResizable, _godot_object);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__closed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_closed") = _GODOT__closed;
 	/**
 	
 	*/
@@ -111,18 +114,16 @@ public:
 		String _GODOT_method_name = String("_closed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(TextureButton) _GODOT_get_close_button;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_close_button") = _GODOT_get_close_button;
 	/**
 	Return the close $(D TextureButton).
 	*/
 	TextureButton getCloseButton()
 	{
-		_GODOT_get_close_button.bind("WindowDialog", "get_close_button");
-		return ptrcall!(TextureButton)(_GODOT_get_close_button, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TextureButton)(_classBinding.getCloseButton, _godot_object);
 	}
 	/**
-	The text displayed in the window's title bar. Default value: "Save a File".
+	The text displayed in the window's title bar.
 	*/
 	@property String windowTitle()
 	{

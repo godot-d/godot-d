@@ -1,5 +1,5 @@
 /**
-Colored rect for canvas.
+Colored rectangle.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,19 +21,28 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
-Colored rect for canvas.
+Colored rectangle.
 
-An object that is represented on the canvas as a rect with color. $(D Color) is used to set or get color info for the rect.
+Displays a colored rectangle.
 */
 @GodotBaseClass struct ColorRect
 {
-	static immutable string _GODOT_internal_name = "ColorRect";
+	enum string _GODOT_internal_name = "ColorRect";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_frame_color") GodotMethod!(void, Color) setFrameColor;
+		@GodotName("get_frame_color") GodotMethod!(Color) getFrameColor;
+	}
 	bool opEquals(in ColorRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ColorRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,31 +55,27 @@ public:
 		return cast(ColorRect)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_frame_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_frame_color") = _GODOT_set_frame_color;
 	/**
 	
 	*/
 	void setFrameColor(in Color color)
 	{
-		_GODOT_set_frame_color.bind("ColorRect", "set_frame_color");
-		ptrcall!(void)(_GODOT_set_frame_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrameColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_frame_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_frame_color") = _GODOT_get_frame_color;
 	/**
 	
 	*/
 	Color getFrameColor() const
 	{
-		_GODOT_get_frame_color.bind("ColorRect", "get_frame_color");
-		return ptrcall!(Color)(_GODOT_get_frame_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getFrameColor, _godot_object);
 	}
 	/**
-	The color to fill the `ColorRect`.
+	The fill color.
 	
 	
-	$ColorRect.color = Color(1, 0, 0, 1) # Set ColorRect node's color to red
+	$ColorRect.color = Color(1, 0, 0, 1) # Set ColorRect's color to red.
 	
 	
 	*/

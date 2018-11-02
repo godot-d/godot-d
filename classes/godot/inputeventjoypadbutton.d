@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.inputevent;
+import godot.resource;
+import godot.reference;
 /**
 Input event for gamepad buttons.
 
@@ -28,12 +30,22 @@ Input event type for gamepad buttons. For joysticks see $(D InputEventJoypadMoti
 */
 @GodotBaseClass struct InputEventJoypadButton
 {
-	static immutable string _GODOT_internal_name = "InputEventJoypadButton";
+	enum string _GODOT_internal_name = "InputEventJoypadButton";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; InputEvent _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_button_index") GodotMethod!(void, long) setButtonIndex;
+		@GodotName("get_button_index") GodotMethod!(long) getButtonIndex;
+		@GodotName("set_pressure") GodotMethod!(void, double) setPressure;
+		@GodotName("get_pressure") GodotMethod!(double) getPressure;
+		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+	}
 	bool opEquals(in InputEventJoypadButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventJoypadButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,55 +58,45 @@ public:
 		return cast(InputEventJoypadButton)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_button_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_button_index") = _GODOT_set_button_index;
 	/**
 	
 	*/
 	void setButtonIndex(in long button_index)
 	{
-		_GODOT_set_button_index.bind("InputEventJoypadButton", "set_button_index");
-		ptrcall!(void)(_GODOT_set_button_index, _godot_object, button_index);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setButtonIndex, _godot_object, button_index);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_button_index;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_button_index") = _GODOT_get_button_index;
 	/**
 	
 	*/
 	long getButtonIndex() const
 	{
-		_GODOT_get_button_index.bind("InputEventJoypadButton", "get_button_index");
-		return ptrcall!(long)(_GODOT_get_button_index, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getButtonIndex, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT_set_pressure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pressure") = _GODOT_set_pressure;
 	/**
 	
 	*/
 	void setPressure(in double pressure)
 	{
-		_GODOT_set_pressure.bind("InputEventJoypadButton", "set_pressure");
-		ptrcall!(void)(_GODOT_set_pressure, _godot_object, pressure);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
 	}
-	package(godot) static GodotMethod!(double) _GODOT_get_pressure;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pressure") = _GODOT_get_pressure;
 	/**
 	
 	*/
 	double getPressure() const
 	{
-		_GODOT_get_pressure.bind("InputEventJoypadButton", "get_pressure");
-		return ptrcall!(double)(_GODOT_get_pressure, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPressure, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pressed") = _GODOT_set_pressed;
 	/**
 	
 	*/
 	void setPressed(in bool pressed)
 	{
-		_GODOT_set_pressed.bind("InputEventJoypadButton", "set_pressed");
-		ptrcall!(void)(_GODOT_set_pressed, _godot_object, pressed);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
 	}
 	/**
 	Button identifier. One of the `JOY_BUTTON_*` constants from $(D @GlobalScope).

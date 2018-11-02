@@ -28,12 +28,22 @@ This object is returned by ResourceLoader when performing an interactive load. I
 */
 @GodotBaseClass struct ResourceInteractiveLoader
 {
-	static immutable string _GODOT_internal_name = "ResourceInteractiveLoader";
+	enum string _GODOT_internal_name = "ResourceInteractiveLoader";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("get_resource") GodotMethod!(Resource) getResource;
+		@GodotName("poll") GodotMethod!(GodotError) poll;
+		@GodotName("wait") GodotMethod!(GodotError) wait;
+		@GodotName("get_stage") GodotMethod!(long) getStage;
+		@GodotName("get_stage_count") GodotMethod!(long) getStageCount;
+	}
 	bool opEquals(in ResourceInteractiveLoader other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ResourceInteractiveLoader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,54 +56,44 @@ public:
 		return cast(ResourceInteractiveLoader)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(Resource) _GODOT_get_resource;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_resource") = _GODOT_get_resource;
 	/**
 	Return the loaded resource (only if loaded). Otherwise, returns null.
 	*/
 	Ref!Resource getResource()
 	{
-		_GODOT_get_resource.bind("ResourceInteractiveLoader", "get_resource");
-		return ptrcall!(Resource)(_GODOT_get_resource, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Resource)(_classBinding.getResource, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_poll;
-	package(godot) alias _GODOT_methodBindInfo(string name : "poll") = _GODOT_poll;
 	/**
 	Poll the load. If OK is returned, this means poll will have to be called again. If ERR_FILE_EOF is returned, them the load has finished and the resource can be obtained by calling $(D getResource).
 	*/
 	GodotError poll()
 	{
-		_GODOT_poll.bind("ResourceInteractiveLoader", "poll");
-		return ptrcall!(GodotError)(_GODOT_poll, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
 	}
-	package(godot) static GodotMethod!(GodotError) _GODOT_wait;
-	package(godot) alias _GODOT_methodBindInfo(string name : "wait") = _GODOT_wait;
 	/**
 	
 	*/
 	GodotError wait()
 	{
-		_GODOT_wait.bind("ResourceInteractiveLoader", "wait");
-		return ptrcall!(GodotError)(_GODOT_wait, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_stage;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stage") = _GODOT_get_stage;
 	/**
 	Return the load stage. The total amount of stages can be queried with $(D getStageCount)
 	*/
 	long getStage() const
 	{
-		_GODOT_get_stage.bind("ResourceInteractiveLoader", "get_stage");
-		return ptrcall!(long)(_GODOT_get_stage, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStage, _godot_object);
 	}
-	package(godot) static GodotMethod!(long) _GODOT_get_stage_count;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_stage_count") = _GODOT_get_stage_count;
 	/**
 	Return the total amount of stages (calls to $(D poll)) needed to completely load this resource.
 	*/
 	long getStageCount() const
 	{
-		_GODOT_get_stage_count.bind("ResourceInteractiveLoader", "get_stage_count");
-		return ptrcall!(long)(_GODOT_get_stage_count, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getStageCount, _godot_object);
 	}
 }

@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
+import godot.resource;
+import godot.reference;
 /**
 Chooses between two input values.
 
@@ -34,12 +36,19 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptSelect
 {
-	static immutable string _GODOT_internal_name = "VisualScriptSelect";
+	enum string _GODOT_internal_name = "VisualScriptSelect";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
+		@GodotName("get_typed") GodotMethod!(Variant.Type) getTyped;
+	}
 	bool opEquals(in VisualScriptSelect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSelect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -52,25 +61,21 @@ public:
 		return cast(VisualScriptSelect)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, long) _GODOT_set_typed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_typed") = _GODOT_set_typed;
 	/**
 	
 	*/
 	void setTyped(in long type)
 	{
-		_GODOT_set_typed.bind("VisualScriptSelect", "set_typed");
-		ptrcall!(void)(_GODOT_set_typed, _godot_object, type);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
 	}
-	package(godot) static GodotMethod!(Variant.Type) _GODOT_get_typed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_typed") = _GODOT_get_typed;
 	/**
 	
 	*/
 	Variant.Type getTyped() const
 	{
-		_GODOT_get_typed.bind("VisualScriptSelect", "get_typed");
-		return ptrcall!(Variant.Type)(_GODOT_get_typed, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getTyped, _godot_object);
 	}
 	/**
 	The input variables' type.

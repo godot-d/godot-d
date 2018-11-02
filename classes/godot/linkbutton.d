@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.basebutton;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Simple button used to represent a link to some resource.
 
@@ -28,12 +31,21 @@ This kind of buttons are primarily used when the interaction with the button cau
 */
 @GodotBaseClass struct LinkButton
 {
-	static immutable string _GODOT_internal_name = "LinkButton";
+	enum string _GODOT_internal_name = "LinkButton";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; BaseButton _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("set_underline_mode") GodotMethod!(void, long) setUnderlineMode;
+		@GodotName("get_underline_mode") GodotMethod!(LinkButton.UnderlineMode) getUnderlineMode;
+	}
 	bool opEquals(in LinkButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LinkButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -69,45 +81,37 @@ public:
 		underlineModeOnHover = 1,
 		underlineModeNever = 2,
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT_set_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_text") = _GODOT_set_text;
 	/**
 	
 	*/
 	void setText(StringArg0)(in StringArg0 text)
 	{
-		_GODOT_set_text.bind("LinkButton", "set_text");
-		ptrcall!(void)(_GODOT_set_text, _godot_object, text);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_text;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_text") = _GODOT_get_text;
 	/**
 	
 	*/
 	String getText() const
 	{
-		_GODOT_get_text.bind("LinkButton", "get_text");
-		return ptrcall!(String)(_GODOT_get_text, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, long) _GODOT_set_underline_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_underline_mode") = _GODOT_set_underline_mode;
 	/**
 	
 	*/
 	void setUnderlineMode(in long underline_mode)
 	{
-		_GODOT_set_underline_mode.bind("LinkButton", "set_underline_mode");
-		ptrcall!(void)(_GODOT_set_underline_mode, _godot_object, underline_mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUnderlineMode, _godot_object, underline_mode);
 	}
-	package(godot) static GodotMethod!(LinkButton.UnderlineMode) _GODOT_get_underline_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_underline_mode") = _GODOT_get_underline_mode;
 	/**
 	
 	*/
 	LinkButton.UnderlineMode getUnderlineMode() const
 	{
-		_GODOT_get_underline_mode.bind("LinkButton", "get_underline_mode");
-		return ptrcall!(LinkButton.UnderlineMode)(_GODOT_get_underline_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(LinkButton.UnderlineMode)(_classBinding.getUnderlineMode, _godot_object);
 	}
 	/**
 	

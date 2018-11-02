@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
+import godot.resource;
+import godot.reference;
 /**
 A .stex texture.
 
@@ -28,12 +30,19 @@ A texture that is loaded from a .stex file.
 */
 @GodotBaseClass struct StreamTexture
 {
-	static immutable string _GODOT_internal_name = "StreamTexture";
+	enum string _GODOT_internal_name = "StreamTexture";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("load") GodotMethod!(GodotError, String) load;
+		@GodotName("get_load_path") GodotMethod!(String) getLoadPath;
+	}
 	bool opEquals(in StreamTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StreamTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -46,25 +55,21 @@ public:
 		return cast(StreamTexture)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(GodotError, String) _GODOT_load;
-	package(godot) alias _GODOT_methodBindInfo(string name : "load") = _GODOT_load;
 	/**
 	
 	*/
 	GodotError load(StringArg0)(in StringArg0 path)
 	{
-		_GODOT_load.bind("StreamTexture", "load");
-		return ptrcall!(GodotError)(_GODOT_load, _godot_object, path);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
 	}
-	package(godot) static GodotMethod!(String) _GODOT_get_load_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_load_path") = _GODOT_get_load_path;
 	/**
 	
 	*/
 	String getLoadPath() const
 	{
-		_GODOT_get_load_path.bind("StreamTexture", "get_load_path");
-		return ptrcall!(String)(_GODOT_get_load_path, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLoadPath, _godot_object);
 	}
 	/**
 	The StreamTexture's filepath to a .stex file.

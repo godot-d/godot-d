@@ -22,19 +22,52 @@ import godot.object;
 import godot.classdb;
 import godot.boxcontainer;
 import godot.inputevent;
+import godot.container;
+import godot.control;
+import godot.canvasitem;
+import godot.node;
 /**
 Color picker control.
 
-This is a simple color picker $(D Control). It's useful for selecting a color from an RGB/RGBA colorspace.
+$(D Control) node displaying a color picker widget. It's useful for selecting a color from an RGB/RGBA colorspace.
 */
 @GodotBaseClass struct ColorPicker
 {
-	static immutable string _GODOT_internal_name = "ColorPicker";
+	enum string _GODOT_internal_name = "ColorPicker";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; BoxContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("set_pick_color") GodotMethod!(void, Color) setPickColor;
+		@GodotName("get_pick_color") GodotMethod!(Color) getPickColor;
+		@GodotName("set_raw_mode") GodotMethod!(void, bool) setRawMode;
+		@GodotName("is_raw_mode") GodotMethod!(bool) isRawMode;
+		@GodotName("set_deferred_mode") GodotMethod!(void, bool) setDeferredMode;
+		@GodotName("is_deferred_mode") GodotMethod!(bool) isDeferredMode;
+		@GodotName("set_edit_alpha") GodotMethod!(void, bool) setEditAlpha;
+		@GodotName("is_editing_alpha") GodotMethod!(bool) isEditingAlpha;
+		@GodotName("add_preset") GodotMethod!(void, Color) addPreset;
+		@GodotName("_value_changed") GodotMethod!(void, double) _valueChanged;
+		@GodotName("_html_entered") GodotMethod!(void, String) _htmlEntered;
+		@GodotName("_text_type_toggled") GodotMethod!(void) _textTypeToggled;
+		@GodotName("_add_preset_pressed") GodotMethod!(void) _addPresetPressed;
+		@GodotName("_screen_pick_pressed") GodotMethod!(void) _screenPickPressed;
+		@GodotName("_sample_draw") GodotMethod!(void) _sampleDraw;
+		@GodotName("_update_presets") GodotMethod!(void) _updatePresets;
+		@GodotName("_hsv_draw") GodotMethod!(void, long, GodotObject) _hsvDraw;
+		@GodotName("_uv_input") GodotMethod!(void, InputEvent) _uvInput;
+		@GodotName("_w_input") GodotMethod!(void, InputEvent) _wInput;
+		@GodotName("_preset_input") GodotMethod!(void, InputEvent) _presetInput;
+		@GodotName("_screen_input") GodotMethod!(void, InputEvent) _screenInput;
+		@GodotName("_focus_enter") GodotMethod!(void) _focusEnter;
+		@GodotName("_focus_exit") GodotMethod!(void) _focusExit;
+		@GodotName("_html_focus_exit") GodotMethod!(void) _htmlFocusExit;
+	}
 	bool opEquals(in ColorPicker other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ColorPicker opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -47,78 +80,78 @@ public:
 		return cast(ColorPicker)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(void, Color) _GODOT_set_pick_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_pick_color") = _GODOT_set_pick_color;
 	/**
 	
 	*/
 	void setPickColor(in Color color)
 	{
-		_GODOT_set_pick_color.bind("ColorPicker", "set_pick_color");
-		ptrcall!(void)(_GODOT_set_pick_color, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(Color) _GODOT_get_pick_color;
-	package(godot) alias _GODOT_methodBindInfo(string name : "get_pick_color") = _GODOT_get_pick_color;
 	/**
 	
 	*/
 	Color getPickColor() const
 	{
-		_GODOT_get_pick_color.bind("ColorPicker", "get_pick_color");
-		return ptrcall!(Color)(_GODOT_get_pick_color, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getPickColor, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_raw_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_raw_mode") = _GODOT_set_raw_mode;
 	/**
 	
 	*/
 	void setRawMode(in bool mode)
 	{
-		_GODOT_set_raw_mode.bind("ColorPicker", "set_raw_mode");
-		ptrcall!(void)(_GODOT_set_raw_mode, _godot_object, mode);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRawMode, _godot_object, mode);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_raw_mode;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_raw_mode") = _GODOT_is_raw_mode;
 	/**
 	
 	*/
 	bool isRawMode() const
 	{
-		_GODOT_is_raw_mode.bind("ColorPicker", "is_raw_mode");
-		return ptrcall!(bool)(_GODOT_is_raw_mode, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRawMode, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, bool) _GODOT_set_edit_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "set_edit_alpha") = _GODOT_set_edit_alpha;
+	/**
+	
+	*/
+	void setDeferredMode(in bool mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDeferredMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	bool isDeferredMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDeferredMode, _godot_object);
+	}
 	/**
 	
 	*/
 	void setEditAlpha(in bool show)
 	{
-		_GODOT_set_edit_alpha.bind("ColorPicker", "set_edit_alpha");
-		ptrcall!(void)(_GODOT_set_edit_alpha, _godot_object, show);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
 	}
-	package(godot) static GodotMethod!(bool) _GODOT_is_editing_alpha;
-	package(godot) alias _GODOT_methodBindInfo(string name : "is_editing_alpha") = _GODOT_is_editing_alpha;
 	/**
 	
 	*/
 	bool isEditingAlpha() const
 	{
-		_GODOT_is_editing_alpha.bind("ColorPicker", "is_editing_alpha");
-		return ptrcall!(bool)(_GODOT_is_editing_alpha, _godot_object);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEditingAlpha, _godot_object);
 	}
-	package(godot) static GodotMethod!(void, Color) _GODOT_add_preset;
-	package(godot) alias _GODOT_methodBindInfo(string name : "add_preset") = _GODOT_add_preset;
 	/**
-	Adds the current selected to color to a list of colors (presets), the presets will be displayed in the color picker and the user will be able to select them, notice that the presets list is only for this color picker.
+	Adds the given color to a list of color presets. The presets are displayed in the color picker and the user will be able to select them. Note: the presets list is only for $(I this) color picker.
 	*/
 	void addPreset(in Color color)
 	{
-		_GODOT_add_preset.bind("ColorPicker", "add_preset");
-		ptrcall!(void)(_GODOT_add_preset, _godot_object, color);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addPreset, _godot_object, color);
 	}
-	package(godot) static GodotMethod!(void, double) _GODOT__value_changed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_value_changed") = _GODOT__value_changed;
 	/**
 	
 	*/
@@ -129,8 +162,6 @@ public:
 		String _GODOT_method_name = String("_value_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, String) _GODOT__html_entered;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_html_entered") = _GODOT__html_entered;
 	/**
 	
 	*/
@@ -141,8 +172,6 @@ public:
 		String _GODOT_method_name = String("_html_entered");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__text_type_toggled;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_text_type_toggled") = _GODOT__text_type_toggled;
 	/**
 	
 	*/
@@ -152,8 +181,6 @@ public:
 		String _GODOT_method_name = String("_text_type_toggled");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__add_preset_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_add_preset_pressed") = _GODOT__add_preset_pressed;
 	/**
 	
 	*/
@@ -163,8 +190,6 @@ public:
 		String _GODOT_method_name = String("_add_preset_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__screen_pick_pressed;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_screen_pick_pressed") = _GODOT__screen_pick_pressed;
 	/**
 	
 	*/
@@ -174,8 +199,6 @@ public:
 		String _GODOT_method_name = String("_screen_pick_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__sample_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_sample_draw") = _GODOT__sample_draw;
 	/**
 	
 	*/
@@ -185,8 +208,6 @@ public:
 		String _GODOT_method_name = String("_sample_draw");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void) _GODOT__update_presets;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_update_presets") = _GODOT__update_presets;
 	/**
 	
 	*/
@@ -196,8 +217,6 @@ public:
 		String _GODOT_method_name = String("_update_presets");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, long, GodotObject) _GODOT__hsv_draw;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_hsv_draw") = _GODOT__hsv_draw;
 	/**
 	
 	*/
@@ -209,8 +228,6 @@ public:
 		String _GODOT_method_name = String("_hsv_draw");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__uv_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_uv_input") = _GODOT__uv_input;
 	/**
 	
 	*/
@@ -221,8 +238,6 @@ public:
 		String _GODOT_method_name = String("_uv_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__w_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_w_input") = _GODOT__w_input;
 	/**
 	
 	*/
@@ -233,8 +248,6 @@ public:
 		String _GODOT_method_name = String("_w_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__preset_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_preset_input") = _GODOT__preset_input;
 	/**
 	
 	*/
@@ -245,8 +258,6 @@ public:
 		String _GODOT_method_name = String("_preset_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
-	package(godot) static GodotMethod!(void, InputEvent) _GODOT__screen_input;
-	package(godot) alias _GODOT_methodBindInfo(string name : "_screen_input") = _GODOT__screen_input;
 	/**
 	
 	*/
@@ -255,6 +266,33 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_screen_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _focusEnter()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_focus_enter");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _focusExit()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_focus_exit");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _htmlFocusExit()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_html_focus_exit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -270,7 +308,7 @@ public:
 		setPickColor(v);
 	}
 	/**
-	If `true`, shows an alpha channel slider (transparency).
+	If `true` shows an alpha channel slider (transparency).
 	*/
 	@property bool editAlpha()
 	{
@@ -282,7 +320,7 @@ public:
 		setEditAlpha(v);
 	}
 	/**
-	If `true`, allows the color R, G, B component values to go beyond 1.0, which can be used for certain special operations that require it (like tinting without darkening or rendering sprites in HDR).
+	If `true` allows the color R, G, B component values to go beyond 1.0, which can be used for certain special operations that require it (like tinting without darkening or rendering sprites in HDR).
 	*/
 	@property bool rawMode()
 	{
@@ -292,5 +330,17 @@ public:
 	@property void rawMode(bool v)
 	{
 		setRawMode(v);
+	}
+	/**
+	If `true` the color will apply only after the user releases the mouse button, otherwise it will apply immediately even in mouse motion event (which can cause performance issues).
+	*/
+	@property bool deferredMode()
+	{
+		return isDeferredMode();
+	}
+	/// ditto
+	@property void deferredMode(bool v)
+	{
+		setDeferredMode(v);
 	}
 }

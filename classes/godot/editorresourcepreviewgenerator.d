@@ -30,12 +30,20 @@ Custom code to generate previews. Please check "file_dialog/thumbnail_size" in E
 */
 @GodotBaseClass struct EditorResourcePreviewGenerator
 {
-	static immutable string _GODOT_internal_name = "EditorResourcePreviewGenerator";
+	enum string _GODOT_internal_name = "EditorResourcePreviewGenerator";
 public:
 @nogc nothrow:
 	union { godot_object _godot_object; Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
+	package(godot) __gshared bool _classBindingInitialized = false;
+	package(godot) static struct _classBinding
+	{
+		__gshared:
+		@GodotName("handles") GodotMethod!(bool, String) handles;
+		@GodotName("generate") GodotMethod!(Texture, Resource, Vector2) generate;
+		@GodotName("generate_from_path") GodotMethod!(Texture, String, Vector2) generateFromPath;
+	}
 	bool opEquals(in EditorResourcePreviewGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorResourcePreviewGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
 	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
@@ -48,8 +56,6 @@ public:
 		return cast(EditorResourcePreviewGenerator)(constructor());
 	}
 	@disable new(size_t s);
-	package(godot) static GodotMethod!(bool, String) _GODOT_handles;
-	package(godot) alias _GODOT_methodBindInfo(string name : "handles") = _GODOT_handles;
 	/**
 	Return if your generator supports this resource type.
 	*/
@@ -60,31 +66,29 @@ public:
 		String _GODOT_method_name = String("handles");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
-	package(godot) static GodotMethod!(Texture, Resource) _GODOT_generate;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generate") = _GODOT_generate;
 	/**
-	Generate a preview from a given resource. This must be always implemented.
+	Generate a preview from a given resource with the specified size. This must always be implemented.
 	Returning an empty texture is an OK way to fail and let another generator take care.
 	Care must be taken because this function is always called from a thread (not the main thread).
 	*/
-	Ref!Texture generate(Resource from)
+	Ref!Texture generate(Resource from, in Vector2 size)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(from);
+		_GODOT_args.append(size);
 		String _GODOT_method_name = String("generate");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Texture);
 	}
-	package(godot) static GodotMethod!(Texture, String) _GODOT_generate_from_path;
-	package(godot) alias _GODOT_methodBindInfo(string name : "generate_from_path") = _GODOT_generate_from_path;
 	/**
-	Generate a preview directly from a path, implementing this is optional, as default code will load and call generate()
+	Generate a preview directly from a path with the specified size. Implementing this is optional, as default code will load and call $(D generate).
 	Returning an empty texture is an OK way to fail and let another generator take care.
 	Care must be taken because this function is always called from a thread (not the main thread).
 	*/
-	Ref!Texture generateFromPath(StringArg0)(in StringArg0 path)
+	Ref!Texture generateFromPath(StringArg0)(in StringArg0 path, in Vector2 size)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(path);
+		_GODOT_args.append(size);
 		String _GODOT_method_name = String("generate_from_path");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Texture);
 	}
