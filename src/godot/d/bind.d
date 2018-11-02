@@ -18,11 +18,10 @@ struct GodotVarArgs
 	
 }
 
+package(godot) struct GodotName { string name; }
+
 /++
 Definition of a method from API JSON.
-
-Godot classes will have these as static member variables, and aliases of form
-$(D methodBindInfo(string name : "method_name")) to access by name.
 +/
 struct GodotMethod(Return, Args...)
 {
@@ -40,6 +39,39 @@ struct GodotMethod(Return, Args...)
 	}
 }
 
+@nogc nothrow pragma(inline, true)
+package(godot) void checkClassBinding(C)()
+{
+	if(!C._classBindingInitialized)
+	{
+		initializeClassBinding!C();
+	}
+}
+
+@nogc nothrow pragma(inline, false)
+package(godot) void initializeClassBinding(C)()
+{
+	synchronized
+	{
+		if(!C._classBindingInitialized)
+		{
+			static foreach(n; __traits(allMembers, C._classBinding))
+			{
+				static if(n == "_singleton") C._classBinding._singleton = _godot_api
+					.godot_global_get_singleton(cast(char*)C._classBinding._singletonName);
+				else static if(n == "_singletonName"){}
+				else
+				{
+					//enum immutable(char*) cn = C._GODOT_internal_name;
+					mixin("C._classBinding."~n).bind(C._GODOT_internal_name,
+						getUDAs!(mixin("C._classBinding."~n), GodotName)[0].name);
+				}
+			}
+			C._classBindingInitialized = true;
+		}
+	}
+}
+
 enum bool needsConversion(Src, Dest) = !isGodotClass!Dest && !is(Src : Dest);
 
 /// temporary var if conversion is needed
@@ -53,7 +85,6 @@ template tempType(Src, Dest)
 Direct pointer call through MethodBind.
 +/
 RefOrT!Return ptrcall(Return, MB, Args...)(MB method, in godot_object self, Args args)
-	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 in
 {
 	import std.experimental.allocator, std.experimental.allocator.mallocator;
@@ -123,7 +154,6 @@ Variant call, for virtual and vararg methods.
 Forwards to `callv`, but does compile-time type check of args other than varargs.
 +/
 Return callv(MB, Return, Args...)(MB method, godot_object self, Args args)
-	if( is(MB : GodotMethod!(Return, MBArgs), MBArgs...) )
 in
 {
 	import std.experimental.allocator, std.experimental.allocator.mallocator;

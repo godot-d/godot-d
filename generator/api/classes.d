@@ -73,12 +73,6 @@ class GodotClass
 		}
 		foreach(p; properties)
 		{
-			auto g = methods.find!(m => m.name == p.getter);
-			if(!g.empty) p.getterMethod = g.front;
-			auto s = methods.find!(m => m.name == p.setter);
-			if(!s.empty) p.setterMethod = s.front;
-			
-			
 			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
 			if(p.type.isEnum)
 			{
@@ -106,11 +100,31 @@ class GodotClass
 	GodotClass base_class_ptr = null; // needs to be set after all classes loaded
 	GodotClass[] descendant_ptrs; /// direct descendent classes
 	
+	Type[] missingEnums; /// enums that were left unregistered in Godot
+	
 	string ddocBrief;
 	string ddoc;
 	string[string] ddocConstants;
 	
 	string[] constantsInEnums; // names of constants that are enum members
+	
+	string bindingStruct() const
+	{
+		string ret = "\tpackage(godot) __gshared bool _classBindingInitialized = false;\n";
+		ret ~= "\tpackage(godot) static struct _classBinding\n\t{\n";
+		ret ~= "\t\t__gshared:\n";
+		if(singleton)
+		{
+			ret ~= "\t\tgodot_object _singleton;\n";
+			ret ~= "\t\timmutable char* _singletonName = \""~name.godot.chompPrefix("_")~"\";\n";
+		}
+		foreach(const m; methods)
+		{
+			ret ~= m.binding;
+		}
+		ret ~= "\t}\n";
+		return ret;
+	}
 	
 	string source() const
 	{
@@ -121,19 +135,9 @@ class GodotClass
 		ret ~= "/**\n"~ddoc~"\n*/\n";
 		ret ~= "@GodotBaseClass struct "~className;
 		ret ~= "\n{\n";
-		ret ~= "\tstatic immutable string _GODOT_internal_name = \""~name.godot~"\";\n";
+		ret ~= "\tenum string _GODOT_internal_name = \""~name.godot~"\";\n";
 		ret ~= "public:\n";
 		ret ~= "@nogc nothrow:\n";
-		if(singleton)
-		{
-			ret ~= "\tstatic typeof(this) _GODOT_singleton()\n\t{\n";
-			ret ~= "\t\tstatic immutable char* _GODOT_singleton_name = \""~name.godot.chompPrefix("_")~"\";\n";
-			ret ~= "\t\tstatic typeof(this) _GODOT_singleton_ptr;\n";
-			ret ~= "\t\tif(_GODOT_singleton_ptr == null)\n";
-			ret ~= "\t\t\t_GODOT_singleton_ptr = cast(typeof(this))_godot_api.godot_global_get_singleton(cast(char*)_GODOT_singleton_name);\n";
-			ret ~= "\t\treturn _GODOT_singleton_ptr;\n";
-			ret ~= "\t}\n";
-		}
 		
 		// Pointer to Godot object, fake inheritance through alias this
 		if(name.godot != "Object")
@@ -149,6 +153,7 @@ class GodotClass
 			ret ~= "\talias BaseClasses = AliasSeq!();\n";
 		}
 		
+		ret ~= bindingStruct;
 		
 		// equality
 		ret ~= "\tbool opEquals(in "~className~" other) const ";
@@ -175,6 +180,16 @@ class GodotClass
 			ret ~= e.source;
 		}
 		
+		foreach(const ref e; missingEnums)
+		{
+			import std.stdio;
+			writeln("Warning: The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.");
+			ret ~= "\t/// Warning: The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.\n";
+			ret ~= "\tdeprecated(\"The enum "~e.d~" is missing from Godot's script API; using a non-typesafe int instead.\")\n";
+			string shortName = e.d[e.d.countUntil(".")+1..$];
+			ret ~= "\talias " ~ shortName ~ " = int;\n";
+		}
+		
 		if(constants.length)
 		{
 			ret ~= "\t/// \n";
@@ -193,13 +208,44 @@ class GodotClass
 		
 		foreach(const m; methods)
 		{
-			ret ~= m.bindingStruct;
 			ret ~= m.source;
 		}
 		
 		foreach(const p; properties)
 		{
-			ret ~= p.source;
+			import std.stdio : writeln;
+			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
+			
+			GodotMethod getterMethod, setterMethod;
+			
+			foreach(GodotClass c; BaseRange(cast()this))
+			{
+				if(!getterMethod)
+				{
+					auto g = c.methods.find!(m => m.name == p.getter);
+					if(!g.empty) getterMethod = g.front;
+				}
+				if(!setterMethod)
+				{
+					auto s = c.methods.find!(m => m.name == p.setter);
+					if(!s.empty) setterMethod = s.front;
+				}
+				
+				if(getterMethod && setterMethod) break;
+				
+				if(c.base_class_ptr is null)
+				{
+					if(!getterMethod) writeln("Warning: property ", name.godot, ".", p.name, " specifies a getter that doesn't exist: ", p.getter);
+					if(p.setter.length && !setterMethod) writeln("Warning: property ", name.godot, ".", p.name, " specifies a setter that doesn't exist: ", p.setter);
+					break;
+				}
+			}
+			
+			if(getterMethod) ret ~= p.getterSource(getterMethod);
+			if(p.setter.length)
+			{
+				if(setterMethod) ret ~= p.setterSource(setterMethod);
+			}
 		}
 		
 		
@@ -213,11 +259,20 @@ class GodotClass
 			ret ~= "@property @nogc nothrow pragma(inline, true)\n";
 			ret ~= className ~ " " ~ name.d;
 			ret ~= "()\n{\n";
-			ret ~= "\treturn "~className~"._GODOT_singleton();\n";
+			ret ~= "\tcheckClassBinding!"~className~"();\n";
+			ret ~= "\treturn "~className~"("~className~"._classBinding._singleton);\n";
 			ret ~= "}\n";
 		}
 		
 		return ret;
+	}
+	
+	struct BaseRange
+	{
+		GodotClass front;
+		BaseRange save() const { return cast()this; }
+		bool empty() const { return front is null; }
+		void popFront() { front = front.base_class_ptr; }
 	}
 }
 

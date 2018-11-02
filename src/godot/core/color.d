@@ -79,13 +79,13 @@ struct Color
 	uint to32() const
 	{
 	
-		uint c=cast(ubyte)(a*255);
-		c<<=8;
-		c|=cast(ubyte)(r*255);
+		uint c=cast(ubyte)(r*255);
 		c<<=8;
 		c|=cast(ubyte)(g*255);
 		c<<=8;
 		c|=cast(ubyte)(b*255);
+		c<<=8;
+		c|=cast(ubyte)(a*255);
 	
 		return c;
 	}
