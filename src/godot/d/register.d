@@ -107,7 +107,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			static if(is(Arg)) // is type
 			{
 				static assert(is(Arg == class) && extendsGodotBaseClass!Arg,
-					Arg.stringof ~ " is not a D class that extends a Godot class!");
+					fullyQualifiedName!Arg ~ " is not a D class that extends a Godot class!");
 				register!Arg(_GODOT_library_handle, _GODOT_library);
 			}
 			else static if( isCallable!Arg )
@@ -180,12 +180,12 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		alias Base = BaseClassesTuple!T[0];
 		static if(hasUDA!(Base, Rename)) enum immutable(char*) baseName = TemplateArgsOf!(
 			getUDAs!(Base, Rename)[0])[0];
-		else enum immutable(char*) baseName = Base.stringof;
+		else enum immutable(char*) baseName = fullyQualifiedName!Base;
 	}
 	
 	static if(hasUDA!(T, Rename)) enum immutable(char*) name = TemplateArgsOf!(
 		getUDAs!(T, Rename)[0])[0];
-	else enum immutable(char*) name = T.stringof;
+	else enum immutable(char*) name = fullyQualifiedName!T;
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
 	auto idf = godot_instance_destroy_func(&destroyFunc!T, null, null);
