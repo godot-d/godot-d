@@ -9,22 +9,26 @@ D language bindings for the [Godot Engine](https://godotengine.org/)'s
 breaking changes, bugs, and missing documentation. Please report any issues and
 confusing or undocumented features on the GitHub page.
 
-#### Upcoming changes
+**WARNING**: v0.0.7 is the last update before the following breaking changes to
+v0.1.0; you'll need to manually update these in your project:
 - NativeScript resources need to use the fully qualified name of classes.
+- D strings can no longer be passed to Godot methods. The implicit conversion
+  was expensive and sometimes buggy. Godot String literals (`gs!"some_text"`)
+  can be used in place of plain D string literals.
+
+#### Upcoming changes
 - Optional editor import plugin that handles the boilerplate - `.d` files will
   import as NativeScripts and `dub.json`/`dub.sdl` as GDNativeLibrary.
 - Documentation and a tutorial. Delayed so it can use the import plugin. For
   now, see the [asteroids demo game](examples/asteroids/), which the tutorial
   will remake in detailed steps.
-- Godot String literals (`gs!"some_text"`) will replace passing D strings to
-  Godot. The expensive runtime conversion shouldn't be implicit.
 
 Usage
 -----
 #### Dependencies
 - D compiler:
-  - [DMD 2.076+](https://dlang.org/download.html#dmd) or
-  - [LDC 1.6.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
+  - [DMD 2.082+](https://dlang.org/download.html#dmd) or
+  - [LDC 1.11.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
 
 #### Project setup
 A Godot project needs these files in its project folder to use D:  
