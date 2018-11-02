@@ -192,16 +192,26 @@ struct String
 
 struct GodotStringLiteral(string data)
 {
-	private static godot_string gs;
+	private __gshared godot_string gs;
 	String str() const
 	{
 		static if(data.length) if(gs == godot_string.init)
 		{
-			_godot_api.godot_string_parse_utf8(&gs, data);
+			synchronized
+			{
+				if(gs == godot_string.init) _godot_api.godot_string_parse_utf8(&gs, data);
+			}
 		}
 		String ret = void;
 		_godot_api.godot_string_new_copy(&ret._godot_string, &gs);
 		return ret;
+	}
+	static if(data.length)
+	{
+		shared static ~this()
+		{
+			if(gs != godot_string.init) _godot_api.godot_string_destroy(&gs);
+		}
 	}
 	alias str this;
 }
