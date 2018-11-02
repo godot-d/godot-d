@@ -214,6 +214,7 @@ struct Variant
 	template conversionToGodot(T)
 	{
 		static if(isGodotClass!T) alias conversionToGodot = objectToGodot!T;
+		else static if(is(T : GodotStringLiteral!s, string s)) alias conversionToGodot = (T t) => t.str();
 		else static if(is(T : Ref!U, U)) alias conversionToGodot = objectToGodot!U;
 		else static if(isIntegral!T) alias conversionToGodot = (T t) => cast(long)t;
 		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
