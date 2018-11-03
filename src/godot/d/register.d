@@ -61,6 +61,9 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 	private __gshared Ref!(godot.gdnativelibrary.GDNativeLibrary) _GODOT_library;
 	private __gshared void* _GODOT_library_handle;
 	
+	/// HACK: empty main to force the compiler to add emulated TLS.
+	version(Android) void main() { }
+	
 	pragma(mangle, symbolPrefix~"gdnative_init")
 	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
 	{
