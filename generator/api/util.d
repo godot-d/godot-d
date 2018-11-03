@@ -81,7 +81,7 @@ class Type
 	/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
 	bool acceptImplicit() const
 	{
-		auto accept = only("String", "Variant", "NodePath");
+		auto accept = only("Variant", "NodePath");
 		return accept.canFind(godot);
 	}
 
@@ -141,7 +141,7 @@ string emptyDefault(in Type type)
 	switch(type.d)
 	{
 		case "String":
-			return `""`;
+			return `gs!""`;
 		case "Dictionary":
 			return type.d~".empty_dictionary"; // naming convention fail
 		case "Array":
@@ -211,7 +211,7 @@ string escapeDefault(in Type type, string arg)
 			if(arg == "Null") return "Variant.nil";
 			else return arg;
 		case "String":
-			return "\""~arg~"\"";
+			return "gs!\""~arg~"\"";
 		default: // all Object types
 		{
 			if(arg == "Null") return emptyDefault(type);

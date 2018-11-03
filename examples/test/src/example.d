@@ -99,9 +99,9 @@ class Test : GodotScript!Label
 	{
 		// the node variables will have been set by OnReady
 		colorRect.setFrameColor(Color(0f, 1f, 0f));
-		longNode.setText(String("This node was set by OnReady"));
+		longNode.setText(gs!"This node was set by OnReady");
 		
-		owner.emitSignal("send_message", "Some text sent by a signal");
+		owner.emitSignal(gs!"send_message", gs!"Some text sent by a signal");
 		
 		writefln("owner: %x", cast(void*)owner);
 		// print() will write into Godot's editor output, unlike writeln
@@ -174,7 +174,7 @@ class Test : GodotScript!Label
 		Vector3 vec3Back = vVec3.as!Vector3;
 		writefln("vec3Back: %f,%f,%f", vec3Back.x, vec3Back.y, vec3Back.z);
 		
-		String str = String("qwertz");
+		String str = gs!"qwertz";
 		Variant vStr = str;
 		String strBack = vStr.as!String;
 		auto strBackD = strBack.data;
@@ -233,10 +233,10 @@ class Test : GodotScript!Label
 			auto ocStr = other.data;
 			writefln("other.data: %x <%s>", cast(void*)ocStr.ptr, ocStr);
 			
-			String cat = empty ~ String("cat");
+			String cat = empty ~ gs!"cat";
 			writefln("cat: <%s>", cat);
 			
-			empty = String("assigned");
+			empty = gs!"assigned";
 			writefln("assigned: <%s>", empty);
 		}
 		
@@ -252,7 +252,7 @@ class Test : GodotScript!Label
 			print("Executable path: ", exe);
 			
 			import godot.projectsettings;
-			String projectName = ProjectSettings.get("application/config/name").as!String;
+			String projectName = ProjectSettings.get(gs!"application/config/name").as!String;
 			print("ProjectSettings property \"application/config/name\": ", projectName);
 		}
 		
@@ -266,7 +266,7 @@ class Test : GodotScript!Label
 			
 			String oldText = getText();
 			writefln("Old Label text: %s", oldText);
-			setText("New text set from D Test class");
+			setText(gs!"New text set from D Test class");
 		}
 		
 		// test refcounting (also, run Godot with -v to see leaks)
@@ -294,11 +294,11 @@ class Test : GodotScript!Label
 			import godot.resource, godot.resourceloader;
 			import std.string;
 			
-			String iconPath = String("res://icon.png");
+			String iconPath = gs!"res://icon.png";
 			writefln("assert(!ResourceLoader.has(%s))", iconPath);
 			assert(!ResourceLoader.has(iconPath));
 			
-			Ref!Resource res = ResourceLoader.load(iconPath, "", false);
+			Ref!Resource res = ResourceLoader.load(iconPath, gs!"", false);
 			writefln("Loaded Resource %s at path %s", res.getName, res.getPath);
 			
 			// test upcasts
@@ -317,8 +317,8 @@ class Test : GodotScript!Label
 		// test properties
 		// FIXME: D Object has "get" shadowing GodotObject.get
 		{
-			String pn = String("property");
-			String someText = String("Some text.");
+			String pn = gs!"property";
+			String someText = gs!"Some text.";
 			Variant someTextV = Variant(someText);
 			
 			writeln("setting property to \"Some text.\"...");
@@ -328,7 +328,7 @@ class Test : GodotScript!Label
 			writefln("getting property: <%s>", res);
 		}
 		{
-			String pn = String("number");
+			String pn = gs!"number";
 			long someNum = 42;
 			Variant someNumV = Variant(someNum);
 			
