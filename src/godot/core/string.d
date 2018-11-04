@@ -91,12 +91,8 @@ struct String
 	{
 		static if(isImplicitlyConvertible!(S, const(char)[]))
 		{
-			import std.experimental.allocator, std.experimental.allocator.mallocator;
-			char[] contents = Mallocator.instance.makeArray!char(str.length+1);
-			scope(exit) Mallocator.instance.deallocate(cast(void[])contents);
-			contents[0..str.length] = str;
-			contents[str.length] = '\0';
-			_godot_api.godot_string_parse_utf8(&_godot_string, contents.ptr);
+			const(char)[] contents = str;
+			_godot_api.godot_string_parse_utf8_with_len(&_godot_string, contents.ptr, cast(int)contents.length);
 		}
 		else
 		{
@@ -199,7 +195,7 @@ struct GodotStringLiteral(string data)
 		{
 			synchronized
 			{
-				if(gs == godot_string.init) _godot_api.godot_string_parse_utf8(&gs, data);
+				if(gs == godot_string.init) _godot_api.godot_string_parse_utf8_with_len(&gs, data.ptr, cast(int)data.length);
 			}
 		}
 		String ret = void;
