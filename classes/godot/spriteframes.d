@@ -76,7 +76,7 @@ public:
 	/**
 	Adds a new animation to the library.
 	*/
-	void addAnimation(StringArg0)(in StringArg0 anim)
+	void addAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addAnimation, _godot_object, anim);
@@ -84,7 +84,7 @@ public:
 	/**
 	If `true` the named animation exists.
 	*/
-	bool hasAnimation(StringArg0)(in StringArg0 anim) const
+	bool hasAnimation(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, anim);
@@ -92,7 +92,7 @@ public:
 	/**
 	Removes the given animation.
 	*/
-	void removeAnimation(StringArg0)(in StringArg0 anim)
+	void removeAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, anim);
@@ -100,7 +100,7 @@ public:
 	/**
 	Changes the animation's name to `newname`.
 	*/
-	void renameAnimation(StringArg0, StringArg1)(in StringArg0 anim, in StringArg1 newname)
+	void renameAnimation(in String anim, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, anim, newname);
@@ -116,7 +116,7 @@ public:
 	/**
 	The animation's speed in frames per second.
 	*/
-	void setAnimationSpeed(StringArg0)(in StringArg0 anim, in double speed)
+	void setAnimationSpeed(in String anim, in double speed)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAnimationSpeed, _godot_object, anim, speed);
@@ -124,7 +124,7 @@ public:
 	/**
 	The animation's speed in frames per second.
 	*/
-	double getAnimationSpeed(StringArg0)(in StringArg0 anim) const
+	double getAnimationSpeed(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getAnimationSpeed, _godot_object, anim);
@@ -132,7 +132,7 @@ public:
 	/**
 	If `true` the animation will loop.
 	*/
-	void setAnimationLoop(StringArg0)(in StringArg0 anim, in bool loop)
+	void setAnimationLoop(in String anim, in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAnimationLoop, _godot_object, anim, loop);
@@ -140,7 +140,7 @@ public:
 	/**
 	If `true` the given animation will loop.
 	*/
-	bool getAnimationLoop(StringArg0)(in StringArg0 anim) const
+	bool getAnimationLoop(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getAnimationLoop, _godot_object, anim);
@@ -148,7 +148,7 @@ public:
 	/**
 	Adds a frame to the given animation.
 	*/
-	void addFrame(StringArg0)(in StringArg0 anim, Texture frame, in long at_position = -1)
+	void addFrame(in String anim, Texture frame, in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFrame, _godot_object, anim, frame, at_position);
@@ -156,7 +156,7 @@ public:
 	/**
 	Returns the number of frames in the animation.
 	*/
-	long getFrameCount(StringArg0)(in StringArg0 anim) const
+	long getFrameCount(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getFrameCount, _godot_object, anim);
@@ -164,7 +164,7 @@ public:
 	/**
 	Returns the animation's selected frame.
 	*/
-	Ref!Texture getFrame(StringArg0)(in StringArg0 anim, in long idx) const
+	Ref!Texture getFrame(in String anim, in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getFrame, _godot_object, anim, idx);
@@ -172,7 +172,7 @@ public:
 	/**
 	Sets the texture of the given frame.
 	*/
-	void setFrame(StringArg0)(in StringArg0 anim, in long idx, Texture txt)
+	void setFrame(in String anim, in long idx, Texture txt)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFrame, _godot_object, anim, idx, txt);
@@ -180,7 +180,7 @@ public:
 	/**
 	Removes the animation's selected frame.
 	*/
-	void removeFrame(StringArg0)(in StringArg0 anim, in long idx)
+	void removeFrame(in String anim, in long idx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeFrame, _godot_object, anim, idx);
@@ -188,7 +188,7 @@ public:
 	/**
 	Removes all frames from the given animation.
 	*/
-	void clear(StringArg0)(in StringArg0 anim)
+	void clear(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clear, _godot_object, anim);

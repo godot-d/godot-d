@@ -82,7 +82,7 @@ public:
 	/**
 	Returns the names of all the classes that directly or indirectly inherit from 'class'.
 	*/
-	PoolStringArray getInheritersFromClass(StringArg0)(in StringArg0 _class) const
+	PoolStringArray getInheritersFromClass(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getInheritersFromClass, _godot_object, _class);
@@ -90,7 +90,7 @@ public:
 	/**
 	Returns the parent class of 'class'.
 	*/
-	String getParentClass(StringArg0)(in StringArg0 _class) const
+	String getParentClass(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getParentClass, _godot_object, _class);
@@ -98,7 +98,7 @@ public:
 	/**
 	Returns whether the specified 'class' is available or not.
 	*/
-	bool classExists(StringArg0)(in StringArg0 _class) const
+	bool classExists(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.classExists, _godot_object, _class);
@@ -106,7 +106,7 @@ public:
 	/**
 	Returns whether 'inherits' is an ancestor of 'class' or not.
 	*/
-	bool isParentClass(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 inherits) const
+	bool isParentClass(in String _class, in String inherits) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isParentClass, _godot_object, _class, inherits);
@@ -114,7 +114,7 @@ public:
 	/**
 	Returns true if you can instance objects from the specified 'class', false in other case.
 	*/
-	bool canInstance(StringArg0)(in StringArg0 _class) const
+	bool canInstance(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.canInstance, _godot_object, _class);
@@ -122,7 +122,7 @@ public:
 	/**
 	Creates an instance of 'class'.
 	*/
-	Variant instance(StringArg0)(in StringArg0 _class) const
+	Variant instance(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.instance, _godot_object, _class);
@@ -130,7 +130,7 @@ public:
 	/**
 	Return whether 'class' or its ancestry has a signal called 'signal' or not.
 	*/
-	bool classHasSignal(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 signal) const
+	bool classHasSignal(in String _class, in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.classHasSignal, _godot_object, _class, signal);
@@ -138,7 +138,7 @@ public:
 	/**
 	Returns the 'signal' data of 'class' or its ancestry. The returned value is a $(D Dictionary) with the following keys: args, default_args, flags, id, name, return: (class_name, hint, hint_string, name, type, usage).
 	*/
-	Dictionary classGetSignal(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 signal) const
+	Dictionary classGetSignal(in String _class, in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Dictionary)(_classBinding.classGetSignal, _godot_object, _class, signal);
@@ -146,7 +146,7 @@ public:
 	/**
 	Returns an array with all the signals of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) as described in $(D classGetSignal).
 	*/
-	Array classGetSignalList(StringArg0)(in StringArg0 _class, in bool no_inheritance = false) const
+	Array classGetSignalList(in String _class, in bool no_inheritance = false) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.classGetSignalList, _godot_object, _class, no_inheritance);
@@ -154,7 +154,7 @@ public:
 	/**
 	Returns an array with all the properties of 'class' or its ancestry if 'no_inheritance' is false.
 	*/
-	Array classGetPropertyList(StringArg0)(in StringArg0 _class, in bool no_inheritance = false) const
+	Array classGetPropertyList(in String _class, in bool no_inheritance = false) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.classGetPropertyList, _godot_object, _class, no_inheritance);
@@ -162,7 +162,7 @@ public:
 	/**
 	Returns the value of 'property' of 'class' or its ancestry.
 	*/
-	Variant classGetProperty(StringArg1)(GodotObject object, in StringArg1 property) const
+	Variant classGetProperty(GodotObject object, in String property) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.classGetProperty, _godot_object, object, property);
@@ -170,7 +170,7 @@ public:
 	/**
 	Sets 'property' value of 'class' to 'value'.
 	*/
-	GodotError classSetProperty(StringArg1, VariantArg2)(GodotObject object, in StringArg1 property, in VariantArg2 value) const
+	GodotError classSetProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.classSetProperty, _godot_object, object, property, value);
@@ -178,7 +178,7 @@ public:
 	/**
 	Return whether 'class' (or its ancestry if 'no_inheritance' is false) has a method called 'method' or not.
 	*/
-	bool classHasMethod(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 method, in bool no_inheritance = false) const
+	bool classHasMethod(in String _class, in String method, in bool no_inheritance = false) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.classHasMethod, _godot_object, _class, method, no_inheritance);
@@ -186,7 +186,7 @@ public:
 	/**
 	Returns an array with all the methods of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) with the following keys: args, default_args, flags, id, name, return: (class_name, hint, hint_string, name, type, usage).
 	*/
-	Array classGetMethodList(StringArg0)(in StringArg0 _class, in bool no_inheritance = false) const
+	Array classGetMethodList(in String _class, in bool no_inheritance = false) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.classGetMethodList, _godot_object, _class, no_inheritance);
@@ -194,7 +194,7 @@ public:
 	/**
 	Returns an array with the names all the integer constants of 'class' or its ancestry.
 	*/
-	PoolStringArray classGetIntegerConstantList(StringArg0)(in StringArg0 _class, in bool no_inheritance = false) const
+	PoolStringArray classGetIntegerConstantList(in String _class, in bool no_inheritance = false) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.classGetIntegerConstantList, _godot_object, _class, no_inheritance);
@@ -202,7 +202,7 @@ public:
 	/**
 	Return whether 'class' or its ancestry has an integer constant called 'name' or not.
 	*/
-	bool classHasIntegerConstant(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 name) const
+	bool classHasIntegerConstant(in String _class, in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.classHasIntegerConstant, _godot_object, _class, name);
@@ -210,7 +210,7 @@ public:
 	/**
 	Returns the value of the integer constant 'name' of 'class' or its ancestry. Always returns 0 when the constant could not be found.
 	*/
-	long classGetIntegerConstant(StringArg0, StringArg1)(in StringArg0 _class, in StringArg1 name) const
+	long classGetIntegerConstant(in String _class, in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.classGetIntegerConstant, _godot_object, _class, name);
@@ -218,7 +218,7 @@ public:
 	/**
 	Returns a category associated with the class for use in documentation and the Asset Library. Debug mode required.
 	*/
-	String classGetCategory(StringArg0)(in StringArg0 _class) const
+	String classGetCategory(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.classGetCategory, _godot_object, _class);
@@ -226,7 +226,7 @@ public:
 	/**
 	Returns whether this class is enabled or not.
 	*/
-	bool isClassEnabled(StringArg0)(in StringArg0 _class) const
+	bool isClassEnabled(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isClassEnabled, _godot_object, _class);

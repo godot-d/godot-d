@@ -138,7 +138,7 @@ public:
 	/**
 	Adds `animation` to the player accessible with the key `name`.
 	*/
-	GodotError addAnimation(StringArg0)(in StringArg0 name, Animation animation)
+	GodotError addAnimation(in String name, Animation animation)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.addAnimation, _godot_object, name, animation);
@@ -146,7 +146,7 @@ public:
 	/**
 	Remove the animation with key `name`.
 	*/
-	void removeAnimation(StringArg0)(in StringArg0 name)
+	void removeAnimation(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, name);
@@ -154,7 +154,7 @@ public:
 	/**
 	Rename an existing animation with key `name` to `newname`.
 	*/
-	void renameAnimation(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 newname)
+	void renameAnimation(in String name, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, name, newname);
@@ -162,7 +162,7 @@ public:
 	/**
 	Returns `true` if the `AnimationPlayer` stores an $(D Animation) with key `name`.
 	*/
-	bool hasAnimation(StringArg0)(in StringArg0 name) const
+	bool hasAnimation(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, name);
@@ -170,7 +170,7 @@ public:
 	/**
 	Returns the $(D Animation) with key `name` or `null` if not found.
 	*/
-	Ref!Animation getAnimation(StringArg0)(in StringArg0 name) const
+	Ref!Animation getAnimation(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Animation)(_classBinding.getAnimation, _godot_object, name);
@@ -186,7 +186,7 @@ public:
 	/**
 	Triggers the `anim_to` animation when the `anim_from` animation completes.
 	*/
-	void animationSetNext(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to)
+	void animationSetNext(in String anim_from, in String anim_to)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.animationSetNext, _godot_object, anim_from, anim_to);
@@ -194,7 +194,7 @@ public:
 	/**
 	Returns the name of the next animation in the queue.
 	*/
-	String animationGetNext(StringArg0)(in StringArg0 anim_from) const
+	String animationGetNext(in String anim_from) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.animationGetNext, _godot_object, anim_from);
@@ -202,7 +202,7 @@ public:
 	/**
 	Specify a blend time (in seconds) between two animations, referenced by their names.
 	*/
-	void setBlendTime(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to, in double sec)
+	void setBlendTime(in String anim_from, in String anim_to, in double sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBlendTime, _godot_object, anim_from, anim_to, sec);
@@ -210,7 +210,7 @@ public:
 	/**
 	Get the blend time (in seconds) between two animations, referenced by their names.
 	*/
-	double getBlendTime(StringArg0, StringArg1)(in StringArg0 anim_from, in StringArg1 anim_to) const
+	double getBlendTime(in String anim_from, in String anim_to) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getBlendTime, _godot_object, anim_from, anim_to);
@@ -234,7 +234,7 @@ public:
 	/**
 	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the animation backwards.
 	*/
-	void play(StringArg0)(in StringArg0 name = "", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
+	void play(in String name = gs!"", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.play, _godot_object, name, custom_blend, custom_speed, from_end);
@@ -242,7 +242,7 @@ public:
 	/**
 	Play the animation with key `name` in reverse.
 	*/
-	void playBackwards(StringArg0)(in StringArg0 name = "", in double custom_blend = -1)
+	void playBackwards(in String name = gs!"", in double custom_blend = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.playBackwards, _godot_object, name, custom_blend);
@@ -266,7 +266,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentAnimation(StringArg0)(in StringArg0 anim)
+	void setCurrentAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentAnimation, _godot_object, anim);
@@ -282,7 +282,7 @@ public:
 	/**
 	
 	*/
-	void setAssignedAnimation(StringArg0)(in StringArg0 anim)
+	void setAssignedAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAssignedAnimation, _godot_object, anim);
@@ -298,7 +298,7 @@ public:
 	/**
 	Queue an animation for playback once the current one is done.
 	*/
-	void queue(StringArg0)(in StringArg0 name)
+	void queue(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.queue, _godot_object, name);
@@ -354,7 +354,7 @@ public:
 	/**
 	
 	*/
-	void setAutoplay(StringArg0)(in StringArg0 name)
+	void setAutoplay(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, name);

@@ -121,7 +121,7 @@ public:
 	/**
 	Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the TYPE_* constant given as "ip_type".
 	*/
-	String resolveHostname(StringArg0)(in StringArg0 host, in long ip_type = 3)
+	String resolveHostname(in String host, in long ip_type = 3)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.resolveHostname, _godot_object, host, ip_type);
@@ -129,7 +129,7 @@ public:
 	/**
 	Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the TYPE_* constant given as "ip_type". Returns the queue ID if successful, or RESOLVER_INVALID_ID on error.
 	*/
-	long resolveHostnameQueueItem(StringArg0)(in StringArg0 host, in long ip_type = 3)
+	long resolveHostnameQueueItem(in String host, in long ip_type = 3)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.resolveHostnameQueueItem, _godot_object, host, ip_type);
@@ -169,7 +169,7 @@ public:
 	/**
 	Removes all of a "hostname"'s cached references. If no "hostname" is given then all cached IP addresses are removed.
 	*/
-	void clearCache(StringArg0)(in StringArg0 hostname = "")
+	void clearCache(in String hostname = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearCache, _godot_object, hostname);

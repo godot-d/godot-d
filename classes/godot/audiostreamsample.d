@@ -225,7 +225,7 @@ public:
 	/**
 	
 	*/
-	void saveToWav(StringArg0)(in StringArg0 path)
+	void saveToWav(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.saveToWav, _godot_object, path);

@@ -56,7 +56,7 @@ public:
 	/**
 	
 	*/
-	GodotError parse(StringArg0)(in StringArg0 expression, in PoolStringArray input_names = PoolStringArray.init)
+	GodotError parse(in String expression, in PoolStringArray input_names = PoolStringArray.init)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.parse, _godot_object, expression, input_names);

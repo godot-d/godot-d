@@ -68,7 +68,7 @@ public:
 	/**
 	
 	*/
-	void setClassName(StringArg0)(in StringArg0 class_name)
+	void setClassName(in String class_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setClassName, _godot_object, class_name);
@@ -100,7 +100,7 @@ public:
 	/**
 	
 	*/
-	void setScriptClassName(StringArg0)(in StringArg0 class_name)
+	void setScriptClassName(in String class_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setScriptClassName, _godot_object, class_name);
@@ -116,7 +116,7 @@ public:
 	/**
 	
 	*/
-	void setScriptClassIconPath(StringArg0)(in StringArg0 icon_path)
+	void setScriptClassIconPath(in String icon_path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setScriptClassIconPath, _godot_object, icon_path);
@@ -140,7 +140,7 @@ public:
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_method_documentation`.
 	*/
-	String getMethodDocumentation(StringArg0)(in StringArg0 method) const
+	String getMethodDocumentation(in String method) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getMethodDocumentation, _godot_object, method);
@@ -148,7 +148,7 @@ public:
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_signal_documentation`.
 	*/
-	String getSignalDocumentation(StringArg0)(in StringArg0 signal_name) const
+	String getSignalDocumentation(in String signal_name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getSignalDocumentation, _godot_object, signal_name);
@@ -156,7 +156,7 @@ public:
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_property_documentation`.
 	*/
-	String getPropertyDocumentation(StringArg0)(in StringArg0 path) const
+	String getPropertyDocumentation(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getPropertyDocumentation, _godot_object, path);

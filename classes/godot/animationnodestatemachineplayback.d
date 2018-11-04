@@ -59,7 +59,7 @@ public:
 	/**
 	
 	*/
-	void travel(StringArg0)(in StringArg0 to_node)
+	void travel(in String to_node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.travel, _godot_object, to_node);
@@ -67,7 +67,7 @@ public:
 	/**
 	
 	*/
-	void start(StringArg0)(in StringArg0 node)
+	void start(in String node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.start, _godot_object, node);

@@ -57,7 +57,7 @@ public:
 	/**
 	Converts a Variant var to JSON text and returns the result. Useful for serializing data to store or send over the network.
 	*/
-	String print(VariantArg0, StringArg1)(in VariantArg0 value, in StringArg1 indent = "", in bool sort_keys = false)
+	String print(VariantArg0)(in VariantArg0 value, in String indent = gs!"", in bool sort_keys = false)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.print, _godot_object, value, indent, sort_keys);
@@ -65,7 +65,7 @@ public:
 	/**
 	Parses a JSON encoded string and returns a $(D JSONParseResult) containing the result.
 	*/
-	Ref!JSONParseResult parse(StringArg0)(in StringArg0 json)
+	Ref!JSONParseResult parse(in String json)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(JSONParseResult)(_classBinding.parse, _godot_object, json);

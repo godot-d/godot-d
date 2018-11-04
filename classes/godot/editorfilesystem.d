@@ -103,7 +103,7 @@ public:
 	/**
 	Update a file information. Call this if an external program (not Godot) modified the file.
 	*/
-	void updateFile(StringArg0)(in StringArg0 path)
+	void updateFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.updateFile, _godot_object, path);
@@ -111,7 +111,7 @@ public:
 	/**
 	Returns a view into the filesystem at `path`.
 	*/
-	EditorFileSystemDirectory getFilesystemPath(StringArg0)(in StringArg0 path)
+	EditorFileSystemDirectory getFilesystemPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystemPath, _godot_object, path);
@@ -119,7 +119,7 @@ public:
 	/**
 	Get the type of the file, given the full path.
 	*/
-	String getFileType(StringArg0)(in StringArg0 path) const
+	String getFileType(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getFileType, _godot_object, path);

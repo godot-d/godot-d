@@ -222,7 +222,7 @@ public:
 	/**
 	Put a zero-terminated ascii string into the stream prepended by a 32 bits unsigned integer representing its size.
 	*/
-	void putString(StringArg0)(in StringArg0 value)
+	void putString(in String value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.putString, _godot_object, value);
@@ -230,7 +230,7 @@ public:
 	/**
 	Put a zero-terminated utf8 string into the stream prepended by a 32 bits unsigned integer representing its size.
 	*/
-	void putUtf8String(StringArg0)(in StringArg0 value)
+	void putUtf8String(in String value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.putUtf8String, _godot_object, value);

@@ -501,7 +501,7 @@ public:
 	If no `port` is specified (or `-1` is used), it is automatically set to 80 for HTTP and 443 for HTTPS (if `use_ssl` is enabled).
 	`verify_host` will check the SSL identity of the host if set to `true`.
 	*/
-	GodotError connectToHost(StringArg0)(in StringArg0 host, in long port = -1, in bool use_ssl = false, in bool verify_host = true)
+	GodotError connectToHost(in String host, in long port = -1, in bool use_ssl = false, in bool verify_host = true)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port, use_ssl, verify_host);
@@ -527,7 +527,7 @@ public:
 	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
 	Sends the body data raw, as a byte array and does not encode it in any way.
 	*/
-	GodotError requestRaw(StringArg1)(in long method, in StringArg1 url, in PoolStringArray headers, in PoolByteArray _body)
+	GodotError requestRaw(in long method, in String url, in PoolStringArray headers, in PoolByteArray _body)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.requestRaw, _godot_object, method, url, headers, _body);
@@ -545,7 +545,7 @@ public:
 	
 	
 	*/
-	GodotError request(StringArg1, StringArg3)(in long method, in StringArg1 url, in PoolStringArray headers, in StringArg3 _body = "")
+	GodotError request(in long method, in String url, in PoolStringArray headers, in String _body = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);

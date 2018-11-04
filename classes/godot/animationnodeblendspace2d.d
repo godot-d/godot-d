@@ -218,7 +218,7 @@ public:
 	/**
 	
 	*/
-	void setXLabel(StringArg0)(in StringArg0 text)
+	void setXLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setXLabel, _godot_object, text);
@@ -234,7 +234,7 @@ public:
 	/**
 	
 	*/
-	void setYLabel(StringArg0)(in StringArg0 text)
+	void setYLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setYLabel, _godot_object, text);

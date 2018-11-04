@@ -55,7 +55,7 @@ public:
 	/**
 	
 	*/
-	GodotError pckStart(StringArg0)(in StringArg0 pck_name, in long alignment)
+	GodotError pckStart(in String pck_name, in long alignment)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.pckStart, _godot_object, pck_name, alignment);
@@ -63,7 +63,7 @@ public:
 	/**
 	
 	*/
-	GodotError addFile(StringArg0, StringArg1)(in StringArg0 pck_path, in StringArg1 source_path)
+	GodotError addFile(in String pck_path, in String source_path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.addFile, _godot_object, pck_path, source_path);

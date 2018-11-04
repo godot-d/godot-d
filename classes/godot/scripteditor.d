@@ -116,7 +116,7 @@ public:
 	/**
 	
 	*/
-	void _fileDialogAction(StringArg0)(in StringArg0 arg0)
+	void _fileDialogAction(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -155,7 +155,7 @@ public:
 	/**
 	
 	*/
-	void _closeDiscardCurrentTab(StringArg0)(in StringArg0 arg0)
+	void _closeDiscardCurrentTab(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -239,7 +239,7 @@ public:
 	/**
 	
 	*/
-	void _addCallback(StringArg1)(GodotObject arg0, in StringArg1 arg1, in PoolStringArray arg2)
+	void _addCallback(GodotObject arg0, in String arg1, in PoolStringArray arg2)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -260,7 +260,7 @@ public:
 	/**
 	
 	*/
-	void _resaveScripts(StringArg0)(in StringArg0 arg0)
+	void _resaveScripts(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -301,7 +301,7 @@ public:
 	/**
 	
 	*/
-	void _helpSearch(StringArg0)(in StringArg0 arg0)
+	void _helpSearch(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -311,7 +311,7 @@ public:
 	/**
 	
 	*/
-	void _helpIndex(StringArg0)(in StringArg0 arg0)
+	void _helpIndex(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -360,7 +360,7 @@ public:
 	/**
 	
 	*/
-	String _getDebugTooltip(StringArg0)(in StringArg0 arg0, GodotObject arg1)
+	String _getDebugTooltip(in String arg0, GodotObject arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -457,7 +457,7 @@ public:
 	/**
 	
 	*/
-	void _helpClassOpen(StringArg0)(in StringArg0 arg0)
+	void _helpClassOpen(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -467,7 +467,7 @@ public:
 	/**
 	
 	*/
-	void _helpClassGoto(StringArg0)(in StringArg0 arg0)
+	void _helpClassGoto(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -477,7 +477,7 @@ public:
 	/**
 	
 	*/
-	void _requestHelp(StringArg0)(in StringArg0 arg0)
+	void _requestHelp(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -571,7 +571,7 @@ public:
 	/**
 	
 	*/
-	void _onFindInFilesRequested(StringArg0)(in StringArg0 arg0)
+	void _onFindInFilesRequested(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -591,7 +591,7 @@ public:
 	/**
 	
 	*/
-	void _onFindInFilesResultSelected(StringArg0)(in StringArg0 arg0, in long arg1, in long arg2, in long arg3)
+	void _onFindInFilesResultSelected(in String arg0, in long arg1, in long arg2, in long arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -654,7 +654,7 @@ public:
 	/**
 	
 	*/
-	void openScriptCreateDialog(StringArg0, StringArg1)(in StringArg0 base_name, in StringArg1 base_path)
+	void openScriptCreateDialog(in String base_name, in String base_path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.openScriptCreateDialog, _godot_object, base_name, base_path);

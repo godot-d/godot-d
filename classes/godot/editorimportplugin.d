@@ -202,7 +202,7 @@ public:
 	/**
 	
 	*/
-	bool getOptionVisibility(StringArg0)(in StringArg0 option, in Dictionary options)
+	bool getOptionVisibility(in String option, in Dictionary options)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(option);
@@ -213,7 +213,7 @@ public:
 	/**
 	
 	*/
-	long _import(StringArg0, StringArg1)(in StringArg0 source_file, in StringArg1 save_path, in Dictionary options, in Array r_platform_variants, in Array r_gen_files)
+	long _import(in String source_file, in String save_path, in Dictionary options, in Array r_platform_variants, in Array r_gen_files)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(source_file);

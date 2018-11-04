@@ -94,7 +94,7 @@ public:
 	/**
 	
 	*/
-	void setInputCaption(StringArg1)(in long input, in StringArg1 caption)
+	void setInputCaption(in long input, in String caption)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInputCaption, _godot_object, input, caption);

@@ -91,7 +91,7 @@ public:
 	Open an existing directory of the filesystem. The $(I path) argument can be within the project tree (`res://folder`), the user directory (`user://folder`) or an absolute path of the user filesystem (e.g. `/tmp/folder` or `C:\tmp\folder`).
 	The method returns one of the error code constants defined in $(D @GlobalScope) (OK or ERR_*).
 	*/
-	GodotError open(StringArg0)(in StringArg0 path)
+	GodotError open(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path);
@@ -159,7 +159,7 @@ public:
 	Change the currently opened directory to the one passed as an argument. The argument can be relative to the current directory (e.g. `newdir` or `../newdir`), or an absolute path (e.g. `/tmp/newdir` or `res://somedir/newdir`).
 	The method returns one of the error code constants defined in $(D @GlobalScope) (OK or ERR_*).
 	*/
-	GodotError changeDir(StringArg0)(in StringArg0 todir)
+	GodotError changeDir(in String todir)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.changeDir, _godot_object, todir);
@@ -176,7 +176,7 @@ public:
 	Create a directory. The argument can be relative to the current directory, or an absolute path. The target directory should be placed in an already existing directory (to create the full path recursively, see $(D makeDirRecursive)).
 	The method returns one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
 	*/
-	GodotError makeDir(StringArg0)(in StringArg0 path)
+	GodotError makeDir(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.makeDir, _godot_object, path);
@@ -185,7 +185,7 @@ public:
 	Create a target directory and all necessary intermediate directories in its path, by calling $(D makeDir) recursively. The argument can be relative to the current directory, or an absolute path.
 	Return one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
 	*/
-	GodotError makeDirRecursive(StringArg0)(in StringArg0 path)
+	GodotError makeDirRecursive(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.makeDirRecursive, _godot_object, path);
@@ -193,7 +193,7 @@ public:
 	/**
 	Return whether the target file exists. The argument can be relative to the current directory, or an absolute path.
 	*/
-	bool fileExists(StringArg0)(in StringArg0 path)
+	bool fileExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
@@ -201,7 +201,7 @@ public:
 	/**
 	Return whether the target directory exists. The argument can be relative to the current directory, or an absolute path.
 	*/
-	bool dirExists(StringArg0)(in StringArg0 path)
+	bool dirExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.dirExists, _godot_object, path);
@@ -218,7 +218,7 @@ public:
 	Copy the $(I from) file to the $(I to) destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
 	Returns one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
 	*/
-	GodotError copy(StringArg0, StringArg1)(in StringArg0 from, in StringArg1 to)
+	GodotError copy(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.copy, _godot_object, from, to);
@@ -227,7 +227,7 @@ public:
 	Rename (move) the $(I from) file to the $(I to) destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
 	Return one of the error code constants defined in $(D @GlobalScope) (OK or FAILED).
 	*/
-	GodotError rename(StringArg0, StringArg1)(in StringArg0 from, in StringArg1 to)
+	GodotError rename(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.rename, _godot_object, from, to);
@@ -236,7 +236,7 @@ public:
 	Delete the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
 	Return one of the error code constants defined in $(D @GlobalScope) (OK or FAILED).
 	*/
-	GodotError remove(StringArg0)(in StringArg0 path)
+	GodotError remove(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.remove, _godot_object, path);

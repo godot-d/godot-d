@@ -200,7 +200,7 @@ public:
 	/**
 	
 	*/
-	void renameParameter(StringArg0, StringArg1)(in StringArg0 old_name, in StringArg1 new_name)
+	void renameParameter(in String old_name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameParameter, _godot_object, old_name, new_name);

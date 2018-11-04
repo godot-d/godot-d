@@ -268,7 +268,7 @@ public:
 	/**
 	Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
 	*/
-	bool reset(StringArg1)(GodotObject object, in StringArg1 key = "")
+	bool reset(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.reset, _godot_object, object, key);
@@ -284,7 +284,7 @@ public:
 	/**
 	Stops a tween, given its object and property/method pair. By default, all tweens are stopped, unless `key` is specified.
 	*/
-	bool stop(StringArg1)(GodotObject object, in StringArg1 key = "")
+	bool stop(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.stop, _godot_object, object, key);
@@ -300,7 +300,7 @@ public:
 	/**
 	Continues animating a stopped tween, given its object and property/method pair. By default, all tweens are resumed, unless `key` is specified.
 	*/
-	bool resume(StringArg1)(GodotObject object, in StringArg1 key = "")
+	bool resume(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.resume, _godot_object, object, key);
@@ -316,7 +316,7 @@ public:
 	/**
 	Stops animation and removes a tween, given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
 	*/
-	bool remove(StringArg1)(GodotObject object, in StringArg1 key = "")
+	bool remove(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.remove, _godot_object, object, key);
@@ -376,7 +376,7 @@ public:
 	Animates `method` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Methods are called with consecutive values.
 	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	*/
-	bool interpolateMethod(StringArg1, VariantArg2, VariantArg3)(GodotObject object, in StringArg1 method, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
+	bool interpolateMethod(VariantArg2, VariantArg3)(GodotObject object, in String method, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.interpolateMethod, _godot_object, object, method, initial_val, final_val, duration, trans_type, ease_type, delay);
@@ -384,7 +384,7 @@ public:
 	/**
 	Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
 	*/
-	bool interpolateCallback(StringArg2, VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in StringArg2 callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
+	bool interpolateCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.interpolateCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
@@ -392,7 +392,7 @@ public:
 	/**
 	Calls `callback` of `object` after `duration` on the main thread (similar to $(D GodotObject.callDeferred)). `arg1`-`arg5` are arguments to be passed to the callback.
 	*/
-	bool interpolateDeferredCallback(StringArg2, VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in StringArg2 callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
+	bool interpolateDeferredCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.interpolateDeferredCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
@@ -410,7 +410,7 @@ public:
 	Follows `method` of `object` and applies the returned value on `target_method` of `target`, beginning from `initial_val` for `duration` seconds, `delay` later. Methods are called with consecutive values.
 	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	*/
-	bool followMethod(StringArg1, VariantArg2, StringArg4)(GodotObject object, in StringArg1 method, in VariantArg2 initial_val, GodotObject target, in StringArg4 target_method, in double duration, in long trans_type, in long ease_type, in double delay = 0)
+	bool followMethod(VariantArg2)(GodotObject object, in String method, in VariantArg2 initial_val, GodotObject target, in String target_method, in double duration, in long trans_type, in long ease_type, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.followMethod, _godot_object, object, method, initial_val, target, target_method, duration, trans_type, ease_type, delay);
@@ -428,7 +428,7 @@ public:
 	Animates `method` of `object` from the value returned by `initial_method` to `final_val` for `duration` seconds, `delay` seconds later. Methods are animated by calling them with consecutive values.
 	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	*/
-	bool targetingMethod(StringArg1, StringArg3, VariantArg4)(GodotObject object, in StringArg1 method, GodotObject initial, in StringArg3 initial_method, in VariantArg4 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
+	bool targetingMethod(VariantArg4)(GodotObject object, in String method, GodotObject initial, in String initial_method, in VariantArg4 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);

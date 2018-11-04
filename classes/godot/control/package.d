@@ -600,7 +600,7 @@ public:
 	/**
 	
 	*/
-	GodotObject _makeCustomTooltip(StringArg0)(in StringArg0 for_text)
+	GodotObject _makeCustomTooltip(in String for_text)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(for_text);
@@ -1050,7 +1050,7 @@ public:
 	/**
 	Overrides the `name` icon in the $(D theme) resource the node uses. If `icon` is empty, Godot clears the override.
 	*/
-	void addIconOverride(StringArg0)(in StringArg0 name, Texture texture)
+	void addIconOverride(in String name, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIconOverride, _godot_object, name, texture);
@@ -1058,7 +1058,7 @@ public:
 	/**
 	Overrides the `name` shader in the $(D theme) resource the node uses. If `shader` is empty, Godot clears the override.
 	*/
-	void addShaderOverride(StringArg0)(in StringArg0 name, Shader shader)
+	void addShaderOverride(in String name, Shader shader)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
@@ -1066,7 +1066,7 @@ public:
 	/**
 	Overrides the `name` $(D Stylebox) in the $(D theme) resource the node uses. If `stylebox` is empty, Godot clears the override.
 	*/
-	void addStyleboxOverride(StringArg0)(in StringArg0 name, StyleBox stylebox)
+	void addStyleboxOverride(in String name, StyleBox stylebox)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addStyleboxOverride, _godot_object, name, stylebox);
@@ -1074,7 +1074,7 @@ public:
 	/**
 	Overrides the `name` font in the $(D theme) resource the node uses. If `font` is empty, Godot clears the override.
 	*/
-	void addFontOverride(StringArg0)(in StringArg0 name, Font font)
+	void addFontOverride(in String name, Font font)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFontOverride, _godot_object, name, font);
@@ -1082,7 +1082,7 @@ public:
 	/**
 	Overrides the color in the $(D theme) resource the node uses.
 	*/
-	void addColorOverride(StringArg0)(in StringArg0 name, in Color color)
+	void addColorOverride(in String name, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addColorOverride, _godot_object, name, color);
@@ -1090,7 +1090,7 @@ public:
 	/**
 	Overrides an integer constant in the $(D theme) resource the node uses. If the `constant` is invalid, Godot clears the override.
 	*/
-	void addConstantOverride(StringArg0)(in StringArg0 name, in long constant)
+	void addConstantOverride(in String name, in long constant)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addConstantOverride, _godot_object, name, constant);
@@ -1098,7 +1098,7 @@ public:
 	/**
 	
 	*/
-	Ref!Texture getIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	Ref!Texture getIcon(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
@@ -1106,7 +1106,7 @@ public:
 	/**
 	
 	*/
-	Ref!StyleBox getStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
@@ -1114,7 +1114,7 @@ public:
 	/**
 	
 	*/
-	Ref!Font getFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	Ref!Font getFont(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
@@ -1122,7 +1122,7 @@ public:
 	/**
 	
 	*/
-	Color getColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	Color getColor(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
@@ -1130,7 +1130,7 @@ public:
 	/**
 	
 	*/
-	long getConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	long getConstant(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
@@ -1138,7 +1138,7 @@ public:
 	/**
 	
 	*/
-	bool hasIconOverride(StringArg0)(in StringArg0 name) const
+	bool hasIconOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasIconOverride, _godot_object, name);
@@ -1146,7 +1146,7 @@ public:
 	/**
 	
 	*/
-	bool hasShaderOverride(StringArg0)(in StringArg0 name) const
+	bool hasShaderOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasShaderOverride, _godot_object, name);
@@ -1154,7 +1154,7 @@ public:
 	/**
 	
 	*/
-	bool hasStyleboxOverride(StringArg0)(in StringArg0 name) const
+	bool hasStyleboxOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasStyleboxOverride, _godot_object, name);
@@ -1162,7 +1162,7 @@ public:
 	/**
 	
 	*/
-	bool hasFontOverride(StringArg0)(in StringArg0 name) const
+	bool hasFontOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasFontOverride, _godot_object, name);
@@ -1170,7 +1170,7 @@ public:
 	/**
 	
 	*/
-	bool hasColorOverride(StringArg0)(in StringArg0 name) const
+	bool hasColorOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasColorOverride, _godot_object, name);
@@ -1178,7 +1178,7 @@ public:
 	/**
 	
 	*/
-	bool hasConstantOverride(StringArg0)(in StringArg0 name) const
+	bool hasConstantOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasConstantOverride, _godot_object, name);
@@ -1186,7 +1186,7 @@ public:
 	/**
 	
 	*/
-	bool hasIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	bool hasIcon(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
@@ -1194,7 +1194,7 @@ public:
 	/**
 	
 	*/
-	bool hasStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	bool hasStylebox(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
@@ -1202,7 +1202,7 @@ public:
 	/**
 	
 	*/
-	bool hasFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	bool hasFont(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
@@ -1210,7 +1210,7 @@ public:
 	/**
 	
 	*/
-	bool hasColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	bool hasColor(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
@@ -1218,7 +1218,7 @@ public:
 	/**
 	
 	*/
-	bool hasConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type = "") const
+	bool hasConstant(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
@@ -1266,7 +1266,7 @@ public:
 	/**
 	
 	*/
-	void setTooltip(StringArg0)(in StringArg0 tooltip)
+	void setTooltip(in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTooltip, _godot_object, tooltip);

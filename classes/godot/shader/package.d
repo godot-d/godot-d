@@ -93,7 +93,7 @@ public:
 	/**
 	
 	*/
-	void setCode(StringArg0)(in StringArg0 code)
+	void setCode(in String code)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCode, _godot_object, code);
@@ -109,7 +109,7 @@ public:
 	/**
 	
 	*/
-	void setDefaultTextureParam(StringArg0)(in StringArg0 param, Texture texture)
+	void setDefaultTextureParam(in String param, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDefaultTextureParam, _godot_object, param, texture);
@@ -117,7 +117,7 @@ public:
 	/**
 	
 	*/
-	Ref!Texture getDefaultTextureParam(StringArg0)(in StringArg0 param) const
+	Ref!Texture getDefaultTextureParam(in String param) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getDefaultTextureParam, _godot_object, param);
@@ -125,7 +125,7 @@ public:
 	/**
 	
 	*/
-	bool hasParam(StringArg0)(in StringArg0 name) const
+	bool hasParam(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasParam, _godot_object, name);

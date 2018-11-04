@@ -159,7 +159,7 @@ public:
 	/**
 	
 	*/
-	void setBaseType(StringArg0)(in StringArg0 base_type)
+	void setBaseType(in String base_type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
@@ -175,7 +175,7 @@ public:
 	/**
 	
 	*/
-	void setBaseScript(StringArg0)(in StringArg0 base_script)
+	void setBaseScript(in String base_script)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
@@ -226,7 +226,7 @@ public:
 	/**
 	
 	*/
-	void setProperty(StringArg0)(in StringArg0 property)
+	void setProperty(in String property)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setProperty, _godot_object, property);
@@ -274,7 +274,7 @@ public:
 	/**
 	
 	*/
-	void setIndex(StringArg0)(in StringArg0 index)
+	void setIndex(in String index)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);

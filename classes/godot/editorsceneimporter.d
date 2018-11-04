@@ -122,7 +122,7 @@ public:
 	/**
 	
 	*/
-	Node _importScene(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
+	Node _importScene(in String path, in long flags, in long bake_fps)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(path);
@@ -134,7 +134,7 @@ public:
 	/**
 	
 	*/
-	Ref!Animation _importAnimation(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
+	Ref!Animation _importAnimation(in String path, in long flags, in long bake_fps)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(path);
@@ -146,7 +146,7 @@ public:
 	/**
 	
 	*/
-	Node importSceneFromOtherImporter(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
+	Node importSceneFromOtherImporter(in String path, in long flags, in long bake_fps)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Node)(_classBinding.importSceneFromOtherImporter, _godot_object, path, flags, bake_fps);
@@ -154,7 +154,7 @@ public:
 	/**
 	
 	*/
-	Ref!Animation importAnimationFromOtherImporter(StringArg0)(in StringArg0 path, in long flags, in long bake_fps)
+	Ref!Animation importAnimationFromOtherImporter(in String path, in long flags, in long bake_fps)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Animation)(_classBinding.importAnimationFromOtherImporter, _godot_object, path, flags, bake_fps);

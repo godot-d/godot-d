@@ -62,7 +62,7 @@ public:
 	/**
 	
 	*/
-	void _exportFile(StringArg0, StringArg1)(in StringArg0 path, in StringArg1 type, in PoolStringArray features)
+	void _exportFile(in String path, in String type, in PoolStringArray features)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(path);
@@ -74,7 +74,7 @@ public:
 	/**
 	
 	*/
-	void _exportBegin(StringArg2)(in PoolStringArray features, in bool is_debug, in StringArg2 path, in long flags)
+	void _exportBegin(in PoolStringArray features, in bool is_debug, in String path, in long flags)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(features);
@@ -87,7 +87,7 @@ public:
 	/**
 	
 	*/
-	void addSharedObject(StringArg0)(in StringArg0 path, in PoolStringArray tags)
+	void addSharedObject(in String path, in PoolStringArray tags)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addSharedObject, _godot_object, path, tags);
@@ -95,7 +95,7 @@ public:
 	/**
 	
 	*/
-	void addFile(StringArg0)(in StringArg0 path, in PoolByteArray file, in bool remap)
+	void addFile(in String path, in PoolByteArray file, in bool remap)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFile, _godot_object, path, file, remap);
@@ -103,7 +103,7 @@ public:
 	/**
 	
 	*/
-	void addIosFramework(StringArg0)(in StringArg0 path)
+	void addIosFramework(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosFramework, _godot_object, path);
@@ -111,7 +111,7 @@ public:
 	/**
 	
 	*/
-	void addIosPlistContent(StringArg0)(in StringArg0 plist_content)
+	void addIosPlistContent(in String plist_content)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosPlistContent, _godot_object, plist_content);
@@ -119,7 +119,7 @@ public:
 	/**
 	
 	*/
-	void addIosLinkerFlags(StringArg0)(in StringArg0 flags)
+	void addIosLinkerFlags(in String flags)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosLinkerFlags, _godot_object, flags);
@@ -127,7 +127,7 @@ public:
 	/**
 	
 	*/
-	void addIosBundleFile(StringArg0)(in StringArg0 path)
+	void addIosBundleFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosBundleFile, _godot_object, path);
@@ -135,7 +135,7 @@ public:
 	/**
 	
 	*/
-	void addIosCppCode(StringArg0)(in StringArg0 code)
+	void addIosCppCode(in String code)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosCppCode, _godot_object, code);

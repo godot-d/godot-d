@@ -193,7 +193,7 @@ public:
 	/**
 	Adds a `type` node to the graph with name `id`.
 	*/
-	void addNode(StringArg1)(in long type, in StringArg1 id)
+	void addNode(in long type, in String id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, type, id);
@@ -201,7 +201,7 @@ public:
 	/**
 	Check if a node exists (by name).
 	*/
-	bool nodeExists(StringArg0)(in StringArg0 node) const
+	bool nodeExists(in String node) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.nodeExists, _godot_object, node);
@@ -209,7 +209,7 @@ public:
 	/**
 	Rename a node in the graph.
 	*/
-	GodotError nodeRename(StringArg0, StringArg1)(in StringArg0 node, in StringArg1 new_name)
+	GodotError nodeRename(in String node, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.nodeRename, _godot_object, node, new_name);
@@ -217,7 +217,7 @@ public:
 	/**
 	Get the node type, will return from NODE_* enum.
 	*/
-	AnimationTreePlayer.NodeType nodeGetType(StringArg0)(in StringArg0 id) const
+	AnimationTreePlayer.NodeType nodeGetType(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(AnimationTreePlayer.NodeType)(_classBinding.nodeGetType, _godot_object, id);
@@ -225,7 +225,7 @@ public:
 	/**
 	Return the input count for a given node. Different types of nodes have different amount of inputs.
 	*/
-	long nodeGetInputCount(StringArg0)(in StringArg0 id) const
+	long nodeGetInputCount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.nodeGetInputCount, _godot_object, id);
@@ -233,7 +233,7 @@ public:
 	/**
 	Return the input source for a given node input.
 	*/
-	String nodeGetInputSource(StringArg0)(in StringArg0 id, in long idx) const
+	String nodeGetInputSource(in String id, in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.nodeGetInputSource, _godot_object, id, idx);
@@ -241,7 +241,7 @@ public:
 	/**
 	Binds a new $(D Animation) from the $(D masterPlayer) to the `AnimationTreePlayer`'s animation node with name `id`.
 	*/
-	void animationNodeSetAnimation(StringArg0)(in StringArg0 id, Animation animation)
+	void animationNodeSetAnimation(in String id, Animation animation)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.animationNodeSetAnimation, _godot_object, id, animation);
@@ -249,7 +249,7 @@ public:
 	/**
 	Returns the $(D AnimationPlayer)'s $(D Animation) bound to the `AnimationTreePlayer`'s animation node with name `id`.
 	*/
-	Ref!Animation animationNodeGetAnimation(StringArg0)(in StringArg0 id) const
+	Ref!Animation animationNodeGetAnimation(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Animation)(_classBinding.animationNodeGetAnimation, _godot_object, id);
@@ -257,7 +257,7 @@ public:
 	/**
 	Binds the $(D Animation) named `source` from $(D masterPlayer) to the animation node `id`. Recalculates caches.
 	*/
-	void animationNodeSetMasterAnimation(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 source)
+	void animationNodeSetMasterAnimation(in String id, in String source)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.animationNodeSetMasterAnimation, _godot_object, id, source);
@@ -265,7 +265,7 @@ public:
 	/**
 	Returns the name of the $(D masterPlayer)'s $(D Animation) bound to this animation node.
 	*/
-	String animationNodeGetMasterAnimation(StringArg0)(in StringArg0 id) const
+	String animationNodeGetMasterAnimation(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.animationNodeGetMasterAnimation, _godot_object, id);
@@ -273,7 +273,7 @@ public:
 	/**
 	
 	*/
-	double animationNodeGetPosition(StringArg0)(in StringArg0 id) const
+	double animationNodeGetPosition(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.animationNodeGetPosition, _godot_object, id);
@@ -281,7 +281,7 @@ public:
 	/**
 	If `enable` is `true`, the animation node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
-	void animationNodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
+	void animationNodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.animationNodeSetFilterPath, _godot_object, id, path, enable);
@@ -289,7 +289,7 @@ public:
 	/**
 	Sets fade in time of a OneShot node given its name and value in seconds.
 	*/
-	void oneshotNodeSetFadeinTime(StringArg0)(in StringArg0 id, in double time_sec)
+	void oneshotNodeSetFadeinTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetFadeinTime, _godot_object, id, time_sec);
@@ -297,7 +297,7 @@ public:
 	/**
 	Returns fade in time of a OneShot node given its name.
 	*/
-	double oneshotNodeGetFadeinTime(StringArg0)(in StringArg0 id) const
+	double oneshotNodeGetFadeinTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeinTime, _godot_object, id);
@@ -305,7 +305,7 @@ public:
 	/**
 	Sets fade out time of a OneShot node given its name and value in seconds.
 	*/
-	void oneshotNodeSetFadeoutTime(StringArg0)(in StringArg0 id, in double time_sec)
+	void oneshotNodeSetFadeoutTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetFadeoutTime, _godot_object, id, time_sec);
@@ -313,7 +313,7 @@ public:
 	/**
 	Returns fade out time of a OneShot node given its name.
 	*/
-	double oneshotNodeGetFadeoutTime(StringArg0)(in StringArg0 id) const
+	double oneshotNodeGetFadeoutTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeoutTime, _godot_object, id);
@@ -321,7 +321,7 @@ public:
 	/**
 	Sets autorestart property of a OneShot node given its name and value.
 	*/
-	void oneshotNodeSetAutorestart(StringArg0)(in StringArg0 id, in bool enable)
+	void oneshotNodeSetAutorestart(in String id, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestart, _godot_object, id, enable);
@@ -329,7 +329,7 @@ public:
 	/**
 	Sets autorestart delay of a OneShot node given its name and value in seconds.
 	*/
-	void oneshotNodeSetAutorestartDelay(StringArg0)(in StringArg0 id, in double delay_sec)
+	void oneshotNodeSetAutorestartDelay(in String id, in double delay_sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartDelay, _godot_object, id, delay_sec);
@@ -337,7 +337,7 @@ public:
 	/**
 	Sets autorestart random delay of a OneShot node given its name and value in seconds.
 	*/
-	void oneshotNodeSetAutorestartRandomDelay(StringArg0)(in StringArg0 id, in double rand_sec)
+	void oneshotNodeSetAutorestartRandomDelay(in String id, in double rand_sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartRandomDelay, _godot_object, id, rand_sec);
@@ -345,7 +345,7 @@ public:
 	/**
 	Returns whether a OneShot node will auto restart given its name.
 	*/
-	bool oneshotNodeHasAutorestart(StringArg0)(in StringArg0 id) const
+	bool oneshotNodeHasAutorestart(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.oneshotNodeHasAutorestart, _godot_object, id);
@@ -353,7 +353,7 @@ public:
 	/**
 	Returns autostart delay of a OneShot node given its name.
 	*/
-	double oneshotNodeGetAutorestartDelay(StringArg0)(in StringArg0 id) const
+	double oneshotNodeGetAutorestartDelay(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartDelay, _godot_object, id);
@@ -361,7 +361,7 @@ public:
 	/**
 	Returns autostart random delay of a OneShot node given its name.
 	*/
-	double oneshotNodeGetAutorestartRandomDelay(StringArg0)(in StringArg0 id) const
+	double oneshotNodeGetAutorestartRandomDelay(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartRandomDelay, _godot_object, id);
@@ -369,7 +369,7 @@ public:
 	/**
 	Starts a OneShot node given its name.
 	*/
-	void oneshotNodeStart(StringArg0)(in StringArg0 id)
+	void oneshotNodeStart(in String id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeStart, _godot_object, id);
@@ -377,7 +377,7 @@ public:
 	/**
 	Stops the OneShot node with name `id`.
 	*/
-	void oneshotNodeStop(StringArg0)(in StringArg0 id)
+	void oneshotNodeStop(in String id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeStop, _godot_object, id);
@@ -385,7 +385,7 @@ public:
 	/**
 	Returns whether a OneShot node is active given its name.
 	*/
-	bool oneshotNodeIsActive(StringArg0)(in StringArg0 id) const
+	bool oneshotNodeIsActive(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.oneshotNodeIsActive, _godot_object, id);
@@ -393,7 +393,7 @@ public:
 	/**
 	If `enable` is `true`, the oneshot node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
-	void oneshotNodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
+	void oneshotNodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.oneshotNodeSetFilterPath, _godot_object, id, path, enable);
@@ -402,7 +402,7 @@ public:
 	Sets mix amount of a Mix node given its name and value.
 	A Mix node adds input b to input a by a the amount given by ratio.
 	*/
-	void mixNodeSetAmount(StringArg0)(in StringArg0 id, in double ratio)
+	void mixNodeSetAmount(in String id, in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.mixNodeSetAmount, _godot_object, id, ratio);
@@ -410,7 +410,7 @@ public:
 	/**
 	Returns mix amount of a Mix node given its name.
 	*/
-	double mixNodeGetAmount(StringArg0)(in StringArg0 id) const
+	double mixNodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.mixNodeGetAmount, _godot_object, id);
@@ -422,7 +422,7 @@ public:
 	Towards 1, the influence of a gets lessened, the influence of b gets raised.
 	At 1, Output is input b.
 	*/
-	void blend2NodeSetAmount(StringArg0)(in StringArg0 id, in double blend)
+	void blend2NodeSetAmount(in String id, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.blend2NodeSetAmount, _godot_object, id, blend);
@@ -430,7 +430,7 @@ public:
 	/**
 	Returns the blend amount of a Blend2 node given its name.
 	*/
-	double blend2NodeGetAmount(StringArg0)(in StringArg0 id) const
+	double blend2NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.blend2NodeGetAmount, _godot_object, id);
@@ -438,7 +438,7 @@ public:
 	/**
 	If `enable` is `true`, the blend2 node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
 	*/
-	void blend2NodeSetFilterPath(StringArg0, NodePathArg1)(in StringArg0 id, in NodePathArg1 path, in bool enable)
+	void blend2NodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.blend2NodeSetFilterPath, _godot_object, id, path, enable);
@@ -452,7 +452,7 @@ public:
 	From 0 to 1, the influence of a gets lessened, the influence of b+ gets raised and the influence of b+ is 0.
 	At 1, Output is input b+.
 	*/
-	void blend3NodeSetAmount(StringArg0)(in StringArg0 id, in double blend)
+	void blend3NodeSetAmount(in String id, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.blend3NodeSetAmount, _godot_object, id, blend);
@@ -460,7 +460,7 @@ public:
 	/**
 	Returns the blend amount of a Blend3 node given its name.
 	*/
-	double blend3NodeGetAmount(StringArg0)(in StringArg0 id) const
+	double blend3NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.blend3NodeGetAmount, _godot_object, id);
@@ -470,7 +470,7 @@ public:
 	A Blend4 Node blends two pairs of animations.
 	The two pairs are blended like blend2 and then added together.
 	*/
-	void blend4NodeSetAmount(StringArg0)(in StringArg0 id, in Vector2 blend)
+	void blend4NodeSetAmount(in String id, in Vector2 blend)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.blend4NodeSetAmount, _godot_object, id, blend);
@@ -478,7 +478,7 @@ public:
 	/**
 	Returns the blend amount of a Blend4 node given its name.
 	*/
-	Vector2 blend4NodeGetAmount(StringArg0)(in StringArg0 id) const
+	Vector2 blend4NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.blend4NodeGetAmount, _godot_object, id);
@@ -488,7 +488,7 @@ public:
 	The timescale node is used to speed $(D Animation)s up if the scale is above 1 or slow them down if it is below 1.
 	If applied after a blend or mix, affects all input animations to that blend or mix.
 	*/
-	void timescaleNodeSetScale(StringArg0)(in StringArg0 id, in double scale)
+	void timescaleNodeSetScale(in String id, in double scale)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.timescaleNodeSetScale, _godot_object, id, scale);
@@ -496,7 +496,7 @@ public:
 	/**
 	Returns time scale value of the TimeScale node with name `id`.
 	*/
-	double timescaleNodeGetScale(StringArg0)(in StringArg0 id) const
+	double timescaleNodeGetScale(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.timescaleNodeGetScale, _godot_object, id);
@@ -505,7 +505,7 @@ public:
 	Sets the time seek value of the TimeSeek node with name `id` to `seconds`
 	This functions as a seek in the $(D Animation) or the blend or mix of $(D Animation)s input in it.
 	*/
-	void timeseekNodeSeek(StringArg0)(in StringArg0 id, in double seconds)
+	void timeseekNodeSeek(in String id, in double seconds)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.timeseekNodeSeek, _godot_object, id, seconds);
@@ -513,7 +513,7 @@ public:
 	/**
 	Resizes the number of inputs available for the transition node with name `id`.
 	*/
-	void transitionNodeSetInputCount(StringArg0)(in StringArg0 id, in long count)
+	void transitionNodeSetInputCount(in String id, in long count)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.transitionNodeSetInputCount, _godot_object, id, count);
@@ -521,7 +521,7 @@ public:
 	/**
 	Returns the number of inputs for the transition node with name `id`. You can add inputs by rightclicking on the transition node.
 	*/
-	long transitionNodeGetInputCount(StringArg0)(in StringArg0 id) const
+	long transitionNodeGetInputCount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.transitionNodeGetInputCount, _godot_object, id);
@@ -529,7 +529,7 @@ public:
 	/**
 	Deletes the input at `input_idx` for the transition node with name `id`.
 	*/
-	void transitionNodeDeleteInput(StringArg0)(in StringArg0 id, in long input_idx)
+	void transitionNodeDeleteInput(in String id, in long input_idx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.transitionNodeDeleteInput, _godot_object, id, input_idx);
@@ -537,7 +537,7 @@ public:
 	/**
 	The transition node with name `id` advances to its next input automatically when the input at `input_idx` completes.
 	*/
-	void transitionNodeSetInputAutoAdvance(StringArg0)(in StringArg0 id, in long input_idx, in bool enable)
+	void transitionNodeSetInputAutoAdvance(in String id, in long input_idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.transitionNodeSetInputAutoAdvance, _godot_object, id, input_idx, enable);
@@ -545,7 +545,7 @@ public:
 	/**
 	Returns `true` if the input at `input_idx` on transition node with name `id` is set to automatically advance to the next input upon completion.
 	*/
-	bool transitionNodeHasInputAutoAdvance(StringArg0)(in StringArg0 id, in long input_idx) const
+	bool transitionNodeHasInputAutoAdvance(in String id, in long input_idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.transitionNodeHasInputAutoAdvance, _godot_object, id, input_idx);
@@ -553,7 +553,7 @@ public:
 	/**
 	The transition node with name `id` sets its cross fade time to `time_sec`.
 	*/
-	void transitionNodeSetXfadeTime(StringArg0)(in StringArg0 id, in double time_sec)
+	void transitionNodeSetXfadeTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.transitionNodeSetXfadeTime, _godot_object, id, time_sec);
@@ -561,7 +561,7 @@ public:
 	/**
 	Returns the cross fade time for the transition node with name `id`.
 	*/
-	double transitionNodeGetXfadeTime(StringArg0)(in StringArg0 id) const
+	double transitionNodeGetXfadeTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.transitionNodeGetXfadeTime, _godot_object, id);
@@ -569,7 +569,7 @@ public:
 	/**
 	The transition node with name `id` sets its current input at `input_idx`.
 	*/
-	void transitionNodeSetCurrent(StringArg0)(in StringArg0 id, in long input_idx)
+	void transitionNodeSetCurrent(in String id, in long input_idx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.transitionNodeSetCurrent, _godot_object, id, input_idx);
@@ -577,7 +577,7 @@ public:
 	/**
 	Returns the index of the currently evaluated input for the transition node with name `id`.
 	*/
-	long transitionNodeGetCurrent(StringArg0)(in StringArg0 id) const
+	long transitionNodeGetCurrent(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.transitionNodeGetCurrent, _godot_object, id);
@@ -585,7 +585,7 @@ public:
 	/**
 	Sets position of a node in the graph given its name and position.
 	*/
-	void nodeSetPosition(StringArg0)(in StringArg0 id, in Vector2 screen_position)
+	void nodeSetPosition(in String id, in Vector2 screen_position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.nodeSetPosition, _godot_object, id, screen_position);
@@ -593,7 +593,7 @@ public:
 	/**
 	Returns position of a node in the graph given its name.
 	*/
-	Vector2 nodeGetPosition(StringArg0)(in StringArg0 id) const
+	Vector2 nodeGetPosition(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.nodeGetPosition, _godot_object, id);
@@ -601,7 +601,7 @@ public:
 	/**
 	Removes the animation node with name `id`.
 	*/
-	void removeNode(StringArg0)(in StringArg0 id)
+	void removeNode(in String id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeNode, _godot_object, id);
@@ -609,7 +609,7 @@ public:
 	/**
 	Connects node `id` to `dst_id` at the specified input slot.
 	*/
-	GodotError connectNodes(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 dst_id, in long dst_input_idx)
+	GodotError connectNodes(in String id, in String dst_id, in long dst_input_idx)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectNodes, _godot_object, id, dst_id, dst_input_idx);
@@ -617,7 +617,7 @@ public:
 	/**
 	Returns whether node `id` and `dst_id` are connected at the specified slot.
 	*/
-	bool areNodesConnected(StringArg0, StringArg1)(in StringArg0 id, in StringArg1 dst_id, in long dst_input_idx) const
+	bool areNodesConnected(in String id, in String dst_id, in long dst_input_idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.areNodesConnected, _godot_object, id, dst_id, dst_input_idx);
@@ -625,7 +625,7 @@ public:
 	/**
 	Disconnects nodes connected to `id` at the specified input slot.
 	*/
-	void disconnectNodes(StringArg0)(in StringArg0 id, in long dst_input_idx)
+	void disconnectNodes(in String id, in long dst_input_idx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnectNodes, _godot_object, id, dst_input_idx);

@@ -95,7 +95,7 @@ public:
 	/**
 	
 	*/
-	void setAnimation(StringArg0)(in StringArg0 animation)
+	void setAnimation(in String animation)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAnimation, _godot_object, animation);
@@ -130,7 +130,7 @@ public:
 	/**
 	Play the animation set in parameter. If no parameter is provided, the current animation is played.
 	*/
-	void play(StringArg0)(in StringArg0 anim = "")
+	void play(in String anim = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.play, _godot_object, anim);

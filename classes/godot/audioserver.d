@@ -163,7 +163,7 @@ public:
 	/**
 	Sets the name of the bus at index `bus_idx` to `name`.
 	*/
-	void setBusName(StringArg1)(in long bus_idx, in StringArg1 name)
+	void setBusName(in long bus_idx, in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBusName, _godot_object, bus_idx, name);
@@ -179,7 +179,7 @@ public:
 	/**
 	Returns the index of the bus with the name `bus_name`.
 	*/
-	long getBusIndex(StringArg0)(in StringArg0 bus_name) const
+	long getBusIndex(in String bus_name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getBusIndex, _godot_object, bus_name);
@@ -203,7 +203,7 @@ public:
 	/**
 	Connects the output of the bus at `bus_idx` to the bus named `send`.
 	*/
-	void setBusSend(StringArg1)(in long bus_idx, in StringArg1 send)
+	void setBusSend(in long bus_idx, in String send)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBusSend, _godot_object, bus_idx, send);
@@ -387,7 +387,7 @@ public:
 	/**
 	
 	*/
-	void setDevice(StringArg0)(in StringArg0 device)
+	void setDevice(in String device)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDevice, _godot_object, device);
@@ -411,7 +411,7 @@ public:
 	/**
 	
 	*/
-	void captureSetDevice(StringArg0)(in StringArg0 name)
+	void captureSetDevice(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.captureSetDevice, _godot_object, name);

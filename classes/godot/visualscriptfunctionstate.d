@@ -56,7 +56,7 @@ public:
 	/**
 	
 	*/
-	void connectToSignal(StringArg1)(GodotObject obj, in StringArg1 signals, in Array args)
+	void connectToSignal(GodotObject obj, in String signals, in Array args)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.connectToSignal, _godot_object, obj, signals, args);

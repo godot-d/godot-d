@@ -559,7 +559,7 @@ public:
 	/**
 	Loads an image from file `path`.
 	*/
-	GodotError load(StringArg0)(in StringArg0 path)
+	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
@@ -567,7 +567,7 @@ public:
 	/**
 	Saves the image as a PNG file to `path`.
 	*/
-	GodotError savePng(StringArg0)(in StringArg0 path) const
+	GodotError savePng(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.savePng, _godot_object, path);

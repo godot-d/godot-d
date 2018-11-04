@@ -197,7 +197,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg1)(in long column, in StringArg1 text)
+	void setText(in long column, in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, column, text);
@@ -310,7 +310,7 @@ public:
 	Sets the given column's custom draw callback to `callback` method on `object`.
 	The `callback` should accept two arguments: the $(D TreeItem) that is drawn and its position and size as a $(D Rect2).
 	*/
-	void setCustomDraw(StringArg2)(in long column, GodotObject object, in StringArg2 callback)
+	void setCustomDraw(in long column, GodotObject object, in String callback)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCustomDraw, _godot_object, column, object, callback);
@@ -518,7 +518,7 @@ public:
 	/**
 	Adds a button with $(D Texture) `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling $(D getButtonCount) immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	*/
-	void addButton(StringArg4)(in long column, Texture button, in long button_idx = -1, in bool disabled = false, in StringArg4 tooltip = "")
+	void addButton(in long column, Texture button, in long button_idx = -1, in bool disabled = false, in String tooltip = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addButton, _godot_object, column, button, button_idx, disabled, tooltip);
@@ -582,7 +582,7 @@ public:
 	/**
 	Sets the given column's tooltip text.
 	*/
-	void setTooltip(StringArg1)(in long column, in StringArg1 tooltip)
+	void setTooltip(in long column, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTooltip, _godot_object, column, tooltip);

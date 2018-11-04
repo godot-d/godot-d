@@ -78,7 +78,7 @@ public:
 	/**
 	
 	*/
-	bool hasSetting(StringArg0)(in StringArg0 name) const
+	bool hasSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSetting, _godot_object, name);
@@ -86,7 +86,7 @@ public:
 	/**
 	
 	*/
-	void setSetting(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSetting, _godot_object, name, value);
@@ -94,7 +94,7 @@ public:
 	/**
 	
 	*/
-	Variant getSetting(StringArg0)(in StringArg0 name) const
+	Variant getSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getSetting, _godot_object, name);
@@ -102,7 +102,7 @@ public:
 	/**
 	Erase a given setting (pass full property path).
 	*/
-	void erase(StringArg0)(in StringArg0 property)
+	void erase(in String property)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.erase, _godot_object, property);
@@ -110,7 +110,7 @@ public:
 	/**
 	
 	*/
-	void setInitialValue(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value, in bool update_current)
+	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value, in bool update_current)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInitialValue, _godot_object, name, value, update_current);
@@ -118,7 +118,7 @@ public:
 	/**
 	
 	*/
-	bool propertyCanRevert(StringArg0)(in StringArg0 name)
+	bool propertyCanRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
@@ -126,7 +126,7 @@ public:
 	/**
 	
 	*/
-	Variant propertyGetRevert(StringArg0)(in StringArg0 name)
+	Variant propertyGetRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
@@ -175,7 +175,7 @@ public:
 	/**
 	
 	*/
-	void setProjectMetadata(StringArg0, StringArg1, VariantArg2)(in StringArg0 section, in StringArg1 key, in VariantArg2 data)
+	void setProjectMetadata(VariantArg2)(in String section, in String key, in VariantArg2 data)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setProjectMetadata, _godot_object, section, key, data);
@@ -183,7 +183,7 @@ public:
 	/**
 	
 	*/
-	Variant getProjectMetadata(StringArg0, StringArg1, VariantArg2)(in StringArg0 section, in StringArg1 key, in VariantArg2 _default = Variant.nil) const
+	Variant getProjectMetadata(VariantArg2)(in String section, in String key, in VariantArg2 _default = Variant.nil) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getProjectMetadata, _godot_object, section, key, _default);

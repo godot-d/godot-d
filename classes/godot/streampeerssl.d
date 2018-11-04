@@ -111,7 +111,7 @@ public:
 	/**
 	Connect to a peer using an underlying $(D StreamPeer) "stream", when "validate_certs" is true, `StreamPeerSSL` will validate that the certificate presented by the peer matches the "for_hostname".
 	*/
-	GodotError connectToStream(StringArg2)(StreamPeer stream, in bool validate_certs = false, in StringArg2 for_hostname = "")
+	GodotError connectToStream(StreamPeer stream, in bool validate_certs = false, in String for_hostname = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectToStream, _godot_object, stream, validate_certs, for_hostname);

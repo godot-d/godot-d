@@ -80,7 +80,7 @@ public:
 	/**
 	Changes the value set for this material of a uniform in the shader.
 	*/
-	void setShaderParam(StringArg0, VariantArg1)(in StringArg0 param, in VariantArg1 value)
+	void setShaderParam(VariantArg1)(in String param, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setShaderParam, _godot_object, param, value);
@@ -88,7 +88,7 @@ public:
 	/**
 	Returns the current value set for this material of a uniform in the shader.
 	*/
-	Variant getShaderParam(StringArg0)(in StringArg0 param) const
+	Variant getShaderParam(in String param) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getShaderParam, _godot_object, param);
@@ -105,7 +105,7 @@ public:
 	/**
 	
 	*/
-	bool propertyCanRevert(StringArg0)(in StringArg0 name)
+	bool propertyCanRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
@@ -113,7 +113,7 @@ public:
 	/**
 	
 	*/
-	Variant propertyGetRevert(StringArg0)(in StringArg0 name)
+	Variant propertyGetRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);

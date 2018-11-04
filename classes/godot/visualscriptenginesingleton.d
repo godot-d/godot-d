@@ -58,7 +58,7 @@ public:
 	/**
 	
 	*/
-	void setSingleton(StringArg0)(in StringArg0 name)
+	void setSingleton(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSingleton, _godot_object, name);

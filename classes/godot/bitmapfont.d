@@ -77,7 +77,7 @@ public:
 	/**
 	Creates a BitmapFont from the `*.fnt` file at `path`.
 	*/
-	GodotError createFromFnt(StringArg0)(in StringArg0 path)
+	GodotError createFromFnt(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.createFromFnt, _godot_object, path);

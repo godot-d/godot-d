@@ -283,7 +283,7 @@ public:
 	Filters for IGD (InternetGatewayDevice) type devices by default, as those manage port forwarding. `timeout` is the time to wait for responses in milliseconds. `ttl` is the time-to-live; only touch this if you know what you're doing.
 	See $(D upnpresult) for possible return values.
 	*/
-	long discover(StringArg2)(in long timeout = 2000, in long ttl = 2, in StringArg2 device_filter = "InternetGatewayDevice")
+	long discover(in long timeout = 2000, in long ttl = 2, in String device_filter = gs!"InternetGatewayDevice")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.discover, _godot_object, timeout, ttl, device_filter);
@@ -302,7 +302,7 @@ public:
 	The description (`desc`) is shown in some router UIs and can be used to point out which application added the mapping, and the lifetime of the mapping can be limited by `duration`. However, some routers are incompatible with one or both of these, so use with caution and add fallback logic in case of errors to retry without them if in doubt.
 	See $(D upnpresult) for possible return values.
 	*/
-	long addPortMapping(StringArg2, StringArg3)(in long port, in long port_internal = 0, in StringArg2 desc = "", in StringArg3 proto = "UDP", in long duration = 0) const
+	long addPortMapping(in long port, in long port_internal = 0, in String desc = gs!"", in String proto = gs!"UDP", in long duration = 0) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.addPortMapping, _godot_object, port, port_internal, desc, proto, duration);
@@ -310,7 +310,7 @@ public:
 	/**
 	Deletes the port mapping for the given port and protocol combination on the default gateway (see $(D getGateway)) if one exists. `port` must be a valid port between 1 and 65535, `proto` can be either `TCP` or `UDP`. See $(D upnpresult) for possible return values.
 	*/
-	long deletePortMapping(StringArg1)(in long port, in StringArg1 proto = "UDP") const
+	long deletePortMapping(in long port, in String proto = gs!"UDP") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.deletePortMapping, _godot_object, port, proto);
@@ -318,7 +318,7 @@ public:
 	/**
 	
 	*/
-	void setDiscoverMulticastIf(StringArg0)(in StringArg0 m_if)
+	void setDiscoverMulticastIf(in String m_if)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDiscoverMulticastIf, _godot_object, m_if);

@@ -58,7 +58,7 @@ public:
 	/**
 	
 	*/
-	void setAnimation(StringArg0)(in StringArg0 name)
+	void setAnimation(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAnimation, _godot_object, name);

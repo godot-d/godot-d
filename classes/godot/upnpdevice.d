@@ -144,7 +144,7 @@ public:
 	/**
 	Adds a port mapping to forward the given external port on this $(D UPNPDevice) for the given protocol to the local machine. See $(D UPNP.addPortMapping).
 	*/
-	long addPortMapping(StringArg2, StringArg3)(in long port, in long port_internal = 0, in StringArg2 desc = "", in StringArg3 proto = "UDP", in long duration = 0) const
+	long addPortMapping(in long port, in long port_internal = 0, in String desc = gs!"", in String proto = gs!"UDP", in long duration = 0) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.addPortMapping, _godot_object, port, port_internal, desc, proto, duration);
@@ -152,7 +152,7 @@ public:
 	/**
 	Deletes the port mapping identified by the given port and protocol combination on this device. See $(D UPNP.deletePortMapping).
 	*/
-	long deletePortMapping(StringArg1)(in long port, in StringArg1 proto = "UDP") const
+	long deletePortMapping(in long port, in String proto = gs!"UDP") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.deletePortMapping, _godot_object, port, proto);
@@ -160,7 +160,7 @@ public:
 	/**
 	
 	*/
-	void setDescriptionUrl(StringArg0)(in StringArg0 url)
+	void setDescriptionUrl(in String url)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDescriptionUrl, _godot_object, url);
@@ -176,7 +176,7 @@ public:
 	/**
 	
 	*/
-	void setServiceType(StringArg0)(in StringArg0 type)
+	void setServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setServiceType, _godot_object, type);
@@ -192,7 +192,7 @@ public:
 	/**
 	
 	*/
-	void setIgdControlUrl(StringArg0)(in StringArg0 url)
+	void setIgdControlUrl(in String url)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setIgdControlUrl, _godot_object, url);
@@ -208,7 +208,7 @@ public:
 	/**
 	
 	*/
-	void setIgdServiceType(StringArg0)(in StringArg0 type)
+	void setIgdServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setIgdServiceType, _godot_object, type);
@@ -224,7 +224,7 @@ public:
 	/**
 	
 	*/
-	void setIgdOurAddr(StringArg0)(in StringArg0 addr)
+	void setIgdOurAddr(in String addr)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setIgdOurAddr, _godot_object, addr);

@@ -259,7 +259,7 @@ public:
 	/**
 	
 	*/
-	void setBus(StringArg0)(in StringArg0 bus)
+	void setBus(in String bus)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);

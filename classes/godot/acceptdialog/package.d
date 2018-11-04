@@ -114,7 +114,7 @@ public:
 	Adds a button with label $(I text) and a custom $(I action) to the dialog and returns the created button. $(I action) will be passed to the $(D customAction) signal when pressed.
 	If `true`, $(I right) will place the button to the right of any sibling buttons. Default value: `false`.
 	*/
-	Button addButton(StringArg0, StringArg2)(in StringArg0 text, in bool right = false, in StringArg2 action = "")
+	Button addButton(in String text, in bool right = false, in String action = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Button)(_classBinding.addButton, _godot_object, text, right, action);
@@ -122,7 +122,7 @@ public:
 	/**
 	Adds a button with label $(I name) and a cancel action to the dialog and returns the created button.
 	*/
-	Button addCancel(StringArg0)(in StringArg0 name)
+	Button addCancel(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Button)(_classBinding.addCancel, _godot_object, name);
@@ -130,7 +130,7 @@ public:
 	/**
 	
 	*/
-	void _builtinTextEntered(StringArg0)(in StringArg0 arg0)
+	void _builtinTextEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -148,7 +148,7 @@ public:
 	/**
 	
 	*/
-	void _customAction(StringArg0)(in StringArg0 arg0)
+	void _customAction(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -158,7 +158,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg0)(in StringArg0 text)
+	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, text);

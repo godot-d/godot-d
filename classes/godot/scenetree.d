@@ -197,7 +197,7 @@ public:
 	/**
 	Returns `true` if the given group exists.
 	*/
-	bool hasGroup(StringArg0)(in StringArg0 name) const
+	bool hasGroup(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasGroup, _godot_object, name);
@@ -349,7 +349,7 @@ public:
 	/**
 	Calls `method` on each member of the given group, respecting the given $(D groupcallflags).
 	*/
-	Variant callGroupFlags(StringArg1, StringArg2, VarArgs...)(in long flags, in StringArg1 group, in StringArg2 method, VarArgs varArgs)
+	Variant callGroupFlags(VarArgs...)(in long flags, in String group, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(flags);
@@ -365,7 +365,7 @@ public:
 	/**
 	Sends the given notification to all members of the `group`, respecting the given $(D groupcallflags).
 	*/
-	void notifyGroupFlags(StringArg1)(in long call_flags, in StringArg1 group, in long notification)
+	void notifyGroupFlags(in long call_flags, in String group, in long notification)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.notifyGroupFlags, _godot_object, call_flags, group, notification);
@@ -373,7 +373,7 @@ public:
 	/**
 	Sets the given `property` to `value` on all members of the given group, respecting the given $(D groupcallflags).
 	*/
-	void setGroupFlags(StringArg1, StringArg2, VariantArg3)(in long call_flags, in StringArg1 group, in StringArg2 property, in VariantArg3 value)
+	void setGroupFlags(VariantArg3)(in long call_flags, in String group, in String property, in VariantArg3 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setGroupFlags, _godot_object, call_flags, group, property, value);
@@ -381,7 +381,7 @@ public:
 	/**
 	Calls `method` on each member of the given group.
 	*/
-	Variant callGroup(StringArg0, StringArg1, VarArgs...)(in StringArg0 group, in StringArg1 method, VarArgs varArgs)
+	Variant callGroup(VarArgs...)(in String group, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(group);
@@ -396,7 +396,7 @@ public:
 	/**
 	Sends the given notification to all members of the `group`.
 	*/
-	void notifyGroup(StringArg0)(in StringArg0 group, in long notification)
+	void notifyGroup(in String group, in long notification)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.notifyGroup, _godot_object, group, notification);
@@ -404,7 +404,7 @@ public:
 	/**
 	Sets the given `property` to `value` on all members of the given group.
 	*/
-	void setGroup(StringArg0, StringArg1, VariantArg2)(in StringArg0 group, in StringArg1 property, in VariantArg2 value)
+	void setGroup(VariantArg2)(in String group, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setGroup, _godot_object, group, property, value);
@@ -412,7 +412,7 @@ public:
 	/**
 	Returns all nodes assigned to the given group.
 	*/
-	Array getNodesInGroup(StringArg0)(in StringArg0 group)
+	Array getNodesInGroup(in String group)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.getNodesInGroup, _godot_object, group);
@@ -436,7 +436,7 @@ public:
 	/**
 	Changes to the scene at the given `path`.
 	*/
-	GodotError changeScene(StringArg0)(in StringArg0 path)
+	GodotError changeScene(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.changeScene, _godot_object, path);

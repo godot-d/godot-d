@@ -183,7 +183,7 @@ public:
 	/**
 	Sets a title for the tab at index `tab_idx`.
 	*/
-	void setTabTitle(StringArg1)(in long tab_idx, in StringArg1 title)
+	void setTabTitle(in long tab_idx, in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTabTitle, _godot_object, tab_idx, title);
@@ -239,7 +239,7 @@ public:
 	/**
 	Adds a new tab.
 	*/
-	void addTab(StringArg0)(in StringArg0 title = "", Texture icon = Texture.init)
+	void addTab(in String title = gs!"", Texture icon = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addTab, _godot_object, title, icon);

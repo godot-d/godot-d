@@ -59,7 +59,7 @@ public:
 	/**
 	Return if your generator supports this resource type.
 	*/
-	bool handles(StringArg0)(in StringArg0 type)
+	bool handles(in String type)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(type);
@@ -84,7 +84,7 @@ public:
 	Returning an empty texture is an OK way to fail and let another generator take care.
 	Care must be taken because this function is always called from a thread (not the main thread).
 	*/
-	Ref!Texture generateFromPath(StringArg0)(in StringArg0 path, in Vector2 size)
+	Ref!Texture generateFromPath(in String path, in Vector2 size)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(path);

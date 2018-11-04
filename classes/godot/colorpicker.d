@@ -165,7 +165,7 @@ public:
 	/**
 	
 	*/
-	void _htmlEntered(StringArg0)(in StringArg0 arg0)
+	void _htmlEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);

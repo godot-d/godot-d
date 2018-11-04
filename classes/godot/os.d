@@ -388,7 +388,7 @@ public:
 	/**
 	
 	*/
-	void setClipboard(StringArg0)(in StringArg0 clipboard)
+	void setClipboard(in String clipboard)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setClipboard, _godot_object, clipboard);
@@ -739,7 +739,7 @@ public:
 	/**
 	Sets the window title to the specified string.
 	*/
-	void setWindowTitle(StringArg0)(in StringArg0 title)
+	void setWindowTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setWindowTitle, _godot_object, title);
@@ -803,7 +803,7 @@ public:
 	
 	
 	*/
-	long execute(StringArg0)(in StringArg0 path, in PoolStringArray arguments, in bool blocking, in Array output = Array.empty_array)
+	long execute(in String path, in PoolStringArray arguments, in bool blocking, in Array output = Array.empty_array)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.execute, _godot_object, path, arguments, blocking, output);
@@ -822,7 +822,7 @@ public:
 		`OS.shell_open("C:\\Users\name\Downloads")` on Windows opens the file explorer at the downloads folders of the user.
 		`OS.shell_open("http://godotengine.org")` opens the default web browser on the official Godot website.
 	*/
-	GodotError shellOpen(StringArg0)(in StringArg0 uri)
+	GodotError shellOpen(in String uri)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.shellOpen, _godot_object, uri);
@@ -838,7 +838,7 @@ public:
 	/**
 	Returns an environment variable.
 	*/
-	String getEnvironment(StringArg0)(in StringArg0 environment) const
+	String getEnvironment(in String environment) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getEnvironment, _godot_object, environment);
@@ -846,7 +846,7 @@ public:
 	/**
 	Returns `true` if an environment variable exists.
 	*/
-	bool hasEnvironment(StringArg0)(in StringArg0 environment) const
+	bool hasEnvironment(in String environment) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasEnvironment, _godot_object, environment);
@@ -1069,7 +1069,7 @@ public:
 	Dumps the memory allocation ringlist to a file (only works in debug).
 	Entry format per line: "Address - Size - Description".
 	*/
-	void dumpMemoryToFile(StringArg0)(in StringArg0 file)
+	void dumpMemoryToFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.dumpMemoryToFile, _godot_object, file);
@@ -1079,7 +1079,7 @@ public:
 	Entry format per line: "Resource Type : Resource Location".
 	At the end of the file is a statistic of all used Resource Types.
 	*/
-	void dumpResourcesToFile(StringArg0)(in StringArg0 file)
+	void dumpResourcesToFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.dumpResourcesToFile, _godot_object, file);
@@ -1095,7 +1095,7 @@ public:
 	/**
 	Shows the virtual keyboard if the platform has one. The $(I existing_text) parameter is useful for implementing your own LineEdit, as it tells the virtual keyboard what text has already been typed (the virtual keyboard uses it for auto-correct and predictions).
 	*/
-	void showVirtualKeyboard(StringArg0)(in StringArg0 existing_text = "")
+	void showVirtualKeyboard(in String existing_text = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.showVirtualKeyboard, _godot_object, existing_text);
@@ -1127,7 +1127,7 @@ public:
 	/**
 	Shows all resources in the game. Optionally the list can be written to a file.
 	*/
-	void printAllResources(StringArg0)(in StringArg0 tofile = "")
+	void printAllResources(in String tofile = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.printAllResources, _godot_object, tofile);
@@ -1213,7 +1213,7 @@ public:
 	Plays native video from the specified path, at the given volume and with audio and subtitle tracks.
 	Note: This method is only implemented on Android and iOS, and the current Android implementation does not support the `volume`, `audio_track` and `subtitle_track` options.
 	*/
-	GodotError nativeVideoPlay(StringArg0, StringArg2, StringArg3)(in StringArg0 path, in double volume, in StringArg2 audio_track, in StringArg3 subtitle_track)
+	GodotError nativeVideoPlay(in String path, in double volume, in String audio_track, in String subtitle_track)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.nativeVideoPlay, _godot_object, path, volume, audio_track, subtitle_track);
@@ -1269,7 +1269,7 @@ public:
 	/**
 	Returns the scancode of the given string (e.g. "Escape")
 	*/
-	long findScancodeFromString(StringArg0)(in StringArg0 string) const
+	long findScancodeFromString(in String string) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findScancodeFromString, _godot_object, string);
@@ -1285,7 +1285,7 @@ public:
 	/**
 	Displays a modal dialog box utilizing the host OS.
 	*/
-	void alert(StringArg0, StringArg1)(in StringArg0 text, in StringArg1 title = "Alert!")
+	void alert(in String text, in String title = gs!"Alert!")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.alert, _godot_object, text, title);
@@ -1293,7 +1293,7 @@ public:
 	/**
 	Sets the name of the current thread.
 	*/
-	GodotError setThreadName(StringArg0)(in StringArg0 name)
+	GodotError setThreadName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.setThreadName, _godot_object, name);
@@ -1317,7 +1317,7 @@ public:
 	/**
 	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. See feature tags documentation.
 	*/
-	bool hasFeature(StringArg0)(in StringArg0 tag_name) const
+	bool hasFeature(in String tag_name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasFeature, _godot_object, tag_name);

@@ -234,7 +234,7 @@ public:
 	/**
 	
 	*/
-	bool hasSingleton(StringArg0)(in StringArg0 name) const
+	bool hasSingleton(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSingleton, _godot_object, name);
@@ -242,7 +242,7 @@ public:
 	/**
 	
 	*/
-	GodotObject getSingleton(StringArg0)(in StringArg0 name) const
+	GodotObject getSingleton(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotObject)(_classBinding.getSingleton, _godot_object, name);

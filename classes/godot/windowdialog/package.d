@@ -76,7 +76,7 @@ public:
 	/**
 	
 	*/
-	void setTitle(StringArg0)(in StringArg0 title)
+	void setTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);

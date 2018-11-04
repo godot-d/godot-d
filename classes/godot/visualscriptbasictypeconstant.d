@@ -76,7 +76,7 @@ public:
 	/**
 	
 	*/
-	void setBasicTypeConstant(StringArg0)(in StringArg0 name)
+	void setBasicTypeConstant(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBasicTypeConstant, _godot_object, name);

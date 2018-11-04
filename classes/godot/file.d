@@ -168,7 +168,7 @@ public:
 	/**
 	Opens an encrypted file in write or read mode. You need to pass a binary key to encrypt/decrypt it.
 	*/
-	GodotError openEncrypted(StringArg0)(in StringArg0 path, in long mode_flags, in PoolByteArray key)
+	GodotError openEncrypted(in String path, in long mode_flags, in PoolByteArray key)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.openEncrypted, _godot_object, path, mode_flags, key);
@@ -176,7 +176,7 @@ public:
 	/**
 	Opens an encrypted file in write or read mode. You need to pass a password to encrypt/decrypt it.
 	*/
-	GodotError openEncryptedWithPass(StringArg0, StringArg2)(in StringArg0 path, in long mode_flags, in StringArg2 pass)
+	GodotError openEncryptedWithPass(in String path, in long mode_flags, in String pass)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.openEncryptedWithPass, _godot_object, path, mode_flags, pass);
@@ -184,7 +184,7 @@ public:
 	/**
 	Opens a compressed file for reading or writing. Use COMPRESSION_* constants to set `compression_mode`.
 	*/
-	GodotError openCompressed(StringArg0)(in StringArg0 path, in long mode_flags, in long compression_mode = 0)
+	GodotError openCompressed(in String path, in long mode_flags, in long compression_mode = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.openCompressed, _godot_object, path, mode_flags, compression_mode);
@@ -192,7 +192,7 @@ public:
 	/**
 	Opens the file for writing or reading, depending on the flags.
 	*/
-	GodotError open(StringArg0)(in StringArg0 path, in long flags)
+	GodotError open(in String path, in long flags)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path, flags);
@@ -352,7 +352,7 @@ public:
 	/**
 	Returns an MD5 String representing the file at the given path or an empty $(D String) on failure.
 	*/
-	String getMd5(StringArg0)(in StringArg0 path) const
+	String getMd5(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getMd5, _godot_object, path);
@@ -360,7 +360,7 @@ public:
 	/**
 	Returns a SHA-256 $(D String) representing the file at the given path or an empty $(D String) on failure.
 	*/
-	String getSha256(StringArg0)(in StringArg0 path) const
+	String getSha256(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getSha256, _godot_object, path);
@@ -400,7 +400,7 @@ public:
 	/**
 	Returns the next value of the file in CSV (Comma Separated Values) format. You can pass a different delimiter to use other than the default "," (comma).
 	*/
-	PoolStringArray getCsvLine(StringArg0)(in StringArg0 delim = ",") const
+	PoolStringArray getCsvLine(in String delim = gs!",") const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getCsvLine, _godot_object, delim);
@@ -472,7 +472,7 @@ public:
 	/**
 	Stores the given $(D String) as a line in the file.
 	*/
-	void storeLine(StringArg0)(in StringArg0 line)
+	void storeLine(in String line)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.storeLine, _godot_object, line);
@@ -480,7 +480,7 @@ public:
 	/**
 	Stores the given $(D String) in the file.
 	*/
-	void storeString(StringArg0)(in StringArg0 string)
+	void storeString(in String string)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.storeString, _godot_object, string);
@@ -496,7 +496,7 @@ public:
 	/**
 	Stores the given $(D String) as a line in the file in Pascal format (i.e. also store the length of the string).
 	*/
-	void storePascalString(StringArg0)(in StringArg0 string)
+	void storePascalString(in String string)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.storePascalString, _godot_object, string);
@@ -512,7 +512,7 @@ public:
 	/**
 	Returns `true` if the file exists in the given path.
 	*/
-	bool fileExists(StringArg0)(in StringArg0 path) const
+	bool fileExists(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
@@ -520,7 +520,7 @@ public:
 	/**
 	Returns the last time the `file` was modified in unix timestamp format or returns a $(D String) "ERROR IN `file`". This unix timestamp can be converted to datetime by using $(D OS.getDatetimeFromUnixTime).
 	*/
-	long getModifiedTime(StringArg0)(in StringArg0 file) const
+	long getModifiedTime(in String file) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getModifiedTime, _godot_object, file);

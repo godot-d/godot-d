@@ -116,7 +116,7 @@ public:
 	/**
 	Disconnects the peer identified by `id` from the server. See $(D WebSocketPeer.close) for more info.
 	*/
-	void disconnectPeer(StringArg2)(in long id, in long code = 1000, in StringArg2 reason = "")
+	void disconnectPeer(in long id, in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnectPeer, _godot_object, id, code, reason);

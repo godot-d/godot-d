@@ -100,7 +100,7 @@ public:
 	/**
 	Saves a resource to disk.
 	*/
-	GodotError save(StringArg0)(in StringArg0 path, Resource resource, in long flags = 0)
+	GodotError save(in String path, Resource resource, in long flags = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path, resource, flags);

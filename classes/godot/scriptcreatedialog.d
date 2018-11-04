@@ -78,7 +78,7 @@ public:
 	/**
 	
 	*/
-	void _classNameChanged(StringArg0)(in StringArg0 arg0)
+	void _classNameChanged(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -88,7 +88,7 @@ public:
 	/**
 	
 	*/
-	void _parentNameChanged(StringArg0)(in StringArg0 arg0)
+	void _parentNameChanged(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -128,7 +128,7 @@ public:
 	/**
 	
 	*/
-	void _fileSelected(StringArg0)(in StringArg0 arg0)
+	void _fileSelected(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -138,7 +138,7 @@ public:
 	/**
 	
 	*/
-	void _pathChanged(StringArg0)(in StringArg0 arg0)
+	void _pathChanged(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -148,7 +148,7 @@ public:
 	/**
 	
 	*/
-	void _pathEntered(StringArg0)(in StringArg0 arg0)
+	void _pathEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -168,7 +168,7 @@ public:
 	/**
 	Prefills required fields to configure the ScriptCreateDialog for use.
 	*/
-	void config(StringArg0, StringArg1)(in StringArg0 inherits, in StringArg1 path, in bool built_in_enabled = true)
+	void config(in String inherits, in String path, in bool built_in_enabled = true)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.config, _godot_object, inherits, path, built_in_enabled);

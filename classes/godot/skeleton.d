@@ -92,7 +92,7 @@ public:
 	/**
 	Add a bone, with name "name". $(D getBoneCount) will become the bone index.
 	*/
-	void addBone(StringArg0)(in StringArg0 name)
+	void addBone(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addBone, _godot_object, name);
@@ -100,7 +100,7 @@ public:
 	/**
 	Return the bone index that matches "name" as its name.
 	*/
-	long findBone(StringArg0)(in StringArg0 name) const
+	long findBone(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findBone, _godot_object, name);

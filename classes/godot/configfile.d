@@ -87,7 +87,7 @@ public:
 	/**
 	Assigns a value to the specified key of the specified section. If the section and/or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.
 	*/
-	void setValue(StringArg0, StringArg1, VariantArg2)(in StringArg0 section, in StringArg1 key, in VariantArg2 value)
+	void setValue(VariantArg2)(in String section, in String key, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setValue, _godot_object, section, key, value);
@@ -95,7 +95,7 @@ public:
 	/**
 	Returns the current value for the specified section and key. If the section and/or the key do not exist, the method returns the value of the optional `default` argument, or `null` if it is omitted.
 	*/
-	Variant getValue(StringArg0, StringArg1, VariantArg2)(in StringArg0 section, in StringArg1 key, in VariantArg2 _default = Variant.nil) const
+	Variant getValue(VariantArg2)(in String section, in String key, in VariantArg2 _default = Variant.nil) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getValue, _godot_object, section, key, _default);
@@ -103,7 +103,7 @@ public:
 	/**
 	Returns `true` if the specified section exists.
 	*/
-	bool hasSection(StringArg0)(in StringArg0 section) const
+	bool hasSection(in String section) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSection, _godot_object, section);
@@ -111,7 +111,7 @@ public:
 	/**
 	Returns `true` if the specified section-key pair exists.
 	*/
-	bool hasSectionKey(StringArg0, StringArg1)(in StringArg0 section, in StringArg1 key) const
+	bool hasSectionKey(in String section, in String key) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSectionKey, _godot_object, section, key);
@@ -127,7 +127,7 @@ public:
 	/**
 	Returns an array of all defined key identifiers in the specified section.
 	*/
-	PoolStringArray getSectionKeys(StringArg0)(in StringArg0 section) const
+	PoolStringArray getSectionKeys(in String section) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getSectionKeys, _godot_object, section);
@@ -135,7 +135,7 @@ public:
 	/**
 	Deletes the specified section along with all the key-value pairs inside.
 	*/
-	void eraseSection(StringArg0)(in StringArg0 section)
+	void eraseSection(in String section)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.eraseSection, _godot_object, section);
@@ -143,7 +143,7 @@ public:
 	/**
 	Loads the config file specified as a parameter. The file's contents are parsed and loaded in the ConfigFile object which the method was called on. Returns one of the `OK`, `FAILED` or `ERR_*` constants listed in $(D @GlobalScope). If the load was successful, the return value is `OK`.
 	*/
-	GodotError load(StringArg0)(in StringArg0 path)
+	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
@@ -151,7 +151,7 @@ public:
 	/**
 	Saves the contents of the ConfigFile object to the file specified as a parameter. The output file uses an INI-style structure. Returns one of the `OK`, `FAILED` or `ERR_*` constants listed in $(D @GlobalScope). If the load was successful, the return value is `OK`.
 	*/
-	GodotError save(StringArg0)(in StringArg0 path)
+	GodotError save(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path);

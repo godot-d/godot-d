@@ -82,7 +82,7 @@ public:
 	/**
 	
 	*/
-	void addResource(StringArg0)(in StringArg0 name, Resource resource)
+	void addResource(in String name, Resource resource)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addResource, _godot_object, name, resource);
@@ -90,7 +90,7 @@ public:
 	/**
 	Remove a resource from the preloader by text id.
 	*/
-	void removeResource(StringArg0)(in StringArg0 name)
+	void removeResource(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeResource, _godot_object, name);
@@ -98,7 +98,7 @@ public:
 	/**
 	Rename a resource inside the preloader, from a text-id to a new text-id.
 	*/
-	void renameResource(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 newname)
+	void renameResource(in String name, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameResource, _godot_object, name, newname);
@@ -106,7 +106,7 @@ public:
 	/**
 	Return true if the preloader has a given resource.
 	*/
-	bool hasResource(StringArg0)(in StringArg0 name) const
+	bool hasResource(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasResource, _godot_object, name);
@@ -114,7 +114,7 @@ public:
 	/**
 	Return the resource given a text-id.
 	*/
-	Ref!Resource getResource(StringArg0)(in StringArg0 name) const
+	Ref!Resource getResource(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Resource)(_classBinding.getResource, _godot_object, name);

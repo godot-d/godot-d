@@ -64,7 +64,7 @@ public:
 	/**
 	
 	*/
-	void setClassConstant(StringArg0)(in StringArg0 name)
+	void setClassConstant(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setClassConstant, _godot_object, name);
@@ -80,7 +80,7 @@ public:
 	/**
 	
 	*/
-	void setBaseType(StringArg0)(in StringArg0 name)
+	void setBaseType(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseType, _godot_object, name);

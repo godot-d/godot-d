@@ -82,7 +82,7 @@ public:
 	Starts a new `Thread` that runs "method" on object "instance" with "userdata" passed as an argument. The "priority" of the `Thread` can be changed by passing a PRIORITY_* enum.
 	Returns OK on success, or ERR_CANT_CREATE on failure.
 	*/
-	GodotError start(StringArg1, VariantArg2)(GodotObject instance, in StringArg1 method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
+	GodotError start(VariantArg2)(GodotObject instance, in String method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.start, _godot_object, instance, method, userdata, priority);

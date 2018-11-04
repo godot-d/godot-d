@@ -202,7 +202,7 @@ public:
 	/**
 	Sets a title for the tab at index `tab_idx`. Tab titles default to the name of the indexed child node, but this can be overridden with $(D setTabTitle).
 	*/
-	void setTabTitle(StringArg1)(in long tab_idx, in StringArg1 title)
+	void setTabTitle(in long tab_idx, in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTabTitle, _godot_object, tab_idx, title);

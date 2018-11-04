@@ -106,7 +106,7 @@ public:
 	/**
 	Add an item, with text "label" and (optionally) id. If no "id" is passed, "id" becomes the item index. New items are appended at the end.
 	*/
-	void addItem(StringArg0)(in StringArg0 label, in long id = -1)
+	void addItem(in String label, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addItem, _godot_object, label, id);
@@ -114,7 +114,7 @@ public:
 	/**
 	Add an item, with a "texture" icon, text "label" and (optionally) id. If no "id" is passed, "id" becomes the item index. New items are appended at the end.
 	*/
-	void addIconItem(StringArg1)(Texture texture, in StringArg1 label, in long id = -1)
+	void addIconItem(Texture texture, in String label, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIconItem, _godot_object, texture, label, id);
@@ -122,7 +122,7 @@ public:
 	/**
 	Set the text of an item at index "idx".
 	*/
-	void setItemText(StringArg1)(in long idx, in StringArg1 text)
+	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);

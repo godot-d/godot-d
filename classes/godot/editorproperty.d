@@ -83,7 +83,7 @@ public:
 	/**
 	
 	*/
-	void setLabel(StringArg0)(in StringArg0 text)
+	void setLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setLabel, _godot_object, text);

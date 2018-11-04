@@ -62,7 +62,7 @@ public:
 	/**
 	
 	*/
-	void _previewReady(StringArg0, StringArg4, VariantArg5)(in StringArg0 arg0, Texture arg1, Texture arg2, in long arg3, in StringArg4 arg4, in VariantArg5 arg5)
+	void _previewReady(VariantArg5)(in String arg0, Texture arg1, Texture arg2, in long arg3, in String arg4, in VariantArg5 arg5)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -77,7 +77,7 @@ public:
 	/**
 	Queue a resource file for preview (using a path). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
 	*/
-	void queueResourcePreview(StringArg0, StringArg2, VariantArg3)(in StringArg0 path, GodotObject receiver, in StringArg2 receiver_func, in VariantArg3 userdata)
+	void queueResourcePreview(VariantArg3)(in String path, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.queueResourcePreview, _godot_object, path, receiver, receiver_func, userdata);
@@ -85,7 +85,7 @@ public:
 	/**
 	Queue a resource being edited for preview (using an instance). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
 	*/
-	void queueEditedResourcePreview(StringArg2, VariantArg3)(Resource resource, GodotObject receiver, in StringArg2 receiver_func, in VariantArg3 userdata)
+	void queueEditedResourcePreview(VariantArg3)(Resource resource, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.queueEditedResourcePreview, _godot_object, resource, receiver, receiver_func, userdata);
@@ -109,7 +109,7 @@ public:
 	/**
 	Check if the resource changed, if so it will be invalidated and the corresponding signal emitted.
 	*/
-	void checkForInvalidation(StringArg0)(in StringArg0 path)
+	void checkForInvalidation(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.checkForInvalidation, _godot_object, path);

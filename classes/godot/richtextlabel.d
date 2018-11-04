@@ -254,7 +254,7 @@ public:
 	/**
 	Adds raw non-bbcode-parsed text to the tag stack.
 	*/
-	void addText(StringArg0)(in StringArg0 text)
+	void addText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addText, _godot_object, text);
@@ -262,7 +262,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg0)(in StringArg0 text)
+	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, text);
@@ -512,7 +512,7 @@ public:
 	/**
 	The assignment version of $(D appendBbcode). Clears the tag stack and inserts the new content. Returns `OK` if parses `bbcode` successfully.
 	*/
-	GodotError parseBbcode(StringArg0)(in StringArg0 bbcode)
+	GodotError parseBbcode(in String bbcode)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.parseBbcode, _godot_object, bbcode);
@@ -520,7 +520,7 @@ public:
 	/**
 	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, `OK` if successful.
 	*/
-	GodotError appendBbcode(StringArg0)(in StringArg0 bbcode)
+	GodotError appendBbcode(in String bbcode)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.appendBbcode, _godot_object, bbcode);
@@ -528,7 +528,7 @@ public:
 	/**
 	
 	*/
-	void setBbcode(StringArg0)(in StringArg0 text)
+	void setBbcode(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBbcode, _godot_object, text);

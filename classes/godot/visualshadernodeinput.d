@@ -56,7 +56,7 @@ public:
 	/**
 	
 	*/
-	void setInputName(StringArg0)(in StringArg0 name)
+	void setInputName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInputName, _godot_object, name);

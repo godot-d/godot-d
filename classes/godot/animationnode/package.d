@@ -144,7 +144,7 @@ public:
 	/**
 	
 	*/
-	void addInput(StringArg0)(in StringArg0 name)
+	void addInput(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addInput, _godot_object, name);
@@ -211,7 +211,7 @@ public:
 	/**
 	
 	*/
-	void blendAnimation(StringArg0)(in StringArg0 animation, in double time, in double delta, in bool seeked, in double blend)
+	void blendAnimation(in String animation, in double time, in double delta, in bool seeked, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.blendAnimation, _godot_object, animation, time, delta, seeked, blend);
@@ -219,7 +219,7 @@ public:
 	/**
 	
 	*/
-	double blendNode(StringArg0)(in StringArg0 name, AnimationNode node, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
+	double blendNode(in String name, AnimationNode node, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.blendNode, _godot_object, name, node, time, seek, blend, filter, optimize);
@@ -235,7 +235,7 @@ public:
 	/**
 	
 	*/
-	void setParameter(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setParameter(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setParameter, _godot_object, name, value);
@@ -243,7 +243,7 @@ public:
 	/**
 	
 	*/
-	Variant getParameter(StringArg0)(in StringArg0 name) const
+	Variant getParameter(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getParameter, _godot_object, name);

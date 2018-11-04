@@ -86,7 +86,7 @@ public:
 	/**
 	
 	*/
-	void setActionName(StringArg0)(in StringArg0 name)
+	void setActionName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setActionName, _godot_object, name);

@@ -90,7 +90,7 @@ public:
 	/**
 	
 	*/
-	Variant callNative(StringArg0, StringArg1)(in StringArg0 calling_type, in StringArg1 procedure_name, in Array arguments)
+	Variant callNative(in String calling_type, in String procedure_name, in Array arguments)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.callNative, _godot_object, calling_type, procedure_name, arguments);

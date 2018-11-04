@@ -163,7 +163,7 @@ public:
 	/**
 	Returns the index of the file with name `name` or `-1` if not found.
 	*/
-	long findFileIndex(StringArg0)(in StringArg0 name) const
+	long findFileIndex(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findFileIndex, _godot_object, name);
@@ -171,7 +171,7 @@ public:
 	/**
 	Returns the index of the directory with name `name` or `-1` if not found.
 	*/
-	long findDirIndex(StringArg0)(in StringArg0 name) const
+	long findDirIndex(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findDirIndex, _godot_object, name);

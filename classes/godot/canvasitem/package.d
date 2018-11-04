@@ -635,7 +635,7 @@ public:
 	/**
 	Draws a string using a custom font.
 	*/
-	void drawString(StringArg2)(Font font, in Vector2 position, in StringArg2 text, in Color modulate = Color(1,1,1,1), in long clip_w = -1)
+	void drawString(Font font, in Vector2 position, in String text, in Color modulate = Color(1,1,1,1), in long clip_w = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.drawString, _godot_object, font, position, text, modulate, clip_w);
@@ -643,7 +643,7 @@ public:
 	/**
 	Draws a string character using a custom font. Returns the advance, depending on the char width and kerning with an optional next char.
 	*/
-	double drawChar(StringArg2, StringArg3)(Font font, in Vector2 position, in StringArg2 _char, in StringArg3 next, in Color modulate = Color(1,1,1,1))
+	double drawChar(Font font, in Vector2 position, in String _char, in String next, in Color modulate = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.drawChar, _godot_object, font, position, _char, next, modulate);

@@ -479,7 +479,7 @@ public:
 	/**
 	
 	*/
-	void setAudioBus(StringArg0)(in StringArg0 name)
+	void setAudioBus(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAudioBus, _godot_object, name);
@@ -511,7 +511,7 @@ public:
 	/**
 	
 	*/
-	void setReverbBus(StringArg0)(in StringArg0 name)
+	void setReverbBus(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setReverbBus, _godot_object, name);

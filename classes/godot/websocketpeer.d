@@ -115,7 +115,7 @@ public:
 	Note: To achieve a clean close, you will need to keep polling until either $(D WebSocketClient.connectionClosed) or $(D WebSocketServer.clientDisconnected) is received.
 	Note: HTML5 export might not support all status codes. Please refer to browsers-specific documentation for more details.
 	*/
-	void close(StringArg1)(in long code = 1000, in StringArg1 reason = "")
+	void close(in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.close, _godot_object, code, reason);

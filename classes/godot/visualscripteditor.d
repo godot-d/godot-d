@@ -55,7 +55,7 @@ public:
 	/**
 	Add a custom Visual Script node to the editor. It'll be placed under "Custom Nodes" with the `category` as the parameter.
 	*/
-	void addCustomNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 category, Script script)
+	void addCustomNode(in String name, in String category, Script script)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCustomNode, _godot_object, name, category, script);
@@ -63,7 +63,7 @@ public:
 	/**
 	Remove a custom Visual Script node from the editor. Custom nodes already placed on scripts won't be removed.
 	*/
-	void removeCustomNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 category)
+	void removeCustomNode(in String name, in String category)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeCustomNode, _godot_object, name, category);

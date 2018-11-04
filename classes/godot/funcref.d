@@ -79,7 +79,7 @@ public:
 	/**
 	The name of the referenced function to call on the object, without parentheses or any parameters.
 	*/
-	void setFunction(StringArg0)(in StringArg0 name)
+	void setFunction(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFunction, _godot_object, name);

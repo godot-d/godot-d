@@ -120,7 +120,7 @@ public:
 	/**
 	
 	*/
-	void setAdvanceCondition(StringArg0)(in StringArg0 name)
+	void setAdvanceCondition(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAdvanceCondition, _godot_object, name);

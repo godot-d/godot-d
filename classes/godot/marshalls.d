@@ -69,7 +69,7 @@ public:
 	/**
 	Return $(D Variant) of a given base64 encoded String.
 	*/
-	Variant base64ToVariant(StringArg0)(in StringArg0 base64_str)
+	Variant base64ToVariant(in String base64_str)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.base64ToVariant, _godot_object, base64_str);
@@ -85,7 +85,7 @@ public:
 	/**
 	Return $(D PoolByteArray) of a given base64 encoded String.
 	*/
-	PoolByteArray base64ToRaw(StringArg0)(in StringArg0 base64_str)
+	PoolByteArray base64ToRaw(in String base64_str)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolByteArray)(_classBinding.base64ToRaw, _godot_object, base64_str);
@@ -93,7 +93,7 @@ public:
 	/**
 	Return base64 encoded String of a given utf8 String.
 	*/
-	String utf8ToBase64(StringArg0)(in StringArg0 utf8_str)
+	String utf8ToBase64(in String utf8_str)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.utf8ToBase64, _godot_object, utf8_str);
@@ -101,7 +101,7 @@ public:
 	/**
 	Return utf8 String of a given base64 encoded String.
 	*/
-	String base64ToUtf8(StringArg0)(in StringArg0 base64_str)
+	String base64ToUtf8(in String base64_str)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.base64ToUtf8, _godot_object, base64_str);

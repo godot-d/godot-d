@@ -62,7 +62,7 @@ public:
 	/**
 	
 	*/
-	void setSignal(StringArg0)(in StringArg0 name)
+	void setSignal(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSignal, _godot_object, name);

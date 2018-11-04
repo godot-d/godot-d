@@ -69,7 +69,7 @@ public:
 	/**
 	Return true if a configuration value is present.
 	*/
-	bool hasSetting(StringArg0)(in StringArg0 name) const
+	bool hasSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSetting, _godot_object, name);
@@ -77,7 +77,7 @@ public:
 	/**
 	
 	*/
-	void setSetting(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSetting, _godot_object, name, value);
@@ -85,7 +85,7 @@ public:
 	/**
 	
 	*/
-	Variant getSetting(StringArg0)(in StringArg0 name) const
+	Variant getSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getSetting, _godot_object, name);
@@ -93,7 +93,7 @@ public:
 	/**
 	Set the order of a configuration value (influences when saved to the config file).
 	*/
-	void setOrder(StringArg0)(in StringArg0 name, in long position)
+	void setOrder(in String name, in long position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setOrder, _godot_object, name, position);
@@ -101,7 +101,7 @@ public:
 	/**
 	Return the order of a configuration value (influences when saved to the config file).
 	*/
-	long getOrder(StringArg0)(in StringArg0 name) const
+	long getOrder(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getOrder, _godot_object, name);
@@ -109,7 +109,7 @@ public:
 	/**
 	
 	*/
-	void setInitialValue(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInitialValue, _godot_object, name, value);
@@ -140,7 +140,7 @@ public:
 	/**
 	Clear the whole configuration (not recommended, may break things).
 	*/
-	void clear(StringArg0)(in StringArg0 name)
+	void clear(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clear, _godot_object, name);
@@ -148,7 +148,7 @@ public:
 	/**
 	Convert a path to a localized path (res:// path).
 	*/
-	String localizePath(StringArg0)(in StringArg0 path) const
+	String localizePath(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.localizePath, _godot_object, path);
@@ -156,7 +156,7 @@ public:
 	/**
 	Convert a localized path (res://) to a full native OS path.
 	*/
-	String globalizePath(StringArg0)(in StringArg0 path) const
+	String globalizePath(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.globalizePath, _godot_object, path);
@@ -173,7 +173,7 @@ public:
 	Loads the contents of the .pck or .zip file specified by `pack` into the resource filesystem (res://). Returns true on success.
 	Note: If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack`.
 	*/
-	bool loadResourcePack(StringArg0)(in StringArg0 pack)
+	bool loadResourcePack(in String pack)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.loadResourcePack, _godot_object, pack);
@@ -181,7 +181,7 @@ public:
 	/**
 	Returns true if the specified property exists and its initial value differs from the current value.
 	*/
-	bool propertyCanRevert(StringArg0)(in StringArg0 name)
+	bool propertyCanRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
@@ -189,7 +189,7 @@ public:
 	/**
 	Returns the initial value of the specified property. Returns null if the property does not exist.
 	*/
-	Variant propertyGetRevert(StringArg0)(in StringArg0 name)
+	Variant propertyGetRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
@@ -197,7 +197,7 @@ public:
 	/**
 	Saves the configuration to a custom file.
 	*/
-	GodotError saveCustom(StringArg0)(in StringArg0 file)
+	GodotError saveCustom(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.saveCustom, _godot_object, file);

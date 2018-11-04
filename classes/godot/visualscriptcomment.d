@@ -63,7 +63,7 @@ public:
 	/**
 	
 	*/
-	void setTitle(StringArg0)(in StringArg0 title)
+	void setTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
@@ -79,7 +79,7 @@ public:
 	/**
 	
 	*/
-	void setDescription(StringArg0)(in StringArg0 description)
+	void setDescription(in String description)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDescription, _godot_object, description);

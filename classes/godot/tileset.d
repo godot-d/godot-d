@@ -261,7 +261,7 @@ public:
 	/**
 	Sets the tile's name.
 	*/
-	void tileSetName(StringArg1)(in long id, in StringArg1 name)
+	void tileSetName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.tileSetName, _godot_object, id, name);
@@ -589,7 +589,7 @@ public:
 	/**
 	Returns the first tile matching the given name.
 	*/
-	long findTileByName(StringArg0)(in StringArg0 name) const
+	long findTileByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findTileByName, _godot_object, name);

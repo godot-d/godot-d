@@ -64,7 +64,7 @@ public:
 	/**
 	Load a resource interactively, the returned object allows to load with high granularity.
 	*/
-	Ref!ResourceInteractiveLoader loadInteractive(StringArg0, StringArg1)(in StringArg0 path, in StringArg1 type_hint = "")
+	Ref!ResourceInteractiveLoader loadInteractive(in String path, in String type_hint = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(ResourceInteractiveLoader)(_classBinding.loadInteractive, _godot_object, path, type_hint);
@@ -72,7 +72,7 @@ public:
 	/**
 	
 	*/
-	Ref!Resource load(StringArg0, StringArg1)(in StringArg0 path, in StringArg1 type_hint = "", in bool p_no_cache = false)
+	Ref!Resource load(in String path, in String type_hint = gs!"", in bool p_no_cache = false)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Resource)(_classBinding.load, _godot_object, path, type_hint, p_no_cache);
@@ -80,7 +80,7 @@ public:
 	/**
 	Return the list of recognized extensions for a resource type.
 	*/
-	PoolStringArray getRecognizedExtensionsForType(StringArg0)(in StringArg0 type)
+	PoolStringArray getRecognizedExtensionsForType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getRecognizedExtensionsForType, _godot_object, type);
@@ -96,7 +96,7 @@ public:
 	/**
 	
 	*/
-	PoolStringArray getDependencies(StringArg0)(in StringArg0 path)
+	PoolStringArray getDependencies(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getDependencies, _godot_object, path);
@@ -104,7 +104,7 @@ public:
 	/**
 	
 	*/
-	bool hasCached(StringArg0)(in StringArg0 path)
+	bool hasCached(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasCached, _godot_object, path);
@@ -112,7 +112,7 @@ public:
 	/**
 	
 	*/
-	bool exists(StringArg0, StringArg1)(in StringArg0 path, in StringArg1 type_hint = "")
+	bool exists(in String path, in String type_hint = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.exists, _godot_object, path, type_hint);
@@ -120,7 +120,7 @@ public:
 	/**
 	
 	*/
-	bool has(StringArg0)(in StringArg0 path)
+	bool has(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.has, _godot_object, path);

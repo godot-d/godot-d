@@ -173,7 +173,7 @@ public:
 	/**
 	
 	*/
-	void setSidechain(StringArg0)(in StringArg0 sidechain)
+	void setSidechain(in String sidechain)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSidechain, _godot_object, sidechain);

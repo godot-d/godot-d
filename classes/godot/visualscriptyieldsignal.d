@@ -85,7 +85,7 @@ public:
 	/**
 	
 	*/
-	void setBaseType(StringArg0)(in StringArg0 base_type)
+	void setBaseType(in String base_type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
@@ -101,7 +101,7 @@ public:
 	/**
 	
 	*/
-	void setSignal(StringArg0)(in StringArg0 signal)
+	void setSignal(in String signal)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSignal, _godot_object, signal);

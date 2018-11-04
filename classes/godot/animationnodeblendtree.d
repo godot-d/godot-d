@@ -96,7 +96,7 @@ public:
 	/**
 	
 	*/
-	void addNode(StringArg0)(in StringArg0 name, AnimationNode node, in Vector2 position = Vector2(0, 0))
+	void addNode(in String name, AnimationNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, name, node, position);
@@ -104,7 +104,7 @@ public:
 	/**
 	
 	*/
-	Ref!AnimationNode getNode(StringArg0)(in StringArg0 name) const
+	Ref!AnimationNode getNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
@@ -112,7 +112,7 @@ public:
 	/**
 	
 	*/
-	void removeNode(StringArg0)(in StringArg0 name)
+	void removeNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
@@ -120,7 +120,7 @@ public:
 	/**
 	
 	*/
-	void renameNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 new_name)
+	void renameNode(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
@@ -128,7 +128,7 @@ public:
 	/**
 	
 	*/
-	bool hasNode(StringArg0)(in StringArg0 name) const
+	bool hasNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
@@ -136,7 +136,7 @@ public:
 	/**
 	
 	*/
-	void connectNode(StringArg0, StringArg2)(in StringArg0 input_node, in long input_index, in StringArg2 output_node)
+	void connectNode(in String input_node, in long input_index, in String output_node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.connectNode, _godot_object, input_node, input_index, output_node);
@@ -144,7 +144,7 @@ public:
 	/**
 	
 	*/
-	void disconnectNode(StringArg0)(in StringArg0 input_node, in long input_index)
+	void disconnectNode(in String input_node, in long input_index)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnectNode, _godot_object, input_node, input_index);
@@ -152,7 +152,7 @@ public:
 	/**
 	
 	*/
-	void setNodePosition(StringArg0)(in StringArg0 name, in Vector2 position)
+	void setNodePosition(in String name, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
@@ -160,7 +160,7 @@ public:
 	/**
 	
 	*/
-	Vector2 getNodePosition(StringArg0)(in StringArg0 name) const
+	Vector2 getNodePosition(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, name);
@@ -193,7 +193,7 @@ public:
 	/**
 	
 	*/
-	void _nodeChanged(StringArg0)(in StringArg0 node)
+	void _nodeChanged(in String node)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(node);

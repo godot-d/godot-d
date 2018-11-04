@@ -114,7 +114,7 @@ public:
 	/**
 	Add a function with the specified name to the VisualScript.
 	*/
-	void addFunction(StringArg0)(in StringArg0 name)
+	void addFunction(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFunction, _godot_object, name);
@@ -122,7 +122,7 @@ public:
 	/**
 	Returns whether a function exists with the specified name.
 	*/
-	bool hasFunction(StringArg0)(in StringArg0 name) const
+	bool hasFunction(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasFunction, _godot_object, name);
@@ -130,7 +130,7 @@ public:
 	/**
 	Remove a specific function and its nodes from the script.
 	*/
-	void removeFunction(StringArg0)(in StringArg0 name)
+	void removeFunction(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeFunction, _godot_object, name);
@@ -138,7 +138,7 @@ public:
 	/**
 	Change the name of a function.
 	*/
-	void renameFunction(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 new_name)
+	void renameFunction(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameFunction, _godot_object, name, new_name);
@@ -146,7 +146,7 @@ public:
 	/**
 	Position the center of the screen for a function.
 	*/
-	void setFunctionScroll(StringArg0)(in StringArg0 name, in Vector2 ofs)
+	void setFunctionScroll(in String name, in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFunctionScroll, _godot_object, name, ofs);
@@ -154,7 +154,7 @@ public:
 	/**
 	Returns the position of the center of the screen for a given function.
 	*/
-	Vector2 getFunctionScroll(StringArg0)(in StringArg0 name) const
+	Vector2 getFunctionScroll(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getFunctionScroll, _godot_object, name);
@@ -162,7 +162,7 @@ public:
 	/**
 	Add a node to a function of the VisualScript.
 	*/
-	void addNode(StringArg0)(in StringArg0 func, in long id, VisualScriptNode node, in Vector2 position = Vector2(0, 0))
+	void addNode(in String func, in long id, VisualScriptNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, func, id, node, position);
@@ -170,7 +170,7 @@ public:
 	/**
 	Remove a specific node.
 	*/
-	void removeNode(StringArg0)(in StringArg0 func, in long id)
+	void removeNode(in String func, in long id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeNode, _godot_object, func, id);
@@ -178,7 +178,7 @@ public:
 	/**
 	Returns the id of a function's entry point node.
 	*/
-	long getFunctionNodeId(StringArg0)(in StringArg0 name) const
+	long getFunctionNodeId(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getFunctionNodeId, _godot_object, name);
@@ -186,7 +186,7 @@ public:
 	/**
 	Returns a node given its id and its function.
 	*/
-	Ref!VisualScriptNode getNode(StringArg0)(in StringArg0 func, in long id) const
+	Ref!VisualScriptNode getNode(in String func, in long id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualScriptNode)(_classBinding.getNode, _godot_object, func, id);
@@ -194,7 +194,7 @@ public:
 	/**
 	Returns whether a node exists with the given id.
 	*/
-	bool hasNode(StringArg0)(in StringArg0 func, in long id) const
+	bool hasNode(in String func, in long id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, func, id);
@@ -202,7 +202,7 @@ public:
 	/**
 	Position a node on the screen.
 	*/
-	void setNodePosition(StringArg0)(in StringArg0 func, in long id, in Vector2 position)
+	void setNodePosition(in String func, in long id, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, func, id, position);
@@ -210,7 +210,7 @@ public:
 	/**
 	Returns a node's position in pixels.
 	*/
-	Vector2 getNodePosition(StringArg0)(in StringArg0 func, in long id) const
+	Vector2 getNodePosition(in String func, in long id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, func, id);
@@ -219,7 +219,7 @@ public:
 	Connect two sequence ports. The execution will flow from of `from_node`'s `from_output` into `to_node`.
 	Unlike $(D dataConnect), there isn't a `to_port`, since the target node can have only one sequence port.
 	*/
-	void sequenceConnect(StringArg0)(in StringArg0 func, in long from_node, in long from_output, in long to_node)
+	void sequenceConnect(in String func, in long from_node, in long from_output, in long to_node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.sequenceConnect, _godot_object, func, from_node, from_output, to_node);
@@ -227,7 +227,7 @@ public:
 	/**
 	Disconnect two sequence ports previously connected with $(D sequenceConnect).
 	*/
-	void sequenceDisconnect(StringArg0)(in StringArg0 func, in long from_node, in long from_output, in long to_node)
+	void sequenceDisconnect(in String func, in long from_node, in long from_output, in long to_node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.sequenceDisconnect, _godot_object, func, from_node, from_output, to_node);
@@ -235,7 +235,7 @@ public:
 	/**
 	Returns whether the specified sequence ports are connected.
 	*/
-	bool hasSequenceConnection(StringArg0)(in StringArg0 func, in long from_node, in long from_output, in long to_node) const
+	bool hasSequenceConnection(in String func, in long from_node, in long from_output, in long to_node) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasSequenceConnection, _godot_object, func, from_node, from_output, to_node);
@@ -243,7 +243,7 @@ public:
 	/**
 	Connect two data ports. The value of `from_node`'s `from_port` would be fed into `to_node`'s `to_port`.
 	*/
-	void dataConnect(StringArg0)(in StringArg0 func, in long from_node, in long from_port, in long to_node, in long to_port)
+	void dataConnect(in String func, in long from_node, in long from_port, in long to_node, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.dataConnect, _godot_object, func, from_node, from_port, to_node, to_port);
@@ -251,7 +251,7 @@ public:
 	/**
 	Disconnect two data ports previously connected with $(D dataConnect).
 	*/
-	void dataDisconnect(StringArg0)(in StringArg0 func, in long from_node, in long from_port, in long to_node, in long to_port)
+	void dataDisconnect(in String func, in long from_node, in long from_port, in long to_node, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.dataDisconnect, _godot_object, func, from_node, from_port, to_node, to_port);
@@ -259,7 +259,7 @@ public:
 	/**
 	Returns whether the specified data ports are connected.
 	*/
-	bool hasDataConnection(StringArg0)(in StringArg0 func, in long from_node, in long from_port, in long to_node, in long to_port) const
+	bool hasDataConnection(in String func, in long from_node, in long from_port, in long to_node, in long to_port) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasDataConnection, _godot_object, func, from_node, from_port, to_node, to_port);
@@ -267,7 +267,7 @@ public:
 	/**
 	Add a variable to the VisualScript, optionally giving it a default value or marking it as exported.
 	*/
-	void addVariable(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 default_value = Variant.nil, in bool _export = false)
+	void addVariable(VariantArg1)(in String name, in VariantArg1 default_value = Variant.nil, in bool _export = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addVariable, _godot_object, name, default_value, _export);
@@ -275,7 +275,7 @@ public:
 	/**
 	Returns whether a variable exists with the specified name.
 	*/
-	bool hasVariable(StringArg0)(in StringArg0 name) const
+	bool hasVariable(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasVariable, _godot_object, name);
@@ -283,7 +283,7 @@ public:
 	/**
 	Remove a variable with the given name.
 	*/
-	void removeVariable(StringArg0)(in StringArg0 name)
+	void removeVariable(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeVariable, _godot_object, name);
@@ -291,7 +291,7 @@ public:
 	/**
 	Change the default (initial) value of a variable.
 	*/
-	void setVariableDefaultValue(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setVariableDefaultValue(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setVariableDefaultValue, _godot_object, name, value);
@@ -299,7 +299,7 @@ public:
 	/**
 	Returns the default (initial) value of a variable.
 	*/
-	Variant getVariableDefaultValue(StringArg0)(in StringArg0 name) const
+	Variant getVariableDefaultValue(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getVariableDefaultValue, _godot_object, name);
@@ -307,7 +307,7 @@ public:
 	/**
 	Set a variable's info, using the same format as $(D getVariableInfo).
 	*/
-	void setVariableInfo(StringArg0)(in StringArg0 name, in Dictionary value)
+	void setVariableInfo(in String name, in Dictionary value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setVariableInfo, _godot_object, name, value);
@@ -315,7 +315,7 @@ public:
 	/**
 	Returns the info for a given variable as a dictionary. The information includes its name, type, hint and usage.
 	*/
-	Dictionary getVariableInfo(StringArg0)(in StringArg0 name) const
+	Dictionary getVariableInfo(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Dictionary)(_classBinding.getVariableInfo, _godot_object, name);
@@ -323,7 +323,7 @@ public:
 	/**
 	Change whether a variable is exported.
 	*/
-	void setVariableExport(StringArg0)(in StringArg0 name, in bool enable)
+	void setVariableExport(in String name, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setVariableExport, _godot_object, name, enable);
@@ -331,7 +331,7 @@ public:
 	/**
 	Returns whether a variable is exported.
 	*/
-	bool getVariableExport(StringArg0)(in StringArg0 name) const
+	bool getVariableExport(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getVariableExport, _godot_object, name);
@@ -339,7 +339,7 @@ public:
 	/**
 	Change the name of a variable.
 	*/
-	void renameVariable(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 new_name)
+	void renameVariable(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameVariable, _godot_object, name, new_name);
@@ -347,7 +347,7 @@ public:
 	/**
 	Add a custom signal with the specified name to the VisualScript.
 	*/
-	void addCustomSignal(StringArg0)(in StringArg0 name)
+	void addCustomSignal(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCustomSignal, _godot_object, name);
@@ -355,7 +355,7 @@ public:
 	/**
 	Returns whether a signal exists with the specified name.
 	*/
-	bool hasCustomSignal(StringArg0)(in StringArg0 name) const
+	bool hasCustomSignal(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasCustomSignal, _godot_object, name);
@@ -363,7 +363,7 @@ public:
 	/**
 	Add an argument to a custom signal added with $(D addCustomSignal).
 	*/
-	void customSignalAddArgument(StringArg0, StringArg2)(in StringArg0 name, in long type, in StringArg2 argname, in long index = -1)
+	void customSignalAddArgument(in String name, in long type, in String argname, in long index = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.customSignalAddArgument, _godot_object, name, type, argname, index);
@@ -371,7 +371,7 @@ public:
 	/**
 	Change the type of a custom signal's argument.
 	*/
-	void customSignalSetArgumentType(StringArg0)(in StringArg0 name, in long argidx, in long type)
+	void customSignalSetArgumentType(in String name, in long argidx, in long type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.customSignalSetArgumentType, _godot_object, name, argidx, type);
@@ -379,7 +379,7 @@ public:
 	/**
 	Get the type of a custom signal's argument.
 	*/
-	Variant.Type customSignalGetArgumentType(StringArg0)(in StringArg0 name, in long argidx) const
+	Variant.Type customSignalGetArgumentType(in String name, in long argidx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant.Type)(_classBinding.customSignalGetArgumentType, _godot_object, name, argidx);
@@ -387,7 +387,7 @@ public:
 	/**
 	Rename a custom signal's argument.
 	*/
-	void customSignalSetArgumentName(StringArg0, StringArg2)(in StringArg0 name, in long argidx, in StringArg2 argname)
+	void customSignalSetArgumentName(in String name, in long argidx, in String argname)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.customSignalSetArgumentName, _godot_object, name, argidx, argname);
@@ -395,7 +395,7 @@ public:
 	/**
 	Get the name of a custom signal's argument.
 	*/
-	String customSignalGetArgumentName(StringArg0)(in StringArg0 name, in long argidx) const
+	String customSignalGetArgumentName(in String name, in long argidx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.customSignalGetArgumentName, _godot_object, name, argidx);
@@ -403,7 +403,7 @@ public:
 	/**
 	Remove a specific custom signal's argument.
 	*/
-	void customSignalRemoveArgument(StringArg0)(in StringArg0 name, in long argidx)
+	void customSignalRemoveArgument(in String name, in long argidx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.customSignalRemoveArgument, _godot_object, name, argidx);
@@ -411,7 +411,7 @@ public:
 	/**
 	Get the count of a custom signal's arguments.
 	*/
-	long customSignalGetArgumentCount(StringArg0)(in StringArg0 name) const
+	long customSignalGetArgumentCount(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.customSignalGetArgumentCount, _godot_object, name);
@@ -419,7 +419,7 @@ public:
 	/**
 	Swap two of the arguments of a custom signal.
 	*/
-	void customSignalSwapArgument(StringArg0)(in StringArg0 name, in long argidx, in long withidx)
+	void customSignalSwapArgument(in String name, in long argidx, in long withidx)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.customSignalSwapArgument, _godot_object, name, argidx, withidx);
@@ -427,7 +427,7 @@ public:
 	/**
 	Remove a custom signal with the given name.
 	*/
-	void removeCustomSignal(StringArg0)(in StringArg0 name)
+	void removeCustomSignal(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeCustomSignal, _godot_object, name);
@@ -435,7 +435,7 @@ public:
 	/**
 	Change the name of a custom signal.
 	*/
-	void renameCustomSignal(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 new_name)
+	void renameCustomSignal(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameCustomSignal, _godot_object, name, new_name);
@@ -443,7 +443,7 @@ public:
 	/**
 	Set the base type of the script.
 	*/
-	void setInstanceBaseType(StringArg0)(in StringArg0 type)
+	void setInstanceBaseType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInstanceBaseType, _godot_object, type);

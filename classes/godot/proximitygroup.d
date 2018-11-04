@@ -81,7 +81,7 @@ public:
 	/**
 	
 	*/
-	void setGroupName(StringArg0)(in StringArg0 name)
+	void setGroupName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setGroupName, _godot_object, name);
@@ -129,7 +129,7 @@ public:
 	/**
 	
 	*/
-	void broadcast(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 parameters)
+	void broadcast(VariantArg1)(in String name, in VariantArg1 parameters)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.broadcast, _godot_object, name, parameters);
@@ -137,7 +137,7 @@ public:
 	/**
 	
 	*/
-	void _proximityGroupBroadcast(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 params)
+	void _proximityGroupBroadcast(VariantArg1)(in String name, in VariantArg1 params)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(name);

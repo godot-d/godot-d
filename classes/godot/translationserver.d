@@ -60,7 +60,7 @@ public:
 	/**
 	
 	*/
-	void setLocale(StringArg0)(in StringArg0 locale)
+	void setLocale(in String locale)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
@@ -76,7 +76,7 @@ public:
 	/**
 	
 	*/
-	String getLocaleName(StringArg0)(in StringArg0 locale) const
+	String getLocaleName(in String locale) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getLocaleName, _godot_object, locale);
@@ -84,7 +84,7 @@ public:
 	/**
 	
 	*/
-	String translate(StringArg0)(in StringArg0 message) const
+	String translate(in String message) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.translate, _godot_object, message);

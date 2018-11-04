@@ -97,7 +97,7 @@ public:
 	/**
 	Create a connection between 'from_port' slot of 'from' GraphNode and 'to_port' slot of 'to' GraphNode. If the connection already exists, no connection is created.
 	*/
-	GodotError connectNode(StringArg0, StringArg2)(in StringArg0 from, in long from_port, in StringArg2 to, in long to_port)
+	GodotError connectNode(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectNode, _godot_object, from, from_port, to, to_port);
@@ -105,7 +105,7 @@ public:
 	/**
 	Return true if the 'from_port' slot of 'from' GraphNode is connected to the 'to_port' slot of 'to' GraphNode.
 	*/
-	bool isNodeConnected(StringArg0, StringArg2)(in StringArg0 from, in long from_port, in StringArg2 to, in long to_port)
+	bool isNodeConnected(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isNodeConnected, _godot_object, from, from_port, to, to_port);
@@ -113,7 +113,7 @@ public:
 	/**
 	Remove the connection between 'from_port' slot of 'from' GraphNode and 'to_port' slot of 'to' GraphNode, if connection exists.
 	*/
-	void disconnectNode(StringArg0, StringArg2)(in StringArg0 from, in long from_port, in StringArg2 to, in long to_port)
+	void disconnectNode(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnectNode, _godot_object, from, from_port, to, to_port);
@@ -121,7 +121,7 @@ public:
 	/**
 	
 	*/
-	void setConnectionActivity(StringArg0, StringArg2)(in StringArg0 from, in long from_port, in StringArg2 to, in long to_port, in double amount)
+	void setConnectionActivity(in String from, in long from_port, in String to, in long to_port, in double amount)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setConnectionActivity, _godot_object, from, from_port, to, to_port, amount);

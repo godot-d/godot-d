@@ -428,7 +428,7 @@ public:
 	/**
 	
 	*/
-	void setAudioBusName(StringArg0)(in StringArg0 name)
+	void setAudioBusName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAudioBusName, _godot_object, name);

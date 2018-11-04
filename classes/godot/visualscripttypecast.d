@@ -58,7 +58,7 @@ public:
 	/**
 	
 	*/
-	void setBaseType(StringArg0)(in StringArg0 type)
+	void setBaseType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseType, _godot_object, type);
@@ -74,7 +74,7 @@ public:
 	/**
 	
 	*/
-	void setBaseScript(StringArg0)(in StringArg0 path)
+	void setBaseScript(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, path);

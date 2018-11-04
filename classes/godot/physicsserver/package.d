@@ -1123,7 +1123,7 @@ public:
 	4: The shape index of the object that entered/exited the area.
 	5: The shape index of the area where the object entered/exited.
 	*/
-	void areaSetMonitorCallback(StringArg2)(in RID area, GodotObject receiver, in StringArg2 method)
+	void areaSetMonitorCallback(in RID area, GodotObject receiver, in String method)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.areaSetMonitorCallback, _godot_object, area, receiver, method);
@@ -1131,7 +1131,7 @@ public:
 	/**
 	
 	*/
-	void areaSetAreaMonitorCallback(StringArg2)(in RID area, GodotObject receiver, in StringArg2 method)
+	void areaSetAreaMonitorCallback(in RID area, GodotObject receiver, in String method)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
@@ -1502,7 +1502,7 @@ public:
 	/**
 	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
 	*/
-	void bodySetForceIntegrationCallback(StringArg2, VariantArg3)(in RID _body, GodotObject receiver, in StringArg2 method, in VariantArg3 userdata = Variant.nil)
+	void bodySetForceIntegrationCallback(VariantArg3)(in RID _body, GodotObject receiver, in String method, in VariantArg3 userdata = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);

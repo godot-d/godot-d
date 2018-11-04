@@ -186,7 +186,7 @@ public:
 	/**
 	
 	*/
-	void _textEditorEnter(StringArg0)(in StringArg0 arg0)
+	void _textEditorEnter(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -434,7 +434,7 @@ public:
 	/**
 	Set the title of a column.
 	*/
-	void setColumnTitle(StringArg1)(in long column, in StringArg1 title)
+	void setColumnTitle(in long column, in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setColumnTitle, _godot_object, column, title);

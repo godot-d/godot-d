@@ -67,7 +67,7 @@ public:
 	/**
 	Returns `true` if the `InputMap` has a registered action with the given name.
 	*/
-	bool hasAction(StringArg0)(in StringArg0 action) const
+	bool hasAction(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasAction, _godot_object, action);
@@ -84,7 +84,7 @@ public:
 	Adds an empty action to the `InputMap` with a configurable `deadzone`.
 	An $(D InputEvent) can then be added to this action with $(D actionAddEvent).
 	*/
-	void addAction(StringArg0)(in StringArg0 action, in double deadzone = 0.5)
+	void addAction(in String action, in double deadzone = 0.5)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addAction, _godot_object, action, deadzone);
@@ -92,7 +92,7 @@ public:
 	/**
 	Removes an action from the `InputMap`.
 	*/
-	void eraseAction(StringArg0)(in StringArg0 action)
+	void eraseAction(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.eraseAction, _godot_object, action);
@@ -100,7 +100,7 @@ public:
 	/**
 	
 	*/
-	void actionSetDeadzone(StringArg0)(in StringArg0 action, in double deadzone)
+	void actionSetDeadzone(in String action, in double deadzone)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionSetDeadzone, _godot_object, action, deadzone);
@@ -108,7 +108,7 @@ public:
 	/**
 	Adds an $(D InputEvent) to an action. This $(D InputEvent) will trigger the action.
 	*/
-	void actionAddEvent(StringArg0)(in StringArg0 action, InputEvent event)
+	void actionAddEvent(in String action, InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionAddEvent, _godot_object, action, event);
@@ -116,7 +116,7 @@ public:
 	/**
 	Returns `true` if the action has the given $(D InputEvent) associated with it.
 	*/
-	bool actionHasEvent(StringArg0)(in StringArg0 action, InputEvent event)
+	bool actionHasEvent(in String action, InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.actionHasEvent, _godot_object, action, event);
@@ -124,7 +124,7 @@ public:
 	/**
 	Removes an $(D InputEvent) from an action.
 	*/
-	void actionEraseEvent(StringArg0)(in StringArg0 action, InputEvent event)
+	void actionEraseEvent(in String action, InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionEraseEvent, _godot_object, action, event);
@@ -132,7 +132,7 @@ public:
 	/**
 	Removes all events from an action.
 	*/
-	void actionEraseEvents(StringArg0)(in StringArg0 action)
+	void actionEraseEvents(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionEraseEvents, _godot_object, action);
@@ -140,7 +140,7 @@ public:
 	/**
 	Returns an array of $(D InputEvent)s associated with a given action.
 	*/
-	Array getActionList(StringArg0)(in StringArg0 action)
+	Array getActionList(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.getActionList, _godot_object, action);
@@ -148,7 +148,7 @@ public:
 	/**
 	Returns $(D true) if the given event is part of an existing action. This method ignores keyboard modifiers if the given $(D InputEvent) is not pressed (for proper release detection). See $(D actionHasEvent) if you don't want this behavior.
 	*/
-	bool eventIsAction(StringArg1)(InputEvent event, in StringArg1 action) const
+	bool eventIsAction(InputEvent event, in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.eventIsAction, _godot_object, event, action);

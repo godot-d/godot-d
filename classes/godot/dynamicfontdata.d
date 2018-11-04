@@ -82,7 +82,7 @@ public:
 	/**
 	
 	*/
-	void setFontPath(StringArg0)(in StringArg0 path)
+	void setFontPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFontPath, _godot_object, path);

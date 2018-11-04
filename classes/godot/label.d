@@ -165,7 +165,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg0)(in StringArg0 text)
+	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, text);

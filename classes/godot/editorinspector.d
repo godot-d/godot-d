@@ -71,7 +71,7 @@ public:
 	/**
 	
 	*/
-	void _propertyChanged(StringArg0, VariantArg1)(in StringArg0 arg0, in VariantArg1 arg1, in bool arg2 = false)
+	void _propertyChanged(VariantArg1)(in String arg0, in VariantArg1 arg1, in bool arg2 = false)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -94,7 +94,7 @@ public:
 	/**
 	
 	*/
-	void _propertyChangedUpdateAll(StringArg0, VariantArg1)(in StringArg0 arg0, in VariantArg1 arg1)
+	void _propertyChangedUpdateAll(VariantArg1)(in String arg0, in VariantArg1 arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -105,7 +105,7 @@ public:
 	/**
 	
 	*/
-	void _editRequestChange(StringArg1)(GodotObject arg0, in StringArg1 arg1)
+	void _editRequestChange(GodotObject arg0, in String arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -126,7 +126,7 @@ public:
 	/**
 	
 	*/
-	void _filterChanged(StringArg0)(in StringArg0 arg0)
+	void _filterChanged(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -136,7 +136,7 @@ public:
 	/**
 	
 	*/
-	void _propertyKeyed(StringArg0)(in StringArg0 arg0)
+	void _propertyKeyed(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -146,7 +146,7 @@ public:
 	/**
 	
 	*/
-	void _propertyKeyedWithValue(StringArg0, VariantArg1)(in StringArg0 arg0, in VariantArg1 arg1)
+	void _propertyKeyedWithValue(VariantArg1)(in String arg0, in VariantArg1 arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -157,7 +157,7 @@ public:
 	/**
 	
 	*/
-	void _propertyChecked(StringArg0)(in StringArg0 arg0, in bool arg1)
+	void _propertyChecked(in String arg0, in bool arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -168,7 +168,7 @@ public:
 	/**
 	
 	*/
-	void _propertySelected(StringArg0)(in StringArg0 arg0, in long arg1)
+	void _propertySelected(in String arg0, in long arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -179,7 +179,7 @@ public:
 	/**
 	
 	*/
-	void _resourceSelected(StringArg0)(in StringArg0 arg0, Resource arg1)
+	void _resourceSelected(in String arg0, Resource arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -190,7 +190,7 @@ public:
 	/**
 	
 	*/
-	void _objectIdSelected(StringArg0)(in StringArg0 arg0, in long arg1)
+	void _objectIdSelected(in String arg0, in long arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);

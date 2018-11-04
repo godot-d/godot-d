@@ -76,7 +76,7 @@ public:
 	/**
 	
 	*/
-	void setPath(StringArg0)(in StringArg0 path)
+	void setPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPath, _godot_object, path);
@@ -84,7 +84,7 @@ public:
 	/**
 	Set the path of the resource. Differs from set_path(), if another `Resource` exists with "path" it over-takes it, instead of failing.
 	*/
-	void takeOverPath(StringArg0)(in StringArg0 path)
+	void takeOverPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.takeOverPath, _godot_object, path);
@@ -100,7 +100,7 @@ public:
 	/**
 	
 	*/
-	void setName(StringArg0)(in StringArg0 name)
+	void setName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setName, _godot_object, name);

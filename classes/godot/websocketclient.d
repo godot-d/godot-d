@@ -62,7 +62,7 @@ public:
 	Connect to the given URL requesting one of the given `protocols` as sub-protocol.
 	If `true` is passed as `gd_mp_api`, the client will behave like a network peer for the $(D MultiplayerAPI). Note: connections to non Godot servers will not work, and $(D dataReceived) will not be emitted when this option is true.
 	*/
-	GodotError connectToUrl(StringArg0)(in StringArg0 url, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false)
+	GodotError connectToUrl(in String url, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectToUrl, _godot_object, url, protocols, gd_mp_api);
@@ -70,7 +70,7 @@ public:
 	/**
 	Disconnect this client from the connected host. See $(D WebSocketPeer.close) for more info.
 	*/
-	void disconnectFromHost(StringArg1)(in long code = 1000, in StringArg1 reason = "")
+	void disconnectFromHost(in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object, code, reason);

@@ -262,7 +262,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg0)(in StringArg0 text)
+	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, text);
@@ -278,7 +278,7 @@ public:
 	/**
 	
 	*/
-	void setPlaceholder(StringArg0)(in StringArg0 text)
+	void setPlaceholder(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPlaceholder, _godot_object, text);
@@ -390,7 +390,7 @@ public:
 	/**
 	Adds `text` after the cursor. If the resulting value is longer than $(D maxLength), nothing happens.
 	*/
-	void appendAtCursor(StringArg0)(in StringArg0 text)
+	void appendAtCursor(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.appendAtCursor, _godot_object, text);
@@ -430,7 +430,7 @@ public:
 	/**
 	
 	*/
-	void setSecretCharacter(StringArg0)(in StringArg0 character)
+	void setSecretCharacter(in String character)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSecretCharacter, _godot_object, character);

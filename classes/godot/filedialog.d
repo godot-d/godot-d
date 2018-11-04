@@ -193,7 +193,7 @@ public:
 	/**
 	
 	*/
-	void _dirEntered(StringArg0)(in StringArg0 arg0)
+	void _dirEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -203,7 +203,7 @@ public:
 	/**
 	
 	*/
-	void _fileEntered(StringArg0)(in StringArg0 arg0)
+	void _fileEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -258,7 +258,7 @@ public:
 	/**
 	Add a custom filter. Example: `add_filter("*.png ; PNG Images")`
 	*/
-	void addFilter(StringArg0)(in StringArg0 filter)
+	void addFilter(in String filter)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFilter, _godot_object, filter);
@@ -306,7 +306,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentDir(StringArg0)(in StringArg0 dir)
+	void setCurrentDir(in String dir)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentDir, _godot_object, dir);
@@ -314,7 +314,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentFile(StringArg0)(in StringArg0 file)
+	void setCurrentFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentFile, _godot_object, file);
@@ -322,7 +322,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentPath(StringArg0)(in StringArg0 path)
+	void setCurrentPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentPath, _godot_object, path);

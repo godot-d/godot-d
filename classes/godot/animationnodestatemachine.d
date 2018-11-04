@@ -79,7 +79,7 @@ public:
 	/**
 	
 	*/
-	void addNode(StringArg0)(in StringArg0 name, AnimationNode node, in Vector2 position = Vector2(0, 0))
+	void addNode(in String name, AnimationNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, name, node, position);
@@ -87,7 +87,7 @@ public:
 	/**
 	
 	*/
-	Ref!AnimationNode getNode(StringArg0)(in StringArg0 name) const
+	Ref!AnimationNode getNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
@@ -95,7 +95,7 @@ public:
 	/**
 	
 	*/
-	void removeNode(StringArg0)(in StringArg0 name)
+	void removeNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
@@ -103,7 +103,7 @@ public:
 	/**
 	
 	*/
-	void renameNode(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 new_name)
+	void renameNode(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
@@ -111,7 +111,7 @@ public:
 	/**
 	
 	*/
-	bool hasNode(StringArg0)(in StringArg0 name) const
+	bool hasNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
@@ -127,7 +127,7 @@ public:
 	/**
 	
 	*/
-	void setNodePosition(StringArg0)(in StringArg0 name, in Vector2 position)
+	void setNodePosition(in String name, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
@@ -135,7 +135,7 @@ public:
 	/**
 	
 	*/
-	Vector2 getNodePosition(StringArg0)(in StringArg0 name) const
+	Vector2 getNodePosition(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, name);
@@ -143,7 +143,7 @@ public:
 	/**
 	
 	*/
-	bool hasTransition(StringArg0, StringArg1)(in StringArg0 from, in StringArg1 to) const
+	bool hasTransition(in String from, in String to) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasTransition, _godot_object, from, to);
@@ -151,7 +151,7 @@ public:
 	/**
 	
 	*/
-	void addTransition(StringArg0, StringArg1)(in StringArg0 from, in StringArg1 to, AnimationNodeStateMachineTransition transition)
+	void addTransition(in String from, in String to, AnimationNodeStateMachineTransition transition)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addTransition, _godot_object, from, to, transition);
@@ -199,7 +199,7 @@ public:
 	/**
 	
 	*/
-	void removeTransition(StringArg0, StringArg1)(in StringArg0 from, in StringArg1 to)
+	void removeTransition(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeTransition, _godot_object, from, to);
@@ -207,7 +207,7 @@ public:
 	/**
 	
 	*/
-	void setStartNode(StringArg0)(in StringArg0 name)
+	void setStartNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setStartNode, _godot_object, name);
@@ -223,7 +223,7 @@ public:
 	/**
 	
 	*/
-	void setEndNode(StringArg0)(in StringArg0 name)
+	void setEndNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setEndNode, _godot_object, name);

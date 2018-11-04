@@ -80,7 +80,7 @@ public:
 	/**
 	
 	*/
-	void parseCategory(StringArg1)(GodotObject object, in StringArg1 category)
+	void parseCategory(GodotObject object, in String category)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(object);
@@ -91,7 +91,7 @@ public:
 	/**
 	
 	*/
-	bool parseProperty(StringArg2, StringArg4)(GodotObject object, in long type, in StringArg2 path, in long hint, in StringArg4 hint_text, in long usage)
+	bool parseProperty(GodotObject object, in long type, in String path, in long hint, in String hint_text, in long usage)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(object);
@@ -123,7 +123,7 @@ public:
 	/**
 	
 	*/
-	void addPropertyEditor(StringArg0)(in StringArg0 property, GodotObject editor)
+	void addPropertyEditor(in String property, GodotObject editor)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addPropertyEditor, _godot_object, property, editor);
@@ -131,7 +131,7 @@ public:
 	/**
 	
 	*/
-	void addPropertyEditorForMultipleProperties(StringArg0)(in StringArg0 label, in PoolStringArray properties, GodotObject editor)
+	void addPropertyEditorForMultipleProperties(in String label, in PoolStringArray properties, GodotObject editor)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addPropertyEditorForMultipleProperties, _godot_object, label, properties, editor);

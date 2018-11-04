@@ -110,7 +110,7 @@ public:
 	/**
 	Compiles and assign the search pattern to use. Returns OK if the compilation is successful. If an error is encountered the details are printed to STDOUT and FAILED is returned.
 	*/
-	GodotError compile(StringArg0)(in StringArg0 pattern)
+	GodotError compile(in String pattern)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.compile, _godot_object, pattern);
@@ -118,7 +118,7 @@ public:
 	/**
 	Searches the text for the compiled pattern. Returns a $(D RegExMatch) container of the first matching result if found, otherwise null. The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
-	Ref!RegExMatch search(StringArg0)(in StringArg0 subject, in long offset = 0, in long end = -1) const
+	Ref!RegExMatch search(in String subject, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(RegExMatch)(_classBinding.search, _godot_object, subject, offset, end);
@@ -126,7 +126,7 @@ public:
 	/**
 	Searches the text for the compiled pattern. Returns an array of $(D RegExMatch) containers for each non-overlapping result. If no results were found an empty array is returned instead. The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
-	Array searchAll(StringArg0)(in StringArg0 subject, in long offset = 0, in long end = -1) const
+	Array searchAll(in String subject, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.searchAll, _godot_object, subject, offset, end);
@@ -134,7 +134,7 @@ public:
 	/**
 	Searches the text for the compiled pattern and replaces it with the specified string. Escapes and backreferences such as `\1` and `\g&lt;name&gt;` expanded and resolved. By default only the first instance is replaced but it can be changed for all instances (global replacement). The region to search within can be specified without modifying where the start and end anchor would be.
 	*/
-	String sub(StringArg0, StringArg1)(in StringArg0 subject, in StringArg1 replacement, in bool all = false, in long offset = 0, in long end = -1) const
+	String sub(in String subject, in String replacement, in bool all = false, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.sub, _godot_object, subject, replacement, all, offset, end);

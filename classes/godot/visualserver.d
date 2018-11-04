@@ -1770,7 +1770,7 @@ public:
 	/**
 	Sets the texture's path.
 	*/
-	void textureSetPath(StringArg1)(in RID texture, in StringArg1 path)
+	void textureSetPath(in RID texture, in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.textureSetPath, _godot_object, texture, path);
@@ -1834,7 +1834,7 @@ public:
 	/**
 	Sets a shader's code.
 	*/
-	void shaderSetCode(StringArg1)(in RID shader, in StringArg1 code)
+	void shaderSetCode(in RID shader, in String code)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.shaderSetCode, _godot_object, shader, code);
@@ -1858,7 +1858,7 @@ public:
 	/**
 	Sets a shader's default texture. Overwrites the texture given by name.
 	*/
-	void shaderSetDefaultTextureParam(StringArg1)(in RID shader, in StringArg1 name, in RID texture)
+	void shaderSetDefaultTextureParam(in RID shader, in String name, in RID texture)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.shaderSetDefaultTextureParam, _godot_object, shader, name, texture);
@@ -1866,7 +1866,7 @@ public:
 	/**
 	Returns a default texture from a shader searched by name.
 	*/
-	RID shaderGetDefaultTextureParam(StringArg1)(in RID shader, in StringArg1 name) const
+	RID shaderGetDefaultTextureParam(in RID shader, in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(RID)(_classBinding.shaderGetDefaultTextureParam, _godot_object, shader, name);
@@ -1898,7 +1898,7 @@ public:
 	/**
 	Sets a materials parameter.
 	*/
-	void materialSetParam(StringArg1, VariantArg2)(in RID material, in StringArg1 parameter, in VariantArg2 value)
+	void materialSetParam(VariantArg2)(in RID material, in String parameter, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.materialSetParam, _godot_object, material, parameter, value);
@@ -1906,7 +1906,7 @@ public:
 	/**
 	Returns the value of a certain material's parameter.
 	*/
-	Variant materialGetParam(StringArg1)(in RID material, in StringArg1 parameter) const
+	Variant materialGetParam(in RID material, in String parameter) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.materialGetParam, _godot_object, material, parameter);
@@ -1914,7 +1914,7 @@ public:
 	/**
 	
 	*/
-	Variant materialGetParamDefault(StringArg1)(in RID material, in StringArg1 parameter) const
+	Variant materialGetParamDefault(in RID material, in String parameter) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.materialGetParamDefault, _godot_object, material, parameter);
@@ -4350,7 +4350,7 @@ public:
 	Schedules a callback to the corresponding named 'method' on 'where' after a frame has been drawn.
 	The callback method must use only 1 argument which will be called with 'userdata'.
 	*/
-	void requestFrameDrawnCallback(StringArg1, VariantArg2)(GodotObject where, in StringArg1 method, in VariantArg2 userdata)
+	void requestFrameDrawnCallback(VariantArg2)(GodotObject where, in String method, in VariantArg2 userdata)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.requestFrameDrawnCallback, _godot_object, where, method, userdata);
@@ -4446,7 +4446,7 @@ public:
 	/**
 	Returns `true` if the OS supports a certain feature. Features might be s3tc, etc, etc2 and pvrtc,
 	*/
-	bool hasOsFeature(StringArg0)(in StringArg0 feature) const
+	bool hasOsFeature(in String feature) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasOsFeature, _godot_object, feature);

@@ -80,7 +80,7 @@ public:
 	/**
 	Shows the given property on the given `object` in the Editor's Inspector dock.
 	*/
-	void inspectObject(StringArg1)(GodotObject object, in StringArg1 for_property = "")
+	void inspectObject(GodotObject object, in String for_property = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.inspectObject, _godot_object, object, for_property);
@@ -128,7 +128,7 @@ public:
 	/**
 	Opens the scene at the given path.
 	*/
-	void openSceneFromPath(StringArg0)(in StringArg0 scene_filepath)
+	void openSceneFromPath(in String scene_filepath)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.openSceneFromPath, _godot_object, scene_filepath);
@@ -136,7 +136,7 @@ public:
 	/**
 	Reloads the scene at the given path.
 	*/
-	void reloadSceneFromPath(StringArg0)(in StringArg0 scene_filepath)
+	void reloadSceneFromPath(in String scene_filepath)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.reloadSceneFromPath, _godot_object, scene_filepath);
@@ -192,7 +192,7 @@ public:
 	/**
 	
 	*/
-	void selectFile(StringArg0)(in StringArg0 p_file)
+	void selectFile(in String p_file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.selectFile, _godot_object, p_file);
@@ -208,7 +208,7 @@ public:
 	/**
 	Sets the enabled status of a plugin. The plugin name is the same as its directory name.
 	*/
-	void setPluginEnabled(StringArg0)(in StringArg0 plugin, in bool enabled)
+	void setPluginEnabled(in String plugin, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPluginEnabled, _godot_object, plugin, enabled);
@@ -216,7 +216,7 @@ public:
 	/**
 	Returns the enabled status of a plugin. The plugin name is the same as its directory name.
 	*/
-	bool isPluginEnabled(StringArg0)(in StringArg0 plugin) const
+	bool isPluginEnabled(in String plugin) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isPluginEnabled, _godot_object, plugin);
@@ -232,7 +232,7 @@ public:
 	/**
 	Saves the scene as a file at `path`.
 	*/
-	void saveSceneAs(StringArg0)(in StringArg0 path, in bool with_preview = true)
+	void saveSceneAs(in String path, in bool with_preview = true)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.saveSceneAs, _godot_object, path, with_preview);

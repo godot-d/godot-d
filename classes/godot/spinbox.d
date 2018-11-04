@@ -83,7 +83,7 @@ public:
 	/**
 	
 	*/
-	void _textEntered(StringArg0)(in StringArg0 arg0)
+	void _textEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -109,7 +109,7 @@ public:
 	/**
 	
 	*/
-	void setSuffix(StringArg0)(in StringArg0 suffix)
+	void setSuffix(in String suffix)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSuffix, _godot_object, suffix);
@@ -125,7 +125,7 @@ public:
 	/**
 	
 	*/
-	void setPrefix(StringArg0)(in StringArg0 prefix)
+	void setPrefix(in String prefix)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPrefix, _godot_object, prefix);

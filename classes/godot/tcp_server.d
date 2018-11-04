@@ -62,7 +62,7 @@ public:
 	If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the server will listen on all available addresses matching that IP type.
 	If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the server will only listen on the interface with that addresses (or fail if no interface with the given address exists).
 	*/
-	GodotError listen(StringArg1)(in long port, in StringArg1 bind_address = "*")
+	GodotError listen(in long port, in String bind_address = gs!"*")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address);

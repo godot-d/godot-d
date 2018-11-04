@@ -140,7 +140,7 @@ public:
 	Creates request on the underlying $(D HTTPClient). If there is no configuration errors, it tries to connect using $(D HTTPClient.connectToHost) and passes parameters onto $(D HTTPClient.request).
 	Returns `OK` if request is successfully created. (Does not imply that the server has responded), `ERR_UNCONFIGURED` if not in the tree, `ERR_BUSY` if still processing previous request, `ERR_INVALID_PARAMETER` if given string is not a valid URL format, or `ERR_CANT_CONNECT` if not using thread and the $(D HTTPClient) cannot connect to host.
 	*/
-	GodotError request(StringArg0, StringArg4)(in StringArg0 url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in StringArg4 request_data = "")
+	GodotError request(in String url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in String request_data = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.request, _godot_object, url, custom_headers, ssl_validate_domain, method, request_data);
@@ -212,7 +212,7 @@ public:
 	/**
 	
 	*/
-	void setDownloadFile(StringArg0)(in StringArg0 path)
+	void setDownloadFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDownloadFile, _godot_object, path);
@@ -244,7 +244,7 @@ public:
 	/**
 	
 	*/
-	void _redirectRequest(StringArg0)(in StringArg0 arg0)
+	void _redirectRequest(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);

@@ -390,7 +390,7 @@ public:
 	/**
 	
 	*/
-	void setName(StringArg0)(in StringArg0 name)
+	void setName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setName, _godot_object, name);
@@ -496,7 +496,7 @@ public:
 	Finds a descendant of this node whose name matches `mask` as in $(D String.match) (i.e. case sensitive, but '*' matches zero or more characters and '?' matches any single character except '.'). Note that it does not match against the full path, just against individual node names.
 	If `owned` is `true`, this method only finds nodes whose owner is this node. This is especially important for scenes instantiated through script, because those scenes don't have an owner.
 	*/
-	Node findNode(StringArg0)(in StringArg0 mask, in bool recursive = true, in bool owned = true) const
+	Node findNode(in String mask, in bool recursive = true, in bool owned = true) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Node)(_classBinding.findNode, _godot_object, mask, recursive, owned);
@@ -504,7 +504,7 @@ public:
 	/**
 	Finds the first parent of the current node whose name matches `mask` as in $(D String.match) (i.e. case sensitive, but '*' matches zero or more characters and '?' matches any single character except '.'). Note that it does not match against the full path, just against individual node names.
 	*/
-	Node findParent(StringArg0)(in StringArg0 mask) const
+	Node findParent(in String mask) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Node)(_classBinding.findParent, _godot_object, mask);
@@ -568,7 +568,7 @@ public:
 	/**
 	Adds the node to a group. Groups are helpers to name and organize a subset of nodes, for example "enemies" or "collectables". A node can be in any number of groups. Nodes can be assigned a group at any time, but will not be added until they are inside the scene tree (see $(D isInsideTree)). See notes in the description, and the group methods in $(D SceneTree).
 	*/
-	void addToGroup(StringArg0)(in StringArg0 group, in bool persistent = false)
+	void addToGroup(in String group, in bool persistent = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addToGroup, _godot_object, group, persistent);
@@ -576,7 +576,7 @@ public:
 	/**
 	Removes a node from a group. See notes in the description, and the group methods in $(D SceneTree).
 	*/
-	void removeFromGroup(StringArg0)(in StringArg0 group)
+	void removeFromGroup(in String group)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeFromGroup, _godot_object, group);
@@ -584,7 +584,7 @@ public:
 	/**
 	Returns `true` if this node is in the specified group. See notes in the description, and the group methods in $(D SceneTree).
 	*/
-	bool isInGroup(StringArg0)(in StringArg0 group) const
+	bool isInGroup(in String group) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isInGroup, _godot_object, group);
@@ -684,7 +684,7 @@ public:
 	/**
 	
 	*/
-	void setFilename(StringArg0)(in StringArg0 filename)
+	void setFilename(in String filename)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFilename, _godot_object, filename);
@@ -708,7 +708,7 @@ public:
 	/**
 	Calls the given method (if present) with the arguments given in `args` on this node and recursively on all its children. If the parent_first argument is `true` then the method will be called on the current node first, then on all children. If it is `false` then the children will be called first.
 	*/
-	void propagateCall(StringArg0)(in StringArg0 method, in Array args = Array.empty_array, in bool parent_first = false)
+	void propagateCall(in String method, in Array args = Array.empty_array, in bool parent_first = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.propagateCall, _godot_object, method, args, parent_first);
@@ -1021,7 +1021,7 @@ public:
 	/**
 	Changes the RPC mode for the given `method` to the given `mode`. See $(D MultiplayerAPI.rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `master`, `puppet`, `remotesync`, `mastersync`, `puppetsync`). By default, methods are not exposed to networking (and RPCs). Also see $(D rset) and $(D rsetConfig) for properties.
 	*/
-	void rpcConfig(StringArg0)(in StringArg0 method, in long mode)
+	void rpcConfig(in String method, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rpcConfig, _godot_object, method, mode);
@@ -1029,7 +1029,7 @@ public:
 	/**
 	Changes the RPC mode for the given `property` to the given `mode`. See $(D MultiplayerAPI.rpcmode). An alternative is annotating methods and properties with the corresponding keywords (`remote`, `master`, `puppet`, `remotesync`, `mastersync`, `puppetsync`). By default, properties are not exposed to networking (and RPCs). Also see $(D rpc) and $(D rpcConfig) for methods.
 	*/
-	void rsetConfig(StringArg0)(in StringArg0 property, in long mode)
+	void rsetConfig(in String property, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rsetConfig, _godot_object, property, mode);
@@ -1056,7 +1056,7 @@ public:
 	/**
 	Sends a remote procedure call request for the given `method` to peers on the network (and locally), optionally sending all additional arguments as arguments to the method called by the RPC. The call request will only be received by nodes with the same $(D NodePath), including the exact same node name. Behaviour depends on the RPC configuration for the given method, see $(D rpcConfig). Methods are not exposed to RPCs by default. Also see $(D rset) and $(D rsetConfig) for properties. Returns an empty $(D Variant). Note that you can only safely use RPCs on clients after you received the `connected_to_server` signal from the $(D SceneTree). You also need to keep track of the connection state, either by the $(D SceneTree) signals like `server_disconnected` or by checking `SceneTree.network_peer.get_connection_status() == CONNECTION_CONNECTED`.
 	*/
-	Variant rpc(StringArg0, VarArgs...)(in StringArg0 method, VarArgs varArgs)
+	Variant rpc(VarArgs...)(in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(method);
@@ -1070,7 +1070,7 @@ public:
 	/**
 	Sends a $(D rpc) using an unreliable protocol. Returns an empty $(D Variant).
 	*/
-	Variant rpcUnreliable(StringArg0, VarArgs...)(in StringArg0 method, VarArgs varArgs)
+	Variant rpcUnreliable(VarArgs...)(in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(method);
@@ -1084,7 +1084,7 @@ public:
 	/**
 	Sends a $(D rpc) to a specific peer identified by `peer_id` (see $(D NetworkedMultiplayerPeer.setTargetPeer)). Returns an empty $(D Variant).
 	*/
-	Variant rpcId(StringArg1, VarArgs...)(in long peer_id, in StringArg1 method, VarArgs varArgs)
+	Variant rpcId(VarArgs...)(in long peer_id, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(peer_id);
@@ -1099,7 +1099,7 @@ public:
 	/**
 	Sends a $(D rpc) to a specific peer identified by `peer_id` using an unreliable protocol (see $(D NetworkedMultiplayerPeer.setTargetPeer)). Returns an empty $(D Variant).
 	*/
-	Variant rpcUnreliableId(StringArg1, VarArgs...)(in long peer_id, in StringArg1 method, VarArgs varArgs)
+	Variant rpcUnreliableId(VarArgs...)(in long peer_id, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(peer_id);
@@ -1114,7 +1114,7 @@ public:
 	/**
 	Remotely changes a property's value on other peers (and locally). Behaviour depends on the RPC configuration for the given property, see $(D rsetConfig). Also see $(D rpc) for RPCs for methods, most information applies to this method as well.
 	*/
-	void rset(StringArg0, VariantArg1)(in StringArg0 property, in VariantArg1 value)
+	void rset(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rset, _godot_object, property, value);
@@ -1122,7 +1122,7 @@ public:
 	/**
 	Remotely changes the property's value on a specific peer identified by `peer_id` (see $(D NetworkedMultiplayerPeer.setTargetPeer)).
 	*/
-	void rsetId(StringArg1, VariantArg2)(in long peer_id, in StringArg1 property, in VariantArg2 value)
+	void rsetId(VariantArg2)(in long peer_id, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rsetId, _godot_object, peer_id, property, value);
@@ -1130,7 +1130,7 @@ public:
 	/**
 	Remotely changes the property's value on other peers (and locally) using an unreliable protocol.
 	*/
-	void rsetUnreliable(StringArg0, VariantArg1)(in StringArg0 property, in VariantArg1 value)
+	void rsetUnreliable(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rsetUnreliable, _godot_object, property, value);
@@ -1138,7 +1138,7 @@ public:
 	/**
 	Remotely changes property's value on a specific peer identified by `peer_id` using an unreliable protocol (see $(D NetworkedMultiplayerPeer.setTargetPeer)).
 	*/
-	void rsetUnreliableId(StringArg1, VariantArg2)(in long peer_id, in StringArg1 property, in VariantArg2 value)
+	void rsetUnreliableId(VariantArg2)(in long peer_id, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.rsetUnreliableId, _godot_object, peer_id, property, value);

@@ -125,7 +125,7 @@ public:
 	/**
 	
 	*/
-	void _inputText(StringArg0)(in StringArg0 text)
+	void _inputText(in String text)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(text);
@@ -192,7 +192,7 @@ public:
 	/**
 	
 	*/
-	void inputText(StringArg0)(in StringArg0 text)
+	void inputText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.inputText, _godot_object, text);

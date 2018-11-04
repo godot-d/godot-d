@@ -55,7 +55,7 @@ public:
 	/**
 	
 	*/
-	void setUniformName(StringArg0)(in StringArg0 name)
+	void setUniformName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setUniformName, _godot_object, name);

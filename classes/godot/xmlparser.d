@@ -178,7 +178,7 @@ public:
 	/**
 	Check whether or not the current element has a certain attribute.
 	*/
-	bool hasAttribute(StringArg0)(in StringArg0 name) const
+	bool hasAttribute(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasAttribute, _godot_object, name);
@@ -186,7 +186,7 @@ public:
 	/**
 	Get the value of a certain attribute of the current element by name. This will raise an error if the element has no such attribute.
 	*/
-	String getNamedAttributeValue(StringArg0)(in StringArg0 name) const
+	String getNamedAttributeValue(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getNamedAttributeValue, _godot_object, name);
@@ -194,7 +194,7 @@ public:
 	/**
 	Get the value of a certain attribute of the current element by name. This will return an empty $(D String) if the attribute is not found.
 	*/
-	String getNamedAttributeValueSafe(StringArg0)(in StringArg0 name) const
+	String getNamedAttributeValueSafe(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getNamedAttributeValueSafe, _godot_object, name);
@@ -234,7 +234,7 @@ public:
 	/**
 	Open a XML file for parsing. This returns an error code.
 	*/
-	GodotError open(StringArg0)(in StringArg0 file)
+	GodotError open(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.open, _godot_object, file);

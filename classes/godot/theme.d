@@ -91,7 +91,7 @@ public:
 	Sets Theme's icon $(D Texture) to `texture` at `name` in `type`.
 	Does nothing if Theme does not have `type`.
 	*/
-	void setIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type, Texture texture)
+	void setIcon(in String name, in String type, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setIcon, _godot_object, name, type, texture);
@@ -99,7 +99,7 @@ public:
 	/**
 	Returns the icon $(D Texture) at `name` if Theme has `type`.
 	*/
-	Ref!Texture getIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	Ref!Texture getIcon(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
@@ -108,7 +108,7 @@ public:
 	Returns `true` if icon $(D Texture) with `name` is in `type`.
 	Returns `false` if Theme does not have `type`.
 	*/
-	bool hasIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	bool hasIcon(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
@@ -116,7 +116,7 @@ public:
 	/**
 	Clears icon at `name` if Theme has `type`.
 	*/
-	void clearIcon(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type)
+	void clearIcon(in String name, in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearIcon, _godot_object, name, type);
@@ -124,7 +124,7 @@ public:
 	/**
 	Returns all of the icons as a $(D PoolStringArray) filled with each $(D Texture)'s name, for use in $(D getIcon), if Theme has `type`.
 	*/
-	PoolStringArray getIconList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getIconList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getIconList, _godot_object, type);
@@ -133,7 +133,7 @@ public:
 	Sets Theme's $(D StyleBox) to `stylebox` at `name` in `type`.
 	Does nothing if Theme does not have `type`.
 	*/
-	void setStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type, StyleBox texture)
+	void setStylebox(in String name, in String type, StyleBox texture)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setStylebox, _godot_object, name, type, texture);
@@ -141,7 +141,7 @@ public:
 	/**
 	Returns the icon $(D StyleBox) at `name` if Theme has `type`.
 	*/
-	Ref!StyleBox getStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	Ref!StyleBox getStylebox(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
@@ -150,7 +150,7 @@ public:
 	Returns `true` if $(D StyleBox) with `name` is in `type`.
 	Returns `false` if Theme does not have `type`.
 	*/
-	bool hasStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	bool hasStylebox(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
@@ -158,7 +158,7 @@ public:
 	/**
 	Clears $(D StyleBox) at `name` if Theme has `type`.
 	*/
-	void clearStylebox(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type)
+	void clearStylebox(in String name, in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearStylebox, _godot_object, name, type);
@@ -166,7 +166,7 @@ public:
 	/**
 	Returns all of the $(D StyleBox)s as a $(D PoolStringArray) filled with each $(D StyleBox)'s name, for use in $(D getStylebox), if Theme has `type`.
 	*/
-	PoolStringArray getStyleboxList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getStyleboxList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getStyleboxList, _godot_object, type);
@@ -183,7 +183,7 @@ public:
 	Sets Theme's $(D Font) to `font` at `name` in `type`.
 	Does nothing if Theme does not have `type`.
 	*/
-	void setFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type, Font font)
+	void setFont(in String name, in String type, Font font)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFont, _godot_object, name, type, font);
@@ -191,7 +191,7 @@ public:
 	/**
 	Returns the $(D Font) at `name` if Theme has `type`.
 	*/
-	Ref!Font getFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	Ref!Font getFont(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
@@ -200,7 +200,7 @@ public:
 	Returns `true` if $(D Font) with `name` is in `type`.
 	Returns `false` if Theme does not have `type`.
 	*/
-	bool hasFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	bool hasFont(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
@@ -208,7 +208,7 @@ public:
 	/**
 	Clears $(D Font) at `name` if Theme has `type`.
 	*/
-	void clearFont(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type)
+	void clearFont(in String name, in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearFont, _godot_object, name, type);
@@ -216,7 +216,7 @@ public:
 	/**
 	Returns all of the $(D Font)s as a $(D PoolStringArray) filled with each $(D Font)'s name, for use in $(D getFont), if Theme has `type`.
 	*/
-	PoolStringArray getFontList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getFontList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getFontList, _godot_object, type);
@@ -225,7 +225,7 @@ public:
 	Sets Theme's $(D Color) to `color` at `name` in `type`.
 	Does nothing if Theme does not have `type`.
 	*/
-	void setColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type, in Color color)
+	void setColor(in String name, in String type, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setColor, _godot_object, name, type, color);
@@ -233,7 +233,7 @@ public:
 	/**
 	Returns the $(D Color) at `name` if Theme has `type`.
 	*/
-	Color getColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	Color getColor(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
@@ -242,7 +242,7 @@ public:
 	Returns `true` if $(D Color) with `name` is in `type`.
 	Returns `false` if Theme does not have `type`.
 	*/
-	bool hasColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	bool hasColor(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
@@ -250,7 +250,7 @@ public:
 	/**
 	Clears theme $(D Color) at `name` if Theme has `type`.
 	*/
-	void clearColor(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type)
+	void clearColor(in String name, in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearColor, _godot_object, name, type);
@@ -258,7 +258,7 @@ public:
 	/**
 	Returns all of the $(D Color)s as a $(D PoolStringArray) filled with each $(D Color)'s name, for use in $(D getColor), if Theme has `type`.
 	*/
-	PoolStringArray getColorList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getColorList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getColorList, _godot_object, type);
@@ -267,7 +267,7 @@ public:
 	Sets Theme's constant to `constant` at `name` in `type`.
 	Does nothing if Theme does not have `type`.
 	*/
-	void setConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type, in long constant)
+	void setConstant(in String name, in String type, in long constant)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setConstant, _godot_object, name, type, constant);
@@ -275,7 +275,7 @@ public:
 	/**
 	Returns the constant at `name` if Theme has `type`.
 	*/
-	long getConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	long getConstant(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
@@ -284,7 +284,7 @@ public:
 	Returns `true` if constant with `name` is in `type`.
 	Returns `false` if Theme does not have `type`.
 	*/
-	bool hasConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type) const
+	bool hasConstant(in String name, in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
@@ -292,7 +292,7 @@ public:
 	/**
 	Clears theme constant at `name` if Theme has `type`.
 	*/
-	void clearConstant(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 type)
+	void clearConstant(in String name, in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearConstant, _godot_object, name, type);
@@ -300,7 +300,7 @@ public:
 	/**
 	Returns all of the constants as a $(D PoolStringArray) filled with each constant's name, for use in $(D getConstant), if Theme has `type`.
 	*/
-	PoolStringArray getConstantList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getConstantList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getConstantList, _godot_object, type);
@@ -324,7 +324,7 @@ public:
 	/**
 	Returns all of the types in `type` as a $(D PoolStringArray) for use in any of the get_* functions, if Theme has `type`.
 	*/
-	PoolStringArray getTypeList(StringArg0)(in StringArg0 type) const
+	PoolStringArray getTypeList(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getTypeList, _godot_object, type);

@@ -102,7 +102,7 @@ public:
 	/**
 	
 	*/
-	void setErrorString(StringArg0)(in StringArg0 error_string)
+	void setErrorString(in String error_string)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setErrorString, _godot_object, error_string);

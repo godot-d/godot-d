@@ -63,7 +63,7 @@ public:
 	/**
 	
 	*/
-	void setVariable(StringArg0)(in StringArg0 name)
+	void setVariable(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setVariable, _godot_object, name);

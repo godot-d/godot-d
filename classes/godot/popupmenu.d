@@ -131,7 +131,7 @@ public:
 	/**
 	Add a new item with text "label" and icon "texture". An id can optionally be provided, as well as an accelerator keybinding. If no id is provided, one will be created from the index.
 	*/
-	void addIconItem(StringArg1)(Texture texture, in StringArg1 label, in long id = -1, in long accel = 0)
+	void addIconItem(Texture texture, in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIconItem, _godot_object, texture, label, id, accel);
@@ -139,7 +139,7 @@ public:
 	/**
 	Add a new item with text "label". An id can optionally be provided, as well as an accelerator keybinding. If no id is provided, one will be created from the index.
 	*/
-	void addItem(StringArg0)(in StringArg0 label, in long id = -1, in long accel = 0)
+	void addItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addItem, _godot_object, label, id, accel);
@@ -148,7 +148,7 @@ public:
 	Add a new checkable item with text "label" and icon "texture". An id can optionally be provided, as well as an accelerator. If no id is provided, one will be
 	created from the index. Note that checkable items just display a checkmark, but don't have any built-in checking behavior and must be checked/unchecked manually.
 	*/
-	void addIconCheckItem(StringArg1)(Texture texture, in StringArg1 label, in long id = -1, in long accel = 0)
+	void addIconCheckItem(Texture texture, in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIconCheckItem, _godot_object, texture, label, id, accel);
@@ -156,7 +156,7 @@ public:
 	/**
 	Add a new checkable item with text "label". An id can optionally be provided, as well as an accelerator. If no id is provided, one will be created from the index. Note that checkable items just display a checkmark, but don't have any built-in checking behavior and must be checked/unchecked manually.
 	*/
-	void addCheckItem(StringArg0)(in StringArg0 label, in long id = -1, in long accel = 0)
+	void addCheckItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCheckItem, _godot_object, label, id, accel);
@@ -164,7 +164,7 @@ public:
 	/**
 	The same as $(D addCheckItem) but the inserted item will look as a radio button. Remember this is just cosmetic and you have to add the logic for checking/unchecking items in radio groups.
 	*/
-	void addRadioCheckItem(StringArg0)(in StringArg0 label, in long id = -1, in long accel = 0)
+	void addRadioCheckItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addRadioCheckItem, _godot_object, label, id, accel);
@@ -172,7 +172,7 @@ public:
 	/**
 	Adds an item with a submenu. The submenu is the name of a child PopupMenu node that would be shown when the item is clicked. An id can optionally be provided, but if is isn't provided, one will be created from the index.
 	*/
-	void addSubmenuItem(StringArg0, StringArg1)(in StringArg0 label, in StringArg1 submenu, in long id = -1)
+	void addSubmenuItem(in String label, in String submenu, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addSubmenuItem, _godot_object, label, submenu, id);
@@ -220,7 +220,7 @@ public:
 	/**
 	Set the text of the item at index "idx".
 	*/
-	void setItemText(StringArg1)(in long idx, in StringArg1 text)
+	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);
@@ -276,7 +276,7 @@ public:
 	/**
 	Sets the submenu of the item at index "idx". The submenu is the name of a child PopupMenu node that would be shown when the item is clicked.
 	*/
-	void setItemSubmenu(StringArg1)(in long idx, in StringArg1 submenu)
+	void setItemSubmenu(in long idx, in String submenu)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemSubmenu, _godot_object, idx, submenu);
@@ -309,7 +309,7 @@ public:
 	/**
 	
 	*/
-	void setItemTooltip(StringArg1)(in long idx, in StringArg1 tooltip)
+	void setItemTooltip(in long idx, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemTooltip, _godot_object, idx, tooltip);
@@ -493,7 +493,7 @@ public:
 	/**
 	Add a separator between items. Separators also occupy an index.
 	*/
-	void addSeparator(StringArg0)(in StringArg0 label = "")
+	void addSeparator(in String label = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addSeparator, _godot_object, label);

@@ -198,7 +198,7 @@ public:
 	/**
 	Find an interface by its name. Say that you're making a game that uses specific capabilities of an AR/VR platform you can find the interface for that platform by name and initialize it.
 	*/
-	Ref!ARVRInterface findInterface(StringArg0)(in StringArg0 name) const
+	Ref!ARVRInterface findInterface(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(ARVRInterface)(_classBinding.findInterface, _godot_object, name);

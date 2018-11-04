@@ -157,7 +157,7 @@ public:
 	Adds an item to the item list with specified text. Specify an icon of null for a list item with no icon.
 	If selectable is true the list item will be selectable.
 	*/
-	void addItem(StringArg0)(in StringArg0 text, Texture icon = Texture.init, in bool selectable = true)
+	void addItem(in String text, Texture icon = Texture.init, in bool selectable = true)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addItem, _godot_object, text, icon, selectable);
@@ -173,7 +173,7 @@ public:
 	/**
 	Sets text of item at specified index.
 	*/
-	void setItemText(StringArg1)(in long idx, in StringArg1 text)
+	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);
@@ -334,7 +334,7 @@ public:
 	/**
 	Sets tooltip hint for item at specified index.
 	*/
-	void setItemTooltip(StringArg1)(in long idx, in StringArg1 tooltip)
+	void setItemTooltip(in long idx, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemTooltip, _godot_object, idx, tooltip);

@@ -152,7 +152,7 @@ public:
 	/**
 	Sets a property. Returns `true` if the `property` exists.
 	*/
-	bool _set(StringArg0, VariantArg1)(in StringArg0 property, in VariantArg1 value)
+	bool _set(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(property);
@@ -163,7 +163,7 @@ public:
 	/**
 	Returns the given property. Returns `null` if the `property` does not exist.
 	*/
-	Variant _get(StringArg0)(in StringArg0 property)
+	Variant _get(in String property)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(property);
@@ -199,7 +199,7 @@ public:
 	/**
 	Returns `true` if the object inherits from the given `type`.
 	*/
-	bool isClass(StringArg0)(in StringArg0 type) const
+	bool isClass(in String type) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isClass, _godot_object, type);
@@ -207,7 +207,7 @@ public:
 	/**
 	Set property into the object.
 	*/
-	void set(StringArg0, VariantArg1)(in StringArg0 property, in VariantArg1 value)
+	void set(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.set, _godot_object, property, value);
@@ -215,7 +215,7 @@ public:
 	/**
 	Returns a $(D Variant) for a `property`.
 	*/
-	Variant get(StringArg0)(in StringArg0 property) const
+	Variant get(in String property) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.get, _godot_object, property);
@@ -288,7 +288,7 @@ public:
 	/**
 	Set a metadata into the object. Metadata is serialized. Metadata can be $(I anything).
 	*/
-	void setMeta(StringArg0, VariantArg1)(in StringArg0 name, in VariantArg1 value)
+	void setMeta(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setMeta, _godot_object, name, value);
@@ -296,7 +296,7 @@ public:
 	/**
 	Returns the object's metadata for the given `name`.
 	*/
-	Variant getMeta(StringArg0)(in StringArg0 name) const
+	Variant getMeta(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getMeta, _godot_object, name);
@@ -304,7 +304,7 @@ public:
 	/**
 	Returns `true` if a metadata is found with the given `name`.
 	*/
-	bool hasMeta(StringArg0)(in StringArg0 name) const
+	bool hasMeta(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasMeta, _godot_object, name);
@@ -320,7 +320,7 @@ public:
 	/**
 	Adds a user-defined `signal`. Arguments are optional, but can be added as an $(D Array) of dictionaries, each containing "name" and "type" (from $(D @GlobalScope) TYPE_*).
 	*/
-	void addUserSignal(StringArg0)(in StringArg0 signal, in Array arguments = Array.empty_array)
+	void addUserSignal(in String signal, in Array arguments = Array.empty_array)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addUserSignal, _godot_object, signal, arguments);
@@ -328,7 +328,7 @@ public:
 	/**
 	Returns `true` if the given user-defined `signal` exists.
 	*/
-	bool hasUserSignal(StringArg0)(in StringArg0 signal) const
+	bool hasUserSignal(in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasUserSignal, _godot_object, signal);
@@ -336,7 +336,7 @@ public:
 	/**
 	Emits the given `signal`.
 	*/
-	Variant emitSignal(StringArg0, VarArgs...)(in StringArg0 signal, VarArgs varArgs)
+	Variant emitSignal(VarArgs...)(in String signal, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(signal);
@@ -350,7 +350,7 @@ public:
 	/**
 	Calls the `method` on the object and returns a result. Pass parameters as a comma separated list.
 	*/
-	Variant call(StringArg0, VarArgs...)(in StringArg0 method, VarArgs varArgs)
+	Variant call(VarArgs...)(in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(method);
@@ -364,7 +364,7 @@ public:
 	/**
 	Calls the `method` on the object during idle time and returns a result. Pass parameters as a comma separated list.
 	*/
-	Variant callDeferred(StringArg0, VarArgs...)(in StringArg0 method, VarArgs varArgs)
+	Variant callDeferred(VarArgs...)(in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(method);
@@ -378,7 +378,7 @@ public:
 	/**
 	Calls the `method` on the object and returns a result. Pass parameters as an $(D Array).
 	*/
-	Variant callv(StringArg0)(in StringArg0 method, in Array arg_array) const
+	Variant callv(in String method, in Array arg_array) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.callv, _godot_object, method, arg_array);
@@ -386,7 +386,7 @@ public:
 	/**
 	Returns `true` if the object contains the given `method`.
 	*/
-	bool hasMethod(StringArg0)(in StringArg0 method) const
+	bool hasMethod(in String method) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasMethod, _godot_object, method);
@@ -402,7 +402,7 @@ public:
 	/**
 	Returns an $(D Array) of connections for the given `signal`.
 	*/
-	Array getSignalConnectionList(StringArg0)(in StringArg0 signal) const
+	Array getSignalConnectionList(in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.getSignalConnectionList, _godot_object, signal);
@@ -422,7 +422,7 @@ public:
 	/**
 	Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call. Use `flags` to set deferred or one shot connections. See `CONNECT_*` constants. A `signal` can only be connected once to a `method`. It will throw an error if already connected. To avoid this, first use $(D isConnected) to check for existing connections.
 	*/
-	GodotError connect(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method, in Array binds = Array.empty_array, in long flags = 0)
+	GodotError connect(in String signal, GodotObject target, in String method, in Array binds = Array.empty_array, in long flags = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connect, _godot_object, signal, target, method, binds, flags);
@@ -430,7 +430,7 @@ public:
 	/**
 	Disconnects a `signal` from a `method` on the given `target`.
 	*/
-	void disconnect(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method)
+	void disconnect(in String signal, GodotObject target, in String method)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.disconnect, _godot_object, signal, target, method);
@@ -438,7 +438,7 @@ public:
 	/**
 	Returns `true` if a connection exists for a given `signal`, `target`, and `method`.
 	*/
-	bool isConnected(StringArg0, StringArg2)(in StringArg0 signal, GodotObject target, in StringArg2 method) const
+	bool isConnected(in String signal, GodotObject target, in String method) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isConnected, _godot_object, signal, target, method);
@@ -486,7 +486,7 @@ public:
 	/**
 	Translate a message. Only works if message translation is enabled (which it is by default). See $(D setMessageTranslation).
 	*/
-	String tr(StringArg0)(in StringArg0 message) const
+	String tr(in String message) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.tr, _godot_object, message);

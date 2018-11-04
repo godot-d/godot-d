@@ -257,7 +257,7 @@ public:
 	/**
 	
 	*/
-	void _dirEntered(StringArg0)(in StringArg0 arg0)
+	void _dirEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -267,7 +267,7 @@ public:
 	/**
 	
 	*/
-	void _fileEntered(StringArg0)(in StringArg0 arg0)
+	void _fileEntered(in String arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -323,7 +323,7 @@ public:
 	Adds a comma-delimited file extension filter option to the `EditorFileDialog` with an optional semi-colon-delimited label.
 	Example: "*.tscn, *.scn; Scenes", results in filter text "Scenes (*.tscn, *.scn)".
 	*/
-	void addFilter(StringArg0)(in StringArg0 filter)
+	void addFilter(in String filter)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFilter, _godot_object, filter);
@@ -355,7 +355,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentDir(StringArg0)(in StringArg0 dir)
+	void setCurrentDir(in String dir)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentDir, _godot_object, dir);
@@ -363,7 +363,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentFile(StringArg0)(in StringArg0 file)
+	void setCurrentFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentFile, _godot_object, file);
@@ -371,7 +371,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentPath(StringArg0)(in StringArg0 path)
+	void setCurrentPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentPath, _godot_object, path);
@@ -481,7 +481,7 @@ public:
 	/**
 	
 	*/
-	void _thumbnailDone(StringArg0, VariantArg3)(in StringArg0 arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
+	void _thumbnailDone(VariantArg3)(in String arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -510,7 +510,7 @@ public:
 	/**
 	
 	*/
-	void _thumbnailResult(StringArg0, VariantArg3)(in StringArg0 arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
+	void _thumbnailResult(VariantArg3)(in String arg0, Texture arg1, Texture arg2, in VariantArg3 arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);

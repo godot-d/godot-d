@@ -56,7 +56,7 @@ public:
 	/**
 	
 	*/
-	void setFile(StringArg0)(in StringArg0 file)
+	void setFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFile, _godot_object, file);

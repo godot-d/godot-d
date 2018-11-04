@@ -113,7 +113,7 @@ public:
 	/**
 	Create a new action. After this is called, do all your calls to $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), and $(D addUndoProperty), then commit the action with $(D commitAction).
 	*/
-	void createAction(StringArg0)(in StringArg0 name, in long merge_mode = 0)
+	void createAction(in String name, in long merge_mode = 0)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.createAction, _godot_object, name, merge_mode);
@@ -129,7 +129,7 @@ public:
 	/**
 	Register a method that will be called when the action is committed.
 	*/
-	Variant addDoMethod(StringArg1, VarArgs...)(GodotObject object, in StringArg1 method, VarArgs varArgs)
+	Variant addDoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(object);
@@ -144,7 +144,7 @@ public:
 	/**
 	Register a method that will be called when the action is undone.
 	*/
-	Variant addUndoMethod(StringArg1, VarArgs...)(GodotObject object, in StringArg1 method, VarArgs varArgs)
+	Variant addUndoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(object);
@@ -159,7 +159,7 @@ public:
 	/**
 	Register a property value change for 'do'.
 	*/
-	void addDoProperty(StringArg1, VariantArg2)(GodotObject object, in StringArg1 property, in VariantArg2 value)
+	void addDoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addDoProperty, _godot_object, object, property, value);
@@ -167,7 +167,7 @@ public:
 	/**
 	Register a property value change for 'undo'.
 	*/
-	void addUndoProperty(StringArg1, VariantArg2)(GodotObject object, in StringArg1 property, in VariantArg2 value)
+	void addUndoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addUndoProperty, _godot_object, object, property, value);

@@ -66,7 +66,7 @@ public:
 	/**
 	
 	*/
-	void setVarName(StringArg0)(in StringArg0 name)
+	void setVarName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setVarName, _godot_object, name);

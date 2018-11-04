@@ -278,7 +278,7 @@ public:
 	/**
 	
 	*/
-	void setText(StringArg0)(in StringArg0 text)
+	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setText, _godot_object, text);
@@ -286,7 +286,7 @@ public:
 	/**
 	Insert a given text at the cursor position.
 	*/
-	void insertTextAtCursor(StringArg0)(in StringArg0 text)
+	void insertTextAtCursor(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.insertTextAtCursor, _godot_object, text);
@@ -566,7 +566,7 @@ public:
 	/**
 	Perform a search inside the text. Search flags can be specified in the SEARCH_* enum.
 	*/
-	PoolIntArray search(StringArg0)(in StringArg0 key, in long flags, in long from_line, in long from_column) const
+	PoolIntArray search(in String key, in long flags, in long from_line, in long from_column) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolIntArray)(_classBinding.search, _godot_object, key, flags, from_line, from_column);
@@ -814,7 +814,7 @@ public:
 	/**
 	Add a keyword and its color.
 	*/
-	void addKeywordColor(StringArg0)(in StringArg0 keyword, in Color color)
+	void addKeywordColor(in String keyword, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addKeywordColor, _godot_object, keyword, color);
@@ -822,7 +822,7 @@ public:
 	/**
 	
 	*/
-	bool hasKeywordColor(StringArg0)(in StringArg0 keyword) const
+	bool hasKeywordColor(in String keyword) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasKeywordColor, _godot_object, keyword);
@@ -830,7 +830,7 @@ public:
 	/**
 	
 	*/
-	Color getKeywordColor(StringArg0)(in StringArg0 keyword) const
+	Color getKeywordColor(in String keyword) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getKeywordColor, _godot_object, keyword);
@@ -838,7 +838,7 @@ public:
 	/**
 	Add color region (given the delimiters) and its colors.
 	*/
-	void addColorRegion(StringArg0, StringArg1)(in StringArg0 begin_key, in StringArg1 end_key, in Color color, in bool line_only = false)
+	void addColorRegion(in String begin_key, in String end_key, in Color color, in bool line_only = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addColorRegion, _godot_object, begin_key, end_key, color, line_only);

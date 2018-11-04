@@ -97,7 +97,7 @@ public:
 	/**
 	
 	*/
-	void setSourceCode(StringArg0)(in StringArg0 source)
+	void setSourceCode(in String source)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSourceCode, _godot_object, source);
@@ -129,7 +129,7 @@ public:
 	/**
 	Returns `true` if the script, or a base class, defines a signal with the given name.
 	*/
-	bool hasScriptSignal(StringArg0)(in StringArg0 signal_name) const
+	bool hasScriptSignal(in String signal_name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasScriptSignal, _godot_object, signal_name);

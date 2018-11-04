@@ -59,7 +59,7 @@ public:
 	/**
 	
 	*/
-	void setAction(StringArg0)(in StringArg0 action)
+	void setAction(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAction, _godot_object, action);

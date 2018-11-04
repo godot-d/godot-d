@@ -64,7 +64,7 @@ public:
 	/**
 	
 	*/
-	void setLocale(StringArg0)(in StringArg0 locale)
+	void setLocale(in String locale)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
@@ -80,7 +80,7 @@ public:
 	/**
 	Add a message for translation.
 	*/
-	void addMessage(StringArg0, StringArg1)(in StringArg0 src_message, in StringArg1 xlated_message)
+	void addMessage(in String src_message, in String xlated_message)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addMessage, _godot_object, src_message, xlated_message);
@@ -88,7 +88,7 @@ public:
 	/**
 	Return a message for translation.
 	*/
-	String getMessage(StringArg0)(in StringArg0 src_message) const
+	String getMessage(in String src_message) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getMessage, _godot_object, src_message);
@@ -96,7 +96,7 @@ public:
 	/**
 	Erase a message.
 	*/
-	void eraseMessage(StringArg0)(in StringArg0 src_message)
+	void eraseMessage(in String src_message)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.eraseMessage, _godot_object, src_message);

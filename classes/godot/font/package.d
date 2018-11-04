@@ -63,7 +63,7 @@ public:
 	/**
 	Draw "string" into a canvas item using the font at a given position, with "modulate" color, and optionally clipping the width. "position" specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis.
 	*/
-	void draw(StringArg2)(in RID canvas_item, in Vector2 position, in StringArg2 string, in Color modulate = Color(1,1,1,1), in long clip_w = -1, in Color outline_modulate = Color(1,1,1,1)) const
+	void draw(in RID canvas_item, in Vector2 position, in String string, in Color modulate = Color(1,1,1,1), in long clip_w = -1, in Color outline_modulate = Color(1,1,1,1)) const
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, string, modulate, clip_w, outline_modulate);
@@ -103,7 +103,7 @@ public:
 	/**
 	Return the size of a string, taking kerning and advance into account.
 	*/
-	Vector2 getStringSize(StringArg0)(in StringArg0 string) const
+	Vector2 getStringSize(in String string) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getStringSize, _godot_object, string);

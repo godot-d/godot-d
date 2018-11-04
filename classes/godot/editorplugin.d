@@ -432,7 +432,7 @@ public:
 	/**
 	Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromBottomPanel) and free it with `queue_free()`.
 	*/
-	ToolButton addControlToBottomPanel(StringArg1)(GodotObject control, in StringArg1 title)
+	ToolButton addControlToBottomPanel(GodotObject control, in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(ToolButton)(_classBinding.addControlToBottomPanel, _godot_object, control, title);
@@ -474,7 +474,7 @@ public:
 	/**
 	Add a custom menu to 'Project &gt; Tools' as `name` that calls `callback` on an instance of `handler` with a parameter `ud` when user activates it.
 	*/
-	void addToolMenuItem(StringArg0, StringArg2, VariantArg3)(in StringArg0 name, GodotObject handler, in StringArg2 callback, in VariantArg3 ud = Variant.nil)
+	void addToolMenuItem(VariantArg3)(in String name, GodotObject handler, in String callback, in VariantArg3 ud = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addToolMenuItem, _godot_object, name, handler, callback, ud);
@@ -482,7 +482,7 @@ public:
 	/**
 	Like $(D addToolMenuItem) but adds the `submenu` item inside the `name` menu.
 	*/
-	void addToolSubmenuItem(StringArg0)(in StringArg0 name, GodotObject submenu)
+	void addToolSubmenuItem(in String name, GodotObject submenu)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addToolSubmenuItem, _godot_object, name, submenu);
@@ -490,7 +490,7 @@ public:
 	/**
 	Removes a menu `name` from 'Project &gt; Tools'.
 	*/
-	void removeToolMenuItem(StringArg0)(in StringArg0 name)
+	void removeToolMenuItem(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeToolMenuItem, _godot_object, name);
@@ -501,7 +501,7 @@ public:
 	You can use the virtual method $(D handles) to check if your custom object is being edited by checking the script or using 'is' keyword.
 	During run-time, this will be a simple object with a script so this function does not need to be called then.
 	*/
-	void addCustomType(StringArg0, StringArg1)(in StringArg0 type, in StringArg1 base, Script script, Texture icon)
+	void addCustomType(in String type, in String base, Script script, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCustomType, _godot_object, type, base, script, icon);
@@ -509,7 +509,7 @@ public:
 	/**
 	Remove a custom type added by $(D addCustomType)
 	*/
-	void removeCustomType(StringArg0)(in StringArg0 type)
+	void removeCustomType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeCustomType, _godot_object, type);
@@ -517,7 +517,7 @@ public:
 	/**
 	Add a script at `path` to the Autoload list as `name`.
 	*/
-	void addAutoloadSingleton(StringArg0, StringArg1)(in StringArg0 name, in StringArg1 path)
+	void addAutoloadSingleton(in String name, in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addAutoloadSingleton, _godot_object, name, path);
@@ -525,7 +525,7 @@ public:
 	/**
 	Remove an Autoload `name` from the list.
 	*/
-	void removeAutoloadSingleton(StringArg0)(in StringArg0 name)
+	void removeAutoloadSingleton(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeAutoloadSingleton, _godot_object, name);

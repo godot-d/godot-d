@@ -211,7 +211,7 @@ public:
 	/**
 	
 	*/
-	void addBlendShape(StringArg0)(in StringArg0 name)
+	void addBlendShape(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addBlendShape, _godot_object, name);
@@ -327,7 +327,7 @@ public:
 	/**
 	Return the index of the first surface with this name held within this `ArrayMesh`. If none are found -1 is returned.
 	*/
-	long surfaceFindByName(StringArg0)(in StringArg0 name) const
+	long surfaceFindByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.surfaceFindByName, _godot_object, name);
@@ -335,7 +335,7 @@ public:
 	/**
 	Set a name for a given surface.
 	*/
-	void surfaceSetName(StringArg1)(in long surf_idx, in StringArg1 name)
+	void surfaceSetName(in long surf_idx, in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.surfaceSetName, _godot_object, surf_idx, name);

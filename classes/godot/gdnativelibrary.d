@@ -146,7 +146,7 @@ public:
 	/**
 	
 	*/
-	void setSymbolPrefix(StringArg0)(in StringArg0 symbol_prefix)
+	void setSymbolPrefix(in String symbol_prefix)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSymbolPrefix, _godot_object, symbol_prefix);

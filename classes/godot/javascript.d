@@ -56,7 +56,7 @@ public:
 	Execute the string `code` as JavaScript code within the browser window. This is a call to the actual global JavaScript function `eval()`.
 	If `use_global_execution_context` is `true`, the code will be evaluated in the global execution context. Otherwise, it is evaluated in the execution context of a function within the engine's runtime environment.
 	*/
-	Variant eval(StringArg0)(in StringArg0 code, in bool use_global_execution_context = false)
+	Variant eval(in String code, in bool use_global_execution_context = false)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.eval, _godot_object, code, use_global_execution_context);

@@ -176,7 +176,7 @@ public:
 	/**
 	
 	*/
-	void setValueLabel(StringArg0)(in StringArg0 text)
+	void setValueLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setValueLabel, _godot_object, text);

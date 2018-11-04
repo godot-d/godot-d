@@ -504,7 +504,7 @@ public:
 	/**
 	
 	*/
-	void _vpInputText(StringArg0)(in StringArg0 text)
+	void _vpInputText(in String text)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(text);

@@ -90,7 +90,7 @@ public:
 	/**
 	Connect to the specified host:port pair. A hostname will be resolved if valid. Returns $(D OK) on success or $(D FAILED) on failure.
 	*/
-	GodotError connectToHost(StringArg0)(in StringArg0 host, in long port)
+	GodotError connectToHost(in String host, in long port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port);

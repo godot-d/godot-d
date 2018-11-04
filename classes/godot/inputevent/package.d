@@ -82,7 +82,7 @@ public:
 	/**
 	Returns `true` if this input event matches a pre-defined action of any type.
 	*/
-	bool isAction(StringArg0)(in StringArg0 action) const
+	bool isAction(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isAction, _godot_object, action);
@@ -90,7 +90,7 @@ public:
 	/**
 	Returns `true` if the given action is being pressed (and is not an echo event for KEY events). Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
 	*/
-	bool isActionPressed(StringArg0)(in StringArg0 action) const
+	bool isActionPressed(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
@@ -98,7 +98,7 @@ public:
 	/**
 	Returns `true` if the given action is released (i.e. not pressed). Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
 	*/
-	bool isActionReleased(StringArg0)(in StringArg0 action) const
+	bool isActionReleased(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionReleased, _godot_object, action);
@@ -106,7 +106,7 @@ public:
 	/**
 	
 	*/
-	double getActionStrength(StringArg0)(in StringArg0 action) const
+	double getActionStrength(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);

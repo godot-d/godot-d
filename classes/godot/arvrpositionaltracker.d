@@ -177,7 +177,7 @@ public:
 	/**
 	
 	*/
-	void _setName(StringArg0)(in StringArg0 name)
+	void _setName(in String name)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(name);

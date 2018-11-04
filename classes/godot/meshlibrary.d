@@ -82,7 +82,7 @@ public:
 	/**
 	Set the name of the item.
 	*/
-	void setItemName(StringArg1)(in long id, in StringArg1 name)
+	void setItemName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setItemName, _godot_object, id, name);
@@ -170,7 +170,7 @@ public:
 	/**
 	
 	*/
-	long findItemByName(StringArg0)(in StringArg0 name) const
+	long findItemByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.findItemByName, _godot_object, name);

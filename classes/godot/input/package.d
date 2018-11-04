@@ -234,7 +234,7 @@ public:
 	/**
 	Returns `true` if you are pressing the action event.
 	*/
-	bool isActionPressed(StringArg0)(in StringArg0 action) const
+	bool isActionPressed(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
@@ -243,7 +243,7 @@ public:
 	Returns `true` when the user starts pressing the action event, meaning it's true only on the frame that the user pressed down the button.
 	This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 	*/
-	bool isActionJustPressed(StringArg0)(in StringArg0 action) const
+	bool isActionJustPressed(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionJustPressed, _godot_object, action);
@@ -251,7 +251,7 @@ public:
 	/**
 	Returns `true` when the user stops pressing the action event, meaning it's true only on the frame that the user released the button.
 	*/
-	bool isActionJustReleased(StringArg0)(in StringArg0 action) const
+	bool isActionJustReleased(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionJustReleased, _godot_object, action);
@@ -259,7 +259,7 @@ public:
 	/**
 	Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
 	*/
-	double getActionStrength(StringArg0)(in StringArg0 action) const
+	double getActionStrength(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
@@ -267,7 +267,7 @@ public:
 	/**
 	Add a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
 	*/
-	void addJoyMapping(StringArg0)(in StringArg0 mapping, in bool update_existing = false)
+	void addJoyMapping(in String mapping, in bool update_existing = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addJoyMapping, _godot_object, mapping, update_existing);
@@ -275,7 +275,7 @@ public:
 	/**
 	Removes all mappings from the internal db that match the given uid.
 	*/
-	void removeJoyMapping(StringArg0)(in StringArg0 guid)
+	void removeJoyMapping(in String guid)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeJoyMapping, _godot_object, guid);
@@ -283,7 +283,7 @@ public:
 	/**
 	
 	*/
-	void joyConnectionChanged(StringArg2, StringArg3)(in long device, in bool connected, in StringArg2 name, in StringArg3 guid)
+	void joyConnectionChanged(in long device, in bool connected, in String name, in String guid)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.joyConnectionChanged, _godot_object, device, connected, name, guid);
@@ -355,7 +355,7 @@ public:
 	/**
 	Returns the index of the provided button name.
 	*/
-	long getJoyButtonIndexFromString(StringArg0)(in StringArg0 button)
+	long getJoyButtonIndexFromString(in String button)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getJoyButtonIndexFromString, _godot_object, button);
@@ -371,7 +371,7 @@ public:
 	/**
 	Returns the index of the provided axis name.
 	*/
-	long getJoyAxisIndexFromString(StringArg0)(in StringArg0 axis)
+	long getJoyAxisIndexFromString(in String axis)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getJoyAxisIndexFromString, _godot_object, axis);
@@ -469,7 +469,7 @@ public:
 	/**
 	This will simulate pressing the specified action.
 	*/
-	void actionPress(StringArg0)(in StringArg0 action)
+	void actionPress(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionPress, _godot_object, action);
@@ -477,7 +477,7 @@ public:
 	/**
 	If the specified action is already pressed, this will release it.
 	*/
-	void actionRelease(StringArg0)(in StringArg0 action)
+	void actionRelease(in String action)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.actionRelease, _godot_object, action);

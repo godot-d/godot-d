@@ -57,7 +57,7 @@ public:
 	/**
 	
 	*/
-	void setBoneName(StringArg0)(in StringArg0 bone_name)
+	void setBoneName(in String bone_name)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBoneName, _godot_object, bone_name);

@@ -619,7 +619,7 @@ public:
 	/**
 	
 	*/
-	long animationTrackInsertKey(StringArg2)(in long track, in double time, in StringArg2 animation)
+	long animationTrackInsertKey(in long track, in double time, in String animation)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.animationTrackInsertKey, _godot_object, track, time, animation);
@@ -627,7 +627,7 @@ public:
 	/**
 	
 	*/
-	void animationTrackSetKeyAnimation(StringArg2)(in long idx, in long key_idx, in StringArg2 animation)
+	void animationTrackSetKeyAnimation(in long idx, in long key_idx, in String animation)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.animationTrackSetKeyAnimation, _godot_object, idx, key_idx, animation);

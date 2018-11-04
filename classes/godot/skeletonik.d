@@ -75,7 +75,7 @@ public:
 	/**
 	
 	*/
-	void setRootBone(StringArg0)(in StringArg0 root_bone)
+	void setRootBone(in String root_bone)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setRootBone, _godot_object, root_bone);
@@ -91,7 +91,7 @@ public:
 	/**
 	
 	*/
-	void setTipBone(StringArg0)(in StringArg0 tip_bone)
+	void setTipBone(in String tip_bone)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTipBone, _godot_object, tip_bone);

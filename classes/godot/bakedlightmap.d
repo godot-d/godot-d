@@ -289,7 +289,7 @@ public:
 	/**
 	
 	*/
-	void setImagePath(StringArg0)(in StringArg0 image_path)
+	void setImagePath(in String image_path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setImagePath, _godot_object, image_path);

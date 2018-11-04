@@ -56,7 +56,7 @@ public:
 	/**
 	
 	*/
-	void setResourcePath(StringArg0)(in StringArg0 path)
+	void setResourcePath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setResourcePath, _godot_object, path);

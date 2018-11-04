@@ -65,7 +65,7 @@ public:
 	If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the peer will listen on all available addresses matching that IP type.
 	If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
 	*/
-	GodotError listen(StringArg1)(in long port, in StringArg1 bind_address = "*", in long recv_buf_size = 65536)
+	GodotError listen(in long port, in String bind_address = gs!"*", in long recv_buf_size = 65536)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address, recv_buf_size);
@@ -113,7 +113,7 @@ public:
 	/**
 	Set the destination address and port for sending packets and variables, a hostname will be resolved using if valid.
 	*/
-	GodotError setDestAddress(StringArg0)(in StringArg0 host, in long port)
+	GodotError setDestAddress(in String host, in long port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.setDestAddress, _godot_object, host, port);
