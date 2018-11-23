@@ -11,6 +11,7 @@ Convert snake_case or CONSTANT_CASE to D-style camelCase.
 
 Preserves leading underscore.
 +/
+nothrow
 T snakeToCamel(T)(in T inputStr) if(isSomeString!T)
 {
 	Unqual!T str = inputStr;
@@ -20,20 +21,20 @@ T snakeToCamel(T)(in T inputStr) if(isSomeString!T)
 	bool newWord = false;
 	while(!str.empty)
 	{
-		dchar c = str.decodeFront;
+		dchar c = str.decodeFront!(Yes.useReplacementDchar, Unqual!T);
 		if(c == '_')
 		{
-			if(ret.empty) ret.encode('_');
+			if(ret.empty) ret.encode!(Yes.useReplacementDchar)('_');
 			else newWord = true;
 		}
 		else
 		{
 			if(newWord)
 			{
-				ret.encode(c.toUpper);
+				ret.encode!(Yes.useReplacementDchar)(c.toUpper);
 				newWord = false;
 			}
-			else ret.encode(c.toLower);
+			else ret.encode!(Yes.useReplacementDchar)(c.toLower);
 		}
 	}
 	return ret;
@@ -48,6 +49,7 @@ Convert camelCase to Godot-style snake_case.
 
 Preserves leading underscore.
 +/
+nothrow
 T camelToSnake(T)(in T inputStr) if(isSomeString!T)
 {
 	Unqual!T str = inputStr;
@@ -57,16 +59,16 @@ T camelToSnake(T)(in T inputStr) if(isSomeString!T)
 	bool inUppercaseWord = false;
 	while(!str.empty)
 	{
-		dchar c = str.decodeFront;
+		dchar c = str.decodeFront!(Yes.useReplacementDchar);
 		if(c.isUpper)
 		{
-			if(!ret.empty && !inUppercaseWord) ret.encode('_');
-			ret.encode(c.toLower);
+			if(!ret.empty && !inUppercaseWord) ret.encode!(Yes.useReplacementDchar)('_');
+			ret.encode!(Yes.useReplacementDchar)(c.toLower);
 			inUppercaseWord = true;
 		}
 		else
 		{
-			ret.encode(c);
+			ret.encode!(Yes.useReplacementDchar)(c);
 			inUppercaseWord = false;
 		}
 	}

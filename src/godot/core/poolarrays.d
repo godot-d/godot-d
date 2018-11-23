@@ -33,13 +33,8 @@ private alias PoolArrayTypes = AliasSeq!(
 	Color
 );
 
-private template nameOverride(T)
-{
-	import std.uni : toLower;
-	static if(is(T==ubyte)) enum string nameOverride = "byte";
-	else static if(is(T==real_t)) enum string nameOverride = "real";
-	else enum string nameOverride = T.stringof.toLower;
-}
+private enum string nameOverride(T) = AliasSeq!(
+	"byte", "int", "real", "string", "vector2", "vector3", "color")[staticIndexOf!(T, PoolArrayTypes)];
 
 private enum string typeName(T) = "godot_pool_"~(nameOverride!T)~"_array";
 private enum string readName(T) = "godot_pool_"~(nameOverride!T)~"_array_read_access";
