@@ -171,7 +171,6 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	import godot.object, godot.resource;
 	import godot.d;
 	static import godot.nativescript;
-	import std.string : toStringz, fromStringz; /// TODO: remove GCed functions
 
 	static if(BaseClassesTuple!T.length == 2) // base class is GodotScript; use owner
 	{
@@ -208,8 +207,8 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
 	
-	foreach(mf; godotMethods!T)
-	{
+	static foreach(mf; godotMethods!T)
+	{{
 		godot_method_attributes ma;
 		static if(is( getUDAs!(mf, Method)[0] )) ma.rpc_type = godot_method_rpc_mode
 			.GODOT_METHOD_RPC_MODE_DISABLED;
@@ -226,8 +225,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		_godot_nativescript_api.godot_nativescript_register_method(handle, name, godotName!mf.toStringz, ma, md); /// TODO: remove GCed functions
-	}
+		char[godotName!mf.length+1] mfn = void;
+		mfn[0..godotName!mf.length] = godotName!mf[];
+		mfn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, mfn.ptr, ma, md);
+	}}
 	
 	// OnReady when there is no _ready method
 	static if(staticIndexOf!("_ready", staticMap!(godotName, godotMethods!T)) == -1
@@ -239,8 +241,8 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
-	foreach(sName; godotSignals!T)
-	{
+	static foreach(sName; godotSignals!T)
+	{{
 		alias s = Alias!(mixin("T."~sName));
 		static assert(hasStaticMember!(T, sName), "Signal declaration "~fullyQualifiedName!s
 			~" must be static. Otherwise it would take up memory in every instance of "~T.stringof);
@@ -267,11 +269,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		}
 		
 		_godot_nativescript_api.godot_nativescript_register_signal(handle, name, &gs);
-	}
+	}}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
-	foreach(pName; godotPropertyNames!T)
-	{
+	static foreach(pName; godotPropertyNames!T)
+	{{
 		alias getterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyGetters!T);
 		static assert(getterMatches.length <= 1); /// TODO: error message
 		alias setterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertySetters!T);
@@ -357,12 +359,13 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.set_func = &emptySetter;
 		}
 		
-		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pName.toStringz, &attr, sf, gf); /// TODO: remove GCed functions
-	}
-	foreach(pName; godotPropertyVariableNames!T)
-	{
-		immutable(char*) propName = godotName!(mixin("T."~pName)).toStringz; /// TODO: remove GCed functions
-		
+		char[pName.length+1] pn = void;
+		pn[0..pName.length] = pName[];
+		pn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
+	}}
+	static foreach(pName; godotPropertyVariableNames!T)
+	{{
 		import std.string;
 		
 		godot_property_set_func sf;
@@ -433,9 +436,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.free_func = null;
 		}
 		
-		_godot_nativescript_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
-	}
-	// TODO: signals
+		char[pName.length+1] pn = void;
+		pn[0..pName.length] = pName[];
+		pn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
+	}}
 	
 	
 	
