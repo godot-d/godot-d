@@ -31,7 +31,7 @@ class Player : GodotScript!Area
 		}
 		
 		
-		if(Input.isActionPressed("fly"))
+		if(Input.isActionPressed(gs!"fly"))
 		{
 			translateObjectLocal(Vector3(0f, 0f, -delta * speed));
 			if(translation.length > 50f) translation = 50f * translation.normalized;
@@ -43,7 +43,7 @@ class Player : GodotScript!Area
 		import godot.control;
 		setProcess(false);
 		hide();
-		getNode("GameOver").as!Control.show();
+		getNode(gs!"GameOver").as!Control.show();
 	}
 }
 

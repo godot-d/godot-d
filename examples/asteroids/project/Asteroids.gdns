@@ -4,6 +4,6 @@
 
 [resource]
 
-class_name = "Asteroids"
+class_name = "asteroids.Asteroids"
 library = ExtResource( 1 )
 
