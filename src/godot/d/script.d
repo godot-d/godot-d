@@ -25,7 +25,7 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 	inout(To) as(To)() inout if(isGodotBaseClass!To)
 	{
 		static assert(extends!(Base, To), typeof(this).stringof~" does not extend "~To.stringof);
-		return inout(To)(owner.getGDNativeObject);
+		return cast(inout(To))(owner.getGDNativeObject);
 	}
 	pragma(inline, true)
 	inout(To) as(To, this From)() inout if(extendsGodotBaseClass!To)
