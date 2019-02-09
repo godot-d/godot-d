@@ -89,6 +89,7 @@ void print(Args...)(Args args)
 	{
 		static if(is(typeof(arg) : String)) str ~= arg;
 		else static if(is(typeof(arg) : string)) str ~= String(arg);
+		else static if(is(typeof(arg) : Variant)) str ~= arg.as!String;
 		else static if(Variant.compatibleToGodot!(typeof(arg))) str ~= Variant(arg).as!String;
 		else static assert(0, "Unable to print type "~typeof(arg).stringof);
 	}
