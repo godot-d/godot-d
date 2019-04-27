@@ -30,7 +30,7 @@ struct godot_net_packet_peer
 {
 	godot_gdnative_api_version ver; /* version of our API */
 
-	godot_object* data; /* User reference */
+	godot_object data; /* User reference */
 
 	/* This is PacketPeer */
 	godot_error function(void*, const ubyte**, int*) get_packet;
@@ -45,7 +45,7 @@ struct godot_net_multiplayer_peer
 {
 	godot_gdnative_api_version ver; /* version of our API */
 
-	godot_object* data; /* User reference */
+	godot_object data; /* User reference */
 
 	/* This is PacketPeer */
 	godot_error function(void*, const ubyte**, int*) get_packet;
@@ -74,7 +74,7 @@ struct godot_net_webrtc_peer
 {
 	godot_gdnative_api_version ver; /* version of our API */
 
-	godot_object* data; /* User reference */
+	godot_object data; /* User reference */
 
 	/* This is PacketPeer */
 	godot_error function(void*, const ubyte**, int*) get_packet;
