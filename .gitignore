@@ -16,8 +16,6 @@ __dummy.html
 *.dll
 *.exe
 __test__*__
-api.json
-gdnative_api.json
 godot-d_generator
 examples/*/project/.import/*
 examples/*/project/logs/*
