@@ -38,6 +38,7 @@ public:
 	{
 		__gshared:
 		@GodotName("intersect_point") GodotMethod!(Array, Vector2, long, Array, long, bool, bool) intersectPoint;
+		@GodotName("intersect_point_on_canvas") GodotMethod!(Array, Vector2, long, long, Array, long, bool, bool) intersectPointOnCanvas;
 		@GodotName("intersect_ray") GodotMethod!(Dictionary, Vector2, Vector2, Array, long, bool, bool) intersectRay;
 		@GodotName("intersect_shape") GodotMethod!(Array, Physics2DShapeQueryParameters, long) intersectShape;
 		@GodotName("cast_motion") GodotMethod!(Array, Physics2DShapeQueryParameters) castMotion;
@@ -71,6 +72,14 @@ public:
 		return ptrcall!(Array)(_classBinding.intersectPoint, _godot_object, point, max_results, exclude, collision_layer, collide_with_bodies, collide_with_areas);
 	}
 	/**
+	
+	*/
+	Array intersectPointOnCanvas(in Vector2 point, in long canvas_instance_id, in long max_results = 32, in Array exclude = Array.empty_array, in long collision_layer = 2147483647, in bool collide_with_bodies = true, in bool collide_with_areas = false)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.intersectPointOnCanvas, _godot_object, point, canvas_instance_id, max_results, exclude, collision_layer, collide_with_bodies, collide_with_areas);
+	}
+	/**
 	Intersects a ray in a given space. The returned object is a dictionary with the following fields:
 	`collider`: The colliding object.
 	`collider_id`: The colliding object's ID.
@@ -102,7 +111,7 @@ public:
 		return ptrcall!(Array)(_classBinding.intersectShape, _godot_object, shape, max_results);
 	}
 	/**
-	Checks how far the shape can travel toward a point. Note that both the shape and the motion are supplied through a $(D Physics2DShapeQueryParameters) object. The method will return an array with two floats between 0 and 1, both representing a fraction of `motion`. The first is how far the shape can move without triggering a collision, and the second is the point at which a collision will occur. If no collision is detected, the returned array will be $(D 1, 1).
+	Checks how far the shape can travel toward a point. Note that both the shape and the motion are supplied through a $(D Physics2DShapeQueryParameters) object. The method will return an array with two floats between 0 and 1, both representing a fraction of `motion`. The first is how far the shape can move without triggering a collision, and the second is the point at which a collision will occur. If no collision is detected, the returned array will be `$(D 1, 1)`.
 	If the shape can not move, the array will be empty.
 	*/
 	Array castMotion(Physics2DShapeQueryParameters shape)

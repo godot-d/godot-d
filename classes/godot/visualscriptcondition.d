@@ -26,7 +26,7 @@ import godot.reference;
 /**
 A Visual Script node which branches the flow.
 
-A Visual Script node that checks a $(D bool) input port. If `true` it will exit via the “true” sequence port. If `false` it will exit via the "false" sequence port. After exiting either, it exits via the “done” port. Sequence ports may be left disconnected.
+A Visual Script node that checks a $(D bool) input port. If `true`, it will exit via the "true" sequence port. If `false`, it will exit via the "false" sequence port. After exiting either, it exits via the "done" port. Sequence ports may be left disconnected.
 $(B Input Ports:)
 - Sequence: `if (cond) is`
 - Data (boolean): `cond`

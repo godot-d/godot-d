@@ -28,11 +28,11 @@ import godot.node;
 /**
 Flat button helper class.
 
-This is a helper class to generate a flat $(D Button) (see $(D Button.setFlat)), creating a ToolButton is equivalent to:
+This is a helper class to generate a flat $(D Button) (see $(D Button.flat)), creating a $(D ToolButton) is equivalent to:
 
 
 var btn = Button.new()
-btn.set_flat(true)
+btn.flat = true
 
 
 */

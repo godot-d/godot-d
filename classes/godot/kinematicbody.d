@@ -44,9 +44,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("move_and_collide") GodotMethod!(KinematicCollision, Vector3, bool, bool) moveAndCollide;
+		@GodotName("move_and_collide") GodotMethod!(KinematicCollision, Vector3, bool, bool, bool) moveAndCollide;
 		@GodotName("move_and_slide") GodotMethod!(Vector3, Vector3, Vector3, bool, long, double, bool) moveAndSlide;
-		@GodotName("move_and_slide_with_snap") GodotMethod!(Vector3, Vector3, Vector3, Vector3, bool, bool, long, double) moveAndSlideWithSnap;
+		@GodotName("move_and_slide_with_snap") GodotMethod!(Vector3, Vector3, Vector3, Vector3, bool, long, double, bool) moveAndSlideWithSnap;
 		@GodotName("test_move") GodotMethod!(bool, Transform, Vector3, bool) testMove;
 		@GodotName("is_on_floor") GodotMethod!(bool) isOnFloor;
 		@GodotName("is_on_ceiling") GodotMethod!(bool) isOnCeiling;
@@ -75,19 +75,20 @@ public:
 	Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a $(D KinematicCollision), which contains information about the collision.
 	If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	*/
-	Ref!KinematicCollision moveAndCollide(in Vector3 rel_vec, in bool infinite_inertia = true, in bool test_only = false)
+	Ref!KinematicCollision moveAndCollide(in Vector3 rel_vec, in bool infinite_inertia = true, in bool exclude_raycast_shapes = true, in bool test_only = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(KinematicCollision)(_classBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, test_only);
+		return ptrcall!(KinematicCollision)(_classBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, exclude_raycast_shapes, test_only);
 	}
 	/**
-	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a `KinematicBody` or $(D RigidBody), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
-	`linear_velocity` is a value in pixels per second. Unlike in for example $(D moveAndCollide), you should $(I not) multiply it with `delta` — this is done by the method.
+	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a $(D KinematicBody) or $(D RigidBody), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
+	`linear_velocity` is the velocity vector (typically meters per second). Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity.
 	`floor_normal` is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of `Vector3(0, 0, 0)`, everything is considered a wall. This is useful for topdown games.
-	$(I TODO: Update for new stop_on_slode argument.) If the body is standing on a slope and the horizontal speed (relative to the floor's speed) goes below `slope_stop_min_velocity`, the body will stop completely. This prevents the body from sliding down slopes when you include gravity in `linear_velocity`. When set to lower values, the body will not be able to stand still on steep slopes.
+	If `stop_on_slope` is `true`, body will not slide on slopes if you include gravity in `linear_velocity`.
 	If the body collides, it will change direction a maximum of `max_slides` times before it stops.
 	`floor_max_angle` is the maximum angle (in radians) where a slope is still considered a floor (or a ceiling), rather than a wall. The default value equals 45 degrees.
-	Returns the movement that remained when the body stopped. To get more detailed information about collisions that occurred, use $(D getSlideCollision).
+	If `infinite_inertia` is `true`, body will be able to push $(D RigidBody) nodes, but it won't also detect any collisions with them. If `false` it will interact with $(D RigidBody) nodes like with $(D StaticBody).
+	Returns the `linear_velocity` vector, rotated and/or scaled if a slide collision occurred. To get detailed information about collisions that occurred, use $(D getSlideCollision).
 	*/
 	Vector3 moveAndSlide(in Vector3 linear_velocity, in Vector3 floor_normal = Vector3(0, 0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
@@ -98,15 +99,15 @@ public:
 	Moves the body while keeping it attached to slopes. Similar to $(D moveAndSlide).
 	As long as the `snap` vector is in contact with the ground, the body will remain attached to the surface. This means you must disable snap in order to jump, for example. You can do this by setting`snap` to`(0, 0, 0)` or by using $(D moveAndSlide) instead.
 	*/
-	Vector3 moveAndSlideWithSnap(in Vector3 linear_velocity, in Vector3 snap, in Vector3 floor_normal = Vector3(0, 0, 0), in bool infinite_inertia = true, in bool stop_on_slope = false, in long max_bounces = 4, in double floor_max_angle = 0.785398)
+	Vector3 moveAndSlideWithSnap(in Vector3 linear_velocity, in Vector3 snap, in Vector3 floor_normal = Vector3(0, 0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, floor_normal, infinite_inertia, stop_on_slope, max_bounces, floor_max_angle);
+		return ptrcall!(Vector3)(_classBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, floor_normal, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
 	}
 	/**
 	Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given $(D Transform), then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
 	*/
-	bool testMove(in Transform from, in Vector3 rel_vec, in bool infinite_inertia)
+	bool testMove(in Transform from, in Vector3 rel_vec, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.testMove, _godot_object, from, rel_vec, infinite_inertia);
@@ -192,7 +193,7 @@ public:
 		return ptrcall!(KinematicCollision)(_classBinding.getSlideCollision, _godot_object, slide_idx);
 	}
 	/**
-	
+	Lock the body's movement in the x-axis.
 	*/
 	@property bool moveLockX()
 	{
@@ -204,7 +205,7 @@ public:
 		setAxisLock(1, v);
 	}
 	/**
-	
+	Lock the body's movement in the y-axis.
 	*/
 	@property bool moveLockY()
 	{
@@ -216,7 +217,7 @@ public:
 		setAxisLock(2, v);
 	}
 	/**
-	
+	Lock the body's movement in the z-axis.
 	*/
 	@property bool moveLockZ()
 	{

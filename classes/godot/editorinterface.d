@@ -27,6 +27,7 @@ import godot.control;
 import godot.resource;
 import godot.editorresourcepreview;
 import godot.editorfilesystem;
+import godot.editorinspector;
 /**
 Godot editor's interface.
 
@@ -62,6 +63,7 @@ public:
 		@GodotName("get_selected_path") GodotMethod!(String) getSelectedPath;
 		@GodotName("set_plugin_enabled") GodotMethod!(void, String, bool) setPluginEnabled;
 		@GodotName("is_plugin_enabled") GodotMethod!(bool, String) isPluginEnabled;
+		@GodotName("get_inspector") GodotMethod!(EditorInspector) getInspector;
 		@GodotName("save_scene") GodotMethod!(GodotError) saveScene;
 		@GodotName("save_scene_as") GodotMethod!(void, String, bool) saveSceneAs;
 	}
@@ -192,10 +194,10 @@ public:
 	/**
 	
 	*/
-	void selectFile(in String p_file)
+	void selectFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.selectFile, _godot_object, p_file);
+		ptrcall!(void)(_classBinding.selectFile, _godot_object, file);
 	}
 	/**
 	
@@ -220,6 +222,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isPluginEnabled, _godot_object, plugin);
+	}
+	/**
+	
+	*/
+	EditorInspector getInspector() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorInspector)(_classBinding.getInspector, _godot_object);
 	}
 	/**
 	Saves the scene. Returns either OK or ERR_CANT_CREATE. See $(D @GlobalScope) constants.

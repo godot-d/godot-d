@@ -306,7 +306,7 @@ public:
 		setShape(v);
 	}
 	/**
-	If `true` the button's shape is centered.
+	If `true`, the button's shape is centered.
 	*/
 	@property bool shapeCentered()
 	{
@@ -318,7 +318,7 @@ public:
 		setShapeCentered(v);
 	}
 	/**
-	If `true` the button's shape is visible.
+	If `true`, the button's shape is visible.
 	*/
 	@property bool shapeVisible()
 	{
@@ -330,7 +330,7 @@ public:
 		setShapeVisible(v);
 	}
 	/**
-	If `true` passby presses are enabled.
+	If `true`, passby presses are enabled.
 	*/
 	@property bool passbyPress()
 	{

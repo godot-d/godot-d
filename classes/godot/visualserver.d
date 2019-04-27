@@ -256,7 +256,7 @@ public:
 		@GodotName("viewport_set_canvas_transform") GodotMethod!(void, RID, RID, Transform2D) viewportSetCanvasTransform;
 		@GodotName("viewport_set_transparent_background") GodotMethod!(void, RID, bool) viewportSetTransparentBackground;
 		@GodotName("viewport_set_global_canvas_transform") GodotMethod!(void, RID, Transform2D) viewportSetGlobalCanvasTransform;
-		@GodotName("viewport_set_canvas_layer") GodotMethod!(void, RID, RID, long) viewportSetCanvasLayer;
+		@GodotName("viewport_set_canvas_stacking") GodotMethod!(void, RID, RID, long, long) viewportSetCanvasStacking;
 		@GodotName("viewport_set_shadow_atlas_size") GodotMethod!(void, RID, long) viewportSetShadowAtlasSize;
 		@GodotName("viewport_set_shadow_atlas_quadrant_subdivision") GodotMethod!(void, RID, long, long) viewportSetShadowAtlasQuadrantSubdivision;
 		@GodotName("viewport_set_msaa") GodotMethod!(void, RID, long) viewportSetMsaa;
@@ -268,19 +268,20 @@ public:
 		@GodotName("environment_set_background") GodotMethod!(void, RID, long) environmentSetBackground;
 		@GodotName("environment_set_sky") GodotMethod!(void, RID, RID) environmentSetSky;
 		@GodotName("environment_set_sky_custom_fov") GodotMethod!(void, RID, double) environmentSetSkyCustomFov;
+		@GodotName("environment_set_sky_orientation") GodotMethod!(void, RID, Basis) environmentSetSkyOrientation;
 		@GodotName("environment_set_bg_color") GodotMethod!(void, RID, Color) environmentSetBgColor;
 		@GodotName("environment_set_bg_energy") GodotMethod!(void, RID, double) environmentSetBgEnergy;
 		@GodotName("environment_set_canvas_max_layer") GodotMethod!(void, RID, long) environmentSetCanvasMaxLayer;
 		@GodotName("environment_set_ambient_light") GodotMethod!(void, RID, Color, double, double) environmentSetAmbientLight;
 		@GodotName("environment_set_dof_blur_near") GodotMethod!(void, RID, bool, double, double, double, long) environmentSetDofBlurNear;
 		@GodotName("environment_set_dof_blur_far") GodotMethod!(void, RID, bool, double, double, double, long) environmentSetDofBlurFar;
-		@GodotName("environment_set_glow") GodotMethod!(void, RID, bool, long, double, double, double, long, double, double, bool) environmentSetGlow;
+		@GodotName("environment_set_glow") GodotMethod!(void, RID, bool, long, double, double, double, long, double, double, double, bool) environmentSetGlow;
 		@GodotName("environment_set_tonemap") GodotMethod!(void, RID, long, double, double, bool, double, double, double, double) environmentSetTonemap;
 		@GodotName("environment_set_adjustment") GodotMethod!(void, RID, bool, double, double, double, RID) environmentSetAdjustment;
 		@GodotName("environment_set_ssr") GodotMethod!(void, RID, bool, long, double, double, double, bool) environmentSetSsr;
 		@GodotName("environment_set_ssao") GodotMethod!(void, RID, bool, double, double, double, double, double, double, double, Color, long, long, double) environmentSetSsao;
 		@GodotName("environment_set_fog") GodotMethod!(void, RID, bool, Color, Color, double) environmentSetFog;
-		@GodotName("environment_set_fog_depth") GodotMethod!(void, RID, bool, double, double, bool, double) environmentSetFogDepth;
+		@GodotName("environment_set_fog_depth") GodotMethod!(void, RID, bool, double, double, double, bool, double) environmentSetFogDepth;
 		@GodotName("environment_set_fog_height") GodotMethod!(void, RID, bool, double, double, double) environmentSetFogHeight;
 		@GodotName("scenario_create") GodotMethod!(RID) scenarioCreate;
 		@GodotName("scenario_set_debug") GodotMethod!(void, RID, long) scenarioSetDebug;
@@ -336,7 +337,7 @@ public:
 		@GodotName("canvas_item_add_triangle_array") GodotMethod!(void, RID, PoolIntArray, PoolVector2Array, PoolColorArray, PoolVector2Array, PoolIntArray, PoolRealArray, RID, long, RID) canvasItemAddTriangleArray;
 		@GodotName("canvas_item_add_mesh") GodotMethod!(void, RID, RID, RID, RID) canvasItemAddMesh;
 		@GodotName("canvas_item_add_multimesh") GodotMethod!(void, RID, RID, RID, RID) canvasItemAddMultimesh;
-		@GodotName("canvas_item_add_particles") GodotMethod!(void, RID, RID, RID, RID, long, long) canvasItemAddParticles;
+		@GodotName("canvas_item_add_particles") GodotMethod!(void, RID, RID, RID, RID) canvasItemAddParticles;
 		@GodotName("canvas_item_add_set_transform") GodotMethod!(void, RID, Transform2D) canvasItemAddSetTransform;
 		@GodotName("canvas_item_add_clip_ignore") GodotMethod!(void, RID, bool) canvasItemAddClipIgnore;
 		@GodotName("canvas_item_set_sort_children_by_y") GodotMethod!(void, RID, bool) canvasItemSetSortChildrenByY;
@@ -636,7 +637,7 @@ public:
 		*/
 		viewportClearNever = 1,
 		/**
-		The viewport is cleared once, then the clear mode is set to $(D VIEWPORT_CLEAR_NEVER).
+		The viewport is cleared once, then the clear mode is set to `VIEWPORT_CLEAR_NEVER`.
 		*/
 		viewportClearOnlyNextFrame = 2,
 	}
@@ -775,6 +776,22 @@ public:
 		
 		*/
 		envBgMax = 6,
+	}
+	/// 
+	enum MultimeshCustomDataFormat : int
+	{
+		/**
+		
+		*/
+		multimeshCustomDataNone = 0,
+		/**
+		
+		*/
+		multimeshCustomData8bit = 1,
+		/**
+		
+		*/
+		multimeshCustomDataFloat = 2,
 	}
 	/// 
 	enum LightOmniShadowMode : int
@@ -1392,193 +1409,196 @@ public:
 		Marks an error that shows that the index array is empty.
 		*/
 		noIndexArray = -1,
-		ninePatchStretch = 0,
-		viewportUsage2d = 0,
-		textureType2d = 0,
-		lightOmniShadowDetailVertical = 0,
-		instanceNone = 0,
-		envSsaoBlurDisabled = 0,
-		shadowCastingSettingOff = 0,
-		lightOmniShadowDualParaboloid = 0,
-		lightDirectional = 0,
-		shaderSpatial = 0,
-		viewportDebugDrawDisabled = 0,
-		primitivePoints = 0,
-		lightDirectionalShadowDepthRangeStable = 0,
-		canvasLightFilterNone = 0,
-		envBgClearColor = 0,
-		featureShaders = 0,
-		arrayVertex = 0,
-		viewportMsaaDisabled = 0,
 		glowBlendModeAdditive = 0,
+		arrayVertex = 0,
+		featureShaders = 0,
 		particlesDrawOrderIndex = 0,
+		canvasLightFilterNone = 0,
+		lightDirectionalShadowDepthRangeStable = 0,
+		shaderSpatial = 0,
+		lightOmniShadowDualParaboloid = 0,
+		envSsaoBlurDisabled = 0,
+		lightOmniShadowDetailVertical = 0,
+		viewportUsage2d = 0,
+		envSsaoQualityLow = 0,
+		ninePatchStretch = 0,
 		viewportClearAlways = 0,
+		textureType2d = 0,
+		multimeshCustomDataNone = 0,
+		shadowCastingSettingOff = 0,
 		canvasOccluderPolygonCullDisabled = 0,
 		multimeshColorNone = 0,
+		lightDirectional = 0,
+		viewportDebugDrawDisabled = 0,
+		primitivePoints = 0,
+		envBgClearColor = 0,
 		cubemapLeft = 0,
 		infoObjectsInFrame = 0,
 		canvasLightModeAdd = 0,
+		viewportMsaaDisabled = 0,
+		instanceNone = 0,
+		viewportUpdateDisabled = 0,
+		scenarioDebugDisabled = 0,
+		reflectionProbeUpdateOnce = 0,
+		envDofBlurQualityLow = 0,
 		viewportRenderInfoObjectsInFrame = 0,
 		blendShapeModeNormalized = 0,
-		multimeshTransform2d = 0,
-		scenarioDebugDisabled = 0,
-		instanceFlagUseBakedLight = 0,
-		envToneMapperLinear = 0,
 		lightDirectionalShadowOrthogonal = 0,
-		envDofBlurQualityLow = 0,
-		reflectionProbeUpdateOnce = 0,
 		lightParamEnergy = 0,
-		viewportUpdateDisabled = 0,
-		envSsaoQualityLow = 0,
-		viewportUsage2dNoSampling = 1,
-		viewportRenderInfoVerticesInFrame = 1,
-		instanceMesh = 1,
-		featureMultithreaded = 1,
-		primitiveLines = 1,
-		envSsaoBlur1x1 = 1,
+		multimeshTransform2d = 0,
+		envToneMapperLinear = 0,
+		instanceFlagUseBakedLight = 0,
+		canvasOccluderPolygonCullClockwise = 1,
+		shaderCanvasItem = 1,
+		viewportUpdateOnce = 1,
+		canvasLightModeSub = 1,
 		envSsaoQualityMedium = 1,
-		lightDirectionalShadowParallel2Splits = 1,
 		multimeshTransform3d = 1,
 		glowBlendModeScreen = 1,
-		scenarioDebugWireframe = 1,
-		viewportDebugDrawUnshaded = 1,
 		blendShapeModeRelative = 1,
-		multimeshColor8bit = 1,
-		ninePatchTile = 1,
-		envToneMapperReinhard = 1,
-		arrayNormal = 1,
-		textureFlagMipmaps = 1,
-		shaderCanvasItem = 1,
-		instanceFlagDrawNextFrameIfVisible = 1,
-		reflectionProbeUpdateAlways = 1,
-		viewportClearNever = 1,
-		lightOmniShadowDetailHorizontal = 1,
-		shadowCastingSettingOn = 1,
-		textureTypeCubemap = 1,
-		viewportMsaa2x = 1,
-		infoVerticesInFrame = 1,
-		envDofBlurQualityMedium = 1,
-		lightOmniShadowCube = 1,
-		viewportUpdateOnce = 1,
-		envBgColor = 1,
-		lightOmni = 1,
-		arrayFormatVertex = 1,
-		cubemapRight = 1,
-		canvasLightFilterPcf3 = 1,
-		lightDirectionalShadowDepthRangeOptimized = 1,
+		scenarioDebugWireframe = 1,
 		particlesDrawOrderLifetime = 1,
-		canvasOccluderPolygonCullClockwise = 1,
-		canvasLightModeSub = 1,
+		lightDirectionalShadowParallel2Splits = 1,
+		reflectionProbeUpdateAlways = 1,
+		viewportDebugDrawUnshaded = 1,
+		multimeshCustomData8bit = 1,
+		envSsaoBlur1x1 = 1,
+		primitiveLines = 1,
+		canvasLightFilterPcf3 = 1,
+		arrayFormatVertex = 1,
+		lightOmni = 1,
+		featureMultithreaded = 1,
+		lightOmniShadowCube = 1,
+		lightDirectionalShadowDepthRangeOptimized = 1,
+		multimeshColor8bit = 1,
+		instanceMesh = 1,
+		lightOmniShadowDetailHorizontal = 1,
+		cubemapRight = 1,
+		envDofBlurQualityMedium = 1,
+		infoVerticesInFrame = 1,
+		viewportMsaa2x = 1,
+		textureTypeCubemap = 1,
+		ninePatchTile = 1,
+		shadowCastingSettingOn = 1,
+		viewportClearNever = 1,
+		viewportUsage2dNoSampling = 1,
+		envBgColor = 1,
+		instanceFlagDrawNextFrameIfVisible = 1,
+		arrayNormal = 1,
+		viewportRenderInfoVerticesInFrame = 1,
+		textureFlagMipmaps = 1,
+		envToneMapperReinhard = 1,
+		cubemapBottom = 2,
+		infoMaterialChangesInFrame = 2,
+		lightDirectionalShadowParallel4Splits = 2,
 		viewportDebugDrawOverdraw = 2,
+		instanceFlagMax = 2,
+		envBgSky = 2,
+		envSsaoQualityHigh = 2,
+		shaderParticles = 2,
+		canvasLightFilterPcf5 = 2,
+		glowBlendModeSoftlight = 2,
+		ninePatchTileFit = 2,
+		multimeshColorFloat = 2,
+		scenarioDebugOverdraw = 2,
+		viewportMsaa4x = 2,
 		envDofBlurQualityHigh = 2,
+		textureType2dArray = 2,
+		envToneMapperFilmic = 2,
+		arrayFormatNormal = 2,
+		particlesDrawOrderViewDepth = 2,
+		viewportUsage3d = 2,
 		lightParamSpecular = 2,
 		envSsaoBlur2x2 = 2,
-		viewportClearOnlyNextFrame = 2,
-		viewportRenderInfoMaterialChangesInFrame = 2,
-		shadowCastingSettingDoubleSided = 2,
-		primitiveLineStrip = 2,
-		multimeshColorFloat = 2,
-		arrayTangent = 2,
 		canvasLightModeMix = 2,
-		scenarioDebugOverdraw = 2,
-		shaderParticles = 2,
-		envSsaoQualityHigh = 2,
-		instanceFlagMax = 2,
-		lightDirectionalShadowParallel4Splits = 2,
-		infoMaterialChangesInFrame = 2,
-		cubemapBottom = 2,
-		arrayFormatNormal = 2,
-		envBgSky = 2,
-		canvasLightFilterPcf5 = 2,
-		lightSpot = 2,
-		textureType2dArray = 2,
-		glowBlendModeSoftlight = 2,
-		envToneMapperFilmic = 2,
-		particlesDrawOrderViewDepth = 2,
-		viewportMsaa4x = 2,
-		viewportUsage3d = 2,
+		viewportClearOnlyNextFrame = 2,
 		viewportUpdateWhenVisible = 2,
 		instanceMultimesh = 2,
-		ninePatchTileFit = 2,
 		canvasOccluderPolygonCullCounterClockwise = 2,
 		textureFlagRepeat = 2,
-		viewportUsage3dNoEffects = 3,
+		viewportRenderInfoMaterialChangesInFrame = 2,
+		lightSpot = 2,
+		multimeshCustomDataFloat = 2,
+		arrayTangent = 2,
+		shadowCastingSettingDoubleSided = 2,
+		primitiveLineStrip = 2,
+		viewportMsaa8x = 3,
 		instanceImmediate = 3,
-		envBgColorSky = 3,
-		primitiveLineLoop = 3,
-		envToneMapperAces = 3,
-		canvasLightFilterPcf7 = 3,
-		shaderMax = 3,
-		infoShaderChangesInFrame = 3,
-		canvasLightModeMask = 3,
 		cubemapTop = 3,
-		shadowCastingSettingShadowsOnly = 3,
-		arrayColor = 3,
+		infoShaderChangesInFrame = 3,
+		shaderMax = 3,
+		envBgColorSky = 3,
 		viewportRenderInfoShaderChangesInFrame = 3,
 		textureType3d = 3,
-		viewportMsaa8x = 3,
-		glowBlendModeReplace = 3,
-		viewportDebugDrawWireframe = 3,
+		canvasLightModeMask = 3,
 		viewportUpdateAlways = 3,
+		glowBlendModeReplace = 3,
+		viewportUsage3dNoEffects = 3,
+		envToneMapperAces = 3,
 		lightParamRange = 3,
+		shadowCastingSettingShadowsOnly = 3,
 		scenarioDebugShadeless = 3,
+		viewportDebugDrawWireframe = 3,
+		arrayColor = 3,
 		envSsaoBlur3x3 = 3,
-		arrayFormatTangent = 4,
-		envBgCanvas = 4,
+		canvasLightFilterPcf7 = 3,
+		primitiveLineLoop = 3,
 		cubemapFront = 4,
-		viewportMsaa16x = 4,
-		lightParamAttenuation = 4,
-		viewportRenderInfoSurfaceChangesInFrame = 4,
-		arrayTexUv = 4,
-		instanceParticles = 4,
 		textureFlagFilter = 4,
-		canvasLightFilterPcf9 = 4,
-		primitiveTriangles = 4,
-		infoSurfaceChangesInFrame = 4,
 		/**
 		
 		*/
 		arrayWeightsSize = 4,
-		instanceLight = 5,
+		canvasLightFilterPcf9 = 4,
+		instanceParticles = 4,
+		viewportRenderInfoSurfaceChangesInFrame = 4,
+		arrayTexUv = 4,
+		viewportMsaa16x = 4,
+		lightParamAttenuation = 4,
+		primitiveTriangles = 4,
+		envBgCanvas = 4,
+		infoSurfaceChangesInFrame = 4,
+		arrayFormatTangent = 4,
 		infoDrawCallsInFrame = 5,
-		primitiveTriangleStrip = 5,
-		cubemapBack = 5,
 		canvasLightFilterPcf13 = 5,
-		envBgKeep = 5,
-		arrayTexUv2 = 5,
+		primitiveTriangleStrip = 5,
 		viewportRenderInfoDrawCallsInFrame = 5,
 		lightParamSpotAngle = 5,
+		arrayTexUv2 = 5,
+		instanceLight = 5,
+		envBgKeep = 5,
+		cubemapBack = 5,
+		viewportRenderInfoMax = 6,
+		infoUsageVideoMemTotal = 6,
+		instanceReflectionProbe = 6,
+		lightParamSpotAttenuation = 6,
+		envBgMax = 6,
 		primitiveTriangleFan = 6,
 		arrayBones = 6,
-		infoUsageVideoMemTotal = 6,
-		viewportRenderInfoMax = 6,
-		lightParamSpotAttenuation = 6,
-		instanceReflectionProbe = 6,
-		envBgMax = 6,
+		infoVideoMemUsed = 7,
 		arrayWeights = 7,
-		textureFlagsDefault = 7,
-		instanceGiProbe = 7,
+		lightParamContactShadowSize = 7,
 		/**
 		
 		*/
 		maxGlowLevels = 7,
 		primitiveMax = 7,
-		infoVideoMemUsed = 7,
-		lightParamContactShadowSize = 7,
+		textureFlagsDefault = 7,
+		instanceGiProbe = 7,
+		infoTextureMemUsed = 8,
 		/**
 		
 		*/
 		maxCursors = 8,
-		arrayIndex = 8,
-		infoTextureMemUsed = 8,
-		textureFlagAnisotropicFilter = 8,
 		arrayFormatColor = 8,
-		lightParamShadowMaxDistance = 8,
 		instanceLightmapCapture = 8,
-		infoVertexMemUsed = 9,
+		textureFlagAnisotropicFilter = 8,
+		arrayIndex = 8,
+		lightParamShadowMaxDistance = 8,
 		instanceMax = 9,
-		lightParamShadowSplit1Offset = 9,
+		infoVertexMemUsed = 9,
 		arrayMax = 9,
+		lightParamShadowSplit1Offset = 9,
 		lightParamShadowSplit2Offset = 10,
 		lightParamShadowSplit3Offset = 11,
 		lightParamShadowNormalBias = 12,
@@ -1588,8 +1608,8 @@ public:
 		textureFlagConvertToLinear = 16,
 		arrayFormatTexUv = 16,
 		instanceGeometryMask = 30,
-		textureFlagMirroredRepeat = 32,
 		arrayFormatTexUv2 = 32,
+		textureFlagMirroredRepeat = 32,
 		arrayFormatBones = 64,
 		/**
 		The maximum renderpriority of all materials.
@@ -1784,7 +1804,7 @@ public:
 		return ptrcall!(String)(_classBinding.textureGetPath, _godot_object, texture);
 	}
 	/**
-	If `true` sets internal processes to shrink all image data to half the size.
+	If `true`, sets internal processes to shrink all image data to half the size.
 	*/
 	void textureSetShrinkAllX2OnSetData(in bool shrink)
 	{
@@ -1800,7 +1820,7 @@ public:
 		return ptrcall!(Array)(_classBinding.textureDebugUsage, _godot_object);
 	}
 	/**
-	If `true` the image will be stored in the texture's images array if overwritten.
+	If `true`, the image will be stored in the texture's images array if overwritten.
 	*/
 	void texturesKeepOriginal(in bool enable)
 	{
@@ -3176,7 +3196,7 @@ public:
 		return ptrcall!(RID)(_classBinding.viewportCreate, _godot_object);
 	}
 	/**
-	If `true` the viewport uses augmented or virtual reality technologies. See $(D ARVRInterface).
+	If `true`, the viewport uses augmented or virtual reality technologies. See $(D ARVRInterface).
 	*/
 	void viewportSetUseArvr(in RID viewport, in bool use_arvr)
 	{
@@ -3192,7 +3212,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetSize, _godot_object, viewport, width, height);
 	}
 	/**
-	If `true` sets the viewport active, else sets it inactive.
+	If `true`, sets the viewport active, else sets it inactive.
 	*/
 	void viewportSetActive(in RID viewport, in bool active)
 	{
@@ -3232,7 +3252,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetUpdateMode, _godot_object, viewport, update_mode);
 	}
 	/**
-	If `true` the viewport's rendering is flipped vertically.
+	If `true`, the viewport's rendering is flipped vertically.
 	*/
 	void viewportSetVflip(in RID viewport, in bool enabled)
 	{
@@ -3240,7 +3260,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetVflip, _godot_object, viewport, enabled);
 	}
 	/**
-	Sets the clear mode of a viewport. See VIEWPORT_CLEAR_MODE_* constants for options.
+	Sets the clear mode of a viewport. See $(D VisualServer.viewportclearmode) for options.
 	*/
 	void viewportSetClearMode(in RID viewport, in long clear_mode)
 	{
@@ -3264,7 +3284,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetHideScenario, _godot_object, viewport, hidden);
 	}
 	/**
-	If `true` the viewport's canvas is not rendered.
+	If `true`, the viewport's canvas is not rendered.
 	*/
 	void viewportSetHideCanvas(in RID viewport, in bool hidden)
 	{
@@ -3272,7 +3292,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetHideCanvas, _godot_object, viewport, hidden);
 	}
 	/**
-	If `true` rendering of a viewport's environment is disabled.
+	If `true`, rendering of a viewport's environment is disabled.
 	*/
 	void viewportSetDisableEnvironment(in RID viewport, in bool disabled)
 	{
@@ -3280,7 +3300,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetDisableEnvironment, _godot_object, viewport, disabled);
 	}
 	/**
-	If `true` a viewport's 3D rendering is disabled.
+	If `true`, a viewport's 3D rendering is disabled.
 	*/
 	void viewportSetDisable3d(in RID viewport, in bool disabled)
 	{
@@ -3329,7 +3349,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetCanvasTransform, _godot_object, viewport, canvas, offset);
 	}
 	/**
-	If `true` the viewport renders its background as transparent.
+	If `true`, the viewport renders its background as transparent.
 	*/
 	void viewportSetTransparentBackground(in RID viewport, in bool enabled)
 	{
@@ -3345,12 +3365,13 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetGlobalCanvasTransform, _godot_object, viewport, transform);
 	}
 	/**
-	
+	Sets the stacking order for a viewport's canvas.
+	`layer` is the actual canvas layer, while `sublayer` specifies the stacking order of the canvas among those in the same layer.
 	*/
-	void viewportSetCanvasLayer(in RID viewport, in RID canvas, in long layer)
+	void viewportSetCanvasStacking(in RID viewport, in RID canvas, in long layer, in long sublayer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetCanvasLayer, _godot_object, viewport, canvas, layer);
+		ptrcall!(void)(_classBinding.viewportSetCanvasStacking, _godot_object, viewport, canvas, layer, sublayer);
 	}
 	/**
 	Sets the size of the shadow atlas's images.
@@ -3377,7 +3398,7 @@ public:
 		ptrcall!(void)(_classBinding.viewportSetMsaa, _godot_object, viewport, msaa);
 	}
 	/**
-	If `true` the viewport renders to hdr.
+	If `true`, the viewport renders to hdr.
 	*/
 	void viewportSetHdr(in RID viewport, in bool enabled)
 	{
@@ -3401,7 +3422,7 @@ public:
 		return ptrcall!(long)(_classBinding.viewportGetRenderInfo, _godot_object, viewport, info);
 	}
 	/**
-	Sets the debug draw mode of a viewport. See VIEWPORT_DEBUG_DRAW_* constants for options.
+	Sets the debug draw mode of a viewport. See $(D VisualServer.viewportdebugdraw) for options.
 	*/
 	void viewportSetDebugDraw(in RID viewport, in long draw)
 	{
@@ -3439,6 +3460,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.environmentSetSkyCustomFov, _godot_object, env, scale);
+	}
+	/**
+	
+	*/
+	void environmentSetSkyOrientation(in RID env, in Basis orientation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.environmentSetSkyOrientation, _godot_object, env, orientation);
 	}
 	/**
 	
@@ -3491,10 +3520,10 @@ public:
 	/**
 	
 	*/
-	void environmentSetGlow(in RID env, in bool enable, in long level_flags, in double intensity, in double strength, in double bloom_threshold, in long blend_mode, in double hdr_bleed_threshold, in double hdr_bleed_scale, in bool bicubic_upscale)
+	void environmentSetGlow(in RID env, in bool enable, in long level_flags, in double intensity, in double strength, in double bloom_threshold, in long blend_mode, in double hdr_bleed_threshold, in double hdr_bleed_scale, in double hdr_luminance_cap, in bool bicubic_upscale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetGlow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, bicubic_upscale);
+		ptrcall!(void)(_classBinding.environmentSetGlow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, hdr_luminance_cap, bicubic_upscale);
 	}
 	/**
 	
@@ -3539,10 +3568,10 @@ public:
 	/**
 	
 	*/
-	void environmentSetFogDepth(in RID env, in bool enable, in double depth_begin, in double depth_curve, in bool transmit, in double transmit_curve)
+	void environmentSetFogDepth(in RID env, in bool enable, in double depth_begin, in double depth_end, in double depth_curve, in bool transmit, in double transmit_curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetFogDepth, _godot_object, env, enable, depth_begin, depth_curve, transmit, transmit_curve);
+		ptrcall!(void)(_classBinding.environmentSetFogDepth, _godot_object, env, enable, depth_begin, depth_end, depth_curve, transmit, transmit_curve);
 	}
 	/**
 	
@@ -3579,10 +3608,10 @@ public:
 	/**
 	
 	*/
-	void scenarioSetReflectionAtlasSize(in RID scenario, in long p_size, in long subdiv)
+	void scenarioSetReflectionAtlasSize(in RID scenario, in long size, in long subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scenarioSetReflectionAtlasSize, _godot_object, scenario, p_size, subdiv);
+		ptrcall!(void)(_classBinding.scenarioSetReflectionAtlasSize, _godot_object, scenario, size, subdiv);
 	}
 	/**
 	
@@ -3970,7 +3999,7 @@ public:
 		ptrcall!(void)(_classBinding.canvasItemAddTriangleArray, _godot_object, item, indices, points, colors, uvs, bones, weights, texture, count, normal_map);
 	}
 	/**
-	Adds a $(D Mesh) to the $(D CanvasItem)'s draw commands. Only affects its aabb at the moment.
+	
 	*/
 	void canvasItemAddMesh(in RID item, in RID mesh, in RID texture, in RID normal_map = RID.init)
 	{
@@ -3988,10 +4017,10 @@ public:
 	/**
 	Adds a particles system to the $(D CanvasItem)'s draw commands.
 	*/
-	void canvasItemAddParticles(in RID item, in RID particles, in RID texture, in RID normal_map, in long h_frames, in long v_frames)
+	void canvasItemAddParticles(in RID item, in RID particles, in RID texture, in RID normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddParticles, _godot_object, item, particles, texture, normal_map, h_frames, v_frames);
+		ptrcall!(void)(_classBinding.canvasItemAddParticles, _godot_object, item, particles, texture, normal_map);
 	}
 	/**
 	Adds a $(D Transform2D) command to the $(D CanvasItem)'s draw commands.

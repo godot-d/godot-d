@@ -25,11 +25,14 @@ import godot.camera;
 import godot.material;
 import godot.arraymesh;
 import godot.trianglemesh;
+import godot.node;
+import godot.spatial;
+import godot.editorspatialgizmoplugin;
 import godot.reference;
 /**
 Custom gizmo for editing Spatial objects.
 
-Custom gizmo that is used for providing custom visualization and editing (handles) for 3D Spatial objects. These are created by $(D EditorPlugin.createSpatialGizmo).
+Custom gizmo that is used for providing custom visualization and editing (handles) for 3D Spatial objects. See $(D EditorSpatialGizmoPlugin) for more information.
 */
 @GodotBaseClass struct EditorSpatialGizmo
 {
@@ -45,16 +48,19 @@ public:
 		__gshared:
 		@GodotName("redraw") GodotMethod!(void) redraw;
 		@GodotName("get_handle_name") GodotMethod!(String, long) getHandleName;
+		@GodotName("is_handle_highlighted") GodotMethod!(bool, long) isHandleHighlighted;
 		@GodotName("get_handle_value") GodotMethod!(Variant, long) getHandleValue;
 		@GodotName("set_handle") GodotMethod!(void, long, Camera, Vector2) setHandle;
 		@GodotName("commit_handle") GodotMethod!(void, long, Variant, bool) commitHandle;
 		@GodotName("add_lines") GodotMethod!(void, PoolVector3Array, Material, bool) addLines;
-		@GodotName("add_mesh") GodotMethod!(void, ArrayMesh, bool, RID) addMesh;
+		@GodotName("add_mesh") GodotMethod!(void, ArrayMesh, bool, RID, Material) addMesh;
 		@GodotName("add_collision_segments") GodotMethod!(void, PoolVector3Array) addCollisionSegments;
 		@GodotName("add_collision_triangles") GodotMethod!(void, TriangleMesh) addCollisionTriangles;
 		@GodotName("add_unscaled_billboard") GodotMethod!(void, Material, double) addUnscaledBillboard;
 		@GodotName("add_handles") GodotMethod!(void, PoolVector3Array, Material, bool, bool) addHandles;
-		@GodotName("set_spatial_node") GodotMethod!(void, GodotObject) setSpatialNode;
+		@GodotName("set_spatial_node") GodotMethod!(void, Node) setSpatialNode;
+		@GodotName("get_spatial_node") GodotMethod!(Spatial) getSpatialNode;
+		@GodotName("get_plugin") GodotMethod!(EditorSpatialGizmoPlugin) getPlugin;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("set_hidden") GodotMethod!(void, bool) setHidden;
 	}
@@ -91,7 +97,17 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	Get actual value of a handle. This value can be anything and used for eventually undoing the motion when calling $(D commitHandle)
+	Get whether a handle is highlighted or not.
+	*/
+	bool isHandleHighlighted(in long index)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(index);
+		String _GODOT_method_name = String("is_handle_highlighted");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Get actual value of a handle. This value can be anything and used for eventually undoing the motion when calling $(D commitHandle).
 	*/
 	Variant getHandleValue(in long index)
 	{
@@ -115,7 +131,7 @@ public:
 	}
 	/**
 	Commit a handle being edited (handles must have been previously added by $(D addHandles)).
-	If the cancel parameter is true, an option to restore the edited value to the original is provided.
+	If the cancel parameter is `true`, an option to restore the edited value to the original is provided.
 	*/
 	void commitHandle(VariantArg1)(in long index, in VariantArg1 restore, in bool cancel)
 	{
@@ -137,10 +153,10 @@ public:
 	/**
 	
 	*/
-	void addMesh(ArrayMesh mesh, in bool billboard = false, in RID skeleton = RID.init)
+	void addMesh(ArrayMesh mesh, in bool billboard = false, in RID skeleton = RID.init, Material material = Material.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addMesh, _godot_object, mesh, billboard, skeleton);
+		ptrcall!(void)(_classBinding.addMesh, _godot_object, mesh, billboard, skeleton, material);
 	}
 	/**
 	
@@ -178,10 +194,26 @@ public:
 	/**
 	
 	*/
-	void setSpatialNode(GodotObject node)
+	void setSpatialNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSpatialNode, _godot_object, node);
+	}
+	/**
+	Returns the Spatial node associated with this gizmo.
+	*/
+	Spatial getSpatialNode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Spatial)(_classBinding.getSpatialNode, _godot_object);
+	}
+	/**
+	Return the $(D EditorSpatialGizmoPlugin) that owns this gizmo. It's useful to retrieve materials using $(D EditorSpatialGizmoPlugin.getMaterial).
+	*/
+	Ref!EditorSpatialGizmoPlugin getPlugin() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(EditorSpatialGizmoPlugin)(_classBinding.getPlugin, _godot_object);
 	}
 	/**
 	

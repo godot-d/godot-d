@@ -26,8 +26,8 @@ import godot.reference;
 /**
 Provides high performance mesh instancing.
 
-MultiMesh provides low level mesh instancing. If the amount of $(D Mesh) instances needed goes from hundreds to thousands (and most need to be visible at close proximity) creating such a large amount of $(D MeshInstance) nodes may affect performance by using too much CPU or video memory.
-For this case a MultiMesh becomes very useful, as it can draw thousands of instances with little API overhead.
+MultiMesh provides low level mesh instancing. Drawing thousands of $(D MeshInstance) nodes can be slow because each object is submitted to the GPU to be drawn individually.
+MultiMesh is much faster because it can draw thousands of instances with a single draw call, resulting in less API overhead.
 As a drawback, if the instances are too far away of each other, performance may be reduced as every single instance will always rendered (they are spatially indexed as one, for the whole object).
 Since instances may have any behavior, the AABB used for visibility must be provided by the user.
 */
@@ -53,8 +53,12 @@ public:
 		@GodotName("get_transform_format") GodotMethod!(MultiMesh.TransformFormat) getTransformFormat;
 		@GodotName("set_instance_count") GodotMethod!(void, long) setInstanceCount;
 		@GodotName("get_instance_count") GodotMethod!(long) getInstanceCount;
+		@GodotName("set_visible_instance_count") GodotMethod!(void, long) setVisibleInstanceCount;
+		@GodotName("get_visible_instance_count") GodotMethod!(long) getVisibleInstanceCount;
 		@GodotName("set_instance_transform") GodotMethod!(void, long, Transform) setInstanceTransform;
+		@GodotName("set_instance_transform_2d") GodotMethod!(void, long, Transform2D) setInstanceTransform2d;
 		@GodotName("get_instance_transform") GodotMethod!(Transform, long) getInstanceTransform;
+		@GodotName("get_instance_transform_2d") GodotMethod!(Transform2D, long) getInstanceTransform2d;
 		@GodotName("set_instance_color") GodotMethod!(void, long, Color) setInstanceColor;
 		@GodotName("get_instance_color") GodotMethod!(Color, long) getInstanceColor;
 		@GodotName("set_instance_custom_data") GodotMethod!(void, long, Color) setInstanceCustomData;
@@ -83,11 +87,11 @@ public:
 	enum TransformFormat : int
 	{
 		/**
-		
+		Use this when using 2D transforms.
 		*/
 		transform2d = 0,
 		/**
-		
+		Use this when using 3D transforms.
 		*/
 		transform3d = 1,
 	}
@@ -95,15 +99,15 @@ public:
 	enum CustomDataFormat : int
 	{
 		/**
-		
+		Use when you are not using per-instance custom data.
 		*/
 		customDataNone = 0,
 		/**
-		
+		Compress custom_data into 8 bits when passing to shader. This uses less memory and can be faster, but loses precision.
 		*/
 		customData8bit = 1,
 		/**
-		
+		The $(D Color) passed into $(D setInstanceCustomData) will use 4 floats. Use this for highest precision.
 		*/
 		customDataFloat = 2,
 	}
@@ -111,15 +115,15 @@ public:
 	enum ColorFormat : int
 	{
 		/**
-		
+		Use when you are not using per-instance $(D Color)s.
 		*/
 		colorNone = 0,
 		/**
-		
+		Compress $(D Color) data into 8 bits when passing to shader. This uses less memory and can be faster, but the $(D Color) loses precision.
 		*/
 		color8bit = 1,
 		/**
-		
+		The $(D Color) passed into $(D setInstanceColor) will use 4 floats. Use this for highest precision $(D Color).
 		*/
 		colorFloat = 2,
 	}
@@ -216,12 +220,36 @@ public:
 		return ptrcall!(long)(_classBinding.getInstanceCount, _godot_object);
 	}
 	/**
+	
+	*/
+	void setVisibleInstanceCount(in long count)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibleInstanceCount, _godot_object, count);
+	}
+	/**
+	
+	*/
+	long getVisibleInstanceCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleInstanceCount, _godot_object);
+	}
+	/**
 	Set the transform for a specific instance.
 	*/
 	void setInstanceTransform(in long instance, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInstanceTransform, _godot_object, instance, transform);
+	}
+	/**
+	
+	*/
+	void setInstanceTransform2d(in long instance, in Transform2D transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceTransform2d, _godot_object, instance, transform);
 	}
 	/**
 	Return the transform of a specific instance.
@@ -232,7 +260,16 @@ public:
 		return ptrcall!(Transform)(_classBinding.getInstanceTransform, _godot_object, instance);
 	}
 	/**
+	
+	*/
+	Transform2D getInstanceTransform2d(in long instance) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getInstanceTransform2d, _godot_object, instance);
+	}
+	/**
 	Set the color of a specific instance.
+	For the color to take effect, ensure that $(D colorFormat) is non-`null` on the $(D MultiMesh) and $(D SpatialMaterial.vertexColorUseAsAlbedo) is `true` on the material.
 	*/
 	void setInstanceColor(in long instance, in Color color)
 	{
@@ -248,7 +285,7 @@ public:
 		return ptrcall!(Color)(_classBinding.getInstanceColor, _godot_object, instance);
 	}
 	/**
-	
+	Set custom data for a specific instance. Although $(D Color) is used, it is just a container for 4 numbers.
 	*/
 	void setInstanceCustomData(in long instance, in Color custom_data)
 	{
@@ -256,7 +293,7 @@ public:
 		ptrcall!(void)(_classBinding.setInstanceCustomData, _godot_object, instance, custom_data);
 	}
 	/**
-	
+	Return the custom data that has been set for a specific instance.
 	*/
 	Color getInstanceCustomData(in long instance) const
 	{
@@ -329,7 +366,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
 	}
 	/**
-	
+	Format of colors in color array that gets passed to shader.
 	*/
 	@property MultiMesh.ColorFormat colorFormat()
 	{
@@ -341,7 +378,7 @@ public:
 		setColorFormat(v);
 	}
 	/**
-	
+	Format of transform used to transform mesh, either 2D or 3D.
 	*/
 	@property MultiMesh.TransformFormat transformFormat()
 	{
@@ -353,7 +390,7 @@ public:
 		setTransformFormat(v);
 	}
 	/**
-	
+	Format of custom data in custom data array that gets passed to shader.
 	*/
 	@property MultiMesh.CustomDataFormat customDataFormat()
 	{
@@ -365,7 +402,7 @@ public:
 		setCustomDataFormat(v);
 	}
 	/**
-	
+	Number of instances that will get drawn.
 	*/
 	@property long instanceCount()
 	{
@@ -378,6 +415,18 @@ public:
 	}
 	/**
 	
+	*/
+	@property long visibleInstanceCount()
+	{
+		return getVisibleInstanceCount();
+	}
+	/// ditto
+	@property void visibleInstanceCount(long v)
+	{
+		setVisibleInstanceCount(v);
+	}
+	/**
+	Mesh to be drawn.
 	*/
 	@property Mesh mesh()
 	{

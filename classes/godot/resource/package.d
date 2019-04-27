@@ -25,7 +25,7 @@ import godot.node;
 /**
 Base class for all resources.
 
-Resource is the base class for all resource types. Resources are primarily data containers. They are reference counted and freed when no longer in use. They are also loaded only once from disk, and further attempts to load the resource will return the same reference (all this in contrast to a $(D Node), which is not reference counted and can be instanced from disk as many times as desired). Resources can be saved externally on disk or bundled into another object, such as a $(D Node) or another resource.
+Resource is the base class for all resource types, serving primarily as data containers. They are reference counted and freed when no longer in use. They are also loaded only once from disk, and further attempts to load the resource will return the same reference (all this in contrast to a $(D Node), which is not reference counted and can be instanced from disk as many times as desired). Resources can be saved externally on disk or bundled into another object, such as a $(D Node) or another resource.
 */
 @GodotBaseClass struct Resource
 {
@@ -82,7 +82,7 @@ public:
 		ptrcall!(void)(_classBinding.setPath, _godot_object, path);
 	}
 	/**
-	Set the path of the resource. Differs from set_path(), if another `Resource` exists with "path" it over-takes it, instead of failing.
+	Sets the path of the resource. Differs from `set_path()`, if another $(D Resource) exists with "path" it over-takes it, instead of failing.
 	*/
 	void takeOverPath(in String path)
 	{
@@ -108,13 +108,13 @@ public:
 	/**
 	
 	*/
-	String getName() const
+	String getName()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getName, _godot_object);
 	}
 	/**
-	Return the RID of the resource (or an empty RID). Many resources (such as $(D Texture), $(D Mesh), etc) are high level abstractions of resources stored in a server, so this function will return the original RID.
+	Returns the RID of the resource (or an empty RID). Many resources (such as $(D Texture), $(D Mesh), etc) are high level abstractions of resources stored in a server, so this function will return the original RID.
 	*/
 	RID getRid() const
 	{
@@ -154,7 +154,7 @@ public:
 		ptrcall!(void)(_classBinding.setupLocalToScene, _godot_object);
 	}
 	/**
-	
+	Duplicates the resource, returning a new resource. By default, sub-resources are shared between resource copies for efficiency, this can be changed by passing `true` to the `subresources` argument.
 	*/
 	Ref!Resource duplicate(in bool subresources = false) const
 	{
@@ -174,7 +174,7 @@ public:
 		setLocalToScene(v);
 	}
 	/**
-	
+	The path to the resource. In case it has its own file, it will return its filepath. If it's tied to the scene, it will return the scene's path, followed by the resource's index.
 	*/
 	@property String resourcePath()
 	{
@@ -186,7 +186,7 @@ public:
 		setPath(v);
 	}
 	/**
-	
+	The name of the resource. This is an optional identifier.
 	*/
 	@property String resourceName()
 	{

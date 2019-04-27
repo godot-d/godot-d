@@ -329,7 +329,7 @@ public:
 		setVolume(v);
 	}
 	/**
-	If `true` playback starts when the scene loads. Default value: `false`.
+	If `true`, playback starts when the scene loads. Default value: `false`.
 	*/
 	@property bool autoplay()
 	{
@@ -341,7 +341,7 @@ public:
 		setAutoplay(v);
 	}
 	/**
-	If `true` the video is paused.
+	If `true`, the video is paused.
 	*/
 	@property bool paused()
 	{
@@ -353,7 +353,7 @@ public:
 		setPaused(v);
 	}
 	/**
-	If `true` the video scales to the control size. Default value: `true`.
+	If `true`, the video scales to the control size. Default value: `true`.
 	*/
 	@property bool expand()
 	{

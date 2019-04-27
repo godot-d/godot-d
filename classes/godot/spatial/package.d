@@ -26,8 +26,8 @@ import godot.spatialgizmo;
 /**
 Most basic 3D game object, parent of all 3D related nodes.
 
-Most basic 3D game object, with a 3D $(D Transform) and visibility settings. All other 3D game objects inherit from Spatial. Use Spatial as a parent node to move, scale, rotate and show/hide children in a 3D project.
-Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the Spatial object is set as top level. Affine operations in this coordinate system correspond to direct affine operations on the Spatial's transform. The word local below refers to this coordinate system. The coordinate system that is attached to the Spatial object itself is referred to as object-local coordinate system.
+Most basic 3D game object, with a 3D $(D Transform) and visibility settings. All other 3D game objects inherit from Spatial. Use $(D Spatial) as a parent node to move, scale, rotate and show/hide children in a 3D project.
+Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the $(D Spatial) object is set as top level. Affine operations in this coordinate system correspond to direct affine operations on the $(D Spatial)'s transform. The word local below refers to this coordinate system. The coordinate system that is attached to the $(D Spatial) object itself is referred to as object-local coordinate system.
 */
 @GodotBaseClass struct Spatial
 {
@@ -109,7 +109,7 @@ public:
 	{
 		/**
 		Spatial nodes receives this notification when their global transform changes. This means that either the current or a parent node changed its transform.
-		In order for NOTIFICATION_TRANSFORM_CHANGED to work user first needs to ask for it, with set_notify_transform(true).
+		In order for `NOTIFICATION_TRANSFORM_CHANGED` to work, users first need to ask for it, with $(D setNotifyTransform).
 		*/
 		notificationTransformChanged = 29,
 		/**
@@ -222,7 +222,7 @@ public:
 		return ptrcall!(Transform)(_classBinding.getGlobalTransform, _godot_object);
 	}
 	/**
-	Returns the parent `Spatial`, or an empty $(D GodotObject) if no parent exists or parent is not of type `Spatial`.
+	Returns the parent $(D Spatial), or an empty $(D GodotObject) if no parent exists or parent is not of type $(D Spatial).
 	*/
 	Spatial getParentSpatial() const
 	{
@@ -270,7 +270,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isScaleDisabled, _godot_object);
 	}
 	/**
-	Returns the current $(D World) resource this Spatial node is registered to.
+	Returns the current $(D World) resource this $(D Spatial) node is registered to.
 	*/
 	Ref!World getWorld() const
 	{
@@ -343,7 +343,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isVisibleInTree, _godot_object);
 	}
 	/**
-	Enables rendering of this node. Change Spatial Visible property to "True".
+	Enables rendering of this node. Changes $(D visible) to `true`.
 	*/
 	void show()
 	{
@@ -351,7 +351,7 @@ public:
 		ptrcall!(void)(_classBinding.show, _godot_object);
 	}
 	/**
-	Disables rendering of this node. Change Spatial Visible property to false.
+	Disables rendering of this node. Changes $(D visible) to `false`.
 	*/
 	void hide()
 	{
@@ -359,7 +359,7 @@ public:
 		ptrcall!(void)(_classBinding.hide, _godot_object);
 	}
 	/**
-	Set whether the node notifies about its local transformation changes. Spatial will not propagate this by default.
+	Set whether the node notifies about its local transformation changes. $(D Spatial) will not propagate this by default.
 	*/
 	void setNotifyLocalTransform(in bool enable)
 	{
@@ -367,7 +367,7 @@ public:
 		ptrcall!(void)(_classBinding.setNotifyLocalTransform, _godot_object, enable);
 	}
 	/**
-	Returns whether node notifies about its local transformation changes. Spatial will not propagate this by default.
+	Returns whether node notifies about its local transformation changes. $(D Spatial) will not propagate this by default.
 	*/
 	bool isLocalTransformNotificationEnabled() const
 	{
@@ -375,7 +375,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isLocalTransformNotificationEnabled, _godot_object);
 	}
 	/**
-	Set whether the node notifies about its global and local transformation changes. Spatial will not propagate this by default.
+	Set whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default.
 	*/
 	void setNotifyTransform(in bool enable)
 	{
@@ -383,7 +383,7 @@ public:
 		ptrcall!(void)(_classBinding.setNotifyTransform, _godot_object, enable);
 	}
 	/**
-	Returns whether the node notifies about its global and local transformation changes. Spatial will not propagate this by default.
+	Returns whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default.
 	*/
 	bool isTransformNotificationEnabled() const
 	{
@@ -479,7 +479,7 @@ public:
 		ptrcall!(void)(_classBinding.translate, _godot_object, offset);
 	}
 	/**
-	Resets this node's transformations (like scale, skew and taper) preserving its rotation and translation by performing Gram-Schmidt orthonormalization on this node's $(D Transform3D).
+	Resets this node's transformations (like scale, skew and taper) preserving its rotation and translation by performing Gram-Schmidt orthonormalization on this node's $(D Transform).
 	*/
 	void orthonormalize()
 	{
@@ -487,7 +487,7 @@ public:
 		ptrcall!(void)(_classBinding.orthonormalize, _godot_object);
 	}
 	/**
-	Reset all transformations for this node. Set its $(D Transform3D) to identity matrix.
+	Reset all transformations for this node. Set its $(D Transform) to identity matrix.
 	*/
 	void setIdentity()
 	{
@@ -602,7 +602,7 @@ public:
 		setTransform(v);
 	}
 	/**
-	If `true` this node is drawn. Default value: `true`.
+	If `true`, this node is drawn. Default value: `true`.
 	*/
 	@property bool visible()
 	{
@@ -614,7 +614,7 @@ public:
 		setVisible(v);
 	}
 	/**
-	The SpatialGizmo for this node. Used for example in $(D EditorSpatialGizmo) as custom visualization and editing handles in Editor.
+	The $(D SpatialGizmo) for this node. Used for example in $(D EditorSpatialGizmo) as custom visualization and editing handles in Editor.
 	*/
 	@property SpatialGizmo gizmo()
 	{

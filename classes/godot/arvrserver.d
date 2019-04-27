@@ -172,7 +172,7 @@ public:
 		return ptrcall!(Transform)(_classBinding.getHmdTransform, _godot_object);
 	}
 	/**
-	Get the number of interfaces currently registered with the AR/VR server. If you're game supports multiple AR/VR platforms you can look through the available interface and either present the user with a selection or simply try an initialize each interface and use the first one that returns true.
+	Get the number of interfaces currently registered with the AR/VR server. If your game supports multiple AR/VR platforms, you can look through the available interface, and either present the user with a selection or simply try an initialize each interface and use the first one that returns `true`.
 	*/
 	long getInterfaceCount() const
 	{

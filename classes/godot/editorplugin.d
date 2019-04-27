@@ -32,6 +32,7 @@ import godot.undoredo;
 import godot.editorimportplugin;
 import godot.editorsceneimporter;
 import godot.editorexportplugin;
+import godot.editorspatialgizmoplugin;
 import godot.editorinspectorplugin;
 import godot.editorinterface;
 import godot.scriptcreatedialog;
@@ -71,12 +72,14 @@ public:
 		@GodotName("set_window_layout") GodotMethod!(void, ConfigFile) setWindowLayout;
 		@GodotName("get_window_layout") GodotMethod!(void, ConfigFile) getWindowLayout;
 		@GodotName("build") GodotMethod!(bool) build;
-		@GodotName("add_control_to_container") GodotMethod!(void, long, GodotObject) addControlToContainer;
-		@GodotName("add_control_to_bottom_panel") GodotMethod!(ToolButton, GodotObject, String) addControlToBottomPanel;
-		@GodotName("add_control_to_dock") GodotMethod!(void, long, GodotObject) addControlToDock;
-		@GodotName("remove_control_from_docks") GodotMethod!(void, GodotObject) removeControlFromDocks;
-		@GodotName("remove_control_from_bottom_panel") GodotMethod!(void, GodotObject) removeControlFromBottomPanel;
-		@GodotName("remove_control_from_container") GodotMethod!(void, long, GodotObject) removeControlFromContainer;
+		@GodotName("enable_plugin") GodotMethod!(void) enablePlugin;
+		@GodotName("disable_plugin") GodotMethod!(void) disablePlugin;
+		@GodotName("add_control_to_container") GodotMethod!(void, long, Control) addControlToContainer;
+		@GodotName("add_control_to_bottom_panel") GodotMethod!(ToolButton, Control, String) addControlToBottomPanel;
+		@GodotName("add_control_to_dock") GodotMethod!(void, long, Control) addControlToDock;
+		@GodotName("remove_control_from_docks") GodotMethod!(void, Control) removeControlFromDocks;
+		@GodotName("remove_control_from_bottom_panel") GodotMethod!(void, Control) removeControlFromBottomPanel;
+		@GodotName("remove_control_from_container") GodotMethod!(void, long, Control) removeControlFromContainer;
 		@GodotName("add_tool_menu_item") GodotMethod!(void, String, GodotObject, String, Variant) addToolMenuItem;
 		@GodotName("add_tool_submenu_item") GodotMethod!(void, String, GodotObject) addToolSubmenuItem;
 		@GodotName("remove_tool_menu_item") GodotMethod!(void, String) removeToolMenuItem;
@@ -85,7 +88,7 @@ public:
 		@GodotName("add_autoload_singleton") GodotMethod!(void, String, String) addAutoloadSingleton;
 		@GodotName("remove_autoload_singleton") GodotMethod!(void, String) removeAutoloadSingleton;
 		@GodotName("update_overlays") GodotMethod!(long) updateOverlays;
-		@GodotName("make_bottom_panel_item_visible") GodotMethod!(void, GodotObject) makeBottomPanelItemVisible;
+		@GodotName("make_bottom_panel_item_visible") GodotMethod!(void, Control) makeBottomPanelItemVisible;
 		@GodotName("hide_bottom_panel") GodotMethod!(void) hideBottomPanel;
 		@GodotName("get_undo_redo") GodotMethod!(UndoRedo) getUndoRedo;
 		@GodotName("queue_save_layout") GodotMethod!(void) queueSaveLayout;
@@ -95,6 +98,8 @@ public:
 		@GodotName("remove_scene_import_plugin") GodotMethod!(void, EditorSceneImporter) removeSceneImportPlugin;
 		@GodotName("add_export_plugin") GodotMethod!(void, EditorExportPlugin) addExportPlugin;
 		@GodotName("remove_export_plugin") GodotMethod!(void, EditorExportPlugin) removeExportPlugin;
+		@GodotName("add_spatial_gizmo_plugin") GodotMethod!(void, EditorSpatialGizmoPlugin) addSpatialGizmoPlugin;
+		@GodotName("remove_spatial_gizmo_plugin") GodotMethod!(void, EditorSpatialGizmoPlugin) removeSpatialGizmoPlugin;
 		@GodotName("add_inspector_plugin") GodotMethod!(void, EditorInspectorPlugin) addInspectorPlugin;
 		@GodotName("remove_inspector_plugin") GodotMethod!(void, EditorInspectorPlugin) removeInspectorPlugin;
 		@GodotName("set_input_event_forwarding_always_enabled") GodotMethod!(void) setInputEventForwardingAlwaysEnabled;
@@ -295,7 +300,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
 	}
 	/**
-	Return true if this is a main screen editor plugin (it goes in the workspaces selector together with '2D', '3D', and 'Script').
+	Return `true` if this is a main screen editor plugin (it goes in the workspaces selector together with '2D', '3D', and 'Script').
 	*/
 	bool hasMainScreen()
 	{
@@ -325,7 +330,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Implement this function if your plugin edits a specific type of object (Resource or Node). If you return true, then you will get the functions $(D EditorPlugin.edit) and $(D EditorPlugin.makeVisible) called when the editor requests them. If you have declared the methods $(D forwardCanvasGuiInput) and $(D forwardSpatialGuiInput) these will be called too.
+	Implement this function if your plugin edits a specific type of object (Resource or Node). If you return `true`, then you will get the functions $(D EditorPlugin.edit) and $(D EditorPlugin.makeVisible) called when the editor requests them. If you have declared the methods $(D forwardCanvasGuiInput) and $(D forwardSpatialGuiInput) these will be called too.
 	*/
 	bool handles(GodotObject object)
 	{
@@ -420,11 +425,29 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
+	
+	*/
+	void enablePlugin()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("enable_plugin");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void disablePlugin()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("disable_plugin");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
 	Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI.
 	Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it).
 	When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromContainer) and free it with `queue_free()`.
 	*/
-	void addControlToContainer(in long container, GodotObject control)
+	void addControlToContainer(in long container, Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addControlToContainer, _godot_object, container, control);
@@ -432,7 +455,7 @@ public:
 	/**
 	Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromBottomPanel) and free it with `queue_free()`.
 	*/
-	ToolButton addControlToBottomPanel(GodotObject control, in String title)
+	ToolButton addControlToBottomPanel(Control control, in String title)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(ToolButton)(_classBinding.addControlToBottomPanel, _godot_object, control, title);
@@ -442,7 +465,7 @@ public:
 	If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions.
 	When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromDocks) and free it with `queue_free()`.
 	*/
-	void addControlToDock(in long slot, GodotObject control)
+	void addControlToDock(in long slot, Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addControlToDock, _godot_object, slot, control);
@@ -450,7 +473,7 @@ public:
 	/**
 	Remove the control from the dock. You have to manually `queue_free()` the control.
 	*/
-	void removeControlFromDocks(GodotObject control)
+	void removeControlFromDocks(Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeControlFromDocks, _godot_object, control);
@@ -458,7 +481,7 @@ public:
 	/**
 	Remove the control from the bottom panel. You have to manually `queue_free()` the control.
 	*/
-	void removeControlFromBottomPanel(GodotObject control)
+	void removeControlFromBottomPanel(Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeControlFromBottomPanel, _godot_object, control);
@@ -466,7 +489,7 @@ public:
 	/**
 	Remove the control from the specified container. You have to manually `queue_free()` the control.
 	*/
-	void removeControlFromContainer(in long container, GodotObject control)
+	void removeControlFromContainer(in long container, Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeControlFromContainer, _godot_object, container, control);
@@ -541,7 +564,7 @@ public:
 	/**
 	
 	*/
-	void makeBottomPanelItemVisible(GodotObject item)
+	void makeBottomPanelItemVisible(Control item)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.makeBottomPanelItemVisible, _godot_object, item);
@@ -617,6 +640,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeExportPlugin, _godot_object, plugin);
+	}
+	/**
+	
+	*/
+	void addSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSpatialGizmoPlugin, _godot_object, plugin);
+	}
+	/**
+	
+	*/
+	void removeSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeSpatialGizmoPlugin, _godot_object, plugin);
 	}
 	/**
 	

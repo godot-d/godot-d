@@ -21,11 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
+import godot.occluderpolygon2d;
+import godot.navigationpolygon;
 import godot.texture;
 import godot.shadermaterial;
 import godot.shape2d;
-import godot.navigationpolygon;
-import godot.occluderpolygon2d;
 import godot.reference;
 /**
 Tile library for tilemaps.
@@ -48,8 +48,23 @@ public:
 		@GodotName("_is_tile_bound") GodotMethod!(bool, long, long) _isTileBound;
 		@GodotName("_forward_subtile_selection") GodotMethod!(Vector2, long, long, GodotObject, Vector2) _forwardSubtileSelection;
 		@GodotName("create_tile") GodotMethod!(void, long) createTile;
+		@GodotName("autotile_clear_bitmask_map") GodotMethod!(void, long) autotileClearBitmaskMap;
+		@GodotName("autotile_set_icon_coordinate") GodotMethod!(void, long, Vector2) autotileSetIconCoordinate;
+		@GodotName("autotile_get_icon_coordinate") GodotMethod!(Vector2, long) autotileGetIconCoordinate;
+		@GodotName("autotile_set_subtile_priority") GodotMethod!(void, long, Vector2, long) autotileSetSubtilePriority;
+		@GodotName("autotile_get_subtile_priority") GodotMethod!(long, long, Vector2) autotileGetSubtilePriority;
+		@GodotName("autotile_set_z_index") GodotMethod!(void, long, Vector2, long) autotileSetZIndex;
+		@GodotName("autotile_get_z_index") GodotMethod!(long, long, Vector2) autotileGetZIndex;
+		@GodotName("autotile_set_light_occluder") GodotMethod!(void, long, OccluderPolygon2D, Vector2) autotileSetLightOccluder;
+		@GodotName("autotile_get_light_occluder") GodotMethod!(OccluderPolygon2D, long, Vector2) autotileGetLightOccluder;
+		@GodotName("autotile_set_navigation_polygon") GodotMethod!(void, long, NavigationPolygon, Vector2) autotileSetNavigationPolygon;
+		@GodotName("autotile_get_navigation_polygon") GodotMethod!(NavigationPolygon, long, Vector2) autotileGetNavigationPolygon;
+		@GodotName("autotile_set_bitmask") GodotMethod!(void, long, Vector2, long) autotileSetBitmask;
+		@GodotName("autotile_get_bitmask") GodotMethod!(long, long, Vector2) autotileGetBitmask;
 		@GodotName("autotile_set_bitmask_mode") GodotMethod!(void, long, long) autotileSetBitmaskMode;
 		@GodotName("autotile_get_bitmask_mode") GodotMethod!(TileSet.BitmaskMode, long) autotileGetBitmaskMode;
+		@GodotName("autotile_set_spacing") GodotMethod!(void, long, long) autotileSetSpacing;
+		@GodotName("autotile_get_spacing") GodotMethod!(long, long) autotileGetSpacing;
 		@GodotName("autotile_set_size") GodotMethod!(void, long, Vector2) autotileSetSize;
 		@GodotName("autotile_get_size") GodotMethod!(Vector2, long) autotileGetSize;
 		@GodotName("tile_set_name") GodotMethod!(void, long, String) tileSetName;
@@ -74,6 +89,8 @@ public:
 		@GodotName("tile_get_shape_transform") GodotMethod!(Transform2D, long, long) tileGetShapeTransform;
 		@GodotName("tile_set_shape_one_way") GodotMethod!(void, long, long, bool) tileSetShapeOneWay;
 		@GodotName("tile_get_shape_one_way") GodotMethod!(bool, long, long) tileGetShapeOneWay;
+		@GodotName("tile_set_shape_one_way_margin") GodotMethod!(void, long, long, double) tileSetShapeOneWayMargin;
+		@GodotName("tile_get_shape_one_way_margin") GodotMethod!(double, long, long) tileGetShapeOneWayMargin;
 		@GodotName("tile_add_shape") GodotMethod!(void, long, Shape2D, Transform2D, bool, Vector2) tileAddShape;
 		@GodotName("tile_get_shape_count") GodotMethod!(long, long) tileGetShapeCount;
 		@GodotName("tile_set_shapes") GodotMethod!(void, long, Array) tileSetShapes;
@@ -227,7 +244,117 @@ public:
 		ptrcall!(void)(_classBinding.createTile, _godot_object, id);
 	}
 	/**
-	
+	Clears all bitmask info of the autotile.
+	*/
+	void autotileClearBitmaskMap(in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileClearBitmaskMap, _godot_object, id);
+	}
+	/**
+	Sets the subtile that will be used as an icon in an atlas/autotile given its coordinates.
+	The subtile defined as the icon will be used as a fallback when the atlas/autotile's bitmask info is incomplete. It will also be used to represent it in the TileSet editor.
+	*/
+	void autotileSetIconCoordinate(in long id, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetIconCoordinate, _godot_object, id, coord);
+	}
+	/**
+	Returns the subtile that's being used as an icon in an atlas/autotile given its coordinates.
+	The subtile defined as the icon will be used as a fallback when the atlas/autotile's bitmask info is incomplete. It will also be used to represent it in the TileSet editor.
+	*/
+	Vector2 autotileGetIconCoordinate(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.autotileGetIconCoordinate, _godot_object, id);
+	}
+	/**
+	Sets the priority of the subtile from an autotile given its coordinates.
+	When more than one subtile has the same bitmask value, one of them will be picked randomly for drawing. Its priority will define how often it will be picked.
+	*/
+	void autotileSetSubtilePriority(in long id, in Vector2 coord, in long priority)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetSubtilePriority, _godot_object, id, coord, priority);
+	}
+	/**
+	Returns the priority of the subtile from an autotile given its coordinates.
+	When more than one subtile has the same bitmask value, one of them will be picked randomly for drawing. Its priority will define how often it will be picked.
+	*/
+	long autotileGetSubtilePriority(in long id, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.autotileGetSubtilePriority, _godot_object, id, coord);
+	}
+	/**
+	Sets the drawing index of the subtile from an atlas/autotile given its coordinates.
+	*/
+	void autotileSetZIndex(in long id, in Vector2 coord, in long z_index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetZIndex, _godot_object, id, coord, z_index);
+	}
+	/**
+	Returns the drawing index of the subtile from an atlas/autotile given its coordinates.
+	*/
+	long autotileGetZIndex(in long id, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.autotileGetZIndex, _godot_object, id, coord);
+	}
+	/**
+	Sets the light occluder of the subtile from an atlas/autotile given its coordinates.
+	*/
+	void autotileSetLightOccluder(in long id, OccluderPolygon2D light_occluder, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetLightOccluder, _godot_object, id, light_occluder, coord);
+	}
+	/**
+	Returns the light occluder of the subtile from an atlas/autotile given its coordinates.
+	*/
+	Ref!OccluderPolygon2D autotileGetLightOccluder(in long id, in Vector2 coord) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OccluderPolygon2D)(_classBinding.autotileGetLightOccluder, _godot_object, id, coord);
+	}
+	/**
+	Sets the navigation polygon of the subtile from an atlas/autotile given its coordinates.
+	*/
+	void autotileSetNavigationPolygon(in long id, NavigationPolygon navigation_polygon, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetNavigationPolygon, _godot_object, id, navigation_polygon, coord);
+	}
+	/**
+	Returns the navigation polygon of the subtile from an atlas/autotile given its coordinates.
+	*/
+	Ref!NavigationPolygon autotileGetNavigationPolygon(in long id, in Vector2 coord) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NavigationPolygon)(_classBinding.autotileGetNavigationPolygon, _godot_object, id, coord);
+	}
+	/**
+	Sets the bitmask of the subtile from an autotile given its coordinates.
+	The value is the sum of the values in $(D TileSet.autotilebindings) present in the subtile (e.g. a value of 5 means the bitmask has bindings in both the top left and top right).
+	*/
+	void autotileSetBitmask(in long id, in Vector2 bitmask, in long flag)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetBitmask, _godot_object, id, bitmask, flag);
+	}
+	/**
+	Returns the bitmask of the subtile from an autotile given its coordinates.
+	The value is the sum of the values in $(D TileSet.autotilebindings) present in the subtile (e.g. a value of 5 means the bitmask has bindings in both the top left and top right).
+	*/
+	long autotileGetBitmask(in long id, in Vector2 coord)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.autotileGetBitmask, _godot_object, id, coord);
+	}
+	/**
+	Sets the $(D TileSet.bitmaskmode) of the autotile.
 	*/
 	void autotileSetBitmaskMode(in long id, in long mode)
 	{
@@ -235,7 +362,7 @@ public:
 		ptrcall!(void)(_classBinding.autotileSetBitmaskMode, _godot_object, id, mode);
 	}
 	/**
-	
+	Returns the $(D TileSet.bitmaskmode) of the autotile.
 	*/
 	TileSet.BitmaskMode autotileGetBitmaskMode(in long id) const
 	{
@@ -243,7 +370,23 @@ public:
 		return ptrcall!(TileSet.BitmaskMode)(_classBinding.autotileGetBitmaskMode, _godot_object, id);
 	}
 	/**
-	
+	Sets the spacing between subtiles of the atlas/autotile.
+	*/
+	void autotileSetSpacing(in long id, in long spacing)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.autotileSetSpacing, _godot_object, id, spacing);
+	}
+	/**
+	Returns the spacing between subtiles of the atlas/autotile.
+	*/
+	long autotileGetSpacing(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.autotileGetSpacing, _godot_object, id);
+	}
+	/**
+	Sets the size of the subtiles in an atlas/autotile.
 	*/
 	void autotileSetSize(in long id, in Vector2 size)
 	{
@@ -251,7 +394,7 @@ public:
 		ptrcall!(void)(_classBinding.autotileSetSize, _godot_object, id, size);
 	}
 	/**
-	
+	Returns the size of the subtiles in an atlas/autotile.
 	*/
 	Vector2 autotileGetSize(in long id) const
 	{
@@ -435,6 +578,22 @@ public:
 		return ptrcall!(bool)(_classBinding.tileGetShapeOneWay, _godot_object, id, shape_id);
 	}
 	/**
+	
+	*/
+	void tileSetShapeOneWayMargin(in long id, in long shape_id, in double one_way)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.tileSetShapeOneWayMargin, _godot_object, id, shape_id, one_way);
+	}
+	/**
+	
+	*/
+	double tileGetShapeOneWayMargin(in long id, in long shape_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.tileGetShapeOneWayMargin, _godot_object, id, shape_id);
+	}
+	/**
 	Adds a shape to the tile.
 	*/
 	void tileAddShape(in long id, Shape2D shape, in Transform2D shape_transform, in bool one_way = false, in Vector2 autotile_coord = Vector2(0, 0))
@@ -467,7 +626,7 @@ public:
 		return ptrcall!(Array)(_classBinding.tileGetShapes, _godot_object, id);
 	}
 	/**
-	Sets the tile's $(D tilemode).
+	Sets the tile's $(D TileSet.tilemode).
 	*/
 	void tileSetTileMode(in long id, in long tilemode)
 	{
@@ -475,7 +634,7 @@ public:
 		ptrcall!(void)(_classBinding.tileSetTileMode, _godot_object, id, tilemode);
 	}
 	/**
-	Returns the tile's $(D tilemode).
+	Returns the tile's $(D TileSet.tilemode).
 	*/
 	TileSet.TileMode tileGetTileMode(in long id) const
 	{

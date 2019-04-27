@@ -28,7 +28,6 @@ import godot.reference;
 Resource for environment nodes (like $(D WorldEnvironment)) that define multiple rendering options.
 
 Resource for environment nodes (like $(D WorldEnvironment)) that define multiple environment operations (such as background $(D Sky) or $(D Color), ambient light, fog, depth-of-field...). These parameters affect the final render of the scene. The order of these operations is:
-	
 - DOF Blur
 - Motion Blur
 - Bloom
@@ -50,6 +49,9 @@ public:
 		@GodotName("set_background") GodotMethod!(void, long) setBackground;
 		@GodotName("set_sky") GodotMethod!(void, Sky) setSky;
 		@GodotName("set_sky_custom_fov") GodotMethod!(void, double) setSkyCustomFov;
+		@GodotName("set_sky_orientation") GodotMethod!(void, Basis) setSkyOrientation;
+		@GodotName("set_sky_rotation") GodotMethod!(void, Vector3) setSkyRotation;
+		@GodotName("set_sky_rotation_degrees") GodotMethod!(void, Vector3) setSkyRotationDegrees;
 		@GodotName("set_bg_color") GodotMethod!(void, Color) setBgColor;
 		@GodotName("set_bg_energy") GodotMethod!(void, double) setBgEnergy;
 		@GodotName("set_canvas_max_layer") GodotMethod!(void, long) setCanvasMaxLayer;
@@ -59,6 +61,9 @@ public:
 		@GodotName("get_background") GodotMethod!(Environment.BGMode) getBackground;
 		@GodotName("get_sky") GodotMethod!(Sky) getSky;
 		@GodotName("get_sky_custom_fov") GodotMethod!(double) getSkyCustomFov;
+		@GodotName("get_sky_orientation") GodotMethod!(Basis) getSkyOrientation;
+		@GodotName("get_sky_rotation") GodotMethod!(Vector3) getSkyRotation;
+		@GodotName("get_sky_rotation_degrees") GodotMethod!(Vector3) getSkyRotationDegrees;
 		@GodotName("get_bg_color") GodotMethod!(Color) getBgColor;
 		@GodotName("get_bg_energy") GodotMethod!(double) getBgEnergy;
 		@GodotName("get_canvas_max_layer") GodotMethod!(long) getCanvasMaxLayer;
@@ -77,6 +82,8 @@ public:
 		@GodotName("is_fog_depth_enabled") GodotMethod!(bool) isFogDepthEnabled;
 		@GodotName("set_fog_depth_begin") GodotMethod!(void, double) setFogDepthBegin;
 		@GodotName("get_fog_depth_begin") GodotMethod!(double) getFogDepthBegin;
+		@GodotName("set_fog_depth_end") GodotMethod!(void, double) setFogDepthEnd;
+		@GodotName("get_fog_depth_end") GodotMethod!(double) getFogDepthEnd;
 		@GodotName("set_fog_depth_curve") GodotMethod!(void, double) setFogDepthCurve;
 		@GodotName("get_fog_depth_curve") GodotMethod!(double) getFogDepthCurve;
 		@GodotName("set_fog_transmit_enabled") GodotMethod!(void, bool) setFogTransmitEnabled;
@@ -177,6 +184,8 @@ public:
 		@GodotName("get_glow_blend_mode") GodotMethod!(Environment.GlowBlendMode) getGlowBlendMode;
 		@GodotName("set_glow_hdr_bleed_threshold") GodotMethod!(void, double) setGlowHdrBleedThreshold;
 		@GodotName("get_glow_hdr_bleed_threshold") GodotMethod!(double) getGlowHdrBleedThreshold;
+		@GodotName("set_glow_hdr_luminance_cap") GodotMethod!(void, double) setGlowHdrLuminanceCap;
+		@GodotName("get_glow_hdr_luminance_cap") GodotMethod!(double) getGlowHdrLuminanceCap;
 		@GodotName("set_glow_hdr_bleed_scale") GodotMethod!(void, double) setGlowHdrBleedScale;
 		@GodotName("get_glow_hdr_bleed_scale") GodotMethod!(double) getGlowHdrBleedScale;
 		@GodotName("set_glow_bicubic_upscale") GodotMethod!(void, bool) setGlowBicubicUpscale;
@@ -384,6 +393,30 @@ public:
 	/**
 	
 	*/
+	void setSkyOrientation(in Basis orientation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyOrientation, _godot_object, orientation);
+	}
+	/**
+	
+	*/
+	void setSkyRotation(in Vector3 euler_radians)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyRotation, _godot_object, euler_radians);
+	}
+	/**
+	
+	*/
+	void setSkyRotationDegrees(in Vector3 euler_degrees)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSkyRotationDegrees, _godot_object, euler_degrees);
+	}
+	/**
+	
+	*/
 	void setBgColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
@@ -452,6 +485,30 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getSkyCustomFov, _godot_object);
+	}
+	/**
+	
+	*/
+	Basis getSkyOrientation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Basis)(_classBinding.getSkyOrientation, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getSkyRotation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getSkyRotation, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getSkyRotationDegrees() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getSkyRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -596,6 +653,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getFogDepthBegin, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFogDepthEnd(in double distance)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFogDepthEnd, _godot_object, distance);
+	}
+	/**
+	
+	*/
+	double getFogDepthEnd() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFogDepthEnd, _godot_object);
 	}
 	/**
 	
@@ -1400,6 +1473,22 @@ public:
 	/**
 	
 	*/
+	void setGlowHdrLuminanceCap(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlowHdrLuminanceCap, _godot_object, amount);
+	}
+	/**
+	
+	*/
+	double getGlowHdrLuminanceCap() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGlowHdrLuminanceCap, _godot_object);
+	}
+	/**
+	
+	*/
 	void setGlowHdrBleedScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
@@ -1546,6 +1635,42 @@ public:
 		setSkyCustomFov(v);
 	}
 	/**
+	$(D Sky) resource's rotation expressed as a $(D Basis)
+	*/
+	@property Basis backgroundSkyOrientation()
+	{
+		return getSkyOrientation();
+	}
+	/// ditto
+	@property void backgroundSkyOrientation(Basis v)
+	{
+		setSkyOrientation(v);
+	}
+	/**
+	$(D Sky) resource's rotation expressed as euler angles in radians
+	*/
+	@property Vector3 backgroundSkyRotation()
+	{
+		return getSkyRotation();
+	}
+	/// ditto
+	@property void backgroundSkyRotation(Vector3 v)
+	{
+		setSkyRotation(v);
+	}
+	/**
+	$(D Sky) resource's rotation expressed as euler angles in degrees
+	*/
+	@property Vector3 backgroundSkyRotationDegrees()
+	{
+		return getSkyRotationDegrees();
+	}
+	/// ditto
+	@property void backgroundSkyRotationDegrees(Vector3 v)
+	{
+		setSkyRotationDegrees(v);
+	}
+	/**
 	Color displayed for clear areas of the scene (if using Custom color or Color+Sky background modes).
 	*/
 	@property Color backgroundColor()
@@ -1688,6 +1813,18 @@ public:
 	@property void fogDepthBegin(double v)
 	{
 		setFogDepthBegin(v);
+	}
+	/**
+	
+	*/
+	@property double fogDepthEnd()
+	{
+		return getFogDepthEnd();
+	}
+	/// ditto
+	@property void fogDepthEnd(double v)
+	{
+		setFogDepthEnd(v);
 	}
 	/**
 	Value defining the fog depth intensity.
@@ -2362,6 +2499,18 @@ public:
 		setGlowHdrBleedThreshold(v);
 	}
 	/**
+	
+	*/
+	@property double glowHdrLuminanceCap()
+	{
+		return getGlowHdrLuminanceCap();
+	}
+	/// ditto
+	@property void glowHdrLuminanceCap(double v)
+	{
+		setGlowHdrLuminanceCap(v);
+	}
+	/**
 	Bleed scale of the HDR glow.
 	*/
 	@property double glowHdrScale()
@@ -2386,7 +2535,7 @@ public:
 		setGlowBicubicUpscale(v);
 	}
 	/**
-	Enables the adjustment_* options provided by this resource. If false, adjustments modifications will have no effect on the rendered scene.
+	Enables the adjustment_* options provided by this resource. If `false`, adjustments modifications will have no effect on the rendered scene.
 	*/
 	@property bool adjustmentEnabled()
 	{

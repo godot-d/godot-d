@@ -374,7 +374,7 @@ public:
 		ptrcall!(void)(_classBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
 	}
 	/**
-	Adds a `$(D cell)` tag to the tag stack. Must be inside a $(D table) tag. See $(D pushTable) for details.
+	Adds a `$(D cell)` tag to the tag stack. Must be inside a `$(D table)` tag. See $(D pushTable) for details.
 	*/
 	void pushCell()
 	{
@@ -622,7 +622,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContentHeight, _godot_object);
 	}
 	/**
-	If `true` the label uses BBCode formatting. Default value: `false`.
+	If `true`, the label uses BBCode formatting. Default value: `false`.
 	*/
 	@property bool bbcodeEnabled()
 	{
@@ -670,7 +670,7 @@ public:
 		setPercentVisible(v);
 	}
 	/**
-	If `true`, the label underlines meta tags such as $(D url){text}$(D /url). Default value: `true`.
+	If `true`, the label underlines meta tags such as `$(D url){text}$(D /url)`. Default value: `true`.
 	*/
 	@property bool metaUnderlined()
 	{
@@ -743,7 +743,7 @@ public:
 		setSelectionEnabled(v);
 	}
 	/**
-	If `true` the label uses the custom font color. Default value: `false`.
+	If `true`, the label uses the custom font color. Default value: `false`.
 	*/
 	@property bool overrideSelectedFontColor()
 	{

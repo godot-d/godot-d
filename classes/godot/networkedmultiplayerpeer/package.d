@@ -136,7 +136,7 @@ public:
 		ptrcall!(void)(_classBinding.setTargetPeer, _godot_object, id);
 	}
 	/**
-	Returns the ID of the `NetworkedMultiplayerPeer` who sent the most recent packet.
+	Returns the ID of the $(D NetworkedMultiplayerPeer) who sent the most recent packet.
 	*/
 	long getPacketPeer() const
 	{
@@ -160,7 +160,7 @@ public:
 		return ptrcall!(NetworkedMultiplayerPeer.ConnectionStatus)(_classBinding.getConnectionStatus, _godot_object);
 	}
 	/**
-	Returns the ID of this `NetworkedMultiplayerPeer`.
+	Returns the ID of this $(D NetworkedMultiplayerPeer).
 	*/
 	long getUniqueId() const
 	{
@@ -184,7 +184,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isRefusingNewConnections, _godot_object);
 	}
 	/**
-	If `true` this `NetworkedMultiplayerPeer` refuses new connections. Default value: `false`.
+	If `true`, this $(D NetworkedMultiplayerPeer) refuses new connections. Default value: `false`.
 	*/
 	@property bool refuseNewConnections()
 	{

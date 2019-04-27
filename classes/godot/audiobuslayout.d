@@ -25,7 +25,7 @@ import godot.reference;
 /**
 Stores information about the audiobusses.
 
-Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between busses. See $(D AudioServer) for usage.
+Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between buses. See $(D AudioServer) for usage.
 */
 @GodotBaseClass struct AudioBusLayout
 {

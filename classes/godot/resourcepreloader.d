@@ -25,7 +25,7 @@ import godot.resource;
 /**
 Resource Preloader Node.
 
-This node is used to preload sub-resources inside a scene, so when the scene is loaded all the resources are ready to use and be retrieved from here.
+This node is used to preload sub-resources inside a scene, so when the scene is loaded, all the resources are ready to use and can be retrieved from the preloader.
 */
 @GodotBaseClass struct ResourcePreloader
 {
@@ -80,7 +80,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
-	
+	Adds a resource to the preloader with the given `name`. If a resource with the given `name` already exists, the new resource will be renamed to "`name` N" where N is an incrementing number starting from 2.
 	*/
 	void addResource(in String name, Resource resource)
 	{
@@ -88,7 +88,7 @@ public:
 		ptrcall!(void)(_classBinding.addResource, _godot_object, name, resource);
 	}
 	/**
-	Remove a resource from the preloader by text id.
+	Removes the resource associated to `name` from the preloader.
 	*/
 	void removeResource(in String name)
 	{
@@ -96,7 +96,7 @@ public:
 		ptrcall!(void)(_classBinding.removeResource, _godot_object, name);
 	}
 	/**
-	Rename a resource inside the preloader, from a text-id to a new text-id.
+	Renames a resource inside the preloader from `name` to `newname`.
 	*/
 	void renameResource(in String name, in String newname)
 	{
@@ -104,7 +104,7 @@ public:
 		ptrcall!(void)(_classBinding.renameResource, _godot_object, name, newname);
 	}
 	/**
-	Return true if the preloader has a given resource.
+	Returns `true` if the preloader contains a resource associated to `name`.
 	*/
 	bool hasResource(in String name) const
 	{
@@ -112,7 +112,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasResource, _godot_object, name);
 	}
 	/**
-	Return the resource given a text-id.
+	Returns the resource associated to `name`.
 	*/
 	Ref!Resource getResource(in String name) const
 	{
@@ -120,7 +120,7 @@ public:
 		return ptrcall!(Resource)(_classBinding.getResource, _godot_object, name);
 	}
 	/**
-	Return the list of resources inside the preloader.
+	Returns the list of resources inside the preloader.
 	*/
 	PoolStringArray getResourceList() const
 	{

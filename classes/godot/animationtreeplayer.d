@@ -239,7 +239,7 @@ public:
 		return ptrcall!(String)(_classBinding.nodeGetInputSource, _godot_object, id, idx);
 	}
 	/**
-	Binds a new $(D Animation) from the $(D masterPlayer) to the `AnimationTreePlayer`'s animation node with name `id`.
+	Binds a new $(D Animation) from the $(D masterPlayer) to the $(D AnimationTreePlayer)'s animation node with name `id`.
 	*/
 	void animationNodeSetAnimation(in String id, Animation animation)
 	{
@@ -247,7 +247,7 @@ public:
 		ptrcall!(void)(_classBinding.animationNodeSetAnimation, _godot_object, id, animation);
 	}
 	/**
-	Returns the $(D AnimationPlayer)'s $(D Animation) bound to the `AnimationTreePlayer`'s animation node with name `id`.
+	Returns the $(D AnimationPlayer)'s $(D Animation) bound to the $(D AnimationTreePlayer)'s animation node with name `id`.
 	*/
 	Ref!Animation animationNodeGetAnimation(in String id) const
 	{
@@ -703,7 +703,7 @@ public:
 		return ptrcall!(AnimationTreePlayer.AnimationProcessMode)(_classBinding.getAnimationProcessMode, _godot_object);
 	}
 	/**
-	Shifts position in the animation timeline. Delta is the time in seconds to shift.
+	Shifts position in the animation timeline. Delta is the time in seconds to shift. Events between the current frame and `delta` are handled.
 	*/
 	void advance(in double delta)
 	{
@@ -711,7 +711,7 @@ public:
 		ptrcall!(void)(_classBinding.advance, _godot_object, delta);
 	}
 	/**
-	Resets this `AnimationTreePlayer`.
+	Resets this $(D AnimationTreePlayer).
 	*/
 	void reset()
 	{
@@ -739,7 +739,7 @@ public:
 		setAnimationProcessMode(v);
 	}
 	/**
-	The path to the $(D AnimationPlayer) from which this `AnimationTreePlayer` binds animations to animation nodes.
+	The path to the $(D AnimationPlayer) from which this $(D AnimationTreePlayer) binds animations to animation nodes.
 	Once set, Animation nodes can be added to the AnimationTreePlayer.
 	*/
 	@property NodePath masterPlayer()
@@ -765,7 +765,7 @@ public:
 		setBasePath(v);
 	}
 	/**
-	If `true` the `AnimationTreePlayer` is able to play animations. Default value: `false`.
+	If `true`, the $(D AnimationTreePlayer) is able to play animations. Default value: `false`.
 	*/
 	@property bool active()
 	{

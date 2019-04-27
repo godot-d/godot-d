@@ -73,7 +73,7 @@ public:
 		*/
 		storageRaw = 0,
 		/**
-		$(D Image) data is compressed with a lossy algorithm. You can set the storage quality with $(D setLossyStorageQuality).
+		$(D Image) data is compressed with a lossy algorithm. You can set the storage quality with $(D lossyQuality).
 		*/
 		storageCompressLossy = 1,
 		/**
@@ -89,9 +89,8 @@ public:
 		storageCompressLossless = 2,
 	}
 	/**
-	Create a new `ImageTexture` with "width" and "height".
-	"format" one of $(D Image).FORMAT_*.
-	"flags" one or more of $(D Texture).FLAG_*.
+	Create a new $(D ImageTexture) with `width` and `height`.
+	`format` is a value from $(D Image.format), `flags` is any combination of $(D Texture.flags).
 	*/
 	void create(in long width, in long height, in long format, in long flags = 7)
 	{
@@ -99,7 +98,7 @@ public:
 		ptrcall!(void)(_classBinding.create, _godot_object, width, height, format, flags);
 	}
 	/**
-	Create a new `ImageTexture` from an $(D Image) with "flags" from $(D Texture).FLAG_*. An sRGB to linear color space conversion can take place, according to $(D Image).FORMAT_*.
+	Create a new $(D ImageTexture) from an $(D Image) with `flags` from $(D Texture.flags). An sRGB to linear color space conversion can take place, according to $(D Image.format).
 	*/
 	void createFromImage(Image image, in long flags = 7)
 	{
@@ -107,7 +106,7 @@ public:
 		ptrcall!(void)(_classBinding.createFromImage, _godot_object, image, flags);
 	}
 	/**
-	Return the format of the `ImageTexture`, one of $(D Image).FORMAT_*.
+	Return the format of the $(D ImageTexture), one of $(D Image.format).
 	*/
 	Image.Format getFormat() const
 	{
@@ -115,7 +114,7 @@ public:
 		return ptrcall!(Image.Format)(_classBinding.getFormat, _godot_object);
 	}
 	/**
-	Load an `ImageTexture` from a file path.
+	Load an $(D ImageTexture) from a file path.
 	*/
 	GodotError load(in String path)
 	{
@@ -123,7 +122,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
 	}
 	/**
-	Set the $(D Image) of this `ImageTexture`.
+	Set the $(D Image) of this $(D ImageTexture).
 	*/
 	void setData(Image image)
 	{
@@ -163,7 +162,7 @@ public:
 		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
-	Resizes the `ImageTexture` to the specified dimensions.
+	Resizes the $(D ImageTexture) to the specified dimensions.
 	*/
 	void setSizeOverride(in Vector2 size)
 	{
@@ -193,7 +192,7 @@ public:
 		setStorage(v);
 	}
 	/**
-	The storage quality for `ImageTexture`.STORAGE_COMPRESS_LOSSY.
+	The storage quality for `STORAGE_COMPRESS_LOSSY`.
 	*/
 	@property double lossyQuality()
 	{

@@ -102,7 +102,7 @@ public:
 		setLength(v);
 	}
 	/**
-	If `true` allow the shape to return the correct normal. Default value: `false`.
+	If `true`, allow the shape to return the correct normal. Default value: `false`.
 	*/
 	@property bool slipsOnSlope()
 	{

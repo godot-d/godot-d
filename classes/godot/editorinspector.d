@@ -21,11 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.scrollcontainer;
+import godot.node;
 import godot.resource;
 import godot.container;
 import godot.control;
 import godot.canvasitem;
-import godot.node;
 /**
 
 */
@@ -41,14 +41,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_property_changed") GodotMethod!(void, String, Variant, bool) _propertyChanged;
+		@GodotName("_property_changed") GodotMethod!(void, String, Variant, String, bool) _propertyChanged;
 		@GodotName("_multiple_properties_changed") GodotMethod!(void, PoolStringArray, Array) _multiplePropertiesChanged;
-		@GodotName("_property_changed_update_all") GodotMethod!(void, String, Variant) _propertyChangedUpdateAll;
+		@GodotName("_property_changed_update_all") GodotMethod!(void, String, Variant, String, bool) _propertyChangedUpdateAll;
 		@GodotName("_edit_request_change") GodotMethod!(void, GodotObject, String) _editRequestChange;
-		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 		@GodotName("_filter_changed") GodotMethod!(void, String) _filterChanged;
-		@GodotName("_property_keyed") GodotMethod!(void, String) _propertyKeyed;
-		@GodotName("_property_keyed_with_value") GodotMethod!(void, String, Variant) _propertyKeyedWithValue;
+		@GodotName("_property_keyed") GodotMethod!(void, String, bool) _propertyKeyed;
+		@GodotName("_property_keyed_with_value") GodotMethod!(void, String, Variant, bool) _propertyKeyedWithValue;
 		@GodotName("_property_checked") GodotMethod!(void, String, bool) _propertyChecked;
 		@GodotName("_property_selected") GodotMethod!(void, String, long) _propertySelected;
 		@GodotName("_resource_selected") GodotMethod!(void, String, Resource) _resourceSelected;
@@ -71,12 +71,13 @@ public:
 	/**
 	
 	*/
-	void _propertyChanged(VariantArg1)(in String arg0, in VariantArg1 arg1, in bool arg2 = false)
+	void _propertyChanged(VariantArg1)(in String arg0, in VariantArg1 arg1, in String arg2 = gs!"", in bool arg3 = false)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
 		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
 		String _GODOT_method_name = String("_property_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
@@ -94,11 +95,13 @@ public:
 	/**
 	
 	*/
-	void _propertyChangedUpdateAll(VariantArg1)(in String arg0, in VariantArg1 arg1)
+	void _propertyChangedUpdateAll(VariantArg1)(in String arg0, in VariantArg1 arg1, in String arg2, in bool arg3)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
+		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
 		String _GODOT_method_name = String("_property_changed_update_all");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
@@ -116,7 +119,7 @@ public:
 	/**
 	
 	*/
-	void _nodeRemoved(GodotObject arg0)
+	void _nodeRemoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -136,21 +139,23 @@ public:
 	/**
 	
 	*/
-	void _propertyKeyed(in String arg0)
+	void _propertyKeyed(in String arg0, in bool arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
+		_GODOT_args.append(arg1);
 		String _GODOT_method_name = String("_property_keyed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void _propertyKeyedWithValue(VariantArg1)(in String arg0, in VariantArg1 arg1)
+	void _propertyKeyedWithValue(VariantArg1)(in String arg0, in VariantArg1 arg1, in bool arg2)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
+		_GODOT_args.append(arg2);
 		String _GODOT_method_name = String("_property_keyed_with_value");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}

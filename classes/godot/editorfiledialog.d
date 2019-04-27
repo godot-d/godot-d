@@ -111,11 +111,11 @@ public:
 	enum DisplayMode : int
 	{
 		/**
-		The `EditorFileDialog` displays resources as thumbnails.
+		The $(D EditorFileDialog) displays resources as thumbnails.
 		*/
 		displayThumbnails = 0,
 		/**
-		The `EditorFileDialog` displays resources as a list of filenames.
+		The $(D EditorFileDialog) displays resources as a list of filenames.
 		*/
 		displayList = 1,
 	}
@@ -123,23 +123,23 @@ public:
 	enum Mode : int
 	{
 		/**
-		The `EditorFileDialog` can select only one file. Accepting the window will open the file.
+		The $(D EditorFileDialog) can select only one file. Accepting the window will open the file.
 		*/
 		modeOpenFile = 0,
 		/**
-		The `EditorFileDialog` can select multiple files. Accepting the window will open all files.
+		The $(D EditorFileDialog) can select multiple files. Accepting the window will open all files.
 		*/
 		modeOpenFiles = 1,
 		/**
-		The `EditorFileDialog` can select only one directory. Accepting the window will open the directory.
+		The $(D EditorFileDialog) can select only one directory. Accepting the window will open the directory.
 		*/
 		modeOpenDir = 2,
 		/**
-		The `EditorFileDialog` can select a file or directory. Accepting the window will open it.
+		The $(D EditorFileDialog) can select a file or directory. Accepting the window will open it.
 		*/
 		modeOpenAny = 3,
 		/**
-		The `EditorFileDialog` can select only one file. Accepting the window will save the file.
+		The $(D EditorFileDialog) can select only one file. Accepting the window will save the file.
 		*/
 		modeSaveFile = 4,
 	}
@@ -147,15 +147,15 @@ public:
 	enum Access : int
 	{
 		/**
-		The `EditorFileDialog` can only view `res://` directory contents.
+		The $(D EditorFileDialog) can only view `res://` directory contents.
 		*/
 		accessResources = 0,
 		/**
-		The `EditorFileDialog` can only view `user://` directory contents.
+		The $(D EditorFileDialog) can only view `user://` directory contents.
 		*/
 		accessUserdata = 1,
 		/**
-		The `EditorFileDialog` can view the entire local file system.
+		The $(D EditorFileDialog) can view the entire local file system.
 		*/
 		accessFilesystem = 2,
 	}
@@ -320,7 +320,7 @@ public:
 		ptrcall!(void)(_classBinding.clearFilters, _godot_object);
 	}
 	/**
-	Adds a comma-delimited file extension filter option to the `EditorFileDialog` with an optional semi-colon-delimited label.
+	Adds a comma-delimited file extension filter option to the $(D EditorFileDialog) with an optional semi-colon-delimited label.
 	Example: "*.tscn, *.scn; Scenes", results in filter text "Scenes (*.tscn, *.scn)".
 	*/
 	void addFilter(in String filter)
@@ -612,7 +612,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Notify the `EditorFileDialog` that its view of the data is no longer accurate. Updates the view contents on next view update.
+	Notify the $(D EditorFileDialog) that its view of the data is no longer accurate. Updates the view contents on next view update.
 	*/
 	void invalidate()
 	{
@@ -632,7 +632,7 @@ public:
 		setAccess(v);
 	}
 	/**
-	The view format in which the `EditorFileDialog` displays resources to the user.
+	The view format in which the $(D EditorFileDialog) displays resources to the user.
 	*/
 	@property EditorFileDialog.DisplayMode displayMode()
 	{
@@ -644,7 +644,7 @@ public:
 		setDisplayMode(v);
 	}
 	/**
-	The purpose of the `EditorFileDialog`. Changes allowed behaviors.
+	The purpose of the $(D EditorFileDialog). Changes allowed behaviors.
 	*/
 	@property EditorFileDialog.Mode mode()
 	{
@@ -692,7 +692,7 @@ public:
 		setCurrentPath(v);
 	}
 	/**
-	If `true` hidden files and directories will be visible in the `EditorFileDialog`.
+	If `true`, hidden files and directories will be visible in the $(D EditorFileDialog).
 	*/
 	@property bool showHiddenFiles()
 	{
@@ -704,7 +704,7 @@ public:
 		setShowHiddenFiles(v);
 	}
 	/**
-	If `true` the `EditorFileDialog` will not warn the user before overwriting files.
+	If `true`, the $(D EditorFileDialog) will not warn the user before overwriting files.
 	*/
 	@property bool disableOverwriteWarning()
 	{

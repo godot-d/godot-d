@@ -56,6 +56,7 @@ public:
 		@GodotName("get_item_text") GodotMethod!(String, long) getItemText;
 		@GodotName("get_item_icon") GodotMethod!(Texture, long) getItemIcon;
 		@GodotName("get_item_id") GodotMethod!(long, long) getItemId;
+		@GodotName("get_item_index") GodotMethod!(long, long) getItemIndex;
 		@GodotName("get_item_metadata") GodotMethod!(Variant, long) getItemMetadata;
 		@GodotName("is_item_disabled") GodotMethod!(bool, long) isItemDisabled;
 		@GodotName("get_item_count") GodotMethod!(long) getItemCount;
@@ -176,12 +177,20 @@ public:
 		return ptrcall!(Texture)(_classBinding.getItemIcon, _godot_object, idx);
 	}
 	/**
-	Return the ID of the item at index "idx".
+	Return the ID of the item at index `idx`.
 	*/
 	long getItemId(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getItemId, _godot_object, idx);
+	}
+	/**
+	Return the index of the item with the given `id`.
+	*/
+	long getItemIndex(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getItemIndex, _godot_object, id);
 	}
 	/**
 	
@@ -216,7 +225,7 @@ public:
 		ptrcall!(void)(_classBinding.addSeparator, _godot_object);
 	}
 	/**
-	Clear all the items in the `OptionButton`.
+	Clear all the items in the $(D OptionButton).
 	*/
 	void clear()
 	{

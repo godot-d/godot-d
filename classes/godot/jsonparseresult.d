@@ -24,7 +24,7 @@ import godot.reference;
 /**
 Data class wrapper for decoded JSON.
 
-Returned by $(D JSON.parse), `JSONParseResult` contains decoded JSON or error information if JSON source not successfully parsed. You can check if JSON source was successfully parsed with `if json_result.error == OK`.
+Returned by $(D JSON.parse), $(D JSONParseResult) contains decoded JSON or error information if JSON source not successfully parsed. You can check if JSON source was successfully parsed with `if json_result.error == OK`.
 */
 @GodotBaseClass struct JSONParseResult
 {
@@ -161,7 +161,7 @@ public:
 	}
 	/**
 	A $(D Variant) containing the parsed JSON. Use typeof() to check if it is what you expect. For example, if JSON source starts with curly braces (`{}`) a $(D Dictionary) will be returned, if JSON source starts with braces (`$(D ]`) an [Array) will be returned.
-	$(D i)Be aware that the JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.
+	$(I Be aware that the JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.)
 	Note that JSON objects do not preserve key order like Godot dictionaries, thus you should not rely on keys being in a certain order if a dictionary is constructed from JSON. In contrast, JSON arrays retain the order of their elements:$(D /i)
 	
 	

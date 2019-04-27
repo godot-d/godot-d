@@ -1,5 +1,5 @@
 /**
-
+One-shot timer.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,6 +21,17 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
+One-shot timer.
+
+A one-shot timer managed by the scene tree, which emits $(D timeout) on completion. See also $(D SceneTree.createTimer).
+As opposed to $(D Timer), it does not require the instantiation of a node. Commonly used to create a one-shot delay timer as in the following example:
+
+
+func some_function():
+	print("start")
+	yield(get_tree().create_timer(1.0), "timeout")
+	print("end")
+
 
 */
 @GodotBaseClass struct SceneTreeTimer
@@ -67,7 +78,7 @@ public:
 		return ptrcall!(double)(_classBinding.getTimeLeft, _godot_object);
 	}
 	/**
-	
+	The time remaining.
 	*/
 	@property double timeLeft()
 	{

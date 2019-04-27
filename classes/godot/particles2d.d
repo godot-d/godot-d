@@ -28,7 +28,7 @@ import godot.node;
 /**
 2D particle emitter.
 
-2D particle node used to create a variety of particle systems and effects. `Particles2D` features an emitter that generates some number of particles at a given rate.
+2D particle node used to create a variety of particle systems and effects. $(D Particles2D) features an emitter that generates some number of particles at a given rate.
 Use the `process_material` property to add a $(D ParticlesMaterial) to configure particle appearance and behavior. Alternatively, you can add a $(D ShaderMaterial) which will be applied to all particles.
 */
 @GodotBaseClass struct Particles2D
@@ -76,10 +76,6 @@ public:
 		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
 		@GodotName("get_normal_map") GodotMethod!(Texture) getNormalMap;
 		@GodotName("capture_rect") GodotMethod!(Rect2) captureRect;
-		@GodotName("set_v_frames") GodotMethod!(void, long) setVFrames;
-		@GodotName("get_v_frames") GodotMethod!(long) getVFrames;
-		@GodotName("set_h_frames") GodotMethod!(void, long) setHFrames;
-		@GodotName("get_h_frames") GodotMethod!(long) getHFrames;
 		@GodotName("restart") GodotMethod!(void) restart;
 	}
 	bool opEquals(in Particles2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -369,7 +365,7 @@ public:
 		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
 	}
 	/**
-	
+	Returns a rectangle containing the positions of all existing particles.
 	*/
 	Rect2 captureRect() const
 	{
@@ -377,39 +373,7 @@ public:
 		return ptrcall!(Rect2)(_classBinding.captureRect, _godot_object);
 	}
 	/**
-	
-	*/
-	void setVFrames(in long frames)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVFrames, _godot_object, frames);
-	}
-	/**
-	
-	*/
-	long getVFrames() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVFrames, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHFrames(in long frames)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHFrames, _godot_object, frames);
-	}
-	/**
-	
-	*/
-	long getHFrames() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHFrames, _godot_object);
-	}
-	/**
-	
+	Restarts all the existing particles.
 	*/
 	void restart()
 	{
@@ -417,7 +381,7 @@ public:
 		ptrcall!(void)(_classBinding.restart, _godot_object);
 	}
 	/**
-	If `true` particles are being emitted. Default value: `true`.
+	If `true`, particles are being emitted. Default value: `true`.
 	*/
 	@property bool emitting()
 	{
@@ -453,7 +417,7 @@ public:
 		setLifetime(v);
 	}
 	/**
-	If `true` only one emission cycle occurs. If set `true` during a cycle, emission will stop at the cycle's end. Default value: `false`.
+	If `true`, only one emission cycle occurs. If set `true` during a cycle, emission will stop at the cycle's end. Default value: `false`.
 	*/
 	@property bool oneShot()
 	{
@@ -513,7 +477,7 @@ public:
 		setRandomnessRatio(v);
 	}
 	/**
-	
+	The particle system's frame rate is fixed to a value. For instance, changing the value to 2 will make the particles render at 2 frames per second. Note this does not slow down the particle system itself.
 	*/
 	@property long fixedFps()
 	{
@@ -525,7 +489,7 @@ public:
 		setFixedFps(v);
 	}
 	/**
-	
+	If `true`, results in fractional delta calculation which has a smoother particles display effect. Default value: `true`
 	*/
 	@property bool fractDelta()
 	{
@@ -549,7 +513,7 @@ public:
 		setVisibilityRect(v);
 	}
 	/**
-	If `true` particles use the parent node's coordinate space. If `false` they use global coordinates. Default value: `true`.
+	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates. Default value: `true`.
 	*/
 	@property bool localCoords()
 	{
@@ -585,7 +549,7 @@ public:
 		setTexture(v);
 	}
 	/**
-	
+	Normal map to be used for the `texture` property.
 	*/
 	@property Texture normalMap()
 	{
@@ -595,29 +559,5 @@ public:
 	@property void normalMap(Texture v)
 	{
 		setNormalMap(v);
-	}
-	/**
-	Number of horizontal frames in `texture`.
-	*/
-	@property long hFrames()
-	{
-		return getHFrames();
-	}
-	/// ditto
-	@property void hFrames(long v)
-	{
-		setHFrames(v);
-	}
-	/**
-	Number of vertical frames in `texture`.
-	*/
-	@property long vFrames()
-	{
-		return getVFrames();
-	}
-	/// ditto
-	@property void vFrames(long v)
-	{
-		setVFrames(v);
 	}
 }

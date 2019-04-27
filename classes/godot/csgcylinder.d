@@ -201,7 +201,7 @@ public:
 		setSides(v);
 	}
 	/**
-	If true a cone is created, the $(D radius) will only apply to one side.
+	If `true` a cone is created, the $(D radius) will only apply to one side.
 	*/
 	@property bool cone()
 	{
@@ -213,7 +213,7 @@ public:
 		setCone(v);
 	}
 	/**
-	If true the normals of the cylinder are set to give a smooth effect making the cylinder seem rounded. When false the cylinder will have a flat shaded look.
+	If `true` the normals of the cylinder are set to give a smooth effect making the cylinder seem rounded. If `false` the cylinder will have a flat shaded look.
 	*/
 	@property bool smoothFaces()
 	{

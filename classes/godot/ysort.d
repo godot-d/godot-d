@@ -27,6 +27,7 @@ import godot.node;
 Sort all child nodes based on their Y positions.
 
 The child node must inherit from $(D CanvasItem) for it to be sorted. Nodes that have a higher Y position will be drawn later, so they will appear on top of nodes that have a lower Y position.
+Nesting of YSort nodes is possible. Children YSort nodes will be sorted in the same space as the parent YSort, allowing to better organize a scene or divide it in multiple ones, yet keep the unique sorting.
 */
 @GodotBaseClass struct YSort
 {
@@ -72,7 +73,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isSortEnabled, _godot_object);
 	}
 	/**
-	If `true` child nodes are sorted, otherwise sorting is disabled. Default: `true`.
+	If `true`, child nodes are sorted, otherwise sorting is disabled. Default: `true`.
 	*/
 	@property bool sortEnabled()
 	{

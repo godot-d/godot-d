@@ -129,7 +129,7 @@ public:
 		setDepth(v);
 	}
 	/**
-	If true, no collision will be produced.
+	If `true`, no collision will be produced.
 	*/
 	@property bool disabled()
 	{
@@ -141,7 +141,7 @@ public:
 		setDisabled(v);
 	}
 	/**
-	Array of vertices which define the polygon.
+	Array of vertices which define the polygon. Note that the returned value is a copy of the original. Methods which mutate the size or properties of the return value will not impact the original polygon. To change properties of the polygon, assign it to a temporary variable and make changes before reassigning the `polygon` member.
 	*/
 	@property PoolVector2Array polygon()
 	{

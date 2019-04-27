@@ -49,6 +49,7 @@ public:
 		@GodotName("as_text") GodotMethod!(String) asText;
 		@GodotName("shortcut_match") GodotMethod!(bool, InputEvent) shortcutMatch;
 		@GodotName("is_action_type") GodotMethod!(bool) isActionType;
+		@GodotName("accumulate") GodotMethod!(bool, InputEvent) accumulate;
 		@GodotName("xformed_by") GodotMethod!(InputEvent, Transform2D, Vector2) xformedBy;
 	}
 	bool opEquals(in InputEvent other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -144,12 +145,20 @@ public:
 		return ptrcall!(bool)(_classBinding.shortcutMatch, _godot_object, event);
 	}
 	/**
-	Returns `true` if this input event's type is one of the `InputEvent` constants.
+	Returns `true` if this input event's type is one of the $(D InputEvent) constants.
 	*/
 	bool isActionType() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActionType, _godot_object);
+	}
+	/**
+	
+	*/
+	bool accumulate(InputEvent with_event)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.accumulate, _godot_object, with_event);
 	}
 	/**
 	

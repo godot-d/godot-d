@@ -80,6 +80,8 @@ public:
 		@GodotName("area_get_transform") GodotMethod!(Transform2D, RID) areaGetTransform;
 		@GodotName("area_attach_object_instance_id") GodotMethod!(void, RID, long) areaAttachObjectInstanceId;
 		@GodotName("area_get_object_instance_id") GodotMethod!(long, RID) areaGetObjectInstanceId;
+		@GodotName("area_attach_canvas_instance_id") GodotMethod!(void, RID, long) areaAttachCanvasInstanceId;
+		@GodotName("area_get_canvas_instance_id") GodotMethod!(long, RID) areaGetCanvasInstanceId;
 		@GodotName("area_set_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetMonitorCallback;
 		@GodotName("area_set_area_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetAreaMonitorCallback;
 		@GodotName("area_set_monitorable") GodotMethod!(void, RID, bool) areaSetMonitorable;
@@ -99,9 +101,11 @@ public:
 		@GodotName("body_remove_shape") GodotMethod!(void, RID, long) bodyRemoveShape;
 		@GodotName("body_clear_shapes") GodotMethod!(void, RID) bodyClearShapes;
 		@GodotName("body_set_shape_disabled") GodotMethod!(void, RID, long, bool) bodySetShapeDisabled;
-		@GodotName("body_set_shape_as_one_way_collision") GodotMethod!(void, RID, long, bool) bodySetShapeAsOneWayCollision;
+		@GodotName("body_set_shape_as_one_way_collision") GodotMethod!(void, RID, long, bool, double) bodySetShapeAsOneWayCollision;
 		@GodotName("body_attach_object_instance_id") GodotMethod!(void, RID, long) bodyAttachObjectInstanceId;
 		@GodotName("body_get_object_instance_id") GodotMethod!(long, RID) bodyGetObjectInstanceId;
+		@GodotName("body_attach_canvas_instance_id") GodotMethod!(void, RID, long) bodyAttachCanvasInstanceId;
+		@GodotName("body_get_canvas_instance_id") GodotMethod!(long, RID) bodyGetCanvasInstanceId;
 		@GodotName("body_set_continuous_collision_detection_mode") GodotMethod!(void, RID, long) bodySetContinuousCollisionDetectionMode;
 		@GodotName("body_get_continuous_collision_detection_mode") GodotMethod!(Physics2DServer.CCDMode, RID) bodyGetContinuousCollisionDetectionMode;
 		@GodotName("body_set_collision_layer") GodotMethod!(void, RID, long) bodySetCollisionLayer;
@@ -244,7 +248,7 @@ public:
 		*/
 		shapeCapsule = 5,
 		/**
-		This is the constant for creating convex polygon shapes. A polygon is defined by a list of points. It can be used for intersections and inside/outside checks. Unlike the method $(D CollisionPolygon2D.setPolygon), polygons modified with $(D shapeSetData) do not verify that the points supplied form is a convex polygon.
+		This is the constant for creating convex polygon shapes. A polygon is defined by a list of points. It can be used for intersections and inside/outside checks. Unlike the $(D CollisionPolygon2D.polygon) property, polygons modified with $(D shapeSetData) do not verify that the points supplied form is a convex polygon.
 		*/
 		shapeConvexPolygon = 6,
 		/**
@@ -303,6 +307,10 @@ public:
 		Constant to set/get the default solver bias for all physics constraints. A solver bias is a factor controlling how much two objects "rebound", after violating a constraint, to avoid leaving them in that state because of numerical imprecision.
 		*/
 		spaceParamConstraintDefaultBias = 6,
+		/**
+		
+		*/
+		spaceParamTestMotionMinContactDepth = 7,
 	}
 	/// 
 	enum JointType : int
@@ -518,6 +526,7 @@ public:
 		bodyParamAngularDamp = 6,
 		areaParamAngularDamp = 6,
 		shapeConvexPolygon = 6,
+		spaceParamTestMotionMinContactDepth = 7,
 		bodyParamMax = 7,
 		areaParamPriority = 7,
 		shapeConcavePolygon = 7,
@@ -836,6 +845,22 @@ public:
 		return ptrcall!(long)(_classBinding.areaGetObjectInstanceId, _godot_object, area);
 	}
 	/**
+	
+	*/
+	void areaAttachCanvasInstanceId(in RID area, in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaAttachCanvasInstanceId, _godot_object, area, id);
+	}
+	/**
+	
+	*/
+	long areaGetCanvasInstanceId(in RID area) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.areaGetCanvasInstanceId, _godot_object, area);
+	}
+	/**
 	Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters:
 	1: AREA_BODY_ADDED or AREA_BODY_REMOVED, depending on whether the object entered or exited the area.
 	2: $(D RID) of the object that entered/exited the area.
@@ -995,10 +1020,10 @@ public:
 	/**
 	Enables one way collision on body if `enable` is `true`.
 	*/
-	void bodySetShapeAsOneWayCollision(in RID _body, in long shape_idx, in bool enable)
+	void bodySetShapeAsOneWayCollision(in RID _body, in long shape_idx, in bool enable, in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable);
+		ptrcall!(void)(_classBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable, margin);
 	}
 	/**
 	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
@@ -1015,6 +1040,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
+	}
+	/**
+	
+	*/
+	void bodyAttachCanvasInstanceId(in RID _body, in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAttachCanvasInstanceId, _godot_object, _body, id);
+	}
+	/**
+	
+	*/
+	long bodyGetCanvasInstanceId(in RID _body) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetCanvasInstanceId, _godot_object, _body);
 	}
 	/**
 	Sets the continuous collision detection mode from any of the CCD_MODE_* constants.

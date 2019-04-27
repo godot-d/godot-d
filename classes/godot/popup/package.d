@@ -72,7 +72,7 @@ public:
 		notificationPopupHide = 81,
 	}
 	/**
-	Popup (show the control in modal form) in the center of the screen, at the current size, or at a size determined by "size".
+	Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by "size".
 	*/
 	void popupCentered(in Vector2 size = Vector2(0, 0))
 	{
@@ -80,7 +80,7 @@ public:
 		ptrcall!(void)(_classBinding.popupCentered, _godot_object, size);
 	}
 	/**
-	Popup (show the control in modal form) in the center of the screen, scaled at a ratio of size of the screen.
+	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, scaled at a ratio of size of the screen.
 	*/
 	void popupCenteredRatio(in double ratio = 0.75)
 	{
@@ -88,7 +88,7 @@ public:
 		ptrcall!(void)(_classBinding.popupCenteredRatio, _godot_object, ratio);
 	}
 	/**
-	Popup (show the control in modal form) in the center of the screen, ensuring the size is never smaller than `minsize`.
+	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, ensuring the size is never smaller than `minsize`.
 	*/
 	void popupCenteredMinsize(in Vector2 minsize = Vector2(0, 0))
 	{
@@ -120,7 +120,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isExclusive, _godot_object);
 	}
 	/**
-	If `true` the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.
+	If `true`, the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.
 	*/
 	@property bool popupExclusive()
 	{

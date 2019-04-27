@@ -87,27 +87,27 @@ public:
 	enum Side : int
 	{
 		/**
-		Identifier for the left face of the `CubeMap`.
+		Identifier for the left face of the $(D CubeMap).
 		*/
 		sideLeft = 0,
 		/**
-		Identifier for the right face of the `CubeMap`.
+		Identifier for the right face of the $(D CubeMap).
 		*/
 		sideRight = 1,
 		/**
-		Identifier for the bottom face of the `CubeMap`.
+		Identifier for the bottom face of the $(D CubeMap).
 		*/
 		sideBottom = 2,
 		/**
-		Identifier for the top face of the `CubeMap`.
+		Identifier for the top face of the $(D CubeMap).
 		*/
 		sideTop = 3,
 		/**
-		Identifier for the front face of the `CubeMap`.
+		Identifier for the front face of the $(D CubeMap).
 		*/
 		sideFront = 4,
 		/**
-		Identifier for the back face of the `CubeMap`.
+		Identifier for the back face of the $(D CubeMap).
 		*/
 		sideBack = 5,
 	}
@@ -115,15 +115,15 @@ public:
 	enum Storage : int
 	{
 		/**
-		Store the `CubeMap` without any compression.
+		Store the $(D CubeMap) without any compression.
 		*/
 		storageRaw = 0,
 		/**
-		Store the `CubeMap` with strong compression that reduces image quality.
+		Store the $(D CubeMap) with strong compression that reduces image quality.
 		*/
 		storageCompressLossy = 1,
 		/**
-		Store the `CubeMap` with moderate compression that doesn't reduce image quality.
+		Store the $(D CubeMap) with moderate compression that doesn't reduce image quality.
 		*/
 		storageCompressLossless = 2,
 	}
@@ -145,7 +145,7 @@ public:
 		flagsDefault = 7,
 	}
 	/**
-	Returns the `CubeMap`'s width.
+	Returns the $(D CubeMap)'s width.
 	*/
 	long getWidth() const
 	{
@@ -153,7 +153,7 @@ public:
 		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
 	}
 	/**
-	Returns the `CubeMap`'s height.
+	Returns the $(D CubeMap)'s height.
 	*/
 	long getHeight() const
 	{
@@ -177,7 +177,7 @@ public:
 		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
 	}
 	/**
-	Sets an $(D Image) for a side of the `CubeMap` using one of the `SIDE_*` constants or an integer 0-5.
+	Sets an $(D Image) for a side of the $(D CubeMap) using one of the `SIDE_*` constants or an integer 0-5.
 	*/
 	void setSide(in long side, Image image)
 	{
@@ -185,7 +185,7 @@ public:
 		ptrcall!(void)(_classBinding.setSide, _godot_object, side, image);
 	}
 	/**
-	Returns an $(D Image) for a side of the `CubeMap` using one of the `SIDE_*` constants or an integer 0-5.
+	Returns an $(D Image) for a side of the $(D CubeMap) using one of the `SIDE_*` constants or an integer 0-5.
 	*/
 	Ref!Image getSide(in long side) const
 	{
@@ -225,7 +225,7 @@ public:
 		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
-	The render flags for the `CubeMap`. See the `FLAG_*` constants for details.
+	The render flags for the $(D CubeMap). See the `FLAG_*` constants for details.
 	*/
 	@property long flags()
 	{
@@ -237,7 +237,7 @@ public:
 		setFlags(v);
 	}
 	/**
-	The `CubeMap`'s storage mode. See `STORAGE_*` constants.
+	The $(D CubeMap)'s storage mode. See `STORAGE_*` constants.
 	*/
 	@property CubeMap.Storage storageMode()
 	{
@@ -249,7 +249,7 @@ public:
 		setStorage(v);
 	}
 	/**
-	The lossy storage quality of the `CubeMap` if the storage mode is set to STORAGE_COMPRESS_LOSSY.
+	The lossy storage quality of the $(D CubeMap) if the storage mode is set to STORAGE_COMPRESS_LOSSY.
 	*/
 	@property double lossyStorageQuality()
 	{

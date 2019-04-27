@@ -23,7 +23,7 @@ import godot.texture;
 /**
 Control for a single item inside a $(D Tree).
 
-May have child `TreeItem`s and be styled as well as contain buttons.
+May have child $(D TreeItem)s and be styled as well as contain buttons.
 */
 @GodotBaseClass struct TreeItem
 {
@@ -179,7 +179,7 @@ public:
 		return ptrcall!(TreeItem.TreeCellMode)(_classBinding.getCellMode, _godot_object, column);
 	}
 	/**
-	If `true` the column `column` is checked.
+	If `true`, the column `column` is checked.
 	*/
 	void setChecked(in long column, in bool checked)
 	{
@@ -404,7 +404,7 @@ public:
 		ptrcall!(void)(_classBinding.removeChild, _godot_object, child);
 	}
 	/**
-	If `true` the given column is selectable.
+	If `true`, the given column is selectable.
 	*/
 	void setSelectable(in long column, in bool selectable)
 	{
@@ -444,7 +444,7 @@ public:
 		ptrcall!(void)(_classBinding.deselect, _godot_object, column);
 	}
 	/**
-	If `true` column `column` is editable.
+	If `true`, column `column` is editable.
 	*/
 	void setEditable(in long column, in bool enabled)
 	{
@@ -564,7 +564,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isButtonDisabled, _godot_object, column, button_idx);
 	}
 	/**
-	If `true` column `column` is expanded to the right.
+	If `true`, column `column` is expanded to the right.
 	*/
 	void setExpandRight(in long column, in bool enable)
 	{
@@ -644,7 +644,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isFoldingDisabled, _godot_object);
 	}
 	/**
-	If `true` the TreeItem is collapsed.
+	If `true`, the TreeItem is collapsed.
 	*/
 	@property bool collapsed()
 	{
@@ -656,7 +656,7 @@ public:
 		setCollapsed(v);
 	}
 	/**
-	If `true` folding is disabled for this TreeItem.
+	If `true`, folding is disabled for this TreeItem.
 	*/
 	@property bool disableFolding()
 	{

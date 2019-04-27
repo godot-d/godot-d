@@ -183,7 +183,7 @@ public:
 		setRings(v);
 	}
 	/**
-	If true the normals of the sphere are set to give a smooth effect making the sphere seem rounded. When false the sphere will have a flat shaded look.
+	If `true` the normals of the sphere are set to give a smooth effect making the sphere seem rounded. If `false` the sphere will have a flat shaded look.
 	*/
 	@property bool smoothFaces()
 	{

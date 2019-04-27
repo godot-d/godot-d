@@ -44,6 +44,7 @@ public:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
 		@GodotName("set_split_offset") GodotMethod!(void, long) setSplitOffset;
 		@GodotName("get_split_offset") GodotMethod!(long) getSplitOffset;
+		@GodotName("clamp_split_offset") GodotMethod!(void) clampSplitOffset;
 		@GodotName("set_collapsed") GodotMethod!(void, bool) setCollapsed;
 		@GodotName("is_collapsed") GodotMethod!(bool) isCollapsed;
 		@GodotName("set_dragger_visibility") GodotMethod!(void, long) setDraggerVisibility;
@@ -109,6 +110,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getSplitOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	void clampSplitOffset()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clampSplitOffset, _godot_object);
 	}
 	/**
 	

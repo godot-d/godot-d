@@ -50,6 +50,8 @@ public:
 		@GodotName("get_item_text") GodotMethod!(String, long) getItemText;
 		@GodotName("set_item_icon") GodotMethod!(void, long, Texture) setItemIcon;
 		@GodotName("get_item_icon") GodotMethod!(Texture, long) getItemIcon;
+		@GodotName("set_item_icon_transposed") GodotMethod!(void, long, bool) setItemIconTransposed;
+		@GodotName("is_item_icon_transposed") GodotMethod!(bool, long) isItemIconTransposed;
 		@GodotName("set_item_icon_region") GodotMethod!(void, long, Rect2) setItemIconRegion;
 		@GodotName("get_item_icon_region") GodotMethod!(Rect2, long) getItemIconRegion;
 		@GodotName("set_item_icon_modulate") GodotMethod!(void, long, Color) setItemIconModulate;
@@ -155,7 +157,7 @@ public:
 	}
 	/**
 	Adds an item to the item list with specified text. Specify an icon of null for a list item with no icon.
-	If selectable is true the list item will be selectable.
+	If selectable is `true` the list item will be selectable.
 	*/
 	void addItem(in String text, Texture icon = Texture.init, in bool selectable = true)
 	{
@@ -201,6 +203,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getItemIcon, _godot_object, idx);
+	}
+	/**
+	
+	*/
+	void setItemIconTransposed(in long idx, in bool rect)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setItemIconTransposed, _godot_object, idx, rect);
+	}
+	/**
+	
+	*/
+	bool isItemIconTransposed(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isItemIconTransposed, _godot_object, idx);
 	}
 	/**
 	
@@ -700,7 +718,7 @@ public:
 		setSelectMode(v);
 	}
 	/**
-	If `true` the currently selected item may be selected again.
+	If `true`, the currently selected item may be selected again.
 	*/
 	@property bool allowReselect()
 	{
@@ -712,7 +730,7 @@ public:
 		setAllowReselect(v);
 	}
 	/**
-	If `true` a right mouse button click can select items.
+	If `true`, a right mouse button click can select items.
 	*/
 	@property bool allowRmbSelect()
 	{

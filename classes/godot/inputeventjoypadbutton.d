@@ -99,7 +99,7 @@ public:
 		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
 	}
 	/**
-	Button identifier. One of the `JOY_BUTTON_*` constants from $(D @GlobalScope).
+	Button identifier. One of the $(D joysticklist) button constants.
 	*/
 	@property long buttonIndex()
 	{
@@ -123,7 +123,7 @@ public:
 		setPressure(v);
 	}
 	/**
-	If `true` the button's state is pressed. If `false` the button's state is released.
+	If `true`, the button's state is pressed. If `false`, the button's state is released.
 	*/
 	@property bool pressed()
 	{

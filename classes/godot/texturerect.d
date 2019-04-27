@@ -169,7 +169,7 @@ public:
 		setTexture(v);
 	}
 	/**
-	If `true` the texture scales to fit its bounding rectangle. Default value: `false`.
+	If `true`, the texture scales to fit its bounding rectangle. Default value: `false`.
 	*/
 	@property bool expand()
 	{

@@ -26,7 +26,11 @@ import godot.animationnodestatemachinetransition;
 import godot.resource;
 import godot.reference;
 /**
-
+Contains multiple root nodes as children in a graph. Each node is used as a state, and provides multiple functions to alternate between states. Retrieve the AnimationNodeStateMachinePlayback object from the $(D AnimationTree) node to control it programatically.
+$(D codeblock)
+var state_machine = anim_tree$(D "parameters/StateMachine/playback")
+state_machine.travel("SomeState")
+$(D codeblock)
 */
 @GodotBaseClass struct AnimationNodeStateMachine
 {
@@ -239,10 +243,10 @@ public:
 	/**
 	
 	*/
-	void setGraphOffset(in Vector2 name)
+	void setGraphOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGraphOffset, _godot_object, name);
+		ptrcall!(void)(_classBinding.setGraphOffset, _godot_object, offset);
 	}
 	/**
 	

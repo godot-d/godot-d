@@ -42,8 +42,8 @@ public:
 		@GodotName("get_custom_solver_bias") GodotMethod!(double) getCustomSolverBias;
 		@GodotName("collide") GodotMethod!(bool, Transform2D, Shape2D, Transform2D) collide;
 		@GodotName("collide_with_motion") GodotMethod!(bool, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotion;
-		@GodotName("collide_and_get_contacts") GodotMethod!(Variant, Transform2D, Shape2D, Transform2D) collideAndGetContacts;
-		@GodotName("collide_with_motion_and_get_contacts") GodotMethod!(Variant, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotionAndGetContacts;
+		@GodotName("collide_and_get_contacts") GodotMethod!(Array, Transform2D, Shape2D, Transform2D) collideAndGetContacts;
+		@GodotName("collide_with_motion_and_get_contacts") GodotMethod!(Array, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotionAndGetContacts;
 	}
 	bool opEquals(in Shape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Shape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -95,19 +95,19 @@ public:
 	Returns a list of the points where this shape touches another. If there are no collisions the list is empty.
 	This method needs the transformation matrix for this shape (`local_xform`), the shape to check collisions with (`with_shape`), and the transformation matrix of that shape (`shape_xform`).
 	*/
-	Variant collideAndGetContacts(in Transform2D local_xform, Shape2D with_shape, in Transform2D shape_xform)
+	Array collideAndGetContacts(in Transform2D local_xform, Shape2D with_shape, in Transform2D shape_xform)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.collideAndGetContacts, _godot_object, local_xform, with_shape, shape_xform);
+		return ptrcall!(Array)(_classBinding.collideAndGetContacts, _godot_object, local_xform, with_shape, shape_xform);
 	}
 	/**
 	Returns a list of the points where this shape would touch another, if a given movement was applied. If there are no collisions the list is empty.
 	This method needs the transformation matrix for this shape (`local_xform`), the movement to test on this shape (`local_motion`), the shape to check collisions with (`with_shape`), the transformation matrix of that shape (`shape_xform`), and the movement to test onto the other object (`shape_motion`).
 	*/
-	Variant collideWithMotionAndGetContacts(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
+	Array collideWithMotionAndGetContacts(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.collideWithMotionAndGetContacts, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
+		return ptrcall!(Array)(_classBinding.collideWithMotionAndGetContacts, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
 	}
 	/**
 	

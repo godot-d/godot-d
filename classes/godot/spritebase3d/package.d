@@ -320,7 +320,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	If `true` texture will be centered. Default value: `true`.
+	If `true`, texture will be centered. Default value: `true`.
 	*/
 	@property bool centered()
 	{
@@ -344,7 +344,7 @@ public:
 		setOffset(v);
 	}
 	/**
-	If `true` texture is flipped horizontally. Default value: `false`.
+	If `true`, texture is flipped horizontally. Default value: `false`.
 	*/
 	@property bool flipH()
 	{
@@ -356,7 +356,7 @@ public:
 		setFlipH(v);
 	}
 	/**
-	If `true` texture is flipped vertically. Default value: `false`.
+	If `true`, texture is flipped vertically. Default value: `false`.
 	*/
 	@property bool flipV()
 	{
@@ -416,7 +416,7 @@ public:
 		setAxis(v);
 	}
 	/**
-	If `true` the texture's transparency and the opacity are used to make those parts of the Sprite invisible. Default value: `true`.
+	If `true`, the texture's transparency and the opacity are used to make those parts of the Sprite invisible. Default value: `true`.
 	*/
 	@property bool transparent()
 	{
@@ -428,7 +428,7 @@ public:
 		setDrawFlag(0, v);
 	}
 	/**
-	If `true` the $(D Light) in the $(D Environment) has effects on the Sprite. Default value: `false`.
+	If `true`, the $(D Light) in the $(D Environment) has effects on the Sprite. Default value: `false`.
 	*/
 	@property bool shaded()
 	{
@@ -440,7 +440,7 @@ public:
 		setDrawFlag(1, v);
 	}
 	/**
-	If `true` texture can be seen from the back as well, if `false`, it is invisible when looking at it from behind. Default value: `true`.
+	If `true`, texture can be seen from the back as well, if `false`, it is invisible when looking at it from behind. Default value: `true`.
 	*/
 	@property bool doubleSided()
 	{

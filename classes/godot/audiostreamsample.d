@@ -54,7 +54,7 @@ public:
 		@GodotName("get_mix_rate") GodotMethod!(long) getMixRate;
 		@GodotName("set_stereo") GodotMethod!(void, bool) setStereo;
 		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
-		@GodotName("save_to_wav") GodotMethod!(void, String) saveToWav;
+		@GodotName("save_to_wav") GodotMethod!(GodotError, String) saveToWav;
 	}
 	bool opEquals(in AudioStreamSample other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamSample opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -83,6 +83,10 @@ public:
 		Audio loops the data between loop_begin and loop_end playing back and forth.
 		*/
 		loopPingPong = 2,
+		/**
+		Audio loops the data between loop_begin and loop_end playing backward only.
+		*/
+		loopBackward = 3,
 	}
 	/// 
 	enum Format : int
@@ -103,12 +107,13 @@ public:
 	/// 
 	enum Constants : int
 	{
-		loopDisabled = 0,
 		format8Bits = 0,
+		loopDisabled = 0,
 		loopForward = 1,
 		format16Bits = 1,
-		formatImaAdpcm = 2,
 		loopPingPong = 2,
+		formatImaAdpcm = 2,
+		loopBackward = 3,
 	}
 	/**
 	
@@ -223,12 +228,13 @@ public:
 		return ptrcall!(bool)(_classBinding.isStereo, _godot_object);
 	}
 	/**
-	
+	Saves the AudioStreamSample as a WAV file to `path`. Samples with IMA ADPCM format can't be saved.
+	Note that a `.wav` extension is automatically appended to `path` if it is missing.
 	*/
-	void saveToWav(in String path)
+	GodotError saveToWav(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.saveToWav, _godot_object, path);
+		return ptrcall!(GodotError)(_classBinding.saveToWav, _godot_object, path);
 	}
 	/**
 	Contains the audio data in bytes.

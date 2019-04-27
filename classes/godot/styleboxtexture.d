@@ -258,7 +258,7 @@ public:
 		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_classBinding.getVAxisStretchMode, _godot_object);
 	}
 	/**
-	
+	The texture to use when drawing this style box.
 	*/
 	@property Texture texture()
 	{
@@ -270,7 +270,7 @@ public:
 		setTexture(v);
 	}
 	/**
-	
+	The normal map to use when drawing this style box.
 	*/
 	@property Texture normalMap()
 	{
@@ -282,7 +282,8 @@ public:
 		setNormalMap(v);
 	}
 	/**
-	
+	Species a sub region of the texture to use.
+	This is equivalent to first wrapping the texture in an $(D AtlasTexture) with the same region.
 	*/
 	@property Rect2 regionRect()
 	{
@@ -294,7 +295,9 @@ public:
 		setRegionRect(v);
 	}
 	/**
-	
+	Increases the left margin of the 3x3 texture box.
+	A higher value means more of the source texture is considered to be part of the left border of the 3x3 box.
+	This is also the value used as fallback for $(D StyleBox.contentMarginLeft) if it is negative.
 	*/
 	@property double marginLeft()
 	{
@@ -306,7 +309,9 @@ public:
 		setMarginSize(0, v);
 	}
 	/**
-	
+	Increases the right margin of the 3x3 texture box.
+	A higher value means more of the source texture is considered to be part of the right border of the 3x3 box.
+	This is also the value used as fallback for $(D StyleBox.contentMarginRight) if it is negative.
 	*/
 	@property double marginRight()
 	{
@@ -318,7 +323,9 @@ public:
 		setMarginSize(2, v);
 	}
 	/**
-	
+	Increases the top margin of the 3x3 texture box.
+	A higher value means more of the source texture is considered to be part of the top border of the 3x3 box.
+	This is also the value used as fallback for $(D StyleBox.contentMarginTop) if it is negative.
 	*/
 	@property double marginTop()
 	{
@@ -330,7 +337,9 @@ public:
 		setMarginSize(1, v);
 	}
 	/**
-	
+	Increases the bottom margin of the 3x3 texture box.
+	A higher value means more of the source texture is considered to be part of the bottom border of the 3x3 box.
+	This is also the value used as fallback for $(D StyleBox.contentMarginBottom) if it is negative.
 	*/
 	@property double marginBottom()
 	{
@@ -342,7 +351,7 @@ public:
 		setMarginSize(3, v);
 	}
 	/**
-	
+	Expands the left margin of this style box when drawing, causing it be drawn larger than requested.
 	*/
 	@property double expandMarginLeft()
 	{
@@ -354,7 +363,7 @@ public:
 		setExpandMarginSize(0, v);
 	}
 	/**
-	
+	Expands the right margin of this style box when drawing, causing it be drawn larger than requested.
 	*/
 	@property double expandMarginRight()
 	{
@@ -366,7 +375,7 @@ public:
 		setExpandMarginSize(2, v);
 	}
 	/**
-	
+	Expands the top margin of this style box when drawing, causing it be drawn larger than requested.
 	*/
 	@property double expandMarginTop()
 	{
@@ -378,7 +387,7 @@ public:
 		setExpandMarginSize(1, v);
 	}
 	/**
-	
+	Expands the bottom margin of this style box when drawing, causing it be drawn larger than requested.
 	*/
 	@property double expandMarginBottom()
 	{
@@ -414,7 +423,7 @@ public:
 		setVAxisStretchMode(v);
 	}
 	/**
-	
+	Modulates the color of the texture when this style box is drawn.
 	*/
 	@property Color modulateColor()
 	{

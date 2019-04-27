@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.audiostream;
+import godot.audiostreamplayback;
 import godot.node;
 /**
 Plays 3D sound in 3D space.
@@ -83,6 +84,7 @@ public:
 		@GodotName("get_doppler_tracking") GodotMethod!(AudioStreamPlayer3D.DopplerTracking) getDopplerTracking;
 		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
 		@GodotName("get_stream_paused") GodotMethod!(bool) getStreamPaused;
+		@GodotName("get_stream_playback") GodotMethod!(AudioStreamPlayback) getStreamPlayback;
 		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
 	}
 	bool opEquals(in AudioStreamPlayer3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -503,6 +505,14 @@ public:
 	/**
 	
 	*/
+	Ref!AudioStreamPlayback getStreamPlayback()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
+	}
+	/**
+	
+	*/
 	void _busLayoutChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -522,7 +532,7 @@ public:
 		setStream(v);
 	}
 	/**
-	Decides if audio should get quieter with distance linearly, quadratically or logarithmically.
+	Decides if audio should get quieter with distance linearly, quadratically, logarithmically, or not be affected by distance, effectively disabling attenuation.
 	*/
 	@property AudioStreamPlayer3D.AttenuationModel attenuationModel()
 	{
@@ -594,7 +604,7 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	If `true` audio plays when added to scene tree. Default value: `false`.
+	If `true`, audio plays when added to scene tree. Default value: `false`.
 	*/
 	@property bool autoplay()
 	{
@@ -666,7 +676,7 @@ public:
 		setAreaMask(v);
 	}
 	/**
-	If `true` the audio should be dampened according to the direction of the sound.
+	If `true`, the audio should be dampened according to the direction of the sound.
 	*/
 	@property bool emissionAngleEnabled()
 	{

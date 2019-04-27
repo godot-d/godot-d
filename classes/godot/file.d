@@ -77,14 +77,14 @@ public:
 		@GodotName("get_real") GodotMethod!(double) getReal;
 		@GodotName("get_buffer") GodotMethod!(PoolByteArray, long) getBuffer;
 		@GodotName("get_line") GodotMethod!(String) getLine;
+		@GodotName("get_csv_line") GodotMethod!(PoolStringArray, String) getCsvLine;
 		@GodotName("get_as_text") GodotMethod!(String) getAsText;
 		@GodotName("get_md5") GodotMethod!(String, String) getMd5;
 		@GodotName("get_sha256") GodotMethod!(String, String) getSha256;
 		@GodotName("get_endian_swap") GodotMethod!(bool) getEndianSwap;
 		@GodotName("set_endian_swap") GodotMethod!(void, bool) setEndianSwap;
 		@GodotName("get_error") GodotMethod!(GodotError) getError;
-		@GodotName("get_var") GodotMethod!(Variant) getVar;
-		@GodotName("get_csv_line") GodotMethod!(PoolStringArray, String) getCsvLine;
+		@GodotName("get_var") GodotMethod!(Variant, bool) getVar;
 		@GodotName("store_8") GodotMethod!(void, long) store8;
 		@GodotName("store_16") GodotMethod!(void, long) store16;
 		@GodotName("store_32") GodotMethod!(void, long) store32;
@@ -94,8 +94,9 @@ public:
 		@GodotName("store_real") GodotMethod!(void, double) storeReal;
 		@GodotName("store_buffer") GodotMethod!(void, PoolByteArray) storeBuffer;
 		@GodotName("store_line") GodotMethod!(void, String) storeLine;
+		@GodotName("store_csv_line") GodotMethod!(void, PoolStringArray, String) storeCsvLine;
 		@GodotName("store_string") GodotMethod!(void, String) storeString;
-		@GodotName("store_var") GodotMethod!(void, Variant) storeVar;
+		@GodotName("store_var") GodotMethod!(void, Variant, bool) storeVar;
 		@GodotName("store_pascal_string") GodotMethod!(void, String) storePascalString;
 		@GodotName("get_pascal_string") GodotMethod!(String) getPascalString;
 		@GodotName("file_exists") GodotMethod!(bool, String) fileExists;
@@ -262,7 +263,7 @@ public:
 		return ptrcall!(long)(_classBinding.getLen, _godot_object);
 	}
 	/**
-	Returns `true` if the file cursor has reached the end of the file.
+	Returns `true` if the file cursor has read past the end of the file. Note that this function will still return `false` while at the end of the file and only activates when reading past it. This can be confusing but it conforms to how low level file access works in all operating systems. There is always $(D getLen) and $(D getPosition) to implement a custom logic.
 	*/
 	bool eofReached() const
 	{
@@ -335,6 +336,7 @@ public:
 	}
 	/**
 	Returns the next line of the file as a $(D String).
+	Text is interpreted as being UTF-8 encoded.
 	*/
 	String getLine() const
 	{
@@ -342,7 +344,17 @@ public:
 		return ptrcall!(String)(_classBinding.getLine, _godot_object);
 	}
 	/**
+	Returns the next value of the file in CSV (Comma Separated Values) format. You can pass a different delimiter to use other than the default "," (comma), it should be one character long.
+	Text is interpreted as being UTF-8 encoded.
+	*/
+	PoolStringArray getCsvLine(in String delim = gs!",") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getCsvLine, _godot_object, delim);
+	}
+	/**
 	Returns the whole file as a $(D String).
+	Text is interpreted as being UTF-8 encoded.
 	*/
 	String getAsText() const
 	{
@@ -390,20 +402,13 @@ public:
 		return ptrcall!(GodotError)(_classBinding.getError, _godot_object);
 	}
 	/**
-	Returns the next $(D Variant) value from the file.
+	Returns the next $(D Variant) value from the file. When `allow_objects` is `true` decoding objects is allowed.
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
 	*/
-	Variant getVar() const
+	Variant getVar(in bool allow_objects = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object);
-	}
-	/**
-	Returns the next value of the file in CSV (Comma Separated Values) format. You can pass a different delimiter to use other than the default "," (comma).
-	*/
-	PoolStringArray getCsvLine(in String delim = gs!",") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getCsvLine, _godot_object, delim);
+		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
 	Stores an integer as 8 bits in the file.
@@ -471,6 +476,7 @@ public:
 	}
 	/**
 	Stores the given $(D String) as a line in the file.
+	Text will be encoded as UTF-8.
 	*/
 	void storeLine(in String line)
 	{
@@ -478,7 +484,17 @@ public:
 		ptrcall!(void)(_classBinding.storeLine, _godot_object, line);
 	}
 	/**
+	Store the given $(D PoolStringArray) in the file as a line formatted in the CSV (Comma Separated Values) format. You can pass a different delimiter to use other than the default "," (comma), it should be one character long.
+	Text will be encoded as UTF-8.
+	*/
+	void storeCsvLine(in PoolStringArray values, in String delim = gs!",")
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.storeCsvLine, _godot_object, values, delim);
+	}
+	/**
 	Stores the given $(D String) in the file.
+	Text will be encoded as UTF-8.
 	*/
 	void storeString(in String string)
 	{
@@ -486,15 +502,16 @@ public:
 		ptrcall!(void)(_classBinding.storeString, _godot_object, string);
 	}
 	/**
-	Stores any Variant value in the file.
+	Stores any Variant value in the file. When `full_objects` is `true` encoding objects is allowed (and can potentially include code).
 	*/
-	void storeVar(VariantArg0)(in VariantArg0 value)
+	void storeVar(VariantArg0)(in VariantArg0 value, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeVar, _godot_object, value);
+		ptrcall!(void)(_classBinding.storeVar, _godot_object, value, full_objects);
 	}
 	/**
 	Stores the given $(D String) as a line in the file in Pascal format (i.e. also store the length of the string).
+	Text will be encoded as UTF-8.
 	*/
 	void storePascalString(in String string)
 	{
@@ -503,6 +520,7 @@ public:
 	}
 	/**
 	Returns a $(D String) saved in Pascal format from the file.
+	Text is interpreted as being UTF-8 encoded.
 	*/
 	String getPascalString()
 	{
@@ -511,6 +529,7 @@ public:
 	}
 	/**
 	Returns `true` if the file exists in the given path.
+	Note that many resources types are imported (e.g. textures or sound files), and that their source asset will not be included in the exported game, as only the imported version is used (in the `res://.import` folder). To check for the existence of such resources while taking into account the remapping to their imported location, use $(D ResourceLoader.exists). Typically, using `File.file_exists` on an imported resource would work while you are developing in the editor (the source asset is present in `res://`, but fail when exported).
 	*/
 	bool fileExists(in String path) const
 	{
@@ -526,7 +545,7 @@ public:
 		return ptrcall!(long)(_classBinding.getModifiedTime, _godot_object, file);
 	}
 	/**
-	If `true` the file's endianness is swapped. Use this if you're dealing with files written in big endian machines.
+	If `true`, the file's endianness is swapped. Use this if you're dealing with files written in big endian machines.
 	Note that this is about the file format, not CPU type. This is always reset to `false` whenever you open the file.
 	*/
 	@property bool endianSwap()

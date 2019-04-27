@@ -51,6 +51,8 @@ public:
 		@GodotName("is_hovered") GodotMethod!(bool) isHovered;
 		@GodotName("set_toggle_mode") GodotMethod!(void, bool) setToggleMode;
 		@GodotName("is_toggle_mode") GodotMethod!(bool) isToggleMode;
+		@GodotName("set_shortcut_in_tooltip") GodotMethod!(void, bool) setShortcutInTooltip;
+		@GodotName("is_shortcut_in_tooltip_enabled") GodotMethod!(bool) isShortcutInTooltipEnabled;
 		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("set_action_mode") GodotMethod!(void, long) setActionMode;
@@ -180,7 +182,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
 	}
 	/**
-	Return true if the mouse has entered the button and has not left it yet.
+	Return `true` if the mouse has entered the button and has not left it yet.
 	*/
 	bool isHovered() const
 	{
@@ -202,6 +204,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isToggleMode, _godot_object);
+	}
+	/**
+	
+	*/
+	void setShortcutInTooltip(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShortcutInTooltip, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	bool isShortcutInTooltipEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShortcutInTooltipEnabled, _godot_object);
 	}
 	/**
 	
@@ -308,7 +326,7 @@ public:
 		return ptrcall!(ButtonGroup)(_classBinding.getButtonGroup, _godot_object);
 	}
 	/**
-	If `true` the button is in disabled state and can't be clicked or toggled.
+	If `true`, the button is in disabled state and can't be clicked or toggled.
 	*/
 	@property bool disabled()
 	{
@@ -320,7 +338,7 @@ public:
 		setDisabled(v);
 	}
 	/**
-	If `true` the button is in toggle mode. Makes the button flip state between pressed and unpressed each time its area is clicked.
+	If `true`, the button is in toggle mode. Makes the button flip state between pressed and unpressed each time its area is clicked.
 	*/
 	@property bool toggleMode()
 	{
@@ -332,7 +350,19 @@ public:
 		setToggleMode(v);
 	}
 	/**
-	If `true` the button's state is pressed. Means the button is pressed down or toggled (if toggle_mode is active).
+	If `true`, the button will add information about its shortcut in the tooltip.
+	*/
+	@property bool shortcutInTooltip()
+	{
+		return isShortcutInTooltipEnabled();
+	}
+	/// ditto
+	@property void shortcutInTooltip(bool v)
+	{
+		setShortcutInTooltip(v);
+	}
+	/**
+	If `true`, the button's state is pressed. Means the button is pressed down or toggled (if toggle_mode is active).
 	*/
 	@property bool pressed()
 	{
@@ -357,7 +387,7 @@ public:
 	}
 	/**
 	Binary mask to choose which mouse buttons this button will respond to.
-	To allow both left-click and right-click, set this to 3, because it's BUTTON_MASK_LEFT | BUTTON_MASK_RIGHT.
+	To allow both left-click and right-click, use `BUTTON_MASK_LEFT | BUTTON_MASK_RIGHT`.
 	*/
 	@property long buttonMask()
 	{
@@ -369,7 +399,7 @@ public:
 		setButtonMask(v);
 	}
 	/**
-	Focus access mode to use when switching between enabled/disabled (see $(D Control.setFocusMode) and $(D disabled)).
+	Focus access mode to use when switching between enabled/disabled (see $(D Control.focusMode) and $(D disabled)).
 	*/
 	@property Control.FocusMode enabledFocusMode()
 	{
@@ -381,7 +411,7 @@ public:
 		setEnabledFocusMode(v);
 	}
 	/**
-	$(D Shortcut) associated to the button.
+	$(D ShortCut) associated to the button.
 	*/
 	@property ShortCut shortcut()
 	{

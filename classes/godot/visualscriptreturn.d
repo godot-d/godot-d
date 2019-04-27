@@ -95,7 +95,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isReturnValueEnabled, _godot_object);
 	}
 	/**
-	If `true` the `return` input port is available.
+	If `true`, the `return` input port is available.
 	*/
 	@property bool returnEnabled()
 	{

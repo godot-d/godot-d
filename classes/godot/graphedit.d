@@ -21,15 +21,15 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
+import godot.node;
 import godot.inputevent;
 import godot.hboxcontainer;
 import godot.canvasitem;
-import godot.node;
 /**
 GraphEdit is an area capable of showing various GraphNodes. It manages connection events between them.
 
 GraphEdit manages the showing of GraphNodes it contains, as well as connections and disconnections between them. Signals are sent for each of these two events. Disconnection between GraphNodes slots is disabled by default.
-It is greatly advised to enable low processor usage mode (see $(D OS.setLowProcessorUsageMode)) when using GraphEdits.
+It is greatly advised to enable low processor usage mode (see $(D OS.lowProcessorUsageMode)) when using GraphEdits.
 */
 @GodotBaseClass struct GraphEdit
 {
@@ -66,8 +66,8 @@ public:
 		@GodotName("is_using_snap") GodotMethod!(bool) isUsingSnap;
 		@GodotName("set_right_disconnects") GodotMethod!(void, bool) setRightDisconnects;
 		@GodotName("is_right_disconnects_enabled") GodotMethod!(bool) isRightDisconnectsEnabled;
-		@GodotName("_graph_node_moved") GodotMethod!(void, GodotObject) _graphNodeMoved;
-		@GodotName("_graph_node_raised") GodotMethod!(void, GodotObject) _graphNodeRaised;
+		@GodotName("_graph_node_moved") GodotMethod!(void, Node) _graphNodeMoved;
+		@GodotName("_graph_node_raised") GodotMethod!(void, Node) _graphNodeRaised;
 		@GodotName("_top_layer_input") GodotMethod!(void, InputEvent) _topLayerInput;
 		@GodotName("_top_layer_draw") GodotMethod!(void) _topLayerDraw;
 		@GodotName("_scroll_moved") GodotMethod!(void, double) _scrollMoved;
@@ -80,7 +80,7 @@ public:
 		@GodotName("_update_scroll_offset") GodotMethod!(void) _updateScrollOffset;
 		@GodotName("_connections_layer_draw") GodotMethod!(void) _connectionsLayerDraw;
 		@GodotName("get_zoom_hbox") GodotMethod!(HBoxContainer) getZoomHbox;
-		@GodotName("set_selected") GodotMethod!(void, GodotObject) setSelected;
+		@GodotName("set_selected") GodotMethod!(void, Node) setSelected;
 	}
 	bool opEquals(in GraphEdit other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GraphEdit opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -103,7 +103,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.connectNode, _godot_object, from, from_port, to, to_port);
 	}
 	/**
-	Return true if the 'from_port' slot of 'from' GraphNode is connected to the 'to_port' slot of 'to' GraphNode.
+	Return `true` if the 'from_port' slot of 'from' GraphNode is connected to the 'to_port' slot of 'to' GraphNode.
 	*/
 	bool isNodeConnected(in String from, in long from_port, in String to, in long to_port)
 	{
@@ -127,7 +127,7 @@ public:
 		ptrcall!(void)(_classBinding.setConnectionActivity, _godot_object, from, from_port, to, to_port, amount);
 	}
 	/**
-	Return an Array containing the list of connections. A connection consists in a structure of the form {from_slot: 0, from: "GraphNode name 0", to_slot: 1, to: "GraphNode name 1" }
+	Return an Array containing the list of connections. A connection consists in a structure of the form {from_port: 0, from: "GraphNode name 0", to_port: 1, to: "GraphNode name 1" }
 	*/
 	Array getConnectionList() const
 	{
@@ -281,7 +281,7 @@ public:
 	/**
 	
 	*/
-	void _graphNodeMoved(GodotObject arg0)
+	void _graphNodeMoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -291,7 +291,7 @@ public:
 	/**
 	
 	*/
-	void _graphNodeRaised(GodotObject arg0)
+	void _graphNodeRaised(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -412,7 +412,7 @@ public:
 	/**
 	Sets the specified `node` as the one selected.
 	*/
-	void setSelected(GodotObject node)
+	void setSelected(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSelected, _godot_object, node);

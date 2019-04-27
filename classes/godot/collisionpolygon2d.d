@@ -48,6 +48,8 @@ public:
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
 		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
+		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
+		@GodotName("get_one_way_collision_margin") GodotMethod!(double) getOneWayCollisionMargin;
 	}
 	bool opEquals(in CollisionPolygon2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionPolygon2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -144,6 +146,22 @@ public:
 		return ptrcall!(bool)(_classBinding.isOneWayCollisionEnabled, _godot_object);
 	}
 	/**
+	
+	*/
+	void setOneWayCollisionMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+	}
+	/**
+	
+	*/
+	double getOneWayCollisionMargin() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
+	}
+	/**
 	Collision build mode. Use one of the `BUILD_*` constants. Default value: `BUILD_SOLIDS`.
 	*/
 	@property CollisionPolygon2D.BuildMode buildMode()
@@ -156,7 +174,7 @@ public:
 		setBuildMode(v);
 	}
 	/**
-	The polygon's list of vertices. The final point will be connected to the first.
+	The polygon's list of vertices. The final point will be connected to the first. The returned value is a clone of the PoolVector2Array, not a reference.
 	*/
 	@property PoolVector2Array polygon()
 	{
@@ -168,7 +186,7 @@ public:
 		setPolygon(v);
 	}
 	/**
-	If `true` no collisions will be detected.
+	If `true`, no collisions will be detected.
 	*/
 	@property bool disabled()
 	{
@@ -180,7 +198,7 @@ public:
 		setDisabled(v);
 	}
 	/**
-	If `true` only edges that face up, relative to CollisionPolygon2D's rotation, will collide with other objects.
+	If `true`, only edges that face up, relative to CollisionPolygon2D's rotation, will collide with other objects.
 	*/
 	@property bool oneWayCollision()
 	{
@@ -190,5 +208,17 @@ public:
 	@property void oneWayCollision(bool v)
 	{
 		setOneWayCollision(v);
+	}
+	/**
+	
+	*/
+	@property double oneWayCollisionMargin()
+	{
+		return getOneWayCollisionMargin();
+	}
+	/// ditto
+	@property void oneWayCollisionMargin(double v)
+	{
+		setOneWayCollisionMargin(v);
 	}
 }

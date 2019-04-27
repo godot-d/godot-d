@@ -37,12 +37,12 @@ var node = Node2D.new()
 var rigid = RigidBody2D.new()
 var collision = CollisionShape2D.new()
 
-# create the object hierachy
+# create the object hierarchy
 rigid.add_child(collision)
 node.add_child(rigid)
 
 # change owner of rigid, but not of collision
-rigid.set_owner(node)
+rigid.owner = node
 
 var scene = PackedScene.new()
 # only node and rigid are now packed
@@ -64,7 +64,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("pack") GodotMethod!(GodotError, GodotObject) pack;
+		@GodotName("pack") GodotMethod!(GodotError, Node) pack;
 		@GodotName("instance") GodotMethod!(Node, long) instance;
 		@GodotName("can_instance") GodotMethod!(bool) canInstance;
 		@GodotName("_set_bundled_scene") GodotMethod!(void, Dictionary) _setBundledScene;
@@ -107,9 +107,9 @@ public:
 		genEditStateMain = 2,
 	}
 	/**
-	Pack will ignore any sub-nodes not owned by given node. See $(D Node.setOwner).
+	Pack will ignore any sub-nodes not owned by given node. See $(D Node.owner).
 	*/
-	GodotError pack(GodotObject path)
+	GodotError pack(Node path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, path);

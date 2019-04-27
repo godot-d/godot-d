@@ -136,7 +136,7 @@ public:
 		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
 	/**
-	Return true if an animation if currently being played.
+	Return `true` if an animation if currently being played.
 	*/
 	bool isPlaying() const
 	{
@@ -205,7 +205,7 @@ public:
 		setFrame(v);
 	}
 	/**
-	If `true` the $(D animation) is currently playing.
+	If `true`, the $(D animation) is currently playing.
 	*/
 	@property bool playing()
 	{

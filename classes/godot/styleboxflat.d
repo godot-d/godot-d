@@ -27,25 +27,24 @@ import godot.reference;
 Customizable Stylebox with a given set of parameters. (no texture required)
 
 This stylebox can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable:
- - Color
- - Border width (individual width for each border)
- - Rounded corners (individual radius for each corner)
- - Shadow
- About corner radius:
- 	Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example:
-	
+- Color
+- Border width (individual width for each border)
+- Rounded corners (individual radius for each corner)
+- Shadow
+Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example:
 
-	height = 30
-	corner_radius_top_left = 50
-	corner_radius_bottom_left = 100
-	
 
-	The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will $(B never) be more than the height. Result:
-	
+height = 30
+corner_radius_top_left = 50
+corner_radius_bottom_left = 100
 
-	corner_radius_top_left: 10
-	corner_radius_bottom_left: 20
-	
+
+The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will $(B never) be more than the height. Result:
+
+
+corner_radius_top_left: 10
+corner_radius_bottom_left: 20
+
 
 */
 @GodotBaseClass struct StyleBoxFlat
@@ -428,7 +427,7 @@ public:
 		setBorderColor(v);
 	}
 	/**
-	When set to true, the border will fade into the background color.
+	When set to `true`, the border will fade into the background color.
 	*/
 	@property bool borderBlend()
 	{
@@ -488,9 +487,9 @@ public:
 		setCornerRadius(3, v);
 	}
 	/**
-	This sets the amount of vertices used for each corner. Higher values result in rounder corners but take more processing power to compute. When choosing a value you should take the corner radius ($(D setCornerRadius)) into account.
-	For corner radius smaller than 10: 4-5 should be enough
-	For corner radius smaller than 30: 8-12 should be enough ...
+	This sets the amount of vertices used for each corner. Higher values result in rounder corners but take more processing power to compute. When choosing a value you should take the corner radius ($(D setCornerRadiusAll)) into account.
+	For corner radius smaller than 10, 4-5 should be enough.
+	For corner radius smaller than 30, 8-12 should be enough.
 	*/
 	@property long cornerDetail()
 	{

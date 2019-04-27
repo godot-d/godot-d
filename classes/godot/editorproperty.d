@@ -1,5 +1,5 @@
 /**
-
+Custom control to edit properties for adding into the inspector
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -26,7 +26,9 @@ import godot.control;
 import godot.canvasitem;
 import godot.node;
 /**
+Custom control to edit properties for adding into the inspector
 
+This control allows property editing for one or multiple properties into $(D EditorInspector). It is added via $(D EditorInspectorPlugin).
 */
 @GodotBaseClass struct EditorProperty
 {
@@ -58,6 +60,7 @@ public:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
 		@GodotName("_focusable_focused") GodotMethod!(void, long) _focusableFocused;
 		@GodotName("get_tooltip_text") GodotMethod!(String) getTooltipText;
+		@GodotName("emit_changed") GodotMethod!(void, String, Variant, String, bool) emitChanged;
 	}
 	bool opEquals(in EditorProperty other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorProperty opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,7 +75,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	When this virtual function is called, you must update your editor.
 	*/
 	void updateProperty()
 	{
@@ -177,7 +180,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isKeying, _godot_object);
 	}
 	/**
-	
+	Get the edited property. If your editor is for a single property (added via $(D EditorInspectorPlugin.parseProperty)), then this will return it..
 	*/
 	String getEditedProperty()
 	{
@@ -185,7 +188,7 @@ public:
 		return ptrcall!(String)(_classBinding.getEditedProperty, _godot_object);
 	}
 	/**
-	
+	Get the edited object.
 	*/
 	GodotObject getEditedObject()
 	{
@@ -213,7 +216,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Override if you want to allow a custom tooltip over your property.
 	*/
 	String getTooltipText() const
 	{
@@ -221,7 +224,15 @@ public:
 		return ptrcall!(String)(_classBinding.getTooltipText, _godot_object);
 	}
 	/**
-	
+	If one (or many properties) changed, this must be called. "Field" is used in case your editor can modify fields separately (as an example, Vector3.x). The "changing" argument avoids the editor requesting this property to be refreshed (leave as false if unsure).
+	*/
+	void emitChanged(VariantArg1)(in String property, in VariantArg1 value, in String field = gs!"", in bool changing = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.emitChanged, _godot_object, property, value, field, changing);
+	}
+	/**
+	Set this property to change the label (if you want to show one)
 	*/
 	@property String label()
 	{
@@ -233,7 +244,7 @@ public:
 		setLabel(v);
 	}
 	/**
-	
+	Used by the inspector, when the property is read-only.
 	*/
 	@property bool readOnly()
 	{
@@ -245,7 +256,7 @@ public:
 		setReadOnly(v);
 	}
 	/**
-	
+	Used by the inspector, set when property is checkable.
 	*/
 	@property bool checkable()
 	{
@@ -257,7 +268,7 @@ public:
 		setCheckable(v);
 	}
 	/**
-	
+	Used by the inspector, when the property is checked.
 	*/
 	@property bool checked()
 	{
@@ -269,7 +280,7 @@ public:
 		setChecked(v);
 	}
 	/**
-	
+	Used by the inspector, when the property must draw with error color.
 	*/
 	@property bool drawRed()
 	{
@@ -281,7 +292,7 @@ public:
 		setDrawRed(v);
 	}
 	/**
-	
+	Used by the inspector, when the property can add keys for animation/
 	*/
 	@property bool keying()
 	{

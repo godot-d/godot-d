@@ -1,5 +1,5 @@
 /**
-
+Plugin for adding custom property editors on inspector.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,8 +21,17 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.reference;
+import godot.control;
 /**
+Plugin for adding custom property editors on inspector.
 
+This plugins allows adding custom property editors to $(D EditorInspector).
+Plugins are registered via $(D EditorPlugin.addInspectorPlugin).
+When an object is edited, the $(D canHandle) function is called and must return true if the object type is supported.
+If supported, the function $(D parseBegin) will be called, allowing to place custom controls at the beginning of the class.
+Subsequently, the $(D parseCategory) and $(D parseProperty) are called for every category and property. They offer the ability to add custom controls to the inspector too.
+Finally $(D parseEnd) will be called.
+On each of these calls, the "add" functions can be called.
 */
 @GodotBaseClass struct EditorInspectorPlugin
 {
@@ -41,9 +50,9 @@ public:
 		@GodotName("parse_category") GodotMethod!(void, GodotObject, String) parseCategory;
 		@GodotName("parse_property") GodotMethod!(bool, GodotObject, long, String, long, String, long) parseProperty;
 		@GodotName("parse_end") GodotMethod!(void) parseEnd;
-		@GodotName("add_custom_control") GodotMethod!(void, GodotObject) addCustomControl;
-		@GodotName("add_property_editor") GodotMethod!(void, String, GodotObject) addPropertyEditor;
-		@GodotName("add_property_editor_for_multiple_properties") GodotMethod!(void, String, PoolStringArray, GodotObject) addPropertyEditorForMultipleProperties;
+		@GodotName("add_custom_control") GodotMethod!(void, Control) addCustomControl;
+		@GodotName("add_property_editor") GodotMethod!(void, String, Control) addPropertyEditor;
+		@GodotName("add_property_editor_for_multiple_properties") GodotMethod!(void, String, PoolStringArray, Control) addPropertyEditorForMultipleProperties;
 	}
 	bool opEquals(in EditorInspectorPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorInspectorPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,7 +67,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Return true if this object can be handled by this plugin.
 	*/
 	bool canHandle(GodotObject object)
 	{
@@ -68,7 +77,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	
+	Called to allow adding controls at the beginning of the list.
 	*/
 	void parseBegin(GodotObject object)
 	{
@@ -78,7 +87,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Called to allow adding controls at the beginning of the category.
 	*/
 	void parseCategory(GodotObject object, in String category)
 	{
@@ -89,7 +98,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Called to allow adding property specific editors to the inspector. Usually these inherit $(D EditorProperty)
 	*/
 	bool parseProperty(GodotObject object, in long type, in String path, in long hint, in String hint_text, in long usage)
 	{
@@ -104,7 +113,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	
+	Called to allow adding controls at the end of the list.
 	*/
 	void parseEnd()
 	{
@@ -113,25 +122,25 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Add a custom control, not necesarily a property editor.
 	*/
-	void addCustomControl(GodotObject control)
+	void addCustomControl(Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCustomControl, _godot_object, control);
 	}
 	/**
-	
+	Add a property editor, this must inherit $(D EditorProperty).
 	*/
-	void addPropertyEditor(in String property, GodotObject editor)
+	void addPropertyEditor(in String property, Control editor)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addPropertyEditor, _godot_object, property, editor);
 	}
 	/**
-	
+	Add am editor that allows modifying multiple properties, this must inherit $(D EditorProperty).
 	*/
-	void addPropertyEditorForMultipleProperties(in String label, in PoolStringArray properties, GodotObject editor)
+	void addPropertyEditorForMultipleProperties(in String label, in PoolStringArray properties, Control editor)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addPropertyEditorForMultipleProperties, _godot_object, label, properties, editor);

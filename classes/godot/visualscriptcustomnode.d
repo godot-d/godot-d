@@ -92,7 +92,7 @@ public:
 		startModeResumeYield = 2,
 		/**
 		Hint used by $(D _step) to tell that control should return to it when there is no other node left to execute.
-		This is used by $(D VisualScriptCondition) to redirect the sequence to the "Done" port after the true/false branch has finished execution.
+		This is used by $(D VisualScriptCondition) to redirect the sequence to the "Done" port after the `true`/`false` branch has finished execution.
 		*/
 		stepPushStackBit = 16777216,
 		/**
@@ -237,12 +237,10 @@ public:
 	}
 	/**
 	Execute the custom node's logic, returning the index of the output sequence port to use or a $(D String) when there is an error.
-	
 	The `inputs` array contains the values of the input ports.
 	`outputs` is an array whose indices should be set to the respective outputs.
 	The `start_mode` is usually `START_MODE_BEGIN_SEQUENCE`, unless you have used the STEP_* constants.
 	`working_mem` is an array which can be used to persist information between runs of the custom node.
-	
 	When returning, you can mask the returned value with one of the STEP_* constants.
 	*/
 	Variant _step(in Array inputs, in Array outputs, in long start_mode, in Array working_mem)

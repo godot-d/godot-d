@@ -118,7 +118,7 @@ public:
 	enum MenuItems : int
 	{
 		/**
-		Cuts (Copies and clears) the selected text.
+		Cuts (copies and clears) the selected text.
 		*/
 		menuCut = 0,
 		/**
@@ -130,11 +130,11 @@ public:
 		*/
 		menuPaste = 2,
 		/**
-		Erases the whole $(D Linedit) text.
+		Erases the whole $(D LineEdit) text.
 		*/
 		menuClear = 3,
 		/**
-		Selects the whole $(D Linedit) text.
+		Selects the whole $(D LineEdit) text.
 		*/
 		menuSelectAll = 4,
 		/**
@@ -452,7 +452,7 @@ public:
 		ptrcall!(void)(_classBinding.menuOption, _godot_object, option);
 	}
 	/**
-	Returns the $(D PopupMenu) of this `LineEdit`. By default, this menu is displayed when right-clicking on the $(D LineEdit).
+	Returns the $(D PopupMenu) of this $(D LineEdit). By default, this menu is displayed when right-clicking on the $(D LineEdit).
 	*/
 	PopupMenu getMenu() const
 	{
@@ -528,7 +528,7 @@ public:
 		setMaxLength(v);
 	}
 	/**
-	If `false` existing text cannot be modified and new text cannot be added.
+	If `false`, existing text cannot be modified and new text cannot be added.
 	*/
 	@property bool editable()
 	{
@@ -564,7 +564,7 @@ public:
 		setSecretCharacter(v);
 	}
 	/**
-	If `true` the $(D LineEdit) width will increase to stay longer than the $(D text). It will $(B not) compress if the $(D text) is shortened.
+	If `true`, the $(D LineEdit) width will increase to stay longer than the $(D text). It will $(B not) compress if the $(D text) is shortened.
 	*/
 	@property bool expandToTextLength()
 	{
@@ -576,7 +576,7 @@ public:
 		setExpandToTextLength(v);
 	}
 	/**
-	Defines how the $(D LineEdit) can grab focus (Keyboard and mouse, only keyboard, or none). See `enum FocusMode` in $(D Control) for details.
+	Defines how the $(D LineEdit) can grab focus (Keyboard and mouse, only keyboard, or none). See $(D Control.focusmode) in $(D Control) for details.
 	*/
 	@property Control.FocusMode focusMode()
 	{
@@ -588,7 +588,7 @@ public:
 		setFocusMode(v);
 	}
 	/**
-	If `true` the context menu will appear when right clicked.
+	If `true`, the context menu will appear when right clicked.
 	*/
 	@property bool contextMenuEnabled()
 	{
@@ -600,7 +600,7 @@ public:
 		setContextMenuEnabled(v);
 	}
 	/**
-	If `true` the `LineEdit` will show a clear button if `text` is not empty.
+	If `true`, the $(D LineEdit) will show a clear button if `text` is not empty.
 	*/
 	@property bool clearButtonEnabled()
 	{
@@ -636,7 +636,7 @@ public:
 		setPlaceholderAlpha(v);
 	}
 	/**
-	If `true` the caret (visual cursor) blinks.
+	If `true`, the caret (visual cursor) blinks.
 	*/
 	@property bool caretBlink()
 	{
@@ -660,7 +660,7 @@ public:
 		cursorSetBlinkSpeed(v);
 	}
 	/**
-	The cursor's position inside the `LineEdit`. When set, the text may scroll to accommodate it.
+	The cursor's position inside the $(D LineEdit). When set, the text may scroll to accommodate it.
 	*/
 	@property long caretPosition()
 	{

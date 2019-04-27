@@ -42,6 +42,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
 		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
 		@GodotName("set_stretch") GodotMethod!(void, bool) setStretch;
 		@GodotName("is_stretch_enabled") GodotMethod!(bool) isStretchEnabled;
@@ -60,6 +61,16 @@ public:
 		return cast(ViewportContainer)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	void _unhandledInput(InputEvent event)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(event);
+		String _GODOT_method_name = String("_unhandled_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
 	/**
 	
 	*/
@@ -103,7 +114,7 @@ public:
 		return ptrcall!(long)(_classBinding.getStretchShrink, _godot_object);
 	}
 	/**
-	If `true` the viewport will be scaled to the control's size. Default value:`false`.
+	If `true`, the viewport will be scaled to the control's size. Default value:`false`.
 	*/
 	@property bool stretch()
 	{

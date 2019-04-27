@@ -213,7 +213,7 @@ public:
 		return ptrcall!(Texture)(_classBinding.getTabIcon, _godot_object, tab_idx);
 	}
 	/**
-	If `disabled` is false, hides the tab at index `tab_idx`. Note that its title text will remain, unless also removed with $(D setTabTitle).
+	If `disabled` is `false`, hides the tab at index `tab_idx`. Note that its title text will remain, unless also removed with $(D setTabTitle).
 	*/
 	void setTabDisabled(in long tab_idx, in bool disabled)
 	{
@@ -349,7 +349,7 @@ public:
 		return ptrcall!(bool)(_classBinding.getDragToRearrangeEnabled, _godot_object);
 	}
 	/**
-	Defines rearrange group id, choose for each `Tabs` the same value to enable tab drag between `Tabs`. Enable drag with `set_drag_to_rearrange_enabled(true)`.
+	Defines rearrange group id, choose for each $(D Tabs) the same value to enable tab drag between $(D Tabs). Enable drag with `set_drag_to_rearrange_enabled(true)`.
 	*/
 	void setTabsRearrangeGroup(in long group_id)
 	{
@@ -357,7 +357,7 @@ public:
 		ptrcall!(void)(_classBinding.setTabsRearrangeGroup, _godot_object, group_id);
 	}
 	/**
-	Returns the `Tabs` rearrange group id.
+	Returns the $(D Tabs) rearrange group id.
 	*/
 	long getTabsRearrangeGroup() const
 	{
@@ -365,7 +365,7 @@ public:
 		return ptrcall!(long)(_classBinding.getTabsRearrangeGroup, _godot_object);
 	}
 	/**
-	If `true` enables selecting a tab with right mouse button.
+	If `true`, enables selecting a tab with right mouse button.
 	*/
 	void setSelectWithRmb(in bool enabled)
 	{

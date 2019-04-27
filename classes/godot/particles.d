@@ -29,7 +29,7 @@ import godot.node;
 /**
 3D particle emitter.
 
-3D particle node used to create a variety of particle systems and effects. `Particles` features an emitter that generates some number of particles at a given rate.
+3D particle node used to create a variety of particle systems and effects. $(D Particles) features an emitter that generates some number of particles at a given rate.
 Use the `process_material` property to add a $(D ParticlesMaterial) to configure particle appearance and behavior. Alternatively, you can add a $(D ShaderMaterial) which will be applied to all particles.
 */
 @GodotBaseClass struct Particles
@@ -391,7 +391,7 @@ public:
 		return ptrcall!(AABB)(_classBinding.captureAabb, _godot_object);
 	}
 	/**
-	If `true` particles are being emitted. Default value: `true`.
+	If `true`, particles are being emitted. Default value: `true`.
 	*/
 	@property bool emitting()
 	{
@@ -427,7 +427,7 @@ public:
 		setLifetime(v);
 	}
 	/**
-	If `true` only `amount` particles will be emitted. Default value: `false`.
+	If `true`, only `amount` particles will be emitted. Default value: `false`.
 	*/
 	@property bool oneShot()
 	{
@@ -523,7 +523,7 @@ public:
 		setVisibilityAabb(v);
 	}
 	/**
-	If `true` particles use the parent node's coordinate space. If `false` they use global coordinates. Default value: `true`.
+	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates. Default value: `true`.
 	*/
 	@property bool localCoords()
 	{

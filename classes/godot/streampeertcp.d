@@ -63,19 +63,19 @@ public:
 	enum Status : int
 	{
 		/**
-		The initial status of the `StreamPeerTCP`, also the status after a disconnect.
+		The initial status of the $(D StreamPeerTCP), also the status after a disconnect.
 		*/
 		statusNone = 0,
 		/**
-		A status representing a `StreamPeerTCP` that is connecting to a host.
+		A status representing a $(D StreamPeerTCP) that is connecting to a host.
 		*/
 		statusConnecting = 1,
 		/**
-		A status representing a `StreamPeerTCP` that is connected to a host.
+		A status representing a $(D StreamPeerTCP) that is connected to a host.
 		*/
 		statusConnected = 2,
 		/**
-		A status representing a `StreamPeerTCP` in error state.
+		A status representing a $(D StreamPeerTCP) in error state.
 		*/
 		statusError = 3,
 	}
@@ -88,7 +88,7 @@ public:
 		statusError = 3,
 	}
 	/**
-	Connect to the specified host:port pair. A hostname will be resolved if valid. Returns $(D OK) on success or $(D FAILED) on failure.
+	Connect to the specified host:port pair. A hostname will be resolved if valid. Returns `OK` on success or `FAILED` on failure.
 	*/
 	GodotError connectToHost(in String host, in long port)
 	{
@@ -96,7 +96,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port);
 	}
 	/**
-	Returns `true` if this peer is currently connected to a host, $(D code)false$(D code) otherwise.
+	Returns `true` if this peer is currently connected to a host, `false` otherwise.
 	*/
 	bool isConnectedToHost() const
 	{
@@ -104,7 +104,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
 	}
 	/**
-	Return the status of the connection, one of STATUS_* enum.
+	Return the status of the connection, see $(D StreamPeerTCP.status).
 	*/
 	StreamPeerTCP.Status getStatus()
 	{

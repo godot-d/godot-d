@@ -25,4 +25,5 @@ public import
 	godot.audioeffectlimiter,
 	godot.audioeffectpitchshift,
 	godot.audioeffectphaser,
-	godot.audioeffectrecord;
+	godot.audioeffectrecord,
+	godot.audioeffectspectrumanalyzer;

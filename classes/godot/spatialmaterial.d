@@ -115,14 +115,18 @@ public:
 		@GodotName("get_particles_anim_h_frames") GodotMethod!(long) getParticlesAnimHFrames;
 		@GodotName("set_particles_anim_v_frames") GodotMethod!(void, long) setParticlesAnimVFrames;
 		@GodotName("get_particles_anim_v_frames") GodotMethod!(long) getParticlesAnimVFrames;
-		@GodotName("set_particles_anim_loop") GodotMethod!(void, long) setParticlesAnimLoop;
-		@GodotName("get_particles_anim_loop") GodotMethod!(long) getParticlesAnimLoop;
+		@GodotName("set_particles_anim_loop") GodotMethod!(void, bool) setParticlesAnimLoop;
+		@GodotName("get_particles_anim_loop") GodotMethod!(bool) getParticlesAnimLoop;
 		@GodotName("set_depth_deep_parallax") GodotMethod!(void, bool) setDepthDeepParallax;
 		@GodotName("is_depth_deep_parallax_enabled") GodotMethod!(bool) isDepthDeepParallaxEnabled;
 		@GodotName("set_depth_deep_parallax_min_layers") GodotMethod!(void, long) setDepthDeepParallaxMinLayers;
 		@GodotName("get_depth_deep_parallax_min_layers") GodotMethod!(long) getDepthDeepParallaxMinLayers;
 		@GodotName("set_depth_deep_parallax_max_layers") GodotMethod!(void, long) setDepthDeepParallaxMaxLayers;
 		@GodotName("get_depth_deep_parallax_max_layers") GodotMethod!(long) getDepthDeepParallaxMaxLayers;
+		@GodotName("set_depth_deep_parallax_flip_tangent") GodotMethod!(void, bool) setDepthDeepParallaxFlipTangent;
+		@GodotName("get_depth_deep_parallax_flip_tangent") GodotMethod!(bool) getDepthDeepParallaxFlipTangent;
+		@GodotName("set_depth_deep_parallax_flip_binormal") GodotMethod!(void, bool) setDepthDeepParallaxFlipBinormal;
+		@GodotName("get_depth_deep_parallax_flip_binormal") GodotMethod!(bool) getDepthDeepParallaxFlipBinormal;
 		@GodotName("set_grow") GodotMethod!(void, double) setGrow;
 		@GodotName("get_grow") GodotMethod!(double) getGrow;
 		@GodotName("set_emission_operator") GodotMethod!(void, long) setEmissionOperator;
@@ -1250,18 +1254,18 @@ public:
 	/**
 	
 	*/
-	void setParticlesAnimLoop(in long frames)
+	void setParticlesAnimLoop(in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimLoop, _godot_object, frames);
+		ptrcall!(void)(_classBinding.setParticlesAnimLoop, _godot_object, loop);
 	}
 	/**
 	
 	*/
-	long getParticlesAnimLoop() const
+	bool getParticlesAnimLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParticlesAnimLoop, _godot_object);
+		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
 	}
 	/**
 	
@@ -1310,6 +1314,38 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getDepthDeepParallaxMaxLayers, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDepthDeepParallaxFlipTangent(in bool flip)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDepthDeepParallaxFlipTangent, _godot_object, flip);
+	}
+	/**
+	
+	*/
+	bool getDepthDeepParallaxFlipTangent() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getDepthDeepParallaxFlipTangent, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDepthDeepParallaxFlipBinormal(in bool flip)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDepthDeepParallaxFlipBinormal, _godot_object, flip);
+	}
+	/**
+	
+	*/
+	bool getDepthDeepParallaxFlipBinormal() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getDepthDeepParallaxFlipBinormal, _godot_object);
 	}
 	/**
 	
@@ -1536,7 +1572,7 @@ public:
 		return ptrcall!(double)(_classBinding.getDistanceFadeMinDistance, _godot_object);
 	}
 	/**
-	If `true` transparency is enabled on the body. Default value: `false`. See also $(D paramsBlendMode).
+	If `true`, transparency is enabled on the body. Default value: `false`. See also $(D paramsBlendMode).
 	*/
 	@property bool flagsTransparent()
 	{
@@ -1548,7 +1584,7 @@ public:
 		setFeature(0, v);
 	}
 	/**
-	If `true` the object is unaffected by lighting. Default value: `false`.
+	If `true`, the object is unaffected by lighting. Default value: `false`.
 	*/
 	@property bool flagsUnshaded()
 	{
@@ -1560,7 +1596,7 @@ public:
 		setFlag(0, v);
 	}
 	/**
-	If `true` lighting is calculated per vertex rather than per pixel. This may increase performance on low-end devices. Default value: `false`.
+	If `true`, lighting is calculated per vertex rather than per pixel. This may increase performance on low-end devices. Default value: `false`.
 	*/
 	@property bool flagsVertexLighting()
 	{
@@ -1572,7 +1608,7 @@ public:
 		setFlag(1, v);
 	}
 	/**
-	If `true` depth testing is disabled and the object will be drawn in render order.
+	If `true`, depth testing is disabled and the object will be drawn in render order.
 	*/
 	@property bool flagsNoDepthTest()
 	{
@@ -1584,7 +1620,7 @@ public:
 		setFlag(2, v);
 	}
 	/**
-	If `true` render point size can be changed. Note: this is only effective for objects whose geometry is point-based rather than triangle-based. See also $(D paramsPointSize).
+	If `true`, render point size can be changed. Note: this is only effective for objects whose geometry is point-based rather than triangle-based. See also $(D paramsPointSize).
 	*/
 	@property bool flagsUsePointSize()
 	{
@@ -1596,7 +1632,7 @@ public:
 		setFlag(5, v);
 	}
 	/**
-	If `true` triplanar mapping is calculated in world space rather than object local space. See also $(D uv1Triplanar). Default value: `false`.
+	If `true`, triplanar mapping is calculated in world space rather than object local space. See also $(D uv1Triplanar). Default value: `false`.
 	*/
 	@property bool flagsWorldTriplanar()
 	{
@@ -1608,7 +1644,7 @@ public:
 		setFlag(10, v);
 	}
 	/**
-	If `true` the object is rendered at the same size regardless of distance. Default value: `false`.
+	If `true`, the object is rendered at the same size regardless of distance. Default value: `false`.
 	*/
 	@property bool flagsFixedSize()
 	{
@@ -1632,7 +1668,7 @@ public:
 		setFlag(14, v);
 	}
 	/**
-	If `true` the object receives no shadow that would otherwise be cast onto it. Default value: `false`.
+	If `true`, the object receives no shadow that would otherwise be cast onto it. Default value: `false`.
 	*/
 	@property bool flagsDoNotReceiveShadows()
 	{
@@ -1644,7 +1680,7 @@ public:
 		setFlag(15, v);
 	}
 	/**
-	If `true` the object receives no ambient light. Default value: `false`.
+	If `true`, the object receives no ambient light. Default value: `false`.
 	*/
 	@property bool flagsDisableAmbientLight()
 	{
@@ -1668,7 +1704,7 @@ public:
 		setFlag(16, v);
 	}
 	/**
-	If `true` the vertex color is used as albedo color. Default value: `false`.
+	If `true`, the vertex color is used as albedo color. Default value: `false`.
 	*/
 	@property bool vertexColorUseAsAlbedo()
 	{
@@ -1680,7 +1716,7 @@ public:
 		setFlag(3, v);
 	}
 	/**
-	If `true` the model's vertex colors are processed as sRGB mode. Default value: `false`.
+	If `true`, the model's vertex colors are processed as sRGB mode. Default value: `false`.
 	*/
 	@property bool vertexColorIsSrgb()
 	{
@@ -1800,7 +1836,7 @@ public:
 		setFlag(7, v);
 	}
 	/**
-	If `true` enables the vertex grow setting. See $(D paramsGrowAmount).
+	If `true`, enables the vertex grow setting. See $(D paramsGrowAmount).
 	*/
 	@property bool paramsGrow()
 	{
@@ -1872,14 +1908,14 @@ public:
 		setParticlesAnimVFrames(v);
 	}
 	/**
-	If `true` particle animations are looped. Only enabled when using `BillboardMode.BILLBOARD_PARTICLES`. See $(D paramsBillboardMode).
+	If `true`, particle animations are looped. Only enabled when using `BillboardMode.BILLBOARD_PARTICLES`. See $(D paramsBillboardMode).
 	*/
-	@property long particlesAnimLoop()
+	@property bool particlesAnimLoop()
 	{
 		return getParticlesAnimLoop();
 	}
 	/// ditto
-	@property void particlesAnimLoop(long v)
+	@property void particlesAnimLoop(bool v)
 	{
 		setParticlesAnimLoop(v);
 	}
@@ -1992,7 +2028,7 @@ public:
 		setRoughnessTextureChannel(v);
 	}
 	/**
-	If `true` the body emits light.
+	If `true`, the body emits light.
 	*/
 	@property bool emissionEnabled()
 	{
@@ -2064,7 +2100,7 @@ public:
 		setTexture(3, v);
 	}
 	/**
-	If `true` normal mapping is enabled.
+	If `true`, normal mapping is enabled.
 	*/
 	@property bool normalEnabled()
 	{
@@ -2100,7 +2136,7 @@ public:
 		setTexture(4, v);
 	}
 	/**
-	If `true` rim effect is enabled. Default value: `false`.
+	If `true`, rim effect is enabled. Default value: `false`.
 	*/
 	@property bool rimEnabled()
 	{
@@ -2148,7 +2184,7 @@ public:
 		setTexture(5, v);
 	}
 	/**
-	If `true` clearcoat rendering is enabled. Adds a secondary transparent pass to the material. Default value: `false`.
+	If `true`, clearcoat rendering is enabled. Adds a secondary transparent pass to the material. Default value: `false`.
 	*/
 	@property bool clearcoatEnabled()
 	{
@@ -2196,7 +2232,7 @@ public:
 		setTexture(6, v);
 	}
 	/**
-	If `true` anisotropy is enabled. Changes the shape of the specular blob and aligns it to tangent space. Default value: `false`.
+	If `true`, anisotropy is enabled. Changes the shape of the specular blob and aligns it to tangent space. Default value: `false`.
 	*/
 	@property bool anisotropyEnabled()
 	{
@@ -2232,7 +2268,7 @@ public:
 		setTexture(7, v);
 	}
 	/**
-	If `true` ambient occlusion is enabled.
+	If `true`, ambient occlusion is enabled.
 	*/
 	@property bool aoEnabled()
 	{
@@ -2292,7 +2328,7 @@ public:
 		setAoTextureChannel(v);
 	}
 	/**
-	If `true` Depth mapping is enabled. See also $(D normalEnabled).
+	If `true`, Depth mapping is enabled. See also $(D normalEnabled).
 	*/
 	@property bool depthEnabled()
 	{
@@ -2354,6 +2390,30 @@ public:
 	/**
 	
 	*/
+	@property bool depthFlipTangent()
+	{
+		return getDepthDeepParallaxFlipTangent();
+	}
+	/// ditto
+	@property void depthFlipTangent(bool v)
+	{
+		setDepthDeepParallaxFlipTangent(v);
+	}
+	/**
+	
+	*/
+	@property bool depthFlipBinormal()
+	{
+		return getDepthDeepParallaxFlipBinormal();
+	}
+	/// ditto
+	@property void depthFlipBinormal(bool v)
+	{
+		setDepthDeepParallaxFlipBinormal(v);
+	}
+	/**
+	
+	*/
 	@property Texture depthTexture()
 	{
 		return getTexture(9);
@@ -2364,7 +2424,7 @@ public:
 		setTexture(9, v);
 	}
 	/**
-	If `true` subsurface scattering is enabled. Emulates light that penetrates an object's surface, is scattered, and then emerges.
+	If `true`, subsurface scattering is enabled. Emulates light that penetrates an object's surface, is scattered, and then emerges.
 	*/
 	@property bool subsurfScatterEnabled()
 	{
@@ -2400,7 +2460,7 @@ public:
 		setTexture(10, v);
 	}
 	/**
-	If `true` the transmission effect is enabled. Default value: `false`.
+	If `true`, the transmission effect is enabled. Default value: `false`.
 	*/
 	@property bool transmissionEnabled()
 	{
@@ -2436,7 +2496,7 @@ public:
 		setTexture(11, v);
 	}
 	/**
-	If `true` the refraction effect is enabled. Distorts transparency based on light from behind the object. Default value: `false`.
+	If `true`, the refraction effect is enabled. Distorts transparency based on light from behind the object. Default value: `false`.
 	*/
 	@property bool refractionEnabled()
 	{
@@ -2652,7 +2712,7 @@ public:
 		setUv2TriplanarBlendSharpness(v);
 	}
 	/**
-	If `true` the proximity and distance fade effect is enabled. Default value: `false`.
+	If `true`, the proximity and distance fade effect is enabled. Default value: `false`.
 	*/
 	@property bool proximityFadeEnable()
 	{

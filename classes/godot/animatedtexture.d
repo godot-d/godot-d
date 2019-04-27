@@ -1,5 +1,5 @@
 /**
-
+Proxy texture for simple frame-based animations.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,11 @@ import godot.texture;
 import godot.resource;
 import godot.reference;
 /**
+Proxy texture for simple frame-based animations.
 
+$(D AnimatedTexture) is a resource format for frame-based animations, where multiple textures can be chained automatically with a predefined delay for each frame. Unlike $(D AnimationPlayer) or $(D AnimatedSprite), it isn't a $(D Node), but has the advantage of being usable anywhere a $(D Texture) resource can be used, e.g. in a $(D TileSet).
+The playback of the animation is controlled by the $(D fps) property as well as each frame's optional delay (see $(D setFrameDelay)). The animation loops, i.e. it will restart at frame 0 automatically after playing the last frame.
+$(D AnimatedTexture) currently requires all frame textures to have the same size, otherwise the bigger ones will be cropped to match the smallest one.
 */
 @GodotBaseClass struct AnimatedTexture
 {
@@ -60,6 +64,14 @@ public:
 		return cast(AnimatedTexture)(constructor());
 	}
 	@disable new(size_t s);
+	/// 
+	enum Constants : int
+	{
+		/**
+		The maximum number of frames supported by $(D AnimatedTexture). If you need more frames in your animation, use $(D AnimationPlayer) or $(D AnimatedSprite).
+		*/
+		maxFrames = 256,
+	}
 	/**
 	
 	*/
@@ -93,7 +105,8 @@ public:
 		return ptrcall!(double)(_classBinding.getFps, _godot_object);
 	}
 	/**
-	
+	Assigns a $(D Texture) to the given frame. Frame IDs start at 0, so the first frame has ID 0, and the last frame of the animation has ID $(D frames) - 1.
+	You can define any number of textures up to $(D constant MAX_FRAMES), but keep in mind that only frames from 0 to $(D frames) - 1 will be part of the animation.
 	*/
 	void setFrameTexture(in long frame, Texture texture)
 	{
@@ -101,7 +114,7 @@ public:
 		ptrcall!(void)(_classBinding.setFrameTexture, _godot_object, frame, texture);
 	}
 	/**
-	
+	Returns the given frame's $(D Texture).
 	*/
 	Ref!Texture getFrameTexture(in long frame) const
 	{
@@ -109,6 +122,15 @@ public:
 		return ptrcall!(Texture)(_classBinding.getFrameTexture, _godot_object, frame);
 	}
 	/**
+	Sets an additional delay (in seconds) between this frame and the next one, that will be added to the time interval defined by $(D fps). By default, frames have no delay defined. If a delay value is defined, the final time interval between this frame and the next will be `1.0 / fps + delay`.
+	For example, for an animation with 3 frames, 2 FPS and a frame delay on the second frame of 1.2, the resulting playback will be:
+	
+	
+	Frame 0: 0.5 s (1 / fps)
+	Frame 1: 1.7 s (1 / fps + 1.2)
+	Frame 2: 0.5 s (1 / fps)
+	Total duration: 2.7 s
+	
 	
 	*/
 	void setFrameDelay(in long frame, in double delay)
@@ -117,7 +139,7 @@ public:
 		ptrcall!(void)(_classBinding.setFrameDelay, _godot_object, frame, delay);
 	}
 	/**
-	
+	Returns the given frame's delay value.
 	*/
 	double getFrameDelay(in long frame) const
 	{
@@ -134,7 +156,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Number of frames to use in the animation. While you can create the frames independently with $(D setFrameTexture), you need to set this value for the animation to take new frames into account. The maximum number of frames is $(D constant MAX_FRAMES). Default value: 1.
 	*/
 	@property long frames()
 	{
@@ -146,7 +168,8 @@ public:
 		setFrames(v);
 	}
 	/**
-	
+	Animation speed in frames per second. This value defines the default time interval between two frames of the animation, and thus the overall duration of the animation loop based on the $(D frames) property. A value of 0 means no predefined number of frames per second, the animation will play according to each frame's frame delay (see $(D setFrameDelay)). Default value: 4.
+	For example, an animation with 8 frames, no frame delay and a `fps` value of 2 will run for 4 seconds, with each frame lasting 0.5 seconds.
 	*/
 	@property double fps()
 	{

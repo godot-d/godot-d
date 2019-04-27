@@ -31,13 +31,13 @@ import godot.node;
 /**
 All User Interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
 
-Base class for all User Interface or $(I UI) related nodes. `Control` features a bounding rectangle that defines its extents, an anchor position relative to its parent and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
-For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from `Control` and $(D Container) nodes.
+Base class for all User Interface or $(I UI) related nodes. $(D Control) features a bounding rectangle that defines its extents, an anchor position relative to its parent and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
+For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from $(D Control) and $(D Container) nodes.
 $(B User Interface nodes and input)
 Godot sends input events to the scene's root node first, by calling $(D Node._input). $(D Node._input) forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls $(D MainLoop._inputEvent). Call $(D acceptEvent) so no other node receives the event. Once you accepted an input, it becomes handled so $(D Node._unhandledInput) will not process it.
-Only one `Control` node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call $(D grabFocus). `Control` nodes lose focus when another node grabs it, or if you hide the node in focus.
-Set $(D mouseFilter) to MOUSE_FILTER_IGNORE to tell a `Control` node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
-$(D Theme) resources change the Control's appearance. If you change the $(D Theme) on a `Control` node, it affects all of its children. To override some of the theme's parameters, call one of the `add_*_override` methods, like $(D addFontOverride). You can override the theme with the inspector.
+Only one $(D Control) node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call $(D grabFocus). $(D Control) nodes lose focus when another node grabs it, or if you hide the node in focus.
+Set $(D mouseFilter) to $(D constant MOUSE_FILTER_IGNORE) to tell a $(D Control) node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
+$(D Theme) resources change the Control's appearance. If you change the $(D Theme) on a $(D Control) node, it affects all of its children. To override some of the theme's parameters, call one of the `add_*_override` methods, like $(D addFontOverride). You can override the theme with the inspector.
 */
 @GodotBaseClass struct Control
 {
@@ -150,18 +150,18 @@ public:
 		@GodotName("get_focus_next") GodotMethod!(NodePath) getFocusNext;
 		@GodotName("set_focus_previous") GodotMethod!(void, NodePath) setFocusPrevious;
 		@GodotName("get_focus_previous") GodotMethod!(NodePath) getFocusPrevious;
-		@GodotName("force_drag") GodotMethod!(void, Variant, GodotObject) forceDrag;
+		@GodotName("force_drag") GodotMethod!(void, Variant, Control) forceDrag;
 		@GodotName("set_mouse_filter") GodotMethod!(void, long) setMouseFilter;
 		@GodotName("get_mouse_filter") GodotMethod!(Control.MouseFilter) getMouseFilter;
 		@GodotName("set_clip_contents") GodotMethod!(void, bool) setClipContents;
 		@GodotName("is_clipping_contents") GodotMethod!(bool) isClippingContents;
 		@GodotName("grab_click_focus") GodotMethod!(void) grabClickFocus;
-		@GodotName("set_drag_forwarding") GodotMethod!(void, GodotObject) setDragForwarding;
-		@GodotName("set_drag_preview") GodotMethod!(void, GodotObject) setDragPreview;
+		@GodotName("set_drag_forwarding") GodotMethod!(void, Control) setDragForwarding;
+		@GodotName("set_drag_preview") GodotMethod!(void, Control) setDragPreview;
 		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
 		@GodotName("minimum_size_changed") GodotMethod!(void) minimumSizeChanged;
 		@GodotName("_theme_changed") GodotMethod!(void) _themeChanged;
-		@GodotName("_font_changed") GodotMethod!(void) _fontChanged;
+		@GodotName("_override_changed") GodotMethod!(void) _overrideChanged;
 	}
 	bool opEquals(in Control other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Control opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -227,15 +227,15 @@ public:
 	enum MouseFilter : int
 	{
 		/**
-		The control will receive mouse button input events through $(D _guiInput) if clicked on. These events are automatically marked as handled and they will not propagate further to other controls.
+		The control will receive mouse button input events through $(D _guiInput) if clicked on. And the control will receive the $(D mouseEntered) and $(D mouseExited) signals. These events are automatically marked as handled and they will not propagate further to other controls. This also results in blocking signals in other controls.
 		*/
 		mouseFilterStop = 0,
 		/**
-		The control will receive mouse button input events through $(D _guiInput) if clicked on. If this control does not handle the event, the parent control (if any) will be considered for a mouse click, and so on until there is no more parent control to potentially handle it. Even if no control handled it at all, the event will still be handled automatically.
+		The control will receive mouse button input events through $(D _guiInput) if clicked on. And the control will receive the $(D mouseEntered) and $(D mouseExited) signals. If this control does not handle the event, the parent control (if any) will be considered, and so on until there is no more parent control to potentially handle it. This also allows signals to fire in other controls. Even if no control handled it at all, the event will still be handled automatically, so unhandled input will not be fired.
 		*/
 		mouseFilterPass = 1,
 		/**
-		The control will not receive mouse button input events through $(D _guiInput) and will not block other controls from receiving these events. These events will also not be handled automatically.
+		The control will not receive mouse button input events through $(D _guiInput). Also the control will not receive the $(D mouseEntered) nor $(D mouseExited) signals. This will not block other controls from receiving these events or firing the signals. Ignored events will not be handled automatically.
 		*/
 		mouseFilterIgnore = 2,
 	}
@@ -243,7 +243,7 @@ public:
 	enum CursorShape : int
 	{
 		/**
-		Show the system's arrow mouse cursor when the user hovers the node. Use with $(D setDefaultCursorShape).
+		Show the system's arrow mouse cursor when the user hovers the node. Use with $(D mouseDefaultCursorShape).
 		*/
 		cursorArrow = 0,
 		/**
@@ -315,15 +315,15 @@ public:
 	enum GrowDirection : int
 	{
 		/**
-		
+		The control will grow to the left or top to make up if its minimum size is changed to be greater than its current size on the respective axis.
 		*/
 		growDirectionBegin = 0,
 		/**
-		
+		The control will grow to the right or bottom to make up if its minimum size is changed to be greater than its current size on the respective axis.
 		*/
 		growDirectionEnd = 1,
 		/**
-		
+		The control will grow in both directions equally to make up if its minimum size is changed to be greater than its current size.
 		*/
 		growDirectionBoth = 2,
 	}
@@ -355,67 +355,67 @@ public:
 	enum LayoutPreset : int
 	{
 		/**
-		Snap all 4 anchors to the top-left of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the top-left of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetTopLeft = 0,
 		/**
-		Snap all 4 anchors to the top-right of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the top-right of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetTopRight = 1,
 		/**
-		Snap all 4 anchors to the bottom-left of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the bottom-left of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetBottomLeft = 2,
 		/**
-		Snap all 4 anchors to the bottom-right of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the bottom-right of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetBottomRight = 3,
 		/**
-		Snap all 4 anchors to the center of the left edge of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the center of the left edge of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetCenterLeft = 4,
 		/**
-		Snap all 4 anchors to the center of the top edge of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the center of the top edge of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetCenterTop = 5,
 		/**
-		Snap all 4 anchors to the center of the right edge of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the center of the right edge of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetCenterRight = 6,
 		/**
-		Snap all 4 anchors to the center of the bottom edge of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the center of the bottom edge of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetCenterBottom = 7,
 		/**
-		Snap all 4 anchors to the center of the parent container's bounds. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the center of the parent control's bounds. Use with $(D setAnchorsPreset).
 		*/
 		presetCenter = 8,
 		/**
-		Snap all 4 anchors to the left edge of the parent container. The left margin becomes relative to the left edge and the top margin relative to the top left corner of the node's parent. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the left edge of the parent control. The left margin becomes relative to the left edge and the top margin relative to the top left corner of the node's parent. Use with $(D setAnchorsPreset).
 		*/
 		presetLeftWide = 9,
 		/**
-		Snap all 4 anchors to the top edge of the parent container. The left margin becomes relative to the top left corner, the top margin relative to the top edge, and the right margin relative to the top right corner of the node's parent. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the top edge of the parent control. The left margin becomes relative to the top left corner, the top margin relative to the top edge, and the right margin relative to the top right corner of the node's parent. Use with $(D setAnchorsPreset).
 		*/
 		presetTopWide = 10,
 		/**
-		Snap all 4 anchors to the right edge of the parent container. The right margin becomes relative to the right edge and the top margin relative to the top right corner of the node's parent. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the right edge of the parent control. The right margin becomes relative to the right edge and the top margin relative to the top right corner of the node's parent. Use with $(D setAnchorsPreset).
 		*/
 		presetRightWide = 11,
 		/**
-		Snap all 4 anchors to the bottom edge of the parent container. The left margin becomes relative to the bottom left corner, the bottom margin relative to the bottom edge, and the right margin relative to the bottom right corner of the node's parent. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the bottom edge of the parent control. The left margin becomes relative to the bottom left corner, the bottom margin relative to the bottom edge, and the right margin relative to the bottom right corner of the node's parent. Use with $(D setAnchorsPreset).
 		*/
 		presetBottomWide = 12,
 		/**
-		Snap all 4 anchors to a vertical line that cuts the parent container in half. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to a vertical line that cuts the parent control in half. Use with $(D setAnchorsPreset).
 		*/
 		presetVcenterWide = 13,
 		/**
-		Snap all 4 anchors to a horizontal line that cuts the parent container in half. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to a horizontal line that cuts the parent control in half. Use with $(D setAnchorsPreset).
 		*/
 		presetHcenterWide = 14,
 		/**
-		Snap all 4 anchors to the respective corners of the parent container. Set all 4 margins to 0 after you applied this preset and the `Control` will fit its parent container. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the respective corners of the parent control. Set all 4 margins to 0 after you applied this preset and the $(D Control) will fit its parent control. This is equivalent to to the "Full Rect" layout option in the editor. Use with $(D setAnchorsPreset).
 		*/
 		presetWide = 15,
 	}
@@ -496,7 +496,7 @@ public:
 		*/
 		notificationFocusExit = 44,
 		/**
-		Sent when the node's $(D theme) changes, right before Godot redraws the control. Happens when you call one of the `add_*_override`
+		Sent when the node's $(D theme) changes, right before Godot redraws the control. Happens when you call one of the `add_*_override` methods.
 		*/
 		notificationThemeChanged = 45,
 		/**
@@ -504,11 +504,11 @@ public:
 		*/
 		notificationModalClose = 46,
 		/**
-		
+		Sent when this node is inside a $(D ScrollContainer) which has begun being scrolled.
 		*/
 		notificationScrollBegin = 47,
 		/**
-		
+		Sent when this node is inside a $(D ScrollContainer) which has stopped being scrolled.
 		*/
 		notificationScrollEnd = 48,
 	}
@@ -960,7 +960,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasFocus, _godot_object);
 	}
 	/**
-	Steal the focus from another control and become the focused control (see $(D setFocusMode)).
+	Steal the focus from another control and become the focused control (see $(D focusMode)).
 	*/
 	void grabFocus()
 	{
@@ -1064,7 +1064,7 @@ public:
 		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
 	}
 	/**
-	Overrides the `name` $(D Stylebox) in the $(D theme) resource the node uses. If `stylebox` is empty, Godot clears the override.
+	Overrides the `name` $(D StyleBox) in the $(D theme) resource the node uses. If `stylebox` is empty, Godot clears the override.
 	*/
 	void addStyleboxOverride(in String name, StyleBox stylebox)
 	{
@@ -1364,7 +1364,7 @@ public:
 	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
 	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
 	*/
-	void forceDrag(VariantArg0)(in VariantArg0 data, GodotObject preview)
+	void forceDrag(VariantArg0)(in VariantArg0 data, Control preview)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.forceDrag, _godot_object, data, preview);
@@ -1435,7 +1435,7 @@ public:
 	
 	
 	*/
-	void setDragForwarding(GodotObject target)
+	void setDragForwarding(Control target)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDragForwarding, _godot_object, target);
@@ -1443,7 +1443,7 @@ public:
 	/**
 	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData).
 	*/
-	void setDragPreview(GodotObject control)
+	void setDragPreview(Control control)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDragPreview, _godot_object, control);
@@ -1476,14 +1476,14 @@ public:
 	/**
 	
 	*/
-	void _fontChanged()
+	void _overrideChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_font_changed");
+		String _GODOT_method_name = String("_override_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Anchors the left edge of the node to the origin, the center or the end of its parent container. It changes how the left margin updates when the node moves or changes size. Use one of the `ANCHOR_*` constants. Default value: `ANCHOR_BEGIN`.
+	Anchors the left edge of the node to the origin, the center or the end of its parent control. It changes how the left margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience.Default value: `ANCHOR_BEGIN`.
 	*/
 	@property double anchorLeft()
 	{
@@ -1495,7 +1495,7 @@ public:
 		_setAnchor(0, v);
 	}
 	/**
-	Anchors the top edge of the node to the origin, the center or the end of its parent container. It changes how the top margin updates when the node moves or changes size. Use one of the `ANCHOR_*` constants. Default value: `ANCHOR_BEGIN`.
+	Anchors the top edge of the node to the origin, the center or the end of its parent control. It changes how the top margin updates when the node moves or changes size. You can use  one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
 	*/
 	@property double anchorTop()
 	{
@@ -1507,7 +1507,7 @@ public:
 		_setAnchor(1, v);
 	}
 	/**
-	Anchors the right edge of the node to the origin, the center or the end of its parent container. It changes how the right margin updates when the node moves or changes size. Use one of the `ANCHOR_*` constants. Default value: `ANCHOR_BEGIN`.
+	Anchors the right edge of the node to the origin, the center or the end of its parent control. It changes how the right margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
 	*/
 	@property double anchorRight()
 	{
@@ -1519,7 +1519,7 @@ public:
 		_setAnchor(2, v);
 	}
 	/**
-	Anchors the bottom edge of the node to the origin, the center, or the end of its parent container. It changes how the bottom margin updates when the node moves or changes size. Use one of the `ANCHOR_*` constants. Default value: `ANCHOR_BEGIN`.
+	Anchors the bottom edge of the node to the origin, the center, or the end of its parent control. It changes how the bottom margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
 	*/
 	@property double anchorBottom()
 	{
@@ -1531,7 +1531,8 @@ public:
 		_setAnchor(3, v);
 	}
 	/**
-	Distance between the node's left edge and its parent container, based on $(D anchorLeft).
+	Distance between the node's left edge and its parent control, based on $(D anchorLeft).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
 	*/
 	@property double marginLeft()
 	{
@@ -1543,7 +1544,8 @@ public:
 		setMargin(0, v);
 	}
 	/**
-	Distance between the node's top edge and its parent container, based on $(D anchorTop).
+	Distance between the node's top edge and its parent control, based on $(D anchorTop).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
 	*/
 	@property double marginTop()
 	{
@@ -1555,7 +1557,8 @@ public:
 		setMargin(1, v);
 	}
 	/**
-	Distance between the node's right edge and its parent container, based on $(D anchorRight).
+	Distance between the node's right edge and its parent control, based on $(D anchorRight).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
 	*/
 	@property double marginRight()
 	{
@@ -1567,8 +1570,8 @@ public:
 		setMargin(2, v);
 	}
 	/**
-	Distance between the node's bottom edge and its parent container, based on $(D anchorBottom).
-	Margins are often controlled by one or multiple parent $(D Container) nodes. Margins update automatically when you move or resize the node.
+	Distance between the node's bottom edge and its parent control, based on $(D anchorBottom).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
 	*/
 	@property double marginBottom()
 	{
@@ -1580,7 +1583,7 @@ public:
 		setMargin(3, v);
 	}
 	/**
-	
+	Controls the direction on the horizontal axis in which the control should grow if its horizontal minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
 	*/
 	@property Control.GrowDirection growHorizontal()
 	{
@@ -1592,7 +1595,7 @@ public:
 		setHGrowDirection(v);
 	}
 	/**
-	
+	Controls the direction on the vertical axis in which the control should grow if its vertical minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
 	*/
 	@property Control.GrowDirection growVertical()
 	{
@@ -1688,7 +1691,7 @@ public:
 		setPivotOffset(v);
 	}
 	/**
-	
+	Enables whether rendering of children should be clipped to this control's rectangle. If `true`, parts of a child which would be visibly outside of this control's rectangle will not be rendered.
 	*/
 	@property bool rectClipContent()
 	{
@@ -1700,7 +1703,7 @@ public:
 		setClipContents(v);
 	}
 	/**
-	Changes the tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments.
+	Changes the tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments, provided that the $(D mouseFilter) property is not $(D constant MOUSE_FILTER_IGNORE).
 	*/
 	@property String hintTooltip()
 	{
@@ -1712,7 +1715,7 @@ public:
 		setTooltip(v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses Shift+Tab, the left arrow on the keyboard or left on a gamepad. The node must be a `Control`. If this property is not set, Godot will give focus to the closest `Control` to the left of this one.
+	Tells Godot which node it should give keyboard focus to if the user presses the left arrow on the keyboard or left on a gamepad by default. You can change the key by editing the `ui_left` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the left of this one.
 	*/
 	@property NodePath focusNeighbourLeft()
 	{
@@ -1724,7 +1727,7 @@ public:
 		setFocusNeighbour(0, v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses Shift+Tab, the top arrow on the keyboard or top on a gamepad. The node must be a `Control`. If this property is not set, Godot will give focus to the closest `Control` to the bottom of this one.
+	Tells Godot which node it should give keyboard focus to if the user presses the top arrow on the keyboard or top on a gamepad by default. You can change the key by editing the `ui_top` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
 	@property NodePath focusNeighbourTop()
 	{
@@ -1736,7 +1739,7 @@ public:
 		setFocusNeighbour(1, v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses Tab, the right arrow on the keyboard or right on a gamepad. The node must be a `Control`. If this property is not set, Godot will give focus to the closest `Control` to the bottom of this one.
+	Tells Godot which node it should give keyboard focus to if the user presses the right arrow on the keyboard or right on a gamepad  by default. You can change the key by editing the `ui_right` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
 	@property NodePath focusNeighbourRight()
 	{
@@ -1748,8 +1751,7 @@ public:
 		setFocusNeighbour(2, v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses Tab, the down arrow on the keyboard, or down on a gamepad. The node must be a `Control`. If this property is not set, Godot will give focus to the closest `Control` to the bottom of this one.
-	If the user presses Tab, Godot will give focus to the closest node to the right first, then to the bottom. If the user presses Shift+Tab, Godot will look to the left of the node, then above it.
+	Tells Godot which node it should give keyboard focus to if the user presses the down arrow on the keyboard or down on a gamepad by default. You can change the key by editing the `ui_down` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
 	@property NodePath focusNeighbourBottom()
 	{
@@ -1761,7 +1763,8 @@ public:
 		setFocusNeighbour(3, v);
 	}
 	/**
-	
+	Tells Godot which node it should give keyboard focus to if the user presses Tab on a keyboard by default. You can change the key by editing the `ui_focus_next` input action.
+	If this property is not set, Godot will select a "best guess" based on surrounding nodes in the scene tree.
 	*/
 	@property NodePath focusNext()
 	{
@@ -1773,7 +1776,8 @@ public:
 		setFocusNext(v);
 	}
 	/**
-	
+	Tells Godot which node it should give keyboard focus to if the user presses Shift+Tab on a keyboard by default. You can change the key by editing the `ui_focus_prev` input action.
+	If this property is not set, Godot will select a "best guess" based on surrounding nodes in the scene tree.
 	*/
 	@property NodePath focusPrevious()
 	{
@@ -1797,7 +1801,7 @@ public:
 		setFocusMode(v);
 	}
 	/**
-	Controls whether the control will be able to receive mouse button input events through $(D _guiInput) and how these events should be handled. Use one of the `MOUSE_FILTER_*` constants. See the constants to learn what each does.
+	Controls whether the control will be able to receive mouse button input events through $(D _guiInput) and how these events should be handled. Also controls whether the control can receive the $(D mouseEntered), and $(D mouseExited) signals. See the constants to learn what each does.
 	*/
 	@property Control.MouseFilter mouseFilter()
 	{
@@ -1858,7 +1862,7 @@ public:
 		setStretchRatio(v);
 	}
 	/**
-	Changing this property replaces the current $(D Theme) resource this node and all its `Control` children use.
+	Changing this property replaces the current $(D Theme) resource this node and all its $(D Control) children use.
 	*/
 	@property Theme theme()
 	{

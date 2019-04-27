@@ -74,7 +74,8 @@ public:
 	/**
 	Start listening on the given port.
 	You can specify the desired subprotocols via the "protocols" array. If the list empty (default), "binary" will be used.
-	You can use this server as a network peer for $(D MultiplayerAPI) by passing `true` as `gd_mp_api`. Note: $(D dataReceived) will not be fired and clients other than Godot will not work in this case.
+	If `true` is passed as `gd_mp_api`, the server will behave like a network peer for the $(D MultiplayerAPI), connections from non Godot clients will not work, and $(D dataReceived) will not be emitted.
+	If `false` is passed instead (default), you must call $(D PacketPeer) functions (`put_packet`, `get_packet`, etc.), on the $(D WebSocketPeer) returned via `get_peer(ID)` to communicate with the peer with given `ID` (e.g. `get_peer(ID).get_available_packet_count`).
 	*/
 	GodotError listen(in long port, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false)
 	{

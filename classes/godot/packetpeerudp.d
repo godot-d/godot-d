@@ -60,7 +60,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Make this `PacketPeerUDP` listen on the "port" binding to "bind_address" with a buffer size "recv_buf_size".
+	Make this $(D PacketPeerUDP) listen on the "port" binding to "bind_address" with a buffer size "recv_buf_size".
 	If "bind_address" is set as "*" (default), the peer will listen on all available addresses (both IPv4 and IPv6).
 	If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the peer will listen on all available addresses matching that IP type.
 	If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
@@ -71,7 +71,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address, recv_buf_size);
 	}
 	/**
-	Close the UDP socket the `PacketPeerUDP` is currently listening on.
+	Close the UDP socket the $(D PacketPeerUDP) is currently listening on.
 	*/
 	void close()
 	{
@@ -87,7 +87,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
 	/**
-	Return whether this `PacketPeerUDP` is listening.
+	Return whether this $(D PacketPeerUDP) is listening.
 	*/
 	bool isListening() const
 	{

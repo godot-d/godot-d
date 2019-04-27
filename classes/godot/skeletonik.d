@@ -47,6 +47,8 @@ public:
 		@GodotName("get_target_transform") GodotMethod!(Transform) getTargetTransform;
 		@GodotName("set_target_node") GodotMethod!(void, NodePath) setTargetNode;
 		@GodotName("get_target_node") GodotMethod!(NodePath) getTargetNode;
+		@GodotName("set_override_tip_basis") GodotMethod!(void, bool) setOverrideTipBasis;
+		@GodotName("is_override_tip_basis") GodotMethod!(bool) isOverrideTipBasis;
 		@GodotName("set_use_magnet") GodotMethod!(void, bool) setUseMagnet;
 		@GodotName("is_using_magnet") GodotMethod!(bool) isUsingMagnet;
 		@GodotName("set_magnet_position") GodotMethod!(void, Vector3) setMagnetPosition;
@@ -151,6 +153,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NodePath)(_classBinding.getTargetNode, _godot_object);
+	}
+	/**
+	
+	*/
+	void setOverrideTipBasis(in bool _override)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOverrideTipBasis, _godot_object, _override);
+	}
+	/**
+	
+	*/
+	bool isOverrideTipBasis() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverrideTipBasis, _godot_object);
 	}
 	/**
 	
@@ -295,6 +313,18 @@ public:
 	@property void target(Transform v)
 	{
 		setTargetTransform(v);
+	}
+	/**
+	
+	*/
+	@property bool overrideTipBasis()
+	{
+		return isOverrideTipBasis();
+	}
+	/// ditto
+	@property void overrideTipBasis(bool v)
+	{
+		setOverrideTipBasis(v);
 	}
 	/**
 	

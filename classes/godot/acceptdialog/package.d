@@ -23,10 +23,10 @@ import godot.classdb;
 import godot.windowdialog;
 import godot.button;
 import godot.label;
+import godot.node;
 import godot.popup;
 import godot.control;
 import godot.canvasitem;
-import godot.node;
 /**
 Base dialog for user notification.
 
@@ -52,7 +52,7 @@ public:
 		@GodotName("add_button") GodotMethod!(Button, String, bool, String) addButton;
 		@GodotName("add_cancel") GodotMethod!(Button, String) addCancel;
 		@GodotName("_builtin_text_entered") GodotMethod!(void, String) _builtinTextEntered;
-		@GodotName("register_text_enter") GodotMethod!(void, GodotObject) registerTextEnter;
+		@GodotName("register_text_enter") GodotMethod!(void, Node) registerTextEnter;
 		@GodotName("_custom_action") GodotMethod!(void, String) _customAction;
 		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("get_text") GodotMethod!(String) getText;
@@ -140,7 +140,7 @@ public:
 	/**
 	Registers a $(D LineEdit) in the dialog. When the enter key is pressed, the dialog will be accepted.
 	*/
-	void registerTextEnter(GodotObject line_edit)
+	void registerTextEnter(Node line_edit)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.registerTextEnter, _godot_object, line_edit);
@@ -184,7 +184,7 @@ public:
 		setText(v);
 	}
 	/**
-	If `true` the dialog is hidden when the OK button is pressed. You can set it to `false` if you want to do e.g. input validation when receiving the $(D confirmed) signal, and handle hiding the dialog in your own logic. Default value: `true`.
+	If `true`, the dialog is hidden when the OK button is pressed. You can set it to `false` if you want to do e.g. input validation when receiving the $(D confirmed) signal, and handle hiding the dialog in your own logic. Default value: `true`.
 	Note: Some nodes derived from this class can have a different default value, and potentially their own built-in logic overriding this setting. For example $(D FileDialog) defaults to `false`, and has its own input validation code that is called when you press OK, which eventually hides the dialog if the input is valid. As such this property can't be used in $(D FileDialog) to disable hiding the dialog when pressing OK.
 	*/
 	@property bool dialogHideOnOk()

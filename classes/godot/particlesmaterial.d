@@ -31,6 +31,7 @@ Particle properties for $(D Particles) and $(D Particles2D) nodes.
 
 ParticlesMaterial defines particle properties and behavior. It is used in the `process_material` of $(D Particles) and $(D Particles2D) emitter nodes.
 Some of this material's properties are applied to each particle when emitted, while others can have a $(D CurveTexture) applied to vary values over the lifetime of the particle.
+When a randomness ratio is applied to a property it is used to scale that property by a random amount. The random ratio is used to interpolate between `1.0` and a random number less than one, the result is multiplied by the property to obtain the randomized property. For example a random ratio of `0.4` would scale the original property between `0.4-1.0` of its original value.
 */
 @GodotBaseClass struct ParticlesMaterial
 {
@@ -109,7 +110,7 @@ public:
 		/**
 		
 		*/
-		flagMax = 4,
+		flagMax = 3,
 	}
 	/// 
 	enum EmissionShape : int
@@ -127,11 +128,11 @@ public:
 		*/
 		emissionShapeBox = 2,
 		/**
-		
+		Particles will be emitted at a position determined by sampling a random point on the $(D emissionPointTexture). Particle color will be modulated by $(D emissionColorTexture).
 		*/
 		emissionShapePoints = 3,
 		/**
-		
+		Particles will be emitted at a position determined by sampling a random point on the $(D emissionPointTexture). Particle velocity and rotation will be set based on $(D emissionNormalTexture). Particle color will be modulated by $(D emissionColorTexture).
 		*/
 		emissionShapeDirectedPoints = 4,
 	}
@@ -203,8 +204,8 @@ public:
 		paramOrbitVelocity = 2,
 		emissionShapeBox = 2,
 		emissionShapePoints = 3,
+		flagMax = 3,
 		paramLinearAccel = 3,
-		flagMax = 4,
 		emissionShapeDirectedPoints = 4,
 		paramRadialAccel = 4,
 		paramTangentialAccel = 5,
@@ -593,7 +594,7 @@ public:
 		setEmissionBoxExtents(v);
 	}
 	/**
-	
+	Particles will be emitted at positions determined by sampling this texture at a random position. Used with `EMISSION_SHAPE_POINTS` and `EMISSION_SHAPE_DIRECTED_POINTS`. Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
 	*/
 	@property Texture emissionPointTexture()
 	{
@@ -605,7 +606,7 @@ public:
 		setEmissionPointTexture(v);
 	}
 	/**
-	
+	Particle velocity and rotation will be set by sampling this texture at the same point as the $(D emissionPointTexture). Used only in `EMISSION_SHAPE_DIRECTED`. Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
 	*/
 	@property Texture emissionNormalTexture()
 	{
@@ -617,7 +618,7 @@ public:
 		setEmissionNormalTexture(v);
 	}
 	/**
-	
+	Particle color will be modulated by color determined by sampling this texture at the same point as the $(D emissionPointTexture).
 	*/
 	@property Texture emissionColorTexture()
 	{
@@ -641,7 +642,7 @@ public:
 		setEmissionPointCount(v);
 	}
 	/**
-	
+	Align y-axis of particle with the direction of its velocity.
 	*/
 	@property bool flagAlignY()
 	{
@@ -653,7 +654,7 @@ public:
 		setFlag(0, v);
 	}
 	/**
-	
+	If `true`, particles rotate around y-axis by $(D angle).
 	*/
 	@property bool flagRotateY()
 	{
@@ -665,7 +666,7 @@ public:
 		setFlag(1, v);
 	}
 	/**
-	If `true` particles will not move on the z axis. Default value: `true` for $(D Particles2D), `false` for $(D Particles).
+	If `true`, particles will not move on the z axis. Default value: `true` for $(D Particles2D), `false` for $(D Particles).
 	*/
 	@property bool flagDisableZ()
 	{
@@ -677,7 +678,7 @@ public:
 		setFlag(2, v);
 	}
 	/**
-	Each particle's initial direction range from `+spread` to `-spread` degrees. Default value: `45`.
+	Each particle's initial direction range from `+spread` to `-spread` degrees. Default value: `45`. Applied to X/Z plane and Y/Z planes.
 	*/
 	@property double spread()
 	{
@@ -689,7 +690,7 @@ public:
 		setSpread(v);
 	}
 	/**
-	
+	Amount of $(D spread) in Y/Z plane. A value of `1` restricts particles to X/Z plane. Default `0`.
 	*/
 	@property double flatness()
 	{
@@ -713,7 +714,7 @@ public:
 		setGravity(v);
 	}
 	/**
-	Initial velocity for each particle.
+	Initial velocity magnitude for each particle. Direction comes from $(D spread).
 	*/
 	@property double initialVelocity()
 	{
@@ -737,7 +738,8 @@ public:
 		setParamRandomness(0, v);
 	}
 	/**
-	Initial angular velocity applied to each particle.
+	Initial angular velocity applied to each particle. Sets the speed of rotation of the particle.
+	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using `BillboardMode.BILLBOARD_PARTICLES`.
 	*/
 	@property double angularVelocity()
 	{
@@ -773,7 +775,8 @@ public:
 		setParamTexture(1, v);
 	}
 	/**
-	Orbital velocity applied to each particle.
+	Orbital velocity applied to each particle. Makes the particles circle around origin. Specified in number of full rotations around origin per second.
+	Only available when $(D flagDisableZ) is `true`.
 	*/
 	@property double orbitVelocity()
 	{
@@ -809,7 +812,7 @@ public:
 		setParamTexture(2, v);
 	}
 	/**
-	Linear acceleration applied to each particle.
+	Linear acceleration applied to each particle. Acceleration increases velocity magnitude each frame without affecting direction.
 	*/
 	@property double linearAccel()
 	{
@@ -845,7 +848,7 @@ public:
 		setParamTexture(3, v);
 	}
 	/**
-	Radial acceleration applied to each particle.
+	Radial acceleration applied to each particle. Makes particle accelerate away from origin.
 	*/
 	@property double radialAccel()
 	{
@@ -881,7 +884,7 @@ public:
 		setParamTexture(4, v);
 	}
 	/**
-	Tangential acceleration applied to each particle. Tangential acceleration is perpendicular to the particle's velocity.
+	Tangential acceleration applied to each particle. Tangential acceleration is perpendicular to the particle's velocity giving the particles a swirling motion.
 	*/
 	@property double tangentialAccel()
 	{
@@ -953,7 +956,8 @@ public:
 		setParamTexture(6, v);
 	}
 	/**
-	Initial rotation applied to each particle.
+	Initial rotation applied to each particle, in degrees.
+	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using `BillboardMode.BILLBOARD_PARTICLES`.
 	*/
 	@property double angle()
 	{
@@ -1025,7 +1029,7 @@ public:
 		setParamTexture(8, v);
 	}
 	/**
-	Each particle's initial color. If the $(D Particle2D)'s `texture` is defined, it will be multiplied by this color.
+	Each particle's initial color. If the $(D Particles2D)'s `texture` is defined, it will be multiplied by this color. To have particle display color in a $(D SpatialMaterial) make sure to set $(D SpatialMaterial.vertexColorUseAsAlbedo) to `true`.
 	*/
 	@property Color color()
 	{
@@ -1155,17 +1159,5 @@ public:
 	@property void animOffsetCurve(Texture v)
 	{
 		setParamTexture(11, v);
-	}
-	/**
-	If `true` animation will loop. Default value: `false`.
-	*/
-	@property bool animLoop()
-	{
-		return getFlag(3);
-	}
-	/// ditto
-	@property void animLoop(bool v)
-	{
-		setFlag(3, v);
 	}
 }

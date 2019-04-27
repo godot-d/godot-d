@@ -447,7 +447,7 @@ public:
 		setRadialCenterOffset(v);
 	}
 	/**
-	If `true` Godot treats the bar's textures like $(D NinePatchRect). Use `stretch_margin_*`, like $(D stretchMarginBottom), to set up the nine patch's 3x3 grid. Default value: `false`.
+	If `true`, Godot treats the bar's textures like $(D NinePatchRect). Use `stretch_margin_*`, like $(D stretchMarginBottom), to set up the nine patch's 3x3 grid. Default value: `false`.
 	*/
 	@property bool ninePatchStretch()
 	{

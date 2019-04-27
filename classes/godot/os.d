@@ -43,6 +43,7 @@ public:
 		@GodotName("get_clipboard") GodotMethod!(String) getClipboard;
 		@GodotName("get_video_driver_count") GodotMethod!(long) getVideoDriverCount;
 		@GodotName("get_video_driver_name") GodotMethod!(String, long) getVideoDriverName;
+		@GodotName("get_current_video_driver") GodotMethod!(OS.VideoDriver) getCurrentVideoDriver;
 		@GodotName("get_audio_driver_count") GodotMethod!(long) getAudioDriverCount;
 		@GodotName("get_audio_driver_name") GodotMethod!(String, long) getAudioDriverName;
 		@GodotName("get_connected_midi_inputs") GodotMethod!(PoolStringArray) getConnectedMidiInputs;
@@ -72,11 +73,15 @@ public:
 		@GodotName("request_attention") GodotMethod!(void) requestAttention;
 		@GodotName("get_real_window_size") GodotMethod!(Vector2) getRealWindowSize;
 		@GodotName("center_window") GodotMethod!(void) centerWindow;
+		@GodotName("move_window_to_foreground") GodotMethod!(void) moveWindowToForeground;
 		@GodotName("set_borderless_window") GodotMethod!(void, bool) setBorderlessWindow;
 		@GodotName("get_borderless_window") GodotMethod!(bool) getBorderlessWindow;
 		@GodotName("get_window_per_pixel_transparency_enabled") GodotMethod!(bool) getWindowPerPixelTransparencyEnabled;
 		@GodotName("set_window_per_pixel_transparency_enabled") GodotMethod!(void, bool) setWindowPerPixelTransparencyEnabled;
+		@GodotName("set_ime_active") GodotMethod!(void, bool) setImeActive;
 		@GodotName("set_ime_position") GodotMethod!(void, Vector2) setImePosition;
+		@GodotName("get_ime_selection") GodotMethod!(Vector2) getImeSelection;
+		@GodotName("get_ime_text") GodotMethod!(String) getImeText;
 		@GodotName("set_screen_orientation") GodotMethod!(void, long) setScreenOrientation;
 		@GodotName("get_screen_orientation") GodotMethod!(OS.ScreenOrientation) getScreenOrientation;
 		@GodotName("set_keep_screen_on") GodotMethod!(void, bool) setKeepScreenOn;
@@ -103,6 +108,7 @@ public:
 		@GodotName("get_datetime_from_unix_time") GodotMethod!(Dictionary, long) getDatetimeFromUnixTime;
 		@GodotName("get_unix_time_from_datetime") GodotMethod!(long, Dictionary) getUnixTimeFromDatetime;
 		@GodotName("get_system_time_secs") GodotMethod!(long) getSystemTimeSecs;
+		@GodotName("get_system_time_msecs") GodotMethod!(long) getSystemTimeMsecs;
 		@GodotName("set_icon") GodotMethod!(void, Image) setIcon;
 		@GodotName("get_exit_code") GodotMethod!(long) getExitCode;
 		@GodotName("set_exit_code") GodotMethod!(void, long) setExitCode;
@@ -153,6 +159,7 @@ public:
 		@GodotName("get_power_state") GodotMethod!(OS.PowerState) getPowerState;
 		@GodotName("get_power_seconds_left") GodotMethod!(long) getPowerSecondsLeft;
 		@GodotName("get_power_percent_left") GodotMethod!(long) getPowerPercentLeft;
+		@GodotName("request_permission") GodotMethod!(bool, String) requestPermission;
 	}
 	bool opEquals(in OSSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	OSSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -166,6 +173,18 @@ public:
 		return cast(OSSingleton)(constructor());
 	}
 	@disable new(size_t s);
+	/// 
+	enum VideoDriver : int
+	{
+		/**
+		The GLES3 rendering backend. It uses OpenGL ES 3.0 on mobile devices, OpenGL 3.3 on desktop platforms and WebGL 2.0 on the web.
+		*/
+		videoDriverGles3 = 0,
+		/**
+		The GLES2 rendering backend. It uses OpenGL ES 2.0 on mobile devices, OpenGL 2.1 on desktop platforms and WebGL 1.0 on the web.
+		*/
+		videoDriverGles2 = 1,
+	}
 	/// 
 	enum SystemDir : int
 	{
@@ -345,11 +364,13 @@ public:
 	/// 
 	enum Constants : int
 	{
+		videoDriverGles3 = 0,
 		powerstateUnknown = 0,
 		screenOrientationLandscape = 0,
 		systemDirDesktop = 0,
 		daySunday = 0,
 		screenOrientationPortrait = 1,
+		videoDriverGles2 = 1,
 		systemDirDcim = 1,
 		monthJanuary = 1,
 		dayMonday = 1,
@@ -402,7 +423,7 @@ public:
 		return ptrcall!(String)(_classBinding.getClipboard, _godot_object);
 	}
 	/**
-	
+	Returns the number of video drivers supported on the current platform.
 	*/
 	long getVideoDriverCount() const
 	{
@@ -410,12 +431,20 @@ public:
 		return ptrcall!(long)(_classBinding.getVideoDriverCount, _godot_object);
 	}
 	/**
-	
+	Returns the name of the video driver matching the given `driver` index. This index is a value from $(D OS.videodriver), and you can use $(D getCurrentVideoDriver) to get the current backend's index.
 	*/
 	String getVideoDriverName(in long driver) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getVideoDriverName, _godot_object, driver);
+	}
+	/**
+	Returns the currently used video driver, using one of the values from $(D OS.videodriver).
+	*/
+	OS.VideoDriver getCurrentVideoDriver() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OS.VideoDriver)(_classBinding.getCurrentVideoDriver, _godot_object);
 	}
 	/**
 	Returns the total number of available audio drivers.
@@ -657,6 +686,14 @@ public:
 		ptrcall!(void)(_classBinding.centerWindow, _godot_object);
 	}
 	/**
+	Moves the window to the front.
+	*/
+	void moveWindowToForeground()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.moveWindowToForeground, _godot_object);
+	}
+	/**
 	
 	*/
 	void setBorderlessWindow(in bool borderless)
@@ -689,12 +726,36 @@ public:
 		ptrcall!(void)(_classBinding.setWindowPerPixelTransparencyEnabled, _godot_object, enabled);
 	}
 	/**
-	
+	Sets whether IME input mode should be enabled.
+	*/
+	void setImeActive(in bool active)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setImeActive, _godot_object, active);
+	}
+	/**
+	Sets position of IME suggestion list popup (in window coordinates).
 	*/
 	void setImePosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setImePosition, _godot_object, position);
+	}
+	/**
+	Returns IME selection range.
+	*/
+	Vector2 getImeSelection() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getImeSelection, _godot_object);
+	}
+	/**
+	Returns IME intermediate text.
+	*/
+	String getImeText() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getImeText, _godot_object);
 	}
 	/**
 	
@@ -820,7 +881,7 @@ public:
 	/**
 	Requests the OS to open a resource with the most appropriate program. For example.
 		`OS.shell_open("C:\\Users\name\Downloads")` on Windows opens the file explorer at the downloads folders of the user.
-		`OS.shell_open("http://godotengine.org")` opens the default web browser on the official Godot website.
+		`OS.shell_open("https://godotengine.org")` opens the default web browser on the official Godot website.
 	*/
 	GodotError shellOpen(in String uri)
 	{
@@ -933,6 +994,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getSystemTimeSecs, _godot_object);
+	}
+	/**
+	Returns the epoch time of the operating system in milliseconds.
+	*/
+	long getSystemTimeMsecs() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSystemTimeMsecs, _godot_object);
 	}
 	/**
 	Sets the game's icon.
@@ -1169,7 +1238,7 @@ public:
 		return ptrcall!(String)(_classBinding.getUserDataDir, _godot_object);
 	}
 	/**
-	Returns the actual path to commonly used folders across different platforms. Available locations are specified in $(D OS.SystemDir).
+	Returns the actual path to commonly used folders across different platforms. Available locations are specified in $(D OS.systemdir).
 	*/
 	String getSystemDir(in long dir) const
 	{
@@ -1347,6 +1416,14 @@ public:
 		return ptrcall!(long)(_classBinding.getPowerPercentLeft, _godot_object);
 	}
 	/**
+	At the moment this function is only used by `AudioDriverOpenSL` to request permission for `RECORD_AUDIO` on Android.
+	*/
+	bool requestPermission(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.requestPermission, _godot_object, name);
+	}
+	/**
 	The clipboard from the host OS. Might be unavailable on some platforms.
 	*/
 	@property String clipboard()
@@ -1383,7 +1460,7 @@ public:
 		setExitCode(v);
 	}
 	/**
-	If `true` vertical synchronization (Vsync) is enabled.
+	If `true`, vertical synchronization (Vsync) is enabled.
 	*/
 	@property bool vsyncEnabled()
 	{
@@ -1395,7 +1472,7 @@ public:
 		setUseVsync(v);
 	}
 	/**
-	If `true` the engine optimizes for low processor usage by only refreshing the screen if needed. Can improve battery consumption on mobile.
+	If `true`, the engine optimizes for low processor usage by only refreshing the screen if needed. Can improve battery consumption on mobile.
 	*/
 	@property bool lowProcessorUsageMode()
 	{
@@ -1407,7 +1484,7 @@ public:
 		setLowProcessorUsageMode(v);
 	}
 	/**
-	If `true` the engine tries to keep the screen on while the game is running. Useful on mobile.
+	If `true`, the engine tries to keep the screen on while the game is running. Useful on mobile.
 	*/
 	@property bool keepScreenOn()
 	{
@@ -1431,7 +1508,7 @@ public:
 		setScreenOrientation(v);
 	}
 	/**
-	If `true` removes the window frame.
+	If `true`, removes the window frame.
 	*/
 	@property bool windowBorderless()
 	{
@@ -1455,7 +1532,7 @@ public:
 		setWindowPerPixelTransparencyEnabled(v);
 	}
 	/**
-	If `true` the window is fullscreen.
+	If `true`, the window is fullscreen.
 	*/
 	@property bool windowFullscreen()
 	{
@@ -1467,7 +1544,7 @@ public:
 		setWindowFullscreen(v);
 	}
 	/**
-	If `true` the window is maximized.
+	If `true`, the window is maximized.
 	*/
 	@property bool windowMaximized()
 	{
@@ -1479,7 +1556,7 @@ public:
 		setWindowMaximized(v);
 	}
 	/**
-	If `true` the window is minimized.
+	If `true`, the window is minimized.
 	*/
 	@property bool windowMinimized()
 	{

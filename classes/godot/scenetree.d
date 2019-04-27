@@ -30,7 +30,7 @@ import godot.networkedmultiplayerpeer;
 /**
 SceneTree manages a hierarchy of nodes.
 
-As one of the most important classes, the `SceneTree` manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the SceneTree to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once.
+As one of the most important classes, the $(D SceneTree) manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the SceneTree to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once.
 */
 @GodotBaseClass struct SceneTree
 {
@@ -52,7 +52,7 @@ public:
 		@GodotName("is_debugging_collisions_hint") GodotMethod!(bool) isDebuggingCollisionsHint;
 		@GodotName("set_debug_navigation_hint") GodotMethod!(void, bool) setDebugNavigationHint;
 		@GodotName("is_debugging_navigation_hint") GodotMethod!(bool) isDebuggingNavigationHint;
-		@GodotName("set_edited_scene_root") GodotMethod!(void, GodotObject) setEditedSceneRoot;
+		@GodotName("set_edited_scene_root") GodotMethod!(void, Node) setEditedSceneRoot;
 		@GodotName("get_edited_scene_root") GodotMethod!(Node) getEditedSceneRoot;
 		@GodotName("set_pause") GodotMethod!(void, bool) setPause;
 		@GodotName("is_paused") GodotMethod!(bool) isPaused;
@@ -71,12 +71,12 @@ public:
 		@GodotName("notify_group") GodotMethod!(void, String, long) notifyGroup;
 		@GodotName("set_group") GodotMethod!(void, String, String, Variant) setGroup;
 		@GodotName("get_nodes_in_group") GodotMethod!(Array, String) getNodesInGroup;
-		@GodotName("set_current_scene") GodotMethod!(void, GodotObject) setCurrentScene;
+		@GodotName("set_current_scene") GodotMethod!(void, Node) setCurrentScene;
 		@GodotName("get_current_scene") GodotMethod!(Node) getCurrentScene;
 		@GodotName("change_scene") GodotMethod!(GodotError, String) changeScene;
 		@GodotName("change_scene_to") GodotMethod!(GodotError, PackedScene) changeSceneTo;
 		@GodotName("reload_current_scene") GodotMethod!(GodotError) reloadCurrentScene;
-		@GodotName("_change_scene") GodotMethod!(void, GodotObject) _changeScene;
+		@GodotName("_change_scene") GodotMethod!(void, Node) _changeScene;
 		@GodotName("set_multiplayer") GodotMethod!(void, MultiplayerAPI) setMultiplayer;
 		@GodotName("get_multiplayer") GodotMethod!(MultiplayerAPI) getMultiplayer;
 		@GodotName("set_multiplayer_poll_enabled") GodotMethod!(void, bool) setMultiplayerPollEnabled;
@@ -203,7 +203,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasGroup, _godot_object, name);
 	}
 	/**
-	If `true` the application automatically accepts quitting.
+	If `true`, the application automatically accepts quitting.
 	*/
 	void setAutoAcceptQuit(in bool enabled)
 	{
@@ -211,7 +211,7 @@ public:
 		ptrcall!(void)(_classBinding.setAutoAcceptQuit, _godot_object, enabled);
 	}
 	/**
-	If `true` the application quits automatically on going back (e.g. on Android).
+	If `true`, the application quits automatically on going back (e.g. on Android).
 	*/
 	void setQuitOnGoBack(in bool enabled)
 	{
@@ -253,7 +253,7 @@ public:
 	/**
 	
 	*/
-	void setEditedSceneRoot(GodotObject scene)
+	void setEditedSceneRoot(Node scene)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setEditedSceneRoot, _godot_object, scene);
@@ -299,7 +299,16 @@ public:
 		return ptrcall!(bool)(_classBinding.isInputHandled, _godot_object);
 	}
 	/**
-	Returns a $(D SceneTreeTimer) which will $(D SceneTreeTimer.timeout) after the given time in seconds elapsed in this SceneTree. If `pause_mode_process` is set to false, pausing the SceneTree will also pause the timer.
+	Returns a $(D SceneTreeTimer) which will $(D SceneTreeTimer.timeout) after the given time in seconds elapsed in this SceneTree. If `pause_mode_process` is set to `false`, pausing the SceneTree will also pause the timer.
+	Commonly used to create a one-shot delay timer as in the following example:
+	
+	
+	func some_function():
+		print("start")
+		yield(get_tree().create_timer(1.0), "timeout")
+		print("end")
+	
+	
 	*/
 	Ref!SceneTreeTimer createTimer(in double time_sec, in bool pause_mode_process = true)
 	{
@@ -315,7 +324,7 @@ public:
 		return ptrcall!(long)(_classBinding.getNodeCount, _godot_object);
 	}
 	/**
-	
+	Returns the current frame, i.e. number of frames since the application started.
 	*/
 	long getFrame() const
 	{
@@ -420,7 +429,7 @@ public:
 	/**
 	
 	*/
-	void setCurrentScene(GodotObject child_node)
+	void setCurrentScene(Node child_node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCurrentScene, _godot_object, child_node);
@@ -460,7 +469,7 @@ public:
 	/**
 	
 	*/
-	void _changeScene(GodotObject arg0)
+	void _changeScene(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -659,7 +668,7 @@ public:
 		setDebugNavigationHint(v);
 	}
 	/**
-	If `true` the SceneTree is paused.
+	If `true`, the SceneTree is paused.
 	Doing so will have the following behavior:
 	* 2D and 3D physics will be stopped.
 	* _process and _physics_process will not be called anymore in nodes.
@@ -675,7 +684,7 @@ public:
 		setPause(v);
 	}
 	/**
-	If `true` the SceneTree's $(D networkPeer) refuses new incoming connections.
+	If `true`, the SceneTree's $(D networkPeer) refuses new incoming connections.
 	*/
 	@property bool refuseNewNetworkConnections()
 	{
@@ -687,7 +696,7 @@ public:
 		setRefuseNewNetworkConnections(v);
 	}
 	/**
-	If `true` font oversampling is used.
+	If `true`, font oversampling is used.
 	*/
 	@property bool useFontOversampling()
 	{
@@ -706,7 +715,7 @@ public:
 		return getEditedSceneRoot();
 	}
 	/// ditto
-	@property void editedSceneRoot(GodotObject v)
+	@property void editedSceneRoot(Node v)
 	{
 		setEditedSceneRoot(v);
 	}
@@ -718,12 +727,12 @@ public:
 		return getCurrentScene();
 	}
 	/// ditto
-	@property void currentScene(GodotObject v)
+	@property void currentScene(Node v)
 	{
 		setCurrentScene(v);
 	}
 	/**
-	The peer object to handle the RPC system (effectively enabling networking when set). Depending on the peer itself, the SceneTree will become a network server (check with $(D isNetworkServer())) and will set root node's network mode to master (see NETWORK_MODE_* constants in $(D Node)), or it will become a regular peer with root node set to puppet. All child nodes are set to inherit the network mode by default. Handling of networking-related events (connection, disconnection, new clients) is done by connecting to SceneTree's signals.
+	The peer object to handle the RPC system (effectively enabling networking when set). Depending on the peer itself, the SceneTree will become a network server (check with $(D isNetworkServer)) and will set root node's network mode to master (see NETWORK_MODE_* constants in $(D Node)), or it will become a regular peer with root node set to puppet. All child nodes are set to inherit the network mode by default. Handling of networking-related events (connection, disconnection, new clients) is done by connecting to SceneTree's signals.
 	*/
 	@property NetworkedMultiplayerPeer networkPeer()
 	{
@@ -754,7 +763,7 @@ public:
 		setMultiplayer(v);
 	}
 	/**
-	If `true` (default) enable the automatic polling of the $(D MultiplayerAPI) for this SceneTree during $(D idleFrame).
+	If `true`, (default) enable the automatic polling of the $(D MultiplayerAPI) for this SceneTree during $(D idleFrame).
 	When `false` you need to manually call $(D MultiplayerAPI.poll) for processing network packets and delivering RPCs/RSETs. This allows to run RPCs/RSETs in a different loop (e.g. physics, thread, specific time step) and for manual $(D Mutex) protection when accessing the $(D MultiplayerAPI) from threads.
 	*/
 	@property bool multiplayerPoll()

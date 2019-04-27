@@ -22,12 +22,12 @@ import godot.object;
 import godot.panelcontainer;
 import godot.resource;
 import godot.reference;
+import godot.node;
 import godot.script;
 import godot.inputevent;
-import godot.container;
 import godot.control;
+import godot.container;
 import godot.canvasitem;
-import godot.node;
 /**
 
 */
@@ -63,12 +63,11 @@ public:
 		@GodotName("_goto_script_line") GodotMethod!(void, Reference, long) _gotoScriptLine;
 		@GodotName("_goto_script_line2") GodotMethod!(void, long) _gotoScriptLine2;
 		@GodotName("_help_search") GodotMethod!(void, String) _helpSearch;
-		@GodotName("_help_index") GodotMethod!(void, String) _helpIndex;
 		@GodotName("_save_history") GodotMethod!(void) _saveHistory;
 		@GodotName("_copy_script_path") GodotMethod!(void) _copyScriptPath;
 		@GodotName("_breaked") GodotMethod!(void, bool, bool) _breaked;
 		@GodotName("_show_debugger") GodotMethod!(void, bool) _showDebugger;
-		@GodotName("_get_debug_tooltip") GodotMethod!(String, String, GodotObject) _getDebugTooltip;
+		@GodotName("_get_debug_tooltip") GodotMethod!(String, String, Node) _getDebugTooltip;
 		@GodotName("_autosave_scripts") GodotMethod!(void) _autosaveScripts;
 		@GodotName("_editor_settings_changed") GodotMethod!(void) _editorSettingsChanged;
 		@GodotName("_update_script_names") GodotMethod!(void) _updateScriptNames;
@@ -94,9 +93,9 @@ public:
 		@GodotName("_start_find_in_files") GodotMethod!(void, bool) _startFindInFiles;
 		@GodotName("_on_find_in_files_result_selected") GodotMethod!(void, String, long, long, long) _onFindInFilesResultSelected;
 		@GodotName("_on_find_in_files_modified_files") GodotMethod!(void, PoolStringArray) _onFindInFilesModifiedFiles;
-		@GodotName("get_drag_data_fw") GodotMethod!(Variant, Vector2, GodotObject) getDragDataFw;
-		@GodotName("can_drop_data_fw") GodotMethod!(bool, Vector2, Variant, GodotObject) canDropDataFw;
-		@GodotName("drop_data_fw") GodotMethod!(void, Vector2, Variant, GodotObject) dropDataFw;
+		@GodotName("get_drag_data_fw") GodotMethod!(Variant, Vector2, Control) getDragDataFw;
+		@GodotName("can_drop_data_fw") GodotMethod!(bool, Vector2, Variant, Control) canDropDataFw;
+		@GodotName("drop_data_fw") GodotMethod!(void, Vector2, Variant, Control) dropDataFw;
 		@GodotName("get_current_script") GodotMethod!(Script) getCurrentScript;
 		@GodotName("get_open_scripts") GodotMethod!(Array) getOpenScripts;
 		@GodotName("open_script_create_dialog") GodotMethod!(void, String, String) openScriptCreateDialog;
@@ -311,16 +310,6 @@ public:
 	/**
 	
 	*/
-	void _helpIndex(in String arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_help_index");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	void _saveHistory()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -360,7 +349,7 @@ public:
 	/**
 	
 	*/
-	String _getDebugTooltip(in String arg0, GodotObject arg1)
+	String _getDebugTooltip(in String arg0, Node arg1)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -614,7 +603,7 @@ public:
 	/**
 	
 	*/
-	Variant getDragDataFw(in Vector2 point, GodotObject from)
+	Variant getDragDataFw(in Vector2 point, Control from)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getDragDataFw, _godot_object, point, from);
@@ -622,7 +611,7 @@ public:
 	/**
 	
 	*/
-	bool canDropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, GodotObject from) const
+	bool canDropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, Control from) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.canDropDataFw, _godot_object, point, data, from);
@@ -630,7 +619,7 @@ public:
 	/**
 	
 	*/
-	void dropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, GodotObject from)
+	void dropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, Control from)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.dropDataFw, _godot_object, point, data, from);

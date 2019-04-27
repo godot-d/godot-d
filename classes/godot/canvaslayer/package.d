@@ -25,7 +25,7 @@ import godot.viewport;
 /**
 Canvas drawing layer.
 
-$(D CanvasItem) nodes that are direct or indirect children of a `CanvasLayer` will be drawn in that layer. The layer is a numeric index that defines the draw order. The default 2D scene renders with index 0, so a `CanvasLayer` with index -1 will be drawn below, and one with index 1 will be drawn above. This is very useful for HUDs (in layer 1+ or above), or backgrounds (in layer -1 or below).
+$(D CanvasItem) nodes that are direct or indirect children of a $(D CanvasLayer) will be drawn in that layer. The layer is a numeric index that defines the draw order. The default 2D scene renders with index 0, so a $(D CanvasLayer) with index -1 will be drawn below, and one with index 1 will be drawn above. This is very useful for HUDs (in layer 1+ or above), or backgrounds (in layer -1 or below).
 */
 @GodotBaseClass struct CanvasLayer
 {
@@ -51,7 +51,7 @@ public:
 		@GodotName("get_rotation_degrees") GodotMethod!(double) getRotationDegrees;
 		@GodotName("set_scale") GodotMethod!(void, Vector2) setScale;
 		@GodotName("get_scale") GodotMethod!(Vector2) getScale;
-		@GodotName("set_custom_viewport") GodotMethod!(void, GodotObject) setCustomViewport;
+		@GodotName("set_custom_viewport") GodotMethod!(void, Node) setCustomViewport;
 		@GodotName("get_custom_viewport") GodotMethod!(Node) getCustomViewport;
 		@GodotName("get_canvas") GodotMethod!(RID) getCanvas;
 	}
@@ -166,7 +166,7 @@ public:
 	/**
 	
 	*/
-	void setCustomViewport(GodotObject viewport)
+	void setCustomViewport(Node viewport)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCustomViewport, _godot_object, viewport);
@@ -260,14 +260,14 @@ public:
 		setTransform(v);
 	}
 	/**
-	The custom $(D Viewport) node assigned to the `CanvasLayer`. If null, uses the default viewport instead.
+	The custom $(D Viewport) node assigned to the $(D CanvasLayer). If null, uses the default viewport instead.
 	*/
 	@property Node customViewport()
 	{
 		return getCustomViewport();
 	}
 	/// ditto
-	@property void customViewport(GodotObject v)
+	@property void customViewport(Node v)
 	{
 		setCustomViewport(v);
 	}

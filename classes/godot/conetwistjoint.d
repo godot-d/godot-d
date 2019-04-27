@@ -67,7 +67,7 @@ public:
 		/**
 		Swing is rotation from side to side, around the axis perpendicular to the twist axis.
 		The swing span defines, how much rotation will not get corrected allong the swing axis.
-		Could be defined as looseness in the `ConeTwistJoint`.
+		Could be defined as looseness in the $(D ConeTwistJoint).
 		If below 0.05, this behaviour is locked. Default value: `PI/4`.
 		*/
 		paramSwingSpan = 0,
@@ -161,7 +161,7 @@ public:
 	/**
 	Swing is rotation from side to side, around the axis perpendicular to the twist axis.
 	The swing span defines, how much rotation will not get corrected allong the swing axis.
-	Could be defined as looseness in the `ConeTwistJoint`.
+	Could be defined as looseness in the $(D ConeTwistJoint).
 	If below 0.05, this behaviour is locked. Default value: `PI/4`.
 	*/
 	@property double swingSpan()

@@ -236,7 +236,7 @@ public:
 		setRoomSize(v);
 	}
 	/**
-	Widens or narrows the stereo image of the reverb tail. 1 means fully widens. Value can range from 0 to 1. Default value: `1`.
+	Defines how reflective the imaginary room's walls are. Value can range from 0 to 1. Default value: `1`.
 	*/
 	@property double damping()
 	{
@@ -248,7 +248,7 @@ public:
 		setDamping(v);
 	}
 	/**
-	Defines how reflective the imaginary room's walls are. Value can range from 0 to 1. Default value: `1`.
+	Widens or narrows the stereo image of the reverb tail. 1 means fully widens. Value can range from 0 to 1. Default value: `1`.
 	*/
 	@property double spread()
 	{

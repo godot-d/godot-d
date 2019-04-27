@@ -158,7 +158,7 @@ public:
 		setShadowMode(v);
 	}
 	/**
-	The distance from camera to shadow split 1. Relative to $(D directionalShadowMaxDistance). Only used in $(D directionalShadowMode) SHADOW_PARALLEL_*_SPLITS.
+	The distance from camera to shadow split 1. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is one of the `SHADOW_PARALLEL_*_SPLITS` constants.
 	*/
 	@property double directionalShadowSplit1()
 	{
@@ -170,7 +170,7 @@ public:
 		setParam(9, v);
 	}
 	/**
-	The distance from shadow split 1 to split 2. Relative to $(D directionalShadowMaxDistance). Only used in $(D directionalShadowMode) SHADOW_PARALLEL_*_SPLITS.
+	The distance from shadow split 1 to split 2. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_3_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
 	*/
 	@property double directionalShadowSplit2()
 	{
@@ -182,7 +182,7 @@ public:
 		setParam(10, v);
 	}
 	/**
-	The distance from shadow split 2 to split 3. Relative to $(D directionalShadowMaxDistance). Only used in $(D directionalShadowMode) SHADOW_PARALLEL_4_SPLITS.
+	The distance from shadow split 2 to split 3. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_4_SPLITS`.
 	*/
 	@property double directionalShadowSplit3()
 	{
@@ -194,7 +194,7 @@ public:
 		setParam(11, v);
 	}
 	/**
-	If `true` shadow detail is sacrificed in exchange for smoother transitions between splits. Default value:`false`.
+	If `true`, shadow detail is sacrificed in exchange for smoother transitions between splits. Default value:`false`.
 	*/
 	@property bool directionalShadowBlendSplits()
 	{

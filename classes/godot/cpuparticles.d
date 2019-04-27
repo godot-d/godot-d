@@ -24,10 +24,9 @@ import godot.geometryinstance;
 import godot.mesh;
 import godot.curve;
 import godot.gradient;
-import godot.gradienttexture;
+import godot.node;
 import godot.visualinstance;
 import godot.spatial;
-import godot.node;
 /**
 
 */
@@ -100,7 +99,7 @@ public:
 		@GodotName("get_emission_colors") GodotMethod!(PoolColorArray) getEmissionColors;
 		@GodotName("get_gravity") GodotMethod!(Vector3) getGravity;
 		@GodotName("set_gravity") GodotMethod!(void, Vector3) setGravity;
-		@GodotName("convert_from_particles") GodotMethod!(void, GodotObject) convertFromParticles;
+		@GodotName("convert_from_particles") GodotMethod!(void, Node) convertFromParticles;
 		@GodotName("_update_render_thread") GodotMethod!(void) _updateRenderThread;
 	}
 	bool opEquals(in CPUParticles other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -129,7 +128,7 @@ public:
 		/**
 		
 		*/
-		flagMax = 4,
+		flagMax = 3,
 	}
 	/// 
 	enum EmissionShape : int
@@ -238,8 +237,8 @@ public:
 		paramLinearAccel = 2,
 		emissionShapeBox = 2,
 		emissionShapePoints = 3,
+		flagMax = 3,
 		paramRadialAccel = 3,
-		flagMax = 4,
 		paramTangentialAccel = 4,
 		emissionShapeDirectedPoints = 4,
 		paramDamping = 5,
@@ -709,7 +708,7 @@ public:
 	/**
 	
 	*/
-	void convertFromParticles(GodotObject particles)
+	void convertFromParticles(Node particles)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.convertFromParticles, _godot_object, particles);
@@ -1266,36 +1265,36 @@ public:
 	/**
 	
 	*/
-	@property double scale()
+	@property double scaleAmount()
 	{
 		return getParam(7);
 	}
 	/// ditto
-	@property void scale(double v)
+	@property void scaleAmount(double v)
 	{
 		setParam(7, v);
 	}
 	/**
 	
 	*/
-	@property double scaleRandom()
+	@property double scaleAmountRandom()
 	{
 		return getParamRandomness(7);
 	}
 	/// ditto
-	@property void scaleRandom(double v)
+	@property void scaleAmountRandom(double v)
 	{
 		setParamRandomness(7, v);
 	}
 	/**
 	
 	*/
-	@property Curve scaleCurve()
+	@property Curve scaleAmountCurve()
 	{
 		return getParamCurve(7);
 	}
 	/// ditto
-	@property void scaleCurve(Curve v)
+	@property void scaleAmountCurve(Curve v)
 	{
 		setParamCurve(7, v);
 	}
@@ -1312,7 +1311,7 @@ public:
 		setColor(v);
 	}
 	/**
-	
+	Each particle's vertex color will vary along this $(D GradientTexture).
 	*/
 	@property Gradient colorRamp()
 	{
@@ -1430,17 +1429,5 @@ public:
 	@property void animOffsetCurve(Curve v)
 	{
 		setParamCurve(10, v);
-	}
-	/**
-	
-	*/
-	@property bool animLoop()
-	{
-		return getParticleFlag(3);
-	}
-	/// ditto
-	@property void animLoop(bool v)
-	{
-		setParticleFlag(3, v);
 	}
 }

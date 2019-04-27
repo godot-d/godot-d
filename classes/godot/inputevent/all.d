@@ -14,4 +14,5 @@ public import
 	godot.inputeventjoypadmotion,
 	godot.inputeventscreendrag,
 	godot.inputeventscreentouch,
-	godot.inputeventaction;
+	godot.inputeventaction,
+	godot.inputeventmidi;

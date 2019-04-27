@@ -135,7 +135,7 @@ public:
 		setTitle(v);
 	}
 	/**
-	If `true` the user can resize the window. Default value: `false`.
+	If `true`, the user can resize the window. Default value: `false`.
 	*/
 	@property bool resizable()
 	{

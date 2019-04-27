@@ -27,7 +27,7 @@ import godot.reference;
 /**
 Gradient filled texture.
 
-Uses a $(D Gradient) to fill the texture data, the gradient will be filled from left to right using colors obtained from the gradient, this means that the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see $(D setWidth)).
+Uses a $(D Gradient) to fill the texture data, the gradient will be filled from left to right using colors obtained from the gradient, this means that the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see $(D width)).
 */
 @GodotBaseClass struct GradientTexture
 {

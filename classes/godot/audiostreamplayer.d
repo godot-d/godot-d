@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.node;
 import godot.audiostream;
+import godot.audiostreamplayback;
 /**
 Plays back audio.
 
@@ -61,6 +62,7 @@ public:
 		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
 		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
 		@GodotName("get_stream_paused") GodotMethod!(bool) getStreamPaused;
+		@GodotName("get_stream_playback") GodotMethod!(AudioStreamPlayback) getStreamPlayback;
 	}
 	bool opEquals(in AudioStreamPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -278,6 +280,14 @@ public:
 		return ptrcall!(bool)(_classBinding.getStreamPaused, _godot_object);
 	}
 	/**
+	
+	*/
+	Ref!AudioStreamPlayback getStreamPlayback()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
+	}
+	/**
 	The $(D AudioStream) object to be played.
 	*/
 	@property AudioStream stream()
@@ -314,7 +324,7 @@ public:
 		setPitchScale(v);
 	}
 	/**
-	If `true` audio is playing.
+	If `true`, audio is playing.
 	*/
 	@property bool playing()
 	{
@@ -326,7 +336,7 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	If `true` audio plays when added to scene tree. Default value: `false`.
+	If `true`, audio plays when added to scene tree. Default value: `false`.
 	*/
 	@property bool autoplay()
 	{

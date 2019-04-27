@@ -24,6 +24,7 @@ import godot.texture;
 import godot.stylebox;
 import godot.font;
 import godot.mesh;
+import godot.multimesh;
 import godot.world2d;
 import godot.material;
 import godot.inputevent;
@@ -102,7 +103,7 @@ public:
 		@GodotName("draw_string") GodotMethod!(void, Font, Vector2, String, Color, long) drawString;
 		@GodotName("draw_char") GodotMethod!(double, Font, Vector2, String, String, Color) drawChar;
 		@GodotName("draw_mesh") GodotMethod!(void, Mesh, Texture, Texture) drawMesh;
-		@GodotName("draw_multimesh") GodotMethod!(void, Mesh, Texture, Texture) drawMultimesh;
+		@GodotName("draw_multimesh") GodotMethod!(void, MultiMesh, Texture, Texture) drawMultimesh;
 		@GodotName("draw_set_transform") GodotMethod!(void, Vector2, double, Vector2) drawSetTransform;
 		@GodotName("draw_set_transform_matrix") GodotMethod!(void, Transform2D) drawSetTransformMatrix;
 		@GodotName("get_transform") GodotMethod!(Transform2D) getTransform;
@@ -398,7 +399,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isVisibleInTree, _godot_object);
 	}
 	/**
-	Show the CanvasItem currently hidden.
+	Show the CanvasItem currently hidden. For controls that inherit $(D Popup), the correct way to make them visible is to call one of the multiple popup*() functions instead.
 	*/
 	void show()
 	{
@@ -659,10 +660,10 @@ public:
 	/**
 	
 	*/
-	void drawMultimesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init)
+	void drawMultimesh(MultiMesh multimesh, Texture texture, Texture normal_map = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMultimesh, _godot_object, mesh, texture, normal_map);
+		ptrcall!(void)(_classBinding.drawMultimesh, _godot_object, multimesh, texture, normal_map);
 	}
 	/**
 	Sets a custom transform for drawing via components. Anything drawn afterwards will be transformed by this.
@@ -849,7 +850,7 @@ public:
 		return ptrcall!(InputEvent)(_classBinding.makeInputLocal, _godot_object, event);
 	}
 	/**
-	If `true` this `CanvasItem` is drawn. Default value: `true`.
+	If `true`, this $(D CanvasItem) is drawn. Default value: `true`. For controls that inherit $(D Popup), the correct way to make them visible is to call one of the multiple popup*() functions instead.
 	*/
 	@property bool visible()
 	{
@@ -861,7 +862,7 @@ public:
 		setVisible(v);
 	}
 	/**
-	The color applied to textures on this `CanvasItem`. Default value: `Color(1, 1, 1, 1)` (opaque "white").
+	The color applied to textures on this $(D CanvasItem). Default value: `Color(1, 1, 1, 1)` (opaque "white").
 	*/
 	@property Color modulate()
 	{
@@ -873,7 +874,7 @@ public:
 		setModulate(v);
 	}
 	/**
-	The color applied to textures on this `CanvasItem`. This is not inherited by children `CanvasItem`s. Default value: `Color(1, 1, 1, 1)` (opaque "white")..
+	The color applied to textures on this $(D CanvasItem). This is not inherited by children $(D CanvasItem)s. Default value: `Color(1, 1, 1, 1)` (opaque "white")..
 	*/
 	@property Color selfModulate()
 	{
@@ -885,7 +886,7 @@ public:
 		setSelfModulate(v);
 	}
 	/**
-	If `true` the object draws behind its parent. Default value: `false`.
+	If `true`, the object draws behind its parent. Default value: `false`.
 	*/
 	@property bool showBehindParent()
 	{
@@ -897,7 +898,7 @@ public:
 		setDrawBehindParent(v);
 	}
 	/**
-	If `true` the object draws on top of its parent. Default value: `true`.
+	If `true`, the object draws on top of its parent. Default value: `true`.
 	*/
 	@property bool showOnTop()
 	{
@@ -909,7 +910,7 @@ public:
 		_setOnTop(v);
 	}
 	/**
-	The rendering layers in which this `CanvasItem` responds to $(D Light2D) nodes. Default value: `1`.
+	The rendering layers in which this $(D CanvasItem) responds to $(D Light2D) nodes. Default value: `1`.
 	*/
 	@property long lightMask()
 	{
@@ -921,7 +922,7 @@ public:
 		setLightMask(v);
 	}
 	/**
-	If `true` the parent `CanvasItem`'s $(D material) property is used as this one's material. Default value: `false`.
+	If `true`, the parent $(D CanvasItem)'s $(D material) property is used as this one's material. Default value: `false`.
 	*/
 	@property bool useParentMaterial()
 	{

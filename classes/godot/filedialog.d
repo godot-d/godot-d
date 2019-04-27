@@ -479,7 +479,7 @@ public:
 		ptrcall!(void)(_classBinding.invalidate, _godot_object);
 	}
 	/**
-	If `true`, changing the `Mode` property will set the window title accordingly (e. g. setting mode to `MODE_OPEN_FILE` will change the window title to "Open a File").
+	If `true`, changing the `Mode` property will set the window title accordingly (e.g. setting mode to `MODE_OPEN_FILE` will change the window title to "Open a File").
 	*/
 	@property bool modeOverridesTitle()
 	{

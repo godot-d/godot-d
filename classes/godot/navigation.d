@@ -120,7 +120,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getClosestPointNormal, _godot_object, to_point);
 	}
 	/**
-	Returns the owner of the $(D NavigationMesh) which contains the navigation point closest to the point given. This is usually a $(D NavigtionMeshInstance). For meshes added via $(D navmeshAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
+	Returns the owner of the $(D NavigationMesh) which contains the navigation point closest to the point given. This is usually a $(D NavigationMeshInstance). For meshes added via $(D navmeshAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
 	*/
 	GodotObject getClosestPointOwner(in Vector3 to_point)
 	{

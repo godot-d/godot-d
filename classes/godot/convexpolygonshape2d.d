@@ -27,7 +27,7 @@ import godot.reference;
 Convex Polygon Shape for 2D physics.
 
 A convex polygon, whatever its shape, is internally decomposed into as many convex polygons as needed to ensure all collision checks against it are always done on convex polygons (which are faster to check).
-The main difference between a `ConvexPolygonShape2D` and a $(D ConcavePolygonShape2D) is that a concave polygon assumes it is concave and uses a more complex method of collision detection, and a convex one forces itself to be convex in order to speed up collision detection.
+The main difference between a $(D ConvexPolygonShape2D) and a $(D ConcavePolygonShape2D) is that a concave polygon assumes it is concave and uses a more complex method of collision detection, and a convex one forces itself to be convex in order to speed up collision detection.
 */
 @GodotBaseClass struct ConvexPolygonShape2D
 {
@@ -58,7 +58,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Currently, this method does nothing.
+	Based on the set of points provided, this creates and assigns the $(D points) property using the convex hull algorithm. Removing all unneeded points. See $(D Geometry.convexHull2d) for details.
 	*/
 	void setPointCloud(in PoolVector2Array point_cloud)
 	{

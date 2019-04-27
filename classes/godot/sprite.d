@@ -313,7 +313,7 @@ public:
 		setNormalMap(v);
 	}
 	/**
-	If `true` texture is centered. Default value: `true`.
+	If `true`, texture is centered. Default value: `true`.
 	*/
 	@property bool centered()
 	{
@@ -337,7 +337,7 @@ public:
 		setOffset(v);
 	}
 	/**
-	If `true` texture is flipped horizontally. Default value: `false`.
+	If `true`, texture is flipped horizontally. Default value: `false`.
 	*/
 	@property bool flipH()
 	{
@@ -349,7 +349,7 @@ public:
 		setFlipH(v);
 	}
 	/**
-	If `true` texture is flipped vertically. Default value: `false`.
+	If `true`, texture is flipped vertically. Default value: `false`.
 	*/
 	@property bool flipV()
 	{
@@ -397,7 +397,7 @@ public:
 		setFrame(v);
 	}
 	/**
-	If `true` texture is cut from a larger atlas texture. See `region_rect`. Default value: `false`.
+	If `true`, texture is cut from a larger atlas texture. See `region_rect`. Default value: `false`.
 	*/
 	@property bool regionEnabled()
 	{
@@ -421,7 +421,7 @@ public:
 		setRegionRect(v);
 	}
 	/**
-	If `true` the outermost pixels get blurred out.
+	If `true`, the outermost pixels get blurred out.
 	*/
 	@property bool regionFilterClip()
 	{

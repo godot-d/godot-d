@@ -35,7 +35,7 @@ Once all nodes have been added in the scene tree, they receive the NOTIFICATION_
 This means that when adding a node to the scene tree, the following order will be used for the callbacks: $(D _enterTree) of the parent, $(D _enterTree) of the children, $(D _ready) of the children and finally $(D _ready) of the parent (recursively for the entire scene tree).
 $(B Processing:) Nodes can override the "process" state, so that they receive a callback on each frame requesting them to process (do something). Normal processing (callback $(D _process), toggled with $(D setProcess)) happens as fast as possible and is dependent on the frame rate, so the processing time $(I delta) is passed as an argument. Physics processing (callback $(D _physicsProcess), toggled with $(D setPhysicsProcess)) happens a fixed number of times per second (60 by default) and is useful for code related to the physics engine.
 Nodes can also process input events. When present, the $(D _input) function will be called for each input that the program receives. In many cases, this can be overkill (unless used for simple projects), and the $(D _unhandledInput) function might be preferred; it is called when the input event was not handled by anyone else (typically, GUI $(D Control) nodes), ensuring that the node only receives the events that were meant for it.
-To keep track of the scene hierarchy (especially when instancing scenes into other scenes), an "owner" can be set for the node with $(D setOwner). This keeps track of who instanced what. This is mostly useful when writing editors and tools, though.
+To keep track of the scene hierarchy (especially when instancing scenes into other scenes), an "owner" can be set for the node with the $(D owner) property. This keeps track of who instanced what. This is mostly useful when writing editors and tools, though.
 Finally, when a node is freed with $(D GodotObject.free) or $(D queueFree), it will also free all its children.
 $(B Groups:) Nodes can be added to as many groups as you want to be easy to manage, you could create groups like "enemies" or "collectables" for example, depending on your game. See $(D addToGroup), $(D isInGroup) and $(D removeFromGroup). You can then retrieve all nodes in these groups, iterate them and even call methods on groups via the methods on $(D SceneTree).
 $(B Networking with nodes:) After connecting to a server (or making one, see $(D NetworkedMultiplayerENet)) it is possible to use the built-in RPC (remote procedure call) system to communicate over the network. By calling $(D rpc) with a method name, it will be called locally and in all connected peers (peers = clients and the server that accepts connections). To identify which node receives the RPC call Godot will use its $(D NodePath) (make sure node names are the same on all peers). Also take a look at the high-level networking tutorial and corresponding demos.
@@ -61,33 +61,34 @@ public:
 		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
 		@GodotName("_unhandled_key_input") GodotMethod!(void, InputEventKey) _unhandledKeyInput;
 		@GodotName("_get_configuration_warning") GodotMethod!(String) _getConfigurationWarning;
-		@GodotName("add_child_below_node") GodotMethod!(void, GodotObject, GodotObject, bool) addChildBelowNode;
+		@GodotName("add_child_below_node") GodotMethod!(void, Node, Node, bool) addChildBelowNode;
 		@GodotName("set_name") GodotMethod!(void, String) setName;
 		@GodotName("get_name") GodotMethod!(String) getName;
-		@GodotName("add_child") GodotMethod!(void, GodotObject, bool) addChild;
-		@GodotName("remove_child") GodotMethod!(void, GodotObject) removeChild;
+		@GodotName("add_child") GodotMethod!(void, Node, bool) addChild;
+		@GodotName("remove_child") GodotMethod!(void, Node) removeChild;
 		@GodotName("get_child_count") GodotMethod!(long) getChildCount;
 		@GodotName("get_children") GodotMethod!(Array) getChildren;
 		@GodotName("get_child") GodotMethod!(Node, long) getChild;
 		@GodotName("has_node") GodotMethod!(bool, NodePath) hasNode;
 		@GodotName("get_node") GodotMethod!(Node, NodePath) getNode;
+		@GodotName("get_node_or_null") GodotMethod!(Node, NodePath) getNodeOrNull;
 		@GodotName("get_parent") GodotMethod!(Node) getParent;
 		@GodotName("find_node") GodotMethod!(Node, String, bool, bool) findNode;
 		@GodotName("find_parent") GodotMethod!(Node, String) findParent;
 		@GodotName("has_node_and_resource") GodotMethod!(bool, NodePath) hasNodeAndResource;
 		@GodotName("get_node_and_resource") GodotMethod!(Array, NodePath) getNodeAndResource;
 		@GodotName("is_inside_tree") GodotMethod!(bool) isInsideTree;
-		@GodotName("is_a_parent_of") GodotMethod!(bool, GodotObject) isAParentOf;
-		@GodotName("is_greater_than") GodotMethod!(bool, GodotObject) isGreaterThan;
+		@GodotName("is_a_parent_of") GodotMethod!(bool, Node) isAParentOf;
+		@GodotName("is_greater_than") GodotMethod!(bool, Node) isGreaterThan;
 		@GodotName("get_path") GodotMethod!(NodePath) getPath;
-		@GodotName("get_path_to") GodotMethod!(NodePath, GodotObject) getPathTo;
+		@GodotName("get_path_to") GodotMethod!(NodePath, Node) getPathTo;
 		@GodotName("add_to_group") GodotMethod!(void, String, bool) addToGroup;
 		@GodotName("remove_from_group") GodotMethod!(void, String) removeFromGroup;
 		@GodotName("is_in_group") GodotMethod!(bool, String) isInGroup;
-		@GodotName("move_child") GodotMethod!(void, GodotObject, long) moveChild;
+		@GodotName("move_child") GodotMethod!(void, Node, long) moveChild;
 		@GodotName("get_groups") GodotMethod!(Array) getGroups;
 		@GodotName("raise") GodotMethod!(void) raise;
-		@GodotName("set_owner") GodotMethod!(void, GodotObject) setOwner;
+		@GodotName("set_owner") GodotMethod!(void, Node) setOwner;
 		@GodotName("get_owner") GodotMethod!(Node) getOwner;
 		@GodotName("remove_and_skip") GodotMethod!(void) removeAndSkip;
 		@GodotName("get_index") GodotMethod!(long) getIndex;
@@ -123,7 +124,7 @@ public:
 		@GodotName("is_physics_processing_internal") GodotMethod!(bool) isPhysicsProcessingInternal;
 		@GodotName("get_tree") GodotMethod!(SceneTree) getTree;
 		@GodotName("duplicate") GodotMethod!(Node, long) duplicate;
-		@GodotName("replace_by") GodotMethod!(void, GodotObject, bool) replaceBy;
+		@GodotName("replace_by") GodotMethod!(void, Node, bool) replaceBy;
 		@GodotName("set_scene_instance_load_placeholder") GodotMethod!(void, bool) setSceneInstanceLoadPlaceholder;
 		@GodotName("get_scene_instance_load_placeholder") GodotMethod!(bool) getSceneInstanceLoadPlaceholder;
 		@GodotName("get_viewport") GodotMethod!(Viewport) getViewport;
@@ -370,7 +371,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	The string returned from this method is displayed as a warning in the "Scene Dock" if the script that overrides it is a `tool` script.
+	Returning an empty string produces no warning.
 	*/
 	String _getConfigurationWarning()
 	{
@@ -382,7 +384,7 @@ public:
 	Adds a child node. The child is placed below the given node in the list of children.
 	Setting "legible_unique_name" `true` creates child nodes with human-readable names, based on the name of the node being instanced instead of its type.
 	*/
-	void addChildBelowNode(GodotObject node, GodotObject child_node, in bool legible_unique_name = false)
+	void addChildBelowNode(Node node, Node child_node, in bool legible_unique_name = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addChildBelowNode, _godot_object, node, child_node, legible_unique_name);
@@ -407,7 +409,7 @@ public:
 	Adds a child node. Nodes can have any number of children, but every child must have a unique name. Child nodes are automatically deleted when the parent node is deleted, so an entire scene can be removed by deleting its topmost node.
 	Setting "legible_unique_name" `true` creates child nodes with human-readable names, based on the name of the node being instanced instead of its type.
 	*/
-	void addChild(GodotObject node, in bool legible_unique_name = false)
+	void addChild(Node node, in bool legible_unique_name = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addChild, _godot_object, node, legible_unique_name);
@@ -415,7 +417,7 @@ public:
 	/**
 	Removes a child node. The node is NOT deleted and must be deleted manually.
 	*/
-	void removeChild(GodotObject node)
+	void removeChild(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeChild, _godot_object, node);
@@ -485,7 +487,15 @@ public:
 		return ptrcall!(Node)(_classBinding.getNode, _godot_object, path);
 	}
 	/**
-	Returns the parent node of the current node, or an empty `Node` if the node lacks a parent.
+	Similar to $(D getNode), but does not raise an error when `path` does not point to a valid $(D Node).
+	*/
+	Node getNodeOrNull(NodePathArg0)(in NodePathArg0 path) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.getNodeOrNull, _godot_object, path);
+	}
+	/**
+	Returns the parent node of the current node, or an empty $(D Node) if the node lacks a parent.
 	*/
 	Node getParent() const
 	{
@@ -536,7 +546,7 @@ public:
 	/**
 	Returns `true` if the given node is a direct or indirect child of the current node.
 	*/
-	bool isAParentOf(GodotObject node) const
+	bool isAParentOf(Node node) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isAParentOf, _godot_object, node);
@@ -544,7 +554,7 @@ public:
 	/**
 	Returns `true` if the given node occurs later in the scene hierarchy than the current node.
 	*/
-	bool isGreaterThan(GodotObject node) const
+	bool isGreaterThan(Node node) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isGreaterThan, _godot_object, node);
@@ -560,13 +570,14 @@ public:
 	/**
 	Returns the relative $(D NodePath) from this node to the specified `node`. Both nodes must be in the same scene or the function will fail.
 	*/
-	NodePath getPathTo(GodotObject node) const
+	NodePath getPathTo(Node node) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NodePath)(_classBinding.getPathTo, _godot_object, node);
 	}
 	/**
 	Adds the node to a group. Groups are helpers to name and organize a subset of nodes, for example "enemies" or "collectables". A node can be in any number of groups. Nodes can be assigned a group at any time, but will not be added until they are inside the scene tree (see $(D isInsideTree)). See notes in the description, and the group methods in $(D SceneTree).
+	`persistent` option is used when packing node to $(D PackedScene) and saving to file. Non-persistent groups aren't stored.
 	*/
 	void addToGroup(in String group, in bool persistent = false)
 	{
@@ -592,7 +603,7 @@ public:
 	/**
 	Moves a child node to a different position (order) amongst the other children. Since calls, signals, etc are performed by tree order, changing the order of children nodes may be useful.
 	*/
-	void moveChild(GodotObject child_node, in long to_position)
+	void moveChild(Node child_node, in long to_position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.moveChild, _godot_object, child_node, to_position);
@@ -616,7 +627,7 @@ public:
 	/**
 	
 	*/
-	void setOwner(GodotObject owner)
+	void setOwner(Node owner)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setOwner, _godot_object, owner);
@@ -834,7 +845,7 @@ public:
 		return ptrcall!(Node.PauseMode)(_classBinding.getPauseMode, _godot_object);
 	}
 	/**
-	Returns `true` if the node can process while the scene tree is paused (see $(D setPauseMode)). Always returns `true` if the scene tree is not paused, and `false` if the node is not in the tree. FIXME: Why FAIL_COND?
+	Returns `true` if the node can process while the scene tree is paused (see $(D pauseMode)). Always returns `true` if the scene tree is not paused, and `false` if the node is not in the tree.
 	*/
 	bool canProcess() const
 	{
@@ -915,7 +926,7 @@ public:
 	}
 	/**
 	Duplicates the node, returning a new node.
-	You can fine-tune the behavior using the `flags`. See DUPLICATE_* constants.
+	You can fine-tune the behavior using the `flags` (see $(D Node.duplicateflags)).
 	*/
 	Node duplicate(in long flags = 15) const
 	{
@@ -925,7 +936,7 @@ public:
 	/**
 	Replaces a node in a scene by the given one. Subscriptions that pass through this node will be lost.
 	*/
-	void replaceBy(GodotObject node, in bool keep_data = false)
+	void replaceBy(Node node, in bool keep_data = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.replaceBy, _godot_object, node, keep_data);
@@ -1211,7 +1222,7 @@ public:
 		return getOwner();
 	}
 	/// ditto
-	@property void owner(GodotObject v)
+	@property void owner(Node v)
 	{
 		setOwner(v);
 	}

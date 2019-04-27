@@ -35,7 +35,7 @@ tween.interpolate_property($Node2D, "position",
 tween.start()
 
 
-Many methods require a property name, such as "position" above. You can find the correct property name by hovering over the property in the Inspector.
+Many methods require a property name, such as "position" above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using "property:component" (eg. `position:x`), where it would only apply to that particular component.
 Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see `http://easings.net/` for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with `EASE_IN_OUT`, and use the one that looks best.
 */
 @GodotBaseClass struct Tween
@@ -434,7 +434,7 @@ public:
 		return ptrcall!(bool)(_classBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
-	If `true` the tween loops.
+	If `true`, the tween loops.
 	*/
 	@property bool repeat()
 	{
@@ -446,7 +446,7 @@ public:
 		setRepeat(v);
 	}
 	/**
-	The tween's animation process thread. See $(D tweenprocessmode). Default value: $(D tweenProcessIdle).
+	The tween's animation process thread. See $(D tweenprocessmode). Default value: $(D constant TWEEN_PROCESS_IDLE).
 	*/
 	@property Tween.TweenProcessMode playbackProcessMode()
 	{

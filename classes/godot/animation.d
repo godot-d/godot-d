@@ -29,7 +29,7 @@ An Animation resource contains data used to animate everything in the engine. An
 
 
 # This creates an animation that makes the node "Enemy" move to the right by
-# 100 pixels in 1 second. 
+# 100 pixels in 1 second.
 var animation = Animation.new()
 var track_index = animation.add_track(Animation.TYPE_VALUE)
 animation.track_set_path(track_index, "Enemy:position.x")
@@ -297,7 +297,7 @@ public:
 		ptrcall!(void)(_classBinding.trackSetImported, _godot_object, idx, imported);
 	}
 	/**
-	Return true if the given track is imported. Else, return false.
+	Return `true` if the given track is imported. Else, return `false`.
 	*/
 	bool trackIsImported(in long idx) const
 	{
@@ -425,7 +425,7 @@ public:
 		return ptrcall!(Animation.InterpolationType)(_classBinding.trackGetInterpolationType, _godot_object, idx);
 	}
 	/**
-	If `true` the track at `idx` wraps the interpolation loop.
+	If `true`, the track at `idx` wraps the interpolation loop.
 	*/
 	void trackSetInterpolationLoopWrap(in long idx, in bool interpolation)
 	{

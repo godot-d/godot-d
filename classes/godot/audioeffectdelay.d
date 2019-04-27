@@ -398,7 +398,7 @@ public:
 		setTap2Pan(v);
 	}
 	/**
-	If `true` feedback is enabled. Default value: `false`.
+	If `true`, feedback is enabled. Default value: `false`.
 	*/
 	@property bool feedbackActive()
 	{

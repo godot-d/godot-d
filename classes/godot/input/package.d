@@ -72,11 +72,12 @@ public:
 		@GodotName("set_mouse_mode") GodotMethod!(void, long) setMouseMode;
 		@GodotName("get_mouse_mode") GodotMethod!(Input.MouseMode) getMouseMode;
 		@GodotName("warp_mouse_position") GodotMethod!(void, Vector2) warpMousePosition;
-		@GodotName("action_press") GodotMethod!(void, String) actionPress;
+		@GodotName("action_press") GodotMethod!(void, String, double) actionPress;
 		@GodotName("action_release") GodotMethod!(void, String) actionRelease;
 		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
 		@GodotName("set_custom_mouse_cursor") GodotMethod!(void, Resource, long, Vector2) setCustomMouseCursor;
 		@GodotName("parse_input_event") GodotMethod!(void, InputEvent) parseInputEvent;
+		@GodotName("set_use_accumulated_input") GodotMethod!(void, bool) setUseAccumulatedInput;
 	}
 	bool opEquals(in InputSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -208,7 +209,7 @@ public:
 		cursorHelp = 16,
 	}
 	/**
-	Returns `true` if you are pressing the key. You can pass `KEY_*`, which are pre-defined constants listed in $(D @GlobalScope).
+	Returns `true` if you are pressing the key. You can pass a $(D keylist) constant.
 	*/
 	bool isKeyPressed(in long scancode) const
 	{
@@ -216,7 +217,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isKeyPressed, _godot_object, scancode);
 	}
 	/**
-	Returns `true` if you are pressing the mouse button. You can pass `BUTTON_*`, which are pre-defined constants listed in $(D @GlobalScope).
+	Returns `true` if you are pressing the mouse button specified with $(D buttonlist).
 	*/
 	bool isMouseButtonPressed(in long button) const
 	{
@@ -224,7 +225,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isMouseButtonPressed, _godot_object, button);
 	}
 	/**
-	Returns `true` if you are pressing the joypad button. (see `JOY_*` constants in $(D @GlobalScope))
+	Returns `true` if you are pressing the joypad button (see $(D joysticklist)).
 	*/
 	bool isJoyButtonPressed(in long device, in long button) const
 	{
@@ -240,7 +241,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
 	}
 	/**
-	Returns `true` when the user starts pressing the action event, meaning it's true only on the frame that the user pressed down the button.
+	Returns `true` when the user starts pressing the action event, meaning it's `true` only on the frame that the user pressed down the button.
 	This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 	*/
 	bool isActionJustPressed(in String action) const
@@ -249,7 +250,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isActionJustPressed, _godot_object, action);
 	}
 	/**
-	Returns `true` when the user stops pressing the action event, meaning it's true only on the frame that the user released the button.
+	Returns `true` when the user stops pressing the action event, meaning it's `true` only on the frame that the user released the button.
 	*/
 	bool isActionJustReleased(in String action) const
 	{
@@ -289,7 +290,7 @@ public:
 		ptrcall!(void)(_classBinding.joyConnectionChanged, _godot_object, device, connected, name, guid);
 	}
 	/**
-	Returns `true` if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in the `JOY_*` constants (see $(D @GlobalScope)). Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
+	Returns `true` if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in $(D joysticklist). Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
 	*/
 	bool isJoyKnown(in long device)
 	{
@@ -297,7 +298,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isJoyKnown, _godot_object, device);
 	}
 	/**
-	Returns the current value of the joypad axis at given index (see `JOY_*` constants in $(D @GlobalScope))
+	Returns the current value of the joypad axis at given index (see $(D joysticklist)).
 	*/
 	double getJoyAxis(in long device, in long axis) const
 	{
@@ -345,7 +346,7 @@ public:
 		return ptrcall!(double)(_classBinding.getJoyVibrationDuration, _godot_object, device);
 	}
 	/**
-	Receives a `JOY_BUTTON_*` Enum and returns its equivalent name as a string.
+	Receives a joy button from $(D joysticklist) and returns its equivalent name as a string.
 	*/
 	String getJoyButtonString(in long button_index)
 	{
@@ -361,7 +362,7 @@ public:
 		return ptrcall!(long)(_classBinding.getJoyButtonIndexFromString, _godot_object, button);
 	}
 	/**
-	Receives a `JOY_AXIS_*` Enum and returns its equivalent name as a string.
+	Receives a $(D joysticklist) axis and returns its equivalent name as a string.
 	*/
 	String getJoyAxisString(in long axis_index)
 	{
@@ -468,11 +469,12 @@ public:
 	}
 	/**
 	This will simulate pressing the specified action.
+	The strength can be used for non-boolean actions, it's ranged between 0 and 1 representing the intensity of the given action.
 	*/
-	void actionPress(in String action)
+	void actionPress(in String action, in double strength = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionPress, _godot_object, action);
+		ptrcall!(void)(_classBinding.actionPress, _godot_object, action, strength);
 	}
 	/**
 	If the specified action is already pressed, this will release it.
@@ -508,6 +510,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.parseInputEvent, _godot_object, event);
+	}
+	/**
+	Whether to accumulate similar input events sent by the operating system. Defaults to `true`.
+	*/
+	void setUseAccumulatedInput(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseAccumulatedInput, _godot_object, enable);
 	}
 }
 /// Returns: the InputSingleton

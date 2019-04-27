@@ -237,7 +237,7 @@ public:
 		return ptrcall!(double)(_classBinding.getFrictionSlip, _godot_object);
 	}
 	/**
-	Returns true if this wheel is in contact with a surface.
+	Returns `true` if this wheel is in contact with a surface.
 	*/
 	bool isInContact() const
 	{
@@ -269,7 +269,7 @@ public:
 		return ptrcall!(double)(_classBinding.getSkidinfo, _godot_object);
 	}
 	/**
-	If true this wheel transfers engine force to the ground to propel the vehicle forward.
+	If `true` this wheel transfers engine force to the ground to propel the vehicle forward.
 	*/
 	@property bool useAsTraction()
 	{
@@ -281,7 +281,7 @@ public:
 		setUseAsTraction(v);
 	}
 	/**
-	If true this wheel will be turned when the car steers.
+	If `true` this wheel will be turned when the car steers.
 	*/
 	@property bool useAsSteering()
 	{

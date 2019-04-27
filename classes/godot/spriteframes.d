@@ -82,7 +82,7 @@ public:
 		ptrcall!(void)(_classBinding.addAnimation, _godot_object, anim);
 	}
 	/**
-	If `true` the named animation exists.
+	If `true`, the named animation exists.
 	*/
 	bool hasAnimation(in String anim) const
 	{
@@ -130,7 +130,7 @@ public:
 		return ptrcall!(double)(_classBinding.getAnimationSpeed, _godot_object, anim);
 	}
 	/**
-	If `true` the animation will loop.
+	If `true`, the animation will loop.
 	*/
 	void setAnimationLoop(in String anim, in bool loop)
 	{
@@ -138,7 +138,7 @@ public:
 		ptrcall!(void)(_classBinding.setAnimationLoop, _godot_object, anim, loop);
 	}
 	/**
-	If `true` the given animation will loop.
+	If `true`, the given animation will loop.
 	*/
 	bool getAnimationLoop(in String anim) const
 	{

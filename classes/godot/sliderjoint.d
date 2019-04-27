@@ -26,7 +26,7 @@ import godot.node;
 /**
 Piston kind of slider between two bodies in 3D.
 
-Slides across the x-axis of the $(D Pivot) object.
+Slides across the x-axis of the pivot object.
 */
 @GodotBaseClass struct SliderJoint
 {

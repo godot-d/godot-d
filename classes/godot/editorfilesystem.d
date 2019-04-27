@@ -69,7 +69,7 @@ public:
 		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystem, _godot_object);
 	}
 	/**
-	Return true of the filesystem is being scanned.
+	Return `true` of the filesystem is being scanned.
 	*/
 	bool isScanning() const
 	{

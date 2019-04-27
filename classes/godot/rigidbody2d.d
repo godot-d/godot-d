@@ -163,7 +163,7 @@ public:
 		modeKinematic = 3,
 	}
 	/**
-	Allows you to read and safely modify the simulation state for the object. Use this instead of $(D Node._physics_process) if you need to directly change the body's `position` or other physics properties. By default it works in addition to the usual physics behavior, but $(D customIntegrator) allows you to disable the default behavior and write custom force integration for a body.
+	Allows you to read and safely modify the simulation state for the object. Use this instead of $(D Node._physicsProcess) if you need to directly change the body's `position` or other physics properties. By default, it works in addition to the usual physics behavior, but $(D customIntegrator) allows you to disable the default behavior and write custom force integration for a body.
 	*/
 	void _integrateForces(Physics2DDirectBodyState state)
 	{
@@ -454,7 +454,7 @@ public:
 		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, impulse);
 	}
 	/**
-	Applies a positioned impulse to the body (which will be affected by the body mass and shape). This is the equivalent of hitting a billiard ball with a cue: a force that is applied instantaneously. Both the impulse and the offset from the body origin are in global coordinates.
+	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts (use the "_force" functions otherwise). The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	*/
 	void applyImpulse(in Vector2 offset, in Vector2 impulse)
 	{
@@ -700,7 +700,7 @@ public:
 		setGravityScale(v);
 	}
 	/**
-	If `true` internal force integration is disabled for this body. Aside from collision response, the body will only move as determined by the $(D _integrateForces) function.
+	If `true`, internal force integration is disabled for this body. Aside from collision response, the body will only move as determined by the $(D _integrateForces) function.
 	*/
 	@property bool customIntegrator()
 	{
@@ -737,7 +737,7 @@ public:
 		setMaxContactsReported(v);
 	}
 	/**
-	If `true` the body will emit signals when it collides with another RigidBody2D. See also $(D contactsReported). Default value: `false`.
+	If `true`, the body will emit signals when it collides with another RigidBody2D. See also $(D contactsReported). Default value: `false`.
 	*/
 	@property bool contactMonitor()
 	{
@@ -749,7 +749,7 @@ public:
 		setContactMonitor(v);
 	}
 	/**
-	If `true` the body is sleeping and will not calculate forces until woken up by a collision or by using $(D applyImpulse) or $(D addForce).
+	If `true`, the body is sleeping and will not calculate forces until woken up by a collision or by using $(D applyImpulse) or $(D addForce).
 	*/
 	@property bool sleeping()
 	{
@@ -761,7 +761,7 @@ public:
 		setSleeping(v);
 	}
 	/**
-	If `true` the body will not calculate forces and will act as a static body if there is no movement. The body will wake up when other forces are applied via collisions or by using $(D applyImpulse) or $(D addForce). Default value: `true`.
+	If `true`, the body will not calculate forces and will act as a static body if there is no movement. The body will wake up when other forces are applied via collisions or by using $(D applyImpulse) or $(D addForce). Default value: `true`.
 	*/
 	@property bool canSleep()
 	{

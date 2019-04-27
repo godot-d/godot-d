@@ -20,8 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.control;
-import godot.canvasitem;
 import godot.node;
+import godot.canvasitem;
 /**
 Abstract base class for range-based controls.
 
@@ -59,7 +59,7 @@ public:
 		@GodotName("is_greater_allowed") GodotMethod!(bool) isGreaterAllowed;
 		@GodotName("set_allow_lesser") GodotMethod!(void, bool) setAllowLesser;
 		@GodotName("is_lesser_allowed") GodotMethod!(bool) isLesserAllowed;
-		@GodotName("share") GodotMethod!(void, GodotObject) share;
+		@GodotName("share") GodotMethod!(void, Node) share;
 		@GodotName("unshare") GodotMethod!(void) unshare;
 	}
 	bool opEquals(in Range other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -237,7 +237,7 @@ public:
 	/**
 	Binds two ranges together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
 	*/
-	void share(GodotObject _with)
+	void share(Node _with)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.share, _godot_object, _with);
@@ -323,7 +323,7 @@ public:
 		setAsRatio(v);
 	}
 	/**
-	If `true` and `min_value` is greater than 0, `value` will be represented exponentially rather than linearly.
+	If `true`, and `min_value` is greater than 0, `value` will be represented exponentially rather than linearly.
 	*/
 	@property bool expEdit()
 	{
@@ -335,7 +335,7 @@ public:
 		setExpRatio(v);
 	}
 	/**
-	If `true` `value` will always be rounded to the nearest integer. Default value: `false`.
+	If `true`, `value` will always be rounded to the nearest integer. Default value: `false`.
 	*/
 	@property bool rounded()
 	{
@@ -347,7 +347,7 @@ public:
 		setUseRoundedValues(v);
 	}
 	/**
-	If `true` $(D value) may be greater than $(D maxValue). Default value: `false`.
+	If `true`, $(D value) may be greater than $(D maxValue). Default value: `false`.
 	*/
 	@property bool allowGreater()
 	{
@@ -359,7 +359,7 @@ public:
 		setAllowGreater(v);
 	}
 	/**
-	If `true` $(D value) may be less than $(D minValue). Default value: `false`.
+	If `true`, $(D value) may be less than $(D minValue). Default value: `false`.
 	*/
 	@property bool allowLesser()
 	{

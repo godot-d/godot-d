@@ -1,5 +1,5 @@
 /**
-Server that manages all translations. Translations can be set to it and removed from it.
+Server that manages all translations.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,7 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.translation;
 /**
-Server that manages all translations. Translations can be set to it and removed from it.
+Server that manages all translations.
+
+Translations can be set to it and removed from it.
 */
 @GodotBaseClass struct TranslationServerSingleton
 {
@@ -58,7 +60,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Sets the locale of the game.
 	*/
 	void setLocale(in String locale)
 	{
@@ -66,7 +68,7 @@ public:
 		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
 	}
 	/**
-	
+	Returns the current locale of the game.
 	*/
 	String getLocale() const
 	{
@@ -74,7 +76,7 @@ public:
 		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
 	}
 	/**
-	
+	Returns a locale's language and its variant (e.g. "en_US" would return "English (United States)").
 	*/
 	String getLocaleName(in String locale) const
 	{
@@ -82,7 +84,7 @@ public:
 		return ptrcall!(String)(_classBinding.getLocaleName, _godot_object, locale);
 	}
 	/**
-	
+	Returns the current locale's translation for the given message (key).
 	*/
 	String translate(in String message) const
 	{
@@ -90,7 +92,7 @@ public:
 		return ptrcall!(String)(_classBinding.translate, _godot_object, message);
 	}
 	/**
-	
+	Adds a $(D Translation) resource.
 	*/
 	void addTranslation(Translation translation)
 	{
@@ -98,7 +100,7 @@ public:
 		ptrcall!(void)(_classBinding.addTranslation, _godot_object, translation);
 	}
 	/**
-	
+	Removes the given translation from the server.
 	*/
 	void removeTranslation(Translation translation)
 	{
@@ -106,7 +108,7 @@ public:
 		ptrcall!(void)(_classBinding.removeTranslation, _godot_object, translation);
 	}
 	/**
-	
+	Clears the server from all translations.
 	*/
 	void clear()
 	{

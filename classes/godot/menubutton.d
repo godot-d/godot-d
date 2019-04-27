@@ -48,6 +48,8 @@ public:
 		@GodotName("_unhandled_key_input") GodotMethod!(void, InputEvent) _unhandledKeyInput;
 		@GodotName("_set_items") GodotMethod!(void, Array) _setItems;
 		@GodotName("_get_items") GodotMethod!(Array) _getItems;
+		@GodotName("set_switch_on_hover") GodotMethod!(void, bool) setSwitchOnHover;
+		@GodotName("is_switch_on_hover") GodotMethod!(bool) isSwitchOnHover;
 		@GodotName("set_disable_shortcuts") GodotMethod!(void, bool) setDisableShortcuts;
 	}
 	bool opEquals(in MenuButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -102,6 +104,22 @@ public:
 	/**
 	
 	*/
+	void setSwitchOnHover(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSwitchOnHover, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isSwitchOnHover()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSwitchOnHover, _godot_object);
+	}
+	/**
+	
+	*/
 	void setDisableShortcuts(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
@@ -118,5 +136,17 @@ public:
 	@property void items(Array v)
 	{
 		_setItems(v);
+	}
+	/**
+	If `true`, when the cursor hovers above another MenuButton within the same parent which also has `switch_on_hover` enabled, it will close the current MenuButton and open the other one.
+	*/
+	@property bool switchOnHover()
+	{
+		return isSwitchOnHover();
+	}
+	/// ditto
+	@property void switchOnHover(bool v)
+	{
+		setSwitchOnHover(v);
 	}
 }

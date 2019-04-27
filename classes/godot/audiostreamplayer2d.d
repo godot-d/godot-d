@@ -22,6 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.audiostream;
+import godot.audiostreamplayback;
 import godot.canvasitem;
 import godot.node;
 /**
@@ -66,6 +67,7 @@ public:
 		@GodotName("get_area_mask") GodotMethod!(long) getAreaMask;
 		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
 		@GodotName("get_stream_paused") GodotMethod!(bool) getStreamPaused;
+		@GodotName("get_stream_playback") GodotMethod!(AudioStreamPlayback) getStreamPlayback;
 		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
 	}
 	bool opEquals(in AudioStreamPlayer2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -286,6 +288,14 @@ public:
 	/**
 	
 	*/
+	Ref!AudioStreamPlayback getStreamPlayback()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
+	}
+	/**
+	
+	*/
 	void _busLayoutChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -329,7 +339,7 @@ public:
 		setPitchScale(v);
 	}
 	/**
-	If `true` audio is playing.
+	If `true`, audio is playing.
 	*/
 	@property bool playing()
 	{
@@ -341,7 +351,7 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	If `true` audio plays when added to scene tree. Default value: `false`.
+	If `true`, audio plays when added to scene tree. Default value: `false`.
 	*/
 	@property bool autoplay()
 	{

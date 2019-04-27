@@ -39,7 +39,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 		@GodotName("_animation_changed") GodotMethod!(void) _animationChanged;
 		@GodotName("add_animation") GodotMethod!(GodotError, String, Animation) addAnimation;
 		@GodotName("remove_animation") GodotMethod!(void, String) removeAnimation;
@@ -62,6 +62,7 @@ public:
 		@GodotName("set_assigned_animation") GodotMethod!(void, String) setAssignedAnimation;
 		@GodotName("get_assigned_animation") GodotMethod!(String) getAssignedAnimation;
 		@GodotName("queue") GodotMethod!(void, String) queue;
+		@GodotName("get_queue") GodotMethod!(PoolStringArray) getQueue;
 		@GodotName("clear_queue") GodotMethod!(void) clearQueue;
 		@GodotName("set_active") GodotMethod!(void, bool) setActive;
 		@GodotName("is_active") GodotMethod!(bool) isActive;
@@ -119,7 +120,7 @@ public:
 	/**
 	
 	*/
-	void _nodeRemoved(GodotObject arg0)
+	void _nodeRemoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -160,7 +161,7 @@ public:
 		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, name, newname);
 	}
 	/**
-	Returns `true` if the `AnimationPlayer` stores an $(D Animation) with key `name`.
+	Returns `true` if the $(D AnimationPlayer) stores an $(D Animation) with key `name`.
 	*/
 	bool hasAnimation(in String name) const
 	{
@@ -232,7 +233,8 @@ public:
 		return ptrcall!(double)(_classBinding.getDefaultBlendTime, _godot_object);
 	}
 	/**
-	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the animation backwards.
+	Play the animation with key `name`. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being `true` can play the animation backwards.
+	If the animation has been paused by `stop(true)` it will be resumed. Calling `play()` without arguments will also resume the animation.
 	*/
 	void play(in String name = gs!"", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
 	{
@@ -241,6 +243,7 @@ public:
 	}
 	/**
 	Play the animation with key `name` in reverse.
+	If the animation has been paused by `stop(true)` it will be resumed backwards. Calling `play_backwards()` without arguments will also resume the animation backwards.
 	*/
 	void playBackwards(in String name = gs!"", in double custom_blend = -1)
 	{
@@ -248,7 +251,8 @@ public:
 		ptrcall!(void)(_classBinding.playBackwards, _godot_object, name, custom_blend);
 	}
 	/**
-	Stop the currently playing animation. If `reset` is `true`, the anim position is reset to `0`.
+	Stop the currently playing animation. If `reset` is `true`, the animation position is reset to `0` and the playback speed is reset to `1.0`.
+	If `reset` is `false`, then calling `play()` without arguments or `play("same_as_before")` will resume the animation. Works the same for the `play_backwards()` method.
 	*/
 	void stop(in bool reset = true)
 	{
@@ -302,6 +306,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.queue, _godot_object, name);
+	}
+	/**
+	
+	*/
+	PoolStringArray getQueue()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getQueue, _godot_object);
 	}
 	/**
 	Clears all queued, unplayed animations.
@@ -392,7 +404,7 @@ public:
 		return ptrcall!(String)(_classBinding.findAnimation, _godot_object, animation);
 	}
 	/**
-	`AnimationPlayer` caches animated nodes. It may not notice if a node disappears, so clear_caches forces it to update the cache again.
+	$(D AnimationPlayer) caches animated nodes. It may not notice if a node disappears, so clear_caches forces it to update the cache again.
 	*/
 	void clearCaches()
 	{
@@ -432,7 +444,7 @@ public:
 		return ptrcall!(double)(_classBinding.getCurrentAnimationLength, _godot_object);
 	}
 	/**
-	Seek the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time.
+	Seek the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time. Events between the current frame and `seconds` are skipped.
 	*/
 	void seek(in double seconds, in bool update = false)
 	{
@@ -440,7 +452,7 @@ public:
 		ptrcall!(void)(_classBinding.seek, _godot_object, seconds, update);
 	}
 	/**
-	Shifts position in the animation timeline. Delta is the time in seconds to shift.
+	Shifts position in the animation timeline. Delta is the time in seconds to shift. Events between the current frame and `delta` are handled.
 	*/
 	void advance(in double delta)
 	{

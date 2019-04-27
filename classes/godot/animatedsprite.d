@@ -47,7 +47,7 @@ public:
 		@GodotName("get_animation") GodotMethod!(String) getAnimation;
 		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
 		@GodotName("_is_playing") GodotMethod!(bool) _isPlaying;
-		@GodotName("play") GodotMethod!(void, String) play;
+		@GodotName("play") GodotMethod!(void, String, bool) play;
 		@GodotName("stop") GodotMethod!(void) stop;
 		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
 		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
@@ -128,12 +128,12 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	Play the animation set in parameter. If no parameter is provided, the current animation is played.
+	Play the animation set in parameter. If no parameter is provided, the current animation is played. Property `backwards` plays the animation in reverse if set to `true`.
 	*/
-	void play(in String anim = gs!"")
+	void play(in String anim = gs!"", in bool backwards = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object, anim);
+		ptrcall!(void)(_classBinding.play, _godot_object, anim, backwards);
 	}
 	/**
 	Stop the current animation (does not reset the frame counter).
@@ -144,7 +144,7 @@ public:
 		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
 	/**
-	Return true if an animation if currently being played.
+	Return `true` if an animation if currently being played.
 	*/
 	bool isPlaying() const
 	{
@@ -305,7 +305,7 @@ public:
 		setSpeedScale(v);
 	}
 	/**
-	If `true` the $(D animation) is currently playing.
+	If `true`, the $(D animation) is currently playing.
 	*/
 	@property bool playing()
 	{
@@ -317,7 +317,7 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	If `true` texture will be centered. Default value: `true`.
+	If `true`, texture will be centered. Default value: `true`.
 	*/
 	@property bool centered()
 	{
@@ -341,7 +341,7 @@ public:
 		setOffset(v);
 	}
 	/**
-	If `true` texture is flipped horizontally. Default value: `false`.
+	If `true`, texture is flipped horizontally. Default value: `false`.
 	*/
 	@property bool flipH()
 	{
@@ -353,7 +353,7 @@ public:
 		setFlipH(v);
 	}
 	/**
-	If `true` texture is flipped vertically. Default value: `false`.
+	If `true`, texture is flipped vertically. Default value: `false`.
 	*/
 	@property bool flipV()
 	{

@@ -65,7 +65,10 @@ public:
 		@GodotName("_get_triangles") GodotMethod!(PoolIntArray) _getTriangles;
 		@GodotName("set_auto_triangles") GodotMethod!(void, bool) setAutoTriangles;
 		@GodotName("get_auto_triangles") GodotMethod!(bool) getAutoTriangles;
+		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
+		@GodotName("get_blend_mode") GodotMethod!(AnimationNodeBlendSpace2D.BlendMode) getBlendMode;
 		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
+		@GodotName("_update_triangles") GodotMethod!(void) _updateTriangles;
 	}
 	bool opEquals(in AnimationNodeBlendSpace2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeBlendSpace2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -79,6 +82,29 @@ public:
 		return cast(AnimationNodeBlendSpace2D)(constructor());
 	}
 	@disable new(size_t s);
+	/// 
+	enum BlendMode : int
+	{
+		/**
+		
+		*/
+		blendModeInterpolated = 0,
+		/**
+		Useful for frame-by-frame 2D animations.
+		*/
+		blendModeDiscrete = 1,
+		/**
+		Keep the current play position when switching between discrete animations.
+		*/
+		blendModeDiscreteCarry = 2,
+	}
+	/// 
+	enum Constants : int
+	{
+		blendModeInterpolated = 0,
+		blendModeDiscrete = 1,
+		blendModeDiscreteCarry = 2,
+	}
 	/**
 	
 	*/
@@ -296,10 +322,35 @@ public:
 	/**
 	
 	*/
+	void setBlendMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	AnimationNodeBlendSpace2D.BlendMode getBlendMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationNodeBlendSpace2D.BlendMode)(_classBinding.getBlendMode, _godot_object);
+	}
+	/**
+	
+	*/
 	void _treeChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_tree_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _updateTriangles()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_update_triangles");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -1921,5 +1972,17 @@ public:
 	@property void yLabel(String v)
 	{
 		setYLabel(v);
+	}
+	/**
+	
+	*/
+	@property AnimationNodeBlendSpace2D.BlendMode blendMode()
+	{
+		return getBlendMode();
+	}
+	/// ditto
+	@property void blendMode(long v)
+	{
+		setBlendMode(v);
 	}
 }

@@ -91,8 +91,8 @@ public:
 		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
 	}
 	/**
-	Adds a point to a curve, at "position", with control points "in" and "out".
-	If "at_position" is given, the point is inserted before the point number "at_position", moving that point (and every point after) after the inserted point. If "at_position" is not given, or is an illegal value (at_position &lt;0 or at_position &gt;= $(D getPointCount)), the point will be appended at the end of the point list.
+	Adds a point to a curve, at `position`, with control points `in` and `out`.
+	If `at_position` is given, the point is inserted before the point number `at_position`, moving that point (and every point after) after the inserted point. If `at_position` is not given, or is an illegal value (`at_position &lt;0` or `at_position &gt;= $(D getPointCount)`), the point will be appended at the end of the point list.
 	*/
 	void addPoint(in Vector3 position, in Vector3 _in = Vector3(0, 0, 0), in Vector3 _out = Vector3(0, 0, 0), in long at_position = -1)
 	{
@@ -100,7 +100,7 @@ public:
 		ptrcall!(void)(_classBinding.addPoint, _godot_object, position, _in, _out, at_position);
 	}
 	/**
-	Sets the position for the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+	Sets the position for the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
 	*/
 	void setPointPosition(in long idx, in Vector3 position)
 	{
@@ -108,7 +108,7 @@ public:
 		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, idx, position);
 	}
 	/**
-	Returns the position of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+	Returns the position of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 getPointPosition(in long idx) const
 	{
@@ -116,8 +116,8 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getPointPosition, _godot_object, idx);
 	}
 	/**
-	Sets the tilt angle in radians for the point "idx". If the index is out of bounds, the function sends an error to the console.
-	The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a $(D PathFollow) or $(D OrientedPathFollow), this tilt is an offset over the natural tilt the $(D PathFollow) or $(D OrientedPathFollow) calculates.
+	Sets the tilt angle in radians for the point `idx`. If the index is out of bounds, the function sends an error to the console.
+	The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a $(D PathFollow), this tilt is an offset over the natural tilt the $(D PathFollow) calculates.
 	*/
 	void setPointTilt(in long idx, in double tilt)
 	{
@@ -125,7 +125,7 @@ public:
 		ptrcall!(void)(_classBinding.setPointTilt, _godot_object, idx, tilt);
 	}
 	/**
-	Returns the tilt angle in radians for the point "idx". If the index is out of bounds, the function sends an error to the console, and returns 0.
+	Returns the tilt angle in radians for the point `idx`. If the index is out of bounds, the function sends an error to the console, and returns `0`.
 	*/
 	double getPointTilt(in long idx) const
 	{
@@ -133,7 +133,7 @@ public:
 		return ptrcall!(double)(_classBinding.getPointTilt, _godot_object, idx);
 	}
 	/**
-	Sets the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
 	*/
 	void setPointIn(in long idx, in Vector3 position)
 	{
@@ -141,7 +141,7 @@ public:
 		ptrcall!(void)(_classBinding.setPointIn, _godot_object, idx, position);
 	}
 	/**
-	Returns the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 getPointIn(in long idx) const
 	{
@@ -149,7 +149,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getPointIn, _godot_object, idx);
 	}
 	/**
-	Sets the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
 	*/
 	void setPointOut(in long idx, in Vector3 position)
 	{
@@ -157,7 +157,7 @@ public:
 		ptrcall!(void)(_classBinding.setPointOut, _godot_object, idx, position);
 	}
 	/**
-	Returns the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 getPointOut(in long idx) const
 	{
@@ -165,7 +165,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getPointOut, _godot_object, idx);
 	}
 	/**
-	Deletes the point "idx" from the curve. Sends an error to the console if "idx" is out of bounds.
+	Deletes the point `idx` from the curve. Sends an error to the console if `idx` is out of bounds.
 	*/
 	void removePoint(in long idx)
 	{
@@ -181,8 +181,8 @@ public:
 		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
 	}
 	/**
-	Returns the position between the vertex "idx" and the vertex "idx"+1, where "t" controls if the point is the first vertex (t = 0.0), the last vertex (t = 1.0), or in between. Values of "t" outside the range (0.0 &gt;= t &lt;=1) give strange, but predictable results.
-	If "idx" is out of bounds it is truncated to the first or last vertex, and "t" is ignored. If the curve has no points, the function sends an error to the console, and returns (0, 0, 0).
+	Returns the position between the vertex `idx` and the vertex `idx + 1`, where `t` controls if the point is the first vertex (`t = 0.0`), the last vertex (`t = 1.0`), or in between. Values of `t` outside the range (`0.0 &gt;= t &lt;=1`) give strange, but predictable results.
+	If `idx` is out of bounds it is truncated to the first or last vertex, and `t` is ignored. If the curve has no points, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 interpolate(in long idx, in double t) const
 	{
@@ -190,7 +190,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.interpolate, _godot_object, idx, t);
 	}
 	/**
-	Returns the position at the vertex "fofs". It calls $(D interpolate) using the integer part of fofs as "idx", and its fractional part as "t".
+	Returns the position at the vertex `fofs`. It calls $(D interpolate) using the integer part of `fofs` as `idx`, and its fractional part as `t`.
 	*/
 	Vector3 interpolatef(in double fofs) const
 	{
@@ -230,7 +230,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isUpVectorEnabled, _godot_object);
 	}
 	/**
-	Returns the total length of the curve, based on the cached points. Given enough density (see $(D setBakeInterval)), it should be approximate enough.
+	Returns the total length of the curve, based on the cached points. Given enough density (see $(D bakeInterval)), it should be approximate enough.
 	*/
 	double getBakedLength() const
 	{
@@ -238,8 +238,8 @@ public:
 		return ptrcall!(double)(_classBinding.getBakedLength, _godot_object);
 	}
 	/**
-	Returns a point within the curve at position "offset", where "offset" is measured as a distance in 3D units along the curve.
-	To do that, it finds the two cached points where the "offset" lies between, then interpolates the values. This interpolation is cubic if "cubic" is set to true, or linear if set to false.
+	Returns a point within the curve at position `offset`, where `offset` is measured as a pixel distance along the curve.
+	To do that, it finds the two cached points where the `offset` lies between, then interpolates the values. This interpolation is cubic if `cubic` is set to `true`, or linear if set to `false`.
 	Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
 	*/
 	Vector3 interpolateBaked(in double offset, in bool cubic = false) const
@@ -250,7 +250,7 @@ public:
 	/**
 	Returns an up vector within the curve at position `offset`, where `offset` is measured as a distance in 3D units along the curve.
 	To do that, it finds the two cached up vectors where the `offset` lies between, then interpolates the values. If `apply_tilt` is `true`, an interpolated tilt is applied to the interpolated up vector.
-	If the curve has no up vectors, the function sends an error to the console, and returns (0, 1, 0).
+	If the curve has no up vectors, the function sends an error to the console, and returns `(0, 1, 0)`.
 	*/
 	Vector3 interpolateBakedUpVector(in double offset, in bool apply_tilt = false) const
 	{
@@ -266,7 +266,7 @@ public:
 		return ptrcall!(PoolVector3Array)(_classBinding.getBakedPoints, _godot_object);
 	}
 	/**
-	Returns the cache of tilts as a $(D RealArray).
+	Returns the cache of tilts as a $(D PoolRealArray).
 	*/
 	PoolRealArray getBakedTilts() const
 	{
@@ -292,7 +292,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
-	Returns the closest offset to `to_point`. This offset is meant to be used in one of the interpolate_baked* methods.
+	Returns the closest offset to `to_point`. This offset is meant to be used in $(D interpolateBaked) or $(D interpolateBakedUpVector).
 	`to_point` must be in this curve's local space.
 	*/
 	double getClosestOffset(in Vector3 to_point) const
@@ -303,8 +303,8 @@ public:
 	/**
 	Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts.
 	This approximation makes straight segments between each point, then subdivides those segments until the resulting shape is similar enough.
-	"max_stages" controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care!
-	"tolerance_degrees" controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
+	`max_stages` controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care!
+	`tolerance_degrees` controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
 	*/
 	PoolVector3Array tessellate(in long max_stages = 5, in double tolerance_degrees = 4) const
 	{
@@ -355,7 +355,7 @@ public:
 		_setData(v);
 	}
 	/**
-	If `true`, the curve will bake up vectors used for orientation. See $(D OrientedPathFollow). Changing it forces the cache to be recomputed.
+	If `true`, the curve will bake up vectors used for orientation. This is used when a $(D PathFollow.rotationMode) is set to `ROTATION_ORIENTED`, see $(D PathFollow) for details. Changing it forces the cache to be recomputed.
 	*/
 	@property bool upVectorEnabled()
 	{

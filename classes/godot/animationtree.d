@@ -53,7 +53,7 @@ public:
 		@GodotName("_update_properties") GodotMethod!(void) _updateProperties;
 		@GodotName("rename_parameter") GodotMethod!(void, String, String) renameParameter;
 		@GodotName("advance") GodotMethod!(void, double) advance;
-		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 		@GodotName("_clear_caches") GodotMethod!(void) _clearCaches;
 	}
 	bool opEquals(in AnimationTree other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -216,7 +216,7 @@ public:
 	/**
 	
 	*/
-	void _nodeRemoved(GodotObject arg0)
+	void _nodeRemoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);

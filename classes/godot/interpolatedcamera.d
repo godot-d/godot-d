@@ -142,7 +142,7 @@ public:
 		setSpeed(v);
 	}
 	/**
-	If `true` and a target is set, the camera will move automatically.
+	If `true`, and a target is set, the camera will move automatically.
 	*/
 	@property bool enabled()
 	{

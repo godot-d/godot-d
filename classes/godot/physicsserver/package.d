@@ -337,6 +337,10 @@ public:
 		Constant to set/get the default solver bias for all physics constraints. A solver bias is a factor controlling how much two objects "rebound", after violating a constraint, to avoid leaving them in that state because of numerical imprecision.
 		*/
 		spaceParamConstraintDefaultBias = 7,
+		/**
+		
+		*/
+		spaceParamTestMotionMinContactDepth = 8,
 	}
 	/// 
 	enum ConeTwistJointParam : int
@@ -481,39 +485,39 @@ public:
 		/**
 		The minimum rotation in negative direction to break loose and rotate around the axes.
 		*/
-		g6dofJointAngularLowerLimit = 7,
+		g6dofJointAngularLowerLimit = 10,
 		/**
 		The minimum rotation in positive direction to break loose and rotate around the axes.
 		*/
-		g6dofJointAngularUpperLimit = 8,
+		g6dofJointAngularUpperLimit = 11,
 		/**
 		A factor that gets multiplied onto all rotations across the axes.
 		*/
-		g6dofJointAngularLimitSoftness = 9,
+		g6dofJointAngularLimitSoftness = 12,
 		/**
 		The amount of rotational damping across the axes. The lower, the more dampening occurs.
 		*/
-		g6dofJointAngularDamping = 10,
+		g6dofJointAngularDamping = 13,
 		/**
 		The amount of rotational restitution across the axes. The lower, the more restitution occurs.
 		*/
-		g6dofJointAngularRestitution = 11,
+		g6dofJointAngularRestitution = 14,
 		/**
 		The maximum amount of force that can occur, when rotating around the axes.
 		*/
-		g6dofJointAngularForceLimit = 12,
+		g6dofJointAngularForceLimit = 15,
 		/**
 		When correcting the crossing of limits in rotation across the axes, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
 		*/
-		g6dofJointAngularErp = 13,
+		g6dofJointAngularErp = 16,
 		/**
 		Target speed for the motor at the axes.
 		*/
-		g6dofJointAngularMotorTargetVelocity = 14,
+		g6dofJointAngularMotorTargetVelocity = 17,
 		/**
 		Maximum acceleration for the motor at the axes.
 		*/
-		g6dofJointAngularMotorForceLimit = 15,
+		g6dofJointAngularMotorForceLimit = 18,
 	}
 	/// 
 	enum SliderJointParam : int
@@ -661,21 +665,21 @@ public:
 		/**
 		If `set` there is a rotational motor across these axes.
 		*/
-		g6dofJointFlagEnableMotor = 2,
+		g6dofJointFlagEnableMotor = 4,
 		/**
 		If `set` there is a linear motor on this axis that targets a specific velocity.
 		*/
-		g6dofJointFlagEnableLinearMotor = 3,
+		g6dofJointFlagEnableLinearMotor = 5,
 	}
 	/// 
 	enum HingeJointFlag : int
 	{
 		/**
-		If `true` the Hinge has a maximum and a minimum rotation.
+		If `true`, the Hinge has a maximum and a minimum rotation.
 		*/
 		hingeJointFlagUseLimit = 0,
 		/**
-		If `true` a motor turns the Hinge
+		If `true`, a motor turns the Hinge
 		*/
 		hingeJointFlagEnableMotor = 1,
 	}
@@ -756,111 +760,112 @@ public:
 		areaParamGravity = 0,
 		pinJointBias = 0,
 		bodyModeStatic = 0,
+		g6dofJointFlagEnableLinearLimit = 0,
 		spaceParamContactRecycleRadius = 0,
 		areaBodyAdded = 0,
-		g6dofJointFlagEnableLinearLimit = 0,
-		areaParamGravityVector = 1,
 		spaceParamContactMaxSeparation = 1,
-		shapeRay = 1,
-		pinJointDamping = 1,
 		hingeJointFlagEnableMotor = 1,
+		bodyModeKinematic = 1,
+		g6dofJointFlagEnableAngularLimit = 1,
+		bodyParamFriction = 1,
+		coneTwistJointTwistSpan = 1,
+		bodyAxisLinearX = 1,
+		bodyStateLinearVelocity = 1,
+		areaSpaceOverrideCombine = 1,
+		shapeRay = 1,
+		jointHinge = 1,
+		pinJointDamping = 1,
+		hingeJointLimitUpper = 1,
+		areaParamGravityVector = 1,
 		sliderJointLinearLimitLower = 1,
+		infoCollisionPairs = 1,
 		g6dofJointLinearUpperLimit = 1,
 		areaBodyRemoved = 1,
-		bodyAxisLinearX = 1,
-		bodyParamFriction = 1,
-		infoCollisionPairs = 1,
-		bodyModeKinematic = 1,
-		coneTwistJointTwistSpan = 1,
-		bodyStateLinearVelocity = 1,
-		g6dofJointFlagEnableAngularLimit = 1,
-		areaSpaceOverrideCombine = 1,
-		hingeJointLimitUpper = 1,
-		jointHinge = 1,
+		coneTwistJointBias = 2,
+		bodyStateAngularVelocity = 2,
+		bodyModeRigid = 2,
+		areaParamGravityIsPoint = 2,
+		jointSlider = 2,
+		g6dofJointLinearLimitSoftness = 2,
+		hingeJointLimitLower = 2,
+		pinJointImpulseClamp = 2,
+		sliderJointLinearLimitSoftness = 2,
 		areaSpaceOverrideCombineReplace = 2,
+		bodyAxisLinearY = 2,
 		shapeSphere = 2,
+		bodyParamMass = 2,
 		infoIslandCount = 2,
 		spaceParamBodyMaxAllowedPenetration = 2,
-		sliderJointLinearLimitSoftness = 2,
-		g6dofJointFlagEnableMotor = 2,
-		pinJointImpulseClamp = 2,
-		bodyParamMass = 2,
-		hingeJointLimitLower = 2,
-		bodyAxisLinearY = 2,
-		coneTwistJointBias = 2,
-		g6dofJointLinearLimitSoftness = 2,
-		jointSlider = 2,
-		areaParamGravityIsPoint = 2,
-		bodyModeRigid = 2,
-		bodyStateAngularVelocity = 2,
+		hingeJointLimitBias = 3,
+		bodyStateSleeping = 3,
 		coneTwistJointSoftness = 3,
+		areaSpaceOverrideReplace = 3,
+		areaParamGravityDistanceScale = 3,
+		g6dofJointLinearRestitution = 3,
+		spaceParamBodyLinearVelocitySleepThreshold = 3,
 		bodyParamGravityScale = 3,
 		bodyModeCharacter = 3,
 		sliderJointLinearLimitRestitution = 3,
-		areaSpaceOverrideReplace = 3,
 		jointConeTwist = 3,
-		g6dofJointFlagEnableLinearMotor = 3,
 		shapeBox = 3,
-		bodyStateSleeping = 3,
-		spaceParamBodyLinearVelocitySleepThreshold = 3,
-		areaParamGravityDistanceScale = 3,
-		g6dofJointLinearRestitution = 3,
-		hingeJointLimitBias = 3,
-		areaSpaceOverrideReplaceCombine = 4,
-		bodyParamLinearDamp = 4,
-		coneTwistJointRelaxation = 4,
+		sliderJointLinearLimitDamping = 4,
+		bodyAxisLinearZ = 4,
+		joint6dof = 4,
 		hingeJointLimitSoftness = 4,
 		g6dofJointLinearDamping = 4,
-		spaceParamBodyAngularVelocitySleepThreshold = 4,
-		joint6dof = 4,
 		shapeCapsule = 4,
-		bodyAxisLinearZ = 4,
-		sliderJointLinearLimitDamping = 4,
 		areaParamGravityPointAttenuation = 4,
+		spaceParamBodyAngularVelocitySleepThreshold = 4,
+		g6dofJointFlagEnableMotor = 4,
+		bodyParamLinearDamp = 4,
+		areaSpaceOverrideReplaceCombine = 4,
+		coneTwistJointRelaxation = 4,
 		bodyStateCanSleep = 4,
-		bodyParamAngularDamp = 5,
-		sliderJointLinearMotionSoftness = 5,
 		areaParamLinearDamp = 5,
-		hingeJointLimitRelaxation = 5,
 		shapeCylinder = 5,
+		sliderJointLinearMotionSoftness = 5,
 		spaceParamBodyTimeToSleep = 5,
 		g6dofJointLinearMotorTargetVelocity = 5,
+		bodyParamAngularDamp = 5,
+		g6dofJointFlagEnableLinearMotor = 5,
+		hingeJointLimitRelaxation = 5,
 		shapeConvexPolygon = 6,
-		sliderJointLinearMotionRestitution = 6,
 		bodyParamMax = 6,
 		g6dofJointLinearMotorForceLimit = 6,
-		spaceParamBodyAngularVelocityDampRatio = 6,
+		sliderJointLinearMotionRestitution = 6,
 		areaParamAngularDamp = 6,
+		spaceParamBodyAngularVelocityDampRatio = 6,
 		hingeJointMotorTargetVelocity = 6,
-		areaParamPriority = 7,
-		g6dofJointAngularLowerLimit = 7,
 		shapeConcavePolygon = 7,
 		hingeJointMotorMaxImpulse = 7,
+		areaParamPriority = 7,
 		spaceParamConstraintDefaultBias = 7,
 		sliderJointLinearMotionDamping = 7,
 		shapeHeightmap = 8,
-		g6dofJointAngularUpperLimit = 8,
 		sliderJointLinearOrthogonalSoftness = 8,
 		bodyAxisAngularX = 8,
-		shapeCustom = 9,
+		spaceParamTestMotionMinContactDepth = 8,
 		sliderJointLinearOrthogonalRestitution = 9,
-		g6dofJointAngularLimitSoftness = 9,
-		g6dofJointAngularDamping = 10,
+		shapeCustom = 9,
 		sliderJointLinearOrthogonalDamping = 10,
-		g6dofJointAngularRestitution = 11,
+		g6dofJointAngularLowerLimit = 10,
 		sliderJointAngularLimitUpper = 11,
-		g6dofJointAngularForceLimit = 12,
+		g6dofJointAngularUpperLimit = 11,
 		sliderJointAngularLimitLower = 12,
-		g6dofJointAngularErp = 13,
+		g6dofJointAngularLimitSoftness = 12,
+		g6dofJointAngularDamping = 13,
 		sliderJointAngularLimitSoftness = 13,
+		g6dofJointAngularRestitution = 14,
 		sliderJointAngularLimitRestitution = 14,
-		g6dofJointAngularMotorTargetVelocity = 14,
 		sliderJointAngularLimitDamping = 15,
-		g6dofJointAngularMotorForceLimit = 15,
+		g6dofJointAngularForceLimit = 15,
 		bodyAxisAngularY = 16,
+		g6dofJointAngularErp = 16,
 		sliderJointAngularMotionSoftness = 16,
 		sliderJointAngularMotionRestitution = 17,
+		g6dofJointAngularMotorTargetVelocity = 17,
 		sliderJointAngularMotionDamping = 18,
+		g6dofJointAngularMotorForceLimit = 18,
 		sliderJointAngularOrthogonalSoftness = 19,
 		sliderJointAngularOrthogonalRestitution = 20,
 		sliderJointAngularOrthogonalDamping = 21,
@@ -1153,7 +1158,7 @@ public:
 		ptrcall!(void)(_classBinding.areaSetRayPickable, _godot_object, area, enable);
 	}
 	/**
-	If `true` area collides with rays.
+	If `true`, area collides with rays.
 	*/
 	bool areaIsRayPickable(in RID area) const
 	{
@@ -1169,7 +1174,7 @@ public:
 		return ptrcall!(RID)(_classBinding.bodyCreate, _godot_object, mode, init_sleeping);
 	}
 	/**
-	Assigns a space to the body (see $(D createSpace)).
+	Assigns a space to the body (see $(D spaceCreate)).
 	*/
 	void bodySetSpace(in RID _body, in RID space)
 	{
@@ -1314,7 +1319,7 @@ public:
 		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
 	}
 	/**
-	If `true` the continuous collision detection mode is enabled.
+	If `true`, the continuous collision detection mode is enabled.
 	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
 	*/
 	void bodySetEnableContinuousCollisionDetection(in RID _body, in bool enable)
@@ -1323,7 +1328,7 @@ public:
 		ptrcall!(void)(_classBinding.bodySetEnableContinuousCollisionDetection, _godot_object, _body, enable);
 	}
 	/**
-	If `true` the continuous collision detection mode is enabled.
+	If `true`, the continuous collision detection mode is enabled.
 	*/
 	bool bodyIsContinuousCollisionDetectionEnabled(in RID _body) const
 	{
@@ -1516,7 +1521,7 @@ public:
 		ptrcall!(void)(_classBinding.bodySetRayPickable, _godot_object, _body, enable);
 	}
 	/**
-	If `true` the body can be detected by rays
+	If `true`, the body can be detected by rays
 	*/
 	bool bodyIsRayPickable(in RID _body) const
 	{
@@ -1756,7 +1761,7 @@ public:
 		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
 	/**
-	Returns an Info defined by the $(D ProcessInfo) input given.
+	Returns an Info defined by the $(D PhysicsServer.processinfo) input given.
 	*/
 	long getProcessInfo(in long process_info)
 	{

@@ -20,8 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.collisionobject;
-import godot.spatial;
 import godot.node;
+import godot.spatial;
 /**
 Base class for all objects affected by physics in 3D space.
 
@@ -50,8 +50,8 @@ public:
 		@GodotName("_set_layers") GodotMethod!(void, long) _setLayers;
 		@GodotName("_get_layers") GodotMethod!(long) _getLayers;
 		@GodotName("get_collision_exceptions") GodotMethod!(Array) getCollisionExceptions;
-		@GodotName("add_collision_exception_with") GodotMethod!(void, GodotObject) addCollisionExceptionWith;
-		@GodotName("remove_collision_exception_with") GodotMethod!(void, GodotObject) removeCollisionExceptionWith;
+		@GodotName("add_collision_exception_with") GodotMethod!(void, Node) addCollisionExceptionWith;
+		@GodotName("remove_collision_exception_with") GodotMethod!(void, Node) removeCollisionExceptionWith;
 	}
 	bool opEquals(in PhysicsBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -159,7 +159,7 @@ public:
 	/**
 	Adds a body to the list of bodies that this body can't collide with.
 	*/
-	void addCollisionExceptionWith(GodotObject _body)
+	void addCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCollisionExceptionWith, _godot_object, _body);
@@ -167,7 +167,7 @@ public:
 	/**
 	Removes a body from the list of bodies that this body can't collide with.
 	*/
-	void removeCollisionExceptionWith(GodotObject _body)
+	void removeCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeCollisionExceptionWith, _godot_object, _body);

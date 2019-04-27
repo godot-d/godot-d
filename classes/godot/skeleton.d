@@ -52,8 +52,8 @@ public:
 		@GodotName("set_bone_rest") GodotMethod!(void, long, Transform) setBoneRest;
 		@GodotName("set_bone_disable_rest") GodotMethod!(void, long, bool) setBoneDisableRest;
 		@GodotName("is_bone_rest_disabled") GodotMethod!(bool, long) isBoneRestDisabled;
-		@GodotName("bind_child_node_to_bone") GodotMethod!(void, long, GodotObject) bindChildNodeToBone;
-		@GodotName("unbind_child_node_from_bone") GodotMethod!(void, long, GodotObject) unbindChildNodeFromBone;
+		@GodotName("bind_child_node_to_bone") GodotMethod!(void, long, Node) bindChildNodeToBone;
+		@GodotName("unbind_child_node_from_bone") GodotMethod!(void, long, Node) unbindChildNodeFromBone;
 		@GodotName("get_bound_child_nodes_to_bone") GodotMethod!(Array, long) getBoundChildNodesToBone;
 		@GodotName("clear_bones") GodotMethod!(void) clearBones;
 		@GodotName("get_bone_pose") GodotMethod!(Transform, long) getBonePose;
@@ -63,6 +63,8 @@ public:
 		@GodotName("get_bone_custom_pose") GodotMethod!(Transform, long) getBoneCustomPose;
 		@GodotName("set_bone_custom_pose") GodotMethod!(void, long, Transform) setBoneCustomPose;
 		@GodotName("get_bone_transform") GodotMethod!(Transform, long) getBoneTransform;
+		@GodotName("set_use_bones_in_world_transform") GodotMethod!(void, bool) setUseBonesInWorldTransform;
+		@GodotName("is_using_bones_in_world_transform") GodotMethod!(bool) isUsingBonesInWorldTransform;
 		@GodotName("physical_bones_stop_simulation") GodotMethod!(void) physicalBonesStopSimulation;
 		@GodotName("physical_bones_start_simulation") GodotMethod!(void, Array) physicalBonesStartSimulation;
 		@GodotName("physical_bones_add_collision_exception") GodotMethod!(void, RID) physicalBonesAddCollisionException;
@@ -180,7 +182,7 @@ public:
 	/**
 	Deprecated soon.
 	*/
-	void bindChildNodeToBone(in long bone_idx, GodotObject node)
+	void bindChildNodeToBone(in long bone_idx, Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.bindChildNodeToBone, _godot_object, bone_idx, node);
@@ -188,7 +190,7 @@ public:
 	/**
 	Deprecated soon.
 	*/
-	void unbindChildNodeFromBone(in long bone_idx, GodotObject node)
+	void unbindChildNodeFromBone(in long bone_idx, Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.unbindChildNodeFromBone, _godot_object, bone_idx, node);
@@ -268,6 +270,22 @@ public:
 	/**
 	
 	*/
+	void setUseBonesInWorldTransform(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseBonesInWorldTransform, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isUsingBonesInWorldTransform() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingBonesInWorldTransform, _godot_object);
+	}
+	/**
+	
+	*/
 	void physicalBonesStopSimulation()
 	{
 		checkClassBinding!(typeof(this))();
@@ -304,5 +322,17 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBoneIgnoreAnimation, _godot_object, bone, ignore);
+	}
+	/**
+	
+	*/
+	@property bool bonesInWorldTransform()
+	{
+		return isUsingBonesInWorldTransform();
+	}
+	/// ditto
+	@property void bonesInWorldTransform(bool v)
+	{
+		setUseBonesInWorldTransform(v);
 	}
 }

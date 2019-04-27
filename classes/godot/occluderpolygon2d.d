@@ -130,7 +130,7 @@ public:
 		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
 	}
 	/**
-	If `true` closes the polygon. A closed OccluderPolygon2D occludes the light coming from any direction. An opened OccluderPolygon2D occludes the light only at its outline's direction. Default value `true`.
+	If `true`, closes the polygon. A closed OccluderPolygon2D occludes the light coming from any direction. An opened OccluderPolygon2D occludes the light only at its outline's direction. Default value `true`.
 	*/
 	@property bool closed()
 	{
@@ -154,7 +154,7 @@ public:
 		setCullMode(v);
 	}
 	/**
-	A $(D Vector2) array with the index for polygon's vertices positions.
+	A $(D Vector2) array with the index for polygon's vertices positions. Note that the returned value is a copy of the underlying array, rather than a reference.
 	*/
 	@property PoolVector2Array polygon()
 	{

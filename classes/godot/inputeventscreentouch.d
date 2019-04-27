@@ -125,7 +125,7 @@ public:
 		setPosition(v);
 	}
 	/**
-	If `true` the touch's state is pressed. If `false` the touch's state is released.
+	If `true`, the touch's state is pressed. If `false`, the touch's state is released.
 	*/
 	@property bool pressed()
 	{

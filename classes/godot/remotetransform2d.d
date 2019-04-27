@@ -157,7 +157,7 @@ public:
 		setRemoteNode(v);
 	}
 	/**
-	If `true` global coordinates are used. If `false` local coordinates are used. Default value: `true`.
+	If `true`, global coordinates are used. If `false`, local coordinates are used. Default value: `true`.
 	*/
 	@property bool useGlobalCoordinates()
 	{
@@ -169,7 +169,7 @@ public:
 		setUseGlobalCoordinates(v);
 	}
 	/**
-	If `true` the remote node's position is updated. Default value: `true`.
+	If `true`, the remote node's position is updated. Default value: `true`.
 	*/
 	@property bool updatePosition()
 	{
@@ -181,7 +181,7 @@ public:
 		setUpdatePosition(v);
 	}
 	/**
-	If `true` the remote node's rotation is updated. Default value: `true`.
+	If `true`, the remote node's rotation is updated. Default value: `true`.
 	*/
 	@property bool updateRotation()
 	{
@@ -193,7 +193,7 @@ public:
 		setUpdateRotation(v);
 	}
 	/**
-	If `true` the remote node's scale is updated. Default value: `true`.
+	If `true`, the remote node's scale is updated. Default value: `true`.
 	*/
 	@property bool updateScale()
 	{

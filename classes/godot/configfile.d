@@ -49,6 +49,7 @@ if err == OK: # if not, something went wrong with the file loading
     config.save("user://settings.cfg")
 
 
+Keep in mind that section and property names can't contain spaces. Anything after a space will be ignored on save and on load.
 */
 @GodotBaseClass struct ConfigFile
 {

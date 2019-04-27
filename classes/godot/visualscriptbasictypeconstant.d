@@ -26,7 +26,7 @@ import godot.reference;
 /**
 A Visual Script node representing a constant from the base types.
 
-A Visual Script node representing a constant from base types, such as $(D Vector3.AXIS_X).
+A Visual Script node representing a constant from base types, such as $(D constant Vector3.AXIS_X).
 */
 @GodotBaseClass struct VisualScriptBasicTypeConstant
 {

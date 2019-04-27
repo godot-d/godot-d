@@ -86,6 +86,10 @@ public:
 		Allows the PathFollow to rotate in any axis.
 		*/
 		rotationXyz = 3,
+		/**
+		Uses the up vector information in a $(D Curve3D) to enforce orientation. This rotation mode requires the $(D Path)'s $(D Curve3D.upVectorEnabled) property to be set to `true`.
+		*/
+		rotationOriented = 4,
 	}
 	/// 
 	enum Constants : int
@@ -94,6 +98,7 @@ public:
 		rotationY = 1,
 		rotationXy = 2,
 		rotationXyz = 3,
+		rotationOriented = 4,
 	}
 	/**
 	
@@ -268,7 +273,7 @@ public:
 		setRotationMode(v);
 	}
 	/**
-	If `true` the position between two cached points is interpolated cubically, and linearly otherwise.
+	If `true`, the position between two cached points is interpolated cubically, and linearly otherwise.
 	The points along the $(D Curve3D) of the $(D Path) are precomputed before use, for faster calculations. The point at the requested offset is then calculated interpolating between two adjacent cached points. This may present a problem if the curve makes sharp turns, as the cached points may not follow the curve closely enough.
 	There are two answers to this problem: Either increase the number of cached points and increase memory consumption, or make a cubic interpolation between two points at the cost of (slightly) slower calculations.
 	*/

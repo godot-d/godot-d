@@ -26,7 +26,7 @@ import godot.node;
 /**
 Tint the entire canvas.
 
-`CanvasModulate` tints the canvas elements using its assigned `color`.
+$(D CanvasModulate) tints the canvas elements using its assigned `color`.
 */
 @GodotBaseClass struct CanvasModulate
 {

@@ -25,7 +25,7 @@ import godot.reference;
 /**
 Image datatype.
 
-Native image datatype. Contains image data, which can be converted to a $(D Texture), and several functions to interact with it. The maximum width and height for an `Image` is 16384 pixels.
+Native image datatype. Contains image data, which can be converted to a $(D Texture), and several functions to interact with it. The maximum width and height for an $(D Image) are $(D constant MAX_WIDTH) and $(D constant MAX_HEIGHT).
 */
 @GodotBaseClass struct Image
 {
@@ -347,11 +347,11 @@ public:
 		alphaNone = 0,
 		compressS3tc = 0,
 		compressSourceGeneric = 0,
+		compressPvrtc2 = 1,
 		compressSourceSrgb = 1,
 		alphaBit = 1,
 		interpolateBilinear = 1,
 		formatLa8 = 1,
-		compressPvrtc2 = 1,
 		compressSourceNormal = 2,
 		interpolateCubic = 2,
 		formatR8 = 2,
@@ -395,6 +395,14 @@ public:
 		formatEtc2Rgba8 = 35,
 		formatEtc2Rgb8a1 = 36,
 		formatMax = 37,
+		/**
+		The maximal height allowed for $(D Image) resources.
+		*/
+		maxHeight = 16384,
+		/**
+		The maximal width allowed for $(D Image) resources.
+		*/
+		maxWidth = 16384,
 	}
 	/**
 	Returns the image's width.
@@ -429,7 +437,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasMipmaps, _godot_object);
 	}
 	/**
-	Returns the image’s format. See `FORMAT_*` constants.
+	Returns the image's format. See `FORMAT_*` constants.
 	*/
 	Image.Format getFormat() const
 	{
@@ -533,7 +541,7 @@ public:
 		ptrcall!(void)(_classBinding.clearMipmaps, _godot_object);
 	}
 	/**
-	Creates an empty image of given size and format. See `FORMAT_*` constants. If `use_mipmaps` is true then generate mipmaps for this image. See the `generate_mipmaps` method.
+	Creates an empty image of given size and format. See `FORMAT_*` constants. If `use_mipmaps` is `true` then generate mipmaps for this image. See the `generate_mipmaps` method.
 	*/
 	void create(in long width, in long height, in bool use_mipmaps, in long format)
 	{
@@ -541,7 +549,7 @@ public:
 		ptrcall!(void)(_classBinding.create, _godot_object, width, height, use_mipmaps, format);
 	}
 	/**
-	Creates a new image of given size and format. See `FORMAT_*` constants. Fills the image with the given raw data. If `use_mipmaps` is true then generate mipmaps for this image. See the `generate_mipmaps` method.
+	Creates a new image of given size and format. See `FORMAT_*` constants. Fills the image with the given raw data. If `use_mipmaps` is `true` then generate mipmaps for this image. See the `generate_mipmaps` method.
 	*/
 	void createFromData(in long width, in long height, in bool use_mipmaps, in long format, in PoolByteArray data)
 	{

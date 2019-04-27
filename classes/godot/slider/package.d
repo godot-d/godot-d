@@ -138,7 +138,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isScrollable, _godot_object);
 	}
 	/**
-	
+	If `true`, the slider can be interacted with. If `false`, the value can be changed only by code.
 	*/
 	@property bool editable()
 	{
@@ -150,7 +150,7 @@ public:
 		setEditable(v);
 	}
 	/**
-	
+	If `true`, the value can be changed using the mouse wheel.
 	*/
 	@property bool scrollable()
 	{
@@ -162,7 +162,7 @@ public:
 		setScrollable(v);
 	}
 	/**
-	
+	Number of ticks displayed on the slider, including border ticks. Ticks are uniformly-distributed value markers.
 	*/
 	@property long tickCount()
 	{
@@ -174,7 +174,7 @@ public:
 		setTicks(v);
 	}
 	/**
-	
+	If `true`, the slider will display ticks for minimum and maximum values.
 	*/
 	@property bool ticksOnBorders()
 	{

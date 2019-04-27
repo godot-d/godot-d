@@ -93,7 +93,7 @@ public:
 		setAction(v);
 	}
 	/**
-	If `true` the action's state is pressed. If `false` the action's state is released.
+	If `true`, the action's state is pressed. If `false`, the action's state is released.
 	*/
 	@property bool pressed()
 	{

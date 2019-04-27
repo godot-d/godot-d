@@ -50,6 +50,7 @@ public:
 		@GodotName("_click_selection_held") GodotMethod!(void) _clickSelectionHeld;
 		@GodotName("_toggle_draw_caret") GodotMethod!(void) _toggleDrawCaret;
 		@GodotName("_v_scroll_input") GodotMethod!(void) _vScrollInput;
+		@GodotName("_update_wrap_at") GodotMethod!(void) _updateWrapAt;
 		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("insert_text_at_cursor") GodotMethod!(void, String) insertTextAtCursor;
 		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
@@ -185,7 +186,11 @@ public:
 		/**
 		
 		*/
-		menuMax = 6,
+		menuRedo = 6,
+		/**
+		
+		*/
+		menuMax = 7,
 	}
 	/// 
 	enum Constants : int
@@ -199,7 +204,8 @@ public:
 		searchBackwards = 4,
 		menuSelectAll = 4,
 		menuUndo = 5,
-		menuMax = 6,
+		menuRedo = 6,
+		menuMax = 7,
 	}
 	/**
 	
@@ -273,6 +279,15 @@ public:
 	{
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_v_scroll_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _updateWrapAt()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_update_wrap_at");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -508,7 +523,7 @@ public:
 		ptrcall!(void)(_classBinding.deselect, _godot_object);
 	}
 	/**
-	Return true if the selection is active.
+	Return `true` if the selection is active.
 	*/
 	bool isSelectionActive() const
 	{
@@ -896,7 +911,7 @@ public:
 		setText(v);
 	}
 	/**
-	If `true` read-only mode is enabled. Existing text cannot be modified and new text cannot be added.
+	If `true`, read-only mode is enabled. Existing text cannot be modified and new text cannot be added.
 	*/
 	@property bool readonly()
 	{
@@ -908,7 +923,7 @@ public:
 		setReadonly(v);
 	}
 	/**
-	If `true` the line containing the cursor is highlighted.
+	If `true`, the line containing the cursor is highlighted.
 	*/
 	@property bool highlightCurrentLine()
 	{
@@ -932,7 +947,7 @@ public:
 		setSyntaxColoring(v);
 	}
 	/**
-	If `true` line numbers are displayed to the left of the text.
+	If `true`, line numbers are displayed to the left of the text.
 	*/
 	@property bool showLineNumbers()
 	{
@@ -944,7 +959,7 @@ public:
 		setShowLineNumbers(v);
 	}
 	/**
-	If `true` the breakpoint gutter is visible.
+	If `true`, the breakpoint gutter is visible.
 	*/
 	@property bool breakpointGutter()
 	{
@@ -980,7 +995,7 @@ public:
 		setOverrideSelectedFontColor(v);
 	}
 	/**
-	If `true` a right click displays the context menu.
+	If `true`, a right click displays the context menu.
 	*/
 	@property bool contextMenuEnabled()
 	{
@@ -1004,7 +1019,7 @@ public:
 		setSmoothScrollEnable(v);
 	}
 	/**
-	If `true`, enables text wrapping when it goes beyond he edge of what is visible.
+	Vertical scroll sensitivity.
 	*/
 	@property double vScrollSpeed()
 	{
@@ -1028,7 +1043,7 @@ public:
 		setHidingEnabled(v);
 	}
 	/**
-	
+	If `true`, enables text wrapping when it goes beyond the edge of what is visible.
 	*/
 	@property bool wrapEnabled()
 	{
@@ -1040,8 +1055,8 @@ public:
 		setWrapEnabled(v);
 	}
 	/**
-	If `true` the caret displays as a rectangle.
-	If `false` the caret displays as a bar.
+	If `true`, the caret displays as a rectangle.
+	If `false`, the caret displays as a bar.
 	*/
 	@property bool caretBlockMode()
 	{
@@ -1053,7 +1068,7 @@ public:
 		cursorSetBlockMode(v);
 	}
 	/**
-	If `true` the caret (visual cursor) blinks.
+	If `true`, the caret (visual cursor) blinks.
 	*/
 	@property bool caretBlink()
 	{
@@ -1077,8 +1092,8 @@ public:
 		cursorSetBlinkSpeed(v);
 	}
 	/**
-	If `true` a right click moves the cursor at the mouse position before displaying the context menu.
-	If `false` the context menu disregards mouse location.
+	If `true`, a right click moves the cursor at the mouse position before displaying the context menu.
+	If `false`, the context menu disregards mouse location.
 	*/
 	@property bool caretMovingByRightClick()
 	{

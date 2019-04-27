@@ -63,7 +63,7 @@ public:
 	enum Status : int
 	{
 		/**
-		A status representing a `StreamPeerSSL` that is disconnected.
+		A status representing a $(D StreamPeerSSL) that is disconnected.
 		*/
 		statusDisconnected = 0,
 		/**
@@ -71,7 +71,7 @@ public:
 		*/
 		statusHandshaking = 1,
 		/**
-		A status representing a `StreamPeerSSL` that is connected to a host.
+		A status representing a $(D StreamPeerSSL) that is connected to a host.
 		*/
 		statusConnected = 2,
 		/**
@@ -109,7 +109,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.acceptStream, _godot_object, base);
 	}
 	/**
-	Connect to a peer using an underlying $(D StreamPeer) "stream", when "validate_certs" is true, `StreamPeerSSL` will validate that the certificate presented by the peer matches the "for_hostname".
+	Connect to a peer using an underlying $(D StreamPeer) "stream", when "validate_certs" is `true`, $(D StreamPeerSSL) will validate that the certificate presented by the peer matches the "for_hostname".
 	*/
 	GodotError connectToStream(StreamPeer stream, in bool validate_certs = false, in String for_hostname = gs!"")
 	{

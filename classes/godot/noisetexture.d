@@ -51,6 +51,8 @@ public:
 		@GodotName("get_seamless") GodotMethod!(bool) getSeamless;
 		@GodotName("set_as_normalmap") GodotMethod!(void, bool) setAsNormalmap;
 		@GodotName("is_normalmap") GodotMethod!(bool) isNormalmap;
+		@GodotName("set_bump_strength") GodotMethod!(void, double) setBumpStrength;
+		@GodotName("get_bump_strength") GodotMethod!(double) getBumpStrength;
 		@GodotName("_update_texture") GodotMethod!(void) _updateTexture;
 		@GodotName("_generate_texture") GodotMethod!(Image) _generateTexture;
 		@GodotName("_thread_done") GodotMethod!(void, Image) _threadDone;
@@ -134,6 +136,22 @@ public:
 	/**
 	
 	*/
+	void setBumpStrength(in double bump_strength)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBumpStrength, _godot_object, bump_strength);
+	}
+	/**
+	
+	*/
+	double getBumpStrength()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getBumpStrength, _godot_object);
+	}
+	/**
+	
+	*/
 	void _updateTexture()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -196,7 +214,7 @@ public:
 		setSeamless(v);
 	}
 	/**
-	If true, the resulting texture contains a normal map created from the original noise interpreted as a bump map.
+	If `true`, the resulting texture contains a normal map created from the original noise interpreted as a bump map.
 	*/
 	@property bool asNormalmap()
 	{
@@ -206,6 +224,18 @@ public:
 	@property void asNormalmap(bool v)
 	{
 		setAsNormalmap(v);
+	}
+	/**
+	
+	*/
+	@property double bumpStrength()
+	{
+		return getBumpStrength();
+	}
+	/// ditto
+	@property void bumpStrength(double v)
+	{
+		setBumpStrength(v);
 	}
 	/**
 	The $(D OpenSimplexNoise) instance used to generate the noise.

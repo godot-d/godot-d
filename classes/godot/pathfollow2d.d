@@ -259,7 +259,7 @@ public:
 		setRotate(v);
 	}
 	/**
-	If `true` the position between two cached points is interpolated cubically, and linearly otherwise.
+	If `true`, the position between two cached points is interpolated cubically, and linearly otherwise.
 	The points along the $(D Curve2D) of the $(D Path2D) are precomputed before use, for faster calculations. The point at the requested offset is then calculated interpolating between two adjacent cached points. This may present a problem if the curve makes sharp turns, as the cached points may not follow the curve closely enough.
 	There are two answers to this problem: Either increase the number of cached points and increase memory consumption, or make a cubic interpolation between two points at the cost of (slightly) slower calculations.
 	*/

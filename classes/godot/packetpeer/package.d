@@ -37,8 +37,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_var") GodotMethod!(Variant) getVar;
-		@GodotName("put_var") GodotMethod!(GodotError, Variant) putVar;
+		@GodotName("get_var") GodotMethod!(Variant, bool) getVar;
+		@GodotName("put_var") GodotMethod!(GodotError, Variant, bool) putVar;
 		@GodotName("get_packet") GodotMethod!(PoolByteArray) getPacket;
 		@GodotName("put_packet") GodotMethod!(GodotError, PoolByteArray) putPacket;
 		@GodotName("get_packet_error") GodotMethod!(GodotError) getPacketError;
@@ -59,20 +59,21 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Get a Variant.
+	Get a Variant. When `allow_objects` (or $(D allowObjectDecoding)) is `true` decoding objects is allowed.
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
 	*/
-	Variant getVar()
+	Variant getVar(in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object);
+		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
-	Send a Variant as a packet.
+	Send a Variant as a packet. When `full_objects` (or $(D allowObjectDecoding)) is `true` encoding objects is allowed (and can potentially include code).
 	*/
-	GodotError putVar(VariantArg0)(in VariantArg0 var)
+	GodotError putVar(VariantArg0)(in VariantArg0 var, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putVar, _godot_object, var);
+		return ptrcall!(GodotError)(_classBinding.putVar, _godot_object, var, full_objects);
 	}
 	/**
 	Get a raw packet.
@@ -123,7 +124,9 @@ public:
 		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
 	}
 	/**
-	
+	Deprecated. Use `get_var` and `put_var` parameters instead.
+	If `true` the PacketPeer will allow encoding and decoding of object via $(D getVar) and $(D putVar).
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
 	*/
 	@property bool allowObjectDecoding()
 	{

@@ -75,7 +75,7 @@ public:
 		return ptrcall!(InputEvent)(_classBinding.getShortcut, _godot_object);
 	}
 	/**
-	If `true` this shortcut is valid.
+	If `true`, this shortcut is valid.
 	*/
 	bool isValid() const
 	{

@@ -25,7 +25,7 @@ import godot.reference;
 Registers a custom resource importer in the editor. Use the class to parse any file and import it as a new resource type.
 
 EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your $(D EditorPlugin) with $(D EditorPlugin.addImportPlugin).
-EditorImportPlugins work by associating with specific file extensions and a resource type. See $(D getRecognizedExtension) and $(D getResourceType)). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the `.import` directory.
+EditorImportPlugins work by associating with specific file extensions and a resource type. See $(D getRecognizedExtensions) and $(D getResourceType)). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the `.import` directory.
 Below is an example EditorImportPlugin that imports a $(D Mesh) from a file with the extension ".special" or ".spec":
 
 
@@ -56,7 +56,7 @@ func get_preset_name(i):
 func get_import_options(i):
     return $(D {"name": "my_option", "default_value": false})
 
-func import(source_file, save_path, options, r_platform_variants, r_gen_files):
+func import(source_file, save_path, options, platform_variants, gen_files):
     var file = File.new()
     if file.open(source_file, File.READ) != OK:
         return FAILED
@@ -145,7 +145,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	Get the list of file extensions to associate with this loader (case insensitive). e.g. $(D "obj").
+	Get the list of file extensions to associate with this loader (case insensitive). e.g. `$(D "obj")`.
 	*/
 	Array getRecognizedExtensions()
 	{
@@ -154,7 +154,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
-	Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: "name", "default_value", "property_hint" (optional), "hint_string" (optional), "usage" (optional).
+	Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: `name`, `default_value`, `property_hint` (optional), `hint_string` (optional), `usage` (optional).
 	*/
 	Array getImportOptions(in long preset)
 	{
@@ -173,7 +173,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	Get the Godot resource type associated with this loader. e.g. "Mesh" or "Animation".
+	Get the Godot resource type associated with this loader. e.g. `"Mesh"` or `"Animation"`.
 	*/
 	String getResourceType()
 	{
@@ -213,14 +213,14 @@ public:
 	/**
 	
 	*/
-	long _import(in String source_file, in String save_path, in Dictionary options, in Array r_platform_variants, in Array r_gen_files)
+	long _import(in String source_file, in String save_path, in Dictionary options, in Array platform_variants, in Array gen_files)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(source_file);
 		_GODOT_args.append(save_path);
 		_GODOT_args.append(options);
-		_GODOT_args.append(r_platform_variants);
-		_GODOT_args.append(r_gen_files);
+		_GODOT_args.append(platform_variants);
+		_GODOT_args.append(gen_files);
 		String _GODOT_method_name = String("import");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}

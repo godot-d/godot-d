@@ -145,7 +145,7 @@ public:
 		setPickColor(v);
 	}
 	/**
-	If `true` the alpha channel in the displayed $(D ColorPicker) will be visible. Default value: `true`.
+	If `true`, the alpha channel in the displayed $(D ColorPicker) will be visible. Default value: `true`.
 	*/
 	@property bool editAlpha()
 	{

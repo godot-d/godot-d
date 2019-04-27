@@ -69,11 +69,13 @@ public:
 		@GodotName("has_constant") GodotMethod!(bool, String, String) hasConstant;
 		@GodotName("clear_constant") GodotMethod!(void, String, String) clearConstant;
 		@GodotName("get_constant_list") GodotMethod!(PoolStringArray, String) getConstantList;
+		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("set_default_font") GodotMethod!(void, Font) setDefaultFont;
 		@GodotName("get_default_font") GodotMethod!(Font) getDefaultFont;
 		@GodotName("get_type_list") GodotMethod!(PoolStringArray, String) getTypeList;
 		@GodotName("_emit_theme_changed") GodotMethod!(void) _emitThemeChanged;
 		@GodotName("copy_default_theme") GodotMethod!(void) copyDefaultTheme;
+		@GodotName("copy_theme") GodotMethod!(void, Theme) copyTheme;
 	}
 	bool opEquals(in Theme other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Theme opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -308,6 +310,14 @@ public:
 	/**
 	
 	*/
+	void clear()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
+	}
+	/**
+	
+	*/
 	void setDefaultFont(Font font)
 	{
 		checkClassBinding!(typeof(this))();
@@ -345,6 +355,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.copyDefaultTheme, _godot_object);
+	}
+	/**
+	
+	*/
+	void copyTheme(Theme other)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.copyTheme, _godot_object, other);
 	}
 	/**
 	The theme's default font.

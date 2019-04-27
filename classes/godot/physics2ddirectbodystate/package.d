@@ -23,7 +23,7 @@ import godot.physics2ddirectspacestate;
 /**
 Direct access object to a physics body in the $(D Physics2DServer).
 
-This object is passed via the direct state callback of rigid/character bodies, and is intended for changing the direct state of that body.
+Provides direct access to a physics body in the $(D Physics2DServer), allowing safe changes to physics properties. This object is passed via the direct state callback of rigid/character bodies, and is intended for changing the direct state of that body. See $(D RigidBody2D._integrateForces).
 */
 @GodotBaseClass struct Physics2DDirectBodyState
 {
@@ -172,7 +172,7 @@ public:
 		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
 	}
 	/**
-	
+	Adds a constant directional force without affecting rotation.
 	*/
 	void addCentralForce(in Vector2 force)
 	{
@@ -180,7 +180,7 @@ public:
 		ptrcall!(void)(_classBinding.addCentralForce, _godot_object, force);
 	}
 	/**
-	
+	Adds a positioned force to the body. Both the force and the offset from the body origin are in global coordinates.
 	*/
 	void addForce(in Vector2 offset, in Vector2 force)
 	{
@@ -188,7 +188,7 @@ public:
 		ptrcall!(void)(_classBinding.addForce, _godot_object, offset, force);
 	}
 	/**
-	
+	Adds a constant rotational force.
 	*/
 	void addTorque(in double torque)
 	{
@@ -196,7 +196,7 @@ public:
 		ptrcall!(void)(_classBinding.addTorque, _godot_object, torque);
 	}
 	/**
-	
+	Applies a directional impulse without affecting rotation.
 	*/
 	void applyCentralImpulse(in Vector2 impulse)
 	{
@@ -204,7 +204,7 @@ public:
 		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, impulse);
 	}
 	/**
-	
+	Applies a rotational impulse to the body.
 	*/
 	void applyTorqueImpulse(in double impulse)
 	{
@@ -212,7 +212,7 @@ public:
 		ptrcall!(void)(_classBinding.applyTorqueImpulse, _godot_object, impulse);
 	}
 	/**
-	
+	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts (use the "_force" functions otherwise). The offset uses the rotation of the global coordinate system, but is centered at the object's origin.
 	*/
 	void applyImpulse(in Vector2 offset, in Vector2 impulse)
 	{
@@ -236,7 +236,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
 	}
 	/**
-	Return the amount of contacts this body has with other bodies. Note that by default this returns 0 unless bodies are configured to log contacts.
+	Returns the number of contacts this body has with other bodies. Note that by default this returns 0 unless bodies are configured to log contacts. See $(D RigidBody2D.contactMonitor).
 	*/
 	long getContactCount() const
 	{
@@ -244,7 +244,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactCount, _godot_object);
 	}
 	/**
-	Return the local position (of this body) of the contact point.
+	Returns the local position of the contact point.
 	*/
 	Vector2 getContactLocalPosition(in long contact_idx) const
 	{
@@ -252,7 +252,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getContactLocalPosition, _godot_object, contact_idx);
 	}
 	/**
-	Return the local normal (of this body) of the contact point.
+	Returns the local normal at the contact point.
 	*/
 	Vector2 getContactLocalNormal(in long contact_idx) const
 	{
@@ -260,7 +260,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getContactLocalNormal, _godot_object, contact_idx);
 	}
 	/**
-	Return the local shape index of the collision.
+	Returns the local shape index of the collision.
 	*/
 	long getContactLocalShape(in long contact_idx) const
 	{
@@ -268,7 +268,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactLocalShape, _godot_object, contact_idx);
 	}
 	/**
-	Return the $(D RID) of the collider.
+	Returns the collider's $(D RID).
 	*/
 	RID getContactCollider(in long contact_idx) const
 	{
@@ -276,7 +276,7 @@ public:
 		return ptrcall!(RID)(_classBinding.getContactCollider, _godot_object, contact_idx);
 	}
 	/**
-	Return the contact position in the collider.
+	Returns the contact position in the collider.
 	*/
 	Vector2 getContactColliderPosition(in long contact_idx) const
 	{
@@ -284,7 +284,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getContactColliderPosition, _godot_object, contact_idx);
 	}
 	/**
-	Return the object id of the collider.
+	Returns the collider's object id.
 	*/
 	long getContactColliderId(in long contact_idx) const
 	{
@@ -292,7 +292,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactColliderId, _godot_object, contact_idx);
 	}
 	/**
-	Return the collider object, this depends on how it was created (will return a scene node if such was used to create it).
+	Returns the collider object. This depends on how it was created (will return a scene node if such was used to create it).
 	*/
 	GodotObject getContactColliderObject(in long contact_idx) const
 	{
@@ -300,7 +300,7 @@ public:
 		return ptrcall!(GodotObject)(_classBinding.getContactColliderObject, _godot_object, contact_idx);
 	}
 	/**
-	Return the collider shape index.
+	Returns the collider's shape index.
 	*/
 	long getContactColliderShape(in long contact_idx) const
 	{
@@ -308,7 +308,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactColliderShape, _godot_object, contact_idx);
 	}
 	/**
-	Return the metadata of the collided shape. This metadata is different from $(D GodotObject.getMeta), and is set with $(D Physics2DServer.shapeSetData).
+	Returns the collided shape's metadata. This metadata is different from $(D GodotObject.getMeta), and is set with $(D Physics2DServer.shapeSetData).
 	*/
 	Variant getContactColliderShapeMetadata(in long contact_idx) const
 	{
@@ -316,7 +316,7 @@ public:
 		return ptrcall!(Variant)(_classBinding.getContactColliderShapeMetadata, _godot_object, contact_idx);
 	}
 	/**
-	Return the linear velocity vector at contact point of the collider.
+	Returns the linear velocity vector at the collider's contact point.
 	*/
 	Vector2 getContactColliderVelocityAtPosition(in long contact_idx) const
 	{
@@ -332,7 +332,7 @@ public:
 		return ptrcall!(double)(_classBinding.getStep, _godot_object);
 	}
 	/**
-	Call the built-in force integration code.
+	Calls the built-in force integration code.
 	*/
 	void integrateForces()
 	{
@@ -340,7 +340,7 @@ public:
 		ptrcall!(void)(_classBinding.integrateForces, _godot_object);
 	}
 	/**
-	Return the current state of space, useful for queries.
+	Returns the current state of the space, useful for queries.
 	*/
 	Physics2DDirectSpaceState getSpaceState()
 	{
@@ -390,7 +390,7 @@ public:
 		return getTotalGravity();
 	}
 	/**
-	The angular velocity of the body.
+	The body's rotational velocity.
 	*/
 	@property double angularVelocity()
 	{
@@ -402,7 +402,7 @@ public:
 		setAngularVelocity(v);
 	}
 	/**
-	The linear velocity of the body.
+	The body's linear velocity.
 	*/
 	@property Vector2 linearVelocity()
 	{
@@ -414,7 +414,7 @@ public:
 		setLinearVelocity(v);
 	}
 	/**
-	`true` if this body is currently sleeping (not active).
+	If `true`, this body is currently sleeping (not active).
 	*/
 	@property bool sleeping()
 	{
@@ -426,7 +426,7 @@ public:
 		setSleepState(v);
 	}
 	/**
-	The transformation matrix of the body.
+	The body's transformation matrix.
 	*/
 	@property Transform2D transform()
 	{

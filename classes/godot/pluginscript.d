@@ -38,6 +38,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("new") GodotMethod!(GodotObject, GodotVarArgs) _new;
 	}
 	bool opEquals(in PluginScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PluginScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -51,4 +52,17 @@ public:
 		return cast(PluginScript)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	Returns a new instance of the script.
+	*/
+	GodotObject _new(VarArgs...)(VarArgs varArgs)
+	{
+		Array _GODOT_args = Array.empty_array;
+		foreach(vai, VA; VarArgs)
+		{
+			_GODOT_args.append(varArgs[vai]);
+		}
+		String _GODOT_method_name = String("new");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+	}
 }

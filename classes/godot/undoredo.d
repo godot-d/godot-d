@@ -28,22 +28,22 @@ Common behavior is to create an action, then add do/undo calls to functions or p
 Here's an example on how to add an action to Godot editor's own 'undoredo':
 
 
-var undoredo = get_undo_redo() # method of EditorPlugin
+var undo_redo = get_undo_redo() # Method of EditorPlugin.
 
 func do_something():
-    pass # put your code here
+    pass # Put your code here.
 
 func undo_something():
-    pass # put here the code that reverts what's done by "do_something()"
+    pass # Put here the code that reverts what's done by "do_something()".
 
 func _on_MyButton_pressed():
     var node = get_node("MyNode2D")
-    undoredo.create_action("Move the node")
-    undoredo.add_do_method(self, "do_something")
-    undoredo.add_undo_method(self, "undo_something")
-    undoredo.add_do_property(node, "position", Vector2(100,100))
-    undoredo.add_undo_property(node, "position", node.position)
-    undoredo.commit_action()
+    undo_redo.create_action("Move the node")
+    undo_redo.add_do_method(self, "do_something")
+    undo_redo.add_undo_method(self, "undo_something")
+    undo_redo.add_do_property(node, "position", Vector2(100,100))
+    undo_redo.add_undo_property(node, "position", node.position)
+    undo_redo.commit_action()
 
 
 $(D createAction), $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), $(D addUndoProperty), and $(D commitAction) should be called one after the other, like in the example. Not doing so could lead to crashes.
@@ -63,13 +63,14 @@ public:
 		__gshared:
 		@GodotName("create_action") GodotMethod!(void, String, long) createAction;
 		@GodotName("commit_action") GodotMethod!(void) commitAction;
+		@GodotName("is_commiting_action") GodotMethod!(bool) isCommitingAction;
 		@GodotName("add_do_method") GodotMethod!(Variant, GodotObject, String, GodotVarArgs) addDoMethod;
 		@GodotName("add_undo_method") GodotMethod!(Variant, GodotObject, String, GodotVarArgs) addUndoMethod;
 		@GodotName("add_do_property") GodotMethod!(void, GodotObject, String, Variant) addDoProperty;
 		@GodotName("add_undo_property") GodotMethod!(void, GodotObject, String, Variant) addUndoProperty;
 		@GodotName("add_do_reference") GodotMethod!(void, GodotObject) addDoReference;
 		@GodotName("add_undo_reference") GodotMethod!(void, GodotObject) addUndoReference;
-		@GodotName("clear_history") GodotMethod!(void) clearHistory;
+		@GodotName("clear_history") GodotMethod!(void, bool) clearHistory;
 		@GodotName("get_current_action_name") GodotMethod!(String) getCurrentActionName;
 		@GodotName("get_version") GodotMethod!(long) getVersion;
 		@GodotName("redo") GodotMethod!(bool) redo;
@@ -91,15 +92,15 @@ public:
 	enum MergeMode : int
 	{
 		/**
-		
+		Makes `do`/`undo` operations stay in separate actions.
 		*/
 		mergeDisable = 0,
 		/**
-		
+		Makes so that the action's `do` operation is from the first action created and the `undo` operation is from the last subsequent action with the same name.
 		*/
 		mergeEnds = 1,
 		/**
-		
+		Makes subsequent actions with the same name be merged into one.
 		*/
 		mergeAll = 2,
 	}
@@ -112,6 +113,7 @@ public:
 	}
 	/**
 	Create a new action. After this is called, do all your calls to $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), and $(D addUndoProperty), then commit the action with $(D commitAction).
+	The way actions are merged is dictated by the `merge_mode` argument. See $(D mergemode) for details.
 	*/
 	void createAction(in String name, in long merge_mode = 0)
 	{
@@ -125,6 +127,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.commitAction, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCommitingAction() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCommitingAction, _godot_object);
 	}
 	/**
 	Register a method that will be called when the action is committed.
@@ -190,11 +200,12 @@ public:
 	}
 	/**
 	Clear the undo/redo history and associated references.
+	Passing `false` to `increase_version` will prevent the version number to be increased from this.
 	*/
-	void clearHistory()
+	void clearHistory(in bool increase_version = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearHistory, _godot_object);
+		ptrcall!(void)(_classBinding.clearHistory, _godot_object, increase_version);
 	}
 	/**
 	Get the name of the current action.

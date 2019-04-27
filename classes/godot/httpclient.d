@@ -27,7 +27,7 @@ Hyper-text transfer protocol client.
 
 Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases.
 Note that this client only needs to connect to a host once (see $(D connectToHost)) to send multiple requests. Because of this, methods that take URLs usually take just the part after the host instead of the full URL, as the client is already connected to a host. See $(D request) for a full example and to get started.
-A `HTTPClient` should be reused between multiple requests or to connect to different hosts instead of creating one client per request. Supports SSL and SSL server certificate verification. HTTP status codes in the 2xx range indicate success, 3xx redirection (i.e. "try again, but over here"), 4xx something was wrong with the request, and 5xx something went wrong on the server's side.
+A $(D HTTPClient) should be reused between multiple requests or to connect to different hosts instead of creating one client per request. Supports SSL and SSL server certificate verification. HTTP status codes in the 2xx range indicate success, 3xx redirection (i.e. "try again, but over here"), 4xx something was wrong with the request, and 5xx something went wrong on the server's side.
 For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/HTTP (or read RFC 2616 to get it straight from the source: https://tools.ietf.org/html/rfc2616).
 */
 @GodotBaseClass struct HTTPClient
@@ -234,7 +234,7 @@ public:
 		*/
 		responseSeeOther = 303,
 		/**
-		HTTP status code `304 Not Modified`. A conditional GET or HEAD request has been received and would have resulted in a 200 OK response if it were not for the fact that the condition evaluated to false.
+		HTTP status code `304 Not Modified`. A conditional GET or HEAD request has been received and would have resulted in a 200 OK response if it were not for the fact that the condition evaluated to `false`.
 		*/
 		responseNotModified = 304,
 		/**
@@ -302,7 +302,7 @@ public:
 		*/
 		responseLengthRequired = 411,
 		/**
-		HTTP status code `412 Precondition Failed`. One or more conditions given in the request header fields evaluated to false when tested on the server.
+		HTTP status code `412 Precondition Failed`. One or more conditions given in the request header fields evaluated to `false` when tested on the server.
 		*/
 		responsePreconditionFailed = 412,
 		/**
@@ -539,9 +539,9 @@ public:
 	
 	
 	var fields = {"username" : "user", "password" : "pass"}
-	var queryString = httpClient.query_string_from_dict(fields)
-	var headers = $(D "Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(queryString.length()))
-	var result = httpClient.request(httpClient.METHOD_POST, "index.php", headers, queryString)
+	var query_string = http_client.query_string_from_dict(fields)
+	var headers = $(D "Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(query_string.length()))
+	var result = http_client.request(http_client.METHOD_POST, "index.php", headers, query_string)
 	
 	
 	*/
@@ -551,7 +551,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);
 	}
 	/**
-	Closes the current connection, allowing reuse of this `HTTPClient`.
+	Closes the current connection, allowing reuse of this $(D HTTPClient).
 	*/
 	void close()
 	{
@@ -559,7 +559,7 @@ public:
 		ptrcall!(void)(_classBinding.close, _godot_object);
 	}
 	/**
-	If `true` this `HTTPClient` has a response available.
+	If `true`, this $(D HTTPClient) has a response available.
 	*/
 	bool hasResponse() const
 	{
@@ -567,7 +567,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasResponse, _godot_object);
 	}
 	/**
-	If `true` this `HTTPClient` has a response that is chunked.
+	If `true`, this $(D HTTPClient) has a response that is chunked.
 	*/
 	bool isResponseChunked() const
 	{
@@ -661,16 +661,16 @@ public:
 	
 	
 	var fields = {"username": "user", "password": "pass"}
-	String queryString = httpClient.query_string_from_dict(fields)
-	returns:= "username=user&amp;password=pass"
+	String query_string = http_client.query_string_from_dict(fields)
+	# returns: "username=user&amp;password=pass"
 	
 	
 	Furthermore, if a key has a null value, only the key itself is added, without equal sign and value. If the value is an array, for each value in it a pair with the same key is added.
 	
 	
 	var fields = {"single": 123, "not_valued": null, "multiple": $(D 22, 33, 44)}
-	String queryString = httpClient.query_string_from_dict(fields)
-	returns:= "single=123&amp;not_valued&amp;multiple=22&amp;multiple=33&amp;multiple=44"
+	String query_string = http_client.query_string_from_dict(fields)
+	# returns: "single=123&amp;not_valued&amp;multiple=22&amp;multiple=33&amp;multiple=44"
 	
 	
 	*/

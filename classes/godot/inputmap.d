@@ -65,7 +65,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Returns `true` if the `InputMap` has a registered action with the given name.
+	Returns `true` if the $(D InputMap) has a registered action with the given name.
 	*/
 	bool hasAction(in String action) const
 	{
@@ -73,7 +73,7 @@ public:
 		return ptrcall!(bool)(_classBinding.hasAction, _godot_object, action);
 	}
 	/**
-	Returns an array of all actions in the `InputMap`.
+	Returns an array of all actions in the $(D InputMap).
 	*/
 	Array getActions()
 	{
@@ -81,7 +81,7 @@ public:
 		return ptrcall!(Array)(_classBinding.getActions, _godot_object);
 	}
 	/**
-	Adds an empty action to the `InputMap` with a configurable `deadzone`.
+	Adds an empty action to the $(D InputMap) with a configurable `deadzone`.
 	An $(D InputEvent) can then be added to this action with $(D actionAddEvent).
 	*/
 	void addAction(in String action, in double deadzone = 0.5)
@@ -90,7 +90,7 @@ public:
 		ptrcall!(void)(_classBinding.addAction, _godot_object, action, deadzone);
 	}
 	/**
-	Removes an action from the `InputMap`.
+	Removes an action from the $(D InputMap).
 	*/
 	void eraseAction(in String action)
 	{
@@ -146,7 +146,7 @@ public:
 		return ptrcall!(Array)(_classBinding.getActionList, _godot_object, action);
 	}
 	/**
-	Returns $(D true) if the given event is part of an existing action. This method ignores keyboard modifiers if the given $(D InputEvent) is not pressed (for proper release detection). See $(D actionHasEvent) if you don't want this behavior.
+	Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given $(D InputEvent) is not pressed (for proper release detection). See $(D actionHasEvent) if you don't want this behavior.
 	*/
 	bool eventIsAction(InputEvent event, in String action) const
 	{
@@ -154,7 +154,7 @@ public:
 		return ptrcall!(bool)(_classBinding.eventIsAction, _godot_object, event, action);
 	}
 	/**
-	Clears all $(D InputEventAction) in the `InputMap` and load it anew from $(D ProjectSettings).
+	Clears all $(D InputEventAction) in the $(D InputMap) and load it anew from $(D ProjectSettings).
 	*/
 	void loadFromGlobals()
 	{

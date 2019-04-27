@@ -111,7 +111,7 @@ public:
 		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
 	}
 	/**
-	Accelerates the vehicle by applying an engine force. The vehicle is only speed up if the wheels that have $(D VehicleWheel.setUseAsTraction) set to true and are in contact with a surface. The $(D RigidBody.mass) of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration. Note that the simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.
+	Accelerates the vehicle by applying an engine force. The vehicle is only speed up if the wheels that have $(D VehicleWheel.useAsTraction) set to `true` and are in contact with a surface. The $(D RigidBody.mass) of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration. Note that the simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.
 	A negative value will result in the vehicle reversing.
 	*/
 	@property double engineForce()
@@ -136,7 +136,7 @@ public:
 		setBrake(v);
 	}
 	/**
-	The steering angle for the vehicle. Setting this to a non-zero value will result in the vehicle turning when it's moving. Wheels that have $(D VehicleWheel.setUseAsSteering) set to true will automatically be rotated.
+	The steering angle for the vehicle. Setting this to a non-zero value will result in the vehicle turning when it's moving. Wheels that have $(D VehicleWheel.useAsSteering) set to `true` will automatically be rotated.
 	*/
 	@property double steering()
 	{

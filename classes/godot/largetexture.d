@@ -26,7 +26,7 @@ import godot.reference;
 /**
 A Texture capable of storing many smaller Textures with offsets.
 
-You can dynamically add pieces($(D Texture)) to this `LargeTexture` using different offsets.
+You can dynamically add pieces($(D Texture)) to this $(D LargeTexture) using different offsets.
 */
 @GodotBaseClass struct LargeTexture
 {
@@ -64,7 +64,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Add another $(D Texture) to this `LargeTexture`, starting on offset "ofs".
+	Add another $(D Texture) to this $(D LargeTexture), starting on offset "ofs".
 	*/
 	long addPiece(in Vector2 ofs, Texture texture)
 	{
@@ -88,7 +88,7 @@ public:
 		ptrcall!(void)(_classBinding.setPieceTexture, _godot_object, idx, texture);
 	}
 	/**
-	Sets the size of this `LargeTexture`.
+	Sets the size of this $(D LargeTexture).
 	*/
 	void setSize(in Vector2 size)
 	{
@@ -96,7 +96,7 @@ public:
 		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
 	/**
-	Clears the `LargeTexture`.
+	Clears the $(D LargeTexture).
 	*/
 	void clear()
 	{
@@ -104,7 +104,7 @@ public:
 		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 	/**
-	Returns the number of pieces currently in this `LargeTexture`.
+	Returns the number of pieces currently in this $(D LargeTexture).
 	*/
 	long getPieceCount() const
 	{

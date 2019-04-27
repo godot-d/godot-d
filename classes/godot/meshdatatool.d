@@ -34,9 +34,9 @@ Below is an example of how the MeshDataTool may be used.
 var mdt = MeshDataTool.new()
 mdt.create_from_surface(mesh, 0)
 for i in range(mdt.get_vertex_count()):
-	var vertex = mdt.get_vertex(i)
-	...
-	mdt.set_vertex(i, vertex)
+    var vertex = mdt.get_vertex(i)
+    ...
+    mdt.set_vertex(i, vertex)
 mesh.surface_remove(0)
 mdt.commit_to_surface(mesh)
 
@@ -131,7 +131,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.commitToSurface, _godot_object, mesh);
 	}
 	/**
-	Returns format of $(D Mesh). Format is an integer made up of $(D Mesh) format flags combined together. For example, a mesh containing both vertices and normals would return a format of `3` becuase `ARRAY_FORMAT_VERTEX` is `1` and `ARRAY_FORMAT_NORMAL` is `2`.
+	Returns format of $(D Mesh). Format is an integer made up of $(D Mesh) format flags combined together. For example, a mesh containing both vertices and normals would return a format of `3` because `ARRAY_FORMAT_VERTEX` is `1` and `ARRAY_FORMAT_NORMAL` is `2`.
 	For list of format flags see $(D ArrayMesh).
 	*/
 	long getFormat() const
@@ -358,7 +358,7 @@ public:
 	}
 	/**
 	Returns specified vertex of given face.
-	Vertex argument must be 2 or less becuase faces contain three vertices.
+	Vertex argument must be 2 or less because faces contain three vertices.
 	*/
 	long getFaceVertex(in long idx, in long vertex) const
 	{
@@ -367,7 +367,7 @@ public:
 	}
 	/**
 	Returns specified edge associated with given face.
-	Edge argument must 2 or less becuase a face only has three edges.
+	Edge argument must 2 or less because a face only has three edges.
 	*/
 	long getFaceEdge(in long idx, in long edge) const
 	{

@@ -75,6 +75,7 @@ public:
 		@GodotName("get_keep_aspect_mode") GodotMethod!(Camera.KeepAspect) getKeepAspectMode;
 		@GodotName("set_doppler_tracking") GodotMethod!(void, long) setDopplerTracking;
 		@GodotName("get_doppler_tracking") GodotMethod!(Camera.DopplerTracking) getDopplerTracking;
+		@GodotName("get_frustum") GodotMethod!(Array) getFrustum;
 		@GodotName("set_cull_mask_bit") GodotMethod!(void, long, bool) setCullMaskBit;
 		@GodotName("get_cull_mask_bit") GodotMethod!(bool, long) getCullMaskBit;
 	}
@@ -214,7 +215,7 @@ public:
 		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
 	}
 	/**
-	If this is the current Camera, remove it from being current. If `enable_next` is true, request to make the next Camera current, if any.
+	If this is the current Camera, remove it from being current. If `enable_next` is `true`, request to make the next Camera current, if any.
 	*/
 	void clearCurrent(in bool enable_next = true)
 	{
@@ -424,6 +425,14 @@ public:
 	/**
 	
 	*/
+	Array getFrustum() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getFrustum, _godot_object);
+	}
+	/**
+	
+	*/
 	void setCullMaskBit(in long layer, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -522,7 +531,7 @@ public:
 		setProjection(v);
 	}
 	/**
-	If `true` the ancestor $(D Viewport) is currently using this Camera. Default value: `false`.
+	If `true`, the ancestor $(D Viewport) is currently using this Camera. Default value: `false`.
 	*/
 	@property bool current()
 	{

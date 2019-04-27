@@ -1,5 +1,5 @@
 /**
-
+Direct access object to a physics body in the $(D PhysicsServer).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,7 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.physicsdirectspacestate;
 /**
+Direct access object to a physics body in the $(D PhysicsServer).
 
+Provides direct access to a physics body in the $(D PhysicsServer), allowing safe changes to physics properties. This object is passed via the direct state callback of rigid/character bodies, and is intended for changing the direct state of that body. See $(D RigidBody._integrateForces).
 */
 @GodotBaseClass struct PhysicsDirectBodyState
 {
@@ -197,7 +199,7 @@ public:
 		ptrcall!(void)(_classBinding.addCentralForce, _godot_object, force);
 	}
 	/**
-	Adds a constant force (i.e. acceleration).
+	Adds a positioned force to the body. Both the force and the offset from the body origin are in global coordinates.
 	*/
 	void addForce(in Vector3 force, in Vector3 position)
 	{
@@ -205,7 +207,7 @@ public:
 		ptrcall!(void)(_classBinding.addForce, _godot_object, force, position);
 	}
 	/**
-	Adds a constant rotational force (i.e. a motor) without affecting position.
+	Adds a constant rotational force without affecting position.
 	*/
 	void addTorque(in Vector3 torque)
 	{
@@ -214,7 +216,7 @@ public:
 	}
 	/**
 	Applies a single directional impulse without affecting rotation.
-	This is equivalent to ``apply_impulse(Vector3(0,0,0), impulse)``.
+	This is equivalent to `apply_impulse(Vector3(0, 0, 0), impulse)`.
 	*/
 	void applyCentralImpulse(in Vector3 j)
 	{
@@ -222,7 +224,7 @@ public:
 		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, j);
 	}
 	/**
-	Apply a positioned impulse (which will be affected by the body mass and shape). This is the equivalent of hitting a billiard ball with a cue: a force that is applied once, and only once. Both the impulse and the position are in global coordinates, and the position is relative to the object's origin.
+	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	*/
 	void applyImpulse(in Vector3 position, in Vector3 j)
 	{
@@ -254,7 +256,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
 	}
 	/**
-	
+	Returns the number of contacts this body has with other bodies. Note that by default this returns 0 unless bodies are configured to log contacts. See $(D RigidBody.contactMonitor).
 	*/
 	long getContactCount() const
 	{
@@ -262,7 +264,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactCount, _godot_object);
 	}
 	/**
-	
+	Returns the local position of the contact point.
 	*/
 	Vector3 getContactLocalPosition(in long contact_idx) const
 	{
@@ -270,7 +272,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getContactLocalPosition, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the local normal at the contact point.
 	*/
 	Vector3 getContactLocalNormal(in long contact_idx) const
 	{
@@ -286,7 +288,7 @@ public:
 		return ptrcall!(double)(_classBinding.getContactImpulse, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the local shape index of the collision.
 	*/
 	long getContactLocalShape(in long contact_idx) const
 	{
@@ -294,7 +296,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactLocalShape, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the collider's $(D RID).
 	*/
 	RID getContactCollider(in long contact_idx) const
 	{
@@ -302,7 +304,7 @@ public:
 		return ptrcall!(RID)(_classBinding.getContactCollider, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the contact position in the collider.
 	*/
 	Vector3 getContactColliderPosition(in long contact_idx) const
 	{
@@ -310,7 +312,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getContactColliderPosition, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the collider's object id.
 	*/
 	long getContactColliderId(in long contact_idx) const
 	{
@@ -318,7 +320,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactColliderId, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the collider object.
 	*/
 	GodotObject getContactColliderObject(in long contact_idx) const
 	{
@@ -326,7 +328,7 @@ public:
 		return ptrcall!(GodotObject)(_classBinding.getContactColliderObject, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the collider's shape index.
 	*/
 	long getContactColliderShape(in long contact_idx) const
 	{
@@ -334,7 +336,7 @@ public:
 		return ptrcall!(long)(_classBinding.getContactColliderShape, _godot_object, contact_idx);
 	}
 	/**
-	
+	Returns the linear velocity vector at the collider's contact point.
 	*/
 	Vector3 getContactColliderVelocityAtPosition(in long contact_idx) const
 	{
@@ -350,7 +352,7 @@ public:
 		return ptrcall!(double)(_classBinding.getStep, _godot_object);
 	}
 	/**
-	
+	Calls the built-in force integration code.
 	*/
 	void integrateForces()
 	{
@@ -358,7 +360,7 @@ public:
 		ptrcall!(void)(_classBinding.integrateForces, _godot_object);
 	}
 	/**
-	
+	Returns the current state of the space, useful for queries.
 	*/
 	PhysicsDirectSpaceState getSpaceState()
 	{
@@ -422,7 +424,7 @@ public:
 		return getPrincipalInertiaAxes();
 	}
 	/**
-	The angular velocity of the body.
+	The body's rotational velocity.
 	*/
 	@property Vector3 angularVelocity()
 	{
@@ -434,7 +436,7 @@ public:
 		setAngularVelocity(v);
 	}
 	/**
-	The linear velocity of the body.
+	The body's linear velocity.
 	*/
 	@property Vector3 linearVelocity()
 	{
@@ -446,7 +448,7 @@ public:
 		setLinearVelocity(v);
 	}
 	/**
-	`true` if this body is currently sleeping (not active).
+	If `true`, this body is currently sleeping (not active).
 	*/
 	@property bool sleeping()
 	{
@@ -458,7 +460,7 @@ public:
 		setSleepState(v);
 	}
 	/**
-	The transformation matrix of the body.
+	The body's transformation matrix.
 	*/
 	@property Transform transform()
 	{

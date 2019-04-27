@@ -26,7 +26,7 @@ import godot.reference;
 /**
 PacketPeer implementation using the ENet library.
 
-A PacketPeer implementation that should be passed to $(D SceneTree.setNetworkPeer) after being initialized as either a client or server. Events can then be handled by connecting to $(D SceneTree) signals.
+A PacketPeer implementation that should be passed to $(D SceneTree.networkPeer) after being initialized as either a client or server. Events can then be handled by connecting to $(D SceneTree) signals.
 */
 @GodotBaseClass struct NetworkedMultiplayerENet
 {
@@ -112,7 +112,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.createServer, _godot_object, port, max_clients, in_bandwidth, out_bandwidth);
 	}
 	/**
-	Create client that connects to a server at `address` using specified `port`. The given address needs to be either a fully qualified domain nome (e.g. `www.example.com`) or an IP address in IPv4 or IPv6 format (e.g. `192.168.1.1`). The `port` is the port the server is listening on. The `in_bandwidth` and `out_bandwidth` parameters can be used to limit the incoming and outgoing bandwidth to the given number of bytes per second. The default of 0 means unlimited bandwidth. Note that ENet will strategically drop packets on specific sides of a connection between peers to ensure the peer's bandwidth is not overwhelmed. The bandwidth parameters also determine the window size of a connection which limits the amount of reliable packets that may be in transit at any given time. Returns `OK` if a client was created, `ERR_ALREADY_IN_USE` if this NetworkedMultiplayerEnet instance already has an open connection (in which case you need to call $(D closeConnection) first) or `ERR_CANT_CREATE` if the client could not be created. If `client_port` is specified, the client will also listen to the given port, this is useful in some NAT traversal technique.
+	Create client that connects to a server at `address` using specified `port`. The given address needs to be either a fully qualified domain name (e.g. `www.example.com`) or an IP address in IPv4 or IPv6 format (e.g. `192.168.1.1`). The `port` is the port the server is listening on. The `in_bandwidth` and `out_bandwidth` parameters can be used to limit the incoming and outgoing bandwidth to the given number of bytes per second. The default of 0 means unlimited bandwidth. Note that ENet will strategically drop packets on specific sides of a connection between peers to ensure the peer's bandwidth is not overwhelmed. The bandwidth parameters also determine the window size of a connection which limits the amount of reliable packets that may be in transit at any given time. Returns `OK` if a client was created, `ERR_ALREADY_IN_USE` if this NetworkedMultiplayerEnet instance already has an open connection (in which case you need to call $(D closeConnection) first) or `ERR_CANT_CREATE` if the client could not be created. If `client_port` is specified, the client will also listen to the given port, this is useful in some NAT traversal technique.
 	*/
 	GodotError createClient(in String address, in long port, in long in_bandwidth = 0, in long out_bandwidth = 0, in long client_port = 0)
 	{
@@ -128,7 +128,7 @@ public:
 		ptrcall!(void)(_classBinding.closeConnection, _godot_object, wait_usec);
 	}
 	/**
-	Disconnect the given peer. If "now" is set to true, the connection will be closed immediately without flushing queued messages.
+	Disconnect the given peer. If "now" is set to `true`, the connection will be closed immediately without flushing queued messages.
 	*/
 	void disconnectPeer(in long id, in bool now = false)
 	{

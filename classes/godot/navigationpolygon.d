@@ -27,22 +27,26 @@ A node that has methods to draw outlines or use indices of vertices to create na
 
 There are two ways to create polygons. Either by using the $(D addOutline) method or using the $(D addPolygon) method.
 Using $(D addOutline):
-$(D code)
+
+
 var polygon = NavigationPolygon.new()
 var outline = PoolVector2Array($(D Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)))
 polygon.add_outline(outline)
 polygon.make_polygons_from_outlines()
 $NavigationPolygonInstance.navpoly = polygon
-$(D /code)
+
+
 Using $(D addPolygon) and indices of the vertices array.
-$(D code)
+
+
 var polygon = NavigationPolygon.new()
 var vertices = PoolVector2Array($(D Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)))
 polygon.set_vertices(vertices)
 var indices = PoolIntArray(0, 3, 1)
 polygon.add_polygon(indices)
 $NavigationPolygonInstance.navpoly = polygon
-$(D /code)
+
+
 */
 @GodotBaseClass struct NavigationPolygon
 {

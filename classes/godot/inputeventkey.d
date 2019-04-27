@@ -118,7 +118,7 @@ public:
 		return ptrcall!(long)(_classBinding.getScancodeWithModifiers, _godot_object);
 	}
 	/**
-	If `true` the key's state is pressed. If `false` the key's state is released.
+	If `true`, the key's state is pressed. If `false`, the key's state is released.
 	*/
 	@property bool pressed()
 	{
@@ -130,7 +130,7 @@ public:
 		setPressed(v);
 	}
 	/**
-	Key scancode, one of the `KEY_*` constants in $(D @GlobalScope).
+	Key scancode, one of the $(D keylist) constants.
 	*/
 	@property long scancode()
 	{
@@ -154,7 +154,7 @@ public:
 		setUnicode(v);
 	}
 	/**
-	If `true` the key was already pressed before this event. It means the user is holding the key down.
+	If `true`, the key was already pressed before this event. It means the user is holding the key down.
 	*/
 	@property bool echo()
 	{

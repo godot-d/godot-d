@@ -255,7 +255,7 @@ public:
 		ptrcall!(void)(_classBinding.setColumnMinWidth, _godot_object, column, min_width);
 	}
 	/**
-	If `true` the column will have the "Expand" flag of $(D Control).
+	If `true`, the column will have the "Expand" flag of $(D Control).
 	*/
 	void setColumnExpand(in long column, in bool expand)
 	{
@@ -416,7 +416,7 @@ public:
 		ptrcall!(void)(_classBinding.ensureCursorIsVisible, _godot_object);
 	}
 	/**
-	If `true` column titles are visible.
+	If `true`, column titles are visible.
 	*/
 	void setColumnTitlesVisible(in bool visible)
 	{
@@ -532,7 +532,7 @@ public:
 		setColumns(v);
 	}
 	/**
-	If `true` the currently selected cell may be selected again.
+	If `true`, the currently selected cell may be selected again.
 	*/
 	@property bool allowReselect()
 	{
@@ -544,7 +544,7 @@ public:
 		setAllowReselect(v);
 	}
 	/**
-	If `true` a right mouse button click can select items.
+	If `true`, a right mouse button click can select items.
 	*/
 	@property bool allowRmbSelect()
 	{
@@ -556,7 +556,7 @@ public:
 		setAllowRmbSelect(v);
 	}
 	/**
-	If `true` the folding arrow is hidden.
+	If `true`, the folding arrow is hidden.
 	*/
 	@property bool hideFolding()
 	{
@@ -568,7 +568,7 @@ public:
 		setHideFolding(v);
 	}
 	/**
-	If `true` the tree's root is hidden.
+	If `true`, the tree's root is hidden.
 	*/
 	@property bool hideRoot()
 	{

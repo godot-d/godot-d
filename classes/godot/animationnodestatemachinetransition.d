@@ -66,15 +66,15 @@ public:
 	enum SwitchMode : int
 	{
 		/**
-		
+		Switch to the next state immediately. The current state will end and blend into the beginning of the new one.
 		*/
 		switchModeImmediate = 0,
 		/**
-		
+		Switch to the next state immediately, but will seek the new state to the playback position of the old state.
 		*/
 		switchModeSync = 1,
 		/**
-		
+		Wait for the current state playback to end, then switch to the beginning of the next state animation.
 		*/
 		switchModeAtEnd = 2,
 	}
@@ -182,7 +182,7 @@ public:
 		return ptrcall!(long)(_classBinding.getPriority, _godot_object);
 	}
 	/**
-	
+	The transition type.
 	*/
 	@property AnimationNodeStateMachineTransition.SwitchMode switchMode()
 	{
@@ -194,7 +194,7 @@ public:
 		setSwitchMode(v);
 	}
 	/**
-	
+	Turn on the transition automatically when this state is reached. This works best with `SWITCH_MODE_AT_END`.
 	*/
 	@property bool autoAdvance()
 	{
@@ -206,7 +206,7 @@ public:
 		setAutoAdvance(v);
 	}
 	/**
-	
+	Turn on auto advance when this condition is set. This is a custom text field that can be filled with a variable name. The variable can be modified from code.
 	*/
 	@property String advanceCondition()
 	{
@@ -218,7 +218,7 @@ public:
 		setAdvanceCondition(v);
 	}
 	/**
-	
+	The time to cross-fade between this state and the next.
 	*/
 	@property double xfadeTime()
 	{
@@ -230,7 +230,7 @@ public:
 		setXfadeTime(v);
 	}
 	/**
-	
+	Lower priority transitions are preferred when travelling through the tree via $(D AnimationNodeStateMachinePlayback.travel) or $(D autoAdvance).
 	*/
 	@property long priority()
 	{
@@ -242,7 +242,7 @@ public:
 		setPriority(v);
 	}
 	/**
-	
+	Don't use this transition during $(D AnimationNodeStateMachinePlayback.travel) or $(D autoAdvance).
 	*/
 	@property bool disabled()
 	{

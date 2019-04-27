@@ -20,6 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.audioeffect;
+import godot.audioeffectinstance;
 import godot.audiobuslayout;
 /**
 Server interface for low level audio access.
@@ -48,6 +49,7 @@ public:
 		@GodotName("set_bus_name") GodotMethod!(void, long, String) setBusName;
 		@GodotName("get_bus_name") GodotMethod!(String, long) getBusName;
 		@GodotName("get_bus_index") GodotMethod!(long, String) getBusIndex;
+		@GodotName("get_bus_channels") GodotMethod!(long, long) getBusChannels;
 		@GodotName("set_bus_volume_db") GodotMethod!(void, long, double) setBusVolumeDb;
 		@GodotName("get_bus_volume_db") GodotMethod!(double, long) getBusVolumeDb;
 		@GodotName("set_bus_send") GodotMethod!(void, long, String) setBusSend;
@@ -62,6 +64,7 @@ public:
 		@GodotName("remove_bus_effect") GodotMethod!(void, long, long) removeBusEffect;
 		@GodotName("get_bus_effect_count") GodotMethod!(long, long) getBusEffectCount;
 		@GodotName("get_bus_effect") GodotMethod!(AudioEffect, long, long) getBusEffect;
+		@GodotName("get_bus_effect_instance") GodotMethod!(AudioEffectInstance, long, long, long) getBusEffectInstance;
 		@GodotName("swap_bus_effects") GodotMethod!(void, long, long, long) swapBusEffects;
 		@GodotName("set_bus_effect_enabled") GodotMethod!(void, long, long, bool) setBusEffectEnabled;
 		@GodotName("is_bus_effect_enabled") GodotMethod!(bool, long, long) isBusEffectEnabled;
@@ -121,7 +124,7 @@ public:
 		speakerSurround71 = 3,
 	}
 	/**
-	Adds and removes busses to make the number of busses match `amount`.
+	Adds and removes buses to make the number of buses match `amount`.
 	*/
 	void setBusCount(in long amount)
 	{
@@ -129,7 +132,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusCount, _godot_object, amount);
 	}
 	/**
-	Returns the number of available busses.
+	Returns the number of available buses.
 	*/
 	long getBusCount() const
 	{
@@ -185,6 +188,14 @@ public:
 		return ptrcall!(long)(_classBinding.getBusIndex, _godot_object, bus_name);
 	}
 	/**
+	Returns the amount of channels of the bus at index `bus_idx`.
+	*/
+	long getBusChannels(in long bus_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBusChannels, _godot_object, bus_idx);
+	}
+	/**
 	Sets the volume of the bus at index `bus_idx` to `volume_db`.
 	*/
 	void setBusVolumeDb(in long bus_idx, in double volume_db)
@@ -217,7 +228,7 @@ public:
 		return ptrcall!(String)(_classBinding.getBusSend, _godot_object, bus_idx);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is in solo mode.
+	If `true`, the bus at index `bus_idx` is in solo mode.
 	*/
 	void setBusSolo(in long bus_idx, in bool enable)
 	{
@@ -225,7 +236,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusSolo, _godot_object, bus_idx, enable);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is in solo mode.
+	If `true`, the bus at index `bus_idx` is in solo mode.
 	*/
 	bool isBusSolo(in long bus_idx) const
 	{
@@ -233,7 +244,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isBusSolo, _godot_object, bus_idx);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is muted.
+	If `true`, the bus at index `bus_idx` is muted.
 	*/
 	void setBusMute(in long bus_idx, in bool enable)
 	{
@@ -241,7 +252,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusMute, _godot_object, bus_idx, enable);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is muted.
+	If `true`, the bus at index `bus_idx` is muted.
 	*/
 	bool isBusMute(in long bus_idx) const
 	{
@@ -249,7 +260,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isBusMute, _godot_object, bus_idx);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is bypassing effects.
+	If `true`, the bus at index `bus_idx` is bypassing effects.
 	*/
 	void setBusBypassEffects(in long bus_idx, in bool enable)
 	{
@@ -257,7 +268,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusBypassEffects, _godot_object, bus_idx, enable);
 	}
 	/**
-	If `true` the bus at index `bus_idx` is bypassing effects.
+	If `true`, the bus at index `bus_idx` is bypassing effects.
 	*/
 	bool isBusBypassingEffects(in long bus_idx) const
 	{
@@ -297,6 +308,14 @@ public:
 		return ptrcall!(AudioEffect)(_classBinding.getBusEffect, _godot_object, bus_idx, effect_idx);
 	}
 	/**
+	
+	*/
+	Ref!AudioEffectInstance getBusEffectInstance(in long bus_idx, in long effect_idx, in long channel = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioEffectInstance)(_classBinding.getBusEffectInstance, _godot_object, bus_idx, effect_idx, channel);
+	}
+	/**
 	Swaps the position of two effects in bus `bus_idx`.
 	*/
 	void swapBusEffects(in long bus_idx, in long effect_idx, in long by_effect_idx)
@@ -305,7 +324,7 @@ public:
 		ptrcall!(void)(_classBinding.swapBusEffects, _godot_object, bus_idx, effect_idx, by_effect_idx);
 	}
 	/**
-	If `true` the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
+	If `true`, the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
 	*/
 	void setBusEffectEnabled(in long bus_idx, in long effect_idx, in bool enabled)
 	{
@@ -313,7 +332,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusEffectEnabled, _godot_object, bus_idx, effect_idx, enabled);
 	}
 	/**
-	If `true` the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
+	If `true`, the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
 	*/
 	bool isBusEffectEnabled(in long bus_idx, in long effect_idx) const
 	{
@@ -425,7 +444,7 @@ public:
 		ptrcall!(void)(_classBinding.setBusLayout, _godot_object, bus_layout);
 	}
 	/**
-	Generates an $(D AudioBusLayout) using the available busses and effects.
+	Generates an $(D AudioBusLayout) using the available buses and effects.
 	*/
 	Ref!AudioBusLayout generateBusLayout() const
 	{

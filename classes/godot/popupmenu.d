@@ -282,7 +282,7 @@ public:
 		ptrcall!(void)(_classBinding.setItemSubmenu, _godot_object, idx, submenu);
 	}
 	/**
-	Mark the item at index "idx" as a separator, which means that it would be displayed as a mere line.
+	Mark the item at index "idx" as a separator, which means that it would be displayed as a line.
 	*/
 	void setItemAsSeparator(in long idx, in bool enable)
 	{

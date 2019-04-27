@@ -24,16 +24,16 @@ import godot.container;
 import godot.inputevent;
 import godot.control;
 import godot.texture;
+import godot.node;
 import godot.popup;
 import godot.canvasitem;
-import godot.node;
 /**
 Tabbed Container.
 
 Sets the active tab's `visible` property to the value `true`. Sets all other children's to `false`.
 Ignores non-$(D Control) children.
 Individual tabs are always visible unless you use $(D setTabDisabled) and $(D setTabTitle) to hide it.
-To hide only a tab's content, nest the content inside a child $(D Control), so it receives the `TabContainer`'s visibility setting instead.
+To hide only a tab's content, nest the content inside a child $(D Control), so it receives the $(D TabContainer)'s visibility setting instead.
 */
 @GodotBaseClass struct TabContainer
 {
@@ -64,7 +64,7 @@ public:
 		@GodotName("get_tab_icon") GodotMethod!(Texture, long) getTabIcon;
 		@GodotName("set_tab_disabled") GodotMethod!(void, long, bool) setTabDisabled;
 		@GodotName("get_tab_disabled") GodotMethod!(bool, long) getTabDisabled;
-		@GodotName("set_popup") GodotMethod!(void, GodotObject) setPopup;
+		@GodotName("set_popup") GodotMethod!(void, Node) setPopup;
 		@GodotName("get_popup") GodotMethod!(Popup) getPopup;
 		@GodotName("set_drag_to_rearrange_enabled") GodotMethod!(void, bool) setDragToRearrangeEnabled;
 		@GodotName("get_drag_to_rearrange_enabled") GodotMethod!(bool) getDragToRearrangeEnabled;
@@ -232,7 +232,7 @@ public:
 		return ptrcall!(Texture)(_classBinding.getTabIcon, _godot_object, tab_idx);
 	}
 	/**
-	If `disabled` is false, hides the tab at index `tab_idx`. Note that its title text will remain, unless also removed with $(D setTabTitle).
+	If `disabled` is `false`, hides the tab at index `tab_idx`. Note that its title text will remain, unless also removed with $(D setTabTitle).
 	*/
 	void setTabDisabled(in long tab_idx, in bool disabled)
 	{
@@ -248,9 +248,9 @@ public:
 		return ptrcall!(bool)(_classBinding.getTabDisabled, _godot_object, tab_idx);
 	}
 	/**
-	If set on a $(D Popup) node instance, a popup menu icon appears in the top-right corner of the `TabContainer`. Clicking it will expand the $(D Popup) node.
+	If set on a $(D Popup) node instance, a popup menu icon appears in the top-right corner of the $(D TabContainer). Clicking it will expand the $(D Popup) node.
 	*/
-	void setPopup(GodotObject popup)
+	void setPopup(Node popup)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPopup, _godot_object, popup);
@@ -280,7 +280,7 @@ public:
 		return ptrcall!(bool)(_classBinding.getDragToRearrangeEnabled, _godot_object);
 	}
 	/**
-	Defines rearrange group id, choose for each `TabContainer` the same value to enable tab drag between `TabContainer`. Enable drag with `set_drag_to_rearrange_enabled(true)`.
+	Defines rearrange group id, choose for each $(D TabContainer) the same value to enable tab drag between $(D TabContainer). Enable drag with `set_drag_to_rearrange_enabled(true)`.
 	*/
 	void setTabsRearrangeGroup(in long group_id)
 	{
@@ -288,7 +288,7 @@ public:
 		ptrcall!(void)(_classBinding.setTabsRearrangeGroup, _godot_object, group_id);
 	}
 	/**
-	Returns the `TabContainer` rearrange group id.
+	Returns the $(D TabContainer) rearrange group id.
 	*/
 	long getTabsRearrangeGroup() const
 	{
@@ -347,7 +347,7 @@ public:
 		setCurrentTab(v);
 	}
 	/**
-	If `true` tabs are visible. If `false` tabs' content and titles are hidden. Default value: `true`.
+	If `true`, tabs are visible. If `false`, tabs' content and titles are hidden. Default value: `true`.
 	*/
 	@property bool tabsVisible()
 	{

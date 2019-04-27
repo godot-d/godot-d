@@ -85,6 +85,7 @@ public:
 		@GodotName("is_cell_x_flipped") GodotMethod!(bool, long, long) isCellXFlipped;
 		@GodotName("is_cell_y_flipped") GodotMethod!(bool, long, long) isCellYFlipped;
 		@GodotName("is_cell_transposed") GodotMethod!(bool, long, long) isCellTransposed;
+		@GodotName("get_cell_autotile_coord") GodotMethod!(Vector2, long, long) getCellAutotileCoord;
 		@GodotName("fix_invalid_tiles") GodotMethod!(void) fixInvalidTiles;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("get_used_cells") GodotMethod!(Array) getUsedCells;
@@ -474,6 +475,15 @@ public:
 	Optionally, the tile can also be flipped, transposed, or given autotile coordinates.
 	Note that data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 	If you need these to be immediately updated, you can call $(D updateDirtyQuadrants).
+	Overriding this method also overrides it internally, allowing custom logic to be implemented when tiles are placed/removed:
+	
+	
+	func set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
+	    # Write your custom logic here.
+	    # To call the default method:
+	    .set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
+	
+	
 	*/
 	void setCell(in long x, in long y, in long tile, in bool flip_x = false, in bool flip_y = false, in bool transpose = false, in Vector2 autotile_coord = Vector2(0, 0))
 	{
@@ -504,7 +514,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Returns the tile index of the given cell.
+	Returns the tile index of the given cell. If no tile exists in the cell, returns $(D constant INVALID_CELL).
 	*/
 	long getCell(in long x, in long y) const
 	{
@@ -512,7 +522,7 @@ public:
 		return ptrcall!(long)(_classBinding.getCell, _godot_object, x, y);
 	}
 	/**
-	Returns the tile index of the cell given by a Vector2.
+	Returns the tile index of the cell given by a Vector2. If no tile exists in the cell, returns $(D constant INVALID_CELL).
 	*/
 	long getCellv(in Vector2 position) const
 	{
@@ -542,6 +552,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isCellTransposed, _godot_object, x, y);
+	}
+	/**
+	
+	*/
+	Vector2 getCellAutotileCoord(in long x, in long y) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCellAutotileCoord, _godot_object, x, y);
 	}
 	/**
 	Clears cells that do not exist in the tileset.
@@ -593,7 +611,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.mapToWorld, _godot_object, map_position, ignore_half_ofs);
 	}
 	/**
-	Returns the tilemap (grid-based) coordinatescorresponding to the given global position.
+	Returns the tilemap (grid-based) coordinates corresponding to the given local position.
 	*/
 	Vector2 worldToMap(in Vector2 world_position) const
 	{
@@ -747,7 +765,7 @@ public:
 		setTileOrigin(v);
 	}
 	/**
-	If `true` the TileMap's children will be drawn in order of their Y coordinate. Default value: `false`.
+	If `true`, the TileMap's children will be drawn in order of their Y coordinate. Default value: `false`.
 	*/
 	@property bool cellYSort()
 	{
@@ -771,7 +789,7 @@ public:
 		setClipUv(v);
 	}
 	/**
-	If `true` TileMap collisions will be handled as a kinematic body. If `false` collisions will be handled as static body. Default value: `false`.
+	If `true`, TileMap collisions will be handled as a kinematic body. If `false`, collisions will be handled as static body. Default value: `false`.
 	*/
 	@property bool collisionUseKinematic()
 	{

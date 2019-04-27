@@ -85,8 +85,8 @@ public:
 		return ptrcall!(Array)(_classBinding.intersectShape, _godot_object, shape, max_results);
 	}
 	/**
-	Checks whether the shape can travel to a point. The method will return an array with two floats between 0 and 1, both representing a fraction of `motion`. The first is how far the shape can move without triggering a collision, and the second is the point at which a collision will occur. If no collision is detected, the returned array will be $(D 1, 1).
-	If the shape can not move, the returned array will be $(D 0, 0).
+	Checks whether the shape can travel to a point. The method will return an array with two floats between 0 and 1, both representing a fraction of `motion`. The first is how far the shape can move without triggering a collision, and the second is the point at which a collision will occur. If no collision is detected, the returned array will be `$(D 1, 1)`.
+	If the shape can not move, the returned array will be `$(D 0, 0)` under Bullet, and empty under GodotPhysics.
 	*/
 	Array castMotion(PhysicsShapeQueryParameters shape, in Vector3 motion)
 	{

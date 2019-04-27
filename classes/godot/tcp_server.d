@@ -68,7 +68,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address);
 	}
 	/**
-	Return true if a connection is available for taking.
+	Return `true` if a connection is available for taking.
 	*/
 	bool isConnectionAvailable() const
 	{

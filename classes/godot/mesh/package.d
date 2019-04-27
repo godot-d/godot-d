@@ -307,7 +307,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getLightmapSizeHint, _godot_object);
 	}
 	/**
-	Return the amount of surfaces that the `Mesh` holds.
+	Return the amount of surfaces that the $(D Mesh) holds.
 	*/
 	long getSurfaceCount() const
 	{

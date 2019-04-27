@@ -73,7 +73,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isUsingTopLeft, _godot_object);
 	}
 	/**
-	If `true` centers children relative to the `CenterContainer`'s top left corner. Default value: `false`.
+	If `true`, centers children relative to the $(D CenterContainer)'s top left corner. Default value: `false`.
 	*/
 	@property bool useTopLeft()
 	{

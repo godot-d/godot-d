@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.meshinstance;
+import godot.node;
 import godot.geometryinstance;
 import godot.visualinstance;
 import godot.spatial;
-import godot.node;
 /**
 A soft mesh physics body.
 
@@ -54,8 +54,8 @@ public:
 		@GodotName("set_parent_collision_ignore") GodotMethod!(void, NodePath) setParentCollisionIgnore;
 		@GodotName("get_parent_collision_ignore") GodotMethod!(NodePath) getParentCollisionIgnore;
 		@GodotName("get_collision_exceptions") GodotMethod!(Array) getCollisionExceptions;
-		@GodotName("add_collision_exception_with") GodotMethod!(void, GodotObject) addCollisionExceptionWith;
-		@GodotName("remove_collision_exception_with") GodotMethod!(void, GodotObject) removeCollisionExceptionWith;
+		@GodotName("add_collision_exception_with") GodotMethod!(void, Node) addCollisionExceptionWith;
+		@GodotName("remove_collision_exception_with") GodotMethod!(void, Node) removeCollisionExceptionWith;
 		@GodotName("set_simulation_precision") GodotMethod!(void, long) setSimulationPrecision;
 		@GodotName("get_simulation_precision") GodotMethod!(long) getSimulationPrecision;
 		@GodotName("set_total_mass") GodotMethod!(void, double) setTotalMass;
@@ -189,7 +189,7 @@ public:
 	/**
 	Adds a body to the list of bodies that this body can't collide with.
 	*/
-	void addCollisionExceptionWith(GodotObject _body)
+	void addCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addCollisionExceptionWith, _godot_object, _body);
@@ -197,7 +197,7 @@ public:
 	/**
 	Removes a body from the list of bodies that this body can't collide with.
 	*/
-	void removeCollisionExceptionWith(GodotObject _body)
+	void removeCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeCollisionExceptionWith, _godot_object, _body);

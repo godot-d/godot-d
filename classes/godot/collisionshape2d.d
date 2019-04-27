@@ -47,6 +47,8 @@ public:
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
 		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
+		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
+		@GodotName("get_one_way_collision_margin") GodotMethod!(double) getOneWayCollisionMargin;
 		@GodotName("_shape_changed") GodotMethod!(void) _shapeChanged;
 	}
 	bool opEquals(in CollisionShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -112,6 +114,22 @@ public:
 	/**
 	
 	*/
+	void setOneWayCollisionMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+	}
+	/**
+	
+	*/
+	double getOneWayCollisionMargin() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
+	}
+	/**
+	
+	*/
 	void _shapeChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -153,5 +171,17 @@ public:
 	@property void oneWayCollision(bool v)
 	{
 		setOneWayCollision(v);
+	}
+	/**
+	
+	*/
+	@property double oneWayCollisionMargin()
+	{
+		return getOneWayCollisionMargin();
+	}
+	/// ditto
+	@property void oneWayCollisionMargin(double v)
+	{
+		setOneWayCollisionMargin(v);
 	}
 }

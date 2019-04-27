@@ -49,6 +49,7 @@ public:
 		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
 		@GodotName("add_point") GodotMethod!(void, Vector2) addPoint;
 		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("clear_points") GodotMethod!(void) clearPoints;
 		@GodotName("set_width") GodotMethod!(void, double) setWidth;
 		@GodotName("get_width") GodotMethod!(double) getWidth;
 		@GodotName("set_default_color") GodotMethod!(void, Color) setDefaultColor;
@@ -199,6 +200,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removePoint, _godot_object, i);
+	}
+	/**
+	Removes all points from the line.
+	*/
+	void clearPoints()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
 	}
 	/**
 	

@@ -26,7 +26,15 @@ import godot.reference;
 Generic mobile VR implementation
 
 This is a generic mobile VR implementation where you need to provide details about the phone and HMD used. It does not rely on any existing framework. This is the most basic interface we have. For the best effect you do need a mobile phone with a gyroscope and accelerometer.
-Note that even though there is no positional tracking the camera will assume the headset is at a height of 1.85 meters.
+Note that even though there is no positional tracking the camera will assume the headset is at a height of 1.85 meters, you can change this by setting $(D eyeHeight).
+You can initialise this interface as follows:
+
+
+var interface = ARVRServer.find_interface("Native mobile")
+if interface and interface.initialize():
+    get_viewport().arvr = true
+
+
 */
 @GodotBaseClass struct MobileVRInterface
 {
@@ -40,6 +48,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("set_eye_height") GodotMethod!(void, double) setEyeHeight;
+		@GodotName("get_eye_height") GodotMethod!(double) getEyeHeight;
 		@GodotName("set_iod") GodotMethod!(void, double) setIod;
 		@GodotName("get_iod") GodotMethod!(double) getIod;
 		@GodotName("set_display_width") GodotMethod!(void, double) setDisplayWidth;
@@ -65,6 +75,22 @@ public:
 		return cast(MobileVRInterface)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	void setEyeHeight(in double eye_height)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEyeHeight, _godot_object, eye_height);
+	}
+	/**
+	
+	*/
+	double getEyeHeight() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEyeHeight, _godot_object);
+	}
 	/**
 	
 	*/
@@ -160,6 +186,18 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getK2, _godot_object);
+	}
+	/**
+	The height at which the camera is placed in relation to the ground (i.e. $(D ARVROrigin) node).
+	*/
+	@property double eyeHeight()
+	{
+		return getEyeHeight();
+	}
+	/// ditto
+	@property void eyeHeight(double v)
+	{
+		setEyeHeight(v);
 	}
 	/**
 	The interocular distance, also known as the interpupillary distance. The distance between the pupils of the left and right eye.

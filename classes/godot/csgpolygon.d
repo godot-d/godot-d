@@ -469,7 +469,7 @@ public:
 		setPathRotation(v);
 	}
 	/**
-	If false we extrude centered on our path, if true we extrude in relation to the position of our CSGPolygon when $(D mode) is $(D constant MODE_PATH).
+	If `false` we extrude centered on our path, if `true` we extrude in relation to the position of our CSGPolygon when $(D mode) is $(D constant MODE_PATH).
 	*/
 	@property bool pathLocal()
 	{
@@ -481,7 +481,7 @@ public:
 		setPathLocal(v);
 	}
 	/**
-	If true the u component of our uv will continuously increase in unison with the distance traveled along our path when $(D mode) is $(D constant MODE_PATH).
+	If `true` the u component of our uv will continuously increase in unison with the distance traveled along our path when $(D mode) is $(D constant MODE_PATH).
 	*/
 	@property bool pathContinuousU()
 	{
@@ -493,7 +493,7 @@ public:
 		setPathContinuousU(v);
 	}
 	/**
-	If true the start and end of our path are joined together ensuring there is no seam when $(D mode) is $(D constant MODE_PATH).
+	If `true` the start and end of our path are joined together ensuring there is no seam when $(D mode) is $(D constant MODE_PATH).
 	*/
 	@property bool pathJoined()
 	{

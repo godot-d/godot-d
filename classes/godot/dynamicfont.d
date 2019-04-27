@@ -28,6 +28,14 @@ import godot.reference;
 DynamicFont renders vector font files at runtime.
 
 DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like $(D BitmapFont). This trades the faster loading time of $(D BitmapFont)s for the ability to change font parameters like size and spacing during runtime. $(D DynamicFontData) is used for referencing the font file paths.
+
+
+var dynamic_font = DynamicFont.new()
+dynamic_font.font_data = load("res://BarlowCondensed-Bold.ttf")
+dynamic_font.size = 64
+$"Label".set("custom_fonts/font", dynamic_font)
+
+
 */
 @GodotBaseClass struct DynamicFont
 {
@@ -290,7 +298,7 @@ public:
 		setOutlineColor(v);
 	}
 	/**
-	If `true` mipmapping is used.
+	If `true`, mipmapping is used.
 	*/
 	@property bool useMipmaps()
 	{
@@ -302,7 +310,7 @@ public:
 		setUseMipmaps(v);
 	}
 	/**
-	If `true` filtering is used.
+	If `true`, filtering is used.
 	*/
 	@property bool useFilter()
 	{

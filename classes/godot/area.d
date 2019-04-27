@@ -21,8 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.collisionobject;
-import godot.spatial;
 import godot.node;
+import godot.spatial;
 /**
 General purpose area node for detection and 3D physics influence.
 
@@ -74,8 +74,8 @@ public:
 		@GodotName("is_monitoring") GodotMethod!(bool) isMonitoring;
 		@GodotName("get_overlapping_bodies") GodotMethod!(Array) getOverlappingBodies;
 		@GodotName("get_overlapping_areas") GodotMethod!(Array) getOverlappingAreas;
-		@GodotName("overlaps_body") GodotMethod!(bool, GodotObject) overlapsBody;
-		@GodotName("overlaps_area") GodotMethod!(bool, GodotObject) overlapsArea;
+		@GodotName("overlaps_body") GodotMethod!(bool, Node) overlapsBody;
+		@GodotName("overlaps_area") GodotMethod!(bool, Node) overlapsArea;
 		@GodotName("_body_inout") GodotMethod!(void, long, RID, long, long, long) _bodyInout;
 		@GodotName("_area_inout") GodotMethod!(void, long, RID, long, long, long) _areaInout;
 		@GodotName("set_audio_bus_override") GodotMethod!(void, bool) setAudioBusOverride;
@@ -111,11 +111,11 @@ public:
 		*/
 		spaceOverrideDisabled = 0,
 		/**
-		This area adds its gravity/damping values to whatever has been calculated so far (in `priority` order).
+		This area adds its gravity/damping values to whatever has been calculated so far (in $(D priority) order).
 		*/
 		spaceOverrideCombine = 1,
 		/**
-		This area adds its gravity/damping values to whatever has been calculated so far (in `priority` order), ignoring any lower priority areas.
+		This area adds its gravity/damping values to whatever has been calculated so far (in $(D priority) order), ignoring any lower priority areas.
 		*/
 		spaceOverrideCombineReplace = 2,
 		/**
@@ -123,7 +123,7 @@ public:
 		*/
 		spaceOverrideReplace = 3,
 		/**
-		This area replaces any gravity/damping calculated so far (in `priority` order), but keeps calculating the rest of the areas.
+		This area replaces any gravity/damping calculated so far (in $(D priority) order), but keeps calculating the rest of the areas.
 		*/
 		spaceOverrideReplaceCombine = 4,
 	}
@@ -337,7 +337,7 @@ public:
 		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
 	}
 	/**
-	Set/clear individual bits on the collision mask. This simplifies editing which `Area` layers this `Area` scans.
+	Set/clear individual bits on the collision mask. This simplifies editing which $(D Area) layers this $(D Area) scans.
 	*/
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
@@ -353,7 +353,7 @@ public:
 		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
-	Set/clear individual bits on the layer mask. This simplifies editing this $(D code)Area$(D code)'s layers.
+	Set/clear individual bits on the layer mask. This simplifies editing this $(D Area)'s layers.
 	*/
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
@@ -409,7 +409,7 @@ public:
 		return ptrcall!(Array)(_classBinding.getOverlappingBodies, _godot_object);
 	}
 	/**
-	Returns a list of intersecting `Area`s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
+	Returns a list of intersecting $(D Area)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
 	*/
 	Array getOverlappingAreas() const
 	{
@@ -417,17 +417,17 @@ public:
 		return ptrcall!(Array)(_classBinding.getOverlappingAreas, _godot_object);
 	}
 	/**
-	If `true` the given body overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	If `true`, the given body overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
-	bool overlapsBody(GodotObject _body) const
+	bool overlapsBody(Node _body) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.overlapsBody, _godot_object, _body);
 	}
 	/**
-	If `true` the given area overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	If `true`, the given area overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
-	bool overlapsArea(GodotObject area) const
+	bool overlapsArea(Node area) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.overlapsArea, _godot_object, area);
@@ -557,7 +557,7 @@ public:
 		return ptrcall!(double)(_classBinding.getReverbUniformity, _godot_object);
 	}
 	/**
-	Override mode for gravity and damping calculations within this area. See the SPACE_OVERRIDE_* constants for values.
+	Override mode for gravity and damping calculations within this area. See $(D Area.spaceoverride) for possible values.
 	*/
 	@property Area.SpaceOverride spaceOverride()
 	{
@@ -569,7 +569,7 @@ public:
 		setSpaceOverrideMode(v);
 	}
 	/**
-	If `true` gravity is calculated from a point (set via `gravity_vec`). Also see `space_override`. Default value: `false`.
+	If `true`, gravity is calculated from a point (set via $(D gravityVec)). Also see $(D spaceOverride). Default value: `false`.
 	*/
 	@property bool gravityPoint()
 	{
@@ -593,7 +593,7 @@ public:
 		setGravityDistanceScale(v);
 	}
 	/**
-	The area's gravity vector (not normalized). If gravity is a point (see $(D isGravityAPoint)), this will be the point of attraction.
+	The area's gravity vector (not normalized). If gravity is a point (see $(D gravityPoint)), this will be the point of attraction.
 	*/
 	@property Vector3 gravityVec()
 	{
@@ -653,7 +653,7 @@ public:
 		setPriority(v);
 	}
 	/**
-	If `true` the area detects bodies or areas entering and exiting it. Default value: `true`.
+	If `true`, the area detects bodies or areas entering and exiting it. Default value: `true`.
 	*/
 	@property bool monitoring()
 	{
@@ -665,7 +665,7 @@ public:
 		setMonitoring(v);
 	}
 	/**
-	If `true` other monitoring areas can detect this area. Default value: `true`.
+	If `true`, other monitoring areas can detect this area. Default value: `true`.
 	*/
 	@property bool monitorable()
 	{
@@ -677,7 +677,7 @@ public:
 		setMonitorable(v);
 	}
 	/**
-	The area's physics layer(s). Collidable objects can exist in any of 32 different layers. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See also `collision_mask`.
+	The area's physics layer(s). Collidable objects can exist in any of 32 different layers. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See also $(D collisionMask).
 	*/
 	@property long collisionLayer()
 	{
@@ -701,7 +701,7 @@ public:
 		setCollisionMask(v);
 	}
 	/**
-	If `true` the area's audio bus overrides the default audio bus. Default value: `false`.
+	If `true`, the area's audio bus overrides the default audio bus. Default value: `false`.
 	*/
 	@property bool audioBusOverride()
 	{
@@ -725,7 +725,7 @@ public:
 		setAudioBus(v);
 	}
 	/**
-	If `true` the area applies reverb to its associated audio.
+	If `true`, the area applies reverb to its associated audio.
 	*/
 	@property bool reverbBusEnable()
 	{

@@ -132,8 +132,8 @@ public:
 		return ptrcall!(bool)(_classBinding.hasAutostart, _godot_object);
 	}
 	/**
-	Starts the timer. Sets `wait_time` to `time_sec` if `time_sec` &gt; 0. This also resets the remaining time to `wait_time`.
-	Note: this method will not resume a paused timer. See $(D setPaused).
+	Starts the timer. Sets `wait_time` to `time_sec` if `time_sec &gt; 0`. This also resets the remaining time to `wait_time`.
+	Note: this method will not resume a paused timer. See $(D paused).
 	*/
 	void start(in double time_sec = -1)
 	{
@@ -221,7 +221,7 @@ public:
 		setWaitTime(v);
 	}
 	/**
-	If `true` the timer will stop when reaching 0. If `false` it will restart. Default value: `false`.
+	If `true`, the timer will stop when reaching 0. If `false`, it will restart. Default value: `false`.
 	*/
 	@property bool oneShot()
 	{
@@ -233,7 +233,7 @@ public:
 		setOneShot(v);
 	}
 	/**
-	If `true` the timer will automatically start when entering the scene tree. Default value: `false`.
+	If `true`, the timer will automatically start when entering the scene tree. Default value: `false`.
 	*/
 	@property bool autostart()
 	{
@@ -245,7 +245,7 @@ public:
 		setAutostart(v);
 	}
 	/**
-	If `true` the timer is paused and will not process until it is unpaused again, even if $(D start) is called.
+	If `true`, the timer is paused and will not process until it is unpaused again, even if $(D start) is called.
 	*/
 	@property bool paused()
 	{

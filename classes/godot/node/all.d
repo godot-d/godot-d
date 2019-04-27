@@ -176,7 +176,6 @@ public import
 	godot.raycast,
 	godot.path,
 	godot.pathfollow,
-	godot.orientedpathfollow,
 	godot.visibilitynotifier,
 	godot.visibilityenabler,
 	godot.remotetransform,

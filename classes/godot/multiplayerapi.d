@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.reference;
+import godot.node;
 import godot.networkedmultiplayerpeer;
 /**
 High Level Multiplayer API.
@@ -41,7 +42,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_root_node") GodotMethod!(void, GodotObject) setRootNode;
+		@GodotName("set_root_node") GodotMethod!(void, Node) setRootNode;
 		@GodotName("send_bytes") GodotMethod!(GodotError, PoolByteArray, long, long) sendBytes;
 		@GodotName("has_network_peer") GodotMethod!(bool) hasNetworkPeer;
 		@GodotName("get_network_peer") GodotMethod!(NetworkedMultiplayerPeer) getNetworkPeer;
@@ -59,6 +60,8 @@ public:
 		@GodotName("get_network_connected_peers") GodotMethod!(PoolIntArray) getNetworkConnectedPeers;
 		@GodotName("set_refuse_new_network_connections") GodotMethod!(void, bool) setRefuseNewNetworkConnections;
 		@GodotName("is_refusing_new_network_connections") GodotMethod!(bool) isRefusingNewNetworkConnections;
+		@GodotName("set_allow_object_decoding") GodotMethod!(void, bool) setAllowObjectDecoding;
+		@GodotName("is_object_decoding_allowed") GodotMethod!(bool) isObjectDecodingAllowed;
 	}
 	bool opEquals(in MultiplayerAPI other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MultiplayerAPI opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -129,7 +132,7 @@ public:
 	Sets the base root node to use for RPCs. Instead of an absolute path, a relative path will be used to find the node upon which the RPC should be executed.
 	This effectively allows to have different branches of the scene tree to be managed by different MultiplayerAPI, allowing for example to run both client and server in the same scene.
 	*/
-	void setRootNode(GodotObject node)
+	void setRootNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setRootNode, _godot_object, node);
@@ -280,7 +283,36 @@ public:
 		return ptrcall!(bool)(_classBinding.isRefusingNewNetworkConnections, _godot_object);
 	}
 	/**
-	If `true` the MultiplayerAPI's $(D networkPeer) refuses new incoming connections.
+	
+	*/
+	void setAllowObjectDecoding(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAllowObjectDecoding, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isObjectDecodingAllowed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
+	}
+	/**
+	If `true` (or if the $(D networkPeer) $(D PacketPeer.allowObjectDecoding) the MultiplayerAPI will allow encoding and decoding of object during RPCs/RSETs.
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+	*/
+	@property bool allowObjectDecoding()
+	{
+		return isObjectDecodingAllowed();
+	}
+	/// ditto
+	@property void allowObjectDecoding(bool v)
+	{
+		setAllowObjectDecoding(v);
+	}
+	/**
+	If `true`, the MultiplayerAPI's $(D networkPeer) refuses new incoming connections.
 	*/
 	@property bool refuseNewNetworkConnections()
 	{

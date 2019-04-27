@@ -28,7 +28,7 @@ import godot.node;
 /**
 Vertical slider.
 
-See $(D Slider). This one goes from left (min) to right (max).
+See $(D Slider). This one goes from bottom (min) to top (max).
 */
 @GodotBaseClass struct VSlider
 {

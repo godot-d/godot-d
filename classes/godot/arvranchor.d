@@ -26,8 +26,8 @@ import godot.node;
 Anchor point in AR Space.
 
 The ARVR Anchor point is a spatial node that maps a real world location identified by the AR platform to a position within the game world. For example, as long as plane detection in ARKit is on, ARKit will identify and update the position of planes (tables, floors, etc) and create anchors for them.
-This node is mapped to one of the anchors through its unique id. When you receive a signal that a new anchor is available you should add this node to your scene for that anchor. You can predefine nodes and set the id and the nodes will simply remain on 0,0,0 until a plane is recognised.
-Keep in mind that as long as plane detection is enable the size, placing and orientation of an anchor will be updates as the detection logic learns more about the real world out there especially if only part of the surface is in view.
+This node is mapped to one of the anchors through its unique id. When you receive a signal that a new anchor is available, you should add this node to your scene for that anchor. You can predefine nodes and set the id and the nodes will simply remain on 0,0,0 until a plane is recognised.
+Keep in mind that, as long as plane detection is enabled, the size, placing and orientation of an anchor will be updated as the detection logic learns more about the real world out there especially if only part of the surface is in view.
 */
 @GodotBaseClass struct ARVRAnchor
 {
@@ -85,7 +85,7 @@ public:
 		return ptrcall!(String)(_classBinding.getAnchorName, _godot_object);
 	}
 	/**
-	Returns true if the anchor is being tracked and false if no anchor with this id is currently known.
+	Returns `true` if the anchor is being tracked and `false` if no anchor with this id is currently known.
 	*/
 	bool getIsActive() const
 	{
@@ -101,7 +101,7 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
 	}
 	/**
-	Returns a plane aligned with our anchor, handy for intersection testing
+	Returns a plane aligned with our anchor; handy for intersection testing.
 	*/
 	Plane getPlane() const
 	{

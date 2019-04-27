@@ -71,7 +71,7 @@ public:
 		@GodotName("get_z_index") GodotMethod!(long) getZIndex;
 		@GodotName("set_z_as_relative") GodotMethod!(void, bool) setZAsRelative;
 		@GodotName("is_z_relative") GodotMethod!(bool) isZRelative;
-		@GodotName("get_relative_transform_to_parent") GodotMethod!(Transform2D, GodotObject) getRelativeTransformToParent;
+		@GodotName("get_relative_transform_to_parent") GodotMethod!(Transform2D, Node) getRelativeTransformToParent;
 	}
 	bool opEquals(in Node2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Node2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -158,7 +158,7 @@ public:
 		ptrcall!(void)(_classBinding.rotate, _godot_object, radians);
 	}
 	/**
-	Applies a local translation on the node's X axis based on the $(D Node._process)'s `delta`. If `scaled` is false, normalizes the movement.
+	Applies a local translation on the node's X axis based on the $(D Node._process)'s `delta`. If `scaled` is `false`, normalizes the movement.
 	*/
 	void moveLocalX(in double delta, in bool scaled = false)
 	{
@@ -166,7 +166,7 @@ public:
 		ptrcall!(void)(_classBinding.moveLocalX, _godot_object, delta, scaled);
 	}
 	/**
-	Applies a local translation on the node's Y axis based on the $(D Node._process)'s `delta`. If `scaled` is false, normalizes the movement.
+	Applies a local translation on the node's Y axis based on the $(D Node._process)'s `delta`. If `scaled` is `false`, normalizes the movement.
 	*/
 	void moveLocalY(in double delta, in bool scaled = false)
 	{
@@ -344,7 +344,7 @@ public:
 	/**
 	Returns the $(D Transform2D) relative to this node's parent.
 	*/
-	Transform2D getRelativeTransformToParent(GodotObject parent) const
+	Transform2D getRelativeTransformToParent(Node parent) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Transform2D)(_classBinding.getRelativeTransformToParent, _godot_object, parent);
@@ -482,7 +482,7 @@ public:
 		setZIndex(v);
 	}
 	/**
-	If `true` the node's Z-index is relative to its parent's Z-index. If this node's Z-index is 2 and its parent's effective Z-index is 3, then this node's effective Z-index will be 2 + 3 = 5.
+	If `true`, the node's Z-index is relative to its parent's Z-index. If this node's Z-index is 2 and its parent's effective Z-index is 3, then this node's effective Z-index will be 2 + 3 = 5.
 	*/
 	@property bool zAsRelative()
 	{

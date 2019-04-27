@@ -162,7 +162,7 @@ public:
 		ptrcall!(void)(_classBinding.clearAllSlots, _godot_object);
 	}
 	/**
-	Return true if left (input) slot 'idx' is enabled. False otherwise.
+	Return `true` if left (input) slot 'idx' is enabled, `false` otherwise.
 	*/
 	bool isSlotEnabledLeft(in long idx) const
 	{
@@ -186,7 +186,7 @@ public:
 		return ptrcall!(Color)(_classBinding.getSlotColorLeft, _godot_object, idx);
 	}
 	/**
-	Return true if right (output) slot 'idx' is enabled. False otherwise.
+	Return `true` if right (output) slot 'idx' is enabled, `false` otherwise.
 	*/
 	bool isSlotEnabledRight(in long idx) const
 	{

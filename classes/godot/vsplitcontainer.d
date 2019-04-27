@@ -28,7 +28,7 @@ import godot.node;
 /**
 Vertical split container.
 
-See $(D SplitContainer). This goes from left to right.
+See $(D SplitContainer). This goes from top to bottom.
 */
 @GodotBaseClass struct VSplitContainer
 {

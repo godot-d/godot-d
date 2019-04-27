@@ -55,7 +55,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Generates and sets an optimized translation from the given $(D Translation) resource.
 	*/
 	void generate(Translation from)
 	{

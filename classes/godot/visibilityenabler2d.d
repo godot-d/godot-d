@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visibilitynotifier2d;
+import godot.node;
 import godot.node2d;
 import godot.canvasitem;
-import godot.node;
 /**
 Enable certain nodes only when visible.
 
@@ -43,7 +43,7 @@ public:
 		__gshared:
 		@GodotName("set_enabler") GodotMethod!(void, long, bool) setEnabler;
 		@GodotName("is_enabler_enabled") GodotMethod!(bool, long) isEnablerEnabled;
-		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 	}
 	bool opEquals(in VisibilityEnabler2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisibilityEnabler2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -119,7 +119,7 @@ public:
 	/**
 	
 	*/
-	void _nodeRemoved(GodotObject arg0)
+	void _nodeRemoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -127,7 +127,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	If `true` $(D AnimationPlayer) nodes will be paused.
+	If `true`, $(D AnimationPlayer) nodes will be paused.
 	*/
 	@property bool pauseAnimations()
 	{
@@ -139,7 +139,7 @@ public:
 		setEnabler(0, v);
 	}
 	/**
-	If `true` $(D RigidBody2D) nodes will be paused.
+	If `true`, $(D RigidBody2D) nodes will be paused.
 	*/
 	@property bool freezeBodies()
 	{
@@ -151,7 +151,7 @@ public:
 		setEnabler(1, v);
 	}
 	/**
-	If `true` $(D Particles2D) nodes will be paused.
+	If `true`, $(D Particles2D) nodes will be paused.
 	*/
 	@property bool pauseParticles()
 	{
@@ -163,7 +163,7 @@ public:
 		setEnabler(2, v);
 	}
 	/**
-	If `true` $(D AnimatedSprite) nodes will be paused.
+	If `true`, $(D AnimatedSprite) nodes will be paused.
 	*/
 	@property bool pauseAnimatedSprites()
 	{
@@ -175,7 +175,7 @@ public:
 		setEnabler(5, v);
 	}
 	/**
-	If `true` the parent's $(D Node._process) will be stopped.
+	If `true`, the parent's $(D Node._process) will be stopped.
 	*/
 	@property bool processParent()
 	{
@@ -187,7 +187,7 @@ public:
 		setEnabler(3, v);
 	}
 	/**
-	If `true` the parent's $(D Node._physicsProcess) will be stopped.
+	If `true`, the parent's $(D Node._physicsProcess) will be stopped.
 	*/
 	@property bool physicsProcessParent()
 	{

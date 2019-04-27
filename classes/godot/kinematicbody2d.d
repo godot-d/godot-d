@@ -46,8 +46,8 @@ public:
 	{
 		__gshared:
 		@GodotName("move_and_collide") GodotMethod!(KinematicCollision2D, Vector2, bool, bool, bool) moveAndCollide;
-		@GodotName("move_and_slide") GodotMethod!(Vector2, Vector2, Vector2, bool, bool, long, double) moveAndSlide;
-		@GodotName("move_and_slide_with_snap") GodotMethod!(Vector2, Vector2, Vector2, Vector2, bool, bool, long, double) moveAndSlideWithSnap;
+		@GodotName("move_and_slide") GodotMethod!(Vector2, Vector2, Vector2, bool, long, double, bool) moveAndSlide;
+		@GodotName("move_and_slide_with_snap") GodotMethod!(Vector2, Vector2, Vector2, Vector2, bool, long, double, bool) moveAndSlideWithSnap;
 		@GodotName("test_move") GodotMethod!(bool, Transform2D, Vector2, bool) testMove;
 		@GodotName("is_on_floor") GodotMethod!(bool) isOnFloor;
 		@GodotName("is_on_ceiling") GodotMethod!(bool) isOnCeiling;
@@ -82,32 +82,33 @@ public:
 		return ptrcall!(KinematicCollision2D)(_classBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, exclude_raycast_shapes, test_only);
 	}
 	/**
-	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a `KinematicBody2D` or $(D RigidBody2D), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
-	`linear_velocity` is a value in pixels per second. Unlike in for example $(D moveAndCollide), you should $(I not) multiply it with `delta` — this is done by the method.
+	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a $(D KinematicBody2D) or $(D RigidBody2D), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
+	`linear_velocity` is the velocity vector in pixels per second. Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity.
 	`floor_normal` is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of `Vector2(0, 0)`, everything is considered a wall. This is useful for topdown games.
-	$(I TODO: Update for stop_on_slope argument.) If the body is standing on a slope and the horizontal speed (relative to the floor's speed) goes below `slope_stop_min_velocity`, the body will stop completely. This prevents the body from sliding down slopes when you include gravity in `linear_velocity`. When set to lower values, the body will not be able to stand still on steep slopes.
-	If the body collides, it will change direction a maximum of `max_bounces` times before it stops.
+	If `stop_on_slope` is `true`, body will not slide on slopes when you include gravity in `linear_velocity` and the body is standing still.
+	If the body collides, it will change direction a maximum of `max_slides` times before it stops.
 	`floor_max_angle` is the maximum angle (in radians) where a slope is still considered a floor (or a ceiling), rather than a wall. The default value equals 45 degrees.
-	Returns the movement that remained when the body stopped. To get more detailed information about collisions that occurred, use $(D getSlideCollision).
+	If `infinite_inertia` is `true`, body will be able to push $(D RigidBody2D) nodes, but it won't also detect any collisions with them. If `false` it will interact with $(D RigidBody2D) nodes like with $(D StaticBody2D).
+	Returns the `linear_velocity` vector, rotated and/or scaled if a slide collision occurred. To get detailed information about collisions that occurred, use $(D getSlideCollision).
 	*/
-	Vector2 moveAndSlide(in Vector2 linear_velocity, in Vector2 floor_normal = Vector2(0, 0), in bool infinite_inertia = true, in bool stop_on_slope = false, in long max_bounces = 4, in double floor_max_angle = 0.785398)
+	Vector2 moveAndSlide(in Vector2 linear_velocity, in Vector2 floor_normal = Vector2(0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.moveAndSlide, _godot_object, linear_velocity, floor_normal, infinite_inertia, stop_on_slope, max_bounces, floor_max_angle);
+		return ptrcall!(Vector2)(_classBinding.moveAndSlide, _godot_object, linear_velocity, floor_normal, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
 	}
 	/**
 	Moves the body while keeping it attached to slopes. Similar to $(D moveAndSlide).
 	As long as the `snap` vector is in contact with the ground, the body will remain attached to the surface. This means you must disable snap in order to jump, for example. You can do this by setting `snap` to `(0, 0)` or by using $(D moveAndSlide) instead.
 	*/
-	Vector2 moveAndSlideWithSnap(in Vector2 linear_velocity, in Vector2 snap, in Vector2 floor_normal = Vector2(0, 0), in bool infinite_inertia = true, in bool stop_on_slope = false, in long max_bounces = 4, in double floor_max_angle = 0.785398)
+	Vector2 moveAndSlideWithSnap(in Vector2 linear_velocity, in Vector2 snap, in Vector2 floor_normal = Vector2(0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, floor_normal, infinite_inertia, stop_on_slope, max_bounces, floor_max_angle);
+		return ptrcall!(Vector2)(_classBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, floor_normal, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
 	}
 	/**
 	Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given $(D Transform2D), then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
 	*/
-	bool testMove(in Transform2D from, in Vector2 rel_vec, in bool infinite_inertia)
+	bool testMove(in Transform2D from, in Vector2 rel_vec, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.testMove, _godot_object, from, rel_vec, infinite_inertia);
@@ -170,6 +171,14 @@ public:
 	}
 	/**
 	Returns a $(D KinematicCollision2D), which contains information about a collision that occurred during the last $(D moveAndSlide) call. Since the body can collide several times in a single call to $(D moveAndSlide), you must specify the index of the collision in the range 0 to ($(D getSlideCount) - 1).
+	Example usage:
+	
+	
+	for i in get_slide_count():
+	    var collision = get_slide_collision(i)
+	    print("Collided with: ", collision.collider.name)
+	
+	
 	*/
 	Ref!KinematicCollision2D getSlideCollision(in long slide_idx)
 	{
@@ -215,7 +224,7 @@ public:
 		setSafeMargin(v);
 	}
 	/**
-	If `true` the body's movement will be synchronized to the physics frame. This is useful when animating movement via $(D AnimationPlayer), for example on moving platforms.
+	If `true`, the body's movement will be synchronized to the physics frame. This is useful when animating movement via $(D AnimationPlayer), for example on moving platforms. Do $(B not) use together with $(D moveAndSlide) or $(D moveAndCollide) functions.
 	*/
 	@property bool motionSyncToPhysics()
 	{

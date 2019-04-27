@@ -99,7 +99,7 @@ public:
 		ptrcall!(void)(_classBinding.setAscent, _godot_object, px);
 	}
 	/**
-	Adds a kerning pair to the `BitmapFont` as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
+	Adds a kerning pair to the $(D BitmapFont) as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
 	*/
 	void addKerningPair(in long char_a, in long char_b, in long kerning)
 	{
@@ -115,7 +115,7 @@ public:
 		return ptrcall!(long)(_classBinding.getKerningPair, _godot_object, char_a, char_b);
 	}
 	/**
-	Adds a texture to the `BitmapFont`.
+	Adds a texture to the $(D BitmapFont).
 	*/
 	void addTexture(Texture texture)
 	{
@@ -304,7 +304,7 @@ public:
 		setAscent(v);
 	}
 	/**
-	If `true` distance field hint is enabled.
+	If `true`, distance field hint is enabled.
 	*/
 	@property bool distanceField()
 	{

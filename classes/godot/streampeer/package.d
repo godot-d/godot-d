@@ -56,7 +56,7 @@ public:
 		@GodotName("put_double") GodotMethod!(void, double) putDouble;
 		@GodotName("put_string") GodotMethod!(void, String) putString;
 		@GodotName("put_utf8_string") GodotMethod!(void, String) putUtf8String;
-		@GodotName("put_var") GodotMethod!(void, Variant) putVar;
+		@GodotName("put_var") GodotMethod!(void, Variant, bool) putVar;
 		@GodotName("get_8") GodotMethod!(long) get8;
 		@GodotName("get_u8") GodotMethod!(long) getU8;
 		@GodotName("get_16") GodotMethod!(long) get16;
@@ -69,7 +69,7 @@ public:
 		@GodotName("get_double") GodotMethod!(double) getDouble;
 		@GodotName("get_string") GodotMethod!(String, long) getString;
 		@GodotName("get_utf8_string") GodotMethod!(String, long) getUtf8String;
-		@GodotName("get_var") GodotMethod!(Variant) getVar;
+		@GodotName("get_var") GodotMethod!(Variant, bool) getVar;
 	}
 	bool opEquals(in StreamPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StreamPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -116,7 +116,7 @@ public:
 		return ptrcall!(Array)(_classBinding.getPartialData, _godot_object, bytes);
 	}
 	/**
-	Return the amount of bytes this `StreamPeer` has available.
+	Return the amount of bytes this $(D StreamPeer) has available.
 	*/
 	long getAvailableBytes() const
 	{
@@ -236,12 +236,12 @@ public:
 		ptrcall!(void)(_classBinding.putUtf8String, _godot_object, value);
 	}
 	/**
-	Put a Variant into the stream.
+	Put a Variant into the stream. When `full_objects` is `true` encoding objects is allowed (and can potentially include code).
 	*/
-	void putVar(VariantArg0)(in VariantArg0 value)
+	void putVar(VariantArg0)(in VariantArg0 value, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putVar, _godot_object, value);
+		ptrcall!(void)(_classBinding.putVar, _godot_object, value, full_objects);
 	}
 	/**
 	Get a signed byte from the stream.
@@ -340,15 +340,16 @@ public:
 		return ptrcall!(String)(_classBinding.getUtf8String, _godot_object, bytes);
 	}
 	/**
-	Get a Variant from the stream.
+	Get a Variant from the stream. When `allow_objects` is `true` decoding objects is allowed.
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
 	*/
-	Variant getVar()
+	Variant getVar(in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object);
+		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
-	If `true`, this `StreamPeer` will using big-endian format for encoding and decoding.
+	If `true`, this $(D StreamPeer) will using big-endian format for encoding and decoding.
 	*/
 	@property bool bigEndian()
 	{

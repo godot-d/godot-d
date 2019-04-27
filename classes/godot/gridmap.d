@@ -259,7 +259,7 @@ public:
 		ptrcall!(void)(_classBinding.setCellItem, _godot_object, x, y, z, item, orientation);
 	}
 	/**
-	The $(D MeshLibrary) item index located at the grid-based X, Y and Z coordinates. If the cell is empty, $(D INVALID_CELL_ITEM) will be returned.
+	The $(D MeshLibrary) item index located at the grid-based X, Y and Z coordinates. If the cell is empty, $(D constant INVALID_CELL_ITEM) will be returned.
 	*/
 	long getCellItem(in long x, in long y, in long z) const
 	{
@@ -468,7 +468,7 @@ public:
 		setOctantSize(v);
 	}
 	/**
-	If `true` grid items are centered on the X axis.
+	If `true`, grid items are centered on the X axis.
 	*/
 	@property bool cellCenterX()
 	{
@@ -480,7 +480,7 @@ public:
 		setCenterX(v);
 	}
 	/**
-	If `true` grid items are centered on the Y axis.
+	If `true`, grid items are centered on the Y axis.
 	*/
 	@property bool cellCenterY()
 	{
@@ -492,7 +492,7 @@ public:
 		setCenterY(v);
 	}
 	/**
-	If `true` grid items are centered on the Z axis.
+	If `true`, grid items are centered on the Z axis.
 	*/
 	@property bool cellCenterZ()
 	{

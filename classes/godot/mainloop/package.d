@@ -24,7 +24,7 @@ import godot.inputevent;
 /**
 Main loop is the abstract main loop base class.
 
-All other main loop classes are derived from it. Upon application start, a `MainLoop` has to be provided to OS, else the application will exit. This happens automatically (and a $(D SceneTree) is created), unless a main $(D Script) is supplied, which may or not create and return a `MainLoop`.
+All other main loop classes are derived from it. Upon application start, a $(D MainLoop) has to be provided to OS, else the application will exit. This happens automatically (and a $(D SceneTree) is created), unless a main $(D Script) is supplied, which may or not create and return a $(D MainLoop).
 */
 @GodotBaseClass struct MainLoop
 {
@@ -111,6 +111,10 @@ public:
 		
 		*/
 		notificationCrash = 92,
+		/**
+		
+		*/
+		notificationOsImeUpdate = 93,
 	}
 	/**
 	

@@ -126,6 +126,10 @@ public:
 		@GodotName("is_snap_controls_to_pixels_enabled") GodotMethod!(bool) isSnapControlsToPixelsEnabled;
 		@GodotName("set_shadow_atlas_quadrant_subdiv") GodotMethod!(void, long, long) setShadowAtlasQuadrantSubdiv;
 		@GodotName("get_shadow_atlas_quadrant_subdiv") GodotMethod!(Viewport.ShadowAtlasQuadrantSubdiv, long) getShadowAtlasQuadrantSubdiv;
+		@GodotName("set_input_as_handled") GodotMethod!(void) setInputAsHandled;
+		@GodotName("is_input_handled") GodotMethod!(bool) isInputHandled;
+		@GodotName("set_handle_input_locally") GodotMethod!(void, bool) setHandleInputLocally;
+		@GodotName("is_handling_input_locally") GodotMethod!(bool) isHandlingInputLocally;
 		@GodotName("_subwindow_visibility_changed") GodotMethod!(void) _subwindowVisibilityChanged;
 	}
 	bool opEquals(in Viewport other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -546,7 +550,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isSizeOverrideEnabled, _godot_object);
 	}
 	/**
-	If `true` the size override affects stretch as well.
+	If `true`, the size override affects stretch as well.
 	*/
 	void setSizeOverrideStretch(in bool enabled)
 	{
@@ -682,7 +686,13 @@ public:
 		return ptrcall!(long)(_classBinding.getRenderInfo, _godot_object, info);
 	}
 	/**
-	Returns the viewport's texture.
+	Returns the viewport's texture. Note that due to the way OpenGL works, the resulting $(D ViewportTexture) is flipped vertically. You can use $(D Image.flipY) on the result of $(D Texture.getData) to flip it back, for example:
+	
+	
+	var img = get_viewport().get_texture().get_data()
+	img.flip_y()
+	
+	
 	*/
 	Ref!ViewportTexture getTexture() const
 	{
@@ -975,6 +985,38 @@ public:
 	/**
 	
 	*/
+	void setInputAsHandled()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInputAsHandled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isInputHandled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isInputHandled, _godot_object);
+	}
+	/**
+	
+	*/
+	void setHandleInputLocally(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHandleInputLocally, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	bool isHandlingInputLocally() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHandlingInputLocally, _godot_object);
+	}
+	/**
+	
+	*/
 	void _subwindowVisibilityChanged()
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -982,7 +1024,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	If `true` the viewport will be used in AR/VR process. Default value: `false`.
+	If `true`, the viewport will be used in AR/VR process. Default value: `false`.
 	*/
 	@property bool arvr()
 	{
@@ -1006,7 +1048,7 @@ public:
 		setSize(v);
 	}
 	/**
-	If `true` the viewport will use $(D World) defined in `world` property. Default value: `false`.
+	If `true`, the viewport will use $(D World) defined in `world` property. Default value: `false`.
 	*/
 	@property bool ownWorld()
 	{
@@ -1042,7 +1084,7 @@ public:
 		setWorld2d(v);
 	}
 	/**
-	If `true` the viewport should render its background as transparent. Default value: `false`.
+	If `true`, the viewport should render its background as transparent. Default value: `false`.
 	*/
 	@property bool transparentBg()
 	{
@@ -1052,6 +1094,18 @@ public:
 	@property void transparentBg(bool v)
 	{
 		setTransparentBackground(v);
+	}
+	/**
+	
+	*/
+	@property bool handleInputLocally()
+	{
+		return isHandlingInputLocally();
+	}
+	/// ditto
+	@property void handleInputLocally(bool v)
+	{
+		setHandleInputLocally(v);
 	}
 	/**
 	The multisample anti-aliasing mode. Default value: `MSAA_DISABLED`.
@@ -1066,7 +1120,7 @@ public:
 		setMsaa(v);
 	}
 	/**
-	If `true` the viewport rendering will receive benefits from High Dynamic Range algorithm. Default value: `true`.
+	If `true`, the viewport rendering will receive benefits from High Dynamic Range algorithm. Default value: `true`.
 	*/
 	@property bool hdr()
 	{
@@ -1078,7 +1132,7 @@ public:
 		setHdr(v);
 	}
 	/**
-	If `true` the viewport will disable 3D rendering. For actual disabling use `usage`. Default value: `false`.
+	If `true`, the viewport will disable 3D rendering. For actual disabling use `usage`. Default value: `false`.
 	*/
 	@property bool disable3d()
 	{
@@ -1090,7 +1144,7 @@ public:
 		setDisable3d(v);
 	}
 	/**
-	If `true` the result after 3D rendering will not have a linear to sRGB color conversion applied. This is important when the viewport is used as a render target where the result is used as a texture on a 3D object rendered in another viewport. It is also important if the viewport is used to create data that is not color based (noise, heightmaps, pickmaps, etc.). Do not enable this when the viewport is used as a texture on a 2D object or if the viewport is your final output.
+	If `true`, the result after 3D rendering will not have a linear to sRGB color conversion applied. This is important when the viewport is used as a render target where the result is used as a texture on a 3D object rendered in another viewport. It is also important if the viewport is used to create data that is not color based (noise, heightmaps, pickmaps, etc.). Do not enable this when the viewport is used as a texture on a 2D object or if the viewport is your final output.
 	*/
 	@property bool keep3dLinear()
 	{
@@ -1126,7 +1180,7 @@ public:
 		setDebugDraw(v);
 	}
 	/**
-	If `true` the result of rendering will be flipped vertically. Default value: `false`.
+	If `true`, the result of rendering will be flipped vertically. Default value: `false`.
 	*/
 	@property bool renderTargetVFlip()
 	{
@@ -1162,7 +1216,7 @@ public:
 		setUpdateMode(v);
 	}
 	/**
-	If `true` the viewport will process 2D audio streams. Default value: `false`.
+	If `true`, the viewport will process 2D audio streams. Default value: `false`.
 	*/
 	@property bool audioListenerEnable2d()
 	{
@@ -1174,7 +1228,7 @@ public:
 		setAsAudioListener2d(v);
 	}
 	/**
-	If `true` the viewport will process 3D audio streams. Default value: `false`.
+	If `true`, the viewport will process 3D audio streams. Default value: `false`.
 	*/
 	@property bool audioListenerEnable3d()
 	{
@@ -1186,7 +1240,7 @@ public:
 		setAsAudioListener(v);
 	}
 	/**
-	If `true` the objects rendered by viewport become subjects of mouse picking process. Default value: `false`.
+	If `true`, the objects rendered by viewport become subjects of mouse picking process. Default value: `false`.
 	*/
 	@property bool physicsObjectPicking()
 	{
@@ -1198,7 +1252,7 @@ public:
 		setPhysicsObjectPicking(v);
 	}
 	/**
-	If `true` the viewport will not receive input event. Default value: `false`.
+	If `true`, the viewport will not receive input event. Default value: `false`.
 	*/
 	@property bool guiDisableInput()
 	{
@@ -1210,7 +1264,7 @@ public:
 		setDisableInput(v);
 	}
 	/**
-	If `true` the GUI controls on the viewport will lay pixel perfectly. Default value: `true`.
+	If `true`, the GUI controls on the viewport will lay pixel perfectly. Default value: `true`.
 	*/
 	@property bool guiSnapControlsToPixels()
 	{

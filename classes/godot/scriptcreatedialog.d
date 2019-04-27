@@ -30,13 +30,13 @@ import godot.node;
 /**
 The Editor's popup dialog for creating new $(D Script) files.
 
-The ScriptCreateDialog creates script files according to a given template for a given scripting language. The standard use is to configure its fields prior to calling a $(D popup)() method.
+The $(D ScriptCreateDialog) creates script files according to a given template for a given scripting language. The standard use is to configure its fields prior to calling one of the $(D Popup.popup) methods.
 
 
 func _ready():
-	dialog.config("Node", "res://new_node.gd") # for in-engine types
-	dialog.config("\"res://base_node.gd\"", "res://derived_node.gd") # for script types
-	dialog.popup_centered()
+    dialog.config("Node", "res://new_node.gd") # for in-engine types
+    dialog.config("\"res://base_node.gd\"", "res://derived_node.gd") # for script types
+    dialog.popup_centered()
 
 
 */

@@ -23,7 +23,8 @@ import godot.reference;
 /**
 Base class for all non built-in types.
 
-Everything not a built-in type starts the inheritance chain from this class.
+Everything which is not a built-in type starts the inheritance chain from this class.
+Objects can be constructed from scripting languages, using `Object.new()` in GDScript, `new Object` in C#, or the "Construct Object" node in VisualScript.
 Objects do not manage memory, if inheriting from one the object will most likely have to be deleted manually (call the $(D free) function from the script or delete from C++).
 Some derivatives add memory management, such as $(D Reference) (which keeps a reference count and deletes itself automatically when no longer referenced) and $(D Node), which deletes the children tree when deleted.
 Objects export properties, which are mainly useful for storage and editing, but not really so much in programming. Properties are exported in $(D _getPropertyList) and handled in $(D _get) and $(D _set). However, scripting languages and C++ have simpler means to export them.
@@ -67,6 +68,7 @@ public:
 		@GodotName("emit_signal") GodotMethod!(Variant, String, GodotVarArgs) emitSignal;
 		@GodotName("call") GodotMethod!(Variant, String, GodotVarArgs) call;
 		@GodotName("call_deferred") GodotMethod!(Variant, String, GodotVarArgs) callDeferred;
+		@GodotName("set_deferred") GodotMethod!(void, String, Variant) setDeferred;
 		@GodotName("callv") GodotMethod!(Variant, String, Array) callv;
 		@GodotName("has_method") GodotMethod!(bool, String) hasMethod;
 		@GodotName("get_signal_list") GodotMethod!(Array) getSignalList;
@@ -376,6 +378,14 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
+	
+	*/
+	void setDeferred(VariantArg1)(in String property, in VariantArg1 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDeferred, _godot_object, property, value);
+	}
+	/**
 	Calls the `method` on the object and returns a result. Pass parameters as an $(D Array).
 	*/
 	Variant callv(in String method, in Array arg_array) const
@@ -444,7 +454,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isConnected, _godot_object, signal, target, method);
 	}
 	/**
-	If set to true, signal emission is blocked.
+	If set to `true`, signal emission is blocked.
 	*/
 	void setBlockSignals(in bool enable)
 	{
@@ -468,7 +478,7 @@ public:
 		ptrcall!(void)(_classBinding.propertyListChangedNotify, _godot_object);
 	}
 	/**
-	Define whether the object can translate strings (with calls to $(D tr)). Default is true.
+	Define whether the object can translate strings (with calls to $(D tr)). Default is `true`.
 	*/
 	void setMessageTranslation(in bool enable)
 	{

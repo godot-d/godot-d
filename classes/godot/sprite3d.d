@@ -213,7 +213,7 @@ public:
 		setFrame(v);
 	}
 	/**
-	If `true` texture will be cut from a larger atlas texture. See $(D regionRect). Default value: `false`.
+	If `true`, texture will be cut from a larger atlas texture. See $(D regionRect). Default value: `false`.
 	*/
 	@property bool regionEnabled()
 	{

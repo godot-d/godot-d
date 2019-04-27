@@ -42,6 +42,7 @@ public:
 	{
 		__gshared:
 		@GodotName("get_pressed_button") GodotMethod!(BaseButton) getPressedButton;
+		@GodotName("get_buttons") GodotMethod!(Array) getButtons;
 	}
 	bool opEquals(in ButtonGroup other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ButtonGroup opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,11 +57,19 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Return the pressed button.
+	Returns the current pressed button.
 	*/
 	BaseButton getPressedButton()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(BaseButton)(_classBinding.getPressedButton, _godot_object);
+	}
+	/**
+	Returns an $(D Array) of $(D Button)s who have this as their $(D ButtonGroup) (see $(D BaseButton.group)).
+	*/
+	Array getButtons()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getButtons, _godot_object);
 	}
 }

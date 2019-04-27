@@ -55,7 +55,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Lock this `Mutex`, blocks until it is unlocked by the current owner.
+	Lock this $(D Mutex), blocks until it is unlocked by the current owner.
 	*/
 	void lock()
 	{
@@ -63,7 +63,7 @@ public:
 		ptrcall!(void)(_classBinding.lock, _godot_object);
 	}
 	/**
-	Try locking this `Mutex`, does not block. Returns $(D OK) on success, $(D ERR_BUSY) otherwise.
+	Try locking this $(D Mutex), does not block. Returns `OK` on success, `ERR_BUSY` otherwise.
 	*/
 	GodotError tryLock()
 	{
@@ -71,7 +71,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.tryLock, _godot_object);
 	}
 	/**
-	Unlock this `Mutex`, leaving it to other threads.
+	Unlock this $(D Mutex), leaving it to other threads.
 	*/
 	void unlock()
 	{

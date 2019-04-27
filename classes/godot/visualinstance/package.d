@@ -38,6 +38,8 @@ public:
 		__gshared:
 		@GodotName("_get_visual_instance_rid") GodotMethod!(RID) _getVisualInstanceRid;
 		@GodotName("set_base") GodotMethod!(void, RID) setBase;
+		@GodotName("get_base") GodotMethod!(RID) getBase;
+		@GodotName("get_instance") GodotMethod!(RID) getInstance;
 		@GodotName("set_layer_mask") GodotMethod!(void, long) setLayerMask;
 		@GodotName("get_layer_mask") GodotMethod!(long) getLayerMask;
 		@GodotName("set_layer_mask_bit") GodotMethod!(void, long, bool) setLayerMaskBit;
@@ -74,6 +76,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
+	}
+	/**
+	
+	*/
+	RID getBase() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getBase, _godot_object);
+	}
+	/**
+	
+	*/
+	RID getInstance() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getInstance, _godot_object);
 	}
 	/**
 	

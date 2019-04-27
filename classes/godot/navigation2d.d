@@ -101,7 +101,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
-	Returns the owner of the $(D NavigationPolygon) which contains the navigation point closest to the point given. This is usually a $(D NavigtionPolygonInstance). For polygons added via $(D navpolyAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
+	Returns the owner of the $(D NavigationPolygon) which contains the navigation point closest to the point given. This is usually a $(D NavigationPolygonInstance). For polygons added via $(D navpolyAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
 	*/
 	GodotObject getClosestPointOwner(in Vector2 to_point)
 	{

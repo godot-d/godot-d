@@ -27,7 +27,7 @@ import godot.arraymesh;
 /**
 Helper tool to create geometry.
 
-The `SurfaceTool` is used to construct a $(D Mesh) by specifying vertex attributes individually. It can be used to construct a $(D Mesh) from script. All properties except index need to be added before a call to $(D addVertex). For example adding vertex colors and UVs looks like
+The $(D SurfaceTool) is used to construct a $(D Mesh) by specifying vertex attributes individually. It can be used to construct a $(D Mesh) from script. All properties except index need to be added before a call to $(D addVertex). For example adding vertex colors and UVs looks like
 
 
 var st = SurfaceTool.new()
@@ -37,7 +37,7 @@ st.add_uv(Vector2(0, 0))
 st.add_vertex(Vector3(0, 0, 0))
 
 
-The `SurfaceTool` now contains one vertex of a triangle which has a UV coordinate and a specified $(D Color). If another vertex were added without calls to $(D addUv) or $(D addColor) then the last values would be used.
+The $(D SurfaceTool) now contains one vertex of a triangle which has a UV coordinate and a specified $(D Color). If another vertex were added without calls to $(D addUv) or $(D addColor) then the last values would be used.
 It is very important that vertex attributes are passed $(B before) the call to $(D addVertex), failure to do this will result in an error when committing the vertex information to a mesh.
 Additionally, the attributes used before the first vertex is added determine the format of the mesh. For example if you only add UVs to the first vertex, you cannot add color to any of the subsequent vertices.
 */
@@ -69,7 +69,6 @@ public:
 		@GodotName("deindex") GodotMethod!(void) deindex;
 		@GodotName("generate_normals") GodotMethod!(void, bool) generateNormals;
 		@GodotName("generate_tangents") GodotMethod!(void) generateTangents;
-		@GodotName("add_to_format") GodotMethod!(void, long) addToFormat;
 		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("create_from") GodotMethod!(void, Mesh, long) createFrom;
@@ -172,10 +171,10 @@ public:
 	Insert a triangle fan made of array data into $(D Mesh) being constructed.
 	Requires primitive type be set to `PRIMITIVE_TRIANGLES`.
 	*/
-	void addTriangleFan(in PoolVector3Array vertexes, in PoolVector2Array uvs = PoolVector2Array.init, in PoolColorArray colors = PoolColorArray.init, in PoolVector2Array uv2s = PoolVector2Array.init, in PoolVector3Array normals = PoolVector3Array.init, in Array tangents = Array.empty_array)
+	void addTriangleFan(in PoolVector3Array vertices, in PoolVector2Array uvs = PoolVector2Array.init, in PoolColorArray colors = PoolColorArray.init, in PoolVector2Array uv2s = PoolVector2Array.init, in PoolVector3Array normals = PoolVector3Array.init, in Array tangents = Array.empty_array)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTriangleFan, _godot_object, vertexes, uvs, colors, uv2s, normals, tangents);
+		ptrcall!(void)(_classBinding.addTriangleFan, _godot_object, vertices, uvs, colors, uv2s, normals, tangents);
 	}
 	/**
 	Adds an index to index array if you are using indexed Vertices. Does not need to be called before adding Vertex.
@@ -219,14 +218,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.generateTangents, _godot_object);
-	}
-	/**
-	
-	*/
-	void addToFormat(in long flags)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addToFormat, _godot_object, flags);
 	}
 	/**
 	Sets $(D Material) to be used by the $(D Mesh) you are constructing.

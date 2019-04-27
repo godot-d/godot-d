@@ -26,7 +26,7 @@ import godot.node;
 /**
 Base node for containers.
 
-A `Container` contains other controls and automatically arranges them in a certain way.
+A $(D Container) contains other controls and automatically arranges them in a certain way.
 A Control can inherit this to create custom container classes.
 */
 @GodotBaseClass struct Container
@@ -44,7 +44,7 @@ public:
 		@GodotName("_sort_children") GodotMethod!(void) _sortChildren;
 		@GodotName("_child_minsize_changed") GodotMethod!(void) _childMinsizeChanged;
 		@GodotName("queue_sort") GodotMethod!(void) queueSort;
-		@GodotName("fit_child_in_rect") GodotMethod!(void, GodotObject, Rect2) fitChildInRect;
+		@GodotName("fit_child_in_rect") GodotMethod!(void, Control, Rect2) fitChildInRect;
 	}
 	bool opEquals(in Container other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Container opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -95,7 +95,7 @@ public:
 	/**
 	Fit a child control in a given rect. This is mainly a helper for creating custom container classes.
 	*/
-	void fitChildInRect(GodotObject child, in Rect2 rect)
+	void fitChildInRect(Control child, in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.fitChildInRect, _godot_object, child, rect);

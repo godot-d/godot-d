@@ -20,6 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.classdb;
+import godot.node;
 /**
 Manages the SceneTree selection in the editor.
 
@@ -37,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_node_removed") GodotMethod!(void, GodotObject) _nodeRemoved;
+		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 		@GodotName("clear") GodotMethod!(void) clear;
-		@GodotName("add_node") GodotMethod!(void, GodotObject) addNode;
-		@GodotName("remove_node") GodotMethod!(void, GodotObject) removeNode;
+		@GodotName("add_node") GodotMethod!(void, Node) addNode;
+		@GodotName("remove_node") GodotMethod!(void, Node) removeNode;
 		@GodotName("get_selected_nodes") GodotMethod!(Array) getSelectedNodes;
 		@GodotName("get_transformable_selected_nodes") GodotMethod!(Array) getTransformableSelectedNodes;
 		@GodotName("_emit_change") GodotMethod!(void) _emitChange;
@@ -60,7 +61,7 @@ public:
 	/**
 	
 	*/
-	void _nodeRemoved(GodotObject arg0)
+	void _nodeRemoved(Node arg0)
 	{
 		Array _GODOT_args = Array.empty_array;
 		_GODOT_args.append(arg0);
@@ -78,7 +79,7 @@ public:
 	/**
 	Add a node to the selection.
 	*/
-	void addNode(GodotObject node)
+	void addNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, node);
@@ -86,7 +87,7 @@ public:
 	/**
 	Remove a node from the selection.
 	*/
-	void removeNode(GodotObject node)
+	void removeNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removeNode, _godot_object, node);

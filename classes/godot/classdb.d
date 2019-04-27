@@ -112,7 +112,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isParentClass, _godot_object, _class, inherits);
 	}
 	/**
-	Returns true if you can instance objects from the specified 'class', false in other case.
+	Returns `true` if you can instance objects from the specified 'class', `false` in other case.
 	*/
 	bool canInstance(in String _class) const
 	{
@@ -144,7 +144,7 @@ public:
 		return ptrcall!(Dictionary)(_classBinding.classGetSignal, _godot_object, _class, signal);
 	}
 	/**
-	Returns an array with all the signals of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) as described in $(D classGetSignal).
+	Returns an array with all the signals of 'class' or its ancestry if 'no_inheritance' is `false`. Every element of the array is a $(D Dictionary) as described in $(D classGetSignal).
 	*/
 	Array classGetSignalList(in String _class, in bool no_inheritance = false) const
 	{
@@ -152,7 +152,7 @@ public:
 		return ptrcall!(Array)(_classBinding.classGetSignalList, _godot_object, _class, no_inheritance);
 	}
 	/**
-	Returns an array with all the properties of 'class' or its ancestry if 'no_inheritance' is false.
+	Returns an array with all the properties of 'class' or its ancestry if 'no_inheritance' is `false`.
 	*/
 	Array classGetPropertyList(in String _class, in bool no_inheritance = false) const
 	{
@@ -184,7 +184,7 @@ public:
 		return ptrcall!(bool)(_classBinding.classHasMethod, _godot_object, _class, method, no_inheritance);
 	}
 	/**
-	Returns an array with all the methods of 'class' or its ancestry if 'no_inheritance' is false. Every element of the array is a $(D Dictionary) with the following keys: args, default_args, flags, id, name, return: (class_name, hint, hint_string, name, type, usage).
+	Returns an array with all the methods of 'class' or its ancestry if 'no_inheritance' is `false`. Every element of the array is a $(D Dictionary) with the following keys: args, default_args, flags, id, name, return: (class_name, hint, hint_string, name, type, usage).
 	*/
 	Array classGetMethodList(in String _class, in bool no_inheritance = false) const
 	{

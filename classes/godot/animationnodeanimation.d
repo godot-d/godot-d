@@ -41,7 +41,6 @@ public:
 		__gshared:
 		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
 		@GodotName("get_animation") GodotMethod!(String) getAnimation;
-		@GodotName("get_playback_time") GodotMethod!(double) getPlaybackTime;
 	}
 	bool opEquals(in AnimationNodeAnimation other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeAnimation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -70,14 +69,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getAnimation, _godot_object);
-	}
-	/**
-	
-	*/
-	double getPlaybackTime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPlaybackTime, _godot_object);
 	}
 	/**
 	

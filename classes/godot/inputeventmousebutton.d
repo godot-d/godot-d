@@ -131,7 +131,7 @@ public:
 		setFactor(v);
 	}
 	/**
-	Mouse button identifier, one of the BUTTON_* or BUTTON_WHEEL_* constants in $(D @GlobalScope).
+	Mouse button identifier, one of the $(D buttonlist) button or button wheel constants.
 	*/
 	@property long buttonIndex()
 	{
@@ -143,7 +143,7 @@ public:
 		setButtonIndex(v);
 	}
 	/**
-	If `true` the mouse button's state is pressed. If `false` the mouse button's state is released.
+	If `true`, the mouse button's state is pressed. If `false`, the mouse button's state is released.
 	*/
 	@property bool pressed()
 	{
@@ -155,7 +155,7 @@ public:
 		setPressed(v);
 	}
 	/**
-	If `true` the mouse button's state is a double-click.
+	If `true`, the mouse button's state is a double-click.
 	*/
 	@property bool doubleclick()
 	{

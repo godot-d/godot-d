@@ -193,7 +193,7 @@ public:
 		setRings(v);
 	}
 	/**
-	Determines whether a full sphere or a hemisphere is created. Attention: To get a regular hemisphere the height and radius of the sphere have to equal. Defaults to false.
+	Determines whether a full sphere or a hemisphere is created. Attention: To get a regular hemisphere the height and radius of the sphere have to equal. Defaults to `false`.
 	*/
 	@property bool isHemisphere()
 	{

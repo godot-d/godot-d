@@ -26,7 +26,7 @@ import godot.reference;
 /**
 Gets a constant from a given class.
 
-This node returns a constant from a given class, such as $(D @GlobalScope.TYPE_INT). See the given class' documentation for available constants.
+This node returns a constant from a given class, such as $(D constant @GlobalScope.TYPE_INT). See the given class' documentation for available constants.
 $(B Input Ports:)
 none
 $(B Output Ports:)

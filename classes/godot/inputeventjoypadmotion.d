@@ -26,7 +26,7 @@ import godot.reference;
 /**
 Input event type for gamepad joysticks and other motions. For buttons see `InputEventJoypadButton`.
 
-Stores information about joystick motions. One `InputEventJoypadMotion` represents one axis at a time.
+Stores information about joystick motions. One $(D InputEventJoypadMotion) represents one axis at a time.
 */
 @GodotBaseClass struct InputEventJoypadMotion
 {
@@ -90,7 +90,7 @@ public:
 		return ptrcall!(double)(_classBinding.getAxisValue, _godot_object);
 	}
 	/**
-	Axis identifier. Use one of the `JOY_AXIS_*` constants in $(D @GlobalScope).
+	Axis identifier. Use one of the $(D joysticklist) axis constants.
 	*/
 	@property long axis()
 	{

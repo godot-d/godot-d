@@ -79,7 +79,7 @@ public:
 		priorityHigh = 2,
 	}
 	/**
-	Starts a new `Thread` that runs "method" on object "instance" with "userdata" passed as an argument. The "priority" of the `Thread` can be changed by passing a PRIORITY_* enum.
+	Starts a new $(D Thread) that runs "method" on object "instance" with "userdata" passed as an argument. The "priority" of the $(D Thread) can be changed by passing a PRIORITY_* enum.
 	Returns OK on success, or ERR_CANT_CREATE on failure.
 	*/
 	GodotError start(VariantArg2)(GodotObject instance, in String method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
@@ -88,7 +88,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.start, _godot_object, instance, method, userdata, priority);
 	}
 	/**
-	Returns the current `Thread`s id, uniquely identifying it among all threads.
+	Returns the current $(D Thread)s id, uniquely identifying it among all threads.
 	*/
 	String getId() const
 	{
@@ -96,7 +96,7 @@ public:
 		return ptrcall!(String)(_classBinding.getId, _godot_object);
 	}
 	/**
-	Returns true if this `Thread` is currently active. An active `Thread` cannot start work on a new method but can be joined with $(D waitToFinish).
+	Returns `true` if this $(D Thread) is currently active. An active $(D Thread) cannot start work on a new method but can be joined with $(D waitToFinish).
 	*/
 	bool isActive() const
 	{
@@ -104,7 +104,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
 	}
 	/**
-	Joins the `Thread` and waits for it to finish. Returns what the method called returned.
+	Joins the $(D Thread) and waits for it to finish. Returns what the method called returned.
 	*/
 	Variant waitToFinish()
 	{

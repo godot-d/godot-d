@@ -24,7 +24,7 @@ import godot.reference;
 /**
 Base class for audio streams.
 
-Audio streams are used for music playback, or other types of streamed sounds that don't fit or require more flexibility than a $(D Sample).
+Audio streams are used for sound effects and music playback, and support WAV (via $(D AudioStreamSample)) and OGG (via $(D AudioStreamOGGVorbis)) file formats.
 */
 @GodotBaseClass struct AudioStream
 {

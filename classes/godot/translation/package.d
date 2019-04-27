@@ -78,7 +78,7 @@ public:
 		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
 	}
 	/**
-	Add a message for translation.
+	Adds a message if nonexistent, followed by its translation.
 	*/
 	void addMessage(in String src_message, in String xlated_message)
 	{
@@ -86,7 +86,7 @@ public:
 		ptrcall!(void)(_classBinding.addMessage, _godot_object, src_message, xlated_message);
 	}
 	/**
-	Return a message for translation.
+	Returns a message's translation.
 	*/
 	String getMessage(in String src_message) const
 	{
@@ -94,7 +94,7 @@ public:
 		return ptrcall!(String)(_classBinding.getMessage, _godot_object, src_message);
 	}
 	/**
-	Erase a message.
+	Erases a message.
 	*/
 	void eraseMessage(in String src_message)
 	{
@@ -102,7 +102,7 @@ public:
 		ptrcall!(void)(_classBinding.eraseMessage, _godot_object, src_message);
 	}
 	/**
-	Return all the messages (keys).
+	Returns all the messages (keys).
 	*/
 	PoolStringArray getMessageList() const
 	{
@@ -110,7 +110,7 @@ public:
 		return ptrcall!(PoolStringArray)(_classBinding.getMessageList, _godot_object);
 	}
 	/**
-	
+	Returns the number of existing messages.
 	*/
 	long getMessageCount() const
 	{
@@ -149,7 +149,7 @@ public:
 		_setMessages(v);
 	}
 	/**
-	
+	The locale of the translation.
 	*/
 	@property String locale()
 	{

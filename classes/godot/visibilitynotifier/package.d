@@ -72,7 +72,8 @@ public:
 		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
 	}
 	/**
-	If `true` the bounding box is on the screen.
+	If `true`, the bounding box is on the screen.
+	Note: It takes one frame for the node's visibility to be assessed once added to the scene tree, so this method will return `false` right after it is instantiated, even if it will be on screen in the draw pass.
 	*/
 	bool isOnScreen() const
 	{

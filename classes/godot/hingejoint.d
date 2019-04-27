@@ -105,7 +105,7 @@ public:
 	enum Flag : int
 	{
 		/**
-		If `true` the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
+		If `true`, the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
 		*/
 		flagUseLimit = 0,
 		/**
@@ -216,7 +216,7 @@ public:
 		setParam(0, v);
 	}
 	/**
-	If `true` the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
+	If `true`, the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
 	*/
 	@property bool angularLimitEnable()
 	{

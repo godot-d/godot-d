@@ -88,7 +88,7 @@ public:
 		*/
 		resultCantResolve = 3,
 		/**
-		Request failed due to connection(read/write) error.
+		Request failed due to connection (read/write) error.
 		*/
 		resultConnectionError = 4,
 		/**
@@ -96,11 +96,11 @@ public:
 		*/
 		resultSslHandshakeError = 5,
 		/**
-		Request does not have a response(yet).
+		Request does not have a response (yet).
 		*/
 		resultNoResponse = 6,
 		/**
-		Request exceeded its maximum size limit, see $(D setBodySizeLimit).
+		Request exceeded its maximum size limit, see $(D bodySizeLimit).
 		*/
 		resultBodySizeLimitExceeded = 7,
 		/**
@@ -116,7 +116,7 @@ public:
 		*/
 		resultDownloadFileWriteError = 10,
 		/**
-		Request reached its maximum redirect limit, see $(D setMaxRedirects).
+		Request reached its maximum redirect limit, see $(D maxRedirects).
 		*/
 		resultRedirectLimitReached = 11,
 	}
@@ -277,7 +277,7 @@ public:
 		setDownloadFile(v);
 	}
 	/**
-	If `true` multithreading is used to improve performance.
+	If `true`, multithreading is used to improve performance.
 	*/
 	@property bool useThreads()
 	{

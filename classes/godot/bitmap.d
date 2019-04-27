@@ -65,7 +65,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Creates a bitmap with the specified size, filled with false.
+	Creates a bitmap with the specified size, filled with `false`.
 	*/
 	void create(in Vector2 size)
 	{
@@ -73,7 +73,7 @@ public:
 		ptrcall!(void)(_classBinding.create, _godot_object, size);
 	}
 	/**
-	Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to false if the alpha value of the image at that position is equal to `threshold` or less, and true in other case.
+	Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to `false` if the alpha value of the image at that position is equal to `threshold` or less, and `true` in other case.
 	*/
 	void createFromImageAlpha(Image image, in double threshold = 0.1)
 	{
@@ -99,13 +99,13 @@ public:
 	/**
 	Sets a rectangular portion of the bitmap to the specified value.
 	*/
-	void setBitRect(in Rect2 p_rect, in bool bit)
+	void setBitRect(in Rect2 rect, in bool bit)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBitRect, _godot_object, p_rect, bit);
+		ptrcall!(void)(_classBinding.setBitRect, _godot_object, rect, bit);
 	}
 	/**
-	Returns the amount of bitmap elements that are set to true.
+	Returns the amount of bitmap elements that are set to `true`.
 	*/
 	long getTrueBitCount() const
 	{

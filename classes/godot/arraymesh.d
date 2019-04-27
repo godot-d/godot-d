@@ -25,13 +25,13 @@ import godot.material;
 import godot.resource;
 import godot.reference;
 /**
-The `ArrayMesh` is used to construct a $(D Mesh) by specifying the attributes as arrays. The most basic example is the creation of a single triangle
+The $(D ArrayMesh) is used to construct a $(D Mesh) by specifying the attributes as arrays. The most basic example is the creation of a single triangle
 
 
 var vertices = PoolVector3Array()
-vertices.push_back(Vector3(0,1,0))
-vertices.push_back(Vector3(1,0,0))
-vertices.push_back(Vector3(0,0,1))
+vertices.push_back(Vector3(0, 1, 0))
+vertices.push_back(Vector3(1, 0, 0))
+vertices.push_back(Vector3(0, 0, 1))
 # Initialize the ArrayMesh.
 var arr_mesh = ArrayMesh.new()
 var arrays = []
@@ -74,7 +74,6 @@ public:
 		@GodotName("surface_find_by_name") GodotMethod!(long, String) surfaceFindByName;
 		@GodotName("surface_set_name") GodotMethod!(void, long, String) surfaceSetName;
 		@GodotName("surface_get_name") GodotMethod!(String, long) surfaceGetName;
-		@GodotName("center_geometry") GodotMethod!(void) centerGeometry;
 		@GodotName("regen_normalmaps") GodotMethod!(void) regenNormalmaps;
 		@GodotName("lightmap_unwrap") GodotMethod!(GodotError, Transform, double) lightmapUnwrap;
 		@GodotName("set_custom_aabb") GodotMethod!(void, AABB) setCustomAabb;
@@ -217,7 +216,7 @@ public:
 		ptrcall!(void)(_classBinding.addBlendShape, _godot_object, name);
 	}
 	/**
-	Returns the number of blend shapes that the `ArrayMesh` holds.
+	Returns the number of blend shapes that the $(D ArrayMesh) holds.
 	*/
 	long getBlendShapeCount() const
 	{
@@ -233,7 +232,7 @@ public:
 		return ptrcall!(String)(_classBinding.getBlendShapeName, _godot_object, index);
 	}
 	/**
-	Remove all blend shapes from this `ArrayMesh`.
+	Remove all blend shapes from this $(D ArrayMesh).
 	*/
 	void clearBlendShapes()
 	{
@@ -325,7 +324,7 @@ public:
 		ptrcall!(void)(_classBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
 	}
 	/**
-	Return the index of the first surface with this name held within this `ArrayMesh`. If none are found -1 is returned.
+	Return the index of the first surface with this name held within this $(D ArrayMesh). If none are found -1 is returned.
 	*/
 	long surfaceFindByName(in String name) const
 	{
@@ -349,15 +348,7 @@ public:
 		return ptrcall!(String)(_classBinding.surfaceGetName, _godot_object, surf_idx);
 	}
 	/**
-	Centers the geometry.
-	*/
-	void centerGeometry()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.centerGeometry, _godot_object);
-	}
-	/**
-	Will regenerate normal maps for the `ArrayMesh`.
+	Will regenerate normal maps for the $(D ArrayMesh).
 	*/
 	void regenNormalmaps()
 	{
@@ -365,7 +356,7 @@ public:
 		ptrcall!(void)(_classBinding.regenNormalmaps, _godot_object);
 	}
 	/**
-	Will perform a UV unwrap on the `ArrayMesh` to prepare the mesh for lightmapping.
+	Will perform a UV unwrap on the $(D ArrayMesh) to prepare the mesh for lightmapping.
 	*/
 	GodotError lightmapUnwrap(in Transform transform, in double texel_size)
 	{

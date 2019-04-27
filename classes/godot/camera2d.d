@@ -52,6 +52,8 @@ public:
 		@GodotName("clear_current") GodotMethod!(void) clearCurrent;
 		@GodotName("_make_current") GodotMethod!(void, GodotObject) _makeCurrent;
 		@GodotName("_update_scroll") GodotMethod!(void) _updateScroll;
+		@GodotName("set_process_mode") GodotMethod!(void, long) setProcessMode;
+		@GodotName("get_process_mode") GodotMethod!(Camera2D.Camera2DProcessMode) getProcessMode;
 		@GodotName("_set_current") GodotMethod!(void, bool) _setCurrent;
 		@GodotName("is_current") GodotMethod!(bool) isCurrent;
 		@GodotName("set_limit") GodotMethod!(void, long, long) setLimit;
@@ -72,7 +74,7 @@ public:
 		@GodotName("get_camera_screen_center") GodotMethod!(Vector2) getCameraScreenCenter;
 		@GodotName("set_zoom") GodotMethod!(void, Vector2) setZoom;
 		@GodotName("get_zoom") GodotMethod!(Vector2) getZoom;
-		@GodotName("set_custom_viewport") GodotMethod!(void, GodotObject) setCustomViewport;
+		@GodotName("set_custom_viewport") GodotMethod!(void, Node) setCustomViewport;
 		@GodotName("get_custom_viewport") GodotMethod!(Node) getCustomViewport;
 		@GodotName("set_follow_smoothing") GodotMethod!(void, double) setFollowSmoothing;
 		@GodotName("get_follow_smoothing") GodotMethod!(double) getFollowSmoothing;
@@ -102,6 +104,18 @@ public:
 	}
 	@disable new(size_t s);
 	/// 
+	enum Camera2DProcessMode : int
+	{
+		/**
+		
+		*/
+		camera2dProcessPhysics = 0,
+		/**
+		
+		*/
+		camera2dProcessIdle = 1,
+	}
+	/// 
 	enum AnchorMode : int
 	{
 		/**
@@ -116,8 +130,10 @@ public:
 	/// 
 	enum Constants : int
 	{
+		camera2dProcessPhysics = 0,
 		anchorModeFixedTopLeft = 0,
 		anchorModeDragCenter = 1,
+		camera2dProcessIdle = 1,
 	}
 	/**
 	
@@ -176,7 +192,7 @@ public:
 		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
 	}
 	/**
-	Removes any `Camera2D` from the ancestor $(D Viewport)'s internal currently-assigned camera.
+	Removes any $(D Camera2D) from the ancestor $(D Viewport)'s internal currently-assigned camera.
 	*/
 	void clearCurrent()
 	{
@@ -201,6 +217,22 @@ public:
 		Array _GODOT_args = Array.empty_array;
 		String _GODOT_method_name = String("_update_scroll");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void setProcessMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProcessMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	Camera2D.Camera2DProcessMode getProcessMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Camera2D.Camera2DProcessMode)(_classBinding.getProcessMode, _godot_object);
 	}
 	/**
 	
@@ -341,7 +373,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getCameraPosition, _godot_object);
 	}
 	/**
-	Returns the location of the `Camera2D`'s screen-center, relative to the origin.
+	Returns the location of the $(D Camera2D)'s screen-center, relative to the origin.
 	*/
 	Vector2 getCameraScreenCenter() const
 	{
@@ -367,7 +399,7 @@ public:
 	/**
 	
 	*/
-	void setCustomViewport(GodotObject viewport)
+	void setCustomViewport(Node viewport)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setCustomViewport, _godot_object, viewport);
@@ -520,7 +552,7 @@ public:
 		setAnchorMode(v);
 	}
 	/**
-	If `true` the camera rotates with the target. Default value: `false`
+	If `true`, the camera rotates with the target. Default value: `false`
 	*/
 	@property bool rotating()
 	{
@@ -532,7 +564,7 @@ public:
 		setRotating(v);
 	}
 	/**
-	If `true` the camera is the active camera for the current scene. Only one camera can be current, so setting a different camera `current` will disable this one.
+	If `true`, the camera is the active camera for the current scene. Only one camera can be current, so setting a different camera `current` will disable this one.
 	*/
 	@property bool current()
 	{
@@ -556,16 +588,28 @@ public:
 		setZoom(v);
 	}
 	/**
-	The custom $(D Viewport) node attached to the `Camera2D`. If null or not a $(D Viewport), uses the default viewport instead.
+	The custom $(D Viewport) node attached to the $(D Camera2D). If null or not a $(D Viewport), uses the default viewport instead.
 	*/
 	@property Node customViewport()
 	{
 		return getCustomViewport();
 	}
 	/// ditto
-	@property void customViewport(GodotObject v)
+	@property void customViewport(Node v)
 	{
 		setCustomViewport(v);
+	}
+	/**
+	
+	*/
+	@property Camera2D.Camera2DProcessMode processMode()
+	{
+		return getProcessMode();
+	}
+	/// ditto
+	@property void processMode(long v)
+	{
+		setProcessMode(v);
 	}
 	/**
 	Left scroll limit in pixels. The camera stops moving when reaching this value.
@@ -616,7 +660,7 @@ public:
 		setLimit(3, v);
 	}
 	/**
-	If `true` the camera smoothly stops when reaches its limits. Default value: `false`
+	If `true`, the camera smoothly stops when reaches its limits. Default value: `false`
 	*/
 	@property bool limitSmoothed()
 	{
@@ -628,7 +672,7 @@ public:
 		setLimitSmoothingEnabled(v);
 	}
 	/**
-	If `true` the camera only moves when reaching the horizontal drag margins. If `false` the camera moves horizontally regardless of margins. Default value: `true`.
+	If `true`, the camera only moves when reaching the horizontal drag margins. If `false`, the camera moves horizontally regardless of margins. Default value: `true`.
 	*/
 	@property bool dragMarginHEnabled()
 	{
@@ -640,7 +684,7 @@ public:
 		setHDragEnabled(v);
 	}
 	/**
-	If `true` the camera only moves when reaching the vertical drag margins. If `false` the camera moves vertically regardless of margins. Default value: `true`.
+	If `true`, the camera only moves when reaching the vertical drag margins. If `false`, the camera moves vertically regardless of margins. Default value: `true`.
 	*/
 	@property bool dragMarginVEnabled()
 	{
@@ -652,7 +696,7 @@ public:
 		setVDragEnabled(v);
 	}
 	/**
-	If `true` the camera smoothly moves towards the target at $(D smoothingSpeed). Default value: `false`
+	If `true`, the camera smoothly moves towards the target at $(D smoothingSpeed). Default value: `false`
 	*/
 	@property bool smoothingEnabled()
 	{
@@ -748,7 +792,7 @@ public:
 		setDragMargin(3, v);
 	}
 	/**
-	If `true` draws the camera's screen rectangle in the editor. Default value: `false`
+	If `true`, draws the camera's screen rectangle in the editor. Default value: `false`
 	*/
 	@property bool editorDrawScreen()
 	{
@@ -760,7 +804,7 @@ public:
 		setScreenDrawingEnabled(v);
 	}
 	/**
-	If `true` draws the camera's limits rectangle in the editor. Default value: `true`
+	If `true`, draws the camera's limits rectangle in the editor. Default value: `true`
 	*/
 	@property bool editorDrawLimits()
 	{
@@ -772,7 +816,7 @@ public:
 		setLimitDrawingEnabled(v);
 	}
 	/**
-	If `true` draws the camera's drag margin rectangle in the editor. Default value: `false`
+	If `true`, draws the camera's drag margin rectangle in the editor. Default value: `false`
 	*/
 	@property bool editorDrawDragMargin()
 	{

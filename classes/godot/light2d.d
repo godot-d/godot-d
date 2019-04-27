@@ -495,7 +495,7 @@ public:
 		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
 	}
 	/**
-	If `true` Light2D will emit light. Default value: `true`.
+	If `true`, Light2D will emit light. Default value: `true`.
 	*/
 	@property bool enabled()
 	{
@@ -507,7 +507,7 @@ public:
 		setEnabled(v);
 	}
 	/**
-	If `true` Light2D will only appear when editing the scene. Default value: `false`.
+	If `true`, Light2D will only appear when editing the scene. Default value: `false`.
 	*/
 	@property bool editorOnly()
 	{
@@ -517,6 +517,18 @@ public:
 	@property void editorOnly(bool v)
 	{
 		setEditorOnly(v);
+	}
+	/**
+	$(D Texture) used for the Light2D's appearance.
+	*/
+	@property Texture texture()
+	{
+		return getTexture();
+	}
+	/// ditto
+	@property void texture(Texture v)
+	{
+		setTexture(v);
 	}
 	/**
 	The offset of the Light2D's `texture`.
@@ -651,7 +663,7 @@ public:
 		setItemCullMask(v);
 	}
 	/**
-	If `true` the Light2D will cast shadows. Default value: `false`.
+	If `true`, the Light2D will cast shadows. Default value: `false`.
 	*/
 	@property bool shadowEnabled()
 	{
@@ -699,7 +711,7 @@ public:
 		setShadowGradientLength(v);
 	}
 	/**
-	Shadow filter type. Use SHADOW_FILTER_* constants to set `shadow_filter`. Default value: `None`.
+	Shadow filter type. Use $(D Light2D.shadowfilter) constants as values. Default value: `SHADOW_FILTER_NONE`.
 	*/
 	@property Light2D.ShadowFilter shadowFilter()
 	{

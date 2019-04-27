@@ -1,5 +1,5 @@
 /**
-Default environment properties for the entire scene (post-processing effects, lightning and background settings).
+Default environment properties for the entire scene (post-processing effects, lighting and background settings).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,11 +23,11 @@ import godot.classdb;
 import godot.node;
 import godot.environment;
 /**
-Default environment properties for the entire scene (post-processing effects, lightning and background settings).
+Default environment properties for the entire scene (post-processing effects, lighting and background settings).
 
-The `WorldEnvironment` node is used to configure the default $(D Environment) for the scene.
-The parameters defined in the `WorldEnvironment` can be overridden by an $(D Environment) node set on the current $(D Camera). Additionally, only one `WorldEnvironment` may be instanced in a given scene at a time.
-The `WorldEnvironment` allows the user to specify default lighting parameters (e.g. ambient lighting), various post-processing effects (e.g. SSAO, DOF, Tonemapping), and how to draw the background (e.g. solid color, skybox). Usually, these are added in order to improve the realism/color balance of the scene.
+The $(D WorldEnvironment) node is used to configure the default $(D Environment) for the scene.
+The parameters defined in the $(D WorldEnvironment) can be overridden by an $(D Environment) node set on the current $(D Camera). Additionally, only one $(D WorldEnvironment) may be instanced in a given scene at a time.
+The $(D WorldEnvironment) allows the user to specify default lighting parameters (e.g. ambient lighting), various post-processing effects (e.g. SSAO, DOF, Tonemapping), and how to draw the background (e.g. solid color, skybox). Usually, these are added in order to improve the realism/color balance of the scene.
 */
 @GodotBaseClass struct WorldEnvironment
 {
@@ -73,7 +73,7 @@ public:
 		return ptrcall!(Environment)(_classBinding.getEnvironment, _godot_object);
 	}
 	/**
-	The $(D Environment) resource used by this `WorldEnvironment`, defining the default properties.
+	The $(D Environment) resource used by this $(D WorldEnvironment), defining the default properties.
 	*/
 	@property Environment environment()
 	{

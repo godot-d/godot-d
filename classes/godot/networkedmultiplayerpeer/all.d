@@ -5,5 +5,5 @@ public import
 	godot.networkedmultiplayerenet,
 	godot.multiplayerpeergdnative,
 	godot.websocketmultiplayerpeer,
-	godot.websocketclient,
-	godot.websocketserver;
+	godot.websocketserver,
+	godot.websocketclient;

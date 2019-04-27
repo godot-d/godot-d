@@ -1,5 +1,5 @@
 /**
-Static body for 3D Physics.
+Static body for 3D physics.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -26,9 +26,9 @@ import godot.collisionobject;
 import godot.spatial;
 import godot.node;
 /**
-Static body for 3D Physics.
+Static body for 3D physics.
 
-A static body is a simple body that is not intended to move. They don't consume any CPU resources in contrast to a $(D RigidBody3D) so they are great for scenario collision.
+A static body is a simple body that is not intended to move. They don't consume any CPU resources in contrast to a $(D RigidBody) so they are great for scenario collision.
 A static body can also be animated by using simulated motion mode. This is useful for implementing functionalities such as moving platforms. When this mode is active the body can be animated and automatically computes linear and angular velocity to apply in that frame and to influence other bodies.
 Alternatively, a constant linear or angular velocity can be set for the static body, so even if it doesn't move, it affects other bodies as if it was moving (this is useful for simulating conveyor belts or conveyor wheels).
 */

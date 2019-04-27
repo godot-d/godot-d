@@ -26,10 +26,10 @@ import godot.node;
 Query the closest object intersecting a ray.
 
 A RayCast represents a line from its origin to its destination position, `cast_to`. It is used to query the 3D space in order to find the closest object along the path of the ray.
-RayCast can ignore some objects by adding them to the exception list via `add_exception`, by setting proper filtering with collision layers, or by filtering object types with type masks.
+RayCast can ignore some objects by adding them to the exception list via `add_exception` or by setting proper filtering with collision layers and masks.
 RayCast can be configured to report collisions with $(D Area)s ($(D collideWithAreas)) and/or $(D PhysicsBody)s ($(D collideWithBodies)).
 Only enabled raycasts will be able to query the space and report collisions.
-RayCast calculates intersection every physics frame (see $(D Node)), and the result is cached so it can be used later until the next frame. If multiple queries are required between physics frames (or during the same frame) use $(D forceRaycastUpdate) after adjusting the raycast.
+RayCast calculates intersection every physics frame (see $(D Node)), and the result is cached so it can be used later until the next frame. If multiple queries are required between physics frames (or during the same frame), use $(D forceRaycastUpdate) after adjusting the raycast.
 */
 @GodotBaseClass struct RayCast
 {
@@ -283,7 +283,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
 	}
 	/**
-	If `true` collisions will be reported. Default value: `false`.
+	If `true`, collisions will be reported. Default value: `false`.
 	*/
 	@property bool enabled()
 	{
@@ -295,7 +295,7 @@ public:
 		setEnabled(v);
 	}
 	/**
-	If `true` collisions will be ignored for this RayCast's immediate parent. Default value: `true`.
+	If `true`, collisions will be ignored for this RayCast's immediate parent. Default value: `true`.
 	*/
 	@property bool excludeParent()
 	{

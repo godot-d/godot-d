@@ -268,7 +268,7 @@ public:
 		setExtraCullMargin(v);
 	}
 	/**
-	If `true` this GeometryInstance will be used when baking lights using a $(D GIProbe) and/or any other form of baked lighting.
+	If `true`, this GeometryInstance will be used when baking lights using a $(D GIProbe) and/or any other form of baked lighting.
 	*/
 	@property bool useInBakedLight()
 	{

@@ -55,6 +55,8 @@ public:
 		@GodotName("is_shape_owner_disabled") GodotMethod!(bool, long) isShapeOwnerDisabled;
 		@GodotName("shape_owner_set_one_way_collision") GodotMethod!(void, long, bool) shapeOwnerSetOneWayCollision;
 		@GodotName("is_shape_owner_one_way_collision_enabled") GodotMethod!(bool, long) isShapeOwnerOneWayCollisionEnabled;
+		@GodotName("shape_owner_set_one_way_collision_margin") GodotMethod!(void, long, double) shapeOwnerSetOneWayCollisionMargin;
+		@GodotName("get_shape_owner_one_way_collision_margin") GodotMethod!(double, long) getShapeOwnerOneWayCollisionMargin;
 		@GodotName("shape_owner_add_shape") GodotMethod!(void, long, Shape2D) shapeOwnerAddShape;
 		@GodotName("shape_owner_get_shape_count") GodotMethod!(long, long) shapeOwnerGetShapeCount;
 		@GodotName("shape_owner_get_shape") GodotMethod!(Shape2D, long, long) shapeOwnerGetShape;
@@ -160,7 +162,7 @@ public:
 		return ptrcall!(GodotObject)(_classBinding.shapeOwnerGetOwner, _godot_object, owner_id);
 	}
 	/**
-	If `true` disables the given shape owner.
+	If `true`, disables the given shape owner.
 	*/
 	void shapeOwnerSetDisabled(in long owner_id, in bool disabled)
 	{
@@ -168,7 +170,7 @@ public:
 		ptrcall!(void)(_classBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
 	}
 	/**
-	If `true` the shape owner and its shapes are disabled.
+	If `true`, the shape owner and its shapes are disabled.
 	*/
 	bool isShapeOwnerDisabled(in long owner_id) const
 	{
@@ -176,7 +178,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isShapeOwnerDisabled, _godot_object, owner_id);
 	}
 	/**
-	If `enable` is `true`, collisions for the shape owner originating from this `CollisionObject2D` will not be reported to collided with `CollisionObject2D`s.
+	If `enable` is `true`, collisions for the shape owner originating from this $(D CollisionObject2D) will not be reported to collided with $(D CollisionObject2D)s.
 	*/
 	void shapeOwnerSetOneWayCollision(in long owner_id, in bool enable)
 	{
@@ -184,12 +186,28 @@ public:
 		ptrcall!(void)(_classBinding.shapeOwnerSetOneWayCollision, _godot_object, owner_id, enable);
 	}
 	/**
-	Returns `true` if collisions for the shape owner originating from this `CollisionObject2D` will not be reported to collided with `CollisionObject2D`s.
+	Returns `true` if collisions for the shape owner originating from this $(D CollisionObject2D) will not be reported to collided with $(D CollisionObject2D)s.
 	*/
 	bool isShapeOwnerOneWayCollisionEnabled(in long owner_id) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isShapeOwnerOneWayCollisionEnabled, _godot_object, owner_id);
+	}
+	/**
+	
+	*/
+	void shapeOwnerSetOneWayCollisionMargin(in long owner_id, in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerSetOneWayCollisionMargin, _godot_object, owner_id, margin);
+	}
+	/**
+	
+	*/
+	double getShapeOwnerOneWayCollisionMargin(in long owner_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getShapeOwnerOneWayCollisionMargin, _godot_object, owner_id);
 	}
 	/**
 	Adds a $(D Shape2D) to the shape owner.
@@ -248,7 +266,7 @@ public:
 		return ptrcall!(long)(_classBinding.shapeFindOwner, _godot_object, shape_index);
 	}
 	/**
-	If `true` this object is pickable. A pickable object can detect the mouse pointer entering/leaving, and if the mouse is inside it, report input events.
+	If `true`, this object is pickable. A pickable object can detect the mouse pointer entering/leaving, and if the mouse is inside it, report input events.
 	*/
 	@property bool inputPickable()
 	{

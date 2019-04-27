@@ -161,7 +161,7 @@ public:
 		setBias(v);
 	}
 	/**
-	If `true` $(D nodeA) and $(D nodeB) can collide. Default value: `false`.
+	If `true`, $(D nodeA) and $(D nodeB) can collide. Default value: `false`.
 	*/
 	@property bool disableCollision()
 	{

@@ -233,7 +233,7 @@ public:
 		setLimitEnd(v);
 	}
 	/**
-	If `true` elements in $(D ParallaxLayer) child aren't affected by the zoom level of the camera.
+	If `true`, elements in $(D ParallaxLayer) child aren't affected by the zoom level of the camera.
 	*/
 	@property bool scrollIgnoreCameraZoom()
 	{

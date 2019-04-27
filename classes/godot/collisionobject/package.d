@@ -177,7 +177,7 @@ public:
 		return ptrcall!(GodotObject)(_classBinding.shapeOwnerGetOwner, _godot_object, owner_id);
 	}
 	/**
-	If `true` disables the given shape owner.
+	If `true`, disables the given shape owner.
 	*/
 	void shapeOwnerSetDisabled(in long owner_id, in bool disabled)
 	{
@@ -185,7 +185,7 @@ public:
 		ptrcall!(void)(_classBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
 	}
 	/**
-	If `true` the shape owner and its shapes are disabled.
+	If `true`, the shape owner and its shapes are disabled.
 	*/
 	bool isShapeOwnerDisabled(in long owner_id) const
 	{
@@ -249,7 +249,7 @@ public:
 		return ptrcall!(long)(_classBinding.shapeFindOwner, _godot_object, shape_index);
 	}
 	/**
-	If `true` the $(D CollisionObject)'s shapes will respond to $(D RayCast)s. Default value: `true`.
+	If `true`, the $(D CollisionObject)'s shapes will respond to $(D RayCast)s. Default value: `true`.
 	*/
 	@property bool inputRayPickable()
 	{
@@ -261,7 +261,7 @@ public:
 		setRayPickable(v);
 	}
 	/**
-	If `true` the `CollisionObject` will continue to receive input events as the mouse is dragged across its shapes. Default value: `false`.
+	If `true`, the $(D CollisionObject) will continue to receive input events as the mouse is dragged across its shapes. Default value: `false`.
 	*/
 	@property bool inputCaptureOnDrag()
 	{

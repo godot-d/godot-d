@@ -52,7 +52,7 @@ public:
 	{
 		__gshared:
 		@GodotName("_run") GodotMethod!(void) _run;
-		@GodotName("add_root_node") GodotMethod!(void, GodotObject) addRootNode;
+		@GodotName("add_root_node") GodotMethod!(void, Node) addRootNode;
 		@GodotName("get_scene") GodotMethod!(Node) getScene;
 		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
 	}
@@ -81,7 +81,7 @@ public:
 	Adds `node` as a child of the root node in the editor context.
 	WARNING: The implementation of this method is currently disabled.
 	*/
-	void addRootNode(GodotObject node)
+	void addRootNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addRootNode, _godot_object, node);

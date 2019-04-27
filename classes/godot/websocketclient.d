@@ -21,6 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.websocketmultiplayerpeer;
+import godot.networkedmultiplayerpeer;
+import godot.packetpeer;
+import godot.reference;
 /**
 A WebSocket client implementation
 
@@ -60,7 +63,8 @@ public:
 	@disable new(size_t s);
 	/**
 	Connect to the given URL requesting one of the given `protocols` as sub-protocol.
-	If `true` is passed as `gd_mp_api`, the client will behave like a network peer for the $(D MultiplayerAPI). Note: connections to non Godot servers will not work, and $(D dataReceived) will not be emitted when this option is true.
+	If `true` is passed as `gd_mp_api`, the client will behave like a network peer for the $(D MultiplayerAPI), connections to non Godot servers will not work, and $(D dataReceived) will not be emitted.
+	If `false` is passed instead (default), you must call $(D PacketPeer) functions (`put_packet`, `get_packet`, etc.) on the $(D WebSocketPeer) returned via `get_peer(1)` and not on this object directly (e.g. `get_peer(1).put_packet(data)`).
 	*/
 	GodotError connectToUrl(in String url, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false)
 	{

@@ -6,6 +6,8 @@ import godot.c.nativescript;
 import godot.c.pluginscript;
 import godot.c.android;
 import godot.c.arvr;
+import godot.c.videodecoder;
+import godot.c.net;
 import std.meta : AliasSeq, staticIndexOf;
 import std.format : format;
 import std.string : capitalize, toLower;
@@ -42,6 +44,8 @@ import core.stdc.stddef : wchar_t;
 	pluginscript,
 	android,
 	arvr,
+	videodecoder,
+	net,
 }
 private
 {
@@ -71,6 +75,17 @@ private
 	__gshared bool hasArvr_1_1 = false;
 	version(GDNativeRequireArvr_1_1) enum bool requiresArvr_1_1 = true;
 	else enum bool requiresArvr_1_1 = false;
+	alias SupportedVersions(ApiType type : ApiType.videodecoder) = AliasSeq!([0, 1], );
+	__gshared bool hasVideodecoder_0_1 = false;
+	version(GDNativeRequireVideodecoder_0_1) enum bool requiresVideodecoder_0_1 = true;
+	else enum bool requiresVideodecoder_0_1 = false;
+	alias SupportedVersions(ApiType type : ApiType.net) = AliasSeq!([3, 1], [3, 2], );
+	__gshared bool hasNet_3_1 = false;
+	version(GDNativeRequireNet_3_1) enum bool requiresNet_3_1 = true;
+	else enum bool requiresNet_3_1 = requiresNet_3_2;
+	__gshared bool hasNet_3_2 = false;
+	version(GDNativeRequireNet_3_2) enum bool requiresNet_3_2 = true;
+	else enum bool requiresNet_3_2 = false;
 }
 struct GDNativeVersion
 {
@@ -112,6 +127,22 @@ struct GDNativeVersion
 	@property @nogc nothrow static bool hasArvr(int major, int minor)() if(!supportsArvr!(major, minor))
 	{
 		static assert(0, versionError("Arvr", major, minor));
+	}
+	enum bool supportsVideodecoder(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.videodecoder)) != -1;
+	static if(requiresVideodecoder_0_1) enum bool hasVideodecoder(int major : 0, int minor : 1) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasVideodecoder(int major : 0, int minor : 1)() { return hasVideodecoder_0_1; }
+	@property @nogc nothrow static bool hasVideodecoder(int major, int minor)() if(!supportsVideodecoder!(major, minor))
+	{
+		static assert(0, versionError("Videodecoder", major, minor));
+	}
+	enum bool supportsNet(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.net)) != -1;
+	static if(requiresNet_3_1) enum bool hasNet(int major : 3, int minor : 1) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasNet(int major : 3, int minor : 1)() { return hasNet_3_1; }
+	static if(requiresNet_3_2) enum bool hasNet(int major : 3, int minor : 2) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasNet(int major : 3, int minor : 2)() { return hasNet_3_2; }
+	@property @nogc nothrow static bool hasNet(int major, int minor)() if(!supportsNet!(major, minor))
+	{
+		static assert(0, versionError("Net", major, minor));
 	}
 
 			@nogc nothrow
@@ -701,7 +732,7 @@ private extern(C) @nogc nothrow
 	alias da_godot_string_new = void function(godot_string * r_dest);
 	alias da_godot_string_new_copy = void function(godot_string * r_dest, const godot_string * p_src);
 	alias da_godot_string_new_with_wide_string = void function(godot_string * r_dest, const wchar_t * p_contents, const int p_size);
-	alias da_godot_string_operator_index = wchar_t * function(godot_string * p_self, const godot_int p_idx);
+	alias da_godot_string_operator_index = const wchar_t * function(godot_string * p_self, const godot_int p_idx);
 	alias da_godot_string_operator_index_const = wchar_t function(const godot_string * p_self, const godot_int p_idx);
 	alias da_godot_string_wide_str = const wchar_t * function(const godot_string * p_self);
 	alias da_godot_string_operator_equal = godot_bool function(const godot_string * p_self, const godot_string * p_b);
@@ -1751,6 +1782,56 @@ public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_1
 }
 __gshared const(godot_gdnative_ext_arvr_api_struct_1_1)* _godot_arvr_api = null;
 private alias apiStruct(ApiType t : ApiType.arvr) = _godot_arvr_api;
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_videodecoder_file_read = godot_int function(void * file_ptr, uint8_t * buf, int buf_size);
+	alias da_godot_videodecoder_file_seek = int64_t function(void * file_ptr, int64_t pos, int whence);
+	alias da_godot_videodecoder_register_decoder = void function(const godot_videodecoder_interface_gdnative * p_interface);
+}
+public extern(C) struct godot_gdnative_ext_videodecoder_api_struct_0_1
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_videodecoder_file_read godot_videodecoder_file_read;
+	da_godot_videodecoder_file_seek godot_videodecoder_file_seek;
+	da_godot_videodecoder_register_decoder godot_videodecoder_register_decoder;
+}
+__gshared const(godot_gdnative_ext_videodecoder_api_struct_0_1)* _godot_videodecoder_api = null;
+private alias apiStruct(ApiType t : ApiType.videodecoder) = _godot_videodecoder_api;
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_net_bind_stream_peer = void function(godot_object  p_obj, const godot_net_stream_peer * p_interface);
+	alias da_godot_net_bind_packet_peer = void function(godot_object  p_obj, const godot_net_packet_peer * p_interface);
+	alias da_godot_net_bind_multiplayer_peer = void function(godot_object  p_obj, const godot_net_multiplayer_peer * p_interface);
+}
+public extern(C) struct godot_gdnative_ext_net_api_struct_3_1
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_net_bind_stream_peer godot_net_bind_stream_peer;
+	da_godot_net_bind_packet_peer godot_net_bind_packet_peer;
+	da_godot_net_bind_multiplayer_peer godot_net_bind_multiplayer_peer;
+const(godot_gdnative_ext_net_api_struct_3_2*) nextVersion() const { return cast(typeof(return))next; }
+alias nextVersion this;
+}
+__gshared const(godot_gdnative_ext_net_api_struct_3_1)* _godot_net_api = null;
+private alias apiStruct(ApiType t : ApiType.net) = _godot_net_api;
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_net_bind_webrtc_peer = void function(godot_object  p_obj, const godot_net_webrtc_peer * p_interface);
+}
+public extern(C) struct godot_gdnative_ext_net_api_struct_3_2
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_net_bind_webrtc_peer godot_net_bind_webrtc_peer;
+}
 
 
 			@nogc nothrow

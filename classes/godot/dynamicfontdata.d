@@ -39,6 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("set_antialiased") GodotMethod!(void, bool) setAntialiased;
+		@GodotName("is_antialiased") GodotMethod!(bool) isAntialiased;
 		@GodotName("set_font_path") GodotMethod!(void, String) setFontPath;
 		@GodotName("get_font_path") GodotMethod!(String) getFontPath;
 		@GodotName("set_hinting") GodotMethod!(void, long) setHinting;
@@ -82,6 +84,22 @@ public:
 	/**
 	
 	*/
+	void setAntialiased(in bool antialiased)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
+	}
+	/**
+	
+	*/
+	bool isAntialiased() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isAntialiased, _godot_object);
+	}
+	/**
+	
+	*/
 	void setFontPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
@@ -110,6 +128,18 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(DynamicFontData.Hinting)(_classBinding.getHinting, _godot_object);
+	}
+	/**
+	Controls whether the font should be rendered with anti-aliasing.
+	*/
+	@property bool antialiased()
+	{
+		return isAntialiased();
+	}
+	/// ditto
+	@property void antialiased(bool v)
+	{
+		setAntialiased(v);
 	}
 	/**
 	The font hinting mode used by FreeType.

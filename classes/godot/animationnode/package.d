@@ -1,5 +1,5 @@
 /**
-
+Base resource for $(D AnimationTree) nodes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,10 @@ import godot.classdb;
 import godot.resource;
 import godot.reference;
 /**
+Base resource for $(D AnimationTree) nodes.
 
+In general it's not used directly but you can create custom ones with custom blending formulas.
+Inherit this when creating nodes mainly for use in $(D AnimationNodeBlendTree), otherwise $(D AnimationRootNode) should be used instead.
 */
 @GodotBaseClass struct AnimationNode
 {
@@ -37,6 +40,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("get_child_nodes") GodotMethod!(Dictionary) getChildNodes;
+		@GodotName("get_parameter_list") GodotMethod!(Array) getParameterList;
+		@GodotName("get_child_by_name") GodotMethod!(GodotObject, String) getChildByName;
+		@GodotName("get_parameter_default_value") GodotMethod!(Variant, String) getParameterDefaultValue;
 		@GodotName("process") GodotMethod!(void, double, bool) process;
 		@GodotName("get_caption") GodotMethod!(String) getCaption;
 		@GodotName("has_filter") GodotMethod!(String) hasFilter;
@@ -72,19 +79,19 @@ public:
 	enum FilterAction : int
 	{
 		/**
-		
+		Do not use filtering.
 		*/
 		filterIgnore = 0,
 		/**
-		
+		Paths matching the filter will be allowed to pass.
 		*/
 		filterPass = 1,
 		/**
-		
+		Paths matching the filter will be discarded.
 		*/
 		filterStop = 2,
 		/**
-		
+		Paths matching the filter will be blended (by the blend value).
 		*/
 		filterBlend = 3,
 	}
@@ -97,7 +104,48 @@ public:
 		filterBlend = 3,
 	}
 	/**
-	
+	Get all children nodes, in order as a name:node dictionary. Only useful when inheriting $(D AnimationRootNode).
+	*/
+	Dictionary getChildNodes()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("get_child_nodes");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
+	}
+	/**
+	Get the property information for parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees. Format is similar to $(D GodotObject.getPropertyList).
+	*/
+	Array getParameterList()
+	{
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("get_parameter_list");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+	}
+	/**
+	Get the a child node by index (used by editors inheriting from $(D AnimationRootNode)).
+	*/
+	GodotObject getChildByName(in String name)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(name);
+		String _GODOT_method_name = String("get_child_by_name");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+	}
+	/**
+	Get the default value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
+	*/
+	Variant getParameterDefaultValue(in String name)
+	{
+		Array _GODOT_args = Array.empty_array;
+		_GODOT_args.append(name);
+		String _GODOT_method_name = String("get_parameter_default_value");
+		return this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Called when a custom node is processed. The argument "time" is relative, unless "seek" is `true` (in which case it is absolute).
+	Here, call the $(D blendInput), $(D blendNode) or $(D blendAnimation) functions.
+	You can also use $(D getParameter) and $(D setParameter) to modify local memory.
+	This function returns the time left for the current animation to finish (if unsure, just pass  the value from the main blend being called).
 	*/
 	void process(in double time, in bool seek)
 	{
@@ -108,7 +156,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Get the text caption for this node (used by some editors)
 	*/
 	String getCaption()
 	{
@@ -117,7 +165,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	
+	Return `true` whether you want the blend tree editor to display filter editing on this node.
 	*/
 	String hasFilter()
 	{
@@ -126,7 +174,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	
+	Amount of inputs in this node, only useful for nodes that go into $(D AnimationNodeBlendTree).
 	*/
 	long getInputCount() const
 	{
@@ -134,7 +182,7 @@ public:
 		return ptrcall!(long)(_classBinding.getInputCount, _godot_object);
 	}
 	/**
-	
+	Get the name of an input by index.
 	*/
 	String getInputName(in long input)
 	{
@@ -142,7 +190,7 @@ public:
 		return ptrcall!(String)(_classBinding.getInputName, _godot_object, input);
 	}
 	/**
-	
+	Add an input to the node. This is only useful for nodes created for use in an $(D AnimationNodeBlendTree)
 	*/
 	void addInput(in String name)
 	{
@@ -150,7 +198,7 @@ public:
 		ptrcall!(void)(_classBinding.addInput, _godot_object, name);
 	}
 	/**
-	
+	Remove an input, call this only when inactive.
 	*/
 	void removeInput(in long index)
 	{
@@ -158,7 +206,7 @@ public:
 		ptrcall!(void)(_classBinding.removeInput, _godot_object, index);
 	}
 	/**
-	
+	Add/Remove a path for the filter.
 	*/
 	void setFilterPath(NodePathArg0)(in NodePathArg0 path, in bool enable)
 	{
@@ -166,7 +214,7 @@ public:
 		ptrcall!(void)(_classBinding.setFilterPath, _godot_object, path, enable);
 	}
 	/**
-	
+	Return `true` wether a given path is filtered.
 	*/
 	bool isPathFiltered(NodePathArg0)(in NodePathArg0 path) const
 	{
@@ -209,7 +257,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
-	
+	Blend an animation by "blend" amount (name must be valid in the linked $(D AnimationPlayer)). A time and delta mas be passed, as well as whether seek happened.
 	*/
 	void blendAnimation(in String animation, in double time, in double delta, in bool seeked, in double blend)
 	{
@@ -217,7 +265,7 @@ public:
 		ptrcall!(void)(_classBinding.blendAnimation, _godot_object, animation, time, delta, seeked, blend);
 	}
 	/**
-	
+	Blend another animaiton node (in case this node contains children animation nodes). This function is only useful if you inherit from $(D AnimationRootNode) instead, else editors will not display your node for addition.
 	*/
 	double blendNode(in String name, AnimationNode node, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
 	{
@@ -225,7 +273,7 @@ public:
 		return ptrcall!(double)(_classBinding.blendNode, _godot_object, name, node, time, seek, blend, filter, optimize);
 	}
 	/**
-	
+	Blend an input. This is only useful for nodes created for an $(D AnimationNodeBlendTree). Time is a delta, unless "seek" is `true`, in which case it is absolute. A filter mode may be optionally passed.
 	*/
 	double blendInput(in long input_index, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
 	{
@@ -233,7 +281,7 @@ public:
 		return ptrcall!(double)(_classBinding.blendInput, _godot_object, input_index, time, seek, blend, filter, optimize);
 	}
 	/**
-	
+	Set a custom parameter. These are used as local storage, because resources can be reused across the tree or scenes.
 	*/
 	void setParameter(VariantArg1)(in String name, in VariantArg1 value)
 	{
@@ -241,7 +289,7 @@ public:
 		ptrcall!(void)(_classBinding.setParameter, _godot_object, name, value);
 	}
 	/**
-	
+	Get the value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
 	*/
 	Variant getParameter(in String name) const
 	{
@@ -249,7 +297,7 @@ public:
 		return ptrcall!(Variant)(_classBinding.getParameter, _godot_object, name);
 	}
 	/**
-	
+	Return whether filtering is enabled.
 	*/
 	@property bool filterEnabled()
 	{

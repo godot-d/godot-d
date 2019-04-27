@@ -47,8 +47,8 @@ public:
 		@GodotName("get_uv") GodotMethod!(PoolVector2Array) getUv;
 		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("get_color") GodotMethod!(Color) getColor;
-		@GodotName("set_splits") GodotMethod!(void, PoolIntArray) setSplits;
-		@GodotName("get_splits") GodotMethod!(PoolIntArray) getSplits;
+		@GodotName("set_polygons") GodotMethod!(void, Array) setPolygons;
+		@GodotName("get_polygons") GodotMethod!(Array) getPolygons;
 		@GodotName("set_vertex_colors") GodotMethod!(void, PoolColorArray) setVertexColors;
 		@GodotName("get_vertex_colors") GodotMethod!(PoolColorArray) getVertexColors;
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
@@ -79,8 +79,11 @@ public:
 		@GodotName("set_bone_weights") GodotMethod!(void, long, PoolRealArray) setBoneWeights;
 		@GodotName("set_skeleton") GodotMethod!(void, NodePath) setSkeleton;
 		@GodotName("get_skeleton") GodotMethod!(NodePath) getSkeleton;
+		@GodotName("set_internal_vertex_count") GodotMethod!(void, long) setInternalVertexCount;
+		@GodotName("get_internal_vertex_count") GodotMethod!(long) getInternalVertexCount;
 		@GodotName("_set_bones") GodotMethod!(void, Array) _setBones;
 		@GodotName("_get_bones") GodotMethod!(Array) _getBones;
+		@GodotName("_skeleton_bone_setup_changed") GodotMethod!(void) _skeletonBoneSetupChanged;
 	}
 	bool opEquals(in Polygon2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Polygon2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -145,18 +148,18 @@ public:
 	/**
 	
 	*/
-	void setSplits(in PoolIntArray splits)
+	void setPolygons(in Array polygons)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSplits, _godot_object, splits);
+		ptrcall!(void)(_classBinding.setPolygons, _godot_object, polygons);
 	}
 	/**
 	
 	*/
-	PoolIntArray getSplits() const
+	Array getPolygons() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getSplits, _godot_object);
+		return ptrcall!(Array)(_classBinding.getPolygons, _godot_object);
 	}
 	/**
 	
@@ -401,6 +404,22 @@ public:
 	/**
 	
 	*/
+	void setInternalVertexCount(in long internal_vertex_count)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInternalVertexCount, _godot_object, internal_vertex_count);
+	}
+	/**
+	
+	*/
+	long getInternalVertexCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getInternalVertexCount, _godot_object);
+	}
+	/**
+	
+	*/
 	void _setBones(in Array bones)
 	{
 		Array _GODOT_args = Array.empty_array;
@@ -418,40 +437,13 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
-	The polygon's list of vertices. The final point will be connected to the first.
-	*/
-	@property PoolVector2Array polygon()
-	{
-		return getPolygon();
-	}
-	/// ditto
-	@property void polygon(PoolVector2Array v)
-	{
-		setPolygon(v);
-	}
-	/**
-	Texture coordinates for each vertex of the polygon. There should be one `uv` per polygon vertex. If there are fewer, undefined vertices will use `(0, 0)`.
-	*/
-	@property PoolVector2Array uv()
-	{
-		return getUv();
-	}
-	/// ditto
-	@property void uv(PoolVector2Array v)
-	{
-		setUv(v);
-	}
-	/**
 	
 	*/
-	@property PoolIntArray splits()
+	void _skeletonBoneSetupChanged()
 	{
-		return getSplits();
-	}
-	/// ditto
-	@property void splits(PoolIntArray v)
-	{
-		setSplits(v);
+		Array _GODOT_args = Array.empty_array;
+		String _GODOT_method_name = String("_skeleton_bone_setup_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	The polygon's fill color. If `texture` is defined, it will be multiplied by this color. It will also be the default color for vertices not set in `vertex_colors`.
@@ -466,18 +458,6 @@ public:
 		setColor(v);
 	}
 	/**
-	Color for each vertex. Colors are interpolated between vertices, resulting in smooth gradients. There should be one per polygon vertex. If there are fewer, undefined vertices will use `color`.
-	*/
-	@property PoolColorArray vertexColors()
-	{
-		return getVertexColors();
-	}
-	/// ditto
-	@property void vertexColors(PoolColorArray v)
-	{
-		setVertexColors(v);
-	}
-	/**
 	The offset applied to each vertex.
 	*/
 	@property Vector2 offset()
@@ -490,7 +470,7 @@ public:
 		setOffset(v);
 	}
 	/**
-	If `true` polygon edges will be anti-aliased. Default value: `false`.
+	If `true`, polygon edges will be anti-aliased. Default value: `false`.
 	*/
 	@property bool antialiased()
 	{
@@ -574,7 +554,7 @@ public:
 		setSkeleton(v);
 	}
 	/**
-	If `true` polygon will be inverted, containing the area outside the defined points and extending to the `invert_border`. Default value: `false`.
+	If `true`, polygon will be inverted, containing the area outside the defined points and extending to the `invert_border`. Default value: `false`.
 	*/
 	@property bool invertEnable()
 	{
@@ -598,6 +578,54 @@ public:
 		setInvertBorder(v);
 	}
 	/**
+	The polygon's list of vertices. The final point will be connected to the first. Note that this returns a copy of the $(D PoolVector2Array) rather than a reference.
+	*/
+	@property PoolVector2Array polygon()
+	{
+		return getPolygon();
+	}
+	/// ditto
+	@property void polygon(PoolVector2Array v)
+	{
+		setPolygon(v);
+	}
+	/**
+	Texture coordinates for each vertex of the polygon. There should be one `uv` per polygon vertex. If there are fewer, undefined vertices will use `(0, 0)`.
+	*/
+	@property PoolVector2Array uv()
+	{
+		return getUv();
+	}
+	/// ditto
+	@property void uv(PoolVector2Array v)
+	{
+		setUv(v);
+	}
+	/**
+	Color for each vertex. Colors are interpolated between vertices, resulting in smooth gradients. There should be one per polygon vertex. If there are fewer, undefined vertices will use `color`.
+	*/
+	@property PoolColorArray vertexColors()
+	{
+		return getVertexColors();
+	}
+	/// ditto
+	@property void vertexColors(PoolColorArray v)
+	{
+		setVertexColors(v);
+	}
+	/**
+	
+	*/
+	@property Array polygons()
+	{
+		return getPolygons();
+	}
+	/// ditto
+	@property void polygons(Array v)
+	{
+		setPolygons(v);
+	}
+	/**
 	
 	*/
 	@property Array bones()
@@ -608,5 +636,17 @@ public:
 	@property void bones(Array v)
 	{
 		_setBones(v);
+	}
+	/**
+	
+	*/
+	@property long internalVertexCount()
+	{
+		return getInternalVertexCount();
+	}
+	/// ditto
+	@property void internalVertexCount(long v)
+	{
+		setInternalVertexCount(v);
 	}
 }

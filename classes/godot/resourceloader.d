@@ -24,7 +24,7 @@ import godot.resource;
 /**
 Resource Loader.
 
-This is a static object accessible as `ResourceLoader`. GDScript has a simplified load() function, though.
+This is a static object accessible as $(D ResourceLoader). GDScript has a simplified load() function, though.
 */
 @GodotBaseClass struct ResourceLoaderSingleton
 {
@@ -72,10 +72,10 @@ public:
 	/**
 	
 	*/
-	Ref!Resource load(in String path, in String type_hint = gs!"", in bool p_no_cache = false)
+	Ref!Resource load(in String path, in String type_hint = gs!"", in bool no_cache = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.load, _godot_object, path, type_hint, p_no_cache);
+		return ptrcall!(Resource)(_classBinding.load, _godot_object, path, type_hint, no_cache);
 	}
 	/**
 	Return the list of recognized extensions for a resource type.

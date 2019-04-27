@@ -163,7 +163,7 @@ public:
 		setMargin(v);
 	}
 	/**
-	If `true` clips the area outside of the region to avoid bleeding of the surrounding texture pixels.
+	If `true`, clips the area outside of the region to avoid bleeding of the surrounding texture pixels.
 	*/
 	@property bool filterClip()
 	{

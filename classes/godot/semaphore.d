@@ -54,7 +54,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Tries to wait for the `Semaphore`, if its value is zero, blocks until non-zero. Returns $(D OK) on success, $(D ERR_BUSY) otherwise.
+	Tries to wait for the $(D Semaphore), if its value is zero, blocks until non-zero. Returns `OK` on success, `ERR_BUSY` otherwise.
 	*/
 	GodotError wait()
 	{
@@ -62,7 +62,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
 	/**
-	Lowers the `Semaphore`, allowing one more thread in. Returns $(D OK) on success, $(D ERR_BUSY) otherwise.
+	Lowers the $(D Semaphore), allowing one more thread in. Returns `OK` on success, `ERR_BUSY` otherwise.
 	*/
 	GodotError post()
 	{

@@ -27,7 +27,7 @@ import godot.node;
 /**
 Spotlight $(D Light), such as a reflector spotlight or a lantern.
 
-A SpotLight light is a type of $(D Light) node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance and this attenuation can be configured by changing the energy, radius and attenuation parameters of $(D Light). TODO: Image of a spotlight.
+A SpotLight light is a type of $(D Light) node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance and this attenuation can be configured by changing the energy, radius and attenuation parameters of $(D Light).
 */
 @GodotBaseClass struct SpotLight
 {

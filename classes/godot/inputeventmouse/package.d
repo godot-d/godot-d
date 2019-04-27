@@ -108,7 +108,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
 	}
 	/**
-	Mouse button mask identifier, one of or a bitwise combination of the BUTTON_MASK_* constants in $(D @GlobalScope).
+	Mouse button mask identifier, one of or a bitwise combination of the $(D buttonlist) button masks.
 	*/
 	@property long buttonMask()
 	{

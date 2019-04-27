@@ -26,7 +26,7 @@ import godot.reference;
 /**
 A material for $(D CanvasItem)s.
 
-`CanvasItemMaterial`s provide a means of modifying the textures associated with a CanvasItem. They specialize in describing blend and lighting behaviors for textures. Use a $(D ShaderMaterial) to more fully customize a material's interactions with a $(D CanvasItem).
+$(D CanvasItemMaterial)s provide a means of modifying the textures associated with a CanvasItem. They specialize in describing blend and lighting behaviors for textures. Use a $(D ShaderMaterial) to more fully customize a material's interactions with a $(D CanvasItem).
 */
 @GodotBaseClass struct CanvasItemMaterial
 {
@@ -44,6 +44,14 @@ public:
 		@GodotName("get_blend_mode") GodotMethod!(CanvasItemMaterial.BlendMode) getBlendMode;
 		@GodotName("set_light_mode") GodotMethod!(void, long) setLightMode;
 		@GodotName("get_light_mode") GodotMethod!(CanvasItemMaterial.LightMode) getLightMode;
+		@GodotName("set_particles_animation") GodotMethod!(void, bool) setParticlesAnimation;
+		@GodotName("get_particles_animation") GodotMethod!(bool) getParticlesAnimation;
+		@GodotName("set_particles_anim_h_frames") GodotMethod!(void, long) setParticlesAnimHFrames;
+		@GodotName("get_particles_anim_h_frames") GodotMethod!(long) getParticlesAnimHFrames;
+		@GodotName("set_particles_anim_v_frames") GodotMethod!(void, long) setParticlesAnimVFrames;
+		@GodotName("get_particles_anim_v_frames") GodotMethod!(long) getParticlesAnimVFrames;
+		@GodotName("set_particles_anim_loop") GodotMethod!(void, bool) setParticlesAnimLoop;
+		@GodotName("get_particles_anim_loop") GodotMethod!(bool) getParticlesAnimLoop;
 	}
 	bool opEquals(in CanvasItemMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CanvasItemMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -142,6 +150,70 @@ public:
 		return ptrcall!(CanvasItemMaterial.LightMode)(_classBinding.getLightMode, _godot_object);
 	}
 	/**
+	
+	*/
+	void setParticlesAnimation(in bool particles_anim)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimation, _godot_object, particles_anim);
+	}
+	/**
+	
+	*/
+	bool getParticlesAnimation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getParticlesAnimation, _godot_object);
+	}
+	/**
+	
+	*/
+	void setParticlesAnimHFrames(in long frames)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimHFrames, _godot_object, frames);
+	}
+	/**
+	
+	*/
+	long getParticlesAnimHFrames() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getParticlesAnimHFrames, _godot_object);
+	}
+	/**
+	
+	*/
+	void setParticlesAnimVFrames(in long frames)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimVFrames, _godot_object, frames);
+	}
+	/**
+	
+	*/
+	long getParticlesAnimVFrames() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getParticlesAnimVFrames, _godot_object);
+	}
+	/**
+	
+	*/
+	void setParticlesAnimLoop(in bool loop)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimLoop, _godot_object, loop);
+	}
+	/**
+	
+	*/
+	bool getParticlesAnimLoop() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
+	}
+	/**
 	The manner in which a material's rendering is applied to underlying textures.
 	*/
 	@property CanvasItemMaterial.BlendMode blendMode()
@@ -164,5 +236,53 @@ public:
 	@property void lightMode(long v)
 	{
 		setLightMode(v);
+	}
+	/**
+	
+	*/
+	@property bool particlesAnimation()
+	{
+		return getParticlesAnimation();
+	}
+	/// ditto
+	@property void particlesAnimation(bool v)
+	{
+		setParticlesAnimation(v);
+	}
+	/**
+	
+	*/
+	@property long particlesAnimHFrames()
+	{
+		return getParticlesAnimHFrames();
+	}
+	/// ditto
+	@property void particlesAnimHFrames(long v)
+	{
+		setParticlesAnimHFrames(v);
+	}
+	/**
+	
+	*/
+	@property long particlesAnimVFrames()
+	{
+		return getParticlesAnimVFrames();
+	}
+	/// ditto
+	@property void particlesAnimVFrames(long v)
+	{
+		setParticlesAnimVFrames(v);
+	}
+	/**
+	
+	*/
+	@property bool particlesAnimLoop()
+	{
+		return getParticlesAnimLoop();
+	}
+	/// ditto
+	@property void particlesAnimLoop(bool v)
+	{
+		setParticlesAnimLoop(v);
 	}
 }

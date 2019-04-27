@@ -213,7 +213,7 @@ public:
 		setRingSides(v);
 	}
 	/**
-	If true the normals of the torus are set to give a smooth effect making the torus seem rounded. When false the torus will have a flat shaded look.
+	If `true` the normals of the torus are set to give a smooth effect making the torus seem rounded. If `false` the torus will have a flat shaded look.
 	*/
 	@property bool smoothFaces()
 	{

@@ -22,8 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.visualinstance;
 import godot.giprobedata;
-import godot.spatial;
 import godot.node;
+import godot.spatial;
 /**
 
 */
@@ -59,7 +59,7 @@ public:
 		@GodotName("is_interior") GodotMethod!(bool) isInterior;
 		@GodotName("set_compress") GodotMethod!(void, bool) setCompress;
 		@GodotName("is_compressed") GodotMethod!(bool) isCompressed;
-		@GodotName("bake") GodotMethod!(void, GodotObject, bool) bake;
+		@GodotName("bake") GodotMethod!(void, Node, bool) bake;
 		@GodotName("debug_bake") GodotMethod!(void) debugBake;
 	}
 	bool opEquals(in GIProbe other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -270,7 +270,7 @@ public:
 	/**
 	
 	*/
-	void bake(GodotObject from_node = GodotObject.init, in bool create_visual_debug = false)
+	void bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.bake, _godot_object, from_node, create_visual_debug);

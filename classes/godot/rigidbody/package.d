@@ -137,7 +137,7 @@ public:
 		modeKinematic = 3,
 	}
 	/**
-	Called during physics processing, allowing you to read and safely modify the simulation state for the object. By default it works in addition to the usual physics behavior, but $(D setUseCustomIntegrator) allows you to disable the default behavior and do fully custom force integration for a body.
+	Called during physics processing, allowing you to read and safely modify the simulation state for the object. By default, it works in addition to the usual physics behavior, but the $(D customIntegrator) property allows you to disable the default behavior and do fully custom force integration for a body.
 	*/
 	void _integrateForces(PhysicsDirectBodyState state)
 	{
@@ -438,7 +438,7 @@ public:
 		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, impulse);
 	}
 	/**
-	Applies a positioned impulse which will be affected by the body mass and shape. This is the equivalent of hitting a billiard ball with a cue: a force that is applied once, and only once. Both the impulse and the position are in global coordinates, and the position is relative to the object's origin.
+	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	*/
 	void applyImpulse(in Vector3 position, in Vector3 impulse)
 	{
@@ -532,7 +532,7 @@ public:
 		return ptrcall!(bool)(_classBinding.getAxisLock, _godot_object, axis);
 	}
 	/**
-	Return a list of the bodies colliding with this one. By default, number of max contacts reported is at 0 , see $(D setMaxContactsReported) to increase it.  Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
+	Return a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the $(D contactsReported) property to increase it. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	Array getCollidingBodies() const
 	{
@@ -624,7 +624,7 @@ public:
 		setGravityScale(v);
 	}
 	/**
-	If `true` internal force integration will be disabled (like gravity or air friction) for this body. Other than collision response, the body will only move as determined by the $(D _integrateForces) function, if defined.
+	If `true`, internal force integration will be disabled (like gravity or air friction) for this body. Other than collision response, the body will only move as determined by the $(D _integrateForces) function, if defined.
 	*/
 	@property bool customIntegrator()
 	{
@@ -636,7 +636,7 @@ public:
 		setUseCustomIntegrator(v);
 	}
 	/**
-	If `true` continuous collision detection is used.
+	If `true`, continuous collision detection is used.
 	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided. Continuous collision detection is more precise, and misses less impacts by small, fast-moving objects. Not using continuous collision detection is faster to compute, but can miss small, fast-moving objects.
 	*/
 	@property bool continuousCd()
@@ -661,7 +661,7 @@ public:
 		setMaxContactsReported(v);
 	}
 	/**
-	If `true` the RigidBody will emit signals when it collides with another RigidBody.
+	If `true`, the RigidBody will emit signals when it collides with another RigidBody.
 	*/
 	@property bool contactMonitor()
 	{
@@ -673,7 +673,7 @@ public:
 		setContactMonitor(v);
 	}
 	/**
-	If `true` the body is sleeping and will not calculate forces until woken up by a collision or the `apply_impulse` method.
+	If `true`, the body is sleeping and will not calculate forces until woken up by a collision or the `apply_impulse` method.
 	*/
 	@property bool sleeping()
 	{
@@ -685,7 +685,7 @@ public:
 		setSleeping(v);
 	}
 	/**
-	If `true` the RigidBody will not calculate forces and will act as a static body while there is no movement. It will wake up when forces are applied through other collisions or when the `apply_impulse` method is used.
+	If `true`, the RigidBody will not calculate forces and will act as a static body while there is no movement. It will wake up when forces are applied through other collisions or when the `apply_impulse` method is used.
 	*/
 	@property bool canSleep()
 	{

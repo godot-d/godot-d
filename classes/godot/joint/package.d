@@ -24,7 +24,7 @@ import godot.node;
 /**
 Base class for all 3D joints
 
-All 3D joints link two nodes, has a priority, and can decide if the two bodies of the nodes should be able to collide with each other
+Joints are used to bind together two physics bodies. They have a solver priority and can define if the bodies of the two attached nodes should be able to collide with each other.
 */
 @GodotBaseClass struct Joint
 {
@@ -124,7 +124,7 @@ public:
 		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
-	The $(D Node), the first side of the Joint attaches to.
+	The node attached to the first side (A) of the joint.
 	*/
 	@property NodePath nodesNodeA()
 	{
@@ -136,7 +136,7 @@ public:
 		setNodeA(v);
 	}
 	/**
-	The $(D Node), the second side of the Joint attaches to.
+	The node attached to the second side (B) of the joint.
 	*/
 	@property NodePath nodesNodeB()
 	{
@@ -148,7 +148,7 @@ public:
 		setNodeB(v);
 	}
 	/**
-	The order in which the solver is executed compared to the other $(D Joints), the lower, the earlier.
+	The priority used to define which solver is executed first for multiple joints. The lower the value, the higher the priority.
 	*/
 	@property long solverPriority()
 	{
@@ -160,7 +160,7 @@ public:
 		setSolverPriority(v);
 	}
 	/**
-	If `true` the two bodies of the nodes are not able to collide with each other.
+	If `true`, the two bodies of the nodes are not able to collide with each other.
 	*/
 	@property bool collisionExcludeNodes()
 	{

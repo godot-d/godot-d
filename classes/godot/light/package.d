@@ -358,7 +358,7 @@ public:
 		setParam(1, v);
 	}
 	/**
-	If `true` the light's effect is reversed, darkening areas and casting bright shadows. Default value: `false`.
+	If `true`, the light's effect is reversed, darkening areas and casting bright shadows. Default value: `false`.
 	*/
 	@property bool lightNegative()
 	{
@@ -406,7 +406,7 @@ public:
 		setCullMask(v);
 	}
 	/**
-	If `true` the light will cast shadows. Default value: `false`.
+	If `true`, the light will cast shadows. Default value: `false`.
 	*/
 	@property bool shadowEnabled()
 	{
@@ -466,7 +466,7 @@ public:
 		setShadowReverseCullFace(v);
 	}
 	/**
-	If `true` the light only appears in the editor and will not be visible at runtime. Default value:`false`.
+	If `true`, the light only appears in the editor and will not be visible at runtime. Default value:`false`.
 	*/
 	@property bool editorOnly()
 	{

@@ -29,7 +29,7 @@ import godot.node;
 /**
 Texture-based button. Supports Pressed, Hover, Disabled and Focused states.
 
-`TextureButton` has the same functionality as $(D Button), except it uses sprites instead of Godot's $(D Theme) resource. It is faster to create, but it doesn't support localization like more complex Controls.
+$(D TextureButton) has the same functionality as $(D Button), except it uses sprites instead of Godot's $(D Theme) resource. It is faster to create, but it doesn't support localization like more complex Controls.
 The Normal state's texture is required. Others are optional.
 */
 @GodotBaseClass struct TextureButton
@@ -305,7 +305,7 @@ public:
 		setFocusedTexture(v);
 	}
 	/**
-	Pure black and white $(D Bitmap) image to use for click detection. On the mask, white pixels represent the button's clickable area. Use it to create buttons with curved shapes.
+	Pure black and white $(D BitMap) image to use for click detection. On the mask, white pixels represent the button's clickable area. Use it to create buttons with curved shapes.
 	*/
 	@property BitMap textureClickMask()
 	{
@@ -317,7 +317,7 @@ public:
 		setClickMask(v);
 	}
 	/**
-	If `true` the texture stretches to the edges of the node's bounding rectangle using the $(D stretchMode). If `false` the texture will not scale with the node. Default value: `false`.
+	If `true`, the texture stretches to the edges of the node's bounding rectangle using the $(D stretchMode). If `false`, the texture will not scale with the node. Default value: `false`.
 	*/
 	@property bool expand()
 	{

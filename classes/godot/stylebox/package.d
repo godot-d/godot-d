@@ -20,6 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
+import godot.canvasitem;
 import godot.reference;
 /**
 Base class for drawing stylized boxes for the UI.
@@ -45,6 +46,7 @@ public:
 		@GodotName("get_minimum_size") GodotMethod!(Vector2) getMinimumSize;
 		@GodotName("get_center_size") GodotMethod!(Vector2) getCenterSize;
 		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("get_current_item_drawn") GodotMethod!(CanvasItem) getCurrentItemDrawn;
 		@GodotName("draw") GodotMethod!(void, RID, Rect2) draw;
 	}
 	bool opEquals(in StyleBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -84,7 +86,8 @@ public:
 		return ptrcall!(double)(_classBinding.getDefaultMargin, _godot_object, margin);
 	}
 	/**
-	Return the offset of margin "margin" (see MARGIN_* enum).
+	Return the content margin offset for the specified margin
+	Positive values reduce size inwards, unlike $(D Control)'s margin values.
 	*/
 	double getMargin(in long margin) const
 	{
@@ -118,13 +121,22 @@ public:
 	/**
 	
 	*/
+	CanvasItem getCurrentItemDrawn() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CanvasItem)(_classBinding.getCurrentItemDrawn, _godot_object);
+	}
+	/**
+	
+	*/
 	void draw(in RID canvas_item, in Rect2 rect) const
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, rect);
 	}
 	/**
-	
+	The left margin for the contents of this style box.	Increasing this value reduces the space available to the contents from the left.
+	Refer to $(D contentMarginBottom) for extra considerations.
 	*/
 	@property double contentMarginLeft()
 	{
@@ -136,7 +148,8 @@ public:
 		setDefaultMargin(0, v);
 	}
 	/**
-	
+	The right margin for the contents of this style box. Increasing this value reduces the space available to the contents from the right.
+	Refer to $(D contentMarginBottom) for extra considerations.
 	*/
 	@property double contentMarginRight()
 	{
@@ -148,7 +161,8 @@ public:
 		setDefaultMargin(2, v);
 	}
 	/**
-	
+	The top margin for the contents of this style box. Increasing this value reduces the space available to the contents from the top.
+	Refer to $(D contentMarginBottom) for extra considerations.
 	*/
 	@property double contentMarginTop()
 	{
@@ -160,7 +174,10 @@ public:
 		setDefaultMargin(1, v);
 	}
 	/**
-	
+	The bottom margin for the contents of this style box. Increasing this value reduces the space available to the contents from the bottom.
+	If this value is negative, it is ignored and a child-specific margin is used instead. For example for $(D StyleBoxFlat) the border thickness (if any) is used instead.
+	It is up to the code using this style box to decide what these contents are: for example, a $(D Button) respects this content margin for the textual contents of the button.
+	$(D getMargin) should be used to fetch this value as consumer instead of reading these properties directly. This is because it correctly respects negative values and the fallback mentioned above.
 	*/
 	@property double contentMarginBottom()
 	{

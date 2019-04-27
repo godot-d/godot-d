@@ -97,7 +97,7 @@ public:
 		*/
 		objectResourceCount = 9,
 		/**
-		Number of nodes currently instanced. This also includes the root node, as well as any nodes not in the scene tree.
+		Number of nodes currently instanced in the scene tree. This also includes the root node.
 		*/
 		objectNodeCount = 10,
 		/**

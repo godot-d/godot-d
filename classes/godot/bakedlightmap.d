@@ -22,8 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.visualinstance;
 import godot.bakedlightmapdata;
-import godot.spatial;
 import godot.node;
+import godot.spatial;
 /**
 Prerendered indirect light map for a scene.
 
@@ -61,7 +61,7 @@ public:
 		@GodotName("is_hdr") GodotMethod!(bool) isHdr;
 		@GodotName("set_image_path") GodotMethod!(void, String) setImagePath;
 		@GodotName("get_image_path") GodotMethod!(String) getImagePath;
-		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, GodotObject, bool) bake;
+		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, Node, bool) bake;
 		@GodotName("debug_bake") GodotMethod!(void) debugBake;
 	}
 	bool opEquals(in BakedLightmap other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -305,7 +305,7 @@ public:
 	/**
 	
 	*/
-	BakedLightmap.BakeError bake(GodotObject from_node = GodotObject.init, in bool create_visual_debug = false)
+	BakedLightmap.BakeError bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(BakedLightmap.BakeError)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
@@ -379,7 +379,7 @@ public:
 		setEnergy(v);
 	}
 	/**
-	If `true` lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller lightmap. Default value:`false`.
+	If `true`, lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller lightmap. Default value:`false`.
 	*/
 	@property bool bakeHdr()
 	{

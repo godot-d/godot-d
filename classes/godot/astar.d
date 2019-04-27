@@ -50,6 +50,8 @@ public:
 		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
 		@GodotName("has_point") GodotMethod!(bool, long) hasPoint;
 		@GodotName("get_points") GodotMethod!(Array) getPoints;
+		@GodotName("set_point_disabled") GodotMethod!(void, long, bool) setPointDisabled;
+		@GodotName("is_point_disabled") GodotMethod!(bool, long) isPointDisabled;
 		@GodotName("get_point_connections") GodotMethod!(PoolIntArray, long) getPointConnections;
 		@GodotName("connect_points") GodotMethod!(void, long, long, bool) connectPoints;
 		@GodotName("disconnect_points") GodotMethod!(void, long, long) disconnectPoints;
@@ -107,8 +109,7 @@ public:
 	
 	
 	var as = AStar.new()
-	
-	as.add_point(1, Vector3(1,0,0), 4) # Adds the point (1,0,0) with weight_scale=4 and id=1
+	as.add_point(1, Vector3(1, 0, 0), 4) # Adds the point (1, 0, 0) with weight_scale 4 and id 1
 	
 	
 	If there already exists a point for the given id, its position and weight scale are updated to the given values.
@@ -175,15 +176,30 @@ public:
 		return ptrcall!(Array)(_classBinding.getPoints, _godot_object);
 	}
 	/**
+	Disables or enables the specified point for pathfinding. Useful for making a temporary obstacle.
+	*/
+	void setPointDisabled(in long id, in bool disabled = true)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointDisabled, _godot_object, id, disabled);
+	}
+	/**
+	Returns whether a point is disabled or not for pathfinding. By default, all points are enabled.
+	*/
+	bool isPointDisabled(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPointDisabled, _godot_object, id);
+	}
+	/**
 	Returns an array with the ids of the points that form the connect with the given point.
 	
 	
 	var as = AStar.new()
-	
-	as.add_point(1, Vector3(0,0,0))
-	as.add_point(2, Vector3(0,1,0))
-	as.add_point(3, Vector3(1,1,0))
-	as.add_point(4, Vector3(2,0,0))
+	as.add_point(1, Vector3(0, 0, 0))
+	as.add_point(2, Vector3(0, 1, 0))
+	as.add_point(3, Vector3(1, 1, 0))
+	as.add_point(4, Vector3(2, 0, 0))
 	
 	as.connect_points(1, 2, true)
 	as.connect_points(1, 3, true)
@@ -198,16 +214,13 @@ public:
 		return ptrcall!(PoolIntArray)(_classBinding.getPointConnections, _godot_object, id);
 	}
 	/**
-	Creates a segment between the given points.
+	Creates a segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is allowed, not the reverse direction.
 	
 	
 	var as = AStar.new()
-	
-	as.add_point(1, Vector3(1,1,0))
-	as.add_point(2, Vector3(0,5,0))
-	
-	as.connect_points(1, 2, false) # If bidirectional=false it's only possible to go from point 1 to point 2
-	                               # and not from point 2 to point 1.
+	as.add_point(1, Vector3(1, 1, 0))
+	as.add_point(2, Vector3(0, 5, 0))
+	as.connect_points(1, 2, false)
 	
 	
 	*/
@@ -253,16 +266,13 @@ public:
 	
 	
 	var as = AStar.new()
-	
-	as.add_point(1, Vector3(0,0,0))
-	as.add_point(2, Vector3(0,5,0))
-	
+	as.add_point(1, Vector3(0, 0, 0))
+	as.add_point(2, Vector3(0, 5, 0))
 	as.connect_points(1, 2)
+	var res = as.get_closest_position_in_segment(Vector3(3, 3, 0)) # returns (0, 3, 0)
 	
-	var res = as.get_closest_position_in_segment(Vector3(3,3,0)) # returns (0, 3, 0)
 	
-	
-	The result is in the segment that goes from `y=0` to `y=5`. It's the closest position in the segment to the given point.
+	The result is in the segment that goes from `y = 0` to `y = 5`. It's the closest position in the segment to the given point.
 	*/
 	Vector3 getClosestPositionInSegment(in Vector3 to_position) const
 	{
@@ -282,11 +292,10 @@ public:
 	
 	
 	var as = AStar.new()
-	
-	as.add_point(1, Vector3(0,0,0))
-	as.add_point(2, Vector3(0,1,0), 1) # default weight is 1
-	as.add_point(3, Vector3(1,1,0))
-	as.add_point(4, Vector3(2,0,0))
+	as.add_point(1, Vector3(0, 0, 0))
+	as.add_point(2, Vector3(0, 1, 0), 1) # default weight is 1
+	as.add_point(3, Vector3(1, 1, 0))
+	as.add_point(4, Vector3(2, 0, 0))
 	
 	as.connect_points(1, 2, false)
 	as.connect_points(2, 3, false)

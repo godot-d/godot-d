@@ -244,7 +244,7 @@ public:
 		*/
 		logicMin = 45,
 		/**
-		Return the input clamped inside the given range, ensuring the result is never outside it. Equivalent to `min(max(input, range_low), range_high)`
+		Return the input clamped inside the given range, ensuring the result is never outside it. Equivalent to `min(max(input, range_low), range_high)`.
 		*/
 		logicClamp = 46,
 		/**
@@ -296,7 +296,7 @@ public:
 		*/
 		varToStr = 58,
 		/**
-		Deserialize a $(D Variant) from a string serialized using $(D VAR_TO_STR).
+		Deserialize a $(D Variant) from a string serialized using `VAR_TO_STR`.
 		*/
 		strToVar = 59,
 		/**
@@ -304,7 +304,7 @@ public:
 		*/
 		varToBytes = 60,
 		/**
-		Deserialize a $(D Variant) from a $(D PoolByteArray) serialized using $(D VAR_TO_BYTES).
+		Deserialize a $(D Variant) from a $(D PoolByteArray) serialized using `VAR_TO_BYTES`.
 		*/
 		bytesToVar = 61,
 		/**
@@ -312,9 +312,19 @@ public:
 		*/
 		colorn = 62,
 		/**
+		Return a number smoothly interpolated between the first two inputs, based on the third input. Similar to `MATH_LERP`, but interpolates faster at the beginning and slower at the end. Using Hermite interpolation formula:
+		
+		
+		var t = clamp((weight - from) / (to - from), 0.0, 1.0)
+		return t * t * (3.0 - 2.0 * t)
+		
+		
+		*/
+		mathSmoothstep = 63,
+		/**
 		The maximum value the $(D _function) property can have.
 		*/
-		funcMax = 63,
+		funcMax = 64,
 	}
 	/// 
 	enum Constants : int
@@ -382,7 +392,8 @@ public:
 		varToBytes = 60,
 		bytesToVar = 61,
 		colorn = 62,
-		funcMax = 63,
+		mathSmoothstep = 63,
+		funcMax = 64,
 	}
 	/**
 	

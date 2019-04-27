@@ -25,7 +25,7 @@ import godot.reference;
 Reference to a function in an object.
 
 In GDScript, functions are not $(I first-class objects). This means it is impossible to store them directly as variables, return them from another function, or pass them as arguments.
-However, by creating a `FuncRef` using the $(D @GDScript.funcref) function, a reference to a function in a given object can be created, passed around and called.
+However, by creating a $(D FuncRef) using the $(D @GDScript.funcref) function, a reference to a function in a given object can be created, passed around and called.
 */
 @GodotBaseClass struct FuncRef
 {

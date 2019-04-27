@@ -39,8 +39,8 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "Marshalls";
-		@GodotName("variant_to_base64") GodotMethod!(String, Variant) variantToBase64;
-		@GodotName("base64_to_variant") GodotMethod!(Variant, String) base64ToVariant;
+		@GodotName("variant_to_base64") GodotMethod!(String, Variant, bool) variantToBase64;
+		@GodotName("base64_to_variant") GodotMethod!(Variant, String, bool) base64ToVariant;
 		@GodotName("raw_to_base64") GodotMethod!(String, PoolByteArray) rawToBase64;
 		@GodotName("base64_to_raw") GodotMethod!(PoolByteArray, String) base64ToRaw;
 		@GodotName("utf8_to_base64") GodotMethod!(String, String) utf8ToBase64;
@@ -59,20 +59,21 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Return base64 encoded String of a given $(D Variant).
+	Return base64 encoded String of a given $(D Variant). When `full_objects` is `true` encoding objects is allowed (and can potentially include code).
 	*/
-	String variantToBase64(VariantArg0)(in VariantArg0 variant)
+	String variantToBase64(VariantArg0)(in VariantArg0 variant, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.variantToBase64, _godot_object, variant);
+		return ptrcall!(String)(_classBinding.variantToBase64, _godot_object, variant, full_objects);
 	}
 	/**
-	Return $(D Variant) of a given base64 encoded String.
+	Return $(D Variant) of a given base64 encoded String. When `allow_objects` is `true` decoding objects is allowed.
+	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
 	*/
-	Variant base64ToVariant(in String base64_str)
+	Variant base64ToVariant(in String base64_str, in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.base64ToVariant, _godot_object, base64_str);
+		return ptrcall!(Variant)(_classBinding.base64ToVariant, _godot_object, base64_str, allow_objects);
 	}
 	/**
 	Return base64 encoded String of a given $(D PoolByteArray).

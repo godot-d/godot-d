@@ -28,7 +28,7 @@ import godot.node;
 /**
 Node that instances a $(D MultiMesh).
 
-`MultiMeshInstance` is a specialized node to instance $(D GeometryInstance)s based on a $(D MultiMesh) resource.
+$(D MultiMeshInstance) is a specialized node to instance $(D GeometryInstance)s based on a $(D MultiMesh) resource.
 This is useful to optimize the rendering of a high amount of instances of a given mesh (for example tree in a forest or grass strands).
 */
 @GodotBaseClass struct MultiMeshInstance
@@ -75,7 +75,7 @@ public:
 		return ptrcall!(MultiMesh)(_classBinding.getMultimesh, _godot_object);
 	}
 	/**
-	The $(D MultiMesh) resource that will be used and shared among all instances of the `MultiMeshInstance`.
+	The $(D MultiMesh) resource that will be used and shared among all instances of the $(D MultiMeshInstance).
 	*/
 	@property MultiMesh multimesh()
 	{
