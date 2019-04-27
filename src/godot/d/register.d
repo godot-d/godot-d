@@ -22,10 +22,14 @@ alias GodotInitOptions = const(godot_gdnative_init_options*);
 alias GodotTerminateOptions = const(godot_gdnative_terminate_options*);
 
 /++
-Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
-initialization/termination.
+Pass to GodotNativeLibrary to control D runtime initialization/termination.
+Default is `yes` unless compiling with BetterC.
 +/
-enum NoDRuntime;
+enum LoadDRuntime : bool
+{
+	no = false,
+	yes = true
+}
 
 /++
 This mixin will generate the GDNative C interface functions for this D library.
@@ -34,7 +38,8 @@ register, functions to call, and other options to configure Godot-D.
 
 The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
 
-D runtime will be initialized and terminated, unless you pass $(D NoDRuntime).
+D runtime will be initialized and terminated, unless you pass $(D LoadDRuntime.no)
+or compile with BetterC.
 
 Functions taking GodotInitOptions or no arguments will be called at init.
 Functions taking GodotTerminateOptions will be called at termination.
@@ -71,7 +76,9 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.reference;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
-		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) == -1;
+		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+		static if(loadDRuntime) Runtime.initialize();
 		
 		godot_gdnative_api_struct_init(options.api_struct);
 		
@@ -90,7 +97,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 				static if( is(typeof(Arg())) ) Arg();
 				else static if( is(typeof(Arg(options))) ) Arg(options);
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -117,7 +124,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			{
 				
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -139,7 +146,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			{
 				static if(is(typeof(Arg(options)))) Arg(options);
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -149,7 +156,9 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		_GODOT_library.unref();
 		
 		import core.runtime : Runtime;
-		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.terminate();
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) == -1;
+		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+		static if(loadDRuntime) Runtime.terminate();
 	}
 }
 
