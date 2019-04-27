@@ -76,7 +76,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.reference;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
-		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) == -1;
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
 		static if(loadDRuntime) Runtime.initialize();
 		
@@ -156,7 +156,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		_GODOT_library.unref();
 		
 		import core.runtime : Runtime;
-		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) == -1;
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
 		static if(loadDRuntime) Runtime.terminate();
 	}
