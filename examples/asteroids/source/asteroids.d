@@ -53,7 +53,7 @@ class Asteroids : GodotScript!Node
 		
 		if(!rock)
 		{
-			Ref!PackedScene scene = ResourceLoader.load("res://Rock.tscn").as!(Ref!PackedScene);
+			Ref!PackedScene scene = ResourceLoader.load(gs!"res://Rock.tscn").as!PackedScene;
 			rock = scene.instance().as!RigidBody;
 			asteroids.addChild(rock);
 		}

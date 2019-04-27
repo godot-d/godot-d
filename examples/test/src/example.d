@@ -49,6 +49,9 @@ class Test : GodotScript!Label
 		double dreal;
 	}
 	
+	@Property onlySetter(int value) { print("onlySetter: ", value); }
+	@Property int onlyGetter() const { return 1234; }
+	
 	// Some variables demonstrating OnReady, assigned right before _ready():
 	
 	// string -> Node: assign the variable to the specified path using get_node
@@ -338,6 +341,8 @@ class Test : GodotScript!Label
 			auto res = owner.get(pn).as!long;
 			writefln("getting number: <%d>", res);
 		}
+		owner.set(gs!"only_setter", 5678);
+		print("onlyGetter: ", owner.get(gs!"only_getter"));
 	}
 }
 

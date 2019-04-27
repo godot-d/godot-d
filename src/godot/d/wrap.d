@@ -405,7 +405,7 @@ package(godot) struct VariableWrapper(T, string var)
 }
 
 extern(C) package(godot) void emptySetter(godot_object self, void* methodData,
-	void* userData, godot_variant value)
+	void* userData, godot_variant* value)
 {
 	assert(0, "Can't call empty property setter");
 	//return;

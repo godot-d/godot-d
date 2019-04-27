@@ -15,18 +15,17 @@ import godot.d.reference;
 /++
 Base class for D native scripts. Native script instances will be attached to a
 Godot (C++) object of Base class.
-
-To simulate OOP inheritance, also include `alias owner this;` in your class.
 +/
 class GodotScript(Base) if(isGodotBaseClass!Base)
 {
 	Base owner;
+	alias owner this;
 	
 	pragma(inline, true)
 	inout(To) as(To)() inout if(isGodotBaseClass!To)
 	{
 		static assert(extends!(Base, To), typeof(this).stringof~" does not extend "~To.stringof);
-		return inout(To)(owner.getGDNativeObject);
+		return cast(inout(To))(owner.getGDNativeObject);
 	}
 	pragma(inline, true)
 	inout(To) as(To, this From)() inout if(extendsGodotBaseClass!To)

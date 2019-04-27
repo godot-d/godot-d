@@ -22,10 +22,14 @@ alias GodotInitOptions = const(godot_gdnative_init_options*);
 alias GodotTerminateOptions = const(godot_gdnative_terminate_options*);
 
 /++
-Pass this enum to GodotNativeInit and GodotNativeTerminate to skip D runtime
-initialization/termination.
+Pass to GodotNativeLibrary to control D runtime initialization/termination.
+Default is `yes` unless compiling with BetterC.
 +/
-enum NoDRuntime;
+enum LoadDRuntime : bool
+{
+	no = false,
+	yes = true
+}
 
 /++
 This mixin will generate the GDNative C interface functions for this D library.
@@ -34,7 +38,8 @@ register, functions to call, and other options to configure Godot-D.
 
 The symbolPrefix must match the GDNativeLibrary's symbolPrefix in Godot.
 
-D runtime will be initialized and terminated, unless you pass $(D NoDRuntime).
+D runtime will be initialized and terminated, unless you pass $(D LoadDRuntime.no)
+or compile with BetterC.
 
 Functions taking GodotInitOptions or no arguments will be called at init.
 Functions taking GodotTerminateOptions will be called at termination.
@@ -71,7 +76,9 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.reference;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
-		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.initialize();
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
+		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+		static if(loadDRuntime) Runtime.initialize();
 		
 		godot_gdnative_api_struct_init(options.api_struct);
 		
@@ -90,7 +97,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 				static if( is(typeof(Arg())) ) Arg();
 				else static if( is(typeof(Arg(options))) ) Arg(options);
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -117,7 +124,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			{
 				
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -139,7 +146,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			{
 				static if(is(typeof(Arg(options)))) Arg(options);
 			}
-			else static if(Arg == NoDRuntime) { }
+			else static if(is(typeof(Arg) == LoadDRuntime)) { }
 			else
 			{
 				static assert(0, "Unrecognized argument <"~Arg.stringof~"> passed to GodotNativeLibrary");
@@ -149,7 +156,9 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		_GODOT_library.unref();
 		
 		import core.runtime : Runtime;
-		static if(staticIndexOf!(NoDRuntime, Args) == -1) Runtime.terminate();
+		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
+		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+		static if(loadDRuntime) Runtime.terminate();
 	}
 }
 
@@ -171,7 +180,6 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	import godot.object, godot.resource;
 	import godot.d;
 	static import godot.nativescript;
-	import std.string : toStringz, fromStringz; /// TODO: remove GCed functions
 
 	static if(BaseClassesTuple!T.length == 2) // base class is GodotScript; use owner
 	{
@@ -181,13 +189,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 	else // base class is another D script
 	{
 		alias Base = BaseClassesTuple!T[0];
-		static if(hasUDA!(Base, Rename)) enum immutable(char*) baseName = TemplateArgsOf!(
-			getUDAs!(Base, Rename)[0])[0];
+		static if(hasUDA!(Base, Rename)) enum immutable(char*) baseName = godotName!Base;
 		else enum immutable(char*) baseName = fullyQualifiedName!Base;
 	}
 	
-	static if(hasUDA!(T, Rename)) enum immutable(char*) name = TemplateArgsOf!(
-		getUDAs!(T, Rename)[0])[0];
+	static if(hasUDA!(T, Rename)) enum immutable(char*) name = godotName!T;
 	else enum immutable(char*) name = fullyQualifiedName!T;
 	
 	auto icf = godot_instance_create_func(&createFunc!T, null, null);
@@ -208,8 +214,8 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_GDNATIVE_D_typeid", godot_method_attributes.init, md);
 	}
 	
-	foreach(mf; godotMethods!T)
-	{
+	static foreach(mf; godotMethods!T)
+	{{
 		godot_method_attributes ma;
 		static if(is( getUDAs!(mf, Method)[0] )) ma.rpc_type = godot_method_rpc_mode
 			.GODOT_METHOD_RPC_MODE_DISABLED;
@@ -226,8 +232,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		else md.method = &MethodWrapper!(T, mf).callMethod;
 		md.free_func = null;
 		
-		_godot_nativescript_api.godot_nativescript_register_method(handle, name, godotName!mf.toStringz, ma, md); /// TODO: remove GCed functions
-	}
+		char[godotName!mf.length+1] mfn = void;
+		mfn[0..godotName!mf.length] = godotName!mf[];
+		mfn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_method(handle, name, mfn.ptr, ma, md);
+	}}
 	
 	// OnReady when there is no _ready method
 	static if(staticIndexOf!("_ready", staticMap!(godotName, godotMethods!T)) == -1
@@ -239,8 +248,8 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		_godot_nativescript_api.godot_nativescript_register_method(handle, name, "_ready", ma, md);
 	}
 	
-	foreach(sName; godotSignals!T)
-	{
+	static foreach(sName; godotSignals!T)
+	{{
 		alias s = Alias!(mixin("T."~sName));
 		static assert(hasStaticMember!(T, sName), "Signal declaration "~fullyQualifiedName!s
 			~" must be static. Otherwise it would take up memory in every instance of "~T.stringof);
@@ -267,11 +276,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		}
 		
 		_godot_nativescript_api.godot_nativescript_register_signal(handle, name, &gs);
-	}
+	}}
 	
 	enum bool matchName(string p, alias a) = (godotName!a == p);
-	foreach(pName; godotPropertyNames!T)
-	{
+	static foreach(pName; godotPropertyNames!T)
+	{{
 		alias getterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertyGetters!T);
 		static assert(getterMatches.length <= 1); /// TODO: error message
 		alias setterMatches = Filter!(ApplyLeft!(matchName, pName), godotPropertySetters!T);
@@ -311,8 +320,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			Property.Usage.scriptVariable);
 		
 		Variant defval;
-		enum gDef = getterMatches.length && hasUDA!(getterMatches[0], DefaultValue);
-		enum sDef = getterMatches.length && hasUDA!(setterMatches[0], DefaultValue);
+		static if(getterMatches.length) enum gDef = hasUDA!(getterMatches[0], DefaultValue);
+		else enum gDef = false;
+		static if(setterMatches.length) enum sDef = hasUDA!(setterMatches[0], DefaultValue);
+		else enum sDef = false;
+
 		static if(gDef || sDef)
 		{
 			static if(gDef) alias defExprSeq = TemplateArgsOf!(getUDAs!(getterMatches[0], DefaultValue)[0]);
@@ -357,12 +369,13 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.set_func = &emptySetter;
 		}
 		
-		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pName.toStringz, &attr, sf, gf); /// TODO: remove GCed functions
-	}
-	foreach(pName; godotPropertyVariableNames!T)
-	{
-		immutable(char*) propName = godotName!(mixin("T."~pName)).toStringz; /// TODO: remove GCed functions
-		
+		char[pName.length+1] pn = void;
+		pn[0..pName.length] = pName[];
+		pn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
+	}}
+	static foreach(pName; godotPropertyVariableNames!T)
+	{{
 		import std.string;
 		
 		godot_property_set_func sf;
@@ -433,9 +446,11 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.free_func = null;
 		}
 		
-		_godot_nativescript_api.godot_nativescript_register_property(handle, name, propName, &attr, sf, gf);
-	}
-	// TODO: signals
+		char[pName.length+1] pn = void;
+		pn[0..pName.length] = pName[];
+		pn[$-1] = '\0';
+		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
+	}}
 	
 	
 	

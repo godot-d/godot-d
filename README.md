@@ -68,8 +68,6 @@ import godot, godot.button;
 
 class TestButton : GodotScript!Button
 {
-	alias owner this;
-	
 	@Property(Property.Hint.range, "1,10") int number = 9;
 	
 	@Signal static void function(String message, int num) sendMessage;
@@ -88,14 +86,6 @@ Properties and methods can be exposed to Godot with the `Property` and
 the class and can be modified in the Godot editor. The optional hint parameter
 can specify how the editor should treat the property, for example limiting a
 number to the range 1-10.
-
-GodotScript contains a pointer to the Button the script is attached to, called
-`owner`, which can be used to call Button methods or passed to methods taking
-Button as an argument. The `owner` manages the lifetime of the script.
-
-Normal OOP inheritance and polymorphism can be simulated by simply adding
-`alias owner this;` to the D script class. For low-level code, just keep in
-mind that `owner` is a separate C++ object.
 
 #### Initialization
 Your D scripts still need to be registered into Godot when your library is

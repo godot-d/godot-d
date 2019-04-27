@@ -1,6 +1,6 @@
 Godot-D API Generator
 =====================
-This program generates D bindings for the class API exported by Godot.
+This program generates D bindings for the API exported by Godot. It requires two JSON files: `gdnative_api.json` for the C interface, `api.json` for the rest of Godot's API. The JSONs from the most recent [official Godot release](https://godotengine.org/download) are included in the Godot-D repository, but the steps below show how to obtain them from a custom Godot build.
 
 All the modules in `classes/` are generated using this program.
 

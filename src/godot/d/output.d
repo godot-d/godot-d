@@ -25,7 +25,12 @@ void godotAssertHandlerCrash(string file, size_t line, string msg)
 	
 	_godot_api.godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
 	
-	throw new AssertError(msg, file, line);
+	version(D_Exceptions) throw new AssertError(msg, file, line);
+	else
+	{
+		assertHandler = null;
+		assert(0, msg);
+	}
 }
 
 /++
@@ -52,14 +57,19 @@ void godotAssertHandlerEditorDebug(string file, size_t line, string msg)
 	
 	_godot_api.godot_print_error(&buffer.ptr[file.length+1], "", buffer.ptr, cast(int)line);
 	
-	version(assert) // any `assert(x)` gets compiled; usually a debug version
-	{
-		// TODO: if in Editor Debugger, debug_break like GDScript asserts
-	}
-	else // only `assert(0)`/`assert(false)` get compiled; usually a release version
+	//version(assert) // any `assert(x)` gets compiled; usually a debug version
+	//{
+	//	// TODO: if in Editor Debugger, debug_break like GDScript asserts
+	//}
+	//else // only `assert(0)`/`assert(false)` get compiled; usually a release version
 	{
 		// crash on always-false asserts
-		throw new AssertError(msg, file, line);
+		version(D_Exceptions) throw new AssertError(msg, file, line);
+		else
+		{
+			assertHandler = null;
+			assert(0, msg);
+		}
 	}
 }
 
@@ -79,6 +89,7 @@ void print(Args...)(Args args)
 	{
 		static if(is(typeof(arg) : String)) str ~= arg;
 		else static if(is(typeof(arg) : string)) str ~= String(arg);
+		else static if(is(typeof(arg) : Variant)) str ~= arg.as!String;
 		else static if(Variant.compatibleToGodot!(typeof(arg))) str ~= Variant(arg).as!String;
 		else static assert(0, "Unable to print type "~typeof(arg).stringof);
 	}
