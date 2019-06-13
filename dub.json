@@ -28,11 +28,11 @@
 			"dependencies":
 			{
 				"asdf": "~>0.2.4",
-				"dxml": "~>0.3.2",
+				"dxml": "~>0.3.2"
 			},
 			"sourcePaths": [ "generator", "common" ]
 		},
 		"./examples/test/",
-		"./examples/asteroids/",
-	],
+		"./examples/asteroids/"
+	]
 }
