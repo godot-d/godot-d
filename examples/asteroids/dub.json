@@ -12,6 +12,6 @@
 	
 	"dependencies":
 	{
-		"godot-d": "*",
-	},
+		"godot-d": "*"
+	}
 }
