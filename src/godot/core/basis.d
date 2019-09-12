@@ -94,7 +94,6 @@ struct Basis
 		return true;
 	}
 	
-	
 	bool isOrthogonal() const
 	{
 		Basis id;
@@ -141,6 +140,7 @@ struct Basis
 		// get actual basis axis (elements is transposed for performance)
 		return Vector3( elements[0][p_axis], elements[1][p_axis], elements[2][p_axis] );
 	}
+
 	void setAxis(int p_axis, in Vector3 p_value)
 	{
 		// get actual basis axis (elements is transposed for performance)
@@ -257,10 +257,12 @@ struct Basis
 	{
 		return elements[0][0] * v[0] + elements[1][0] * v[1] + elements[2][0] * v[2];
 	}
+
 	real_t tdoty(in Vector3 v) const
 	{
 		return elements[0][1] * v[0] + elements[1][1] * v[1] + elements[2][1] * v[2];
 	}
+
 	real_t tdotz(in Vector3 v) const
 	{
 		return elements[0][2] * v[0] + elements[1][2] * v[1] + elements[2][2] * v[2];
@@ -296,6 +298,7 @@ struct Basis
 			(elements[0][2]*p_vector.x ) + ( elements[1][2]*p_vector.y ) + ( elements[2][2]*p_vector.z )
 		);
 	}
+
 	void opOpAssign(string op : "*")(in Basis p_matrix)
 	{
 		set(
@@ -313,7 +316,6 @@ struct Basis
 			p_matrix.tdotx(elements[2]), p_matrix.tdoty(elements[2]), p_matrix.tdotz(elements[2]) );
 	
 	}
-	
 	
 	void opOpAssign(string op : "+")(in Basis p_matrix)
 	{
@@ -380,6 +382,7 @@ struct Basis
 		elements[2][1]=zy;
 		elements[2][2]=zz;
 	}
+
 	Vector3 getColumn(int i) const
 	{
 		return Vector3(elements[0][i],elements[1][i],elements[2][i]);
@@ -389,6 +392,7 @@ struct Basis
 	{
 		return Vector3(elements[i][0],elements[i][1],elements[i][2]);
 	}
+
 	Vector3 getMainDiagonal() const
 	{
 		return Vector3(elements[0][0],elements[1][1],elements[2][2]);
@@ -518,7 +522,7 @@ struct Basis
 	
 		return acc_rot;
 	}
-	
+
 	
 	static immutable Basis[24] _ortho_bases =
 	[
@@ -579,14 +583,12 @@ struct Basis
 		return 0;
 	}
 	
-	
 	void setOrthogonalIndex(int p_index)
 	{
 		//there only exist 24 orthogonal bases in r3
 		///ERR_FAIL_COND(p_index >= 24);
 		this=_ortho_bases[p_index];
 	}
-	
 	
 	
 	this(in Vector3 p_euler)
@@ -668,6 +670,3 @@ struct Basis
 		return Quat(temp[0],temp[1],temp[2],temp[3]);
 	}
 }
-
-
-
