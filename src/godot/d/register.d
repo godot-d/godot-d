@@ -418,7 +418,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		else static if( is(typeof( { P p; } )) )
 		{
 			import std.math : isNaN;
-			static if(isFloatingPoint!P && (mixin("T."~pName).init).isNaN)
+			static if(isFloatingPoint!P && mixin("T."~pName~".init").isNaN)
 			{
 				// Godot doesn't support NaNs. Initialize properties to 0.0 instead.
 				Variant defval = P(0.0);
