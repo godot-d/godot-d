@@ -32,6 +32,31 @@
 			},
 			"sourcePaths": [ "generator", "common" ]
 		},
+		{
+			"name": "class-finder",
+			"description": "A utility for scanning D files to find classes",
+			"targetType": "library",
+			"dependencies":
+			{
+				"emsi_containers": "~>0.8.0-alpha.11",
+				"dsymbol": "~>0.6.0",
+				"libdparse": "~>0.11.2",
+				"dub": "~>1.13.0"
+			},
+			"sourcePaths": [ "util/classfinder", "common" ],
+			"importPaths": [ "util/classfinder", "common" ]
+		},
+		{
+			"name": "list-classes",
+			"description": "A preGenerateCommand that creates the Godot entry point mixin automatically",
+			"targetType": "executable",
+			"dependencies":
+			{
+				"godot-d:class-finder": "*"
+			},
+			"sourcePaths": [ "util/listclasses" ],
+			"importPaths": [ "util/listclasses" ]
+		},
 		"./examples/test/",
 		"./examples/asteroids/"
 	]
