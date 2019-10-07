@@ -55,7 +55,6 @@ private class GDVisitor : ASTVisitor
 
 		if(a.argumentList.items.canFind!(e => (cast(PrimaryExpression)e) && (cast(PrimaryExpression)e).primary.text == "MainClass"))
 		{
-			debug print("Found MainClass from ", a.startLocation, " to ", a.endLocation);
 			overrideAttributeRanges ~= [a.startLocation, a.endLocation];
 		}
 	}
@@ -70,7 +69,6 @@ private class GDVisitor : ASTVisitor
 			found = name;
 		}
 
-		debug print("D: Parsed class ", name);
 		super.visit(c);
 	}
 }
