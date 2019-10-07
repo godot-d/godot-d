@@ -155,6 +155,7 @@ struct godot_property_get_func {
 }
 
 struct godot_signal_argument {
+align(1):
 	godot_string name;
 	godot_int type;
 	godot_property_hint hint;

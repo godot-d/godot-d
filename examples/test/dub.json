@@ -6,5 +6,5 @@
 	"dependencies":
 	{
 		"godot-d": { "path": "../../" }
-	},
+	}
 }
