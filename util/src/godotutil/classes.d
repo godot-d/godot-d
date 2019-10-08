@@ -38,7 +38,7 @@ struct FileInfo
 	static FileInfo fromCsv(string csv)
 	{
 		FileInfo ret;
-		auto s = csv.split;
+		auto s = csv.split(',');
 		static foreach(v; AliasSeq!("name", "hash", "moduleName", "mainClass"))
 		{
 			mixin("ret."~v~" = s.front;");
