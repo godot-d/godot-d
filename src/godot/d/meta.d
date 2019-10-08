@@ -14,6 +14,11 @@ import godot.object;
 
 @nogc nothrow:
 
+template from(string moduleName)
+{
+	mixin("import from = " ~ moduleName ~ ";");
+}
+
 /++
 Adds the Ref wrapper to T, if T is a Reference type
 +/
