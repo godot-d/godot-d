@@ -21,11 +21,13 @@ import godot.core, godot.c;
 import godot.gdnativelibrary;
 
 enum bool is_(alias a) = is(a);
-template classFrom(string className)
+template fileClassesAsLazyImports(FileInfo f)
 {
-	private import std.string : split, join;
-	private import std.range : back;
-	mixin("alias classFrom = from!\""~className.split('.')[0..$-1].join('.')~"\"."~className.split('.').back~";");
+	template classFrom(string className)
+	{
+		mixin("alias classFrom = from!\""~f.moduleName~"\""~className[f.moduleName.length..$]~";");
+	}
+	alias fileClassesAsLazyImports = staticMap!(classFrom, aliasSeqOf!(f.classes));
 }
 
 alias GodotInitOptions = const(godot_gdnative_init_options*);
@@ -133,7 +135,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		
 		_GODOT_library_handle = handle;
 		
-		alias classList = staticMap!(classFrom, aliasSeqOf!(_GODOT_projectInfo.allClasses())); 
+		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
 		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
 		{
 			static if(is(C))
@@ -170,7 +172,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.script : NativeScriptTemplate;
 		import std.array : join;
 
-		alias classList = staticMap!(classFrom, aliasSeqOf!(_GODOT_projectInfo.allClasses())); 
+		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
 		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
 		{
 			static if(is(C))
