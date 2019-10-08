@@ -8,6 +8,7 @@ compiler plugin system for D to list the classes as they're compiled.
 module classfinder;
 
 import godotutil.string;
+import godotutil.classes;
 
 import dparse.parser, dparse.lexer;
 import dparse.ast;
@@ -22,15 +23,6 @@ import std.meta;
 import std.typecons : scoped;
 import std.algorithm.iteration : joiner, map;
 import std.conv : text;
-
-/// 
-struct ClassesInFile
-{
-	string file;
-	string moduleName;
-	string mainClass;
-	string[] classes;
-}
 
 /// libdparse visitor to be used with a dsymbol-like simple parser
 private class GDVisitor : ASTVisitor
@@ -74,10 +66,10 @@ private class GDVisitor : ASTVisitor
 }
 
 /// 
-ClassesInFile parse(string path)
+FileInfo parse(string path)
 {
-	ClassesInFile ret;
-	ret.file = path;
+	FileInfo ret;
+	ret.name = path;
 
 	RollbackAllocator rba;
 	StringCache stringCache = StringCache(StringCache.defaultBucketCount);
