@@ -57,6 +57,11 @@ struct ProjectInfo
 {
 	FileInfo[] files;
 
+	const(string)[] allClasses() const
+	{
+		return files.map!(f => f.classes).join();
+	}
+
 	string toCsv() const
 	{
 		return files.map!(f => f.toCsv).join("\n");

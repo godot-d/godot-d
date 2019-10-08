@@ -3,6 +3,8 @@ Initialization, termination, and registration of D libraries in Godot
 +/
 module godot.d.register;
 
+import godotutil.classes;
+
 import std.format;
 import std.meta, std.traits;
 import std.experimental.allocator, std.experimental.allocator.mallocator;
@@ -17,6 +19,8 @@ import godot.d.reference;
 import godot.core, godot.c;
 
 import godot.gdnativelibrary;
+
+enum bool is_(alias a) = is(a);
 
 alias GodotInitOptions = const(godot_gdnative_init_options*);
 alias GodotTerminateOptions = const(godot_gdnative_terminate_options*);
@@ -61,11 +65,21 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 {
 	private static import godot.c;
 	private static import godot.gdnativelibrary;
+	private static import godotutil.classes;
 	private import godot.d.reference;
 	
 	private __gshared Ref!(godot.gdnativelibrary.GDNativeLibrary) _GODOT_library;
 	private __gshared void* _GODOT_library_handle;
-	
+
+	static if(__traits(compiles, import("classes.csv")))
+	{
+		enum godotutil.classes.ProjectInfo _GODOT_projectInfo = godotutil.classes.ProjectInfo.fromCsv(import("classes.csv"));
+	}
+	else
+	{
+		enum godotutil.classes.ProjectInfo _GODOT_projectInfo = godotutil.classes.ProjectInfo.init;
+	}
+
 	/// HACK: empty main to force the compiler to add emulated TLS.
 	version(Android) void main() { }
 	
@@ -88,7 +102,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		
 		*cast(typeof(options.gd_native_library)*)&_GODOT_library = options.gd_native_library;
 		_GODOT_library.reference();
-		
+
 		foreach(Arg; Args)
 		{
 			static if(is(Arg)) { } // is type
@@ -109,8 +123,22 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 	{
 		import std.meta, std.traits;
 		import godot.d.register : register;
+		import std.array : join;
 		
 		_GODOT_library_handle = handle;
+		
+		static foreach(f; _GODOT_projectInfo.files) mixin("import "~f.moduleName~";");
+		mixin("alias classList = AliasSeq!("~_GODOT_projectInfo.allClasses().join(",")~");");
+		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
+		{
+			static if(is(C))
+			{
+				static if(extendsGodotBaseClass!C)
+				{
+					register!C(_GODOT_library_handle, _GODOT_library);
+				}
+			}
+		}
 		
 		foreach(Arg; Args)
 		{
@@ -118,7 +146,6 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 			{
 				static assert(is(Arg == class) && extendsGodotBaseClass!Arg,
 					fullyQualifiedName!Arg ~ " is not a D class that extends a Godot class!");
-				register!Arg(_GODOT_library_handle, _GODOT_library);
 			}
 			else static if( isCallable!Arg )
 			{
@@ -136,11 +163,25 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 	{
 		import std.meta, std.traits;
 		import godot.d.script : NativeScriptTemplate;
+		import std.array : join;
+
+		static foreach(f; _GODOT_projectInfo.files) mixin("import "~f.moduleName~";");
+		mixin("alias classList = AliasSeq!("~_GODOT_projectInfo.allClasses().join(",")~");");
+		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
+		{
+			static if(is(C))
+			{
+				static if(extendsGodotBaseClass!C)
+				{
+					NativeScriptTemplate!C.unref();
+				}
+			}
+		}
+		
 		foreach(Arg; Args)
 		{
 			static if(is(Arg)) // is type
 			{
-				NativeScriptTemplate!Arg.unref();
 			}
 			else static if(isCallable!Arg)
 			{
