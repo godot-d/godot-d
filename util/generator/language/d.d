@@ -1,6 +1,6 @@
 module language.d;
 
-import godot.d.string;
+import godotutil.string;
 import api.util;
 import api.classes, api.methods;
 

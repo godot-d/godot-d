@@ -1,7 +1,7 @@
 module api.doc;
 
 import api.classes, api.methods, api.util;
-import godot.d.string;
+import godotutil.string;
 
 import std.stdio : writeln, writefln;
 import std.string, std.range;

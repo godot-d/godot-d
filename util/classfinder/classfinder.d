@@ -7,7 +7,7 @@ compiler plugin system for D to list the classes as they're compiled.
 +/
 module classfinder;
 
-import godot.d.string;
+import godotutil.string;
 
 import dparse.parser, dparse.lexer;
 import dparse.ast;

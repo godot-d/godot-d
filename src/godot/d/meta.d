@@ -3,7 +3,7 @@ Compile-time introspection of Godot types
 +/
 module godot.d.meta;
 
-import godot.d.string;
+import godotutil.string;
 import godot.d.udas;
 import godot.d.reference;
 

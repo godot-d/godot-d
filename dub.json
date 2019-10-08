@@ -9,8 +9,12 @@
 	"dflags-linux-dmd": ["-fPIC"],
 	"dflags-linux-ldc2": ["-relocation-model=pic"],
 	
-	"importPaths": [ "src", "classes", "common" ],
-	"sourcePaths": [ "src", "classes", "common" ],
+	"importPaths": [ "src", "classes" ],
+	"sourcePaths": [ "src", "classes" ],
+
+	"dependencies": {
+		"godot-d:util": "*"
+	},
 	
 	"buildTypes": {
 		"doc-json": {
@@ -23,14 +27,21 @@
 	"subPackages":
 	[
 		{
+			"name": "util",
+			"targetType": "library",
+			"sourcePaths": [ "util/src" ],
+			"importPaths": [ "util/src" ]
+		},
+		{
 			"name": "generator",
 			"description": "A program that binds Godot's C++ classes and GDNative C functions",
 			"dependencies":
 			{
+				"godot-d:util": "*",
 				"asdf": "~>0.2.4",
 				"dxml": "~>0.3.2"
 			},
-			"sourcePaths": [ "generator", "common" ]
+			"sourcePaths": [ "util/generator" ]
 		},
 		{
 			"name": "class-finder",
@@ -38,13 +49,14 @@
 			"targetType": "library",
 			"dependencies":
 			{
+				"godot-d:util": "*",
 				"emsi_containers": "~>0.8.0-alpha.11",
 				"dsymbol": "~>0.6.0",
 				"libdparse": "~>0.11.2",
 				"dub": "~>1.13.0"
 			},
-			"sourcePaths": [ "util/classfinder", "common" ],
-			"importPaths": [ "util/classfinder", "common" ]
+			"sourcePaths": [ "util/classfinder" ],
+			"importPaths": [ "util/classfinder" ]
 		},
 		{
 			"name": "list-classes",
@@ -52,6 +64,7 @@
 			"targetType": "executable",
 			"dependencies":
 			{
+				"godot-d:util": "*",
 				"godot-d:class-finder": "*"
 			},
 			"sourcePaths": [ "util/listclasses" ],
