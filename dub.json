@@ -38,8 +38,8 @@
 			"dependencies":
 			{
 				"godot-d:util": "*",
-				"asdf": "~>0.2.4",
-				"dxml": "~>0.3.2"
+				"asdf": "~>0.5.2",
+				"dxml": "~>0.4.1"
 			},
 			"sourcePaths": [ "util/generator" ]
 		},
