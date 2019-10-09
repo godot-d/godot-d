@@ -26,7 +26,8 @@ int main(string[] args)
 		{
 			if(de.isFile && de.name.endsWith(".d"))
 			{
-				/// FIXME: should this be the Godot project dir?
+				/// TODO: `parse` needs to relativize the path differently. The cwd is irrelevant to Godot.
+				///       Maybe relative to DUB package or Godot project - how will it be used?
 				string relativePath = de.name.asRelativePath(getcwd()).text;
 				FileInfo file = parse(relativePath);
 				writefln!"%s classes: %s"(file.moduleName, file.classes);

@@ -58,7 +58,7 @@
 			"importPaths": [ "util/classfinder" ]
 		},
 		{
-			"name": "list-classes",
+			"name": "pregenerate",
 			"description": "A preGenerateCommand that creates the Godot entry point mixin automatically",
 			"targetType": "executable",
 			"dependencies":
@@ -66,8 +66,8 @@
 				"godot-d:util": "*",
 				"godot-d:class-finder": "*"
 			},
-			"sourcePaths": [ "util/listclasses" ],
-			"importPaths": [ "util/listclasses" ]
+			"sourcePaths": [ "util/pregenerate" ],
+			"importPaths": [ "util/pregenerate" ]
 		},
 		"./examples/test/",
 		"./examples/asteroids/"
