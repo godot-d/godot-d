@@ -23,11 +23,14 @@ struct FileInfo
 	string hash; /// hash of the file, to avoid re-parsing files that haven't changed
 	string moduleName;
 	string mainClass; /// the class with the same name as the module, if it exists
+	bool hasEntryPoint = false; /// the GodotNativeLibrary mixin is in this file
 	string[] classes; /// all classes in the file
 
 	string toCsv() const
 	{
 		string ret = only(name, hash, moduleName, mainClass).join(",");
+		ret ~= ",";
+		ret ~= hasEntryPoint.text;
 		foreach(c; classes)
 		{
 			ret ~= ",";
@@ -44,6 +47,8 @@ struct FileInfo
 			mixin("ret."~v~" = s.front;");
 			s.popFront();
 		}
+		if(s.front == "true") ret.hasEntryPoint = true;
+		s.popFront();
 		foreach(c; s)
 		{
 			ret.classes ~= c;
