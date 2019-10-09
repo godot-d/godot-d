@@ -50,10 +50,9 @@
 			"dependencies":
 			{
 				"godot-d:util": "*",
-				"emsi_containers": "~>0.8.0-alpha.11",
-				"dsymbol": "~>0.6.0",
-				"libdparse": "~>0.11.2",
-				"dub": "~>1.13.0"
+				"emsi_containers": "~>0.8.0-alpha.18",
+				"dsymbol": "~>0.9.0",
+				"libdparse": "~>0.13.1"
 			},
 			"sourcePaths": [ "util/classfinder" ],
 			"importPaths": [ "util/classfinder" ]
