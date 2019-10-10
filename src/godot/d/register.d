@@ -98,6 +98,8 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.reference;
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
+		import godot.d.output;
+		import godot.d.meta;
 		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
 		static if(loadDRuntime) Runtime.initialize();
@@ -132,6 +134,8 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import std.meta, std.traits;
 		import godot.d.register : register;
 		import std.array : join;
+		import godot.d.output;
+		import godot.d.meta;
 		
 		_GODOT_library_handle = handle;
 		
@@ -171,6 +175,8 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import std.meta, std.traits;
 		import godot.d.script : NativeScriptTemplate;
 		import std.array : join;
+		import godot.d.output;
+		import godot.d.meta;
 
 		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
 		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
