@@ -62,6 +62,13 @@ struct ProjectInfo
 {
 	FileInfo[] files;
 
+	/// the project has a GodotNativeLibrary mixin in one of its files
+	bool hasEntryPoint() const
+	{
+		import std.algorithm.searching : any;
+		return files.any!(f => f.hasEntryPoint);
+	}
+
 	const(string)[] allClasses() const
 	{
 		return files.map!(f => f.classes).join();
