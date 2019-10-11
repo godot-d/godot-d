@@ -99,6 +99,12 @@ struct Api
 		ret ~= "}\n";
 		
 		ret ~= core.source("core");
+		ApiPart coreNext = core.next;
+		while(coreNext)
+		{
+			ret ~= coreNext.source("core");
+			coreNext = coreNext.next;
+		}
 		foreach(part; extensions)
 		{
 			ApiPart p = part;
@@ -247,7 +253,7 @@ class ApiPart
 		ret ~= "public extern(C) struct "~name.structName(ver)~"\n{\n";
 		ret ~= "@nogc nothrow:\n";
 		
-		if(core) ret ~= q{
+		if(core && ver == ApiVersion(1,0)) ret ~= q{
 			mixin ApiStructHeader;
 			uint num_extensions;
 			const godot_gdnative_api_struct **extensions;
@@ -285,7 +291,8 @@ class ApiPart
 
 string structName(string name, ApiVersion ver)
 {
-	return (name=="core")?"godot_gdnative_core_api_struct":
+	return (name=="core")?( "godot_gdnative_core_api_struct" ~
+		(ver==ApiVersion(1,0) ? "" : ver.str) ) :
 		("godot_gdnative_ext_"~name~"_api_struct"~ver.str);
 }
 string globalVarName(string name, ApiVersion ver = ApiVersion(-1,-1))
