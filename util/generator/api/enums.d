@@ -1,6 +1,6 @@
 module api.enums;
 
-import godot.d.string;
+import godotutil.string;
 import api.classes, api.util;
 
 import asdf;

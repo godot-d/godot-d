@@ -9,20 +9,6 @@ D language bindings for the [Godot Engine](https://godotengine.org/)'s
 breaking changes, bugs, and missing documentation. Please report any issues and
 confusing or undocumented features on the GitHub page.
 
-**WARNING**: v0.0.7 is the last update before the following breaking changes to
-v0.1.0; you'll need to manually update these in your project:
-- NativeScript resources need to use the fully qualified name of classes.
-- D strings can no longer be passed to Godot methods. The implicit conversion
-  was expensive and sometimes buggy. Godot String literals (`gs!"some_text"`)
-  can be used in place of plain D string literals.
-
-#### Upcoming changes
-- Optional editor import plugin that handles the boilerplate - `.d` files will
-  import as NativeScripts and `dub.json`/`dub.sdl` as GDNativeLibrary.
-- Documentation and a tutorial. Delayed so it can use the import plugin. For
-  now, see the [asteroids demo game](examples/asteroids/), which the tutorial
-  will remake in detailed steps.
-
 Usage
 -----
 #### Dependencies
@@ -87,22 +73,49 @@ the class and can be modified in the Godot editor. The optional hint parameter
 can specify how the editor should treat the property, for example limiting a
 number to the range 1-10.
 
-#### Initialization
-Your D scripts still need to be registered into Godot when your library is
-loaded by the engine. The GodotNativeLibrary mixin template will generate the
-C interface for you; instantiate it with the list of script classes to add to
-Godot and functions to be called at init or termination:  
+#### Library initialization
+Your library needs to expose an entry point through which Godot will load and
+initialize it:
+
+##### 1: Automatic entry point generator
+Add `godot-d:pregenerate` to your DUB project's `preGenerateCommands`:  
+```JSON
+	"preGenerateCommands": [ "dub run godot-d:pregenerate" ],
+```
+
+The pregenerate tool will create the entry point `entrypoint.d` in your source
+directory and a list of script classes in your string import directory (`views`
+by default).
+
+Your GDNativeLibrary's `symbol_prefix` will be the name of your DUB project,
+with symbols like `-` replaced by underscores.
+
+##### 2: Manual entry point mixin
+Put the `GodotNativeLibrary` mixin into one of your files:  
 ```D
+import godot.d.register;
+
 mixin GodotNativeLibrary!
 (
-	"testLibrary", // same as the symbol_prefix in the GDNativeLibrary resource
+	// your GDNativeLibrary resource's symbol_prefix
+	"platformer",
 	
-	TestButton,
+	// a list of all of your script classes
+	Player,
+	Enemy,
+	Level,
 	
+	// functions to call at initialization and termination (both optional)
 	(GodotInitOptions o){ writeln("Library initialized"); },
 	(GodotTerminateOptions o){ writeln("Library terminated"); }
 );
 ```
+
+##### 3: Both
+You can manually create the `GodotNativeLibrary` mixin while still using the
+pregenerate tool. It will not create a new `entrypoint.d` if the mixin already
+exists. You no longer need to list your script classes, but can still use
+`GodotNativeLibrary` to configure your library.
 
 #### Godot API
 Godot's full [script API](http://docs.godotengine.org/) can be used from D:  
@@ -139,7 +152,7 @@ of Godot, but you can generate your own bindings in a few cases:
 - using a custom Godot build or custom C++ modules
 
 Make a local clone of Godot-D and generate updated bindings using the
-[API generator](generator/README.md). In your game project, use this local
+[API generator](util/generator/README.md). In your game project, use this local
 clone's path as a dependency instead of a released version of `godot-d`:  
 ```JSON
 	"dependencies":

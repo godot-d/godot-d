@@ -7,7 +7,8 @@ compiler plugin system for D to list the classes as they're compiled.
 +/
 module classfinder;
 
-import godot.d.string;
+import godotutil.string;
+import godotutil.classes;
 
 import dparse.parser, dparse.lexer;
 import dparse.ast;
@@ -23,21 +24,11 @@ import std.typecons : scoped;
 import std.algorithm.iteration : joiner, map;
 import std.conv : text;
 
-/// 
-struct ClassesInFile
-{
-	string file;
-	string moduleName;
-	string mainClass;
-	string[] classes;
-}
-
 /// libdparse visitor to be used with a dsymbol-like simple parser
 private class GDVisitor : ASTVisitor
 {
+	FileInfo file;
 	string[] moduleName;
-	string found; // class matching moduleName.back (fully qualified name)
-	string[] all; // all classes (fully qualified names)
 	string overrideName; // manually set the class; TODO: not implemented yet
 	size_t[2][] overrideAttributeRanges;
 
@@ -55,32 +46,33 @@ private class GDVisitor : ASTVisitor
 
 		if(a.argumentList.items.canFind!(e => (cast(PrimaryExpression)e) && (cast(PrimaryExpression)e).primary.text == "MainClass"))
 		{
-			debug print("Found MainClass from ", a.startLocation, " to ", a.endLocation);
 			overrideAttributeRanges ~= [a.startLocation, a.endLocation];
 		}
+	}
+
+	override void visit(in MixinTemplateName m)
+	{
+		import std.algorithm.searching;
+		if(m.tokens.canFind!(t => t.text == "GodotNativeLibrary")) file.hasEntryPoint = true;
 	}
 
 	override void visit(in ClassDeclaration c)
 	{
 		auto name = (moduleName ~ c.name.text).joiner(".").text;
-		all ~= name;
+		file.classes ~= name;
 		if(c.name.text.toLower == moduleName.back || c.name.text.camelToSnake == moduleName.back)
 		{
-			if(!found.empty) throw new Exception("Multiple classes matching the module found");
-			found = name;
+			if(!file.mainClass.empty) throw new Exception("Multiple classes matching the module found");
+			file.mainClass = name;
 		}
 
-		debug print("D: Parsed class ", name);
 		super.visit(c);
 	}
 }
 
 /// 
-ClassesInFile parse(string path)
+FileInfo parse(string path)
 {
-	ClassesInFile ret;
-	ret.file = path;
-
 	RollbackAllocator rba;
 	StringCache stringCache = StringCache(StringCache.defaultBucketCount);
 
@@ -94,17 +86,15 @@ ClassesInFile parse(string path)
 	m = parseModuleSimple(tokens, path, &rba);
 
 	auto visitor = new GDVisitor;
+	visitor.file.name = path;
 	// for root modules
 	visitor.moduleName = [path.baseName.stripExtension];
 
 	m.accept(visitor);
+	visitor.file.moduleName = visitor.moduleName.joiner(".").text;
+	if(visitor.file.mainClass.empty && visitor.file.classes.length == 1) visitor.file.mainClass = visitor.file.classes[0];
 
-	ret.moduleName = visitor.moduleName.joiner(".").text;
-	if(!visitor.found.empty) ret.mainClass = visitor.found;
-	else if(visitor.all.length == 1) ret.mainClass = visitor.all[0];
-	ret.classes = visitor.all;
-
-	return ret;
+	return visitor.file;
 }
 
 

@@ -1,6 +1,6 @@
 module api.methods;
 
-import godot.d.string;
+import godotutil.string;
 import api.classes, api.enums, api.util;
 
 import asdf;
