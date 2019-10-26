@@ -140,7 +140,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		_GODOT_library_handle = handle;
 		
 		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
-		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
+		static foreach(C; NoDuplicates!(classList, Filter!(is_, Args)))
 		{
 			static if(is(C))
 			{
@@ -179,7 +179,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.meta;
 
 		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
-		static foreach(C; NoDuplicates!(classList, staticMap!(is_, Args)))
+		static foreach(C; NoDuplicates!(classList, Filter!(is_, Args)))
 		{
 			static if(is(C))
 			{
