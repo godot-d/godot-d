@@ -409,12 +409,13 @@ struct Variant
 		}
 		else
 		{
-			InternalType[VarType] ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
-			
-			static if(directlyCompatible!R) return *cast(DType[VarType]*)&ret;
+			DType[VarType] ret = void;
+			*cast(InternalType[VarType]*)&ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
+
+			static if(directlyCompatible!R) return ret;
 			else
 			{
-				return conversionFromGodot!R(*cast(DType[VarType]*)&ret);
+				return conversionFromGodot!R(ret);
 			}
 		}
 	}
