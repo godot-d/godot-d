@@ -143,9 +143,9 @@ string emptyDefault(in Type type)
 		case "String":
 			return `gs!""`;
 		case "Dictionary":
-			return type.d~".empty_dictionary"; // naming convention fail
+			return type.d~".make()";
 		case "Array":
-			return type.d~".empty_array"; // naming convention fail, ugh. Change it?
+			return type.d~".make()";
 		default: // all default-blittable types
 		{
 			return type.d~".init"; // D's default initializer

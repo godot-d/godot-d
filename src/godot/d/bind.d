@@ -172,7 +172,7 @@ do
 	GodotObject o = void;
 	o._godot_object = self;
 	
-	Array a = Array.empty_array;
+	Array a = Array.make();
 	static if(Args.length != 0) a.resize(cast(int)Args.length);
 	foreach(ai, A; Args)
 	{

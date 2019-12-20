@@ -144,9 +144,9 @@ constructor through GDNative.
 +/
 template godotDefaultInit(T)
 {
-	static if(is(T : Array)) alias godotDefaultInit = Alias!(T.empty_array);
+	static if(is(T : Array)) alias godotDefaultInit = Alias!(Array.make);
 	else static if(is(T : Dictionary)) alias godotDefaultInit = Alias!(
-		Dictionary.empty_dictionary);
+		Dictionary.make);
 	else alias godotDefaultInit = Alias!(T.init);
 }
 

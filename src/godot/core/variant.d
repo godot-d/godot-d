@@ -224,7 +224,7 @@ struct Variant
 			alias conversionToGodot = (T t)
 			{
 				import std.algorithm.iteration;
-				Array ret = Array.empty_array;
+				Array ret = Array.make();
 				static if(hasLength!T)
 				{
 					ret.resize(cast(int)t.length);
