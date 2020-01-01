@@ -15,33 +15,44 @@ Usage
 - D compiler:
   - [DMD 2.082+](https://dlang.org/download.html#dmd) or
   - [LDC 1.11.0+](https://github.com/ldc-developers/ldc#from-a-pre-built-package)
+- [DUB](https://dub.pm) package/build tool (usually included with both compilers)
 
 #### Project setup
-A Godot project needs these files in its project folder to use D:  
-- A dynamic library (`.so`/`.dll`/`.dylib`) compiled from your D code
-- A GDNativeLibrary resource (`.gdnlib`) with the name of the dynamic library
-  file on each platform you'll compile the library for
-- Optionally, NativeScript resources (`.gdns`) for each D class, allowing you
-  to use these classes inside the Godot editor
-
 The easiest way to build your library is to use D's package/build manager, DUB.
-Create a [DUB project](https://code.dlang.org/getting_started) with `godot-d`
-as a dependency, `targetType` set to `dynamicLibrary`, and `targetPath` set to
-the Godot project's folder. Your project will usually be organized like this:
+Create a [DUB project](https://code.dlang.org/getting_started) in a file called
+`dub.json` in your Godot project folder:
 
-	<game>
-	├─ project                Godot project folder
-	│  ├─ project.godot
-	│  ├─ <game>.dll / .so    Compiled libraries for each platform
-	│  ├─ <game>.gdnlib       GDNativeLibrary resource
-	│  ├─ *.gdns              NativeScripts referring to your D classes
-	│  └─ <other assets>
+	{
+		"name": "asteroids-demo",
+		"sourcePaths": ["asteroids"],
+		"importPaths": ["asteroids"],
+		"targetType": "dynamicLibrary",
+		"dependencies": {
+			"godot-d": "~>0.1.4"
+		},
+		"preGenerateCommands": [
+			"dub run godot-d:pregenerate"
+		]
+	}
+
+Your project will usually be organized like this:
+
+	asteroids-demo
+	├─ project.godot         Godot project
+	├─ <other Godot assets>
 	│
-	├─ dub.json               DUB project
-	└─ src
-	   └─ <game>
-	      ├─ *.d              D source files
-	      └─ package.d        Entry point: mixin GodotNativeLibrary!(...);
+	├─ addons
+	│  └─ godot-d-importer   D editor plugin
+	│
+	├─ dub.json              DUB project
+	├─ *.dll / .so           Compiled libraries for each platform
+	└─ asteroids
+	   ├─ *.d                D source files
+	   └─ entrypoint.d       Entry point (auto-generated)
+
+The location of the D source files is up to you. In this example, we use a
+subfolder with the game's name to keep them neatly organized, since the file
+path is used as both the D module name and the Godot resource path.
 
 #### D native scripts
 In Godot, a "script" is an object that exposes methods, properties, and signals
