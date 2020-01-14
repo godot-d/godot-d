@@ -192,7 +192,7 @@ the script is created, right before _init() is called.
 Options for automatically deleting or adding as child node the tagged variable
 can be set in the UDA.
 +/
-struct RAII
+struct OnInit
 {
 	bool autoCreate = true; /// create it when the script is created
 	bool autoDelete = true; /// delete it when the script is destroyed
@@ -202,10 +202,10 @@ struct RAII
 	package(godot) enum bool canAddChild(R, Owner) = extends!(GodotClass!R, Node)
 		&& extends!(GodotClass!Owner, Node);
 	
-	static RAII makeDefault(R, Owner)()
+	static OnInit makeDefault(R, Owner)()
 	{
 		import godot.reference, godot.node, godot.resource;
-		RAII ret;
+		OnInit ret;
 		static if( is(GodotClass!R : Reference) ) ret.autoDelete = false; // ref-counted
 		static if( canAddChild!(R, Owner) )
 		{
@@ -215,5 +215,7 @@ struct RAII
 		return ret;
 	}
 }
-/// TODO: support static arrays
+// TODO: support static arrays
+
+deprecated alias RAII = OnInit;
 
