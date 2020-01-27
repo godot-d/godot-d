@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_constant") GodotMethod!(void, Transform) setConstant;
 		@GodotName("get_constant") GodotMethod!(Transform) getConstant;
+		@GodotName("set_constant") GodotMethod!(void, Transform) setConstant;
 	}
 	bool opEquals(in VisualShaderNodeTransformConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeTransformConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setConstant(in Transform value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstant, _godot_object, value);
-	}
-	/**
-	
-	*/
 	Transform getConstant() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Transform)(_classBinding.getConstant, _godot_object);
+	}
+	/**
+	
+	*/
+	void setConstant(in Transform value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstant, _godot_object, value);
 	}
 	/**
 	

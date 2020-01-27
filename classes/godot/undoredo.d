@@ -1,5 +1,5 @@
 /**
-Helper to manage UndoRedo in the editor or custom tools.
+Helper to manage undo/redo operations in the editor or custom tools.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 /**
-Helper to manage UndoRedo in the editor or custom tools.
+Helper to manage undo/redo operations in the editor or custom tools.
 
-It works by registering methods and property changes inside 'actions'.
+It works by registering methods and property changes inside "actions".
 Common behavior is to create an action, then add do/undo calls to functions or property changes, then committing the action.
-Here's an example on how to add an action to Godot editor's own 'undoredo':
+Here's an example on how to add an action to the Godot editor's own $(D UndoRedo), from a plugin:
 
 
 var undo_redo = get_undo_redo() # Method of EditorPlugin.
@@ -47,7 +47,7 @@ func _on_MyButton_pressed():
 
 
 $(D createAction), $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), $(D addUndoProperty), and $(D commitAction) should be called one after the other, like in the example. Not doing so could lead to crashes.
-If you don't need to register a method you can leave $(D addDoMethod) and $(D addUndoMethod) out, and so it goes for properties. You can register more than one method/property.
+If you don't need to register a method, you can leave $(D addDoMethod) and $(D addUndoMethod) out; the same goes for properties. You can also register more than one method/property.
 */
 @GodotBaseClass struct UndoRedo
 {
@@ -61,18 +61,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("create_action") GodotMethod!(void, String, long) createAction;
-		@GodotName("commit_action") GodotMethod!(void) commitAction;
-		@GodotName("is_commiting_action") GodotMethod!(bool) isCommitingAction;
-		@GodotName("add_do_method") GodotMethod!(Variant, GodotObject, String, GodotVarArgs) addDoMethod;
-		@GodotName("add_undo_method") GodotMethod!(Variant, GodotObject, String, GodotVarArgs) addUndoMethod;
+		@GodotName("add_do_method") GodotMethod!(void, GodotObject, String, GodotVarArgs) addDoMethod;
 		@GodotName("add_do_property") GodotMethod!(void, GodotObject, String, Variant) addDoProperty;
-		@GodotName("add_undo_property") GodotMethod!(void, GodotObject, String, Variant) addUndoProperty;
 		@GodotName("add_do_reference") GodotMethod!(void, GodotObject) addDoReference;
+		@GodotName("add_undo_method") GodotMethod!(void, GodotObject, String, GodotVarArgs) addUndoMethod;
+		@GodotName("add_undo_property") GodotMethod!(void, GodotObject, String, Variant) addUndoProperty;
 		@GodotName("add_undo_reference") GodotMethod!(void, GodotObject) addUndoReference;
 		@GodotName("clear_history") GodotMethod!(void, bool) clearHistory;
+		@GodotName("commit_action") GodotMethod!(void) commitAction;
+		@GodotName("create_action") GodotMethod!(void, String, long) createAction;
 		@GodotName("get_current_action_name") GodotMethod!(String) getCurrentActionName;
 		@GodotName("get_version") GodotMethod!(long) getVersion;
+		@GodotName("has_redo") GodotMethod!(bool) hasRedo;
+		@GodotName("has_undo") GodotMethod!(bool) hasUndo;
+		@GodotName("is_commiting_action") GodotMethod!(bool) isCommitingAction;
 		@GodotName("redo") GodotMethod!(bool) redo;
 		@GodotName("undo") GodotMethod!(bool) undo;
 	}
@@ -92,11 +94,11 @@ public:
 	enum MergeMode : int
 	{
 		/**
-		Makes `do`/`undo` operations stay in separate actions.
+		Makes "do"/"undo" operations stay in separate actions.
 		*/
 		mergeDisable = 0,
 		/**
-		Makes so that the action's `do` operation is from the first action created and the `undo` operation is from the last subsequent action with the same name.
+		Makes so that the action's "do" operation is from the first action created and the "undo" operation is from the last subsequent action with the same name.
 		*/
 		mergeEnds = 1,
 		/**
@@ -112,36 +114,11 @@ public:
 		mergeAll = 2,
 	}
 	/**
-	Create a new action. After this is called, do all your calls to $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), and $(D addUndoProperty), then commit the action with $(D commitAction).
-	The way actions are merged is dictated by the `merge_mode` argument. See $(D mergemode) for details.
-	*/
-	void createAction(in String name, in long merge_mode = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createAction, _godot_object, name, merge_mode);
-	}
-	/**
-	Commit the action. All 'do' methods/properties are called/set when this function is called.
-	*/
-	void commitAction()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.commitAction, _godot_object);
-	}
-	/**
-	
-	*/
-	bool isCommitingAction() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCommitingAction, _godot_object);
-	}
-	/**
 	Register a method that will be called when the action is committed.
 	*/
-	Variant addDoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
+	void addDoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(object);
 		_GODOT_args.append(method);
 		foreach(vai, VA; VarArgs)
@@ -149,25 +126,10 @@ public:
 			_GODOT_args.append(varArgs[vai]);
 		}
 		String _GODOT_method_name = String("add_do_method");
-		return this.callv(_GODOT_method_name, _GODOT_args);
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Register a method that will be called when the action is undone.
-	*/
-	Variant addUndoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(object);
-		_GODOT_args.append(method);
-		foreach(vai, VA; VarArgs)
-		{
-			_GODOT_args.append(varArgs[vai]);
-		}
-		String _GODOT_method_name = String("add_undo_method");
-		return this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Register a property value change for 'do'.
+	Register a property value change for "do".
 	*/
 	void addDoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
 	{
@@ -175,15 +137,7 @@ public:
 		ptrcall!(void)(_classBinding.addDoProperty, _godot_object, object, property, value);
 	}
 	/**
-	Register a property value change for 'undo'.
-	*/
-	void addUndoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUndoProperty, _godot_object, object, property, value);
-	}
-	/**
-	Register a reference for 'do' that will be erased if the 'do' history is lost. This is useful mostly for new nodes created for the 'do' call. Do not use for resources.
+	Register a reference for "do" that will be erased if the "do" history is lost. This is useful mostly for new nodes created for the "do" call. Do not use for resources.
 	*/
 	void addDoReference(GodotObject object)
 	{
@@ -191,7 +145,30 @@ public:
 		ptrcall!(void)(_classBinding.addDoReference, _godot_object, object);
 	}
 	/**
-	Register a reference for 'undo' that will be erased if the 'undo' history is lost. This is useful mostly for nodes removed with the 'do' call (not the 'undo' call!).
+	Register a method that will be called when the action is undone.
+	*/
+	void addUndoMethod(VarArgs...)(GodotObject object, in String method, VarArgs varArgs)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(object);
+		_GODOT_args.append(method);
+		foreach(vai, VA; VarArgs)
+		{
+			_GODOT_args.append(varArgs[vai]);
+		}
+		String _GODOT_method_name = String("add_undo_method");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Register a property value change for "undo".
+	*/
+	void addUndoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addUndoProperty, _godot_object, object, property, value);
+	}
+	/**
+	Register a reference for "undo" that will be erased if the "undo" history is lost. This is useful mostly for nodes removed with the "do" call (not the "undo" call!).
 	*/
 	void addUndoReference(GodotObject object)
 	{
@@ -208,7 +185,24 @@ public:
 		ptrcall!(void)(_classBinding.clearHistory, _godot_object, increase_version);
 	}
 	/**
-	Get the name of the current action.
+	Commit the action. All "do" methods/properties are called/set when this function is called.
+	*/
+	void commitAction()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.commitAction, _godot_object);
+	}
+	/**
+	Create a new action. After this is called, do all your calls to $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), and $(D addUndoProperty), then commit the action with $(D commitAction).
+	The way actions are merged is dictated by the `merge_mode` argument. See $(D mergemode) for details.
+	*/
+	void createAction(in String name, in long merge_mode = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.createAction, _godot_object, name, merge_mode);
+	}
+	/**
+	Gets the name of the current action.
 	*/
 	String getCurrentActionName() const
 	{
@@ -216,7 +210,7 @@ public:
 		return ptrcall!(String)(_classBinding.getCurrentActionName, _godot_object);
 	}
 	/**
-	Get the version, each time a new action is committed, the version number of the UndoRedo is increased automatically.
+	Gets the version. Every time a new action is committed, the $(D UndoRedo)'s version number is increased automatically.
 	This is useful mostly to check if something changed from a saved version.
 	*/
 	long getVersion() const
@@ -225,7 +219,31 @@ public:
 		return ptrcall!(long)(_classBinding.getVersion, _godot_object);
 	}
 	/**
-	Redo last action.
+	Returns `true` if a "redo" action is available.
+	*/
+	bool hasRedo()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasRedo, _godot_object);
+	}
+	/**
+	Returns `true` if an "undo" action is available.
+	*/
+	bool hasUndo()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasUndo, _godot_object);
+	}
+	/**
+	Returns `true` if the $(D UndoRedo) is currently committing the action, i.e. running its "do" method or property change (see $(D commitAction)).
+	*/
+	bool isCommitingAction() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCommitingAction, _godot_object);
+	}
+	/**
+	Redo the last action.
 	*/
 	bool redo()
 	{
@@ -233,7 +251,7 @@ public:
 		return ptrcall!(bool)(_classBinding.redo, _godot_object);
 	}
 	/**
-	Undo last action.
+	Undo the last action.
 	*/
 	bool undo()
 	{

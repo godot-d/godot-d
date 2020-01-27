@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.animationnode;
 import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,20 +37,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_fadein_time") GodotMethod!(void, double) setFadeinTime;
-		@GodotName("get_fadein_time") GodotMethod!(double) getFadeinTime;
-		@GodotName("set_fadeout_time") GodotMethod!(void, double) setFadeoutTime;
-		@GodotName("get_fadeout_time") GodotMethod!(double) getFadeoutTime;
-		@GodotName("set_autorestart") GodotMethod!(void, bool) setAutorestart;
-		@GodotName("has_autorestart") GodotMethod!(bool) hasAutorestart;
-		@GodotName("set_autorestart_delay") GodotMethod!(void, double) setAutorestartDelay;
 		@GodotName("get_autorestart_delay") GodotMethod!(double) getAutorestartDelay;
-		@GodotName("set_autorestart_random_delay") GodotMethod!(void, double) setAutorestartRandomDelay;
 		@GodotName("get_autorestart_random_delay") GodotMethod!(double) getAutorestartRandomDelay;
-		@GodotName("set_mix_mode") GodotMethod!(void, long) setMixMode;
+		@GodotName("get_fadein_time") GodotMethod!(double) getFadeinTime;
+		@GodotName("get_fadeout_time") GodotMethod!(double) getFadeoutTime;
 		@GodotName("get_mix_mode") GodotMethod!(AnimationNodeOneShot.MixMode) getMixMode;
-		@GodotName("set_use_sync") GodotMethod!(void, bool) setUseSync;
+		@GodotName("has_autorestart") GodotMethod!(bool) hasAutorestart;
 		@GodotName("is_using_sync") GodotMethod!(bool) isUsingSync;
+		@GodotName("set_autorestart") GodotMethod!(void, bool) setAutorestart;
+		@GodotName("set_autorestart_delay") GodotMethod!(void, double) setAutorestartDelay;
+		@GodotName("set_autorestart_random_delay") GodotMethod!(void, double) setAutorestartRandomDelay;
+		@GodotName("set_fadein_time") GodotMethod!(void, double) setFadeinTime;
+		@GodotName("set_fadeout_time") GodotMethod!(void, double) setFadeoutTime;
+		@GodotName("set_mix_mode") GodotMethod!(void, long) setMixMode;
+		@GodotName("set_use_sync") GodotMethod!(void, bool) setUseSync;
 	}
 	bool opEquals(in AnimationNodeOneShot other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeOneShot opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -86,74 +85,10 @@ public:
 	/**
 	
 	*/
-	void setFadeinTime(in double time)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFadeinTime, _godot_object, time);
-	}
-	/**
-	
-	*/
-	double getFadeinTime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFadeinTime, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFadeoutTime(in double time)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFadeoutTime, _godot_object, time);
-	}
-	/**
-	
-	*/
-	double getFadeoutTime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFadeoutTime, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAutorestart(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestart, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool hasAutorestart() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutorestart, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAutorestartDelay(in double enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestartDelay, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	double getAutorestartDelay() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getAutorestartDelay, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAutorestartRandomDelay(in double enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestartRandomDelay, _godot_object, enable);
 	}
 	/**
 	
@@ -166,10 +101,18 @@ public:
 	/**
 	
 	*/
-	void setMixMode(in long mode)
+	double getFadeinTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixMode, _godot_object, mode);
+		return ptrcall!(double)(_classBinding.getFadeinTime, _godot_object);
+	}
+	/**
+	
+	*/
+	double getFadeoutTime() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFadeoutTime, _godot_object);
 	}
 	/**
 	
@@ -182,10 +125,10 @@ public:
 	/**
 	
 	*/
-	void setUseSync(in bool enable)
+	bool hasAutorestart() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseSync, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.hasAutorestart, _godot_object);
 	}
 	/**
 	
@@ -198,26 +141,58 @@ public:
 	/**
 	
 	*/
-	@property double fadeinTime()
+	void setAutorestart(in bool enable)
 	{
-		return getFadeinTime();
-	}
-	/// ditto
-	@property void fadeinTime(double v)
-	{
-		setFadeinTime(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutorestart, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	@property double fadeoutTime()
+	void setAutorestartDelay(in double enable)
 	{
-		return getFadeoutTime();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutorestartDelay, _godot_object, enable);
 	}
-	/// ditto
-	@property void fadeoutTime(double v)
+	/**
+	
+	*/
+	void setAutorestartRandomDelay(in double enable)
 	{
-		setFadeoutTime(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutorestartRandomDelay, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setFadeinTime(in double time)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFadeinTime, _godot_object, time);
+	}
+	/**
+	
+	*/
+	void setFadeoutTime(in double time)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFadeoutTime, _godot_object, time);
+	}
+	/**
+	
+	*/
+	void setMixMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMixMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setUseSync(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseSync, _godot_object, enable);
 	}
 	/**
 	
@@ -254,6 +229,30 @@ public:
 	@property void autorestartRandomDelay(double v)
 	{
 		setAutorestartRandomDelay(v);
+	}
+	/**
+	
+	*/
+	@property double fadeinTime()
+	{
+		return getFadeinTime();
+	}
+	/// ditto
+	@property void fadeinTime(double v)
+	{
+		setFadeinTime(v);
+	}
+	/**
+	
+	*/
+	@property double fadeoutTime()
+	{
+		return getFadeoutTime();
+	}
+	/// ditto
+	@property void fadeoutTime(double v)
+	{
+		setFadeoutTime(v);
 	}
 	/**
 	

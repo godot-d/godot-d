@@ -21,11 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.inputevent;
 import godot.resource;
-import godot.reference;
 /**
 Base class for keys events with modifiers.
 
-Contains keys events information with modifiers support like `SHIFT` or `ALT`. See $(D Node._input).
+Contains keys events information with modifiers support like `Shift` or `Alt`. See $(D Node._input).
 */
 @GodotBaseClass struct InputEventWithModifiers
 {
@@ -39,16 +38,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_alt") GodotMethod!(void, bool) setAlt;
 		@GodotName("get_alt") GodotMethod!(bool) getAlt;
-		@GodotName("set_shift") GodotMethod!(void, bool) setShift;
-		@GodotName("get_shift") GodotMethod!(bool) getShift;
-		@GodotName("set_control") GodotMethod!(void, bool) setControl;
-		@GodotName("get_control") GodotMethod!(bool) getControl;
-		@GodotName("set_metakey") GodotMethod!(void, bool) setMetakey;
-		@GodotName("get_metakey") GodotMethod!(bool) getMetakey;
-		@GodotName("set_command") GodotMethod!(void, bool) setCommand;
 		@GodotName("get_command") GodotMethod!(bool) getCommand;
+		@GodotName("get_control") GodotMethod!(bool) getControl;
+		@GodotName("get_metakey") GodotMethod!(bool) getMetakey;
+		@GodotName("get_shift") GodotMethod!(bool) getShift;
+		@GodotName("set_alt") GodotMethod!(void, bool) setAlt;
+		@GodotName("set_command") GodotMethod!(void, bool) setCommand;
+		@GodotName("set_control") GodotMethod!(void, bool) setControl;
+		@GodotName("set_metakey") GodotMethod!(void, bool) setMetakey;
+		@GodotName("set_shift") GodotMethod!(void, bool) setShift;
 	}
 	bool opEquals(in InputEventWithModifiers other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventWithModifiers opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,14 +64,6 @@ public:
 	/**
 	
 	*/
-	void setAlt(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlt, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool getAlt() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -81,26 +72,10 @@ public:
 	/**
 	
 	*/
-	void setShift(in bool enable)
+	bool getCommand() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShift, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool getShift() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getShift, _godot_object);
-	}
-	/**
-	
-	*/
-	void setControl(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControl, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.getCommand, _godot_object);
 	}
 	/**
 	
@@ -113,18 +88,26 @@ public:
 	/**
 	
 	*/
-	void setMetakey(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetakey, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool getMetakey() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getMetakey, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getShift() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getShift, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAlt(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlt, _godot_object, enable);
 	}
 	/**
 	
@@ -137,13 +120,29 @@ public:
 	/**
 	
 	*/
-	bool getCommand() const
+	void setControl(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCommand, _godot_object);
+		ptrcall!(void)(_classBinding.setControl, _godot_object, enable);
 	}
 	/**
-	State of the Alt modifier.
+	
+	*/
+	void setMetakey(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMetakey, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setShift(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShift, _godot_object, enable);
+	}
+	/**
+	State of the `Alt` modifier.
 	*/
 	@property bool alt()
 	{
@@ -155,19 +154,19 @@ public:
 		setAlt(v);
 	}
 	/**
-	State of the Shift modifier.
+	State of the `Command` modifier.
 	*/
-	@property bool shift()
+	@property bool command()
 	{
-		return getShift();
+		return getCommand();
 	}
 	/// ditto
-	@property void shift(bool v)
+	@property void command(bool v)
 	{
-		setShift(v);
+		setCommand(v);
 	}
 	/**
-	State of the Ctrl modifier.
+	State of the `Ctrl` modifier.
 	*/
 	@property bool control()
 	{
@@ -179,7 +178,7 @@ public:
 		setControl(v);
 	}
 	/**
-	State of the Meta modifier.
+	State of the `Meta` modifier.
 	*/
 	@property bool meta()
 	{
@@ -191,15 +190,15 @@ public:
 		setMetakey(v);
 	}
 	/**
-	State of the Command modifier.
+	State of the `Shift` modifier.
 	*/
-	@property bool command()
+	@property bool shift()
 	{
-		return getCommand();
+		return getShift();
 	}
 	/// ditto
-	@property void command(bool v)
+	@property void shift(bool v)
 	{
-		setCommand(v);
+		setShift(v);
 	}
 }

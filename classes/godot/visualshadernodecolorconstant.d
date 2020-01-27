@@ -1,5 +1,5 @@
 /**
-
+A $(D Color) constant to be used within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,10 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+A $(D Color) constant to be used within the visual shader graph.
 
+Has two output ports representing RGB and alpha channels of $(D Color).
+Translated to `vec3 rgb` and `float alpha` in the shader language.
 */
 @GodotBaseClass struct VisualShaderNodeColorConstant
 {
@@ -38,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_constant") GodotMethod!(void, Color) setConstant;
 		@GodotName("get_constant") GodotMethod!(Color) getConstant;
+		@GodotName("set_constant") GodotMethod!(void, Color) setConstant;
 	}
 	bool opEquals(in VisualShaderNodeColorConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeColorConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,14 +59,6 @@ public:
 	/**
 	
 	*/
-	void setConstant(in Color value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstant, _godot_object, value);
-	}
-	/**
-	
-	*/
 	Color getConstant() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -71,6 +66,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setConstant(in Color value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstant, _godot_object, value);
+	}
+	/**
+	A $(D Color) constant which represents a state of this node.
 	*/
 	@property Color constant()
 	{

@@ -1,5 +1,5 @@
 /**
-
+$(D VideoStream) resource for for video formats implemented via GDNative.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,9 @@ import godot.videostream;
 import godot.resource;
 import godot.reference;
 /**
+$(D VideoStream) resource for for video formats implemented via GDNative.
 
+It can be used via $(D url=https://github.com/KidRigger/godot-videodecoder)godot-videodecoder$(D /url) which uses the $(D url=https://ffmpeg.org)FFmpeg$(D /url) library.
 */
 @GodotBaseClass struct VideoStreamGDNative
 {
@@ -38,8 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_file") GodotMethod!(void, String) setFile;
 		@GodotName("get_file") GodotMethod!(String) getFile;
+		@GodotName("set_file") GodotMethod!(void, String) setFile;
 	}
 	bool opEquals(in VideoStreamGDNative other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VideoStreamGDNative opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,20 +56,20 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
-	*/
-	void setFile(in String file)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFile, _godot_object, file);
-	}
-	/**
-	
+	Returns the video file handled by this $(D VideoStreamGDNative).
 	*/
 	String getFile()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getFile, _godot_object);
+	}
+	/**
+	Sets the video file that this $(D VideoStreamGDNative) resource handles. The supported extensions depend on the GDNative plugins used to expose video formats.
+	*/
+	void setFile(in String file)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFile, _godot_object, file);
 	}
 	/**
 	

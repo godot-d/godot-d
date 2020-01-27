@@ -39,13 +39,14 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "TranslationServer";
-		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
+		@GodotName("add_translation") GodotMethod!(void, Translation) addTranslation;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("get_loaded_locales") GodotMethod!(Array) getLoadedLocales;
 		@GodotName("get_locale") GodotMethod!(String) getLocale;
 		@GodotName("get_locale_name") GodotMethod!(String, String) getLocaleName;
-		@GodotName("translate") GodotMethod!(String, String) translate;
-		@GodotName("add_translation") GodotMethod!(void, Translation) addTranslation;
 		@GodotName("remove_translation") GodotMethod!(void, Translation) removeTranslation;
-		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
+		@GodotName("translate") GodotMethod!(String, String) translate;
 	}
 	bool opEquals(in TranslationServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TranslationServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,12 +61,28 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Sets the locale of the game.
+	Adds a $(D Translation) resource.
 	*/
-	void setLocale(in String locale)
+	void addTranslation(Translation translation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
+		ptrcall!(void)(_classBinding.addTranslation, _godot_object, translation);
+	}
+	/**
+	Clears the server from all translations.
+	*/
+	void clear()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
+	}
+	/**
+	Returns an Array of all loaded locales of the game.
+	*/
+	Array getLoadedLocales() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getLoadedLocales, _godot_object);
 	}
 	/**
 	Returns the current locale of the game.
@@ -76,28 +93,12 @@ public:
 		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
 	}
 	/**
-	Returns a locale's language and its variant (e.g. "en_US" would return "English (United States)").
+	Returns a locale's language and its variant (e.g. `"en_US"` would return `"English (United States)"`).
 	*/
 	String getLocaleName(in String locale) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getLocaleName, _godot_object, locale);
-	}
-	/**
-	Returns the current locale's translation for the given message (key).
-	*/
-	String translate(in String message) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.translate, _godot_object, message);
-	}
-	/**
-	Adds a $(D Translation) resource.
-	*/
-	void addTranslation(Translation translation)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTranslation, _godot_object, translation);
 	}
 	/**
 	Removes the given translation from the server.
@@ -108,12 +109,20 @@ public:
 		ptrcall!(void)(_classBinding.removeTranslation, _godot_object, translation);
 	}
 	/**
-	Clears the server from all translations.
+	Sets the locale of the game.
 	*/
-	void clear()
+	void setLocale(in String locale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
+	}
+	/**
+	Returns the current locale's translation for the given message (key).
+	*/
+	String translate(in String message) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.translate, _godot_object, message);
 	}
 }
 /// Returns: the TranslationServerSingleton

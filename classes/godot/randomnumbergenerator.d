@@ -24,7 +24,17 @@ import godot.reference;
 /**
 A class for generating pseudo-random numbers.
 
-RandomNumberGenerator is a class for generating pseudo-random numbers. It currently uses PCG32. The underlying algorithm is an implementation detail. As a result, it should not be depended upon for reproducible random streams across Godot versions.
+RandomNumberGenerator is a class for generating pseudo-random numbers. It currently uses $(D url=http://www.pcg-random.org/)PCG32$(D /url).
+$(B Note:) The underlying algorithm is an implementation detail. As a result, it should not be depended upon for reproducible random streams across Godot versions.
+To generate a random float number (within a given range) based on a time-dependant seed:
+
+
+var rng = RandomNumberGenerator.new()
+func _ready():
+    rng.randomize()
+    var my_random_number = rng.randf_range(-10.0, 10.0)
+
+
 */
 @GodotBaseClass struct RandomNumberGenerator
 {
@@ -38,14 +48,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
 		@GodotName("get_seed") GodotMethod!(long) getSeed;
-		@GodotName("randi") GodotMethod!(long) randi;
 		@GodotName("randf") GodotMethod!(double) randf;
-		@GodotName("randfn") GodotMethod!(double, double, double) randfn;
 		@GodotName("randf_range") GodotMethod!(double, double, double) randfRange;
+		@GodotName("randfn") GodotMethod!(double, double, double) randfn;
+		@GodotName("randi") GodotMethod!(long) randi;
 		@GodotName("randi_range") GodotMethod!(long, long, long) randiRange;
 		@GodotName("randomize") GodotMethod!(void) randomize;
+		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
 	}
 	bool opEquals(in RandomNumberGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RandomNumberGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,29 +72,13 @@ public:
 	/**
 	
 	*/
-	void setSeed(in long seed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
-	}
-	/**
-	
-	*/
 	long getSeed()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getSeed, _godot_object);
 	}
 	/**
-	Generates pseudo-random 32-bit unsigned integer between '0' and '4294967295', inclusive.
-	*/
-	long randi()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.randi, _godot_object);
-	}
-	/**
-	Generates pseudo-random float between '0.0' and '1.0', inclusive.
+	Generates a pseudo-random float between `0.0` and `1.0` (inclusive).
 	*/
 	double randf()
 	{
@@ -92,15 +86,7 @@ public:
 		return ptrcall!(double)(_classBinding.randf, _godot_object);
 	}
 	/**
-	Generates normally(gaussian) distributed pseudo-random number, using Box-Muller transform with the specified `mean` and a standard `deviation`.
-	*/
-	double randfn(in double mean = 0, in double deviation = 1)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.randfn, _godot_object, mean, deviation);
-	}
-	/**
-	Generates pseudo-random float between `from` and `to`, inclusive.
+	Generates a pseudo-random float between `from` and `to` (inclusive).
 	*/
 	double randfRange(in double from, in double to)
 	{
@@ -108,7 +94,23 @@ public:
 		return ptrcall!(double)(_classBinding.randfRange, _godot_object, from, to);
 	}
 	/**
-	Generates pseudo-random 32-bit signed integer between `from` and `to` (inclusive).
+	Generates a $(D url=https://en.wikipedia.org/wiki/Normal_distribution)normally-distributed$(D /url) pseudo-random number, using Box-Muller transform with the specified `mean` and a standard `deviation`. This is also called Gaussian distribution.
+	*/
+	double randfn(in double mean = 0, in double deviation = 1)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.randfn, _godot_object, mean, deviation);
+	}
+	/**
+	Generates a pseudo-random 32-bit unsigned integer between `0` and `4294967295` (inclusive).
+	*/
+	long randi()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.randi, _godot_object);
+	}
+	/**
+	Generates a pseudo-random 32-bit signed integer between `from` and `to` (inclusive).
 	*/
 	long randiRange(in long from, in long to)
 	{
@@ -122,6 +124,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.randomize, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSeed(in long seed)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
 	}
 	/**
 	The seed used by the random number generator. A given seed will give a reproducible sequence of pseudo-random numbers.

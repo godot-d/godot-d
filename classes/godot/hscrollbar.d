@@ -21,14 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.scrollbar;
-import godot.range;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Horizontal scroll bar.
 
-See $(D ScrollBar). This one goes from left (min) to right (max).
+Horizontal version of $(D ScrollBar), which goes from left (min) to right (max).
 */
 @GodotBaseClass struct HScrollBar
 {

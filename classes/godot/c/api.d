@@ -49,13 +49,16 @@ import core.stdc.stddef : wchar_t;
 }
 private
 {
-	alias SupportedVersions(ApiType type : ApiType.core) = AliasSeq!([1, 0], [1, 1], );
+	alias SupportedVersions(ApiType type : ApiType.core) = AliasSeq!([1, 0], [1, 1], [1, 2], );
 	__gshared bool hasCore_1_0 = false;
 	version(GDNativeRequireCore_1_0) enum bool requiresCore_1_0 = true;
 	else enum bool requiresCore_1_0 = requiresCore_1_1;
 	__gshared bool hasCore_1_1 = false;
 	version(GDNativeRequireCore_1_1) enum bool requiresCore_1_1 = true;
-	else enum bool requiresCore_1_1 = false;
+	else enum bool requiresCore_1_1 = requiresCore_1_2;
+	__gshared bool hasCore_1_2 = false;
+	version(GDNativeRequireCore_1_2) enum bool requiresCore_1_2 = true;
+	else enum bool requiresCore_1_2 = false;
 	alias SupportedVersions(ApiType type : ApiType.nativescript) = AliasSeq!([1, 0], [1, 1], );
 	__gshared bool hasNativescript_1_0 = false;
 	version(GDNativeRequireNativescript_1_0) enum bool requiresNativescript_1_0 = true;
@@ -67,10 +70,10 @@ private
 	__gshared bool hasPluginscript_1_0 = false;
 	version(GDNativeRequirePluginscript_1_0) enum bool requiresPluginscript_1_0 = true;
 	else enum bool requiresPluginscript_1_0 = false;
-	alias SupportedVersions(ApiType type : ApiType.android) = AliasSeq!([1, 0], );
-	__gshared bool hasAndroid_1_0 = false;
-	version(GDNativeRequireAndroid_1_0) enum bool requiresAndroid_1_0 = true;
-	else enum bool requiresAndroid_1_0 = false;
+	alias SupportedVersions(ApiType type : ApiType.android) = AliasSeq!([1, 1], );
+	__gshared bool hasAndroid_1_1 = false;
+	version(GDNativeRequireAndroid_1_1) enum bool requiresAndroid_1_1 = true;
+	else enum bool requiresAndroid_1_1 = false;
 	alias SupportedVersions(ApiType type : ApiType.arvr) = AliasSeq!([1, 1], );
 	__gshared bool hasArvr_1_1 = false;
 	version(GDNativeRequireArvr_1_1) enum bool requiresArvr_1_1 = true;
@@ -94,6 +97,8 @@ struct GDNativeVersion
 	else @property @nogc nothrow pragma(inline, true) static bool hasCore(int major : 1, int minor : 0)() { return hasCore_1_0; }
 	static if(requiresCore_1_1) enum bool hasCore(int major : 1, int minor : 1) = true;
 	else @property @nogc nothrow pragma(inline, true) static bool hasCore(int major : 1, int minor : 1)() { return hasCore_1_1; }
+	static if(requiresCore_1_2) enum bool hasCore(int major : 1, int minor : 2) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasCore(int major : 1, int minor : 2)() { return hasCore_1_2; }
 	@property @nogc nothrow static bool hasCore(int major, int minor)() if(!supportsCore!(major, minor))
 	{
 		static assert(0, versionError("Core", major, minor));
@@ -115,8 +120,8 @@ struct GDNativeVersion
 		static assert(0, versionError("Pluginscript", major, minor));
 	}
 	enum bool supportsAndroid(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.android)) != -1;
-	static if(requiresAndroid_1_0) enum bool hasAndroid(int major : 1, int minor : 0) = true;
-	else @property @nogc nothrow pragma(inline, true) static bool hasAndroid(int major : 1, int minor : 0)() { return hasAndroid_1_0; }
+	static if(requiresAndroid_1_1) enum bool hasAndroid(int major : 1, int minor : 1) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasAndroid(int major : 1, int minor : 1)() { return hasAndroid_1_1; }
 	@property @nogc nothrow static bool hasAndroid(int major, int minor)() if(!supportsAndroid!(major, minor))
 	{
 		static assert(0, versionError("Android", major, minor));
@@ -1651,11 +1656,139 @@ public extern(C) struct godot_gdnative_core_api_struct
 	da_godot_print_error godot_print_error;
 	da_godot_print_warning godot_print_warning;
 	da_godot_print godot_print;
-const(godot_gdnative_core_api_struct*) nextVersion() const { return cast(typeof(return))next; }
+const(godot_gdnative_core_api_struct_1_1*) nextVersion() const { return cast(typeof(return))next; }
 alias nextVersion this;
 }
 __gshared const(godot_gdnative_core_api_struct)* _godot_api = null;
 private alias apiStruct(ApiType t : ApiType.core) = _godot_api;
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_color_to_abgr32 = godot_int function(const godot_color * p_self);
+	alias da_godot_color_to_abgr64 = godot_int function(const godot_color * p_self);
+	alias da_godot_color_to_argb64 = godot_int function(const godot_color * p_self);
+	alias da_godot_color_to_rgba64 = godot_int function(const godot_color * p_self);
+	alias da_godot_color_darkened = godot_color function(const godot_color * p_self, const godot_real p_amount);
+	alias da_godot_color_from_hsv = godot_color function(const godot_color * p_self, const godot_real p_h, const godot_real p_s, const godot_real p_v, const godot_real p_a);
+	alias da_godot_color_lightened = godot_color function(const godot_color * p_self, const godot_real p_amount);
+	alias da_godot_array_duplicate = godot_array function(const godot_array * p_self, const godot_bool p_deep);
+	alias da_godot_array_max = godot_variant function(const godot_array * p_self);
+	alias da_godot_array_min = godot_variant function(const godot_array * p_self);
+	alias da_godot_array_shuffle = void function(godot_array * p_self);
+	alias da_godot_basis_slerp = godot_basis function(const godot_basis * p_self, const godot_basis * p_b, const godot_real p_t);
+	alias da_godot_dictionary_get_with_default = godot_variant function(const godot_dictionary * p_self, const godot_variant * p_key, const godot_variant * p_default);
+	alias da_godot_dictionary_erase_with_return = bool function(godot_dictionary * p_self, const godot_variant * p_key);
+	alias da_godot_node_path_get_as_property_path = godot_node_path function(const godot_node_path * p_self);
+	alias da_godot_quat_set_axis_angle = void function(godot_quat * p_self, const godot_vector3 * p_axis, const godot_real p_angle);
+	alias da_godot_rect2_grow_individual = godot_rect2 function(const godot_rect2 * p_self, const godot_real p_left, const godot_real p_top, const godot_real p_right, const godot_real p_bottom);
+	alias da_godot_rect2_grow_margin = godot_rect2 function(const godot_rect2 * p_self, const godot_int p_margin, const godot_real p_by);
+	alias da_godot_rect2_abs = godot_rect2 function(const godot_rect2 * p_self);
+	alias da_godot_string_dedent = godot_string function(const godot_string * p_self);
+	alias da_godot_string_trim_prefix = godot_string function(const godot_string * p_self, const godot_string * p_prefix);
+	alias da_godot_string_trim_suffix = godot_string function(const godot_string * p_self, const godot_string * p_suffix);
+	alias da_godot_string_rstrip = godot_string function(const godot_string * p_self, const godot_string * p_chars);
+	alias da_godot_string_rsplit = godot_pool_string_array function(const godot_string * p_self, const godot_string * p_divisor, const godot_bool p_allow_empty, const godot_int p_maxsplit);
+	alias da_godot_basis_get_quat = godot_quat function(const godot_basis * p_self);
+	alias da_godot_basis_set_quat = void function(godot_basis * p_self, const godot_quat * p_quat);
+	alias da_godot_basis_set_axis_angle_scale = void function(godot_basis * p_self, const godot_vector3 * p_axis, godot_real p_phi, const godot_vector3 * p_scale);
+	alias da_godot_basis_set_euler_scale = void function(godot_basis * p_self, const godot_vector3 * p_euler, const godot_vector3 * p_scale);
+	alias da_godot_basis_set_quat_scale = void function(godot_basis * p_self, const godot_quat * p_quat, const godot_vector3 * p_scale);
+	alias da_godot_is_instance_valid = bool function(const godot_object  p_object);
+	alias da_godot_quat_new_with_basis = void function(godot_quat * r_dest, const godot_basis * p_basis);
+	alias da_godot_quat_new_with_euler = void function(godot_quat * r_dest, const godot_vector3 * p_euler);
+	alias da_godot_transform_new_with_quat = void function(godot_transform * r_dest, const godot_quat * p_quat);
+	alias da_godot_variant_get_operator_name = godot_string function(godot_variant_operator p_op);
+	alias da_godot_variant_evaluate = void function(godot_variant_operator p_op, const godot_variant * p_a, const godot_variant * p_b, godot_variant * r_ret, godot_bool * r_valid);
+}
+public extern(C) struct godot_gdnative_core_api_struct_1_1
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_color_to_abgr32 godot_color_to_abgr32;
+	da_godot_color_to_abgr64 godot_color_to_abgr64;
+	da_godot_color_to_argb64 godot_color_to_argb64;
+	da_godot_color_to_rgba64 godot_color_to_rgba64;
+	da_godot_color_darkened godot_color_darkened;
+	da_godot_color_from_hsv godot_color_from_hsv;
+	da_godot_color_lightened godot_color_lightened;
+	da_godot_array_duplicate godot_array_duplicate;
+	da_godot_array_max godot_array_max;
+	da_godot_array_min godot_array_min;
+	da_godot_array_shuffle godot_array_shuffle;
+	da_godot_basis_slerp godot_basis_slerp;
+	da_godot_dictionary_get_with_default godot_dictionary_get_with_default;
+	da_godot_dictionary_erase_with_return godot_dictionary_erase_with_return;
+	da_godot_node_path_get_as_property_path godot_node_path_get_as_property_path;
+	da_godot_quat_set_axis_angle godot_quat_set_axis_angle;
+	da_godot_rect2_grow_individual godot_rect2_grow_individual;
+	da_godot_rect2_grow_margin godot_rect2_grow_margin;
+	da_godot_rect2_abs godot_rect2_abs;
+	da_godot_string_dedent godot_string_dedent;
+	da_godot_string_trim_prefix godot_string_trim_prefix;
+	da_godot_string_trim_suffix godot_string_trim_suffix;
+	da_godot_string_rstrip godot_string_rstrip;
+	da_godot_string_rsplit godot_string_rsplit;
+	da_godot_basis_get_quat godot_basis_get_quat;
+	da_godot_basis_set_quat godot_basis_set_quat;
+	da_godot_basis_set_axis_angle_scale godot_basis_set_axis_angle_scale;
+	da_godot_basis_set_euler_scale godot_basis_set_euler_scale;
+	da_godot_basis_set_quat_scale godot_basis_set_quat_scale;
+	da_godot_is_instance_valid godot_is_instance_valid;
+	da_godot_quat_new_with_basis godot_quat_new_with_basis;
+	da_godot_quat_new_with_euler godot_quat_new_with_euler;
+	da_godot_transform_new_with_quat godot_transform_new_with_quat;
+	da_godot_variant_get_operator_name godot_variant_get_operator_name;
+	da_godot_variant_evaluate godot_variant_evaluate;
+const(godot_gdnative_core_api_struct_1_2*) nextVersion() const { return cast(typeof(return))next; }
+alias nextVersion this;
+}
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_dictionary_duplicate = godot_dictionary function(const godot_dictionary * p_self, const godot_bool p_deep);
+	alias da_godot_vector3_move_toward = godot_vector3 function(const godot_vector3 * p_self, const godot_vector3 * p_to, const godot_real p_delta);
+	alias da_godot_vector2_move_toward = godot_vector2 function(const godot_vector2 * p_self, const godot_vector2 * p_to, const godot_real p_delta);
+	alias da_godot_string_count = godot_int function(const godot_string * p_self, godot_string p_what, godot_int p_from, godot_int p_to);
+	alias da_godot_string_countn = godot_int function(const godot_string * p_self, godot_string p_what, godot_int p_from, godot_int p_to);
+	alias da_godot_vector3_direction_to = godot_vector3 function(const godot_vector3 * p_self, const godot_vector3 * p_to);
+	alias da_godot_vector2_direction_to = godot_vector2 function(const godot_vector2 * p_self, const godot_vector2 * p_to);
+	alias da_godot_array_slice = godot_array function(const godot_array * p_self, const godot_int p_begin, const godot_int p_end, const godot_int p_step, const godot_bool p_deep);
+	alias da_godot_pool_byte_array_empty = godot_bool function(const godot_pool_byte_array * p_self);
+	alias da_godot_pool_int_array_empty = godot_bool function(const godot_pool_int_array * p_self);
+	alias da_godot_pool_real_array_empty = godot_bool function(const godot_pool_real_array * p_self);
+	alias da_godot_pool_string_array_empty = godot_bool function(const godot_pool_string_array * p_self);
+	alias da_godot_pool_vector2_array_empty = godot_bool function(const godot_pool_vector2_array * p_self);
+	alias da_godot_pool_vector3_array_empty = godot_bool function(const godot_pool_vector3_array * p_self);
+	alias da_godot_pool_color_array_empty = godot_bool function(const godot_pool_color_array * p_self);
+	alias da_godot_get_class_tag = void * function(const godot_string_name * p_class);
+	alias da_godot_object_cast_to = godot_object  function(const godot_object  p_object, void * p_class_tag);
+	alias da_godot_instance_from_id = godot_object  function(godot_int p_instance_id);
+}
+public extern(C) struct godot_gdnative_core_api_struct_1_2
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_dictionary_duplicate godot_dictionary_duplicate;
+	da_godot_vector3_move_toward godot_vector3_move_toward;
+	da_godot_vector2_move_toward godot_vector2_move_toward;
+	da_godot_string_count godot_string_count;
+	da_godot_string_countn godot_string_countn;
+	da_godot_vector3_direction_to godot_vector3_direction_to;
+	da_godot_vector2_direction_to godot_vector2_direction_to;
+	da_godot_array_slice godot_array_slice;
+	da_godot_pool_byte_array_empty godot_pool_byte_array_empty;
+	da_godot_pool_int_array_empty godot_pool_int_array_empty;
+	da_godot_pool_real_array_empty godot_pool_real_array_empty;
+	da_godot_pool_string_array_empty godot_pool_string_array_empty;
+	da_godot_pool_vector2_array_empty godot_pool_vector2_array_empty;
+	da_godot_pool_vector3_array_empty godot_pool_vector3_array_empty;
+	da_godot_pool_color_array_empty godot_pool_color_array_empty;
+	da_godot_get_class_tag godot_get_class_tag;
+	da_godot_object_cast_to godot_object_cast_to;
+	da_godot_instance_from_id godot_instance_from_id;
+}
 
 private extern(C) @nogc nothrow
 {
@@ -1737,16 +1870,20 @@ private extern(C) @nogc nothrow
 {
 	alias da_godot_android_get_env = JNIEnv* function();
 	alias da_godot_android_get_activity = jobject function();
+	alias da_godot_android_get_surface = jobject function();
+	alias da_godot_android_is_activity_resumed = bool function();
 }
-public extern(C) struct godot_gdnative_ext_android_api_struct_1_0
+public extern(C) struct godot_gdnative_ext_android_api_struct_1_1
 {
 @nogc nothrow:
 
 			mixin ApiStructHeader;
 			da_godot_android_get_env godot_android_get_env;
 	da_godot_android_get_activity godot_android_get_activity;
+	da_godot_android_get_surface godot_android_get_surface;
+	da_godot_android_is_activity_resumed godot_android_is_activity_resumed;
 }
-__gshared const(godot_gdnative_ext_android_api_struct_1_0)* _godot_android_api = null;
+__gshared const(godot_gdnative_ext_android_api_struct_1_1)* _godot_android_api = null;
 private alias apiStruct(ApiType t : ApiType.android) = _godot_android_api;
 
 private extern(C) @nogc nothrow
@@ -1823,14 +1960,18 @@ private alias apiStruct(ApiType t : ApiType.net) = _godot_net_api;
 
 private extern(C) @nogc nothrow
 {
-	alias da_godot_net_bind_webrtc_peer = void function(godot_object  p_obj, const godot_net_webrtc_peer * p_interface);
+	alias da_godot_net_set_webrtc_library = godot_error function(const godot_net_webrtc_library * p_library);
+	alias da_godot_net_bind_webrtc_peer_connection = void function(godot_object  p_obj, const godot_net_webrtc_peer_connection * p_interface);
+	alias da_godot_net_bind_webrtc_data_channel = void function(godot_object  p_obj, const godot_net_webrtc_data_channel * p_interface);
 }
 public extern(C) struct godot_gdnative_ext_net_api_struct_3_2
 {
 @nogc nothrow:
 
 			mixin ApiStructHeader;
-			da_godot_net_bind_webrtc_peer godot_net_bind_webrtc_peer;
+			da_godot_net_set_webrtc_library godot_net_set_webrtc_library;
+	da_godot_net_bind_webrtc_peer_connection godot_net_bind_webrtc_peer_connection;
+	da_godot_net_bind_webrtc_data_channel godot_net_bind_webrtc_data_channel;
 }
 
 

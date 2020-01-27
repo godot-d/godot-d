@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
-import godot.resource;
-import godot.reference;
 /**
 Box shape resource.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
 		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
+		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
 	}
 	bool opEquals(in BoxShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BoxShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,21 +56,21 @@ public:
 	/**
 	
 	*/
-	void setExtents(in Vector3 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
-	}
-	/**
-	
-	*/
 	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
 	}
 	/**
-	The shape's half extents.
+	
+	*/
+	void setExtents(in Vector3 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+	}
+	/**
+	The box's half extents. The width, height and depth of this shape is twice the half extents.
 	*/
 	@property Vector3 extents()
 	{

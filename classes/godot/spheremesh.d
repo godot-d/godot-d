@@ -41,16 +41,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
-		@GodotName("get_radius") GodotMethod!(double) getRadius;
-		@GodotName("set_height") GodotMethod!(void, double) setHeight;
 		@GodotName("get_height") GodotMethod!(double) getHeight;
-		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
-		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
-		@GodotName("set_rings") GodotMethod!(void, long) setRings;
-		@GodotName("get_rings") GodotMethod!(long) getRings;
-		@GodotName("set_is_hemisphere") GodotMethod!(void, bool) setIsHemisphere;
 		@GodotName("get_is_hemisphere") GodotMethod!(bool) getIsHemisphere;
+		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("get_rings") GodotMethod!(long) getRings;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("set_is_hemisphere") GodotMethod!(void, bool) setIsHemisphere;
+		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("set_rings") GodotMethod!(void, long) setRings;
 	}
 	bool opEquals(in SphereMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SphereMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,30 +67,6 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHeight(in double height)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
-	}
-	/**
-	
-	*/
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -99,10 +75,10 @@ public:
 	/**
 	
 	*/
-	void setRadialSegments(in long radial_segments)
+	bool getIsHemisphere() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, radial_segments);
+		return ptrcall!(bool)(_classBinding.getIsHemisphere, _godot_object);
 	}
 	/**
 	
@@ -115,10 +91,10 @@ public:
 	/**
 	
 	*/
-	void setRings(in long rings)
+	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -131,6 +107,14 @@ public:
 	/**
 	
 	*/
+	void setHeight(in double height)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+	}
+	/**
+	
+	*/
 	void setIsHemisphere(in bool is_hemisphere)
 	{
 		checkClassBinding!(typeof(this))();
@@ -139,25 +123,29 @@ public:
 	/**
 	
 	*/
-	bool getIsHemisphere() const
+	void setRadialSegments(in long radial_segments)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getIsHemisphere, _godot_object);
+		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, radial_segments);
 	}
 	/**
-	Radius of sphere. Defaults to 1.0.
+	
 	*/
-	@property double radius()
+	void setRadius(in double radius)
 	{
-		return getRadius();
-	}
-	/// ditto
-	@property void radius(double v)
-	{
-		setRadius(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
 	/**
-	Full height of the sphere. Defaults to 2.0.
+	
+	*/
+	void setRings(in long rings)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+	}
+	/**
+	Full height of the sphere.
 	*/
 	@property double height()
 	{
@@ -169,7 +157,20 @@ public:
 		setHeight(v);
 	}
 	/**
-	Number of radial segments on the sphere. Defaults to 64.
+	If `true`, a hemisphere is created rather than a full sphere.
+	$(B Note:) To get a regular hemisphere, the height and radius of the sphere must be equal.
+	*/
+	@property bool isHemisphere()
+	{
+		return getIsHemisphere();
+	}
+	/// ditto
+	@property void isHemisphere(bool v)
+	{
+		setIsHemisphere(v);
+	}
+	/**
+	Number of radial segments on the sphere.
 	*/
 	@property long radialSegments()
 	{
@@ -181,7 +182,19 @@ public:
 		setRadialSegments(v);
 	}
 	/**
-	Number of segments along the height of the sphere. Defaults to 32.
+	Radius of sphere.
+	*/
+	@property double radius()
+	{
+		return getRadius();
+	}
+	/// ditto
+	@property void radius(double v)
+	{
+		setRadius(v);
+	}
+	/**
+	Number of segments along the height of the sphere.
 	*/
 	@property long rings()
 	{
@@ -191,17 +204,5 @@ public:
 	@property void rings(long v)
 	{
 		setRings(v);
-	}
-	/**
-	Determines whether a full sphere or a hemisphere is created. Attention: To get a regular hemisphere the height and radius of the sphere have to equal. Defaults to `false`.
-	*/
-	@property bool isHemisphere()
-	{
-		return getIsHemisphere();
-	}
-	/// ditto
-	@property void isHemisphere(bool v)
-	{
-		setIsHemisphere(v);
 	}
 }

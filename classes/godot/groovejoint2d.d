@@ -21,9 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint2d;
-import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Groove constraint for 2D physics.
 
@@ -41,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("get_initial_offset") GodotMethod!(double) getInitialOffset;
 		@GodotName("get_length") GodotMethod!(double) getLength;
 		@GodotName("set_initial_offset") GodotMethod!(void, double) setInitialOffset;
-		@GodotName("get_initial_offset") GodotMethod!(double) getInitialOffset;
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
 	}
 	bool opEquals(in GrooveJoint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GrooveJoint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setLength(in double length)
+	double getInitialOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
+		return ptrcall!(double)(_classBinding.getInitialOffset, _godot_object);
 	}
 	/**
 	
@@ -85,25 +82,13 @@ public:
 	/**
 	
 	*/
-	double getInitialOffset() const
+	void setLength(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInitialOffset, _godot_object);
+		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
 	/**
-	The groove's length. The groove is from the joint's origin towards $(D length) along the joint's local y axis. Default value: `50`
-	*/
-	@property double length()
-	{
-		return getLength();
-	}
-	/// ditto
-	@property void length(double v)
-	{
-		setLength(v);
-	}
-	/**
-	The body B's initial anchor position defined by the joint's origin and a local offset $(D initialOffset) along the joint's y axis (along the groove). Default value: `25`
+	The body B's initial anchor position defined by the joint's origin and a local offset $(D initialOffset) along the joint's Y axis (along the groove).
 	*/
 	@property double initialOffset()
 	{
@@ -113,5 +98,17 @@ public:
 	@property void initialOffset(double v)
 	{
 		setInitialOffset(v);
+	}
+	/**
+	The groove's length. The groove is from the joint's origin towards $(D length) along the joint's local Y axis.
+	*/
+	@property double length()
+	{
+		return getLength();
+	}
+	/// ditto
+	@property void length(double v)
+	{
+		setLength(v);
 	}
 }

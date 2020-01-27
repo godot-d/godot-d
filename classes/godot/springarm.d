@@ -1,5 +1,5 @@
 /**
-
+A helper node, mostly used in 3rd person cameras.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,15 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.shape;
 import godot.node;
+import godot.shape;
 /**
+A helper node, mostly used in 3rd person cameras.
 
+The SpringArm node is a node that casts a ray (or collision shape) along its z axis and moves all its direct children to the collision point, minus a margin.
+The most common use case for this is to make a 3rd person camera that reacts to collisions in the environment.
+The SpringArm will either cast a ray, or if a shape is given, it will cast the shape in the direction of its z axis.
+If you use the SpringArm as a camera controller for your player, you might need to exclude the player's collider from the SpringArm's collision check.
 */
 @GodotBaseClass struct SpringArm
 {
@@ -38,18 +43,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_hit_length") GodotMethod!(double) getHitLength;
-		@GodotName("set_length") GodotMethod!(void, double) setLength;
-		@GodotName("get_length") GodotMethod!(double) getLength;
-		@GodotName("set_shape") GodotMethod!(void, Shape) setShape;
-		@GodotName("get_shape") GodotMethod!(Shape) getShape;
 		@GodotName("add_excluded_object") GodotMethod!(void, RID) addExcludedObject;
-		@GodotName("remove_excluded_object") GodotMethod!(bool, RID) removeExcludedObject;
 		@GodotName("clear_excluded_objects") GodotMethod!(void) clearExcludedObjects;
-		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
 		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
-		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
+		@GodotName("get_hit_length") GodotMethod!(double) getHitLength;
+		@GodotName("get_length") GodotMethod!(double) getLength;
 		@GodotName("get_margin") GodotMethod!(double) getMargin;
+		@GodotName("get_shape") GodotMethod!(Shape) getShape;
+		@GodotName("remove_excluded_object") GodotMethod!(bool, RID) removeExcludedObject;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
+		@GodotName("set_shape") GodotMethod!(void, Shape) setShape;
 	}
 	bool opEquals(in SpringArm other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SpringArm opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,20 +69,36 @@ public:
 	}
 	@disable new(size_t s);
 	/**
+	Adds the object with the given $(D RID) to the list of objects excluded from the collision check.
+	*/
+	void addExcludedObject(in RID RID)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addExcludedObject, _godot_object, RID);
+	}
+	/**
+	Clears the list of objects excluded from the collision check.
+	*/
+	void clearExcludedObjects()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearExcludedObjects, _godot_object);
+	}
+	/**
 	
+	*/
+	long getCollisionMask()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+	}
+	/**
+	Returns the proportion between the current arm length (after checking for collisions) and the $(D springLength). Ranges from 0 to 1.
 	*/
 	double getHitLength()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getHitLength, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLength(in double length)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
 	/**
 	
@@ -90,10 +111,10 @@ public:
 	/**
 	
 	*/
-	void setShape(Shape shape)
+	double getMargin()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
 	}
 	/**
 	
@@ -104,28 +125,12 @@ public:
 		return ptrcall!(Shape)(_classBinding.getShape, _godot_object);
 	}
 	/**
-	
-	*/
-	void addExcludedObject(in RID RID)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addExcludedObject, _godot_object, RID);
-	}
-	/**
-	
+	Removes the given $(D RID) from the list of objects excluded from the collision check.
 	*/
 	bool removeExcludedObject(in RID RID)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.removeExcludedObject, _godot_object, RID);
-	}
-	/**
-	
-	*/
-	void clearExcludedObjects()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearExcludedObjects, _godot_object);
 	}
 	/**
 	
@@ -138,10 +143,10 @@ public:
 	/**
 	
 	*/
-	long getCollisionMask()
+	void setLength(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
 	/**
 	
@@ -154,13 +159,13 @@ public:
 	/**
 	
 	*/
-	double getMargin()
+	void setShape(Shape shape)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
 	}
 	/**
-	
+	The layers against which the collision check shall be done.
 	*/
 	@property long collisionMask()
 	{
@@ -172,7 +177,22 @@ public:
 		setCollisionMask(v);
 	}
 	/**
-	
+	When the collision check is made, a candidate length for the SpringArm is given.
+	The margin is then subtracted to this length and the translation is applied to the child objects of the SpringArm.
+	This margin is useful for when the SpringArm has a $(D Camera) as a child node: without the margin, the $(D Camera) would be placed on the exact point of collision, while with the margin the $(D Camera) would be placed close to the point of collision.
+	*/
+	@property double margin()
+	{
+		return getMargin();
+	}
+	/// ditto
+	@property void margin(double v)
+	{
+		setMargin(v);
+	}
+	/**
+	The $(D Shape) to use for the SpringArm.
+	When the shape is set, the SpringArm will cast the $(D Shape) on its z axis instead of performing a ray cast.
 	*/
 	@property Shape shape()
 	{
@@ -184,7 +204,8 @@ public:
 		setShape(v);
 	}
 	/**
-	
+	The maximum extent of the SpringArm. This is used as a length for both the ray and the shape cast used internally to calculate the desired position of the SpringArm's child nodes.
+	To know more about how to perform a shape cast or a ray cast, please consult the $(D PhysicsDirectSpaceState) documentation.
 	*/
 	@property double springLength()
 	{
@@ -194,17 +215,5 @@ public:
 	@property void springLength(double v)
 	{
 		setLength(v);
-	}
-	/**
-	
-	*/
-	@property double margin()
-	{
-		return getMargin();
-	}
-	/// ditto
-	@property void margin(double v)
-	{
-		setMargin(v);
 	}
 }

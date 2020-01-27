@@ -36,11 +36,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_track_physics_step") GodotMethod!(void, bool) setTrackPhysicsStep;
-		@GodotName("is_tracking_physics_step") GodotMethod!(bool) isTrackingPhysicsStep;
-		@GodotName("update_position") GodotMethod!(void, Vector3) updatePosition;
 		@GodotName("get_tracked_linear_velocity") GodotMethod!(Vector3) getTrackedLinearVelocity;
+		@GodotName("is_tracking_physics_step") GodotMethod!(bool) isTrackingPhysicsStep;
 		@GodotName("reset") GodotMethod!(void, Vector3) reset;
+		@GodotName("set_track_physics_step") GodotMethod!(void, bool) setTrackPhysicsStep;
+		@GodotName("update_position") GodotMethod!(void, Vector3) updatePosition;
 	}
 	bool opEquals(in SpatialVelocityTracker other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SpatialVelocityTracker opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,10 +57,10 @@ public:
 	/**
 	
 	*/
-	void setTrackPhysicsStep(in bool enable)
+	Vector3 getTrackedLinearVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrackPhysicsStep, _godot_object, enable);
+		return ptrcall!(Vector3)(_classBinding.getTrackedLinearVelocity, _godot_object);
 	}
 	/**
 	
@@ -73,26 +73,26 @@ public:
 	/**
 	
 	*/
-	void updatePosition(in Vector3 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updatePosition, _godot_object, position);
-	}
-	/**
-	
-	*/
-	Vector3 getTrackedLinearVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getTrackedLinearVelocity, _godot_object);
-	}
-	/**
-	
-	*/
 	void reset(in Vector3 position)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.reset, _godot_object, position);
+	}
+	/**
+	
+	*/
+	void setTrackPhysicsStep(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTrackPhysicsStep, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void updatePosition(in Vector3 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.updatePosition, _godot_object, position);
 	}
 	/**
 	

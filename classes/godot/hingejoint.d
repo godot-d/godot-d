@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint;
-import godot.spatial;
-import godot.node;
 /**
 A hinge between two 3D bodies.
 
-Normally uses the z-axis of body A as the hinge axis, another axis can be specified when adding it manually though.
+A HingeJoint normally uses the Z axis of body A as the hinge axis, another axis can be specified when adding it manually though.
 */
 @GodotBaseClass struct HingeJoint
 {
@@ -40,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
-		@GodotName("get_param") GodotMethod!(double, long) getParam;
-		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
-		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
-		@GodotName("_set_upper_limit") GodotMethod!(void, double) _setUpperLimit;
+		@GodotName("_get_lower_limit") GodotMethod!(double) _getLowerLimit;
 		@GodotName("_get_upper_limit") GodotMethod!(double) _getUpperLimit;
 		@GodotName("_set_lower_limit") GodotMethod!(void, double) _setLowerLimit;
-		@GodotName("_get_lower_limit") GodotMethod!(double) _getLowerLimit;
+		@GodotName("_set_upper_limit") GodotMethod!(void, double) _setUpperLimit;
+		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
 	}
 	bool opEquals(in HingeJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HingeJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -69,11 +67,11 @@ public:
 		*/
 		paramBias = 0,
 		/**
-		The maximum rotation. only active if $(D angularLimit/enable) is `true`.
+		The maximum rotation. Only active if $(D angularLimit/enable) is `true`.
 		*/
 		paramLimitUpper = 1,
 		/**
-		The minimum rotation. only active if $(D angularLimit/enable) is `true`.
+		The minimum rotation. Only active if $(D angularLimit/enable) is `true`.
 		*/
 		paramLimitLower = 2,
 		/**
@@ -97,7 +95,7 @@ public:
 		*/
 		paramMotorMaxImpulse = 7,
 		/**
-		End flag of PARAM_* constants, used internally.
+		Represents the size of the $(D param) enum.
 		*/
 		paramMax = 8,
 	}
@@ -113,7 +111,7 @@ public:
 		*/
 		flagEnableMotor = 1,
 		/**
-		End flag of FLAG_* constants, used internally.
+		Represents the size of the $(D flag) enum.
 		*/
 		flagMax = 2,
 	}
@@ -136,10 +134,48 @@ public:
 	/**
 	
 	*/
-	void setParam(in long param, in double value)
+	double _getLowerLimit() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_lower_limit");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getUpperLimit() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_upper_limit");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	void _setLowerLimit(in double lower_limit)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(lower_limit);
+		String _GODOT_method_name = String("_set_lower_limit");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setUpperLimit(in double upper_limit)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(upper_limit);
+		String _GODOT_method_name = String("_set_upper_limit");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	bool getFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
 	}
 	/**
 	
@@ -160,96 +196,10 @@ public:
 	/**
 	
 	*/
-	bool getFlag(in long flag) const
+	void setParam(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void _setUpperLimit(in double upper_limit)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(upper_limit);
-		String _GODOT_method_name = String("_set_upper_limit");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	double _getUpperLimit() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_upper_limit");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
-	void _setLowerLimit(in double lower_limit)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(lower_limit);
-		String _GODOT_method_name = String("_set_lower_limit");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	double _getLowerLimit() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_lower_limit");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	The speed with which the two bodies get pulled together when they move in different directions.
-	*/
-	@property double paramsBias()
-	{
-		return getParam(0);
-	}
-	/// ditto
-	@property void paramsBias(double v)
-	{
-		setParam(0, v);
-	}
-	/**
-	If `true`, the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
-	*/
-	@property bool angularLimitEnable()
-	{
-		return getFlag(0);
-	}
-	/// ditto
-	@property void angularLimitEnable(bool v)
-	{
-		setFlag(0, v);
-	}
-	/**
-	The maximum rotation. only active if $(D angularLimit/enable) is `true`.
-	*/
-	@property double angularLimitUpper()
-	{
-		return _getUpperLimit();
-	}
-	/// ditto
-	@property void angularLimitUpper(double v)
-	{
-		_setUpperLimit(v);
-	}
-	/**
-	The minimum rotation. only active if $(D angularLimit/enable) is `true`.
-	*/
-	@property double angularLimitLower()
-	{
-		return _getLowerLimit();
-	}
-	/// ditto
-	@property void angularLimitLower(double v)
-	{
-		_setLowerLimit(v);
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
 	}
 	/**
 	The speed with which the rotation across the axis perpendicular to the hinge gets corrected.
@@ -264,16 +214,28 @@ public:
 		setParam(3, v);
 	}
 	/**
-	
+	If `true`, the hinges maximum and minimum rotation, defined by $(D angularLimit/lower) and $(D angularLimit/upper) has effects.
 	*/
-	@property double angularLimitSoftness()
+	@property bool angularLimitEnable()
 	{
-		return getParam(4);
+		return getFlag(0);
 	}
 	/// ditto
-	@property void angularLimitSoftness(double v)
+	@property void angularLimitEnable(bool v)
 	{
-		setParam(4, v);
+		setFlag(0, v);
+	}
+	/**
+	The minimum rotation. Only active if $(D angularLimit/enable) is `true`.
+	*/
+	@property double angularLimitLower()
+	{
+		return _getLowerLimit();
+	}
+	/// ditto
+	@property void angularLimitLower(double v)
+	{
+		_setLowerLimit(v);
 	}
 	/**
 	The lower this value, the more the rotation gets slowed down.
@@ -288,6 +250,30 @@ public:
 		setParam(5, v);
 	}
 	/**
+	
+	*/
+	@property double angularLimitSoftness()
+	{
+		return getParam(4);
+	}
+	/// ditto
+	@property void angularLimitSoftness(double v)
+	{
+		setParam(4, v);
+	}
+	/**
+	The maximum rotation. Only active if $(D angularLimit/enable) is `true`.
+	*/
+	@property double angularLimitUpper()
+	{
+		return _getUpperLimit();
+	}
+	/// ditto
+	@property void angularLimitUpper(double v)
+	{
+		_setUpperLimit(v);
+	}
+	/**
 	When activated, a motor turns the hinge.
 	*/
 	@property bool motorEnable()
@@ -298,6 +284,18 @@ public:
 	@property void motorEnable(bool v)
 	{
 		setFlag(1, v);
+	}
+	/**
+	Maximum acceleration for the motor.
+	*/
+	@property double motorMaxImpulse()
+	{
+		return getParam(7);
+	}
+	/// ditto
+	@property void motorMaxImpulse(double v)
+	{
+		setParam(7, v);
 	}
 	/**
 	Target speed for the motor.
@@ -312,15 +310,15 @@ public:
 		setParam(6, v);
 	}
 	/**
-	Maximum acceleration for the motor.
+	The speed with which the two bodies get pulled together when they move in different directions.
 	*/
-	@property double motorMaxImpulse()
+	@property double paramsBias()
 	{
-		return getParam(7);
+		return getParam(0);
 	}
 	/// ditto
-	@property void motorMaxImpulse(double v)
+	@property void paramsBias(double v)
 	{
-		setParam(7, v);
+		setParam(0, v);
 	}
 }

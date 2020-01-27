@@ -1,5 +1,5 @@
 /**
-A synchronization Mutex.
+A synchronization mutex (mutual exclusion).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-A synchronization Mutex.
+A synchronization mutex (mutual exclusion).
 
-Element used to synchronize multiple $(D Thread)s. Basically a binary $(D Semaphore). Guarantees that only one thread can ever acquire this lock at a time. Can be used to protect a critical section. Be careful to avoid deadlocks.
+This is used to synchronize multiple $(D Thread)s, and is equivalent to a binary $(D Semaphore). It guarantees that only one thread can ever acquire the lock at a time. A mutex can be used to protect a critical section; however, be careful to avoid deadlocks.
 */
 @GodotBaseClass struct Mutex
 {
@@ -55,7 +55,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Lock this $(D Mutex), blocks until it is unlocked by the current owner.
+	Locks this $(D Mutex), blocks until it is unlocked by the current owner.
 	*/
 	void lock()
 	{
@@ -63,7 +63,7 @@ public:
 		ptrcall!(void)(_classBinding.lock, _godot_object);
 	}
 	/**
-	Try locking this $(D Mutex), does not block. Returns `OK` on success, `ERR_BUSY` otherwise.
+	Tries locking this $(D Mutex), but does not block. Returns $(D constant OK) on success, $(D constant ERR_BUSY) otherwise.
 	*/
 	GodotError tryLock()
 	{
@@ -71,7 +71,7 @@ public:
 		return ptrcall!(GodotError)(_classBinding.tryLock, _godot_object);
 	}
 	/**
-	Unlock this $(D Mutex), leaving it to other threads.
+	Unlocks this $(D Mutex), leaving it to other threads.
 	*/
 	void unlock()
 	{

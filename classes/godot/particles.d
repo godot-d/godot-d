@@ -21,11 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.geometryinstance;
-import godot.material;
-import godot.mesh;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
+import godot.mesh;
+import godot.material;
 /**
 3D particle emitter.
 
@@ -44,40 +42,40 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
-		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
-		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
-		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
-		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
-		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
-		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
-		@GodotName("set_visibility_aabb") GodotMethod!(void, AABB) setVisibilityAabb;
-		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
-		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
-		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
-		@GodotName("set_process_material") GodotMethod!(void, Material) setProcessMaterial;
-		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
-		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
+		@GodotName("capture_aabb") GodotMethod!(AABB) captureAabb;
 		@GodotName("get_amount") GodotMethod!(long) getAmount;
+		@GodotName("get_draw_order") GodotMethod!(Particles.DrawOrder) getDrawOrder;
+		@GodotName("get_draw_pass_mesh") GodotMethod!(Mesh, long) getDrawPassMesh;
+		@GodotName("get_draw_passes") GodotMethod!(long) getDrawPasses;
+		@GodotName("get_explosiveness_ratio") GodotMethod!(double) getExplosivenessRatio;
+		@GodotName("get_fixed_fps") GodotMethod!(long) getFixedFps;
+		@GodotName("get_fractional_delta") GodotMethod!(bool) getFractionalDelta;
 		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
 		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
 		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
-		@GodotName("get_explosiveness_ratio") GodotMethod!(double) getExplosivenessRatio;
-		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
-		@GodotName("get_visibility_aabb") GodotMethod!(AABB) getVisibilityAabb;
-		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
-		@GodotName("get_fixed_fps") GodotMethod!(long) getFixedFps;
-		@GodotName("get_fractional_delta") GodotMethod!(bool) getFractionalDelta;
 		@GodotName("get_process_material") GodotMethod!(Material) getProcessMaterial;
+		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
 		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
-		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
-		@GodotName("get_draw_order") GodotMethod!(Particles.DrawOrder) getDrawOrder;
-		@GodotName("set_draw_passes") GodotMethod!(void, long) setDrawPasses;
-		@GodotName("set_draw_pass_mesh") GodotMethod!(void, long, Mesh) setDrawPassMesh;
-		@GodotName("get_draw_passes") GodotMethod!(long) getDrawPasses;
-		@GodotName("get_draw_pass_mesh") GodotMethod!(Mesh, long) getDrawPassMesh;
+		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
+		@GodotName("get_visibility_aabb") GodotMethod!(AABB) getVisibilityAabb;
+		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
 		@GodotName("restart") GodotMethod!(void) restart;
-		@GodotName("capture_aabb") GodotMethod!(AABB) captureAabb;
+		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
+		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
+		@GodotName("set_draw_pass_mesh") GodotMethod!(void, long, Mesh) setDrawPassMesh;
+		@GodotName("set_draw_passes") GodotMethod!(void, long) setDrawPasses;
+		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
+		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
+		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
+		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
+		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
+		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
+		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
+		@GodotName("set_process_material") GodotMethod!(void, Material) setProcessMaterial;
+		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
+		@GodotName("set_visibility_aabb") GodotMethod!(void, AABB) setVisibilityAabb;
 	}
 	bool opEquals(in Particles other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Particles opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -119,116 +117,12 @@ public:
 		maxDrawPasses = 4,
 	}
 	/**
-	
+	Returns the axis-aligned bounding box that contains all the particles that are active in the current frame.
 	*/
-	void setEmitting(in bool emitting)
+	AABB captureAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
-	}
-	/**
-	
-	*/
-	void setAmount(in long amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	void setLifetime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setOneShot(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setPreProcessTime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setExplosivenessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setRandomnessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setVisibilityAabb(in AABB aabb)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibilityAabb, _godot_object, aabb);
-	}
-	/**
-	
-	*/
-	void setUseLocalCoordinates(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setFixedFps(in long fps)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
-	}
-	/**
-	
-	*/
-	void setFractionalDelta(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setProcessMaterial(Material material)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
-	}
-	/**
-	
-	*/
-	void setSpeedScale(in double scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	bool isEmitting() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+		return ptrcall!(AABB)(_classBinding.captureAabb, _godot_object);
 	}
 	/**
 	
@@ -237,6 +131,54 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getAmount, _godot_object);
+	}
+	/**
+	
+	*/
+	Particles.DrawOrder getDrawOrder() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Particles.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
+	}
+	/**
+	Returns the $(D Mesh) that is drawn at index `pass`.
+	*/
+	Ref!Mesh getDrawPassMesh(in long pass) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.getDrawPassMesh, _godot_object, pass);
+	}
+	/**
+	
+	*/
+	long getDrawPasses() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getDrawPasses, _godot_object);
+	}
+	/**
+	
+	*/
+	double getExplosivenessRatio() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
+	}
+	/**
+	
+	*/
+	long getFixedFps() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFixedFps, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getFractionalDelta() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFractionalDelta, _godot_object);
 	}
 	/**
 	
@@ -265,10 +207,10 @@ public:
 	/**
 	
 	*/
-	double getExplosivenessRatio() const
+	Ref!Material getProcessMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
+		return ptrcall!(Material)(_classBinding.getProcessMaterial, _godot_object);
 	}
 	/**
 	
@@ -281,10 +223,10 @@ public:
 	/**
 	
 	*/
-	AABB getVisibilityAabb() const
+	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getVisibilityAabb, _godot_object);
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	
@@ -297,34 +239,34 @@ public:
 	/**
 	
 	*/
-	long getFixedFps() const
+	AABB getVisibilityAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFixedFps, _godot_object);
+		return ptrcall!(AABB)(_classBinding.getVisibilityAabb, _godot_object);
 	}
 	/**
 	
 	*/
-	bool getFractionalDelta() const
+	bool isEmitting() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFractionalDelta, _godot_object);
+		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+	}
+	/**
+	Restarts the particle emission, clearing existing particles.
+	*/
+	void restart()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.restart, _godot_object);
 	}
 	/**
 	
 	*/
-	Ref!Material getProcessMaterial() const
+	void setAmount(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getProcessMaterial, _godot_object);
-	}
-	/**
-	
-	*/
-	double getSpeedScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
 	}
 	/**
 	
@@ -335,12 +277,12 @@ public:
 		ptrcall!(void)(_classBinding.setDrawOrder, _godot_object, order);
 	}
 	/**
-	
+	Sets the $(D Mesh) that is drawn at index `pass`.
 	*/
-	Particles.DrawOrder getDrawOrder() const
+	void setDrawPassMesh(in long pass, Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Particles.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
+		ptrcall!(void)(_classBinding.setDrawPassMesh, _godot_object, pass, mesh);
 	}
 	/**
 	
@@ -353,54 +295,98 @@ public:
 	/**
 	
 	*/
-	void setDrawPassMesh(in long pass, Mesh mesh)
+	void setEmitting(in bool emitting)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawPassMesh, _godot_object, pass, mesh);
+		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
 	}
 	/**
 	
 	*/
-	long getDrawPasses() const
+	void setExplosivenessRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDrawPasses, _godot_object);
+		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
 	}
 	/**
 	
 	*/
-	Ref!Mesh getDrawPassMesh(in long pass) const
+	void setFixedFps(in long fps)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getDrawPassMesh, _godot_object, pass);
-	}
-	/**
-	Restarts the particle emmission, clearing existing particles.
-	*/
-	void restart()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.restart, _godot_object);
+		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
 	}
 	/**
 	
 	*/
-	AABB captureAabb() const
+	void setFractionalDelta(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.captureAabb, _godot_object);
+		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
 	}
 	/**
-	If `true`, particles are being emitted. Default value: `true`.
+	
 	*/
-	@property bool emitting()
+	void setLifetime(in double secs)
 	{
-		return isEmitting();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
 	}
-	/// ditto
-	@property void emitting(bool v)
+	/**
+	
+	*/
+	void setOneShot(in bool enable)
 	{
-		setEmitting(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setPreProcessTime(in double secs)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
+	}
+	/**
+	
+	*/
+	void setProcessMaterial(Material material)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
+	}
+	/**
+	
+	*/
+	void setRandomnessRatio(in double ratio)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
+	}
+	/**
+	
+	*/
+	void setSpeedScale(in double scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
+	}
+	/**
+	
+	*/
+	void setUseLocalCoordinates(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setVisibilityAabb(in AABB aabb)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibilityAabb, _godot_object, aabb);
 	}
 	/**
 	Number of particles to emit.
@@ -415,127 +401,7 @@ public:
 		setAmount(v);
 	}
 	/**
-	Amount of time each particle will exist. Default value: `1`.
-	*/
-	@property double lifetime()
-	{
-		return getLifetime();
-	}
-	/// ditto
-	@property void lifetime(double v)
-	{
-		setLifetime(v);
-	}
-	/**
-	If `true`, only `amount` particles will be emitted. Default value: `false`.
-	*/
-	@property bool oneShot()
-	{
-		return getOneShot();
-	}
-	/// ditto
-	@property void oneShot(bool v)
-	{
-		setOneShot(v);
-	}
-	/**
-	Amount of time to preprocess the particles before animation starts. Lets you start the animation some time after particles have started emitting.
-	*/
-	@property double preprocess()
-	{
-		return getPreProcessTime();
-	}
-	/// ditto
-	@property void preprocess(double v)
-	{
-		setPreProcessTime(v);
-	}
-	/**
-	Speed scaling ratio. Default value: `1`. A value of `0` can be used to pause the particles.
-	*/
-	@property double speedScale()
-	{
-		return getSpeedScale();
-	}
-	/// ditto
-	@property void speedScale(double v)
-	{
-		setSpeedScale(v);
-	}
-	/**
-	Time ratio between each emission. If `0` particles are emitted continuously. If `1` all particles are emitted simultaneously. Default value: `0`.
-	*/
-	@property double explosiveness()
-	{
-		return getExplosivenessRatio();
-	}
-	/// ditto
-	@property void explosiveness(double v)
-	{
-		setExplosivenessRatio(v);
-	}
-	/**
-	Emission randomness ratio. Default value: `0`.
-	*/
-	@property double randomness()
-	{
-		return getRandomnessRatio();
-	}
-	/// ditto
-	@property void randomness(double v)
-	{
-		setRandomnessRatio(v);
-	}
-	/**
-	
-	*/
-	@property long fixedFps()
-	{
-		return getFixedFps();
-	}
-	/// ditto
-	@property void fixedFps(long v)
-	{
-		setFixedFps(v);
-	}
-	/**
-	
-	*/
-	@property bool fractDelta()
-	{
-		return getFractionalDelta();
-	}
-	/// ditto
-	@property void fractDelta(bool v)
-	{
-		setFractionalDelta(v);
-	}
-	/**
-	The $(D AABB) that determines the area of the world part of which needs to be visible on screen for the particle system to be active.
-	*/
-	@property AABB visibilityAabb()
-	{
-		return getVisibilityAabb();
-	}
-	/// ditto
-	@property void visibilityAabb(AABB v)
-	{
-		setVisibilityAabb(v);
-	}
-	/**
-	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates. Default value: `true`.
-	*/
-	@property bool localCoords()
-	{
-		return getUseLocalCoordinates();
-	}
-	/// ditto
-	@property void localCoords(bool v)
-	{
-		setUseLocalCoordinates(v);
-	}
-	/**
-	Particle draw order. Uses `DRAW_ORDER_*` values. Default value: `DRAW_ORDER_INDEX`.
+	Particle draw order. Uses $(D draworder) values.
 	*/
 	@property Particles.DrawOrder drawOrder()
 	{
@@ -545,18 +411,6 @@ public:
 	@property void drawOrder(long v)
 	{
 		setDrawOrder(v);
-	}
-	/**
-	The number of draw passes when rendering particles.
-	*/
-	@property long drawPasses()
-	{
-		return getDrawPasses();
-	}
-	/// ditto
-	@property void drawPasses(long v)
-	{
-		setDrawPasses(v);
 	}
 	/**
 	$(D Mesh) that is drawn for the first draw pass.
@@ -605,5 +459,149 @@ public:
 	@property void drawPass4(Mesh v)
 	{
 		setDrawPassMesh(3, v);
+	}
+	/**
+	The number of draw passes when rendering particles.
+	*/
+	@property long drawPasses()
+	{
+		return getDrawPasses();
+	}
+	/// ditto
+	@property void drawPasses(long v)
+	{
+		setDrawPasses(v);
+	}
+	/**
+	If `true`, particles are being emitted.
+	*/
+	@property bool emitting()
+	{
+		return isEmitting();
+	}
+	/// ditto
+	@property void emitting(bool v)
+	{
+		setEmitting(v);
+	}
+	/**
+	Time ratio between each emission. If `0`, particles are emitted continuously. If `1`, all particles are emitted simultaneously.
+	*/
+	@property double explosiveness()
+	{
+		return getExplosivenessRatio();
+	}
+	/// ditto
+	@property void explosiveness(double v)
+	{
+		setExplosivenessRatio(v);
+	}
+	/**
+	The particle system's frame rate is fixed to a value. For instance, changing the value to 2 will make the particles render at 2 frames per second. Note this does not slow down the simulation of the particle system itself.
+	*/
+	@property long fixedFps()
+	{
+		return getFixedFps();
+	}
+	/// ditto
+	@property void fixedFps(long v)
+	{
+		setFixedFps(v);
+	}
+	/**
+	If `true`, results in fractional delta calculation which has a smoother particles display effect.
+	*/
+	@property bool fractDelta()
+	{
+		return getFractionalDelta();
+	}
+	/// ditto
+	@property void fractDelta(bool v)
+	{
+		setFractionalDelta(v);
+	}
+	/**
+	Amount of time each particle will exist.
+	*/
+	@property double lifetime()
+	{
+		return getLifetime();
+	}
+	/// ditto
+	@property void lifetime(double v)
+	{
+		setLifetime(v);
+	}
+	/**
+	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates.
+	*/
+	@property bool localCoords()
+	{
+		return getUseLocalCoordinates();
+	}
+	/// ditto
+	@property void localCoords(bool v)
+	{
+		setUseLocalCoordinates(v);
+	}
+	/**
+	If `true`, only `amount` particles will be emitted.
+	*/
+	@property bool oneShot()
+	{
+		return getOneShot();
+	}
+	/// ditto
+	@property void oneShot(bool v)
+	{
+		setOneShot(v);
+	}
+	/**
+	Amount of time to preprocess the particles before animation starts. Lets you start the animation some time after particles have started emitting.
+	*/
+	@property double preprocess()
+	{
+		return getPreProcessTime();
+	}
+	/// ditto
+	@property void preprocess(double v)
+	{
+		setPreProcessTime(v);
+	}
+	/**
+	Emission randomness ratio.
+	*/
+	@property double randomness()
+	{
+		return getRandomnessRatio();
+	}
+	/// ditto
+	@property void randomness(double v)
+	{
+		setRandomnessRatio(v);
+	}
+	/**
+	Speed scaling ratio. A value of `0` can be used to pause the particles.
+	*/
+	@property double speedScale()
+	{
+		return getSpeedScale();
+	}
+	/// ditto
+	@property void speedScale(double v)
+	{
+		setSpeedScale(v);
+	}
+	/**
+	The $(D AABB) that determines the area of the world part of which needs to be visible on screen for the particle system to be active.
+	*/
+	@property AABB visibilityAabb()
+	{
+		return getVisibilityAabb();
+	}
+	/// ditto
+	@property void visibilityAabb(AABB v)
+	{
+		setVisibilityAabb(v);
 	}
 }

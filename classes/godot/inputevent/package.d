@@ -1,5 +1,5 @@
 /**
-Generic input event
+Generic input event.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,9 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.reference;
 /**
-Generic input event
+Generic input event.
 
 Base class of all sort of input event. See $(D Node._input).
 */
@@ -38,18 +37,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_device") GodotMethod!(void, long) setDevice;
+		@GodotName("accumulate") GodotMethod!(bool, InputEvent) accumulate;
+		@GodotName("as_text") GodotMethod!(String) asText;
+		@GodotName("get_action_strength") GodotMethod!(double, String) getActionStrength;
 		@GodotName("get_device") GodotMethod!(long) getDevice;
 		@GodotName("is_action") GodotMethod!(bool, String) isAction;
-		@GodotName("is_action_pressed") GodotMethod!(bool, String) isActionPressed;
+		@GodotName("is_action_pressed") GodotMethod!(bool, String, bool) isActionPressed;
 		@GodotName("is_action_released") GodotMethod!(bool, String) isActionReleased;
-		@GodotName("get_action_strength") GodotMethod!(double, String) getActionStrength;
-		@GodotName("is_pressed") GodotMethod!(bool) isPressed;
-		@GodotName("is_echo") GodotMethod!(bool) isEcho;
-		@GodotName("as_text") GodotMethod!(String) asText;
-		@GodotName("shortcut_match") GodotMethod!(bool, InputEvent) shortcutMatch;
 		@GodotName("is_action_type") GodotMethod!(bool) isActionType;
-		@GodotName("accumulate") GodotMethod!(bool, InputEvent) accumulate;
+		@GodotName("is_echo") GodotMethod!(bool) isEcho;
+		@GodotName("is_pressed") GodotMethod!(bool) isPressed;
+		@GodotName("set_device") GodotMethod!(void, long) setDevice;
+		@GodotName("shortcut_match") GodotMethod!(bool, InputEvent) shortcutMatch;
 		@GodotName("xformed_by") GodotMethod!(InputEvent, Transform2D, Vector2) xformedBy;
 	}
 	bool opEquals(in InputEvent other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -65,12 +64,29 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Returns `true` if the given input event and this input event can be added together (only for events of type $(D InputEventMouseMotion)).
+	The given input event's position, global position and speed will be copied. The resulting `relative` is a sum of both events. Both events' modifiers have to be identical.
 	*/
-	void setDevice(in long device)
+	bool accumulate(InputEvent with_event)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDevice, _godot_object, device);
+		return ptrcall!(bool)(_classBinding.accumulate, _godot_object, with_event);
+	}
+	/**
+	Returns a $(D String) representation of the event.
+	*/
+	String asText() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.asText, _godot_object);
+	}
+	/**
+	Returns a value between 0.0 and 1.0 depending on the given actions' state. Useful for getting the value of events of type $(D InputEventJoypadMotion).
+	*/
+	double getActionStrength(in String action) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
 	}
 	/**
 	
@@ -89,15 +105,15 @@ public:
 		return ptrcall!(bool)(_classBinding.isAction, _godot_object, action);
 	}
 	/**
-	Returns `true` if the given action is being pressed (and is not an echo event for KEY events). Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
+	Returns `true` if the given action is being pressed (and is not an echo event for $(D InputEventKey) events, unless `allow_echo` is `true`). Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
 	*/
-	bool isActionPressed(in String action) const
+	bool isActionPressed(in String action, in bool allow_echo = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
+		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action, allow_echo);
 	}
 	/**
-	Returns `true` if the given action is released (i.e. not pressed). Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
+	Returns `true` if the given action is released (i.e. not pressed). Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
 	*/
 	bool isActionReleased(in String action) const
 	{
@@ -105,47 +121,7 @@ public:
 		return ptrcall!(bool)(_classBinding.isActionReleased, _godot_object, action);
 	}
 	/**
-	
-	*/
-	double getActionStrength(in String action) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
-	}
-	/**
-	Returns `true` if this input event is pressed. Not relevant for the event types `MOUSE_MOTION`, `SCREEN_DRAG` or `NONE`.
-	*/
-	bool isPressed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
-	}
-	/**
-	Returns `true` if this input event is an echo event (only for events of type KEY).
-	*/
-	bool isEcho() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEcho, _godot_object);
-	}
-	/**
-	Returns a $(D String) representation of the event.
-	*/
-	String asText() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.asText, _godot_object);
-	}
-	/**
-	
-	*/
-	bool shortcutMatch(InputEvent event) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.shortcutMatch, _godot_object, event);
-	}
-	/**
-	Returns `true` if this input event's type is one of the $(D InputEvent) constants.
+	Returns `true` if this input event's type is one that can be assigned to an input action.
 	*/
 	bool isActionType() const
 	{
@@ -153,15 +129,39 @@ public:
 		return ptrcall!(bool)(_classBinding.isActionType, _godot_object);
 	}
 	/**
-	
+	Returns `true` if this input event is an echo event (only for events of type $(D InputEventKey)).
 	*/
-	bool accumulate(InputEvent with_event)
+	bool isEcho() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.accumulate, _godot_object, with_event);
+		return ptrcall!(bool)(_classBinding.isEcho, _godot_object);
+	}
+	/**
+	Returns `true` if this input event is pressed. Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
+	*/
+	bool isPressed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
 	}
 	/**
 	
+	*/
+	void setDevice(in long device)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDevice, _godot_object, device);
+	}
+	/**
+	Returns `true` if the given input event is checking for the same key ($(D InputEventKey)), button ($(D InputEventJoypadButton)) or action ($(D InputEventAction)).
+	*/
+	bool shortcutMatch(InputEvent event) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.shortcutMatch, _godot_object, event);
+	}
+	/**
+	Returns a copy of the given input event which has been offset by `local_ofs` and transformed by `xform`. Relevant for events of type $(D InputEventMouseButton), $(D InputEventMouseMotion), $(D InputEventScreenTouch), $(D InputEventScreenDrag), $(D InputEventMagnifyGesture) and $(D InputEventPanGesture).
 	*/
 	Ref!InputEvent xformedBy(in Transform2D xform, in Vector2 local_ofs = Vector2(0, 0)) const
 	{
@@ -170,6 +170,7 @@ public:
 	}
 	/**
 	The event's device ID.
+	$(B Note:) This device ID will always be `-1` for emulated mouse input from a touchscreen. This can be used to distinguish emulated mouse input from physical mouse input.
 	*/
 	@property long device()
 	{

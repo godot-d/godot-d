@@ -26,6 +26,21 @@ import godot.upnpdevice;
 UPNP network functions.
 
 Provides UPNP functionality to discover $(D UPNPDevice)s on the local network and execute commands on them, like managing port mappings (port forwarding) and querying the local and remote network IP address. Note that methods on this class are synchronous and block the calling thread.
+To forward a specific port:
+
+
+const PORT = 7777
+var upnp = UPNP.new()
+upnp.discover(2000, 2, "InternetGatewayDevice")
+upnp.add_port_mapping(port)
+
+
+To close a specific port (e.g. after you have finished using it):
+
+
+upnp.delete_port_mapping(port)
+
+
 */
 @GodotBaseClass struct UPNP
 {
@@ -39,23 +54,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_device_count") GodotMethod!(long) getDeviceCount;
-		@GodotName("get_device") GodotMethod!(UPNPDevice, long) getDevice;
 		@GodotName("add_device") GodotMethod!(void, UPNPDevice) addDevice;
-		@GodotName("set_device") GodotMethod!(void, long, UPNPDevice) setDevice;
-		@GodotName("remove_device") GodotMethod!(void, long) removeDevice;
-		@GodotName("clear_devices") GodotMethod!(void) clearDevices;
-		@GodotName("get_gateway") GodotMethod!(UPNPDevice) getGateway;
-		@GodotName("discover") GodotMethod!(long, long, long, String) discover;
-		@GodotName("query_external_address") GodotMethod!(String) queryExternalAddress;
 		@GodotName("add_port_mapping") GodotMethod!(long, long, long, String, String, long) addPortMapping;
+		@GodotName("clear_devices") GodotMethod!(void) clearDevices;
 		@GodotName("delete_port_mapping") GodotMethod!(long, long, String) deletePortMapping;
-		@GodotName("set_discover_multicast_if") GodotMethod!(void, String) setDiscoverMulticastIf;
-		@GodotName("get_discover_multicast_if") GodotMethod!(String) getDiscoverMulticastIf;
-		@GodotName("set_discover_local_port") GodotMethod!(void, long) setDiscoverLocalPort;
+		@GodotName("discover") GodotMethod!(long, long, long, String) discover;
+		@GodotName("get_device") GodotMethod!(UPNPDevice, long) getDevice;
+		@GodotName("get_device_count") GodotMethod!(long) getDeviceCount;
 		@GodotName("get_discover_local_port") GodotMethod!(long) getDiscoverLocalPort;
-		@GodotName("set_discover_ipv6") GodotMethod!(void, bool) setDiscoverIpv6;
+		@GodotName("get_discover_multicast_if") GodotMethod!(String) getDiscoverMulticastIf;
+		@GodotName("get_gateway") GodotMethod!(UPNPDevice) getGateway;
 		@GodotName("is_discover_ipv6") GodotMethod!(bool) isDiscoverIpv6;
+		@GodotName("query_external_address") GodotMethod!(String) queryExternalAddress;
+		@GodotName("remove_device") GodotMethod!(void, long) removeDevice;
+		@GodotName("set_device") GodotMethod!(void, long, UPNPDevice) setDevice;
+		@GodotName("set_discover_ipv6") GodotMethod!(void, bool) setDiscoverIpv6;
+		@GodotName("set_discover_local_port") GodotMethod!(void, long) setDiscoverLocalPort;
+		@GodotName("set_discover_multicast_if") GodotMethod!(void, String) setDiscoverMulticastIf;
 	}
 	bool opEquals(in UPNP other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	UPNP opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -121,7 +136,7 @@ public:
 		*/
 		upnpResultNoPortMapsAvailable = 11,
 		/**
-		Conflict with other mechanism. May be returned instead of `UPNP_RESULT_CONFLICT_WITH_OTHER_MAPPING` if a port mapping conflicts with an existing one.
+		Conflict with other mechanism. May be returned instead of $(D constant UPNP_RESULT_CONFLICT_WITH_OTHER_MAPPING) if a port mapping conflicts with an existing one.
 		*/
 		upnpResultConflictWithOtherMechanism = 12,
 		/**
@@ -223,78 +238,12 @@ public:
 		upnpResultUnknownError = 28,
 	}
 	/**
-	Returns the number of discovered $(D UPNPDevice)s.
-	*/
-	long getDeviceCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDeviceCount, _godot_object);
-	}
-	/**
-	Returns the $(D UPNPDevice) at the given `index`.
-	*/
-	Ref!UPNPDevice getDevice(in long index) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(UPNPDevice)(_classBinding.getDevice, _godot_object, index);
-	}
-	/**
 	Adds the given $(D UPNPDevice) to the list of discovered devices.
 	*/
 	void addDevice(UPNPDevice device)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addDevice, _godot_object, device);
-	}
-	/**
-	Sets the device at `index` from the list of discovered devices to `device`.
-	*/
-	void setDevice(in long index, UPNPDevice device)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDevice, _godot_object, index, device);
-	}
-	/**
-	Removes the device at `index` from the list of discovered devices.
-	*/
-	void removeDevice(in long index)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeDevice, _godot_object, index);
-	}
-	/**
-	Clears the list of discovered devices.
-	*/
-	void clearDevices()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearDevices, _godot_object);
-	}
-	/**
-	Returns the default gateway. That is the first discovered $(D UPNPDevice) that is also a valid IGD (InternetGatewayDevice).
-	*/
-	Ref!UPNPDevice getGateway() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(UPNPDevice)(_classBinding.getGateway, _godot_object);
-	}
-	/**
-	Discovers local $(D UPNPDevice)s. Clears the list of previously discovered devices.
-	Filters for IGD (InternetGatewayDevice) type devices by default, as those manage port forwarding. `timeout` is the time to wait for responses in milliseconds. `ttl` is the time-to-live; only touch this if you know what you're doing.
-	See $(D upnpresult) for possible return values.
-	*/
-	long discover(in long timeout = 2000, in long ttl = 2, in String device_filter = gs!"InternetGatewayDevice")
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.discover, _godot_object, timeout, ttl, device_filter);
-	}
-	/**
-	Returns the external $(D IP) address of the default gateway (see $(D getGateway)) as string. Returns an empty string on error.
-	*/
-	String queryExternalAddress() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.queryExternalAddress, _godot_object);
 	}
 	/**
 	Adds a mapping to forward the external `port` (between 1 and 65535) on the default gateway (see $(D getGateway)) to the `internal_port` on the local machine for the given protocol `proto` (either `TCP` or `UDP`, with UDP being the default). If a port mapping for the given port and protocol combination already exists on that gateway device, this method tries to overwrite it. If that is not desired, you can retrieve the gateway manually with $(D getGateway) and call $(D addPortMapping) on it, if any.
@@ -308,6 +257,14 @@ public:
 		return ptrcall!(long)(_classBinding.addPortMapping, _godot_object, port, port_internal, desc, proto, duration);
 	}
 	/**
+	Clears the list of discovered devices.
+	*/
+	void clearDevices()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clearDevices, _godot_object);
+	}
+	/**
 	Deletes the port mapping for the given port and protocol combination on the default gateway (see $(D getGateway)) if one exists. `port` must be a valid port between 1 and 65535, `proto` can be either `TCP` or `UDP`. See $(D upnpresult) for possible return values.
 	*/
 	long deletePortMapping(in long port, in String proto = gs!"UDP") const
@@ -316,28 +273,30 @@ public:
 		return ptrcall!(long)(_classBinding.deletePortMapping, _godot_object, port, proto);
 	}
 	/**
-	
+	Discovers local $(D UPNPDevice)s. Clears the list of previously discovered devices.
+	Filters for IGD (InternetGatewayDevice) type devices by default, as those manage port forwarding. `timeout` is the time to wait for responses in milliseconds. `ttl` is the time-to-live; only touch this if you know what you're doing.
+	See $(D upnpresult) for possible return values.
 	*/
-	void setDiscoverMulticastIf(in String m_if)
+	long discover(in long timeout = 2000, in long ttl = 2, in String device_filter = gs!"InternetGatewayDevice")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDiscoverMulticastIf, _godot_object, m_if);
+		return ptrcall!(long)(_classBinding.discover, _godot_object, timeout, ttl, device_filter);
 	}
 	/**
-	
+	Returns the $(D UPNPDevice) at the given `index`.
 	*/
-	String getDiscoverMulticastIf() const
+	Ref!UPNPDevice getDevice(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDiscoverMulticastIf, _godot_object);
+		return ptrcall!(UPNPDevice)(_classBinding.getDevice, _godot_object, index);
 	}
 	/**
-	
+	Returns the number of discovered $(D UPNPDevice)s.
 	*/
-	void setDiscoverLocalPort(in long port)
+	long getDeviceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDiscoverLocalPort, _godot_object, port);
+		return ptrcall!(long)(_classBinding.getDeviceCount, _godot_object);
 	}
 	/**
 	
@@ -350,10 +309,18 @@ public:
 	/**
 	
 	*/
-	void setDiscoverIpv6(in bool ipv6)
+	String getDiscoverMulticastIf() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDiscoverIpv6, _godot_object, ipv6);
+		return ptrcall!(String)(_classBinding.getDiscoverMulticastIf, _godot_object);
+	}
+	/**
+	Returns the default gateway. That is the first discovered $(D UPNPDevice) that is also a valid IGD (InternetGatewayDevice).
+	*/
+	Ref!UPNPDevice getGateway() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(UPNPDevice)(_classBinding.getGateway, _godot_object);
 	}
 	/**
 	
@@ -364,16 +331,64 @@ public:
 		return ptrcall!(bool)(_classBinding.isDiscoverIpv6, _godot_object);
 	}
 	/**
-	Multicast interface to use for discovery. Uses the default multicast interface if empty.
+	Returns the external $(D IP) address of the default gateway (see $(D getGateway)) as string. Returns an empty string on error.
 	*/
-	@property String discoverMulticastIf()
+	String queryExternalAddress() const
 	{
-		return getDiscoverMulticastIf();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.queryExternalAddress, _godot_object);
+	}
+	/**
+	Removes the device at `index` from the list of discovered devices.
+	*/
+	void removeDevice(in long index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeDevice, _godot_object, index);
+	}
+	/**
+	Sets the device at `index` from the list of discovered devices to `device`.
+	*/
+	void setDevice(in long index, UPNPDevice device)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDevice, _godot_object, index, device);
+	}
+	/**
+	
+	*/
+	void setDiscoverIpv6(in bool ipv6)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDiscoverIpv6, _godot_object, ipv6);
+	}
+	/**
+	
+	*/
+	void setDiscoverLocalPort(in long port)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDiscoverLocalPort, _godot_object, port);
+	}
+	/**
+	
+	*/
+	void setDiscoverMulticastIf(in String m_if)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDiscoverMulticastIf, _godot_object, m_if);
+	}
+	/**
+	If `true`, IPv6 is used for $(D UPNPDevice) discovery.
+	*/
+	@property bool discoverIpv6()
+	{
+		return isDiscoverIpv6();
 	}
 	/// ditto
-	@property void discoverMulticastIf(String v)
+	@property void discoverIpv6(bool v)
 	{
-		setDiscoverMulticastIf(v);
+		setDiscoverIpv6(v);
 	}
 	/**
 	If `0`, the local port to use for discovery is chosen automatically by the system. If `1`, discovery will be done from the source port 1900 (same as destination port). Otherwise, the value will be used as the port.
@@ -388,15 +403,15 @@ public:
 		setDiscoverLocalPort(v);
 	}
 	/**
-	If `true`, IPv6 is used for $(D UPNPDevice) discovery.
+	Multicast interface to use for discovery. Uses the default multicast interface if empty.
 	*/
-	@property bool discoverIpv6()
+	@property String discoverMulticastIf()
 	{
-		return isDiscoverIpv6();
+		return getDiscoverMulticastIf();
 	}
 	/// ditto
-	@property void discoverIpv6(bool v)
+	@property void discoverMulticastIf(String v)
 	{
-		setDiscoverIpv6(v);
+		setDiscoverMulticastIf(v);
 	}
 }

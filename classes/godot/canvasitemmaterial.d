@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.material;
-import godot.resource;
-import godot.reference;
 /**
 A material for $(D CanvasItem)s.
 
@@ -40,18 +38,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
 		@GodotName("get_blend_mode") GodotMethod!(CanvasItemMaterial.BlendMode) getBlendMode;
-		@GodotName("set_light_mode") GodotMethod!(void, long) setLightMode;
 		@GodotName("get_light_mode") GodotMethod!(CanvasItemMaterial.LightMode) getLightMode;
-		@GodotName("set_particles_animation") GodotMethod!(void, bool) setParticlesAnimation;
-		@GodotName("get_particles_animation") GodotMethod!(bool) getParticlesAnimation;
-		@GodotName("set_particles_anim_h_frames") GodotMethod!(void, long) setParticlesAnimHFrames;
 		@GodotName("get_particles_anim_h_frames") GodotMethod!(long) getParticlesAnimHFrames;
-		@GodotName("set_particles_anim_v_frames") GodotMethod!(void, long) setParticlesAnimVFrames;
-		@GodotName("get_particles_anim_v_frames") GodotMethod!(long) getParticlesAnimVFrames;
-		@GodotName("set_particles_anim_loop") GodotMethod!(void, bool) setParticlesAnimLoop;
 		@GodotName("get_particles_anim_loop") GodotMethod!(bool) getParticlesAnimLoop;
+		@GodotName("get_particles_anim_v_frames") GodotMethod!(long) getParticlesAnimVFrames;
+		@GodotName("get_particles_animation") GodotMethod!(bool) getParticlesAnimation;
+		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
+		@GodotName("set_light_mode") GodotMethod!(void, long) setLightMode;
+		@GodotName("set_particles_anim_h_frames") GodotMethod!(void, long) setParticlesAnimHFrames;
+		@GodotName("set_particles_anim_loop") GodotMethod!(void, bool) setParticlesAnimLoop;
+		@GodotName("set_particles_anim_v_frames") GodotMethod!(void, long) setParticlesAnimVFrames;
+		@GodotName("set_particles_animation") GodotMethod!(void, bool) setParticlesAnimation;
 	}
 	bool opEquals(in CanvasItemMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CanvasItemMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -120,26 +118,10 @@ public:
 	/**
 	
 	*/
-	void setBlendMode(in long blend_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, blend_mode);
-	}
-	/**
-	
-	*/
 	CanvasItemMaterial.BlendMode getBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(CanvasItemMaterial.BlendMode)(_classBinding.getBlendMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLightMode(in long light_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightMode, _godot_object, light_mode);
 	}
 	/**
 	
@@ -152,30 +134,6 @@ public:
 	/**
 	
 	*/
-	void setParticlesAnimation(in bool particles_anim)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimation, _godot_object, particles_anim);
-	}
-	/**
-	
-	*/
-	bool getParticlesAnimation() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticlesAnimation, _godot_object);
-	}
-	/**
-	
-	*/
-	void setParticlesAnimHFrames(in long frames)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimHFrames, _godot_object, frames);
-	}
-	/**
-	
-	*/
 	long getParticlesAnimHFrames() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -184,10 +142,10 @@ public:
 	/**
 	
 	*/
-	void setParticlesAnimVFrames(in long frames)
+	bool getParticlesAnimLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimVFrames, _godot_object, frames);
+		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
 	}
 	/**
 	
@@ -200,6 +158,38 @@ public:
 	/**
 	
 	*/
+	bool getParticlesAnimation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getParticlesAnimation, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBlendMode(in long blend_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, blend_mode);
+	}
+	/**
+	
+	*/
+	void setLightMode(in long light_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightMode, _godot_object, light_mode);
+	}
+	/**
+	
+	*/
+	void setParticlesAnimHFrames(in long frames)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimHFrames, _godot_object, frames);
+	}
+	/**
+	
+	*/
 	void setParticlesAnimLoop(in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
@@ -208,10 +198,18 @@ public:
 	/**
 	
 	*/
-	bool getParticlesAnimLoop() const
+	void setParticlesAnimVFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
+		ptrcall!(void)(_classBinding.setParticlesAnimVFrames, _godot_object, frames);
+	}
+	/**
+	
+	*/
+	void setParticlesAnimation(in bool particles_anim)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticlesAnimation, _godot_object, particles_anim);
 	}
 	/**
 	The manner in which a material's rendering is applied to underlying textures.
@@ -238,19 +236,8 @@ public:
 		setLightMode(v);
 	}
 	/**
-	
-	*/
-	@property bool particlesAnimation()
-	{
-		return getParticlesAnimation();
-	}
-	/// ditto
-	@property void particlesAnimation(bool v)
-	{
-		setParticlesAnimation(v);
-	}
-	/**
-	
+	The number of columns in the spritesheet assigned as $(D Texture) for a $(D Particles2D) or $(D CPUParticles2D).
+	$(B Note:) This property is only used and visible in the editor if $(D particlesAnimation) is `true`.
 	*/
 	@property long particlesAnimHFrames()
 	{
@@ -262,7 +249,21 @@ public:
 		setParticlesAnimHFrames(v);
 	}
 	/**
-	
+	If `true`, the particles animation will loop.
+	$(B Note:) This property is only used and visible in the editor if $(D particlesAnimation) is `true`.
+	*/
+	@property bool particlesAnimLoop()
+	{
+		return getParticlesAnimLoop();
+	}
+	/// ditto
+	@property void particlesAnimLoop(bool v)
+	{
+		setParticlesAnimLoop(v);
+	}
+	/**
+	The number of rows in the spritesheet assigned as $(D Texture) for a $(D Particles2D) or $(D CPUParticles2D).
+	$(B Note:) This property is only used and visible in the editor if $(D particlesAnimation) is `true`.
 	*/
 	@property long particlesAnimVFrames()
 	{
@@ -274,15 +275,16 @@ public:
 		setParticlesAnimVFrames(v);
 	}
 	/**
-	
+	If `true`, enable spritesheet-based animation features when assigned to $(D Particles2D) and $(D CPUParticles2D) nodes. The $(D ParticlesMaterial.animSpeed) or $(D CPUParticles2D.animSpeed) should also be set to a positive value for the animation to play.
+	This property (and other `particles_anim_*` properties that depend on it) has no effect on other types of nodes.
 	*/
-	@property bool particlesAnimLoop()
+	@property bool particlesAnimation()
 	{
-		return getParticlesAnimLoop();
+		return getParticlesAnimation();
 	}
 	/// ditto
-	@property void particlesAnimLoop(bool v)
+	@property void particlesAnimation(bool v)
 	{
-		setParticlesAnimLoop(v);
+		setParticlesAnimation(v);
 	}
 }

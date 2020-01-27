@@ -23,6 +23,8 @@ import godot.resource;
 import godot.reference;
 /**
 Base resource for video streams.
+
+Base resource type for all video streams. Classes that derive from $(D VideoStream) can all be used as resource types to play back videos in $(D VideoPlayer).
 */
 @GodotBaseClass struct VideoStream
 {

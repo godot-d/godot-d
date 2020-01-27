@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.light;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 Omnidirectional light, such as a light bulb or a candle.
 
@@ -41,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shadow_mode") GodotMethod!(void, long) setShadowMode;
+		@GodotName("get_shadow_detail") GodotMethod!(OmniLight.ShadowDetail) getShadowDetail;
 		@GodotName("get_shadow_mode") GodotMethod!(OmniLight.ShadowMode) getShadowMode;
 		@GodotName("set_shadow_detail") GodotMethod!(void, long) setShadowDetail;
-		@GodotName("get_shadow_detail") GodotMethod!(OmniLight.ShadowDetail) getShadowDetail;
+		@GodotName("set_shadow_mode") GodotMethod!(void, long) setShadowMode;
 	}
 	bool opEquals(in OmniLight other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	OmniLight opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,11 +60,11 @@ public:
 	enum ShadowMode : int
 	{
 		/**
-		
+		Shadows are rendered to a dual-paraboloid texture. Faster than $(D constant SHADOW_CUBE), but lower-quality.
 		*/
 		shadowDualParaboloid = 0,
 		/**
-		
+		Shadows are rendered to a cubemap. Slower than $(D constant SHADOW_DUAL_PARABOLOID), but higher-quality.
 		*/
 		shadowCube = 1,
 	}
@@ -74,29 +72,29 @@ public:
 	enum ShadowDetail : int
 	{
 		/**
-		
+		Use more detail vertically when computing the shadow.
 		*/
 		shadowDetailVertical = 0,
 		/**
-		
+		Use more detail horizontally when computing the shadow.
 		*/
 		shadowDetailHorizontal = 1,
 	}
 	/// 
 	enum Constants : int
 	{
-		shadowDetailVertical = 0,
 		shadowDualParaboloid = 0,
-		shadowCube = 1,
+		shadowDetailVertical = 0,
 		shadowDetailHorizontal = 1,
+		shadowCube = 1,
 	}
 	/**
 	
 	*/
-	void setShadowMode(in long mode)
+	OmniLight.ShadowDetail getShadowDetail() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowMode, _godot_object, mode);
+		return ptrcall!(OmniLight.ShadowDetail)(_classBinding.getShadowDetail, _godot_object);
 	}
 	/**
 	
@@ -117,25 +115,13 @@ public:
 	/**
 	
 	*/
-	OmniLight.ShadowDetail getShadowDetail() const
+	void setShadowMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OmniLight.ShadowDetail)(_classBinding.getShadowDetail, _godot_object);
+		ptrcall!(void)(_classBinding.setShadowMode, _godot_object, mode);
 	}
 	/**
-	Maximum distance the light affects.
-	*/
-	@property double omniRange()
-	{
-		return getParam(3);
-	}
-	/// ditto
-	@property void omniRange(double v)
-	{
-		setParam(3, v);
-	}
-	/**
-	The light's attenuation (drop-off) curve. A number of presets are available in the Inspector.
+	The light's attenuation (drop-off) curve. A number of presets are available in the $(B Inspector) by right-clicking the curve.
 	*/
 	@property double omniAttenuation()
 	{
@@ -147,16 +133,16 @@ public:
 		setParam(4, v);
 	}
 	/**
-	See $(D shadowmode).
+	The light's radius.
 	*/
-	@property OmniLight.ShadowMode omniShadowMode()
+	@property double omniRange()
 	{
-		return getShadowMode();
+		return getParam(3);
 	}
 	/// ditto
-	@property void omniShadowMode(long v)
+	@property void omniRange(double v)
 	{
-		setShadowMode(v);
+		setParam(3, v);
 	}
 	/**
 	See $(D shadowdetail).
@@ -169,5 +155,17 @@ public:
 	@property void omniShadowDetail(long v)
 	{
 		setShadowDetail(v);
+	}
+	/**
+	See $(D shadowmode).
+	*/
+	@property OmniLight.ShadowMode omniShadowMode()
+	{
+		return getShadowMode();
+	}
+	/// ditto
+	@property void omniShadowMode(long v)
+	{
+		setShadowMode(v);
 	}
 }

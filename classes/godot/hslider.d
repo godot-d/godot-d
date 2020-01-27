@@ -21,10 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.slider;
-import godot.range;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Horizontal slider.
 

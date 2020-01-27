@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
-import godot.mesh;
-import godot.resource;
-import godot.reference;
 /**
 Class representing a cylindrical $(D PrimitiveMesh).
 
-
+This class can be used to create cones by setting either the $(D topRadius) or $(D bottomRadius) properties to 0.0.
 */
 @GodotBaseClass struct CylinderMesh
 {
@@ -41,16 +38,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_top_radius") GodotMethod!(void, double) setTopRadius;
+		@GodotName("get_bottom_radius") GodotMethod!(double) getBottomRadius;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
+		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
+		@GodotName("get_rings") GodotMethod!(long) getRings;
 		@GodotName("get_top_radius") GodotMethod!(double) getTopRadius;
 		@GodotName("set_bottom_radius") GodotMethod!(void, double) setBottomRadius;
-		@GodotName("get_bottom_radius") GodotMethod!(double) getBottomRadius;
 		@GodotName("set_height") GodotMethod!(void, double) setHeight;
-		@GodotName("get_height") GodotMethod!(double) getHeight;
 		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
-		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
 		@GodotName("set_rings") GodotMethod!(void, long) setRings;
-		@GodotName("get_rings") GodotMethod!(long) getRings;
+		@GodotName("set_top_radius") GodotMethod!(void, double) setTopRadius;
 	}
 	bool opEquals(in CylinderMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CylinderMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,10 +64,34 @@ public:
 	/**
 	
 	*/
-	void setTopRadius(in double radius)
+	double getBottomRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTopRadius, _godot_object, radius);
+		return ptrcall!(double)(_classBinding.getBottomRadius, _godot_object);
+	}
+	/**
+	
+	*/
+	double getHeight() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
+	}
+	/**
+	
+	*/
+	long getRadialSegments() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
+	}
+	/**
+	
+	*/
+	long getRings() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getRings, _godot_object);
 	}
 	/**
 	
@@ -91,26 +112,10 @@ public:
 	/**
 	
 	*/
-	double getBottomRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBottomRadius, _godot_object);
-	}
-	/**
-	
-	*/
 	void setHeight(in double height)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
-	}
-	/**
-	
-	*/
-	double getHeight() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -123,14 +128,6 @@ public:
 	/**
 	
 	*/
-	long getRadialSegments() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
-	}
-	/**
-	
-	*/
 	void setRings(in long rings)
 	{
 		checkClassBinding!(typeof(this))();
@@ -139,25 +136,13 @@ public:
 	/**
 	
 	*/
-	long getRings() const
+	void setTopRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRings, _godot_object);
+		ptrcall!(void)(_classBinding.setTopRadius, _godot_object, radius);
 	}
 	/**
-	Top radius of the cylinder. Defaults to 1.0.
-	*/
-	@property double topRadius()
-	{
-		return getTopRadius();
-	}
-	/// ditto
-	@property void topRadius(double v)
-	{
-		setTopRadius(v);
-	}
-	/**
-	Bottom radius of the cylinder. Defaults to 1.0.
+	Bottom radius of the cylinder.
 	*/
 	@property double bottomRadius()
 	{
@@ -169,7 +154,7 @@ public:
 		setBottomRadius(v);
 	}
 	/**
-	Full height of the cylinder. Defaults to 2.0.
+	Full height of the cylinder.
 	*/
 	@property double height()
 	{
@@ -181,7 +166,7 @@ public:
 		setHeight(v);
 	}
 	/**
-	Number of radial segments on the cylinder. Defaults to 64.
+	Number of radial segments on the cylinder.
 	*/
 	@property long radialSegments()
 	{
@@ -193,7 +178,7 @@ public:
 		setRadialSegments(v);
 	}
 	/**
-	Number of edge rings along the height of the cylinder. Defaults to 4.
+	Number of edge rings along the height of the cylinder.
 	*/
 	@property long rings()
 	{
@@ -203,5 +188,17 @@ public:
 	@property void rings(long v)
 	{
 		setRings(v);
+	}
+	/**
+	Top radius of the cylinder.
+	*/
+	@property double topRadius()
+	{
+		return getTopRadius();
+	}
+	/// ditto
+	@property void topRadius(double v)
+	{
+		setTopRadius(v);
 	}
 }

@@ -46,8 +46,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_steps") GodotMethod!(void, long) setSteps;
 		@GodotName("get_steps") GodotMethod!(long) getSteps;
+		@GodotName("set_steps") GodotMethod!(void, long) setSteps;
 	}
 	bool opEquals(in VisualScriptSequence other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSequence opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,18 +64,18 @@ public:
 	/**
 	
 	*/
-	void setSteps(in long steps)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSteps, _godot_object, steps);
-	}
-	/**
-	
-	*/
 	long getSteps() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getSteps, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSteps(in long steps)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSteps, _godot_object, steps);
 	}
 	/**
 	The number of steps in the sequence.

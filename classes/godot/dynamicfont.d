@@ -22,12 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.font;
 import godot.dynamicfontdata;
-import godot.resource;
-import godot.reference;
 /**
 DynamicFont renders vector font files at runtime.
 
-DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like $(D BitmapFont). This trades the faster loading time of $(D BitmapFont)s for the ability to change font parameters like size and spacing during runtime. $(D DynamicFontData) is used for referencing the font file paths.
+DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like $(D BitmapFont). This trades the faster loading time of $(D BitmapFont)s for the ability to change font parameters like size and spacing during runtime. $(D DynamicFontData) is used for referencing the font file paths. DynamicFont also supports defining one or more fallbacks fonts, which will be used when displaying a character not supported by the main font.
+DynamicFont uses the $(D url=https://www.freetype.org/)FreeType$(D /url) library for rasterization.
 
 
 var dynamic_font = DynamicFont.new()
@@ -49,25 +48,25 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_font_data") GodotMethod!(void, DynamicFontData) setFontData;
-		@GodotName("get_font_data") GodotMethod!(DynamicFontData) getFontData;
-		@GodotName("set_size") GodotMethod!(void, long) setSize;
-		@GodotName("get_size") GodotMethod!(long) getSize;
-		@GodotName("set_outline_size") GodotMethod!(void, long) setOutlineSize;
-		@GodotName("get_outline_size") GodotMethod!(long) getOutlineSize;
-		@GodotName("set_outline_color") GodotMethod!(void, Color) setOutlineColor;
-		@GodotName("get_outline_color") GodotMethod!(Color) getOutlineColor;
-		@GodotName("set_use_mipmaps") GodotMethod!(void, bool) setUseMipmaps;
-		@GodotName("get_use_mipmaps") GodotMethod!(bool) getUseMipmaps;
-		@GodotName("set_use_filter") GodotMethod!(void, bool) setUseFilter;
-		@GodotName("get_use_filter") GodotMethod!(bool) getUseFilter;
-		@GodotName("set_spacing") GodotMethod!(void, long, long) setSpacing;
-		@GodotName("get_spacing") GodotMethod!(long, long) getSpacing;
 		@GodotName("add_fallback") GodotMethod!(void, DynamicFontData) addFallback;
-		@GodotName("set_fallback") GodotMethod!(void, long, DynamicFontData) setFallback;
 		@GodotName("get_fallback") GodotMethod!(DynamicFontData, long) getFallback;
-		@GodotName("remove_fallback") GodotMethod!(void, long) removeFallback;
 		@GodotName("get_fallback_count") GodotMethod!(long) getFallbackCount;
+		@GodotName("get_font_data") GodotMethod!(DynamicFontData) getFontData;
+		@GodotName("get_outline_color") GodotMethod!(Color) getOutlineColor;
+		@GodotName("get_outline_size") GodotMethod!(long) getOutlineSize;
+		@GodotName("get_size") GodotMethod!(long) getSize;
+		@GodotName("get_spacing") GodotMethod!(long, long) getSpacing;
+		@GodotName("get_use_filter") GodotMethod!(bool) getUseFilter;
+		@GodotName("get_use_mipmaps") GodotMethod!(bool) getUseMipmaps;
+		@GodotName("remove_fallback") GodotMethod!(void, long) removeFallback;
+		@GodotName("set_fallback") GodotMethod!(void, long, DynamicFontData) setFallback;
+		@GodotName("set_font_data") GodotMethod!(void, DynamicFontData) setFontData;
+		@GodotName("set_outline_color") GodotMethod!(void, Color) setOutlineColor;
+		@GodotName("set_outline_size") GodotMethod!(void, long) setOutlineSize;
+		@GodotName("set_size") GodotMethod!(void, long) setSize;
+		@GodotName("set_spacing") GodotMethod!(void, long, long) setSpacing;
+		@GodotName("set_use_filter") GodotMethod!(void, bool) setUseFilter;
+		@GodotName("set_use_mipmaps") GodotMethod!(void, bool) setUseMipmaps;
 	}
 	bool opEquals(in DynamicFont other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	DynamicFont opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -110,12 +109,28 @@ public:
 		spacingSpace = 3,
 	}
 	/**
-	
+	Adds a fallback font.
 	*/
-	void setFontData(DynamicFontData data)
+	void addFallback(DynamicFontData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFontData, _godot_object, data);
+		ptrcall!(void)(_classBinding.addFallback, _godot_object, data);
+	}
+	/**
+	Returns the fallback font at index `idx`.
+	*/
+	Ref!DynamicFontData getFallback(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(DynamicFontData)(_classBinding.getFallback, _godot_object, idx);
+	}
+	/**
+	Returns the number of fallback fonts.
+	*/
+	long getFallbackCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFallbackCount, _godot_object);
 	}
 	/**
 	
@@ -128,26 +143,10 @@ public:
 	/**
 	
 	*/
-	void setSize(in long data)
+	Color getOutlineColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, data);
-	}
-	/**
-	
-	*/
-	long getSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOutlineSize(in long size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutlineSize, _godot_object, size);
+		return ptrcall!(Color)(_classBinding.getOutlineColor, _godot_object);
 	}
 	/**
 	
@@ -160,42 +159,18 @@ public:
 	/**
 	
 	*/
-	void setOutlineColor(in Color color)
+	long getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutlineColor, _godot_object, color);
+		return ptrcall!(long)(_classBinding.getSize, _godot_object);
 	}
 	/**
-	
+	Returns the spacing for the given `type` (see $(D spacingtype)).
 	*/
-	Color getOutlineColor() const
+	long getSpacing(in long type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getOutlineColor, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUseMipmaps(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseMipmaps, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool getUseMipmaps() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseMipmaps, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUseFilter(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseFilter, _godot_object, enable);
+		return ptrcall!(long)(_classBinding.getSpacing, _godot_object, type);
 	}
 	/**
 	
@@ -208,42 +183,10 @@ public:
 	/**
 	
 	*/
-	void setSpacing(in long type, in long value)
+	bool getUseMipmaps() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpacing, _godot_object, type, value);
-	}
-	/**
-	
-	*/
-	long getSpacing(in long type) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSpacing, _godot_object, type);
-	}
-	/**
-	Adds a fallback font.
-	*/
-	void addFallback(DynamicFontData data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFallback, _godot_object, data);
-	}
-	/**
-	Sets the fallback font at index `idx`.
-	*/
-	void setFallback(in long idx, DynamicFontData data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFallback, _godot_object, idx, data);
-	}
-	/**
-	Returns the fallback font at index `idx`.
-	*/
-	Ref!DynamicFontData getFallback(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(DynamicFontData)(_classBinding.getFallback, _godot_object, idx);
+		return ptrcall!(bool)(_classBinding.getUseMipmaps, _godot_object);
 	}
 	/**
 	Removes the fallback font at index `idx`.
@@ -254,84 +197,68 @@ public:
 		ptrcall!(void)(_classBinding.removeFallback, _godot_object, idx);
 	}
 	/**
-	Returns the number of fallback fonts.
+	Sets the fallback font at index `idx`.
 	*/
-	long getFallbackCount() const
+	void setFallback(in long idx, DynamicFontData data)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFallbackCount, _godot_object);
-	}
-	/**
-	The font size.
-	*/
-	@property long size()
-	{
-		return getSize();
-	}
-	/// ditto
-	@property void size(long v)
-	{
-		setSize(v);
+		ptrcall!(void)(_classBinding.setFallback, _godot_object, idx, data);
 	}
 	/**
 	
 	*/
-	@property long outlineSize()
+	void setFontData(DynamicFontData data)
 	{
-		return getOutlineSize();
-	}
-	/// ditto
-	@property void outlineSize(long v)
-	{
-		setOutlineSize(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFontData, _godot_object, data);
 	}
 	/**
 	
 	*/
-	@property Color outlineColor()
+	void setOutlineColor(in Color color)
 	{
-		return getOutlineColor();
-	}
-	/// ditto
-	@property void outlineColor(Color v)
-	{
-		setOutlineColor(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOutlineColor, _godot_object, color);
 	}
 	/**
-	If `true`, mipmapping is used.
+	
 	*/
-	@property bool useMipmaps()
+	void setOutlineSize(in long size)
 	{
-		return getUseMipmaps();
-	}
-	/// ditto
-	@property void useMipmaps(bool v)
-	{
-		setUseMipmaps(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOutlineSize, _godot_object, size);
 	}
 	/**
-	If `true`, filtering is used.
+	
 	*/
-	@property bool useFilter()
+	void setSize(in long data)
 	{
-		return getUseFilter();
-	}
-	/// ditto
-	@property void useFilter(bool v)
-	{
-		setUseFilter(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, data);
 	}
 	/**
-	Extra spacing at the top in pixels.
+	Sets the spacing for `type` (see $(D spacingtype)) to `value` in pixels (not relative to the font size).
 	*/
-	@property long extraSpacingTop()
+	void setSpacing(in long type, in long value)
 	{
-		return getSpacing(0);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpacing, _godot_object, type, value);
 	}
-	/// ditto
-	@property void extraSpacingTop(long v)
+	/**
+	
+	*/
+	void setUseFilter(in bool enable)
 	{
-		setSpacing(0, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseFilter, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setUseMipmaps(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseMipmaps, _godot_object, enable);
 	}
 	/**
 	Extra spacing at the bottom in pixels.
@@ -370,6 +297,18 @@ public:
 		setSpacing(3, v);
 	}
 	/**
+	Extra spacing at the top in pixels.
+	*/
+	@property long extraSpacingTop()
+	{
+		return getSpacing(0);
+	}
+	/// ditto
+	@property void extraSpacingTop(long v)
+	{
+		setSpacing(0, v);
+	}
+	/**
 	The font data.
 	*/
 	@property DynamicFontData fontData()
@@ -380,5 +319,66 @@ public:
 	@property void fontData(DynamicFontData v)
 	{
 		setFontData(v);
+	}
+	/**
+	The font outline's color.
+	$(B Note:) It's recommended to leave this at the default value so that you can adjust it in individual controls. For example, if the outline is made black here, it won't be possible to change its color using a Label's font outline modulate theme item.
+	*/
+	@property Color outlineColor()
+	{
+		return getOutlineColor();
+	}
+	/// ditto
+	@property void outlineColor(Color v)
+	{
+		setOutlineColor(v);
+	}
+	/**
+	The font outline's thickness in pixels (not relative to the font size).
+	*/
+	@property long outlineSize()
+	{
+		return getOutlineSize();
+	}
+	/// ditto
+	@property void outlineSize(long v)
+	{
+		setOutlineSize(v);
+	}
+	/**
+	The font size in pixels.
+	*/
+	@property long size()
+	{
+		return getSize();
+	}
+	/// ditto
+	@property void size(long v)
+	{
+		setSize(v);
+	}
+	/**
+	If `true`, filtering is used. This makes the font blurry instead of pixelated when scaling it if font oversampling is disabled or ineffective. It's recommended to enable this when using the font in a control whose size changes over time, unless a pixel art aesthetic is desired.
+	*/
+	@property bool useFilter()
+	{
+		return getUseFilter();
+	}
+	/// ditto
+	@property void useFilter(bool v)
+	{
+		setUseFilter(v);
+	}
+	/**
+	If `true`, mipmapping is used. This improves the font's appearance when downscaling it if font oversampling is disabled or ineffective.
+	*/
+	@property bool useMipmaps()
+	{
+		return getUseMipmaps();
+	}
+	/// ditto
+	@property void useMipmaps(bool v)
+	{
+		setUseMipmaps(v);
 	}
 }

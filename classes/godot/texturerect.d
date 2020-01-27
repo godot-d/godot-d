@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
-import godot.texture;
 import godot.canvasitem;
 import godot.node;
+import godot.texture;
 /**
 Control for drawing textures.
 
@@ -41,12 +41,17 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
-		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
-		@GodotName("has_expand") GodotMethod!(bool) hasExpand;
-		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
+		@GodotName("_texture_changed") GodotMethod!(void) _textureChanged;
 		@GodotName("get_stretch_mode") GodotMethod!(TextureRect.StretchMode) getStretchMode;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("has_expand") GodotMethod!(bool) hasExpand;
+		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
+		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
+		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
+		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
+		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
+		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 	}
 	bool opEquals(in TextureRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextureRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,7 +69,7 @@ public:
 	enum StretchMode : int
 	{
 		/**
-		Scale to fit the node's bounding rectangle, only if `expand` is `true`. Default `stretch_mode`, for backwards compatibility. Until you set `expand` to `true`, the texture will behave like `STRETCH_KEEP`.
+		Scale to fit the node's bounding rectangle, only if `expand` is `true`. Default `stretch_mode`, for backwards compatibility. Until you set `expand` to `true`, the texture will behave like $(D constant STRETCH_KEEP).
 		*/
 		stretchScaleOnExpand = 0,
 		/**
@@ -111,10 +116,19 @@ public:
 	/**
 	
 	*/
-	void setTexture(Texture texture)
+	void _textureChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_texture_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	TextureRect.StretchMode getStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		return ptrcall!(TextureRect.StretchMode)(_classBinding.getStretchMode, _godot_object);
 	}
 	/**
 	
@@ -127,6 +141,30 @@ public:
 	/**
 	
 	*/
+	bool hasExpand() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isFlippedH() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isFlippedV() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+	}
+	/**
+	
+	*/
 	void setExpand(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -135,10 +173,18 @@ public:
 	/**
 	
 	*/
-	bool hasExpand() const
+	void setFlipH(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
+		ptrcall!(void)(_classBinding.setFlipH, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setFlipV(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipV, _godot_object, enable);
 	}
 	/**
 	
@@ -151,25 +197,13 @@ public:
 	/**
 	
 	*/
-	TextureRect.StretchMode getStretchMode() const
+	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TextureRect.StretchMode)(_classBinding.getStretchMode, _godot_object);
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
 	}
 	/**
-	The node's $(D Texture) resource.
-	*/
-	@property Texture texture()
-	{
-		return getTexture();
-	}
-	/// ditto
-	@property void texture(Texture v)
-	{
-		setTexture(v);
-	}
-	/**
-	If `true`, the texture scales to fit its bounding rectangle. Default value: `false`.
+	If `true`, the texture scales to fit its bounding rectangle.
 	*/
 	@property bool expand()
 	{
@@ -179,6 +213,30 @@ public:
 	@property void expand(bool v)
 	{
 		setExpand(v);
+	}
+	/**
+	If `true`, texture is flipped horizontally.
+	*/
+	@property bool flipH()
+	{
+		return isFlippedH();
+	}
+	/// ditto
+	@property void flipH(bool v)
+	{
+		setFlipH(v);
+	}
+	/**
+	If `true`, texture is flipped vertically.
+	*/
+	@property bool flipV()
+	{
+		return isFlippedV();
+	}
+	/// ditto
+	@property void flipV(bool v)
+	{
+		setFlipV(v);
 	}
 	/**
 	Controls the texture's behavior when resizing the node's bounding rectangle. See $(D stretchmode).
@@ -191,5 +249,17 @@ public:
 	@property void stretchMode(long v)
 	{
 		setStretchMode(v);
+	}
+	/**
+	The node's $(D Texture) resource.
+	*/
+	@property Texture texture()
+	{
+		return getTexture();
+	}
+	/// ditto
+	@property void texture(Texture v)
+	{
+		setTexture(v);
 	}
 }

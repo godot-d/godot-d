@@ -20,11 +20,10 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.reference;
 /**
 Internationalized font and text drawing support.
 
-Font contains a unicode compatible character set, as well as the ability to draw it with variable width, ascent, descent and kerning. For creating fonts from TTF files (or other font formats), see the editor support for fonts.
+Font contains a Unicode-compatible character set, as well as the ability to draw it with variable width, ascent, descent and kerning. For creating fonts from TTF files (or other font formats), see the editor support for fonts.
 */
 @GodotBaseClass struct Font
 {
@@ -39,13 +38,14 @@ public:
 	{
 		__gshared:
 		@GodotName("draw") GodotMethod!(void, RID, Vector2, String, Color, long, Color) draw;
+		@GodotName("draw_char") GodotMethod!(double, RID, Vector2, long, long, Color, bool) drawChar;
 		@GodotName("get_ascent") GodotMethod!(double) getAscent;
 		@GodotName("get_descent") GodotMethod!(double) getDescent;
 		@GodotName("get_height") GodotMethod!(double) getHeight;
-		@GodotName("is_distance_field_hint") GodotMethod!(bool) isDistanceFieldHint;
 		@GodotName("get_string_size") GodotMethod!(Vector2, String) getStringSize;
+		@GodotName("get_wordwrap_string_size") GodotMethod!(Vector2, String, double) getWordwrapStringSize;
 		@GodotName("has_outline") GodotMethod!(bool) hasOutline;
-		@GodotName("draw_char") GodotMethod!(double, RID, Vector2, long, long, Color, bool) drawChar;
+		@GodotName("is_distance_field_hint") GodotMethod!(bool) isDistanceFieldHint;
 		@GodotName("update_changes") GodotMethod!(void) updateChanges;
 	}
 	bool opEquals(in Font other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -61,7 +61,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Draw "string" into a canvas item using the font at a given position, with "modulate" color, and optionally clipping the width. "position" specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis.
+	Draw `string` into a canvas item using the font at a given position, with `modulate` color, and optionally clipping the width. `position` specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis.
 	*/
 	void draw(in RID canvas_item, in Vector2 position, in String string, in Color modulate = Color(1,1,1,1), in long clip_w = -1, in Color outline_modulate = Color(1,1,1,1)) const
 	{
@@ -69,7 +69,15 @@ public:
 		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, string, modulate, clip_w, outline_modulate);
 	}
 	/**
-	Return the font ascent (number of pixels above the baseline).
+	Draw character `char` into a canvas item using the font at a given position, with `modulate` color, and optionally kerning if `next` is passed. clipping the width. `position` specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis. The width used by the character is returned, making this function useful for drawing strings character by character.
+	*/
+	double drawChar(in RID canvas_item, in Vector2 position, in long _char, in long next = -1, in Color modulate = Color(1,1,1,1), in bool outline = false) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.drawChar, _godot_object, canvas_item, position, _char, next, modulate, outline);
+	}
+	/**
+	Returns the font ascent (number of pixels above the baseline).
 	*/
 	double getAscent() const
 	{
@@ -77,7 +85,7 @@ public:
 		return ptrcall!(double)(_classBinding.getAscent, _godot_object);
 	}
 	/**
-	Return the font descent (number of pixels below the baseline).
+	Returns the font descent (number of pixels below the baseline).
 	*/
 	double getDescent() const
 	{
@@ -85,7 +93,7 @@ public:
 		return ptrcall!(double)(_classBinding.getDescent, _godot_object);
 	}
 	/**
-	Return the total font height (ascent plus descent) in pixels.
+	Returns the total font height (ascent plus descent) in pixels.
 	*/
 	double getHeight() const
 	{
@@ -93,15 +101,7 @@ public:
 		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
 	/**
-	
-	*/
-	bool isDistanceFieldHint() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDistanceFieldHint, _godot_object);
-	}
-	/**
-	Return the size of a string, taking kerning and advance into account.
+	Returns the size of a string, taking kerning and advance into account.
 	*/
 	Vector2 getStringSize(in String string) const
 	{
@@ -111,18 +111,26 @@ public:
 	/**
 	
 	*/
+	Vector2 getWordwrapStringSize(in String string, in double width) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getWordwrapStringSize, _godot_object, string, width);
+	}
+	/**
+	Returns `true` if the font has an outline.
+	*/
 	bool hasOutline() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.hasOutline, _godot_object);
 	}
 	/**
-	Draw character "char" into a canvas item using the font at a given position, with "modulate" color, and optionally kerning if "next" is passed. clipping the width. "position" specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis. The width used by the character is returned, making this function useful for drawing strings character by character.
+	
 	*/
-	double drawChar(in RID canvas_item, in Vector2 position, in long _char, in long next = -1, in Color modulate = Color(1,1,1,1), in bool outline = false) const
+	bool isDistanceFieldHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.drawChar, _godot_object, canvas_item, position, _char, next, modulate, outline);
+		return ptrcall!(bool)(_classBinding.isDistanceFieldHint, _godot_object);
 	}
 	/**
 	After editing a font (changing size, ascent, char rects, etc.). Call this function to propagate changes to controls that might use it.

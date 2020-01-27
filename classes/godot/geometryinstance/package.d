@@ -1,5 +1,5 @@
 /**
-Base node for geometry based visual instances.
+Base node for geometry-based visual instances.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.visualinstance;
 import godot.material;
-import godot.spatial;
-import godot.node;
 /**
-Base node for geometry based visual instances.
+Base node for geometry-based visual instances.
 
 Shares some common functionality like visibility and custom materials.
 */
@@ -40,22 +38,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_material_override") GodotMethod!(void, Material) setMaterialOverride;
-		@GodotName("get_material_override") GodotMethod!(Material) getMaterialOverride;
-		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
-		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
-		@GodotName("set_cast_shadows_setting") GodotMethod!(void, long) setCastShadowsSetting;
 		@GodotName("get_cast_shadows_setting") GodotMethod!(GeometryInstance.ShadowCastingSetting) getCastShadowsSetting;
-		@GodotName("set_lod_max_hysteresis") GodotMethod!(void, double) setLodMaxHysteresis;
-		@GodotName("get_lod_max_hysteresis") GodotMethod!(double) getLodMaxHysteresis;
-		@GodotName("set_lod_max_distance") GodotMethod!(void, double) setLodMaxDistance;
-		@GodotName("get_lod_max_distance") GodotMethod!(double) getLodMaxDistance;
-		@GodotName("set_lod_min_hysteresis") GodotMethod!(void, double) setLodMinHysteresis;
-		@GodotName("get_lod_min_hysteresis") GodotMethod!(double) getLodMinHysteresis;
-		@GodotName("set_lod_min_distance") GodotMethod!(void, double) setLodMinDistance;
-		@GodotName("get_lod_min_distance") GodotMethod!(double) getLodMinDistance;
-		@GodotName("set_extra_cull_margin") GodotMethod!(void, double) setExtraCullMargin;
 		@GodotName("get_extra_cull_margin") GodotMethod!(double) getExtraCullMargin;
+		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
+		@GodotName("get_lod_max_distance") GodotMethod!(double) getLodMaxDistance;
+		@GodotName("get_lod_max_hysteresis") GodotMethod!(double) getLodMaxHysteresis;
+		@GodotName("get_lod_min_distance") GodotMethod!(double) getLodMinDistance;
+		@GodotName("get_lod_min_hysteresis") GodotMethod!(double) getLodMinHysteresis;
+		@GodotName("get_material_override") GodotMethod!(Material) getMaterialOverride;
+		@GodotName("set_cast_shadows_setting") GodotMethod!(void, long) setCastShadowsSetting;
+		@GodotName("set_custom_aabb") GodotMethod!(void, AABB) setCustomAabb;
+		@GodotName("set_extra_cull_margin") GodotMethod!(void, double) setExtraCullMargin;
+		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
+		@GodotName("set_lod_max_distance") GodotMethod!(void, double) setLodMaxDistance;
+		@GodotName("set_lod_max_hysteresis") GodotMethod!(void, double) setLodMaxHysteresis;
+		@GodotName("set_lod_min_distance") GodotMethod!(void, double) setLodMinDistance;
+		@GodotName("set_lod_min_hysteresis") GodotMethod!(void, double) setLodMinHysteresis;
+		@GodotName("set_material_override") GodotMethod!(void, Material) setMaterialOverride;
 	}
 	bool opEquals(in GeometryInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GeometryInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -73,12 +72,15 @@ public:
 	enum Flags : int
 	{
 		/**
-		Will allow the GeometryInstance to be used when baking lights using a $(D GIProbe) and/or any other form of baked lighting.
-		Added documentation for GeometryInstance and VisualInstance
+		Will allow the GeometryInstance to be used when baking lights using a $(D GIProbe) or $(D BakedLightmap).
 		*/
 		flagUseBakedLight = 0,
 		/**
-		
+		Unused in this class, exposed for consistency with $(D VisualServer.instanceflags).
+		*/
+		flagDrawNextFrameIfVisible = 1,
+		/**
+		Represents the size of the $(D flags) enum.
 		*/
 		flagMax = 2,
 	}
@@ -101,59 +103,20 @@ public:
 		shadowCastingSettingDoubleSided = 2,
 		/**
 		Will only show the shadows casted from this object.
-		In other words: The actual mesh will not be visible, only the shadows casted from the mesh.
+		In other words, the actual mesh will not be visible, only the shadows casted from the mesh will be.
 		*/
 		shadowCastingSettingShadowsOnly = 3,
 	}
 	/// 
 	enum Constants : int
 	{
-		shadowCastingSettingOff = 0,
 		flagUseBakedLight = 0,
+		shadowCastingSettingOff = 0,
+		flagDrawNextFrameIfVisible = 1,
 		shadowCastingSettingOn = 1,
 		flagMax = 2,
 		shadowCastingSettingDoubleSided = 2,
 		shadowCastingSettingShadowsOnly = 3,
-	}
-	/**
-	
-	*/
-	void setMaterialOverride(Material material)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterialOverride, _godot_object, material);
-	}
-	/**
-	
-	*/
-	Ref!Material getMaterialOverride() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterialOverride, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFlag(in long flag, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, value);
-	}
-	/**
-	
-	*/
-	bool getFlag(in long flag) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void setCastShadowsSetting(in long shadow_casting_setting)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCastShadowsSetting, _godot_object, shadow_casting_setting);
 	}
 	/**
 	
@@ -166,26 +129,18 @@ public:
 	/**
 	
 	*/
-	void setLodMaxHysteresis(in double mode)
+	double getExtraCullMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLodMaxHysteresis, _godot_object, mode);
+		return ptrcall!(double)(_classBinding.getExtraCullMargin, _godot_object);
 	}
 	/**
-	
+	Returns the $(D GeometryInstance.flags) that have been set for this object.
 	*/
-	double getLodMaxHysteresis() const
+	bool getFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLodMaxHysteresis, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLodMaxDistance(in double mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLodMaxDistance, _godot_object, mode);
+		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
 	}
 	/**
 	
@@ -198,26 +153,10 @@ public:
 	/**
 	
 	*/
-	void setLodMinHysteresis(in double mode)
+	double getLodMaxHysteresis() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLodMinHysteresis, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	double getLodMinHysteresis() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLodMinHysteresis, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLodMinDistance(in double mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLodMinDistance, _godot_object, mode);
+		return ptrcall!(double)(_classBinding.getLodMaxHysteresis, _godot_object);
 	}
 	/**
 	
@@ -230,21 +169,93 @@ public:
 	/**
 	
 	*/
+	double getLodMinHysteresis() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLodMinHysteresis, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Material getMaterialOverride() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.getMaterialOverride, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCastShadowsSetting(in long shadow_casting_setting)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCastShadowsSetting, _godot_object, shadow_casting_setting);
+	}
+	/**
+	Overrides the bounding box of this node with a custom one. To remove it, set an $(D AABB) with all fields set to zero.
+	*/
+	void setCustomAabb(in AABB aabb)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomAabb, _godot_object, aabb);
+	}
+	/**
+	
+	*/
 	void setExtraCullMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setExtraCullMargin, _godot_object, margin);
 	}
 	/**
-	
+	Sets the $(D GeometryInstance.flags) specified. See $(D GeometryInstance.flags) for options.
 	*/
-	double getExtraCullMargin() const
+	void setFlag(in long flag, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getExtraCullMargin, _godot_object);
+		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, value);
 	}
 	/**
-	The selected shadow casting flag. See SHADOW_CASTING_SETTING_* constants for values.
+	
+	*/
+	void setLodMaxDistance(in double mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLodMaxDistance, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setLodMaxHysteresis(in double mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLodMaxHysteresis, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setLodMinDistance(in double mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLodMinDistance, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setLodMinHysteresis(in double mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLodMinHysteresis, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setMaterialOverride(Material material)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterialOverride, _godot_object, material);
+	}
+	/**
+	The selected shadow casting flag. See $(D shadowcastingsetting) for possible values.
 	*/
 	@property GeometryInstance.ShadowCastingSetting castShadow()
 	{
@@ -268,43 +279,8 @@ public:
 		setExtraCullMargin(v);
 	}
 	/**
-	If `true`, this GeometryInstance will be used when baking lights using a $(D GIProbe) and/or any other form of baked lighting.
-	*/
-	@property bool useInBakedLight()
-	{
-		return getFlag(0);
-	}
-	/// ditto
-	@property void useInBakedLight(bool v)
-	{
-		setFlag(0, v);
-	}
-	/**
-	The GeometryInstance's min LOD distance.
-	*/
-	@property double lodMinDistance()
-	{
-		return getLodMinDistance();
-	}
-	/// ditto
-	@property void lodMinDistance(double v)
-	{
-		setLodMinDistance(v);
-	}
-	/**
-	The GeometryInstance's min LOD margin.
-	*/
-	@property double lodMinHysteresis()
-	{
-		return getLodMinHysteresis();
-	}
-	/// ditto
-	@property void lodMinHysteresis(double v)
-	{
-		setLodMinHysteresis(v);
-	}
-	/**
 	The GeometryInstance's max LOD distance.
+	$(B Note:) This property currently has no effect.
 	*/
 	@property double lodMaxDistance()
 	{
@@ -317,6 +293,7 @@ public:
 	}
 	/**
 	The GeometryInstance's max LOD margin.
+	$(B Note:) This property currently has no effect.
 	*/
 	@property double lodMaxHysteresis()
 	{
@@ -326,5 +303,43 @@ public:
 	@property void lodMaxHysteresis(double v)
 	{
 		setLodMaxHysteresis(v);
+	}
+	/**
+	The GeometryInstance's min LOD distance.
+	$(B Note:) This property currently has no effect.
+	*/
+	@property double lodMinDistance()
+	{
+		return getLodMinDistance();
+	}
+	/// ditto
+	@property void lodMinDistance(double v)
+	{
+		setLodMinDistance(v);
+	}
+	/**
+	The GeometryInstance's min LOD margin.
+	$(B Note:) This property currently has no effect.
+	*/
+	@property double lodMinHysteresis()
+	{
+		return getLodMinHysteresis();
+	}
+	/// ditto
+	@property void lodMinHysteresis(double v)
+	{
+		setLodMinHysteresis(v);
+	}
+	/**
+	If `true`, this GeometryInstance will be used when baking lights using a $(D GIProbe) or $(D BakedLightmap).
+	*/
+	@property bool useInBakedLight()
+	{
+		return getFlag(0);
+	}
+	/// ditto
+	@property void useInBakedLight(bool v)
+	{
+		setFlag(0, v);
 	}
 }

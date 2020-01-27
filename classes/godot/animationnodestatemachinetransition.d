@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -37,18 +36,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_switch_mode") GodotMethod!(void, long) setSwitchMode;
-		@GodotName("get_switch_mode") GodotMethod!(AnimationNodeStateMachineTransition.SwitchMode) getSwitchMode;
-		@GodotName("set_auto_advance") GodotMethod!(void, bool) setAutoAdvance;
-		@GodotName("has_auto_advance") GodotMethod!(bool) hasAutoAdvance;
-		@GodotName("set_advance_condition") GodotMethod!(void, String) setAdvanceCondition;
 		@GodotName("get_advance_condition") GodotMethod!(String) getAdvanceCondition;
-		@GodotName("set_xfade_time") GodotMethod!(void, double) setXfadeTime;
-		@GodotName("get_xfade_time") GodotMethod!(double) getXfadeTime;
-		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
-		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
-		@GodotName("set_priority") GodotMethod!(void, long) setPriority;
 		@GodotName("get_priority") GodotMethod!(long) getPriority;
+		@GodotName("get_switch_mode") GodotMethod!(AnimationNodeStateMachineTransition.SwitchMode) getSwitchMode;
+		@GodotName("get_xfade_time") GodotMethod!(double) getXfadeTime;
+		@GodotName("has_auto_advance") GodotMethod!(bool) hasAutoAdvance;
+		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
+		@GodotName("set_advance_condition") GodotMethod!(void, String) setAdvanceCondition;
+		@GodotName("set_auto_advance") GodotMethod!(void, bool) setAutoAdvance;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_priority") GodotMethod!(void, long) setPriority;
+		@GodotName("set_switch_mode") GodotMethod!(void, long) setSwitchMode;
+		@GodotName("set_xfade_time") GodotMethod!(void, double) setXfadeTime;
 	}
 	bool opEquals(in AnimationNodeStateMachineTransition other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeStateMachineTransition opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -88,10 +87,18 @@ public:
 	/**
 	
 	*/
-	void setSwitchMode(in long mode)
+	String getAdvanceCondition() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSwitchMode, _godot_object, mode);
+		return ptrcall!(String)(_classBinding.getAdvanceCondition, _godot_object);
+	}
+	/**
+	
+	*/
+	long getPriority() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPriority, _godot_object);
 	}
 	/**
 	
@@ -104,10 +111,10 @@ public:
 	/**
 	
 	*/
-	void setAutoAdvance(in bool auto_advance)
+	double getXfadeTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoAdvance, _godot_object, auto_advance);
+		return ptrcall!(double)(_classBinding.getXfadeTime, _godot_object);
 	}
 	/**
 	
@@ -120,6 +127,14 @@ public:
 	/**
 	
 	*/
+	bool isDisabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+	}
+	/**
+	
+	*/
 	void setAdvanceCondition(in String name)
 	{
 		checkClassBinding!(typeof(this))();
@@ -128,26 +143,10 @@ public:
 	/**
 	
 	*/
-	String getAdvanceCondition() const
+	void setAutoAdvance(in bool auto_advance)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAdvanceCondition, _godot_object);
-	}
-	/**
-	
-	*/
-	void setXfadeTime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setXfadeTime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	double getXfadeTime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getXfadeTime, _godot_object);
+		ptrcall!(void)(_classBinding.setAutoAdvance, _godot_object, auto_advance);
 	}
 	/**
 	
@@ -160,14 +159,6 @@ public:
 	/**
 	
 	*/
-	bool isDisabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
-	}
-	/**
-	
-	*/
 	void setPriority(in long priority)
 	{
 		checkClassBinding!(typeof(this))();
@@ -176,37 +167,26 @@ public:
 	/**
 	
 	*/
-	long getPriority() const
+	void setSwitchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPriority, _godot_object);
+		ptrcall!(void)(_classBinding.setSwitchMode, _godot_object, mode);
 	}
 	/**
-	The transition type.
+	
 	*/
-	@property AnimationNodeStateMachineTransition.SwitchMode switchMode()
+	void setXfadeTime(in double secs)
 	{
-		return getSwitchMode();
-	}
-	/// ditto
-	@property void switchMode(long v)
-	{
-		setSwitchMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setXfadeTime, _godot_object, secs);
 	}
 	/**
-	Turn on the transition automatically when this state is reached. This works best with `SWITCH_MODE_AT_END`.
-	*/
-	@property bool autoAdvance()
-	{
-		return hasAutoAdvance();
-	}
-	/// ditto
-	@property void autoAdvance(bool v)
-	{
-		setAutoAdvance(v);
-	}
-	/**
-	Turn on auto advance when this condition is set. This is a custom text field that can be filled with a variable name. The variable can be modified from code.
+	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/latest/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:
+	
+	
+	$animation_tree$(D "parameters/conditions/idle") = is_on_floor and (linear_velocity.x == 0)
+	
+	
 	*/
 	@property String advanceCondition()
 	{
@@ -218,16 +198,28 @@ public:
 		setAdvanceCondition(v);
 	}
 	/**
-	The time to cross-fade between this state and the next.
+	Turn on the transition automatically when this state is reached. This works best with $(D constant SWITCH_MODE_AT_END).
 	*/
-	@property double xfadeTime()
+	@property bool autoAdvance()
 	{
-		return getXfadeTime();
+		return hasAutoAdvance();
 	}
 	/// ditto
-	@property void xfadeTime(double v)
+	@property void autoAdvance(bool v)
 	{
-		setXfadeTime(v);
+		setAutoAdvance(v);
+	}
+	/**
+	Don't use this transition during $(D AnimationNodeStateMachinePlayback.travel) or $(D autoAdvance).
+	*/
+	@property bool disabled()
+	{
+		return isDisabled();
+	}
+	/// ditto
+	@property void disabled(bool v)
+	{
+		setDisabled(v);
 	}
 	/**
 	Lower priority transitions are preferred when travelling through the tree via $(D AnimationNodeStateMachinePlayback.travel) or $(D autoAdvance).
@@ -242,15 +234,27 @@ public:
 		setPriority(v);
 	}
 	/**
-	Don't use this transition during $(D AnimationNodeStateMachinePlayback.travel) or $(D autoAdvance).
+	The transition type.
 	*/
-	@property bool disabled()
+	@property AnimationNodeStateMachineTransition.SwitchMode switchMode()
 	{
-		return isDisabled();
+		return getSwitchMode();
 	}
 	/// ditto
-	@property void disabled(bool v)
+	@property void switchMode(long v)
 	{
-		setDisabled(v);
+		setSwitchMode(v);
+	}
+	/**
+	The time to cross-fade between this state and the next.
+	*/
+	@property double xfadeTime()
+	{
+		return getXfadeTime();
+	}
+	/// ditto
+	@property void xfadeTime(double v)
+	{
+		setXfadeTime(v);
 	}
 }

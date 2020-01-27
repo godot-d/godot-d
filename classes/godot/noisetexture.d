@@ -21,15 +21,21 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
-import godot.opensimplexnoise;
 import godot.image;
-import godot.resource;
-import godot.reference;
+import godot.opensimplexnoise;
 /**
 $(D OpenSimplexNoise) filled texture.
 
 Uses an $(D OpenSimplexNoise) to fill the texture data. You can specify the texture size but keep in mind that larger textures will take longer to generate and seamless noise only works with square sized textures.
 NoiseTexture can also generate normalmap textures.
+The class uses $(D Thread)s to generate the texture data internally, so $(D Texture.getData) may return `null` if the generation process has not completed yet. In that case, you need to wait for the texture to be generated before accessing the data:
+
+
+var texture = preload("res://noise.tres")
+yield(texture, "changed")
+var image = texture.get_data()
+
+
 */
 @GodotBaseClass struct NoiseTexture
 {
@@ -43,19 +49,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_width") GodotMethod!(void, long) setWidth;
+		@GodotName("_generate_texture") GodotMethod!(Image) _generateTexture;
+		@GodotName("_queue_update") GodotMethod!(void) _queueUpdate;
+		@GodotName("_thread_done") GodotMethod!(void, Image) _threadDone;
+		@GodotName("_update_texture") GodotMethod!(void) _updateTexture;
+		@GodotName("get_bump_strength") GodotMethod!(double) getBumpStrength;
+		@GodotName("get_noise") GodotMethod!(OpenSimplexNoise) getNoise;
+		@GodotName("get_seamless") GodotMethod!(bool) getSeamless;
+		@GodotName("is_normalmap") GodotMethod!(bool) isNormalmap;
+		@GodotName("set_as_normalmap") GodotMethod!(void, bool) setAsNormalmap;
+		@GodotName("set_bump_strength") GodotMethod!(void, double) setBumpStrength;
 		@GodotName("set_height") GodotMethod!(void, long) setHeight;
 		@GodotName("set_noise") GodotMethod!(void, OpenSimplexNoise) setNoise;
-		@GodotName("get_noise") GodotMethod!(OpenSimplexNoise) getNoise;
 		@GodotName("set_seamless") GodotMethod!(void, bool) setSeamless;
-		@GodotName("get_seamless") GodotMethod!(bool) getSeamless;
-		@GodotName("set_as_normalmap") GodotMethod!(void, bool) setAsNormalmap;
-		@GodotName("is_normalmap") GodotMethod!(bool) isNormalmap;
-		@GodotName("set_bump_strength") GodotMethod!(void, double) setBumpStrength;
-		@GodotName("get_bump_strength") GodotMethod!(double) getBumpStrength;
-		@GodotName("_update_texture") GodotMethod!(void) _updateTexture;
-		@GodotName("_generate_texture") GodotMethod!(Image) _generateTexture;
-		@GodotName("_thread_done") GodotMethod!(void, Image) _threadDone;
+		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 	}
 	bool opEquals(in NoiseTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NoiseTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,10 +79,87 @@ public:
 	/**
 	
 	*/
-	void setWidth(in long width)
+	Ref!Image _generateTexture()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_generate_texture");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Image);
+	}
+	/**
+	
+	*/
+	void _queueUpdate()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_queue_update");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _threadDone(Image image)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(image);
+		String _GODOT_method_name = String("_thread_done");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _updateTexture()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_texture");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	double getBumpStrength()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		return ptrcall!(double)(_classBinding.getBumpStrength, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!OpenSimplexNoise getNoise()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(OpenSimplexNoise)(_classBinding.getNoise, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getSeamless()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getSeamless, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isNormalmap()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isNormalmap, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAsNormalmap(in bool as_normalmap)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsNormalmap, _godot_object, as_normalmap);
+	}
+	/**
+	
+	*/
+	void setBumpStrength(in double bump_strength)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBumpStrength, _godot_object, bump_strength);
 	}
 	/**
 	
@@ -96,14 +180,6 @@ public:
 	/**
 	
 	*/
-	Ref!OpenSimplexNoise getNoise()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(OpenSimplexNoise)(_classBinding.getNoise, _godot_object);
-	}
-	/**
-	
-	*/
 	void setSeamless(in bool seamless)
 	{
 		checkClassBinding!(typeof(this))();
@@ -112,106 +188,10 @@ public:
 	/**
 	
 	*/
-	bool getSeamless()
+	void setWidth(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSeamless, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAsNormalmap(in bool as_normalmap)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsNormalmap, _godot_object, as_normalmap);
-	}
-	/**
-	
-	*/
-	bool isNormalmap()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNormalmap, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBumpStrength(in double bump_strength)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBumpStrength, _godot_object, bump_strength);
-	}
-	/**
-	
-	*/
-	double getBumpStrength()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBumpStrength, _godot_object);
-	}
-	/**
-	
-	*/
-	void _updateTexture()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update_texture");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Ref!Image _generateTexture()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_generate_texture");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Image);
-	}
-	/**
-	
-	*/
-	void _threadDone(Image image)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(image);
-		String _GODOT_method_name = String("_thread_done");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Width of the generated texture.
-	*/
-	@property long width()
-	{
-		return getWidth();
-	}
-	/// ditto
-	@property void width(long v)
-	{
-		setWidth(v);
-	}
-	/**
-	Height of the generated texture.
-	*/
-	@property long height()
-	{
-		return getHeight();
-	}
-	/// ditto
-	@property void height(long v)
-	{
-		setHeight(v);
-	}
-	/**
-	Whether the texture can be tiled without visible seams or not. Seamless textures take longer to generate.
-	*/
-	@property bool seamless()
-	{
-		return getSeamless();
-	}
-	/// ditto
-	@property void seamless(bool v)
-	{
-		setSeamless(v);
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
 	/**
 	If `true`, the resulting texture contains a normal map created from the original noise interpreted as a bump map.
@@ -226,7 +206,7 @@ public:
 		setAsNormalmap(v);
 	}
 	/**
-	
+	Strength of the bump maps used in this texture. A higher value will make the bump maps appear larger while a lower value will make them appear softer.
 	*/
 	@property double bumpStrength()
 	{
@@ -236,6 +216,18 @@ public:
 	@property void bumpStrength(double v)
 	{
 		setBumpStrength(v);
+	}
+	/**
+	Height of the generated texture.
+	*/
+	@property long height()
+	{
+		return getHeight();
+	}
+	/// ditto
+	@property void height(long v)
+	{
+		setHeight(v);
 	}
 	/**
 	The $(D OpenSimplexNoise) instance used to generate the noise.
@@ -248,5 +240,29 @@ public:
 	@property void noise(OpenSimplexNoise v)
 	{
 		setNoise(v);
+	}
+	/**
+	Whether the texture can be tiled without visible seams or not. Seamless textures take longer to generate.
+	*/
+	@property bool seamless()
+	{
+		return getSeamless();
+	}
+	/// ditto
+	@property void seamless(bool v)
+	{
+		setSeamless(v);
+	}
+	/**
+	Width of the generated texture.
+	*/
+	@property long width()
+	{
+		return getWidth();
+	}
+	/// ditto
+	@property void width(long v)
+	{
+		setWidth(v);
 	}
 }

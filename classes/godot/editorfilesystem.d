@@ -38,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("get_file_type") GodotMethod!(String, String) getFileType;
 		@GodotName("get_filesystem") GodotMethod!(EditorFileSystemDirectory) getFilesystem;
-		@GodotName("is_scanning") GodotMethod!(bool) isScanning;
+		@GodotName("get_filesystem_path") GodotMethod!(EditorFileSystemDirectory, String) getFilesystemPath;
 		@GodotName("get_scanning_progress") GodotMethod!(double) getScanningProgress;
+		@GodotName("is_scanning") GodotMethod!(bool) isScanning;
 		@GodotName("scan") GodotMethod!(void) scan;
 		@GodotName("scan_sources") GodotMethod!(void) scanSources;
 		@GodotName("update_file") GodotMethod!(void, String) updateFile;
-		@GodotName("get_filesystem_path") GodotMethod!(EditorFileSystemDirectory, String) getFilesystemPath;
-		@GodotName("get_file_type") GodotMethod!(String, String) getFileType;
 		@GodotName("update_script_classes") GodotMethod!(void) updateScriptClasses;
 	}
 	bool opEquals(in EditorFileSystem other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -61,7 +61,15 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Get the root directory object.
+	Gets the type of the file, given the full path.
+	*/
+	String getFileType(in String path) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getFileType, _godot_object, path);
+	}
+	/**
+	Gets the root directory object.
 	*/
 	EditorFileSystemDirectory getFilesystem()
 	{
@@ -69,20 +77,28 @@ public:
 		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystem, _godot_object);
 	}
 	/**
-	Return `true` of the filesystem is being scanned.
+	Returns a view into the filesystem at `path`.
 	*/
-	bool isScanning() const
+	EditorFileSystemDirectory getFilesystemPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScanning, _godot_object);
+		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystemPath, _godot_object, path);
 	}
 	/**
-	Return the scan progress for 0 to 1 if the FS is being scanned.
+	Returns the scan progress for 0 to 1 if the FS is being scanned.
 	*/
 	double getScanningProgress() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getScanningProgress, _godot_object);
+	}
+	/**
+	Returns `true` of the filesystem is being scanned.
+	*/
+	bool isScanning() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScanning, _godot_object);
 	}
 	/**
 	Scan the filesystem for changes.
@@ -107,22 +123,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.updateFile, _godot_object, path);
-	}
-	/**
-	Returns a view into the filesystem at `path`.
-	*/
-	EditorFileSystemDirectory getFilesystemPath(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystemPath, _godot_object, path);
-	}
-	/**
-	Get the type of the file, given the full path.
-	*/
-	String getFileType(in String path) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFileType, _godot_object, path);
 	}
 	/**
 	

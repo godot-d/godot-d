@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.shape2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Node that represents collision shape data in 2D space.
 
@@ -41,15 +39,15 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shape") GodotMethod!(void, Shape2D) setShape;
-		@GodotName("get_shape") GodotMethod!(Shape2D) getShape;
-		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
-		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
-		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
-		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
-		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
-		@GodotName("get_one_way_collision_margin") GodotMethod!(double) getOneWayCollisionMargin;
 		@GodotName("_shape_changed") GodotMethod!(void) _shapeChanged;
+		@GodotName("get_one_way_collision_margin") GodotMethod!(double) getOneWayCollisionMargin;
+		@GodotName("get_shape") GodotMethod!(Shape2D) getShape;
+		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
+		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
+		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
+		@GodotName("set_shape") GodotMethod!(void, Shape2D) setShape;
 	}
 	bool opEquals(in CollisionShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,58 +64,11 @@ public:
 	/**
 	
 	*/
-	void setShape(Shape2D shape)
+	void _shapeChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	Ref!Shape2D getShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape2D)(_classBinding.getShape, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDisabled(in bool disabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
-	}
-	/**
-	
-	*/
-	bool isDisabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOneWayCollision(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	bool isOneWayCollisionEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOneWayCollisionEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOneWayCollisionMargin(in double margin)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_shape_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -130,23 +81,58 @@ public:
 	/**
 	
 	*/
-	void _shapeChanged()
+	Ref!Shape2D getShape() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_shape_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape2D)(_classBinding.getShape, _godot_object);
 	}
 	/**
-	The actual shape owned by this collision shape.
+	
 	*/
-	@property Shape2D shape()
+	bool isDisabled() const
 	{
-		return getShape();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
 	}
-	/// ditto
-	@property void shape(Shape2D v)
+	/**
+	
+	*/
+	bool isOneWayCollisionEnabled() const
 	{
-		setShape(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOneWayCollisionEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDisabled(in bool disabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+	}
+	/**
+	
+	*/
+	void setOneWayCollision(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setOneWayCollisionMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+	}
+	/**
+	
+	*/
+	void setShape(Shape2D shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
 	}
 	/**
 	A disabled collision shape has no effect in the world.
@@ -173,7 +159,7 @@ public:
 		setOneWayCollision(v);
 	}
 	/**
-	
+	The margin used for one-way collision (in pixels).
 	*/
 	@property double oneWayCollisionMargin()
 	{
@@ -183,5 +169,17 @@ public:
 	@property void oneWayCollisionMargin(double v)
 	{
 		setOneWayCollisionMargin(v);
+	}
+	/**
+	The actual shape owned by this collision shape.
+	*/
+	@property Shape2D shape()
+	{
+		return getShape();
+	}
+	/// ditto
+	@property void shape(Shape2D v)
+	{
+		setShape(v);
 	}
 }

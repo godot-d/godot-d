@@ -1,5 +1,5 @@
 /**
-
+Internal mesh type.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
+Internal mesh type.
 
+Mesh type used internally for collision calculations.
 */
 @GodotBaseClass struct TriangleMesh
 {

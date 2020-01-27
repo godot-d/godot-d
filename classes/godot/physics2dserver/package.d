@@ -1,5 +1,5 @@
 /**
-Physics 2D Server.
+Server interface for low-level 2D physics access.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -19,13 +19,13 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.physics2ddirectspacestate;
-import godot.physics2dtestmotionresult;
 import godot.physics2ddirectbodystate;
+import godot.physics2dtestmotionresult;
+import godot.physics2ddirectspacestate;
 /**
-Physics 2D Server.
+Server interface for low-level 2D physics access.
 
-Physics 2D Server is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
+Physics2DServer is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
 */
 @GodotBaseClass struct Physics2DServerSingleton
 {
@@ -41,108 +41,108 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "Physics2DServer";
-		@GodotName("line_shape_create") GodotMethod!(RID) lineShapeCreate;
-		@GodotName("ray_shape_create") GodotMethod!(RID) rayShapeCreate;
-		@GodotName("segment_shape_create") GodotMethod!(RID) segmentShapeCreate;
-		@GodotName("circle_shape_create") GodotMethod!(RID) circleShapeCreate;
-		@GodotName("rectangle_shape_create") GodotMethod!(RID) rectangleShapeCreate;
-		@GodotName("capsule_shape_create") GodotMethod!(RID) capsuleShapeCreate;
-		@GodotName("convex_polygon_shape_create") GodotMethod!(RID) convexPolygonShapeCreate;
-		@GodotName("concave_polygon_shape_create") GodotMethod!(RID) concavePolygonShapeCreate;
-		@GodotName("shape_set_data") GodotMethod!(void, RID, Variant) shapeSetData;
-		@GodotName("shape_get_type") GodotMethod!(Physics2DServer.ShapeType, RID) shapeGetType;
-		@GodotName("shape_get_data") GodotMethod!(Variant, RID) shapeGetData;
-		@GodotName("space_create") GodotMethod!(RID) spaceCreate;
-		@GodotName("space_set_active") GodotMethod!(void, RID, bool) spaceSetActive;
-		@GodotName("space_is_active") GodotMethod!(bool, RID) spaceIsActive;
-		@GodotName("space_set_param") GodotMethod!(void, RID, long, double) spaceSetParam;
-		@GodotName("space_get_param") GodotMethod!(double, RID, long) spaceGetParam;
-		@GodotName("space_get_direct_state") GodotMethod!(Physics2DDirectSpaceState, RID) spaceGetDirectState;
-		@GodotName("area_create") GodotMethod!(RID) areaCreate;
-		@GodotName("area_set_space") GodotMethod!(void, RID, RID) areaSetSpace;
-		@GodotName("area_get_space") GodotMethod!(RID, RID) areaGetSpace;
-		@GodotName("area_set_space_override_mode") GodotMethod!(void, RID, long) areaSetSpaceOverrideMode;
-		@GodotName("area_get_space_override_mode") GodotMethod!(Physics2DServer.AreaSpaceOverrideMode, RID) areaGetSpaceOverrideMode;
-		@GodotName("area_add_shape") GodotMethod!(void, RID, RID, Transform2D) areaAddShape;
-		@GodotName("area_set_shape") GodotMethod!(void, RID, long, RID) areaSetShape;
-		@GodotName("area_set_shape_transform") GodotMethod!(void, RID, long, Transform2D) areaSetShapeTransform;
-		@GodotName("area_set_shape_disabled") GodotMethod!(void, RID, long, bool) areaSetShapeDisabled;
-		@GodotName("area_get_shape_count") GodotMethod!(long, RID) areaGetShapeCount;
-		@GodotName("area_get_shape") GodotMethod!(RID, RID, long) areaGetShape;
-		@GodotName("area_get_shape_transform") GodotMethod!(Transform2D, RID, long) areaGetShapeTransform;
-		@GodotName("area_remove_shape") GodotMethod!(void, RID, long) areaRemoveShape;
+		@GodotName("area_add_shape") GodotMethod!(void, RID, RID, Transform2D, bool) areaAddShape;
+		@GodotName("area_attach_canvas_instance_id") GodotMethod!(void, RID, long) areaAttachCanvasInstanceId;
+		@GodotName("area_attach_object_instance_id") GodotMethod!(void, RID, long) areaAttachObjectInstanceId;
 		@GodotName("area_clear_shapes") GodotMethod!(void, RID) areaClearShapes;
+		@GodotName("area_create") GodotMethod!(RID) areaCreate;
+		@GodotName("area_get_canvas_instance_id") GodotMethod!(long, RID) areaGetCanvasInstanceId;
+		@GodotName("area_get_object_instance_id") GodotMethod!(long, RID) areaGetObjectInstanceId;
+		@GodotName("area_get_param") GodotMethod!(Variant, RID, long) areaGetParam;
+		@GodotName("area_get_shape") GodotMethod!(RID, RID, long) areaGetShape;
+		@GodotName("area_get_shape_count") GodotMethod!(long, RID) areaGetShapeCount;
+		@GodotName("area_get_shape_transform") GodotMethod!(Transform2D, RID, long) areaGetShapeTransform;
+		@GodotName("area_get_space") GodotMethod!(RID, RID) areaGetSpace;
+		@GodotName("area_get_space_override_mode") GodotMethod!(Physics2DServer.AreaSpaceOverrideMode, RID) areaGetSpaceOverrideMode;
+		@GodotName("area_get_transform") GodotMethod!(Transform2D, RID) areaGetTransform;
+		@GodotName("area_remove_shape") GodotMethod!(void, RID, long) areaRemoveShape;
+		@GodotName("area_set_area_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetAreaMonitorCallback;
 		@GodotName("area_set_collision_layer") GodotMethod!(void, RID, long) areaSetCollisionLayer;
 		@GodotName("area_set_collision_mask") GodotMethod!(void, RID, long) areaSetCollisionMask;
-		@GodotName("area_set_param") GodotMethod!(void, RID, long, Variant) areaSetParam;
-		@GodotName("area_set_transform") GodotMethod!(void, RID, Transform2D) areaSetTransform;
-		@GodotName("area_get_param") GodotMethod!(Variant, RID, long) areaGetParam;
-		@GodotName("area_get_transform") GodotMethod!(Transform2D, RID) areaGetTransform;
-		@GodotName("area_attach_object_instance_id") GodotMethod!(void, RID, long) areaAttachObjectInstanceId;
-		@GodotName("area_get_object_instance_id") GodotMethod!(long, RID) areaGetObjectInstanceId;
-		@GodotName("area_attach_canvas_instance_id") GodotMethod!(void, RID, long) areaAttachCanvasInstanceId;
-		@GodotName("area_get_canvas_instance_id") GodotMethod!(long, RID) areaGetCanvasInstanceId;
 		@GodotName("area_set_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetMonitorCallback;
-		@GodotName("area_set_area_monitor_callback") GodotMethod!(void, RID, GodotObject, String) areaSetAreaMonitorCallback;
 		@GodotName("area_set_monitorable") GodotMethod!(void, RID, bool) areaSetMonitorable;
-		@GodotName("body_create") GodotMethod!(RID) bodyCreate;
-		@GodotName("body_set_space") GodotMethod!(void, RID, RID) bodySetSpace;
-		@GodotName("body_get_space") GodotMethod!(RID, RID) bodyGetSpace;
-		@GodotName("body_set_mode") GodotMethod!(void, RID, long) bodySetMode;
-		@GodotName("body_get_mode") GodotMethod!(Physics2DServer.BodyMode, RID) bodyGetMode;
-		@GodotName("body_add_shape") GodotMethod!(void, RID, RID, Transform2D) bodyAddShape;
-		@GodotName("body_set_shape") GodotMethod!(void, RID, long, RID) bodySetShape;
-		@GodotName("body_set_shape_transform") GodotMethod!(void, RID, long, Transform2D) bodySetShapeTransform;
-		@GodotName("body_set_shape_metadata") GodotMethod!(void, RID, long, Variant) bodySetShapeMetadata;
-		@GodotName("body_get_shape_count") GodotMethod!(long, RID) bodyGetShapeCount;
-		@GodotName("body_get_shape") GodotMethod!(RID, RID, long) bodyGetShape;
-		@GodotName("body_get_shape_transform") GodotMethod!(Transform2D, RID, long) bodyGetShapeTransform;
-		@GodotName("body_get_shape_metadata") GodotMethod!(Variant, RID, long) bodyGetShapeMetadata;
-		@GodotName("body_remove_shape") GodotMethod!(void, RID, long) bodyRemoveShape;
-		@GodotName("body_clear_shapes") GodotMethod!(void, RID) bodyClearShapes;
-		@GodotName("body_set_shape_disabled") GodotMethod!(void, RID, long, bool) bodySetShapeDisabled;
-		@GodotName("body_set_shape_as_one_way_collision") GodotMethod!(void, RID, long, bool, double) bodySetShapeAsOneWayCollision;
-		@GodotName("body_attach_object_instance_id") GodotMethod!(void, RID, long) bodyAttachObjectInstanceId;
-		@GodotName("body_get_object_instance_id") GodotMethod!(long, RID) bodyGetObjectInstanceId;
-		@GodotName("body_attach_canvas_instance_id") GodotMethod!(void, RID, long) bodyAttachCanvasInstanceId;
-		@GodotName("body_get_canvas_instance_id") GodotMethod!(long, RID) bodyGetCanvasInstanceId;
-		@GodotName("body_set_continuous_collision_detection_mode") GodotMethod!(void, RID, long) bodySetContinuousCollisionDetectionMode;
-		@GodotName("body_get_continuous_collision_detection_mode") GodotMethod!(Physics2DServer.CCDMode, RID) bodyGetContinuousCollisionDetectionMode;
-		@GodotName("body_set_collision_layer") GodotMethod!(void, RID, long) bodySetCollisionLayer;
-		@GodotName("body_get_collision_layer") GodotMethod!(long, RID) bodyGetCollisionLayer;
-		@GodotName("body_set_collision_mask") GodotMethod!(void, RID, long) bodySetCollisionMask;
-		@GodotName("body_get_collision_mask") GodotMethod!(long, RID) bodyGetCollisionMask;
-		@GodotName("body_set_param") GodotMethod!(void, RID, long, double) bodySetParam;
-		@GodotName("body_get_param") GodotMethod!(double, RID, long) bodyGetParam;
-		@GodotName("body_set_state") GodotMethod!(void, RID, long, Variant) bodySetState;
-		@GodotName("body_get_state") GodotMethod!(Variant, RID, long) bodyGetState;
-		@GodotName("body_apply_central_impulse") GodotMethod!(void, RID, Vector2) bodyApplyCentralImpulse;
-		@GodotName("body_apply_torque_impulse") GodotMethod!(void, RID, double) bodyApplyTorqueImpulse;
-		@GodotName("body_apply_impulse") GodotMethod!(void, RID, Vector2, Vector2) bodyApplyImpulse;
+		@GodotName("area_set_param") GodotMethod!(void, RID, long, Variant) areaSetParam;
+		@GodotName("area_set_shape") GodotMethod!(void, RID, long, RID) areaSetShape;
+		@GodotName("area_set_shape_disabled") GodotMethod!(void, RID, long, bool) areaSetShapeDisabled;
+		@GodotName("area_set_shape_transform") GodotMethod!(void, RID, long, Transform2D) areaSetShapeTransform;
+		@GodotName("area_set_space") GodotMethod!(void, RID, RID) areaSetSpace;
+		@GodotName("area_set_space_override_mode") GodotMethod!(void, RID, long) areaSetSpaceOverrideMode;
+		@GodotName("area_set_transform") GodotMethod!(void, RID, Transform2D) areaSetTransform;
 		@GodotName("body_add_central_force") GodotMethod!(void, RID, Vector2) bodyAddCentralForce;
-		@GodotName("body_add_force") GodotMethod!(void, RID, Vector2, Vector2) bodyAddForce;
-		@GodotName("body_add_torque") GodotMethod!(void, RID, double) bodyAddTorque;
-		@GodotName("body_set_axis_velocity") GodotMethod!(void, RID, Vector2) bodySetAxisVelocity;
 		@GodotName("body_add_collision_exception") GodotMethod!(void, RID, RID) bodyAddCollisionException;
-		@GodotName("body_remove_collision_exception") GodotMethod!(void, RID, RID) bodyRemoveCollisionException;
-		@GodotName("body_set_max_contacts_reported") GodotMethod!(void, RID, long) bodySetMaxContactsReported;
-		@GodotName("body_get_max_contacts_reported") GodotMethod!(long, RID) bodyGetMaxContactsReported;
-		@GodotName("body_set_omit_force_integration") GodotMethod!(void, RID, bool) bodySetOmitForceIntegration;
-		@GodotName("body_is_omitting_force_integration") GodotMethod!(bool, RID) bodyIsOmittingForceIntegration;
-		@GodotName("body_set_force_integration_callback") GodotMethod!(void, RID, GodotObject, String, Variant) bodySetForceIntegrationCallback;
-		@GodotName("body_test_motion") GodotMethod!(bool, RID, Transform2D, Vector2, bool, double, Physics2DTestMotionResult) bodyTestMotion;
+		@GodotName("body_add_force") GodotMethod!(void, RID, Vector2, Vector2) bodyAddForce;
+		@GodotName("body_add_shape") GodotMethod!(void, RID, RID, Transform2D, bool) bodyAddShape;
+		@GodotName("body_add_torque") GodotMethod!(void, RID, double) bodyAddTorque;
+		@GodotName("body_apply_central_impulse") GodotMethod!(void, RID, Vector2) bodyApplyCentralImpulse;
+		@GodotName("body_apply_impulse") GodotMethod!(void, RID, Vector2, Vector2) bodyApplyImpulse;
+		@GodotName("body_apply_torque_impulse") GodotMethod!(void, RID, double) bodyApplyTorqueImpulse;
+		@GodotName("body_attach_canvas_instance_id") GodotMethod!(void, RID, long) bodyAttachCanvasInstanceId;
+		@GodotName("body_attach_object_instance_id") GodotMethod!(void, RID, long) bodyAttachObjectInstanceId;
+		@GodotName("body_clear_shapes") GodotMethod!(void, RID) bodyClearShapes;
+		@GodotName("body_create") GodotMethod!(RID) bodyCreate;
+		@GodotName("body_get_canvas_instance_id") GodotMethod!(long, RID) bodyGetCanvasInstanceId;
+		@GodotName("body_get_collision_layer") GodotMethod!(long, RID) bodyGetCollisionLayer;
+		@GodotName("body_get_collision_mask") GodotMethod!(long, RID) bodyGetCollisionMask;
+		@GodotName("body_get_continuous_collision_detection_mode") GodotMethod!(Physics2DServer.CCDMode, RID) bodyGetContinuousCollisionDetectionMode;
 		@GodotName("body_get_direct_state") GodotMethod!(Physics2DDirectBodyState, RID) bodyGetDirectState;
-		@GodotName("joint_set_param") GodotMethod!(void, RID, long, double) jointSetParam;
-		@GodotName("joint_get_param") GodotMethod!(double, RID, long) jointGetParam;
-		@GodotName("pin_joint_create") GodotMethod!(RID, Vector2, RID, RID) pinJointCreate;
-		@GodotName("groove_joint_create") GodotMethod!(RID, Vector2, Vector2, Vector2, RID, RID) grooveJointCreate;
+		@GodotName("body_get_max_contacts_reported") GodotMethod!(long, RID) bodyGetMaxContactsReported;
+		@GodotName("body_get_mode") GodotMethod!(Physics2DServer.BodyMode, RID) bodyGetMode;
+		@GodotName("body_get_object_instance_id") GodotMethod!(long, RID) bodyGetObjectInstanceId;
+		@GodotName("body_get_param") GodotMethod!(double, RID, long) bodyGetParam;
+		@GodotName("body_get_shape") GodotMethod!(RID, RID, long) bodyGetShape;
+		@GodotName("body_get_shape_count") GodotMethod!(long, RID) bodyGetShapeCount;
+		@GodotName("body_get_shape_metadata") GodotMethod!(Variant, RID, long) bodyGetShapeMetadata;
+		@GodotName("body_get_shape_transform") GodotMethod!(Transform2D, RID, long) bodyGetShapeTransform;
+		@GodotName("body_get_space") GodotMethod!(RID, RID) bodyGetSpace;
+		@GodotName("body_get_state") GodotMethod!(Variant, RID, long) bodyGetState;
+		@GodotName("body_is_omitting_force_integration") GodotMethod!(bool, RID) bodyIsOmittingForceIntegration;
+		@GodotName("body_remove_collision_exception") GodotMethod!(void, RID, RID) bodyRemoveCollisionException;
+		@GodotName("body_remove_shape") GodotMethod!(void, RID, long) bodyRemoveShape;
+		@GodotName("body_set_axis_velocity") GodotMethod!(void, RID, Vector2) bodySetAxisVelocity;
+		@GodotName("body_set_collision_layer") GodotMethod!(void, RID, long) bodySetCollisionLayer;
+		@GodotName("body_set_collision_mask") GodotMethod!(void, RID, long) bodySetCollisionMask;
+		@GodotName("body_set_continuous_collision_detection_mode") GodotMethod!(void, RID, long) bodySetContinuousCollisionDetectionMode;
+		@GodotName("body_set_force_integration_callback") GodotMethod!(void, RID, GodotObject, String, Variant) bodySetForceIntegrationCallback;
+		@GodotName("body_set_max_contacts_reported") GodotMethod!(void, RID, long) bodySetMaxContactsReported;
+		@GodotName("body_set_mode") GodotMethod!(void, RID, long) bodySetMode;
+		@GodotName("body_set_omit_force_integration") GodotMethod!(void, RID, bool) bodySetOmitForceIntegration;
+		@GodotName("body_set_param") GodotMethod!(void, RID, long, double) bodySetParam;
+		@GodotName("body_set_shape") GodotMethod!(void, RID, long, RID) bodySetShape;
+		@GodotName("body_set_shape_as_one_way_collision") GodotMethod!(void, RID, long, bool, double) bodySetShapeAsOneWayCollision;
+		@GodotName("body_set_shape_disabled") GodotMethod!(void, RID, long, bool) bodySetShapeDisabled;
+		@GodotName("body_set_shape_metadata") GodotMethod!(void, RID, long, Variant) bodySetShapeMetadata;
+		@GodotName("body_set_shape_transform") GodotMethod!(void, RID, long, Transform2D) bodySetShapeTransform;
+		@GodotName("body_set_space") GodotMethod!(void, RID, RID) bodySetSpace;
+		@GodotName("body_set_state") GodotMethod!(void, RID, long, Variant) bodySetState;
+		@GodotName("body_test_motion") GodotMethod!(bool, RID, Transform2D, Vector2, bool, double, Physics2DTestMotionResult) bodyTestMotion;
+		@GodotName("capsule_shape_create") GodotMethod!(RID) capsuleShapeCreate;
+		@GodotName("circle_shape_create") GodotMethod!(RID) circleShapeCreate;
+		@GodotName("concave_polygon_shape_create") GodotMethod!(RID) concavePolygonShapeCreate;
+		@GodotName("convex_polygon_shape_create") GodotMethod!(RID) convexPolygonShapeCreate;
 		@GodotName("damped_spring_joint_create") GodotMethod!(RID, Vector2, Vector2, RID, RID) dampedSpringJointCreate;
-		@GodotName("damped_string_joint_set_param") GodotMethod!(void, RID, long, double) dampedStringJointSetParam;
 		@GodotName("damped_string_joint_get_param") GodotMethod!(double, RID, long) dampedStringJointGetParam;
-		@GodotName("joint_get_type") GodotMethod!(Physics2DServer.JointType, RID) jointGetType;
+		@GodotName("damped_string_joint_set_param") GodotMethod!(void, RID, long, double) dampedStringJointSetParam;
 		@GodotName("free_rid") GodotMethod!(void, RID) freeRid;
-		@GodotName("set_active") GodotMethod!(void, bool) setActive;
 		@GodotName("get_process_info") GodotMethod!(long, long) getProcessInfo;
+		@GodotName("groove_joint_create") GodotMethod!(RID, Vector2, Vector2, Vector2, RID, RID) grooveJointCreate;
+		@GodotName("joint_get_param") GodotMethod!(double, RID, long) jointGetParam;
+		@GodotName("joint_get_type") GodotMethod!(Physics2DServer.JointType, RID) jointGetType;
+		@GodotName("joint_set_param") GodotMethod!(void, RID, long, double) jointSetParam;
+		@GodotName("line_shape_create") GodotMethod!(RID) lineShapeCreate;
+		@GodotName("pin_joint_create") GodotMethod!(RID, Vector2, RID, RID) pinJointCreate;
+		@GodotName("ray_shape_create") GodotMethod!(RID) rayShapeCreate;
+		@GodotName("rectangle_shape_create") GodotMethod!(RID) rectangleShapeCreate;
+		@GodotName("segment_shape_create") GodotMethod!(RID) segmentShapeCreate;
+		@GodotName("set_active") GodotMethod!(void, bool) setActive;
+		@GodotName("shape_get_data") GodotMethod!(Variant, RID) shapeGetData;
+		@GodotName("shape_get_type") GodotMethod!(Physics2DServer.ShapeType, RID) shapeGetType;
+		@GodotName("shape_set_data") GodotMethod!(void, RID, Variant) shapeSetData;
+		@GodotName("space_create") GodotMethod!(RID) spaceCreate;
+		@GodotName("space_get_direct_state") GodotMethod!(Physics2DDirectSpaceState, RID) spaceGetDirectState;
+		@GodotName("space_get_param") GodotMethod!(double, RID, long) spaceGetParam;
+		@GodotName("space_is_active") GodotMethod!(bool, RID) spaceIsActive;
+		@GodotName("space_set_active") GodotMethod!(void, RID, bool) spaceSetActive;
+		@GodotName("space_set_param") GodotMethod!(void, RID, long, double) spaceSetParam;
 	}
 	bool opEquals(in Physics2DServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Physics2DServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -188,15 +188,15 @@ public:
 	enum DampedStringParam : int
 	{
 		/**
-		Set the resting length of the spring joint. The joint will always try to go to back this length when pulled apart.
+		Sets the resting length of the spring joint. The joint will always try to go to back this length when pulled apart.
 		*/
 		dampedStringRestLength = 0,
 		/**
-		Set the stiffness of the spring joint. The joint applies a force equal to the stiffness times the distance from its resting length.
+		Sets the stiffness of the spring joint. The joint applies a force equal to the stiffness times the distance from its resting length.
 		*/
 		dampedStringStiffness = 1,
 		/**
-		Set the damping ratio of the spring joint. A value of 0 indicates an undamped spring, while 1 causes the system to reach equilibrium as fast as possible (critical damping).
+		Sets the damping ratio of the spring joint. A value of 0 indicates an undamped spring, while 1 causes the system to reach equilibrium as fast as possible (critical damping).
 		*/
 		dampedStringDamping = 2,
 	}
@@ -400,7 +400,7 @@ public:
 		*/
 		bodyParamAngularDamp = 6,
 		/**
-		This is the last ID for body parameters. Any attempt to set this property is ignored. Any attempt to get it returns 0.
+		Represents the size of the $(D bodyparameter) enum.
 		*/
 		bodyParamMax = 7,
 	}
@@ -448,7 +448,7 @@ public:
 		*/
 		areaParamGravityDistanceScale = 3,
 		/**
-		This constant was used to set/get the falloff factor for point gravity. It has been superseded by AREA_PARAM_GRAVITY_DISTANCE_SCALE.
+		This constant was used to set/get the falloff factor for point gravity. It has been superseded by $(D constant AREA_PARAM_GRAVITY_DISTANCE_SCALE).
 		*/
 		areaParamGravityPointAttenuation = 4,
 		/**
@@ -469,16 +469,16 @@ public:
 	{
 		dampedStringRestLength = 0,
 		bodyParamBounce = 0,
-		spaceParamContactRecycleRadius = 0,
 		ccdModeDisabled = 0,
+		spaceParamContactRecycleRadius = 0,
 		areaBodyAdded = 0,
 		bodyStateTransform = 0,
 		areaParamGravity = 0,
 		infoActiveObjects = 0,
 		jointParamBias = 0,
 		areaSpaceOverrideDisabled = 0,
-		shapeLine = 0,
 		jointPin = 0,
+		shapeLine = 0,
 		bodyModeStatic = 0,
 		areaBodyRemoved = 1,
 		jointGroove = 1,
@@ -489,8 +489,8 @@ public:
 		spaceParamContactMaxSeparation = 1,
 		jointParamMaxBias = 1,
 		areaParamGravityVector = 1,
-		shapeRay = 1,
 		bodyModeKinematic = 1,
+		shapeRay = 1,
 		dampedStringStiffness = 1,
 		infoCollisionPairs = 1,
 		spaceParamBodyMaxAllowedPenetration = 2,
@@ -499,27 +499,27 @@ public:
 		ccdModeCastShape = 2,
 		jointParamMaxForce = 2,
 		bodyStateAngularVelocity = 2,
-		shapeSegment = 2,
 		jointDampedSpring = 2,
 		bodyModeRigid = 2,
-		areaSpaceOverrideCombineReplace = 2,
 		bodyParamMass = 2,
+		shapeSegment = 2,
+		areaSpaceOverrideCombineReplace = 2,
 		areaParamGravityIsPoint = 2,
 		bodyParamInertia = 3,
 		areaSpaceOverrideReplace = 3,
 		shapeCircle = 3,
 		bodyModeCharacter = 3,
-		spaceParamBodyLinearVelocitySleepThreshold = 3,
 		areaParamGravityDistanceScale = 3,
+		spaceParamBodyLinearVelocitySleepThreshold = 3,
 		bodyStateSleeping = 3,
+		spaceParamBodyAngularVelocitySleepThreshold = 4,
 		areaParamGravityPointAttenuation = 4,
 		bodyParamGravityScale = 4,
 		areaSpaceOverrideReplaceCombine = 4,
 		bodyStateCanSleep = 4,
-		spaceParamBodyAngularVelocitySleepThreshold = 4,
 		shapeRectangle = 4,
-		spaceParamBodyTimeToSleep = 5,
 		bodyParamLinearDamp = 5,
+		spaceParamBodyTimeToSleep = 5,
 		areaParamLinearDamp = 5,
 		shapeCapsule = 5,
 		spaceParamConstraintDefaultBias = 6,
@@ -533,140 +533,36 @@ public:
 		shapeCustom = 8,
 	}
 	/**
-	
+	Adds a shape to the area, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
 	*/
-	RID lineShapeCreate()
+	void areaAddShape(in RID area, in RID shape, in Transform2D transform = Transform2D.init, in bool disabled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.lineShapeCreate, _godot_object);
+		ptrcall!(void)(_classBinding.areaAddShape, _godot_object, area, shape, transform, disabled);
 	}
 	/**
 	
 	*/
-	RID rayShapeCreate()
+	void areaAttachCanvasInstanceId(in RID area, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.rayShapeCreate, _godot_object);
+		ptrcall!(void)(_classBinding.areaAttachCanvasInstanceId, _godot_object, area, id);
 	}
 	/**
-	
+	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
 	*/
-	RID segmentShapeCreate()
+	void areaAttachObjectInstanceId(in RID area, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.segmentShapeCreate, _godot_object);
+		ptrcall!(void)(_classBinding.areaAttachObjectInstanceId, _godot_object, area, id);
 	}
 	/**
-	
+	Removes all shapes from an area. It does not delete the shapes, so they can be reassigned later.
 	*/
-	RID circleShapeCreate()
+	void areaClearShapes(in RID area)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.circleShapeCreate, _godot_object);
-	}
-	/**
-	
-	*/
-	RID rectangleShapeCreate()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.rectangleShapeCreate, _godot_object);
-	}
-	/**
-	
-	*/
-	RID capsuleShapeCreate()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.capsuleShapeCreate, _godot_object);
-	}
-	/**
-	
-	*/
-	RID convexPolygonShapeCreate()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.convexPolygonShapeCreate, _godot_object);
-	}
-	/**
-	
-	*/
-	RID concavePolygonShapeCreate()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.concavePolygonShapeCreate, _godot_object);
-	}
-	/**
-	Sets the shape data that defines its shape and size. The data to be passed depends on the kind of shape created $(D shapeGetType).
-	*/
-	void shapeSetData(VariantArg1)(in RID shape, in VariantArg1 data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeSetData, _godot_object, shape, data);
-	}
-	/**
-	Returns the type of shape (see SHAPE_* constants).
-	*/
-	Physics2DServer.ShapeType shapeGetType(in RID shape) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.ShapeType)(_classBinding.shapeGetType, _godot_object, shape);
-	}
-	/**
-	Returns the shape data.
-	*/
-	Variant shapeGetData(in RID shape) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.shapeGetData, _godot_object, shape);
-	}
-	/**
-	Creates a space. A space is a collection of parameters for the physics engine that can be assigned to an area or a body. It can be assigned to an area with $(D areaSetSpace), or to a body with $(D bodySetSpace).
-	*/
-	RID spaceCreate()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.spaceCreate, _godot_object);
-	}
-	/**
-	Marks a space as active. It will not have an effect, unless it is assigned to an area or body.
-	*/
-	void spaceSetActive(in RID space, in bool active)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.spaceSetActive, _godot_object, space, active);
-	}
-	/**
-	Returns whether the space is active.
-	*/
-	bool spaceIsActive(in RID space) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.spaceIsActive, _godot_object, space);
-	}
-	/**
-	Sets the value for a space parameter. A list of available parameters is on the SPACE_PARAM_* constants.
-	*/
-	void spaceSetParam(in RID space, in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.spaceSetParam, _godot_object, space, param, value);
-	}
-	/**
-	Returns the value of a space parameter.
-	*/
-	double spaceGetParam(in RID space, in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.spaceGetParam, _godot_object, space, param);
-	}
-	/**
-	Returns the state of a space, a $(D Physics2DDirectSpaceState). This object can be used to make collision/intersection queries.
-	*/
-	Physics2DDirectSpaceState spaceGetDirectState(in RID space)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DDirectSpaceState)(_classBinding.spaceGetDirectState, _godot_object, space);
+		ptrcall!(void)(_classBinding.areaClearShapes, _godot_object, area);
 	}
 	/**
 	Creates an $(D Area2D).
@@ -677,76 +573,28 @@ public:
 		return ptrcall!(RID)(_classBinding.areaCreate, _godot_object);
 	}
 	/**
-	Assigns a space to the area.
+	
 	*/
-	void areaSetSpace(in RID area, in RID space)
+	long areaGetCanvasInstanceId(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetSpace, _godot_object, area, space);
+		return ptrcall!(long)(_classBinding.areaGetCanvasInstanceId, _godot_object, area);
 	}
 	/**
-	Returns the space assigned to the area.
+	Gets the instance ID of the object the area is assigned to.
 	*/
-	RID areaGetSpace(in RID area) const
+	long areaGetObjectInstanceId(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.areaGetSpace, _godot_object, area);
+		return ptrcall!(long)(_classBinding.areaGetObjectInstanceId, _godot_object, area);
 	}
 	/**
-	Sets the space override mode for the area. The modes are described in the constants AREA_SPACE_OVERRIDE_*.
+	Returns an area parameter value. See $(D areaparameter) for a list of available parameters.
 	*/
-	void areaSetSpaceOverrideMode(in RID area, in long mode)
+	Variant areaGetParam(in RID area, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetSpaceOverrideMode, _godot_object, area, mode);
-	}
-	/**
-	Returns the space override mode for the area.
-	*/
-	Physics2DServer.AreaSpaceOverrideMode areaGetSpaceOverrideMode(in RID area) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.AreaSpaceOverrideMode)(_classBinding.areaGetSpaceOverrideMode, _godot_object, area);
-	}
-	/**
-	Adds a shape to the area, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
-	*/
-	void areaAddShape(in RID area, in RID shape, in Transform2D transform = Transform2D.init)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAddShape, _godot_object, area, shape, transform);
-	}
-	/**
-	Substitutes a given area shape by another. The old shape is selected by its index, the new one by its $(D RID).
-	*/
-	void areaSetShape(in RID area, in long shape_idx, in RID shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShape, _godot_object, area, shape_idx, shape);
-	}
-	/**
-	Sets the transform matrix for an area shape.
-	*/
-	void areaSetShapeTransform(in RID area, in long shape_idx, in Transform2D transform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShapeTransform, _godot_object, area, shape_idx, transform);
-	}
-	/**
-	Disables a given shape in an area.
-	*/
-	void areaSetShapeDisabled(in RID area, in long shape_idx, in bool disable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShapeDisabled, _godot_object, area, shape_idx, disable);
-	}
-	/**
-	Returns the number of shapes assigned to an area.
-	*/
-	long areaGetShapeCount(in RID area) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetShapeCount, _godot_object, area);
+		return ptrcall!(Variant)(_classBinding.areaGetParam, _godot_object, area, param);
 	}
 	/**
 	Returns the $(D RID) of the nth shape of an area.
@@ -757,12 +605,44 @@ public:
 		return ptrcall!(RID)(_classBinding.areaGetShape, _godot_object, area, shape_idx);
 	}
 	/**
+	Returns the number of shapes assigned to an area.
+	*/
+	long areaGetShapeCount(in RID area) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.areaGetShapeCount, _godot_object, area);
+	}
+	/**
 	Returns the transform matrix of a shape within an area.
 	*/
 	Transform2D areaGetShapeTransform(in RID area, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Transform2D)(_classBinding.areaGetShapeTransform, _godot_object, area, shape_idx);
+	}
+	/**
+	Returns the space assigned to the area.
+	*/
+	RID areaGetSpace(in RID area) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.areaGetSpace, _godot_object, area);
+	}
+	/**
+	Returns the space override mode for the area.
+	*/
+	Physics2DServer.AreaSpaceOverrideMode areaGetSpaceOverrideMode(in RID area) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Physics2DServer.AreaSpaceOverrideMode)(_classBinding.areaGetSpaceOverrideMode, _godot_object, area);
+	}
+	/**
+	Returns the transform matrix for an area.
+	*/
+	Transform2D areaGetTransform(in RID area) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.areaGetTransform, _godot_object, area);
 	}
 	/**
 	Removes a shape from an area. It does not delete the shape, so it can be reassigned later.
@@ -773,12 +653,12 @@ public:
 		ptrcall!(void)(_classBinding.areaRemoveShape, _godot_object, area, shape_idx);
 	}
 	/**
-	Removes all shapes from an area. It does not delete the shapes, so they can be reassigned later.
+	
 	*/
-	void areaClearShapes(in RID area)
+	void areaSetAreaMonitorCallback(in RID area, GodotObject receiver, in String method)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaClearShapes, _godot_object, area);
+		ptrcall!(void)(_classBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
 	}
 	/**
 	Assigns the area to one or many physics layers.
@@ -797,72 +677,8 @@ public:
 		ptrcall!(void)(_classBinding.areaSetCollisionMask, _godot_object, area, mask);
 	}
 	/**
-	Sets the value for an area parameter. A list of available parameters is on the AREA_PARAM_* constants.
-	*/
-	void areaSetParam(VariantArg2)(in RID area, in long param, in VariantArg2 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetParam, _godot_object, area, param, value);
-	}
-	/**
-	Sets the transform matrix for an area.
-	*/
-	void areaSetTransform(in RID area, in Transform2D transform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetTransform, _godot_object, area, transform);
-	}
-	/**
-	Returns an area parameter value. A list of available parameters is on the AREA_PARAM_* constants.
-	*/
-	Variant areaGetParam(in RID area, in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.areaGetParam, _godot_object, area, param);
-	}
-	/**
-	Returns the transform matrix for an area.
-	*/
-	Transform2D areaGetTransform(in RID area) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.areaGetTransform, _godot_object, area);
-	}
-	/**
-	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
-	*/
-	void areaAttachObjectInstanceId(in RID area, in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAttachObjectInstanceId, _godot_object, area, id);
-	}
-	/**
-	Gets the instance ID of the object the area is assigned to.
-	*/
-	long areaGetObjectInstanceId(in RID area) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetObjectInstanceId, _godot_object, area);
-	}
-	/**
-	
-	*/
-	void areaAttachCanvasInstanceId(in RID area, in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAttachCanvasInstanceId, _godot_object, area, id);
-	}
-	/**
-	
-	*/
-	long areaGetCanvasInstanceId(in RID area) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetCanvasInstanceId, _godot_object, area);
-	}
-	/**
 	Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters:
-	1: AREA_BODY_ADDED or AREA_BODY_REMOVED, depending on whether the object entered or exited the area.
+	1: $(D constant AREA_BODY_ADDED) or $(D constant AREA_BODY_REMOVED), depending on whether the object entered or exited the area.
 	2: $(D RID) of the object that entered/exited the area.
 	3: Instance ID of the object that entered/exited the area.
 	4: The shape index of the object that entered/exited the area.
@@ -876,267 +692,106 @@ public:
 	/**
 	
 	*/
-	void areaSetAreaMonitorCallback(in RID area, GodotObject receiver, in String method)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
-	}
-	/**
-	
-	*/
 	void areaSetMonitorable(in RID area, in bool monitorable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.areaSetMonitorable, _godot_object, area, monitorable);
 	}
 	/**
-	Creates a physics body. The first parameter can be any value from constants BODY_MODE*, for the type of body created. Additionally, the body can be created in sleeping state to save processing time.
+	Sets the value for an area parameter. See $(D areaparameter) for a list of available parameters.
 	*/
-	RID bodyCreate()
+	void areaSetParam(VariantArg2)(in RID area, in long param, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyCreate, _godot_object);
+		ptrcall!(void)(_classBinding.areaSetParam, _godot_object, area, param, value);
 	}
 	/**
-	Assigns a space to the body (see $(D spaceCreate)).
+	Substitutes a given area shape by another. The old shape is selected by its index, the new one by its $(D RID).
 	*/
-	void bodySetSpace(in RID _body, in RID space)
+	void areaSetShape(in RID area, in long shape_idx, in RID shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetSpace, _godot_object, _body, space);
+		ptrcall!(void)(_classBinding.areaSetShape, _godot_object, area, shape_idx, shape);
 	}
 	/**
-	Returns the $(D RID) of the space assigned to a body.
+	Disables a given shape in an area.
 	*/
-	RID bodyGetSpace(in RID _body) const
+	void areaSetShapeDisabled(in RID area, in long shape_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyGetSpace, _godot_object, _body);
+		ptrcall!(void)(_classBinding.areaSetShapeDisabled, _godot_object, area, shape_idx, disabled);
 	}
 	/**
-	Sets the body mode, from one of the constants BODY_MODE*.
+	Sets the transform matrix for an area shape.
 	*/
-	void bodySetMode(in RID _body, in long mode)
+	void areaSetShapeTransform(in RID area, in long shape_idx, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetMode, _godot_object, _body, mode);
+		ptrcall!(void)(_classBinding.areaSetShapeTransform, _godot_object, area, shape_idx, transform);
 	}
 	/**
-	Returns the body mode.
+	Assigns a space to the area.
 	*/
-	Physics2DServer.BodyMode bodyGetMode(in RID _body) const
+	void areaSetSpace(in RID area, in RID space)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.BodyMode)(_classBinding.bodyGetMode, _godot_object, _body);
+		ptrcall!(void)(_classBinding.areaSetSpace, _godot_object, area, space);
+	}
+	/**
+	Sets the space override mode for the area. See $(D areaspaceoverridemode) for a list of available modes.
+	*/
+	void areaSetSpaceOverrideMode(in RID area, in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetSpaceOverrideMode, _godot_object, area, mode);
+	}
+	/**
+	Sets the transform matrix for an area.
+	*/
+	void areaSetTransform(in RID area, in Transform2D transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.areaSetTransform, _godot_object, area, transform);
+	}
+	/**
+	
+	*/
+	void bodyAddCentralForce(in RID _body, in Vector2 force)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddCentralForce, _godot_object, _body, force);
+	}
+	/**
+	Adds a body to the list of bodies exempt from collisions.
+	*/
+	void bodyAddCollisionException(in RID _body, in RID excepted_body)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddCollisionException, _godot_object, _body, excepted_body);
+	}
+	/**
+	Adds a positioned force to the applied force and torque. As with $(D bodyApplyImpulse), both the force and the offset from the body origin are in global coordinates. A force differs from an impulse in that, while the two are forces, the impulse clears itself after being applied.
+	*/
+	void bodyAddForce(in RID _body, in Vector2 offset, in Vector2 force)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyAddForce, _godot_object, _body, offset, force);
 	}
 	/**
 	Adds a shape to the body, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
 	*/
-	void bodyAddShape(in RID _body, in RID shape, in Transform2D transform = Transform2D.init)
+	void bodyAddShape(in RID _body, in RID shape, in Transform2D transform = Transform2D.init, in bool disabled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddShape, _godot_object, _body, shape, transform);
-	}
-	/**
-	Substitutes a given body shape by another. The old shape is selected by its index, the new one by its $(D RID).
-	*/
-	void bodySetShape(in RID _body, in long shape_idx, in RID shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShape, _godot_object, _body, shape_idx, shape);
-	}
-	/**
-	Sets the transform matrix for a body shape.
-	*/
-	void bodySetShapeTransform(in RID _body, in long shape_idx, in Transform2D transform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeTransform, _godot_object, _body, shape_idx, transform);
-	}
-	/**
-	Sets metadata of a shape within a body. This metadata is different from $(D GodotObject.setMeta), and can be retrieved on shape queries.
-	*/
-	void bodySetShapeMetadata(VariantArg2)(in RID _body, in long shape_idx, in VariantArg2 metadata)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeMetadata, _godot_object, _body, shape_idx, metadata);
-	}
-	/**
-	Returns the number of shapes assigned to a body.
-	*/
-	long bodyGetShapeCount(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetShapeCount, _godot_object, _body);
-	}
-	/**
-	Returns the $(D RID) of the nth shape of a body.
-	*/
-	RID bodyGetShape(in RID _body, in long shape_idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyGetShape, _godot_object, _body, shape_idx);
-	}
-	/**
-	Returns the transform matrix of a body shape.
-	*/
-	Transform2D bodyGetShapeTransform(in RID _body, in long shape_idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.bodyGetShapeTransform, _godot_object, _body, shape_idx);
-	}
-	/**
-	Returns the metadata of a shape of a body.
-	*/
-	Variant bodyGetShapeMetadata(in RID _body, in long shape_idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.bodyGetShapeMetadata, _godot_object, _body, shape_idx);
-	}
-	/**
-	Removes a shape from a body. The shape is not deleted, so it can be reused afterwards.
-	*/
-	void bodyRemoveShape(in RID _body, in long shape_idx)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyRemoveShape, _godot_object, _body, shape_idx);
-	}
-	/**
-	Removes all shapes from a body.
-	*/
-	void bodyClearShapes(in RID _body)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyClearShapes, _godot_object, _body);
-	}
-	/**
-	Disables shape in body if `disable` is `true`.
-	*/
-	void bodySetShapeDisabled(in RID _body, in long shape_idx, in bool disable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeDisabled, _godot_object, _body, shape_idx, disable);
-	}
-	/**
-	Enables one way collision on body if `enable` is `true`.
-	*/
-	void bodySetShapeAsOneWayCollision(in RID _body, in long shape_idx, in bool enable, in double margin)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable, margin);
-	}
-	/**
-	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
-	*/
-	void bodyAttachObjectInstanceId(in RID _body, in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAttachObjectInstanceId, _godot_object, _body, id);
-	}
-	/**
-	Gets the instance ID of the object the area is assigned to.
-	*/
-	long bodyGetObjectInstanceId(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
+		ptrcall!(void)(_classBinding.bodyAddShape, _godot_object, _body, shape, transform, disabled);
 	}
 	/**
 	
 	*/
-	void bodyAttachCanvasInstanceId(in RID _body, in long id)
+	void bodyAddTorque(in RID _body, in double torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAttachCanvasInstanceId, _godot_object, _body, id);
-	}
-	/**
-	
-	*/
-	long bodyGetCanvasInstanceId(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCanvasInstanceId, _godot_object, _body);
-	}
-	/**
-	Sets the continuous collision detection mode from any of the CCD_MODE_* constants.
-	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
-	*/
-	void bodySetContinuousCollisionDetectionMode(in RID _body, in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetContinuousCollisionDetectionMode, _godot_object, _body, mode);
-	}
-	/**
-	Returns the continuous collision detection mode.
-	*/
-	Physics2DServer.CCDMode bodyGetContinuousCollisionDetectionMode(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.CCDMode)(_classBinding.bodyGetContinuousCollisionDetectionMode, _godot_object, _body);
-	}
-	/**
-	Sets the physics layer or layers a body belongs to.
-	*/
-	void bodySetCollisionLayer(in RID _body, in long layer)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetCollisionLayer, _godot_object, _body, layer);
-	}
-	/**
-	Returns the physics layer or layers a body belongs to.
-	*/
-	long bodyGetCollisionLayer(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCollisionLayer, _godot_object, _body);
-	}
-	/**
-	Sets the physics layer or layers a body can collide with.
-	*/
-	void bodySetCollisionMask(in RID _body, in long mask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetCollisionMask, _godot_object, _body, mask);
-	}
-	/**
-	Returns the physics layer or layers a body can collide with.
-	*/
-	long bodyGetCollisionMask(in RID _body) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCollisionMask, _godot_object, _body);
-	}
-	/**
-	Sets a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
-	*/
-	void bodySetParam(in RID _body, in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetParam, _godot_object, _body, param, value);
-	}
-	/**
-	Returns the value of a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
-	*/
-	double bodyGetParam(in RID _body, in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.bodyGetParam, _godot_object, _body, param);
-	}
-	/**
-	Sets a body state (see BODY_STATE* constants).
-	*/
-	void bodySetState(VariantArg2)(in RID _body, in long state, in VariantArg2 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetState, _godot_object, _body, state, value);
-	}
-	/**
-	Returns a body state.
-	*/
-	Variant bodyGetState(in RID _body, in long state) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.bodyGetState, _godot_object, _body, state);
+		ptrcall!(void)(_classBinding.bodyAddTorque, _godot_object, _body, torque);
 	}
 	/**
 	
@@ -1145,14 +800,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.bodyApplyCentralImpulse, _godot_object, _body, impulse);
-	}
-	/**
-	
-	*/
-	void bodyApplyTorqueImpulse(in RID _body, in double impulse)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyApplyTorqueImpulse, _godot_object, _body, impulse);
 	}
 	/**
 	Adds a positioned impulse to the applied force and torque. Both the force and the offset from the body origin are in global coordinates.
@@ -1165,98 +812,74 @@ public:
 	/**
 	
 	*/
-	void bodyAddCentralForce(in RID _body, in Vector2 force)
+	void bodyApplyTorqueImpulse(in RID _body, in double impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddCentralForce, _godot_object, _body, force);
-	}
-	/**
-	Adds a positioned force to the applied force and torque. As with $(D bodyApplyImpulse), both the force and the offset from the body origin are in global coordinates. A force differs from an impulse in that, while the two are forces, the impulse clears itself after being applied.
-	*/
-	void bodyAddForce(in RID _body, in Vector2 offset, in Vector2 force)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddForce, _godot_object, _body, offset, force);
+		ptrcall!(void)(_classBinding.bodyApplyTorqueImpulse, _godot_object, _body, impulse);
 	}
 	/**
 	
 	*/
-	void bodyAddTorque(in RID _body, in double torque)
+	void bodyAttachCanvasInstanceId(in RID _body, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddTorque, _godot_object, _body, torque);
+		ptrcall!(void)(_classBinding.bodyAttachCanvasInstanceId, _godot_object, _body, id);
 	}
 	/**
-	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
+	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
 	*/
-	void bodySetAxisVelocity(in RID _body, in Vector2 axis_velocity)
+	void bodyAttachObjectInstanceId(in RID _body, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetAxisVelocity, _godot_object, _body, axis_velocity);
+		ptrcall!(void)(_classBinding.bodyAttachObjectInstanceId, _godot_object, _body, id);
 	}
 	/**
-	Adds a body to the list of bodies exempt from collisions.
+	Removes all shapes from a body.
 	*/
-	void bodyAddCollisionException(in RID _body, in RID excepted_body)
+	void bodyClearShapes(in RID _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddCollisionException, _godot_object, _body, excepted_body);
+		ptrcall!(void)(_classBinding.bodyClearShapes, _godot_object, _body);
 	}
 	/**
-	Removes a body from the list of bodies exempt from collisions.
+	Creates a physics body.
 	*/
-	void bodyRemoveCollisionException(in RID _body, in RID excepted_body)
+	RID bodyCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyRemoveCollisionException, _godot_object, _body, excepted_body);
+		return ptrcall!(RID)(_classBinding.bodyCreate, _godot_object);
 	}
 	/**
-	Sets the maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
+	
 	*/
-	void bodySetMaxContactsReported(in RID _body, in long amount)
+	long bodyGetCanvasInstanceId(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetMaxContactsReported, _godot_object, _body, amount);
+		return ptrcall!(long)(_classBinding.bodyGetCanvasInstanceId, _godot_object, _body);
 	}
 	/**
-	Returns the maximum contacts that can be reported. See $(D bodySetMaxContactsReported).
+	Returns the physics layer or layers a body belongs to.
 	*/
-	long bodyGetMaxContactsReported(in RID _body) const
+	long bodyGetCollisionLayer(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetMaxContactsReported, _godot_object, _body);
+		return ptrcall!(long)(_classBinding.bodyGetCollisionLayer, _godot_object, _body);
 	}
 	/**
-	Sets whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
+	Returns the physics layer or layers a body can collide with.
 	*/
-	void bodySetOmitForceIntegration(in RID _body, in bool enable)
+	long bodyGetCollisionMask(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetOmitForceIntegration, _godot_object, _body, enable);
+		return ptrcall!(long)(_classBinding.bodyGetCollisionMask, _godot_object, _body);
 	}
 	/**
-	Returns whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
+	Returns the continuous collision detection mode.
 	*/
-	bool bodyIsOmittingForceIntegration(in RID _body) const
+	Physics2DServer.CCDMode bodyGetContinuousCollisionDetectionMode(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.bodyIsOmittingForceIntegration, _godot_object, _body);
-	}
-	/**
-	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
-	*/
-	void bodySetForceIntegrationCallback(VariantArg3)(in RID _body, GodotObject receiver, in String method, in VariantArg3 userdata = Variant.nil)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);
-	}
-	/**
-	Returns whether a body can move from a given point in a given direction. Apart from the boolean return value, a $(D Physics2DTestMotionResult) can be passed to return additional information in.
-	*/
-	bool bodyTestMotion(in RID _body, in Transform2D from, in Vector2 motion, in bool infinite_inertia, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.bodyTestMotion, _godot_object, _body, from, motion, infinite_inertia, margin, result);
+		return ptrcall!(Physics2DServer.CCDMode)(_classBinding.bodyGetContinuousCollisionDetectionMode, _godot_object, _body);
 	}
 	/**
 	Returns the $(D Physics2DDirectBodyState) of the body.
@@ -1267,36 +890,277 @@ public:
 		return ptrcall!(Physics2DDirectBodyState)(_classBinding.bodyGetDirectState, _godot_object, _body);
 	}
 	/**
-	Sets a joint parameter. Parameters are explained in the JOINT_PARAM* constants.
+	Returns the maximum contacts that can be reported. See $(D bodySetMaxContactsReported).
 	*/
-	void jointSetParam(in RID joint, in long param, in double value)
+	long bodyGetMaxContactsReported(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.jointSetParam, _godot_object, joint, param, value);
+		return ptrcall!(long)(_classBinding.bodyGetMaxContactsReported, _godot_object, _body);
 	}
 	/**
-	Returns the value of a joint parameter.
+	Returns the body mode.
 	*/
-	double jointGetParam(in RID joint, in long param) const
+	Physics2DServer.BodyMode bodyGetMode(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.jointGetParam, _godot_object, joint, param);
+		return ptrcall!(Physics2DServer.BodyMode)(_classBinding.bodyGetMode, _godot_object, _body);
 	}
 	/**
-	Creates a pin joint between two bodies. If not specified, the second body is assumed to be the joint itself.
+	Gets the instance ID of the object the area is assigned to.
 	*/
-	RID pinJointCreate(in Vector2 anchor, in RID body_a, in RID body_b = RID.init)
+	long bodyGetObjectInstanceId(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.pinJointCreate, _godot_object, anchor, body_a, body_b);
+		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
 	}
 	/**
-	Creates a groove joint between two bodies. If not specified, the bodyies are assumed to be the joint itself.
+	Returns the value of a body parameter. See $(D bodyparameter) for a list of available parameters.
 	*/
-	RID grooveJointCreate(in Vector2 groove1_a, in Vector2 groove2_a, in Vector2 anchor_b, in RID body_a = RID.init, in RID body_b = RID.init)
+	double bodyGetParam(in RID _body, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.grooveJointCreate, _godot_object, groove1_a, groove2_a, anchor_b, body_a, body_b);
+		return ptrcall!(double)(_classBinding.bodyGetParam, _godot_object, _body, param);
+	}
+	/**
+	Returns the $(D RID) of the nth shape of a body.
+	*/
+	RID bodyGetShape(in RID _body, in long shape_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.bodyGetShape, _godot_object, _body, shape_idx);
+	}
+	/**
+	Returns the number of shapes assigned to a body.
+	*/
+	long bodyGetShapeCount(in RID _body) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.bodyGetShapeCount, _godot_object, _body);
+	}
+	/**
+	Returns the metadata of a shape of a body.
+	*/
+	Variant bodyGetShapeMetadata(in RID _body, in long shape_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.bodyGetShapeMetadata, _godot_object, _body, shape_idx);
+	}
+	/**
+	Returns the transform matrix of a body shape.
+	*/
+	Transform2D bodyGetShapeTransform(in RID _body, in long shape_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.bodyGetShapeTransform, _godot_object, _body, shape_idx);
+	}
+	/**
+	Returns the $(D RID) of the space assigned to a body.
+	*/
+	RID bodyGetSpace(in RID _body) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.bodyGetSpace, _godot_object, _body);
+	}
+	/**
+	Returns a body state.
+	*/
+	Variant bodyGetState(in RID _body, in long state) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.bodyGetState, _godot_object, _body, state);
+	}
+	/**
+	Returns whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
+	*/
+	bool bodyIsOmittingForceIntegration(in RID _body) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyIsOmittingForceIntegration, _godot_object, _body);
+	}
+	/**
+	Removes a body from the list of bodies exempt from collisions.
+	*/
+	void bodyRemoveCollisionException(in RID _body, in RID excepted_body)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyRemoveCollisionException, _godot_object, _body, excepted_body);
+	}
+	/**
+	Removes a shape from a body. The shape is not deleted, so it can be reused afterwards.
+	*/
+	void bodyRemoveShape(in RID _body, in long shape_idx)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodyRemoveShape, _godot_object, _body, shape_idx);
+	}
+	/**
+	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
+	*/
+	void bodySetAxisVelocity(in RID _body, in Vector2 axis_velocity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetAxisVelocity, _godot_object, _body, axis_velocity);
+	}
+	/**
+	Sets the physics layer or layers a body belongs to.
+	*/
+	void bodySetCollisionLayer(in RID _body, in long layer)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetCollisionLayer, _godot_object, _body, layer);
+	}
+	/**
+	Sets the physics layer or layers a body can collide with.
+	*/
+	void bodySetCollisionMask(in RID _body, in long mask)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetCollisionMask, _godot_object, _body, mask);
+	}
+	/**
+	Sets the continuous collision detection mode using one of the $(D ccdmode) constants.
+	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
+	*/
+	void bodySetContinuousCollisionDetectionMode(in RID _body, in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetContinuousCollisionDetectionMode, _godot_object, _body, mode);
+	}
+	/**
+	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
+	*/
+	void bodySetForceIntegrationCallback(VariantArg3)(in RID _body, GodotObject receiver, in String method, in VariantArg3 userdata = Variant.nil)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);
+	}
+	/**
+	Sets the maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
+	*/
+	void bodySetMaxContactsReported(in RID _body, in long amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetMaxContactsReported, _godot_object, _body, amount);
+	}
+	/**
+	Sets the body mode using one of the $(D bodymode) constants.
+	*/
+	void bodySetMode(in RID _body, in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetMode, _godot_object, _body, mode);
+	}
+	/**
+	Sets whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
+	*/
+	void bodySetOmitForceIntegration(in RID _body, in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetOmitForceIntegration, _godot_object, _body, enable);
+	}
+	/**
+	Sets a body parameter. See $(D bodyparameter) for a list of available parameters.
+	*/
+	void bodySetParam(in RID _body, in long param, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetParam, _godot_object, _body, param, value);
+	}
+	/**
+	Substitutes a given body shape by another. The old shape is selected by its index, the new one by its $(D RID).
+	*/
+	void bodySetShape(in RID _body, in long shape_idx, in RID shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShape, _godot_object, _body, shape_idx, shape);
+	}
+	/**
+	Enables one way collision on body if `enable` is `true`.
+	*/
+	void bodySetShapeAsOneWayCollision(in RID _body, in long shape_idx, in bool enable, in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable, margin);
+	}
+	/**
+	Disables shape in body if `disable` is `true`.
+	*/
+	void bodySetShapeDisabled(in RID _body, in long shape_idx, in bool disabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShapeDisabled, _godot_object, _body, shape_idx, disabled);
+	}
+	/**
+	Sets metadata of a shape within a body. This metadata is different from $(D GodotObject.setMeta), and can be retrieved on shape queries.
+	*/
+	void bodySetShapeMetadata(VariantArg2)(in RID _body, in long shape_idx, in VariantArg2 metadata)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShapeMetadata, _godot_object, _body, shape_idx, metadata);
+	}
+	/**
+	Sets the transform matrix for a body shape.
+	*/
+	void bodySetShapeTransform(in RID _body, in long shape_idx, in Transform2D transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetShapeTransform, _godot_object, _body, shape_idx, transform);
+	}
+	/**
+	Assigns a space to the body (see $(D spaceCreate)).
+	*/
+	void bodySetSpace(in RID _body, in RID space)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetSpace, _godot_object, _body, space);
+	}
+	/**
+	Sets a body state using one of the $(D bodystate) constants.
+	*/
+	void bodySetState(VariantArg2)(in RID _body, in long state, in VariantArg2 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.bodySetState, _godot_object, _body, state, value);
+	}
+	/**
+	Returns `true` if a collision would result from moving in the given direction from a given point in space. Margin increases the size of the shapes involved in the collision detection. $(D Physics2DTestMotionResult) can be passed to return additional information in.
+	*/
+	bool bodyTestMotion(in RID _body, in Transform2D from, in Vector2 motion, in bool infinite_inertia, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.bodyTestMotion, _godot_object, _body, from, motion, infinite_inertia, margin, result);
+	}
+	/**
+	
+	*/
+	RID capsuleShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.capsuleShapeCreate, _godot_object);
+	}
+	/**
+	
+	*/
+	RID circleShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.circleShapeCreate, _godot_object);
+	}
+	/**
+	
+	*/
+	RID concavePolygonShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.concavePolygonShapeCreate, _godot_object);
+	}
+	/**
+	
+	*/
+	RID convexPolygonShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.convexPolygonShapeCreate, _godot_object);
 	}
 	/**
 	Creates a damped spring joint between two bodies. If not specified, the second body is assumed to be the joint itself.
@@ -1307,14 +1171,6 @@ public:
 		return ptrcall!(RID)(_classBinding.dampedSpringJointCreate, _godot_object, anchor_a, anchor_b, body_a, body_b);
 	}
 	/**
-	Sets a damped spring joint parameter. Parameters are explained in the DAMPED_STRING* constants.
-	*/
-	void dampedStringJointSetParam(in RID joint, in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.dampedStringJointSetParam, _godot_object, joint, param, value);
-	}
-	/**
 	Returns the value of a damped spring joint parameter.
 	*/
 	double dampedStringJointGetParam(in RID joint, in long param) const
@@ -1323,12 +1179,12 @@ public:
 		return ptrcall!(double)(_classBinding.dampedStringJointGetParam, _godot_object, joint, param);
 	}
 	/**
-	Returns the type of a joint (see JOINT_* constants).
+	Sets a damped spring joint parameter. See $(D dampedstringparam) for a list of available parameters.
 	*/
-	Physics2DServer.JointType jointGetType(in RID joint) const
+	void dampedStringJointSetParam(in RID joint, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.JointType)(_classBinding.jointGetType, _godot_object, joint);
+		ptrcall!(void)(_classBinding.dampedStringJointSetParam, _godot_object, joint, param, value);
 	}
 	/**
 	Destroys any of the objects created by Physics2DServer. If the $(D RID) passed is not one of the objects that can be created by Physics2DServer, an error will be sent to the console.
@@ -1339,6 +1195,86 @@ public:
 		ptrcall!(void)(_classBinding.freeRid, _godot_object, rid);
 	}
 	/**
+	Returns information about the current state of the 2D physics engine. See $(D processinfo) for a list of available states.
+	*/
+	long getProcessInfo(in long process_info)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getProcessInfo, _godot_object, process_info);
+	}
+	/**
+	Creates a groove joint between two bodies. If not specified, the bodies are assumed to be the joint itself.
+	*/
+	RID grooveJointCreate(in Vector2 groove1_a, in Vector2 groove2_a, in Vector2 anchor_b, in RID body_a = RID.init, in RID body_b = RID.init)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.grooveJointCreate, _godot_object, groove1_a, groove2_a, anchor_b, body_a, body_b);
+	}
+	/**
+	Returns the value of a joint parameter.
+	*/
+	double jointGetParam(in RID joint, in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.jointGetParam, _godot_object, joint, param);
+	}
+	/**
+	Returns a joint's type (see $(D jointtype)).
+	*/
+	Physics2DServer.JointType jointGetType(in RID joint) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Physics2DServer.JointType)(_classBinding.jointGetType, _godot_object, joint);
+	}
+	/**
+	Sets a joint parameter. See $(D jointparam) for a list of available parameters.
+	*/
+	void jointSetParam(in RID joint, in long param, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.jointSetParam, _godot_object, joint, param, value);
+	}
+	/**
+	
+	*/
+	RID lineShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.lineShapeCreate, _godot_object);
+	}
+	/**
+	Creates a pin joint between two bodies. If not specified, the second body is assumed to be the joint itself.
+	*/
+	RID pinJointCreate(in Vector2 anchor, in RID body_a, in RID body_b = RID.init)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.pinJointCreate, _godot_object, anchor, body_a, body_b);
+	}
+	/**
+	
+	*/
+	RID rayShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.rayShapeCreate, _godot_object);
+	}
+	/**
+	
+	*/
+	RID rectangleShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.rectangleShapeCreate, _godot_object);
+	}
+	/**
+	
+	*/
+	RID segmentShapeCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.segmentShapeCreate, _godot_object);
+	}
+	/**
 	Activates or deactivates the 2D physics engine.
 	*/
 	void setActive(in bool active)
@@ -1347,12 +1283,76 @@ public:
 		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
 	/**
-	Returns information about the current state of the 2D physics engine. The states are listed under the INFO_* constants.
+	Returns the shape data.
 	*/
-	long getProcessInfo(in long process_info)
+	Variant shapeGetData(in RID shape) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getProcessInfo, _godot_object, process_info);
+		return ptrcall!(Variant)(_classBinding.shapeGetData, _godot_object, shape);
+	}
+	/**
+	Returns a shape's type (see $(D shapetype)).
+	*/
+	Physics2DServer.ShapeType shapeGetType(in RID shape) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Physics2DServer.ShapeType)(_classBinding.shapeGetType, _godot_object, shape);
+	}
+	/**
+	Sets the shape data that defines its shape and size. The data to be passed depends on the kind of shape created $(D shapeGetType).
+	*/
+	void shapeSetData(VariantArg1)(in RID shape, in VariantArg1 data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeSetData, _godot_object, shape, data);
+	}
+	/**
+	Creates a space. A space is a collection of parameters for the physics engine that can be assigned to an area or a body. It can be assigned to an area with $(D areaSetSpace), or to a body with $(D bodySetSpace).
+	*/
+	RID spaceCreate()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.spaceCreate, _godot_object);
+	}
+	/**
+	Returns the state of a space, a $(D Physics2DDirectSpaceState). This object can be used to make collision/intersection queries.
+	*/
+	Physics2DDirectSpaceState spaceGetDirectState(in RID space)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Physics2DDirectSpaceState)(_classBinding.spaceGetDirectState, _godot_object, space);
+	}
+	/**
+	Returns the value of a space parameter.
+	*/
+	double spaceGetParam(in RID space, in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.spaceGetParam, _godot_object, space, param);
+	}
+	/**
+	Returns whether the space is active.
+	*/
+	bool spaceIsActive(in RID space) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.spaceIsActive, _godot_object, space);
+	}
+	/**
+	Marks a space as active. It will not have an effect, unless it is assigned to an area or body.
+	*/
+	void spaceSetActive(in RID space, in bool active)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.spaceSetActive, _godot_object, space, active);
+	}
+	/**
+	Sets the value for a space parameter. See $(D spaceparameter) for a list of available parameters.
+	*/
+	void spaceSetParam(in RID space, in long param, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.spaceSetParam, _godot_object, space, param, value);
 	}
 }
 /// Returns: the Physics2DServerSingleton

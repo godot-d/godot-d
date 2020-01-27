@@ -1,5 +1,5 @@
 /**
-
+Playback control for $(D AnimationNodeStateMachine).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,8 +21,16 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
+Playback control for $(D AnimationNodeStateMachine).
+
+Allows control of $(D AnimationTree) state machines created with $(D AnimationNodeStateMachine). Retrieve with `$AnimationTree.get("parameters/playback")`.
+$(B Example:)
+
+
+var state_machine = $AnimationTree.get("parameters/playback")
+state_machine.travel("some_state")
+
 
 */
 @GodotBaseClass struct AnimationNodeStateMachinePlayback
@@ -37,12 +45,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("travel") GodotMethod!(void, String) travel;
-		@GodotName("start") GodotMethod!(void, String) start;
-		@GodotName("stop") GodotMethod!(void) stop;
-		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
 		@GodotName("get_current_node") GodotMethod!(String) getCurrentNode;
 		@GodotName("get_travel_path") GodotMethod!(PoolStringArray) getTravelPath;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("start") GodotMethod!(void, String) start;
+		@GodotName("stop") GodotMethod!(void) stop;
+		@GodotName("travel") GodotMethod!(void, String) travel;
 	}
 	bool opEquals(in AnimationNodeStateMachinePlayback other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeStateMachinePlayback opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,39 +65,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Transition from the current state to another one, while visiting all the intermediate ones. This is done via the A* algorithm.
-	*/
-	void travel(in String to_node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.travel, _godot_object, to_node);
-	}
-	/**
-	
-	*/
-	void start(in String node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.start, _godot_object, node);
-	}
-	/**
-	
-	*/
-	void stop()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
-	}
-	/**
-	
-	*/
-	bool isPlaying() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
-	}
-	/**
-	
+	Returns the currently playing animation state.
 	*/
 	String getCurrentNode() const
 	{
@@ -97,11 +73,43 @@ public:
 		return ptrcall!(String)(_classBinding.getCurrentNode, _godot_object);
 	}
 	/**
-	
+	Returns the current travel path as computed internally by the A* algorithm.
 	*/
 	PoolStringArray getTravelPath() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getTravelPath, _godot_object);
+	}
+	/**
+	Returns `true` if an animation is playing.
+	*/
+	bool isPlaying() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+	}
+	/**
+	Starts playing the given animation.
+	*/
+	void start(in String node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.start, _godot_object, node);
+	}
+	/**
+	Stops the currently playing animation.
+	*/
+	void stop()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
+	}
+	/**
+	Transitions from the current state to another one, following the shortest path.
+	*/
+	void travel(in String to_node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.travel, _godot_object, to_node);
 	}
 }

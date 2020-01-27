@@ -20,8 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Base node for all joint constraints in 2D physics.
 
@@ -39,14 +37,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_node_a") GodotMethod!(void, NodePath) setNodeA;
+		@GodotName("get_bias") GodotMethod!(double) getBias;
+		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
 		@GodotName("get_node_a") GodotMethod!(NodePath) getNodeA;
-		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
 		@GodotName("get_node_b") GodotMethod!(NodePath) getNodeB;
 		@GodotName("set_bias") GodotMethod!(void, double) setBias;
-		@GodotName("get_bias") GodotMethod!(double) getBias;
 		@GodotName("set_exclude_nodes_from_collision") GodotMethod!(void, bool) setExcludeNodesFromCollision;
-		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
+		@GodotName("set_node_a") GodotMethod!(void, NodePath) setNodeA;
+		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
 	}
 	bool opEquals(in Joint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Joint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,10 +61,18 @@ public:
 	/**
 	
 	*/
-	void setNodeA(NodePathArg0)(in NodePathArg0 node)
+	double getBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
+		return ptrcall!(double)(_classBinding.getBias, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getExcludeNodesFromCollision() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
 	
@@ -75,14 +81,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NodePath)(_classBinding.getNodeA, _godot_object);
-	}
-	/**
-	
-	*/
-	void setNodeB(NodePathArg0)(in NodePathArg0 node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
 	}
 	/**
 	
@@ -103,14 +101,6 @@ public:
 	/**
 	
 	*/
-	double getBias() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBias, _godot_object);
-	}
-	/**
-	
-	*/
 	void setExcludeNodesFromCollision(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -119,10 +109,42 @@ public:
 	/**
 	
 	*/
-	bool getExcludeNodesFromCollision() const
+	void setNodeA(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
+		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
+	}
+	/**
+	
+	*/
+	void setNodeB(NodePathArg0)(in NodePathArg0 node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
+	}
+	/**
+	When $(D nodeA) and $(D nodeB) move in different directions the `bias` controls how fast the joint pulls them back to their original position. The lower the `bias` the more the two bodies can pull on the joint.
+	*/
+	@property double bias()
+	{
+		return getBias();
+	}
+	/// ditto
+	@property void bias(double v)
+	{
+		setBias(v);
+	}
+	/**
+	If `true`, $(D nodeA) and $(D nodeB) can collide.
+	*/
+	@property bool disableCollision()
+	{
+		return getExcludeNodesFromCollision();
+	}
+	/// ditto
+	@property void disableCollision(bool v)
+	{
+		setExcludeNodesFromCollision(v);
 	}
 	/**
 	The first body attached to the joint. Must derive from $(D PhysicsBody2D).
@@ -147,29 +169,5 @@ public:
 	@property void nodeB(NodePath v)
 	{
 		setNodeB(v);
-	}
-	/**
-	When $(D nodeA) and $(D nodeB) move in different directions the `bias` controls how fast the joint pulls them back to their original position. The lower the `bias` the more the two bodies can pull on the joint. Default value: `0`
-	*/
-	@property double bias()
-	{
-		return getBias();
-	}
-	/// ditto
-	@property void bias(double v)
-	{
-		setBias(v);
-	}
-	/**
-	If `true`, $(D nodeA) and $(D nodeB) can collide. Default value: `false`.
-	*/
-	@property bool disableCollision()
-	{
-		return getExcludeNodesFromCollision();
-	}
-	/// ditto
-	@property void disableCollision(bool v)
-	{
-		setExcludeNodesFromCollision(v);
 	}
 }

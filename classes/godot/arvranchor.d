@@ -1,5 +1,5 @@
 /**
-Anchor point in AR Space.
+An anchor point in AR space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,12 +21,12 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
+import godot.mesh;
 /**
-Anchor point in AR Space.
+An anchor point in AR space.
 
-The ARVR Anchor point is a spatial node that maps a real world location identified by the AR platform to a position within the game world. For example, as long as plane detection in ARKit is on, ARKit will identify and update the position of planes (tables, floors, etc) and create anchors for them.
-This node is mapped to one of the anchors through its unique id. When you receive a signal that a new anchor is available, you should add this node to your scene for that anchor. You can predefine nodes and set the id and the nodes will simply remain on 0,0,0 until a plane is recognised.
+The $(D ARVRAnchor) point is a spatial node that maps a real world location identified by the AR platform to a position within the game world. For example, as long as plane detection in ARKit is on, ARKit will identify and update the position of planes (tables, floors, etc) and create anchors for them.
+This node is mapped to one of the anchors through its unique ID. When you receive a signal that a new anchor is available, you should add this node to your scene for that anchor. You can predefine nodes and set the ID; the nodes will simply remain on 0,0,0 until a plane is recognized.
 Keep in mind that, as long as plane detection is enabled, the size, placing and orientation of an anchor will be updated as the detection logic learns more about the real world out there especially if only part of the surface is in view.
 */
 @GodotBaseClass struct ARVRAnchor
@@ -41,12 +41,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_anchor_id") GodotMethod!(void, long) setAnchorId;
 		@GodotName("get_anchor_id") GodotMethod!(long) getAnchorId;
 		@GodotName("get_anchor_name") GodotMethod!(String) getAnchorName;
 		@GodotName("get_is_active") GodotMethod!(bool) getIsActive;
-		@GodotName("get_size") GodotMethod!(Vector3) getSize;
+		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
 		@GodotName("get_plane") GodotMethod!(Plane) getPlane;
+		@GodotName("get_size") GodotMethod!(Vector3) getSize;
+		@GodotName("set_anchor_id") GodotMethod!(void, long) setAnchorId;
 	}
 	bool opEquals(in ARVRAnchor other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRAnchor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +61,6 @@ public:
 		return cast(ARVRAnchor)(constructor());
 	}
 	@disable new(size_t s);
-	/**
-	
-	*/
-	void setAnchorId(in long anchor_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorId, _godot_object, anchor_id);
-	}
 	/**
 	
 	*/
@@ -85,7 +78,7 @@ public:
 		return ptrcall!(String)(_classBinding.getAnchorName, _godot_object);
 	}
 	/**
-	Returns `true` if the anchor is being tracked and `false` if no anchor with this id is currently known.
+	Returns `true` if the anchor is being tracked and `false` if no anchor with this ID is currently known.
 	*/
 	bool getIsActive() const
 	{
@@ -93,12 +86,12 @@ public:
 		return ptrcall!(bool)(_classBinding.getIsActive, _godot_object);
 	}
 	/**
-	Returns the estimated size of the plane that was detected. Say when the anchor relates to a table in the real world, this is the estimated size of the surface of that table.
+	If provided by the $(D ARVRInterface), this returns a mesh object for the anchor. For an anchor, this can be a shape related to the object being tracked or it can be a mesh that provides topology related to the anchor and can be used to create shadows/reflections on surfaces or for generating collision shapes.
 	*/
-	Vector3 getSize() const
+	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
 	}
 	/**
 	Returns a plane aligned with our anchor; handy for intersection testing.
@@ -109,7 +102,23 @@ public:
 		return ptrcall!(Plane)(_classBinding.getPlane, _godot_object);
 	}
 	/**
-	The anchor's id. You can set this before the anchor itself exists. The first anchor gets an id of `1`, the second an id of `2`, etc. When anchors get removed, the engine can then assign the corresponding id to new anchors. The most common situation where anchors 'disappear' is when the AR server identifies that two anchors represent different parts of the same plane and merges them.
+	Returns the estimated size of the plane that was detected. Say when the anchor relates to a table in the real world, this is the estimated size of the surface of that table.
+	*/
+	Vector3 getSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAnchorId(in long anchor_id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnchorId, _godot_object, anchor_id);
+	}
+	/**
+	The anchor's ID. You can set this before the anchor itself exists. The first anchor gets an ID of `1`, the second an ID of `2`, etc. When anchors get removed, the engine can then assign the corresponding ID to new anchors. The most common situation where anchors "disappear" is when the AR server identifies that two anchors represent different parts of the same plane and merges them.
 	*/
 	@property long anchorId()
 	{

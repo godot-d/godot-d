@@ -1,5 +1,5 @@
 /**
-Unix IP support. See $(D IP).
+UNIX IP support. See $(D IP).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.ip;
 /**
-Unix IP support. See $(D IP).
+UNIX IP support. See $(D IP).
 
-Unix-specific implementation of IP support functions. See $(D IP).
+UNIX-specific implementation of IP support functions. See $(D IP).
 */
 @GodotBaseClass struct IP_Unix
 {

@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.navigationmesh;
-import godot.node;
 /**
 
 */
@@ -38,10 +37,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_navigation_mesh") GodotMethod!(void, NavigationMesh) setNavigationMesh;
 		@GodotName("get_navigation_mesh") GodotMethod!(NavigationMesh) getNavigationMesh;
-		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
 		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
+		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
+		@GodotName("set_navigation_mesh") GodotMethod!(void, NavigationMesh) setNavigationMesh;
 	}
 	bool opEquals(in NavigationMeshInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NavigationMeshInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,26 +57,10 @@ public:
 	/**
 	
 	*/
-	void setNavigationMesh(NavigationMesh navmesh)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNavigationMesh, _godot_object, navmesh);
-	}
-	/**
-	
-	*/
 	Ref!NavigationMesh getNavigationMesh() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NavigationMesh)(_classBinding.getNavigationMesh, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnabled(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -90,14 +73,18 @@ public:
 	/**
 	
 	*/
-	@property NavigationMesh navmesh()
+	void setEnabled(in bool enabled)
 	{
-		return getNavigationMesh();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
-	/// ditto
-	@property void navmesh(NavigationMesh v)
+	/**
+	
+	*/
+	void setNavigationMesh(NavigationMesh navmesh)
 	{
-		setNavigationMesh(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNavigationMesh, _godot_object, navmesh);
 	}
 	/**
 	
@@ -110,5 +97,17 @@ public:
 	@property void enabled(bool v)
 	{
 		setEnabled(v);
+	}
+	/**
+	
+	*/
+	@property NavigationMesh navmesh()
+	{
+		return getNavigationMesh();
+	}
+	/// ditto
+	@property void navmesh(NavigationMesh v)
+	{
+		setNavigationMesh(v);
 	}
 }

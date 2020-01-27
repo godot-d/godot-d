@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.audiostream;
 import godot.resource;
-import godot.reference;
 /**
 OGG Vorbis audio stream driver.
 
@@ -40,12 +39,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_data") GodotMethod!(void, PoolByteArray) setData;
 		@GodotName("get_data") GodotMethod!(PoolByteArray) getData;
-		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
-		@GodotName("has_loop") GodotMethod!(bool) hasLoop;
-		@GodotName("set_loop_offset") GodotMethod!(void, double) setLoopOffset;
 		@GodotName("get_loop_offset") GodotMethod!(double) getLoopOffset;
+		@GodotName("has_loop") GodotMethod!(bool) hasLoop;
+		@GodotName("set_data") GodotMethod!(void, PoolByteArray) setData;
+		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
+		@GodotName("set_loop_offset") GodotMethod!(void, double) setLoopOffset;
 	}
 	bool opEquals(in AudioStreamOGGVorbis other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamOGGVorbis opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,14 +61,6 @@ public:
 	/**
 	
 	*/
-	void setData(in PoolByteArray data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setData, _godot_object, data);
-	}
-	/**
-	
-	*/
 	PoolByteArray getData() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -78,10 +69,10 @@ public:
 	/**
 	
 	*/
-	void setLoop(in bool enable)
+	double getLoopOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoop, _godot_object, enable);
+		return ptrcall!(double)(_classBinding.getLoopOffset, _godot_object);
 	}
 	/**
 	
@@ -94,18 +85,26 @@ public:
 	/**
 	
 	*/
-	void setLoopOffset(in double seconds)
+	void setData(in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopOffset, _godot_object, seconds);
+		ptrcall!(void)(_classBinding.setData, _godot_object, data);
 	}
 	/**
 	
 	*/
-	double getLoopOffset() const
+	void setLoop(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLoopOffset, _godot_object);
+		ptrcall!(void)(_classBinding.setLoop, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setLoopOffset(in double seconds)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopOffset, _godot_object, seconds);
 	}
 	/**
 	Contains the audio data in bytes.
@@ -120,7 +119,7 @@ public:
 		setData(v);
 	}
 	/**
-	
+	If `true`, the stream will automatically loop when it reaches the end.
 	*/
 	@property bool loop()
 	{
@@ -132,7 +131,7 @@ public:
 		setLoop(v);
 	}
 	/**
-	
+	Time in seconds at which the stream starts after being looped.
 	*/
 	@property double loopOffset()
 	{

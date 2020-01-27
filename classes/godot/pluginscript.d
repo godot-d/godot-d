@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.script;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,7 +36,7 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("new") GodotMethod!(GodotObject, GodotVarArgs) _new;
+		@GodotName("new") GodotMethod!(Variant, GodotVarArgs) _new;
 	}
 	bool opEquals(in PluginScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PluginScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -55,14 +53,14 @@ public:
 	/**
 	Returns a new instance of the script.
 	*/
-	GodotObject _new(VarArgs...)(VarArgs varArgs)
+	Variant _new(VarArgs...)(VarArgs varArgs)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		foreach(vai, VA; VarArgs)
 		{
 			_GODOT_args.append(varArgs[vai]);
 		}
 		String _GODOT_method_name = String("new");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 }

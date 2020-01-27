@@ -23,7 +23,7 @@ import godot.inputevent;
 /**
 Singleton that manages $(D InputEventAction).
 
-Manages all $(D InputEventAction) which can be created/modified from the project settings menu `Project &gt; Project Settings &gt; Input Map` or in code with $(D addAction) and $(D actionAddEvent). See $(D Node._input).
+Manages all $(D InputEventAction) which can be created/modified from the project settings menu $(B Project &gt; Project Settings &gt; Input Map) or in code with $(D addAction) and $(D actionAddEvent). See $(D Node._input).
 */
 @GodotBaseClass struct InputMapSingleton
 {
@@ -39,17 +39,17 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "InputMap";
-		@GodotName("has_action") GodotMethod!(bool, String) hasAction;
-		@GodotName("get_actions") GodotMethod!(Array) getActions;
-		@GodotName("add_action") GodotMethod!(void, String, double) addAction;
-		@GodotName("erase_action") GodotMethod!(void, String) eraseAction;
-		@GodotName("action_set_deadzone") GodotMethod!(void, String, double) actionSetDeadzone;
 		@GodotName("action_add_event") GodotMethod!(void, String, InputEvent) actionAddEvent;
-		@GodotName("action_has_event") GodotMethod!(bool, String, InputEvent) actionHasEvent;
 		@GodotName("action_erase_event") GodotMethod!(void, String, InputEvent) actionEraseEvent;
 		@GodotName("action_erase_events") GodotMethod!(void, String) actionEraseEvents;
-		@GodotName("get_action_list") GodotMethod!(Array, String) getActionList;
+		@GodotName("action_has_event") GodotMethod!(bool, String, InputEvent) actionHasEvent;
+		@GodotName("action_set_deadzone") GodotMethod!(void, String, double) actionSetDeadzone;
+		@GodotName("add_action") GodotMethod!(void, String, double) addAction;
+		@GodotName("erase_action") GodotMethod!(void, String) eraseAction;
 		@GodotName("event_is_action") GodotMethod!(bool, InputEvent, String) eventIsAction;
+		@GodotName("get_action_list") GodotMethod!(Array, String) getActionList;
+		@GodotName("get_actions") GodotMethod!(Array) getActions;
+		@GodotName("has_action") GodotMethod!(bool, String) hasAction;
 		@GodotName("load_from_globals") GodotMethod!(void) loadFromGlobals;
 	}
 	bool opEquals(in InputMapSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -65,20 +65,44 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Returns `true` if the $(D InputMap) has a registered action with the given name.
+	Adds an $(D InputEvent) to an action. This $(D InputEvent) will trigger the action.
 	*/
-	bool hasAction(in String action) const
+	void actionAddEvent(in String action, InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAction, _godot_object, action);
+		ptrcall!(void)(_classBinding.actionAddEvent, _godot_object, action, event);
 	}
 	/**
-	Returns an array of all actions in the $(D InputMap).
+	Removes an $(D InputEvent) from an action.
 	*/
-	Array getActions()
+	void actionEraseEvent(in String action, InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getActions, _godot_object);
+		ptrcall!(void)(_classBinding.actionEraseEvent, _godot_object, action, event);
+	}
+	/**
+	Removes all events from an action.
+	*/
+	void actionEraseEvents(in String action)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.actionEraseEvents, _godot_object, action);
+	}
+	/**
+	Returns `true` if the action has the given $(D InputEvent) associated with it.
+	*/
+	bool actionHasEvent(in String action, InputEvent event)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.actionHasEvent, _godot_object, action, event);
+	}
+	/**
+	Sets a deadzone value for the action.
+	*/
+	void actionSetDeadzone(in String action, in double deadzone)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.actionSetDeadzone, _godot_object, action, deadzone);
 	}
 	/**
 	Adds an empty action to the $(D InputMap) with a configurable `deadzone`.
@@ -98,44 +122,12 @@ public:
 		ptrcall!(void)(_classBinding.eraseAction, _godot_object, action);
 	}
 	/**
-	
+	Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given $(D InputEvent) is not pressed (for proper release detection). See $(D actionHasEvent) if you don't want this behavior.
 	*/
-	void actionSetDeadzone(in String action, in double deadzone)
+	bool eventIsAction(InputEvent event, in String action) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionSetDeadzone, _godot_object, action, deadzone);
-	}
-	/**
-	Adds an $(D InputEvent) to an action. This $(D InputEvent) will trigger the action.
-	*/
-	void actionAddEvent(in String action, InputEvent event)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionAddEvent, _godot_object, action, event);
-	}
-	/**
-	Returns `true` if the action has the given $(D InputEvent) associated with it.
-	*/
-	bool actionHasEvent(in String action, InputEvent event)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.actionHasEvent, _godot_object, action, event);
-	}
-	/**
-	Removes an $(D InputEvent) from an action.
-	*/
-	void actionEraseEvent(in String action, InputEvent event)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionEraseEvent, _godot_object, action, event);
-	}
-	/**
-	Removes all events from an action.
-	*/
-	void actionEraseEvents(in String action)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionEraseEvents, _godot_object, action);
+		return ptrcall!(bool)(_classBinding.eventIsAction, _godot_object, event, action);
 	}
 	/**
 	Returns an array of $(D InputEvent)s associated with a given action.
@@ -146,12 +138,20 @@ public:
 		return ptrcall!(Array)(_classBinding.getActionList, _godot_object, action);
 	}
 	/**
-	Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given $(D InputEvent) is not pressed (for proper release detection). See $(D actionHasEvent) if you don't want this behavior.
+	Returns an array of all actions in the $(D InputMap).
 	*/
-	bool eventIsAction(InputEvent event, in String action) const
+	Array getActions()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.eventIsAction, _godot_object, event, action);
+		return ptrcall!(Array)(_classBinding.getActions, _godot_object);
+	}
+	/**
+	Returns `true` if the $(D InputMap) has a registered action with the given name.
+	*/
+	bool hasAction(in String action) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAction, _godot_object, action);
 	}
 	/**
 	Clears all $(D InputEventAction) in the $(D InputMap) and load it anew from $(D ProjectSettings).

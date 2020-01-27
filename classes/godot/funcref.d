@@ -40,8 +40,10 @@ public:
 	{
 		__gshared:
 		@GodotName("call_func") GodotMethod!(Variant, GodotVarArgs) callFunc;
-		@GodotName("set_instance") GodotMethod!(void, GodotObject) setInstance;
+		@GodotName("call_funcv") GodotMethod!(Variant, Array) callFuncv;
+		@GodotName("is_valid") GodotMethod!(bool) isValid;
 		@GodotName("set_function") GodotMethod!(void, String) setFunction;
+		@GodotName("set_instance") GodotMethod!(void, GodotObject) setInstance;
 	}
 	bool opEquals(in FuncRef other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	FuncRef opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,7 +62,7 @@ public:
 	*/
 	Variant callFunc(VarArgs...)(VarArgs varArgs)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		foreach(vai, VA; VarArgs)
 		{
 			_GODOT_args.append(varArgs[vai]);
@@ -69,12 +71,20 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	The object containing the referenced function. This object must be of a type actually inheriting from $(D GodotObject), not a built-in type such as $(D long), $(D Vector2) or $(D Dictionary).
+	Calls the referenced function previously set by $(D setFunction) or $(D @GDScript.funcref). Contrarily to $(D callFunc), this method does not support a variable number of arguments but expects all parameters to be passed via a single $(D Array).
 	*/
-	void setInstance(GodotObject instance)
+	Variant callFuncv(in Array arg_array)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstance, _godot_object, instance);
+		return ptrcall!(Variant)(_classBinding.callFuncv, _godot_object, arg_array);
+	}
+	/**
+	Returns whether the object still exists and has the function assigned.
+	*/
+	bool isValid() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
 	}
 	/**
 	The name of the referenced function to call on the object, without parentheses or any parameters.
@@ -83,5 +93,13 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFunction, _godot_object, name);
+	}
+	/**
+	The object containing the referenced function. This object must be of a type actually inheriting from $(D GodotObject), not a built-in type such as $(D long), $(D Vector2) or $(D Dictionary).
+	*/
+	void setInstance(GodotObject instance)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstance, _godot_object, instance);
 	}
 }

@@ -1,5 +1,5 @@
 /**
-
+Texture with 3 dimensions.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texturelayered;
-import godot.resource;
-import godot.reference;
 /**
+Texture with 3 dimensions.
 
+Texture3D is a 3-dimensional texture that has a width, height, and depth.
 */
 @GodotBaseClass struct Texture3D
 {

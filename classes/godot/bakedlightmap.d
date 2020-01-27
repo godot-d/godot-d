@@ -21,9 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualinstance;
-import godot.bakedlightmapdata;
 import godot.node;
-import godot.spatial;
+import godot.bakedlightmapdata;
 /**
 Prerendered indirect light map for a scene.
 
@@ -41,28 +40,30 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_light_data") GodotMethod!(void, BakedLightmapData) setLightData;
-		@GodotName("get_light_data") GodotMethod!(BakedLightmapData) getLightData;
-		@GodotName("set_bake_cell_size") GodotMethod!(void, double) setBakeCellSize;
-		@GodotName("get_bake_cell_size") GodotMethod!(double) getBakeCellSize;
-		@GodotName("set_capture_cell_size") GodotMethod!(void, double) setCaptureCellSize;
-		@GodotName("get_capture_cell_size") GodotMethod!(double) getCaptureCellSize;
-		@GodotName("set_bake_quality") GodotMethod!(void, long) setBakeQuality;
-		@GodotName("get_bake_quality") GodotMethod!(BakedLightmap.BakeQuality) getBakeQuality;
-		@GodotName("set_bake_mode") GodotMethod!(void, long) setBakeMode;
-		@GodotName("get_bake_mode") GodotMethod!(BakedLightmap.BakeMode) getBakeMode;
-		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
-		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
-		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
-		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
-		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
-		@GodotName("get_energy") GodotMethod!(double) getEnergy;
-		@GodotName("set_hdr") GodotMethod!(void, bool) setHdr;
-		@GodotName("is_hdr") GodotMethod!(bool) isHdr;
-		@GodotName("set_image_path") GodotMethod!(void, String) setImagePath;
-		@GodotName("get_image_path") GodotMethod!(String) getImagePath;
 		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, Node, bool) bake;
 		@GodotName("debug_bake") GodotMethod!(void) debugBake;
+		@GodotName("get_bake_cell_size") GodotMethod!(double) getBakeCellSize;
+		@GodotName("get_bake_default_texels_per_unit") GodotMethod!(double) getBakeDefaultTexelsPerUnit;
+		@GodotName("get_bake_mode") GodotMethod!(BakedLightmap.BakeMode) getBakeMode;
+		@GodotName("get_bake_quality") GodotMethod!(BakedLightmap.BakeQuality) getBakeQuality;
+		@GodotName("get_capture_cell_size") GodotMethod!(double) getCaptureCellSize;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
+		@GodotName("get_image_path") GodotMethod!(String) getImagePath;
+		@GodotName("get_light_data") GodotMethod!(BakedLightmapData) getLightData;
+		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
+		@GodotName("is_hdr") GodotMethod!(bool) isHdr;
+		@GodotName("set_bake_cell_size") GodotMethod!(void, double) setBakeCellSize;
+		@GodotName("set_bake_default_texels_per_unit") GodotMethod!(void, double) setBakeDefaultTexelsPerUnit;
+		@GodotName("set_bake_mode") GodotMethod!(void, long) setBakeMode;
+		@GodotName("set_bake_quality") GodotMethod!(void, long) setBakeQuality;
+		@GodotName("set_capture_cell_size") GodotMethod!(void, double) setCaptureCellSize;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
+		@GodotName("set_hdr") GodotMethod!(void, bool) setHdr;
+		@GodotName("set_image_path") GodotMethod!(void, String) setImagePath;
+		@GodotName("set_light_data") GodotMethod!(void, BakedLightmapData) setLightData;
+		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
 	}
 	bool opEquals(in BakedLightmap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BakedLightmap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -80,15 +81,15 @@ public:
 	enum BakeQuality : int
 	{
 		/**
-		Lowest bake quality mode. Fastest to calculate.
+		The lowest bake quality mode. Fastest to calculate.
 		*/
 		bakeQualityLow = 0,
 		/**
-		Default bake quality mode.
+		The default bake quality mode.
 		*/
 		bakeQualityMedium = 1,
 		/**
-		Highest bake quality mode. Takes longer to calculate.
+		The highest bake quality mode. Takes longer to calculate.
 		*/
 		bakeQualityHigh = 2,
 	}
@@ -135,36 +136,28 @@ public:
 		bakeQualityLow = 0,
 		bakeModeConeTrace = 0,
 		bakeErrorNoSavePath = 1,
-		bakeQualityMedium = 1,
 		bakeModeRayTrace = 1,
+		bakeQualityMedium = 1,
 		bakeQualityHigh = 2,
 		bakeErrorNoMeshes = 2,
 		bakeErrorCantCreateImage = 3,
 		bakeErrorUserAborted = 4,
 	}
 	/**
-	
+	Bakes the lightmaps within the currently edited scene.
 	*/
-	void setLightData(BakedLightmapData data)
+	BakedLightmap.BakeError bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightData, _godot_object, data);
+		return ptrcall!(BakedLightmap.BakeError)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
 	}
 	/**
-	
+	Executes a dry run bake of lightmaps within the currently edited scene.
 	*/
-	Ref!BakedLightmapData getLightData() const
+	void debugBake()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmapData)(_classBinding.getLightData, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBakeCellSize(in double bake_cell_size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeCellSize, _godot_object, bake_cell_size);
+		ptrcall!(void)(_classBinding.debugBake, _godot_object);
 	}
 	/**
 	
@@ -177,42 +170,10 @@ public:
 	/**
 	
 	*/
-	void setCaptureCellSize(in double capture_cell_size)
+	double getBakeDefaultTexelsPerUnit() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCaptureCellSize, _godot_object, capture_cell_size);
-	}
-	/**
-	
-	*/
-	double getCaptureCellSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCaptureCellSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBakeQuality(in long bake_quality)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeQuality, _godot_object, bake_quality);
-	}
-	/**
-	
-	*/
-	BakedLightmap.BakeQuality getBakeQuality() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeQuality)(_classBinding.getBakeQuality, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBakeMode(in long bake_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeMode, _godot_object, bake_mode);
+		return ptrcall!(double)(_classBinding.getBakeDefaultTexelsPerUnit, _godot_object);
 	}
 	/**
 	
@@ -225,42 +186,18 @@ public:
 	/**
 	
 	*/
-	void setExtents(in Vector3 extents)
+	BakedLightmap.BakeQuality getBakeQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+		return ptrcall!(BakedLightmap.BakeQuality)(_classBinding.getBakeQuality, _godot_object);
 	}
 	/**
 	
 	*/
-	Vector3 getExtents() const
+	double getCaptureCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPropagation(in double propagation)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
-	}
-	/**
-	
-	*/
-	double getPropagation() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPropagation, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnergy(in double energy)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+		return ptrcall!(double)(_classBinding.getCaptureCellSize, _godot_object);
 	}
 	/**
 	
@@ -273,26 +210,10 @@ public:
 	/**
 	
 	*/
-	void setHdr(in bool hdr)
+	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHdr, _godot_object, hdr);
-	}
-	/**
-	
-	*/
-	bool isHdr() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHdr, _godot_object);
-	}
-	/**
-	
-	*/
-	void setImagePath(in String image_path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setImagePath, _godot_object, image_path);
+		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
 	}
 	/**
 	
@@ -305,21 +226,117 @@ public:
 	/**
 	
 	*/
-	BakedLightmap.BakeError bake(Node from_node = Node.init, in bool create_visual_debug = false)
+	Ref!BakedLightmapData getLightData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeError)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
+		return ptrcall!(BakedLightmapData)(_classBinding.getLightData, _godot_object);
 	}
 	/**
 	
 	*/
-	void debugBake()
+	double getPropagation() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.debugBake, _godot_object);
+		return ptrcall!(double)(_classBinding.getPropagation, _godot_object);
 	}
 	/**
-	Grid subdivision size for lightmapper calculation. Default value of `0.25` will work for most cases. Increase for better lighting on small details or if your scene is very large.
+	
+	*/
+	bool isHdr() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHdr, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBakeCellSize(in double bake_cell_size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeCellSize, _godot_object, bake_cell_size);
+	}
+	/**
+	
+	*/
+	void setBakeDefaultTexelsPerUnit(in double texels)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeDefaultTexelsPerUnit, _godot_object, texels);
+	}
+	/**
+	
+	*/
+	void setBakeMode(in long bake_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeMode, _godot_object, bake_mode);
+	}
+	/**
+	
+	*/
+	void setBakeQuality(in long bake_quality)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeQuality, _godot_object, bake_quality);
+	}
+	/**
+	
+	*/
+	void setCaptureCellSize(in double capture_cell_size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCaptureCellSize, _godot_object, capture_cell_size);
+	}
+	/**
+	
+	*/
+	void setEnergy(in double energy)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+	}
+	/**
+	
+	*/
+	void setExtents(in Vector3 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+	}
+	/**
+	
+	*/
+	void setHdr(in bool hdr)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHdr, _godot_object, hdr);
+	}
+	/**
+	
+	*/
+	void setImagePath(in String image_path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setImagePath, _godot_object, image_path);
+	}
+	/**
+	
+	*/
+	void setLightData(BakedLightmapData data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightData, _godot_object, data);
+	}
+	/**
+	
+	*/
+	void setPropagation(in double propagation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
+	}
+	/**
+	Grid subdivision size for lightmapper calculation. The default value will work for most cases. Increase for better lighting on small details or if your scene is very large.
 	*/
 	@property double bakeCellSize()
 	{
@@ -331,16 +348,52 @@ public:
 		setBakeCellSize(v);
 	}
 	/**
-	Three quality modes are available. Higher quality requires more rendering time. See $(D bakequality).
+	If a $(D Mesh.lightmapSizeHint) isn't specified, the lightmap baker will dynamically set the lightmap size using this value. This value is measured in texels per world unit. The maximum lightmap texture size is 4096x4096.
 	*/
-	@property BakedLightmap.BakeQuality bakeQuality()
+	@property double bakeDefaultTexelsPerUnit()
 	{
-		return getBakeQuality();
+		return getBakeDefaultTexelsPerUnit();
 	}
 	/// ditto
-	@property void bakeQuality(long v)
+	@property void bakeDefaultTexelsPerUnit(double v)
 	{
-		setBakeQuality(v);
+		setBakeDefaultTexelsPerUnit(v);
+	}
+	/**
+	Multiplies the light sources' intensity by this value. For instance, if the value is set to 2, lights will be twice as bright. If the value is set to 0.5, lights will be half as bright.
+	*/
+	@property double bakeEnergy()
+	{
+		return getEnergy();
+	}
+	/// ditto
+	@property void bakeEnergy(double v)
+	{
+		setEnergy(v);
+	}
+	/**
+	The size of the affected area.
+	*/
+	@property Vector3 bakeExtents()
+	{
+		return getExtents();
+	}
+	/// ditto
+	@property void bakeExtents(Vector3 v)
+	{
+		setExtents(v);
+	}
+	/**
+	If `true`, the lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller file size.
+	*/
+	@property bool bakeHdr()
+	{
+		return isHdr();
+	}
+	/// ditto
+	@property void bakeHdr(bool v)
+	{
+		setHdr(v);
 	}
 	/**
 	Lightmapping mode. See $(D bakemode).
@@ -355,7 +408,7 @@ public:
 		setBakeMode(v);
 	}
 	/**
-	
+	Defines how far the light will travel before it is no longer effective. The higher the number, the farther the light will travel. For instance, if the value is set to 2, the light will go twice as far. If the value is set to 0.5, the light will only go half as far.
 	*/
 	@property double bakePropagation()
 	{
@@ -367,40 +420,16 @@ public:
 		setPropagation(v);
 	}
 	/**
-	
+	Three quality modes are available. Higher quality requires more rendering time. See $(D bakequality).
 	*/
-	@property double bakeEnergy()
+	@property BakedLightmap.BakeQuality bakeQuality()
 	{
-		return getEnergy();
+		return getBakeQuality();
 	}
 	/// ditto
-	@property void bakeEnergy(double v)
+	@property void bakeQuality(long v)
 	{
-		setEnergy(v);
-	}
-	/**
-	If `true`, lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller lightmap. Default value:`false`.
-	*/
-	@property bool bakeHdr()
-	{
-		return isHdr();
-	}
-	/// ditto
-	@property void bakeHdr(bool v)
-	{
-		setHdr(v);
-	}
-	/**
-	Size of affected area.
-	*/
-	@property Vector3 bakeExtents()
-	{
-		return getExtents();
-	}
-	/// ditto
-	@property void bakeExtents(Vector3 v)
-	{
-		setExtents(v);
+		setBakeQuality(v);
 	}
 	/**
 	Grid size used for real-time capture information on dynamic objects. Cannot be larger than $(D bakeCellSize).
@@ -415,7 +444,7 @@ public:
 		setCaptureCellSize(v);
 	}
 	/**
-	Location where lightmaps will be saved.
+	The location where lightmaps will be saved.
 	*/
 	@property String imagePath()
 	{

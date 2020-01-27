@@ -1,5 +1,5 @@
 /**
-
+A $(D Color) uniform to be used within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualshadernodeuniform;
-import godot.visualshadernode;
-import godot.resource;
-import godot.reference;
 /**
+A $(D Color) uniform to be used within the visual shader graph.
 
+Translated to `uniform vec4` in the shader language.
 */
 @GodotBaseClass struct VisualShaderNodeColorUniform
 {

@@ -44,8 +44,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_node_path") GodotMethod!(void, NodePath) setNodePath;
 		@GodotName("get_node_path") GodotMethod!(NodePath) getNodePath;
+		@GodotName("set_node_path") GodotMethod!(void, NodePath) setNodePath;
 	}
 	bool opEquals(in VisualScriptSceneNode other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSceneNode opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,18 +62,18 @@ public:
 	/**
 	
 	*/
-	void setNodePath(NodePathArg0)(in NodePathArg0 path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodePath, _godot_object, path);
-	}
-	/**
-	
-	*/
 	NodePath getNodePath()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NodePath)(_classBinding.getNodePath, _godot_object);
+	}
+	/**
+	
+	*/
+	void setNodePath(NodePathArg0)(in NodePathArg0 path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNodePath, _godot_object, path);
 	}
 	/**
 	The node's path in the scene tree.

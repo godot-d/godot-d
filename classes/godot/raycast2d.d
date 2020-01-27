@@ -44,31 +44,31 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
-		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
-		@GodotName("set_cast_to") GodotMethod!(void, Vector2) setCastTo;
-		@GodotName("get_cast_to") GodotMethod!(Vector2) getCastTo;
-		@GodotName("is_colliding") GodotMethod!(bool) isColliding;
+		@GodotName("add_exception") GodotMethod!(void, GodotObject) addException;
+		@GodotName("add_exception_rid") GodotMethod!(void, RID) addExceptionRid;
+		@GodotName("clear_exceptions") GodotMethod!(void) clearExceptions;
 		@GodotName("force_raycast_update") GodotMethod!(void) forceRaycastUpdate;
+		@GodotName("get_cast_to") GodotMethod!(Vector2) getCastTo;
 		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
 		@GodotName("get_collider_shape") GodotMethod!(long) getColliderShape;
-		@GodotName("get_collision_point") GodotMethod!(Vector2) getCollisionPoint;
-		@GodotName("get_collision_normal") GodotMethod!(Vector2) getCollisionNormal;
-		@GodotName("add_exception_rid") GodotMethod!(void, RID) addExceptionRid;
-		@GodotName("add_exception") GodotMethod!(void, GodotObject) addException;
-		@GodotName("remove_exception_rid") GodotMethod!(void, RID) removeExceptionRid;
-		@GodotName("remove_exception") GodotMethod!(void, GodotObject) removeException;
-		@GodotName("clear_exceptions") GodotMethod!(void) clearExceptions;
-		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
 		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
-		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
 		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
-		@GodotName("set_exclude_parent_body") GodotMethod!(void, bool) setExcludeParentBody;
+		@GodotName("get_collision_normal") GodotMethod!(Vector2) getCollisionNormal;
+		@GodotName("get_collision_point") GodotMethod!(Vector2) getCollisionPoint;
 		@GodotName("get_exclude_parent_body") GodotMethod!(bool) getExcludeParentBody;
-		@GodotName("set_collide_with_areas") GodotMethod!(void, bool) setCollideWithAreas;
 		@GodotName("is_collide_with_areas_enabled") GodotMethod!(bool) isCollideWithAreasEnabled;
-		@GodotName("set_collide_with_bodies") GodotMethod!(void, bool) setCollideWithBodies;
 		@GodotName("is_collide_with_bodies_enabled") GodotMethod!(bool) isCollideWithBodiesEnabled;
+		@GodotName("is_colliding") GodotMethod!(bool) isColliding;
+		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
+		@GodotName("remove_exception") GodotMethod!(void, GodotObject) removeException;
+		@GodotName("remove_exception_rid") GodotMethod!(void, RID) removeExceptionRid;
+		@GodotName("set_cast_to") GodotMethod!(void, Vector2) setCastTo;
+		@GodotName("set_collide_with_areas") GodotMethod!(void, bool) setCollideWithAreas;
+		@GodotName("set_collide_with_bodies") GodotMethod!(void, bool) setCollideWithBodies;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
+		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
+		@GodotName("set_exclude_parent_body") GodotMethod!(void, bool) setExcludeParentBody;
 	}
 	bool opEquals(in RayCast2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RayCast2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -83,28 +83,37 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Adds a collision exception so the ray does not report collisions with the specified node.
 	*/
-	void setEnabled(in bool enabled)
+	void addException(GodotObject node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
+		ptrcall!(void)(_classBinding.addException, _godot_object, node);
 	}
 	/**
-	
+	Adds a collision exception so the ray does not report collisions with the specified $(D RID).
 	*/
-	bool isEnabled() const
+	void addExceptionRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.addExceptionRid, _godot_object, rid);
 	}
 	/**
-	
+	Removes all collision exceptions for this ray.
 	*/
-	void setCastTo(in Vector2 local_point)
+	void clearExceptions()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCastTo, _godot_object, local_point);
+		ptrcall!(void)(_classBinding.clearExceptions, _godot_object);
+	}
+	/**
+	Updates the collision information for the ray. Use this method to update the collision information immediately instead of waiting for the next `_physics_process` call, for example if the ray or its parent has changed state.
+	$(B Note:) `enabled == true` is not required for this to work.
+	*/
+	void forceRaycastUpdate()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceRaycastUpdate, _godot_object);
 	}
 	/**
 	
@@ -115,23 +124,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getCastTo, _godot_object);
 	}
 	/**
-	Return whether any object is intersecting with the ray's vector (considering the vector length).
-	*/
-	bool isColliding() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isColliding, _godot_object);
-	}
-	/**
-	Updates the collision information for the ray. Use this method to update the collision information immediately instead of waiting for the next `_physics_process` call, for example if the ray or its parent has changed state. Note: `enabled == true` is not required for this to work.
-	*/
-	void forceRaycastUpdate()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceRaycastUpdate, _godot_object);
-	}
-	/**
-	Return the first object that the ray intersects, or `null` if no object is intersecting the ray (i.e. $(D isColliding) returns `false`).
+	Returns the first object that the ray intersects, or `null` if no object is intersecting the ray (i.e. $(D isColliding) returns `false`).
 	*/
 	GodotObject getCollider() const
 	{
@@ -147,12 +140,20 @@ public:
 		return ptrcall!(long)(_classBinding.getColliderShape, _godot_object);
 	}
 	/**
-	Returns the collision point at which the ray intersects the closest object. Note: this point is in the $(B global) coordinate system.
+	
 	*/
-	Vector2 getCollisionPoint() const
+	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCollisionPoint, _godot_object);
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+	}
+	/**
+	Returns an individual bit on the collision mask.
+	*/
+	bool getCollisionMaskBit(in long bit) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	Returns the normal of the intersecting object's shape at the collision point.
@@ -163,84 +164,13 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getCollisionNormal, _godot_object);
 	}
 	/**
-	Adds a collision exception so the ray does not report collisions with the specified $(D RID).
+	Returns the collision point at which the ray intersects the closest object.
+	$(B Note:) this point is in the $(B global) coordinate system.
 	*/
-	void addExceptionRid(in RID rid)
+	Vector2 getCollisionPoint() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addExceptionRid, _godot_object, rid);
-	}
-	/**
-	Adds a collision exception so the ray does not report collisions with the specified node.
-	*/
-	void addException(GodotObject node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addException, _godot_object, node);
-	}
-	/**
-	Removes a collision exception so the ray does report collisions with the specified $(D RID).
-	*/
-	void removeExceptionRid(in RID rid)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeExceptionRid, _godot_object, rid);
-	}
-	/**
-	Removes a collision exception so the ray does report collisions with the specified node.
-	*/
-	void removeException(GodotObject node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeException, _godot_object, node);
-	}
-	/**
-	Removes all collision exceptions for this ray.
-	*/
-	void clearExceptions()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearExceptions, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCollisionMask(in long mask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
-	}
-	/**
-	
-	*/
-	long getCollisionMask() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
-	}
-	/**
-	Set/clear individual bits on the collision mask. This makes selecting the areas scanned easier.
-	*/
-	void setCollisionMaskBit(in long bit, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
-	}
-	/**
-	Return an individual bit on the collision mask.
-	*/
-	bool getCollisionMaskBit(in long bit) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
-	}
-	/**
-	
-	*/
-	void setExcludeParentBody(in bool mask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExcludeParentBody, _godot_object, mask);
+		return ptrcall!(Vector2)(_classBinding.getCollisionPoint, _godot_object);
 	}
 	/**
 	
@@ -253,18 +183,66 @@ public:
 	/**
 	
 	*/
-	void setCollideWithAreas(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithAreas, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool isCollideWithAreasEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCollideWithBodiesEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
+	}
+	/**
+	Returns whether any object is intersecting with the ray's vector (considering the vector length).
+	*/
+	bool isColliding() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isColliding, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
+	}
+	/**
+	Removes a collision exception so the ray does report collisions with the specified node.
+	*/
+	void removeException(GodotObject node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeException, _godot_object, node);
+	}
+	/**
+	Removes a collision exception so the ray does report collisions with the specified $(D RID).
+	*/
+	void removeExceptionRid(in RID rid)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeExceptionRid, _godot_object, rid);
+	}
+	/**
+	
+	*/
+	void setCastTo(in Vector2 local_point)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCastTo, _godot_object, local_point);
+	}
+	/**
+	
+	*/
+	void setCollideWithAreas(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollideWithAreas, _godot_object, enable);
 	}
 	/**
 	
@@ -277,34 +255,34 @@ public:
 	/**
 	
 	*/
-	bool isCollideWithBodiesEnabled() const
+	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
-	If `true`, collisions will be reported. Default value: `false`.
+	Sets or clears individual bits on the collision mask. This makes selecting the areas scanned easier.
 	*/
-	@property bool enabled()
+	void setCollisionMaskBit(in long bit, in bool value)
 	{
-		return isEnabled();
-	}
-	/// ditto
-	@property void enabled(bool v)
-	{
-		setEnabled(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
-	If `true`, the parent node will be excluded from collision detection. Default value: `true`.
+	
 	*/
-	@property bool excludeParent()
+	void setEnabled(in bool enabled)
 	{
-		return getExcludeParentBody();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
-	/// ditto
-	@property void excludeParent(bool v)
+	/**
+	
+	*/
+	void setExcludeParentBody(in bool mask)
 	{
-		setExcludeParentBody(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExcludeParentBody, _godot_object, mask);
 	}
 	/**
 	The ray's destination point, relative to the RayCast's `position`.
@@ -319,6 +297,30 @@ public:
 		setCastTo(v);
 	}
 	/**
+	If `true`, collision with $(D Area2D)s will be reported.
+	*/
+	@property bool collideWithAreas()
+	{
+		return isCollideWithAreasEnabled();
+	}
+	/// ditto
+	@property void collideWithAreas(bool v)
+	{
+		setCollideWithAreas(v);
+	}
+	/**
+	If `true`, collision with $(D PhysicsBody2D)s will be reported.
+	*/
+	@property bool collideWithBodies()
+	{
+		return isCollideWithBodiesEnabled();
+	}
+	/// ditto
+	@property void collideWithBodies(bool v)
+	{
+		setCollideWithBodies(v);
+	}
+	/**
 	The ray's collision mask. Only objects in at least one collision layer enabled in the mask will be detected.
 	*/
 	@property long collisionMask()
@@ -331,27 +333,27 @@ public:
 		setCollisionMask(v);
 	}
 	/**
-	If `true`, collision with $(D Area2D)s will be reported. Default value: `false`.
+	If `true`, collisions will be reported.
 	*/
-	@property bool collideWithAreas()
+	@property bool enabled()
 	{
-		return isCollideWithAreasEnabled();
+		return isEnabled();
 	}
 	/// ditto
-	@property void collideWithAreas(bool v)
+	@property void enabled(bool v)
 	{
-		setCollideWithAreas(v);
+		setEnabled(v);
 	}
 	/**
-	If `true`, collision with $(D PhysicsBody2D)s will be reported. Default value: `true`.
+	If `true`, the parent node will be excluded from collision detection.
 	*/
-	@property bool collideWithBodies()
+	@property bool excludeParent()
 	{
-		return isCollideWithBodiesEnabled();
+		return getExcludeParentBody();
 	}
 	/// ditto
-	@property void collideWithBodies(bool v)
+	@property void excludeParent(bool v)
 	{
-		setCollideWithBodies(v);
+		setExcludeParentBody(v);
 	}
 }

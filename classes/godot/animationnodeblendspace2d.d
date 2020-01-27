@@ -1,5 +1,5 @@
 /**
-
+Blends linearly between three $(D AnimationNode) of any type placed in a 2D space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,12 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.animationrootnode;
-import godot.animationnode;
-import godot.resource;
-import godot.reference;
 /**
+Blends linearly between three $(D AnimationNode) of any type placed in a 2D space.
 
+A resource to add to an $(D AnimationNodeBlendTree).
+This node allows you to blend linearly between three animations using a $(D Vector2) weight.
+You can add vertices to the blend space with $(D addBlendPoint) and automatically triangulate it by setting $(D autoTriangles) to `true`. Otherwise, use $(D addTriangle) and $(D removeTriangle) to create up the blend space by hand.
 */
 @GodotBaseClass struct AnimationNodeBlendSpace2D
 {
@@ -39,36 +40,36 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("add_blend_point") GodotMethod!(void, AnimationRootNode, Vector2, long) addBlendPoint;
-		@GodotName("set_blend_point_position") GodotMethod!(void, long, Vector2) setBlendPointPosition;
-		@GodotName("get_blend_point_position") GodotMethod!(Vector2, long) getBlendPointPosition;
-		@GodotName("set_blend_point_node") GodotMethod!(void, long, AnimationRootNode) setBlendPointNode;
-		@GodotName("get_blend_point_node") GodotMethod!(AnimationRootNode, long) getBlendPointNode;
-		@GodotName("remove_blend_point") GodotMethod!(void, long) removeBlendPoint;
-		@GodotName("get_blend_point_count") GodotMethod!(long) getBlendPointCount;
-		@GodotName("add_triangle") GodotMethod!(void, long, long, long, long) addTriangle;
-		@GodotName("get_triangle_point") GodotMethod!(long, long, long) getTrianglePoint;
-		@GodotName("remove_triangle") GodotMethod!(void, long) removeTriangle;
-		@GodotName("get_triangle_count") GodotMethod!(long) getTriangleCount;
-		@GodotName("set_min_space") GodotMethod!(void, Vector2) setMinSpace;
-		@GodotName("get_min_space") GodotMethod!(Vector2) getMinSpace;
-		@GodotName("set_max_space") GodotMethod!(void, Vector2) setMaxSpace;
-		@GodotName("get_max_space") GodotMethod!(Vector2) getMaxSpace;
-		@GodotName("set_snap") GodotMethod!(void, Vector2) setSnap;
-		@GodotName("get_snap") GodotMethod!(Vector2) getSnap;
-		@GodotName("set_x_label") GodotMethod!(void, String) setXLabel;
-		@GodotName("get_x_label") GodotMethod!(String) getXLabel;
-		@GodotName("set_y_label") GodotMethod!(void, String) setYLabel;
-		@GodotName("get_y_label") GodotMethod!(String) getYLabel;
 		@GodotName("_add_blend_point") GodotMethod!(void, long, AnimationRootNode) _addBlendPoint;
-		@GodotName("_set_triangles") GodotMethod!(void, PoolIntArray) _setTriangles;
 		@GodotName("_get_triangles") GodotMethod!(PoolIntArray) _getTriangles;
-		@GodotName("set_auto_triangles") GodotMethod!(void, bool) setAutoTriangles;
-		@GodotName("get_auto_triangles") GodotMethod!(bool) getAutoTriangles;
-		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
-		@GodotName("get_blend_mode") GodotMethod!(AnimationNodeBlendSpace2D.BlendMode) getBlendMode;
+		@GodotName("_set_triangles") GodotMethod!(void, PoolIntArray) _setTriangles;
 		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
 		@GodotName("_update_triangles") GodotMethod!(void) _updateTriangles;
+		@GodotName("add_blend_point") GodotMethod!(void, AnimationRootNode, Vector2, long) addBlendPoint;
+		@GodotName("add_triangle") GodotMethod!(void, long, long, long, long) addTriangle;
+		@GodotName("get_auto_triangles") GodotMethod!(bool) getAutoTriangles;
+		@GodotName("get_blend_mode") GodotMethod!(AnimationNodeBlendSpace2D.BlendMode) getBlendMode;
+		@GodotName("get_blend_point_count") GodotMethod!(long) getBlendPointCount;
+		@GodotName("get_blend_point_node") GodotMethod!(AnimationRootNode, long) getBlendPointNode;
+		@GodotName("get_blend_point_position") GodotMethod!(Vector2, long) getBlendPointPosition;
+		@GodotName("get_max_space") GodotMethod!(Vector2) getMaxSpace;
+		@GodotName("get_min_space") GodotMethod!(Vector2) getMinSpace;
+		@GodotName("get_snap") GodotMethod!(Vector2) getSnap;
+		@GodotName("get_triangle_count") GodotMethod!(long) getTriangleCount;
+		@GodotName("get_triangle_point") GodotMethod!(long, long, long) getTrianglePoint;
+		@GodotName("get_x_label") GodotMethod!(String) getXLabel;
+		@GodotName("get_y_label") GodotMethod!(String) getYLabel;
+		@GodotName("remove_blend_point") GodotMethod!(void, long) removeBlendPoint;
+		@GodotName("remove_triangle") GodotMethod!(void, long) removeTriangle;
+		@GodotName("set_auto_triangles") GodotMethod!(void, bool) setAutoTriangles;
+		@GodotName("set_blend_mode") GodotMethod!(void, long) setBlendMode;
+		@GodotName("set_blend_point_node") GodotMethod!(void, long, AnimationRootNode) setBlendPointNode;
+		@GodotName("set_blend_point_position") GodotMethod!(void, long, Vector2) setBlendPointPosition;
+		@GodotName("set_max_space") GodotMethod!(void, Vector2) setMaxSpace;
+		@GodotName("set_min_space") GodotMethod!(void, Vector2) setMinSpace;
+		@GodotName("set_snap") GodotMethod!(void, Vector2) setSnap;
+		@GodotName("set_x_label") GodotMethod!(void, String) setXLabel;
+		@GodotName("set_y_label") GodotMethod!(void, String) setYLabel;
 	}
 	bool opEquals(in AnimationNodeBlendSpace2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeBlendSpace2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -86,15 +87,15 @@ public:
 	enum BlendMode : int
 	{
 		/**
-		
+		The interpolation between animations is linear.
 		*/
 		blendModeInterpolated = 0,
 		/**
-		Useful for frame-by-frame 2D animations.
+		The blend space plays the animation of the node the blending position is closest to. Useful for frame-by-frame 2D animations.
 		*/
 		blendModeDiscrete = 1,
 		/**
-		Keep the current play position when switching between discrete animations.
+		Similar to $(D constant BLEND_MODE_DISCRETE), but starts the new animation at the last animation's playback position.
 		*/
 		blendModeDiscreteCarry = 2,
 	}
@@ -108,177 +109,9 @@ public:
 	/**
 	
 	*/
-	void addBlendPoint(AnimationRootNode node, in Vector2 pos, in long at_index = -1)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBlendPoint, _godot_object, node, pos, at_index);
-	}
-	/**
-	
-	*/
-	void setBlendPointPosition(in long point, in Vector2 pos)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointPosition, _godot_object, point, pos);
-	}
-	/**
-	
-	*/
-	Vector2 getBlendPointPosition(in long point) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getBlendPointPosition, _godot_object, point);
-	}
-	/**
-	
-	*/
-	void setBlendPointNode(in long point, AnimationRootNode node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointNode, _godot_object, point, node);
-	}
-	/**
-	
-	*/
-	Ref!AnimationRootNode getBlendPointNode(in long point) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationRootNode)(_classBinding.getBlendPointNode, _godot_object, point);
-	}
-	/**
-	
-	*/
-	void removeBlendPoint(in long point)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBlendPoint, _godot_object, point);
-	}
-	/**
-	
-	*/
-	long getBlendPointCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBlendPointCount, _godot_object);
-	}
-	/**
-	
-	*/
-	void addTriangle(in long x, in long y, in long z, in long at_index = -1)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTriangle, _godot_object, x, y, z, at_index);
-	}
-	/**
-	
-	*/
-	long getTrianglePoint(in long triangle, in long point)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrianglePoint, _godot_object, triangle, point);
-	}
-	/**
-	
-	*/
-	void removeTriangle(in long triangle)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTriangle, _godot_object, triangle);
-	}
-	/**
-	
-	*/
-	long getTriangleCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTriangleCount, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMinSpace(in Vector2 min_space)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinSpace, _godot_object, min_space);
-	}
-	/**
-	
-	*/
-	Vector2 getMinSpace() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMinSpace, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaxSpace(in Vector2 max_space)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxSpace, _godot_object, max_space);
-	}
-	/**
-	
-	*/
-	Vector2 getMaxSpace() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMaxSpace, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSnap(in Vector2 snap)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
-	}
-	/**
-	
-	*/
-	Vector2 getSnap() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSnap, _godot_object);
-	}
-	/**
-	
-	*/
-	void setXLabel(in String text)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setXLabel, _godot_object, text);
-	}
-	/**
-	
-	*/
-	String getXLabel() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getXLabel, _godot_object);
-	}
-	/**
-	
-	*/
-	void setYLabel(in String text)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setYLabel, _godot_object, text);
-	}
-	/**
-	
-	*/
-	String getYLabel() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getYLabel, _godot_object);
-	}
-	/**
-	
-	*/
 	void _addBlendPoint(in long index, AnimationRootNode node)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(index);
 		_GODOT_args.append(node);
 		String _GODOT_method_name = String("_add_blend_point");
@@ -287,9 +120,18 @@ public:
 	/**
 	
 	*/
+	PoolIntArray _getTriangles() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_triangles");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
+	}
+	/**
+	
+	*/
 	void _setTriangles(in PoolIntArray triangles)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(triangles);
 		String _GODOT_method_name = String("_set_triangles");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -297,19 +139,36 @@ public:
 	/**
 	
 	*/
-	PoolIntArray _getTriangles() const
+	void _treeChanged()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_triangles");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_tree_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setAutoTriangles(in bool enable)
+	void _updateTriangles()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_triangles");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds a new point that represents a `node` at the position set by `pos`. You can insert it at a specific index using the `at_index` argument. If you use the default value for `at_index`, the point is inserted at the end of the blend points array.
+	*/
+	void addBlendPoint(AnimationRootNode node, in Vector2 pos, in long at_index = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoTriangles, _godot_object, enable);
+		ptrcall!(void)(_classBinding.addBlendPoint, _godot_object, node, pos, at_index);
+	}
+	/**
+	Creates a new triangle using three points `x`, `y`, and `z`. Triangles can overlap. You can insert the triangle at a specific index using the `at_index` argument. If you use the default value for `at_index`, the point is inserted at the end of the blend points array.
+	*/
+	void addTriangle(in long x, in long y, in long z, in long at_index = -1)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addTriangle, _godot_object, x, y, z, at_index);
 	}
 	/**
 	
@@ -322,39 +181,181 @@ public:
 	/**
 	
 	*/
-	void setBlendMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
 	AnimationNodeBlendSpace2D.BlendMode getBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(AnimationNodeBlendSpace2D.BlendMode)(_classBinding.getBlendMode, _godot_object);
 	}
 	/**
-	
+	Returns the number of points in the blend space.
 	*/
-	void _treeChanged()
+	long getBlendPointCount() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_tree_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBlendPointCount, _godot_object);
+	}
+	/**
+	Returns the $(D AnimationRootNode) referenced by the point at index `point`.
+	*/
+	Ref!AnimationRootNode getBlendPointNode(in long point) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationRootNode)(_classBinding.getBlendPointNode, _godot_object, point);
+	}
+	/**
+	Returns the position of the point at index `point`.
+	*/
+	Vector2 getBlendPointPosition(in long point) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getBlendPointPosition, _godot_object, point);
 	}
 	/**
 	
 	*/
-	void _updateTriangles()
+	Vector2 getMaxSpace() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update_triangles");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMaxSpace, _godot_object);
 	}
 	/**
 	
+	*/
+	Vector2 getMinSpace() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMinSpace, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getSnap() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSnap, _godot_object);
+	}
+	/**
+	Returns the number of triangles in the blend space.
+	*/
+	long getTriangleCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTriangleCount, _godot_object);
+	}
+	/**
+	Returns the position of the point at index `point` in the triangle of index `triangle`.
+	*/
+	long getTrianglePoint(in long triangle, in long point)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrianglePoint, _godot_object, triangle, point);
+	}
+	/**
+	
+	*/
+	String getXLabel() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getXLabel, _godot_object);
+	}
+	/**
+	
+	*/
+	String getYLabel() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getYLabel, _godot_object);
+	}
+	/**
+	Removes the point at index `point` from the blend space.
+	*/
+	void removeBlendPoint(in long point)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeBlendPoint, _godot_object, point);
+	}
+	/**
+	Removes the triangle at index `triangle` from the blend space.
+	*/
+	void removeTriangle(in long triangle)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeTriangle, _godot_object, triangle);
+	}
+	/**
+	
+	*/
+	void setAutoTriangles(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAutoTriangles, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setBlendMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, mode);
+	}
+	/**
+	Changes the $(D AnimationNode) referenced by the point at index `point`.
+	*/
+	void setBlendPointNode(in long point, AnimationRootNode node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendPointNode, _godot_object, point, node);
+	}
+	/**
+	Updates the position of the point at index `point` on the blend axis.
+	*/
+	void setBlendPointPosition(in long point, in Vector2 pos)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendPointPosition, _godot_object, point, pos);
+	}
+	/**
+	
+	*/
+	void setMaxSpace(in Vector2 max_space)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxSpace, _godot_object, max_space);
+	}
+	/**
+	
+	*/
+	void setMinSpace(in Vector2 min_space)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMinSpace, _godot_object, min_space);
+	}
+	/**
+	
+	*/
+	void setSnap(in Vector2 snap)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
+	}
+	/**
+	
+	*/
+	void setXLabel(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setXLabel, _godot_object, text);
+	}
+	/**
+	
+	*/
+	void setYLabel(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setYLabel, _godot_object, text);
+	}
+	/**
+	If `true`, the blend space is triangulated automatically. The mesh updates every time you add or remove points with $(D addBlendPoint) and $(D removeBlendPoint).
 	*/
 	@property bool autoTriangles()
 	{
@@ -364,6 +365,18 @@ public:
 	@property void autoTriangles(bool v)
 	{
 		setAutoTriangles(v);
+	}
+	/**
+	Controls the interpolation between animations. See $(D blendmode) constants.
+	*/
+	@property AnimationNodeBlendSpace2D.BlendMode blendMode()
+	{
+		return getBlendMode();
+	}
+	/// ditto
+	@property void blendMode(long v)
+	{
+		setBlendMode(v);
 	}
 	/**
 	
@@ -412,198 +425,6 @@ public:
 	@property void blendPoint1Pos(Vector2 v)
 	{
 		setBlendPointPosition(1, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint2Node()
-	{
-		return getBlendPointNode(2);
-	}
-	/// ditto
-	@property void blendPoint2Node(AnimationRootNode v)
-	{
-		_addBlendPoint(2, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint2Pos()
-	{
-		return getBlendPointPosition(2);
-	}
-	/// ditto
-	@property void blendPoint2Pos(Vector2 v)
-	{
-		setBlendPointPosition(2, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint3Node()
-	{
-		return getBlendPointNode(3);
-	}
-	/// ditto
-	@property void blendPoint3Node(AnimationRootNode v)
-	{
-		_addBlendPoint(3, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint3Pos()
-	{
-		return getBlendPointPosition(3);
-	}
-	/// ditto
-	@property void blendPoint3Pos(Vector2 v)
-	{
-		setBlendPointPosition(3, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint4Node()
-	{
-		return getBlendPointNode(4);
-	}
-	/// ditto
-	@property void blendPoint4Node(AnimationRootNode v)
-	{
-		_addBlendPoint(4, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint4Pos()
-	{
-		return getBlendPointPosition(4);
-	}
-	/// ditto
-	@property void blendPoint4Pos(Vector2 v)
-	{
-		setBlendPointPosition(4, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint5Node()
-	{
-		return getBlendPointNode(5);
-	}
-	/// ditto
-	@property void blendPoint5Node(AnimationRootNode v)
-	{
-		_addBlendPoint(5, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint5Pos()
-	{
-		return getBlendPointPosition(5);
-	}
-	/// ditto
-	@property void blendPoint5Pos(Vector2 v)
-	{
-		setBlendPointPosition(5, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint6Node()
-	{
-		return getBlendPointNode(6);
-	}
-	/// ditto
-	@property void blendPoint6Node(AnimationRootNode v)
-	{
-		_addBlendPoint(6, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint6Pos()
-	{
-		return getBlendPointPosition(6);
-	}
-	/// ditto
-	@property void blendPoint6Pos(Vector2 v)
-	{
-		setBlendPointPosition(6, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint7Node()
-	{
-		return getBlendPointNode(7);
-	}
-	/// ditto
-	@property void blendPoint7Node(AnimationRootNode v)
-	{
-		_addBlendPoint(7, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint7Pos()
-	{
-		return getBlendPointPosition(7);
-	}
-	/// ditto
-	@property void blendPoint7Pos(Vector2 v)
-	{
-		setBlendPointPosition(7, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint8Node()
-	{
-		return getBlendPointNode(8);
-	}
-	/// ditto
-	@property void blendPoint8Node(AnimationRootNode v)
-	{
-		_addBlendPoint(8, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint8Pos()
-	{
-		return getBlendPointPosition(8);
-	}
-	/// ditto
-	@property void blendPoint8Pos(Vector2 v)
-	{
-		setBlendPointPosition(8, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint9Node()
-	{
-		return getBlendPointNode(9);
-	}
-	/// ditto
-	@property void blendPoint9Node(AnimationRootNode v)
-	{
-		_addBlendPoint(9, v);
-	}
-	/**
-	
-	*/
-	@property Vector2 blendPoint9Pos()
-	{
-		return getBlendPointPosition(9);
-	}
-	/// ditto
-	@property void blendPoint9Pos(Vector2 v)
-	{
-		setBlendPointPosition(9, v);
 	}
 	/**
 	
@@ -848,6 +669,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint2Node()
+	{
+		return getBlendPointNode(2);
+	}
+	/// ditto
+	@property void blendPoint2Node(AnimationRootNode v)
+	{
+		_addBlendPoint(2, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint2Pos()
+	{
+		return getBlendPointPosition(2);
+	}
+	/// ditto
+	@property void blendPoint2Pos(Vector2 v)
+	{
+		setBlendPointPosition(2, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint20Node()
 	{
 		return getBlendPointNode(20);
@@ -1084,6 +929,30 @@ public:
 	@property void blendPoint29Pos(Vector2 v)
 	{
 		setBlendPointPosition(29, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint3Node()
+	{
+		return getBlendPointNode(3);
+	}
+	/// ditto
+	@property void blendPoint3Node(AnimationRootNode v)
+	{
+		_addBlendPoint(3, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint3Pos()
+	{
+		return getBlendPointPosition(3);
+	}
+	/// ditto
+	@property void blendPoint3Pos(Vector2 v)
+	{
+		setBlendPointPosition(3, v);
 	}
 	/**
 	
@@ -1328,6 +1197,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint4Node()
+	{
+		return getBlendPointNode(4);
+	}
+	/// ditto
+	@property void blendPoint4Node(AnimationRootNode v)
+	{
+		_addBlendPoint(4, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint4Pos()
+	{
+		return getBlendPointPosition(4);
+	}
+	/// ditto
+	@property void blendPoint4Pos(Vector2 v)
+	{
+		setBlendPointPosition(4, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint40Node()
 	{
 		return getBlendPointNode(40);
@@ -1564,6 +1457,30 @@ public:
 	@property void blendPoint49Pos(Vector2 v)
 	{
 		setBlendPointPosition(49, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint5Node()
+	{
+		return getBlendPointNode(5);
+	}
+	/// ditto
+	@property void blendPoint5Node(AnimationRootNode v)
+	{
+		_addBlendPoint(5, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint5Pos()
+	{
+		return getBlendPointPosition(5);
+	}
+	/// ditto
+	@property void blendPoint5Pos(Vector2 v)
+	{
+		setBlendPointPosition(5, v);
 	}
 	/**
 	
@@ -1808,6 +1725,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint6Node()
+	{
+		return getBlendPointNode(6);
+	}
+	/// ditto
+	@property void blendPoint6Node(AnimationRootNode v)
+	{
+		_addBlendPoint(6, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint6Pos()
+	{
+		return getBlendPointPosition(6);
+	}
+	/// ditto
+	@property void blendPoint6Pos(Vector2 v)
+	{
+		setBlendPointPosition(6, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint60Node()
 	{
 		return getBlendPointNode(60);
@@ -1904,29 +1845,77 @@ public:
 	/**
 	
 	*/
-	@property PoolIntArray triangles()
+	@property AnimationRootNode blendPoint7Node()
 	{
-		return _getTriangles();
+		return getBlendPointNode(7);
 	}
 	/// ditto
-	@property void triangles(PoolIntArray v)
+	@property void blendPoint7Node(AnimationRootNode v)
 	{
-		_setTriangles(v);
+		_addBlendPoint(7, v);
 	}
 	/**
 	
 	*/
-	@property Vector2 minSpace()
+	@property Vector2 blendPoint7Pos()
 	{
-		return getMinSpace();
+		return getBlendPointPosition(7);
 	}
 	/// ditto
-	@property void minSpace(Vector2 v)
+	@property void blendPoint7Pos(Vector2 v)
 	{
-		setMinSpace(v);
+		setBlendPointPosition(7, v);
 	}
 	/**
 	
+	*/
+	@property AnimationRootNode blendPoint8Node()
+	{
+		return getBlendPointNode(8);
+	}
+	/// ditto
+	@property void blendPoint8Node(AnimationRootNode v)
+	{
+		_addBlendPoint(8, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint8Pos()
+	{
+		return getBlendPointPosition(8);
+	}
+	/// ditto
+	@property void blendPoint8Pos(Vector2 v)
+	{
+		setBlendPointPosition(8, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint9Node()
+	{
+		return getBlendPointNode(9);
+	}
+	/// ditto
+	@property void blendPoint9Node(AnimationRootNode v)
+	{
+		_addBlendPoint(9, v);
+	}
+	/**
+	
+	*/
+	@property Vector2 blendPoint9Pos()
+	{
+		return getBlendPointPosition(9);
+	}
+	/// ditto
+	@property void blendPoint9Pos(Vector2 v)
+	{
+		setBlendPointPosition(9, v);
+	}
+	/**
+	The blend space's X and Y axes' upper limit for the points' position. See $(D addBlendPoint).
 	*/
 	@property Vector2 maxSpace()
 	{
@@ -1938,7 +1927,19 @@ public:
 		setMaxSpace(v);
 	}
 	/**
-	
+	The blend space's X and Y axes' lower limit for the points' position. See $(D addBlendPoint).
+	*/
+	@property Vector2 minSpace()
+	{
+		return getMinSpace();
+	}
+	/// ditto
+	@property void minSpace(Vector2 v)
+	{
+		setMinSpace(v);
+	}
+	/**
+	Position increment to snap to when moving a point.
 	*/
 	@property Vector2 snap()
 	{
@@ -1952,6 +1953,18 @@ public:
 	/**
 	
 	*/
+	@property PoolIntArray triangles()
+	{
+		return _getTriangles();
+	}
+	/// ditto
+	@property void triangles(PoolIntArray v)
+	{
+		_setTriangles(v);
+	}
+	/**
+	Name of the blend space's X axis.
+	*/
 	@property String xLabel()
 	{
 		return getXLabel();
@@ -1962,7 +1975,7 @@ public:
 		setXLabel(v);
 	}
 	/**
-	
+	Name of the blend space's Y axis.
 	*/
 	@property String yLabel()
 	{
@@ -1972,17 +1985,5 @@ public:
 	@property void yLabel(String v)
 	{
 		setYLabel(v);
-	}
-	/**
-	
-	*/
-	@property AnimationNodeBlendSpace2D.BlendMode blendMode()
-	{
-		return getBlendMode();
-	}
-	/// ditto
-	@property void blendMode(long v)
-	{
-		setBlendMode(v);
 	}
 }

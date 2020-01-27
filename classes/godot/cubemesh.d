@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
-import godot.mesh;
-import godot.resource;
-import godot.reference;
 /**
 Generate an axis-aligned cuboid $(D PrimitiveMesh).
 
-
+The cube's UV layout is arranged in a 3×2 layout that allows texturing each face individually. To apply the same texture on all faces, change the material's UV property to `Vector3(3, 2, 1)`.
 */
 @GodotBaseClass struct CubeMesh
 {
@@ -41,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_size") GodotMethod!(void, Vector3) setSize;
 		@GodotName("get_size") GodotMethod!(Vector3) getSize;
-		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
-		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
-		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
-		@GodotName("get_subdivide_height") GodotMethod!(long) getSubdivideHeight;
-		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
 		@GodotName("get_subdivide_depth") GodotMethod!(long) getSubdivideDepth;
+		@GodotName("get_subdivide_height") GodotMethod!(long) getSubdivideHeight;
+		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
+		@GodotName("set_size") GodotMethod!(void, Vector3) setSize;
+		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
+		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
+		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
 	}
 	bool opEquals(in CubeMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CubeMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,14 +62,6 @@ public:
 	/**
 	
 	*/
-	void setSize(in Vector3 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
-	}
-	/**
-	
-	*/
 	Vector3 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -81,26 +70,10 @@ public:
 	/**
 	
 	*/
-	void setSubdivideWidth(in long subdivide)
+	long getSubdivideDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, subdivide);
-	}
-	/**
-	
-	*/
-	long getSubdivideWidth() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSubdivideHeight(in long divisions)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, divisions);
+		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
 	}
 	/**
 	
@@ -113,6 +86,22 @@ public:
 	/**
 	
 	*/
+	long getSubdivideWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSize(in Vector3 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+	}
+	/**
+	
+	*/
 	void setSubdivideDepth(in long divisions)
 	{
 		checkClassBinding!(typeof(this))();
@@ -121,13 +110,21 @@ public:
 	/**
 	
 	*/
-	long getSubdivideDepth() const
+	void setSubdivideHeight(in long divisions)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
+		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, divisions);
 	}
 	/**
-	Size of the cuboid mesh. Defaults to (2, 2, 2).
+	
+	*/
+	void setSubdivideWidth(in long subdivide)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, subdivide);
+	}
+	/**
+	Size of the cuboid mesh.
 	*/
 	@property Vector3 size()
 	{
@@ -139,19 +136,19 @@ public:
 		setSize(v);
 	}
 	/**
-	Number of extra edge loops inserted along the x-axis. Defaults to 0.
+	Number of extra edge loops inserted along the Z axis.
 	*/
-	@property long subdivideWidth()
+	@property long subdivideDepth()
 	{
-		return getSubdivideWidth();
+		return getSubdivideDepth();
 	}
 	/// ditto
-	@property void subdivideWidth(long v)
+	@property void subdivideDepth(long v)
 	{
-		setSubdivideWidth(v);
+		setSubdivideDepth(v);
 	}
 	/**
-	Number of extra edge loops inserted along the y-axis. Defaults to 0.
+	Number of extra edge loops inserted along the Y axis.
 	*/
 	@property long subdivideHeight()
 	{
@@ -163,15 +160,15 @@ public:
 		setSubdivideHeight(v);
 	}
 	/**
-	Number of extra edge loops inserted along the z-axis. Defaults to 0.
+	Number of extra edge loops inserted along the X axis.
 	*/
-	@property long subdivideDepth()
+	@property long subdivideWidth()
 	{
-		return getSubdivideDepth();
+		return getSubdivideWidth();
 	}
 	/// ditto
-	@property void subdivideDepth(long v)
+	@property void subdivideWidth(long v)
 	{
-		setSubdivideDepth(v);
+		setSubdivideWidth(v);
 	}
 }

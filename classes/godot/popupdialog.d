@@ -1,5 +1,5 @@
 /**
-Base class for Popup Dialogs.
+Base class for popup dialogs.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -25,7 +25,7 @@ import godot.control;
 import godot.canvasitem;
 import godot.node;
 /**
-Base class for Popup Dialogs.
+Base class for popup dialogs.
 
 PopupDialog is a base class for popup dialogs, along with $(D WindowDialog).
 */

@@ -1,5 +1,5 @@
 /**
-Interactive Resource Loader.
+Interactive $(D Resource) loader.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.reference;
 import godot.resource;
 /**
-Interactive Resource Loader.
+Interactive $(D Resource) loader.
 
-This object is returned by ResourceLoader when performing an interactive load. It allows to load with high granularity, so this is mainly useful for displaying load bars/percentages.
+This object is returned by $(D ResourceLoader) when performing an interactive load. It allows loading resources with high granularity, which makes it mainly useful for displaying loading bars or percentages.
 */
 @GodotBaseClass struct ResourceInteractiveLoader
 {
@@ -39,10 +39,10 @@ public:
 	{
 		__gshared:
 		@GodotName("get_resource") GodotMethod!(Resource) getResource;
-		@GodotName("poll") GodotMethod!(GodotError) poll;
-		@GodotName("wait") GodotMethod!(GodotError) wait;
 		@GodotName("get_stage") GodotMethod!(long) getStage;
 		@GodotName("get_stage_count") GodotMethod!(long) getStageCount;
+		@GodotName("poll") GodotMethod!(GodotError) poll;
+		@GodotName("wait") GodotMethod!(GodotError) wait;
 	}
 	bool opEquals(in ResourceInteractiveLoader other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ResourceInteractiveLoader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,7 +57,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Return the loaded resource (only if loaded). Otherwise, returns null.
+	Returns the loaded resource if the load operation completed successfully, `null` otherwise.
 	*/
 	Ref!Resource getResource()
 	{
@@ -65,23 +65,7 @@ public:
 		return ptrcall!(Resource)(_classBinding.getResource, _godot_object);
 	}
 	/**
-	Poll the load. If OK is returned, this means poll will have to be called again. If ERR_FILE_EOF is returned, them the load has finished and the resource can be obtained by calling $(D getResource).
-	*/
-	GodotError poll()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
-	}
-	/**
-	
-	*/
-	GodotError wait()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
-	}
-	/**
-	Return the load stage. The total amount of stages can be queried with $(D getStageCount)
+	Returns the load stage. The total amount of stages can be queried with $(D getStageCount).
 	*/
 	long getStage() const
 	{
@@ -89,11 +73,32 @@ public:
 		return ptrcall!(long)(_classBinding.getStage, _godot_object);
 	}
 	/**
-	Return the total amount of stages (calls to $(D poll)) needed to completely load this resource.
+	Returns the total amount of stages (calls to $(D poll)) needed to completely load this resource.
 	*/
 	long getStageCount() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getStageCount, _godot_object);
+	}
+	/**
+	Polls the loading operation, i.e. loads a data chunk up to the next stage.
+	Returns $(D constant OK) if the poll is successful but the load operation has not finished yet (intermediate stage). This means $(D poll) will have to be called again until the last stage is completed.
+	Returns $(D constant ERR_FILE_EOF) if the load operation has completed successfully. The loaded resource can be obtained by calling $(D getResource).
+	Returns another $(D error) code if the poll has failed.
+	*/
+	GodotError poll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
+	}
+	/**
+	Polls the loading operation successively until the resource is completely loaded or a $(D poll) fails.
+	Returns $(D constant ERR_FILE_EOF) if the load operation has completed successfully. The loaded resource can be obtained by calling $(D getResource).
+	Returns another $(D error) code if a poll has failed, aborting the operation.
+	*/
+	GodotError wait()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
 }

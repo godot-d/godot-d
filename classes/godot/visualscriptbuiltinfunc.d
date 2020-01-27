@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 A Visual Script node used to call built-in functions.
 
@@ -41,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_func") GodotMethod!(void, long) setFunc;
 		@GodotName("get_func") GodotMethod!(VisualScriptBuiltinFunc.BuiltinFunc) getFunc;
+		@GodotName("set_func") GodotMethod!(void, long) setFunc;
 	}
 	bool opEquals(in VisualScriptBuiltinFunc other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptBuiltinFunc opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -176,143 +174,148 @@ public:
 		*/
 		mathRangeLerp = 28,
 		/**
-		Return the result of 'value' decreased by 'step' * 'amount'.
+		Moves the number toward a value, based on the third input.
 		*/
-		mathDectime = 29,
+		mathMoveToward = 29,
+		/**
+		Return the result of `value` decreased by `step` * `amount`.
+		*/
+		mathDectime = 30,
 		/**
 		Randomize the seed (or the internal state) of the random number generator. Current implementation reseeds using a number based on time.
 		*/
-		mathRandomize = 30,
+		mathRandomize = 31,
 		/**
 		Return a random 32 bits integer value. To obtain a random value between 0 to N (where N is smaller than 2^32 - 1), you can use it with the remainder function.
 		*/
-		mathRand = 31,
+		mathRand = 32,
 		/**
 		Return a random floating-point value between 0 and 1. To obtain a random value between 0 to N, you can use it with multiplication.
 		*/
-		mathRandf = 32,
+		mathRandf = 33,
 		/**
 		Return a random floating-point value between the two inputs.
 		*/
-		mathRandom = 33,
+		mathRandom = 34,
 		/**
 		Set the seed for the random number generator.
 		*/
-		mathSeed = 34,
+		mathSeed = 35,
 		/**
 		Return a random value from the given seed, along with the new seed.
 		*/
-		mathRandseed = 35,
+		mathRandseed = 36,
 		/**
 		Convert the input from degrees to radians.
 		*/
-		mathDeg2rad = 36,
+		mathDeg2rad = 37,
 		/**
 		Convert the input from radians to degrees.
 		*/
-		mathRad2deg = 37,
+		mathRad2deg = 38,
 		/**
 		Convert the input from linear volume to decibel volume.
 		*/
-		mathLinear2db = 38,
+		mathLinear2db = 39,
 		/**
 		Convert the input from decibel volume to linear volume.
 		*/
-		mathDb2linear = 39,
+		mathDb2linear = 40,
 		/**
-		Converts a 2D point expressed in the polar coordinate system (a distance from the origin `r` and an angle `th`) to the cartesian coordinate system (x and y axis).
+		Converts a 2D point expressed in the polar coordinate system (a distance from the origin `r` and an angle `th`) to the cartesian coordinate system (X and Y axis).
 		*/
-		mathPolar2cartesian = 40,
+		mathPolar2cartesian = 41,
 		/**
-		Converts a 2D point expressed in the cartesian coordinate system (x and y axis) to the polar coordinate system (a distance from the origin and an angle).
+		Converts a 2D point expressed in the cartesian coordinate system (X and Y axis) to the polar coordinate system (a distance from the origin and an angle).
 		*/
-		mathCartesian2polar = 41,
-		/**
-		
-		*/
-		mathWrap = 42,
+		mathCartesian2polar = 42,
 		/**
 		
 		*/
-		mathWrapf = 43,
+		mathWrap = 43,
+		/**
+		
+		*/
+		mathWrapf = 44,
 		/**
 		Return the greater of the two numbers, also known as their maximum.
 		*/
-		logicMax = 44,
+		logicMax = 45,
 		/**
 		Return the lesser of the two numbers, also known as their minimum.
 		*/
-		logicMin = 45,
+		logicMin = 46,
 		/**
 		Return the input clamped inside the given range, ensuring the result is never outside it. Equivalent to `min(max(input, range_low), range_high)`.
 		*/
-		logicClamp = 46,
+		logicClamp = 47,
 		/**
 		Return the nearest power of 2 to the input.
 		*/
-		logicNearestPo2 = 47,
+		logicNearestPo2 = 48,
 		/**
 		Create a $(D WeakRef) from the input.
 		*/
-		objWeakref = 48,
+		objWeakref = 49,
 		/**
 		Create a $(D FuncRef) from the input.
 		*/
-		funcFuncref = 49,
+		funcFuncref = 50,
 		/**
 		Convert between types.
 		*/
-		typeConvert = 50,
+		typeConvert = 51,
 		/**
 		Return the type of the input as an integer. Check $(D Variant.type) for the integers that might be returned.
 		*/
-		typeOf = 51,
+		typeOf = 52,
 		/**
 		Checks if a type is registered in the $(D ClassDB).
 		*/
-		typeExists = 52,
+		typeExists = 53,
 		/**
 		Return a character with the given ascii value.
 		*/
-		textChar = 53,
+		textChar = 54,
 		/**
 		Convert the input to a string.
 		*/
-		textStr = 54,
+		textStr = 55,
 		/**
 		Print the given string to the output window.
 		*/
-		textPrint = 55,
+		textPrint = 56,
 		/**
 		Print the given string to the standard error output.
 		*/
-		textPrinterr = 56,
+		textPrinterr = 57,
 		/**
 		Print the given string to the standard output, without adding a newline.
 		*/
-		textPrintraw = 57,
+		textPrintraw = 58,
 		/**
 		Serialize a $(D Variant) to a string.
 		*/
-		varToStr = 58,
+		varToStr = 59,
 		/**
-		Deserialize a $(D Variant) from a string serialized using `VAR_TO_STR`.
+		Deserialize a $(D Variant) from a string serialized using $(D constant VAR_TO_STR).
 		*/
-		strToVar = 59,
+		strToVar = 60,
 		/**
 		Serialize a $(D Variant) to a $(D PoolByteArray).
 		*/
-		varToBytes = 60,
+		varToBytes = 61,
 		/**
-		Deserialize a $(D Variant) from a $(D PoolByteArray) serialized using `VAR_TO_BYTES`.
+		Deserialize a $(D Variant) from a $(D PoolByteArray) serialized using $(D constant VAR_TO_BYTES).
 		*/
-		bytesToVar = 61,
+		bytesToVar = 62,
 		/**
-		Return the $(D Color) with the given name and alpha ranging from 0 to 1. Note: names are defined in color_names.inc.
+		Return the $(D Color) with the given name and alpha ranging from 0 to 1.
+		$(B Note:) Names are defined in `color_names.inc`.
 		*/
-		colorn = 62,
+		colorn = 63,
 		/**
-		Return a number smoothly interpolated between the first two inputs, based on the third input. Similar to `MATH_LERP`, but interpolates faster at the beginning and slower at the end. Using Hermite interpolation formula:
+		Return a number smoothly interpolated between the first two inputs, based on the third input. Similar to $(D constant MATH_LERP), but interpolates faster at the beginning and slower at the end. Using Hermite interpolation formula:
 		
 		
 		var t = clamp((weight - from) / (to - from), 0.0, 1.0)
@@ -320,11 +323,23 @@ public:
 		
 		
 		*/
-		mathSmoothstep = 63,
+		mathSmoothstep = 64,
 		/**
-		The maximum value the $(D _function) property can have.
+		
 		*/
-		funcMax = 64,
+		mathPosmod = 65,
+		/**
+		
+		*/
+		mathLerpAngle = 66,
+		/**
+		
+		*/
+		textOrd = 67,
+		/**
+		Represents the size of the $(D builtinfunc) enum.
+		*/
+		funcMax = 68,
 	}
 	/// 
 	enum Constants : int
@@ -358,50 +373,46 @@ public:
 		mathLerp = 26,
 		mathInverseLerp = 27,
 		mathRangeLerp = 28,
-		mathDectime = 29,
-		mathRandomize = 30,
-		mathRand = 31,
-		mathRandf = 32,
-		mathRandom = 33,
-		mathSeed = 34,
-		mathRandseed = 35,
-		mathDeg2rad = 36,
-		mathRad2deg = 37,
-		mathLinear2db = 38,
-		mathDb2linear = 39,
-		mathPolar2cartesian = 40,
-		mathCartesian2polar = 41,
-		mathWrap = 42,
-		mathWrapf = 43,
-		logicMax = 44,
-		logicMin = 45,
-		logicClamp = 46,
-		logicNearestPo2 = 47,
-		objWeakref = 48,
-		funcFuncref = 49,
-		typeConvert = 50,
-		typeOf = 51,
-		typeExists = 52,
-		textChar = 53,
-		textStr = 54,
-		textPrint = 55,
-		textPrinterr = 56,
-		textPrintraw = 57,
-		varToStr = 58,
-		strToVar = 59,
-		varToBytes = 60,
-		bytesToVar = 61,
-		colorn = 62,
-		mathSmoothstep = 63,
-		funcMax = 64,
-	}
-	/**
-	
-	*/
-	void setFunc(in long which)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunc, _godot_object, which);
+		mathMoveToward = 29,
+		mathDectime = 30,
+		mathRandomize = 31,
+		mathRand = 32,
+		mathRandf = 33,
+		mathRandom = 34,
+		mathSeed = 35,
+		mathRandseed = 36,
+		mathDeg2rad = 37,
+		mathRad2deg = 38,
+		mathLinear2db = 39,
+		mathDb2linear = 40,
+		mathPolar2cartesian = 41,
+		mathCartesian2polar = 42,
+		mathWrap = 43,
+		mathWrapf = 44,
+		logicMax = 45,
+		logicMin = 46,
+		logicClamp = 47,
+		logicNearestPo2 = 48,
+		objWeakref = 49,
+		funcFuncref = 50,
+		typeConvert = 51,
+		typeOf = 52,
+		typeExists = 53,
+		textChar = 54,
+		textStr = 55,
+		textPrint = 56,
+		textPrinterr = 57,
+		textPrintraw = 58,
+		varToStr = 59,
+		strToVar = 60,
+		varToBytes = 61,
+		bytesToVar = 62,
+		colorn = 63,
+		mathSmoothstep = 64,
+		mathPosmod = 65,
+		mathLerpAngle = 66,
+		textOrd = 67,
+		funcMax = 68,
 	}
 	/**
 	
@@ -410,6 +421,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualScriptBuiltinFunc.BuiltinFunc)(_classBinding.getFunc, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFunc(in long which)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunc, _godot_object, which);
 	}
 	/**
 	The function to be executed.

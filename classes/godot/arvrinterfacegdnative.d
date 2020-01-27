@@ -1,5 +1,5 @@
 /**
-GDNative wrapper for an ARVR interface
+GDNative wrapper for an ARVR interface.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.arvrinterface;
 import godot.reference;
 /**
-GDNative wrapper for an ARVR interface
+GDNative wrapper for an ARVR interface.
 
-This is a wrapper class for GDNative implementations of the ARVR interface. To use a GDNative ARVR interface simply instantiate this object and set your GDNative library containing the ARVR interface implementation.
+This is a wrapper class for GDNative implementations of the ARVR interface. To use a GDNative ARVR interface, simply instantiate this object and set your GDNative library containing the ARVR interface implementation.
 */
 @GodotBaseClass struct ARVRInterfaceGDNative
 {

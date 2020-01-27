@@ -38,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
-		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
-		@GodotName("set_signal") GodotMethod!(void, String) setSignal;
-		@GodotName("get_signal") GodotMethod!(String) getSignal;
-		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
-		@GodotName("get_call_mode") GodotMethod!(VisualScriptYieldSignal.CallMode) getCallMode;
-		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
 		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("get_call_mode") GodotMethod!(VisualScriptYieldSignal.CallMode) getCallMode;
+		@GodotName("get_signal") GodotMethod!(String) getSignal;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
+		@GodotName("set_signal") GodotMethod!(void, String) setSignal;
 	}
 	bool opEquals(in VisualScriptYieldSignal other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptYieldSignal opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -85,10 +85,10 @@ public:
 	/**
 	
 	*/
-	void setBaseType(in String base_type)
+	NodePath getBasePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
+		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
 	}
 	/**
 	
@@ -101,10 +101,10 @@ public:
 	/**
 	
 	*/
-	void setSignal(in String signal)
+	VisualScriptYieldSignal.CallMode getCallMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSignal, _godot_object, signal);
+		return ptrcall!(VisualScriptYieldSignal.CallMode)(_classBinding.getCallMode, _godot_object);
 	}
 	/**
 	
@@ -117,22 +117,6 @@ public:
 	/**
 	
 	*/
-	void setCallMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	VisualScriptYieldSignal.CallMode getCallMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptYieldSignal.CallMode)(_classBinding.getCallMode, _godot_object);
-	}
-	/**
-	
-	*/
 	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
 		checkClassBinding!(typeof(this))();
@@ -141,22 +125,26 @@ public:
 	/**
 	
 	*/
-	NodePath getBasePath() const
+	void setBaseType(in String base_type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
 	}
 	/**
 	
 	*/
-	@property VisualScriptYieldSignal.CallMode callMode()
+	void setCallMode(in long mode)
 	{
-		return getCallMode();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
 	}
-	/// ditto
-	@property void callMode(long v)
+	/**
+	
+	*/
+	void setSignal(in String signal)
 	{
-		setCallMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSignal, _godot_object, signal);
 	}
 	/**
 	
@@ -169,6 +157,18 @@ public:
 	@property void baseType(String v)
 	{
 		setBaseType(v);
+	}
+	/**
+	
+	*/
+	@property VisualScriptYieldSignal.CallMode callMode()
+	{
+		return getCallMode();
+	}
+	/// ditto
+	@property void callMode(long v)
+	{
+		setCallMode(v);
 	}
 	/**
 	

@@ -20,11 +20,10 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 Base class for CSG primitives.
+
+Parent class for various CSG primitives. It contains code and functionality that is common between them. It cannot be used directly. Instead use one of the various classes that inherit from it.
 */
 @GodotBaseClass struct CSGPrimitive
 {
@@ -38,8 +37,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_invert_faces") GodotMethod!(void, bool) setInvertFaces;
 		@GodotName("is_inverting_faces") GodotMethod!(bool) isInvertingFaces;
+		@GodotName("set_invert_faces") GodotMethod!(void, bool) setInvertFaces;
 	}
 	bool opEquals(in CSGPrimitive other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGPrimitive opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +55,18 @@ public:
 	/**
 	
 	*/
-	void setInvertFaces(in bool invert_faces)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInvertFaces, _godot_object, invert_faces);
-	}
-	/**
-	
-	*/
 	bool isInvertingFaces()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isInvertingFaces, _godot_object);
+	}
+	/**
+	
+	*/
+	void setInvertFaces(in bool invert_faces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInvertFaces, _godot_object, invert_faces);
 	}
 	/**
 	Invert the faces of the mesh.

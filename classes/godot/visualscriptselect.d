@@ -46,8 +46,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
 		@GodotName("get_typed") GodotMethod!(Variant.Type) getTyped;
+		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
 	}
 	bool opEquals(in VisualScriptSelect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptSelect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,18 +64,18 @@ public:
 	/**
 	
 	*/
-	void setTyped(in long type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
-	}
-	/**
-	
-	*/
 	Variant.Type getTyped() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant.Type)(_classBinding.getTyped, _godot_object);
+	}
+	/**
+	
+	*/
+	void setTyped(in long type)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
 	}
 	/**
 	The input variables' type.

@@ -1,5 +1,5 @@
 /**
-A $(D Resource) that contains vertex-array based geometry.
+A $(D Resource) that contains vertex array-based geometry.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,14 +20,13 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.material;
 import godot.shape;
 import godot.trianglemesh;
-import godot.reference;
+import godot.material;
 /**
-A $(D Resource) that contains vertex-array based geometry.
+A $(D Resource) that contains vertex array-based geometry.
 
-Mesh is a type of $(D Resource) that contains vertex-array based geometry, divided in $(I surfaces). Each surface contains a completely separate array and a material used to draw it. Design wise, a mesh with multiple surfaces is preferred to a single surface, because objects created in 3D editing software commonly contain multiple materials.
+Mesh is a type of $(D Resource) that contains vertex array-based geometry, divided in $(I surfaces). Each surface contains a completely separate array and a material used to draw it. Design wise, a mesh with multiple surfaces is preferred to a single surface, because objects created in 3D editing software commonly contain multiple materials.
 */
 @GodotBaseClass struct Mesh
 {
@@ -41,17 +40,19 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_lightmap_size_hint") GodotMethod!(void, Vector2) setLightmapSizeHint;
+		@GodotName("create_convex_shape") GodotMethod!(Shape) createConvexShape;
+		@GodotName("create_outline") GodotMethod!(Mesh, double) createOutline;
+		@GodotName("create_trimesh_shape") GodotMethod!(Shape) createTrimeshShape;
+		@GodotName("generate_triangle_mesh") GodotMethod!(TriangleMesh) generateTriangleMesh;
+		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
+		@GodotName("get_faces") GodotMethod!(PoolVector3Array) getFaces;
 		@GodotName("get_lightmap_size_hint") GodotMethod!(Vector2) getLightmapSizeHint;
 		@GodotName("get_surface_count") GodotMethod!(long) getSurfaceCount;
+		@GodotName("set_lightmap_size_hint") GodotMethod!(void, Vector2) setLightmapSizeHint;
 		@GodotName("surface_get_arrays") GodotMethod!(Array, long) surfaceGetArrays;
 		@GodotName("surface_get_blend_shape_arrays") GodotMethod!(Array, long) surfaceGetBlendShapeArrays;
 		@GodotName("surface_get_material") GodotMethod!(Material, long) surfaceGetMaterial;
-		@GodotName("create_trimesh_shape") GodotMethod!(Shape) createTrimeshShape;
-		@GodotName("create_convex_shape") GodotMethod!(Shape) createConvexShape;
-		@GodotName("create_outline") GodotMethod!(Mesh, double) createOutline;
-		@GodotName("get_faces") GodotMethod!(PoolVector3Array) getFaces;
-		@GodotName("generate_triangle_mesh") GodotMethod!(TriangleMesh) generateTriangleMesh;
+		@GodotName("surface_set_material") GodotMethod!(void, long, Material) surfaceSetMaterial;
 	}
 	bool opEquals(in Mesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Mesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -69,11 +70,11 @@ public:
 	enum BlendShapeMode : int
 	{
 		/**
-		
+		Blend shapes are normalized.
 		*/
 		blendShapeModeNormalized = 0,
 		/**
-		
+		Blend shapes are relative to base weight.
 		*/
 		blendShapeModeRelative = 1,
 	}
@@ -113,91 +114,91 @@ public:
 	enum ArrayFormat : int
 	{
 		/**
-		
+		Mesh array contains vertices. All meshes require a vertex array so this should always be present.
 		*/
 		arrayFormatVertex = 1,
 		/**
-		
+		Mesh array contains normals.
 		*/
 		arrayFormatNormal = 2,
 		/**
-		
+		Mesh array contains tangents.
 		*/
 		arrayFormatTangent = 4,
 		/**
-		
+		Mesh array contains colors.
 		*/
 		arrayFormatColor = 8,
 		/**
-		
+		Used internally to calculate other `ARRAY_COMPRESS_*` enum values. Do not use.
 		*/
 		arrayCompressBase = 9,
 		/**
-		
+		Mesh array contains UVs.
 		*/
 		arrayFormatTexUv = 16,
 		/**
-		
+		Mesh array contains second UV.
 		*/
 		arrayFormatTexUv2 = 32,
 		/**
-		
+		Mesh array contains bones.
 		*/
 		arrayFormatBones = 64,
 		/**
-		
+		Mesh array contains bone weights.
 		*/
 		arrayFormatWeights = 128,
 		/**
-		
+		Mesh array uses indices.
 		*/
 		arrayFormatIndex = 256,
 		/**
-		
+		Flag used to mark a compressed (half float) vertex array.
 		*/
 		arrayCompressVertex = 512,
 		/**
-		
+		Flag used to mark a compressed (half float) normal array.
 		*/
 		arrayCompressNormal = 1024,
 		/**
-		
+		Flag used to mark a compressed (half float) tangent array.
 		*/
 		arrayCompressTangent = 2048,
 		/**
-		
+		Flag used to mark a compressed (half float) color array.
 		*/
 		arrayCompressColor = 4096,
 		/**
-		
+		Flag used to mark a compressed (half float) UV coordinates array.
 		*/
 		arrayCompressTexUv = 8192,
 		/**
-		
+		Flag used to mark a compressed (half float) UV coordinates array for the second UV coordinates.
 		*/
 		arrayCompressTexUv2 = 16384,
 		/**
-		
+		Flag used to mark a compressed bone array.
 		*/
 		arrayCompressBones = 32768,
 		/**
-		
+		Flag used to mark a compressed (half float) weight array.
 		*/
 		arrayCompressWeights = 65536,
 		/**
-		
+		Used to set flags $(D constant ARRAY_COMPRESS_VERTEX), $(D constant ARRAY_COMPRESS_NORMAL), $(D constant ARRAY_COMPRESS_TANGENT), $(D constant ARRAY_COMPRESS_COLOR), $(D constant ARRAY_COMPRESS_TEX_UV), $(D constant ARRAY_COMPRESS_TEX_UV2) and $(D constant ARRAY_COMPRESS_WEIGHTS) quickly.
 		*/
 		arrayCompressDefault = 97280,
 		/**
-		
+		Flag used to mark a compressed index array.
 		*/
 		arrayCompressIndex = 131072,
 		/**
-		
+		Flag used to mark that the array contains 2D vertices.
 		*/
 		arrayFlagUse2dVertices = 262144,
 		/**
-		
+		Flag used to mark that the array uses 16-bit bones instead of 8-bit.
 		*/
 		arrayFlagUse16BitBones = 524288,
 	}
@@ -241,7 +242,7 @@ public:
 		*/
 		arrayIndex = 8,
 		/**
-		
+		Represents the size of the $(D arraytype) enum.
 		*/
 		arrayMax = 9,
 	}
@@ -256,8 +257,8 @@ public:
 		primitiveLines = 1,
 		arrayNormal = 1,
 		arrayTangent = 2,
-		primitiveLineStrip = 2,
 		arrayFormatNormal = 2,
+		primitiveLineStrip = 2,
 		primitiveLineLoop = 3,
 		arrayColor = 3,
 		arrayTexUv = 4,
@@ -291,12 +292,54 @@ public:
 		arrayFlagUse16BitBones = 524288,
 	}
 	/**
-	
+	Calculate a $(D ConvexPolygonShape) from the mesh.
 	*/
-	void setLightmapSizeHint(in Vector2 size)
+	Ref!Shape createConvexShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightmapSizeHint, _godot_object, size);
+		return ptrcall!(Shape)(_classBinding.createConvexShape, _godot_object);
+	}
+	/**
+	Calculate an outline mesh at a defined offset (margin) from the original mesh.
+	$(B Note:) This method typically returns the vertices in reverse order (e.g. clockwise to counterclockwise).
+	*/
+	Ref!Mesh createOutline(in double margin) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.createOutline, _godot_object, margin);
+	}
+	/**
+	Calculate a $(D ConcavePolygonShape) from the mesh.
+	*/
+	Ref!Shape createTrimeshShape() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape)(_classBinding.createTrimeshShape, _godot_object);
+	}
+	/**
+	Generate a $(D TriangleMesh) from the mesh.
+	*/
+	Ref!TriangleMesh generateTriangleMesh() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(TriangleMesh)(_classBinding.generateTriangleMesh, _godot_object);
+	}
+	/**
+	Returns the smallest $(D AABB) enclosing this mesh. Not affected by `custom_aabb`.
+	$(B Note:) This is only implemented for $(D ArrayMesh) and $(D PrimitiveMesh).
+	*/
+	AABB getAabb() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
+	}
+	/**
+	Returns all the vertices that make up the faces of the mesh. Each three vertices represent one triangle.
+	*/
+	PoolVector3Array getFaces() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector3Array)(_classBinding.getFaces, _godot_object);
 	}
 	/**
 	
@@ -307,12 +350,20 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getLightmapSizeHint, _godot_object);
 	}
 	/**
-	Return the amount of surfaces that the $(D Mesh) holds.
+	Returns the amount of surfaces that the $(D Mesh) holds.
 	*/
 	long getSurfaceCount() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getSurfaceCount, _godot_object);
+	}
+	/**
+	
+	*/
+	void setLightmapSizeHint(in Vector2 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLightmapSizeHint, _godot_object, size);
 	}
 	/**
 	Returns the arrays for the vertices, normals, uvs, etc. that make up the requested surface (see $(D ArrayMesh.addSurfaceFromArrays)).
@@ -331,7 +382,7 @@ public:
 		return ptrcall!(Array)(_classBinding.surfaceGetBlendShapeArrays, _godot_object, surf_idx);
 	}
 	/**
-	Return a $(D Material) in a given surface. Surface is rendered using this material.
+	Returns a $(D Material) in a given surface. Surface is rendered using this material.
 	*/
 	Ref!Material surfaceGetMaterial(in long surf_idx) const
 	{
@@ -339,47 +390,15 @@ public:
 		return ptrcall!(Material)(_classBinding.surfaceGetMaterial, _godot_object, surf_idx);
 	}
 	/**
-	Calculate a $(D ConcavePolygonShape) from the mesh.
+	Sets a $(D Material) for a given surface. Surface will be rendered using this material.
 	*/
-	Ref!Shape createTrimeshShape() const
+	void surfaceSetMaterial(in long surf_idx, Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.createTrimeshShape, _godot_object);
+		ptrcall!(void)(_classBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
 	}
 	/**
-	Calculate a $(D ConvexPolygonShape) from the mesh.
-	*/
-	Ref!Shape createConvexShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.createConvexShape, _godot_object);
-	}
-	/**
-	Calculate an outline mesh at a defined offset (margin) from the original mesh. Note: Typically returns the vertices in reverse order (e.g. clockwise to anti-clockwise).
-	*/
-	Ref!Mesh createOutline(in double margin) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.createOutline, _godot_object, margin);
-	}
-	/**
-	Returns all the vertices that make up the faces of the mesh. Each three vertices represent one triangle.
-	*/
-	PoolVector3Array getFaces() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector3Array)(_classBinding.getFaces, _godot_object);
-	}
-	/**
-	Generate a $(D TriangleMesh) from the mesh.
-	*/
-	Ref!TriangleMesh generateTriangleMesh() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(TriangleMesh)(_classBinding.generateTriangleMesh, _godot_object);
-	}
-	/**
-	
+	Sets a hint to be used for lightmap resolution in $(D BakedLightmap). Overrides $(D BakedLightmap.bakeDefaultTexelsPerUnit).
 	*/
 	@property Vector2 lightmapSizeHint()
 	{

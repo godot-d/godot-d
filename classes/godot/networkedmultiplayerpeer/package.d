@@ -20,7 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.packetpeer;
-import godot.reference;
 /**
 A high-level network interface to simplify multiplayer interactions.
 
@@ -38,15 +37,15 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_transfer_mode") GodotMethod!(void, long) setTransferMode;
-		@GodotName("get_transfer_mode") GodotMethod!(NetworkedMultiplayerPeer.TransferMode) getTransferMode;
-		@GodotName("set_target_peer") GodotMethod!(void, long) setTargetPeer;
-		@GodotName("get_packet_peer") GodotMethod!(long) getPacketPeer;
-		@GodotName("poll") GodotMethod!(void) poll;
 		@GodotName("get_connection_status") GodotMethod!(NetworkedMultiplayerPeer.ConnectionStatus) getConnectionStatus;
+		@GodotName("get_packet_peer") GodotMethod!(long) getPacketPeer;
+		@GodotName("get_transfer_mode") GodotMethod!(NetworkedMultiplayerPeer.TransferMode) getTransferMode;
 		@GodotName("get_unique_id") GodotMethod!(long) getUniqueId;
-		@GodotName("set_refuse_new_connections") GodotMethod!(void, bool) setRefuseNewConnections;
 		@GodotName("is_refusing_new_connections") GodotMethod!(bool) isRefusingNewConnections;
+		@GodotName("poll") GodotMethod!(void) poll;
+		@GodotName("set_refuse_new_connections") GodotMethod!(void, bool) setRefuseNewConnections;
+		@GodotName("set_target_peer") GodotMethod!(void, long) setTargetPeer;
+		@GodotName("set_transfer_mode") GodotMethod!(void, long) setTransferMode;
 	}
 	bool opEquals(in NetworkedMultiplayerPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NetworkedMultiplayerPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -80,15 +79,15 @@ public:
 	enum TransferMode : int
 	{
 		/**
-		Packets are not acknowledged, no resend attempts are made for lost packets. Packets may arrive in any order. Potentially faster than `TRANSFER_MODE_UNRELIABLE_ORDERED`. Use for non-critical data, and always consider whether the order matters.
+		Packets are not acknowledged, no resend attempts are made for lost packets. Packets may arrive in any order. Potentially faster than $(D constant TRANSFER_MODE_UNRELIABLE_ORDERED). Use for non-critical data, and always consider whether the order matters.
 		*/
 		transferModeUnreliable = 0,
 		/**
-		Packets are not acknowledged, no resend attempts are made for lost packets. Packets are received in the order they were sent in. Potentially faster than `TRANSFER_MODE_RELIABLE`. Use for non-critical data or data that would be outdated if received late due to resend attempt(s) anyway, for example movement and positional data.
+		Packets are not acknowledged, no resend attempts are made for lost packets. Packets are received in the order they were sent in. Potentially faster than $(D constant TRANSFER_MODE_RELIABLE). Use for non-critical data or data that would be outdated if received late due to resend attempt(s) anyway, for example movement and positional data.
 		*/
 		transferModeUnreliableOrdered = 1,
 		/**
-		Packets must be received and resend attempts should be made until the packets are acknowledged. Packets must be received in the order they were sent in. Most reliable transfer mode, but potentially slowest due to the overhead. Use for critical data that must be transmitted and arrive in order, for example an ability being triggered or a chat message. Consider carefully if the information really is critical, and use sparingly.
+		Packets must be received and resend attempts should be made until the packets are acknowledged. Packets must be received in the order they were sent in. Most reliable transfer mode, but potentially the slowest due to the overhead. Use for critical data that must be transmitted and arrive in order, for example an ability being triggered or a chat message. Consider carefully if the information really is critical, and use sparingly.
 		*/
 		transferModeReliable = 2,
 	}
@@ -111,29 +110,12 @@ public:
 		transferModeReliable = 2,
 	}
 	/**
-	
+	Returns the current state of the connection. See $(D connectionstatus).
 	*/
-	void setTransferMode(in long mode)
+	NetworkedMultiplayerPeer.ConnectionStatus getConnectionStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransferMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	NetworkedMultiplayerPeer.TransferMode getTransferMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer.TransferMode)(_classBinding.getTransferMode, _godot_object);
-	}
-	/**
-	Sets the peer to which packets will be sent.
-	The `id` can be one of: `TARGET_PEER_BROADCAST` to send to all connected peers, `TARGET_PEER_SERVER` to send to the peer acting as server, a valid peer ID to send to that specific peer, a negative peer ID to send to all peers except that one. Default: `TARGET_PEER_BROADCAST`
-	*/
-	void setTargetPeer(in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetPeer, _godot_object, id);
+		return ptrcall!(NetworkedMultiplayerPeer.ConnectionStatus)(_classBinding.getConnectionStatus, _godot_object);
 	}
 	/**
 	Returns the ID of the $(D NetworkedMultiplayerPeer) who sent the most recent packet.
@@ -144,20 +126,12 @@ public:
 		return ptrcall!(long)(_classBinding.getPacketPeer, _godot_object);
 	}
 	/**
-	Waits up to 1 second to receive a new network event.
+	
 	*/
-	void poll()
+	NetworkedMultiplayerPeer.TransferMode getTransferMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.poll, _godot_object);
-	}
-	/**
-	Returns the current state of the connection. See $(D connectionstatus).
-	*/
-	NetworkedMultiplayerPeer.ConnectionStatus getConnectionStatus() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer.ConnectionStatus)(_classBinding.getConnectionStatus, _godot_object);
+		return ptrcall!(NetworkedMultiplayerPeer.TransferMode)(_classBinding.getTransferMode, _godot_object);
 	}
 	/**
 	Returns the ID of this $(D NetworkedMultiplayerPeer).
@@ -170,21 +144,46 @@ public:
 	/**
 	
 	*/
-	void setRefuseNewConnections(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefuseNewConnections, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool isRefusingNewConnections() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isRefusingNewConnections, _godot_object);
 	}
 	/**
-	If `true`, this $(D NetworkedMultiplayerPeer) refuses new connections. Default value: `false`.
+	Waits up to 1 second to receive a new network event.
+	*/
+	void poll()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.poll, _godot_object);
+	}
+	/**
+	
+	*/
+	void setRefuseNewConnections(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRefuseNewConnections, _godot_object, enable);
+	}
+	/**
+	Sets the peer to which packets will be sent.
+	The `id` can be one of: $(D constant TARGET_PEER_BROADCAST) to send to all connected peers, $(D constant TARGET_PEER_SERVER) to send to the peer acting as server, a valid peer ID to send to that specific peer, a negative peer ID to send to all peers except that one. By default, the target peer is $(D constant TARGET_PEER_BROADCAST).
+	*/
+	void setTargetPeer(in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTargetPeer, _godot_object, id);
+	}
+	/**
+	
+	*/
+	void setTransferMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransferMode, _godot_object, mode);
+	}
+	/**
+	If `true`, this $(D NetworkedMultiplayerPeer) refuses new connections.
 	*/
 	@property bool refuseNewConnections()
 	{

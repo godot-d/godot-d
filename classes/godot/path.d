@@ -1,5 +1,5 @@
 /**
-Container for a $(D Curve3D).
+Contains a $(D Curve3D) path for $(D PathFollow) nodes to follow.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,11 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.curve3d;
-import godot.node;
 /**
-Container for a $(D Curve3D).
+Contains a $(D Curve3D) path for $(D PathFollow) nodes to follow.
 
-This class is a container/Node-ification of a $(D Curve3D), so it can have $(D Spatial) properties and $(D Node) info.
+Can have $(D PathFollow) child nodes moving along the $(D Curve3D). See $(D PathFollow) for more information on the usage.
+Note that the path is considered as relative to the moved nodes (children of $(D PathFollow)). As such, the curve should usually start with a zero vector `(0, 0, 0)`.
 */
 @GodotBaseClass struct Path
 {
@@ -40,9 +40,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_curve") GodotMethod!(void, Curve3D) setCurve;
-		@GodotName("get_curve") GodotMethod!(Curve3D) getCurve;
 		@GodotName("_curve_changed") GodotMethod!(void) _curveChanged;
+		@GodotName("get_curve") GodotMethod!(Curve3D) getCurve;
+		@GodotName("set_curve") GodotMethod!(void, Curve3D) setCurve;
 	}
 	bool opEquals(in Path other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Path opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,10 +59,11 @@ public:
 	/**
 	
 	*/
-	void setCurve(Curve3D curve)
+	void _curveChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_curve_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -75,14 +76,13 @@ public:
 	/**
 	
 	*/
-	void _curveChanged()
+	void setCurve(Curve3D curve)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_curve_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
 	}
 	/**
-	
+	A $(D Curve3D) describing the path.
 	*/
 	@property Curve3D curve()
 	{

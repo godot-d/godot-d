@@ -1,5 +1,5 @@
 /**
-
+$(D VideoStream) resource for Ogg Theora videos.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,9 @@ import godot.videostream;
 import godot.resource;
 import godot.reference;
 /**
+$(D VideoStream) resource for Ogg Theora videos.
 
+$(D VideoStream) resource handling the $(D url=https://www.theora.org/)Ogg Theora$(D /url) video format with `.ogv` extension.
 */
 @GodotBaseClass struct VideoStreamTheora
 {
@@ -38,8 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_file") GodotMethod!(void, String) setFile;
 		@GodotName("get_file") GodotMethod!(String) getFile;
+		@GodotName("set_file") GodotMethod!(void, String) setFile;
 	}
 	bool opEquals(in VideoStreamTheora other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VideoStreamTheora opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,20 +56,20 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
-	*/
-	void setFile(in String file)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFile, _godot_object, file);
-	}
-	/**
-	
+	Returns the Ogg Theora video file handled by this $(D VideoStreamTheora).
 	*/
 	String getFile()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getFile, _godot_object);
+	}
+	/**
+	Sets the Ogg Theora video file that this $(D VideoStreamTheora) resource handles. The `file` name should have the `.o` extension.
+	*/
+	void setFile(in String file)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFile, _godot_object, file);
 	}
 	/**
 	

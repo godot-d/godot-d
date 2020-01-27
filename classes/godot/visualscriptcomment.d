@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 A Visual Script node used to annotate the script.
 
@@ -41,12 +39,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_title") GodotMethod!(void, String) setTitle;
+		@GodotName("get_description") GodotMethod!(String) getDescription;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
 		@GodotName("get_title") GodotMethod!(String) getTitle;
 		@GodotName("set_description") GodotMethod!(void, String) setDescription;
-		@GodotName("get_description") GodotMethod!(String) getDescription;
 		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
-		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("set_title") GodotMethod!(void, String) setTitle;
 	}
 	bool opEquals(in VisualScriptComment other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptComment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,10 +61,18 @@ public:
 	/**
 	
 	*/
-	void setTitle(in String title)
+	String getDescription() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
+		return ptrcall!(String)(_classBinding.getDescription, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -87,14 +93,6 @@ public:
 	/**
 	
 	*/
-	String getDescription() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDescription, _godot_object);
-	}
-	/**
-	
-	*/
 	void setSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
@@ -103,22 +101,10 @@ public:
 	/**
 	
 	*/
-	Vector2 getSize() const
+	void setTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
-	}
-	/**
-	The comment node's title.
-	*/
-	@property String title()
-	{
-		return getTitle();
-	}
-	/// ditto
-	@property void title(String v)
-	{
-		setTitle(v);
+		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
 	}
 	/**
 	The text inside the comment node.
@@ -143,5 +129,17 @@ public:
 	@property void size(Vector2 v)
 	{
 		setSize(v);
+	}
+	/**
+	The comment node's title.
+	*/
+	@property String title()
+	{
+		return getTitle();
+	}
+	/// ditto
+	@property void title(String v)
+	{
+		setTitle(v);
 	}
 }

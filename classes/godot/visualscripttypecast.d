@@ -38,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
 		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
 		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
-		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
 	}
 	bool opEquals(in VisualScriptTypeCast other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptTypeCast opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setBaseType(in String type)
+	String getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, type);
+		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
 	}
 	/**
 	
@@ -82,22 +82,10 @@ public:
 	/**
 	
 	*/
-	String getBaseScript() const
+	void setBaseType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
-	}
-	/**
-	
-	*/
-	@property String baseType()
-	{
-		return getBaseType();
-	}
-	/// ditto
-	@property void baseType(String v)
-	{
-		setBaseType(v);
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, type);
 	}
 	/**
 	
@@ -110,5 +98,17 @@ public:
 	@property void baseScript(String v)
 	{
 		setBaseScript(v);
+	}
+	/**
+	
+	*/
+	@property String baseType()
+	{
+		return getBaseType();
+	}
+	/// ditto
+	@property void baseType(String v)
+	{
+		setBaseType(v);
 	}
 }

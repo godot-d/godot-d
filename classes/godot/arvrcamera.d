@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.camera;
-import godot.spatial;
-import godot.node;
 /**
 A camera node with a few overrules for AR/VR applied, such as location tracking.
 

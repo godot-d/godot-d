@@ -39,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_stored_values") GodotMethod!(Dictionary, bool) getStoredValues;
 		@GodotName("create_instance") GodotMethod!(Node, bool, PackedScene) createInstance;
-		@GodotName("replace_by_instance") GodotMethod!(void, PackedScene) replaceByInstance;
 		@GodotName("get_instance_path") GodotMethod!(String) getInstancePath;
+		@GodotName("get_stored_values") GodotMethod!(Dictionary, bool) getStoredValues;
+		@GodotName("replace_by_instance") GodotMethod!(void, PackedScene) replaceByInstance;
 	}
 	bool opEquals(in InstancePlaceholder other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InstancePlaceholder opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,33 +59,33 @@ public:
 	/**
 	
 	*/
-	Dictionary getStoredValues(in bool with_order = false)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getStoredValues, _godot_object, with_order);
-	}
-	/**
-	
-	*/
 	Node createInstance(in bool replace = false, PackedScene custom_scene = PackedScene.init)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Node)(_classBinding.createInstance, _godot_object, replace, custom_scene);
 	}
 	/**
-	Replace this placeholder by the scene handed as an argument, or the original scene if no argument is given. As for all resources, the scene is loaded only if it's not loaded already. By manually loading the scene beforehand, delays caused by this function can be avoided.
-	*/
-	void replaceByInstance(PackedScene custom_scene = PackedScene.init)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.replaceByInstance, _godot_object, custom_scene);
-	}
-	/**
-	Retrieve the path to the $(D PackedScene) resource file that is loaded by default when calling $(D replaceByInstance).
+	Gets the path to the $(D PackedScene) resource file that is loaded by default when calling $(D replaceByInstance).
 	*/
 	String getInstancePath() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getInstancePath, _godot_object);
+	}
+	/**
+	
+	*/
+	Dictionary getStoredValues(in bool with_order = false)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Dictionary)(_classBinding.getStoredValues, _godot_object, with_order);
+	}
+	/**
+	Replaces this placeholder by the scene handed as an argument, or the original scene if no argument is given. As for all resources, the scene is loaded only if it's not loaded already. By manually loading the scene beforehand, delays caused by this function can be avoided.
+	*/
+	void replaceByInstance(PackedScene custom_scene = PackedScene.init)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.replaceByInstance, _godot_object, custom_scene);
 	}
 }

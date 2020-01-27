@@ -23,12 +23,11 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
 Base class for audio equalizers. Gives you control over frequencies.
 Use it to create a custom equalizer if $(D AudioEffectEQ6), $(D AudioEffectEQ10) or $(D AudioEffectEQ21) don't fit your needs.
 
-AudioEffectEQ gives you control over frequencies. Use it to compensate for existing deficiencies in audio. AudioEffectEQ are very useful on the Master Bus to completely master a mix and give it character. They are also very useful when a game is run on a mobile device, to adjust the mix to that kind of speakers (it can be added but disabled when headphones are plugged).
+AudioEffectEQ gives you control over frequencies. Use it to compensate for existing deficiencies in audio. AudioEffectEQs are useful on the Master bus to completely master a mix and give it more character. They are also useful when a game is run on a mobile device, to adjust the mix to that kind of speakers (it can be added but disabled when headphones are plugged).
 */
 @GodotBaseClass struct AudioEffectEQ
 {
@@ -42,9 +41,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_band_gain_db") GodotMethod!(void, long, double) setBandGainDb;
-		@GodotName("get_band_gain_db") GodotMethod!(double, long) getBandGainDb;
 		@GodotName("get_band_count") GodotMethod!(long) getBandCount;
+		@GodotName("get_band_gain_db") GodotMethod!(double, long) getBandGainDb;
+		@GodotName("set_band_gain_db") GodotMethod!(void, long, double) setBandGainDb;
 	}
 	bool opEquals(in AudioEffectEQ other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectEQ opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,12 +58,12 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Sets band's gain at the specified index, in dB.
+	Returns the number of bands of the equalizer.
 	*/
-	void setBandGainDb(in long band_idx, in double volume_db)
+	long getBandCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBandGainDb, _godot_object, band_idx, volume_db);
+		return ptrcall!(long)(_classBinding.getBandCount, _godot_object);
 	}
 	/**
 	Returns the band's gain at the specified index, in dB.
@@ -75,11 +74,11 @@ public:
 		return ptrcall!(double)(_classBinding.getBandGainDb, _godot_object, band_idx);
 	}
 	/**
-	Returns the number of bands of the equalizer.
+	Sets band's gain at the specified index, in dB.
 	*/
-	long getBandCount() const
+	void setBandGainDb(in long band_idx, in double volume_db)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBandCount, _godot_object);
+		ptrcall!(void)(_classBinding.setBandGainDb, _godot_object, band_idx, volume_db);
 	}
 }

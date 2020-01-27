@@ -1,5 +1,5 @@
 /**
-Provides high performance mesh instancing.
+Provides high-performance mesh instancing.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,12 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.mesh;
-import godot.reference;
 /**
-Provides high performance mesh instancing.
+Provides high-performance mesh instancing.
 
-MultiMesh provides low level mesh instancing. Drawing thousands of $(D MeshInstance) nodes can be slow because each object is submitted to the GPU to be drawn individually.
-MultiMesh is much faster because it can draw thousands of instances with a single draw call, resulting in less API overhead.
+MultiMesh provides low-level mesh instancing. Drawing thousands of $(D MeshInstance) nodes can be slow, since each object is submitted to the GPU then drawn individually.
+MultiMesh is much faster as it can draw thousands of instances with a single draw call, resulting in less API overhead.
 As a drawback, if the instances are too far away of each other, performance may be reduced as every single instance will always rendered (they are spatially indexed as one, for the whole object).
 Since instances may have any behavior, the AABB used for visibility must be provided by the user.
 */
@@ -43,33 +42,36 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
-		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
-		@GodotName("set_color_format") GodotMethod!(void, long) setColorFormat;
-		@GodotName("get_color_format") GodotMethod!(MultiMesh.ColorFormat) getColorFormat;
-		@GodotName("set_custom_data_format") GodotMethod!(void, long) setCustomDataFormat;
-		@GodotName("get_custom_data_format") GodotMethod!(MultiMesh.CustomDataFormat) getCustomDataFormat;
-		@GodotName("set_transform_format") GodotMethod!(void, long) setTransformFormat;
-		@GodotName("get_transform_format") GodotMethod!(MultiMesh.TransformFormat) getTransformFormat;
-		@GodotName("set_instance_count") GodotMethod!(void, long) setInstanceCount;
-		@GodotName("get_instance_count") GodotMethod!(long) getInstanceCount;
-		@GodotName("set_visible_instance_count") GodotMethod!(void, long) setVisibleInstanceCount;
-		@GodotName("get_visible_instance_count") GodotMethod!(long) getVisibleInstanceCount;
-		@GodotName("set_instance_transform") GodotMethod!(void, long, Transform) setInstanceTransform;
-		@GodotName("set_instance_transform_2d") GodotMethod!(void, long, Transform2D) setInstanceTransform2d;
-		@GodotName("get_instance_transform") GodotMethod!(Transform, long) getInstanceTransform;
-		@GodotName("get_instance_transform_2d") GodotMethod!(Transform2D, long) getInstanceTransform2d;
-		@GodotName("set_instance_color") GodotMethod!(void, long, Color) setInstanceColor;
-		@GodotName("get_instance_color") GodotMethod!(Color, long) getInstanceColor;
-		@GodotName("set_instance_custom_data") GodotMethod!(void, long, Color) setInstanceCustomData;
-		@GodotName("get_instance_custom_data") GodotMethod!(Color, long) getInstanceCustomData;
-		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
-		@GodotName("_set_transform_array") GodotMethod!(void, PoolVector3Array) _setTransformArray;
+		@GodotName("_get_color_array") GodotMethod!(PoolColorArray) _getColorArray;
+		@GodotName("_get_custom_data_array") GodotMethod!(PoolColorArray) _getCustomDataArray;
+		@GodotName("_get_transform_2d_array") GodotMethod!(PoolVector2Array) _getTransform2dArray;
 		@GodotName("_get_transform_array") GodotMethod!(PoolVector3Array) _getTransformArray;
 		@GodotName("_set_color_array") GodotMethod!(void, PoolColorArray) _setColorArray;
-		@GodotName("_get_color_array") GodotMethod!(PoolColorArray) _getColorArray;
 		@GodotName("_set_custom_data_array") GodotMethod!(void, PoolColorArray) _setCustomDataArray;
-		@GodotName("_get_custom_data_array") GodotMethod!(PoolColorArray) _getCustomDataArray;
+		@GodotName("_set_transform_2d_array") GodotMethod!(void, PoolVector2Array) _setTransform2dArray;
+		@GodotName("_set_transform_array") GodotMethod!(void, PoolVector3Array) _setTransformArray;
+		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
+		@GodotName("get_color_format") GodotMethod!(MultiMesh.ColorFormat) getColorFormat;
+		@GodotName("get_custom_data_format") GodotMethod!(MultiMesh.CustomDataFormat) getCustomDataFormat;
+		@GodotName("get_instance_color") GodotMethod!(Color, long) getInstanceColor;
+		@GodotName("get_instance_count") GodotMethod!(long) getInstanceCount;
+		@GodotName("get_instance_custom_data") GodotMethod!(Color, long) getInstanceCustomData;
+		@GodotName("get_instance_transform") GodotMethod!(Transform, long) getInstanceTransform;
+		@GodotName("get_instance_transform_2d") GodotMethod!(Transform2D, long) getInstanceTransform2d;
+		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
+		@GodotName("get_transform_format") GodotMethod!(MultiMesh.TransformFormat) getTransformFormat;
+		@GodotName("get_visible_instance_count") GodotMethod!(long) getVisibleInstanceCount;
+		@GodotName("set_as_bulk_array") GodotMethod!(void, PoolRealArray) setAsBulkArray;
+		@GodotName("set_color_format") GodotMethod!(void, long) setColorFormat;
+		@GodotName("set_custom_data_format") GodotMethod!(void, long) setCustomDataFormat;
+		@GodotName("set_instance_color") GodotMethod!(void, long, Color) setInstanceColor;
+		@GodotName("set_instance_count") GodotMethod!(void, long) setInstanceCount;
+		@GodotName("set_instance_custom_data") GodotMethod!(void, long, Color) setInstanceCustomData;
+		@GodotName("set_instance_transform") GodotMethod!(void, long, Transform) setInstanceTransform;
+		@GodotName("set_instance_transform_2d") GodotMethod!(void, long, Transform2D) setInstanceTransform2d;
+		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
+		@GodotName("set_transform_format") GodotMethod!(void, long) setTransformFormat;
+		@GodotName("set_visible_instance_count") GodotMethod!(void, long) setVisibleInstanceCount;
 	}
 	bool opEquals(in MultiMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MultiMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -103,7 +105,7 @@ public:
 		*/
 		customDataNone = 0,
 		/**
-		Compress custom_data into 8 bits when passing to shader. This uses less memory and can be faster, but loses precision.
+		Compress custom_data into 8 bits when passing to shader. This uses less memory and can be faster, but loses precision and range. Floats packed into 8 bits can only represent values between 0 and 1, numbers outside that range will be clamped.
 		*/
 		customData8bit = 1,
 		/**
@@ -142,26 +144,86 @@ public:
 	/**
 	
 	*/
-	void setMesh(Mesh mesh)
+	PoolColorArray _getColorArray() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_color_array");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
 	}
 	/**
 	
 	*/
-	Ref!Mesh getMesh() const
+	PoolColorArray _getCustomDataArray() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_custom_data_array");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
 	}
 	/**
 	
 	*/
-	void setColorFormat(in long format)
+	PoolVector2Array _getTransform2dArray() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_transform_2d_array");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolVector2Array);
+	}
+	/**
+	
+	*/
+	PoolVector3Array _getTransformArray() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_transform_array");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolVector3Array);
+	}
+	/**
+	
+	*/
+	void _setColorArray(in PoolColorArray arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_color_array");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setCustomDataArray(in PoolColorArray arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_custom_data_array");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setTransform2dArray(in PoolVector2Array arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_transform_2d_array");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setTransformArray(in PoolVector3Array arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_transform_array");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Returns the visibility axis-aligned bounding box.
+	*/
+	AABB getAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColorFormat, _godot_object, format);
+		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
 	}
 	/**
 	
@@ -174,26 +236,58 @@ public:
 	/**
 	
 	*/
-	void setCustomDataFormat(in long format)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomDataFormat, _godot_object, format);
-	}
-	/**
-	
-	*/
 	MultiMesh.CustomDataFormat getCustomDataFormat() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(MultiMesh.CustomDataFormat)(_classBinding.getCustomDataFormat, _godot_object);
 	}
 	/**
-	
+	Gets a specific instance's color.
 	*/
-	void setTransformFormat(in long format)
+	Color getInstanceColor(in long instance) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransformFormat, _godot_object, format);
+		return ptrcall!(Color)(_classBinding.getInstanceColor, _godot_object, instance);
+	}
+	/**
+	
+	*/
+	long getInstanceCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getInstanceCount, _godot_object);
+	}
+	/**
+	Returns the custom data that has been set for a specific instance.
+	*/
+	Color getInstanceCustomData(in long instance) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getInstanceCustomData, _godot_object, instance);
+	}
+	/**
+	Returns the $(D Transform) of a specific instance.
+	*/
+	Transform getInstanceTransform(in long instance) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getInstanceTransform, _godot_object, instance);
+	}
+	/**
+	Returns the $(D Transform2D) of a specific instance.
+	*/
+	Transform2D getInstanceTransform2d(in long instance) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getInstanceTransform2d, _godot_object, instance);
+	}
+	/**
+	
+	*/
+	Ref!Mesh getMesh() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -206,18 +300,93 @@ public:
 	/**
 	
 	*/
+	long getVisibleInstanceCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getVisibleInstanceCount, _godot_object);
+	}
+	/**
+	Sets all data related to the instances in one go. This is especially useful when loading the data from disk or preparing the data from GDNative.
+	All data is packed in one large float array. An array may look like this: Transform for instance 1, color data for instance 1, custom data for instance 1, transform for instance 2, color data for instance 2, etc...
+	$(D Transform) is stored as 12 floats, $(D Transform2D) is stored as 8 floats, `COLOR_8BIT` / `CUSTOM_DATA_8BIT` is stored as 1 float (4 bytes as is) and `COLOR_FLOAT` / `CUSTOM_DATA_FLOAT` is stored as 4 floats.
+	*/
+	void setAsBulkArray(in PoolRealArray array)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsBulkArray, _godot_object, array);
+	}
+	/**
+	
+	*/
+	void setColorFormat(in long format)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColorFormat, _godot_object, format);
+	}
+	/**
+	
+	*/
+	void setCustomDataFormat(in long format)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomDataFormat, _godot_object, format);
+	}
+	/**
+	Sets the color of a specific instance.
+	For the color to take effect, ensure that $(D colorFormat) is non-`null` on the $(D MultiMesh) and $(D SpatialMaterial.vertexColorUseAsAlbedo) is `true` on the material.
+	*/
+	void setInstanceColor(in long instance, in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceColor, _godot_object, instance, color);
+	}
+	/**
+	
+	*/
 	void setInstanceCount(in long count)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setInstanceCount, _godot_object, count);
 	}
 	/**
-	
+	Sets custom data for a specific instance. Although $(D Color) is used, it is just a container for 4 floating point numbers. The format of the number can change depending on the $(D customdataformat) used.
 	*/
-	long getInstanceCount() const
+	void setInstanceCustomData(in long instance, in Color custom_data)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInstanceCount, _godot_object);
+		ptrcall!(void)(_classBinding.setInstanceCustomData, _godot_object, instance, custom_data);
+	}
+	/**
+	Sets the $(D Transform) for a specific instance.
+	*/
+	void setInstanceTransform(in long instance, in Transform transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceTransform, _godot_object, instance, transform);
+	}
+	/**
+	Sets the $(D Transform2D) for a specific instance.
+	*/
+	void setInstanceTransform2d(in long instance, in Transform2D transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInstanceTransform2d, _godot_object, instance, transform);
+	}
+	/**
+	
+	*/
+	void setMesh(Mesh mesh)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+	}
+	/**
+	
+	*/
+	void setTransformFormat(in long format)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransformFormat, _godot_object, format);
 	}
 	/**
 	
@@ -230,140 +399,14 @@ public:
 	/**
 	
 	*/
-	long getVisibleInstanceCount() const
+	@property PoolColorArray colorArray()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleInstanceCount, _godot_object);
+		return _getColorArray();
 	}
-	/**
-	Set the transform for a specific instance.
-	*/
-	void setInstanceTransform(in long instance, in Transform transform)
+	/// ditto
+	@property void colorArray(PoolColorArray v)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceTransform, _godot_object, instance, transform);
-	}
-	/**
-	
-	*/
-	void setInstanceTransform2d(in long instance, in Transform2D transform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceTransform2d, _godot_object, instance, transform);
-	}
-	/**
-	Return the transform of a specific instance.
-	*/
-	Transform getInstanceTransform(in long instance) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getInstanceTransform, _godot_object, instance);
-	}
-	/**
-	
-	*/
-	Transform2D getInstanceTransform2d(in long instance) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getInstanceTransform2d, _godot_object, instance);
-	}
-	/**
-	Set the color of a specific instance.
-	For the color to take effect, ensure that $(D colorFormat) is non-`null` on the $(D MultiMesh) and $(D SpatialMaterial.vertexColorUseAsAlbedo) is `true` on the material.
-	*/
-	void setInstanceColor(in long instance, in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceColor, _godot_object, instance, color);
-	}
-	/**
-	Get the color of a specific instance.
-	*/
-	Color getInstanceColor(in long instance) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInstanceColor, _godot_object, instance);
-	}
-	/**
-	Set custom data for a specific instance. Although $(D Color) is used, it is just a container for 4 numbers.
-	*/
-	void setInstanceCustomData(in long instance, in Color custom_data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceCustomData, _godot_object, instance, custom_data);
-	}
-	/**
-	Return the custom data that has been set for a specific instance.
-	*/
-	Color getInstanceCustomData(in long instance) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInstanceCustomData, _godot_object, instance);
-	}
-	/**
-	Return the visibility AABB.
-	*/
-	AABB getAabb() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
-	}
-	/**
-	
-	*/
-	void _setTransformArray(in PoolVector3Array arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_transform_array");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	PoolVector3Array _getTransformArray() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_transform_array");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolVector3Array);
-	}
-	/**
-	
-	*/
-	void _setColorArray(in PoolColorArray arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_color_array");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	PoolColorArray _getColorArray() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_color_array");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
-	}
-	/**
-	
-	*/
-	void _setCustomDataArray(in PoolColorArray arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_custom_data_array");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	PoolColorArray _getCustomDataArray() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_custom_data_array");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolColorArray);
+		_setColorArray(v);
 	}
 	/**
 	Format of colors in color array that gets passed to shader.
@@ -378,16 +421,16 @@ public:
 		setColorFormat(v);
 	}
 	/**
-	Format of transform used to transform mesh, either 2D or 3D.
+	
 	*/
-	@property MultiMesh.TransformFormat transformFormat()
+	@property PoolColorArray customDataArray()
 	{
-		return getTransformFormat();
+		return _getCustomDataArray();
 	}
 	/// ditto
-	@property void transformFormat(long v)
+	@property void customDataArray(PoolColorArray v)
 	{
-		setTransformFormat(v);
+		_setCustomDataArray(v);
 	}
 	/**
 	Format of custom data in custom data array that gets passed to shader.
@@ -402,7 +445,7 @@ public:
 		setCustomDataFormat(v);
 	}
 	/**
-	Number of instances that will get drawn.
+	Number of instances that will get drawn. This clears and (re)sizes the buffers. By default, all instances are drawn but you can limit this with $(D visibleInstanceCount).
 	*/
 	@property long instanceCount()
 	{
@@ -412,18 +455,6 @@ public:
 	@property void instanceCount(long v)
 	{
 		setInstanceCount(v);
-	}
-	/**
-	
-	*/
-	@property long visibleInstanceCount()
-	{
-		return getVisibleInstanceCount();
-	}
-	/// ditto
-	@property void visibleInstanceCount(long v)
-	{
-		setVisibleInstanceCount(v);
 	}
 	/**
 	Mesh to be drawn.
@@ -440,6 +471,18 @@ public:
 	/**
 	
 	*/
+	@property PoolVector2Array transform2dArray()
+	{
+		return _getTransform2dArray();
+	}
+	/// ditto
+	@property void transform2dArray(PoolVector2Array v)
+	{
+		_setTransform2dArray(v);
+	}
+	/**
+	
+	*/
 	@property PoolVector3Array transformArray()
 	{
 		return _getTransformArray();
@@ -450,27 +493,27 @@ public:
 		_setTransformArray(v);
 	}
 	/**
-	
+	Format of transform used to transform mesh, either 2D or 3D.
 	*/
-	@property PoolColorArray colorArray()
+	@property MultiMesh.TransformFormat transformFormat()
 	{
-		return _getColorArray();
+		return getTransformFormat();
 	}
 	/// ditto
-	@property void colorArray(PoolColorArray v)
+	@property void transformFormat(long v)
 	{
-		_setColorArray(v);
+		setTransformFormat(v);
 	}
 	/**
-	
+	Limits the number of instances drawn, -1 draws all instances. Changing this does not change the sizes of the buffers.
 	*/
-	@property PoolColorArray customDataArray()
+	@property long visibleInstanceCount()
 	{
-		return _getCustomDataArray();
+		return getVisibleInstanceCount();
 	}
 	/// ditto
-	@property void customDataArray(PoolColorArray v)
+	@property void visibleInstanceCount(long v)
 	{
-		_setCustomDataArray(v);
+		setVisibleInstanceCount(v);
 	}
 }

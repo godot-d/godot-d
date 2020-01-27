@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
 Line shape for 2D collisions.
 
-It works like a 2D plane and will not allow any body to go to the negative side. Not recommended for rigid bodies, and usually not recommended for static bodies either because it forces checks against it on every frame.
+It works like a 2D plane and will not allow any physics body to go to the negative side. Not recommended for rigid bodies, and usually not recommended for static bodies either because it forces checks against it on every frame.
 */
 @GodotBaseClass struct LineShape2D
 {
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_normal") GodotMethod!(void, Vector2) setNormal;
+		@GodotName("get_d") GodotMethod!(double) getD;
 		@GodotName("get_normal") GodotMethod!(Vector2) getNormal;
 		@GodotName("set_d") GodotMethod!(void, double) setD;
-		@GodotName("get_d") GodotMethod!(double) getD;
+		@GodotName("set_normal") GodotMethod!(void, Vector2) setNormal;
 	}
 	bool opEquals(in LineShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LineShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setNormal(in Vector2 normal)
+	double getD() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormal, _godot_object, normal);
+		return ptrcall!(double)(_classBinding.getD, _godot_object);
 	}
 	/**
 	
@@ -84,22 +82,10 @@ public:
 	/**
 	
 	*/
-	double getD() const
+	void setNormal(in Vector2 normal)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getD, _godot_object);
-	}
-	/**
-	The line's normal.
-	*/
-	@property Vector2 normal()
-	{
-		return getNormal();
-	}
-	/// ditto
-	@property void normal(Vector2 v)
-	{
-		setNormal(v);
+		ptrcall!(void)(_classBinding.setNormal, _godot_object, normal);
 	}
 	/**
 	The line's distance from the origin.
@@ -112,5 +98,17 @@ public:
 	@property void d(double v)
 	{
 		setD(v);
+	}
+	/**
+	The line's normal.
+	*/
+	@property Vector2 normal()
+	{
+		return getNormal();
+	}
+	/// ditto
+	@property void normal(Vector2 v)
+	{
+		setNormal(v);
 	}
 }

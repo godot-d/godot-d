@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.container;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Keeps children controls centered.
 
-CenterContainer Keeps children controls centered. This container keeps all children to their minimum size, in the center.
+CenterContainer keeps children controls centered. This container keeps all children to their minimum size, in the center.
 */
 @GodotBaseClass struct CenterContainer
 {
@@ -41,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_use_top_left") GodotMethod!(void, bool) setUseTopLeft;
 		@GodotName("is_using_top_left") GodotMethod!(bool) isUsingTopLeft;
+		@GodotName("set_use_top_left") GodotMethod!(void, bool) setUseTopLeft;
 	}
 	bool opEquals(in CenterContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CenterContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,21 +56,21 @@ public:
 	/**
 	
 	*/
-	void setUseTopLeft(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseTopLeft, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool isUsingTopLeft() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isUsingTopLeft, _godot_object);
 	}
 	/**
-	If `true`, centers children relative to the $(D CenterContainer)'s top left corner. Default value: `false`.
+	
+	*/
+	void setUseTopLeft(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseTopLeft, _godot_object, enable);
+	}
+	/**
+	If `true`, centers children relative to the $(D CenterContainer)'s top left corner.
 	*/
 	@property bool useTopLeft()
 	{

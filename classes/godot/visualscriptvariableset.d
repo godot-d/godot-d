@@ -45,8 +45,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_variable") GodotMethod!(void, String) setVariable;
 		@GodotName("get_variable") GodotMethod!(String) getVariable;
+		@GodotName("set_variable") GodotMethod!(void, String) setVariable;
 	}
 	bool opEquals(in VisualScriptVariableSet other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptVariableSet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,18 +63,18 @@ public:
 	/**
 	
 	*/
-	void setVariable(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVariable, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getVariable() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getVariable, _godot_object);
+	}
+	/**
+	
+	*/
+	void setVariable(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVariable, _godot_object, name);
 	}
 	/**
 	The variable's name.

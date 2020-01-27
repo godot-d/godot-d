@@ -21,34 +21,34 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.node;
 import godot.scenestate;
-import godot.reference;
+import godot.node;
 /**
 An abstraction of a serialized scene.
 
 A simplified interface to a scene file. Provides access to operations and checks that can be performed on the scene resource itself.
-Can be used to save a node to a file. When saving, the node as well as all the node it owns get saved (see `owner` property on $(D Node)). Note that the node doesn't need to own itself.
-Example of saving a node with different owners: The following example creates 3 objects: `Node2D` (`node`), `RigidBody2D` (`rigid`) and `CollisionObject2D` (`collision`). `collision` is a child of `rigid` which is a child of `node`. Only `rigid` is owned by `node` and `pack` will therefore only save those two nodes, but not `collision`.
+Can be used to save a node to a file. When saving, the node as well as all the node it owns get saved (see `owner` property on $(D Node)).
+$(B Note:) The node doesn't need to own itself.
+$(B Example of saving a node with different owners:) The following example creates 3 objects: `Node2D` (`node`), `RigidBody2D` (`rigid`) and `CollisionObject2D` (`collision`). `collision` is a child of `rigid` which is a child of `node`. Only `rigid` is owned by `node` and `pack` will therefore only save those two nodes, but not `collision`.
 
 
-# create the objects
+# Create the objects
 var node = Node2D.new()
 var rigid = RigidBody2D.new()
 var collision = CollisionShape2D.new()
 
-# create the object hierarchy
+# Create the object hierarchy
 rigid.add_child(collision)
 node.add_child(rigid)
 
-# change owner of rigid, but not of collision
+# Change owner of rigid, but not of collision
 rigid.owner = node
 
 var scene = PackedScene.new()
-# only node and rigid are now packed
+# Only node and rigid are now packed
 var result = scene.pack(node)
 if result == OK:
-    ResourceSaver.save("res://path/name.scn", scene) # or user://...
+    ResourceSaver.save("res://path/name.scn", scene) # Or "user://..."
 
 
 */
@@ -64,12 +64,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("pack") GodotMethod!(GodotError, Node) pack;
-		@GodotName("instance") GodotMethod!(Node, long) instance;
-		@GodotName("can_instance") GodotMethod!(bool) canInstance;
-		@GodotName("_set_bundled_scene") GodotMethod!(void, Dictionary) _setBundledScene;
 		@GodotName("_get_bundled_scene") GodotMethod!(Dictionary) _getBundledScene;
+		@GodotName("_set_bundled_scene") GodotMethod!(void, Dictionary) _setBundledScene;
+		@GodotName("can_instance") GodotMethod!(bool) canInstance;
 		@GodotName("get_state") GodotMethod!(SceneState) getState;
+		@GodotName("instance") GodotMethod!(Node, long) instance;
+		@GodotName("pack") GodotMethod!(GodotError, Node) pack;
 	}
 	bool opEquals(in PackedScene other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PackedScene opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -91,11 +91,13 @@ public:
 		*/
 		genEditStateDisabled = 0,
 		/**
-		If passed to $(D instance), provides local scene resources to the local scene. Requires tools compiled.
+		If passed to $(D instance), provides local scene resources to the local scene.
+		$(B Note:) Only available in editor builds.
 		*/
 		genEditStateInstance = 1,
 		/**
-		If passed to $(D instance), provides local scene resources to the local scene. Only the main scene should receive the main edit state. Requires tools compiled.
+		If passed to $(D instance), provides local scene resources to the local scene. Only the main scene should receive the main edit state.
+		$(B Note:) Only available in editor builds.
 		*/
 		genEditStateMain = 2,
 	}
@@ -107,20 +109,23 @@ public:
 		genEditStateMain = 2,
 	}
 	/**
-	Pack will ignore any sub-nodes not owned by given node. See $(D Node.owner).
+	
 	*/
-	GodotError pack(Node path)
+	Dictionary _getBundledScene() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, path);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_bundled_scene");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
 	/**
-	Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers $(D Node)'s `NOTIFICATION_INSTANCED` notification on the root node.
+	
 	*/
-	Node instance(in long edit_state = 0) const
+	void _setBundledScene(in Dictionary arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.instance, _godot_object, edit_state);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_bundled_scene");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Returns `true` if the scene file has nodes.
@@ -131,31 +136,28 @@ public:
 		return ptrcall!(bool)(_classBinding.canInstance, _godot_object);
 	}
 	/**
-	
-	*/
-	void _setBundledScene(in Dictionary arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_bundled_scene");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Dictionary _getBundledScene() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_bundled_scene");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
-	}
-	/**
 	Returns the `SceneState` representing the scene file contents.
 	*/
 	Ref!SceneState getState()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(SceneState)(_classBinding.getState, _godot_object);
+	}
+	/**
+	Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers a $(D constant Node.NOTIFICATION_INSTANCED) notification on the root node.
+	*/
+	Node instance(in long edit_state = 0) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.instance, _godot_object, edit_state);
+	}
+	/**
+	Pack will ignore any sub-nodes not owned by given node. See $(D Node.owner).
+	*/
+	GodotError pack(Node path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, path);
 	}
 	/**
 	A dictionary representation of the scene contents.

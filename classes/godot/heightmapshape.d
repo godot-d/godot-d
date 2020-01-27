@@ -1,5 +1,5 @@
 /**
-Height map shape for 3D physics (bullet only)
+Height map shape for 3D physics (Bullet only).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
-import godot.resource;
-import godot.reference;
 /**
-Height map shape for 3D physics (bullet only)
+Height map shape for 3D physics (Bullet only).
 
 Height map shape resource, which can be added to a $(D PhysicsBody) or $(D Area).
 */
@@ -40,12 +38,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_map_width") GodotMethod!(void, long) setMapWidth;
-		@GodotName("get_map_width") GodotMethod!(long) getMapWidth;
-		@GodotName("set_map_depth") GodotMethod!(void, long) setMapDepth;
-		@GodotName("get_map_depth") GodotMethod!(long) getMapDepth;
-		@GodotName("set_map_data") GodotMethod!(void, PoolRealArray) setMapData;
 		@GodotName("get_map_data") GodotMethod!(PoolRealArray) getMapData;
+		@GodotName("get_map_depth") GodotMethod!(long) getMapDepth;
+		@GodotName("get_map_width") GodotMethod!(long) getMapWidth;
+		@GodotName("set_map_data") GodotMethod!(void, PoolRealArray) setMapData;
+		@GodotName("set_map_depth") GodotMethod!(void, long) setMapDepth;
+		@GodotName("set_map_width") GodotMethod!(void, long) setMapWidth;
 	}
 	bool opEquals(in HeightMapShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HeightMapShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,26 +60,10 @@ public:
 	/**
 	
 	*/
-	void setMapWidth(in long width)
+	PoolRealArray getMapData() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMapWidth, _godot_object, width);
-	}
-	/**
-	
-	*/
-	long getMapWidth() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMapWidth, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMapDepth(in long height)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMapDepth, _godot_object, height);
+		return ptrcall!(PoolRealArray)(_classBinding.getMapData, _godot_object);
 	}
 	/**
 	
@@ -94,6 +76,14 @@ public:
 	/**
 	
 	*/
+	long getMapWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMapWidth, _godot_object);
+	}
+	/**
+	
+	*/
 	void setMapData(in PoolRealArray data)
 	{
 		checkClassBinding!(typeof(this))();
@@ -102,22 +92,30 @@ public:
 	/**
 	
 	*/
-	PoolRealArray getMapData() const
+	void setMapDepth(in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolRealArray)(_classBinding.getMapData, _godot_object);
+		ptrcall!(void)(_classBinding.setMapDepth, _godot_object, height);
 	}
 	/**
-	Width of the height map data. Changing this will resize the $(D mapData).
+	
 	*/
-	@property long mapWidth()
+	void setMapWidth(in long width)
 	{
-		return getMapWidth();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMapWidth, _godot_object, width);
+	}
+	/**
+	Height map data, pool array must be of $(D mapWidth) * $(D mapDepth) size.
+	*/
+	@property PoolRealArray mapData()
+	{
+		return getMapData();
 	}
 	/// ditto
-	@property void mapWidth(long v)
+	@property void mapData(PoolRealArray v)
 	{
-		setMapWidth(v);
+		setMapData(v);
 	}
 	/**
 	Depth of the height map data. Changing this will resize the $(D mapData).
@@ -132,15 +130,15 @@ public:
 		setMapDepth(v);
 	}
 	/**
-	Height map data, pool array must be of $(D mapWidth) * $(D mapDepth) size.
+	Width of the height map data. Changing this will resize the $(D mapData).
 	*/
-	@property PoolRealArray mapData()
+	@property long mapWidth()
 	{
-		return getMapData();
+		return getMapWidth();
 	}
 	/// ditto
-	@property void mapData(PoolRealArray v)
+	@property void mapWidth(long v)
 	{
-		setMapData(v);
+		setMapWidth(v);
 	}
 }

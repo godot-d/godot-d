@@ -20,9 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.inputeventwithmodifiers;
-import godot.inputevent;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,8 +35,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 	}
 	bool opEquals(in InputEventGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +53,18 @@ public:
 	/**
 	
 	*/
-	void setPosition(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
-	}
-	/**
-	
-	*/
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+	}
+	/**
+	
+	*/
+	void setPosition(in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
 	}
 	/**
 	

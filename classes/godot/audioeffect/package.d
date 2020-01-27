@@ -1,5 +1,5 @@
 /**
-Audio Effect For Audio.
+Audio effect for audio.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,9 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.reference;
 /**
-Audio Effect For Audio.
+Audio effect for audio.
 
 Base resource for audio bus. Applies an audio effect on the bus that the resource is applied on.
 */

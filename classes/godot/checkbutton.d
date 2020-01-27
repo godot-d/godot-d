@@ -23,8 +23,6 @@ import godot.classdb;
 import godot.button;
 import godot.basebutton;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Checkable button.
 

@@ -2,11 +2,11 @@ module godot.csgshape.all;
 
 public import
 	godot.csgshape,
+	godot.csgcombiner,
 	godot.csgprimitive,
-	godot.csgmesh,
-	godot.csgsphere,
 	godot.csgbox,
 	godot.csgcylinder,
-	godot.csgtorus,
+	godot.csgmesh,
 	godot.csgpolygon,
-	godot.csgcombiner;
+	godot.csgsphere,
+	godot.csgtorus;

@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 		@GodotName("get_operator") GodotMethod!(VisualShaderNodeTransformMult.Operator) getOperator;
+		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 	}
 	bool opEquals(in VisualShaderNodeTransformMult other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeTransformMult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,20 +64,22 @@ public:
 		
 		*/
 		opBxa = 1,
+		/**
+		
+		*/
+		opAxbComp = 2,
+		/**
+		
+		*/
+		opBxaComp = 3,
 	}
 	/// 
 	enum Constants : int
 	{
 		opAxb = 0,
 		opBxa = 1,
-	}
-	/**
-	
-	*/
-	void setOperator(in long op)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
+		opAxbComp = 2,
+		opBxaComp = 3,
 	}
 	/**
 	
@@ -86,6 +88,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualShaderNodeTransformMult.Operator)(_classBinding.getOperator, _godot_object);
+	}
+	/**
+	
+	*/
+	void setOperator(in long op)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
 	}
 	/**
 	

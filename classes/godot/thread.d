@@ -24,7 +24,7 @@ import godot.reference;
 /**
 A unit of execution in a process.
 
-Can run methods on $(D GodotObject)s simultaneously. The use of synchronization via $(D Mutex), $(D Semaphore) is advised if working with shared objects.
+Can run methods on $(D GodotObject)s simultaneously. The use of synchronization via $(D Mutex) or $(D Semaphore) is advised if working with shared objects.
 */
 @GodotBaseClass struct Thread
 {
@@ -38,9 +38,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("start") GodotMethod!(GodotError, GodotObject, String, Variant, long) start;
 		@GodotName("get_id") GodotMethod!(String) getId;
 		@GodotName("is_active") GodotMethod!(bool) isActive;
+		@GodotName("start") GodotMethod!(GodotError, GodotObject, String, Variant, long) start;
 		@GodotName("wait_to_finish") GodotMethod!(Variant) waitToFinish;
 	}
 	bool opEquals(in Thread other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -59,15 +59,15 @@ public:
 	enum Priority : int
 	{
 		/**
-		
+		A thread running with lower priority than normally.
 		*/
 		priorityLow = 0,
 		/**
-		
+		A thread with a standard priority.
 		*/
 		priorityNormal = 1,
 		/**
-		
+		A thread running with higher priority than normally.
 		*/
 		priorityHigh = 2,
 	}
@@ -79,16 +79,7 @@ public:
 		priorityHigh = 2,
 	}
 	/**
-	Starts a new $(D Thread) that runs "method" on object "instance" with "userdata" passed as an argument. The "priority" of the $(D Thread) can be changed by passing a PRIORITY_* enum.
-	Returns OK on success, or ERR_CANT_CREATE on failure.
-	*/
-	GodotError start(VariantArg2)(GodotObject instance, in String method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.start, _godot_object, instance, method, userdata, priority);
-	}
-	/**
-	Returns the current $(D Thread)s id, uniquely identifying it among all threads.
+	Returns the current $(D Thread)'s ID, uniquely identifying it among all threads.
 	*/
 	String getId() const
 	{
@@ -102,6 +93,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+	}
+	/**
+	Starts a new $(D Thread) that runs `method` on object `instance` with `userdata` passed as an argument. The `priority` of the $(D Thread) can be changed by passing a value from the $(D priority) enum.
+	Returns $(D constant OK) on success, or $(D constant ERR_CANT_CREATE) on failure.
+	*/
+	GodotError start(VariantArg2)(GodotObject instance, in String method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.start, _godot_object, instance, method, userdata, priority);
 	}
 	/**
 	Joins the $(D Thread) and waits for it to finish. Returns what the method called returned.

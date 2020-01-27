@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radiance_size") GodotMethod!(void, long) setRadianceSize;
 		@GodotName("get_radiance_size") GodotMethod!(Sky.RadianceSize) getRadianceSize;
+		@GodotName("set_radiance_size") GodotMethod!(void, long) setRadianceSize;
 	}
 	bool opEquals(in Sky other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Sky opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,35 +57,35 @@ public:
 	enum RadianceSize : int
 	{
 		/**
-		Radiance texture size is 32x32 pixels.
+		Radiance texture size is 32×32 pixels.
 		*/
 		radianceSize32 = 0,
 		/**
-		Radiance texture size is 64x64 pixels.
+		Radiance texture size is 64×64 pixels.
 		*/
 		radianceSize64 = 1,
 		/**
-		Radiance texture size is 128x128 pixels.
+		Radiance texture size is 128×128 pixels.
 		*/
 		radianceSize128 = 2,
 		/**
-		Radiance texture size is 256x256 pixels.
+		Radiance texture size is 256×256 pixels.
 		*/
 		radianceSize256 = 3,
 		/**
-		Radiance texture size is 512x512 pixels.
+		Radiance texture size is 512×512 pixels.
 		*/
 		radianceSize512 = 4,
 		/**
-		Radiance texture size is 1024x1024 pixels.
+		Radiance texture size is 1024×1024 pixels.
 		*/
 		radianceSize1024 = 5,
 		/**
-		Radiance texture size is 2048x2048 pixels.
+		Radiance texture size is 2048×2048 pixels.
 		*/
 		radianceSize2048 = 6,
 		/**
-		Radiance texture size is the largest size it can be.
+		Represents the size of the $(D radiancesize) enum.
 		*/
 		radianceSizeMax = 7,
 	}
@@ -104,23 +104,23 @@ public:
 	/**
 	
 	*/
-	void setRadianceSize(in long size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadianceSize, _godot_object, size);
-	}
-	/**
-	
-	*/
 	Sky.RadianceSize getRadianceSize() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Sky.RadianceSize)(_classBinding.getRadianceSize, _godot_object);
 	}
 	/**
-	The Sky's radiance map size.
-	The higher the radiance map size, the more detailed the lighting from the Sky will be.
-	See RADIANCE_SIZE_* constants for values. Default size is RADIANCE_SIZE_512.
+	
+	*/
+	void setRadianceSize(in long size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadianceSize, _godot_object, size);
+	}
+	/**
+	The $(D Sky)'s radiance map size. The higher the radiance map size, the more detailed the lighting from the $(D Sky) will be.
+	See $(D radiancesize) constants for values.
+	$(B Note:) Some hardware will have trouble with higher radiance sizes, especially $(D constant RADIANCE_SIZE_512) and above. Only use such high values on high-end hardware.
 	*/
 	@property Sky.RadianceSize radianceSize()
 	{

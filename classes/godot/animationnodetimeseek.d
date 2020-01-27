@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.animationnode;
 import godot.resource;
-import godot.reference;
 /**
 
 */

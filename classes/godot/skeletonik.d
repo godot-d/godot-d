@@ -37,28 +37,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_root_bone") GodotMethod!(void, String) setRootBone;
-		@GodotName("get_root_bone") GodotMethod!(String) getRootBone;
-		@GodotName("set_tip_bone") GodotMethod!(void, String) setTipBone;
-		@GodotName("get_tip_bone") GodotMethod!(String) getTipBone;
-		@GodotName("set_interpolation") GodotMethod!(void, double) setInterpolation;
 		@GodotName("get_interpolation") GodotMethod!(double) getInterpolation;
-		@GodotName("set_target_transform") GodotMethod!(void, Transform) setTargetTransform;
-		@GodotName("get_target_transform") GodotMethod!(Transform) getTargetTransform;
-		@GodotName("set_target_node") GodotMethod!(void, NodePath) setTargetNode;
-		@GodotName("get_target_node") GodotMethod!(NodePath) getTargetNode;
-		@GodotName("set_override_tip_basis") GodotMethod!(void, bool) setOverrideTipBasis;
-		@GodotName("is_override_tip_basis") GodotMethod!(bool) isOverrideTipBasis;
-		@GodotName("set_use_magnet") GodotMethod!(void, bool) setUseMagnet;
-		@GodotName("is_using_magnet") GodotMethod!(bool) isUsingMagnet;
-		@GodotName("set_magnet_position") GodotMethod!(void, Vector3) setMagnetPosition;
 		@GodotName("get_magnet_position") GodotMethod!(Vector3) getMagnetPosition;
-		@GodotName("get_parent_skeleton") GodotMethod!(Skeleton) getParentSkeleton;
-		@GodotName("is_running") GodotMethod!(bool) isRunning;
-		@GodotName("set_min_distance") GodotMethod!(void, double) setMinDistance;
-		@GodotName("get_min_distance") GodotMethod!(double) getMinDistance;
-		@GodotName("set_max_iterations") GodotMethod!(void, long) setMaxIterations;
 		@GodotName("get_max_iterations") GodotMethod!(long) getMaxIterations;
+		@GodotName("get_min_distance") GodotMethod!(double) getMinDistance;
+		@GodotName("get_parent_skeleton") GodotMethod!(Skeleton) getParentSkeleton;
+		@GodotName("get_root_bone") GodotMethod!(String) getRootBone;
+		@GodotName("get_target_node") GodotMethod!(NodePath) getTargetNode;
+		@GodotName("get_target_transform") GodotMethod!(Transform) getTargetTransform;
+		@GodotName("get_tip_bone") GodotMethod!(String) getTipBone;
+		@GodotName("is_override_tip_basis") GodotMethod!(bool) isOverrideTipBasis;
+		@GodotName("is_running") GodotMethod!(bool) isRunning;
+		@GodotName("is_using_magnet") GodotMethod!(bool) isUsingMagnet;
+		@GodotName("set_interpolation") GodotMethod!(void, double) setInterpolation;
+		@GodotName("set_magnet_position") GodotMethod!(void, Vector3) setMagnetPosition;
+		@GodotName("set_max_iterations") GodotMethod!(void, long) setMaxIterations;
+		@GodotName("set_min_distance") GodotMethod!(void, double) setMinDistance;
+		@GodotName("set_override_tip_basis") GodotMethod!(void, bool) setOverrideTipBasis;
+		@GodotName("set_root_bone") GodotMethod!(void, String) setRootBone;
+		@GodotName("set_target_node") GodotMethod!(void, NodePath) setTargetNode;
+		@GodotName("set_target_transform") GodotMethod!(void, Transform) setTargetTransform;
+		@GodotName("set_tip_bone") GodotMethod!(void, String) setTipBone;
+		@GodotName("set_use_magnet") GodotMethod!(void, bool) setUseMagnet;
 		@GodotName("start") GodotMethod!(void, bool) start;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
@@ -77,122 +77,10 @@ public:
 	/**
 	
 	*/
-	void setRootBone(in String root_bone)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRootBone, _godot_object, root_bone);
-	}
-	/**
-	
-	*/
-	String getRootBone() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getRootBone, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTipBone(in String tip_bone)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTipBone, _godot_object, tip_bone);
-	}
-	/**
-	
-	*/
-	String getTipBone() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTipBone, _godot_object);
-	}
-	/**
-	
-	*/
-	void setInterpolation(in double interpolation)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterpolation, _godot_object, interpolation);
-	}
-	/**
-	
-	*/
 	double getInterpolation() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getInterpolation, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTargetTransform(in Transform target)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetTransform, _godot_object, target);
-	}
-	/**
-	
-	*/
-	Transform getTargetTransform() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getTargetTransform, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTargetNode(NodePathArg0)(in NodePathArg0 node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetNode, _godot_object, node);
-	}
-	/**
-	
-	*/
-	NodePath getTargetNode()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getTargetNode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOverrideTipBasis(in bool _override)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverrideTipBasis, _godot_object, _override);
-	}
-	/**
-	
-	*/
-	bool isOverrideTipBasis() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverrideTipBasis, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUseMagnet(in bool use)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseMagnet, _godot_object, use);
-	}
-	/**
-	
-	*/
-	bool isUsingMagnet() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingMagnet, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMagnetPosition(in Vector3 local_position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMagnetPosition, _godot_object, local_position);
 	}
 	/**
 	
@@ -205,26 +93,10 @@ public:
 	/**
 	
 	*/
-	Skeleton getParentSkeleton() const
+	long getMaxIterations() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Skeleton)(_classBinding.getParentSkeleton, _godot_object);
-	}
-	/**
-	
-	*/
-	bool isRunning()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRunning, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMinDistance(in double min_distance)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinDistance, _godot_object, min_distance);
+		return ptrcall!(long)(_classBinding.getMaxIterations, _godot_object);
 	}
 	/**
 	
@@ -237,6 +109,86 @@ public:
 	/**
 	
 	*/
+	Skeleton getParentSkeleton() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Skeleton)(_classBinding.getParentSkeleton, _godot_object);
+	}
+	/**
+	
+	*/
+	String getRootBone() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getRootBone, _godot_object);
+	}
+	/**
+	
+	*/
+	NodePath getTargetNode()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getTargetNode, _godot_object);
+	}
+	/**
+	
+	*/
+	Transform getTargetTransform() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getTargetTransform, _godot_object);
+	}
+	/**
+	
+	*/
+	String getTipBone() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getTipBone, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isOverrideTipBasis() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverrideTipBasis, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isRunning()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isRunning, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isUsingMagnet() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingMagnet, _godot_object);
+	}
+	/**
+	
+	*/
+	void setInterpolation(in double interpolation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInterpolation, _godot_object, interpolation);
+	}
+	/**
+	
+	*/
+	void setMagnetPosition(in Vector3 local_position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMagnetPosition, _godot_object, local_position);
+	}
+	/**
+	
+	*/
 	void setMaxIterations(in long iterations)
 	{
 		checkClassBinding!(typeof(this))();
@@ -245,10 +197,58 @@ public:
 	/**
 	
 	*/
-	long getMaxIterations() const
+	void setMinDistance(in double min_distance)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxIterations, _godot_object);
+		ptrcall!(void)(_classBinding.setMinDistance, _godot_object, min_distance);
+	}
+	/**
+	
+	*/
+	void setOverrideTipBasis(in bool _override)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOverrideTipBasis, _godot_object, _override);
+	}
+	/**
+	
+	*/
+	void setRootBone(in String root_bone)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRootBone, _godot_object, root_bone);
+	}
+	/**
+	
+	*/
+	void setTargetNode(NodePathArg0)(in NodePathArg0 node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTargetNode, _godot_object, node);
+	}
+	/**
+	
+	*/
+	void setTargetTransform(in Transform target)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTargetTransform, _godot_object, target);
+	}
+	/**
+	
+	*/
+	void setTipBone(in String tip_bone)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTipBone, _godot_object, tip_bone);
+	}
+	/**
+	
+	*/
+	void setUseMagnet(in bool use)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseMagnet, _godot_object, use);
 	}
 	/**
 	
@@ -269,30 +269,6 @@ public:
 	/**
 	
 	*/
-	@property String rootBone()
-	{
-		return getRootBone();
-	}
-	/// ditto
-	@property void rootBone(String v)
-	{
-		setRootBone(v);
-	}
-	/**
-	
-	*/
-	@property String tipBone()
-	{
-		return getTipBone();
-	}
-	/// ditto
-	@property void tipBone(String v)
-	{
-		setTipBone(v);
-	}
-	/**
-	
-	*/
 	@property double interpolation()
 	{
 		return getInterpolation();
@@ -301,42 +277,6 @@ public:
 	@property void interpolation(double v)
 	{
 		setInterpolation(v);
-	}
-	/**
-	
-	*/
-	@property Transform target()
-	{
-		return getTargetTransform();
-	}
-	/// ditto
-	@property void target(Transform v)
-	{
-		setTargetTransform(v);
-	}
-	/**
-	
-	*/
-	@property bool overrideTipBasis()
-	{
-		return isOverrideTipBasis();
-	}
-	/// ditto
-	@property void overrideTipBasis(bool v)
-	{
-		setOverrideTipBasis(v);
-	}
-	/**
-	
-	*/
-	@property bool useMagnet()
-	{
-		return isUsingMagnet();
-	}
-	/// ditto
-	@property void useMagnet(bool v)
-	{
-		setUseMagnet(v);
 	}
 	/**
 	
@@ -353,14 +293,14 @@ public:
 	/**
 	
 	*/
-	@property NodePath targetNode()
+	@property long maxIterations()
 	{
-		return getTargetNode();
+		return getMaxIterations();
 	}
 	/// ditto
-	@property void targetNode(NodePath v)
+	@property void maxIterations(long v)
 	{
-		setTargetNode(v);
+		setMaxIterations(v);
 	}
 	/**
 	
@@ -377,13 +317,73 @@ public:
 	/**
 	
 	*/
-	@property long maxIterations()
+	@property bool overrideTipBasis()
 	{
-		return getMaxIterations();
+		return isOverrideTipBasis();
 	}
 	/// ditto
-	@property void maxIterations(long v)
+	@property void overrideTipBasis(bool v)
 	{
-		setMaxIterations(v);
+		setOverrideTipBasis(v);
+	}
+	/**
+	
+	*/
+	@property String rootBone()
+	{
+		return getRootBone();
+	}
+	/// ditto
+	@property void rootBone(String v)
+	{
+		setRootBone(v);
+	}
+	/**
+	
+	*/
+	@property Transform target()
+	{
+		return getTargetTransform();
+	}
+	/// ditto
+	@property void target(Transform v)
+	{
+		setTargetTransform(v);
+	}
+	/**
+	
+	*/
+	@property NodePath targetNode()
+	{
+		return getTargetNode();
+	}
+	/// ditto
+	@property void targetNode(NodePath v)
+	{
+		setTargetNode(v);
+	}
+	/**
+	
+	*/
+	@property String tipBone()
+	{
+		return getTipBone();
+	}
+	/// ditto
+	@property void tipBone(String v)
+	{
+		setTipBone(v);
+	}
+	/**
+	
+	*/
+	@property bool useMagnet()
+	{
+		return isUsingMagnet();
+	}
+	/// ditto
+	@property void useMagnet(bool v)
+	{
+		setUseMagnet(v);
 	}
 }

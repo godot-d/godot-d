@@ -38,22 +38,22 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("is_valid_gateway") GodotMethod!(bool) isValidGateway;
-		@GodotName("query_external_address") GodotMethod!(String) queryExternalAddress;
 		@GodotName("add_port_mapping") GodotMethod!(long, long, long, String, String, long) addPortMapping;
 		@GodotName("delete_port_mapping") GodotMethod!(long, long, String) deletePortMapping;
-		@GodotName("set_description_url") GodotMethod!(void, String) setDescriptionUrl;
 		@GodotName("get_description_url") GodotMethod!(String) getDescriptionUrl;
-		@GodotName("set_service_type") GodotMethod!(void, String) setServiceType;
-		@GodotName("get_service_type") GodotMethod!(String) getServiceType;
-		@GodotName("set_igd_control_url") GodotMethod!(void, String) setIgdControlUrl;
 		@GodotName("get_igd_control_url") GodotMethod!(String) getIgdControlUrl;
-		@GodotName("set_igd_service_type") GodotMethod!(void, String) setIgdServiceType;
-		@GodotName("get_igd_service_type") GodotMethod!(String) getIgdServiceType;
-		@GodotName("set_igd_our_addr") GodotMethod!(void, String) setIgdOurAddr;
 		@GodotName("get_igd_our_addr") GodotMethod!(String) getIgdOurAddr;
-		@GodotName("set_igd_status") GodotMethod!(void, long) setIgdStatus;
+		@GodotName("get_igd_service_type") GodotMethod!(String) getIgdServiceType;
 		@GodotName("get_igd_status") GodotMethod!(UPNPDevice.IGDStatus) getIgdStatus;
+		@GodotName("get_service_type") GodotMethod!(String) getServiceType;
+		@GodotName("is_valid_gateway") GodotMethod!(bool) isValidGateway;
+		@GodotName("query_external_address") GodotMethod!(String) queryExternalAddress;
+		@GodotName("set_description_url") GodotMethod!(void, String) setDescriptionUrl;
+		@GodotName("set_igd_control_url") GodotMethod!(void, String) setIgdControlUrl;
+		@GodotName("set_igd_our_addr") GodotMethod!(void, String) setIgdOurAddr;
+		@GodotName("set_igd_service_type") GodotMethod!(void, String) setIgdServiceType;
+		@GodotName("set_igd_status") GodotMethod!(void, long) setIgdStatus;
+		@GodotName("set_service_type") GodotMethod!(void, String) setServiceType;
 	}
 	bool opEquals(in UPNPDevice other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	UPNPDevice opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -126,22 +126,6 @@ public:
 		igdStatusUnknownError = 9,
 	}
 	/**
-	Returns `true` if this is a valid IGD (InternetGatewayDevice) which potentially supports port forwarding.
-	*/
-	bool isValidGateway() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValidGateway, _godot_object);
-	}
-	/**
-	Returns the external IP address of this $(D UPNPDevice) or an empty string.
-	*/
-	String queryExternalAddress() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.queryExternalAddress, _godot_object);
-	}
-	/**
 	Adds a port mapping to forward the given external port on this $(D UPNPDevice) for the given protocol to the local machine. See $(D UPNP.addPortMapping).
 	*/
 	long addPortMapping(in long port, in long port_internal = 0, in String desc = gs!"", in String proto = gs!"UDP", in long duration = 0) const
@@ -160,42 +144,10 @@ public:
 	/**
 	
 	*/
-	void setDescriptionUrl(in String url)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDescriptionUrl, _godot_object, url);
-	}
-	/**
-	
-	*/
 	String getDescriptionUrl() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getDescriptionUrl, _godot_object);
-	}
-	/**
-	
-	*/
-	void setServiceType(in String type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setServiceType, _godot_object, type);
-	}
-	/**
-	
-	*/
-	String getServiceType() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getServiceType, _godot_object);
-	}
-	/**
-	
-	*/
-	void setIgdControlUrl(in String url)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdControlUrl, _godot_object, url);
 	}
 	/**
 	
@@ -208,10 +160,10 @@ public:
 	/**
 	
 	*/
-	void setIgdServiceType(in String type)
+	String getIgdOurAddr() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdServiceType, _godot_object, type);
+		return ptrcall!(String)(_classBinding.getIgdOurAddr, _godot_object);
 	}
 	/**
 	
@@ -224,6 +176,54 @@ public:
 	/**
 	
 	*/
+	UPNPDevice.IGDStatus getIgdStatus() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(UPNPDevice.IGDStatus)(_classBinding.getIgdStatus, _godot_object);
+	}
+	/**
+	
+	*/
+	String getServiceType() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getServiceType, _godot_object);
+	}
+	/**
+	Returns `true` if this is a valid IGD (InternetGatewayDevice) which potentially supports port forwarding.
+	*/
+	bool isValidGateway() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isValidGateway, _godot_object);
+	}
+	/**
+	Returns the external IP address of this $(D UPNPDevice) or an empty string.
+	*/
+	String queryExternalAddress() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.queryExternalAddress, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDescriptionUrl(in String url)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDescriptionUrl, _godot_object, url);
+	}
+	/**
+	
+	*/
+	void setIgdControlUrl(in String url)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIgdControlUrl, _godot_object, url);
+	}
+	/**
+	
+	*/
 	void setIgdOurAddr(in String addr)
 	{
 		checkClassBinding!(typeof(this))();
@@ -232,10 +232,10 @@ public:
 	/**
 	
 	*/
-	String getIgdOurAddr() const
+	void setIgdServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getIgdOurAddr, _godot_object);
+		ptrcall!(void)(_classBinding.setIgdServiceType, _godot_object, type);
 	}
 	/**
 	
@@ -248,10 +248,10 @@ public:
 	/**
 	
 	*/
-	UPNPDevice.IGDStatus getIgdStatus() const
+	void setServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(UPNPDevice.IGDStatus)(_classBinding.getIgdStatus, _godot_object);
+		ptrcall!(void)(_classBinding.setServiceType, _godot_object, type);
 	}
 	/**
 	URL to the device description.
@@ -266,18 +266,6 @@ public:
 		setDescriptionUrl(v);
 	}
 	/**
-	Service type.
-	*/
-	@property String serviceType()
-	{
-		return getServiceType();
-	}
-	/// ditto
-	@property void serviceType(String v)
-	{
-		setServiceType(v);
-	}
-	/**
 	IDG control URL.
 	*/
 	@property String igdControlUrl()
@@ -288,18 +276,6 @@ public:
 	@property void igdControlUrl(String v)
 	{
 		setIgdControlUrl(v);
-	}
-	/**
-	IGD service type.
-	*/
-	@property String igdServiceType()
-	{
-		return getIgdServiceType();
-	}
-	/// ditto
-	@property void igdServiceType(String v)
-	{
-		setIgdServiceType(v);
 	}
 	/**
 	Address of the local machine in the network connecting it to this $(D UPNPDevice).
@@ -314,6 +290,18 @@ public:
 		setIgdOurAddr(v);
 	}
 	/**
+	IGD service type.
+	*/
+	@property String igdServiceType()
+	{
+		return getIgdServiceType();
+	}
+	/// ditto
+	@property void igdServiceType(String v)
+	{
+		setIgdServiceType(v);
+	}
+	/**
 	IGD status. See $(D igdstatus).
 	*/
 	@property UPNPDevice.IGDStatus igdStatus()
@@ -324,5 +312,17 @@ public:
 	@property void igdStatus(long v)
 	{
 		setIgdStatus(v);
+	}
+	/**
+	Service type.
+	*/
+	@property String serviceType()
+	{
+		return getServiceType();
+	}
+	/// ditto
+	@property void serviceType(String v)
+	{
+		setServiceType(v);
 	}
 }

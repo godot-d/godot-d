@@ -1,5 +1,5 @@
 /**
-Enable certain nodes only when visible.
+Enables certain nodes only when visible.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.visibilitynotifier;
 import godot.node;
-import godot.spatial;
 /**
-Enable certain nodes only when visible.
+Enables certain nodes only when visible.
 
 The VisibilityEnabler will disable $(D RigidBody) and $(D AnimationPlayer) nodes when they are not visible. It will only affect other nodes within the same scene as the VisibilityEnabler itself.
 */
@@ -40,9 +39,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_enabler") GodotMethod!(void, long, bool) setEnabler;
-		@GodotName("is_enabler_enabled") GodotMethod!(bool, long) isEnablerEnabled;
 		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
+		@GodotName("is_enabler_enabled") GodotMethod!(bool, long) isEnablerEnabled;
+		@GodotName("set_enabler") GodotMethod!(void, long, bool) setEnabler;
 	}
 	bool opEquals(in VisibilityEnabler other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisibilityEnabler opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -68,7 +67,7 @@ public:
 		*/
 		enablerFreezeBodies = 1,
 		/**
-		
+		Represents the size of the $(D enabler) enum.
 		*/
 		enablerMax = 2,
 	}
@@ -82,13 +81,15 @@ public:
 	/**
 	
 	*/
-	void setEnabler(in long enabler, in bool enabled)
+	void _nodeRemoved(Node arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabler, _godot_object, enabler, enabled);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_node_removed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Returns whether the enabler identified by given $(D enabler) constant is active.
 	*/
 	bool isEnablerEnabled(in long enabler) const
 	{
@@ -96,26 +97,12 @@ public:
 		return ptrcall!(bool)(_classBinding.isEnablerEnabled, _godot_object, enabler);
 	}
 	/**
-	
+	Sets active state of the enabler identified by given $(D enabler) constant.
 	*/
-	void _nodeRemoved(Node arg0)
+	void setEnabler(in long enabler, in bool enabled)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_node_removed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	If `true`, $(D AnimationPlayer) nodes will be paused.
-	*/
-	@property bool pauseAnimations()
-	{
-		return isEnablerEnabled(0);
-	}
-	/// ditto
-	@property void pauseAnimations(bool v)
-	{
-		setEnabler(0, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabler, _godot_object, enabler, enabled);
 	}
 	/**
 	If `true`, $(D RigidBody) nodes will be paused.
@@ -128,5 +115,17 @@ public:
 	@property void freezeBodies(bool v)
 	{
 		setEnabler(1, v);
+	}
+	/**
+	If `true`, $(D AnimationPlayer) nodes will be paused.
+	*/
+	@property bool pauseAnimations()
+	{
+		return isEnablerEnabled(0);
+	}
+	/// ditto
+	@property void pauseAnimations(bool v)
+	{
+		setEnabler(0, v);
 	}
 }

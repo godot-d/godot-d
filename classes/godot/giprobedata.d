@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -37,28 +36,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_bounds") GodotMethod!(void, AABB) setBounds;
-		@GodotName("get_bounds") GodotMethod!(AABB) getBounds;
-		@GodotName("set_cell_size") GodotMethod!(void, double) setCellSize;
-		@GodotName("get_cell_size") GodotMethod!(double) getCellSize;
-		@GodotName("set_to_cell_xform") GodotMethod!(void, Transform) setToCellXform;
-		@GodotName("get_to_cell_xform") GodotMethod!(Transform) getToCellXform;
-		@GodotName("set_dynamic_data") GodotMethod!(void, PoolIntArray) setDynamicData;
-		@GodotName("get_dynamic_data") GodotMethod!(PoolIntArray) getDynamicData;
-		@GodotName("set_dynamic_range") GodotMethod!(void, long) setDynamicRange;
-		@GodotName("get_dynamic_range") GodotMethod!(long) getDynamicRange;
-		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
-		@GodotName("get_energy") GodotMethod!(double) getEnergy;
-		@GodotName("set_bias") GodotMethod!(void, double) setBias;
 		@GodotName("get_bias") GodotMethod!(double) getBias;
-		@GodotName("set_normal_bias") GodotMethod!(void, double) setNormalBias;
+		@GodotName("get_bounds") GodotMethod!(AABB) getBounds;
+		@GodotName("get_cell_size") GodotMethod!(double) getCellSize;
+		@GodotName("get_dynamic_data") GodotMethod!(PoolIntArray) getDynamicData;
+		@GodotName("get_dynamic_range") GodotMethod!(long) getDynamicRange;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
 		@GodotName("get_normal_bias") GodotMethod!(double) getNormalBias;
-		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
 		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
-		@GodotName("set_interior") GodotMethod!(void, bool) setInterior;
-		@GodotName("is_interior") GodotMethod!(bool) isInterior;
-		@GodotName("set_compress") GodotMethod!(void, bool) setCompress;
+		@GodotName("get_to_cell_xform") GodotMethod!(Transform) getToCellXform;
 		@GodotName("is_compressed") GodotMethod!(bool) isCompressed;
+		@GodotName("is_interior") GodotMethod!(bool) isInterior;
+		@GodotName("set_bias") GodotMethod!(void, double) setBias;
+		@GodotName("set_bounds") GodotMethod!(void, AABB) setBounds;
+		@GodotName("set_cell_size") GodotMethod!(void, double) setCellSize;
+		@GodotName("set_compress") GodotMethod!(void, bool) setCompress;
+		@GodotName("set_dynamic_data") GodotMethod!(void, PoolIntArray) setDynamicData;
+		@GodotName("set_dynamic_range") GodotMethod!(void, long) setDynamicRange;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_interior") GodotMethod!(void, bool) setInterior;
+		@GodotName("set_normal_bias") GodotMethod!(void, double) setNormalBias;
+		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
+		@GodotName("set_to_cell_xform") GodotMethod!(void, Transform) setToCellXform;
 	}
 	bool opEquals(in GIProbeData other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GIProbeData opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -75,10 +74,10 @@ public:
 	/**
 	
 	*/
-	void setBounds(in AABB bounds)
+	double getBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounds, _godot_object, bounds);
+		return ptrcall!(double)(_classBinding.getBias, _godot_object);
 	}
 	/**
 	
@@ -91,42 +90,10 @@ public:
 	/**
 	
 	*/
-	void setCellSize(in double cell_size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSize, _godot_object, cell_size);
-	}
-	/**
-	
-	*/
 	double getCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getCellSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setToCellXform(in Transform to_cell_xform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setToCellXform, _godot_object, to_cell_xform);
-	}
-	/**
-	
-	*/
-	Transform getToCellXform() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getToCellXform, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDynamicData(in PoolIntArray dynamic_data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDynamicData, _godot_object, dynamic_data);
 	}
 	/**
 	
@@ -139,26 +106,10 @@ public:
 	/**
 	
 	*/
-	void setDynamicRange(in long dynamic_range)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDynamicRange, _godot_object, dynamic_range);
-	}
-	/**
-	
-	*/
 	long getDynamicRange() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getDynamicRange, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnergy(in double energy)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -171,42 +122,10 @@ public:
 	/**
 	
 	*/
-	void setBias(in double bias)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBias, _godot_object, bias);
-	}
-	/**
-	
-	*/
-	double getBias() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBias, _godot_object);
-	}
-	/**
-	
-	*/
-	void setNormalBias(in double bias)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalBias, _godot_object, bias);
-	}
-	/**
-	
-	*/
 	double getNormalBias() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getNormalBias, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPropagation(in double propagation)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
 	}
 	/**
 	
@@ -219,10 +138,18 @@ public:
 	/**
 	
 	*/
-	void setInterior(in bool interior)
+	Transform getToCellXform() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterior, _godot_object, interior);
+		return ptrcall!(Transform)(_classBinding.getToCellXform, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCompressed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCompressed, _godot_object);
 	}
 	/**
 	
@@ -235,6 +162,30 @@ public:
 	/**
 	
 	*/
+	void setBias(in double bias)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBias, _godot_object, bias);
+	}
+	/**
+	
+	*/
+	void setBounds(in AABB bounds)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBounds, _godot_object, bounds);
+	}
+	/**
+	
+	*/
+	void setCellSize(in double cell_size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellSize, _godot_object, cell_size);
+	}
+	/**
+	
+	*/
 	void setCompress(in bool compress)
 	{
 		checkClassBinding!(typeof(this))();
@@ -243,10 +194,70 @@ public:
 	/**
 	
 	*/
-	bool isCompressed() const
+	void setDynamicData(in PoolIntArray dynamic_data)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCompressed, _godot_object);
+		ptrcall!(void)(_classBinding.setDynamicData, _godot_object, dynamic_data);
+	}
+	/**
+	
+	*/
+	void setDynamicRange(in long dynamic_range)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDynamicRange, _godot_object, dynamic_range);
+	}
+	/**
+	
+	*/
+	void setEnergy(in double energy)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+	}
+	/**
+	
+	*/
+	void setInterior(in bool interior)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInterior, _godot_object, interior);
+	}
+	/**
+	
+	*/
+	void setNormalBias(in double bias)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalBias, _godot_object, bias);
+	}
+	/**
+	
+	*/
+	void setPropagation(in double propagation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
+	}
+	/**
+	
+	*/
+	void setToCellXform(in Transform to_cell_xform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setToCellXform, _godot_object, to_cell_xform);
+	}
+	/**
+	
+	*/
+	@property double bias()
+	{
+		return getBias();
+	}
+	/// ditto
+	@property void bias(double v)
+	{
+		setBias(v);
 	}
 	/**
 	
@@ -275,14 +286,14 @@ public:
 	/**
 	
 	*/
-	@property Transform toCellXform()
+	@property bool compress()
 	{
-		return getToCellXform();
+		return isCompressed();
 	}
 	/// ditto
-	@property void toCellXform(Transform v)
+	@property void compress(bool v)
 	{
-		setToCellXform(v);
+		setCompress(v);
 	}
 	/**
 	
@@ -323,14 +334,14 @@ public:
 	/**
 	
 	*/
-	@property double bias()
+	@property bool interior()
 	{
-		return getBias();
+		return isInterior();
 	}
 	/// ditto
-	@property void bias(double v)
+	@property void interior(bool v)
 	{
-		setBias(v);
+		setInterior(v);
 	}
 	/**
 	
@@ -359,25 +370,13 @@ public:
 	/**
 	
 	*/
-	@property bool interior()
+	@property Transform toCellXform()
 	{
-		return isInterior();
+		return getToCellXform();
 	}
 	/// ditto
-	@property void interior(bool v)
+	@property void toCellXform(Transform v)
 	{
-		setInterior(v);
-	}
-	/**
-	
-	*/
-	@property bool compress()
-	{
-		return isCompressed();
-	}
-	/// ditto
-	@property void compress(bool v)
-	{
-		setCompress(v);
+		setToCellXform(v);
 	}
 }

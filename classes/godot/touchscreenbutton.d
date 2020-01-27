@@ -21,12 +21,12 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.texture;
-import godot.bitmap;
-import godot.shape2d;
-import godot.inputevent;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
+import godot.bitmap;
+import godot.shape2d;
+import godot.texture;
 /**
 Button for touch screen devices.
 
@@ -44,26 +44,26 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
-		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_texture_pressed") GodotMethod!(void, Texture) setTexturePressed;
-		@GodotName("get_texture_pressed") GodotMethod!(Texture) getTexturePressed;
-		@GodotName("set_bitmask") GodotMethod!(void, BitMap) setBitmask;
-		@GodotName("get_bitmask") GodotMethod!(BitMap) getBitmask;
-		@GodotName("set_shape") GodotMethod!(void, Shape2D) setShape;
-		@GodotName("get_shape") GodotMethod!(Shape2D) getShape;
-		@GodotName("set_shape_centered") GodotMethod!(void, bool) setShapeCentered;
-		@GodotName("is_shape_centered") GodotMethod!(bool) isShapeCentered;
-		@GodotName("set_shape_visible") GodotMethod!(void, bool) setShapeVisible;
-		@GodotName("is_shape_visible") GodotMethod!(bool) isShapeVisible;
-		@GodotName("set_action") GodotMethod!(void, String) setAction;
+		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
 		@GodotName("get_action") GodotMethod!(String) getAction;
-		@GodotName("set_visibility_mode") GodotMethod!(void, long) setVisibilityMode;
+		@GodotName("get_bitmask") GodotMethod!(BitMap) getBitmask;
+		@GodotName("get_shape") GodotMethod!(Shape2D) getShape;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("get_texture_pressed") GodotMethod!(Texture) getTexturePressed;
 		@GodotName("get_visibility_mode") GodotMethod!(TouchScreenButton.VisibilityMode) getVisibilityMode;
-		@GodotName("set_passby_press") GodotMethod!(void, bool) setPassbyPress;
 		@GodotName("is_passby_press_enabled") GodotMethod!(bool) isPassbyPressEnabled;
 		@GodotName("is_pressed") GodotMethod!(bool) isPressed;
-		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
+		@GodotName("is_shape_centered") GodotMethod!(bool) isShapeCentered;
+		@GodotName("is_shape_visible") GodotMethod!(bool) isShapeVisible;
+		@GodotName("set_action") GodotMethod!(void, String) setAction;
+		@GodotName("set_bitmask") GodotMethod!(void, BitMap) setBitmask;
+		@GodotName("set_passby_press") GodotMethod!(void, bool) setPassbyPress;
+		@GodotName("set_shape") GodotMethod!(void, Shape2D) setShape;
+		@GodotName("set_shape_centered") GodotMethod!(void, bool) setShapeCentered;
+		@GodotName("set_shape_visible") GodotMethod!(void, bool) setShapeVisible;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("set_texture_pressed") GodotMethod!(void, Texture) setTexturePressed;
+		@GodotName("set_visibility_mode") GodotMethod!(void, long) setVisibilityMode;
 	}
 	bool opEquals(in TouchScreenButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TouchScreenButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -98,106 +98,12 @@ public:
 	/**
 	
 	*/
-	void setTexture(Texture texture)
+	void _input(InputEvent arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTexturePressed(Texture texture_pressed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexturePressed, _godot_object, texture_pressed);
-	}
-	/**
-	
-	*/
-	Ref!Texture getTexturePressed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexturePressed, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBitmask(BitMap bitmask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBitmask, _godot_object, bitmask);
-	}
-	/**
-	
-	*/
-	Ref!BitMap getBitmask() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(BitMap)(_classBinding.getBitmask, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShape(Shape2D shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	Ref!Shape2D getShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape2D)(_classBinding.getShape, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShapeCentered(in bool _bool)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShapeCentered, _godot_object, _bool);
-	}
-	/**
-	
-	*/
-	bool isShapeCentered() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShapeCentered, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShapeVisible(in bool _bool)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShapeVisible, _godot_object, _bool);
-	}
-	/**
-	
-	*/
-	bool isShapeVisible() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShapeVisible, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAction(in String action)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAction, _godot_object, action);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -210,10 +116,34 @@ public:
 	/**
 	
 	*/
-	void setVisibilityMode(in long mode)
+	Ref!BitMap getBitmask() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibilityMode, _godot_object, mode);
+		return ptrcall!(BitMap)(_classBinding.getBitmask, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Shape2D getShape() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape2D)(_classBinding.getShape, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Texture getTexture() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Texture getTexturePressed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexturePressed, _godot_object);
 	}
 	/**
 	
@@ -222,14 +152,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(TouchScreenButton.VisibilityMode)(_classBinding.getVisibilityMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPassbyPress(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPassbyPress, _godot_object, enabled);
 	}
 	/**
 	
@@ -250,36 +172,102 @@ public:
 	/**
 	
 	*/
-	void _input(InputEvent arg0)
+	bool isShapeCentered() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_input");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShapeCentered, _godot_object);
 	}
 	/**
-	The button's texture for the normal state.
+	
 	*/
-	@property Texture normal()
+	bool isShapeVisible() const
 	{
-		return getTexture();
-	}
-	/// ditto
-	@property void normal(Texture v)
-	{
-		setTexture(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShapeVisible, _godot_object);
 	}
 	/**
-	The button's texture for the pressed state.
+	
 	*/
-	@property Texture pressed()
+	void setAction(in String action)
 	{
-		return getTexturePressed();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAction, _godot_object, action);
+	}
+	/**
+	
+	*/
+	void setBitmask(BitMap bitmask)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBitmask, _godot_object, bitmask);
+	}
+	/**
+	
+	*/
+	void setPassbyPress(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPassbyPress, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setShape(Shape2D shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+	}
+	/**
+	
+	*/
+	void setShapeCentered(in bool _bool)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShapeCentered, _godot_object, _bool);
+	}
+	/**
+	
+	*/
+	void setShapeVisible(in bool _bool)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShapeVisible, _godot_object, _bool);
+	}
+	/**
+	
+	*/
+	void setTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setTexturePressed(Texture texture_pressed)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexturePressed, _godot_object, texture_pressed);
+	}
+	/**
+	
+	*/
+	void setVisibilityMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibilityMode, _godot_object, mode);
+	}
+	/**
+	The button's action. Actions can be handled with $(D InputEventAction).
+	*/
+	@property String action()
+	{
+		return getAction();
 	}
 	/// ditto
-	@property void pressed(Texture v)
+	@property void action(String v)
 	{
-		setTexturePressed(v);
+		setAction(v);
 	}
 	/**
 	The button's bitmask.
@@ -294,6 +282,42 @@ public:
 		setBitmask(v);
 	}
 	/**
+	The button's texture for the normal state.
+	*/
+	@property Texture normal()
+	{
+		return getTexture();
+	}
+	/// ditto
+	@property void normal(Texture v)
+	{
+		setTexture(v);
+	}
+	/**
+	If `true`, pass-by presses are enabled.
+	*/
+	@property bool passbyPress()
+	{
+		return isPassbyPressEnabled();
+	}
+	/// ditto
+	@property void passbyPress(bool v)
+	{
+		setPassbyPress(v);
+	}
+	/**
+	The button's texture for the pressed state.
+	*/
+	@property Texture pressed()
+	{
+		return getTexturePressed();
+	}
+	/// ditto
+	@property void pressed(Texture v)
+	{
+		setTexturePressed(v);
+	}
+	/**
 	The button's shape.
 	*/
 	@property Shape2D shape()
@@ -306,7 +330,7 @@ public:
 		setShape(v);
 	}
 	/**
-	If `true`, the button's shape is centered.
+	If `true`, the button's shape is centered in the provided texture. If no texture is used, this property has no effect.
 	*/
 	@property bool shapeCentered()
 	{
@@ -330,31 +354,7 @@ public:
 		setShapeVisible(v);
 	}
 	/**
-	If `true`, passby presses are enabled.
-	*/
-	@property bool passbyPress()
-	{
-		return isPassbyPressEnabled();
-	}
-	/// ditto
-	@property void passbyPress(bool v)
-	{
-		setPassbyPress(v);
-	}
-	/**
-	The button's action. Actions can be handled with $(D InputEventAction).
-	*/
-	@property String action()
-	{
-		return getAction();
-	}
-	/// ditto
-	@property void action(String v)
-	{
-		setAction(v);
-	}
-	/**
-	The button's visibility mode. See `VISIBILITY_*` constants.
+	The button's visibility mode. See $(D visibilitymode) for possible values.
 	*/
 	@property TouchScreenButton.VisibilityMode visibilityMode()
 	{

@@ -20,14 +20,14 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.container;
-import godot.inputevent;
 import godot.control;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
 /**
 Container for splitting and adjusting.
 
-Container for splitting two controls vertically or horizontally, with a grabber that allows adjusting the split offset or ratio.
+Container for splitting two $(D Control)s vertically or horizontally, with a grabber that allows adjusting the split offset or ratio.
 */
 @GodotBaseClass struct SplitContainer
 {
@@ -42,13 +42,13 @@ public:
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("set_split_offset") GodotMethod!(void, long) setSplitOffset;
-		@GodotName("get_split_offset") GodotMethod!(long) getSplitOffset;
 		@GodotName("clamp_split_offset") GodotMethod!(void) clampSplitOffset;
-		@GodotName("set_collapsed") GodotMethod!(void, bool) setCollapsed;
-		@GodotName("is_collapsed") GodotMethod!(bool) isCollapsed;
-		@GodotName("set_dragger_visibility") GodotMethod!(void, long) setDraggerVisibility;
 		@GodotName("get_dragger_visibility") GodotMethod!(SplitContainer.DraggerVisibility) getDraggerVisibility;
+		@GodotName("get_split_offset") GodotMethod!(long) getSplitOffset;
+		@GodotName("is_collapsed") GodotMethod!(bool) isCollapsed;
+		@GodotName("set_collapsed") GodotMethod!(void, bool) setCollapsed;
+		@GodotName("set_dragger_visibility") GodotMethod!(void, long) setDraggerVisibility;
+		@GodotName("set_split_offset") GodotMethod!(void, long) setSplitOffset;
 	}
 	bool opEquals(in SplitContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SplitContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,15 +66,15 @@ public:
 	enum DraggerVisibility : int
 	{
 		/**
-		The split dragger is visible.
+		The split dragger is visible when the cursor hovers it.
 		*/
 		draggerVisible = 0,
 		/**
-		The split dragger is invisible.
+		The split dragger is never visible.
 		*/
 		draggerHidden = 1,
 		/**
-		The split dragger is invisible and collapsed.
+		The split dragger is never visible and its space collapsed.
 		*/
 		draggerHiddenCollapsed = 2,
 	}
@@ -90,58 +90,18 @@ public:
 	*/
 	void _guiInput(InputEvent arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
-	*/
-	void setSplitOffset(in long offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSplitOffset, _godot_object, offset);
-	}
-	/**
-	
-	*/
-	long getSplitOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSplitOffset, _godot_object);
-	}
-	/**
-	
+	Clamps the $(D splitOffset) value to not go outside the currently possible minimal and maximum values.
 	*/
 	void clampSplitOffset()
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clampSplitOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCollapsed(in bool collapsed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollapsed, _godot_object, collapsed);
-	}
-	/**
-	
-	*/
-	bool isCollapsed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollapsed, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDraggerVisibility(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDraggerVisibility, _godot_object, mode);
 	}
 	/**
 	
@@ -154,17 +114,45 @@ public:
 	/**
 	
 	*/
-	@property long splitOffset()
+	long getSplitOffset() const
 	{
-		return getSplitOffset();
-	}
-	/// ditto
-	@property void splitOffset(long v)
-	{
-		setSplitOffset(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSplitOffset, _godot_object);
 	}
 	/**
 	
+	*/
+	bool isCollapsed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCollapsed, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCollapsed(in bool collapsed)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollapsed, _godot_object, collapsed);
+	}
+	/**
+	
+	*/
+	void setDraggerVisibility(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDraggerVisibility, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setSplitOffset(in long offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSplitOffset, _godot_object, offset);
+	}
+	/**
+	If `true`, the area of the first $(D Control) will be collapsed and the dragger will be disabled.
 	*/
 	@property bool collapsed()
 	{
@@ -176,7 +164,7 @@ public:
 		setCollapsed(v);
 	}
 	/**
-	Determines whether the dragger is visible.
+	Determines the dragger's visibility. See $(D draggervisibility) for details.
 	*/
 	@property SplitContainer.DraggerVisibility draggerVisibility()
 	{
@@ -186,5 +174,17 @@ public:
 	@property void draggerVisibility(long v)
 	{
 		setDraggerVisibility(v);
+	}
+	/**
+	The initial offset of the splitting between the two $(D Control)s, with `0` being at the end of the first $(D Control).
+	*/
+	@property long splitOffset()
+	{
+		return getSplitOffset();
+	}
+	/// ditto
+	@property void splitOffset(long v)
+	{
+		setSplitOffset(v);
 	}
 }

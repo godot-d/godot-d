@@ -20,9 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.inputeventwithmodifiers;
-import godot.inputevent;
-import godot.resource;
-import godot.reference;
 /**
 Base input event type for mouse events.
 
@@ -40,12 +37,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_button_mask") GodotMethod!(void, long) setButtonMask;
 		@GodotName("get_button_mask") GodotMethod!(long) getButtonMask;
-		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
-		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
-		@GodotName("set_global_position") GodotMethod!(void, Vector2) setGlobalPosition;
 		@GodotName("get_global_position") GodotMethod!(Vector2) getGlobalPosition;
+		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("set_button_mask") GodotMethod!(void, long) setButtonMask;
+		@GodotName("set_global_position") GodotMethod!(void, Vector2) setGlobalPosition;
+		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 	}
 	bool opEquals(in InputEventMouse other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventMouse opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,14 +59,6 @@ public:
 	/**
 	
 	*/
-	void setButtonMask(in long button_mask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, button_mask);
-	}
-	/**
-	
-	*/
 	long getButtonMask() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -78,10 +67,10 @@ public:
 	/**
 	
 	*/
-	void setPosition(in Vector2 position)
+	Vector2 getGlobalPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
 	}
 	/**
 	
@@ -94,6 +83,14 @@ public:
 	/**
 	
 	*/
+	void setButtonMask(in long button_mask)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, button_mask);
+	}
+	/**
+	
+	*/
 	void setGlobalPosition(in Vector2 global_position)
 	{
 		checkClassBinding!(typeof(this))();
@@ -102,13 +99,13 @@ public:
 	/**
 	
 	*/
-	Vector2 getGlobalPosition() const
+	void setPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
 	}
 	/**
-	Mouse button mask identifier, one of or a bitwise combination of the $(D buttonlist) button masks.
+	The mouse button mask identifier, one of or a bitwise combination of the $(D buttonlist) button masks.
 	*/
 	@property long buttonMask()
 	{
@@ -120,19 +117,7 @@ public:
 		setButtonMask(v);
 	}
 	/**
-	Mouse local position relative to the $(D Viewport). If used in $(D Control._guiInput) the position is relative to the current $(D Control) which is under the mouse.
-	*/
-	@property Vector2 position()
-	{
-		return getPosition();
-	}
-	/// ditto
-	@property void position(Vector2 v)
-	{
-		setPosition(v);
-	}
-	/**
-	Mouse position relative to the current $(D Viewport) when used in $(D Control._guiInput), otherwise is at 0,0.
+	The global mouse position relative to the current $(D Viewport) when used in $(D Control._guiInput), otherwise is at 0,0.
 	*/
 	@property Vector2 globalPosition()
 	{
@@ -142,5 +127,17 @@ public:
 	@property void globalPosition(Vector2 v)
 	{
 		setGlobalPosition(v);
+	}
+	/**
+	The local mouse position relative to the $(D Viewport). If used in $(D Control._guiInput), the position is relative to the current $(D Control) which is under the mouse.
+	*/
+	@property Vector2 position()
+	{
+		return getPosition();
+	}
+	/// ditto
+	@property void position(Vector2 v)
+	{
+		setPosition(v);
 	}
 }

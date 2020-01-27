@@ -24,7 +24,7 @@ import godot.reference;
 /**
 Data class wrapper for decoded JSON.
 
-Returned by $(D JSON.parse), $(D JSONParseResult) contains decoded JSON or error information if JSON source not successfully parsed. You can check if JSON source was successfully parsed with `if json_result.error == OK`.
+Returned by $(D JSON.parse), $(D JSONParseResult) contains the decoded JSON or error information if the JSON source wasn't successfully parsed. You can check if the JSON source was successfully parsed with `if json_result.error == OK`.
 */
 @GodotBaseClass struct JSONParseResult
 {
@@ -39,12 +39,12 @@ public:
 	{
 		__gshared:
 		@GodotName("get_error") GodotMethod!(GodotError) getError;
-		@GodotName("get_error_string") GodotMethod!(String) getErrorString;
 		@GodotName("get_error_line") GodotMethod!(long) getErrorLine;
+		@GodotName("get_error_string") GodotMethod!(String) getErrorString;
 		@GodotName("get_result") GodotMethod!(Variant) getResult;
 		@GodotName("set_error") GodotMethod!(void, long) setError;
-		@GodotName("set_error_string") GodotMethod!(void, String) setErrorString;
 		@GodotName("set_error_line") GodotMethod!(void, long) setErrorLine;
+		@GodotName("set_error_string") GodotMethod!(void, String) setErrorString;
 		@GodotName("set_result") GodotMethod!(void, Variant) setResult;
 	}
 	bool opEquals(in JSONParseResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -70,18 +70,18 @@ public:
 	/**
 	
 	*/
-	String getErrorString() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getErrorString, _godot_object);
-	}
-	/**
-	
-	*/
 	long getErrorLine() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getErrorLine, _godot_object);
+	}
+	/**
+	
+	*/
+	String getErrorString() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getErrorString, _godot_object);
 	}
 	/**
 	
@@ -102,18 +102,18 @@ public:
 	/**
 	
 	*/
-	void setErrorString(in String error_string)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setErrorString, _godot_object, error_string);
-	}
-	/**
-	
-	*/
 	void setErrorLine(in long error_line)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setErrorLine, _godot_object, error_line);
+	}
+	/**
+	
+	*/
+	void setErrorString(in String error_string)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setErrorString, _godot_object, error_string);
 	}
 	/**
 	
@@ -124,7 +124,7 @@ public:
 		ptrcall!(void)(_classBinding.setResult, _godot_object, result);
 	}
 	/**
-	The error type if JSON source was not successfully parsed. See $(D @GlobalScope) ERR_* constants.
+	The error type if the JSON source was not successfully parsed. See the $(D error) constants.
 	*/
 	@property GodotError error()
 	{
@@ -134,18 +134,6 @@ public:
 	@property void error(long v)
 	{
 		setError(v);
-	}
-	/**
-	The error message if JSON source was not successfully parsed. See $(D @GlobalScope) ERR_* constants.
-	*/
-	@property String errorString()
-	{
-		return getErrorString();
-	}
-	/// ditto
-	@property void errorString(String v)
-	{
-		setErrorString(v);
 	}
 	/**
 	The line number where the error occurred if JSON source was not successfully parsed.
@@ -160,14 +148,26 @@ public:
 		setErrorLine(v);
 	}
 	/**
-	A $(D Variant) containing the parsed JSON. Use typeof() to check if it is what you expect. For example, if JSON source starts with curly braces (`{}`) a $(D Dictionary) will be returned, if JSON source starts with braces (`$(D ]`) an [Array) will be returned.
-	$(I Be aware that the JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.)
-	Note that JSON objects do not preserve key order like Godot dictionaries, thus you should not rely on keys being in a certain order if a dictionary is constructed from JSON. In contrast, JSON arrays retain the order of their elements:$(D /i)
+	The error message if JSON source was not successfully parsed. See the $(D error) constants.
+	*/
+	@property String errorString()
+	{
+		return getErrorString();
+	}
+	/// ditto
+	@property void errorString(String v)
+	{
+		setErrorString(v);
+	}
+	/**
+	A $(D Variant) containing the parsed JSON. Use $(D @GDScript.typeof) or the `is` keyword to check if it is what you expect. For example, if the JSON source starts with curly braces (`{}`), a $(D Dictionary) will be returned. If the JSON source starts with braces (`$(D ]`), an [Array) will be returned.
+	$(B Note:) The JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.
+	$(B Note:) JSON objects do not preserve key order like Godot dictionaries, thus, you should not rely on keys being in a certain order if a dictionary is constructed from JSON. In contrast, JSON arrays retain the order of their elements:
 	
 	
 	var p = JSON.parse('$(D "hello", "world", "!")')
 	if typeof(p.result) == TYPE_ARRAY:
-	    print(p.result$(D 0)) # prints 'hello'
+	    print(p.result$(D 0)) # Prints "hello"
 	else:
 	    print("unexpected results")
 	

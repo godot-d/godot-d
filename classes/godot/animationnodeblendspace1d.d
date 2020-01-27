@@ -1,5 +1,5 @@
 /**
-
+Blends linearly between two of any number of $(D AnimationNode) of any type placed on a virtual axis.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.animationrootnode;
-import godot.animationnode;
-import godot.resource;
-import godot.reference;
 /**
+Blends linearly between two of any number of $(D AnimationNode) of any type placed on a virtual axis.
 
+A resource to add to an $(D AnimationNodeBlendTree).
+This is a virtual axis on which you can add any type of $(D AnimationNode) using $(D addBlendPoint).
+Outputs the linear blend of the two $(D AnimationNode)s closest to the node's current value.
+You can set the extents of the axis using the $(D minSpace) and $(D maxSpace).
 */
 @GodotBaseClass struct AnimationNodeBlendSpace1D
 {
@@ -39,23 +41,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("add_blend_point") GodotMethod!(void, AnimationRootNode, double, long) addBlendPoint;
-		@GodotName("set_blend_point_position") GodotMethod!(void, long, double) setBlendPointPosition;
-		@GodotName("get_blend_point_position") GodotMethod!(double, long) getBlendPointPosition;
-		@GodotName("set_blend_point_node") GodotMethod!(void, long, AnimationRootNode) setBlendPointNode;
-		@GodotName("get_blend_point_node") GodotMethod!(AnimationRootNode, long) getBlendPointNode;
-		@GodotName("remove_blend_point") GodotMethod!(void, long) removeBlendPoint;
-		@GodotName("get_blend_point_count") GodotMethod!(long) getBlendPointCount;
-		@GodotName("set_min_space") GodotMethod!(void, double) setMinSpace;
-		@GodotName("get_min_space") GodotMethod!(double) getMinSpace;
-		@GodotName("set_max_space") GodotMethod!(void, double) setMaxSpace;
-		@GodotName("get_max_space") GodotMethod!(double) getMaxSpace;
-		@GodotName("set_snap") GodotMethod!(void, double) setSnap;
-		@GodotName("get_snap") GodotMethod!(double) getSnap;
-		@GodotName("set_value_label") GodotMethod!(void, String) setValueLabel;
-		@GodotName("get_value_label") GodotMethod!(String) getValueLabel;
 		@GodotName("_add_blend_point") GodotMethod!(void, long, AnimationRootNode) _addBlendPoint;
 		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
+		@GodotName("add_blend_point") GodotMethod!(void, AnimationRootNode, double, long) addBlendPoint;
+		@GodotName("get_blend_point_count") GodotMethod!(long) getBlendPointCount;
+		@GodotName("get_blend_point_node") GodotMethod!(AnimationRootNode, long) getBlendPointNode;
+		@GodotName("get_blend_point_position") GodotMethod!(double, long) getBlendPointPosition;
+		@GodotName("get_max_space") GodotMethod!(double) getMaxSpace;
+		@GodotName("get_min_space") GodotMethod!(double) getMinSpace;
+		@GodotName("get_snap") GodotMethod!(double) getSnap;
+		@GodotName("get_value_label") GodotMethod!(String) getValueLabel;
+		@GodotName("remove_blend_point") GodotMethod!(void, long) removeBlendPoint;
+		@GodotName("set_blend_point_node") GodotMethod!(void, long, AnimationRootNode) setBlendPointNode;
+		@GodotName("set_blend_point_position") GodotMethod!(void, long, double) setBlendPointPosition;
+		@GodotName("set_max_space") GodotMethod!(void, double) setMaxSpace;
+		@GodotName("set_min_space") GodotMethod!(void, double) setMinSpace;
+		@GodotName("set_snap") GodotMethod!(void, double) setSnap;
+		@GodotName("set_value_label") GodotMethod!(void, String) setValueLabel;
 	}
 	bool opEquals(in AnimationNodeBlendSpace1D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeBlendSpace1D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,53 +74,33 @@ public:
 	/**
 	
 	*/
+	void _addBlendPoint(in long index, AnimationRootNode node)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(index);
+		_GODOT_args.append(node);
+		String _GODOT_method_name = String("_add_blend_point");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _treeChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_tree_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds a new point that represents a `node` on the virtual axis at a given position set by `pos`. You can insert it at a specific index using the `at_index` argument. If you use the default value for `at_index`, the point is inserted at the end of the blend points array.
+	*/
 	void addBlendPoint(AnimationRootNode node, in double pos, in long at_index = -1)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addBlendPoint, _godot_object, node, pos, at_index);
 	}
 	/**
-	
-	*/
-	void setBlendPointPosition(in long point, in double pos)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointPosition, _godot_object, point, pos);
-	}
-	/**
-	
-	*/
-	double getBlendPointPosition(in long point) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBlendPointPosition, _godot_object, point);
-	}
-	/**
-	
-	*/
-	void setBlendPointNode(in long point, AnimationRootNode node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointNode, _godot_object, point, node);
-	}
-	/**
-	
-	*/
-	Ref!AnimationRootNode getBlendPointNode(in long point) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationRootNode)(_classBinding.getBlendPointNode, _godot_object, point);
-	}
-	/**
-	
-	*/
-	void removeBlendPoint(in long point)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBlendPoint, _godot_object, point);
-	}
-	/**
-	
+	Returns the number of points on the blend axis.
 	*/
 	long getBlendPointCount() const
 	{
@@ -126,28 +108,20 @@ public:
 		return ptrcall!(long)(_classBinding.getBlendPointCount, _godot_object);
 	}
 	/**
-	
+	Returns the $(D AnimationNode) referenced by the point at index `point`.
 	*/
-	void setMinSpace(in double min_space)
+	Ref!AnimationRootNode getBlendPointNode(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinSpace, _godot_object, min_space);
+		return ptrcall!(AnimationRootNode)(_classBinding.getBlendPointNode, _godot_object, point);
 	}
 	/**
-	
+	Returns the position of the point at index `point`.
 	*/
-	double getMinSpace() const
+	double getBlendPointPosition(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMinSpace, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaxSpace(in double max_space)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxSpace, _godot_object, max_space);
+		return ptrcall!(double)(_classBinding.getBlendPointPosition, _godot_object, point);
 	}
 	/**
 	
@@ -160,10 +134,10 @@ public:
 	/**
 	
 	*/
-	void setSnap(in double snap)
+	double getMinSpace() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
+		return ptrcall!(double)(_classBinding.getMinSpace, _godot_object);
 	}
 	/**
 	
@@ -176,38 +150,66 @@ public:
 	/**
 	
 	*/
-	void setValueLabel(in String text)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValueLabel, _godot_object, text);
-	}
-	/**
-	
-	*/
 	String getValueLabel() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getValueLabel, _godot_object);
 	}
 	/**
-	
+	Removes the point at index `point` from the blend axis.
 	*/
-	void _addBlendPoint(in long index, AnimationRootNode node)
+	void removeBlendPoint(in long point)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(index);
-		_GODOT_args.append(node);
-		String _GODOT_method_name = String("_add_blend_point");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeBlendPoint, _godot_object, point);
+	}
+	/**
+	Changes the $(D AnimationNode) referenced by the point at index `point`.
+	*/
+	void setBlendPointNode(in long point, AnimationRootNode node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendPointNode, _godot_object, point, node);
+	}
+	/**
+	Updates the position of the point at index `point` on the blend axis.
+	*/
+	void setBlendPointPosition(in long point, in double pos)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendPointPosition, _godot_object, point, pos);
 	}
 	/**
 	
 	*/
-	void _treeChanged()
+	void setMaxSpace(in double max_space)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_tree_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxSpace, _godot_object, max_space);
+	}
+	/**
+	
+	*/
+	void setMinSpace(in double min_space)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMinSpace, _godot_object, min_space);
+	}
+	/**
+	
+	*/
+	void setSnap(in double snap)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
+	}
+	/**
+	
+	*/
+	void setValueLabel(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setValueLabel, _godot_object, text);
 	}
 	/**
 	
@@ -256,198 +258,6 @@ public:
 	@property void blendPoint1Pos(double v)
 	{
 		setBlendPointPosition(1, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint2Node()
-	{
-		return getBlendPointNode(2);
-	}
-	/// ditto
-	@property void blendPoint2Node(AnimationRootNode v)
-	{
-		_addBlendPoint(2, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint2Pos()
-	{
-		return getBlendPointPosition(2);
-	}
-	/// ditto
-	@property void blendPoint2Pos(double v)
-	{
-		setBlendPointPosition(2, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint3Node()
-	{
-		return getBlendPointNode(3);
-	}
-	/// ditto
-	@property void blendPoint3Node(AnimationRootNode v)
-	{
-		_addBlendPoint(3, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint3Pos()
-	{
-		return getBlendPointPosition(3);
-	}
-	/// ditto
-	@property void blendPoint3Pos(double v)
-	{
-		setBlendPointPosition(3, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint4Node()
-	{
-		return getBlendPointNode(4);
-	}
-	/// ditto
-	@property void blendPoint4Node(AnimationRootNode v)
-	{
-		_addBlendPoint(4, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint4Pos()
-	{
-		return getBlendPointPosition(4);
-	}
-	/// ditto
-	@property void blendPoint4Pos(double v)
-	{
-		setBlendPointPosition(4, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint5Node()
-	{
-		return getBlendPointNode(5);
-	}
-	/// ditto
-	@property void blendPoint5Node(AnimationRootNode v)
-	{
-		_addBlendPoint(5, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint5Pos()
-	{
-		return getBlendPointPosition(5);
-	}
-	/// ditto
-	@property void blendPoint5Pos(double v)
-	{
-		setBlendPointPosition(5, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint6Node()
-	{
-		return getBlendPointNode(6);
-	}
-	/// ditto
-	@property void blendPoint6Node(AnimationRootNode v)
-	{
-		_addBlendPoint(6, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint6Pos()
-	{
-		return getBlendPointPosition(6);
-	}
-	/// ditto
-	@property void blendPoint6Pos(double v)
-	{
-		setBlendPointPosition(6, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint7Node()
-	{
-		return getBlendPointNode(7);
-	}
-	/// ditto
-	@property void blendPoint7Node(AnimationRootNode v)
-	{
-		_addBlendPoint(7, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint7Pos()
-	{
-		return getBlendPointPosition(7);
-	}
-	/// ditto
-	@property void blendPoint7Pos(double v)
-	{
-		setBlendPointPosition(7, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint8Node()
-	{
-		return getBlendPointNode(8);
-	}
-	/// ditto
-	@property void blendPoint8Node(AnimationRootNode v)
-	{
-		_addBlendPoint(8, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint8Pos()
-	{
-		return getBlendPointPosition(8);
-	}
-	/// ditto
-	@property void blendPoint8Pos(double v)
-	{
-		setBlendPointPosition(8, v);
-	}
-	/**
-	
-	*/
-	@property AnimationRootNode blendPoint9Node()
-	{
-		return getBlendPointNode(9);
-	}
-	/// ditto
-	@property void blendPoint9Node(AnimationRootNode v)
-	{
-		_addBlendPoint(9, v);
-	}
-	/**
-	
-	*/
-	@property double blendPoint9Pos()
-	{
-		return getBlendPointPosition(9);
-	}
-	/// ditto
-	@property void blendPoint9Pos(double v)
-	{
-		setBlendPointPosition(9, v);
 	}
 	/**
 	
@@ -692,6 +502,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint2Node()
+	{
+		return getBlendPointNode(2);
+	}
+	/// ditto
+	@property void blendPoint2Node(AnimationRootNode v)
+	{
+		_addBlendPoint(2, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint2Pos()
+	{
+		return getBlendPointPosition(2);
+	}
+	/// ditto
+	@property void blendPoint2Pos(double v)
+	{
+		setBlendPointPosition(2, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint20Node()
 	{
 		return getBlendPointNode(20);
@@ -928,6 +762,30 @@ public:
 	@property void blendPoint29Pos(double v)
 	{
 		setBlendPointPosition(29, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint3Node()
+	{
+		return getBlendPointNode(3);
+	}
+	/// ditto
+	@property void blendPoint3Node(AnimationRootNode v)
+	{
+		_addBlendPoint(3, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint3Pos()
+	{
+		return getBlendPointPosition(3);
+	}
+	/// ditto
+	@property void blendPoint3Pos(double v)
+	{
+		setBlendPointPosition(3, v);
 	}
 	/**
 	
@@ -1172,6 +1030,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint4Node()
+	{
+		return getBlendPointNode(4);
+	}
+	/// ditto
+	@property void blendPoint4Node(AnimationRootNode v)
+	{
+		_addBlendPoint(4, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint4Pos()
+	{
+		return getBlendPointPosition(4);
+	}
+	/// ditto
+	@property void blendPoint4Pos(double v)
+	{
+		setBlendPointPosition(4, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint40Node()
 	{
 		return getBlendPointNode(40);
@@ -1408,6 +1290,30 @@ public:
 	@property void blendPoint49Pos(double v)
 	{
 		setBlendPointPosition(49, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint5Node()
+	{
+		return getBlendPointNode(5);
+	}
+	/// ditto
+	@property void blendPoint5Node(AnimationRootNode v)
+	{
+		_addBlendPoint(5, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint5Pos()
+	{
+		return getBlendPointPosition(5);
+	}
+	/// ditto
+	@property void blendPoint5Pos(double v)
+	{
+		setBlendPointPosition(5, v);
 	}
 	/**
 	
@@ -1652,6 +1558,30 @@ public:
 	/**
 	
 	*/
+	@property AnimationRootNode blendPoint6Node()
+	{
+		return getBlendPointNode(6);
+	}
+	/// ditto
+	@property void blendPoint6Node(AnimationRootNode v)
+	{
+		_addBlendPoint(6, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint6Pos()
+	{
+		return getBlendPointPosition(6);
+	}
+	/// ditto
+	@property void blendPoint6Pos(double v)
+	{
+		setBlendPointPosition(6, v);
+	}
+	/**
+	
+	*/
 	@property AnimationRootNode blendPoint60Node()
 	{
 		return getBlendPointNode(60);
@@ -1748,17 +1678,77 @@ public:
 	/**
 	
 	*/
-	@property double minSpace()
+	@property AnimationRootNode blendPoint7Node()
 	{
-		return getMinSpace();
+		return getBlendPointNode(7);
 	}
 	/// ditto
-	@property void minSpace(double v)
+	@property void blendPoint7Node(AnimationRootNode v)
 	{
-		setMinSpace(v);
+		_addBlendPoint(7, v);
 	}
 	/**
 	
+	*/
+	@property double blendPoint7Pos()
+	{
+		return getBlendPointPosition(7);
+	}
+	/// ditto
+	@property void blendPoint7Pos(double v)
+	{
+		setBlendPointPosition(7, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint8Node()
+	{
+		return getBlendPointNode(8);
+	}
+	/// ditto
+	@property void blendPoint8Node(AnimationRootNode v)
+	{
+		_addBlendPoint(8, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint8Pos()
+	{
+		return getBlendPointPosition(8);
+	}
+	/// ditto
+	@property void blendPoint8Pos(double v)
+	{
+		setBlendPointPosition(8, v);
+	}
+	/**
+	
+	*/
+	@property AnimationRootNode blendPoint9Node()
+	{
+		return getBlendPointNode(9);
+	}
+	/// ditto
+	@property void blendPoint9Node(AnimationRootNode v)
+	{
+		_addBlendPoint(9, v);
+	}
+	/**
+	
+	*/
+	@property double blendPoint9Pos()
+	{
+		return getBlendPointPosition(9);
+	}
+	/// ditto
+	@property void blendPoint9Pos(double v)
+	{
+		setBlendPointPosition(9, v);
+	}
+	/**
+	The blend space's axis's upper limit for the points' position. See $(D addBlendPoint).
 	*/
 	@property double maxSpace()
 	{
@@ -1770,7 +1760,19 @@ public:
 		setMaxSpace(v);
 	}
 	/**
-	
+	The blend space's axis's lower limit for the points' position. See $(D addBlendPoint).
+	*/
+	@property double minSpace()
+	{
+		return getMinSpace();
+	}
+	/// ditto
+	@property void minSpace(double v)
+	{
+		setMinSpace(v);
+	}
+	/**
+	Position increment to snap to when moving a point on the axis.
 	*/
 	@property double snap()
 	{
@@ -1782,7 +1784,7 @@ public:
 		setSnap(v);
 	}
 	/**
-	
+	Label of the virtual axis of the blend space.
 	*/
 	@property String valueLabel()
 	{

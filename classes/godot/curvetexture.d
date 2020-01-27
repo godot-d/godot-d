@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 import godot.curve;
-import godot.resource;
-import godot.reference;
 /**
 A texture that shows a curve.
 
@@ -41,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_width") GodotMethod!(void, long) setWidth;
-		@GodotName("set_curve") GodotMethod!(void, Curve) setCurve;
-		@GodotName("get_curve") GodotMethod!(Curve) getCurve;
 		@GodotName("_update") GodotMethod!(void) _update;
+		@GodotName("get_curve") GodotMethod!(Curve) getCurve;
+		@GodotName("set_curve") GodotMethod!(void, Curve) setCurve;
+		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 	}
 	bool opEquals(in CurveTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CurveTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,18 +59,11 @@ public:
 	/**
 	
 	*/
-	void setWidth(in long width)
+	void _update()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
-	}
-	/**
-	
-	*/
-	void setCurve(Curve curve)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -85,23 +76,18 @@ public:
 	/**
 	
 	*/
-	void _update()
+	void setCurve(Curve curve)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
 	}
 	/**
-	The width of the texture.
+	
 	*/
-	@property long width()
+	void setWidth(in long width)
 	{
-		return getWidth();
-	}
-	/// ditto
-	@property void width(long v)
-	{
-		setWidth(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
 	/**
 	The `curve` rendered onto the texture.
@@ -114,5 +100,17 @@ public:
 	@property void curve(Curve v)
 	{
 		setCurve(v);
+	}
+	/**
+	The width of the texture.
+	*/
+	@property long width()
+	{
+		return getWidth();
+	}
+	/// ditto
+	@property void width(long v)
+	{
+		setWidth(v);
 	}
 }

@@ -21,9 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualshadernodeuniform;
-import godot.visualshadernode;
-import godot.resource;
-import godot.reference;
 /**
 
 */

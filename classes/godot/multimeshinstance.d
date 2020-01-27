@@ -21,15 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.geometryinstance;
-import godot.multimesh;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
+import godot.multimesh;
 /**
 Node that instances a $(D MultiMesh).
 
 $(D MultiMeshInstance) is a specialized node to instance $(D GeometryInstance)s based on a $(D MultiMesh) resource.
-This is useful to optimize the rendering of a high amount of instances of a given mesh (for example tree in a forest or grass strands).
+This is useful to optimize the rendering of a high amount of instances of a given mesh (for example trees in a forest or grass strands).
 */
 @GodotBaseClass struct MultiMeshInstance
 {
@@ -43,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_multimesh") GodotMethod!(void, MultiMesh) setMultimesh;
 		@GodotName("get_multimesh") GodotMethod!(MultiMesh) getMultimesh;
+		@GodotName("set_multimesh") GodotMethod!(void, MultiMesh) setMultimesh;
 	}
 	bool opEquals(in MultiMeshInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MultiMeshInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,18 +59,18 @@ public:
 	/**
 	
 	*/
-	void setMultimesh(MultiMesh multimesh)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMultimesh, _godot_object, multimesh);
-	}
-	/**
-	
-	*/
 	Ref!MultiMesh getMultimesh() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(MultiMesh)(_classBinding.getMultimesh, _godot_object);
+	}
+	/**
+	
+	*/
+	void setMultimesh(MultiMesh multimesh)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMultimesh, _godot_object, multimesh);
 	}
 	/**
 	The $(D MultiMesh) resource that will be used and shared among all instances of the $(D MultiMeshInstance).

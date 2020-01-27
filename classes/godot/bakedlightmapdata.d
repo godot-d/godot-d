@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.texture;
-import godot.reference;
 /**
 
 */
@@ -38,23 +37,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_set_user_data") GodotMethod!(void, Array) _setUserData;
 		@GodotName("_get_user_data") GodotMethod!(Array) _getUserData;
-		@GodotName("set_bounds") GodotMethod!(void, AABB) setBounds;
-		@GodotName("get_bounds") GodotMethod!(AABB) getBounds;
-		@GodotName("set_cell_space_transform") GodotMethod!(void, Transform) setCellSpaceTransform;
-		@GodotName("get_cell_space_transform") GodotMethod!(Transform) getCellSpaceTransform;
-		@GodotName("set_cell_subdiv") GodotMethod!(void, long) setCellSubdiv;
-		@GodotName("get_cell_subdiv") GodotMethod!(long) getCellSubdiv;
-		@GodotName("set_octree") GodotMethod!(void, PoolByteArray) setOctree;
-		@GodotName("get_octree") GodotMethod!(PoolByteArray) getOctree;
-		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
-		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("_set_user_data") GodotMethod!(void, Array) _setUserData;
 		@GodotName("add_user") GodotMethod!(void, NodePath, Texture, long) addUser;
-		@GodotName("get_user_count") GodotMethod!(long) getUserCount;
-		@GodotName("get_user_path") GodotMethod!(NodePath, long) getUserPath;
-		@GodotName("get_user_lightmap") GodotMethod!(Texture, long) getUserLightmap;
 		@GodotName("clear_users") GodotMethod!(void) clearUsers;
+		@GodotName("get_bounds") GodotMethod!(AABB) getBounds;
+		@GodotName("get_cell_space_transform") GodotMethod!(Transform) getCellSpaceTransform;
+		@GodotName("get_cell_subdiv") GodotMethod!(long) getCellSubdiv;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("get_octree") GodotMethod!(PoolByteArray) getOctree;
+		@GodotName("get_user_count") GodotMethod!(long) getUserCount;
+		@GodotName("get_user_lightmap") GodotMethod!(Texture, long) getUserLightmap;
+		@GodotName("get_user_path") GodotMethod!(NodePath, long) getUserPath;
+		@GodotName("set_bounds") GodotMethod!(void, AABB) setBounds;
+		@GodotName("set_cell_space_transform") GodotMethod!(void, Transform) setCellSpaceTransform;
+		@GodotName("set_cell_subdiv") GodotMethod!(void, long) setCellSubdiv;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_octree") GodotMethod!(void, PoolByteArray) setOctree;
 	}
 	bool opEquals(in BakedLightmapData other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BakedLightmapData opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -71,101 +70,21 @@ public:
 	/**
 	
 	*/
-	void _setUserData(in Array data)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(data);
-		String _GODOT_method_name = String("_set_user_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	Array _getUserData() const
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_get_user_data");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
 	
 	*/
-	void setBounds(in AABB bounds)
+	void _setUserData(in Array data)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounds, _godot_object, bounds);
-	}
-	/**
-	
-	*/
-	AABB getBounds() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getBounds, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCellSpaceTransform(in Transform xform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSpaceTransform, _godot_object, xform);
-	}
-	/**
-	
-	*/
-	Transform getCellSpaceTransform() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getCellSpaceTransform, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCellSubdiv(in long cell_subdiv)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSubdiv, _godot_object, cell_subdiv);
-	}
-	/**
-	
-	*/
-	long getCellSubdiv() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCellSubdiv, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOctree(in PoolByteArray octree)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctree, _godot_object, octree);
-	}
-	/**
-	
-	*/
-	PoolByteArray getOctree() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getOctree, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnergy(in double energy)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
-	}
-	/**
-	
-	*/
-	double getEnergy() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(data);
+		String _GODOT_method_name = String("_set_user_data");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -178,18 +97,58 @@ public:
 	/**
 	
 	*/
-	long getUserCount() const
+	void clearUsers()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUserCount, _godot_object);
+		ptrcall!(void)(_classBinding.clearUsers, _godot_object);
 	}
 	/**
 	
 	*/
-	NodePath getUserPath(in long user_idx) const
+	AABB getBounds() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getUserPath, _godot_object, user_idx);
+		return ptrcall!(AABB)(_classBinding.getBounds, _godot_object);
+	}
+	/**
+	
+	*/
+	Transform getCellSpaceTransform() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getCellSpaceTransform, _godot_object);
+	}
+	/**
+	
+	*/
+	long getCellSubdiv() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCellSubdiv, _godot_object);
+	}
+	/**
+	
+	*/
+	double getEnergy() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+	}
+	/**
+	
+	*/
+	PoolByteArray getOctree() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.getOctree, _godot_object);
+	}
+	/**
+	
+	*/
+	long getUserCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUserCount, _godot_object);
 	}
 	/**
 	
@@ -202,10 +161,50 @@ public:
 	/**
 	
 	*/
-	void clearUsers()
+	NodePath getUserPath(in long user_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearUsers, _godot_object);
+		return ptrcall!(NodePath)(_classBinding.getUserPath, _godot_object, user_idx);
+	}
+	/**
+	
+	*/
+	void setBounds(in AABB bounds)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBounds, _godot_object, bounds);
+	}
+	/**
+	
+	*/
+	void setCellSpaceTransform(in Transform xform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellSpaceTransform, _godot_object, xform);
+	}
+	/**
+	
+	*/
+	void setCellSubdiv(in long cell_subdiv)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellSubdiv, _godot_object, cell_subdiv);
+	}
+	/**
+	
+	*/
+	void setEnergy(in double energy)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+	}
+	/**
+	
+	*/
+	void setOctree(in PoolByteArray octree)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOctree, _godot_object, octree);
 	}
 	/**
 	

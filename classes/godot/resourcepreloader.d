@@ -26,6 +26,7 @@ import godot.resource;
 Resource Preloader Node.
 
 This node is used to preload sub-resources inside a scene, so when the scene is loaded, all the resources are ready to use and can be retrieved from the preloader.
+GDScript has a simplified $(D @GDScript.preload) built-in method which can be used in most situations, leaving the use of $(D ResourcePreloader) for more advanced scenarios.
 */
 @GodotBaseClass struct ResourcePreloader
 {
@@ -39,14 +40,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_set_resources") GodotMethod!(void, Array) _setResources;
 		@GodotName("_get_resources") GodotMethod!(Array) _getResources;
+		@GodotName("_set_resources") GodotMethod!(void, Array) _setResources;
 		@GodotName("add_resource") GodotMethod!(void, String, Resource) addResource;
-		@GodotName("remove_resource") GodotMethod!(void, String) removeResource;
-		@GodotName("rename_resource") GodotMethod!(void, String, String) renameResource;
-		@GodotName("has_resource") GodotMethod!(bool, String) hasResource;
 		@GodotName("get_resource") GodotMethod!(Resource, String) getResource;
 		@GodotName("get_resource_list") GodotMethod!(PoolStringArray) getResourceList;
+		@GodotName("has_resource") GodotMethod!(bool, String) hasResource;
+		@GodotName("remove_resource") GodotMethod!(void, String) removeResource;
+		@GodotName("rename_resource") GodotMethod!(void, String, String) renameResource;
 	}
 	bool opEquals(in ResourcePreloader other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ResourcePreloader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,21 +64,21 @@ public:
 	/**
 	
 	*/
-	void _setResources(in Array arg0)
+	Array _getResources() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_resources");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_resources");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
 	
 	*/
-	Array _getResources() const
+	void _setResources(in Array arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_resources");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_resources");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Adds a resource to the preloader with the given `name`. If a resource with the given `name` already exists, the new resource will be renamed to "`name` N" where N is an incrementing number starting from 2.
@@ -86,30 +87,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addResource, _godot_object, name, resource);
-	}
-	/**
-	Removes the resource associated to `name` from the preloader.
-	*/
-	void removeResource(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeResource, _godot_object, name);
-	}
-	/**
-	Renames a resource inside the preloader from `name` to `newname`.
-	*/
-	void renameResource(in String name, in String newname)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameResource, _godot_object, name, newname);
-	}
-	/**
-	Returns `true` if the preloader contains a resource associated to `name`.
-	*/
-	bool hasResource(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasResource, _godot_object, name);
 	}
 	/**
 	Returns the resource associated to `name`.
@@ -126,6 +103,30 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getResourceList, _godot_object);
+	}
+	/**
+	Returns `true` if the preloader contains a resource associated to `name`.
+	*/
+	bool hasResource(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasResource, _godot_object, name);
+	}
+	/**
+	Removes the resource associated to `name` from the preloader.
+	*/
+	void removeResource(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeResource, _godot_object, name);
+	}
+	/**
+	Renames a resource inside the preloader from `name` to `newname`.
+	*/
+	void renameResource(in String name, in String newname)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.renameResource, _godot_object, name, newname);
 	}
 	/**
 	

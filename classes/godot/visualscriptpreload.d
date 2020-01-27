@@ -43,8 +43,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_preload") GodotMethod!(void, Resource) setPreload;
 		@GodotName("get_preload") GodotMethod!(Resource) getPreload;
+		@GodotName("set_preload") GodotMethod!(void, Resource) setPreload;
 	}
 	bool opEquals(in VisualScriptPreload other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptPreload opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,18 +61,18 @@ public:
 	/**
 	
 	*/
-	void setPreload(Resource resource)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreload, _godot_object, resource);
-	}
-	/**
-	
-	*/
 	Ref!Resource getPreload() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Resource)(_classBinding.getPreload, _godot_object);
+	}
+	/**
+	
+	*/
+	void setPreload(Resource resource)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPreload, _godot_object, resource);
 	}
 	/**
 	The $(D Resource) to load.

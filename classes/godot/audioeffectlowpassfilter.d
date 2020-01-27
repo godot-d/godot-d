@@ -1,5 +1,5 @@
 /**
-Adds a low pass filter to the Audio Bus.
+Adds a low-pass filter to the Audio bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,8 @@ import godot.classdb;
 import godot.audioeffectfilter;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a low pass filter to the Audio Bus.
+Adds a low-pass filter to the Audio bus.
 
 Cuts frequencies higher than the $(D AudioEffectFilter.cutoffHz) and allows lower frequencies to pass.
 */

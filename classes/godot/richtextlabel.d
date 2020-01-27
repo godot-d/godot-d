@@ -21,17 +21,17 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
-import godot.inputevent;
-import godot.texture;
-import godot.font;
-import godot.vscrollbar;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
+import godot.texture;
+import godot.vscrollbar;
+import godot.font;
 /**
 Label that displays rich text.
 
 Rich text can contain custom text, fonts, images and some basic formatting. The label manages these as an internal tag stack. It also adapts itself to given width/heights.
-Note that assignments to $(D bbcodeText) clear the tag stack and reconstruct it from the property's contents. Any edits made to $(D bbcodeText) will erase previous edits made from other manual sources such as $(D appendBbcode) and the `push_*` / $(D pop) methods.
+$(B Note:) Assignments to $(D bbcodeText) clear the tag stack and reconstruct it from the property's contents. Any edits made to $(D bbcodeText) will erase previous edits made from other manual sources such as $(D appendBbcode) and the `push_*` / $(D pop) methods.
 */
 @GodotBaseClass struct RichTextLabel
 {
@@ -47,53 +47,62 @@ public:
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
 		@GodotName("_scroll_changed") GodotMethod!(void, double) _scrollChanged;
-		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("add_image") GodotMethod!(void, Texture, long, long) addImage;
 		@GodotName("add_text") GodotMethod!(void, String) addText;
-		@GodotName("set_text") GodotMethod!(void, String) setText;
-		@GodotName("add_image") GodotMethod!(void, Texture) addImage;
+		@GodotName("append_bbcode") GodotMethod!(GodotError, String) appendBbcode;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("get_bbcode") GodotMethod!(String) getBbcode;
+		@GodotName("get_content_height") GodotMethod!(long) getContentHeight;
+		@GodotName("get_effects") GodotMethod!(Array) getEffects;
+		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
+		@GodotName("get_percent_visible") GodotMethod!(double) getPercentVisible;
+		@GodotName("get_tab_size") GodotMethod!(long) getTabSize;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("get_total_character_count") GodotMethod!(long) getTotalCharacterCount;
+		@GodotName("get_v_scroll") GodotMethod!(VScrollBar) getVScroll;
+		@GodotName("get_visible_characters") GodotMethod!(long) getVisibleCharacters;
+		@GodotName("get_visible_line_count") GodotMethod!(long) getVisibleLineCount;
+		@GodotName("install_effect") GodotMethod!(void, Variant) installEffect;
+		@GodotName("is_meta_underlined") GodotMethod!(bool) isMetaUnderlined;
+		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
+		@GodotName("is_scroll_active") GodotMethod!(bool) isScrollActive;
+		@GodotName("is_scroll_following") GodotMethod!(bool) isScrollFollowing;
+		@GodotName("is_selection_enabled") GodotMethod!(bool) isSelectionEnabled;
+		@GodotName("is_using_bbcode") GodotMethod!(bool) isUsingBbcode;
 		@GodotName("newline") GodotMethod!(void) newline;
-		@GodotName("remove_line") GodotMethod!(bool, long) removeLine;
-		@GodotName("push_font") GodotMethod!(void, Font) pushFont;
-		@GodotName("push_color") GodotMethod!(void, Color) pushColor;
+		@GodotName("parse_bbcode") GodotMethod!(GodotError, String) parseBbcode;
+		@GodotName("parse_expressions_for_values") GodotMethod!(Dictionary, PoolStringArray) parseExpressionsForValues;
+		@GodotName("pop") GodotMethod!(void) pop;
 		@GodotName("push_align") GodotMethod!(void, long) pushAlign;
+		@GodotName("push_bold") GodotMethod!(void) pushBold;
+		@GodotName("push_bold_italics") GodotMethod!(void) pushBoldItalics;
+		@GodotName("push_cell") GodotMethod!(void) pushCell;
+		@GodotName("push_color") GodotMethod!(void, Color) pushColor;
+		@GodotName("push_font") GodotMethod!(void, Font) pushFont;
 		@GodotName("push_indent") GodotMethod!(void, long) pushIndent;
+		@GodotName("push_italics") GodotMethod!(void) pushItalics;
 		@GodotName("push_list") GodotMethod!(void, long) pushList;
 		@GodotName("push_meta") GodotMethod!(void, Variant) pushMeta;
-		@GodotName("push_underline") GodotMethod!(void) pushUnderline;
+		@GodotName("push_mono") GodotMethod!(void) pushMono;
+		@GodotName("push_normal") GodotMethod!(void) pushNormal;
 		@GodotName("push_strikethrough") GodotMethod!(void) pushStrikethrough;
 		@GodotName("push_table") GodotMethod!(void, long) pushTable;
-		@GodotName("set_table_column_expand") GodotMethod!(void, long, bool, long) setTableColumnExpand;
-		@GodotName("push_cell") GodotMethod!(void) pushCell;
-		@GodotName("pop") GodotMethod!(void) pop;
-		@GodotName("clear") GodotMethod!(void) clear;
-		@GodotName("set_meta_underline") GodotMethod!(void, bool) setMetaUnderline;
-		@GodotName("is_meta_underlined") GodotMethod!(bool) isMetaUnderlined;
-		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
-		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
-		@GodotName("set_scroll_active") GodotMethod!(void, bool) setScrollActive;
-		@GodotName("is_scroll_active") GodotMethod!(bool) isScrollActive;
-		@GodotName("set_scroll_follow") GodotMethod!(void, bool) setScrollFollow;
-		@GodotName("is_scroll_following") GodotMethod!(bool) isScrollFollowing;
-		@GodotName("get_v_scroll") GodotMethod!(VScrollBar) getVScroll;
+		@GodotName("push_underline") GodotMethod!(void) pushUnderline;
+		@GodotName("remove_line") GodotMethod!(bool, long) removeLine;
 		@GodotName("scroll_to_line") GodotMethod!(void, long) scrollToLine;
-		@GodotName("set_tab_size") GodotMethod!(void, long) setTabSize;
-		@GodotName("get_tab_size") GodotMethod!(long) getTabSize;
-		@GodotName("set_selection_enabled") GodotMethod!(void, bool) setSelectionEnabled;
-		@GodotName("is_selection_enabled") GodotMethod!(bool) isSelectionEnabled;
-		@GodotName("parse_bbcode") GodotMethod!(GodotError, String) parseBbcode;
-		@GodotName("append_bbcode") GodotMethod!(GodotError, String) appendBbcode;
 		@GodotName("set_bbcode") GodotMethod!(void, String) setBbcode;
-		@GodotName("get_bbcode") GodotMethod!(String) getBbcode;
-		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
-		@GodotName("get_visible_characters") GodotMethod!(long) getVisibleCharacters;
+		@GodotName("set_effects") GodotMethod!(void, Array) setEffects;
+		@GodotName("set_meta_underline") GodotMethod!(void, bool) setMetaUnderline;
+		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
 		@GodotName("set_percent_visible") GodotMethod!(void, double) setPercentVisible;
-		@GodotName("get_percent_visible") GodotMethod!(double) getPercentVisible;
-		@GodotName("get_total_character_count") GodotMethod!(long) getTotalCharacterCount;
+		@GodotName("set_scroll_active") GodotMethod!(void, bool) setScrollActive;
+		@GodotName("set_scroll_follow") GodotMethod!(void, bool) setScrollFollow;
+		@GodotName("set_selection_enabled") GodotMethod!(void, bool) setSelectionEnabled;
+		@GodotName("set_tab_size") GodotMethod!(void, long) setTabSize;
+		@GodotName("set_table_column_expand") GodotMethod!(void, long, bool, long) setTableColumnExpand;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("set_use_bbcode") GodotMethod!(void, bool) setUseBbcode;
-		@GodotName("is_using_bbcode") GodotMethod!(bool) isUsingBbcode;
-		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
-		@GodotName("get_visible_line_count") GodotMethod!(long) getVisibleLineCount;
-		@GodotName("get_content_height") GodotMethod!(long) getContentHeight;
+		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
 	}
 	bool opEquals(in RichTextLabel other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RichTextLabel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -111,19 +120,19 @@ public:
 	enum Align : int
 	{
 		/**
-		
+		Makes text left aligned.
 		*/
 		alignLeft = 0,
 		/**
-		
+		Makes text centered.
 		*/
 		alignCenter = 1,
 		/**
-		
+		Makes text right aligned.
 		*/
 		alignRight = 2,
 		/**
-		
+		Makes text fill width.
 		*/
 		alignFill = 3,
 	}
@@ -131,15 +140,15 @@ public:
 	enum ListType : int
 	{
 		/**
-		
+		Each list item has a number marker.
 		*/
 		listNumbers = 0,
 		/**
-		
+		Each list item has a letter marker.
 		*/
 		listLetters = 1,
 		/**
-		
+		Each list item has a filled circle marker.
 		*/
 		listDots = 2,
 	}
@@ -197,20 +206,44 @@ public:
 		/**
 		
 		*/
-		itemMeta = 12,
+		itemFade = 12,
+		/**
+		
+		*/
+		itemShake = 13,
+		/**
+		
+		*/
+		itemWave = 14,
+		/**
+		
+		*/
+		itemTornado = 15,
+		/**
+		
+		*/
+		itemRainbow = 16,
+		/**
+		
+		*/
+		itemMeta = 17,
+		/**
+		
+		*/
+		itemCustomfx = 18,
 	}
 	/// 
 	enum Constants : int
 	{
 		listNumbers = 0,
-		alignLeft = 0,
 		itemFrame = 0,
-		itemText = 1,
-		alignCenter = 1,
+		alignLeft = 0,
 		listLetters = 1,
-		alignRight = 2,
+		alignCenter = 1,
+		itemText = 1,
 		listDots = 2,
 		itemImage = 2,
+		alignRight = 2,
 		alignFill = 3,
 		itemNewline = 3,
 		itemFont = 4,
@@ -221,14 +254,20 @@ public:
 		itemIndent = 9,
 		itemList = 10,
 		itemTable = 11,
-		itemMeta = 12,
+		itemFade = 12,
+		itemShake = 13,
+		itemWave = 14,
+		itemTornado = 15,
+		itemRainbow = 16,
+		itemMeta = 17,
+		itemCustomfx = 18,
 	}
 	/**
 	
 	*/
 	void _guiInput(InputEvent arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -238,10 +277,91 @@ public:
 	*/
 	void _scrollChanged(in double arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_scroll_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds an image's opening and closing tags to the tag stack, optionally providing a `width` and `height` to resize the image.
+	If `width` or `height` is set to 0, the image size will be adjusted in order to keep the original aspect ratio.
+	*/
+	void addImage(Texture image, in long width = 0, in long height = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addImage, _godot_object, image, width, height);
+	}
+	/**
+	Adds raw non-BBCode-parsed text to the tag stack.
+	*/
+	void addText(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addText, _godot_object, text);
+	}
+	/**
+	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, $(D constant OK) if successful.
+	*/
+	GodotError appendBbcode(in String bbcode)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.appendBbcode, _godot_object, bbcode);
+	}
+	/**
+	Clears the tag stack and sets $(D bbcodeText) to an empty string.
+	*/
+	void clear()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
+	}
+	/**
+	
+	*/
+	String getBbcode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBbcode, _godot_object);
+	}
+	/**
+	Returns the height of the content.
+	*/
+	long getContentHeight()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getContentHeight, _godot_object);
+	}
+	/**
+	
+	*/
+	Array getEffects()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getEffects, _godot_object);
+	}
+	/**
+	Returns the total number of newlines in the tag stack's text tags. Considers wrapped text as one line.
+	*/
+	long getLineCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPercentVisible() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
+	}
+	/**
+	
+	*/
+	long getTabSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTabSize, _godot_object);
 	}
 	/**
 	
@@ -252,28 +372,92 @@ public:
 		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
 	/**
-	Adds raw non-bbcode-parsed text to the tag stack.
+	Returns the total number of characters from text tags. Does not include BBCodes.
 	*/
-	void addText(in String text)
+	long getTotalCharacterCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addText, _godot_object, text);
+		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
+	}
+	/**
+	Returns the vertical scrollbar.
+	*/
+	VScrollBar getVScroll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VScrollBar)(_classBinding.getVScroll, _godot_object);
 	}
 	/**
 	
 	*/
-	void setText(in String text)
+	long getVisibleCharacters() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
 	}
 	/**
-	Adds an image's opening and closing tags to the tag stack.
+	Returns the number of visible lines.
 	*/
-	void addImage(Texture image)
+	long getVisibleLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addImage, _godot_object, image);
+		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
+	}
+	/**
+	Installs a custom effect. `effect` should be a valid $(D RichTextEffect).
+	*/
+	void installEffect(VariantArg0)(in VariantArg0 effect)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.installEffect, _godot_object, effect);
+	}
+	/**
+	
+	*/
+	bool isMetaUnderlined() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isMetaUnderlined, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isOverridingSelectedFontColor() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isScrollActive() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollActive, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isScrollFollowing() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollFollowing, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isSelectionEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSelectionEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isUsingBbcode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingBbcode, _godot_object);
 	}
 	/**
 	Adds a newline tag to the tag stack.
@@ -284,20 +468,60 @@ public:
 		ptrcall!(void)(_classBinding.newline, _godot_object);
 	}
 	/**
-	Removes a line of content from the label. Returns `true` if the line exists.
+	The assignment version of $(D appendBbcode). Clears the tag stack and inserts the new content. Returns $(D constant OK) if parses `bbcode` successfully.
 	*/
-	bool removeLine(in long line)
+	GodotError parseBbcode(in String bbcode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.removeLine, _godot_object, line);
+		return ptrcall!(GodotError)(_classBinding.parseBbcode, _godot_object, bbcode);
 	}
 	/**
-	Adds a `$(D font)` tag to the tag stack. Overrides default fonts for its duration.
+	Parses BBCode parameter `expressions` into a dictionary.
 	*/
-	void pushFont(Font font)
+	Dictionary parseExpressionsForValues(in PoolStringArray expressions)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushFont, _godot_object, font);
+		return ptrcall!(Dictionary)(_classBinding.parseExpressionsForValues, _godot_object, expressions);
+	}
+	/**
+	Terminates the current tag. Use after `push_*` methods to close BBCodes manually. Does not need to follow `add_*` methods.
+	*/
+	void pop()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pop, _godot_object);
+	}
+	/**
+	Adds an `$(D align)` tag based on the given `align` value. See $(D _align) for possible values.
+	*/
+	void pushAlign(in long _align)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushAlign, _godot_object, _align);
+	}
+	/**
+	Adds a `$(D font)` tag with a bold font to the tag stack. This is the same as adding a `$(D b)` tag if not currently in a `$(D i)` tag.
+	*/
+	void pushBold()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushBold, _godot_object);
+	}
+	/**
+	Adds a `$(D font)` tag with a bold italics font to the tag stack.
+	*/
+	void pushBoldItalics()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushBoldItalics, _godot_object);
+	}
+	/**
+	Adds a `$(D cell)` tag to the tag stack. Must be inside a `$(D table)` tag. See $(D pushTable) for details.
+	*/
+	void pushCell()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushCell, _godot_object);
 	}
 	/**
 	Adds a `$(D color)` tag to the tag stack.
@@ -308,15 +532,15 @@ public:
 		ptrcall!(void)(_classBinding.pushColor, _godot_object, color);
 	}
 	/**
-	Adds an alignment tag based on the given `align` value. See $(D _align) for possible values.
+	Adds a `$(D font)` tag to the tag stack. Overrides default fonts for its duration.
 	*/
-	void pushAlign(in long _align)
+	void pushFont(Font font)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushAlign, _godot_object, _align);
+		ptrcall!(void)(_classBinding.pushFont, _godot_object, font);
 	}
 	/**
-	Adds an `$(D indent)` tag to the tag stack. Multiplies "level" by current tab_size to determine new margin length.
+	Adds an `$(D indent)` tag to the tag stack. Multiplies `level` by current $(D tabSize) to determine new margin length.
 	*/
 	void pushIndent(in long level)
 	{
@@ -324,7 +548,15 @@ public:
 		ptrcall!(void)(_classBinding.pushIndent, _godot_object, level);
 	}
 	/**
-	Adds a list tag to the tag stack. Similar to the bbcodes `$(D ol)` or `$(D ul)`, but supports more list types. Not fully implemented!
+	Adds a `$(D font)` tag with a italics font to the tag stack. This is the same as adding a `$(D i)` tag if not currently in a `$(D b)` tag.
+	*/
+	void pushItalics()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushItalics, _godot_object);
+	}
+	/**
+	Adds a `$(D list)` tag to the tag stack. Similar to the BBCodes `$(D ol)` or `$(D ul)`, but supports more list types. Not fully implemented!
 	*/
 	void pushList(in long type)
 	{
@@ -332,7 +564,7 @@ public:
 		ptrcall!(void)(_classBinding.pushList, _godot_object, type);
 	}
 	/**
-	Adds a meta tag to the tag stack. Similar to the bbcode `$(D url=something){text}$(D /url)`, but supports non-$(D String) metadata types.
+	Adds a `$(D meta)` tag to the tag stack. Similar to the BBCode `$(D url=something){text}$(D /url)`, but supports non-$(D String) metadata types.
 	*/
 	void pushMeta(VariantArg0)(in VariantArg0 data)
 	{
@@ -340,12 +572,20 @@ public:
 		ptrcall!(void)(_classBinding.pushMeta, _godot_object, data);
 	}
 	/**
-	Adds a `$(D u)` tag to the tag stack.
+	Adds a `$(D font)` tag with a monospace font to the tag stack.
 	*/
-	void pushUnderline()
+	void pushMono()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushUnderline, _godot_object);
+		ptrcall!(void)(_classBinding.pushMono, _godot_object);
+	}
+	/**
+	Adds a `$(D font)` tag with a normal font to the tag stack.
+	*/
+	void pushNormal()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.pushNormal, _godot_object);
 	}
 	/**
 	Adds a `$(D s)` tag to the tag stack.
@@ -364,110 +604,21 @@ public:
 		ptrcall!(void)(_classBinding.pushTable, _godot_object, columns);
 	}
 	/**
-	Edits the selected columns expansion options. If `expand` is `true`, the column expands in proportion to its expansion ratio versus the other columns' ratios.
-	For example, 2 columns with ratios 3 and 4 plus 70 pixels in available width would expand 30 and 40 pixels, respectively.
-	Columns with a `false` expand will not contribute to the total ratio.
+	Adds a `$(D u)` tag to the tag stack.
 	*/
-	void setTableColumnExpand(in long column, in bool expand, in long ratio)
+	void pushUnderline()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
+		ptrcall!(void)(_classBinding.pushUnderline, _godot_object);
 	}
 	/**
-	Adds a `$(D cell)` tag to the tag stack. Must be inside a `$(D table)` tag. See $(D pushTable) for details.
+	Removes a line of content from the label. Returns `true` if the line exists.
+	The `line` argument is the index of the line to remove, it can take values in the interval `$(D 0, get_line_count() - 1)`.
 	*/
-	void pushCell()
+	bool removeLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushCell, _godot_object);
-	}
-	/**
-	Terminates the current tag. Use after `push_*` methods to close bbcodes manually. Does not need to follow `add_*` methods.
-	*/
-	void pop()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pop, _godot_object);
-	}
-	/**
-	Clears the tag stack and sets $(D bbcodeText) to an empty string.
-	*/
-	void clear()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMetaUnderline(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetaUnderline, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isMetaUnderlined() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMetaUnderlined, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOverrideSelectedFontColor(in bool _override)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverrideSelectedFontColor, _godot_object, _override);
-	}
-	/**
-	
-	*/
-	bool isOverridingSelectedFontColor() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
-	}
-	/**
-	
-	*/
-	void setScrollActive(in bool active)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollActive, _godot_object, active);
-	}
-	/**
-	
-	*/
-	bool isScrollActive() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollActive, _godot_object);
-	}
-	/**
-	
-	*/
-	void setScrollFollow(in bool follow)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollFollow, _godot_object, follow);
-	}
-	/**
-	
-	*/
-	bool isScrollFollowing() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollFollowing, _godot_object);
-	}
-	/**
-	Returns the vertical scrollbar.
-	*/
-	VScrollBar getVScroll()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(VScrollBar)(_classBinding.getVScroll, _godot_object);
+		return ptrcall!(bool)(_classBinding.removeLine, _godot_object, line);
 	}
 	/**
 	Scrolls the window's top line to match `line`.
@@ -480,54 +631,6 @@ public:
 	/**
 	
 	*/
-	void setTabSize(in long spaces)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabSize, _godot_object, spaces);
-	}
-	/**
-	
-	*/
-	long getTabSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSelectionEnabled(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectionEnabled, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	bool isSelectionEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectionEnabled, _godot_object);
-	}
-	/**
-	The assignment version of $(D appendBbcode). Clears the tag stack and inserts the new content. Returns `OK` if parses `bbcode` successfully.
-	*/
-	GodotError parseBbcode(in String bbcode)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.parseBbcode, _godot_object, bbcode);
-	}
-	/**
-	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, `OK` if successful.
-	*/
-	GodotError appendBbcode(in String bbcode)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.appendBbcode, _godot_object, bbcode);
-	}
-	/**
-	
-	*/
 	void setBbcode(in String text)
 	{
 		checkClassBinding!(typeof(this))();
@@ -536,26 +639,26 @@ public:
 	/**
 	
 	*/
-	String getBbcode() const
+	void setEffects(in Array effects)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBbcode, _godot_object);
+		ptrcall!(void)(_classBinding.setEffects, _godot_object, effects);
 	}
 	/**
 	
 	*/
-	void setVisibleCharacters(in long amount)
+	void setMetaUnderline(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
+		ptrcall!(void)(_classBinding.setMetaUnderline, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	long getVisibleCharacters() const
+	void setOverrideSelectedFontColor(in bool _override)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
+		ptrcall!(void)(_classBinding.setOverrideSelectedFontColor, _godot_object, _override);
 	}
 	/**
 	
@@ -568,18 +671,52 @@ public:
 	/**
 	
 	*/
-	double getPercentVisible() const
+	void setScrollActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
+		ptrcall!(void)(_classBinding.setScrollActive, _godot_object, active);
 	}
 	/**
-	Returns the total number of characters from text tags. Does not include bbcodes.
+	
 	*/
-	long getTotalCharacterCount() const
+	void setScrollFollow(in bool follow)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
+		ptrcall!(void)(_classBinding.setScrollFollow, _godot_object, follow);
+	}
+	/**
+	
+	*/
+	void setSelectionEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSelectionEnabled, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setTabSize(in long spaces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTabSize, _godot_object, spaces);
+	}
+	/**
+	Edits the selected column's expansion options. If `expand` is `true`, the column expands in proportion to its expansion ratio versus the other columns' ratios.
+	For example, 2 columns with ratios 3 and 4 plus 70 pixels in available width would expand 30 and 40 pixels, respectively.
+	If `expand` is `false`, the column will not contribute to the total ratio.
+	*/
+	void setTableColumnExpand(in long column, in bool expand, in long ratio)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
+	}
+	/**
+	
+	*/
+	void setText(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
 	}
 	/**
 	
@@ -592,37 +729,13 @@ public:
 	/**
 	
 	*/
-	bool isUsingBbcode() const
+	void setVisibleCharacters(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingBbcode, _godot_object);
+		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
 	}
 	/**
-	Returns the total number of newlines in the tag stack's text tags. Considers wrapped text as one line.
-	*/
-	long getLineCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
-	}
-	/**
-	Returns the number of visible lines.
-	*/
-	long getVisibleLineCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
-	}
-	/**
-	Returns the height of the content.
-	*/
-	long getContentHeight()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContentHeight, _godot_object);
-	}
-	/**
-	If `true`, the label uses BBCode formatting. Default value: `false`.
+	If `true`, the label uses BBCode formatting.
 	*/
 	@property bool bbcodeEnabled()
 	{
@@ -635,6 +748,7 @@ public:
 	}
 	/**
 	The label's text in BBCode format. Is not representative of manual modifications to the internal tag stack. Erases changes made by other methods when edited.
+	$(B Note:) It is unadvised to use `+=` operator with `bbcode_text` (e.g. `bbcode_text += "some string"`) as it replaces the whole text and can cause slowdowns. Use $(D appendBbcode) for adding text instead.
 	*/
 	@property String bbcodeText()
 	{
@@ -646,31 +760,20 @@ public:
 		setBbcode(v);
 	}
 	/**
-	The restricted number of characters to display in the label.
+	The currently installed custom effects. This is an array of $(D RichTextEffect)s.
+	To add a custom effect, it's more convenient to use $(D installEffect).
 	*/
-	@property long visibleCharacters()
+	@property Array customEffects()
 	{
-		return getVisibleCharacters();
+		return getEffects();
 	}
 	/// ditto
-	@property void visibleCharacters(long v)
+	@property void customEffects(Array v)
 	{
-		setVisibleCharacters(v);
+		setEffects(v);
 	}
 	/**
-	The text's visibility, as a $(D double) between 0.0 and 1.0.
-	*/
-	@property double percentVisible()
-	{
-		return getPercentVisible();
-	}
-	/// ditto
-	@property void percentVisible(double v)
-	{
-		setPercentVisible(v);
-	}
-	/**
-	If `true`, the label underlines meta tags such as `$(D url){text}$(D /url)`. Default value: `true`.
+	If `true`, the label underlines meta tags such as `$(D url){text}$(D /url)`.
 	*/
 	@property bool metaUnderlined()
 	{
@@ -682,32 +785,32 @@ public:
 		setMetaUnderline(v);
 	}
 	/**
-	The number of spaces associated with a single tab length. Does not affect "\t" in text tags, only indent tags.
+	If `true`, the label uses the custom font color.
 	*/
-	@property long tabSize()
+	@property bool overrideSelectedFontColor()
 	{
-		return getTabSize();
+		return isOverridingSelectedFontColor();
 	}
 	/// ditto
-	@property void tabSize(long v)
+	@property void overrideSelectedFontColor(bool v)
 	{
-		setTabSize(v);
+		setOverrideSelectedFontColor(v);
 	}
 	/**
-	The raw text of the label.
-	When set, clears the tag stack and adds a raw text tag to the top of it. Does not parse bbcodes. Does not modify $(D bbcodeText).
+	The range of characters to display, as a $(D double) between 0.0 and 1.0. When assigned an out of range value, it's the same as assigning 1.0.
+	$(B Note:) Setting this property updates $(D visibleCharacters) based on current $(D getTotalCharacterCount).
 	*/
-	@property String text()
+	@property double percentVisible()
 	{
-		return getText();
+		return getPercentVisible();
 	}
 	/// ditto
-	@property void text(String v)
+	@property void percentVisible(double v)
 	{
-		setText(v);
+		setPercentVisible(v);
 	}
 	/**
-	If `true`, the scrollbar is visible. Does not block scrolling completely. See $(D scrollToLine). Default value: `true`.
+	If `true`, the scrollbar is visible. Setting this to `false` does not block scrolling completely. See $(D scrollToLine).
 	*/
 	@property bool scrollActive()
 	{
@@ -719,7 +822,7 @@ public:
 		setScrollActive(v);
 	}
 	/**
-	If `true`, the window scrolls down to display new content automatically. Default value: `false`.
+	If `true`, the window scrolls down to display new content automatically.
 	*/
 	@property bool scrollFollowing()
 	{
@@ -743,15 +846,40 @@ public:
 		setSelectionEnabled(v);
 	}
 	/**
-	If `true`, the label uses the custom font color. Default value: `false`.
+	The number of spaces associated with a single tab length. Does not affect `\t` in text tags, only indent tags.
 	*/
-	@property bool overrideSelectedFontColor()
+	@property long tabSize()
 	{
-		return isOverridingSelectedFontColor();
+		return getTabSize();
 	}
 	/// ditto
-	@property void overrideSelectedFontColor(bool v)
+	@property void tabSize(long v)
 	{
-		setOverrideSelectedFontColor(v);
+		setTabSize(v);
+	}
+	/**
+	The raw text of the label.
+	When set, clears the tag stack and adds a raw text tag to the top of it. Does not parse BBCodes. Does not modify $(D bbcodeText).
+	*/
+	@property String text()
+	{
+		return getText();
+	}
+	/// ditto
+	@property void text(String v)
+	{
+		setText(v);
+	}
+	/**
+	The restricted number of characters to display in the label. If `-1`, all characters will be displayed.
+	*/
+	@property long visibleCharacters()
+	{
+		return getVisibleCharacters();
+	}
+	/// ditto
+	@property void visibleCharacters(long v)
+	{
+		setVisibleCharacters(v);
 	}
 }

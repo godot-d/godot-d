@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.button;
-import godot.colorpicker;
-import godot.popuppanel;
 import godot.basebutton;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
+import godot.colorpicker;
+import godot.popuppanel;
 /**
 Button that pops out a $(D ColorPicker).
 
@@ -44,14 +42,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_pick_color") GodotMethod!(void, Color) setPickColor;
+		@GodotName("_color_changed") GodotMethod!(void, Color) _colorChanged;
+		@GodotName("_modal_closed") GodotMethod!(void) _modalClosed;
 		@GodotName("get_pick_color") GodotMethod!(Color) getPickColor;
 		@GodotName("get_picker") GodotMethod!(ColorPicker) getPicker;
 		@GodotName("get_popup") GodotMethod!(PopupPanel) getPopup;
-		@GodotName("set_edit_alpha") GodotMethod!(void, bool) setEditAlpha;
 		@GodotName("is_editing_alpha") GodotMethod!(bool) isEditingAlpha;
-		@GodotName("_color_changed") GodotMethod!(void, Color) _colorChanged;
-		@GodotName("_modal_closed") GodotMethod!(void) _modalClosed;
+		@GodotName("set_edit_alpha") GodotMethod!(void, bool) setEditAlpha;
+		@GodotName("set_pick_color") GodotMethod!(void, Color) setPickColor;
 	}
 	bool opEquals(in ColorPickerButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ColorPickerButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -68,10 +66,21 @@ public:
 	/**
 	
 	*/
-	void setPickColor(in Color color)
+	void _colorChanged(in Color arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_color_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _modalClosed()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_modal_closed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -100,14 +109,6 @@ public:
 	/**
 	
 	*/
-	void setEditAlpha(in bool show)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
-	}
-	/**
-	
-	*/
 	bool isEditingAlpha() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -116,21 +117,18 @@ public:
 	/**
 	
 	*/
-	void _colorChanged(in Color arg0)
+	void setEditAlpha(in bool show)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_color_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
 	}
 	/**
 	
 	*/
-	void _modalClosed()
+	void setPickColor(in Color color)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_modal_closed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
 	}
 	/**
 	The currently selected color.
@@ -145,7 +143,7 @@ public:
 		setPickColor(v);
 	}
 	/**
-	If `true`, the alpha channel in the displayed $(D ColorPicker) will be visible. Default value: `true`.
+	If `true`, the alpha channel in the displayed $(D ColorPicker) will be visible.
 	*/
 	@property bool editAlpha()
 	{

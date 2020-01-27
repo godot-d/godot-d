@@ -1,5 +1,5 @@
 /**
-TCP Server.
+A TCP server.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.reference;
 import godot.streampeertcp;
 /**
-TCP Server.
+A TCP server.
 
-TCP Server class. Listens to connections on a port and returns a $(D StreamPeerTCP) when got a connection.
+Listens to connections on a port and returns a $(D StreamPeerTCP) when it gets an incoming connection.
 */
 @GodotBaseClass struct TCP_Server
 {
@@ -39,10 +39,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("listen") GodotMethod!(GodotError, long, String) listen;
 		@GodotName("is_connection_available") GodotMethod!(bool) isConnectionAvailable;
-		@GodotName("take_connection") GodotMethod!(StreamPeerTCP) takeConnection;
+		@GodotName("is_listening") GodotMethod!(bool) isListening;
+		@GodotName("listen") GodotMethod!(GodotError, long, String) listen;
 		@GodotName("stop") GodotMethod!(void) stop;
+		@GodotName("take_connection") GodotMethod!(StreamPeerTCP) takeConnection;
 	}
 	bool opEquals(in TCP_Server other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TCP_Server opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,18 +58,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Listen on the "port" binding to "bind_address".
-	If "bind_address" is set as "*" (default), the server will listen on all available addresses (both IPv4 and IPv6).
-	If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the server will listen on all available addresses matching that IP type.
-	If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the server will only listen on the interface with that addresses (or fail if no interface with the given address exists).
-	*/
-	GodotError listen(in long port, in String bind_address = gs!"*")
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address);
-	}
-	/**
-	Return `true` if a connection is available for taking.
+	Returns `true` if a connection is available for taking.
 	*/
 	bool isConnectionAvailable() const
 	{
@@ -76,19 +66,38 @@ public:
 		return ptrcall!(bool)(_classBinding.isConnectionAvailable, _godot_object);
 	}
 	/**
-	If a connection is available, return a StreamPeerTCP with the connection/
+	Returns `true` if the server is currently listening for connections.
 	*/
-	Ref!StreamPeerTCP takeConnection()
+	bool isListening() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeerTCP)(_classBinding.takeConnection, _godot_object);
+		return ptrcall!(bool)(_classBinding.isListening, _godot_object);
 	}
 	/**
-	Stop listening.
+	Listen on the `port` binding to `bind_address`.
+	If `bind_address` is set as `"*"` (default), the server will listen on all available addresses (both IPv4 and IPv6).
+	If `bind_address` is set as `"0.0.0.0"` (for IPv4) or `"::"` (for IPv6), the server will listen on all available addresses matching that IP type.
+	If `bind_address` is set to any valid address (e.g. `"192.168.1.101"`, `"::1"`, etc), the server will only listen on the interface with that addresses (or fail if no interface with the given address exists).
+	*/
+	GodotError listen(in long port, in String bind_address = gs!"*")
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address);
+	}
+	/**
+	Stops listening.
 	*/
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.stop, _godot_object);
+	}
+	/**
+	If a connection is available, returns a StreamPeerTCP with the connection.
+	*/
+	Ref!StreamPeerTCP takeConnection()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StreamPeerTCP)(_classBinding.takeConnection, _godot_object);
 	}
 }

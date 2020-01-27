@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.networkedmultiplayerpeer;
-import godot.packetpeer;
-import godot.reference;
 /**
 
 */

@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
 /**
 A node that will attach to a bone.
 
@@ -39,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_bone_name") GodotMethod!(void, String) setBoneName;
 		@GodotName("get_bone_name") GodotMethod!(String) getBoneName;
+		@GodotName("set_bone_name") GodotMethod!(void, String) setBoneName;
 	}
 	bool opEquals(in BoneAttachment other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BoneAttachment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setBoneName(in String bone_name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneName, _godot_object, bone_name);
-	}
-	/**
-	
-	*/
 	String getBoneName() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getBoneName, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBoneName(in String bone_name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBoneName, _godot_object, bone_name);
 	}
 	/**
 	The name of the attached bone.

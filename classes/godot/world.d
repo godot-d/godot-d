@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.environment;
-import godot.physicsdirectspacestate;
 import godot.reference;
+import godot.physicsdirectspacestate;
+import godot.environment;
 /**
 Class that has everything pertaining to a world.
 
@@ -41,13 +41,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_space") GodotMethod!(RID) getSpace;
-		@GodotName("get_scenario") GodotMethod!(RID) getScenario;
-		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
-		@GodotName("get_environment") GodotMethod!(Environment) getEnvironment;
-		@GodotName("set_fallback_environment") GodotMethod!(void, Environment) setFallbackEnvironment;
-		@GodotName("get_fallback_environment") GodotMethod!(Environment) getFallbackEnvironment;
 		@GodotName("get_direct_space_state") GodotMethod!(PhysicsDirectSpaceState) getDirectSpaceState;
+		@GodotName("get_environment") GodotMethod!(Environment) getEnvironment;
+		@GodotName("get_fallback_environment") GodotMethod!(Environment) getFallbackEnvironment;
+		@GodotName("get_scenario") GodotMethod!(RID) getScenario;
+		@GodotName("get_space") GodotMethod!(RID) getSpace;
+		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
+		@GodotName("set_fallback_environment") GodotMethod!(void, Environment) setFallbackEnvironment;
 	}
 	bool opEquals(in World other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	World opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,26 +64,10 @@ public:
 	/**
 	
 	*/
-	RID getSpace() const
+	PhysicsDirectSpaceState getDirectSpaceState()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
-	}
-	/**
-	
-	*/
-	RID getScenario() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getScenario, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnvironment(Environment env)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
+		return ptrcall!(PhysicsDirectSpaceState)(_classBinding.getDirectSpaceState, _godot_object);
 	}
 	/**
 	
@@ -96,14 +80,6 @@ public:
 	/**
 	
 	*/
-	void setFallbackEnvironment(Environment env)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFallbackEnvironment, _godot_object, env);
-	}
-	/**
-	
-	*/
 	Ref!Environment getFallbackEnvironment() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -112,10 +88,41 @@ public:
 	/**
 	
 	*/
-	PhysicsDirectSpaceState getDirectSpaceState()
+	RID getScenario() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PhysicsDirectSpaceState)(_classBinding.getDirectSpaceState, _godot_object);
+		return ptrcall!(RID)(_classBinding.getScenario, _godot_object);
+	}
+	/**
+	
+	*/
+	RID getSpace() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
+	}
+	/**
+	
+	*/
+	void setEnvironment(Environment env)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
+	}
+	/**
+	
+	*/
+	void setFallbackEnvironment(Environment env)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFallbackEnvironment, _godot_object, env);
+	}
+	/**
+	The World's physics direct space state, used for making various queries. Might be used only during `_physics_process`.
+	*/
+	@property PhysicsDirectSpaceState directSpaceState()
+	{
+		return getDirectSpaceState();
 	}
 	/**
 	The World's $(D Environment).
@@ -142,13 +149,6 @@ public:
 		setFallbackEnvironment(v);
 	}
 	/**
-	The World's physics space.
-	*/
-	@property RID space()
-	{
-		return getSpace();
-	}
-	/**
 	The World's visual scenario.
 	*/
 	@property RID scenario()
@@ -156,10 +156,10 @@ public:
 		return getScenario();
 	}
 	/**
-	The World's physics direct space state, used for making various queries. Might be used only during `_physics_process`.
+	The World's physics space.
 	*/
-	@property PhysicsDirectSpaceState directSpaceState()
+	@property RID space()
 	{
-		return getDirectSpaceState();
+		return getSpace();
 	}
 }

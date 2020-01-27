@@ -22,9 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.inputeventgesture;
 import godot.inputeventwithmodifiers;
-import godot.inputevent;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -40,8 +37,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_factor") GodotMethod!(void, double) setFactor;
 		@GodotName("get_factor") GodotMethod!(double) getFactor;
+		@GodotName("set_factor") GodotMethod!(void, double) setFactor;
 	}
 	bool opEquals(in InputEventMagnifyGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventMagnifyGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +55,18 @@ public:
 	/**
 	
 	*/
-	void setFactor(in double factor)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFactor, _godot_object, factor);
-	}
-	/**
-	
-	*/
 	double getFactor() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getFactor, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFactor(in double factor)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFactor, _godot_object, factor);
 	}
 	/**
 	

@@ -23,7 +23,6 @@ import godot.classdb;
 import godot.audioeffectfilter;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
 
 */

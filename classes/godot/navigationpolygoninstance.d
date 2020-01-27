@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.navigationpolygon;
-import godot.canvasitem;
-import godot.node;
 /**
 
 */
@@ -39,11 +37,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_navigation_polygon") GodotMethod!(void, NavigationPolygon) setNavigationPolygon;
-		@GodotName("get_navigation_polygon") GodotMethod!(NavigationPolygon) getNavigationPolygon;
-		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
-		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
 		@GodotName("_navpoly_changed") GodotMethod!(void) _navpolyChanged;
+		@GodotName("get_navigation_polygon") GodotMethod!(NavigationPolygon) getNavigationPolygon;
+		@GodotName("is_enabled") GodotMethod!(bool) isEnabled;
+		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
+		@GodotName("set_navigation_polygon") GodotMethod!(void, NavigationPolygon) setNavigationPolygon;
 	}
 	bool opEquals(in NavigationPolygonInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NavigationPolygonInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +58,11 @@ public:
 	/**
 	
 	*/
-	void setNavigationPolygon(NavigationPolygon navpoly)
+	void _navpolyChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNavigationPolygon, _godot_object, navpoly);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_navpoly_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -76,14 +75,6 @@ public:
 	/**
 	
 	*/
-	void setEnabled(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
-	}
-	/**
-	
-	*/
 	bool isEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -92,23 +83,18 @@ public:
 	/**
 	
 	*/
-	void _navpolyChanged()
+	void setEnabled(in bool enabled)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_navpoly_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
 	}
 	/**
 	
 	*/
-	@property NavigationPolygon navpoly()
+	void setNavigationPolygon(NavigationPolygon navpoly)
 	{
-		return getNavigationPolygon();
-	}
-	/// ditto
-	@property void navpoly(NavigationPolygon v)
-	{
-		setNavigationPolygon(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNavigationPolygon, _godot_object, navpoly);
 	}
 	/**
 	
@@ -121,5 +107,17 @@ public:
 	@property void enabled(bool v)
 	{
 		setEnabled(v);
+	}
+	/**
+	
+	*/
+	@property NavigationPolygon navpoly()
+	{
+		return getNavigationPolygon();
+	}
+	/// ditto
+	@property void navpoly(NavigationPolygon v)
+	{
+		setNavigationPolygon(v);
 	}
 }

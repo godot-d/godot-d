@@ -25,7 +25,7 @@ import godot.resource;
 /**
 Parameters to be sent to a 2D shape physics query.
 
-This class contains the shape and other parameters for intersection/collision queries.
+This class contains the shape and other parameters for 2D intersection/collision queries. See also $(D Physics2DShapeQueryResult).
 */
 @GodotBaseClass struct Physics2DShapeQueryParameters
 {
@@ -39,23 +39,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shape") GodotMethod!(void, Resource) setShape;
-		@GodotName("set_shape_rid") GodotMethod!(void, RID) setShapeRid;
-		@GodotName("get_shape_rid") GodotMethod!(RID) getShapeRid;
-		@GodotName("set_transform") GodotMethod!(void, Transform2D) setTransform;
-		@GodotName("get_transform") GodotMethod!(Transform2D) getTransform;
-		@GodotName("set_motion") GodotMethod!(void, Vector2) setMotion;
-		@GodotName("get_motion") GodotMethod!(Vector2) getMotion;
-		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
-		@GodotName("get_margin") GodotMethod!(double) getMargin;
-		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
 		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
-		@GodotName("set_exclude") GodotMethod!(void, Array) setExclude;
 		@GodotName("get_exclude") GodotMethod!(Array) getExclude;
-		@GodotName("set_collide_with_bodies") GodotMethod!(void, bool) setCollideWithBodies;
+		@GodotName("get_margin") GodotMethod!(double) getMargin;
+		@GodotName("get_motion") GodotMethod!(Vector2) getMotion;
+		@GodotName("get_shape_rid") GodotMethod!(RID) getShapeRid;
+		@GodotName("get_transform") GodotMethod!(Transform2D) getTransform;
+		@GodotName("is_collide_with_areas_enabled") GodotMethod!(bool) isCollideWithAreasEnabled;
 		@GodotName("is_collide_with_bodies_enabled") GodotMethod!(bool) isCollideWithBodiesEnabled;
 		@GodotName("set_collide_with_areas") GodotMethod!(void, bool) setCollideWithAreas;
-		@GodotName("is_collide_with_areas_enabled") GodotMethod!(bool) isCollideWithAreasEnabled;
+		@GodotName("set_collide_with_bodies") GodotMethod!(void, bool) setCollideWithBodies;
+		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
+		@GodotName("set_exclude") GodotMethod!(void, Array) setExclude;
+		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
+		@GodotName("set_motion") GodotMethod!(void, Vector2) setMotion;
+		@GodotName("set_shape") GodotMethod!(void, Resource) setShape;
+		@GodotName("set_shape_rid") GodotMethod!(void, RID) setShapeRid;
+		@GodotName("set_transform") GodotMethod!(void, Transform2D) setTransform;
 	}
 	bool opEquals(in Physics2DShapeQueryParameters other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Physics2DShapeQueryParameters opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -70,100 +70,12 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Set the $(D Shape2D) that will be used for collision/intersection queries.
-	*/
-	void setShape(Resource shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	void setShapeRid(in RID shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShapeRid, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	RID getShapeRid() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getShapeRid, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTransform(in Transform2D transform)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
-	}
-	/**
-	
-	*/
-	Transform2D getTransform() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMotion(in Vector2 motion)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMotion, _godot_object, motion);
-	}
-	/**
-	
-	*/
-	Vector2 getMotion() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMargin(in double margin)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
-	}
-	/**
-	
-	*/
-	double getMargin() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCollisionLayer(in long collision_layer)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
-	}
-	/**
 	
 	*/
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
-	}
-	/**
-	
-	*/
-	void setExclude(in Array exclude)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExclude, _godot_object, exclude);
 	}
 	/**
 	
@@ -176,10 +88,42 @@ public:
 	/**
 	
 	*/
-	void setCollideWithBodies(in bool enable)
+	double getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithBodies, _godot_object, enable);
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getMotion() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
+	}
+	/**
+	
+	*/
+	RID getShapeRid() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getShapeRid, _godot_object);
+	}
+	/**
+	
+	*/
+	Transform2D getTransform() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCollideWithAreasEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
 	}
 	/**
 	
@@ -200,13 +144,93 @@ public:
 	/**
 	
 	*/
-	bool isCollideWithAreasEnabled() const
+	void setCollideWithBodies(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setCollideWithBodies, _godot_object, enable);
 	}
 	/**
-	The physics layer the query should be made on.
+	
+	*/
+	void setCollisionLayer(in long collision_layer)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
+	}
+	/**
+	
+	*/
+	void setExclude(in Array exclude)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExclude, _godot_object, exclude);
+	}
+	/**
+	
+	*/
+	void setMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+	}
+	/**
+	
+	*/
+	void setMotion(in Vector2 motion)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMotion, _godot_object, motion);
+	}
+	/**
+	Sets the $(D Shape2D) that will be used for collision/intersection queries.
+	*/
+	void setShape(Resource shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+	}
+	/**
+	
+	*/
+	void setShapeRid(in RID shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShapeRid, _godot_object, shape);
+	}
+	/**
+	
+	*/
+	void setTransform(in Transform2D transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
+	}
+	/**
+	If `true`, the query will take $(D Area2D)s into account.
+	*/
+	@property bool collideWithAreas()
+	{
+		return isCollideWithAreasEnabled();
+	}
+	/// ditto
+	@property void collideWithAreas(bool v)
+	{
+		setCollideWithAreas(v);
+	}
+	/**
+	If `true`, the query will take $(D PhysicsBody2D)s into account.
+	*/
+	@property bool collideWithBodies()
+	{
+		return isCollideWithBodiesEnabled();
+	}
+	/// ditto
+	@property void collideWithBodies(bool v)
+	{
+		setCollideWithBodies(v);
+	}
+	/**
+	The physics layer(s) the query will take into account (as a bitmask).
 	*/
 	@property long collisionLayer()
 	{
@@ -218,7 +242,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The list of objects or object $(D RID)s, that will be excluded from collisions.
+	The list of objects or object $(D RID)s that will be excluded from collisions.
 	*/
 	@property Array exclude()
 	{
@@ -254,7 +278,7 @@ public:
 		setMotion(v);
 	}
 	/**
-	The $(D RID) of the queried shape. See $(D setShape) also.
+	The queried shape's $(D RID). See also $(D setShape).
 	*/
 	@property RID shapeRid()
 	{
@@ -266,7 +290,7 @@ public:
 		setShapeRid(v);
 	}
 	/**
-	the transform matrix of the queried shape.
+	The queried shape's transform matrix.
 	*/
 	@property Transform2D transform()
 	{
@@ -276,29 +300,5 @@ public:
 	@property void transform(Transform2D v)
 	{
 		setTransform(v);
-	}
-	/**
-	
-	*/
-	@property bool collideWithBodies()
-	{
-		return isCollideWithBodiesEnabled();
-	}
-	/// ditto
-	@property void collideWithBodies(bool v)
-	{
-		setCollideWithBodies(v);
-	}
-	/**
-	
-	*/
-	@property bool collideWithAreas()
-	{
-		return isCollideWithAreasEnabled();
-	}
-	/// ditto
-	@property void collideWithAreas(bool v)
-	{
-		setCollideWithAreas(v);
 	}
 }

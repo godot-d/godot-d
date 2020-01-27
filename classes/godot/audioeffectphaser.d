@@ -1,5 +1,5 @@
 /**
-Adds a Phaser audio effect to an Audio bus.
+Adds a phaser audio effect to an Audio bus.
 Combines the original signal with a copy that is slightly out of phase with the original.
 
 Copyright:
@@ -23,12 +23,11 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a Phaser audio effect to an Audio bus.
+Adds a phaser audio effect to an Audio bus.
 Combines the original signal with a copy that is slightly out of phase with the original.
 
-Combines phase-shifted signals with the original signal. The movement of the phase-shifted signals is controlled using a Low Frequency Oscillator.
+Combines phase-shifted signals with the original signal. The movement of the phase-shifted signals is controlled using a low-frequency oscillator.
 */
 @GodotBaseClass struct AudioEffectPhaser
 {
@@ -42,16 +41,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_range_min_hz") GodotMethod!(void, double) setRangeMinHz;
-		@GodotName("get_range_min_hz") GodotMethod!(double) getRangeMinHz;
-		@GodotName("set_range_max_hz") GodotMethod!(void, double) setRangeMaxHz;
-		@GodotName("get_range_max_hz") GodotMethod!(double) getRangeMaxHz;
-		@GodotName("set_rate_hz") GodotMethod!(void, double) setRateHz;
-		@GodotName("get_rate_hz") GodotMethod!(double) getRateHz;
-		@GodotName("set_feedback") GodotMethod!(void, double) setFeedback;
-		@GodotName("get_feedback") GodotMethod!(double) getFeedback;
-		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
 		@GodotName("get_depth") GodotMethod!(double) getDepth;
+		@GodotName("get_feedback") GodotMethod!(double) getFeedback;
+		@GodotName("get_range_max_hz") GodotMethod!(double) getRangeMaxHz;
+		@GodotName("get_range_min_hz") GodotMethod!(double) getRangeMinHz;
+		@GodotName("get_rate_hz") GodotMethod!(double) getRateHz;
+		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
+		@GodotName("set_feedback") GodotMethod!(void, double) setFeedback;
+		@GodotName("set_range_max_hz") GodotMethod!(void, double) setRangeMaxHz;
+		@GodotName("set_range_min_hz") GodotMethod!(void, double) setRangeMinHz;
+		@GodotName("set_rate_hz") GodotMethod!(void, double) setRateHz;
 	}
 	bool opEquals(in AudioEffectPhaser other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectPhaser opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -68,58 +67,10 @@ public:
 	/**
 	
 	*/
-	void setRangeMinHz(in double hz)
+	double getDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRangeMinHz, _godot_object, hz);
-	}
-	/**
-	
-	*/
-	double getRangeMinHz() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRangeMinHz, _godot_object);
-	}
-	/**
-	
-	*/
-	void setRangeMaxHz(in double hz)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRangeMaxHz, _godot_object, hz);
-	}
-	/**
-	
-	*/
-	double getRangeMaxHz() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRangeMaxHz, _godot_object);
-	}
-	/**
-	
-	*/
-	void setRateHz(in double hz)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRateHz, _godot_object, hz);
-	}
-	/**
-	
-	*/
-	double getRateHz() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRateHz, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFeedback(in double fbk)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedback, _godot_object, fbk);
+		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
 	}
 	/**
 	
@@ -132,6 +83,30 @@ public:
 	/**
 	
 	*/
+	double getRangeMaxHz() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRangeMaxHz, _godot_object);
+	}
+	/**
+	
+	*/
+	double getRangeMinHz() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRangeMinHz, _godot_object);
+	}
+	/**
+	
+	*/
+	double getRateHz() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRateHz, _godot_object);
+	}
+	/**
+	
+	*/
 	void setDepth(in double depth)
 	{
 		checkClassBinding!(typeof(this))();
@@ -140,49 +115,49 @@ public:
 	/**
 	
 	*/
-	double getDepth() const
+	void setFeedback(in double fbk)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
+		ptrcall!(void)(_classBinding.setFeedback, _godot_object, fbk);
 	}
 	/**
-	Determines the minimum frequency affected by the LFO modulations. Value can range from 10 to 10000. Default value: `440hz`.
+	
 	*/
-	@property double rangeMinHz()
+	void setRangeMaxHz(in double hz)
 	{
-		return getRangeMinHz();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRangeMaxHz, _godot_object, hz);
+	}
+	/**
+	
+	*/
+	void setRangeMinHz(in double hz)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRangeMinHz, _godot_object, hz);
+	}
+	/**
+	
+	*/
+	void setRateHz(in double hz)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRateHz, _godot_object, hz);
+	}
+	/**
+	Governs how high the filter frequencies sweep. Low value will primarily affect bass frequencies. High value can sweep high into the treble. Value can range from 0.1 to 4.
+	*/
+	@property double depth()
+	{
+		return getDepth();
 	}
 	/// ditto
-	@property void rangeMinHz(double v)
+	@property void depth(double v)
 	{
-		setRangeMinHz(v);
+		setDepth(v);
 	}
 	/**
-	Determines the maximum frequency affected by the LFO modulations. Value can range from 10 to 10000. Default value: `1600hz`.
-	*/
-	@property double rangeMaxHz()
-	{
-		return getRangeMaxHz();
-	}
-	/// ditto
-	@property void rangeMaxHz(double v)
-	{
-		setRangeMaxHz(v);
-	}
-	/**
-	Adjusts the rate at which the effect sweeps up and down across the frequency range.
-	*/
-	@property double rateHz()
-	{
-		return getRateHz();
-	}
-	/// ditto
-	@property void rateHz(double v)
-	{
-		setRateHz(v);
-	}
-	/**
-	Output percent of modified sound. Value can range from 0.1 to 0.9. Default value: `0.7`.
+	Output percent of modified sound. Value can range from 0.1 to 0.9.
 	*/
 	@property double feedback()
 	{
@@ -194,15 +169,39 @@ public:
 		setFeedback(v);
 	}
 	/**
-	Governs how high the filter frequencies sweep. Low value will primarily affect bass frequencies. High value can sweep high into the treble. Value can range from 0.1 to 4. Default value: `1`.
+	Determines the maximum frequency affected by the LFO modulations, in Hz. Value can range from 10 to 10000.
 	*/
-	@property double depth()
+	@property double rangeMaxHz()
 	{
-		return getDepth();
+		return getRangeMaxHz();
 	}
 	/// ditto
-	@property void depth(double v)
+	@property void rangeMaxHz(double v)
 	{
-		setDepth(v);
+		setRangeMaxHz(v);
+	}
+	/**
+	Determines the minimum frequency affected by the LFO modulations, in Hz. Value can range from 10 to 10000.
+	*/
+	@property double rangeMinHz()
+	{
+		return getRangeMinHz();
+	}
+	/// ditto
+	@property void rangeMinHz(double v)
+	{
+		setRangeMinHz(v);
+	}
+	/**
+	Adjusts the rate in Hz at which the effect sweeps up and down across the frequency range.
+	*/
+	@property double rateHz()
+	{
+		return getRateHz();
+	}
+	/// ditto
+	@property void rateHz(double v)
+	{
+		setRateHz(v);
 	}
 }

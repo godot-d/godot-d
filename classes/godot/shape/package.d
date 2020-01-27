@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 		@GodotName("get_margin") GodotMethod!(double) getMargin;
+		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 	}
 	bool opEquals(in Shape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Shape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,14 +56,6 @@ public:
 	/**
 	
 	*/
-	void setMargin(in double margin)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
-	}
-	/**
-	
-	*/
 	double getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -71,6 +63,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+	}
+	/**
+	The collision margin for the shape.
 	*/
 	@property double margin()
 	{

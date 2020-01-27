@@ -1,5 +1,5 @@
 /**
-Adds a notch filter to the Audio Bus.
+Adds a notch filter to the Audio bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,8 @@ import godot.classdb;
 import godot.audioeffectfilter;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a notch filter to the Audio Bus.
+Adds a notch filter to the Audio bus.
 
 Attenuates frequencies in a narrow band around the $(D AudioEffectFilter.cutoffHz) and cuts frequencies outside of this range.
 */

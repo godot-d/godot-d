@@ -20,9 +20,9 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.networkedmultiplayerpeer;
-import godot.websocketpeer;
 import godot.packetpeer;
 import godot.reference;
+import godot.websocketpeer;
 /**
 Base class for WebSocket server and client.
 
@@ -41,6 +41,7 @@ public:
 	{
 		__gshared:
 		@GodotName("get_peer") GodotMethod!(WebSocketPeer, long) getPeer;
+		@GodotName("set_buffers") GodotMethod!(GodotError, long, long, long, long) setBuffers;
 	}
 	bool opEquals(in WebSocketMultiplayerPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	WebSocketMultiplayerPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,5 +62,16 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(WebSocketPeer)(_classBinding.getPeer, _godot_object, peer_id);
+	}
+	/**
+	Configures the buffer sizes for this WebSocket peer. Default values can be specified in the Project Settings under `network/limits`. For server, values are meant per connected peer.
+	The first two parameters define the size and queued packets limits of the input buffer, the last two of the output buffer.
+	Buffer sizes are expressed in KiB, so `4 = 2^12 = 4096 bytes`. All parameters will be rounded up to the nearest power of two.
+	$(B Note:) HTML5 exports only use the input buffer since the output one is managed by browsers.
+	*/
+	GodotError setBuffers(in long input_buffer_size_kb, in long input_max_packets, in long output_buffer_size_kb, in long output_max_packets)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.setBuffers, _godot_object, input_buffer_size_kb, input_max_packets, output_buffer_size_kb, output_max_packets);
 	}
 }

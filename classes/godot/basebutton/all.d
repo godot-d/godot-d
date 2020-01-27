@@ -3,11 +3,11 @@ module godot.basebutton.all;
 public import
 	godot.basebutton,
 	godot.button,
-	godot.menubutton,
 	godot.checkbox,
 	godot.checkbutton,
-	godot.toolbutton,
-	godot.optionbutton,
 	godot.colorpickerbutton,
+	godot.menubutton,
+	godot.optionbutton,
+	godot.toolbutton,
 	godot.linkbutton,
 	godot.texturebutton;

@@ -1,5 +1,5 @@
 /**
-
+Blends two animations additively inside of an $(D AnimationNodeBlendTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.animationnode;
 import godot.resource;
-import godot.reference;
 /**
+Blends two animations additively inside of an $(D AnimationNodeBlendTree).
 
+A resource to add to an $(D AnimationNodeBlendTree). Blends two animations additively based on an amount value in the `$(D 0.0, 1.0)` range.
 */
 @GodotBaseClass struct AnimationNodeAdd2
 {
@@ -38,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_use_sync") GodotMethod!(void, bool) setUseSync;
 		@GodotName("is_using_sync") GodotMethod!(bool) isUsingSync;
+		@GodotName("set_use_sync") GodotMethod!(void, bool) setUseSync;
 	}
 	bool opEquals(in AnimationNodeAdd2 other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeAdd2 opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,14 +57,6 @@ public:
 	/**
 	
 	*/
-	void setUseSync(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseSync, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool isUsingSync() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -71,6 +64,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setUseSync(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseSync, _godot_object, enable);
+	}
+	/**
+	If `true`, sets the `optimization` to `false` when calling $(D AnimationNode.blendInput), forcing the blended animations to update every frame.
 	*/
 	@property bool sync()
 	{

@@ -23,8 +23,6 @@ import godot.classdb;
 import godot.node2d;
 import godot.audiostream;
 import godot.audiostreamplayback;
-import godot.canvasitem;
-import godot.node;
 /**
 Plays audio in 2D.
 
@@ -42,33 +40,33 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_stream") GodotMethod!(void, AudioStream) setStream;
-		@GodotName("get_stream") GodotMethod!(AudioStream) getStream;
-		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
-		@GodotName("get_volume_db") GodotMethod!(double) getVolumeDb;
-		@GodotName("set_pitch_scale") GodotMethod!(void, double) setPitchScale;
-		@GodotName("get_pitch_scale") GodotMethod!(double) getPitchScale;
-		@GodotName("play") GodotMethod!(void, double) play;
-		@GodotName("seek") GodotMethod!(void, double) seek;
-		@GodotName("stop") GodotMethod!(void) stop;
-		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
-		@GodotName("get_playback_position") GodotMethod!(double) getPlaybackPosition;
-		@GodotName("set_bus") GodotMethod!(void, String) setBus;
-		@GodotName("get_bus") GodotMethod!(String) getBus;
-		@GodotName("set_autoplay") GodotMethod!(void, bool) setAutoplay;
-		@GodotName("is_autoplay_enabled") GodotMethod!(bool) isAutoplayEnabled;
-		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
+		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
 		@GodotName("_is_active") GodotMethod!(bool) _isActive;
-		@GodotName("set_max_distance") GodotMethod!(void, double) setMaxDistance;
-		@GodotName("get_max_distance") GodotMethod!(double) getMaxDistance;
-		@GodotName("set_attenuation") GodotMethod!(void, double) setAttenuation;
-		@GodotName("get_attenuation") GodotMethod!(double) getAttenuation;
-		@GodotName("set_area_mask") GodotMethod!(void, long) setAreaMask;
+		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
 		@GodotName("get_area_mask") GodotMethod!(long) getAreaMask;
-		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
+		@GodotName("get_attenuation") GodotMethod!(double) getAttenuation;
+		@GodotName("get_bus") GodotMethod!(String) getBus;
+		@GodotName("get_max_distance") GodotMethod!(double) getMaxDistance;
+		@GodotName("get_pitch_scale") GodotMethod!(double) getPitchScale;
+		@GodotName("get_playback_position") GodotMethod!(double) getPlaybackPosition;
+		@GodotName("get_stream") GodotMethod!(AudioStream) getStream;
 		@GodotName("get_stream_paused") GodotMethod!(bool) getStreamPaused;
 		@GodotName("get_stream_playback") GodotMethod!(AudioStreamPlayback) getStreamPlayback;
-		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
+		@GodotName("get_volume_db") GodotMethod!(double) getVolumeDb;
+		@GodotName("is_autoplay_enabled") GodotMethod!(bool) isAutoplayEnabled;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("play") GodotMethod!(void, double) play;
+		@GodotName("seek") GodotMethod!(void, double) seek;
+		@GodotName("set_area_mask") GodotMethod!(void, long) setAreaMask;
+		@GodotName("set_attenuation") GodotMethod!(void, double) setAttenuation;
+		@GodotName("set_autoplay") GodotMethod!(void, bool) setAutoplay;
+		@GodotName("set_bus") GodotMethod!(void, String) setBus;
+		@GodotName("set_max_distance") GodotMethod!(void, double) setMaxDistance;
+		@GodotName("set_pitch_scale") GodotMethod!(void, double) setPitchScale;
+		@GodotName("set_stream") GodotMethod!(void, AudioStream) setStream;
+		@GodotName("set_stream_paused") GodotMethod!(void, bool) setStreamPaused;
+		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
+		@GodotName("stop") GodotMethod!(void) stop;
 	}
 	bool opEquals(in AudioStreamPlayer2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamPlayer2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -85,10 +83,78 @@ public:
 	/**
 	
 	*/
-	void setStream(AudioStream stream)
+	void _busLayoutChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_bus_layout_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	bool _isActive() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_is_active");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	
+	*/
+	void _setPlaying(in bool enable)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(enable);
+		String _GODOT_method_name = String("_set_playing");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	long getAreaMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
+		return ptrcall!(long)(_classBinding.getAreaMask, _godot_object);
+	}
+	/**
+	
+	*/
+	double getAttenuation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getAttenuation, _godot_object);
+	}
+	/**
+	
+	*/
+	String getBus() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBus, _godot_object);
+	}
+	/**
+	
+	*/
+	double getMaxDistance() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMaxDistance, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPitchScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPitchScale, _godot_object);
+	}
+	/**
+	Returns the position in the $(D AudioStream).
+	*/
+	double getPlaybackPosition()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPlaybackPosition, _godot_object);
 	}
 	/**
 	
@@ -101,10 +167,18 @@ public:
 	/**
 	
 	*/
-	void setVolumeDb(in double volume_db)
+	bool getStreamPaused() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume_db);
+		return ptrcall!(bool)(_classBinding.getStreamPaused, _godot_object);
+	}
+	/**
+	Returns the $(D AudioStreamPlayback) object associated with this $(D AudioStreamPlayer2D).
+	*/
+	Ref!AudioStreamPlayback getStreamPlayback()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
 	}
 	/**
 	
@@ -117,21 +191,21 @@ public:
 	/**
 	
 	*/
-	void setPitchScale(in double pitch_scale)
+	bool isAutoplayEnabled()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPitchScale, _godot_object, pitch_scale);
+		return ptrcall!(bool)(_classBinding.isAutoplayEnabled, _godot_object);
 	}
 	/**
 	
 	*/
-	double getPitchScale() const
+	bool isPlaying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPitchScale, _godot_object);
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
 	}
 	/**
-	Plays the audio from the given position 'from_position', in seconds.
+	Plays the audio from the given position `from_position`, in seconds.
 	*/
 	void play(in double from_position = 0)
 	{
@@ -147,95 +221,12 @@ public:
 		ptrcall!(void)(_classBinding.seek, _godot_object, to_position);
 	}
 	/**
-	Stops the audio.
-	*/
-	void stop()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
-	}
-	/**
 	
 	*/
-	bool isPlaying() const
+	void setAreaMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
-	}
-	/**
-	Returns the position in the $(D AudioStream).
-	*/
-	double getPlaybackPosition()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPlaybackPosition, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBus(in String bus)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
-	}
-	/**
-	
-	*/
-	String getBus() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBus, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAutoplay(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isAutoplayEnabled()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAutoplayEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void _setPlaying(in bool enable)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(enable);
-		String _GODOT_method_name = String("_set_playing");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	bool _isActive() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_is_active");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
-	}
-	/**
-	
-	*/
-	void setMaxDistance(in double pixels)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxDistance, _godot_object, pixels);
-	}
-	/**
-	
-	*/
-	double getMaxDistance() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMaxDistance, _godot_object);
+		ptrcall!(void)(_classBinding.setAreaMask, _godot_object, mask);
 	}
 	/**
 	
@@ -248,26 +239,42 @@ public:
 	/**
 	
 	*/
-	double getAttenuation() const
+	void setAutoplay(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAttenuation, _godot_object);
+		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	void setAreaMask(in long mask)
+	void setBus(in String bus)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAreaMask, _godot_object, mask);
+		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
 	}
 	/**
 	
 	*/
-	long getAreaMask() const
+	void setMaxDistance(in double pixels)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAreaMask, _godot_object);
+		ptrcall!(void)(_classBinding.setMaxDistance, _godot_object, pixels);
+	}
+	/**
+	
+	*/
+	void setPitchScale(in double pitch_scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPitchScale, _godot_object, pitch_scale);
+	}
+	/**
+	
+	*/
+	void setStream(AudioStream stream)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
 	}
 	/**
 	
@@ -280,51 +287,78 @@ public:
 	/**
 	
 	*/
-	bool getStreamPaused() const
+	void setVolumeDb(in double volume_db)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getStreamPaused, _godot_object);
+		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume_db);
 	}
 	/**
-	
+	Stops the audio.
 	*/
-	Ref!AudioStreamPlayback getStreamPlayback()
+	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
 	/**
-	
+	Areas in which this sound plays.
 	*/
-	void _busLayoutChanged()
+	@property long areaMask()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_bus_layout_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	The $(D AudioStream) object to be played.
-	*/
-	@property AudioStream stream()
-	{
-		return getStream();
+		return getAreaMask();
 	}
 	/// ditto
-	@property void stream(AudioStream v)
+	@property void areaMask(long v)
 	{
-		setStream(v);
+		setAreaMask(v);
 	}
 	/**
-	Base volume without dampening.
+	Dampens audio over distance with this as an exponent.
 	*/
-	@property double volumeDb()
+	@property double attenuation()
 	{
-		return getVolumeDb();
+		return getAttenuation();
 	}
 	/// ditto
-	@property void volumeDb(double v)
+	@property void attenuation(double v)
 	{
-		setVolumeDb(v);
+		setAttenuation(v);
+	}
+	/**
+	If `true`, audio plays when added to scene tree.
+	*/
+	@property bool autoplay()
+	{
+		return isAutoplayEnabled();
+	}
+	/// ditto
+	@property void autoplay(bool v)
+	{
+		setAutoplay(v);
+	}
+	/**
+	Bus on which this audio is playing.
+	*/
+	@property String bus()
+	{
+		return getBus();
+	}
+	/// ditto
+	@property void bus(String v)
+	{
+		setBus(v);
+	}
+	/**
+	Maximum distance from which audio is still hearable.
+	*/
+	@property double maxDistance()
+	{
+		return getMaxDistance();
+	}
+	/// ditto
+	@property void maxDistance(double v)
+	{
+		setMaxDistance(v);
 	}
 	/**
 	Changes the pitch and the tempo of the audio.
@@ -351,19 +385,19 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	If `true`, audio plays when added to scene tree. Default value: `false`.
+	The $(D AudioStream) object to be played.
 	*/
-	@property bool autoplay()
+	@property AudioStream stream()
 	{
-		return isAutoplayEnabled();
+		return getStream();
 	}
 	/// ditto
-	@property void autoplay(bool v)
+	@property void stream(AudioStream v)
 	{
-		setAutoplay(v);
+		setStream(v);
 	}
 	/**
-	
+	If `true`, the playback is paused. You can resume it by setting `stream_paused` to `false`.
 	*/
 	@property bool streamPaused()
 	{
@@ -375,51 +409,15 @@ public:
 		setStreamPaused(v);
 	}
 	/**
-	Maximum distance from which audio is still hearable.
+	Base volume without dampening.
 	*/
-	@property double maxDistance()
+	@property double volumeDb()
 	{
-		return getMaxDistance();
+		return getVolumeDb();
 	}
 	/// ditto
-	@property void maxDistance(double v)
+	@property void volumeDb(double v)
 	{
-		setMaxDistance(v);
-	}
-	/**
-	Dampens audio over distance with this as an exponent.
-	*/
-	@property double attenuation()
-	{
-		return getAttenuation();
-	}
-	/// ditto
-	@property void attenuation(double v)
-	{
-		setAttenuation(v);
-	}
-	/**
-	Bus on which this audio is playing.
-	*/
-	@property String bus()
-	{
-		return getBus();
-	}
-	/// ditto
-	@property void bus(String v)
-	{
-		setBus(v);
-	}
-	/**
-	Areas in which this sound plays.
-	*/
-	@property long areaMask()
-	{
-		return getAreaMask();
-	}
-	/// ditto
-	@property void areaMask(long v)
-	{
-		setAreaMask(v);
+		setVolumeDb(v);
 	}
 }

@@ -1,5 +1,5 @@
 /**
-Base class for all 2D Shapes.
+Base class for all 2D shapes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.resource;
 import godot.reference;
 /**
-Base class for all 2D Shapes.
+Base class for all 2D shapes.
 
 All 2D shape types inherit from this.
 */
@@ -38,12 +38,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_custom_solver_bias") GodotMethod!(void, double) setCustomSolverBias;
-		@GodotName("get_custom_solver_bias") GodotMethod!(double) getCustomSolverBias;
 		@GodotName("collide") GodotMethod!(bool, Transform2D, Shape2D, Transform2D) collide;
-		@GodotName("collide_with_motion") GodotMethod!(bool, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotion;
 		@GodotName("collide_and_get_contacts") GodotMethod!(Array, Transform2D, Shape2D, Transform2D) collideAndGetContacts;
+		@GodotName("collide_with_motion") GodotMethod!(bool, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotion;
 		@GodotName("collide_with_motion_and_get_contacts") GodotMethod!(Array, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotionAndGetContacts;
+		@GodotName("get_custom_solver_bias") GodotMethod!(double) getCustomSolverBias;
+		@GodotName("set_custom_solver_bias") GodotMethod!(void, double) setCustomSolverBias;
 	}
 	bool opEquals(in Shape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Shape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,22 +58,6 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
-	*/
-	void setCustomSolverBias(in double bias)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomSolverBias, _godot_object, bias);
-	}
-	/**
-	
-	*/
-	double getCustomSolverBias() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCustomSolverBias, _godot_object);
-	}
-	/**
 	Returns `true` if this shape is colliding with another.
 	This method needs the transformation matrix for this shape (`local_xform`), the shape to check collisions with (`with_shape`), and the transformation matrix of that shape (`shape_xform`).
 	*/
@@ -83,15 +67,6 @@ public:
 		return ptrcall!(bool)(_classBinding.collide, _godot_object, local_xform, with_shape, shape_xform);
 	}
 	/**
-	Return whether this shape would collide with another, if a given movement was applied.
-	This method needs the transformation matrix for this shape (`local_xform`), the movement to test on this shape (`local_motion`), the shape to check collisions with (`with_shape`), the transformation matrix of that shape (`shape_xform`), and the movement to test onto the other object (`shape_motion`).
-	*/
-	bool collideWithMotion(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.collideWithMotion, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
-	}
-	/**
 	Returns a list of the points where this shape touches another. If there are no collisions the list is empty.
 	This method needs the transformation matrix for this shape (`local_xform`), the shape to check collisions with (`with_shape`), and the transformation matrix of that shape (`shape_xform`).
 	*/
@@ -99,6 +74,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.collideAndGetContacts, _godot_object, local_xform, with_shape, shape_xform);
+	}
+	/**
+	Returns whether this shape would collide with another, if a given movement was applied.
+	This method needs the transformation matrix for this shape (`local_xform`), the movement to test on this shape (`local_motion`), the shape to check collisions with (`with_shape`), the transformation matrix of that shape (`shape_xform`), and the movement to test onto the other object (`shape_motion`).
+	*/
+	bool collideWithMotion(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.collideWithMotion, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
 	}
 	/**
 	Returns a list of the points where this shape would touch another, if a given movement was applied. If there are no collisions the list is empty.
@@ -111,6 +95,22 @@ public:
 	}
 	/**
 	
+	*/
+	double getCustomSolverBias() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getCustomSolverBias, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCustomSolverBias(in double bias)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomSolverBias, _godot_object, bias);
+	}
+	/**
+	The shape's custom solver bias.
 	*/
 	@property double customSolverBias()
 	{

@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.image;
-import godot.reference;
 /**
 Noise generator based on Open Simplex.
 
@@ -57,23 +56,24 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_seed") GodotMethod!(long) getSeed;
-		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
-		@GodotName("set_octaves") GodotMethod!(void, long) setOctaves;
-		@GodotName("get_octaves") GodotMethod!(long) getOctaves;
-		@GodotName("set_period") GodotMethod!(void, double) setPeriod;
-		@GodotName("get_period") GodotMethod!(double) getPeriod;
-		@GodotName("set_persistence") GodotMethod!(void, double) setPersistence;
-		@GodotName("get_persistence") GodotMethod!(double) getPersistence;
-		@GodotName("set_lacunarity") GodotMethod!(void, double) setLacunarity;
-		@GodotName("get_lacunarity") GodotMethod!(double) getLacunarity;
 		@GodotName("get_image") GodotMethod!(Image, long, long) getImage;
-		@GodotName("get_seamless_image") GodotMethod!(Image, long) getSeamlessImage;
+		@GodotName("get_lacunarity") GodotMethod!(double) getLacunarity;
+		@GodotName("get_noise_1d") GodotMethod!(double, double) getNoise1d;
 		@GodotName("get_noise_2d") GodotMethod!(double, double, double) getNoise2d;
-		@GodotName("get_noise_3d") GodotMethod!(double, double, double, double) getNoise3d;
-		@GodotName("get_noise_4d") GodotMethod!(double, double, double, double, double) getNoise4d;
 		@GodotName("get_noise_2dv") GodotMethod!(double, Vector2) getNoise2dv;
+		@GodotName("get_noise_3d") GodotMethod!(double, double, double, double) getNoise3d;
 		@GodotName("get_noise_3dv") GodotMethod!(double, Vector3) getNoise3dv;
+		@GodotName("get_noise_4d") GodotMethod!(double, double, double, double, double) getNoise4d;
+		@GodotName("get_octaves") GodotMethod!(long) getOctaves;
+		@GodotName("get_period") GodotMethod!(double) getPeriod;
+		@GodotName("get_persistence") GodotMethod!(double) getPersistence;
+		@GodotName("get_seamless_image") GodotMethod!(Image, long) getSeamlessImage;
+		@GodotName("get_seed") GodotMethod!(long) getSeed;
+		@GodotName("set_lacunarity") GodotMethod!(void, double) setLacunarity;
+		@GodotName("set_octaves") GodotMethod!(void, long) setOctaves;
+		@GodotName("set_period") GodotMethod!(void, double) setPeriod;
+		@GodotName("set_persistence") GodotMethod!(void, double) setPersistence;
+		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
 	}
 	bool opEquals(in OpenSimplexNoise other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	OpenSimplexNoise opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -88,76 +88,12 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Generate a noise image with the requested `width` and `height`, based on the current noise parameters.
 	*/
-	long getSeed()
+	Ref!Image getImage(in long width, in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSeed, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSeed(in long seed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
-	}
-	/**
-	
-	*/
-	void setOctaves(in long octave_count)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctaves, _godot_object, octave_count);
-	}
-	/**
-	
-	*/
-	long getOctaves() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOctaves, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPeriod(in double period)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPeriod, _godot_object, period);
-	}
-	/**
-	
-	*/
-	double getPeriod() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPeriod, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPersistence(in double persistence)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPersistence, _godot_object, persistence);
-	}
-	/**
-	
-	*/
-	double getPersistence() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPersistence, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLacunarity(in double lacunarity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLacunarity, _godot_object, lacunarity);
+		return ptrcall!(Image)(_classBinding.getImage, _godot_object, width, height);
 	}
 	/**
 	
@@ -168,20 +104,13 @@ public:
 		return ptrcall!(double)(_classBinding.getLacunarity, _godot_object);
 	}
 	/**
-	Generate a noise image with the requested `width` and `height`, based on the current noise parameters.
+	Returns the 1D noise value `$(D -1,1)` at the given x-coordinate.
+	$(B Note:) This method actually returns the 2D noise value `$(D -1,1)` with fixed y-coordinate value 0.0.
 	*/
-	Ref!Image getImage(in long width, in long height)
+	double getNoise1d(in double x)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getImage, _godot_object, width, height);
-	}
-	/**
-	Generate a tileable noise image, based on the current noise parameters. Generated seamless images are always square (`size` x `size`).
-	*/
-	Ref!Image getSeamlessImage(in long size)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getSeamlessImage, _godot_object, size);
+		return ptrcall!(double)(_classBinding.getNoise1d, _godot_object, x);
 	}
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
@@ -190,22 +119,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getNoise2d, _godot_object, x, y);
-	}
-	/**
-	Returns the 3D noise value `$(D -1,1)` at the given position.
-	*/
-	double getNoise3d(in double x, in double y, in double z)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise3d, _godot_object, x, y, z);
-	}
-	/**
-	Returns the 4D noise value `$(D -1,1)` at the given position.
-	*/
-	double getNoise4d(in double x, in double y, in double z, in double w)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise4d, _godot_object, x, y, z, w);
 	}
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
@@ -218,22 +131,118 @@ public:
 	/**
 	Returns the 3D noise value `$(D -1,1)` at the given position.
 	*/
+	double getNoise3d(in double x, in double y, in double z)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getNoise3d, _godot_object, x, y, z);
+	}
+	/**
+	Returns the 3D noise value `$(D -1,1)` at the given position.
+	*/
 	double getNoise3dv(in Vector3 pos)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getNoise3dv, _godot_object, pos);
 	}
 	/**
-	Seed used to generate random values, different seeds will generate different noise maps.
+	Returns the 4D noise value `$(D -1,1)` at the given position.
 	*/
-	@property long seed()
+	double getNoise4d(in double x, in double y, in double z, in double w)
 	{
-		return getSeed();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getNoise4d, _godot_object, x, y, z, w);
+	}
+	/**
+	
+	*/
+	long getOctaves() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getOctaves, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPeriod() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPeriod, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPersistence() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPersistence, _godot_object);
+	}
+	/**
+	Generate a tileable noise image, based on the current noise parameters. Generated seamless images are always square (`size` × `size`).
+	*/
+	Ref!Image getSeamlessImage(in long size)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.getSeamlessImage, _godot_object, size);
+	}
+	/**
+	
+	*/
+	long getSeed()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSeed, _godot_object);
+	}
+	/**
+	
+	*/
+	void setLacunarity(in double lacunarity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLacunarity, _godot_object, lacunarity);
+	}
+	/**
+	
+	*/
+	void setOctaves(in long octave_count)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOctaves, _godot_object, octave_count);
+	}
+	/**
+	
+	*/
+	void setPeriod(in double period)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPeriod, _godot_object, period);
+	}
+	/**
+	
+	*/
+	void setPersistence(in double persistence)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPersistence, _godot_object, persistence);
+	}
+	/**
+	
+	*/
+	void setSeed(in long seed)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
+	}
+	/**
+	Difference in period between $(D octaves).
+	*/
+	@property double lacunarity()
+	{
+		return getLacunarity();
 	}
 	/// ditto
-	@property void seed(long v)
+	@property void lacunarity(double v)
 	{
-		setSeed(v);
+		setLacunarity(v);
 	}
 	/**
 	Number of OpenSimplex noise layers that are sampled to get the fractal noise.
@@ -272,15 +281,15 @@ public:
 		setPersistence(v);
 	}
 	/**
-	Difference in period between $(D octaves).
+	Seed used to generate random values, different seeds will generate different noise maps.
 	*/
-	@property double lacunarity()
+	@property long seed()
 	{
-		return getLacunarity();
+		return getSeed();
 	}
 	/// ditto
-	@property void lacunarity(double v)
+	@property void seed(long v)
 	{
-		setLacunarity(v);
+		setSeed(v);
 	}
 }

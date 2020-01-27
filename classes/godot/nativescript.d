@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.script;
 import godot.gdnativelibrary;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -39,19 +37,19 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_class_name") GodotMethod!(void, String) setClassName;
-		@GodotName("get_class_name") GodotMethod!(String) getClassName;
-		@GodotName("set_library") GodotMethod!(void, GDNativeLibrary) setLibrary;
-		@GodotName("get_library") GodotMethod!(GDNativeLibrary) getLibrary;
-		@GodotName("set_script_class_name") GodotMethod!(void, String) setScriptClassName;
-		@GodotName("get_script_class_name") GodotMethod!(String) getScriptClassName;
-		@GodotName("set_script_class_icon_path") GodotMethod!(void, String) setScriptClassIconPath;
-		@GodotName("get_script_class_icon_path") GodotMethod!(String) getScriptClassIconPath;
 		@GodotName("get_class_documentation") GodotMethod!(String) getClassDocumentation;
+		@GodotName("get_class_name") GodotMethod!(String) getClassName;
+		@GodotName("get_library") GodotMethod!(GDNativeLibrary) getLibrary;
 		@GodotName("get_method_documentation") GodotMethod!(String, String) getMethodDocumentation;
-		@GodotName("get_signal_documentation") GodotMethod!(String, String) getSignalDocumentation;
 		@GodotName("get_property_documentation") GodotMethod!(String, String) getPropertyDocumentation;
-		@GodotName("new") GodotMethod!(GodotObject, GodotVarArgs) _new;
+		@GodotName("get_script_class_icon_path") GodotMethod!(String) getScriptClassIconPath;
+		@GodotName("get_script_class_name") GodotMethod!(String) getScriptClassName;
+		@GodotName("get_signal_documentation") GodotMethod!(String, String) getSignalDocumentation;
+		@GodotName("new") GodotMethod!(Variant, GodotVarArgs) _new;
+		@GodotName("set_class_name") GodotMethod!(void, String) setClassName;
+		@GodotName("set_library") GodotMethod!(void, GDNativeLibrary) setLibrary;
+		@GodotName("set_script_class_icon_path") GodotMethod!(void, String) setScriptClassIconPath;
+		@GodotName("set_script_class_name") GodotMethod!(void, String) setScriptClassName;
 	}
 	bool opEquals(in NativeScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	NativeScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,12 +64,12 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Returns the documentation string that was previously set with `godot_nativescript_set_class_documentation`.
 	*/
-	void setClassName(in String class_name)
+	String getClassDocumentation() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClassName, _godot_object, class_name);
+		return ptrcall!(String)(_classBinding.getClassDocumentation, _godot_object);
 	}
 	/**
 	
@@ -84,26 +82,34 @@ public:
 	/**
 	
 	*/
-	void setLibrary(GDNativeLibrary library)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
-	}
-	/**
-	
-	*/
 	Ref!GDNativeLibrary getLibrary() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GDNativeLibrary)(_classBinding.getLibrary, _godot_object);
 	}
 	/**
-	
+	Returns the documentation string that was previously set with `godot_nativescript_set_method_documentation`.
 	*/
-	void setScriptClassName(in String class_name)
+	String getMethodDocumentation(in String method) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScriptClassName, _godot_object, class_name);
+		return ptrcall!(String)(_classBinding.getMethodDocumentation, _godot_object, method);
+	}
+	/**
+	Returns the documentation string that was previously set with `godot_nativescript_set_property_documentation`.
+	*/
+	String getPropertyDocumentation(in String path) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getPropertyDocumentation, _godot_object, path);
+	}
+	/**
+	
+	*/
+	String getScriptClassIconPath() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getScriptClassIconPath, _godot_object);
 	}
 	/**
 	
@@ -112,6 +118,44 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getScriptClassName, _godot_object);
+	}
+	/**
+	Returns the documentation string that was previously set with `godot_nativescript_set_signal_documentation`.
+	*/
+	String getSignalDocumentation(in String signal_name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSignalDocumentation, _godot_object, signal_name);
+	}
+	/**
+	Constructs a new object of the base type with a script of this type already attached.
+	$(I Note): Any arguments passed to this function will be ignored and not passed to the native constructor function. This will change with in a future API extension.
+	*/
+	Variant _new(VarArgs...)(VarArgs varArgs)
+	{
+		Array _GODOT_args = Array.make();
+		foreach(vai, VA; VarArgs)
+		{
+			_GODOT_args.append(varArgs[vai]);
+		}
+		String _GODOT_method_name = String("new");
+		return this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void setClassName(in String class_name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClassName, _godot_object, class_name);
+	}
+	/**
+	
+	*/
+	void setLibrary(GDNativeLibrary library)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
 	}
 	/**
 	
@@ -124,56 +168,10 @@ public:
 	/**
 	
 	*/
-	String getScriptClassIconPath() const
+	void setScriptClassName(in String class_name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getScriptClassIconPath, _godot_object);
-	}
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_class_documentation`.
-	*/
-	String getClassDocumentation() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getClassDocumentation, _godot_object);
-	}
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_method_documentation`.
-	*/
-	String getMethodDocumentation(in String method) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getMethodDocumentation, _godot_object, method);
-	}
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_signal_documentation`.
-	*/
-	String getSignalDocumentation(in String signal_name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSignalDocumentation, _godot_object, signal_name);
-	}
-	/**
-	Returns the documentation string that was previously set with `godot_nativescript_set_property_documentation`.
-	*/
-	String getPropertyDocumentation(in String path) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPropertyDocumentation, _godot_object, path);
-	}
-	/**
-	Constructs a new object of the base type with a script of this type already attached.
-	$(I Note): Any arguments passed to this function will be ignored and not passed to the native constructor function. This will change with in a future API extension.
-	*/
-	GodotObject _new(VarArgs...)(VarArgs varArgs)
-	{
-		Array _GODOT_args = Array.empty_array;
-		foreach(vai, VA; VarArgs)
-		{
-			_GODOT_args.append(varArgs[vai]);
-		}
-		String _GODOT_method_name = String("new");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+		ptrcall!(void)(_classBinding.setScriptClassName, _godot_object, class_name);
 	}
 	/**
 	
@@ -202,18 +200,6 @@ public:
 	/**
 	
 	*/
-	@property String scriptClassName()
-	{
-		return getScriptClassName();
-	}
-	/// ditto
-	@property void scriptClassName(String v)
-	{
-		setScriptClassName(v);
-	}
-	/**
-	
-	*/
 	@property String scriptClassIconPath()
 	{
 		return getScriptClassIconPath();
@@ -222,5 +208,17 @@ public:
 	@property void scriptClassIconPath(String v)
 	{
 		setScriptClassIconPath(v);
+	}
+	/**
+	
+	*/
+	@property String scriptClassName()
+	{
+		return getScriptClassName();
+	}
+	/// ditto
+	@property void scriptClassName(String v)
+	{
+		setScriptClassName(v);
 	}
 }

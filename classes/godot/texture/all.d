@@ -2,13 +2,15 @@ module godot.texture.all;
 
 public import
 	godot.texture,
-	godot.viewporttexture,
+	godot.animatedtexture,
+	godot.atlastexture,
+	godot.cameratexture,
 	godot.curvetexture,
 	godot.gradienttexture,
-	godot.streamtexture,
 	godot.imagetexture,
-	godot.atlastexture,
 	godot.largetexture,
+	godot.meshtexture,
+	godot.noisetexture,
 	godot.proxytexture,
-	godot.animatedtexture,
-	godot.noisetexture;
+	godot.streamtexture,
+	godot.viewporttexture;

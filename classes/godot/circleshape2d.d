@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
 Circular shape for 2D collisions.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 	}
 	bool opEquals(in CircleShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CircleShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
 	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+	}
+	/**
+	
+	*/
+	void setRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
 	/**
 	The circle's radius.

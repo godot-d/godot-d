@@ -22,10 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.csgprimitive;
 import godot.material;
-import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 A CSG Box shape.
 
@@ -43,14 +39,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_width") GodotMethod!(void, double) setWidth;
-		@GodotName("get_width") GodotMethod!(double) getWidth;
-		@GodotName("set_height") GodotMethod!(void, double) setHeight;
-		@GodotName("get_height") GodotMethod!(double) getHeight;
-		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
 		@GodotName("get_depth") GodotMethod!(double) getDepth;
-		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
 		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+		@GodotName("get_width") GodotMethod!(double) getWidth;
+		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("set_width") GodotMethod!(void, double) setWidth;
 	}
 	bool opEquals(in CSGBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,26 +63,10 @@ public:
 	/**
 	
 	*/
-	void setWidth(in double width)
+	double getDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
-	}
-	/**
-	
-	*/
-	double getWidth() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWidth, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHeight(in double height)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
 	}
 	/**
 	
@@ -99,6 +79,22 @@ public:
 	/**
 	
 	*/
+	Ref!Material getMaterial() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+	}
+	/**
+	
+	*/
+	double getWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWidth, _godot_object);
+	}
+	/**
+	
+	*/
 	void setDepth(in double depth)
 	{
 		checkClassBinding!(typeof(this))();
@@ -107,10 +103,10 @@ public:
 	/**
 	
 	*/
-	double getDepth() const
+	void setHeight(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
 	}
 	/**
 	
@@ -123,22 +119,22 @@ public:
 	/**
 	
 	*/
-	Ref!Material getMaterial() const
+	void setWidth(in double width)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
 	/**
-	Width of the box measured from the center of the box.
+	Depth of the box measured from the center of the box.
 	*/
-	@property double width()
+	@property double depth()
 	{
-		return getWidth();
+		return getDepth();
 	}
 	/// ditto
-	@property void width(double v)
+	@property void depth(double v)
 	{
-		setWidth(v);
+		setDepth(v);
 	}
 	/**
 	Height of the box measured from the center of the box.
@@ -153,15 +149,15 @@ public:
 		setHeight(v);
 	}
 	/**
-	Depth of the box measured from the center of the box.
+	Width of the box measured from the center of the box.
 	*/
-	@property double depth()
+	@property double width()
 	{
-		return getDepth();
+		return getWidth();
 	}
 	/// ditto
-	@property void depth(double v)
+	@property void width(double v)
 	{
-		setDepth(v);
+		setWidth(v);
 	}
 }

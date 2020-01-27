@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.separator;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Horizontal separator.
 
-See $(D Separator). It is used to separate objects vertically, though (but it looks horizontal!).
+See $(D Separator). Even though it looks horizontal, it is used to separate objects vertically.
 */
 @GodotBaseClass struct HSeparator
 {

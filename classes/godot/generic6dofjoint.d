@@ -1,5 +1,5 @@
 /**
-The generic 6 degrees of freedom joint can implement a variety of joint-types by locking certain axes' rotation or translation.
+The generic 6-degrees-of-freedom joint can implement a variety of joint types by locking certain axes' rotation or translation.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint;
-import godot.spatial;
-import godot.node;
 /**
-The generic 6 degrees of freedom joint can implement a variety of joint-types by locking certain axes' rotation or translation.
+The generic 6-degrees-of-freedom joint can implement a variety of joint types by locking certain axes' rotation or translation.
 
 The first 3 DOF axes are linear axes, which represent translation of Bodies, and the latter 3 DOF axes represent the angular motion. Each axis can be either locked, or limited.
 */
@@ -40,32 +38,32 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_set_angular_hi_limit_x") GodotMethod!(void, double) _setAngularHiLimitX;
 		@GodotName("_get_angular_hi_limit_x") GodotMethod!(double) _getAngularHiLimitX;
-		@GodotName("_set_angular_lo_limit_x") GodotMethod!(void, double) _setAngularLoLimitX;
-		@GodotName("_get_angular_lo_limit_x") GodotMethod!(double) _getAngularLoLimitX;
-		@GodotName("_set_angular_hi_limit_y") GodotMethod!(void, double) _setAngularHiLimitY;
 		@GodotName("_get_angular_hi_limit_y") GodotMethod!(double) _getAngularHiLimitY;
-		@GodotName("_set_angular_lo_limit_y") GodotMethod!(void, double) _setAngularLoLimitY;
-		@GodotName("_get_angular_lo_limit_y") GodotMethod!(double) _getAngularLoLimitY;
-		@GodotName("_set_angular_hi_limit_z") GodotMethod!(void, double) _setAngularHiLimitZ;
 		@GodotName("_get_angular_hi_limit_z") GodotMethod!(double) _getAngularHiLimitZ;
-		@GodotName("_set_angular_lo_limit_z") GodotMethod!(void, double) _setAngularLoLimitZ;
+		@GodotName("_get_angular_lo_limit_x") GodotMethod!(double) _getAngularLoLimitX;
+		@GodotName("_get_angular_lo_limit_y") GodotMethod!(double) _getAngularLoLimitY;
 		@GodotName("_get_angular_lo_limit_z") GodotMethod!(double) _getAngularLoLimitZ;
-		@GodotName("set_param_x") GodotMethod!(void, long, double) setParamX;
-		@GodotName("get_param_x") GodotMethod!(double, long) getParamX;
-		@GodotName("set_param_y") GodotMethod!(void, long, double) setParamY;
-		@GodotName("get_param_y") GodotMethod!(double, long) getParamY;
-		@GodotName("set_param_z") GodotMethod!(void, long, double) setParamZ;
-		@GodotName("get_param_z") GodotMethod!(double, long) getParamZ;
-		@GodotName("set_flag_x") GodotMethod!(void, long, bool) setFlagX;
+		@GodotName("_set_angular_hi_limit_x") GodotMethod!(void, double) _setAngularHiLimitX;
+		@GodotName("_set_angular_hi_limit_y") GodotMethod!(void, double) _setAngularHiLimitY;
+		@GodotName("_set_angular_hi_limit_z") GodotMethod!(void, double) _setAngularHiLimitZ;
+		@GodotName("_set_angular_lo_limit_x") GodotMethod!(void, double) _setAngularLoLimitX;
+		@GodotName("_set_angular_lo_limit_y") GodotMethod!(void, double) _setAngularLoLimitY;
+		@GodotName("_set_angular_lo_limit_z") GodotMethod!(void, double) _setAngularLoLimitZ;
 		@GodotName("get_flag_x") GodotMethod!(bool, long) getFlagX;
-		@GodotName("set_flag_y") GodotMethod!(void, long, bool) setFlagY;
 		@GodotName("get_flag_y") GodotMethod!(bool, long) getFlagY;
-		@GodotName("set_flag_z") GodotMethod!(void, long, bool) setFlagZ;
 		@GodotName("get_flag_z") GodotMethod!(bool, long) getFlagZ;
-		@GodotName("set_precision") GodotMethod!(void, long) setPrecision;
+		@GodotName("get_param_x") GodotMethod!(double, long) getParamX;
+		@GodotName("get_param_y") GodotMethod!(double, long) getParamY;
+		@GodotName("get_param_z") GodotMethod!(double, long) getParamZ;
 		@GodotName("get_precision") GodotMethod!(long) getPrecision;
+		@GodotName("set_flag_x") GodotMethod!(void, long, bool) setFlagX;
+		@GodotName("set_flag_y") GodotMethod!(void, long, bool) setFlagY;
+		@GodotName("set_flag_z") GodotMethod!(void, long, bool) setFlagZ;
+		@GodotName("set_param_x") GodotMethod!(void, long, double) setParamX;
+		@GodotName("set_param_y") GodotMethod!(void, long, double) setParamY;
+		@GodotName("set_param_z") GodotMethod!(void, long, double) setParamZ;
+		@GodotName("set_precision") GodotMethod!(void, long) setPrecision;
 	}
 	bool opEquals(in Generic6DOFJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Generic6DOFJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -91,11 +89,11 @@ public:
 		*/
 		paramLinearUpperLimit = 1,
 		/**
-		A factor applied to the movement across the axes The lower, the slower the movement.
+		A factor applied to the movement across the axes. The lower, the slower the movement.
 		*/
 		paramLinearLimitSoftness = 2,
 		/**
-		The amount of restitution on the axes movement The lower, the more momentum gets lost.
+		The amount of restitution on the axes' movement. The lower, the more momentum gets lost.
 		*/
 		paramLinearRestitution = 3,
 		/**
@@ -147,7 +145,7 @@ public:
 		*/
 		paramAngularMotorForceLimit = 18,
 		/**
-		End flag of PARAM_* constants, used internally.
+		Represents the size of the $(D param) enum.
 		*/
 		paramMax = 22,
 	}
@@ -155,11 +153,11 @@ public:
 	enum Flag : int
 	{
 		/**
-		If `set` there is linear motion possible within the given limits.
+		If enabled, linear motion is possible within the given limits.
 		*/
 		flagEnableLinearLimit = 0,
 		/**
-		If `set` there is rotational motion possible.
+		If enabled, rotational motion is possible within the given limits.
 		*/
 		flagEnableAngularLimit = 1,
 		/**
@@ -171,23 +169,23 @@ public:
 		*/
 		flagEnableLinearSpring = 3,
 		/**
-		If `set` there is a rotational motor across these axes.
+		If enabled, there is a rotational motor across these axes.
 		*/
 		flagEnableMotor = 4,
 		/**
-		
+		If enabled, there is a linear motor across these axes.
 		*/
 		flagEnableLinearMotor = 5,
 		/**
-		End flag of FLAG_* constants, used internally.
+		Represents the size of the $(D flag) enum.
 		*/
 		flagMax = 6,
 	}
 	/// 
 	enum Constants : int
 	{
-		flagEnableLinearLimit = 0,
 		paramLinearLowerLimit = 0,
+		flagEnableLinearLimit = 0,
 		flagEnableAngularLimit = 1,
 		paramLinearUpperLimit = 1,
 		paramLinearLimitSoftness = 2,
@@ -198,8 +196,8 @@ public:
 		paramLinearDamping = 4,
 		flagEnableLinearMotor = 5,
 		paramLinearMotorTargetVelocity = 5,
-		flagMax = 6,
 		paramLinearMotorForceLimit = 6,
+		flagMax = 6,
 		paramAngularLowerLimit = 10,
 		paramAngularUpperLimit = 11,
 		paramAngularLimitSoftness = 12,
@@ -214,9 +212,63 @@ public:
 	/**
 	
 	*/
+	double _getAngularHiLimitX() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_hi_limit_x");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getAngularHiLimitY() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_hi_limit_y");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getAngularHiLimitZ() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_hi_limit_z");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getAngularLoLimitX() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_lo_limit_x");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getAngularLoLimitY() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_lo_limit_y");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	double _getAngularLoLimitZ() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_angular_lo_limit_z");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
 	void _setAngularHiLimitX(in double angle)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(angle);
 		String _GODOT_method_name = String("_set_angular_hi_limit_x");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -224,37 +276,9 @@ public:
 	/**
 	
 	*/
-	double _getAngularHiLimitX() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_hi_limit_x");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
-	void _setAngularLoLimitX(in double angle)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(angle);
-		String _GODOT_method_name = String("_set_angular_lo_limit_x");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	double _getAngularLoLimitX() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_lo_limit_x");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
 	void _setAngularHiLimitY(in double angle)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(angle);
 		String _GODOT_method_name = String("_set_angular_hi_limit_y");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -262,37 +286,9 @@ public:
 	/**
 	
 	*/
-	double _getAngularHiLimitY() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_hi_limit_y");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
-	void _setAngularLoLimitY(in double angle)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(angle);
-		String _GODOT_method_name = String("_set_angular_lo_limit_y");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	double _getAngularLoLimitY() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_lo_limit_y");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
 	void _setAngularHiLimitZ(in double angle)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(angle);
 		String _GODOT_method_name = String("_set_angular_hi_limit_z");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -300,86 +296,32 @@ public:
 	/**
 	
 	*/
-	double _getAngularHiLimitZ() const
+	void _setAngularLoLimitX(in double angle)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_hi_limit_z");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(angle);
+		String _GODOT_method_name = String("_set_angular_lo_limit_x");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setAngularLoLimitY(in double angle)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(angle);
+		String _GODOT_method_name = String("_set_angular_lo_limit_y");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
 	void _setAngularLoLimitZ(in double angle)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(angle);
 		String _GODOT_method_name = String("_set_angular_lo_limit_z");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	double _getAngularLoLimitZ() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_angular_lo_limit_z");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
-	
-	*/
-	void setParamX(in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamX, _godot_object, param, value);
-	}
-	/**
-	
-	*/
-	double getParamX(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamX, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamY(in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamY, _godot_object, param, value);
-	}
-	/**
-	
-	*/
-	double getParamY(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamY, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamZ(in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamZ, _godot_object, param, value);
-	}
-	/**
-	
-	*/
-	double getParamZ(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamZ, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setFlagX(in long flag, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagX, _godot_object, flag, value);
 	}
 	/**
 	
@@ -392,26 +334,10 @@ public:
 	/**
 	
 	*/
-	void setFlagY(in long flag, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagY, _godot_object, flag, value);
-	}
-	/**
-	
-	*/
 	bool getFlagY(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getFlagY, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void setFlagZ(in long flag, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagZ, _godot_object, flag, value);
 	}
 	/**
 	
@@ -424,10 +350,26 @@ public:
 	/**
 	
 	*/
-	void setPrecision(in long precision)
+	double getParamX(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPrecision, _godot_object, precision);
+		return ptrcall!(double)(_classBinding.getParamX, _godot_object, param);
+	}
+	/**
+	
+	*/
+	double getParamY(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParamY, _godot_object, param);
+	}
+	/**
+	
+	*/
+	double getParamZ(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParamZ, _godot_object, param);
 	}
 	/**
 	
@@ -438,223 +380,63 @@ public:
 		return ptrcall!(long)(_classBinding.getPrecision, _godot_object);
 	}
 	/**
-	If `true`, the linear motion across the x-axis is limited.
+	
 	*/
-	@property bool linearLimitXEnabled()
+	void setFlagX(in long flag, in bool value)
 	{
-		return getFlagX(0);
-	}
-	/// ditto
-	@property void linearLimitXEnabled(bool v)
-	{
-		setFlagX(0, v);
-	}
-	/**
-	The maximum difference between the pivot points' x-axis.
-	*/
-	@property double linearLimitXUpperDistance()
-	{
-		return getParamX(1);
-	}
-	/// ditto
-	@property void linearLimitXUpperDistance(double v)
-	{
-		setParamX(1, v);
-	}
-	/**
-	The minimum difference between the pivot points' x-axis.
-	*/
-	@property double linearLimitXLowerDistance()
-	{
-		return getParamX(0);
-	}
-	/// ditto
-	@property void linearLimitXLowerDistance(double v)
-	{
-		setParamX(0, v);
-	}
-	/**
-	A factor applied to the movement across the x-axis The lower, the slower the movement.
-	*/
-	@property double linearLimitXSoftness()
-	{
-		return getParamX(2);
-	}
-	/// ditto
-	@property void linearLimitXSoftness(double v)
-	{
-		setParamX(2, v);
-	}
-	/**
-	The amount of restitution on the x-axis movement The lower, the more momentum gets lost.
-	*/
-	@property double linearLimitXRestitution()
-	{
-		return getParamX(3);
-	}
-	/// ditto
-	@property void linearLimitXRestitution(double v)
-	{
-		setParamX(3, v);
-	}
-	/**
-	The amount of damping that happens at the x-motion.
-	*/
-	@property double linearLimitXDamping()
-	{
-		return getParamX(4);
-	}
-	/// ditto
-	@property void linearLimitXDamping(double v)
-	{
-		setParamX(4, v);
-	}
-	/**
-	If `true`, then there is a linear motor on the x-axis. It will attempt to reach the target velocity while staying within the force limits.
-	*/
-	@property bool linearMotorXEnabled()
-	{
-		return getFlagX(5);
-	}
-	/// ditto
-	@property void linearMotorXEnabled(bool v)
-	{
-		setFlagX(5, v);
-	}
-	/**
-	The speed that the linear motor will attempt to reach on the x-axis.
-	*/
-	@property double linearMotorXTargetVelocity()
-	{
-		return getParamX(5);
-	}
-	/// ditto
-	@property void linearMotorXTargetVelocity(double v)
-	{
-		setParamX(5, v);
-	}
-	/**
-	The maximum force the linear motor can apply on the x-axis while trying to reach the target velocity.
-	*/
-	@property double linearMotorXForceLimit()
-	{
-		return getParamX(6);
-	}
-	/// ditto
-	@property void linearMotorXForceLimit(double v)
-	{
-		setParamX(6, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlagX, _godot_object, flag, value);
 	}
 	/**
 	
 	*/
-	@property bool linearSpringXEnabled()
+	void setFlagY(in long flag, in bool value)
 	{
-		return getFlagX(3);
-	}
-	/// ditto
-	@property void linearSpringXEnabled(bool v)
-	{
-		setFlagX(3, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlagY, _godot_object, flag, value);
 	}
 	/**
 	
 	*/
-	@property double linearSpringXStiffness()
+	void setFlagZ(in long flag, in bool value)
 	{
-		return getParamX(7);
-	}
-	/// ditto
-	@property void linearSpringXStiffness(double v)
-	{
-		setParamX(7, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlagZ, _godot_object, flag, value);
 	}
 	/**
 	
 	*/
-	@property double linearSpringXDamping()
+	void setParamX(in long param, in double value)
 	{
-		return getParamX(8);
-	}
-	/// ditto
-	@property void linearSpringXDamping(double v)
-	{
-		setParamX(8, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamX, _godot_object, param, value);
 	}
 	/**
 	
 	*/
-	@property double linearSpringXEquilibriumPoint()
+	void setParamY(in long param, in double value)
 	{
-		return getParamX(9);
-	}
-	/// ditto
-	@property void linearSpringXEquilibriumPoint(double v)
-	{
-		setParamX(9, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamY, _godot_object, param, value);
 	}
 	/**
-	If `true`, rotation across the x-axis is limited.
+	
 	*/
-	@property bool angularLimitXEnabled()
+	void setParamZ(in long param, in double value)
 	{
-		return getFlagX(1);
-	}
-	/// ditto
-	@property void angularLimitXEnabled(bool v)
-	{
-		setFlagX(1, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamZ, _godot_object, param, value);
 	}
 	/**
-	The minimum rotation in positive direction to break loose and rotate around the x-axis.
+	
 	*/
-	@property double angularLimitXUpperAngle()
+	void setPrecision(in long precision)
 	{
-		return _getAngularHiLimitX();
-	}
-	/// ditto
-	@property void angularLimitXUpperAngle(double v)
-	{
-		_setAngularHiLimitX(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPrecision, _godot_object, precision);
 	}
 	/**
-	The minimum rotation in negative direction to break loose and rotate around the x-axis.
-	*/
-	@property double angularLimitXLowerAngle()
-	{
-		return _getAngularLoLimitX();
-	}
-	/// ditto
-	@property void angularLimitXLowerAngle(double v)
-	{
-		_setAngularLoLimitX(v);
-	}
-	/**
-	The speed of all rotations across the x-axis.
-	*/
-	@property double angularLimitXSoftness()
-	{
-		return getParamX(12);
-	}
-	/// ditto
-	@property void angularLimitXSoftness(double v)
-	{
-		setParamX(12, v);
-	}
-	/**
-	The amount of rotational restitution across the x-axis. The lower, the more restitution occurs.
-	*/
-	@property double angularLimitXRestitution()
-	{
-		return getParamX(14);
-	}
-	/// ditto
-	@property void angularLimitXRestitution(double v)
-	{
-		setParamX(14, v);
-	}
-	/**
-	The amount of rotational damping across the x-axis.
+	The amount of rotational damping across the X axis.
 	The lower, the longer an impulse from one side takes to travel to the other side.
 	*/
 	@property double angularLimitXDamping()
@@ -667,19 +449,19 @@ public:
 		setParamX(13, v);
 	}
 	/**
-	The maximum amount of force that can occur, when rotating around x-axis.
+	If `true`, rotation across the X axis is limited.
 	*/
-	@property double angularLimitXForceLimit()
+	@property bool angularLimitXEnabled()
 	{
-		return getParamX(15);
+		return getFlagX(1);
 	}
 	/// ditto
-	@property void angularLimitXForceLimit(double v)
+	@property void angularLimitXEnabled(bool v)
 	{
-		setParamX(15, v);
+		setFlagX(1, v);
 	}
 	/**
-	When rotating across x-axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
+	When rotating across the X axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
 	*/
 	@property double angularLimitXErp()
 	{
@@ -691,7 +473,259 @@ public:
 		setParamX(16, v);
 	}
 	/**
-	If `true`, a rotating motor at the x-axis is enabled.
+	The maximum amount of force that can occur, when rotating around the X axis.
+	*/
+	@property double angularLimitXForceLimit()
+	{
+		return getParamX(15);
+	}
+	/// ditto
+	@property void angularLimitXForceLimit(double v)
+	{
+		setParamX(15, v);
+	}
+	/**
+	The minimum rotation in negative direction to break loose and rotate around the X axis.
+	*/
+	@property double angularLimitXLowerAngle()
+	{
+		return _getAngularLoLimitX();
+	}
+	/// ditto
+	@property void angularLimitXLowerAngle(double v)
+	{
+		_setAngularLoLimitX(v);
+	}
+	/**
+	The amount of rotational restitution across the X axis. The lower, the more restitution occurs.
+	*/
+	@property double angularLimitXRestitution()
+	{
+		return getParamX(14);
+	}
+	/// ditto
+	@property void angularLimitXRestitution(double v)
+	{
+		setParamX(14, v);
+	}
+	/**
+	The speed of all rotations across the X axis.
+	*/
+	@property double angularLimitXSoftness()
+	{
+		return getParamX(12);
+	}
+	/// ditto
+	@property void angularLimitXSoftness(double v)
+	{
+		setParamX(12, v);
+	}
+	/**
+	The minimum rotation in positive direction to break loose and rotate around the X axis.
+	*/
+	@property double angularLimitXUpperAngle()
+	{
+		return _getAngularHiLimitX();
+	}
+	/// ditto
+	@property void angularLimitXUpperAngle(double v)
+	{
+		_setAngularHiLimitX(v);
+	}
+	/**
+	The amount of rotational damping across the Y axis. The lower, the more dampening occurs.
+	*/
+	@property double angularLimitYDamping()
+	{
+		return getParamY(13);
+	}
+	/// ditto
+	@property void angularLimitYDamping(double v)
+	{
+		setParamY(13, v);
+	}
+	/**
+	If `true`, rotation across the Y axis is limited.
+	*/
+	@property bool angularLimitYEnabled()
+	{
+		return getFlagY(1);
+	}
+	/// ditto
+	@property void angularLimitYEnabled(bool v)
+	{
+		setFlagY(1, v);
+	}
+	/**
+	When rotating across the Y axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
+	*/
+	@property double angularLimitYErp()
+	{
+		return getParamY(16);
+	}
+	/// ditto
+	@property void angularLimitYErp(double v)
+	{
+		setParamY(16, v);
+	}
+	/**
+	The maximum amount of force that can occur, when rotating around the Y axis.
+	*/
+	@property double angularLimitYForceLimit()
+	{
+		return getParamY(15);
+	}
+	/// ditto
+	@property void angularLimitYForceLimit(double v)
+	{
+		setParamY(15, v);
+	}
+	/**
+	The minimum rotation in negative direction to break loose and rotate around the Y axis.
+	*/
+	@property double angularLimitYLowerAngle()
+	{
+		return _getAngularLoLimitY();
+	}
+	/// ditto
+	@property void angularLimitYLowerAngle(double v)
+	{
+		_setAngularLoLimitY(v);
+	}
+	/**
+	The amount of rotational restitution across the Y axis. The lower, the more restitution occurs.
+	*/
+	@property double angularLimitYRestitution()
+	{
+		return getParamY(14);
+	}
+	/// ditto
+	@property void angularLimitYRestitution(double v)
+	{
+		setParamY(14, v);
+	}
+	/**
+	The speed of all rotations across the Y axis.
+	*/
+	@property double angularLimitYSoftness()
+	{
+		return getParamY(12);
+	}
+	/// ditto
+	@property void angularLimitYSoftness(double v)
+	{
+		setParamY(12, v);
+	}
+	/**
+	The minimum rotation in positive direction to break loose and rotate around the Y axis.
+	*/
+	@property double angularLimitYUpperAngle()
+	{
+		return _getAngularHiLimitY();
+	}
+	/// ditto
+	@property void angularLimitYUpperAngle(double v)
+	{
+		_setAngularHiLimitY(v);
+	}
+	/**
+	The amount of rotational damping across the Z axis. The lower, the more dampening occurs.
+	*/
+	@property double angularLimitZDamping()
+	{
+		return getParamZ(13);
+	}
+	/// ditto
+	@property void angularLimitZDamping(double v)
+	{
+		setParamZ(13, v);
+	}
+	/**
+	If `true`, rotation across the Z axis is limited.
+	*/
+	@property bool angularLimitZEnabled()
+	{
+		return getFlagZ(1);
+	}
+	/// ditto
+	@property void angularLimitZEnabled(bool v)
+	{
+		setFlagZ(1, v);
+	}
+	/**
+	When rotating across the Z axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
+	*/
+	@property double angularLimitZErp()
+	{
+		return getParamZ(16);
+	}
+	/// ditto
+	@property void angularLimitZErp(double v)
+	{
+		setParamZ(16, v);
+	}
+	/**
+	The maximum amount of force that can occur, when rotating around the Z axis.
+	*/
+	@property double angularLimitZForceLimit()
+	{
+		return getParamZ(15);
+	}
+	/// ditto
+	@property void angularLimitZForceLimit(double v)
+	{
+		setParamZ(15, v);
+	}
+	/**
+	The minimum rotation in negative direction to break loose and rotate around the Z axis.
+	*/
+	@property double angularLimitZLowerAngle()
+	{
+		return _getAngularLoLimitZ();
+	}
+	/// ditto
+	@property void angularLimitZLowerAngle(double v)
+	{
+		_setAngularLoLimitZ(v);
+	}
+	/**
+	The amount of rotational restitution across the Z axis. The lower, the more restitution occurs.
+	*/
+	@property double angularLimitZRestitution()
+	{
+		return getParamZ(14);
+	}
+	/// ditto
+	@property void angularLimitZRestitution(double v)
+	{
+		setParamZ(14, v);
+	}
+	/**
+	The speed of all rotations across the Z axis.
+	*/
+	@property double angularLimitZSoftness()
+	{
+		return getParamZ(12);
+	}
+	/// ditto
+	@property void angularLimitZSoftness(double v)
+	{
+		setParamZ(12, v);
+	}
+	/**
+	The minimum rotation in positive direction to break loose and rotate around the Z axis.
+	*/
+	@property double angularLimitZUpperAngle()
+	{
+		return _getAngularHiLimitZ();
+	}
+	/// ditto
+	@property void angularLimitZUpperAngle(double v)
+	{
+		_setAngularHiLimitZ(v);
+	}
+	/**
+	If `true`, a rotating motor at the X axis is enabled.
 	*/
 	@property bool angularMotorXEnabled()
 	{
@@ -703,19 +737,7 @@ public:
 		setFlagX(4, v);
 	}
 	/**
-	Target speed for the motor at the x-axis.
-	*/
-	@property double angularMotorXTargetVelocity()
-	{
-		return getParamX(17);
-	}
-	/// ditto
-	@property void angularMotorXTargetVelocity(double v)
-	{
-		setParamX(17, v);
-	}
-	/**
-	Maximum acceleration for the motor at the x-axis.
+	Maximum acceleration for the motor at the X axis.
 	*/
 	@property double angularMotorXForceLimit()
 	{
@@ -727,28 +749,88 @@ public:
 		setParamX(18, v);
 	}
 	/**
-	
+	Target speed for the motor at the X axis.
 	*/
-	@property bool angularSpringXEnabled()
+	@property double angularMotorXTargetVelocity()
 	{
-		return getFlagX(2);
+		return getParamX(17);
 	}
 	/// ditto
-	@property void angularSpringXEnabled(bool v)
+	@property void angularMotorXTargetVelocity(double v)
 	{
-		setFlagX(2, v);
+		setParamX(17, v);
 	}
 	/**
-	
+	If `true`, a rotating motor at the Y axis is enabled.
 	*/
-	@property double angularSpringXStiffness()
+	@property bool angularMotorYEnabled()
 	{
-		return getParamX(19);
+		return getFlagY(4);
 	}
 	/// ditto
-	@property void angularSpringXStiffness(double v)
+	@property void angularMotorYEnabled(bool v)
 	{
-		setParamX(19, v);
+		setFlagY(4, v);
+	}
+	/**
+	Maximum acceleration for the motor at the Y axis.
+	*/
+	@property double angularMotorYForceLimit()
+	{
+		return getParamY(18);
+	}
+	/// ditto
+	@property void angularMotorYForceLimit(double v)
+	{
+		setParamY(18, v);
+	}
+	/**
+	Target speed for the motor at the Y axis.
+	*/
+	@property double angularMotorYTargetVelocity()
+	{
+		return getParamY(17);
+	}
+	/// ditto
+	@property void angularMotorYTargetVelocity(double v)
+	{
+		setParamY(17, v);
+	}
+	/**
+	If `true`, a rotating motor at the Z axis is enabled.
+	*/
+	@property bool angularMotorZEnabled()
+	{
+		return getFlagZ(4);
+	}
+	/// ditto
+	@property void angularMotorZEnabled(bool v)
+	{
+		setFlagZ(4, v);
+	}
+	/**
+	Maximum acceleration for the motor at the Z axis.
+	*/
+	@property double angularMotorZForceLimit()
+	{
+		return getParamZ(18);
+	}
+	/// ditto
+	@property void angularMotorZForceLimit(double v)
+	{
+		setParamZ(18, v);
+	}
+	/**
+	Target speed for the motor at the Z axis.
+	*/
+	@property double angularMotorZTargetVelocity()
+	{
+		return getParamZ(17);
+	}
+	/// ditto
+	@property void angularMotorZTargetVelocity(double v)
+	{
+		setParamZ(17, v);
 	}
 	/**
 	
@@ -765,6 +847,18 @@ public:
 	/**
 	
 	*/
+	@property bool angularSpringXEnabled()
+	{
+		return getFlagX(2);
+	}
+	/// ditto
+	@property void angularSpringXEnabled(bool v)
+	{
+		setFlagX(2, v);
+	}
+	/**
+	
+	*/
 	@property double angularSpringXEquilibriumPoint()
 	{
 		return getParamX(21);
@@ -775,316 +869,16 @@ public:
 		setParamX(21, v);
 	}
 	/**
-	If `true`, the linear motion across the y-axis is limited.
-	*/
-	@property bool linearLimitYEnabled()
-	{
-		return getFlagY(0);
-	}
-	/// ditto
-	@property void linearLimitYEnabled(bool v)
-	{
-		setFlagY(0, v);
-	}
-	/**
-	The maximum difference between the pivot points' y-axis.
-	*/
-	@property double linearLimitYUpperDistance()
-	{
-		return getParamY(1);
-	}
-	/// ditto
-	@property void linearLimitYUpperDistance(double v)
-	{
-		setParamY(1, v);
-	}
-	/**
-	The minimum difference between the pivot points' y-axis.
-	*/
-	@property double linearLimitYLowerDistance()
-	{
-		return getParamY(0);
-	}
-	/// ditto
-	@property void linearLimitYLowerDistance(double v)
-	{
-		setParamY(0, v);
-	}
-	/**
-	A factor applied to the movement across the y-axis The lower, the slower the movement.
-	*/
-	@property double linearLimitYSoftness()
-	{
-		return getParamY(2);
-	}
-	/// ditto
-	@property void linearLimitYSoftness(double v)
-	{
-		setParamY(2, v);
-	}
-	/**
-	The amount of restitution on the y-axis movement The lower, the more momentum gets lost.
-	*/
-	@property double linearLimitYRestitution()
-	{
-		return getParamY(3);
-	}
-	/// ditto
-	@property void linearLimitYRestitution(double v)
-	{
-		setParamY(3, v);
-	}
-	/**
-	The amount of damping that happens at the y-motion.
-	*/
-	@property double linearLimitYDamping()
-	{
-		return getParamY(4);
-	}
-	/// ditto
-	@property void linearLimitYDamping(double v)
-	{
-		setParamY(4, v);
-	}
-	/**
-	If `true`, then there is a linear motor on the y-axis. It will attempt to reach the target velocity while staying within the force limits.
-	*/
-	@property bool linearMotorYEnabled()
-	{
-		return getFlagY(5);
-	}
-	/// ditto
-	@property void linearMotorYEnabled(bool v)
-	{
-		setFlagY(5, v);
-	}
-	/**
-	The speed that the linear motor will attempt to reach on the y-axis.
-	*/
-	@property double linearMotorYTargetVelocity()
-	{
-		return getParamY(5);
-	}
-	/// ditto
-	@property void linearMotorYTargetVelocity(double v)
-	{
-		setParamY(5, v);
-	}
-	/**
-	The maximum force the linear motor can apply on the y-axis while trying to reach the target velocity.
-	*/
-	@property double linearMotorYForceLimit()
-	{
-		return getParamY(6);
-	}
-	/// ditto
-	@property void linearMotorYForceLimit(double v)
-	{
-		setParamY(6, v);
-	}
-	/**
 	
 	*/
-	@property bool linearSpringYEnabled()
+	@property double angularSpringXStiffness()
 	{
-		return getFlagY(3);
+		return getParamX(19);
 	}
 	/// ditto
-	@property void linearSpringYEnabled(bool v)
+	@property void angularSpringXStiffness(double v)
 	{
-		setFlagY(3, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringYStiffness()
-	{
-		return getParamY(7);
-	}
-	/// ditto
-	@property void linearSpringYStiffness(double v)
-	{
-		setParamY(7, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringYDamping()
-	{
-		return getParamY(8);
-	}
-	/// ditto
-	@property void linearSpringYDamping(double v)
-	{
-		setParamY(8, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringYEquilibriumPoint()
-	{
-		return getParamY(9);
-	}
-	/// ditto
-	@property void linearSpringYEquilibriumPoint(double v)
-	{
-		setParamY(9, v);
-	}
-	/**
-	If `true`, rotation across the y-axis is limited.
-	*/
-	@property bool angularLimitYEnabled()
-	{
-		return getFlagY(1);
-	}
-	/// ditto
-	@property void angularLimitYEnabled(bool v)
-	{
-		setFlagY(1, v);
-	}
-	/**
-	The minimum rotation in positive direction to break loose and rotate around the y-axis.
-	*/
-	@property double angularLimitYUpperAngle()
-	{
-		return _getAngularHiLimitY();
-	}
-	/// ditto
-	@property void angularLimitYUpperAngle(double v)
-	{
-		_setAngularHiLimitY(v);
-	}
-	/**
-	The minimum rotation in negative direction to break loose and rotate around the y-axis.
-	*/
-	@property double angularLimitYLowerAngle()
-	{
-		return _getAngularLoLimitY();
-	}
-	/// ditto
-	@property void angularLimitYLowerAngle(double v)
-	{
-		_setAngularLoLimitY(v);
-	}
-	/**
-	The speed of all rotations across the y-axis.
-	*/
-	@property double angularLimitYSoftness()
-	{
-		return getParamY(12);
-	}
-	/// ditto
-	@property void angularLimitYSoftness(double v)
-	{
-		setParamY(12, v);
-	}
-	/**
-	The amount of rotational restitution across the y-axis. The lower, the more restitution occurs.
-	*/
-	@property double angularLimitYRestitution()
-	{
-		return getParamY(14);
-	}
-	/// ditto
-	@property void angularLimitYRestitution(double v)
-	{
-		setParamY(14, v);
-	}
-	/**
-	The amount of rotational damping across the y-axis. The lower, the more dampening occurs.
-	*/
-	@property double angularLimitYDamping()
-	{
-		return getParamY(13);
-	}
-	/// ditto
-	@property void angularLimitYDamping(double v)
-	{
-		setParamY(13, v);
-	}
-	/**
-	The maximum amount of force that can occur, when rotating around y-axis.
-	*/
-	@property double angularLimitYForceLimit()
-	{
-		return getParamY(15);
-	}
-	/// ditto
-	@property void angularLimitYForceLimit(double v)
-	{
-		setParamY(15, v);
-	}
-	/**
-	When rotating across y-axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
-	*/
-	@property double angularLimitYErp()
-	{
-		return getParamY(16);
-	}
-	/// ditto
-	@property void angularLimitYErp(double v)
-	{
-		setParamY(16, v);
-	}
-	/**
-	If `true`, a rotating motor at the y-axis is enabled.
-	*/
-	@property bool angularMotorYEnabled()
-	{
-		return getFlagY(4);
-	}
-	/// ditto
-	@property void angularMotorYEnabled(bool v)
-	{
-		setFlagY(4, v);
-	}
-	/**
-	Target speed for the motor at the y-axis.
-	*/
-	@property double angularMotorYTargetVelocity()
-	{
-		return getParamY(17);
-	}
-	/// ditto
-	@property void angularMotorYTargetVelocity(double v)
-	{
-		setParamY(17, v);
-	}
-	/**
-	Maximum acceleration for the motor at the y-axis.
-	*/
-	@property double angularMotorYForceLimit()
-	{
-		return getParamY(18);
-	}
-	/// ditto
-	@property void angularMotorYForceLimit(double v)
-	{
-		setParamY(18, v);
-	}
-	/**
-	
-	*/
-	@property bool angularSpringYEnabled()
-	{
-		return getFlagY(2);
-	}
-	/// ditto
-	@property void angularSpringYEnabled(bool v)
-	{
-		setFlagY(2, v);
-	}
-	/**
-	
-	*/
-	@property double angularSpringYStiffness()
-	{
-		return getParamY(19);
-	}
-	/// ditto
-	@property void angularSpringYStiffness(double v)
-	{
-		setParamY(19, v);
+		setParamX(19, v);
 	}
 	/**
 	
@@ -1101,6 +895,18 @@ public:
 	/**
 	
 	*/
+	@property bool angularSpringYEnabled()
+	{
+		return getFlagY(2);
+	}
+	/// ditto
+	@property void angularSpringYEnabled(bool v)
+	{
+		setFlagY(2, v);
+	}
+	/**
+	
+	*/
 	@property double angularSpringYEquilibriumPoint()
 	{
 		return getParamY(21);
@@ -1111,316 +917,16 @@ public:
 		setParamY(21, v);
 	}
 	/**
-	If `true`, the linear motion across the z-axis is limited.
-	*/
-	@property bool linearLimitZEnabled()
-	{
-		return getFlagZ(0);
-	}
-	/// ditto
-	@property void linearLimitZEnabled(bool v)
-	{
-		setFlagZ(0, v);
-	}
-	/**
-	The maximum difference between the pivot points' z-axis.
-	*/
-	@property double linearLimitZUpperDistance()
-	{
-		return getParamZ(1);
-	}
-	/// ditto
-	@property void linearLimitZUpperDistance(double v)
-	{
-		setParamZ(1, v);
-	}
-	/**
-	The minimum difference between the pivot points' z-axis.
-	*/
-	@property double linearLimitZLowerDistance()
-	{
-		return getParamZ(0);
-	}
-	/// ditto
-	@property void linearLimitZLowerDistance(double v)
-	{
-		setParamZ(0, v);
-	}
-	/**
-	A factor applied to the movement across the z-axis The lower, the slower the movement.
-	*/
-	@property double linearLimitZSoftness()
-	{
-		return getParamZ(2);
-	}
-	/// ditto
-	@property void linearLimitZSoftness(double v)
-	{
-		setParamZ(2, v);
-	}
-	/**
-	The amount of restitution on the z-axis movement The lower, the more momentum gets lost.
-	*/
-	@property double linearLimitZRestitution()
-	{
-		return getParamZ(3);
-	}
-	/// ditto
-	@property void linearLimitZRestitution(double v)
-	{
-		setParamZ(3, v);
-	}
-	/**
-	The amount of damping that happens at the z-motion.
-	*/
-	@property double linearLimitZDamping()
-	{
-		return getParamZ(4);
-	}
-	/// ditto
-	@property void linearLimitZDamping(double v)
-	{
-		setParamZ(4, v);
-	}
-	/**
-	If `true`, then there is a linear motor on the z-axis. It will attempt to reach the target velocity while staying within the force limits.
-	*/
-	@property bool linearMotorZEnabled()
-	{
-		return getFlagZ(5);
-	}
-	/// ditto
-	@property void linearMotorZEnabled(bool v)
-	{
-		setFlagZ(5, v);
-	}
-	/**
-	The speed that the linear motor will attempt to reach on the z-axis.
-	*/
-	@property double linearMotorZTargetVelocity()
-	{
-		return getParamZ(5);
-	}
-	/// ditto
-	@property void linearMotorZTargetVelocity(double v)
-	{
-		setParamZ(5, v);
-	}
-	/**
-	The maximum force the linear motor can apply on the z-axis while trying to reach the target velocity.
-	*/
-	@property double linearMotorZForceLimit()
-	{
-		return getParamZ(6);
-	}
-	/// ditto
-	@property void linearMotorZForceLimit(double v)
-	{
-		setParamZ(6, v);
-	}
-	/**
 	
 	*/
-	@property bool linearSpringZEnabled()
+	@property double angularSpringYStiffness()
 	{
-		return getFlagZ(3);
+		return getParamY(19);
 	}
 	/// ditto
-	@property void linearSpringZEnabled(bool v)
+	@property void angularSpringYStiffness(double v)
 	{
-		setFlagZ(3, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringZStiffness()
-	{
-		return getParamZ(7);
-	}
-	/// ditto
-	@property void linearSpringZStiffness(double v)
-	{
-		setParamZ(7, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringZDamping()
-	{
-		return getParamZ(8);
-	}
-	/// ditto
-	@property void linearSpringZDamping(double v)
-	{
-		setParamZ(8, v);
-	}
-	/**
-	
-	*/
-	@property double linearSpringZEquilibriumPoint()
-	{
-		return getParamZ(9);
-	}
-	/// ditto
-	@property void linearSpringZEquilibriumPoint(double v)
-	{
-		setParamZ(9, v);
-	}
-	/**
-	If `true`, rotation across the z-axis is limited.
-	*/
-	@property bool angularLimitZEnabled()
-	{
-		return getFlagZ(1);
-	}
-	/// ditto
-	@property void angularLimitZEnabled(bool v)
-	{
-		setFlagZ(1, v);
-	}
-	/**
-	The minimum rotation in positive direction to break loose and rotate around the z-axis.
-	*/
-	@property double angularLimitZUpperAngle()
-	{
-		return _getAngularHiLimitZ();
-	}
-	/// ditto
-	@property void angularLimitZUpperAngle(double v)
-	{
-		_setAngularHiLimitZ(v);
-	}
-	/**
-	The minimum rotation in negative direction to break loose and rotate around the z-axis.
-	*/
-	@property double angularLimitZLowerAngle()
-	{
-		return _getAngularLoLimitZ();
-	}
-	/// ditto
-	@property void angularLimitZLowerAngle(double v)
-	{
-		_setAngularLoLimitZ(v);
-	}
-	/**
-	The speed of all rotations across the z-axis.
-	*/
-	@property double angularLimitZSoftness()
-	{
-		return getParamZ(12);
-	}
-	/// ditto
-	@property void angularLimitZSoftness(double v)
-	{
-		setParamZ(12, v);
-	}
-	/**
-	The amount of rotational restitution across the z-axis. The lower, the more restitution occurs.
-	*/
-	@property double angularLimitZRestitution()
-	{
-		return getParamZ(14);
-	}
-	/// ditto
-	@property void angularLimitZRestitution(double v)
-	{
-		setParamZ(14, v);
-	}
-	/**
-	The amount of rotational damping across the z-axis. The lower, the more dampening occurs.
-	*/
-	@property double angularLimitZDamping()
-	{
-		return getParamZ(13);
-	}
-	/// ditto
-	@property void angularLimitZDamping(double v)
-	{
-		setParamZ(13, v);
-	}
-	/**
-	The maximum amount of force that can occur, when rotating around z-axis.
-	*/
-	@property double angularLimitZForceLimit()
-	{
-		return getParamZ(15);
-	}
-	/// ditto
-	@property void angularLimitZForceLimit(double v)
-	{
-		setParamZ(15, v);
-	}
-	/**
-	When rotating across z-axis, this error tolerance factor defines how much the correction gets slowed down. The lower, the slower.
-	*/
-	@property double angularLimitZErp()
-	{
-		return getParamZ(16);
-	}
-	/// ditto
-	@property void angularLimitZErp(double v)
-	{
-		setParamZ(16, v);
-	}
-	/**
-	If `true`, a rotating motor at the z-axis is enabled.
-	*/
-	@property bool angularMotorZEnabled()
-	{
-		return getFlagZ(4);
-	}
-	/// ditto
-	@property void angularMotorZEnabled(bool v)
-	{
-		setFlagZ(4, v);
-	}
-	/**
-	Target speed for the motor at the z-axis.
-	*/
-	@property double angularMotorZTargetVelocity()
-	{
-		return getParamZ(17);
-	}
-	/// ditto
-	@property void angularMotorZTargetVelocity(double v)
-	{
-		setParamZ(17, v);
-	}
-	/**
-	Maximum acceleration for the motor at the z-axis.
-	*/
-	@property double angularMotorZForceLimit()
-	{
-		return getParamZ(18);
-	}
-	/// ditto
-	@property void angularMotorZForceLimit(double v)
-	{
-		setParamZ(18, v);
-	}
-	/**
-	
-	*/
-	@property bool angularSpringZEnabled()
-	{
-		return getFlagZ(2);
-	}
-	/// ditto
-	@property void angularSpringZEnabled(bool v)
-	{
-		setFlagZ(2, v);
-	}
-	/**
-	
-	*/
-	@property double angularSpringZStiffness()
-	{
-		return getParamZ(19);
-	}
-	/// ditto
-	@property void angularSpringZStiffness(double v)
-	{
-		setParamZ(19, v);
+		setParamY(19, v);
 	}
 	/**
 	
@@ -1437,6 +943,18 @@ public:
 	/**
 	
 	*/
+	@property bool angularSpringZEnabled()
+	{
+		return getFlagZ(2);
+	}
+	/// ditto
+	@property void angularSpringZEnabled(bool v)
+	{
+		setFlagZ(2, v);
+	}
+	/**
+	
+	*/
 	@property double angularSpringZEquilibriumPoint()
 	{
 		return getParamZ(21);
@@ -1445,6 +963,486 @@ public:
 	@property void angularSpringZEquilibriumPoint(double v)
 	{
 		setParamZ(21, v);
+	}
+	/**
+	
+	*/
+	@property double angularSpringZStiffness()
+	{
+		return getParamZ(19);
+	}
+	/// ditto
+	@property void angularSpringZStiffness(double v)
+	{
+		setParamZ(19, v);
+	}
+	/**
+	The amount of damping that happens at the X motion.
+	*/
+	@property double linearLimitXDamping()
+	{
+		return getParamX(4);
+	}
+	/// ditto
+	@property void linearLimitXDamping(double v)
+	{
+		setParamX(4, v);
+	}
+	/**
+	If `true`, the linear motion across the X axis is limited.
+	*/
+	@property bool linearLimitXEnabled()
+	{
+		return getFlagX(0);
+	}
+	/// ditto
+	@property void linearLimitXEnabled(bool v)
+	{
+		setFlagX(0, v);
+	}
+	/**
+	The minimum difference between the pivot points' X axis.
+	*/
+	@property double linearLimitXLowerDistance()
+	{
+		return getParamX(0);
+	}
+	/// ditto
+	@property void linearLimitXLowerDistance(double v)
+	{
+		setParamX(0, v);
+	}
+	/**
+	The amount of restitution on the X axis movement. The lower, the more momentum gets lost.
+	*/
+	@property double linearLimitXRestitution()
+	{
+		return getParamX(3);
+	}
+	/// ditto
+	@property void linearLimitXRestitution(double v)
+	{
+		setParamX(3, v);
+	}
+	/**
+	A factor applied to the movement across the X axis. The lower, the slower the movement.
+	*/
+	@property double linearLimitXSoftness()
+	{
+		return getParamX(2);
+	}
+	/// ditto
+	@property void linearLimitXSoftness(double v)
+	{
+		setParamX(2, v);
+	}
+	/**
+	The maximum difference between the pivot points' X axis.
+	*/
+	@property double linearLimitXUpperDistance()
+	{
+		return getParamX(1);
+	}
+	/// ditto
+	@property void linearLimitXUpperDistance(double v)
+	{
+		setParamX(1, v);
+	}
+	/**
+	The amount of damping that happens at the Y motion.
+	*/
+	@property double linearLimitYDamping()
+	{
+		return getParamY(4);
+	}
+	/// ditto
+	@property void linearLimitYDamping(double v)
+	{
+		setParamY(4, v);
+	}
+	/**
+	If `true`, the linear motion across the Y axis is limited.
+	*/
+	@property bool linearLimitYEnabled()
+	{
+		return getFlagY(0);
+	}
+	/// ditto
+	@property void linearLimitYEnabled(bool v)
+	{
+		setFlagY(0, v);
+	}
+	/**
+	The minimum difference between the pivot points' Y axis.
+	*/
+	@property double linearLimitYLowerDistance()
+	{
+		return getParamY(0);
+	}
+	/// ditto
+	@property void linearLimitYLowerDistance(double v)
+	{
+		setParamY(0, v);
+	}
+	/**
+	The amount of restitution on the Y axis movement. The lower, the more momentum gets lost.
+	*/
+	@property double linearLimitYRestitution()
+	{
+		return getParamY(3);
+	}
+	/// ditto
+	@property void linearLimitYRestitution(double v)
+	{
+		setParamY(3, v);
+	}
+	/**
+	A factor applied to the movement across the Y axis. The lower, the slower the movement.
+	*/
+	@property double linearLimitYSoftness()
+	{
+		return getParamY(2);
+	}
+	/// ditto
+	@property void linearLimitYSoftness(double v)
+	{
+		setParamY(2, v);
+	}
+	/**
+	The maximum difference between the pivot points' Y axis.
+	*/
+	@property double linearLimitYUpperDistance()
+	{
+		return getParamY(1);
+	}
+	/// ditto
+	@property void linearLimitYUpperDistance(double v)
+	{
+		setParamY(1, v);
+	}
+	/**
+	The amount of damping that happens at the Z motion.
+	*/
+	@property double linearLimitZDamping()
+	{
+		return getParamZ(4);
+	}
+	/// ditto
+	@property void linearLimitZDamping(double v)
+	{
+		setParamZ(4, v);
+	}
+	/**
+	If `true`, the linear motion across the Z axis is limited.
+	*/
+	@property bool linearLimitZEnabled()
+	{
+		return getFlagZ(0);
+	}
+	/// ditto
+	@property void linearLimitZEnabled(bool v)
+	{
+		setFlagZ(0, v);
+	}
+	/**
+	The minimum difference between the pivot points' Z axis.
+	*/
+	@property double linearLimitZLowerDistance()
+	{
+		return getParamZ(0);
+	}
+	/// ditto
+	@property void linearLimitZLowerDistance(double v)
+	{
+		setParamZ(0, v);
+	}
+	/**
+	The amount of restitution on the Z axis movement. The lower, the more momentum gets lost.
+	*/
+	@property double linearLimitZRestitution()
+	{
+		return getParamZ(3);
+	}
+	/// ditto
+	@property void linearLimitZRestitution(double v)
+	{
+		setParamZ(3, v);
+	}
+	/**
+	A factor applied to the movement across the Z axis. The lower, the slower the movement.
+	*/
+	@property double linearLimitZSoftness()
+	{
+		return getParamZ(2);
+	}
+	/// ditto
+	@property void linearLimitZSoftness(double v)
+	{
+		setParamZ(2, v);
+	}
+	/**
+	The maximum difference between the pivot points' Z axis.
+	*/
+	@property double linearLimitZUpperDistance()
+	{
+		return getParamZ(1);
+	}
+	/// ditto
+	@property void linearLimitZUpperDistance(double v)
+	{
+		setParamZ(1, v);
+	}
+	/**
+	If `true`, then there is a linear motor on the X axis. It will attempt to reach the target velocity while staying within the force limits.
+	*/
+	@property bool linearMotorXEnabled()
+	{
+		return getFlagX(5);
+	}
+	/// ditto
+	@property void linearMotorXEnabled(bool v)
+	{
+		setFlagX(5, v);
+	}
+	/**
+	The maximum force the linear motor can apply on the X axis while trying to reach the target velocity.
+	*/
+	@property double linearMotorXForceLimit()
+	{
+		return getParamX(6);
+	}
+	/// ditto
+	@property void linearMotorXForceLimit(double v)
+	{
+		setParamX(6, v);
+	}
+	/**
+	The speed that the linear motor will attempt to reach on the X axis.
+	*/
+	@property double linearMotorXTargetVelocity()
+	{
+		return getParamX(5);
+	}
+	/// ditto
+	@property void linearMotorXTargetVelocity(double v)
+	{
+		setParamX(5, v);
+	}
+	/**
+	If `true`, then there is a linear motor on the Y axis. It will attempt to reach the target velocity while staying within the force limits.
+	*/
+	@property bool linearMotorYEnabled()
+	{
+		return getFlagY(5);
+	}
+	/// ditto
+	@property void linearMotorYEnabled(bool v)
+	{
+		setFlagY(5, v);
+	}
+	/**
+	The maximum force the linear motor can apply on the Y axis while trying to reach the target velocity.
+	*/
+	@property double linearMotorYForceLimit()
+	{
+		return getParamY(6);
+	}
+	/// ditto
+	@property void linearMotorYForceLimit(double v)
+	{
+		setParamY(6, v);
+	}
+	/**
+	The speed that the linear motor will attempt to reach on the Y axis.
+	*/
+	@property double linearMotorYTargetVelocity()
+	{
+		return getParamY(5);
+	}
+	/// ditto
+	@property void linearMotorYTargetVelocity(double v)
+	{
+		setParamY(5, v);
+	}
+	/**
+	If `true`, then there is a linear motor on the Z axis. It will attempt to reach the target velocity while staying within the force limits.
+	*/
+	@property bool linearMotorZEnabled()
+	{
+		return getFlagZ(5);
+	}
+	/// ditto
+	@property void linearMotorZEnabled(bool v)
+	{
+		setFlagZ(5, v);
+	}
+	/**
+	The maximum force the linear motor can apply on the Z axis while trying to reach the target velocity.
+	*/
+	@property double linearMotorZForceLimit()
+	{
+		return getParamZ(6);
+	}
+	/// ditto
+	@property void linearMotorZForceLimit(double v)
+	{
+		setParamZ(6, v);
+	}
+	/**
+	The speed that the linear motor will attempt to reach on the Z axis.
+	*/
+	@property double linearMotorZTargetVelocity()
+	{
+		return getParamZ(5);
+	}
+	/// ditto
+	@property void linearMotorZTargetVelocity(double v)
+	{
+		setParamZ(5, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringXDamping()
+	{
+		return getParamX(8);
+	}
+	/// ditto
+	@property void linearSpringXDamping(double v)
+	{
+		setParamX(8, v);
+	}
+	/**
+	
+	*/
+	@property bool linearSpringXEnabled()
+	{
+		return getFlagX(3);
+	}
+	/// ditto
+	@property void linearSpringXEnabled(bool v)
+	{
+		setFlagX(3, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringXEquilibriumPoint()
+	{
+		return getParamX(9);
+	}
+	/// ditto
+	@property void linearSpringXEquilibriumPoint(double v)
+	{
+		setParamX(9, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringXStiffness()
+	{
+		return getParamX(7);
+	}
+	/// ditto
+	@property void linearSpringXStiffness(double v)
+	{
+		setParamX(7, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringYDamping()
+	{
+		return getParamY(8);
+	}
+	/// ditto
+	@property void linearSpringYDamping(double v)
+	{
+		setParamY(8, v);
+	}
+	/**
+	
+	*/
+	@property bool linearSpringYEnabled()
+	{
+		return getFlagY(3);
+	}
+	/// ditto
+	@property void linearSpringYEnabled(bool v)
+	{
+		setFlagY(3, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringYEquilibriumPoint()
+	{
+		return getParamY(9);
+	}
+	/// ditto
+	@property void linearSpringYEquilibriumPoint(double v)
+	{
+		setParamY(9, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringYStiffness()
+	{
+		return getParamY(7);
+	}
+	/// ditto
+	@property void linearSpringYStiffness(double v)
+	{
+		setParamY(7, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringZDamping()
+	{
+		return getParamZ(8);
+	}
+	/// ditto
+	@property void linearSpringZDamping(double v)
+	{
+		setParamZ(8, v);
+	}
+	/**
+	
+	*/
+	@property bool linearSpringZEnabled()
+	{
+		return getFlagZ(3);
+	}
+	/// ditto
+	@property void linearSpringZEnabled(bool v)
+	{
+		setFlagZ(3, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringZEquilibriumPoint()
+	{
+		return getParamZ(9);
+	}
+	/// ditto
+	@property void linearSpringZEquilibriumPoint(double v)
+	{
+		setParamZ(9, v);
+	}
+	/**
+	
+	*/
+	@property double linearSpringZStiffness()
+	{
+		return getParamZ(7);
+	}
+	/// ditto
+	@property void linearSpringZStiffness(double v)
+	{
+		setParamZ(7, v);
 	}
 	/**
 	

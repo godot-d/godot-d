@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.light;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 Directional light from a distance, as from the Sun.
 
-A directional light is a type of $(D Light) node that models an infinite number of parallel rays covering the entire scene. It is used for lights with strong intensity that are located far away from the scene to model sunlight or moonlight. The worldspace location of the DirectionalLight transform (origin) is ignored. Only the basis is used do determine light direction.
+A directional light is a type of $(D Light) node that models an infinite number of parallel rays covering the entire scene. It is used for lights with strong intensity that are located far away from the scene to model sunlight or moonlight. The worldspace location of the DirectionalLight transform (origin) is ignored. Only the basis is used to determine light direction.
 */
 @GodotBaseClass struct DirectionalLight
 {
@@ -41,12 +38,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shadow_mode") GodotMethod!(void, long) setShadowMode;
-		@GodotName("get_shadow_mode") GodotMethod!(DirectionalLight.ShadowMode) getShadowMode;
-		@GodotName("set_shadow_depth_range") GodotMethod!(void, long) setShadowDepthRange;
 		@GodotName("get_shadow_depth_range") GodotMethod!(DirectionalLight.ShadowDepthRange) getShadowDepthRange;
-		@GodotName("set_blend_splits") GodotMethod!(void, bool) setBlendSplits;
+		@GodotName("get_shadow_mode") GodotMethod!(DirectionalLight.ShadowMode) getShadowMode;
 		@GodotName("is_blend_splits_enabled") GodotMethod!(bool) isBlendSplitsEnabled;
+		@GodotName("set_blend_splits") GodotMethod!(void, bool) setBlendSplits;
+		@GodotName("set_shadow_depth_range") GodotMethod!(void, long) setShadowDepthRange;
+		@GodotName("set_shadow_mode") GodotMethod!(void, long) setShadowMode;
 	}
 	bool opEquals(in DirectionalLight other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	DirectionalLight opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -80,7 +77,7 @@ public:
 	enum ShadowDepthRange : int
 	{
 		/**
-		Keeps the shadow stable when the camera moves, at the cost of lower effective shadow resolution. Default value.
+		Keeps the shadow stable when the camera moves, at the cost of lower effective shadow resolution.
 		*/
 		shadowDepthRangeStable = 0,
 		/**
@@ -91,35 +88,11 @@ public:
 	/// 
 	enum Constants : int
 	{
-		shadowOrthogonal = 0,
 		shadowDepthRangeStable = 0,
-		shadowDepthRangeOptimized = 1,
+		shadowOrthogonal = 0,
 		shadowParallel2Splits = 1,
+		shadowDepthRangeOptimized = 1,
 		shadowParallel4Splits = 2,
-	}
-	/**
-	
-	*/
-	void setShadowMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	DirectionalLight.ShadowMode getShadowMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(DirectionalLight.ShadowMode)(_classBinding.getShadowMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShadowDepthRange(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowDepthRange, _godot_object, mode);
 	}
 	/**
 	
@@ -132,10 +105,10 @@ public:
 	/**
 	
 	*/
-	void setBlendSplits(in bool enabled)
+	DirectionalLight.ShadowMode getShadowMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendSplits, _godot_object, enabled);
+		return ptrcall!(DirectionalLight.ShadowMode)(_classBinding.getShadowMode, _godot_object);
 	}
 	/**
 	
@@ -146,79 +119,31 @@ public:
 		return ptrcall!(bool)(_classBinding.isBlendSplitsEnabled, _godot_object);
 	}
 	/**
-	The light's shadow rendering algorithm. See $(D shadowmode).
+	
 	*/
-	@property DirectionalLight.ShadowMode directionalShadowMode()
+	void setBlendSplits(in bool enabled)
 	{
-		return getShadowMode();
-	}
-	/// ditto
-	@property void directionalShadowMode(long v)
-	{
-		setShadowMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBlendSplits, _godot_object, enabled);
 	}
 	/**
-	The distance from camera to shadow split 1. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is one of the `SHADOW_PARALLEL_*_SPLITS` constants.
+	
 	*/
-	@property double directionalShadowSplit1()
+	void setShadowDepthRange(in long mode)
 	{
-		return getParam(9);
-	}
-	/// ditto
-	@property void directionalShadowSplit1(double v)
-	{
-		setParam(9, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowDepthRange, _godot_object, mode);
 	}
 	/**
-	The distance from shadow split 1 to split 2. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_3_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
+	
 	*/
-	@property double directionalShadowSplit2()
+	void setShadowMode(in long mode)
 	{
-		return getParam(10);
-	}
-	/// ditto
-	@property void directionalShadowSplit2(double v)
-	{
-		setParam(10, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowMode, _godot_object, mode);
 	}
 	/**
-	The distance from shadow split 2 to split 3. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_4_SPLITS`.
-	*/
-	@property double directionalShadowSplit3()
-	{
-		return getParam(11);
-	}
-	/// ditto
-	@property void directionalShadowSplit3(double v)
-	{
-		setParam(11, v);
-	}
-	/**
-	If `true`, shadow detail is sacrificed in exchange for smoother transitions between splits. Default value:`false`.
-	*/
-	@property bool directionalShadowBlendSplits()
-	{
-		return isBlendSplitsEnabled();
-	}
-	/// ditto
-	@property void directionalShadowBlendSplits(bool v)
-	{
-		setBlendSplits(v);
-	}
-	/**
-	Can be used to fix special cases of self shadowing when objects are perpendicular to the light.
-	*/
-	@property double directionalShadowNormalBias()
-	{
-		return getParam(12);
-	}
-	/// ditto
-	@property void directionalShadowNormalBias(double v)
-	{
-		setParam(12, v);
-	}
-	/**
-	Amount of extra bias for shadow splits that are far away. If self shadowing occurs only on the splits far away, this value can fix them.
+	Amount of extra bias for shadow splits that are far away. If self-shadowing occurs only on the splits far away, increasing this value can fix them.
 	*/
 	@property double directionalShadowBiasSplitScale()
 	{
@@ -228,6 +153,18 @@ public:
 	@property void directionalShadowBiasSplitScale(double v)
 	{
 		setParam(14, v);
+	}
+	/**
+	If `true`, shadow detail is sacrificed in exchange for smoother transitions between splits.
+	*/
+	@property bool directionalShadowBlendSplits()
+	{
+		return isBlendSplitsEnabled();
+	}
+	/// ditto
+	@property void directionalShadowBlendSplits(bool v)
+	{
+		setBlendSplits(v);
 	}
 	/**
 	Optimizes shadow rendering for detail versus movement. See $(D shadowdepthrange).
@@ -252,5 +189,65 @@ public:
 	@property void directionalShadowMaxDistance(double v)
 	{
 		setParam(8, v);
+	}
+	/**
+	The light's shadow rendering algorithm. See $(D shadowmode).
+	*/
+	@property DirectionalLight.ShadowMode directionalShadowMode()
+	{
+		return getShadowMode();
+	}
+	/// ditto
+	@property void directionalShadowMode(long v)
+	{
+		setShadowMode(v);
+	}
+	/**
+	Can be used to fix special cases of self shadowing when objects are perpendicular to the light.
+	*/
+	@property double directionalShadowNormalBias()
+	{
+		return getParam(12);
+	}
+	/// ditto
+	@property void directionalShadowNormalBias(double v)
+	{
+		setParam(12, v);
+	}
+	/**
+	The distance from camera to shadow split 1. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_2_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
+	*/
+	@property double directionalShadowSplit1()
+	{
+		return getParam(9);
+	}
+	/// ditto
+	@property void directionalShadowSplit1(double v)
+	{
+		setParam(9, v);
+	}
+	/**
+	The distance from shadow split 1 to split 2. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_2_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
+	*/
+	@property double directionalShadowSplit2()
+	{
+		return getParam(10);
+	}
+	/// ditto
+	@property void directionalShadowSplit2(double v)
+	{
+		setParam(10, v);
+	}
+	/**
+	The distance from shadow split 2 to split 3. Relative to $(D directionalShadowMaxDistance). Only used when $(D directionalShadowMode) is `SHADOW_PARALLEL_4_SPLITS`.
+	*/
+	@property double directionalShadowSplit3()
+	{
+		return getParam(11);
+	}
+	/// ditto
+	@property void directionalShadowSplit3(double v)
+	{
+		setParam(11, v);
 	}
 }

@@ -39,9 +39,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_aabb") GodotMethod!(void, AABB) setAabb;
 		@GodotName("get_aabb") GodotMethod!(AABB) getAabb;
 		@GodotName("is_on_screen") GodotMethod!(bool) isOnScreen;
+		@GodotName("set_aabb") GodotMethod!(void, AABB) setAabb;
 	}
 	bool opEquals(in VisibilityNotifier other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisibilityNotifier opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,14 +58,6 @@ public:
 	/**
 	
 	*/
-	void setAabb(in AABB rect)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAabb, _godot_object, rect);
-	}
-	/**
-	
-	*/
 	AABB getAabb() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -73,12 +65,20 @@ public:
 	}
 	/**
 	If `true`, the bounding box is on the screen.
-	Note: It takes one frame for the node's visibility to be assessed once added to the scene tree, so this method will return `false` right after it is instantiated, even if it will be on screen in the draw pass.
+	$(B Note:) It takes one frame for the node's visibility to be assessed once added to the scene tree, so this method will return `false` right after it is instantiated, even if it will be on screen in the draw pass.
 	*/
 	bool isOnScreen() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isOnScreen, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAabb(in AABB rect)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAabb, _godot_object, rect);
 	}
 	/**
 	The VisibilityNotifier's bounding box.

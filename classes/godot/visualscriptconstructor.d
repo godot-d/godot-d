@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 A Visual Script node which calls a base type constructor.
 
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_constructor_type") GodotMethod!(void, long) setConstructorType;
+		@GodotName("get_constructor") GodotMethod!(Dictionary) getConstructor;
 		@GodotName("get_constructor_type") GodotMethod!(Variant.Type) getConstructorType;
 		@GodotName("set_constructor") GodotMethod!(void, Dictionary) setConstructor;
-		@GodotName("get_constructor") GodotMethod!(Dictionary) getConstructor;
+		@GodotName("set_constructor_type") GodotMethod!(void, long) setConstructorType;
 	}
 	bool opEquals(in VisualScriptConstructor other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptConstructor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setConstructorType(in long type)
+	Dictionary getConstructor() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstructorType, _godot_object, type);
+		return ptrcall!(Dictionary)(_classBinding.getConstructor, _godot_object);
 	}
 	/**
 	
@@ -84,22 +82,10 @@ public:
 	/**
 	
 	*/
-	Dictionary getConstructor() const
+	void setConstructorType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getConstructor, _godot_object);
-	}
-	/**
-	
-	*/
-	@property Variant.Type type()
-	{
-		return getConstructorType();
-	}
-	/// ditto
-	@property void type(long v)
-	{
-		setConstructorType(v);
+		ptrcall!(void)(_classBinding.setConstructorType, _godot_object, type);
 	}
 	/**
 	
@@ -112,5 +98,17 @@ public:
 	@property void constructor(Dictionary v)
 	{
 		setConstructor(v);
+	}
+	/**
+	
+	*/
+	@property Variant.Type type()
+	{
+		return getConstructorType();
+	}
+	/// ditto
+	@property void type(long v)
+	{
+		setConstructorType(v);
 	}
 }

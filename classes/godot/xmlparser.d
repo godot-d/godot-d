@@ -1,5 +1,5 @@
 /**
-Low-level class for creating parsers for XML files.
+Low-level class for creating parsers for $(D url=https://en.wikipedia.org/wiki/XML)XML$(D /url) files.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-Low-level class for creating parsers for XML files.
+Low-level class for creating parsers for $(D url=https://en.wikipedia.org/wiki/XML)XML$(D /url) files.
 
-This class can serve as base to make custom XML parsers. Since XML is a very flexible standard, this interface is low level so it can be applied to any possible schema.
+This class can serve as base to make custom XML parsers. Since XML is a very flexible standard, this interface is low-level so it can be applied to any possible schema.
 */
 @GodotBaseClass struct XMLParser
 {
@@ -38,23 +38,23 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("read") GodotMethod!(GodotError) read;
-		@GodotName("get_node_type") GodotMethod!(XMLParser.NodeType) getNodeType;
-		@GodotName("get_node_name") GodotMethod!(String) getNodeName;
-		@GodotName("get_node_data") GodotMethod!(String) getNodeData;
-		@GodotName("get_node_offset") GodotMethod!(long) getNodeOffset;
 		@GodotName("get_attribute_count") GodotMethod!(long) getAttributeCount;
 		@GodotName("get_attribute_name") GodotMethod!(String, long) getAttributeName;
 		@GodotName("get_attribute_value") GodotMethod!(String, long) getAttributeValue;
-		@GodotName("has_attribute") GodotMethod!(bool, String) hasAttribute;
+		@GodotName("get_current_line") GodotMethod!(long) getCurrentLine;
 		@GodotName("get_named_attribute_value") GodotMethod!(String, String) getNamedAttributeValue;
 		@GodotName("get_named_attribute_value_safe") GodotMethod!(String, String) getNamedAttributeValueSafe;
+		@GodotName("get_node_data") GodotMethod!(String) getNodeData;
+		@GodotName("get_node_name") GodotMethod!(String) getNodeName;
+		@GodotName("get_node_offset") GodotMethod!(long) getNodeOffset;
+		@GodotName("get_node_type") GodotMethod!(XMLParser.NodeType) getNodeType;
+		@GodotName("has_attribute") GodotMethod!(bool, String) hasAttribute;
 		@GodotName("is_empty") GodotMethod!(bool) isEmpty;
-		@GodotName("get_current_line") GodotMethod!(long) getCurrentLine;
-		@GodotName("skip_section") GodotMethod!(void) skipSection;
-		@GodotName("seek") GodotMethod!(GodotError, long) seek;
 		@GodotName("open") GodotMethod!(GodotError, String) open;
 		@GodotName("open_buffer") GodotMethod!(GodotError, PoolByteArray) openBuffer;
+		@GodotName("read") GodotMethod!(GodotError) read;
+		@GodotName("seek") GodotMethod!(GodotError, long) seek;
+		@GodotName("skip_section") GodotMethod!(void) skipSection;
 	}
 	bool opEquals(in XMLParser other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	XMLParser opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,31 +72,31 @@ public:
 	enum NodeType : int
 	{
 		/**
-		There's no node (no file or buffer opened)
+		There's no node (no file or buffer opened).
 		*/
 		nodeNone = 0,
 		/**
-		Element (tag)
+		Element (tag).
 		*/
 		nodeElement = 1,
 		/**
-		End of element
+		End of element.
 		*/
 		nodeElementEnd = 2,
 		/**
-		Text node
+		Text node.
 		*/
 		nodeText = 3,
 		/**
-		Comment node
+		Comment node.
 		*/
 		nodeComment = 4,
 		/**
-		CDATA content
+		CDATA content.
 		*/
 		nodeCdata = 5,
 		/**
-		Unknown node
+		Unknown node.
 		*/
 		nodeUnknown = 6,
 	}
@@ -112,47 +112,7 @@ public:
 		nodeUnknown = 6,
 	}
 	/**
-	Read the next node of the file. This returns an error code.
-	*/
-	GodotError read()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.read, _godot_object);
-	}
-	/**
-	Get the type of the current node. Compare with `NODE_*` constants.
-	*/
-	XMLParser.NodeType getNodeType()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(XMLParser.NodeType)(_classBinding.getNodeType, _godot_object);
-	}
-	/**
-	Get the name of the current element node. This will raise an error if the current node type is not `NODE_ELEMENT` nor `NODE_ELEMENT_END`
-	*/
-	String getNodeName() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeName, _godot_object);
-	}
-	/**
-	Get the contents of a text node. This will raise an error in any other type of node.
-	*/
-	String getNodeData() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeData, _godot_object);
-	}
-	/**
-	Get the byte offset of the current node since the beginning of the file or buffer.
-	*/
-	long getNodeOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getNodeOffset, _godot_object);
-	}
-	/**
-	Get the amount of attributes in the current element.
+	Gets the amount of attributes in the current element.
 	*/
 	long getAttributeCount() const
 	{
@@ -160,7 +120,7 @@ public:
 		return ptrcall!(long)(_classBinding.getAttributeCount, _godot_object);
 	}
 	/**
-	Get the name of the attribute specified by the index in `idx` argument.
+	Gets the name of the attribute specified by the index in `idx` argument.
 	*/
 	String getAttributeName(in long idx) const
 	{
@@ -168,7 +128,7 @@ public:
 		return ptrcall!(String)(_classBinding.getAttributeName, _godot_object, idx);
 	}
 	/**
-	Get the value of the attribute specified by the index in `idx` argument.
+	Gets the value of the attribute specified by the index in `idx` argument.
 	*/
 	String getAttributeValue(in long idx) const
 	{
@@ -176,15 +136,15 @@ public:
 		return ptrcall!(String)(_classBinding.getAttributeValue, _godot_object, idx);
 	}
 	/**
-	Check whether or not the current element has a certain attribute.
+	Gets the current line in the parsed file (currently not implemented).
 	*/
-	bool hasAttribute(in String name) const
+	long getCurrentLine() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAttribute, _godot_object, name);
+		return ptrcall!(long)(_classBinding.getCurrentLine, _godot_object);
 	}
 	/**
-	Get the value of a certain attribute of the current element by name. This will raise an error if the element has no such attribute.
+	Gets the value of a certain attribute of the current element by name. This will raise an error if the element has no such attribute.
 	*/
 	String getNamedAttributeValue(in String name) const
 	{
@@ -192,7 +152,7 @@ public:
 		return ptrcall!(String)(_classBinding.getNamedAttributeValue, _godot_object, name);
 	}
 	/**
-	Get the value of a certain attribute of the current element by name. This will return an empty $(D String) if the attribute is not found.
+	Gets the value of a certain attribute of the current element by name. This will return an empty $(D String) if the attribute is not found.
 	*/
 	String getNamedAttributeValueSafe(in String name) const
 	{
@@ -200,7 +160,47 @@ public:
 		return ptrcall!(String)(_classBinding.getNamedAttributeValueSafe, _godot_object, name);
 	}
 	/**
-	Check whether the current element is empty (this only works for completely empty tags, e.g. &lt;element \&gt;).
+	Gets the contents of a text node. This will raise an error in any other type of node.
+	*/
+	String getNodeData() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getNodeData, _godot_object);
+	}
+	/**
+	Gets the name of the current element node. This will raise an error if the current node type is neither $(D constant NODE_ELEMENT) nor $(D constant NODE_ELEMENT_END).
+	*/
+	String getNodeName() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getNodeName, _godot_object);
+	}
+	/**
+	Gets the byte offset of the current node since the beginning of the file or buffer.
+	*/
+	long getNodeOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getNodeOffset, _godot_object);
+	}
+	/**
+	Gets the type of the current node. Compare with $(D nodetype) constants.
+	*/
+	XMLParser.NodeType getNodeType()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(XMLParser.NodeType)(_classBinding.getNodeType, _godot_object);
+	}
+	/**
+	Check whether the current element has a certain attribute.
+	*/
+	bool hasAttribute(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasAttribute, _godot_object, name);
+	}
+	/**
+	Check whether the current element is empty (this only works for completely empty tags, e.g. `&lt;element \&gt;`).
 	*/
 	bool isEmpty() const
 	{
@@ -208,12 +208,36 @@ public:
 		return ptrcall!(bool)(_classBinding.isEmpty, _godot_object);
 	}
 	/**
-	Get the current line in the parsed file (currently not implemented).
+	Opens an XML file for parsing. This returns an error code.
 	*/
-	long getCurrentLine() const
+	GodotError open(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCurrentLine, _godot_object);
+		return ptrcall!(GodotError)(_classBinding.open, _godot_object, file);
+	}
+	/**
+	Opens an XML raw buffer for parsing. This returns an error code.
+	*/
+	GodotError openBuffer(in PoolByteArray buffer)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.openBuffer, _godot_object, buffer);
+	}
+	/**
+	Reads the next node of the file. This returns an error code.
+	*/
+	GodotError read()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.read, _godot_object);
+	}
+	/**
+	Moves the buffer cursor to a certain offset (since the beginning) and read the next node there. This returns an error code.
+	*/
+	GodotError seek(in long position)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.seek, _godot_object, position);
 	}
 	/**
 	Skips the current section. If the node contains other elements, they will be ignored and the cursor will go to the closing of the current element.
@@ -222,29 +246,5 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.skipSection, _godot_object);
-	}
-	/**
-	Move the buffer cursor to a certain offset (since the beginning) and read the next node there. This returns an error code.
-	*/
-	GodotError seek(in long position)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.seek, _godot_object, position);
-	}
-	/**
-	Open a XML file for parsing. This returns an error code.
-	*/
-	GodotError open(in String file)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.open, _godot_object, file);
-	}
-	/**
-	Open a XML raw buffer for parsing. This returns an error code.
-	*/
-	GodotError openBuffer(in PoolByteArray buffer)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.openBuffer, _godot_object, buffer);
 	}
 }

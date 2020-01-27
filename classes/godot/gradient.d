@@ -1,5 +1,5 @@
 /**
-Color interpolator node.
+A color interpolator resource which can be used to generate colors between user-defined color points.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
-Color interpolator node.
+A color interpolator resource which can be used to generate colors between user-defined color points.
 
-Given a set of colors, this node will interpolate them in order, meaning, that if you have color 1, color 2 and color 3, the ramp will interpolate (generate the colors between two colors) from color 1 to color 2 and from color 2 to color 3. Initially the ramp will have 2 colors (black and white), one (black) at ramp lower offset 0 and the other (white) at the ramp higher offset 1.
+Given a set of colors, this resource will interpolate them in order. This means that if you have color 1, color 2 and color 3, the ramp will interpolate from color 1 to color 2 and from color 2 to color 3. The ramp will initially have 2 colors (black and white), one (black) at ramp lower offset 0 and the other (white) at the ramp higher offset 1.
 */
 @GodotBaseClass struct Gradient
 {
@@ -40,17 +39,17 @@ public:
 	{
 		__gshared:
 		@GodotName("add_point") GodotMethod!(void, double, Color) addPoint;
-		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
-		@GodotName("set_offset") GodotMethod!(void, long, double) setOffset;
-		@GodotName("get_offset") GodotMethod!(double, long) getOffset;
-		@GodotName("set_color") GodotMethod!(void, long, Color) setColor;
 		@GodotName("get_color") GodotMethod!(Color, long) getColor;
-		@GodotName("interpolate") GodotMethod!(Color, double) interpolate;
-		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
-		@GodotName("set_offsets") GodotMethod!(void, PoolRealArray) setOffsets;
-		@GodotName("get_offsets") GodotMethod!(PoolRealArray) getOffsets;
-		@GodotName("set_colors") GodotMethod!(void, PoolColorArray) setColors;
 		@GodotName("get_colors") GodotMethod!(PoolColorArray) getColors;
+		@GodotName("get_offset") GodotMethod!(double, long) getOffset;
+		@GodotName("get_offsets") GodotMethod!(PoolRealArray) getOffsets;
+		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
+		@GodotName("interpolate") GodotMethod!(Color, double) interpolate;
+		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("set_color") GodotMethod!(void, long, Color) setColor;
+		@GodotName("set_colors") GodotMethod!(void, PoolColorArray) setColors;
+		@GodotName("set_offset") GodotMethod!(void, long, double) setOffset;
+		@GodotName("set_offsets") GodotMethod!(void, PoolRealArray) setOffsets;
 	}
 	bool opEquals(in Gradient other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Gradient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,7 +64,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Adds the specified color to the end of the ramp, with the specified offset
+	Adds the specified color to the end of the ramp, with the specified offset.
 	*/
 	void addPoint(in double offset, in Color color)
 	{
@@ -73,84 +72,12 @@ public:
 		ptrcall!(void)(_classBinding.addPoint, _godot_object, offset, color);
 	}
 	/**
-	Removes the color at the index $(I offset)
-	*/
-	void removePoint(in long offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, offset);
-	}
-	/**
-	Sets the offset for the ramp color at index $(I point)
-	*/
-	void setOffset(in long point, in double offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, point, offset);
-	}
-	/**
-	Returns the offset of the ramp color at index $(I point)
-	*/
-	double getOffset(in long point) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOffset, _godot_object, point);
-	}
-	/**
-	Sets the color of the ramp color at index $(I point)
-	*/
-	void setColor(in long point, in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, point, color);
-	}
-	/**
-	Returns the color of the ramp color at index $(I point)
+	Returns the color of the ramp color at index `point`.
 	*/
 	Color getColor(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getColor, _godot_object, point);
-	}
-	/**
-	Returns the interpolated color specified by $(I offset)
-	*/
-	Color interpolate(in double offset)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.interpolate, _godot_object, offset);
-	}
-	/**
-	Returns the number of colors in the ramp
-	*/
-	long getPointCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOffsets(in PoolRealArray offsets)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffsets, _godot_object, offsets);
-	}
-	/**
-	
-	*/
-	PoolRealArray getOffsets() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolRealArray)(_classBinding.getOffsets, _godot_object);
-	}
-	/**
-	
-	*/
-	void setColors(in PoolColorArray colors)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColors, _godot_object, colors);
 	}
 	/**
 	
@@ -161,16 +88,76 @@ public:
 		return ptrcall!(PoolColorArray)(_classBinding.getColors, _godot_object);
 	}
 	/**
-	Gradient's offsets returned as a $(D PoolRealArray).
+	Returns the offset of the ramp color at index `point`.
 	*/
-	@property PoolRealArray offsets()
+	double getOffset(in long point) const
 	{
-		return getOffsets();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOffset, _godot_object, point);
 	}
-	/// ditto
-	@property void offsets(PoolRealArray v)
+	/**
+	
+	*/
+	PoolRealArray getOffsets() const
 	{
-		setOffsets(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolRealArray)(_classBinding.getOffsets, _godot_object);
+	}
+	/**
+	Returns the number of colors in the ramp.
+	*/
+	long getPointCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+	}
+	/**
+	Returns the interpolated color specified by `offset`.
+	*/
+	Color interpolate(in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.interpolate, _godot_object, offset);
+	}
+	/**
+	Removes the color at the index `offset`.
+	*/
+	void removePoint(in long offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removePoint, _godot_object, offset);
+	}
+	/**
+	Sets the color of the ramp color at index `point`.
+	*/
+	void setColor(in long point, in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, point, color);
+	}
+	/**
+	
+	*/
+	void setColors(in PoolColorArray colors)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColors, _godot_object, colors);
+	}
+	/**
+	Sets the offset for the ramp color at index `point`.
+	*/
+	void setOffset(in long point, in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, point, offset);
+	}
+	/**
+	
+	*/
+	void setOffsets(in PoolRealArray offsets)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffsets, _godot_object, offsets);
 	}
 	/**
 	Gradient's colors returned as a $(D PoolColorArray).
@@ -183,5 +170,17 @@ public:
 	@property void colors(PoolColorArray v)
 	{
 		setColors(v);
+	}
+	/**
+	Gradient's offsets returned as a $(D PoolRealArray).
+	*/
+	@property PoolRealArray offsets()
+	{
+		return getOffsets();
+	}
+	/// ditto
+	@property void offsets(PoolRealArray v)
+	{
+		setOffsets(v);
 	}
 }

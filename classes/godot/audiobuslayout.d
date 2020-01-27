@@ -1,5 +1,5 @@
 /**
-Stores information about the audiobusses.
+Stores information about the audio buses.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
-Stores information about the audiobusses.
+Stores information about the audio buses.
 
 Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between buses. See $(D AudioServer) for usage.
 */

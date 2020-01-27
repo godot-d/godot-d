@@ -36,15 +36,15 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_motion") GodotMethod!(Vector2) getMotion;
-		@GodotName("get_motion_remainder") GodotMethod!(Vector2) getMotionRemainder;
-		@GodotName("get_collision_point") GodotMethod!(Vector2) getCollisionPoint;
-		@GodotName("get_collision_normal") GodotMethod!(Vector2) getCollisionNormal;
-		@GodotName("get_collider_velocity") GodotMethod!(Vector2) getColliderVelocity;
+		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
 		@GodotName("get_collider_id") GodotMethod!(long) getColliderId;
 		@GodotName("get_collider_rid") GodotMethod!(RID) getColliderRid;
-		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
 		@GodotName("get_collider_shape") GodotMethod!(long) getColliderShape;
+		@GodotName("get_collider_velocity") GodotMethod!(Vector2) getColliderVelocity;
+		@GodotName("get_collision_normal") GodotMethod!(Vector2) getCollisionNormal;
+		@GodotName("get_collision_point") GodotMethod!(Vector2) getCollisionPoint;
+		@GodotName("get_motion") GodotMethod!(Vector2) getMotion;
+		@GodotName("get_motion_remainder") GodotMethod!(Vector2) getMotionRemainder;
 	}
 	bool opEquals(in Physics2DTestMotionResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Physics2DTestMotionResult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,42 +61,10 @@ public:
 	/**
 	
 	*/
-	Vector2 getMotion() const
+	GodotObject getCollider() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getMotionRemainder() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotionRemainder, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getCollisionPoint() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCollisionPoint, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getCollisionNormal() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCollisionNormal, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getColliderVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getColliderVelocity, _godot_object);
+		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
 	}
 	/**
 	
@@ -117,14 +85,6 @@ public:
 	/**
 	
 	*/
-	GodotObject getCollider() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
-	}
-	/**
-	
-	*/
 	long getColliderShape() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -133,37 +93,49 @@ public:
 	/**
 	
 	*/
-	@property Vector2 motion()
+	Vector2 getColliderVelocity() const
 	{
-		return getMotion();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getColliderVelocity, _godot_object);
 	}
 	/**
 	
 	*/
-	@property Vector2 motionRemainder()
+	Vector2 getCollisionNormal() const
 	{
-		return getMotionRemainder();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCollisionNormal, _godot_object);
 	}
 	/**
 	
 	*/
-	@property Vector2 collisionPoint()
+	Vector2 getCollisionPoint() const
 	{
-		return getCollisionPoint();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCollisionPoint, _godot_object);
 	}
 	/**
 	
 	*/
-	@property Vector2 collisionNormal()
+	Vector2 getMotion() const
 	{
-		return getCollisionNormal();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
 	}
 	/**
 	
 	*/
-	@property Vector2 colliderVelocity()
+	Vector2 getMotionRemainder() const
 	{
-		return getColliderVelocity();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMotionRemainder, _godot_object);
+	}
+	/**
+	
+	*/
+	@property GodotObject collider()
+	{
+		return getCollider();
 	}
 	/**
 	
@@ -182,15 +154,43 @@ public:
 	/**
 	
 	*/
-	@property GodotObject collider()
+	@property long colliderShape()
 	{
-		return getCollider();
+		return getColliderShape();
 	}
 	/**
 	
 	*/
-	@property long colliderShape()
+	@property Vector2 colliderVelocity()
 	{
-		return getColliderShape();
+		return getColliderVelocity();
+	}
+	/**
+	
+	*/
+	@property Vector2 collisionNormal()
+	{
+		return getCollisionNormal();
+	}
+	/**
+	
+	*/
+	@property Vector2 collisionPoint()
+	{
+		return getCollisionPoint();
+	}
+	/**
+	
+	*/
+	@property Vector2 motion()
+	{
+		return getMotion();
+	}
+	/**
+	
+	*/
+	@property Vector2 motionRemainder()
+	{
+		return getMotionRemainder();
 	}
 }

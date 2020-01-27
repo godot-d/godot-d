@@ -1,5 +1,5 @@
 /**
-AStar class representation that uses vectors as edges.
+An implementation of A* to find shortest paths among connected points in space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,10 +22,24 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-AStar class representation that uses vectors as edges.
+An implementation of A* to find shortest paths among connected points in space.
 
-A* (A star) is a computer algorithm that is widely used in pathfinding and graph traversal, the process of plotting an efficiently directed path between multiple points. It enjoys widespread use due to its performance and accuracy. Godot's A* implementation make use of vectors as points.
-You must add points manually with $(D AStar.addPoint) and create segments manually with $(D AStar.connectPoints). So you can test if there is a path between two points with the $(D AStar.arePointsConnected) function, get the list of existing ids in the found path with $(D AStar.getIdPath), or the points list with $(D AStar.getPointPath).
+A* (A star) is a computer algorithm that is widely used in pathfinding and graph traversal, the process of plotting short paths among vertices (points), passing through a given set of edges (segments). It enjoys widespread use due to its performance and accuracy. Godot's A* implementation uses points in three-dimensional space and Euclidean distances by default.
+You must add points manually with $(D addPoint) and create segments manually with $(D connectPoints). Then you can test if there is a path between two points with the $(D arePointsConnected) function, get a path containing indices by $(D getIdPath), or one containing actual coordinates with $(D getPointPath).
+It is also possible to use non-Euclidean distances. To do so, create a class that extends `AStar` and override methods $(D _computeCost) and $(D _estimateCost). Both take two indices and return a length, as is shown in the following example.
+
+
+class MyAStar:
+    extends AStar
+
+    func _compute_cost(u, v):
+        return abs(u - v)
+
+    func _estimate_cost(u, v):
+        return min(0, abs(u - v) - 1)
+
+
+$(D _estimateCost) should return a lower bound of the distance, i.e. `_estimate_cost(u, v) &lt;= _compute_cost(u, v)`. This serves as a hint to the algorithm because the custom `_compute_cost` might be computation-heavy. If this is not the case, make $(D _estimateCost) return the same value as $(D _computeCost) to provide the algorithm with the most accurate information.
 */
 @GodotBaseClass struct AStar
 {
@@ -39,28 +53,31 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_estimate_cost") GodotMethod!(double, long, long) _estimateCost;
 		@GodotName("_compute_cost") GodotMethod!(double, long, long) _computeCost;
-		@GodotName("get_available_point_id") GodotMethod!(long) getAvailablePointId;
+		@GodotName("_estimate_cost") GodotMethod!(double, long, long) _estimateCost;
 		@GodotName("add_point") GodotMethod!(void, long, Vector3, double) addPoint;
-		@GodotName("get_point_position") GodotMethod!(Vector3, long) getPointPosition;
-		@GodotName("set_point_position") GodotMethod!(void, long, Vector3) setPointPosition;
-		@GodotName("get_point_weight_scale") GodotMethod!(double, long) getPointWeightScale;
-		@GodotName("set_point_weight_scale") GodotMethod!(void, long, double) setPointWeightScale;
-		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
-		@GodotName("has_point") GodotMethod!(bool, long) hasPoint;
-		@GodotName("get_points") GodotMethod!(Array) getPoints;
-		@GodotName("set_point_disabled") GodotMethod!(void, long, bool) setPointDisabled;
-		@GodotName("is_point_disabled") GodotMethod!(bool, long) isPointDisabled;
-		@GodotName("get_point_connections") GodotMethod!(PoolIntArray, long) getPointConnections;
-		@GodotName("connect_points") GodotMethod!(void, long, long, bool) connectPoints;
-		@GodotName("disconnect_points") GodotMethod!(void, long, long) disconnectPoints;
-		@GodotName("are_points_connected") GodotMethod!(bool, long, long) arePointsConnected;
+		@GodotName("are_points_connected") GodotMethod!(bool, long, long, bool) arePointsConnected;
 		@GodotName("clear") GodotMethod!(void) clear;
-		@GodotName("get_closest_point") GodotMethod!(long, Vector3) getClosestPoint;
+		@GodotName("connect_points") GodotMethod!(void, long, long, bool) connectPoints;
+		@GodotName("disconnect_points") GodotMethod!(void, long, long, bool) disconnectPoints;
+		@GodotName("get_available_point_id") GodotMethod!(long) getAvailablePointId;
+		@GodotName("get_closest_point") GodotMethod!(long, Vector3, bool) getClosestPoint;
 		@GodotName("get_closest_position_in_segment") GodotMethod!(Vector3, Vector3) getClosestPositionInSegment;
-		@GodotName("get_point_path") GodotMethod!(PoolVector3Array, long, long) getPointPath;
 		@GodotName("get_id_path") GodotMethod!(PoolIntArray, long, long) getIdPath;
+		@GodotName("get_point_capacity") GodotMethod!(long) getPointCapacity;
+		@GodotName("get_point_connections") GodotMethod!(PoolIntArray, long) getPointConnections;
+		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
+		@GodotName("get_point_path") GodotMethod!(PoolVector3Array, long, long) getPointPath;
+		@GodotName("get_point_position") GodotMethod!(Vector3, long) getPointPosition;
+		@GodotName("get_point_weight_scale") GodotMethod!(double, long) getPointWeightScale;
+		@GodotName("get_points") GodotMethod!(Array) getPoints;
+		@GodotName("has_point") GodotMethod!(bool, long) hasPoint;
+		@GodotName("is_point_disabled") GodotMethod!(bool, long) isPointDisabled;
+		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("reserve_space") GodotMethod!(void, long) reserveSpace;
+		@GodotName("set_point_disabled") GodotMethod!(void, long, bool) setPointDisabled;
+		@GodotName("set_point_position") GodotMethod!(void, long, Vector3) setPointPosition;
+		@GodotName("set_point_weight_scale") GodotMethod!(void, long, double) setPointWeightScale;
 	}
 	bool opEquals(in AStar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AStar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -75,44 +92,38 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Called when estimating the cost between a point and the path's ending point.
-	*/
-	double _estimateCost(in long from_id, in long to_id)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(from_id);
-		_GODOT_args.append(to_id);
-		String _GODOT_method_name = String("_estimate_cost");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
-	}
-	/**
 	Called when computing the cost between two connected points.
+	Note that this function is hidden in the default `AStar` class.
 	*/
 	double _computeCost(in long from_id, in long to_id)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(from_id);
 		_GODOT_args.append(to_id);
 		String _GODOT_method_name = String("_compute_cost");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
 	/**
-	Returns the next available point id with no point associated to it.
+	Called when estimating the cost between a point and the path's ending point.
+	Note that this function is hidden in the default `AStar` class.
 	*/
-	long getAvailablePointId() const
+	double _estimateCost(in long from_id, in long to_id)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAvailablePointId, _godot_object);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(from_id);
+		_GODOT_args.append(to_id);
+		String _GODOT_method_name = String("_estimate_cost");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
 	/**
 	Adds a new point at the given position with the given identifier. The algorithm prefers points with lower `weight_scale` to form a path. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
 	
 	
-	var as = AStar.new()
-	as.add_point(1, Vector3(1, 0, 0), 4) # Adds the point (1, 0, 0) with weight_scale 4 and id 1
+	var astar = AStar.new()
+	astar.add_point(1, Vector3(1, 0, 0), 4) # Adds the point (1, 0, 0) with weight_scale 4 and id 1
 	
 	
-	If there already exists a point for the given id, its position and weight scale are updated to the given values.
+	If there already exists a point for the given `id`, its position and weight scale are updated to the given values.
 	*/
 	void addPoint(in long id, in Vector3 position, in double weight_scale = 1)
 	{
@@ -120,130 +131,12 @@ public:
 		ptrcall!(void)(_classBinding.addPoint, _godot_object, id, position, weight_scale);
 	}
 	/**
-	Returns the position of the point associated with the given id.
+	Returns whether the two given points are directly connected by a segment. If `bidirectional` is `false`, returns whether movement from `id` to `to_id` is possible through this segment.
 	*/
-	Vector3 getPointPosition(in long id) const
+	bool arePointsConnected(in long id, in long to_id, in bool bidirectional = true) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getPointPosition, _godot_object, id);
-	}
-	/**
-	Sets the position for the point with the given id.
-	*/
-	void setPointPosition(in long id, in Vector3 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, id, position);
-	}
-	/**
-	Returns the weight scale of the point associated with the given id.
-	*/
-	double getPointWeightScale(in long id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointWeightScale, _godot_object, id);
-	}
-	/**
-	Sets the `weight_scale` for the point with the given id.
-	*/
-	void setPointWeightScale(in long id, in double weight_scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointWeightScale, _godot_object, id, weight_scale);
-	}
-	/**
-	Removes the point associated with the given id from the points pool.
-	*/
-	void removePoint(in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, id);
-	}
-	/**
-	Returns whether a point associated with the given id exists.
-	*/
-	bool hasPoint(in long id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasPoint, _godot_object, id);
-	}
-	/**
-	Returns an array of all points.
-	*/
-	Array getPoints()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getPoints, _godot_object);
-	}
-	/**
-	Disables or enables the specified point for pathfinding. Useful for making a temporary obstacle.
-	*/
-	void setPointDisabled(in long id, in bool disabled = true)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointDisabled, _godot_object, id, disabled);
-	}
-	/**
-	Returns whether a point is disabled or not for pathfinding. By default, all points are enabled.
-	*/
-	bool isPointDisabled(in long id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPointDisabled, _godot_object, id);
-	}
-	/**
-	Returns an array with the ids of the points that form the connect with the given point.
-	
-	
-	var as = AStar.new()
-	as.add_point(1, Vector3(0, 0, 0))
-	as.add_point(2, Vector3(0, 1, 0))
-	as.add_point(3, Vector3(1, 1, 0))
-	as.add_point(4, Vector3(2, 0, 0))
-	
-	as.connect_points(1, 2, true)
-	as.connect_points(1, 3, true)
-	
-	var neighbors = as.get_point_connections(1) # returns $(D 2, 3)
-	
-	
-	*/
-	PoolIntArray getPointConnections(in long id)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getPointConnections, _godot_object, id);
-	}
-	/**
-	Creates a segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is allowed, not the reverse direction.
-	
-	
-	var as = AStar.new()
-	as.add_point(1, Vector3(1, 1, 0))
-	as.add_point(2, Vector3(0, 5, 0))
-	as.connect_points(1, 2, false)
-	
-	
-	*/
-	void connectPoints(in long id, in long to_id, in bool bidirectional = true)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.connectPoints, _godot_object, id, to_id, bidirectional);
-	}
-	/**
-	Deletes the segment between the given points.
-	*/
-	void disconnectPoints(in long id, in long to_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectPoints, _godot_object, id, to_id);
-	}
-	/**
-	Returns whether there is a connection/segment between the given points.
-	*/
-	bool arePointsConnected(in long id, in long to_id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.arePointsConnected, _godot_object, id, to_id);
+		return ptrcall!(bool)(_classBinding.arePointsConnected, _godot_object, id, to_id, bidirectional);
 	}
 	/**
 	Clears all the points and segments.
@@ -254,22 +147,54 @@ public:
 		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 	/**
-	Returns the id of the closest point to `to_position`. Returns -1 if there are no points in the points pool.
+	Creates a segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is allowed, not the reverse direction.
+	
+	
+	var astar = AStar.new()
+	astar.add_point(1, Vector3(1, 1, 0))
+	astar.add_point(2, Vector3(0, 5, 0))
+	astar.connect_points(1, 2, false)
+	
+	
 	*/
-	long getClosestPoint(in Vector3 to_position) const
+	void connectPoints(in long id, in long to_id, in bool bidirectional = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getClosestPoint, _godot_object, to_position);
+		ptrcall!(void)(_classBinding.connectPoints, _godot_object, id, to_id, bidirectional);
+	}
+	/**
+	Deletes the segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is prevented, and a unidirectional segment possibly remains.
+	*/
+	void disconnectPoints(in long id, in long to_id, in bool bidirectional = true)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnectPoints, _godot_object, id, to_id, bidirectional);
+	}
+	/**
+	Returns the next available point ID with no point associated to it.
+	*/
+	long getAvailablePointId() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getAvailablePointId, _godot_object);
+	}
+	/**
+	Returns the ID of the closest point to `to_position`, optionally taking disabled points into account. Returns -1 if there are no points in the points pool.
+	*/
+	long getClosestPoint(in Vector3 to_position, in bool include_disabled = false) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getClosestPoint, _godot_object, to_position, include_disabled);
 	}
 	/**
 	Returns the closest position to `to_position` that resides inside a segment between two connected points.
 	
 	
-	var as = AStar.new()
-	as.add_point(1, Vector3(0, 0, 0))
-	as.add_point(2, Vector3(0, 5, 0))
-	as.connect_points(1, 2)
-	var res = as.get_closest_position_in_segment(Vector3(3, 3, 0)) # returns (0, 3, 0)
+	var astar = AStar.new()
+	astar.add_point(1, Vector3(0, 0, 0))
+	astar.add_point(2, Vector3(0, 5, 0))
+	astar.connect_points(1, 2)
+	var res = astar.get_closest_position_in_segment(Vector3(3, 3, 0)) # Returns (0, 3, 0)
 	
 	
 	The result is in the segment that goes from `y = 0` to `y = 5`. It's the closest position in the segment to the given point.
@@ -280,30 +205,21 @@ public:
 		return ptrcall!(Vector3)(_classBinding.getClosestPositionInSegment, _godot_object, to_position);
 	}
 	/**
-	Returns an array with the points that are in the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
-	*/
-	PoolVector3Array getPointPath(in long from_id, in long to_id)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector3Array)(_classBinding.getPointPath, _godot_object, from_id, to_id);
-	}
-	/**
-	Returns an array with the ids of the points that form the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
+	Returns an array with the IDs of the points that form the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
 	
 	
-	var as = AStar.new()
-	as.add_point(1, Vector3(0, 0, 0))
-	as.add_point(2, Vector3(0, 1, 0), 1) # default weight is 1
-	as.add_point(3, Vector3(1, 1, 0))
-	as.add_point(4, Vector3(2, 0, 0))
+	var astar = AStar.new()
+	astar.add_point(1, Vector3(0, 0, 0))
+	astar.add_point(2, Vector3(0, 1, 0), 1) # Default weight is 1
+	astar.add_point(3, Vector3(1, 1, 0))
+	astar.add_point(4, Vector3(2, 0, 0))
 	
-	as.connect_points(1, 2, false)
-	as.connect_points(2, 3, false)
-	as.connect_points(4, 3, false)
-	as.connect_points(1, 4, false)
-	as.connect_points(5, 4, false)
+	astar.connect_points(1, 2, false)
+	astar.connect_points(2, 3, false)
+	astar.connect_points(4, 3, false)
+	astar.connect_points(1, 4, false)
 	
-	var res = as.get_id_path(1, 3) # returns $(D 1, 2, 3)
+	var res = astar.get_id_path(1, 3) # Returns $(D 1, 2, 3)
 	
 	
 	If you change the 2nd point's weight to 3, then the result will be `$(D 1, 4, 3)` instead, because now even though the distance is longer, it's "easier" to get through point 4 than through point 2.
@@ -312,5 +228,131 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolIntArray)(_classBinding.getIdPath, _godot_object, from_id, to_id);
+	}
+	/**
+	Returns the capacity of the structure backing the points, useful in conjunction with `reserve_space`.
+	*/
+	long getPointCapacity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPointCapacity, _godot_object);
+	}
+	/**
+	Returns an array with the IDs of the points that form the connection with the given point.
+	
+	
+	var astar = AStar.new()
+	astar.add_point(1, Vector3(0, 0, 0))
+	astar.add_point(2, Vector3(0, 1, 0))
+	astar.add_point(3, Vector3(1, 1, 0))
+	astar.add_point(4, Vector3(2, 0, 0))
+	
+	astar.connect_points(1, 2, true)
+	astar.connect_points(1, 3, true)
+	
+	var neighbors = astar.get_point_connections(1) # Returns $(D 2, 3)
+	
+	
+	*/
+	PoolIntArray getPointConnections(in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.getPointConnections, _godot_object, id);
+	}
+	/**
+	Returns the number of points currently in the points pool.
+	*/
+	long getPointCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+	}
+	/**
+	Returns an array with the points that are in the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
+	*/
+	PoolVector3Array getPointPath(in long from_id, in long to_id)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector3Array)(_classBinding.getPointPath, _godot_object, from_id, to_id);
+	}
+	/**
+	Returns the position of the point associated with the given `id`.
+	*/
+	Vector3 getPointPosition(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getPointPosition, _godot_object, id);
+	}
+	/**
+	Returns the weight scale of the point associated with the given `id`.
+	*/
+	double getPointWeightScale(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPointWeightScale, _godot_object, id);
+	}
+	/**
+	Returns an array of all points.
+	*/
+	Array getPoints()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getPoints, _godot_object);
+	}
+	/**
+	Returns whether a point associated with the given `id` exists.
+	*/
+	bool hasPoint(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasPoint, _godot_object, id);
+	}
+	/**
+	Returns whether a point is disabled or not for pathfinding. By default, all points are enabled.
+	*/
+	bool isPointDisabled(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPointDisabled, _godot_object, id);
+	}
+	/**
+	Removes the point associated with the given `id` from the points pool.
+	*/
+	void removePoint(in long id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removePoint, _godot_object, id);
+	}
+	/**
+	Reserves space internally for `num_nodes` points, useful if you're adding a known large number of points at once, for a grid for instance. New capacity must be greater or equals to old capacity.
+	*/
+	void reserveSpace(in long num_nodes)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.reserveSpace, _godot_object, num_nodes);
+	}
+	/**
+	Disables or enables the specified point for pathfinding. Useful for making a temporary obstacle.
+	*/
+	void setPointDisabled(in long id, in bool disabled = true)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointDisabled, _godot_object, id, disabled);
+	}
+	/**
+	Sets the `position` for the point with the given `id`.
+	*/
+	void setPointPosition(in long id, in Vector3 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, id, position);
+	}
+	/**
+	Sets the `weight_scale` for the point with the given `id`.
+	*/
+	void setPointWeightScale(in long id, in double weight_scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointWeightScale, _godot_object, id, weight_scale);
 	}
 }

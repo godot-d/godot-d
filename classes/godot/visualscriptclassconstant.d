@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 Gets a constant from a given class.
 
-This node returns a constant from a given class, such as $(D constant @GlobalScope.TYPE_INT). See the given class' documentation for available constants.
+This node returns a constant from a given class, such as $(D constant TYPE_INT). See the given class' documentation for available constants.
 $(B Input Ports:)
 none
 $(B Output Ports:)
@@ -44,10 +42,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_class_constant") GodotMethod!(void, String) setClassConstant;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
 		@GodotName("get_class_constant") GodotMethod!(String) getClassConstant;
 		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
-		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("set_class_constant") GodotMethod!(void, String) setClassConstant;
 	}
 	bool opEquals(in VisualScriptClassConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptClassConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,10 +62,10 @@ public:
 	/**
 	
 	*/
-	void setClassConstant(in String name)
+	String getBaseType()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClassConstant, _godot_object, name);
+		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
 	}
 	/**
 	
@@ -88,10 +86,10 @@ public:
 	/**
 	
 	*/
-	String getBaseType()
+	void setClassConstant(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
+		ptrcall!(void)(_classBinding.setClassConstant, _godot_object, name);
 	}
 	/**
 	The constant's parent class.

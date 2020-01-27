@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 Emits a specified signal.
 
@@ -44,8 +42,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_signal") GodotMethod!(void, String) setSignal;
 		@GodotName("get_signal") GodotMethod!(String) getSignal;
+		@GodotName("set_signal") GodotMethod!(void, String) setSignal;
 	}
 	bool opEquals(in VisualScriptEmitSignal other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptEmitSignal opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,18 +60,18 @@ public:
 	/**
 	
 	*/
-	void setSignal(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSignal, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getSignal() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getSignal, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSignal(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSignal, _godot_object, name);
 	}
 	/**
 	The signal to emit.

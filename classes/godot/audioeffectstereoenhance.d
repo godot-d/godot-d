@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,12 +37,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_pan_pullout") GodotMethod!(void, double) setPanPullout;
 		@GodotName("get_pan_pullout") GodotMethod!(double) getPanPullout;
-		@GodotName("set_time_pullout") GodotMethod!(void, double) setTimePullout;
-		@GodotName("get_time_pullout") GodotMethod!(double) getTimePullout;
-		@GodotName("set_surround") GodotMethod!(void, double) setSurround;
 		@GodotName("get_surround") GodotMethod!(double) getSurround;
+		@GodotName("get_time_pullout") GodotMethod!(double) getTimePullout;
+		@GodotName("set_pan_pullout") GodotMethod!(void, double) setPanPullout;
+		@GodotName("set_surround") GodotMethod!(void, double) setSurround;
+		@GodotName("set_time_pullout") GodotMethod!(void, double) setTimePullout;
 	}
 	bool opEquals(in AudioEffectStereoEnhance other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectStereoEnhance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +59,6 @@ public:
 	/**
 	
 	*/
-	void setPanPullout(in double amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPanPullout, _godot_object, amount);
-	}
-	/**
-	
-	*/
 	double getPanPullout() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -76,10 +67,10 @@ public:
 	/**
 	
 	*/
-	void setTimePullout(in double amount)
+	double getSurround() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTimePullout, _godot_object, amount);
+		return ptrcall!(double)(_classBinding.getSurround, _godot_object);
 	}
 	/**
 	
@@ -92,6 +83,14 @@ public:
 	/**
 	
 	*/
+	void setPanPullout(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPanPullout, _godot_object, amount);
+	}
+	/**
+	
+	*/
 	void setSurround(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
@@ -100,10 +99,10 @@ public:
 	/**
 	
 	*/
-	double getSurround() const
+	void setTimePullout(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSurround, _godot_object);
+		ptrcall!(void)(_classBinding.setTimePullout, _godot_object, amount);
 	}
 	/**
 	
@@ -120,18 +119,6 @@ public:
 	/**
 	
 	*/
-	@property double timePulloutMs()
-	{
-		return getTimePullout();
-	}
-	/// ditto
-	@property void timePulloutMs(double v)
-	{
-		setTimePullout(v);
-	}
-	/**
-	
-	*/
 	@property double surround()
 	{
 		return getSurround();
@@ -140,5 +127,17 @@ public:
 	@property void surround(double v)
 	{
 		setSurround(v);
+	}
+	/**
+	
+	*/
+	@property double timePulloutMs()
+	{
+		return getTimePullout();
+	}
+	/// ditto
+	@property void timePulloutMs(double v)
+	{
+		setTimePullout(v);
 	}
 }

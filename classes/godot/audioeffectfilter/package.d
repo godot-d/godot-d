@@ -1,5 +1,5 @@
 /**
-Adds a filter to the Audio Bus.
+Adds a filter to the audio bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a filter to the Audio Bus.
+Adds a filter to the audio bus.
 
 Allows frequencies other than the $(D cutoffHz) to pass.
 */
@@ -40,14 +39,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_cutoff") GodotMethod!(void, double) setCutoff;
 		@GodotName("get_cutoff") GodotMethod!(double) getCutoff;
-		@GodotName("set_resonance") GodotMethod!(void, double) setResonance;
-		@GodotName("get_resonance") GodotMethod!(double) getResonance;
-		@GodotName("set_gain") GodotMethod!(void, double) setGain;
-		@GodotName("get_gain") GodotMethod!(double) getGain;
-		@GodotName("set_db") GodotMethod!(void, long) setDb;
 		@GodotName("get_db") GodotMethod!(AudioEffectFilter.FilterDB) getDb;
+		@GodotName("get_gain") GodotMethod!(double) getGain;
+		@GodotName("get_resonance") GodotMethod!(double) getResonance;
+		@GodotName("set_cutoff") GodotMethod!(void, double) setCutoff;
+		@GodotName("set_db") GodotMethod!(void, long) setDb;
+		@GodotName("set_gain") GodotMethod!(void, double) setGain;
+		@GodotName("set_resonance") GodotMethod!(void, double) setResonance;
 	}
 	bool opEquals(in AudioEffectFilter other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectFilter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -92,14 +91,6 @@ public:
 	/**
 	
 	*/
-	void setCutoff(in double freq)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCutoff, _godot_object, freq);
-	}
-	/**
-	
-	*/
 	double getCutoff() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -108,26 +99,10 @@ public:
 	/**
 	
 	*/
-	void setResonance(in double amount)
+	AudioEffectFilter.FilterDB getDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setResonance, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	double getResonance() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getResonance, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGain(in double amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGain, _godot_object, amount);
+		return ptrcall!(AudioEffectFilter.FilterDB)(_classBinding.getDb, _godot_object);
 	}
 	/**
 	
@@ -140,6 +115,22 @@ public:
 	/**
 	
 	*/
+	double getResonance() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getResonance, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCutoff(in double freq)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCutoff, _godot_object, freq);
+	}
+	/**
+	
+	*/
 	void setDb(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
@@ -148,13 +139,21 @@ public:
 	/**
 	
 	*/
-	AudioEffectFilter.FilterDB getDb() const
+	void setGain(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectFilter.FilterDB)(_classBinding.getDb, _godot_object);
+		ptrcall!(void)(_classBinding.setGain, _godot_object, amount);
 	}
 	/**
-	Threshold frequency for the filter.
+	
+	*/
+	void setResonance(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setResonance, _godot_object, amount);
+	}
+	/**
+	Threshold frequency for the filter, in Hz.
 	*/
 	@property double cutoffHz()
 	{
@@ -166,16 +165,16 @@ public:
 		setCutoff(v);
 	}
 	/**
-	Amount of boost in the overtones near the cutoff frequency.
+	
 	*/
-	@property double resonance()
+	@property AudioEffectFilter.FilterDB db()
 	{
-		return getResonance();
+		return getDb();
 	}
 	/// ditto
-	@property void resonance(double v)
+	@property void db(long v)
 	{
-		setResonance(v);
+		setDb(v);
 	}
 	/**
 	Gain amount of the frequencies after the filter.
@@ -190,15 +189,15 @@ public:
 		setGain(v);
 	}
 	/**
-	
+	Amount of boost in the overtones near the cutoff frequency.
 	*/
-	@property AudioEffectFilter.FilterDB db()
+	@property double resonance()
 	{
-		return getDb();
+		return getResonance();
 	}
 	/// ditto
-	@property void db(long v)
+	@property void resonance(double v)
 	{
-		setDb(v);
+		setResonance(v);
 	}
 }

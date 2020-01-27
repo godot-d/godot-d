@@ -1,5 +1,5 @@
 /**
-Gradient filled texture.
+Gradient-filled texture.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,12 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 import godot.gradient;
-import godot.resource;
-import godot.reference;
 /**
-Gradient filled texture.
+Gradient-filled texture.
 
-Uses a $(D Gradient) to fill the texture data, the gradient will be filled from left to right using colors obtained from the gradient, this means that the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see $(D width)).
+GradientTexture uses a $(D Gradient) to fill the texture data. The gradient will be filled from left to right using colors obtained from the gradient. This means the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see $(D width)).
 */
 @GodotBaseClass struct GradientTexture
 {
@@ -41,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_gradient") GodotMethod!(void, Gradient) setGradient;
-		@GodotName("get_gradient") GodotMethod!(Gradient) getGradient;
-		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 		@GodotName("_update") GodotMethod!(void) _update;
+		@GodotName("get_gradient") GodotMethod!(Gradient) getGradient;
+		@GodotName("set_gradient") GodotMethod!(void, Gradient) setGradient;
+		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 	}
 	bool opEquals(in GradientTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GradientTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,10 +59,11 @@ public:
 	/**
 	
 	*/
-	void setGradient(Gradient gradient)
+	void _update()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGradient, _godot_object, gradient);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -77,19 +76,18 @@ public:
 	/**
 	
 	*/
-	void setWidth(in long width)
+	void setGradient(Gradient gradient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		ptrcall!(void)(_classBinding.setGradient, _godot_object, gradient);
 	}
 	/**
 	
 	*/
-	void _update()
+	void setWidth(in long width)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
 	}
 	/**
 	The $(D Gradient) that will be used to fill the texture.

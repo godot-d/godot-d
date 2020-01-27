@@ -23,12 +23,10 @@ import godot.classdb;
 import godot.button;
 import godot.basebutton;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Binary choice user interface widget.
 
-A checkbox allows the user to make a binary choice (choosing only one of two possible options), for example Answer 'yes' or 'no'.
+A checkbox allows the user to make a binary choice (choosing only one of two possible options).
 */
 @GodotBaseClass struct CheckBox
 {

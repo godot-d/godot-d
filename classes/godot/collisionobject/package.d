@@ -22,7 +22,6 @@ import godot.object;
 import godot.spatial;
 import godot.inputevent;
 import godot.shape;
-import godot.node;
 /**
 Base node for collision objects.
 
@@ -41,26 +40,26 @@ public:
 	{
 		__gshared:
 		@GodotName("_input_event") GodotMethod!(void, GodotObject, InputEvent, Vector3, Vector3, long) _inputEvent;
-		@GodotName("set_ray_pickable") GodotMethod!(void, bool) setRayPickable;
-		@GodotName("is_ray_pickable") GodotMethod!(bool) isRayPickable;
-		@GodotName("set_capture_input_on_drag") GodotMethod!(void, bool) setCaptureInputOnDrag;
+		@GodotName("create_shape_owner") GodotMethod!(long, GodotObject) createShapeOwner;
 		@GodotName("get_capture_input_on_drag") GodotMethod!(bool) getCaptureInputOnDrag;
 		@GodotName("get_rid") GodotMethod!(RID) getRid;
-		@GodotName("create_shape_owner") GodotMethod!(long, GodotObject) createShapeOwner;
-		@GodotName("remove_shape_owner") GodotMethod!(void, long) removeShapeOwner;
 		@GodotName("get_shape_owners") GodotMethod!(Array) getShapeOwners;
-		@GodotName("shape_owner_set_transform") GodotMethod!(void, long, Transform) shapeOwnerSetTransform;
-		@GodotName("shape_owner_get_transform") GodotMethod!(Transform, long) shapeOwnerGetTransform;
-		@GodotName("shape_owner_get_owner") GodotMethod!(GodotObject, long) shapeOwnerGetOwner;
-		@GodotName("shape_owner_set_disabled") GodotMethod!(void, long, bool) shapeOwnerSetDisabled;
+		@GodotName("is_ray_pickable") GodotMethod!(bool) isRayPickable;
 		@GodotName("is_shape_owner_disabled") GodotMethod!(bool, long) isShapeOwnerDisabled;
-		@GodotName("shape_owner_add_shape") GodotMethod!(void, long, Shape) shapeOwnerAddShape;
-		@GodotName("shape_owner_get_shape_count") GodotMethod!(long, long) shapeOwnerGetShapeCount;
-		@GodotName("shape_owner_get_shape") GodotMethod!(Shape, long, long) shapeOwnerGetShape;
-		@GodotName("shape_owner_get_shape_index") GodotMethod!(long, long, long) shapeOwnerGetShapeIndex;
-		@GodotName("shape_owner_remove_shape") GodotMethod!(void, long, long) shapeOwnerRemoveShape;
-		@GodotName("shape_owner_clear_shapes") GodotMethod!(void, long) shapeOwnerClearShapes;
+		@GodotName("remove_shape_owner") GodotMethod!(void, long) removeShapeOwner;
+		@GodotName("set_capture_input_on_drag") GodotMethod!(void, bool) setCaptureInputOnDrag;
+		@GodotName("set_ray_pickable") GodotMethod!(void, bool) setRayPickable;
 		@GodotName("shape_find_owner") GodotMethod!(long, long) shapeFindOwner;
+		@GodotName("shape_owner_add_shape") GodotMethod!(void, long, Shape) shapeOwnerAddShape;
+		@GodotName("shape_owner_clear_shapes") GodotMethod!(void, long) shapeOwnerClearShapes;
+		@GodotName("shape_owner_get_owner") GodotMethod!(GodotObject, long) shapeOwnerGetOwner;
+		@GodotName("shape_owner_get_shape") GodotMethod!(Shape, long, long) shapeOwnerGetShape;
+		@GodotName("shape_owner_get_shape_count") GodotMethod!(long, long) shapeOwnerGetShapeCount;
+		@GodotName("shape_owner_get_shape_index") GodotMethod!(long, long, long) shapeOwnerGetShapeIndex;
+		@GodotName("shape_owner_get_transform") GodotMethod!(Transform, long) shapeOwnerGetTransform;
+		@GodotName("shape_owner_remove_shape") GodotMethod!(void, long, long) shapeOwnerRemoveShape;
+		@GodotName("shape_owner_set_disabled") GodotMethod!(void, long, bool) shapeOwnerSetDisabled;
+		@GodotName("shape_owner_set_transform") GodotMethod!(void, long, Transform) shapeOwnerSetTransform;
 	}
 	bool opEquals(in CollisionObject other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionObject opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -79,7 +78,7 @@ public:
 	*/
 	void _inputEvent(GodotObject camera, InputEvent event, in Vector3 click_position, in Vector3 click_normal, in long shape_idx)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(camera);
 		_GODOT_args.append(event);
 		_GODOT_args.append(click_position);
@@ -89,28 +88,12 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Creates a new shape owner for the given object. Returns `owner_id` of the new owner for future reference.
 	*/
-	void setRayPickable(in bool ray_pickable)
+	long createShapeOwner(GodotObject owner)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRayPickable, _godot_object, ray_pickable);
-	}
-	/**
-	
-	*/
-	bool isRayPickable() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRayPickable, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCaptureInputOnDrag(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCaptureInputOnDrag, _godot_object, enable);
+		return ptrcall!(long)(_classBinding.createShapeOwner, _godot_object, owner);
 	}
 	/**
 	
@@ -129,22 +112,6 @@ public:
 		return ptrcall!(RID)(_classBinding.getRid, _godot_object);
 	}
 	/**
-	Creates a new shape owner for the given object. Returns `owner_id` of the new owner for future reference.
-	*/
-	long createShapeOwner(GodotObject owner)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.createShapeOwner, _godot_object, owner);
-	}
-	/**
-	Removes the given shape owner.
-	*/
-	void removeShapeOwner(in long owner_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeShapeOwner, _godot_object, owner_id);
-	}
-	/**
 	Returns an $(D Array) of `owner_id` identifiers. You can use these ids in other methods that take `owner_id` as an argument.
 	*/
 	Array getShapeOwners()
@@ -153,36 +120,12 @@ public:
 		return ptrcall!(Array)(_classBinding.getShapeOwners, _godot_object);
 	}
 	/**
-	Sets the $(D Transform) of the given shape owner.
+	
 	*/
-	void shapeOwnerSetTransform(in long owner_id, in Transform transform)
+	bool isRayPickable() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerSetTransform, _godot_object, owner_id, transform);
-	}
-	/**
-	Returns the shape owner's $(D Transform).
-	*/
-	Transform shapeOwnerGetTransform(in long owner_id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.shapeOwnerGetTransform, _godot_object, owner_id);
-	}
-	/**
-	Returns the parent object of the given shape owner.
-	*/
-	GodotObject shapeOwnerGetOwner(in long owner_id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.shapeOwnerGetOwner, _godot_object, owner_id);
-	}
-	/**
-	If `true`, disables the given shape owner.
-	*/
-	void shapeOwnerSetDisabled(in long owner_id, in bool disabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
+		return ptrcall!(bool)(_classBinding.isRayPickable, _godot_object);
 	}
 	/**
 	If `true`, the shape owner and its shapes are disabled.
@@ -193,52 +136,28 @@ public:
 		return ptrcall!(bool)(_classBinding.isShapeOwnerDisabled, _godot_object, owner_id);
 	}
 	/**
-	Adds a $(D Shape) to the shape owner.
+	Removes the given shape owner.
 	*/
-	void shapeOwnerAddShape(in long owner_id, Shape shape)
+	void removeShapeOwner(in long owner_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerAddShape, _godot_object, owner_id, shape);
+		ptrcall!(void)(_classBinding.removeShapeOwner, _godot_object, owner_id);
 	}
 	/**
-	Returns the number of shapes the given shape owner contains.
+	
 	*/
-	long shapeOwnerGetShapeCount(in long owner_id) const
+	void setCaptureInputOnDrag(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeCount, _godot_object, owner_id);
+		ptrcall!(void)(_classBinding.setCaptureInputOnDrag, _godot_object, enable);
 	}
 	/**
-	Returns the $(D Shape) with the given id from the given shape owner.
+	
 	*/
-	Ref!Shape shapeOwnerGetShape(in long owner_id, in long shape_id) const
+	void setRayPickable(in bool ray_pickable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.shapeOwnerGetShape, _godot_object, owner_id, shape_id);
-	}
-	/**
-	Returns the child index of the $(D Shape) with the given id from the given shape owner.
-	*/
-	long shapeOwnerGetShapeIndex(in long owner_id, in long shape_id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeIndex, _godot_object, owner_id, shape_id);
-	}
-	/**
-	Removes a shape from the given shape owner.
-	*/
-	void shapeOwnerRemoveShape(in long owner_id, in long shape_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerRemoveShape, _godot_object, owner_id, shape_id);
-	}
-	/**
-	Removes all shapes from the shape owner.
-	*/
-	void shapeOwnerClearShapes(in long owner_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerClearShapes, _godot_object, owner_id);
+		ptrcall!(void)(_classBinding.setRayPickable, _godot_object, ray_pickable);
 	}
 	/**
 	Returns the `owner_id` of the given shape.
@@ -249,19 +168,87 @@ public:
 		return ptrcall!(long)(_classBinding.shapeFindOwner, _godot_object, shape_index);
 	}
 	/**
-	If `true`, the $(D CollisionObject)'s shapes will respond to $(D RayCast)s. Default value: `true`.
+	Adds a $(D Shape) to the shape owner.
 	*/
-	@property bool inputRayPickable()
+	void shapeOwnerAddShape(in long owner_id, Shape shape)
 	{
-		return isRayPickable();
-	}
-	/// ditto
-	@property void inputRayPickable(bool v)
-	{
-		setRayPickable(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerAddShape, _godot_object, owner_id, shape);
 	}
 	/**
-	If `true`, the $(D CollisionObject) will continue to receive input events as the mouse is dragged across its shapes. Default value: `false`.
+	Removes all shapes from the shape owner.
+	*/
+	void shapeOwnerClearShapes(in long owner_id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerClearShapes, _godot_object, owner_id);
+	}
+	/**
+	Returns the parent object of the given shape owner.
+	*/
+	GodotObject shapeOwnerGetOwner(in long owner_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotObject)(_classBinding.shapeOwnerGetOwner, _godot_object, owner_id);
+	}
+	/**
+	Returns the $(D Shape) with the given id from the given shape owner.
+	*/
+	Ref!Shape shapeOwnerGetShape(in long owner_id, in long shape_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Shape)(_classBinding.shapeOwnerGetShape, _godot_object, owner_id, shape_id);
+	}
+	/**
+	Returns the number of shapes the given shape owner contains.
+	*/
+	long shapeOwnerGetShapeCount(in long owner_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeCount, _godot_object, owner_id);
+	}
+	/**
+	Returns the child index of the $(D Shape) with the given id from the given shape owner.
+	*/
+	long shapeOwnerGetShapeIndex(in long owner_id, in long shape_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeIndex, _godot_object, owner_id, shape_id);
+	}
+	/**
+	Returns the shape owner's $(D Transform).
+	*/
+	Transform shapeOwnerGetTransform(in long owner_id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.shapeOwnerGetTransform, _godot_object, owner_id);
+	}
+	/**
+	Removes a shape from the given shape owner.
+	*/
+	void shapeOwnerRemoveShape(in long owner_id, in long shape_id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerRemoveShape, _godot_object, owner_id, shape_id);
+	}
+	/**
+	If `true`, disables the given shape owner.
+	*/
+	void shapeOwnerSetDisabled(in long owner_id, in bool disabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
+	}
+	/**
+	Sets the $(D Transform) of the given shape owner.
+	*/
+	void shapeOwnerSetTransform(in long owner_id, in Transform transform)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.shapeOwnerSetTransform, _godot_object, owner_id, transform);
+	}
+	/**
+	If `true`, the $(D CollisionObject) will continue to receive input events as the mouse is dragged across its shapes.
 	*/
 	@property bool inputCaptureOnDrag()
 	{
@@ -271,5 +258,17 @@ public:
 	@property void inputCaptureOnDrag(bool v)
 	{
 		setCaptureInputOnDrag(v);
+	}
+	/**
+	If `true`, the $(D CollisionObject)'s shapes will respond to $(D RayCast)s.
+	*/
+	@property bool inputRayPickable()
+	{
+		return isRayPickable();
+	}
+	/// ditto
+	@property void inputRayPickable(bool v)
+	{
+		setRayPickable(v);
 	}
 }

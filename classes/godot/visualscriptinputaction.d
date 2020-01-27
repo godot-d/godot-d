@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,10 +36,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_action_name") GodotMethod!(void, String) setActionName;
+		@GodotName("get_action_mode") GodotMethod!(VisualScriptInputAction.Mode) getActionMode;
 		@GodotName("get_action_name") GodotMethod!(String) getActionName;
 		@GodotName("set_action_mode") GodotMethod!(void, long) setActionMode;
-		@GodotName("get_action_mode") GodotMethod!(VisualScriptInputAction.Mode) getActionMode;
+		@GodotName("set_action_name") GodotMethod!(void, String) setActionName;
 	}
 	bool opEquals(in VisualScriptInputAction other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptInputAction opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -86,10 +84,10 @@ public:
 	/**
 	
 	*/
-	void setActionName(in String name)
+	VisualScriptInputAction.Mode getActionMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActionName, _godot_object, name);
+		return ptrcall!(VisualScriptInputAction.Mode)(_classBinding.getActionMode, _godot_object);
 	}
 	/**
 	
@@ -110,10 +108,10 @@ public:
 	/**
 	
 	*/
-	VisualScriptInputAction.Mode getActionMode() const
+	void setActionName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptInputAction.Mode)(_classBinding.getActionMode, _godot_object);
+		ptrcall!(void)(_classBinding.setActionName, _godot_object, name);
 	}
 	/**
 	

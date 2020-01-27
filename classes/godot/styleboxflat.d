@@ -1,5 +1,5 @@
 /**
-Customizable Stylebox with a given set of parameters. (no texture required)
+Customizable $(D StyleBox) with a given set of parameters (no texture required).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,14 +24,14 @@ import godot.stylebox;
 import godot.resource;
 import godot.reference;
 /**
-Customizable Stylebox with a given set of parameters. (no texture required)
+Customizable $(D StyleBox) with a given set of parameters (no texture required).
 
-This stylebox can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable:
+This $(D StyleBox) can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable:
 - Color
 - Border width (individual width for each border)
 - Rounded corners (individual radius for each corner)
-- Shadow
-Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example:
+- Shadow (with blur and offset)
+Setting corner radius to high values is allowed. As soon as corners would overlap, the stylebox will switch to a relative system. Example:
 
 
 height = 30
@@ -59,36 +59,38 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_bg_color") GodotMethod!(void, Color) setBgColor;
+		@GodotName("get_aa_size") GodotMethod!(long) getAaSize;
 		@GodotName("get_bg_color") GodotMethod!(Color) getBgColor;
-		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
-		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
-		@GodotName("set_border_width_all") GodotMethod!(void, long) setBorderWidthAll;
-		@GodotName("get_border_width_min") GodotMethod!(long) getBorderWidthMin;
-		@GodotName("set_border_width") GodotMethod!(void, long, long) setBorderWidth;
-		@GodotName("get_border_width") GodotMethod!(long, long) getBorderWidth;
-		@GodotName("set_border_blend") GodotMethod!(void, bool) setBorderBlend;
 		@GodotName("get_border_blend") GodotMethod!(bool) getBorderBlend;
-		@GodotName("set_corner_radius_individual") GodotMethod!(void, long, long, long, long) setCornerRadiusIndividual;
-		@GodotName("set_corner_radius_all") GodotMethod!(void, long) setCornerRadiusAll;
-		@GodotName("set_corner_radius") GodotMethod!(void, long, long) setCornerRadius;
+		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
+		@GodotName("get_border_width") GodotMethod!(long, long) getBorderWidth;
+		@GodotName("get_border_width_min") GodotMethod!(long) getBorderWidthMin;
+		@GodotName("get_corner_detail") GodotMethod!(long) getCornerDetail;
 		@GodotName("get_corner_radius") GodotMethod!(long, long) getCornerRadius;
+		@GodotName("get_expand_margin") GodotMethod!(double, long) getExpandMargin;
+		@GodotName("get_shadow_color") GodotMethod!(Color) getShadowColor;
+		@GodotName("get_shadow_offset") GodotMethod!(Vector2) getShadowOffset;
+		@GodotName("get_shadow_size") GodotMethod!(long) getShadowSize;
+		@GodotName("is_anti_aliased") GodotMethod!(bool) isAntiAliased;
+		@GodotName("is_draw_center_enabled") GodotMethod!(bool) isDrawCenterEnabled;
+		@GodotName("set_aa_size") GodotMethod!(void, long) setAaSize;
+		@GodotName("set_anti_aliased") GodotMethod!(void, bool) setAntiAliased;
+		@GodotName("set_bg_color") GodotMethod!(void, Color) setBgColor;
+		@GodotName("set_border_blend") GodotMethod!(void, bool) setBorderBlend;
+		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
+		@GodotName("set_border_width") GodotMethod!(void, long, long) setBorderWidth;
+		@GodotName("set_border_width_all") GodotMethod!(void, long) setBorderWidthAll;
+		@GodotName("set_corner_detail") GodotMethod!(void, long) setCornerDetail;
+		@GodotName("set_corner_radius") GodotMethod!(void, long, long) setCornerRadius;
+		@GodotName("set_corner_radius_all") GodotMethod!(void, long) setCornerRadiusAll;
+		@GodotName("set_corner_radius_individual") GodotMethod!(void, long, long, long, long) setCornerRadiusIndividual;
+		@GodotName("set_draw_center") GodotMethod!(void, bool) setDrawCenter;
 		@GodotName("set_expand_margin") GodotMethod!(void, long, double) setExpandMargin;
 		@GodotName("set_expand_margin_all") GodotMethod!(void, double) setExpandMarginAll;
 		@GodotName("set_expand_margin_individual") GodotMethod!(void, double, double, double, double) setExpandMarginIndividual;
-		@GodotName("get_expand_margin") GodotMethod!(double, long) getExpandMargin;
-		@GodotName("set_draw_center") GodotMethod!(void, bool) setDrawCenter;
-		@GodotName("is_draw_center_enabled") GodotMethod!(bool) isDrawCenterEnabled;
 		@GodotName("set_shadow_color") GodotMethod!(void, Color) setShadowColor;
-		@GodotName("get_shadow_color") GodotMethod!(Color) getShadowColor;
+		@GodotName("set_shadow_offset") GodotMethod!(void, Vector2) setShadowOffset;
 		@GodotName("set_shadow_size") GodotMethod!(void, long) setShadowSize;
-		@GodotName("get_shadow_size") GodotMethod!(long) getShadowSize;
-		@GodotName("set_anti_aliased") GodotMethod!(void, bool) setAntiAliased;
-		@GodotName("is_anti_aliased") GodotMethod!(bool) isAntiAliased;
-		@GodotName("set_aa_size") GodotMethod!(void, long) setAaSize;
-		@GodotName("get_aa_size") GodotMethod!(long) getAaSize;
-		@GodotName("set_corner_detail") GodotMethod!(void, long) setCornerDetail;
-		@GodotName("get_corner_detail") GodotMethod!(long) getCornerDetail;
 	}
 	bool opEquals(in StyleBoxFlat other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StyleBoxFlat opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -105,10 +107,10 @@ public:
 	/**
 	
 	*/
-	void setBgColor(in Color color)
+	long getAaSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
+		return ptrcall!(long)(_classBinding.getAaSize, _godot_object);
 	}
 	/**
 	
@@ -121,10 +123,10 @@ public:
 	/**
 	
 	*/
-	void setBorderColor(in Color color)
+	bool getBorderBlend() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderColor, _godot_object, color);
+		return ptrcall!(bool)(_classBinding.getBorderBlend, _godot_object);
 	}
 	/**
 	
@@ -135,15 +137,15 @@ public:
 		return ptrcall!(Color)(_classBinding.getBorderColor, _godot_object);
 	}
 	/**
-	
+	Returns the given `margin`'s border width. See $(D margin) for possible values.
 	*/
-	void setBorderWidthAll(in long width)
+	long getBorderWidth(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderWidthAll, _godot_object, width);
+		return ptrcall!(long)(_classBinding.getBorderWidth, _godot_object, margin);
 	}
 	/**
-	
+	Returns the smallest border width out of all four borders.
 	*/
 	long getBorderWidthMin() const
 	{
@@ -153,61 +155,13 @@ public:
 	/**
 	
 	*/
-	void setBorderWidth(in long margin, in long width)
+	long getCornerDetail() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderWidth, _godot_object, margin, width);
+		return ptrcall!(long)(_classBinding.getCornerDetail, _godot_object);
 	}
 	/**
-	
-	*/
-	long getBorderWidth(in long margin) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBorderWidth, _godot_object, margin);
-	}
-	/**
-	
-	*/
-	void setBorderBlend(in bool blend)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderBlend, _godot_object, blend);
-	}
-	/**
-	
-	*/
-	bool getBorderBlend() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getBorderBlend, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCornerRadiusIndividual(in long radius_top_left, in long radius_top_right, in long radius_bottom_right, in long radius_bottom_left)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadiusIndividual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
-	}
-	/**
-	
-	*/
-	void setCornerRadiusAll(in long radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadiusAll, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	void setCornerRadius(in long corner, in long radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadius, _godot_object, corner, radius);
-	}
-	/**
-	
+	Returns the given `corner`'s radius. See $(D corner) for possible values.
 	*/
 	long getCornerRadius(in long corner) const
 	{
@@ -215,60 +169,12 @@ public:
 		return ptrcall!(long)(_classBinding.getCornerRadius, _godot_object, corner);
 	}
 	/**
-	
-	*/
-	void setExpandMargin(in long margin, in double size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMargin, _godot_object, margin, size);
-	}
-	/**
-	
-	*/
-	void setExpandMarginAll(in double size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
-	}
-	/**
-	
-	*/
-	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
-	}
-	/**
-	
+	Returns the size of the given `margin`'s expand margin. See $(D margin) for possible values.
 	*/
 	double getExpandMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getExpandMargin, _godot_object, margin);
-	}
-	/**
-	
-	*/
-	void setDrawCenter(in bool draw_center)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
-	}
-	/**
-	
-	*/
-	bool isDrawCenterEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShadowColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, color);
 	}
 	/**
 	
@@ -281,10 +187,10 @@ public:
 	/**
 	
 	*/
-	void setShadowSize(in long size)
+	Vector2 getShadowOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowSize, _godot_object, size);
+		return ptrcall!(Vector2)(_classBinding.getShadowOffset, _godot_object);
 	}
 	/**
 	
@@ -297,18 +203,18 @@ public:
 	/**
 	
 	*/
-	void setAntiAliased(in bool anti_aliased)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntiAliased, _godot_object, anti_aliased);
-	}
-	/**
-	
-	*/
 	bool isAntiAliased() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isAntiAliased, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDrawCenterEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
 	}
 	/**
 	
@@ -321,10 +227,50 @@ public:
 	/**
 	
 	*/
-	long getAaSize() const
+	void setAntiAliased(in bool anti_aliased)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAaSize, _godot_object);
+		ptrcall!(void)(_classBinding.setAntiAliased, _godot_object, anti_aliased);
+	}
+	/**
+	
+	*/
+	void setBgColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
+	}
+	/**
+	
+	*/
+	void setBorderBlend(in bool blend)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderBlend, _godot_object, blend);
+	}
+	/**
+	
+	*/
+	void setBorderColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderColor, _godot_object, color);
+	}
+	/**
+	Sets the border width to `width` pixels for the given `margin`. See $(D margin) for possible values.
+	*/
+	void setBorderWidth(in long margin, in long width)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderWidth, _godot_object, margin, width);
+	}
+	/**
+	Sets the border width to `width` pixels for all margins.
+	*/
+	void setBorderWidthAll(in long width)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBorderWidthAll, _godot_object, width);
 	}
 	/**
 	
@@ -335,245 +281,87 @@ public:
 		ptrcall!(void)(_classBinding.setCornerDetail, _godot_object, detail);
 	}
 	/**
-	
+	Sets the corner radius to `radius` pixels for the given `corner`. See $(D corner) for possible values.
 	*/
-	long getCornerDetail() const
+	void setCornerRadius(in long corner, in long radius)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCornerDetail, _godot_object);
+		ptrcall!(void)(_classBinding.setCornerRadius, _godot_object, corner, radius);
 	}
 	/**
-	The background color of the stylebox.
+	Sets the corner radius to `radius` pixels for all corners.
 	*/
-	@property Color bgColor()
+	void setCornerRadiusAll(in long radius)
 	{
-		return getBgColor();
-	}
-	/// ditto
-	@property void bgColor(Color v)
-	{
-		setBgColor(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerRadiusAll, _godot_object, radius);
 	}
 	/**
-	Toggels drawing of the inner part of the stylebox.
+	Sets the corner radius for each corner to `radius_top_left`, `radius_top_right`, `radius_bottom_right`, and `radius_bottom_left` pixels.
 	*/
-	@property bool drawCenter()
+	void setCornerRadiusIndividual(in long radius_top_left, in long radius_top_right, in long radius_bottom_right, in long radius_bottom_left)
 	{
-		return isDrawCenterEnabled();
-	}
-	/// ditto
-	@property void drawCenter(bool v)
-	{
-		setDrawCenter(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCornerRadiusIndividual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
 	}
 	/**
-	Border width for the left border.
+	
 	*/
-	@property long borderWidthLeft()
+	void setDrawCenter(in bool draw_center)
 	{
-		return getBorderWidth(0);
-	}
-	/// ditto
-	@property void borderWidthLeft(long v)
-	{
-		setBorderWidth(0, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
 	}
 	/**
-	Border width for the top border.
+	Sets the expand margin to `size` pixels for the given `margin`. See $(D margin) for possible values.
 	*/
-	@property long borderWidthTop()
+	void setExpandMargin(in long margin, in double size)
 	{
-		return getBorderWidth(1);
-	}
-	/// ditto
-	@property void borderWidthTop(long v)
-	{
-		setBorderWidth(1, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMargin, _godot_object, margin, size);
 	}
 	/**
-	Border width for the right border.
+	Sets the expand margin to `size` pixels for all margins.
 	*/
-	@property long borderWidthRight()
+	void setExpandMarginAll(in double size)
 	{
-		return getBorderWidth(2);
-	}
-	/// ditto
-	@property void borderWidthRight(long v)
-	{
-		setBorderWidth(2, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
 	}
 	/**
-	Border width for the bottom border.
+	Sets the expand margin for each margin to `size_left`, `size_top`, `size_right`, and `size_bottom` pixels.
 	*/
-	@property long borderWidthBottom()
+	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
 	{
-		return getBorderWidth(3);
-	}
-	/// ditto
-	@property void borderWidthBottom(long v)
-	{
-		setBorderWidth(3, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
 	}
 	/**
-	Sets the color of the border.
+	
 	*/
-	@property Color borderColor()
+	void setShadowColor(in Color color)
 	{
-		return getBorderColor();
-	}
-	/// ditto
-	@property void borderColor(Color v)
-	{
-		setBorderColor(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, color);
 	}
 	/**
-	When set to `true`, the border will fade into the background color.
+	
 	*/
-	@property bool borderBlend()
+	void setShadowOffset(in Vector2 offset)
 	{
-		return getBorderBlend();
-	}
-	/// ditto
-	@property void borderBlend(bool v)
-	{
-		setBorderBlend(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowOffset, _godot_object, offset);
 	}
 	/**
-	The corner radius of the top left corner. When set to 0 the corner is not rounded.
+	
 	*/
-	@property long cornerRadiusTopLeft()
+	void setShadowSize(in long size)
 	{
-		return getCornerRadius(0);
-	}
-	/// ditto
-	@property void cornerRadiusTopLeft(long v)
-	{
-		setCornerRadius(0, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShadowSize, _godot_object, size);
 	}
 	/**
-	The corner radius of the top right corner. When set to 0 the corner is not rounded.
-	*/
-	@property long cornerRadiusTopRight()
-	{
-		return getCornerRadius(1);
-	}
-	/// ditto
-	@property void cornerRadiusTopRight(long v)
-	{
-		setCornerRadius(1, v);
-	}
-	/**
-	The corner radius of the bottom right corner. When set to 0 the corner is not rounded.
-	*/
-	@property long cornerRadiusBottomRight()
-	{
-		return getCornerRadius(2);
-	}
-	/// ditto
-	@property void cornerRadiusBottomRight(long v)
-	{
-		setCornerRadius(2, v);
-	}
-	/**
-	The corner radius of the bottom left corner. When set to 0 the corner is not rounded.
-	*/
-	@property long cornerRadiusBottomLeft()
-	{
-		return getCornerRadius(3);
-	}
-	/// ditto
-	@property void cornerRadiusBottomLeft(long v)
-	{
-		setCornerRadius(3, v);
-	}
-	/**
-	This sets the amount of vertices used for each corner. Higher values result in rounder corners but take more processing power to compute. When choosing a value you should take the corner radius ($(D setCornerRadiusAll)) into account.
-	For corner radius smaller than 10, 4-5 should be enough.
-	For corner radius smaller than 30, 8-12 should be enough.
-	*/
-	@property long cornerDetail()
-	{
-		return getCornerDetail();
-	}
-	/// ditto
-	@property void cornerDetail(long v)
-	{
-		setCornerDetail(v);
-	}
-	/**
-	Expands the stylebox outside of the control rect on the left edge. Useful in combination with border_width_left. To draw a border outside the control rect.
-	*/
-	@property double expandMarginLeft()
-	{
-		return getExpandMargin(0);
-	}
-	/// ditto
-	@property void expandMarginLeft(double v)
-	{
-		setExpandMargin(0, v);
-	}
-	/**
-	Expands the stylebox outside of the control rect on the right edge. Useful in combination with border_width_right. To draw a border outside the control rect.
-	*/
-	@property double expandMarginRight()
-	{
-		return getExpandMargin(2);
-	}
-	/// ditto
-	@property void expandMarginRight(double v)
-	{
-		setExpandMargin(2, v);
-	}
-	/**
-	Expands the stylebox outside of the control rect on the top edge. Useful in combination with border_width_top. To draw a border outside the control rect.
-	*/
-	@property double expandMarginTop()
-	{
-		return getExpandMargin(1);
-	}
-	/// ditto
-	@property void expandMarginTop(double v)
-	{
-		setExpandMargin(1, v);
-	}
-	/**
-	Expands the stylebox outside of the control rect on the bottom edge. Useful in combination with border_width_bottom. To draw a border outside the control rect.
-	*/
-	@property double expandMarginBottom()
-	{
-		return getExpandMargin(3);
-	}
-	/// ditto
-	@property void expandMarginBottom(double v)
-	{
-		setExpandMargin(3, v);
-	}
-	/**
-	The color of the shadow. (This has no effect when shadow_size &lt; 1)
-	*/
-	@property Color shadowColor()
-	{
-		return getShadowColor();
-	}
-	/// ditto
-	@property void shadowColor(Color v)
-	{
-		setShadowColor(v);
-	}
-	/**
-	The shadow size in pixels.
-	*/
-	@property long shadowSize()
-	{
-		return getShadowSize();
-	}
-	/// ditto
-	@property void shadowSize(long v)
-	{
-		setShadowSize(v);
-	}
-	/**
-	Anti Aliasing draws a small ring around edges. This ring fades to transparent. As a result edges look much smoother. This is only noticeable when using rounded corners.
+	Antialiasing draws a small ring around the edges, which fades to transparency. As a result, edges look much smoother. This is only noticeable when using rounded corners.
 	*/
 	@property bool antiAliasing()
 	{
@@ -595,5 +383,247 @@ public:
 	@property void antiAliasingSize(long v)
 	{
 		setAaSize(v);
+	}
+	/**
+	The background color of the stylebox.
+	*/
+	@property Color bgColor()
+	{
+		return getBgColor();
+	}
+	/// ditto
+	@property void bgColor(Color v)
+	{
+		setBgColor(v);
+	}
+	/**
+	If `true`, the border will fade into the background color.
+	*/
+	@property bool borderBlend()
+	{
+		return getBorderBlend();
+	}
+	/// ditto
+	@property void borderBlend(bool v)
+	{
+		setBorderBlend(v);
+	}
+	/**
+	Sets the color of the border.
+	*/
+	@property Color borderColor()
+	{
+		return getBorderColor();
+	}
+	/// ditto
+	@property void borderColor(Color v)
+	{
+		setBorderColor(v);
+	}
+	/**
+	Border width for the bottom border.
+	*/
+	@property long borderWidthBottom()
+	{
+		return getBorderWidth(3);
+	}
+	/// ditto
+	@property void borderWidthBottom(long v)
+	{
+		setBorderWidth(3, v);
+	}
+	/**
+	Border width for the left border.
+	*/
+	@property long borderWidthLeft()
+	{
+		return getBorderWidth(0);
+	}
+	/// ditto
+	@property void borderWidthLeft(long v)
+	{
+		setBorderWidth(0, v);
+	}
+	/**
+	Border width for the right border.
+	*/
+	@property long borderWidthRight()
+	{
+		return getBorderWidth(2);
+	}
+	/// ditto
+	@property void borderWidthRight(long v)
+	{
+		setBorderWidth(2, v);
+	}
+	/**
+	Border width for the top border.
+	*/
+	@property long borderWidthTop()
+	{
+		return getBorderWidth(1);
+	}
+	/// ditto
+	@property void borderWidthTop(long v)
+	{
+		setBorderWidth(1, v);
+	}
+	/**
+	This sets the amount of vertices used for each corner. Higher values result in rounder corners but take more processing power to compute. When choosing a value, you should take the corner radius ($(D setCornerRadiusAll)) into account.
+	For corner radii smaller than 10, `4` or `5` should be enough. For corner radii smaller than 30, values between `8` and `12` should be enough.
+	A corner detail of `1` will result in chamfered corners instead of rounded corners, which is useful for some artistic effects.
+	*/
+	@property long cornerDetail()
+	{
+		return getCornerDetail();
+	}
+	/// ditto
+	@property void cornerDetail(long v)
+	{
+		setCornerDetail(v);
+	}
+	/**
+	The bottom-left corner's radius. If `0`, the corner is not rounded.
+	*/
+	@property long cornerRadiusBottomLeft()
+	{
+		return getCornerRadius(3);
+	}
+	/// ditto
+	@property void cornerRadiusBottomLeft(long v)
+	{
+		setCornerRadius(3, v);
+	}
+	/**
+	The bottom-right corner's radius. If `0`, the corner is not rounded.
+	*/
+	@property long cornerRadiusBottomRight()
+	{
+		return getCornerRadius(2);
+	}
+	/// ditto
+	@property void cornerRadiusBottomRight(long v)
+	{
+		setCornerRadius(2, v);
+	}
+	/**
+	The top-left corner's radius. If `0`, the corner is not rounded.
+	*/
+	@property long cornerRadiusTopLeft()
+	{
+		return getCornerRadius(0);
+	}
+	/// ditto
+	@property void cornerRadiusTopLeft(long v)
+	{
+		setCornerRadius(0, v);
+	}
+	/**
+	The top-right corner's radius. If `0`, the corner is not rounded.
+	*/
+	@property long cornerRadiusTopRight()
+	{
+		return getCornerRadius(1);
+	}
+	/// ditto
+	@property void cornerRadiusTopRight(long v)
+	{
+		setCornerRadius(1, v);
+	}
+	/**
+	Toggles drawing of the inner part of the stylebox.
+	*/
+	@property bool drawCenter()
+	{
+		return isDrawCenterEnabled();
+	}
+	/// ditto
+	@property void drawCenter(bool v)
+	{
+		setDrawCenter(v);
+	}
+	/**
+	Expands the stylebox outside of the control rect on the bottom edge. Useful in combination with $(D borderWidthBottom) to draw a border outside the control rect.
+	*/
+	@property double expandMarginBottom()
+	{
+		return getExpandMargin(3);
+	}
+	/// ditto
+	@property void expandMarginBottom(double v)
+	{
+		setExpandMargin(3, v);
+	}
+	/**
+	Expands the stylebox outside of the control rect on the left edge. Useful in combination with $(D borderWidthLeft) to draw a border outside the control rect.
+	*/
+	@property double expandMarginLeft()
+	{
+		return getExpandMargin(0);
+	}
+	/// ditto
+	@property void expandMarginLeft(double v)
+	{
+		setExpandMargin(0, v);
+	}
+	/**
+	Expands the stylebox outside of the control rect on the right edge. Useful in combination with $(D borderWidthRight) to draw a border outside the control rect.
+	*/
+	@property double expandMarginRight()
+	{
+		return getExpandMargin(2);
+	}
+	/// ditto
+	@property void expandMarginRight(double v)
+	{
+		setExpandMargin(2, v);
+	}
+	/**
+	Expands the stylebox outside of the control rect on the top edge. Useful in combination with $(D borderWidthTop) to draw a border outside the control rect.
+	*/
+	@property double expandMarginTop()
+	{
+		return getExpandMargin(1);
+	}
+	/// ditto
+	@property void expandMarginTop(double v)
+	{
+		setExpandMargin(1, v);
+	}
+	/**
+	The color of the shadow. This has no effect if $(D shadowSize) is lower than 1.
+	*/
+	@property Color shadowColor()
+	{
+		return getShadowColor();
+	}
+	/// ditto
+	@property void shadowColor(Color v)
+	{
+		setShadowColor(v);
+	}
+	/**
+	The shadow offset in pixels. Adjusts the position of the shadow relatively to the stylebox.
+	*/
+	@property Vector2 shadowOffset()
+	{
+		return getShadowOffset();
+	}
+	/// ditto
+	@property void shadowOffset(Vector2 v)
+	{
+		setShadowOffset(v);
+	}
+	/**
+	The shadow size in pixels.
+	*/
+	@property long shadowSize()
+	{
+		return getShadowSize();
+	}
+	/// ditto
+	@property void shadowSize(long v)
+	{
+		setShadowSize(v);
 	}
 }

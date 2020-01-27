@@ -22,12 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.sky;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
 A type of $(D Sky) used to draw a background texture.
 
-A resource referenced in an $(D Environment) that is used to draw a background. The Panorama sky functions similar to skyboxes in other engines except it uses a equirectangular sky map instead of a cube map.
+A resource referenced in an $(D Environment) that is used to draw a background. The Panorama sky functions similar to skyboxes in other engines, except it uses an equirectangular sky map instead of a cube map.
 */
 @GodotBaseClass struct PanoramaSky
 {
@@ -41,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_panorama") GodotMethod!(void, Texture) setPanorama;
 		@GodotName("get_panorama") GodotMethod!(Texture) getPanorama;
+		@GodotName("set_panorama") GodotMethod!(void, Texture) setPanorama;
 	}
 	bool opEquals(in PanoramaSky other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PanoramaSky opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,18 +57,18 @@ public:
 	/**
 	
 	*/
-	void setPanorama(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPanorama, _godot_object, texture);
-	}
-	/**
-	
-	*/
 	Ref!Texture getPanorama() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getPanorama, _godot_object);
+	}
+	/**
+	
+	*/
+	void setPanorama(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPanorama, _godot_object, texture);
 	}
 	/**
 	$(D Texture) to be applied to the PanoramaSky.

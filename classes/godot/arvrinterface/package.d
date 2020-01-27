@@ -1,5 +1,5 @@
 /**
-Base class for ARVR interface implementation.
+Base class for an AR/VR interface implementation.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
-Base class for ARVR interface implementation.
+Base class for an AR/VR interface implementation.
 
 This class needs to be implemented to make an AR or VR platform available to Godot and these should be implemented as C++ modules or GDNative modules (note that for GDNative the subclass ARVRScriptInterface should be used). Part of the interface is exposed to GDScript so you can detect, enable and configure an AR or VR platform.
-Interfaces should be written in such a way that simply enabling them will give us a working setup. You can query the available interfaces through ARVRServer.
+Interfaces should be written in such a way that simply enabling them will give us a working setup. You can query the available interfaces through $(D ARVRServer).
 */
 @GodotBaseClass struct ARVRInterface
 {
@@ -38,19 +38,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_name") GodotMethod!(String) getName;
-		@GodotName("get_capabilities") GodotMethod!(long) getCapabilities;
-		@GodotName("is_primary") GodotMethod!(bool) isPrimary;
-		@GodotName("set_is_primary") GodotMethod!(void, bool) setIsPrimary;
-		@GodotName("is_initialized") GodotMethod!(bool) isInitialized;
-		@GodotName("set_is_initialized") GodotMethod!(void, bool) setIsInitialized;
-		@GodotName("initialize") GodotMethod!(bool) initialize;
-		@GodotName("uninitialize") GodotMethod!(void) uninitialize;
-		@GodotName("get_tracking_status") GodotMethod!(ARVRInterface.Tracking_status) getTrackingStatus;
-		@GodotName("get_render_targetsize") GodotMethod!(Vector2) getRenderTargetsize;
-		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
 		@GodotName("get_anchor_detection_is_enabled") GodotMethod!(bool) getAnchorDetectionIsEnabled;
+		@GodotName("get_camera_feed_id") GodotMethod!(long) getCameraFeedId;
+		@GodotName("get_capabilities") GodotMethod!(long) getCapabilities;
+		@GodotName("get_name") GodotMethod!(String) getName;
+		@GodotName("get_render_targetsize") GodotMethod!(Vector2) getRenderTargetsize;
+		@GodotName("get_tracking_status") GodotMethod!(ARVRInterface.Tracking_status) getTrackingStatus;
+		@GodotName("initialize") GodotMethod!(bool) initialize;
+		@GodotName("is_initialized") GodotMethod!(bool) isInitialized;
+		@GodotName("is_primary") GodotMethod!(bool) isPrimary;
+		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
 		@GodotName("set_anchor_detection_is_enabled") GodotMethod!(void, bool) setAnchorDetectionIsEnabled;
+		@GodotName("set_is_initialized") GodotMethod!(void, bool) setIsInitialized;
+		@GodotName("set_is_primary") GodotMethod!(void, bool) setIsPrimary;
+		@GodotName("uninitialize") GodotMethod!(void) uninitialize;
 	}
 	bool opEquals(in ARVRInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVRInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,11 +73,11 @@ public:
 		*/
 		arvrNormalTracking = 0,
 		/**
-		Tracking is hindered by excessive motion, player is moving faster then tracking can keep up.
+		Tracking is hindered by excessive motion (the player is moving faster than tracking can keep up).
 		*/
 		arvrExcessiveMotion = 1,
 		/**
-		Tracking is hindered by insufficient features, it's too dark (for camera based tracking), player is blocked, etc.
+		Tracking is hindered by insufficient features, it's too dark (for camera-based tracking), player is blocked, etc.
 		*/
 		arvrInsufficientFeatures = 2,
 		/**
@@ -84,7 +85,7 @@ public:
 		*/
 		arvrUnknownTracking = 3,
 		/**
-		Tracking is not functional (camera not plugged in or obscured, lighthouses turned off, etc.)
+		Tracking is not functional (camera not plugged in or obscured, lighthouses turned off, etc.).
 		*/
 		arvrNotTracking = 4,
 	}
@@ -120,11 +121,11 @@ public:
 		*/
 		arvrStereo = 2,
 		/**
-		This interface support AR (video background and real world tracking).
+		This interface supports AR (video background and real world tracking).
 		*/
 		arvrAr = 4,
 		/**
-		This interface outputs to an external device, if the main viewport is used the on screen output is an unmodified buffer of either the left or right eye (stretched if the viewport size is not changed to the same aspect ratio of get_render_targetsize. Using a separate viewport node frees up the main viewport for other purposes.
+		This interface outputs to an external device. If the main viewport is used, the on screen output is an unmodified buffer of either the left or right eye (stretched if the viewport size is not changed to the same aspect ratio of $(D getRenderTargetsize)). Using a separate viewport node frees up the main viewport for other purposes.
 		*/
 		arvrExternal = 8,
 	}
@@ -146,6 +147,30 @@ public:
 		arvrExternal = 8,
 	}
 	/**
+	
+	*/
+	bool getAnchorDetectionIsEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getAnchorDetectionIsEnabled, _godot_object);
+	}
+	/**
+	If this is an AR interface that requires displaying a camera feed as the background, this method returns the feed ID in the $(D CameraServer) for this interface.
+	*/
+	long getCameraFeedId()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCameraFeedId, _godot_object);
+	}
+	/**
+	Returns a combination of $(D capabilities) flags providing information about the capabilities of this interface.
+	*/
+	long getCapabilities() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCapabilities, _godot_object);
+	}
+	/**
 	Returns the name of this interface (OpenVR, OpenHMD, ARKit, etc).
 	*/
 	String getName() const
@@ -154,28 +179,32 @@ public:
 		return ptrcall!(String)(_classBinding.getName, _godot_object);
 	}
 	/**
-	Returns a combination of flags providing information about the capabilities of this interface.
+	Returns the resolution at which we should render our intermediate results before things like lens distortion are applied by the VR platform.
 	*/
-	long getCapabilities() const
+	Vector2 getRenderTargetsize()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCapabilities, _godot_object);
+		return ptrcall!(Vector2)(_classBinding.getRenderTargetsize, _godot_object);
 	}
 	/**
-	
+	If supported, returns the status of our tracking. This will allow you to provide feedback to the user whether there are issues with positional tracking.
 	*/
-	bool isPrimary()
+	ARVRInterface.Tracking_status getTrackingStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPrimary, _godot_object);
+		return ptrcall!(ARVRInterface.Tracking_status)(_classBinding.getTrackingStatus, _godot_object);
 	}
 	/**
-	
+	Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output.
+	After initializing the interface you want to use you then need to enable the AR/VR mode of a viewport and rendering should commence.
+	$(B Note:) You must enable the AR/VR mode on the main viewport for any device that uses the main output of Godot, such as for mobile VR.
+	If you do this for a platform that handles its own output (such as OpenVR) Godot will show just one eye without distortion on screen. Alternatively, you can add a separate viewport node to your scene and enable AR/VR on that viewport. It will be used to output to the HMD, leaving you free to do anything you like in the main window, such as using a separate camera as a spectator camera or rendering something completely different.
+	While currently not used, you can activate additional interfaces. You may wish to do this if you want to track controllers from other platforms. However, at this point in time only one interface can render to an HMD.
 	*/
-	void setIsPrimary(in bool enable)
+	bool initialize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIsPrimary, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.initialize, _godot_object);
 	}
 	/**
 	
@@ -188,46 +217,10 @@ public:
 	/**
 	
 	*/
-	void setIsInitialized(in bool initialized)
+	bool isPrimary()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIsInitialized, _godot_object, initialized);
-	}
-	/**
-	Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output.
-	After initializing the interface you want to use you then need to enable the AR/VR mode of a viewport and rendering should commence.
-	Note that you must enable the AR/VR mode on the main viewport for any device that uses the main output of Godot such as for mobile VR.
-	If you do this for a platform that handles its own output (such as OpenVR) Godot will show just one eye without distortion on screen. Alternatively you can add a separate viewport node to your scene and enable AR/VR on that viewport and it will be used to output to the HMD leaving you free to do anything you like in the main window such as using a separate camera as a spectator camera or render out something completely different.
-	While currently not used you can activate additional interfaces, you may wish to do this if you want to track controllers from other platforms. However at this point in time only one interface can render to an HMD.
-	*/
-	bool initialize()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.initialize, _godot_object);
-	}
-	/**
-	Turns the interface off.
-	*/
-	void uninitialize()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.uninitialize, _godot_object);
-	}
-	/**
-	If supported, returns the status of our tracking. This will allow you to provide feedback to the user whether there are issues with positional tracking.
-	*/
-	ARVRInterface.Tracking_status getTrackingStatus() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRInterface.Tracking_status)(_classBinding.getTrackingStatus, _godot_object);
-	}
-	/**
-	Returns the resolution at which we should render our intermediate results before things like lens distortion are applied by the VR platform.
-	*/
-	Vector2 getRenderTargetsize()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRenderTargetsize, _godot_object);
+		return ptrcall!(bool)(_classBinding.isPrimary, _godot_object);
 	}
 	/**
 	Returns `true` if the current output of this interface is in stereo.
@@ -240,33 +233,49 @@ public:
 	/**
 	
 	*/
-	bool getAnchorDetectionIsEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAnchorDetectionIsEnabled, _godot_object);
-	}
-	/**
-	
-	*/
 	void setAnchorDetectionIsEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setAnchorDetectionIsEnabled, _godot_object, enable);
 	}
 	/**
-	Is this our primary interface?
+	
 	*/
-	@property bool interfaceIsPrimary()
+	void setIsInitialized(in bool initialized)
 	{
-		return isPrimary();
-	}
-	/// ditto
-	@property void interfaceIsPrimary(bool v)
-	{
-		setIsPrimary(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIsInitialized, _godot_object, initialized);
 	}
 	/**
-	Has this interface been initialized?
+	
+	*/
+	void setIsPrimary(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIsPrimary, _godot_object, enable);
+	}
+	/**
+	Turns the interface off.
+	*/
+	void uninitialize()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.uninitialize, _godot_object);
+	}
+	/**
+	On an AR interface, `true` if anchor detection is enabled.
+	*/
+	@property bool arIsAnchorDetectionEnabled()
+	{
+		return getAnchorDetectionIsEnabled();
+	}
+	/// ditto
+	@property void arIsAnchorDetectionEnabled(bool v)
+	{
+		setAnchorDetectionIsEnabled(v);
+	}
+	/**
+	`true` if this interface been initialized.
 	*/
 	@property bool interfaceIsInitialized()
 	{
@@ -278,15 +287,15 @@ public:
 		setIsInitialized(v);
 	}
 	/**
-	On an AR interface, is our anchor detection enabled?
+	`true` if this is the primary interface.
 	*/
-	@property bool arIsAnchorDetectionEnabled()
+	@property bool interfaceIsPrimary()
 	{
-		return getAnchorDetectionIsEnabled();
+		return isPrimary();
 	}
 	/// ditto
-	@property void arIsAnchorDetectionEnabled(bool v)
+	@property void interfaceIsPrimary(bool v)
 	{
-		setAnchorDetectionIsEnabled(v);
+		setIsPrimary(v);
 	}
 }

@@ -38,8 +38,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_input_name") GodotMethod!(void, String) setInputName;
 		@GodotName("get_input_name") GodotMethod!(String) getInputName;
+		@GodotName("get_input_real_name") GodotMethod!(String) getInputRealName;
+		@GodotName("set_input_name") GodotMethod!(void, String) setInputName;
 	}
 	bool opEquals(in VisualShaderNodeInput other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeInput opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +57,26 @@ public:
 	/**
 	
 	*/
-	void setInputName(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputName, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getInputName() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getInputName, _godot_object);
+	}
+	/**
+	
+	*/
+	String getInputRealName() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getInputRealName, _godot_object);
+	}
+	/**
+	
+	*/
+	void setInputName(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInputName, _godot_object, name);
 	}
 	/**
 	

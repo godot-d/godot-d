@@ -21,11 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.csgprimitive;
+import godot.material;
 import godot.mesh;
-import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 A CSG Mesh shape that uses a mesh resource.
 
@@ -43,9 +40,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
-		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
 		@GodotName("_mesh_changed") GodotMethod!(void) _meshChanged;
+		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
 	}
 	bool opEquals(in CSGMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,10 +61,19 @@ public:
 	/**
 	
 	*/
-	void setMesh(Mesh mesh)
+	void _meshChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_mesh_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -78,14 +86,21 @@ public:
 	/**
 	
 	*/
-	void _meshChanged()
+	void setMaterial(Material material)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_mesh_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
 	}
 	/**
-	The mesh resource to use as a CSG shape.
+	
+	*/
+	void setMesh(Mesh mesh)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+	}
+	/**
+	The $(D Mesh) resource to use as a CSG shape.
 	*/
 	@property Mesh mesh()
 	{

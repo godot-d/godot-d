@@ -1,5 +1,5 @@
 /**
-A spatial node representing a spatially tracked controller.
+A spatial node representing a spatially-tracked controller.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,13 +22,13 @@ import godot.object;
 import godot.classdb;
 import godot.spatial;
 import godot.arvrpositionaltracker;
-import godot.node;
+import godot.mesh;
 /**
-A spatial node representing a spatially tracked controller.
+A spatial node representing a spatially-tracked controller.
 
 This is a helper spatial node that is linked to the tracking of controllers. It also offers several handy passthroughs to the state of buttons and such on the controllers.
-Controllers are linked by their id. You can create controller nodes before the controllers are available. Say your game always uses two controllers (one for each hand) you can predefine the controllers with id 1 and 2 and they will become active as soon as the controllers are identified. If you expect additional controllers to be used, you should react to the signals and add ARVRController nodes to your scene.
-The position of the controller node is automatically updated by the ARVR Server. This makes this node ideal to add child nodes to visualise the controller.
+Controllers are linked by their ID. You can create controller nodes before the controllers are available. If your game always uses two controllers (one for each hand), you can predefine the controllers with ID 1 and 2; they will become active as soon as the controllers are identified. If you expect additional controllers to be used, you should react to the signals and add ARVRController nodes to your scene.
+The position of the controller node is automatically updated by the $(D ARVRServer). This makes this node ideal to add child nodes to visualize the controller.
 */
 @GodotBaseClass struct ARVRController
 {
@@ -42,15 +42,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_controller_id") GodotMethod!(void, long) setControllerId;
 		@GodotName("get_controller_id") GodotMethod!(long) getControllerId;
 		@GodotName("get_controller_name") GodotMethod!(String) getControllerName;
-		@GodotName("get_joystick_id") GodotMethod!(long) getJoystickId;
-		@GodotName("is_button_pressed") GodotMethod!(long, long) isButtonPressed;
-		@GodotName("get_joystick_axis") GodotMethod!(double, long) getJoystickAxis;
-		@GodotName("get_is_active") GodotMethod!(bool) getIsActive;
 		@GodotName("get_hand") GodotMethod!(ARVRPositionalTracker.TrackerHand) getHand;
+		@GodotName("get_is_active") GodotMethod!(bool) getIsActive;
+		@GodotName("get_joystick_axis") GodotMethod!(double, long) getJoystickAxis;
+		@GodotName("get_joystick_id") GodotMethod!(long) getJoystickId;
+		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
 		@GodotName("get_rumble") GodotMethod!(double) getRumble;
+		@GodotName("is_button_pressed") GodotMethod!(long, long) isButtonPressed;
+		@GodotName("set_controller_id") GodotMethod!(void, long) setControllerId;
 		@GodotName("set_rumble") GodotMethod!(void, double) setRumble;
 	}
 	bool opEquals(in ARVRController other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -68,14 +69,6 @@ public:
 	/**
 	
 	*/
-	void setControllerId(in long controller_id)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControllerId, _godot_object, controller_id);
-	}
-	/**
-	
-	*/
 	long getControllerId() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -90,28 +83,12 @@ public:
 		return ptrcall!(String)(_classBinding.getControllerName, _godot_object);
 	}
 	/**
-	Returns the ID of the joystick object bound to this. Every controller tracked by the ARVR Server that has buttons and axis will also be registered as a joystick within Godot. This means that all the normal joystick tracking and input mapping will work for buttons and axis found on the AR/VR controllers. This ID is purely offered as information so you can link up the controller with its joystick entry.
+	Returns the hand holding this controller, if known. See $(D ARVRPositionalTracker.trackerhand).
 	*/
-	long getJoystickId() const
+	ARVRPositionalTracker.TrackerHand getHand() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getJoystickId, _godot_object);
-	}
-	/**
-	Returns `true` if the button at index `button` is pressed.
-	*/
-	long isButtonPressed(in long button) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.isButtonPressed, _godot_object, button);
-	}
-	/**
-	Returns the value of the given axis for things like triggers, touchpads, etc. that are embedded into the controller.
-	*/
-	double getJoystickAxis(in long axis) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getJoystickAxis, _godot_object, axis);
+		return ptrcall!(ARVRPositionalTracker.TrackerHand)(_classBinding.getHand, _godot_object);
 	}
 	/**
 	Returns `true` if the bound controller is active. ARVR systems attempt to track active controllers.
@@ -122,12 +99,28 @@ public:
 		return ptrcall!(bool)(_classBinding.getIsActive, _godot_object);
 	}
 	/**
-	Returns the hand holding this controller, if known. See TRACKER_* constants in $(D ARVRPositionalTracker).
+	Returns the value of the given axis for things like triggers, touchpads, etc. that are embedded into the controller.
 	*/
-	ARVRPositionalTracker.TrackerHand getHand() const
+	double getJoystickAxis(in long axis) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRPositionalTracker.TrackerHand)(_classBinding.getHand, _godot_object);
+		return ptrcall!(double)(_classBinding.getJoystickAxis, _godot_object, axis);
+	}
+	/**
+	Returns the ID of the joystick object bound to this. Every controller tracked by the $(D ARVRServer) that has buttons and axis will also be registered as a joystick within Godot. This means that all the normal joystick tracking and input mapping will work for buttons and axis found on the AR/VR controllers. This ID is purely offered as information so you can link up the controller with its joystick entry.
+	*/
+	long getJoystickId() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getJoystickId, _godot_object);
+	}
+	/**
+	If provided by the $(D ARVRInterface), this returns a mesh associated with the controller. This can be used to visualize the controller.
+	*/
+	Ref!Mesh getMesh() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -138,6 +131,22 @@ public:
 		return ptrcall!(double)(_classBinding.getRumble, _godot_object);
 	}
 	/**
+	Returns `true` if the button at index `button` is pressed. See $(D joysticklist), in particular the `JOY_VR_*` constants.
+	*/
+	long isButtonPressed(in long button) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.isButtonPressed, _godot_object, button);
+	}
+	/**
+	
+	*/
+	void setControllerId(in long controller_id)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setControllerId, _godot_object, controller_id);
+	}
+	/**
 	
 	*/
 	void setRumble(in double rumble)
@@ -146,10 +155,10 @@ public:
 		ptrcall!(void)(_classBinding.setRumble, _godot_object, rumble);
 	}
 	/**
-	The controller's id.
-	A controller id of 0 is unbound and will always result in an inactive node. Controller id 1 is reserved for the first controller that identifies itself as the left hand controller and id 2 is reserved for the first controller that identifies itself as the right hand controller.
-	For any other controller that the $(D ARVRServer) detects, we continue with controller id 3.
-	When a controller is turned off, its slot is freed. This ensures controllers will keep the same id even when controllers with lower ids are turned off.
+	The controller's ID.
+	A controller ID of 0 is unbound and will always result in an inactive node. Controller ID 1 is reserved for the first controller that identifies itself as the left-hand controller and ID 2 is reserved for the first controller that identifies itself as the right-hand controller.
+	For any other controller that the $(D ARVRServer) detects, we continue with controller ID 3.
+	When a controller is turned off, its slot is freed. This ensures controllers will keep the same ID even when controllers with lower IDs are turned off.
 	*/
 	@property long controllerId()
 	{
@@ -161,7 +170,8 @@ public:
 		setControllerId(v);
 	}
 	/**
-	The degree to which the tracker rumbles. Ranges from `0.0` to `1.0` with precision `.01`. If changed, updates $(D ARVRPositionalTracker.rumble) accordingly.
+	The degree to which the controller vibrates. Ranges from `0.0` to `1.0` with precision `.01`. If changed, updates $(D ARVRPositionalTracker.rumble) accordingly.
+	This is a useful property to animate if you want the controller to vibrate for a limited duration.
 	*/
 	@property double rumble()
 	{

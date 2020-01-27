@@ -21,9 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.joint2d;
-import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Damped spring constraint for 2D physics.
 
@@ -41,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("get_damping") GodotMethod!(double) getDamping;
 		@GodotName("get_length") GodotMethod!(double) getLength;
-		@GodotName("set_rest_length") GodotMethod!(void, double) setRestLength;
 		@GodotName("get_rest_length") GodotMethod!(double) getRestLength;
-		@GodotName("set_stiffness") GodotMethod!(void, double) setStiffness;
 		@GodotName("get_stiffness") GodotMethod!(double) getStiffness;
 		@GodotName("set_damping") GodotMethod!(void, double) setDamping;
-		@GodotName("get_damping") GodotMethod!(double) getDamping;
+		@GodotName("set_length") GodotMethod!(void, double) setLength;
+		@GodotName("set_rest_length") GodotMethod!(void, double) setRestLength;
+		@GodotName("set_stiffness") GodotMethod!(void, double) setStiffness;
 	}
 	bool opEquals(in DampedSpringJoint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	DampedSpringJoint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,10 +62,10 @@ public:
 	/**
 	
 	*/
-	void setLength(in double length)
+	double getDamping() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
+		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
 	}
 	/**
 	
@@ -81,26 +78,10 @@ public:
 	/**
 	
 	*/
-	void setRestLength(in double rest_length)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRestLength, _godot_object, rest_length);
-	}
-	/**
-	
-	*/
 	double getRestLength() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getRestLength, _godot_object);
-	}
-	/**
-	
-	*/
-	void setStiffness(in double stiffness)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStiffness, _godot_object, stiffness);
 	}
 	/**
 	
@@ -121,13 +102,41 @@ public:
 	/**
 	
 	*/
-	double getDamping() const
+	void setLength(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
+		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
 	}
 	/**
-	The spring joint's maximum length. The two attached bodies cannot stretch it past this value. Default value: `50`
+	
+	*/
+	void setRestLength(in double rest_length)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRestLength, _godot_object, rest_length);
+	}
+	/**
+	
+	*/
+	void setStiffness(in double stiffness)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStiffness, _godot_object, stiffness);
+	}
+	/**
+	The spring joint's damping ratio. A value between `0` and `1`. When the two bodies move into different directions the system tries to align them to the spring axis again. A high `damping` value forces the attached bodies to align faster.
+	*/
+	@property double damping()
+	{
+		return getDamping();
+	}
+	/// ditto
+	@property void damping(double v)
+	{
+		setDamping(v);
+	}
+	/**
+	The spring joint's maximum length. The two attached bodies cannot stretch it past this value.
 	*/
 	@property double length()
 	{
@@ -139,7 +148,7 @@ public:
 		setLength(v);
 	}
 	/**
-	When the bodies attached to the spring joint move they stretch or squash it. The joint always tries to resize towards this length. Default value: `0`
+	When the bodies attached to the spring joint move they stretch or squash it. The joint always tries to resize towards this length.
 	*/
 	@property double restLength()
 	{
@@ -151,7 +160,7 @@ public:
 		setRestLength(v);
 	}
 	/**
-	The higher the value, the less the bodies attached to the joint will deform it. The joint applies an opposing force to the bodies, the product of the stiffness multiplied by the size difference from its resting length. Default value: `20`
+	The higher the value, the less the bodies attached to the joint will deform it. The joint applies an opposing force to the bodies, the product of the stiffness multiplied by the size difference from its resting length.
 	*/
 	@property double stiffness()
 	{
@@ -161,17 +170,5 @@ public:
 	@property void stiffness(double v)
 	{
 		setStiffness(v);
-	}
-	/**
-	The spring joint's damping ratio. A value between `0` and `1`. When the two bodies move into different directions the system tries to align them to the spring axis again. A high `damping` value forces the attached bodies to align faster. Default value: `1`
-	*/
-	@property double damping()
-	{
-		return getDamping();
-	}
-	/// ditto
-	@property void damping(double v)
-	{
-		setDamping(v);
 	}
 }

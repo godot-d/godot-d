@@ -1,5 +1,5 @@
 /**
-Plays audio with random pitch tweaking.
+Plays audio with random pitch shifting.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.audiostream;
 import godot.resource;
-import godot.reference;
 /**
-Plays audio with random pitch tweaking.
+Plays audio with random pitch shifting.
 
 Randomly varies pitch on each start.
 */
@@ -40,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_audio_stream") GodotMethod!(void, AudioStream) setAudioStream;
 		@GodotName("get_audio_stream") GodotMethod!(AudioStream) getAudioStream;
-		@GodotName("set_random_pitch") GodotMethod!(void, double) setRandomPitch;
 		@GodotName("get_random_pitch") GodotMethod!(double) getRandomPitch;
+		@GodotName("set_audio_stream") GodotMethod!(void, AudioStream) setAudioStream;
+		@GodotName("set_random_pitch") GodotMethod!(void, double) setRandomPitch;
 	}
 	bool opEquals(in AudioStreamRandomPitch other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamRandomPitch opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +59,6 @@ public:
 	/**
 	
 	*/
-	void setAudioStream(AudioStream stream)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAudioStream, _godot_object, stream);
-	}
-	/**
-	
-	*/
 	Ref!AudioStream getAudioStream() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -76,18 +67,26 @@ public:
 	/**
 	
 	*/
-	void setRandomPitch(in double scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRandomPitch, _godot_object, scale);
-	}
-	/**
-	
-	*/
 	double getRandomPitch() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getRandomPitch, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAudioStream(AudioStream stream)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAudioStream, _godot_object, stream);
+	}
+	/**
+	
+	*/
+	void setRandomPitch(in double scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRandomPitch, _godot_object, scale);
 	}
 	/**
 	The current $(D AudioStream).

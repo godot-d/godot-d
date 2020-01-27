@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
-import godot.inputevent;
-import godot.popupmenu;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
+import godot.popupmenu;
 /**
 Multiline text editing control.
 
@@ -42,91 +42,110 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("_scroll_moved") GodotMethod!(void, double) _scrollMoved;
-		@GodotName("_cursor_changed_emit") GodotMethod!(void) _cursorChangedEmit;
-		@GodotName("_text_changed_emit") GodotMethod!(void) _textChangedEmit;
-		@GodotName("_push_current_op") GodotMethod!(void) _pushCurrentOp;
 		@GodotName("_click_selection_held") GodotMethod!(void) _clickSelectionHeld;
+		@GodotName("_cursor_changed_emit") GodotMethod!(void) _cursorChangedEmit;
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_push_current_op") GodotMethod!(void) _pushCurrentOp;
+		@GodotName("_scroll_moved") GodotMethod!(void, double) _scrollMoved;
+		@GodotName("_text_changed_emit") GodotMethod!(void) _textChangedEmit;
 		@GodotName("_toggle_draw_caret") GodotMethod!(void) _toggleDrawCaret;
-		@GodotName("_v_scroll_input") GodotMethod!(void) _vScrollInput;
 		@GodotName("_update_wrap_at") GodotMethod!(void) _updateWrapAt;
-		@GodotName("set_text") GodotMethod!(void, String) setText;
-		@GodotName("insert_text_at_cursor") GodotMethod!(void, String) insertTextAtCursor;
-		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
-		@GodotName("get_text") GodotMethod!(String) getText;
-		@GodotName("get_line") GodotMethod!(String, long) getLine;
-		@GodotName("cursor_set_column") GodotMethod!(void, long, bool) cursorSetColumn;
-		@GodotName("cursor_set_line") GodotMethod!(void, long, bool, bool, long) cursorSetLine;
+		@GodotName("_v_scroll_input") GodotMethod!(void) _vScrollInput;
+		@GodotName("add_color_region") GodotMethod!(void, String, String, Color, bool) addColorRegion;
+		@GodotName("add_keyword_color") GodotMethod!(void, String, Color) addKeywordColor;
+		@GodotName("can_fold") GodotMethod!(bool, long) canFold;
+		@GodotName("center_viewport_to_cursor") GodotMethod!(void) centerViewportToCursor;
+		@GodotName("clear_colors") GodotMethod!(void) clearColors;
+		@GodotName("clear_undo_history") GodotMethod!(void) clearUndoHistory;
+		@GodotName("copy") GodotMethod!(void) copy;
+		@GodotName("cursor_get_blink_enabled") GodotMethod!(bool) cursorGetBlinkEnabled;
+		@GodotName("cursor_get_blink_speed") GodotMethod!(double) cursorGetBlinkSpeed;
 		@GodotName("cursor_get_column") GodotMethod!(long) cursorGetColumn;
 		@GodotName("cursor_get_line") GodotMethod!(long) cursorGetLine;
-		@GodotName("cursor_set_blink_enabled") GodotMethod!(void, bool) cursorSetBlinkEnabled;
-		@GodotName("cursor_get_blink_enabled") GodotMethod!(bool) cursorGetBlinkEnabled;
-		@GodotName("cursor_set_blink_speed") GodotMethod!(void, double) cursorSetBlinkSpeed;
-		@GodotName("cursor_get_blink_speed") GodotMethod!(double) cursorGetBlinkSpeed;
-		@GodotName("cursor_set_block_mode") GodotMethod!(void, bool) cursorSetBlockMode;
 		@GodotName("cursor_is_block_mode") GodotMethod!(bool) cursorIsBlockMode;
-		@GodotName("set_right_click_moves_caret") GodotMethod!(void, bool) setRightClickMovesCaret;
-		@GodotName("is_right_click_moving_caret") GodotMethod!(bool) isRightClickMovingCaret;
-		@GodotName("set_readonly") GodotMethod!(void, bool) setReadonly;
-		@GodotName("is_readonly") GodotMethod!(bool) isReadonly;
-		@GodotName("set_wrap_enabled") GodotMethod!(void, bool) setWrapEnabled;
-		@GodotName("is_wrap_enabled") GodotMethod!(bool) isWrapEnabled;
-		@GodotName("set_context_menu_enabled") GodotMethod!(void, bool) setContextMenuEnabled;
-		@GodotName("is_context_menu_enabled") GodotMethod!(bool) isContextMenuEnabled;
+		@GodotName("cursor_set_blink_enabled") GodotMethod!(void, bool) cursorSetBlinkEnabled;
+		@GodotName("cursor_set_blink_speed") GodotMethod!(void, double) cursorSetBlinkSpeed;
+		@GodotName("cursor_set_block_mode") GodotMethod!(void, bool) cursorSetBlockMode;
+		@GodotName("cursor_set_column") GodotMethod!(void, long, bool) cursorSetColumn;
+		@GodotName("cursor_set_line") GodotMethod!(void, long, bool, bool, long) cursorSetLine;
 		@GodotName("cut") GodotMethod!(void) cut;
-		@GodotName("copy") GodotMethod!(void) copy;
+		@GodotName("deselect") GodotMethod!(void) deselect;
+		@GodotName("draw_minimap") GodotMethod!(void, bool) drawMinimap;
+		@GodotName("fold_all_lines") GodotMethod!(void) foldAllLines;
+		@GodotName("fold_line") GodotMethod!(void, long) foldLine;
+		@GodotName("get_breakpoints") GodotMethod!(Array) getBreakpoints;
+		@GodotName("get_h_scroll") GodotMethod!(long) getHScroll;
+		@GodotName("get_keyword_color") GodotMethod!(Color, String) getKeywordColor;
+		@GodotName("get_line") GodotMethod!(String, long) getLine;
+		@GodotName("get_line_count") GodotMethod!(long) getLineCount;
+		@GodotName("get_menu") GodotMethod!(PopupMenu) getMenu;
+		@GodotName("get_minimap_width") GodotMethod!(long) getMinimapWidth;
+		@GodotName("get_selection_from_column") GodotMethod!(long) getSelectionFromColumn;
+		@GodotName("get_selection_from_line") GodotMethod!(long) getSelectionFromLine;
+		@GodotName("get_selection_text") GodotMethod!(String) getSelectionText;
+		@GodotName("get_selection_to_column") GodotMethod!(long) getSelectionToColumn;
+		@GodotName("get_selection_to_line") GodotMethod!(long) getSelectionToLine;
+		@GodotName("get_text") GodotMethod!(String) getText;
+		@GodotName("get_v_scroll") GodotMethod!(double) getVScroll;
+		@GodotName("get_v_scroll_speed") GodotMethod!(double) getVScrollSpeed;
+		@GodotName("get_word_under_cursor") GodotMethod!(String) getWordUnderCursor;
+		@GodotName("has_keyword_color") GodotMethod!(bool, String) hasKeywordColor;
+		@GodotName("insert_text_at_cursor") GodotMethod!(void, String) insertTextAtCursor;
+		@GodotName("is_breakpoint_gutter_enabled") GodotMethod!(bool) isBreakpointGutterEnabled;
+		@GodotName("is_context_menu_enabled") GodotMethod!(bool) isContextMenuEnabled;
+		@GodotName("is_drawing_fold_gutter") GodotMethod!(bool) isDrawingFoldGutter;
+		@GodotName("is_drawing_minimap") GodotMethod!(bool) isDrawingMinimap;
+		@GodotName("is_drawing_spaces") GodotMethod!(bool) isDrawingSpaces;
+		@GodotName("is_drawing_tabs") GodotMethod!(bool) isDrawingTabs;
+		@GodotName("is_folded") GodotMethod!(bool, long) isFolded;
+		@GodotName("is_hiding_enabled") GodotMethod!(bool) isHidingEnabled;
+		@GodotName("is_highlight_all_occurrences_enabled") GodotMethod!(bool) isHighlightAllOccurrencesEnabled;
+		@GodotName("is_highlight_current_line_enabled") GodotMethod!(bool) isHighlightCurrentLineEnabled;
+		@GodotName("is_line_hidden") GodotMethod!(bool, long) isLineHidden;
+		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
+		@GodotName("is_readonly") GodotMethod!(bool) isReadonly;
+		@GodotName("is_right_click_moving_caret") GodotMethod!(bool) isRightClickMovingCaret;
+		@GodotName("is_selecting_enabled") GodotMethod!(bool) isSelectingEnabled;
+		@GodotName("is_selection_active") GodotMethod!(bool) isSelectionActive;
+		@GodotName("is_shortcut_keys_enabled") GodotMethod!(bool) isShortcutKeysEnabled;
+		@GodotName("is_show_line_numbers_enabled") GodotMethod!(bool) isShowLineNumbersEnabled;
+		@GodotName("is_smooth_scroll_enabled") GodotMethod!(bool) isSmoothScrollEnabled;
+		@GodotName("is_syntax_coloring_enabled") GodotMethod!(bool) isSyntaxColoringEnabled;
+		@GodotName("is_wrap_enabled") GodotMethod!(bool) isWrapEnabled;
+		@GodotName("menu_option") GodotMethod!(void, long) menuOption;
 		@GodotName("paste") GodotMethod!(void) paste;
+		@GodotName("redo") GodotMethod!(void) redo;
+		@GodotName("remove_breakpoints") GodotMethod!(void) removeBreakpoints;
+		@GodotName("search") GodotMethod!(PoolIntArray, String, long, long, long) search;
 		@GodotName("select") GodotMethod!(void, long, long, long, long) select;
 		@GodotName("select_all") GodotMethod!(void) selectAll;
-		@GodotName("deselect") GodotMethod!(void) deselect;
-		@GodotName("is_selection_active") GodotMethod!(bool) isSelectionActive;
-		@GodotName("get_selection_from_line") GodotMethod!(long) getSelectionFromLine;
-		@GodotName("get_selection_from_column") GodotMethod!(long) getSelectionFromColumn;
-		@GodotName("get_selection_to_line") GodotMethod!(long) getSelectionToLine;
-		@GodotName("get_selection_to_column") GodotMethod!(long) getSelectionToColumn;
-		@GodotName("get_selection_text") GodotMethod!(String) getSelectionText;
-		@GodotName("get_word_under_cursor") GodotMethod!(String) getWordUnderCursor;
-		@GodotName("search") GodotMethod!(PoolIntArray, String, long, long, long) search;
-		@GodotName("undo") GodotMethod!(void) undo;
-		@GodotName("redo") GodotMethod!(void) redo;
-		@GodotName("clear_undo_history") GodotMethod!(void) clearUndoHistory;
-		@GodotName("set_show_line_numbers") GodotMethod!(void, bool) setShowLineNumbers;
-		@GodotName("is_show_line_numbers_enabled") GodotMethod!(bool) isShowLineNumbersEnabled;
 		@GodotName("set_breakpoint_gutter_enabled") GodotMethod!(void, bool) setBreakpointGutterEnabled;
-		@GodotName("is_breakpoint_gutter_enabled") GodotMethod!(bool) isBreakpointGutterEnabled;
-		@GodotName("set_hiding_enabled") GodotMethod!(void, long) setHidingEnabled;
-		@GodotName("is_hiding_enabled") GodotMethod!(long) isHidingEnabled;
-		@GodotName("set_line_as_hidden") GodotMethod!(void, long, bool) setLineAsHidden;
-		@GodotName("is_line_hidden") GodotMethod!(bool, long) isLineHidden;
-		@GodotName("fold_all_lines") GodotMethod!(void) foldAllLines;
-		@GodotName("unhide_all_lines") GodotMethod!(void) unhideAllLines;
-		@GodotName("fold_line") GodotMethod!(void, long) foldLine;
-		@GodotName("unfold_line") GodotMethod!(void, long) unfoldLine;
-		@GodotName("toggle_fold_line") GodotMethod!(void, long) toggleFoldLine;
-		@GodotName("can_fold") GodotMethod!(bool, long) canFold;
-		@GodotName("is_folded") GodotMethod!(bool, long) isFolded;
+		@GodotName("set_context_menu_enabled") GodotMethod!(void, bool) setContextMenuEnabled;
+		@GodotName("set_draw_fold_gutter") GodotMethod!(void, bool) setDrawFoldGutter;
+		@GodotName("set_draw_spaces") GodotMethod!(void, bool) setDrawSpaces;
+		@GodotName("set_draw_tabs") GodotMethod!(void, bool) setDrawTabs;
+		@GodotName("set_h_scroll") GodotMethod!(void, long) setHScroll;
+		@GodotName("set_hiding_enabled") GodotMethod!(void, bool) setHidingEnabled;
 		@GodotName("set_highlight_all_occurrences") GodotMethod!(void, bool) setHighlightAllOccurrences;
-		@GodotName("is_highlight_all_occurrences_enabled") GodotMethod!(bool) isHighlightAllOccurrencesEnabled;
-		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
-		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
-		@GodotName("set_syntax_coloring") GodotMethod!(void, bool) setSyntaxColoring;
-		@GodotName("is_syntax_coloring_enabled") GodotMethod!(bool) isSyntaxColoringEnabled;
 		@GodotName("set_highlight_current_line") GodotMethod!(void, bool) setHighlightCurrentLine;
-		@GodotName("is_highlight_current_line_enabled") GodotMethod!(bool) isHighlightCurrentLineEnabled;
+		@GodotName("set_line_as_hidden") GodotMethod!(void, long, bool) setLineAsHidden;
+		@GodotName("set_minimap_width") GodotMethod!(void, long) setMinimapWidth;
+		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
+		@GodotName("set_readonly") GodotMethod!(void, bool) setReadonly;
+		@GodotName("set_right_click_moves_caret") GodotMethod!(void, bool) setRightClickMovesCaret;
+		@GodotName("set_selecting_enabled") GodotMethod!(void, bool) setSelectingEnabled;
+		@GodotName("set_shortcut_keys_enabled") GodotMethod!(void, bool) setShortcutKeysEnabled;
+		@GodotName("set_show_line_numbers") GodotMethod!(void, bool) setShowLineNumbers;
 		@GodotName("set_smooth_scroll_enable") GodotMethod!(void, bool) setSmoothScrollEnable;
-		@GodotName("is_smooth_scroll_enabled") GodotMethod!(bool) isSmoothScrollEnabled;
+		@GodotName("set_syntax_coloring") GodotMethod!(void, bool) setSyntaxColoring;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("set_v_scroll") GodotMethod!(void, double) setVScroll;
 		@GodotName("set_v_scroll_speed") GodotMethod!(void, double) setVScrollSpeed;
-		@GodotName("get_v_scroll_speed") GodotMethod!(double) getVScrollSpeed;
-		@GodotName("add_keyword_color") GodotMethod!(void, String, Color) addKeywordColor;
-		@GodotName("has_keyword_color") GodotMethod!(bool, String) hasKeywordColor;
-		@GodotName("get_keyword_color") GodotMethod!(Color, String) getKeywordColor;
-		@GodotName("add_color_region") GodotMethod!(void, String, String, Color, bool) addColorRegion;
-		@GodotName("clear_colors") GodotMethod!(void) clearColors;
-		@GodotName("menu_option") GodotMethod!(void, long) menuOption;
-		@GodotName("get_menu") GodotMethod!(PopupMenu) getMenu;
-		@GodotName("get_breakpoints") GodotMethod!(Array) getBreakpoints;
-		@GodotName("remove_breakpoints") GodotMethod!(void) removeBreakpoints;
+		@GodotName("set_wrap_enabled") GodotMethod!(void, bool) setWrapEnabled;
+		@GodotName("toggle_fold_line") GodotMethod!(void, long) toggleFoldLine;
+		@GodotName("undo") GodotMethod!(void) undo;
+		@GodotName("unfold_line") GodotMethod!(void, long) unfoldLine;
+		@GodotName("unhide_all_lines") GodotMethod!(void) unhideAllLines;
 	}
 	bool opEquals(in TextEdit other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextEdit opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -157,10 +176,22 @@ public:
 		searchBackwards = 4,
 	}
 	/// 
+	enum SearchResult : int
+	{
+		/**
+		Used to access the result column from $(D search).
+		*/
+		searchResultColumn = 0,
+		/**
+		Used to access the result line from $(D search).
+		*/
+		searchResultLine = 1,
+	}
+	/// 
 	enum MenuItems : int
 	{
 		/**
-		Cuts (Copies and clears) the selected text.
+		Cuts (copies and clears) the selected text.
 		*/
 		menuCut = 0,
 		/**
@@ -184,11 +215,11 @@ public:
 		*/
 		menuUndo = 5,
 		/**
-		
+		Redoes the previous action.
 		*/
 		menuRedo = 6,
 		/**
-		
+		Represents the size of the $(D menuitems) enum.
 		*/
 		menuMax = 7,
 	}
@@ -196,7 +227,9 @@ public:
 	enum Constants : int
 	{
 		menuCut = 0,
+		searchResultColumn = 0,
 		menuCopy = 1,
+		searchResultLine = 1,
 		searchMatchCase = 1,
 		searchWholeWords = 2,
 		menuPaste = 2,
@@ -210,21 +243,10 @@ public:
 	/**
 	
 	*/
-	void _guiInput(InputEvent arg0)
+	void _clickSelectionHeld()
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_gui_input");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _scrollMoved(in double arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_scroll_moved");
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_click_selection_held");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -232,17 +254,18 @@ public:
 	*/
 	void _cursorChangedEmit()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_cursor_changed_emit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void _textChangedEmit()
+	void _guiInput(InputEvent arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_text_changed_emit");
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -250,17 +273,27 @@ public:
 	*/
 	void _pushCurrentOp()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_push_current_op");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void _clickSelectionHeld()
+	void _scrollMoved(in double arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_click_selection_held");
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_scroll_moved");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _textChangedEmit()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_text_changed_emit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -268,17 +301,8 @@ public:
 	*/
 	void _toggleDrawCaret()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_toggle_draw_caret");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _vScrollInput()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_v_scroll_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -286,89 +310,74 @@ public:
 	*/
 	void _updateWrapAt()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update_wrap_at");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setText(in String text)
+	void _vScrollInput()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_v_scroll_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Insert a given text at the cursor position.
+	Adds color region (given the delimiters) and its colors.
 	*/
-	void insertTextAtCursor(in String text)
+	void addColorRegion(in String begin_key, in String end_key, in Color color, in bool line_only = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.insertTextAtCursor, _godot_object, text);
+		ptrcall!(void)(_classBinding.addColorRegion, _godot_object, begin_key, end_key, color, line_only);
 	}
 	/**
-	Return the amount of total lines in the text.
+	Adds a `keyword` and its $(D Color).
 	*/
-	long getLineCount() const
+	void addKeywordColor(in String keyword, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+		ptrcall!(void)(_classBinding.addKeywordColor, _godot_object, keyword, color);
 	}
 	/**
-	
+	Returns if the given line is foldable, that is, it has indented lines right below it.
 	*/
-	String getText()
+	bool canFold(in long line) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
-	}
-	/**
-	Return the text of a specific line.
-	*/
-	String getLine(in long line) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLine, _godot_object, line);
+		return ptrcall!(bool)(_classBinding.canFold, _godot_object, line);
 	}
 	/**
 	
 	*/
-	void cursorSetColumn(in long column, in bool adjust_viewport = true)
+	void centerViewportToCursor()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetColumn, _godot_object, column, adjust_viewport);
+		ptrcall!(void)(_classBinding.centerViewportToCursor, _godot_object);
 	}
 	/**
-	
+	Clears all custom syntax coloring information previously added with $(D addColorRegion) or $(D addKeywordColor).
 	*/
-	void cursorSetLine(in long line, in bool adjust_viewport = true, in bool can_be_hidden = true, in long wrap_index = 0)
+	void clearColors()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetLine, _godot_object, line, adjust_viewport, can_be_hidden, wrap_index);
+		ptrcall!(void)(_classBinding.clearColors, _godot_object);
 	}
 	/**
-	Return the column the editing cursor is at.
+	Clears the undo history.
 	*/
-	long cursorGetColumn() const
+	void clearUndoHistory()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.cursorGetColumn, _godot_object);
+		ptrcall!(void)(_classBinding.clearUndoHistory, _godot_object);
 	}
 	/**
-	Return the line the editing cursor is at.
+	Copy's the current text selection.
 	*/
-	long cursorGetLine() const
+	void copy()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.cursorGetLine, _godot_object);
-	}
-	/**
-	
-	*/
-	void cursorSetBlinkEnabled(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlinkEnabled, _godot_object, enable);
+		ptrcall!(void)(_classBinding.copy, _godot_object);
 	}
 	/**
 	
@@ -381,26 +390,26 @@ public:
 	/**
 	
 	*/
-	void cursorSetBlinkSpeed(in double blink_speed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
-	}
-	/**
-	
-	*/
 	double cursorGetBlinkSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.cursorGetBlinkSpeed, _godot_object);
 	}
 	/**
-	
+	Returns the column the editing cursor is at.
 	*/
-	void cursorSetBlockMode(in bool enable)
+	long cursorGetColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlockMode, _godot_object, enable);
+		return ptrcall!(long)(_classBinding.cursorGetColumn, _godot_object);
+	}
+	/**
+	Returns the line the editing cursor is at.
+	*/
+	long cursorGetLine() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.cursorGetLine, _godot_object);
 	}
 	/**
 	
@@ -413,26 +422,325 @@ public:
 	/**
 	
 	*/
-	void setRightClickMovesCaret(in bool enable)
+	void cursorSetBlinkEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRightClickMovesCaret, _godot_object, enable);
+		ptrcall!(void)(_classBinding.cursorSetBlinkEnabled, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	bool isRightClickMovingCaret() const
+	void cursorSetBlinkSpeed(in double blink_speed)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRightClickMovingCaret, _godot_object);
+		ptrcall!(void)(_classBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
 	}
 	/**
 	
 	*/
-	void setReadonly(in bool enable)
+	void cursorSetBlockMode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadonly, _godot_object, enable);
+		ptrcall!(void)(_classBinding.cursorSetBlockMode, _godot_object, enable);
+	}
+	/**
+	Moves the cursor at the specified `column` index.
+	If `adjust_viewport` is set to `true`, the viewport will center at the cursor position after the move occurs.
+	*/
+	void cursorSetColumn(in long column, in bool adjust_viewport = true)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cursorSetColumn, _godot_object, column, adjust_viewport);
+	}
+	/**
+	Moves the cursor at the specified `line` index.
+	If `adjust_viewport` is set to `true`, the viewport will center at the cursor position after the move occurs.
+	If `can_be_hidden` is set to `true`, the specified `line` can be hidden using $(D setLineAsHidden).
+	*/
+	void cursorSetLine(in long line, in bool adjust_viewport = true, in bool can_be_hidden = true, in long wrap_index = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cursorSetLine, _godot_object, line, adjust_viewport, can_be_hidden, wrap_index);
+	}
+	/**
+	Cut's the current selection.
+	*/
+	void cut()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.cut, _godot_object);
+	}
+	/**
+	Deselects the current selection.
+	*/
+	void deselect()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.deselect, _godot_object);
+	}
+	/**
+	
+	*/
+	void drawMinimap(in bool draw)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawMinimap, _godot_object, draw);
+	}
+	/**
+	Folds all lines that are possible to be folded (see $(D canFold)).
+	*/
+	void foldAllLines()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.foldAllLines, _godot_object);
+	}
+	/**
+	Folds the given line, if possible (see $(D canFold)).
+	*/
+	void foldLine(in long line)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.foldLine, _godot_object, line);
+	}
+	/**
+	Returns an array containing the line number of each breakpoint.
+	*/
+	Array getBreakpoints() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getBreakpoints, _godot_object);
+	}
+	/**
+	
+	*/
+	long getHScroll() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHScroll, _godot_object);
+	}
+	/**
+	Returns the $(D Color) of the specified `keyword`.
+	*/
+	Color getKeywordColor(in String keyword) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getKeywordColor, _godot_object, keyword);
+	}
+	/**
+	Returns the text of a specific line.
+	*/
+	String getLine(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getLine, _godot_object, line);
+	}
+	/**
+	Returns the amount of total lines in the text.
+	*/
+	long getLineCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+	}
+	/**
+	Returns the $(D PopupMenu) of this $(D TextEdit). By default, this menu is displayed when right-clicking on the $(D TextEdit).
+	*/
+	PopupMenu getMenu() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PopupMenu)(_classBinding.getMenu, _godot_object);
+	}
+	/**
+	
+	*/
+	long getMinimapWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMinimapWidth, _godot_object);
+	}
+	/**
+	Returns the selection begin column.
+	*/
+	long getSelectionFromColumn() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSelectionFromColumn, _godot_object);
+	}
+	/**
+	Returns the selection begin line.
+	*/
+	long getSelectionFromLine() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSelectionFromLine, _godot_object);
+	}
+	/**
+	Returns the text inside the selection.
+	*/
+	String getSelectionText() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getSelectionText, _godot_object);
+	}
+	/**
+	Returns the selection end column.
+	*/
+	long getSelectionToColumn() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSelectionToColumn, _godot_object);
+	}
+	/**
+	Returns the selection end line.
+	*/
+	long getSelectionToLine() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSelectionToLine, _godot_object);
+	}
+	/**
+	
+	*/
+	String getText()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
+	}
+	/**
+	
+	*/
+	double getVScroll() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVScroll, _godot_object);
+	}
+	/**
+	
+	*/
+	double getVScrollSpeed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVScrollSpeed, _godot_object);
+	}
+	/**
+	Returns a $(D String) text with the word under the mouse cursor location.
+	*/
+	String getWordUnderCursor() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getWordUnderCursor, _godot_object);
+	}
+	/**
+	Returns whether the specified `keyword` has a color set to it or not.
+	*/
+	bool hasKeywordColor(in String keyword) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasKeywordColor, _godot_object, keyword);
+	}
+	/**
+	Insert the specified text at the cursor position.
+	*/
+	void insertTextAtCursor(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.insertTextAtCursor, _godot_object, text);
+	}
+	/**
+	
+	*/
+	bool isBreakpointGutterEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBreakpointGutterEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isContextMenuEnabled()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isContextMenuEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDrawingFoldGutter() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawingFoldGutter, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDrawingMinimap() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawingMinimap, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDrawingSpaces() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawingSpaces, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDrawingTabs() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDrawingTabs, _godot_object);
+	}
+	/**
+	Returns whether the line at the specified index is folded or not.
+	*/
+	bool isFolded(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFolded, _godot_object, line);
+	}
+	/**
+	
+	*/
+	bool isHidingEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHidingEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isHighlightAllOccurrencesEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHighlightAllOccurrencesEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isHighlightCurrentLineEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHighlightCurrentLineEnabled, _godot_object);
+	}
+	/**
+	Returns whether the line at the specified index is hidden or not.
+	*/
+	bool isLineHidden(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isLineHidden, _godot_object, line);
+	}
+	/**
+	
+	*/
+	bool isOverridingSelectedFontColor() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
 	}
 	/**
 	
@@ -445,10 +753,58 @@ public:
 	/**
 	
 	*/
-	void setWrapEnabled(in bool enable)
+	bool isRightClickMovingCaret() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWrapEnabled, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.isRightClickMovingCaret, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isSelectingEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSelectingEnabled, _godot_object);
+	}
+	/**
+	Returns `true` if the selection is active.
+	*/
+	bool isSelectionActive() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSelectionActive, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isShortcutKeysEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShortcutKeysEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isShowLineNumbersEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShowLineNumbersEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isSmoothScrollEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSmoothScrollEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isSyntaxColoringEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSyntaxColoringEnabled, _godot_object);
 	}
 	/**
 	
@@ -459,36 +815,12 @@ public:
 		return ptrcall!(bool)(_classBinding.isWrapEnabled, _godot_object);
 	}
 	/**
-	
+	Triggers a right-click menu action by the specified index. See $(D menuitems) for a list of available indexes.
 	*/
-	void setContextMenuEnabled(in bool enable)
+	void menuOption(in long option)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setContextMenuEnabled, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isContextMenuEnabled()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isContextMenuEnabled, _godot_object);
-	}
-	/**
-	Cut the current selection.
-	*/
-	void cut()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cut, _godot_object);
-	}
-	/**
-	Copy the current selection.
-	*/
-	void copy()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.copy, _godot_object);
+		ptrcall!(void)(_classBinding.menuOption, _godot_object, option);
 	}
 	/**
 	Paste the current selection.
@@ -497,6 +829,40 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.paste, _godot_object);
+	}
+	/**
+	Perform redo operation.
+	*/
+	void redo()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.redo, _godot_object);
+	}
+	/**
+	Removes all the breakpoints. This will not fire the $(D breakpointToggled) signal.
+	*/
+	void removeBreakpoints()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeBreakpoints, _godot_object);
+	}
+	/**
+	Perform a search inside the text. Search flags can be specified in the $(D searchflags) enum.
+	Returns an empty `PoolIntArray` if no result was found. Otherwise, the result line and column can be accessed at indices specified in the $(D searchresult) enum, e.g:
+	
+	
+	var result = search(key, flags, line, column)
+	if result.size() &gt; 0:
+	    # Result found.
+	    var res_line = result$(D TextEdit.SEARCH_RESULT_LINE)
+	    var res_column = result$(D TextEdit.SEARCH_RESULT_COLUMN)
+	
+	
+	*/
+	PoolIntArray search(in String key, in long flags, in long from_line, in long from_column) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolIntArray)(_classBinding.search, _godot_object, key, flags, from_line, from_column);
 	}
 	/**
 	Perform selection, from line/column to line/column.
@@ -515,118 +881,6 @@ public:
 		ptrcall!(void)(_classBinding.selectAll, _godot_object);
 	}
 	/**
-	Clears the current selection.
-	*/
-	void deselect()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.deselect, _godot_object);
-	}
-	/**
-	Return `true` if the selection is active.
-	*/
-	bool isSelectionActive() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectionActive, _godot_object);
-	}
-	/**
-	Return the selection begin line.
-	*/
-	long getSelectionFromLine() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionFromLine, _godot_object);
-	}
-	/**
-	Return the selection begin column.
-	*/
-	long getSelectionFromColumn() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionFromColumn, _godot_object);
-	}
-	/**
-	Return the selection end line.
-	*/
-	long getSelectionToLine() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionToLine, _godot_object);
-	}
-	/**
-	Return the selection end column.
-	*/
-	long getSelectionToColumn() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionToColumn, _godot_object);
-	}
-	/**
-	Return the text inside the selection.
-	*/
-	String getSelectionText() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSelectionText, _godot_object);
-	}
-	/**
-	
-	*/
-	String getWordUnderCursor() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getWordUnderCursor, _godot_object);
-	}
-	/**
-	Perform a search inside the text. Search flags can be specified in the SEARCH_* enum.
-	*/
-	PoolIntArray search(in String key, in long flags, in long from_line, in long from_column) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.search, _godot_object, key, flags, from_line, from_column);
-	}
-	/**
-	Perform undo operation.
-	*/
-	void undo()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.undo, _godot_object);
-	}
-	/**
-	Perform redo operation.
-	*/
-	void redo()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.redo, _godot_object);
-	}
-	/**
-	Clear the undo history.
-	*/
-	void clearUndoHistory()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearUndoHistory, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShowLineNumbers(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShowLineNumbers, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isShowLineNumbersEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShowLineNumbersEnabled, _godot_object);
-	}
-	/**
 	
 	*/
 	void setBreakpointGutterEnabled(in bool enable)
@@ -637,98 +891,50 @@ public:
 	/**
 	
 	*/
-	bool isBreakpointGutterEnabled() const
+	void setContextMenuEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBreakpointGutterEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setContextMenuEnabled, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	void setHidingEnabled(in long enable)
+	void setDrawFoldGutter(in bool arg0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawFoldGutter, _godot_object, arg0);
+	}
+	/**
+	
+	*/
+	void setDrawSpaces(in bool arg0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawSpaces, _godot_object, arg0);
+	}
+	/**
+	
+	*/
+	void setDrawTabs(in bool arg0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawTabs, _godot_object, arg0);
+	}
+	/**
+	
+	*/
+	void setHScroll(in long value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHScroll, _godot_object, value);
+	}
+	/**
+	
+	*/
+	void setHidingEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setHidingEnabled, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	long isHidingEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.isHidingEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLineAsHidden(in long line, in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLineAsHidden, _godot_object, line, enable);
-	}
-	/**
-	
-	*/
-	bool isLineHidden(in long line) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLineHidden, _godot_object, line);
-	}
-	/**
-	
-	*/
-	void foldAllLines()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.foldAllLines, _godot_object);
-	}
-	/**
-	
-	*/
-	void unhideAllLines()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unhideAllLines, _godot_object);
-	}
-	/**
-	
-	*/
-	void foldLine(in long line)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.foldLine, _godot_object, line);
-	}
-	/**
-	
-	*/
-	void unfoldLine(in long line)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unfoldLine, _godot_object, line);
-	}
-	/**
-	Toggle the folding of the code block at the given line.
-	*/
-	void toggleFoldLine(in long line)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.toggleFoldLine, _godot_object, line);
-	}
-	/**
-	
-	*/
-	bool canFold(in long line) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canFold, _godot_object, line);
-	}
-	/**
-	
-	*/
-	bool isFolded(in long line) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFolded, _godot_object, line);
 	}
 	/**
 	
@@ -741,10 +947,26 @@ public:
 	/**
 	
 	*/
-	bool isHighlightAllOccurrencesEnabled() const
+	void setHighlightCurrentLine(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHighlightAllOccurrencesEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setHighlightCurrentLine, _godot_object, enabled);
+	}
+	/**
+	If `true`, hides the line of the specified index.
+	*/
+	void setLineAsHidden(in long line, in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLineAsHidden, _godot_object, line, enable);
+	}
+	/**
+	
+	*/
+	void setMinimapWidth(in long width)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMinimapWidth, _godot_object, width);
 	}
 	/**
 	
@@ -757,42 +979,42 @@ public:
 	/**
 	
 	*/
-	bool isOverridingSelectedFontColor() const
+	void setReadonly(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
+		ptrcall!(void)(_classBinding.setReadonly, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	void setSyntaxColoring(in bool enable)
+	void setRightClickMovesCaret(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSyntaxColoring, _godot_object, enable);
+		ptrcall!(void)(_classBinding.setRightClickMovesCaret, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	bool isSyntaxColoringEnabled() const
+	void setSelectingEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSyntaxColoringEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setSelectingEnabled, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	void setHighlightCurrentLine(in bool enabled)
+	void setShortcutKeysEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHighlightCurrentLine, _godot_object, enabled);
+		ptrcall!(void)(_classBinding.setShortcutKeysEnabled, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	bool isHighlightCurrentLineEnabled() const
+	void setShowLineNumbers(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHighlightCurrentLineEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setShowLineNumbers, _godot_object, enable);
 	}
 	/**
 	
@@ -805,10 +1027,26 @@ public:
 	/**
 	
 	*/
-	bool isSmoothScrollEnabled() const
+	void setSyntaxColoring(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSmoothScrollEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setSyntaxColoring, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setText(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+	}
+	/**
+	
+	*/
+	void setVScroll(in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVScroll, _godot_object, value);
 	}
 	/**
 	
@@ -821,142 +1059,42 @@ public:
 	/**
 	
 	*/
-	double getVScrollSpeed() const
+	void setWrapEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVScrollSpeed, _godot_object);
+		ptrcall!(void)(_classBinding.setWrapEnabled, _godot_object, enable);
 	}
 	/**
-	Add a keyword and its color.
+	Toggle the folding of the code block at the given line.
 	*/
-	void addKeywordColor(in String keyword, in Color color)
+	void toggleFoldLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addKeywordColor, _godot_object, keyword, color);
+		ptrcall!(void)(_classBinding.toggleFoldLine, _godot_object, line);
 	}
 	/**
-	
+	Perform undo operation.
 	*/
-	bool hasKeywordColor(in String keyword) const
+	void undo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasKeywordColor, _godot_object, keyword);
+		ptrcall!(void)(_classBinding.undo, _godot_object);
 	}
 	/**
-	
+	Unfolds the given line, if folded.
 	*/
-	Color getKeywordColor(in String keyword) const
+	void unfoldLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getKeywordColor, _godot_object, keyword);
+		ptrcall!(void)(_classBinding.unfoldLine, _godot_object, line);
 	}
 	/**
-	Add color region (given the delimiters) and its colors.
+	Unhide all lines that were previously set to hidden by $(D setLineAsHidden).
 	*/
-	void addColorRegion(in String begin_key, in String end_key, in Color color, in bool line_only = false)
+	void unhideAllLines()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addColorRegion, _godot_object, begin_key, end_key, color, line_only);
-	}
-	/**
-	Clear all the syntax coloring information.
-	*/
-	void clearColors()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearColors, _godot_object);
-	}
-	/**
-	
-	*/
-	void menuOption(in long option)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.menuOption, _godot_object, option);
-	}
-	/**
-	
-	*/
-	PopupMenu getMenu() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PopupMenu)(_classBinding.getMenu, _godot_object);
-	}
-	/**
-	Return an array containing the line number of each breakpoint.
-	*/
-	Array getBreakpoints() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getBreakpoints, _godot_object);
-	}
-	/**
-	Removes all the breakpoints (without firing "breakpoint_toggled" signal).
-	*/
-	void removeBreakpoints()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBreakpoints, _godot_object);
-	}
-	/**
-	String value of the $(D TextEdit).
-	*/
-	@property String text()
-	{
-		return getText();
-	}
-	/// ditto
-	@property void text(String v)
-	{
-		setText(v);
-	}
-	/**
-	If `true`, read-only mode is enabled. Existing text cannot be modified and new text cannot be added.
-	*/
-	@property bool readonly()
-	{
-		return isReadonly();
-	}
-	/// ditto
-	@property void readonly(bool v)
-	{
-		setReadonly(v);
-	}
-	/**
-	If `true`, the line containing the cursor is highlighted.
-	*/
-	@property bool highlightCurrentLine()
-	{
-		return isHighlightCurrentLineEnabled();
-	}
-	/// ditto
-	@property void highlightCurrentLine(bool v)
-	{
-		setHighlightCurrentLine(v);
-	}
-	/**
-	
-	*/
-	@property bool syntaxHighlighting()
-	{
-		return isSyntaxColoringEnabled();
-	}
-	/// ditto
-	@property void syntaxHighlighting(bool v)
-	{
-		setSyntaxColoring(v);
-	}
-	/**
-	If `true`, line numbers are displayed to the left of the text.
-	*/
-	@property bool showLineNumbers()
-	{
-		return isShowLineNumbersEnabled();
-	}
-	/// ditto
-	@property void showLineNumbers(bool v)
-	{
-		setShowLineNumbers(v);
+		ptrcall!(void)(_classBinding.unhideAllLines, _godot_object);
 	}
 	/**
 	If `true`, the breakpoint gutter is visible.
@@ -969,103 +1107,6 @@ public:
 	@property void breakpointGutter(bool v)
 	{
 		setBreakpointGutterEnabled(v);
-	}
-	/**
-	
-	*/
-	@property bool highlightAllOccurrences()
-	{
-		return isHighlightAllOccurrencesEnabled();
-	}
-	/// ditto
-	@property void highlightAllOccurrences(bool v)
-	{
-		setHighlightAllOccurrences(v);
-	}
-	/**
-	
-	*/
-	@property bool overrideSelectedFontColor()
-	{
-		return isOverridingSelectedFontColor();
-	}
-	/// ditto
-	@property void overrideSelectedFontColor(bool v)
-	{
-		setOverrideSelectedFontColor(v);
-	}
-	/**
-	If `true`, a right click displays the context menu.
-	*/
-	@property bool contextMenuEnabled()
-	{
-		return isContextMenuEnabled();
-	}
-	/// ditto
-	@property void contextMenuEnabled(bool v)
-	{
-		setContextMenuEnabled(v);
-	}
-	/**
-	
-	*/
-	@property bool smoothScrolling()
-	{
-		return isSmoothScrollEnabled();
-	}
-	/// ditto
-	@property void smoothScrolling(bool v)
-	{
-		setSmoothScrollEnable(v);
-	}
-	/**
-	Vertical scroll sensitivity.
-	*/
-	@property double vScrollSpeed()
-	{
-		return getVScrollSpeed();
-	}
-	/// ditto
-	@property void vScrollSpeed(double v)
-	{
-		setVScrollSpeed(v);
-	}
-	/**
-	
-	*/
-	@property long hidingEnabled()
-	{
-		return isHidingEnabled();
-	}
-	/// ditto
-	@property void hidingEnabled(long v)
-	{
-		setHidingEnabled(v);
-	}
-	/**
-	If `true`, enables text wrapping when it goes beyond the edge of what is visible.
-	*/
-	@property bool wrapEnabled()
-	{
-		return isWrapEnabled();
-	}
-	/// ditto
-	@property void wrapEnabled(bool v)
-	{
-		setWrapEnabled(v);
-	}
-	/**
-	If `true`, the caret displays as a rectangle.
-	If `false`, the caret displays as a bar.
-	*/
-	@property bool caretBlockMode()
-	{
-		return cursorIsBlockMode();
-	}
-	/// ditto
-	@property void caretBlockMode(bool v)
-	{
-		cursorSetBlockMode(v);
 	}
 	/**
 	If `true`, the caret (visual cursor) blinks.
@@ -1092,7 +1133,20 @@ public:
 		cursorSetBlinkSpeed(v);
 	}
 	/**
-	If `true`, a right click moves the cursor at the mouse position before displaying the context menu.
+	If `true`, the caret displays as a rectangle.
+	If `false`, the caret displays as a bar.
+	*/
+	@property bool caretBlockMode()
+	{
+		return cursorIsBlockMode();
+	}
+	/// ditto
+	@property void caretBlockMode(bool v)
+	{
+		cursorSetBlockMode(v);
+	}
+	/**
+	If `true`, a right-click moves the cursor at the mouse position before displaying the context menu.
 	If `false`, the context menu disregards mouse location.
 	*/
 	@property bool caretMovingByRightClick()
@@ -1103,5 +1157,257 @@ public:
 	@property void caretMovingByRightClick(bool v)
 	{
 		setRightClickMovesCaret(v);
+	}
+	/**
+	If `true`, a right-click displays the context menu.
+	*/
+	@property bool contextMenuEnabled()
+	{
+		return isContextMenuEnabled();
+	}
+	/// ditto
+	@property void contextMenuEnabled(bool v)
+	{
+		setContextMenuEnabled(v);
+	}
+	/**
+	If `true`, the "space" character will have a visible representation.
+	*/
+	@property bool drawSpaces()
+	{
+		return isDrawingSpaces();
+	}
+	/// ditto
+	@property void drawSpaces(bool v)
+	{
+		setDrawSpaces(v);
+	}
+	/**
+	If `true`, the "tab" character will have a visible representation.
+	*/
+	@property bool drawTabs()
+	{
+		return isDrawingTabs();
+	}
+	/// ditto
+	@property void drawTabs(bool v)
+	{
+		setDrawTabs(v);
+	}
+	/**
+	If `true`, the fold gutter is visible. This enables folding groups of indented lines.
+	*/
+	@property bool foldGutter()
+	{
+		return isDrawingFoldGutter();
+	}
+	/// ditto
+	@property void foldGutter(bool v)
+	{
+		setDrawFoldGutter(v);
+	}
+	/**
+	If `true`, all lines that have been set to hidden by $(D setLineAsHidden), will not be visible.
+	*/
+	@property bool hidingEnabled()
+	{
+		return isHidingEnabled();
+	}
+	/// ditto
+	@property void hidingEnabled(bool v)
+	{
+		setHidingEnabled(v);
+	}
+	/**
+	If `true`, all occurrences of the selected text will be highlighted.
+	*/
+	@property bool highlightAllOccurrences()
+	{
+		return isHighlightAllOccurrencesEnabled();
+	}
+	/// ditto
+	@property void highlightAllOccurrences(bool v)
+	{
+		setHighlightAllOccurrences(v);
+	}
+	/**
+	If `true`, the line containing the cursor is highlighted.
+	*/
+	@property bool highlightCurrentLine()
+	{
+		return isHighlightCurrentLineEnabled();
+	}
+	/// ditto
+	@property void highlightCurrentLine(bool v)
+	{
+		setHighlightCurrentLine(v);
+	}
+	/**
+	
+	*/
+	@property bool minimapDraw()
+	{
+		return isDrawingMinimap();
+	}
+	/// ditto
+	@property void minimapDraw(bool v)
+	{
+		drawMinimap(v);
+	}
+	/**
+	
+	*/
+	@property long minimapWidth()
+	{
+		return getMinimapWidth();
+	}
+	/// ditto
+	@property void minimapWidth(long v)
+	{
+		setMinimapWidth(v);
+	}
+	/**
+	
+	*/
+	@property bool overrideSelectedFontColor()
+	{
+		return isOverridingSelectedFontColor();
+	}
+	/// ditto
+	@property void overrideSelectedFontColor(bool v)
+	{
+		setOverrideSelectedFontColor(v);
+	}
+	/**
+	If `true`, read-only mode is enabled. Existing text cannot be modified and new text cannot be added.
+	*/
+	@property bool readonly()
+	{
+		return isReadonly();
+	}
+	/// ditto
+	@property void readonly(bool v)
+	{
+		setReadonly(v);
+	}
+	/**
+	The current horizontal scroll value.
+	*/
+	@property long scrollHorizontal()
+	{
+		return getHScroll();
+	}
+	/// ditto
+	@property void scrollHorizontal(long v)
+	{
+		setHScroll(v);
+	}
+	/**
+	The current vertical scroll value.
+	*/
+	@property double scrollVertical()
+	{
+		return getVScroll();
+	}
+	/// ditto
+	@property void scrollVertical(double v)
+	{
+		setVScroll(v);
+	}
+	/**
+	
+	*/
+	@property bool selectingEnabled()
+	{
+		return isSelectingEnabled();
+	}
+	/// ditto
+	@property void selectingEnabled(bool v)
+	{
+		setSelectingEnabled(v);
+	}
+	/**
+	
+	*/
+	@property bool shortcutKeysEnabled()
+	{
+		return isShortcutKeysEnabled();
+	}
+	/// ditto
+	@property void shortcutKeysEnabled(bool v)
+	{
+		setShortcutKeysEnabled(v);
+	}
+	/**
+	If `true`, line numbers are displayed to the left of the text.
+	*/
+	@property bool showLineNumbers()
+	{
+		return isShowLineNumbersEnabled();
+	}
+	/// ditto
+	@property void showLineNumbers(bool v)
+	{
+		setShowLineNumbers(v);
+	}
+	/**
+	If `true`, sets the `step` of the scrollbars to `0.25` which results in smoother scrolling.
+	*/
+	@property bool smoothScrolling()
+	{
+		return isSmoothScrollEnabled();
+	}
+	/// ditto
+	@property void smoothScrolling(bool v)
+	{
+		setSmoothScrollEnable(v);
+	}
+	/**
+	If `true`, any custom color properties that have been set for this $(D TextEdit) will be visible.
+	*/
+	@property bool syntaxHighlighting()
+	{
+		return isSyntaxColoringEnabled();
+	}
+	/// ditto
+	@property void syntaxHighlighting(bool v)
+	{
+		setSyntaxColoring(v);
+	}
+	/**
+	String value of the $(D TextEdit).
+	*/
+	@property String text()
+	{
+		return getText();
+	}
+	/// ditto
+	@property void text(String v)
+	{
+		setText(v);
+	}
+	/**
+	Vertical scroll sensitivity.
+	*/
+	@property double vScrollSpeed()
+	{
+		return getVScrollSpeed();
+	}
+	/// ditto
+	@property void vScrollSpeed(double v)
+	{
+		setVScrollSpeed(v);
+	}
+	/**
+	If `true`, enables text wrapping when it goes beyond the edge of what is visible.
+	*/
+	@property bool wrapEnabled()
+	{
+		return isWrapEnabled();
+	}
+	/// ditto
+	@property void wrapEnabled(bool v)
+	{
+		setWrapEnabled(v);
 	}
 }

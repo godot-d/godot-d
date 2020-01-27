@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualshadernode;
-import godot.texture;
 import godot.resource;
 import godot.reference;
+import godot.texture;
 /**
 
 */
@@ -39,12 +39,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_source") GodotMethod!(void, long) setSource;
 		@GodotName("get_source") GodotMethod!(VisualShaderNodeTexture.Source) getSource;
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
 		@GodotName("get_texture_type") GodotMethod!(VisualShaderNodeTexture.TextureType) getTextureType;
+		@GodotName("set_source") GodotMethod!(void, long) setSource;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
 	}
 	bool opEquals(in VisualShaderNodeTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -93,6 +93,14 @@ public:
 		
 		*/
 		source2dNormal = 3,
+		/**
+		
+		*/
+		sourceDepth = 4,
+		/**
+		
+		*/
+		sourcePort = 5,
 	}
 	/// 
 	enum Constants : int
@@ -104,14 +112,8 @@ public:
 		typeNormalmap = 2,
 		source2dTexture = 2,
 		source2dNormal = 3,
-	}
-	/**
-	
-	*/
-	void setSource(in long value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSource, _godot_object, value);
+		sourceDepth = 4,
+		sourcePort = 5,
 	}
 	/**
 	
@@ -124,14 +126,6 @@ public:
 	/**
 	
 	*/
-	void setTexture(Texture value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, value);
-	}
-	/**
-	
-	*/
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -140,18 +134,34 @@ public:
 	/**
 	
 	*/
-	void setTextureType(in long value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureType, _godot_object, value);
-	}
-	/**
-	
-	*/
 	VisualShaderNodeTexture.TextureType getTextureType() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualShaderNodeTexture.TextureType)(_classBinding.getTextureType, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSource(in long value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSource, _godot_object, value);
+	}
+	/**
+	
+	*/
+	void setTexture(Texture value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, value);
+	}
+	/**
+	
+	*/
+	void setTextureType(in long value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureType, _godot_object, value);
 	}
 	/**
 	

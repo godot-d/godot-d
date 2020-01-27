@@ -1,5 +1,5 @@
 /**
-
+Holds a reference to an $(D GodotObject)'s instance ID.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
+Holds a reference to an $(D GodotObject)'s instance ID.
 
+Utility class which holds a reference to the internal identifier of an $(D GodotObject) instance, as given by $(D GodotObject.getInstanceId). This ID can then be used to retrieve the object instance with $(D @GDScript.instanceFromId).
+This class is used internally by the editor inspector and script debugger, but can also be used in plugins to pass and display objects as their IDs.
 */
 @GodotBaseClass struct EncodedObjectAsID
 {
@@ -36,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_object_id") GodotMethod!(void, long) setObjectId;
 		@GodotName("get_object_id") GodotMethod!(long) getObjectId;
+		@GodotName("set_object_id") GodotMethod!(void, long) setObjectId;
 	}
 	bool opEquals(in EncodedObjectAsID other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EncodedObjectAsID opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,17 +57,29 @@ public:
 	/**
 	
 	*/
+	long getObjectId() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getObjectId, _godot_object);
+	}
+	/**
+	
+	*/
 	void setObjectId(in long id)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setObjectId, _godot_object, id);
 	}
 	/**
-	
+	The $(D GodotObject) identifier stored in this $(D EncodedObjectAsID) instance. The object instance can be retrieved with $(D @GDScript.instanceFromId).
 	*/
-	long getObjectId() const
+	@property long objectId()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getObjectId, _godot_object);
+		return getObjectId();
+	}
+	/// ditto
+	@property void objectId(long v)
+	{
+		setObjectId(v);
 	}
 }

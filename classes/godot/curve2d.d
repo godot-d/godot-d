@@ -1,5 +1,5 @@
 /**
-Describes a Bezier curve in 2D space.
+Describes a Bézier curve in 2D space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,12 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
-Describes a Bezier curve in 2D space.
+Describes a Bézier curve in 2D space.
 
-This class describes a Bezier curve in 2D space. It is mainly used to give a shape to a $(D Path2D), but can be manually sampled for other purposes.
-It keeps a cache of precalculated points along the curve, to speed further calculations up.
+This class describes a Bézier curve in 2D space. It is mainly used to give a shape to a $(D Path2D), but can be manually sampled for other purposes.
+It keeps a cache of precalculated points along the curve, to speed up further calculations.
 */
 @GodotBaseClass struct Curve2D
 {
@@ -40,28 +39,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
-		@GodotName("add_point") GodotMethod!(void, Vector2, Vector2, Vector2, long) addPoint;
-		@GodotName("set_point_position") GodotMethod!(void, long, Vector2) setPointPosition;
-		@GodotName("get_point_position") GodotMethod!(Vector2, long) getPointPosition;
-		@GodotName("set_point_in") GodotMethod!(void, long, Vector2) setPointIn;
-		@GodotName("get_point_in") GodotMethod!(Vector2, long) getPointIn;
-		@GodotName("set_point_out") GodotMethod!(void, long, Vector2) setPointOut;
-		@GodotName("get_point_out") GodotMethod!(Vector2, long) getPointOut;
-		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
-		@GodotName("clear_points") GodotMethod!(void) clearPoints;
-		@GodotName("interpolate") GodotMethod!(Vector2, long, double) interpolate;
-		@GodotName("interpolatef") GodotMethod!(Vector2, double) interpolatef;
-		@GodotName("set_bake_interval") GodotMethod!(void, double) setBakeInterval;
-		@GodotName("get_bake_interval") GodotMethod!(double) getBakeInterval;
-		@GodotName("get_baked_length") GodotMethod!(double) getBakedLength;
-		@GodotName("interpolate_baked") GodotMethod!(Vector2, double, bool) interpolateBaked;
-		@GodotName("get_baked_points") GodotMethod!(PoolVector2Array) getBakedPoints;
-		@GodotName("get_closest_point") GodotMethod!(Vector2, Vector2) getClosestPoint;
-		@GodotName("get_closest_offset") GodotMethod!(double, Vector2) getClosestOffset;
-		@GodotName("tessellate") GodotMethod!(PoolVector2Array, long, double) tessellate;
 		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
 		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
+		@GodotName("add_point") GodotMethod!(void, Vector2, Vector2, Vector2, long) addPoint;
+		@GodotName("clear_points") GodotMethod!(void) clearPoints;
+		@GodotName("get_bake_interval") GodotMethod!(double) getBakeInterval;
+		@GodotName("get_baked_length") GodotMethod!(double) getBakedLength;
+		@GodotName("get_baked_points") GodotMethod!(PoolVector2Array) getBakedPoints;
+		@GodotName("get_closest_offset") GodotMethod!(double, Vector2) getClosestOffset;
+		@GodotName("get_closest_point") GodotMethod!(Vector2, Vector2) getClosestPoint;
+		@GodotName("get_point_count") GodotMethod!(long) getPointCount;
+		@GodotName("get_point_in") GodotMethod!(Vector2, long) getPointIn;
+		@GodotName("get_point_out") GodotMethod!(Vector2, long) getPointOut;
+		@GodotName("get_point_position") GodotMethod!(Vector2, long) getPointPosition;
+		@GodotName("interpolate") GodotMethod!(Vector2, long, double) interpolate;
+		@GodotName("interpolate_baked") GodotMethod!(Vector2, double, bool) interpolateBaked;
+		@GodotName("interpolatef") GodotMethod!(Vector2, double) interpolatef;
+		@GodotName("remove_point") GodotMethod!(void, long) removePoint;
+		@GodotName("set_bake_interval") GodotMethod!(void, double) setBakeInterval;
+		@GodotName("set_point_in") GodotMethod!(void, long, Vector2) setPointIn;
+		@GodotName("set_point_out") GodotMethod!(void, long, Vector2) setPointOut;
+		@GodotName("set_point_position") GodotMethod!(void, long, Vector2) setPointPosition;
+		@GodotName("tessellate") GodotMethod!(PoolVector2Array, long, double) tessellate;
 	}
 	bool opEquals(in Curve2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Curve2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -76,15 +75,26 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Returns the number of points describing the curve.
+	
 	*/
-	long getPointCount() const
+	Dictionary _getData() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_data");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
 	/**
-	Adds a point to a curve, at `position`, with control points `in` and `out`.
+	
+	*/
+	void _setData(in Dictionary arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_data");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds a point to a curve at `position`, with control points `in` and `out`.
 	If `at_position` is given, the point is inserted before the point number `at_position`, moving that point (and every point after) after the inserted point. If `at_position` is not given, or is an illegal value (`at_position &lt;0` or `at_position &gt;= $(D getPointCount)`), the point will be appended at the end of the point list.
 	*/
 	void addPoint(in Vector2 position, in Vector2 _in = Vector2(0, 0), in Vector2 _out = Vector2(0, 0), in long at_position = -1)
@@ -93,93 +103,12 @@ public:
 		ptrcall!(void)(_classBinding.addPoint, _godot_object, position, _in, _out, at_position);
 	}
 	/**
-	Sets the position for the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
-	*/
-	void setPointPosition(in long idx, in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, idx, position);
-	}
-	/**
-	Returns the position of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
-	*/
-	Vector2 getPointPosition(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, idx);
-	}
-	/**
-	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
-	*/
-	void setPointIn(in long idx, in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointIn, _godot_object, idx, position);
-	}
-	/**
-	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
-	*/
-	Vector2 getPointIn(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointIn, _godot_object, idx);
-	}
-	/**
-	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
-	*/
-	void setPointOut(in long idx, in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointOut, _godot_object, idx, position);
-	}
-	/**
-	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
-	*/
-	Vector2 getPointOut(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointOut, _godot_object, idx);
-	}
-	/**
-	Deletes the point `idx` from the curve. Sends an error to the console if `idx` is out of bounds.
-	*/
-	void removePoint(in long idx)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, idx);
-	}
-	/**
 	Removes all points from the curve.
 	*/
 	void clearPoints()
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
-	}
-	/**
-	Returns the position between the vertex `idx` and the vertex `idx + 1`, where `t` controls if the point is the first vertex (`t = 0.0`), the last vertex (`t = 1.0`), or in between. Values of `t` outside the range (`0.0 &gt;= t &lt;=1`) give strange, but predictable results.
-	If `idx` is out of bounds it is truncated to the first or last vertex, and `t` is ignored. If the curve has no points, the function sends an error to the console, and returns `(0, 0)`.
-	*/
-	Vector2 interpolate(in long idx, in double t) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolate, _godot_object, idx, t);
-	}
-	/**
-	Returns the position at the vertex `fofs`. It calls $(D interpolate) using the integer part of `fofs` as `idx`, and its fractional part as `t`.
-	*/
-	Vector2 interpolatef(in double fofs) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolatef, _godot_object, fofs);
-	}
-	/**
-	
-	*/
-	void setBakeInterval(in double distance)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeInterval, _godot_object, distance);
 	}
 	/**
 	
@@ -198,22 +127,21 @@ public:
 		return ptrcall!(double)(_classBinding.getBakedLength, _godot_object);
 	}
 	/**
-	Returns a point within the curve at position `offset`, where `offset` is measured as a pixel distance along the curve.
-	To do that, it finds the two cached points where the `offset` lies between, then interpolates the values. This interpolation is cubic if `cubic` is set to `true`, or linear if set to `false`.
-	Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
-	*/
-	Vector2 interpolateBaked(in double offset, in bool cubic = false) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolateBaked, _godot_object, offset, cubic);
-	}
-	/**
 	Returns the cache of points as a $(D PoolVector2Array).
 	*/
 	PoolVector2Array getBakedPoints() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolVector2Array)(_classBinding.getBakedPoints, _godot_object);
+	}
+	/**
+	Returns the closest offset to `to_point`. This offset is meant to be used in $(D interpolateBaked).
+	`to_point` must be in this curve's local space.
+	*/
+	double getClosestOffset(in Vector2 to_point) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getClosestOffset, _godot_object, to_point);
 	}
 	/**
 	Returns the closest point (in curve's local space) to `to_point`.
@@ -225,13 +153,103 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
-	Returns the closest offset to `to_point`. This offset is meant to be used in $(D interpolateBaked).
-	`to_point` must be in this curve's local space.
+	Returns the number of points describing the curve.
 	*/
-	double getClosestOffset(in Vector2 to_point) const
+	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getClosestOffset, _godot_object, to_point);
+		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+	}
+	/**
+	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
+	*/
+	Vector2 getPointIn(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPointIn, _godot_object, idx);
+	}
+	/**
+	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
+	*/
+	Vector2 getPointOut(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPointOut, _godot_object, idx);
+	}
+	/**
+	Returns the position of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
+	*/
+	Vector2 getPointPosition(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, idx);
+	}
+	/**
+	Returns the position between the vertex `idx` and the vertex `idx + 1`, where `t` controls if the point is the first vertex (`t = 0.0`), the last vertex (`t = 1.0`), or in between. Values of `t` outside the range (`0.0 &gt;= t &lt;=1`) give strange, but predictable results.
+	If `idx` is out of bounds it is truncated to the first or last vertex, and `t` is ignored. If the curve has no points, the function sends an error to the console, and returns `(0, 0)`.
+	*/
+	Vector2 interpolate(in long idx, in double t) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.interpolate, _godot_object, idx, t);
+	}
+	/**
+	Returns a point within the curve at position `offset`, where `offset` is measured as a pixel distance along the curve.
+	To do that, it finds the two cached points where the `offset` lies between, then interpolates the values. This interpolation is cubic if `cubic` is set to `true`, or linear if set to `false`.
+	Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
+	*/
+	Vector2 interpolateBaked(in double offset, in bool cubic = false) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.interpolateBaked, _godot_object, offset, cubic);
+	}
+	/**
+	Returns the position at the vertex `fofs`. It calls $(D interpolate) using the integer part of `fofs` as `idx`, and its fractional part as `t`.
+	*/
+	Vector2 interpolatef(in double fofs) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.interpolatef, _godot_object, fofs);
+	}
+	/**
+	Deletes the point `idx` from the curve. Sends an error to the console if `idx` is out of bounds.
+	*/
+	void removePoint(in long idx)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removePoint, _godot_object, idx);
+	}
+	/**
+	
+	*/
+	void setBakeInterval(in double distance)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBakeInterval, _godot_object, distance);
+	}
+	/**
+	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	*/
+	void setPointIn(in long idx, in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointIn, _godot_object, idx, position);
+	}
+	/**
+	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	*/
+	void setPointOut(in long idx, in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointOut, _godot_object, idx, position);
+	}
+	/**
+	Sets the position for the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	*/
+	void setPointPosition(in long idx, in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, idx, position);
 	}
 	/**
 	Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts.
@@ -247,21 +265,14 @@ public:
 	/**
 	
 	*/
-	Dictionary _getData() const
+	@property Dictionary _data()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
+		return _getData();
 	}
-	/**
-	
-	*/
-	void _setData(in Dictionary arg0)
+	/// ditto
+	@property void _data(Dictionary v)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		_setData(v);
 	}
 	/**
 	The distance in pixels between two adjacent cached points. Changing it forces the cache to be recomputed the next time the $(D getBakedPoints) or $(D getBakedLength) function is called. The smaller the distance, the more points in the cache and the more memory it will consume, so use with care.
@@ -274,17 +285,5 @@ public:
 	@property void bakeInterval(double v)
 	{
 		setBakeInterval(v);
-	}
-	/**
-	
-	*/
-	@property Dictionary _data()
-	{
-		return _getData();
-	}
-	/// ditto
-	@property void _data(Dictionary v)
-	{
-		_setData(v);
 	}
 }

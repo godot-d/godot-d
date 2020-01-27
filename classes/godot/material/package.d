@@ -20,7 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.reference;
 /**
 Abstract base $(D Resource) for coloring and shading geometry.
 
@@ -38,10 +37,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_next_pass") GodotMethod!(void, Material) setNextPass;
 		@GodotName("get_next_pass") GodotMethod!(Material) getNextPass;
-		@GodotName("set_render_priority") GodotMethod!(void, long) setRenderPriority;
 		@GodotName("get_render_priority") GodotMethod!(long) getRenderPriority;
+		@GodotName("set_next_pass") GodotMethod!(void, Material) setNextPass;
+		@GodotName("set_render_priority") GodotMethod!(void, long) setRenderPriority;
 	}
 	bool opEquals(in Material other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Material opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,21 +58,13 @@ public:
 	enum Constants : int
 	{
 		/**
-		
+		Minimum value for the $(D renderPriority) parameter.
 		*/
 		renderPriorityMin = -128,
 		/**
-		
+		Maximum value for the $(D renderPriority) parameter.
 		*/
 		renderPriorityMax = 127,
-	}
-	/**
-	
-	*/
-	void setNextPass(Material next_pass)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNextPass, _godot_object, next_pass);
 	}
 	/**
 	
@@ -86,14 +77,6 @@ public:
 	/**
 	
 	*/
-	void setRenderPriority(in long priority)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRenderPriority, _godot_object, priority);
-	}
-	/**
-	
-	*/
 	long getRenderPriority() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -102,17 +85,22 @@ public:
 	/**
 	
 	*/
-	@property long renderPriority()
+	void setNextPass(Material next_pass)
 	{
-		return getRenderPriority();
-	}
-	/// ditto
-	@property void renderPriority(long v)
-	{
-		setRenderPriority(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNextPass, _godot_object, next_pass);
 	}
 	/**
 	
+	*/
+	void setRenderPriority(in long priority)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRenderPriority, _godot_object, priority);
+	}
+	/**
+	Sets the $(D Material) to be used for the next pass. This renders the object again using a different material.
+	$(B Note:) only applies to $(D SpatialMaterial)s and $(D ShaderMaterial)s with type "Spatial".
 	*/
 	@property Material nextPass()
 	{
@@ -122,5 +110,18 @@ public:
 	@property void nextPass(Material v)
 	{
 		setNextPass(v);
+	}
+	/**
+	Sets the render priority for transparent objects in 3D scenes. Higher priority objects will be sorted in front of lower priority objects.
+	$(B Note:) this only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are sorted based on depth, while transparent objects are sorted from back to front (subject to priority).
+	*/
+	@property long renderPriority()
+	{
+		return getRenderPriority();
+	}
+	/// ditto
+	@property void renderPriority(long v)
+	{
+		setRenderPriority(v);
 	}
 }

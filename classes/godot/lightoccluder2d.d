@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.occluderpolygon2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Occludes light cast by a Light2D, casting shadows.
 
@@ -41,11 +39,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_occluder_polygon") GodotMethod!(void, OccluderPolygon2D) setOccluderPolygon;
+		@GodotName("_poly_changed") GodotMethod!(void) _polyChanged;
+		@GodotName("get_occluder_light_mask") GodotMethod!(long) getOccluderLightMask;
 		@GodotName("get_occluder_polygon") GodotMethod!(OccluderPolygon2D) getOccluderPolygon;
 		@GodotName("set_occluder_light_mask") GodotMethod!(void, long) setOccluderLightMask;
-		@GodotName("get_occluder_light_mask") GodotMethod!(long) getOccluderLightMask;
-		@GodotName("_poly_changed") GodotMethod!(void) _polyChanged;
+		@GodotName("set_occluder_polygon") GodotMethod!(void, OccluderPolygon2D) setOccluderPolygon;
 	}
 	bool opEquals(in LightOccluder2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LightOccluder2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,10 +60,19 @@ public:
 	/**
 	
 	*/
-	void setOccluderPolygon(OccluderPolygon2D polygon)
+	void _polyChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_poly_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	long getOccluderLightMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOccluderPolygon, _godot_object, polygon);
+		return ptrcall!(long)(_classBinding.getOccluderLightMask, _godot_object);
 	}
 	/**
 	
@@ -86,31 +93,10 @@ public:
 	/**
 	
 	*/
-	long getOccluderLightMask() const
+	void setOccluderPolygon(OccluderPolygon2D polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOccluderLightMask, _godot_object);
-	}
-	/**
-	
-	*/
-	void _polyChanged()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_poly_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	The $(D OccluderPolygon2D) used to compute the shadow.
-	*/
-	@property OccluderPolygon2D occluder()
-	{
-		return getOccluderPolygon();
-	}
-	/// ditto
-	@property void occluder(OccluderPolygon2D v)
-	{
-		setOccluderPolygon(v);
+		ptrcall!(void)(_classBinding.setOccluderPolygon, _godot_object, polygon);
 	}
 	/**
 	The LightOccluder2D's light mask. The LightOccluder2D will cast shadows only from Light2D(s) that have the same light mask(s).
@@ -123,5 +109,17 @@ public:
 	@property void lightMask(long v)
 	{
 		setOccluderLightMask(v);
+	}
+	/**
+	The $(D OccluderPolygon2D) used to compute the shadow.
+	*/
+	@property OccluderPolygon2D occluder()
+	{
+		return getOccluderPolygon();
+	}
+	/// ditto
+	@property void occluder(OccluderPolygon2D v)
+	{
+		setOccluderPolygon(v);
 	}
 }

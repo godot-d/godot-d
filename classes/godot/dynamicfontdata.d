@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
 Used with $(D DynamicFont) to describe the location of a font file.
 
@@ -39,12 +38,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_antialiased") GodotMethod!(void, bool) setAntialiased;
-		@GodotName("is_antialiased") GodotMethod!(bool) isAntialiased;
-		@GodotName("set_font_path") GodotMethod!(void, String) setFontPath;
 		@GodotName("get_font_path") GodotMethod!(String) getFontPath;
-		@GodotName("set_hinting") GodotMethod!(void, long) setHinting;
 		@GodotName("get_hinting") GodotMethod!(DynamicFontData.Hinting) getHinting;
+		@GodotName("is_antialiased") GodotMethod!(bool) isAntialiased;
+		@GodotName("set_antialiased") GodotMethod!(void, bool) setAntialiased;
+		@GodotName("set_font_path") GodotMethod!(void, String) setFontPath;
+		@GodotName("set_hinting") GodotMethod!(void, long) setHinting;
 	}
 	bool opEquals(in DynamicFontData other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	DynamicFontData opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,7 +61,7 @@ public:
 	enum Hinting : int
 	{
 		/**
-		Disable font hinting (smoother but less crisp).
+		Disables font hinting (smoother but less crisp).
 		*/
 		hintingNone = 0,
 		/**
@@ -84,10 +83,18 @@ public:
 	/**
 	
 	*/
-	void setAntialiased(in bool antialiased)
+	String getFontPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
+		return ptrcall!(String)(_classBinding.getFontPath, _godot_object);
+	}
+	/**
+	
+	*/
+	DynamicFontData.Hinting getHinting() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(DynamicFontData.Hinting)(_classBinding.getHinting, _godot_object);
 	}
 	/**
 	
@@ -100,18 +107,18 @@ public:
 	/**
 	
 	*/
-	void setFontPath(in String path)
+	void setAntialiased(in bool antialiased)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFontPath, _godot_object, path);
+		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
 	}
 	/**
 	
 	*/
-	String getFontPath() const
+	void setFontPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFontPath, _godot_object);
+		ptrcall!(void)(_classBinding.setFontPath, _godot_object, path);
 	}
 	/**
 	
@@ -122,15 +129,7 @@ public:
 		ptrcall!(void)(_classBinding.setHinting, _godot_object, mode);
 	}
 	/**
-	
-	*/
-	DynamicFontData.Hinting getHinting() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(DynamicFontData.Hinting)(_classBinding.getHinting, _godot_object);
-	}
-	/**
-	Controls whether the font should be rendered with anti-aliasing.
+	If `true`, the font is rendered with anti-aliasing.
 	*/
 	@property bool antialiased()
 	{
@@ -140,18 +139,6 @@ public:
 	@property void antialiased(bool v)
 	{
 		setAntialiased(v);
-	}
-	/**
-	The font hinting mode used by FreeType.
-	*/
-	@property DynamicFontData.Hinting hinting()
-	{
-		return getHinting();
-	}
-	/// ditto
-	@property void hinting(long v)
-	{
-		setHinting(v);
 	}
 	/**
 	The path to the vector font file.
@@ -164,5 +151,17 @@ public:
 	@property void fontPath(String v)
 	{
 		setFontPath(v);
+	}
+	/**
+	The font hinting mode used by FreeType. See $(D hinting) for options.
+	*/
+	@property DynamicFontData.Hinting hinting()
+	{
+		return getHinting();
+	}
+	/// ditto
+	@property void hinting(long v)
+	{
+		setHinting(v);
 	}
 }

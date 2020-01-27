@@ -2,12 +2,12 @@ module godot.shape.all;
 
 public import
 	godot.shape,
-	godot.rayshape,
-	godot.sphereshape,
 	godot.boxshape,
 	godot.capsuleshape,
+	godot.concavepolygonshape,
+	godot.convexpolygonshape,
 	godot.cylindershape,
 	godot.heightmapshape,
 	godot.planeshape,
-	godot.convexpolygonshape,
-	godot.concavepolygonshape;
+	godot.rayshape,
+	godot.sphereshape;

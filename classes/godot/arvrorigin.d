@@ -1,5 +1,5 @@
 /**
-Our origin point in AR/VR.
+The origin point in AR/VR.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,14 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
 /**
-Our origin point in AR/VR.
+The origin point in AR/VR.
 
 This is a special node within the AR/VR system that maps the physical location of the center of our tracking space to the virtual location within our game world.
 There should be only one of these nodes in your scene and you must have one. All the ARVRCamera, ARVRController and ARVRAnchor nodes should be direct children of this node for spatial tracking to work correctly.
 It is the position of this node that you update when your character needs to move through your game world while we're not moving in the real world. Movement in the real world is always in relation to this origin point.
-So say that your character is driving a car, the ARVROrigin node should be a child node of this car. If you implement a teleport system to move your character, you change the position of this node. Etc.
+For example, if your character is driving a car, the ARVROrigin node should be a child node of this car. Or, if you're implementing a teleport system to move your character, you should change the position of this node.
 */
 @GodotBaseClass struct ARVROrigin
 {
@@ -42,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_world_scale") GodotMethod!(void, double) setWorldScale;
 		@GodotName("get_world_scale") GodotMethod!(double) getWorldScale;
+		@GodotName("set_world_scale") GodotMethod!(void, double) setWorldScale;
 	}
 	bool opEquals(in ARVROrigin other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ARVROrigin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,22 +59,22 @@ public:
 	/**
 	
 	*/
-	void setWorldScale(in double world_scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWorldScale, _godot_object, world_scale);
-	}
-	/**
-	
-	*/
 	double getWorldScale() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getWorldScale, _godot_object);
 	}
 	/**
-	Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 meter in the real world.
-	Note that this method is a passthrough to the $(D ARVRServer) itself.
+	
+	*/
+	void setWorldScale(in double world_scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWorldScale, _godot_object, world_scale);
+	}
+	/**
+	Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 real world meter.
+	$(B Note:) This method is a passthrough to the $(D ARVRServer) itself.
 	*/
 	@property double worldScale()
 	{

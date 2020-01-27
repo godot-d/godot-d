@@ -1,5 +1,5 @@
 /**
-Convex Polygon Shape for 2D physics.
+Convex polygon shape for 2D physics.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
-Convex Polygon Shape for 2D physics.
+Convex polygon shape for 2D physics.
 
 A convex polygon, whatever its shape, is internally decomposed into as many convex polygons as needed to ensure all collision checks against it are always done on convex polygons (which are faster to check).
 The main difference between a $(D ConvexPolygonShape2D) and a $(D ConcavePolygonShape2D) is that a concave polygon assumes it is concave and uses a more complex method of collision detection, and a convex one forces itself to be convex in order to speed up collision detection.
@@ -41,9 +39,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("get_points") GodotMethod!(PoolVector2Array) getPoints;
 		@GodotName("set_point_cloud") GodotMethod!(void, PoolVector2Array) setPointCloud;
 		@GodotName("set_points") GodotMethod!(void, PoolVector2Array) setPoints;
-		@GodotName("get_points") GodotMethod!(PoolVector2Array) getPoints;
 	}
 	bool opEquals(in ConvexPolygonShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConvexPolygonShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,6 +55,14 @@ public:
 		return cast(ConvexPolygonShape2D)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	PoolVector2Array getPoints() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getPoints, _godot_object);
+	}
 	/**
 	Based on the set of points provided, this creates and assigns the $(D points) property using the convex hull algorithm. Removing all unneeded points. See $(D Geometry.convexHull2d) for details.
 	*/
@@ -72,14 +78,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
-	}
-	/**
-	
-	*/
-	PoolVector2Array getPoints() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPoints, _godot_object);
 	}
 	/**
 	The polygon's list of vertices. Can be in either clockwise or counterclockwise order.

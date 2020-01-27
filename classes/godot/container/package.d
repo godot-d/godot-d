@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Base node for containers.
 
@@ -41,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_sort_children") GodotMethod!(void) _sortChildren;
 		@GodotName("_child_minsize_changed") GodotMethod!(void) _childMinsizeChanged;
-		@GodotName("queue_sort") GodotMethod!(void) queueSort;
+		@GodotName("_sort_children") GodotMethod!(void) _sortChildren;
 		@GodotName("fit_child_in_rect") GodotMethod!(void, Control, Rect2) fitChildInRect;
+		@GodotName("queue_sort") GodotMethod!(void) queueSort;
 	}
 	bool opEquals(in Container other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Container opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -69,28 +67,20 @@ public:
 	/**
 	
 	*/
-	void _sortChildren()
+	void _childMinsizeChanged()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_sort_children");
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_child_minsize_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void _childMinsizeChanged()
+	void _sortChildren()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_child_minsize_changed");
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_sort_children");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Queue resort of the contained children. This is called automatically anyway, but can be called upon request.
-	*/
-	void queueSort()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queueSort, _godot_object);
 	}
 	/**
 	Fit a child control in a given rect. This is mainly a helper for creating custom container classes.
@@ -99,5 +89,13 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.fitChildInRect, _godot_object, child, rect);
+	}
+	/**
+	Queue resort of the contained children. This is called automatically anyway, but can be called upon request.
+	*/
+	void queueSort()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.queueSort, _godot_object);
 	}
 }

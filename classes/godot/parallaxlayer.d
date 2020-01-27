@@ -28,7 +28,7 @@ A parallax scrolling layer to be used with $(D ParallaxBackground).
 
 A ParallaxLayer must be the child of a $(D ParallaxBackground) node. Each ParallaxLayer can be set to move at different speeds relative to the camera movement or the $(D ParallaxBackground.scrollOffset) value.
 This node's children will be affected by its scroll offset.
-Note that any changes to this node's position and scale made after it enters the scene will be ignored.
+$(B Note:) Any changes to this node's position and scale made after it enters the scene will be ignored.
 */
 @GodotBaseClass struct ParallaxLayer
 {
@@ -42,12 +42,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_motion_scale") GodotMethod!(void, Vector2) setMotionScale;
-		@GodotName("get_motion_scale") GodotMethod!(Vector2) getMotionScale;
-		@GodotName("set_motion_offset") GodotMethod!(void, Vector2) setMotionOffset;
-		@GodotName("get_motion_offset") GodotMethod!(Vector2) getMotionOffset;
-		@GodotName("set_mirroring") GodotMethod!(void, Vector2) setMirroring;
 		@GodotName("get_mirroring") GodotMethod!(Vector2) getMirroring;
+		@GodotName("get_motion_offset") GodotMethod!(Vector2) getMotionOffset;
+		@GodotName("get_motion_scale") GodotMethod!(Vector2) getMotionScale;
+		@GodotName("set_mirroring") GodotMethod!(void, Vector2) setMirroring;
+		@GodotName("set_motion_offset") GodotMethod!(void, Vector2) setMotionOffset;
+		@GodotName("set_motion_scale") GodotMethod!(void, Vector2) setMotionScale;
 	}
 	bool opEquals(in ParallaxLayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ParallaxLayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,26 +64,10 @@ public:
 	/**
 	
 	*/
-	void setMotionScale(in Vector2 scale)
+	Vector2 getMirroring() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMotionScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	Vector2 getMotionScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotionScale, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMotionOffset(in Vector2 offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMotionOffset, _godot_object, offset);
+		return ptrcall!(Vector2)(_classBinding.getMirroring, _godot_object);
 	}
 	/**
 	
@@ -96,6 +80,14 @@ public:
 	/**
 	
 	*/
+	Vector2 getMotionScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMotionScale, _godot_object);
+	}
+	/**
+	
+	*/
 	void setMirroring(in Vector2 mirror)
 	{
 		checkClassBinding!(typeof(this))();
@@ -104,22 +96,30 @@ public:
 	/**
 	
 	*/
-	Vector2 getMirroring() const
+	void setMotionOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMirroring, _godot_object);
+		ptrcall!(void)(_classBinding.setMotionOffset, _godot_object, offset);
 	}
 	/**
-	Multiplies the ParallaxLayer's motion. If an axis is set to `0` it will not scroll.
+	
 	*/
-	@property Vector2 motionScale()
+	void setMotionScale(in Vector2 scale)
 	{
-		return getMotionScale();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMotionScale, _godot_object, scale);
+	}
+	/**
+	The ParallaxLayer's $(D Texture) mirroring. Useful for creating an infinite scrolling background. If an axis is set to `0`, the $(D Texture) will not be mirrored.
+	*/
+	@property Vector2 motionMirroring()
+	{
+		return getMirroring();
 	}
 	/// ditto
-	@property void motionScale(Vector2 v)
+	@property void motionMirroring(Vector2 v)
 	{
-		setMotionScale(v);
+		setMirroring(v);
 	}
 	/**
 	The ParallaxLayer's offset relative to the parent ParallaxBackground's $(D ParallaxBackground.scrollOffset).
@@ -134,15 +134,15 @@ public:
 		setMotionOffset(v);
 	}
 	/**
-	The ParallaxLayer's $(D Texture) mirroring. Useful for creating an infinite scrolling background. If an axis is set to `0` the $(D Texture) will not be mirrored. Default value: `(0, 0)`.
+	Multiplies the ParallaxLayer's motion. If an axis is set to `0`, it will not scroll.
 	*/
-	@property Vector2 motionMirroring()
+	@property Vector2 motionScale()
 	{
-		return getMirroring();
+		return getMotionScale();
 	}
 	/// ditto
-	@property void motionMirroring(Vector2 v)
+	@property void motionScale(Vector2 v)
 	{
-		setMirroring(v);
+		setMotionScale(v);
 	}
 }

@@ -23,11 +23,10 @@ import godot.classdb;
 import godot.primitivemesh;
 import godot.mesh;
 import godot.resource;
-import godot.reference;
 /**
 Class representing a square mesh.
 
-Class representing a square mesh with size (2,2,0). Consider using a $(D PlaneMesh) if you require a differently sized plane.
+Class representing a square $(D PrimitiveMesh). This flat mesh does not have a thickness. By default, this mesh is aligned on the X and Y axes; this default rotation is more suited for use with billboarded materials. Unlike $(D PlaneMesh), this mesh doesn't provide subdivision options.
 */
 @GodotBaseClass struct QuadMesh
 {
@@ -41,8 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 	}
 	bool opEquals(in QuadMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	QuadMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,14 +58,6 @@ public:
 	/**
 	
 	*/
-	void setSize(in Vector2 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
-	}
-	/**
-	
-	*/
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -74,6 +65,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setSize(in Vector2 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+	}
+	/**
+	Size on the X and Y axes.
 	*/
 	@property Vector2 size()
 	{

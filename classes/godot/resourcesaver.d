@@ -1,5 +1,5 @@
 /**
-Resource saving interface.
+Singleton for saving Godot-specific resource types.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.resource;
 /**
-Resource saving interface.
+Singleton for saving Godot-specific resource types.
 
-Resource saving interface, used for saving resources to disk.
+Singleton for saving Godot-specific resource types to the filesystem.
+It uses the many $(D ResourceFormatSaver) classes registered in the engine (either built-in or from a plugin) to save engine-specific resource data to text-based (e.g. `.tres` or `.tscn`) or binary files (e.g. `.res` or `.scn`).
 */
 @GodotBaseClass struct ResourceSaverSingleton
 {
@@ -39,8 +40,8 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "ResourceSaver";
-		@GodotName("save") GodotMethod!(GodotError, String, Resource, long) save;
 		@GodotName("get_recognized_extensions") GodotMethod!(PoolStringArray, Resource) getRecognizedExtensions;
+		@GodotName("save") GodotMethod!(GodotError, String, Resource, long) save;
 	}
 	bool opEquals(in ResourceSaverSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ResourceSaverSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,31 +59,31 @@ public:
 	enum SaverFlags : int
 	{
 		/**
-		
+		Save the resource with a path relative to the scene which uses it.
 		*/
 		flagRelativePaths = 1,
 		/**
-		
+		Bundles external resources.
 		*/
 		flagBundleResources = 2,
 		/**
-		
+		Changes the $(D Resource.resourcePath) of the saved resource to match its new location.
 		*/
 		flagChangePath = 4,
 		/**
-		
+		Do not save editor-specific metadata (identified by their `__editor` prefix).
 		*/
 		flagOmitEditorProperties = 8,
 		/**
-		
+		Save as big endian (see $(D File.endianSwap)).
 		*/
 		flagSaveBigEndian = 16,
 		/**
-		
+		Compress the resource on save using $(D constant File.COMPRESSION_ZSTD). Only available for binary resource types.
 		*/
 		flagCompress = 32,
 		/**
-		
+		Take over the paths of the saved subresources (see $(D Resource.takeOverPath)).
 		*/
 		flagReplaceSubresourcePaths = 64,
 	}
@@ -98,20 +99,22 @@ public:
 		flagReplaceSubresourcePaths = 64,
 	}
 	/**
-	Saves a resource to disk.
-	*/
-	GodotError save(in String path, Resource resource, in long flags = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path, resource, flags);
-	}
-	/**
 	Returns the list of extensions available for saving a resource of a given type.
 	*/
 	PoolStringArray getRecognizedExtensions(Resource type)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolStringArray)(_classBinding.getRecognizedExtensions, _godot_object, type);
+	}
+	/**
+	Saves a resource to disk to the given path, using a $(D ResourceFormatSaver) that recognizes the resource object.
+	The `flags` bitmask can be specified to customize the save behavior.
+	Returns $(D constant OK) on success.
+	*/
+	GodotError save(in String path, Resource resource, in long flags = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path, resource, flags);
 	}
 }
 /// Returns: the ResourceSaverSingleton

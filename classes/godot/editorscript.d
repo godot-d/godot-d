@@ -19,15 +19,15 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.classdb;
 import godot.reference;
 import godot.node;
 import godot.editorinterface;
 /**
 Base script that can be used to add extension functions to the editor.
 
-Scripts extending this class and implementing its `_run()` method can be executed from the Script Editor's `File -&gt; Run` menu option (or by pressing `CTRL+Shift+X`) while the editor is running. This is useful for adding custom in-editor functionality to Godot. For more complex additions, consider using $(D EditorPlugin)s instead. Note that extending scripts need to have `tool mode` enabled.
-Example script:
+Scripts extending this class and implementing its $(D _run) method can be executed from the Script Editor's $(B File &gt; Run) menu option (or by pressing `Ctrl+Shift+X`) while the editor is running. This is useful for adding custom in-editor functionality to Godot. For more complex additions, consider using $(D EditorPlugin)s instead.
+$(B Note:) Extending scripts need to have `tool` mode enabled.
+$(B Example script:)
 
 
 tool
@@ -37,7 +37,7 @@ func _run():
     print("Hello from the Godot Editor!")
 
 
-Note that the script is run in the Editor context, which means the output is visible in the console window started with the Editor (STDOUT) instead of the usual Godot $(I Output) dock.
+$(B Note:) The script is run in the Editor context, which means the output is visible in the console window started with the Editor (stdout) instead of the usual Godot $(B Output) dock.
 */
 @GodotBaseClass struct EditorScript
 {
@@ -53,8 +53,8 @@ public:
 		__gshared:
 		@GodotName("_run") GodotMethod!(void) _run;
 		@GodotName("add_root_node") GodotMethod!(void, Node) addRootNode;
-		@GodotName("get_scene") GodotMethod!(Node) getScene;
 		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
+		@GodotName("get_scene") GodotMethod!(Node) getScene;
 	}
 	bool opEquals(in EditorScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -69,30 +69,22 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	This method is executed by the Editor when `File -&gt; Run` is used.
+	This method is executed by the Editor when $(B File &gt; Run) is used.
 	*/
 	void _run()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_run");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Adds `node` as a child of the root node in the editor context.
-	WARNING: The implementation of this method is currently disabled.
+	$(B Warning:) The implementation of this method is currently disabled.
 	*/
 	void addRootNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addRootNode, _godot_object, node);
-	}
-	/**
-	Returns the Editor's currently active scene.
-	*/
-	Node getScene()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getScene, _godot_object);
 	}
 	/**
 	Returns the $(D EditorInterface) singleton instance.
@@ -101,5 +93,13 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(EditorInterface)(_classBinding.getEditorInterface, _godot_object);
+	}
+	/**
+	Returns the Editor's currently active scene.
+	*/
+	Node getScene()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(_classBinding.getScene, _godot_object);
 	}
 }

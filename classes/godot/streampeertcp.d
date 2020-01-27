@@ -1,5 +1,5 @@
 /**
-TCP Stream peer.
+TCP stream peer.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,7 +23,7 @@ import godot.classdb;
 import godot.streampeer;
 import godot.reference;
 /**
-TCP Stream peer.
+TCP stream peer.
 
 This object can be used to connect to TCP servers, or also is returned by a TCP server.
 */
@@ -40,11 +40,11 @@ public:
 	{
 		__gshared:
 		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long) connectToHost;
-		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
-		@GodotName("get_status") GodotMethod!(StreamPeerTCP.Status) getStatus;
+		@GodotName("disconnect_from_host") GodotMethod!(void) disconnectFromHost;
 		@GodotName("get_connected_host") GodotMethod!(String) getConnectedHost;
 		@GodotName("get_connected_port") GodotMethod!(long) getConnectedPort;
-		@GodotName("disconnect_from_host") GodotMethod!(void) disconnectFromHost;
+		@GodotName("get_status") GodotMethod!(StreamPeerTCP.Status) getStatus;
+		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
 		@GodotName("set_no_delay") GodotMethod!(void, bool) setNoDelay;
 	}
 	bool opEquals(in StreamPeerTCP other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -63,7 +63,7 @@ public:
 	enum Status : int
 	{
 		/**
-		The initial status of the $(D StreamPeerTCP), also the status after a disconnect.
+		The initial status of the $(D StreamPeerTCP). This is also the status after disconnecting.
 		*/
 		statusNone = 0,
 		/**
@@ -88,12 +88,44 @@ public:
 		statusError = 3,
 	}
 	/**
-	Connect to the specified host:port pair. A hostname will be resolved if valid. Returns `OK` on success or `FAILED` on failure.
+	Connects to the specified `host:port` pair. A hostname will be resolved if valid. Returns $(D constant OK) on success or $(D constant FAILED) on failure.
 	*/
 	GodotError connectToHost(in String host, in long port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port);
+	}
+	/**
+	Disconnects from host.
+	*/
+	void disconnectFromHost()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object);
+	}
+	/**
+	Returns the IP of this peer.
+	*/
+	String getConnectedHost() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
+	}
+	/**
+	Returns the port of this peer.
+	*/
+	long getConnectedPort() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
+	}
+	/**
+	Returns the status of the connection, see $(D status).
+	*/
+	StreamPeerTCP.Status getStatus()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(StreamPeerTCP.Status)(_classBinding.getStatus, _godot_object);
 	}
 	/**
 	Returns `true` if this peer is currently connected to a host, `false` otherwise.
@@ -104,40 +136,8 @@ public:
 		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
 	}
 	/**
-	Return the status of the connection, see $(D StreamPeerTCP.status).
-	*/
-	StreamPeerTCP.Status getStatus()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeerTCP.Status)(_classBinding.getStatus, _godot_object);
-	}
-	/**
-	Return the IP of this peer.
-	*/
-	String getConnectedHost() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
-	}
-	/**
-	Return the port of this peer.
-	*/
-	long getConnectedPort() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
-	}
-	/**
-	Disconnect from host.
-	*/
-	void disconnectFromHost()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object);
-	}
-	/**
-	Disable Nagle algorithm to improve latency for small packets.
-	Note that for applications that send large packets, or need to transfer a lot of data, this can reduce total bandwidth.
+	Disables Nagle's algorithm to improve latency for small packets.
+	$(B Note:) For applications that send large packets or need to transfer a lot of data, this can decrease the total available bandwidth.
 	*/
 	void setNoDelay(in bool enabled)
 	{

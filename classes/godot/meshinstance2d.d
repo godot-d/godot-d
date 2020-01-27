@@ -1,5 +1,5 @@
 /**
-
+Node used for displaying a $(D Mesh) in 2D.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,10 +23,10 @@ import godot.classdb;
 import godot.node2d;
 import godot.mesh;
 import godot.texture;
-import godot.canvasitem;
-import godot.node;
 /**
+Node used for displaying a $(D Mesh) in 2D.
 
+Can be constructed from an existing $(D Sprite) via a tool in the editor toolbar. Select "Sprite" then "Convert to Mesh2D", select settings in popup and press "Create Mesh2D".
 */
 @GodotBaseClass struct MeshInstance2D
 {
@@ -40,12 +40,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
 		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
-		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
 		@GodotName("get_normal_map") GodotMethod!(Texture) getNormalMap;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
+		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 	}
 	bool opEquals(in MeshInstance2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	MeshInstance2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,42 +62,10 @@ public:
 	/**
 	
 	*/
-	void setMesh(Mesh mesh)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
-	}
-	/**
-	
-	*/
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTexture(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	void setNormalMap(Texture normal_map)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
 	}
 	/**
 	
@@ -110,6 +78,38 @@ public:
 	/**
 	
 	*/
+	Ref!Texture getTexture() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+	}
+	/**
+	
+	*/
+	void setMesh(Mesh mesh)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+	}
+	/**
+	
+	*/
+	void setNormalMap(Texture normal_map)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
+	}
+	/**
+	
+	*/
+	void setTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+	}
+	/**
+	The $(D Mesh) that will be drawn by the $(D MeshInstance2D).
+	*/
 	@property Mesh mesh()
 	{
 		return getMesh();
@@ -120,19 +120,7 @@ public:
 		setMesh(v);
 	}
 	/**
-	
-	*/
-	@property Texture texture()
-	{
-		return getTexture();
-	}
-	/// ditto
-	@property void texture(Texture v)
-	{
-		setTexture(v);
-	}
-	/**
-	
+	The normal map that will be used if using the default $(D CanvasItemMaterial).
 	*/
 	@property Texture normalMap()
 	{
@@ -142,5 +130,17 @@ public:
 	@property void normalMap(Texture v)
 	{
 		setNormalMap(v);
+	}
+	/**
+	The $(D Texture) that will be used if using the default $(D CanvasItemMaterial). Can be accessed as `TEXTURE` in CanvasItem shader.
+	*/
+	@property Texture texture()
+	{
+		return getTexture();
+	}
+	/// ditto
+	@property void texture(Texture v)
+	{
+		setTexture(v);
 	}
 }

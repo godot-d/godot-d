@@ -21,18 +21,17 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.physicsbody;
-import godot.physicsdirectbodystate;
-import godot.physicsmaterial;
 import godot.collisionobject;
 import godot.spatial;
-import godot.node;
+import godot.physicsdirectbodystate;
+import godot.physicsmaterial;
 /**
 Physics Body whose position is determined through physics simulation in 3D space.
 
-This is the node that implements full 3D physics. This means that you do not control a RigidBody directly. Instead you can apply forces to it (gravity, impulses, etc.), and the physics simulation will calculate the resulting movement, collision, bouncing, rotating, etc.
+This is the node that implements full 3D physics. This means that you do not control a RigidBody directly. Instead, you can apply forces to it (gravity, impulses, etc.), and the physics simulation will calculate the resulting movement, collision, bouncing, rotating, etc.
 A RigidBody has 4 behavior $(D mode)s: Rigid, Static, Character, and Kinematic.
-$(B Note:) Don't change a RigidBody's position every frame or very often. Sporadic changes work fine, but physics runs at a different granularity (fixed hz) than usual rendering (process callback) and maybe even in a separate thread, so changing this from a process loop will yield strange behavior. If you need to directly affect the body's state, use $(D _integrateForces), which allows you to directly access the physics state.
-If you need to override the default physics behavior, you can write a custom force integration. See $(D customIntegrator).
+$(B Note:) Don't change a RigidBody's position every frame or very often. Sporadic changes work fine, but physics runs at a different granularity (fixed Hz) than usual rendering (process callback) and maybe even in a separate thread, so changing this from a process loop may result in strange behavior. If you need to directly affect the body's state, use $(D _integrateForces), which allows you to directly access the physics state.
+If you need to override the default physics behavior, you can write a custom force integration function. See $(D customIntegrator).
 */
 @GodotBaseClass struct RigidBody
 {
@@ -46,55 +45,55 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
+		@GodotName("_body_exit_tree") GodotMethod!(void, long) _bodyExitTree;
+		@GodotName("_direct_state_changed") GodotMethod!(void, GodotObject) _directStateChanged;
 		@GodotName("_integrate_forces") GodotMethod!(void, PhysicsDirectBodyState) _integrateForces;
-		@GodotName("set_mode") GodotMethod!(void, long) setMode;
-		@GodotName("get_mode") GodotMethod!(RigidBody.Mode) getMode;
-		@GodotName("set_mass") GodotMethod!(void, double) setMass;
-		@GodotName("get_mass") GodotMethod!(double) getMass;
-		@GodotName("set_weight") GodotMethod!(void, double) setWeight;
-		@GodotName("get_weight") GodotMethod!(double) getWeight;
-		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
-		@GodotName("get_friction") GodotMethod!(double) getFriction;
-		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
-		@GodotName("get_bounce") GodotMethod!(double) getBounce;
-		@GodotName("set_physics_material_override") GodotMethod!(void, PhysicsMaterial) setPhysicsMaterialOverride;
-		@GodotName("get_physics_material_override") GodotMethod!(PhysicsMaterial) getPhysicsMaterialOverride;
 		@GodotName("_reload_physics_characteristics") GodotMethod!(void) _reloadPhysicsCharacteristics;
-		@GodotName("set_linear_velocity") GodotMethod!(void, Vector3) setLinearVelocity;
-		@GodotName("get_linear_velocity") GodotMethod!(Vector3) getLinearVelocity;
-		@GodotName("set_angular_velocity") GodotMethod!(void, Vector3) setAngularVelocity;
-		@GodotName("get_angular_velocity") GodotMethod!(Vector3) getAngularVelocity;
-		@GodotName("set_gravity_scale") GodotMethod!(void, double) setGravityScale;
-		@GodotName("get_gravity_scale") GodotMethod!(double) getGravityScale;
-		@GodotName("set_linear_damp") GodotMethod!(void, double) setLinearDamp;
-		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
-		@GodotName("set_angular_damp") GodotMethod!(void, double) setAngularDamp;
-		@GodotName("get_angular_damp") GodotMethod!(double) getAngularDamp;
-		@GodotName("set_max_contacts_reported") GodotMethod!(void, long) setMaxContactsReported;
-		@GodotName("get_max_contacts_reported") GodotMethod!(long) getMaxContactsReported;
-		@GodotName("set_use_custom_integrator") GodotMethod!(void, bool) setUseCustomIntegrator;
-		@GodotName("is_using_custom_integrator") GodotMethod!(bool) isUsingCustomIntegrator;
-		@GodotName("set_contact_monitor") GodotMethod!(void, bool) setContactMonitor;
-		@GodotName("is_contact_monitor_enabled") GodotMethod!(bool) isContactMonitorEnabled;
-		@GodotName("set_use_continuous_collision_detection") GodotMethod!(void, bool) setUseContinuousCollisionDetection;
-		@GodotName("is_using_continuous_collision_detection") GodotMethod!(bool) isUsingContinuousCollisionDetection;
-		@GodotName("set_axis_velocity") GodotMethod!(void, Vector3) setAxisVelocity;
 		@GodotName("add_central_force") GodotMethod!(void, Vector3) addCentralForce;
 		@GodotName("add_force") GodotMethod!(void, Vector3, Vector3) addForce;
 		@GodotName("add_torque") GodotMethod!(void, Vector3) addTorque;
 		@GodotName("apply_central_impulse") GodotMethod!(void, Vector3) applyCentralImpulse;
 		@GodotName("apply_impulse") GodotMethod!(void, Vector3, Vector3) applyImpulse;
 		@GodotName("apply_torque_impulse") GodotMethod!(void, Vector3) applyTorqueImpulse;
-		@GodotName("set_sleeping") GodotMethod!(void, bool) setSleeping;
-		@GodotName("is_sleeping") GodotMethod!(bool) isSleeping;
-		@GodotName("set_can_sleep") GodotMethod!(void, bool) setCanSleep;
-		@GodotName("is_able_to_sleep") GodotMethod!(bool) isAbleToSleep;
-		@GodotName("_direct_state_changed") GodotMethod!(void, GodotObject) _directStateChanged;
-		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
-		@GodotName("_body_exit_tree") GodotMethod!(void, long) _bodyExitTree;
-		@GodotName("set_axis_lock") GodotMethod!(void, long, bool) setAxisLock;
+		@GodotName("get_angular_damp") GodotMethod!(double) getAngularDamp;
+		@GodotName("get_angular_velocity") GodotMethod!(Vector3) getAngularVelocity;
 		@GodotName("get_axis_lock") GodotMethod!(bool, long) getAxisLock;
+		@GodotName("get_bounce") GodotMethod!(double) getBounce;
 		@GodotName("get_colliding_bodies") GodotMethod!(Array) getCollidingBodies;
+		@GodotName("get_friction") GodotMethod!(double) getFriction;
+		@GodotName("get_gravity_scale") GodotMethod!(double) getGravityScale;
+		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
+		@GodotName("get_linear_velocity") GodotMethod!(Vector3) getLinearVelocity;
+		@GodotName("get_mass") GodotMethod!(double) getMass;
+		@GodotName("get_max_contacts_reported") GodotMethod!(long) getMaxContactsReported;
+		@GodotName("get_mode") GodotMethod!(RigidBody.Mode) getMode;
+		@GodotName("get_physics_material_override") GodotMethod!(PhysicsMaterial) getPhysicsMaterialOverride;
+		@GodotName("get_weight") GodotMethod!(double) getWeight;
+		@GodotName("is_able_to_sleep") GodotMethod!(bool) isAbleToSleep;
+		@GodotName("is_contact_monitor_enabled") GodotMethod!(bool) isContactMonitorEnabled;
+		@GodotName("is_sleeping") GodotMethod!(bool) isSleeping;
+		@GodotName("is_using_continuous_collision_detection") GodotMethod!(bool) isUsingContinuousCollisionDetection;
+		@GodotName("is_using_custom_integrator") GodotMethod!(bool) isUsingCustomIntegrator;
+		@GodotName("set_angular_damp") GodotMethod!(void, double) setAngularDamp;
+		@GodotName("set_angular_velocity") GodotMethod!(void, Vector3) setAngularVelocity;
+		@GodotName("set_axis_lock") GodotMethod!(void, long, bool) setAxisLock;
+		@GodotName("set_axis_velocity") GodotMethod!(void, Vector3) setAxisVelocity;
+		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
+		@GodotName("set_can_sleep") GodotMethod!(void, bool) setCanSleep;
+		@GodotName("set_contact_monitor") GodotMethod!(void, bool) setContactMonitor;
+		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
+		@GodotName("set_gravity_scale") GodotMethod!(void, double) setGravityScale;
+		@GodotName("set_linear_damp") GodotMethod!(void, double) setLinearDamp;
+		@GodotName("set_linear_velocity") GodotMethod!(void, Vector3) setLinearVelocity;
+		@GodotName("set_mass") GodotMethod!(void, double) setMass;
+		@GodotName("set_max_contacts_reported") GodotMethod!(void, long) setMaxContactsReported;
+		@GodotName("set_mode") GodotMethod!(void, long) setMode;
+		@GodotName("set_physics_material_override") GodotMethod!(void, PhysicsMaterial) setPhysicsMaterialOverride;
+		@GodotName("set_sleeping") GodotMethod!(void, bool) setSleeping;
+		@GodotName("set_use_continuous_collision_detection") GodotMethod!(void, bool) setUseContinuousCollisionDetection;
+		@GodotName("set_use_custom_integrator") GodotMethod!(void, bool) setUseCustomIntegrator;
+		@GodotName("set_weight") GodotMethod!(void, double) setWeight;
 	}
 	bool opEquals(in RigidBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RigidBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -137,11 +136,41 @@ public:
 		modeKinematic = 3,
 	}
 	/**
+	
+	*/
+	void _bodyEnterTree(in long arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_body_enter_tree");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _bodyExitTree(in long arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_body_exit_tree");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _directStateChanged(GodotObject arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_direct_state_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
 	Called during physics processing, allowing you to read and safely modify the simulation state for the object. By default, it works in addition to the usual physics behavior, but the $(D customIntegrator) property allows you to disable the default behavior and do fully custom force integration for a body.
 	*/
 	void _integrateForces(PhysicsDirectBodyState state)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(state);
 		String _GODOT_method_name = String("_integrate_forces");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -149,259 +178,11 @@ public:
 	/**
 	
 	*/
-	void setMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	RigidBody.Mode getMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RigidBody.Mode)(_classBinding.getMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMass(in double mass)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMass, _godot_object, mass);
-	}
-	/**
-	
-	*/
-	double getMass() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMass, _godot_object);
-	}
-	/**
-	
-	*/
-	void setWeight(in double weight)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWeight, _godot_object, weight);
-	}
-	/**
-	
-	*/
-	double getWeight() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWeight, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFriction(in double friction)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
-	}
-	/**
-	
-	*/
-	double getFriction() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFriction, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBounce(in double bounce)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
-	}
-	/**
-	
-	*/
-	double getBounce() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBounce, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPhysicsMaterialOverride(PhysicsMaterial physics_material_override)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
-	}
-	/**
-	
-	*/
-	Ref!PhysicsMaterial getPhysicsMaterialOverride() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PhysicsMaterial)(_classBinding.getPhysicsMaterialOverride, _godot_object);
-	}
-	/**
-	
-	*/
 	void _reloadPhysicsCharacteristics()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_reload_physics_characteristics");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void setLinearVelocity(in Vector3 linear_velocity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearVelocity, _godot_object, linear_velocity);
-	}
-	/**
-	
-	*/
-	Vector3 getLinearVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getLinearVelocity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAngularVelocity(in Vector3 angular_velocity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularVelocity, _godot_object, angular_velocity);
-	}
-	/**
-	
-	*/
-	Vector3 getAngularVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getAngularVelocity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGravityScale(in double gravity_scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityScale, _godot_object, gravity_scale);
-	}
-	/**
-	
-	*/
-	double getGravityScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravityScale, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLinearDamp(in double linear_damp)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
-	}
-	/**
-	
-	*/
-	double getLinearDamp() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAngularDamp(in double angular_damp)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
-	}
-	/**
-	
-	*/
-	double getAngularDamp() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAngularDamp, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaxContactsReported(in long amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxContactsReported, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	long getMaxContactsReported() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxContactsReported, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUseCustomIntegrator(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseCustomIntegrator, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isUsingCustomIntegrator()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingCustomIntegrator, _godot_object);
-	}
-	/**
-	
-	*/
-	void setContactMonitor(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setContactMonitor, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	bool isContactMonitorEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isContactMonitorEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUseContinuousCollisionDetection(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseContinuousCollisionDetection, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isUsingContinuousCollisionDetection() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingContinuousCollisionDetection, _godot_object);
-	}
-	/**
-	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
-	*/
-	void setAxisVelocity(in Vector3 axis_velocity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxisVelocity, _godot_object, axis_velocity);
 	}
 	/**
 	Adds a constant directional force without affecting rotation.
@@ -438,7 +219,7 @@ public:
 		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, impulse);
 	}
 	/**
-	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
+	Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	*/
 	void applyImpulse(in Vector3 position, in Vector3 impulse)
 	{
@@ -446,7 +227,7 @@ public:
 		ptrcall!(void)(_classBinding.applyImpulse, _godot_object, position, impulse);
 	}
 	/**
-	Applies a torque impulse which will be affected by the body mass and shape. This will rotate the body around the passed in vector.
+	Applies a torque impulse which will be affected by the body mass and shape. This will rotate the body around the `impulse` vector passed.
 	*/
 	void applyTorqueImpulse(in Vector3 impulse)
 	{
@@ -456,26 +237,115 @@ public:
 	/**
 	
 	*/
-	void setSleeping(in bool sleeping)
+	double getAngularDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSleeping, _godot_object, sleeping);
+		return ptrcall!(double)(_classBinding.getAngularDamp, _godot_object);
 	}
 	/**
 	
 	*/
-	bool isSleeping() const
+	Vector3 getAngularVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
+		return ptrcall!(Vector3)(_classBinding.getAngularVelocity, _godot_object);
+	}
+	/**
+	Returns `true` if the specified linear or rotational axis is locked.
+	*/
+	bool getAxisLock(in long axis) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getAxisLock, _godot_object, axis);
 	}
 	/**
 	
 	*/
-	void setCanSleep(in bool able_to_sleep)
+	double getBounce() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCanSleep, _godot_object, able_to_sleep);
+		return ptrcall!(double)(_classBinding.getBounce, _godot_object);
+	}
+	/**
+	Returns a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the $(D contactsReported) property to increase it.
+	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
+	*/
+	Array getCollidingBodies() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getCollidingBodies, _godot_object);
+	}
+	/**
+	
+	*/
+	double getFriction() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFriction, _godot_object);
+	}
+	/**
+	
+	*/
+	double getGravityScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGravityScale, _godot_object);
+	}
+	/**
+	
+	*/
+	double getLinearDamp() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getLinearVelocity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getLinearVelocity, _godot_object);
+	}
+	/**
+	
+	*/
+	double getMass() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMass, _godot_object);
+	}
+	/**
+	
+	*/
+	long getMaxContactsReported() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMaxContactsReported, _godot_object);
+	}
+	/**
+	
+	*/
+	RigidBody.Mode getMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RigidBody.Mode)(_classBinding.getMode, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!PhysicsMaterial getPhysicsMaterialOverride() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PhysicsMaterial)(_classBinding.getPhysicsMaterialOverride, _godot_object);
+	}
+	/**
+	
+	*/
+	double getWeight() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getWeight, _godot_object);
 	}
 	/**
 	
@@ -488,35 +358,53 @@ public:
 	/**
 	
 	*/
-	void _directStateChanged(GodotObject arg0)
+	bool isContactMonitorEnabled() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_direct_state_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isContactMonitorEnabled, _godot_object);
 	}
 	/**
 	
 	*/
-	void _bodyEnterTree(in long arg0)
+	bool isSleeping() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_body_enter_tree");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
 	}
 	/**
 	
 	*/
-	void _bodyExitTree(in long arg0)
+	bool isUsingContinuousCollisionDetection() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_body_exit_tree");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingContinuousCollisionDetection, _godot_object);
 	}
 	/**
 	
+	*/
+	bool isUsingCustomIntegrator()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isUsingCustomIntegrator, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAngularDamp(in double angular_damp)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
+	}
+	/**
+	
+	*/
+	void setAngularVelocity(in Vector3 angular_velocity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAngularVelocity, _godot_object, angular_velocity);
+	}
+	/**
+	Locks the specified linear or rotational axis.
 	*/
 	void setAxisLock(in long axis, in bool lock)
 	{
@@ -524,273 +412,144 @@ public:
 		ptrcall!(void)(_classBinding.setAxisLock, _godot_object, axis, lock);
 	}
 	/**
-	
+	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
 	*/
-	bool getAxisLock(in long axis) const
+	void setAxisVelocity(in Vector3 axis_velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAxisLock, _godot_object, axis);
-	}
-	/**
-	Return a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the $(D contactsReported) property to increase it. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
-	*/
-	Array getCollidingBodies() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getCollidingBodies, _godot_object);
-	}
-	/**
-	The body mode from the MODE_* enum. Modes include: MODE_STATIC, MODE_KINEMATIC, MODE_RIGID, and MODE_CHARACTER.
-	*/
-	@property RigidBody.Mode mode()
-	{
-		return getMode();
-	}
-	/// ditto
-	@property void mode(long v)
-	{
-		setMode(v);
-	}
-	/**
-	The body's mass.
-	*/
-	@property double mass()
-	{
-		return getMass();
-	}
-	/// ditto
-	@property void mass(double v)
-	{
-		setMass(v);
-	}
-	/**
-	The body's weight based on its mass and the global 3D gravity. Global values are set in "Project &gt; Project Settings &gt; Physics &gt; 3d".
-	*/
-	@property double weight()
-	{
-		return getWeight();
-	}
-	/// ditto
-	@property void weight(double v)
-	{
-		setWeight(v);
-	}
-	/**
-	The body's friction, from 0 (frictionless) to 1 (max friction).
-	*/
-	@property double friction()
-	{
-		return getFriction();
-	}
-	/// ditto
-	@property void friction(double v)
-	{
-		setFriction(v);
-	}
-	/**
-	RigidBody's bounciness.
-	*/
-	@property double bounce()
-	{
-		return getBounce();
-	}
-	/// ditto
-	@property void bounce(double v)
-	{
-		setBounce(v);
+		ptrcall!(void)(_classBinding.setAxisVelocity, _godot_object, axis_velocity);
 	}
 	/**
 	
 	*/
-	@property PhysicsMaterial physicsMaterialOverride()
+	void setBounce(in double bounce)
 	{
-		return getPhysicsMaterialOverride();
-	}
-	/// ditto
-	@property void physicsMaterialOverride(PhysicsMaterial v)
-	{
-		setPhysicsMaterialOverride(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
 	}
 	/**
-	This is multiplied by the global 3D gravity setting found in "Project &gt; Project Settings &gt; Physics &gt; 3d" to produce RigidBody's gravity. E.g. a value of 1 will be normal gravity, 2 will apply double gravity, and 0.5 will apply half gravity to this object.
+	
 	*/
-	@property double gravityScale()
+	void setCanSleep(in bool able_to_sleep)
 	{
-		return getGravityScale();
-	}
-	/// ditto
-	@property void gravityScale(double v)
-	{
-		setGravityScale(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCanSleep, _godot_object, able_to_sleep);
 	}
 	/**
-	If `true`, internal force integration will be disabled (like gravity or air friction) for this body. Other than collision response, the body will only move as determined by the $(D _integrateForces) function, if defined.
+	
 	*/
-	@property bool customIntegrator()
+	void setContactMonitor(in bool enabled)
 	{
-		return isUsingCustomIntegrator();
-	}
-	/// ditto
-	@property void customIntegrator(bool v)
-	{
-		setUseCustomIntegrator(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setContactMonitor, _godot_object, enabled);
 	}
 	/**
-	If `true`, continuous collision detection is used.
-	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided. Continuous collision detection is more precise, and misses less impacts by small, fast-moving objects. Not using continuous collision detection is faster to compute, but can miss small, fast-moving objects.
+	
 	*/
-	@property bool continuousCd()
+	void setFriction(in double friction)
 	{
-		return isUsingContinuousCollisionDetection();
-	}
-	/// ditto
-	@property void continuousCd(bool v)
-	{
-		setUseContinuousCollisionDetection(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
 	}
 	/**
-	The maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
+	
 	*/
-	@property long contactsReported()
+	void setGravityScale(in double gravity_scale)
 	{
-		return getMaxContactsReported();
-	}
-	/// ditto
-	@property void contactsReported(long v)
-	{
-		setMaxContactsReported(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityScale, _godot_object, gravity_scale);
 	}
 	/**
-	If `true`, the RigidBody will emit signals when it collides with another RigidBody.
+	
 	*/
-	@property bool contactMonitor()
+	void setLinearDamp(in double linear_damp)
 	{
-		return isContactMonitorEnabled();
-	}
-	/// ditto
-	@property void contactMonitor(bool v)
-	{
-		setContactMonitor(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
 	}
 	/**
-	If `true`, the body is sleeping and will not calculate forces until woken up by a collision or the `apply_impulse` method.
+	
 	*/
-	@property bool sleeping()
+	void setLinearVelocity(in Vector3 linear_velocity)
 	{
-		return isSleeping();
-	}
-	/// ditto
-	@property void sleeping(bool v)
-	{
-		setSleeping(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLinearVelocity, _godot_object, linear_velocity);
 	}
 	/**
-	If `true`, the RigidBody will not calculate forces and will act as a static body while there is no movement. It will wake up when forces are applied through other collisions or when the `apply_impulse` method is used.
+	
 	*/
-	@property bool canSleep()
+	void setMass(in double mass)
 	{
-		return isAbleToSleep();
-	}
-	/// ditto
-	@property void canSleep(bool v)
-	{
-		setCanSleep(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMass, _godot_object, mass);
 	}
 	/**
-	Lock the body's movement in the x-axis.
+	
 	*/
-	@property bool axisLockLinearX()
+	void setMaxContactsReported(in long amount)
 	{
-		return getAxisLock(1);
-	}
-	/// ditto
-	@property void axisLockLinearX(bool v)
-	{
-		setAxisLock(1, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxContactsReported, _godot_object, amount);
 	}
 	/**
-	Lock the body's movement in the x-axis.
+	
 	*/
-	@property bool axisLockLinearY()
+	void setMode(in long mode)
 	{
-		return getAxisLock(2);
-	}
-	/// ditto
-	@property void axisLockLinearY(bool v)
-	{
-		setAxisLock(2, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
 	}
 	/**
-	Lock the body's movement in the x-axis.
+	
 	*/
-	@property bool axisLockLinearZ()
+	void setPhysicsMaterialOverride(PhysicsMaterial physics_material_override)
 	{
-		return getAxisLock(4);
-	}
-	/// ditto
-	@property void axisLockLinearZ(bool v)
-	{
-		setAxisLock(4, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
 	}
 	/**
-	Lock the body's rotation in the x-axis.
+	
 	*/
-	@property bool axisLockAngularX()
+	void setSleeping(in bool sleeping)
 	{
-		return getAxisLock(8);
-	}
-	/// ditto
-	@property void axisLockAngularX(bool v)
-	{
-		setAxisLock(8, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSleeping, _godot_object, sleeping);
 	}
 	/**
-	Lock the body's rotation in the y-axis.
+	
 	*/
-	@property bool axisLockAngularY()
+	void setUseContinuousCollisionDetection(in bool enable)
 	{
-		return getAxisLock(16);
-	}
-	/// ditto
-	@property void axisLockAngularY(bool v)
-	{
-		setAxisLock(16, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseContinuousCollisionDetection, _godot_object, enable);
 	}
 	/**
-	Lock the body's rotation in the z-axis.
+	
 	*/
-	@property bool axisLockAngularZ()
+	void setUseCustomIntegrator(in bool enable)
 	{
-		return getAxisLock(32);
-	}
-	/// ditto
-	@property void axisLockAngularZ(bool v)
-	{
-		setAxisLock(32, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseCustomIntegrator, _godot_object, enable);
 	}
 	/**
-	The body's linear velocity. Can be used sporadically, but $(B DON'T SET THIS IN EVERY FRAME), because physics may run in another thread and runs at a different granularity. Use $(D _integrateForces) as your process loop for precise control of the body state.
+	
 	*/
-	@property Vector3 linearVelocity()
+	void setWeight(in double weight)
 	{
-		return getLinearVelocity();
-	}
-	/// ditto
-	@property void linearVelocity(Vector3 v)
-	{
-		setLinearVelocity(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWeight, _godot_object, weight);
 	}
 	/**
-	The body's linear damp. Default value: -1, cannot be less than -1. If this value is different from -1, any linear damp derived from the world or areas will be overridden.
+	Damps RigidBody's rotational forces.
 	*/
-	@property double linearDamp()
+	@property double angularDamp()
 	{
-		return getLinearDamp();
+		return getAngularDamp();
 	}
 	/// ditto
-	@property void linearDamp(double v)
+	@property void angularDamp(double v)
 	{
-		setLinearDamp(v);
+		setAngularDamp(v);
 	}
 	/**
 	RigidBody's rotational velocity.
@@ -805,15 +564,259 @@ public:
 		setAngularVelocity(v);
 	}
 	/**
-	Damps RigidBody's rotational forces.
+	Lock the body's rotation in the X axis.
 	*/
-	@property double angularDamp()
+	@property bool axisLockAngularX()
 	{
-		return getAngularDamp();
+		return getAxisLock(8);
 	}
 	/// ditto
-	@property void angularDamp(double v)
+	@property void axisLockAngularX(bool v)
 	{
-		setAngularDamp(v);
+		setAxisLock(8, v);
+	}
+	/**
+	Lock the body's rotation in the Y axis.
+	*/
+	@property bool axisLockAngularY()
+	{
+		return getAxisLock(16);
+	}
+	/// ditto
+	@property void axisLockAngularY(bool v)
+	{
+		setAxisLock(16, v);
+	}
+	/**
+	Lock the body's rotation in the Z axis.
+	*/
+	@property bool axisLockAngularZ()
+	{
+		return getAxisLock(32);
+	}
+	/// ditto
+	@property void axisLockAngularZ(bool v)
+	{
+		setAxisLock(32, v);
+	}
+	/**
+	Lock the body's movement in the X axis.
+	*/
+	@property bool axisLockLinearX()
+	{
+		return getAxisLock(1);
+	}
+	/// ditto
+	@property void axisLockLinearX(bool v)
+	{
+		setAxisLock(1, v);
+	}
+	/**
+	Lock the body's movement in the Y axis.
+	*/
+	@property bool axisLockLinearY()
+	{
+		return getAxisLock(2);
+	}
+	/// ditto
+	@property void axisLockLinearY(bool v)
+	{
+		setAxisLock(2, v);
+	}
+	/**
+	Lock the body's movement in the Z axis.
+	*/
+	@property bool axisLockLinearZ()
+	{
+		return getAxisLock(4);
+	}
+	/// ditto
+	@property void axisLockLinearZ(bool v)
+	{
+		setAxisLock(4, v);
+	}
+	/**
+	The body's bounciness. Values range from `0` (no bounce) to `1` (full bounciness).
+	Deprecated, use $(D PhysicsMaterial.bounce) instead via $(D physicsMaterialOverride).
+	*/
+	@property double bounce()
+	{
+		return getBounce();
+	}
+	/// ditto
+	@property void bounce(double v)
+	{
+		setBounce(v);
+	}
+	/**
+	If `true`, the RigidBody will not calculate forces and will act as a static body while there is no movement. It will wake up when forces are applied through other collisions or when the `apply_impulse` method is used.
+	*/
+	@property bool canSleep()
+	{
+		return isAbleToSleep();
+	}
+	/// ditto
+	@property void canSleep(bool v)
+	{
+		setCanSleep(v);
+	}
+	/**
+	If `true`, the RigidBody will emit signals when it collides with another RigidBody.
+	*/
+	@property bool contactMonitor()
+	{
+		return isContactMonitorEnabled();
+	}
+	/// ditto
+	@property void contactMonitor(bool v)
+	{
+		setContactMonitor(v);
+	}
+	/**
+	The maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
+	*/
+	@property long contactsReported()
+	{
+		return getMaxContactsReported();
+	}
+	/// ditto
+	@property void contactsReported(long v)
+	{
+		setMaxContactsReported(v);
+	}
+	/**
+	If `true`, continuous collision detection is used.
+	Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided. Continuous collision detection is more precise, and misses fewer impacts by small, fast-moving objects. Not using continuous collision detection is faster to compute, but can miss small, fast-moving objects.
+	*/
+	@property bool continuousCd()
+	{
+		return isUsingContinuousCollisionDetection();
+	}
+	/// ditto
+	@property void continuousCd(bool v)
+	{
+		setUseContinuousCollisionDetection(v);
+	}
+	/**
+	If `true`, internal force integration will be disabled (like gravity or air friction) for this body. Other than collision response, the body will only move as determined by the $(D _integrateForces) function, if defined.
+	*/
+	@property bool customIntegrator()
+	{
+		return isUsingCustomIntegrator();
+	}
+	/// ditto
+	@property void customIntegrator(bool v)
+	{
+		setUseCustomIntegrator(v);
+	}
+	/**
+	The body's friction, from 0 (frictionless) to 1 (max friction).
+	Deprecated, use $(D PhysicsMaterial.friction) instead via $(D physicsMaterialOverride).
+	*/
+	@property double friction()
+	{
+		return getFriction();
+	}
+	/// ditto
+	@property void friction(double v)
+	{
+		setFriction(v);
+	}
+	/**
+	This is multiplied by the global 3D gravity setting found in $(B Project &gt; Project Settings &gt; Physics &gt; 3d) to produce RigidBody's gravity. For example, a value of 1 will be normal gravity, 2 will apply double gravity, and 0.5 will apply half gravity to this object.
+	*/
+	@property double gravityScale()
+	{
+		return getGravityScale();
+	}
+	/// ditto
+	@property void gravityScale(double v)
+	{
+		setGravityScale(v);
+	}
+	/**
+	The body's linear damp. Cannot be less than -1.0. If this value is different from -1.0, any linear damp derived from the world or areas will be overridden.
+	*/
+	@property double linearDamp()
+	{
+		return getLinearDamp();
+	}
+	/// ditto
+	@property void linearDamp(double v)
+	{
+		setLinearDamp(v);
+	}
+	/**
+	The body's linear velocity. Can be used sporadically, but $(B don't set this every frame), because physics may run in another thread and runs at a different granularity. Use $(D _integrateForces) as your process loop for precise control of the body state.
+	*/
+	@property Vector3 linearVelocity()
+	{
+		return getLinearVelocity();
+	}
+	/// ditto
+	@property void linearVelocity(Vector3 v)
+	{
+		setLinearVelocity(v);
+	}
+	/**
+	The body's mass.
+	*/
+	@property double mass()
+	{
+		return getMass();
+	}
+	/// ditto
+	@property void mass(double v)
+	{
+		setMass(v);
+	}
+	/**
+	The body mode. See $(D mode) for possible values.
+	*/
+	@property RigidBody.Mode mode()
+	{
+		return getMode();
+	}
+	/// ditto
+	@property void mode(long v)
+	{
+		setMode(v);
+	}
+	/**
+	The physics material override for the body.
+	If a material is assigned to this property, it will be used instead of any other physics material, such as an inherited one.
+	*/
+	@property PhysicsMaterial physicsMaterialOverride()
+	{
+		return getPhysicsMaterialOverride();
+	}
+	/// ditto
+	@property void physicsMaterialOverride(PhysicsMaterial v)
+	{
+		setPhysicsMaterialOverride(v);
+	}
+	/**
+	If `true`, the body is sleeping and will not calculate forces until woken up by a collision or the `apply_impulse` method.
+	*/
+	@property bool sleeping()
+	{
+		return isSleeping();
+	}
+	/// ditto
+	@property void sleeping(bool v)
+	{
+		setSleeping(v);
+	}
+	/**
+	The body's weight based on its mass and the global 3D gravity. Global values are set in $(B Project &gt; Project Settings &gt; Physics &gt; 3d).
+	*/
+	@property double weight()
+	{
+		return getWeight();
+	}
+	/// ditto
+	@property void weight(double v)
+	{
+		setWeight(v);
 	}
 }

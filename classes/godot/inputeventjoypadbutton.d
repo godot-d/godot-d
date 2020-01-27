@@ -22,11 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.inputevent;
 import godot.resource;
-import godot.reference;
 /**
 Input event for gamepad buttons.
 
-Input event type for gamepad buttons. For joysticks see $(D InputEventJoypadMotion).
+Input event type for gamepad buttons. For gamepad analog sticks and joysticks, see $(D InputEventJoypadMotion).
 */
 @GodotBaseClass struct InputEventJoypadButton
 {
@@ -40,11 +39,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_button_index") GodotMethod!(void, long) setButtonIndex;
 		@GodotName("get_button_index") GodotMethod!(long) getButtonIndex;
-		@GodotName("set_pressure") GodotMethod!(void, double) setPressure;
 		@GodotName("get_pressure") GodotMethod!(double) getPressure;
+		@GodotName("set_button_index") GodotMethod!(void, long) setButtonIndex;
 		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+		@GodotName("set_pressure") GodotMethod!(void, double) setPressure;
 	}
 	bool opEquals(in InputEventJoypadButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventJoypadButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,26 +60,10 @@ public:
 	/**
 	
 	*/
-	void setButtonIndex(in long button_index)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonIndex, _godot_object, button_index);
-	}
-	/**
-	
-	*/
 	long getButtonIndex() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getButtonIndex, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPressure(in double pressure)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
 	}
 	/**
 	
@@ -93,10 +76,26 @@ public:
 	/**
 	
 	*/
+	void setButtonIndex(in long button_index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setButtonIndex, _godot_object, button_index);
+	}
+	/**
+	
+	*/
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
+	}
+	/**
+	
+	*/
+	void setPressure(in double pressure)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
 	}
 	/**
 	Button identifier. One of the $(D joysticklist) button constants.
@@ -111,18 +110,6 @@ public:
 		setButtonIndex(v);
 	}
 	/**
-	Represents the pressure the user puts on the button with his finger, if the controller supports it. Ranges from `0` to `1`.
-	*/
-	@property double pressure()
-	{
-		return getPressure();
-	}
-	/// ditto
-	@property void pressure(double v)
-	{
-		setPressure(v);
-	}
-	/**
 	If `true`, the button's state is pressed. If `false`, the button's state is released.
 	*/
 	@property bool pressed()
@@ -133,5 +120,17 @@ public:
 	@property void pressed(bool v)
 	{
 		setPressed(v);
+	}
+	/**
+	Represents the pressure the user puts on the button with his finger, if the controller supports it. Ranges from `0` to `1`.
+	*/
+	@property double pressure()
+	{
+		return getPressure();
+	}
+	/// ditto
+	@property void pressure(double v)
+	{
+		setPressure(v);
 	}
 }

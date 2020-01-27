@@ -20,8 +20,8 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.visualscript;
 import godot.reference;
+import godot.visualscript;
 /**
 A node which is part of a $(D VisualScript).
 
@@ -39,12 +39,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_visual_script") GodotMethod!(VisualScript) getVisualScript;
-		@GodotName("set_default_input_value") GodotMethod!(void, long, Variant) setDefaultInputValue;
-		@GodotName("get_default_input_value") GodotMethod!(Variant, long) getDefaultInputValue;
-		@GodotName("ports_changed_notify") GodotMethod!(void) portsChangedNotify;
-		@GodotName("_set_default_input_values") GodotMethod!(void, Array) _setDefaultInputValues;
 		@GodotName("_get_default_input_values") GodotMethod!(Array) _getDefaultInputValues;
+		@GodotName("_set_default_input_values") GodotMethod!(void, Array) _setDefaultInputValues;
+		@GodotName("get_default_input_value") GodotMethod!(Variant, long) getDefaultInputValue;
+		@GodotName("get_visual_script") GodotMethod!(VisualScript) getVisualScript;
+		@GodotName("ports_changed_notify") GodotMethod!(void) portsChangedNotify;
+		@GodotName("set_default_input_value") GodotMethod!(void, long, Variant) setDefaultInputValue;
 	}
 	bool opEquals(in VisualScriptNode other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptNode opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,20 +59,23 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Returns the $(D VisualScript) instance the node is bound to.
+	
 	*/
-	Ref!VisualScript getVisualScript() const
+	Array _getDefaultInputValues() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScript)(_classBinding.getVisualScript, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_default_input_values");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
-	Change the default value of a given port.
+	
 	*/
-	void setDefaultInputValue(VariantArg1)(in long port_idx, in VariantArg1 value)
+	void _setDefaultInputValues(in Array values)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultInputValue, _godot_object, port_idx, value);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(values);
+		String _GODOT_method_name = String("_set_default_input_values");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Returns the default value of a given port. The default value is used when nothing is connected to the port.
@@ -83,6 +86,14 @@ public:
 		return ptrcall!(Variant)(_classBinding.getDefaultInputValue, _godot_object, port_idx);
 	}
 	/**
+	Returns the $(D VisualScript) instance the node is bound to.
+	*/
+	Ref!VisualScript getVisualScript() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScript)(_classBinding.getVisualScript, _godot_object);
+	}
+	/**
 	Notify that the node's ports have changed. Usually used in conjunction with $(D VisualScriptCustomNode) .
 	*/
 	void portsChangedNotify()
@@ -91,23 +102,12 @@ public:
 		ptrcall!(void)(_classBinding.portsChangedNotify, _godot_object);
 	}
 	/**
-	
+	Change the default value of a given port.
 	*/
-	void _setDefaultInputValues(in Array values)
+	void setDefaultInputValue(VariantArg1)(in long port_idx, in VariantArg1 value)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(values);
-		String _GODOT_method_name = String("_set_default_input_values");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Array _getDefaultInputValues() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_default_input_values");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDefaultInputValue, _godot_object, port_idx, value);
 	}
 	/**
 	

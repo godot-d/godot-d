@@ -1,5 +1,5 @@
 /**
-Adds a high pass filter to the Audio Bus.
+Adds a high-pass filter to the Audio Bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,9 +23,8 @@ import godot.classdb;
 import godot.audioeffectfilter;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a high pass filter to the Audio Bus.
+Adds a high-pass filter to the Audio Bus.
 
 Cuts frequencies lower than the $(D AudioEffectFilter.cutoffHz) and allows higher frequencies to pass.
 */

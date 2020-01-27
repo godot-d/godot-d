@@ -21,9 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffect;
-import godot.audiostreamsample;
 import godot.resource;
-import godot.reference;
+import godot.audiostreamsample;
 /**
 
 */
@@ -39,11 +38,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_recording_active") GodotMethod!(void, bool) setRecordingActive;
-		@GodotName("is_recording_active") GodotMethod!(bool) isRecordingActive;
-		@GodotName("set_format") GodotMethod!(void, long) setFormat;
 		@GodotName("get_format") GodotMethod!(AudioStreamSample.Format) getFormat;
 		@GodotName("get_recording") GodotMethod!(AudioStreamSample) getRecording;
+		@GodotName("is_recording_active") GodotMethod!(bool) isRecordingActive;
+		@GodotName("set_format") GodotMethod!(void, long) setFormat;
+		@GodotName("set_recording_active") GodotMethod!(void, bool) setRecordingActive;
 	}
 	bool opEquals(in AudioEffectRecord other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectRecord opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +59,18 @@ public:
 	/**
 	
 	*/
-	void setRecordingActive(in bool record)
+	AudioStreamSample.Format getFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRecordingActive, _godot_object, record);
+		return ptrcall!(AudioStreamSample.Format)(_classBinding.getFormat, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!AudioStreamSample getRecording() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioStreamSample)(_classBinding.getRecording, _godot_object);
 	}
 	/**
 	
@@ -84,18 +91,10 @@ public:
 	/**
 	
 	*/
-	AudioStreamSample.Format getFormat() const
+	void setRecordingActive(in bool record)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample.Format)(_classBinding.getFormat, _godot_object);
-	}
-	/**
-	
-	*/
-	Ref!AudioStreamSample getRecording() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample)(_classBinding.getRecording, _godot_object);
+		ptrcall!(void)(_classBinding.setRecordingActive, _godot_object, record);
 	}
 	/**
 	

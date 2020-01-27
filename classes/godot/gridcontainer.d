@@ -27,7 +27,8 @@ import godot.node;
 /**
 Grid container used to arrange elements in a grid like layout.
 
-Grid container will arrange its children in a grid like structure, the grid columns are specified using the $(D columns) property and the number of rows will be equal to the number of children in the container divided by the number of columns, for example: if the container has 5 children, and 2 columns, there will be 3 rows in the container. Notice that grid layout will preserve the columns and rows for every size of the container.
+Grid container will arrange its children in a grid like structure, the grid columns are specified using the $(D columns) property and the number of rows will be equal to the number of children in the container divided by the number of columns. For example, if the container has 5 children, and 2 columns, there will be 3 rows in the container.
+Notice that grid layout will preserve the columns and rows for every size of the container, and that empty columns will be expanded automatically.
 */
 @GodotBaseClass struct GridContainer
 {
@@ -41,8 +42,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_columns") GodotMethod!(void, long) setColumns;
 		@GodotName("get_columns") GodotMethod!(long) getColumns;
+		@GodotName("set_columns") GodotMethod!(void, long) setColumns;
 	}
 	bool opEquals(in GridContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GridContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,18 +60,18 @@ public:
 	/**
 	
 	*/
-	void setColumns(in long columns)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumns, _godot_object, columns);
-	}
-	/**
-	
-	*/
 	long getColumns() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getColumns, _godot_object);
+	}
+	/**
+	
+	*/
+	void setColumns(in long columns)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColumns, _godot_object, columns);
 	}
 	/**
 	The number of columns in the $(D GridContainer). If modified, $(D GridContainer) reorders its children to accommodate the new layout.

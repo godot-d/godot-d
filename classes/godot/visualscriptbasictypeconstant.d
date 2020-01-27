@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 A Visual Script node representing a constant from the base types.
 
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
 		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
-		@GodotName("set_basic_type_constant") GodotMethod!(void, String) setBasicTypeConstant;
 		@GodotName("get_basic_type_constant") GodotMethod!(String) getBasicTypeConstant;
+		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
+		@GodotName("set_basic_type_constant") GodotMethod!(void, String) setBasicTypeConstant;
 	}
 	bool opEquals(in VisualScriptBasicTypeConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptBasicTypeConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +58,6 @@ public:
 	/**
 	
 	*/
-	void setBasicType(in long name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, name);
-	}
-	/**
-	
-	*/
 	Variant.Type getBasicType() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -76,18 +66,26 @@ public:
 	/**
 	
 	*/
-	void setBasicTypeConstant(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicTypeConstant, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getBasicTypeConstant() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getBasicTypeConstant, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBasicType(in long name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicType, _godot_object, name);
+	}
+	/**
+	
+	*/
+	void setBasicTypeConstant(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicTypeConstant, _godot_object, name);
 	}
 	/**
 	The type to get the constant from.

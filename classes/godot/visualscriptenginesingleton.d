@@ -1,5 +1,5 @@
 /**
-A Visual Script node returning a singleton from $(D @GlobalScope)
+A Visual Script node returning a singleton from $(D @GlobalScope).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
-A Visual Script node returning a singleton from $(D @GlobalScope)
+A Visual Script node returning a singleton from $(D @GlobalScope).
 
 
 */
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_singleton") GodotMethod!(void, String) setSingleton;
 		@GodotName("get_singleton") GodotMethod!(String) getSingleton;
+		@GodotName("set_singleton") GodotMethod!(void, String) setSingleton;
 	}
 	bool opEquals(in VisualScriptEngineSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptEngineSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setSingleton(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSingleton, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getSingleton()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getSingleton, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSingleton(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSingleton, _godot_object, name);
 	}
 	/**
 	The singleton's name.

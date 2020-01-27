@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.control;
 import godot.inputevent;
-import godot.shortcut;
 import godot.buttongroup;
-import godot.canvasitem;
-import godot.node;
+import godot.shortcut;
 /**
 Base class for different kinds of buttons.
 
@@ -42,30 +40,32 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
 		@GodotName("_pressed") GodotMethod!(void) _pressed;
 		@GodotName("_toggled") GodotMethod!(void, bool) _toggled;
-		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
 		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
-		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
-		@GodotName("is_pressed") GodotMethod!(bool) isPressed;
-		@GodotName("is_hovered") GodotMethod!(bool) isHovered;
-		@GodotName("set_toggle_mode") GodotMethod!(void, bool) setToggleMode;
-		@GodotName("is_toggle_mode") GodotMethod!(bool) isToggleMode;
-		@GodotName("set_shortcut_in_tooltip") GodotMethod!(void, bool) setShortcutInTooltip;
-		@GodotName("is_shortcut_in_tooltip_enabled") GodotMethod!(bool) isShortcutInTooltipEnabled;
-		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
-		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
-		@GodotName("set_action_mode") GodotMethod!(void, long) setActionMode;
 		@GodotName("get_action_mode") GodotMethod!(BaseButton.ActionMode) getActionMode;
-		@GodotName("set_button_mask") GodotMethod!(void, long) setButtonMask;
+		@GodotName("get_button_group") GodotMethod!(ButtonGroup) getButtonGroup;
 		@GodotName("get_button_mask") GodotMethod!(long) getButtonMask;
 		@GodotName("get_draw_mode") GodotMethod!(BaseButton.DrawMode) getDrawMode;
-		@GodotName("set_enabled_focus_mode") GodotMethod!(void, long) setEnabledFocusMode;
 		@GodotName("get_enabled_focus_mode") GodotMethod!(Control.FocusMode) getEnabledFocusMode;
-		@GodotName("set_shortcut") GodotMethod!(void, ShortCut) setShortcut;
 		@GodotName("get_shortcut") GodotMethod!(ShortCut) getShortcut;
+		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
+		@GodotName("is_hovered") GodotMethod!(bool) isHovered;
+		@GodotName("is_keep_pressed_outside") GodotMethod!(bool) isKeepPressedOutside;
+		@GodotName("is_pressed") GodotMethod!(bool) isPressed;
+		@GodotName("is_shortcut_in_tooltip_enabled") GodotMethod!(bool) isShortcutInTooltipEnabled;
+		@GodotName("is_toggle_mode") GodotMethod!(bool) isToggleMode;
+		@GodotName("set_action_mode") GodotMethod!(void, long) setActionMode;
 		@GodotName("set_button_group") GodotMethod!(void, ButtonGroup) setButtonGroup;
-		@GodotName("get_button_group") GodotMethod!(ButtonGroup) getButtonGroup;
+		@GodotName("set_button_mask") GodotMethod!(void, long) setButtonMask;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_enabled_focus_mode") GodotMethod!(void, long) setEnabledFocusMode;
+		@GodotName("set_keep_pressed_outside") GodotMethod!(void, bool) setKeepPressedOutside;
+		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+		@GodotName("set_shortcut") GodotMethod!(void, ShortCut) setShortcut;
+		@GodotName("set_shortcut_in_tooltip") GodotMethod!(void, bool) setShortcutInTooltip;
+		@GodotName("set_toggle_mode") GodotMethod!(void, bool) setToggleMode;
 	}
 	bool opEquals(in BaseButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BaseButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -111,7 +111,7 @@ public:
 		*/
 		drawDisabled = 3,
 		/**
-		
+		The state of buttons are both hovered and pressed.
 		*/
 		drawHoverPressed = 4,
 	}
@@ -127,20 +127,30 @@ public:
 		drawHoverPressed = 4,
 	}
 	/**
+	
+	*/
+	void _guiInput(InputEvent arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_gui_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
 	Called when the button is pressed.
 	*/
 	void _pressed()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_pressed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Called when the button is toggled (only if toggle_mode is active).
+	Called when the button is toggled (only if $(D toggleMode) is active).
 	*/
 	void _toggled(in bool button_pressed)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(button_pressed);
 		String _GODOT_method_name = String("_toggled");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -148,102 +158,12 @@ public:
 	/**
 	
 	*/
-	void _guiInput(InputEvent arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_gui_input");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	void _unhandledInput(InputEvent arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_unhandled_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void setPressed(in bool pressed)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
-	}
-	/**
-	
-	*/
-	bool isPressed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
-	}
-	/**
-	Return `true` if the mouse has entered the button and has not left it yet.
-	*/
-	bool isHovered() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHovered, _godot_object);
-	}
-	/**
-	
-	*/
-	void setToggleMode(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setToggleMode, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	bool isToggleMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isToggleMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setShortcutInTooltip(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcutInTooltip, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	bool isShortcutInTooltipEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShortcutInTooltipEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDisabled(in bool disabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
-	}
-	/**
-	
-	*/
-	bool isDisabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setActionMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActionMode, _godot_object, mode);
 	}
 	/**
 	
@@ -256,10 +176,10 @@ public:
 	/**
 	
 	*/
-	void setButtonMask(in long mask)
+	Ref!ButtonGroup getButtonGroup() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, mask);
+		return ptrcall!(ButtonGroup)(_classBinding.getButtonGroup, _godot_object);
 	}
 	/**
 	
@@ -270,20 +190,12 @@ public:
 		return ptrcall!(long)(_classBinding.getButtonMask, _godot_object);
 	}
 	/**
-	Return the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the DRAW_* enum.
+	Returns the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the $(D drawmode) enum.
 	*/
 	BaseButton.DrawMode getDrawMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(BaseButton.DrawMode)(_classBinding.getDrawMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnabledFocusMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabledFocusMode, _godot_object, mode);
 	}
 	/**
 	
@@ -296,18 +208,66 @@ public:
 	/**
 	
 	*/
-	void setShortcut(ShortCut shortcut)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcut, _godot_object, shortcut);
-	}
-	/**
-	
-	*/
 	Ref!ShortCut getShortcut() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(ShortCut)(_classBinding.getShortcut, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDisabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+	}
+	/**
+	Returns `true` if the mouse has entered the button and has not left it yet.
+	*/
+	bool isHovered() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isHovered, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isKeepPressedOutside() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isKeepPressedOutside, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isPressed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isShortcutInTooltipEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isShortcutInTooltipEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isToggleMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isToggleMode, _godot_object);
+	}
+	/**
+	
+	*/
+	void setActionMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setActionMode, _godot_object, mode);
 	}
 	/**
 	
@@ -320,61 +280,69 @@ public:
 	/**
 	
 	*/
-	Ref!ButtonGroup getButtonGroup() const
+	void setButtonMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ButtonGroup)(_classBinding.getButtonGroup, _godot_object);
+		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, mask);
 	}
 	/**
-	If `true`, the button is in disabled state and can't be clicked or toggled.
+	
 	*/
-	@property bool disabled()
+	void setDisabled(in bool disabled)
 	{
-		return isDisabled();
-	}
-	/// ditto
-	@property void disabled(bool v)
-	{
-		setDisabled(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
 	}
 	/**
-	If `true`, the button is in toggle mode. Makes the button flip state between pressed and unpressed each time its area is clicked.
+	
 	*/
-	@property bool toggleMode()
+	void setEnabledFocusMode(in long mode)
 	{
-		return isToggleMode();
-	}
-	/// ditto
-	@property void toggleMode(bool v)
-	{
-		setToggleMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnabledFocusMode, _godot_object, mode);
 	}
 	/**
-	If `true`, the button will add information about its shortcut in the tooltip.
+	
 	*/
-	@property bool shortcutInTooltip()
+	void setKeepPressedOutside(in bool enabled)
 	{
-		return isShortcutInTooltipEnabled();
-	}
-	/// ditto
-	@property void shortcutInTooltip(bool v)
-	{
-		setShortcutInTooltip(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setKeepPressedOutside, _godot_object, enabled);
 	}
 	/**
-	If `true`, the button's state is pressed. Means the button is pressed down or toggled (if toggle_mode is active).
+	
 	*/
-	@property bool pressed()
+	void setPressed(in bool pressed)
 	{
-		return isPressed();
-	}
-	/// ditto
-	@property void pressed(bool v)
-	{
-		setPressed(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
 	}
 	/**
-	Determines when the button is considered clicked, one of the ACTION_MODE_* constants.
+	
+	*/
+	void setShortcut(ShortCut shortcut)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShortcut, _godot_object, shortcut);
+	}
+	/**
+	
+	*/
+	void setShortcutInTooltip(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShortcutInTooltip, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setToggleMode(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setToggleMode, _godot_object, enabled);
+	}
+	/**
+	Determines when the button is considered clicked, one of the $(D actionmode) constants.
 	*/
 	@property BaseButton.ActionMode actionMode()
 	{
@@ -399,6 +367,18 @@ public:
 		setButtonMask(v);
 	}
 	/**
+	If `true`, the button is in disabled state and can't be clicked or toggled.
+	*/
+	@property bool disabled()
+	{
+		return isDisabled();
+	}
+	/// ditto
+	@property void disabled(bool v)
+	{
+		setDisabled(v);
+	}
+	/**
 	Focus access mode to use when switching between enabled/disabled (see $(D Control.focusMode) and $(D disabled)).
 	*/
 	@property Control.FocusMode enabledFocusMode()
@@ -409,6 +389,42 @@ public:
 	@property void enabledFocusMode(long v)
 	{
 		setEnabledFocusMode(v);
+	}
+	/**
+	$(D ButtonGroup) associated to the button.
+	*/
+	@property ButtonGroup group()
+	{
+		return getButtonGroup();
+	}
+	/// ditto
+	@property void group(ButtonGroup v)
+	{
+		setButtonGroup(v);
+	}
+	/**
+	If `true`, the button stays pressed when moving the cursor outside the button while pressing it.
+	*/
+	@property bool keepPressedOutside()
+	{
+		return isKeepPressedOutside();
+	}
+	/// ditto
+	@property void keepPressedOutside(bool v)
+	{
+		setKeepPressedOutside(v);
+	}
+	/**
+	If `true`, the button's state is pressed. Means the button is pressed down or toggled (if $(D toggleMode) is active).
+	*/
+	@property bool pressed()
+	{
+		return isPressed();
+	}
+	/// ditto
+	@property void pressed(bool v)
+	{
+		setPressed(v);
 	}
 	/**
 	$(D ShortCut) associated to the button.
@@ -423,15 +439,27 @@ public:
 		setShortcut(v);
 	}
 	/**
-	$(D ButtonGroup) associated to the button.
+	If `true`, the button will add information about its shortcut in the tooltip.
 	*/
-	@property ButtonGroup group()
+	@property bool shortcutInTooltip()
 	{
-		return getButtonGroup();
+		return isShortcutInTooltipEnabled();
 	}
 	/// ditto
-	@property void group(ButtonGroup v)
+	@property void shortcutInTooltip(bool v)
 	{
-		setButtonGroup(v);
+		setShortcutInTooltip(v);
+	}
+	/**
+	If `true`, the button is in toggle mode. Makes the button flip state between pressed and unpressed each time its area is clicked.
+	*/
+	@property bool toggleMode()
+	{
+		return isToggleMode();
+	}
+	/// ditto
+	@property void toggleMode(bool v)
+	{
+		setToggleMode(v);
 	}
 }

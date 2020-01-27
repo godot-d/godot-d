@@ -21,16 +21,18 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.acceptdialog;
-import godot.button;
 import godot.windowdialog;
-import godot.popup;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
+import godot.button;
 /**
 Dialog for confirmation of actions.
 
 This dialog inherits from $(D AcceptDialog), but has by default an OK and Cancel button (in host OS order).
+To get cancel action, you can use:
+
+
+get_cancel().connect("pressed", self, "cancelled")
+
+.
 */
 @GodotBaseClass struct ConfirmationDialog
 {
@@ -59,7 +61,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Return the cancel button.
+	Returns the cancel button.
 	*/
 	Button getCancel()
 	{

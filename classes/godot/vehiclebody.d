@@ -1,5 +1,5 @@
 /**
-Physics body that simulates the behaviour of a car.
+Physics body that simulates the behavior of a car.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -26,10 +26,10 @@ import godot.collisionobject;
 import godot.spatial;
 import godot.node;
 /**
-Physics body that simulates the behaviour of a car.
+Physics body that simulates the behavior of a car.
 
-This nodes implements all the physics logic needed to simulate a car. It is based on the raycast vehicle system commonly found in physics engines. You will need to add a $(D CollisionShape) for the main body of your vehicle and add $(D VehicleWheel) nodes for the wheels. You should also add a $(D MeshInstance) to this node for the 3D model of your car but this model should not include meshes for the wheels. You should control the vehicle by using the $(D brake), $(D engineForce), and $(D steering) properties and not change the position or orientation of this node directly.
-Note that the origin point of your VehicleBody will determine the center of gravity of your vehicle so it is better to keep this low and move the $(D CollisionShape) and $(D MeshInstance) upwards.
+This node implements all the physics logic needed to simulate a car. It is based on the raycast vehicle system commonly found in physics engines. You will need to add a $(D CollisionShape) for the main body of your vehicle and add $(D VehicleWheel) nodes for the wheels. You should also add a $(D MeshInstance) to this node for the 3D model of your car but this model should not include meshes for the wheels. You should control the vehicle by using the $(D brake), $(D engineForce), and $(D steering) properties and not change the position or orientation of this node directly.
+$(B Note:) The origin point of your VehicleBody will determine the center of gravity of your vehicle so it is better to keep this low and move the $(D CollisionShape) and $(D MeshInstance) upwards.
 */
 @GodotBaseClass struct VehicleBody
 {
@@ -43,12 +43,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_engine_force") GodotMethod!(void, double) setEngineForce;
-		@GodotName("get_engine_force") GodotMethod!(double) getEngineForce;
-		@GodotName("set_brake") GodotMethod!(void, double) setBrake;
 		@GodotName("get_brake") GodotMethod!(double) getBrake;
-		@GodotName("set_steering") GodotMethod!(void, double) setSteering;
+		@GodotName("get_engine_force") GodotMethod!(double) getEngineForce;
 		@GodotName("get_steering") GodotMethod!(double) getSteering;
+		@GodotName("set_brake") GodotMethod!(void, double) setBrake;
+		@GodotName("set_engine_force") GodotMethod!(void, double) setEngineForce;
+		@GodotName("set_steering") GodotMethod!(void, double) setSteering;
 	}
 	bool opEquals(in VehicleBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VehicleBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,10 +65,10 @@ public:
 	/**
 	
 	*/
-	void setEngineForce(in double engine_force)
+	double getBrake() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEngineForce, _godot_object, engine_force);
+		return ptrcall!(double)(_classBinding.getBrake, _godot_object);
 	}
 	/**
 	
@@ -81,6 +81,14 @@ public:
 	/**
 	
 	*/
+	double getSteering() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
+	}
+	/**
+	
+	*/
 	void setBrake(in double brake)
 	{
 		checkClassBinding!(typeof(this))();
@@ -89,10 +97,10 @@ public:
 	/**
 	
 	*/
-	double getBrake() const
+	void setEngineForce(in double engine_force)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBrake, _godot_object);
+		ptrcall!(void)(_classBinding.setEngineForce, _godot_object, engine_force);
 	}
 	/**
 	
@@ -101,27 +109,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setSteering, _godot_object, steering);
-	}
-	/**
-	
-	*/
-	double getSteering() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
-	}
-	/**
-	Accelerates the vehicle by applying an engine force. The vehicle is only speed up if the wheels that have $(D VehicleWheel.useAsTraction) set to `true` and are in contact with a surface. The $(D RigidBody.mass) of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration. Note that the simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.
-	A negative value will result in the vehicle reversing.
-	*/
-	@property double engineForce()
-	{
-		return getEngineForce();
-	}
-	/// ditto
-	@property void engineForce(double v)
-	{
-		setEngineForce(v);
 	}
 	/**
 	Slows down the vehicle by applying a braking force. The vehicle is only slowed down if the wheels are in contact with a surface. The force you need to apply to adequately slow down your vehicle depends on the $(D RigidBody.mass) of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 30 range for hard braking.
@@ -134,6 +121,20 @@ public:
 	@property void brake(double v)
 	{
 		setBrake(v);
+	}
+	/**
+	Accelerates the vehicle by applying an engine force. The vehicle is only speed up if the wheels that have $(D VehicleWheel.useAsTraction) set to `true` and are in contact with a surface. The $(D RigidBody.mass) of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration.
+	$(B Note:) The simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.
+	A negative value will result in the vehicle reversing.
+	*/
+	@property double engineForce()
+	{
+		return getEngineForce();
+	}
+	/// ditto
+	@property void engineForce(double v)
+	{
+		setEngineForce(v);
 	}
 	/**
 	The steering angle for the vehicle. Setting this to a non-zero value will result in the vehicle turning when it's moving. Wheels that have $(D VehicleWheel.useAsSteering) set to `true` will automatically be rotated.

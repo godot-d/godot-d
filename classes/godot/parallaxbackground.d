@@ -40,18 +40,18 @@ public:
 	{
 		__gshared:
 		@GodotName("_camera_moved") GodotMethod!(void, Transform2D, Vector2) _cameraMoved;
-		@GodotName("set_scroll_offset") GodotMethod!(void, Vector2) setScrollOffset;
-		@GodotName("get_scroll_offset") GodotMethod!(Vector2) getScrollOffset;
-		@GodotName("set_scroll_base_offset") GodotMethod!(void, Vector2) setScrollBaseOffset;
-		@GodotName("get_scroll_base_offset") GodotMethod!(Vector2) getScrollBaseOffset;
-		@GodotName("set_scroll_base_scale") GodotMethod!(void, Vector2) setScrollBaseScale;
-		@GodotName("get_scroll_base_scale") GodotMethod!(Vector2) getScrollBaseScale;
-		@GodotName("set_limit_begin") GodotMethod!(void, Vector2) setLimitBegin;
 		@GodotName("get_limit_begin") GodotMethod!(Vector2) getLimitBegin;
-		@GodotName("set_limit_end") GodotMethod!(void, Vector2) setLimitEnd;
 		@GodotName("get_limit_end") GodotMethod!(Vector2) getLimitEnd;
-		@GodotName("set_ignore_camera_zoom") GodotMethod!(void, bool) setIgnoreCameraZoom;
+		@GodotName("get_scroll_base_offset") GodotMethod!(Vector2) getScrollBaseOffset;
+		@GodotName("get_scroll_base_scale") GodotMethod!(Vector2) getScrollBaseScale;
+		@GodotName("get_scroll_offset") GodotMethod!(Vector2) getScrollOffset;
 		@GodotName("is_ignore_camera_zoom") GodotMethod!(bool) isIgnoreCameraZoom;
+		@GodotName("set_ignore_camera_zoom") GodotMethod!(void, bool) setIgnoreCameraZoom;
+		@GodotName("set_limit_begin") GodotMethod!(void, Vector2) setLimitBegin;
+		@GodotName("set_limit_end") GodotMethod!(void, Vector2) setLimitEnd;
+		@GodotName("set_scroll_base_offset") GodotMethod!(void, Vector2) setScrollBaseOffset;
+		@GodotName("set_scroll_base_scale") GodotMethod!(void, Vector2) setScrollBaseScale;
+		@GodotName("set_scroll_offset") GodotMethod!(void, Vector2) setScrollOffset;
 	}
 	bool opEquals(in ParallaxBackground other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ParallaxBackground opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -70,67 +70,11 @@ public:
 	*/
 	void _cameraMoved(in Transform2D arg0, in Vector2 arg1)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
 		String _GODOT_method_name = String("_camera_moved");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void setScrollOffset(in Vector2 ofs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollOffset, _godot_object, ofs);
-	}
-	/**
-	
-	*/
-	Vector2 getScrollOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setScrollBaseOffset(in Vector2 ofs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollBaseOffset, _godot_object, ofs);
-	}
-	/**
-	
-	*/
-	Vector2 getScrollBaseOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollBaseOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setScrollBaseScale(in Vector2 scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollBaseScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	Vector2 getScrollBaseScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollBaseScale, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLimitBegin(in Vector2 ofs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitBegin, _godot_object, ofs);
 	}
 	/**
 	
@@ -143,18 +87,42 @@ public:
 	/**
 	
 	*/
-	void setLimitEnd(in Vector2 ofs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitEnd, _godot_object, ofs);
-	}
-	/**
-	
-	*/
 	Vector2 getLimitEnd() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getLimitEnd, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getScrollBaseOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollBaseOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getScrollBaseScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollBaseScale, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getScrollOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getScrollOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isIgnoreCameraZoom()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isIgnoreCameraZoom, _godot_object);
 	}
 	/**
 	
@@ -167,25 +135,45 @@ public:
 	/**
 	
 	*/
-	bool isIgnoreCameraZoom()
+	void setLimitBegin(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isIgnoreCameraZoom, _godot_object);
+		ptrcall!(void)(_classBinding.setLimitBegin, _godot_object, ofs);
 	}
 	/**
-	The ParallaxBackground's scroll value. Calculated automatically when using a $(D Camera2D), but can be used to manually manage scrolling when no camera is present.
+	
 	*/
-	@property Vector2 scrollOffset()
+	void setLimitEnd(in Vector2 ofs)
 	{
-		return getScrollOffset();
-	}
-	/// ditto
-	@property void scrollOffset(Vector2 v)
-	{
-		setScrollOffset(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLimitEnd, _godot_object, ofs);
 	}
 	/**
-	Base position offset of all $(D ParallaxLayer) children.
+	
+	*/
+	void setScrollBaseOffset(in Vector2 ofs)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollBaseOffset, _godot_object, ofs);
+	}
+	/**
+	
+	*/
+	void setScrollBaseScale(in Vector2 scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollBaseScale, _godot_object, scale);
+	}
+	/**
+	
+	*/
+	void setScrollOffset(in Vector2 ofs)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScrollOffset, _godot_object, ofs);
+	}
+	/**
+	The base position offset for all $(D ParallaxLayer) children.
 	*/
 	@property Vector2 scrollBaseOffset()
 	{
@@ -197,7 +185,7 @@ public:
 		setScrollBaseOffset(v);
 	}
 	/**
-	Base motion scale of all $(D ParallaxLayer) children.
+	The base motion scale for all $(D ParallaxLayer) children.
 	*/
 	@property Vector2 scrollBaseScale()
 	{
@@ -207,30 +195,6 @@ public:
 	@property void scrollBaseScale(Vector2 v)
 	{
 		setScrollBaseScale(v);
-	}
-	/**
-	Top left limits for scrolling to begin. If the camera is outside of this limit the background will stop scrolling. Must be lower than $(D scrollLimitEnd) to work.
-	*/
-	@property Vector2 scrollLimitBegin()
-	{
-		return getLimitBegin();
-	}
-	/// ditto
-	@property void scrollLimitBegin(Vector2 v)
-	{
-		setLimitBegin(v);
-	}
-	/**
-	Right bottom limits for scrolling to end. If the camera is outside of this limit the background will stop scrolling. Must be higher than $(D scrollLimitBegin) to work.
-	*/
-	@property Vector2 scrollLimitEnd()
-	{
-		return getLimitEnd();
-	}
-	/// ditto
-	@property void scrollLimitEnd(Vector2 v)
-	{
-		setLimitEnd(v);
 	}
 	/**
 	If `true`, elements in $(D ParallaxLayer) child aren't affected by the zoom level of the camera.
@@ -243,5 +207,41 @@ public:
 	@property void scrollIgnoreCameraZoom(bool v)
 	{
 		setIgnoreCameraZoom(v);
+	}
+	/**
+	Top-left limits for scrolling to begin. If the camera is outside of this limit, the background will stop scrolling. Must be lower than $(D scrollLimitEnd) to work.
+	*/
+	@property Vector2 scrollLimitBegin()
+	{
+		return getLimitBegin();
+	}
+	/// ditto
+	@property void scrollLimitBegin(Vector2 v)
+	{
+		setLimitBegin(v);
+	}
+	/**
+	Bottom-right limits for scrolling to end. If the camera is outside of this limit, the background will stop scrolling. Must be higher than $(D scrollLimitBegin) to work.
+	*/
+	@property Vector2 scrollLimitEnd()
+	{
+		return getLimitEnd();
+	}
+	/// ditto
+	@property void scrollLimitEnd(Vector2 v)
+	{
+		setLimitEnd(v);
+	}
+	/**
+	The ParallaxBackground's scroll value. Calculated automatically when using a $(D Camera2D), but can be used to manually manage scrolling when no camera is present.
+	*/
+	@property Vector2 scrollOffset()
+	{
+		return getScrollOffset();
+	}
+	/// ditto
+	@property void scrollOffset(Vector2 v)
+	{
+		setScrollOffset(v);
 	}
 }

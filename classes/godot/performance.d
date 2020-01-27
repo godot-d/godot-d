@@ -1,5 +1,5 @@
 /**
-Exposes performance related data.
+Exposes performance-related data.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,10 +20,11 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 /**
-Exposes performance related data.
+Exposes performance-related data.
 
-This class provides access to a number of different monitors related to performance, such as memory usage, draw calls, and FPS. These are the same as the values displayed in the $(I Monitor) tab in the editor's $(I Debugger) panel. By using the $(D getMonitor) method of this class, you can access this data from your code. Note that a few of these monitors are only available in debug mode and will always return 0 when used in a release build.
-Many of these monitors are not updated in real-time, so there may be a short delay between changes.
+This class provides access to a number of different monitors related to performance, such as memory usage, draw calls, and FPS. These are the same as the values displayed in the $(B Monitor) tab in the editor's $(B Debugger) panel. By using the $(D getMonitor) method of this class, you can access this data from your code.
+$(B Note:) A few of these monitors are only available in debug mode and will always return 0 when used in a release build.
+$(B Note:) Many of these monitors are not updated in real-time, so there may be a short delay between changes.
 */
 @GodotBaseClass struct PerformanceSingleton
 {
@@ -57,15 +58,15 @@ public:
 	enum Monitor : int
 	{
 		/**
-		Frames per second.
+		Number of frames per second.
 		*/
 		timeFps = 0,
 		/**
-		Time it took to complete one frame.
+		Time it took to complete one frame, in seconds.
 		*/
 		timeProcess = 1,
 		/**
-		Time it took to complete one physics frame.
+		Time it took to complete one physics frame, in seconds.
 		*/
 		timePhysicsProcess = 2,
 		/**
@@ -101,77 +102,81 @@ public:
 		*/
 		objectNodeCount = 10,
 		/**
+		Number of orphan nodes, i.e. nodes which are not parented to a node of the scene tree.
+		*/
+		objectOrphanNodeCount = 11,
+		/**
 		3D objects drawn per frame.
 		*/
-		renderObjectsInFrame = 11,
+		renderObjectsInFrame = 12,
 		/**
 		Vertices drawn per frame. 3D only.
 		*/
-		renderVerticesInFrame = 12,
+		renderVerticesInFrame = 13,
 		/**
-		Material changes per frame. 3D only
+		Material changes per frame. 3D only.
 		*/
-		renderMaterialChangesInFrame = 13,
+		renderMaterialChangesInFrame = 14,
 		/**
 		Shader changes per frame. 3D only.
 		*/
-		renderShaderChangesInFrame = 14,
+		renderShaderChangesInFrame = 15,
 		/**
 		Render surface changes per frame. 3D only.
 		*/
-		renderSurfaceChangesInFrame = 15,
+		renderSurfaceChangesInFrame = 16,
 		/**
 		Draw calls per frame. 3D only.
 		*/
-		renderDrawCallsInFrame = 16,
+		renderDrawCallsInFrame = 17,
 		/**
-		Video memory used. Includes both texture and vertex memory.
+		The amount of video memory used, i.e. texture and vertex memory combined.
 		*/
-		renderVideoMemUsed = 17,
+		renderVideoMemUsed = 18,
 		/**
-		Texture memory used.
+		The amount of texture memory used.
 		*/
-		renderTextureMemUsed = 18,
+		renderTextureMemUsed = 19,
 		/**
-		Vertex memory used.
+		The amount of vertex memory used.
 		*/
-		renderVertexMemUsed = 19,
+		renderVertexMemUsed = 20,
 		/**
-		
+		Unimplemented in the GLES2 and GLES3 rendering backends, always returns 0.
 		*/
-		renderUsageVideoMemTotal = 20,
+		renderUsageVideoMemTotal = 21,
 		/**
 		Number of active $(D RigidBody2D) nodes in the game.
 		*/
-		physics2dActiveObjects = 21,
+		physics2dActiveObjects = 22,
 		/**
 		Number of collision pairs in the 2D physics engine.
 		*/
-		physics2dCollisionPairs = 22,
+		physics2dCollisionPairs = 23,
 		/**
 		Number of islands in the 2D physics engine.
 		*/
-		physics2dIslandCount = 23,
+		physics2dIslandCount = 24,
 		/**
 		Number of active $(D RigidBody) and $(D VehicleBody) nodes in the game.
 		*/
-		physics3dActiveObjects = 24,
+		physics3dActiveObjects = 25,
 		/**
 		Number of collision pairs in the 3D physics engine.
 		*/
-		physics3dCollisionPairs = 25,
+		physics3dCollisionPairs = 26,
 		/**
 		Number of islands in the 3D physics engine.
 		*/
-		physics3dIslandCount = 26,
+		physics3dIslandCount = 27,
 		/**
-		
+		Output latency of the $(D AudioServer).
 		*/
-		audioOutputLatency = 27,
+		audioOutputLatency = 28,
 		/**
-		
+		Represents the size of the $(D monitor) enum.
 		*/
-		monitorMax = 28,
+		monitorMax = 29,
 	}
 	/// 
 	enum Constants : int
@@ -187,27 +192,28 @@ public:
 		objectCount = 8,
 		objectResourceCount = 9,
 		objectNodeCount = 10,
-		renderObjectsInFrame = 11,
-		renderVerticesInFrame = 12,
-		renderMaterialChangesInFrame = 13,
-		renderShaderChangesInFrame = 14,
-		renderSurfaceChangesInFrame = 15,
-		renderDrawCallsInFrame = 16,
-		renderVideoMemUsed = 17,
-		renderTextureMemUsed = 18,
-		renderVertexMemUsed = 19,
-		renderUsageVideoMemTotal = 20,
-		physics2dActiveObjects = 21,
-		physics2dCollisionPairs = 22,
-		physics2dIslandCount = 23,
-		physics3dActiveObjects = 24,
-		physics3dCollisionPairs = 25,
-		physics3dIslandCount = 26,
-		audioOutputLatency = 27,
-		monitorMax = 28,
+		objectOrphanNodeCount = 11,
+		renderObjectsInFrame = 12,
+		renderVerticesInFrame = 13,
+		renderMaterialChangesInFrame = 14,
+		renderShaderChangesInFrame = 15,
+		renderSurfaceChangesInFrame = 16,
+		renderDrawCallsInFrame = 17,
+		renderVideoMemUsed = 18,
+		renderTextureMemUsed = 19,
+		renderVertexMemUsed = 20,
+		renderUsageVideoMemTotal = 21,
+		physics2dActiveObjects = 22,
+		physics2dCollisionPairs = 23,
+		physics2dIslandCount = 24,
+		physics3dActiveObjects = 25,
+		physics3dCollisionPairs = 26,
+		physics3dIslandCount = 27,
+		audioOutputLatency = 28,
+		monitorMax = 29,
 	}
 	/**
-	Returns the value of one of the available monitors. You should provide one of this class's constants as the argument, like this:
+	Returns the value of one of the available monitors. You should provide one of the $(D monitor) constants as the argument, like this:
 	
 	
 	print(Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console

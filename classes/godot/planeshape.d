@@ -1,5 +1,5 @@
 /**
-
+Infinite plane shape for 3D collisions.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
-import godot.resource;
-import godot.reference;
 /**
+Infinite plane shape for 3D collisions.
 
+An infinite plane shape for 3D collisions. Note that the $(D Plane)'s normal matters; anything "below" the plane will collide with it. If the $(D PlaneShape) is used in a $(D PhysicsBody), it will cause colliding objects placed "below" it to teleport "above" the plane.
 */
 @GodotBaseClass struct PlaneShape
 {
@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_plane") GodotMethod!(void, Plane) setPlane;
 		@GodotName("get_plane") GodotMethod!(Plane) getPlane;
+		@GodotName("set_plane") GodotMethod!(void, Plane) setPlane;
 	}
 	bool opEquals(in PlaneShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PlaneShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,14 +56,6 @@ public:
 	/**
 	
 	*/
-	void setPlane(in Plane plane)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPlane, _godot_object, plane);
-	}
-	/**
-	
-	*/
 	Plane getPlane() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -71,6 +63,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setPlane(in Plane plane)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPlane, _godot_object, plane);
+	}
+	/**
+	The $(D Plane) used by the $(D PlaneShape) for collision.
 	*/
 	@property Plane plane()
 	{

@@ -1,5 +1,5 @@
 /**
-Collision data for KinematicBody collisions.
+Collision data for $(D KinematicBody) collisions.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-Collision data for KinematicBody collisions.
+Collision data for $(D KinematicBody) collisions.
 
-Contains collision data for KinematicBody collisions. When a $(D KinematicBody) is moved using $(D KinematicBody.moveAndCollide), it stops if it detects a collision with another body. If a collision is detected, a KinematicCollision object is returned.
+Contains collision data for $(D KinematicBody) collisions. When a $(D KinematicBody) is moved using $(D KinematicBody.moveAndCollide), it stops if it detects a collision with another body. If a collision is detected, a KinematicCollision object is returned.
 This object contains information about the collision, including the colliding object, the remaining motion, and the collision position. This information can be used to calculate a collision response.
 */
 @GodotBaseClass struct KinematicCollision
@@ -39,17 +39,17 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_position") GodotMethod!(Vector3) getPosition;
-		@GodotName("get_normal") GodotMethod!(Vector3) getNormal;
-		@GodotName("get_travel") GodotMethod!(Vector3) getTravel;
-		@GodotName("get_remainder") GodotMethod!(Vector3) getRemainder;
-		@GodotName("get_local_shape") GodotMethod!(GodotObject) getLocalShape;
 		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
 		@GodotName("get_collider_id") GodotMethod!(long) getColliderId;
+		@GodotName("get_collider_metadata") GodotMethod!(Variant) getColliderMetadata;
 		@GodotName("get_collider_shape") GodotMethod!(GodotObject) getColliderShape;
 		@GodotName("get_collider_shape_index") GodotMethod!(long) getColliderShapeIndex;
 		@GodotName("get_collider_velocity") GodotMethod!(Vector3) getColliderVelocity;
-		@GodotName("get_collider_metadata") GodotMethod!(Variant) getColliderMetadata;
+		@GodotName("get_local_shape") GodotMethod!(GodotObject) getLocalShape;
+		@GodotName("get_normal") GodotMethod!(Vector3) getNormal;
+		@GodotName("get_position") GodotMethod!(Vector3) getPosition;
+		@GodotName("get_remainder") GodotMethod!(Vector3) getRemainder;
+		@GodotName("get_travel") GodotMethod!(Vector3) getTravel;
 	}
 	bool opEquals(in KinematicCollision other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	KinematicCollision opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,46 +66,6 @@ public:
 	/**
 	
 	*/
-	Vector3 getPosition() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getPosition, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector3 getNormal() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getNormal, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector3 getTravel() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getTravel, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector3 getRemainder() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getRemainder, _godot_object);
-	}
-	/**
-	
-	*/
-	GodotObject getLocalShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getLocalShape, _godot_object);
-	}
-	/**
-	
-	*/
 	GodotObject getCollider() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -118,6 +78,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getColliderId, _godot_object);
+	}
+	/**
+	
+	*/
+	Variant getColliderMetadata() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getColliderMetadata, _godot_object);
 	}
 	/**
 	
@@ -146,45 +114,42 @@ public:
 	/**
 	
 	*/
-	Variant getColliderMetadata() const
+	GodotObject getLocalShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getColliderMetadata, _godot_object);
+		return ptrcall!(GodotObject)(_classBinding.getLocalShape, _godot_object);
 	}
 	/**
-	The point of collision.
+	
 	*/
-	@property Vector3 position()
+	Vector3 getNormal() const
 	{
-		return getPosition();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getNormal, _godot_object);
 	}
 	/**
-	The colliding body's shape's normal at the point of collision.
+	
 	*/
-	@property Vector3 normal()
+	Vector3 getPosition() const
 	{
-		return getNormal();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getPosition, _godot_object);
 	}
 	/**
-	The distance the moving object traveled before collision.
+	
 	*/
-	@property Vector3 travel()
+	Vector3 getRemainder() const
 	{
-		return getTravel();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getRemainder, _godot_object);
 	}
 	/**
-	The moving object's remaining movement vector.
+	
 	*/
-	@property Vector3 remainder()
+	Vector3 getTravel() const
 	{
-		return getRemainder();
-	}
-	/**
-	The moving object's colliding shape.
-	*/
-	@property GodotObject localShape()
-	{
-		return getLocalShape();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getTravel, _godot_object);
 	}
 	/**
 	The colliding body.
@@ -194,11 +159,18 @@ public:
 		return getCollider();
 	}
 	/**
-	The colliding body's unique $(D RID).
+	The colliding body's unique instance ID. See $(D GodotObject.getInstanceId).
 	*/
 	@property long colliderId()
 	{
 		return getColliderId();
+	}
+	/**
+	The colliding body's metadata. See $(D GodotObject).
+	*/
+	@property Variant colliderMetadata()
+	{
+		return getColliderMetadata();
 	}
 	/**
 	The colliding body's shape.
@@ -222,10 +194,38 @@ public:
 		return getColliderVelocity();
 	}
 	/**
-	The colliding body's metadata. See $(D GodotObject).
+	The moving object's colliding shape.
 	*/
-	@property Variant colliderMetadata()
+	@property GodotObject localShape()
 	{
-		return getColliderMetadata();
+		return getLocalShape();
+	}
+	/**
+	The colliding body's shape's normal at the point of collision.
+	*/
+	@property Vector3 normal()
+	{
+		return getNormal();
+	}
+	/**
+	The point of collision, in global coordinates.
+	*/
+	@property Vector3 position()
+	{
+		return getPosition();
+	}
+	/**
+	The moving object's remaining movement vector.
+	*/
+	@property Vector3 remainder()
+	{
+		return getRemainder();
+	}
+	/**
+	The distance the moving object traveled before collision.
+	*/
+	@property Vector3 travel()
+	{
+		return getTravel();
 	}
 }

@@ -1,5 +1,5 @@
 /**
-All User Interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
+All user interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,22 +21,22 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.canvasitem;
+import godot.node;
 import godot.inputevent;
-import godot.theme;
+import godot.font;
 import godot.texture;
 import godot.shader;
 import godot.stylebox;
-import godot.font;
-import godot.node;
+import godot.theme;
 /**
-All User Interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
+All user interface nodes inherit from Control. A control's anchors and margins adapt its position and size relative to its parent.
 
-Base class for all User Interface or $(I UI) related nodes. $(D Control) features a bounding rectangle that defines its extents, an anchor position relative to its parent and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
+Base class for all UI-related nodes. $(D Control) features a bounding rectangle that defines its extents, an anchor position relative to its parent control or the current viewport, and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
 For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from $(D Control) and $(D Container) nodes.
 $(B User Interface nodes and input)
 Godot sends input events to the scene's root node first, by calling $(D Node._input). $(D Node._input) forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls $(D MainLoop._inputEvent). Call $(D acceptEvent) so no other node receives the event. Once you accepted an input, it becomes handled so $(D Node._unhandledInput) will not process it.
 Only one $(D Control) node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call $(D grabFocus). $(D Control) nodes lose focus when another node grabs it, or if you hide the node in focus.
-Set $(D mouseFilter) to $(D constant MOUSE_FILTER_IGNORE) to tell a $(D Control) node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
+Sets $(D mouseFilter) to $(D constant MOUSE_FILTER_IGNORE) to tell a $(D Control) node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
 $(D Theme) resources change the Control's appearance. If you change the $(D Theme) on a $(D Control) node, it affects all of its children. To override some of the theme's parameters, call one of the `add_*_override` methods, like $(D addFontOverride). You can override the theme with the inspector.
 */
 @GodotBaseClass struct Control
@@ -51,117 +51,120 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("_get_minimum_size") GodotMethod!(Vector2) _getMinimumSize;
-		@GodotName("get_drag_data") GodotMethod!(GodotObject, Vector2) getDragData;
-		@GodotName("can_drop_data") GodotMethod!(bool, Vector2, Variant) canDropData;
-		@GodotName("drop_data") GodotMethod!(void, Vector2, Variant) dropData;
-		@GodotName("_make_custom_tooltip") GodotMethod!(GodotObject, String) _makeCustomTooltip;
 		@GodotName("_clips_input") GodotMethod!(bool) _clipsInput;
-		@GodotName("has_point") GodotMethod!(bool, Vector2) hasPoint;
+		@GodotName("_get_minimum_size") GodotMethod!(Vector2) _getMinimumSize;
+		@GodotName("_get_tooltip") GodotMethod!(String) _getTooltip;
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_make_custom_tooltip") GodotMethod!(GodotObject, String) _makeCustomTooltip;
+		@GodotName("_override_changed") GodotMethod!(void) _overrideChanged;
+		@GodotName("_set_anchor") GodotMethod!(void, long, double) _setAnchor;
+		@GodotName("_set_global_position") GodotMethod!(void, Vector2) _setGlobalPosition;
+		@GodotName("_set_position") GodotMethod!(void, Vector2) _setPosition;
+		@GodotName("_set_size") GodotMethod!(void, Vector2) _setSize;
 		@GodotName("_size_changed") GodotMethod!(void) _sizeChanged;
+		@GodotName("_theme_changed") GodotMethod!(void) _themeChanged;
 		@GodotName("_update_minimum_size") GodotMethod!(void) _updateMinimumSize;
 		@GodotName("accept_event") GodotMethod!(void) acceptEvent;
-		@GodotName("get_minimum_size") GodotMethod!(Vector2) getMinimumSize;
-		@GodotName("get_combined_minimum_size") GodotMethod!(Vector2) getCombinedMinimumSize;
-		@GodotName("set_anchors_preset") GodotMethod!(void, long, bool) setAnchorsPreset;
-		@GodotName("set_margins_preset") GodotMethod!(void, long, long, long) setMarginsPreset;
-		@GodotName("set_anchors_and_margins_preset") GodotMethod!(void, long, long, long) setAnchorsAndMarginsPreset;
-		@GodotName("set_anchor") GodotMethod!(void, long, double, bool, bool) setAnchor;
-		@GodotName("_set_anchor") GodotMethod!(void, long, double) _setAnchor;
-		@GodotName("get_anchor") GodotMethod!(double, long) getAnchor;
-		@GodotName("set_margin") GodotMethod!(void, long, double) setMargin;
-		@GodotName("set_anchor_and_margin") GodotMethod!(void, long, double, double, bool) setAnchorAndMargin;
-		@GodotName("set_begin") GodotMethod!(void, Vector2) setBegin;
-		@GodotName("set_end") GodotMethod!(void, Vector2) setEnd;
-		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
-		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
-		@GodotName("set_custom_minimum_size") GodotMethod!(void, Vector2) setCustomMinimumSize;
-		@GodotName("set_global_position") GodotMethod!(void, Vector2) setGlobalPosition;
-		@GodotName("set_rotation") GodotMethod!(void, double) setRotation;
-		@GodotName("set_rotation_degrees") GodotMethod!(void, double) setRotationDegrees;
-		@GodotName("set_scale") GodotMethod!(void, Vector2) setScale;
-		@GodotName("set_pivot_offset") GodotMethod!(void, Vector2) setPivotOffset;
-		@GodotName("get_margin") GodotMethod!(double, long) getMargin;
-		@GodotName("get_begin") GodotMethod!(Vector2) getBegin;
-		@GodotName("get_end") GodotMethod!(Vector2) getEnd;
-		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
-		@GodotName("get_size") GodotMethod!(Vector2) getSize;
-		@GodotName("get_rotation") GodotMethod!(double) getRotation;
-		@GodotName("get_rotation_degrees") GodotMethod!(double) getRotationDegrees;
-		@GodotName("get_scale") GodotMethod!(Vector2) getScale;
-		@GodotName("get_pivot_offset") GodotMethod!(Vector2) getPivotOffset;
-		@GodotName("get_custom_minimum_size") GodotMethod!(Vector2) getCustomMinimumSize;
-		@GodotName("get_parent_area_size") GodotMethod!(Vector2) getParentAreaSize;
-		@GodotName("get_global_position") GodotMethod!(Vector2) getGlobalPosition;
-		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
-		@GodotName("get_global_rect") GodotMethod!(Rect2) getGlobalRect;
-		@GodotName("show_modal") GodotMethod!(void, bool) showModal;
-		@GodotName("set_focus_mode") GodotMethod!(void, long) setFocusMode;
-		@GodotName("get_focus_mode") GodotMethod!(Control.FocusMode) getFocusMode;
-		@GodotName("has_focus") GodotMethod!(bool) hasFocus;
-		@GodotName("grab_focus") GodotMethod!(void) grabFocus;
-		@GodotName("release_focus") GodotMethod!(void) releaseFocus;
-		@GodotName("get_focus_owner") GodotMethod!(Control) getFocusOwner;
-		@GodotName("set_h_size_flags") GodotMethod!(void, long) setHSizeFlags;
-		@GodotName("get_h_size_flags") GodotMethod!(long) getHSizeFlags;
-		@GodotName("set_stretch_ratio") GodotMethod!(void, double) setStretchRatio;
-		@GodotName("get_stretch_ratio") GodotMethod!(double) getStretchRatio;
-		@GodotName("set_v_size_flags") GodotMethod!(void, long) setVSizeFlags;
-		@GodotName("get_v_size_flags") GodotMethod!(long) getVSizeFlags;
-		@GodotName("set_theme") GodotMethod!(void, Theme) setTheme;
-		@GodotName("get_theme") GodotMethod!(Theme) getTheme;
+		@GodotName("add_color_override") GodotMethod!(void, String, Color) addColorOverride;
+		@GodotName("add_constant_override") GodotMethod!(void, String, long) addConstantOverride;
+		@GodotName("add_font_override") GodotMethod!(void, String, Font) addFontOverride;
 		@GodotName("add_icon_override") GodotMethod!(void, String, Texture) addIconOverride;
 		@GodotName("add_shader_override") GodotMethod!(void, String, Shader) addShaderOverride;
 		@GodotName("add_stylebox_override") GodotMethod!(void, String, StyleBox) addStyleboxOverride;
-		@GodotName("add_font_override") GodotMethod!(void, String, Font) addFontOverride;
-		@GodotName("add_color_override") GodotMethod!(void, String, Color) addColorOverride;
-		@GodotName("add_constant_override") GodotMethod!(void, String, long) addConstantOverride;
-		@GodotName("get_icon") GodotMethod!(Texture, String, String) getIcon;
-		@GodotName("get_stylebox") GodotMethod!(StyleBox, String, String) getStylebox;
-		@GodotName("get_font") GodotMethod!(Font, String, String) getFont;
-		@GodotName("get_color") GodotMethod!(Color, String, String) getColor;
-		@GodotName("get_constant") GodotMethod!(long, String, String) getConstant;
-		@GodotName("has_icon_override") GodotMethod!(bool, String) hasIconOverride;
-		@GodotName("has_shader_override") GodotMethod!(bool, String) hasShaderOverride;
-		@GodotName("has_stylebox_override") GodotMethod!(bool, String) hasStyleboxOverride;
-		@GodotName("has_font_override") GodotMethod!(bool, String) hasFontOverride;
-		@GodotName("has_color_override") GodotMethod!(bool, String) hasColorOverride;
-		@GodotName("has_constant_override") GodotMethod!(bool, String) hasConstantOverride;
-		@GodotName("has_icon") GodotMethod!(bool, String, String) hasIcon;
-		@GodotName("has_stylebox") GodotMethod!(bool, String, String) hasStylebox;
-		@GodotName("has_font") GodotMethod!(bool, String, String) hasFont;
-		@GodotName("has_color") GodotMethod!(bool, String, String) hasColor;
-		@GodotName("has_constant") GodotMethod!(bool, String, String) hasConstant;
-		@GodotName("get_parent_control") GodotMethod!(Control) getParentControl;
-		@GodotName("set_h_grow_direction") GodotMethod!(void, long) setHGrowDirection;
-		@GodotName("get_h_grow_direction") GodotMethod!(Control.GrowDirection) getHGrowDirection;
-		@GodotName("set_v_grow_direction") GodotMethod!(void, long) setVGrowDirection;
-		@GodotName("get_v_grow_direction") GodotMethod!(Control.GrowDirection) getVGrowDirection;
-		@GodotName("set_tooltip") GodotMethod!(void, String) setTooltip;
-		@GodotName("get_tooltip") GodotMethod!(String, Vector2) getTooltip;
-		@GodotName("_get_tooltip") GodotMethod!(String) _getTooltip;
-		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
-		@GodotName("get_default_cursor_shape") GodotMethod!(Control.CursorShape) getDefaultCursorShape;
-		@GodotName("get_cursor_shape") GodotMethod!(Control.CursorShape, Vector2) getCursorShape;
-		@GodotName("set_focus_neighbour") GodotMethod!(void, long, NodePath) setFocusNeighbour;
-		@GodotName("get_focus_neighbour") GodotMethod!(NodePath, long) getFocusNeighbour;
-		@GodotName("set_focus_next") GodotMethod!(void, NodePath) setFocusNext;
-		@GodotName("get_focus_next") GodotMethod!(NodePath) getFocusNext;
-		@GodotName("set_focus_previous") GodotMethod!(void, NodePath) setFocusPrevious;
-		@GodotName("get_focus_previous") GodotMethod!(NodePath) getFocusPrevious;
+		@GodotName("can_drop_data") GodotMethod!(bool, Vector2, Variant) canDropData;
+		@GodotName("drop_data") GodotMethod!(void, Vector2, Variant) dropData;
 		@GodotName("force_drag") GodotMethod!(void, Variant, Control) forceDrag;
-		@GodotName("set_mouse_filter") GodotMethod!(void, long) setMouseFilter;
+		@GodotName("get_anchor") GodotMethod!(double, long) getAnchor;
+		@GodotName("get_begin") GodotMethod!(Vector2) getBegin;
+		@GodotName("get_color") GodotMethod!(Color, String, String) getColor;
+		@GodotName("get_combined_minimum_size") GodotMethod!(Vector2) getCombinedMinimumSize;
+		@GodotName("get_constant") GodotMethod!(long, String, String) getConstant;
+		@GodotName("get_cursor_shape") GodotMethod!(Control.CursorShape, Vector2) getCursorShape;
+		@GodotName("get_custom_minimum_size") GodotMethod!(Vector2) getCustomMinimumSize;
+		@GodotName("get_default_cursor_shape") GodotMethod!(Control.CursorShape) getDefaultCursorShape;
+		@GodotName("get_drag_data") GodotMethod!(Variant, Vector2) getDragData;
+		@GodotName("get_end") GodotMethod!(Vector2) getEnd;
+		@GodotName("get_focus_mode") GodotMethod!(Control.FocusMode) getFocusMode;
+		@GodotName("get_focus_neighbour") GodotMethod!(NodePath, long) getFocusNeighbour;
+		@GodotName("get_focus_next") GodotMethod!(NodePath) getFocusNext;
+		@GodotName("get_focus_owner") GodotMethod!(Control) getFocusOwner;
+		@GodotName("get_focus_previous") GodotMethod!(NodePath) getFocusPrevious;
+		@GodotName("get_font") GodotMethod!(Font, String, String) getFont;
+		@GodotName("get_global_position") GodotMethod!(Vector2) getGlobalPosition;
+		@GodotName("get_global_rect") GodotMethod!(Rect2) getGlobalRect;
+		@GodotName("get_h_grow_direction") GodotMethod!(Control.GrowDirection) getHGrowDirection;
+		@GodotName("get_h_size_flags") GodotMethod!(long) getHSizeFlags;
+		@GodotName("get_icon") GodotMethod!(Texture, String, String) getIcon;
+		@GodotName("get_margin") GodotMethod!(double, long) getMargin;
+		@GodotName("get_minimum_size") GodotMethod!(Vector2) getMinimumSize;
 		@GodotName("get_mouse_filter") GodotMethod!(Control.MouseFilter) getMouseFilter;
-		@GodotName("set_clip_contents") GodotMethod!(void, bool) setClipContents;
-		@GodotName("is_clipping_contents") GodotMethod!(bool) isClippingContents;
+		@GodotName("get_parent_area_size") GodotMethod!(Vector2) getParentAreaSize;
+		@GodotName("get_parent_control") GodotMethod!(Control) getParentControl;
+		@GodotName("get_pivot_offset") GodotMethod!(Vector2) getPivotOffset;
+		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
+		@GodotName("get_rotation") GodotMethod!(double) getRotation;
+		@GodotName("get_rotation_degrees") GodotMethod!(double) getRotationDegrees;
+		@GodotName("get_scale") GodotMethod!(Vector2) getScale;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("get_stretch_ratio") GodotMethod!(double) getStretchRatio;
+		@GodotName("get_stylebox") GodotMethod!(StyleBox, String, String) getStylebox;
+		@GodotName("get_theme") GodotMethod!(Theme) getTheme;
+		@GodotName("get_tooltip") GodotMethod!(String, Vector2) getTooltip;
+		@GodotName("get_v_grow_direction") GodotMethod!(Control.GrowDirection) getVGrowDirection;
+		@GodotName("get_v_size_flags") GodotMethod!(long) getVSizeFlags;
 		@GodotName("grab_click_focus") GodotMethod!(void) grabClickFocus;
+		@GodotName("grab_focus") GodotMethod!(void) grabFocus;
+		@GodotName("has_color") GodotMethod!(bool, String, String) hasColor;
+		@GodotName("has_color_override") GodotMethod!(bool, String) hasColorOverride;
+		@GodotName("has_constant") GodotMethod!(bool, String, String) hasConstant;
+		@GodotName("has_constant_override") GodotMethod!(bool, String) hasConstantOverride;
+		@GodotName("has_focus") GodotMethod!(bool) hasFocus;
+		@GodotName("has_font") GodotMethod!(bool, String, String) hasFont;
+		@GodotName("has_font_override") GodotMethod!(bool, String) hasFontOverride;
+		@GodotName("has_icon") GodotMethod!(bool, String, String) hasIcon;
+		@GodotName("has_icon_override") GodotMethod!(bool, String) hasIconOverride;
+		@GodotName("has_point") GodotMethod!(bool, Vector2) hasPoint;
+		@GodotName("has_shader_override") GodotMethod!(bool, String) hasShaderOverride;
+		@GodotName("has_stylebox") GodotMethod!(bool, String, String) hasStylebox;
+		@GodotName("has_stylebox_override") GodotMethod!(bool, String) hasStyleboxOverride;
+		@GodotName("is_clipping_contents") GodotMethod!(bool) isClippingContents;
+		@GodotName("minimum_size_changed") GodotMethod!(void) minimumSizeChanged;
+		@GodotName("release_focus") GodotMethod!(void) releaseFocus;
+		@GodotName("set_anchor") GodotMethod!(void, long, double, bool, bool) setAnchor;
+		@GodotName("set_anchor_and_margin") GodotMethod!(void, long, double, double, bool) setAnchorAndMargin;
+		@GodotName("set_anchors_and_margins_preset") GodotMethod!(void, long, long, long) setAnchorsAndMarginsPreset;
+		@GodotName("set_anchors_preset") GodotMethod!(void, long, bool) setAnchorsPreset;
+		@GodotName("set_begin") GodotMethod!(void, Vector2) setBegin;
+		@GodotName("set_clip_contents") GodotMethod!(void, bool) setClipContents;
+		@GodotName("set_custom_minimum_size") GodotMethod!(void, Vector2) setCustomMinimumSize;
+		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
 		@GodotName("set_drag_forwarding") GodotMethod!(void, Control) setDragForwarding;
 		@GodotName("set_drag_preview") GodotMethod!(void, Control) setDragPreview;
+		@GodotName("set_end") GodotMethod!(void, Vector2) setEnd;
+		@GodotName("set_focus_mode") GodotMethod!(void, long) setFocusMode;
+		@GodotName("set_focus_neighbour") GodotMethod!(void, long, NodePath) setFocusNeighbour;
+		@GodotName("set_focus_next") GodotMethod!(void, NodePath) setFocusNext;
+		@GodotName("set_focus_previous") GodotMethod!(void, NodePath) setFocusPrevious;
+		@GodotName("set_global_position") GodotMethod!(void, Vector2, bool) setGlobalPosition;
+		@GodotName("set_h_grow_direction") GodotMethod!(void, long) setHGrowDirection;
+		@GodotName("set_h_size_flags") GodotMethod!(void, long) setHSizeFlags;
+		@GodotName("set_margin") GodotMethod!(void, long, double) setMargin;
+		@GodotName("set_margins_preset") GodotMethod!(void, long, long, long) setMarginsPreset;
+		@GodotName("set_mouse_filter") GodotMethod!(void, long) setMouseFilter;
+		@GodotName("set_pivot_offset") GodotMethod!(void, Vector2) setPivotOffset;
+		@GodotName("set_position") GodotMethod!(void, Vector2, bool) setPosition;
+		@GodotName("set_rotation") GodotMethod!(void, double) setRotation;
+		@GodotName("set_rotation_degrees") GodotMethod!(void, double) setRotationDegrees;
+		@GodotName("set_scale") GodotMethod!(void, Vector2) setScale;
+		@GodotName("set_size") GodotMethod!(void, Vector2, bool) setSize;
+		@GodotName("set_stretch_ratio") GodotMethod!(void, double) setStretchRatio;
+		@GodotName("set_theme") GodotMethod!(void, Theme) setTheme;
+		@GodotName("set_tooltip") GodotMethod!(void, String) setTooltip;
+		@GodotName("set_v_grow_direction") GodotMethod!(void, long) setVGrowDirection;
+		@GodotName("set_v_size_flags") GodotMethod!(void, long) setVSizeFlags;
+		@GodotName("show_modal") GodotMethod!(void, bool) showModal;
 		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
-		@GodotName("minimum_size_changed") GodotMethod!(void) minimumSizeChanged;
-		@GodotName("_theme_changed") GodotMethod!(void) _themeChanged;
-		@GodotName("_override_changed") GodotMethod!(void) _overrideChanged;
 	}
 	bool opEquals(in Control other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Control opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -207,19 +210,19 @@ public:
 	enum LayoutPresetMode : int
 	{
 		/**
-		
+		The control will be resized to its minimum size.
 		*/
 		presetModeMinsize = 0,
 		/**
-		
+		The control's width will not change.
 		*/
 		presetModeKeepWidth = 1,
 		/**
-		
+		The control's height will not change.
 		*/
 		presetModeKeepHeight = 2,
 		/**
-		
+		The control's size will not change.
 		*/
 		presetModeKeepSize = 3,
 	}
@@ -227,7 +230,7 @@ public:
 	enum MouseFilter : int
 	{
 		/**
-		The control will receive mouse button input events through $(D _guiInput) if clicked on. And the control will receive the $(D mouseEntered) and $(D mouseExited) signals. These events are automatically marked as handled and they will not propagate further to other controls. This also results in blocking signals in other controls.
+		The control will receive mouse button input events through $(D _guiInput) if clicked on. And the control will receive the $(D mouseEntered) and $(D mouseExited) signals. These events are automatically marked as handled, and they will not propagate further to other controls. This also results in blocking signals in other controls.
 		*/
 		mouseFilterStop = 0,
 		/**
@@ -235,7 +238,7 @@ public:
 		*/
 		mouseFilterPass = 1,
 		/**
-		The control will not receive mouse button input events through $(D _guiInput). Also the control will not receive the $(D mouseEntered) nor $(D mouseExited) signals. This will not block other controls from receiving these events or firing the signals. Ignored events will not be handled automatically.
+		The control will not receive mouse button input events through $(D _guiInput). The control will also not receive the $(D mouseEntered) nor $(D mouseExited) signals. This will not block other controls from receiving these events or firing the signals. Ignored events will not be handled automatically.
 		*/
 		mouseFilterIgnore = 2,
 	}
@@ -279,19 +282,19 @@ public:
 		*/
 		cursorForbidden = 8,
 		/**
-		Show the system's vertical resize mouse cursor when the user hovers the node. A double headed vertical arrow. It tells the user they can resize the window or the panel vertically.
+		Show the system's vertical resize mouse cursor when the user hovers the node. A double-headed vertical arrow. It tells the user they can resize the window or the panel vertically.
 		*/
 		cursorVsize = 9,
 		/**
-		Show the system's horizontal resize mouse cursor when the user hovers the node. A double headed horizontal arrow. It tells the user they can resize the window or the panel horizontally.
+		Show the system's horizontal resize mouse cursor when the user hovers the node. A double-headed horizontal arrow. It tells the user they can resize the window or the panel horizontally.
 		*/
 		cursorHsize = 10,
 		/**
-		Show the system's window resize mouse cursor when the user hovers the node. The cursor is a double headed arrow that goes from the bottom left to the top right. It tells the user they can resize the window or the panel both horizontally and vertically.
+		Show the system's window resize mouse cursor when the user hovers the node. The cursor is a double-headed arrow that goes from the bottom left to the top right. It tells the user they can resize the window or the panel both horizontally and vertically.
 		*/
 		cursorBdiagsize = 11,
 		/**
-		Show the system's window resize mouse cursor when the user hovers the node. The cursor is a double headed arrow that goes from the top left to the bottom right, the opposite of `CURSOR_BDIAGSIZE`. It tells the user they can resize the window or the panel both horizontally and vertically.
+		Show the system's window resize mouse cursor when the user hovers the node. The cursor is a double-headed arrow that goes from the top left to the bottom right, the opposite of $(D constant CURSOR_BDIAGSIZE). It tells the user they can resize the window or the panel both horizontally and vertically.
 		*/
 		cursorFdiagsize = 12,
 		/**
@@ -299,11 +302,11 @@ public:
 		*/
 		cursorMove = 13,
 		/**
-		Show the system's vertical split mouse cursor when the user hovers the node. On Windows, it's the same as `CURSOR_VSIZE`.
+		Show the system's vertical split mouse cursor when the user hovers the node. On Windows, it's the same as $(D constant CURSOR_VSIZE).
 		*/
 		cursorVsplit = 14,
 		/**
-		Show the system's horizontal split mouse cursor when the user hovers the node. On Windows, it's the same as `CURSOR_HSIZE`.
+		Show the system's horizontal split mouse cursor when the user hovers the node. On Windows, it's the same as $(D constant CURSOR_HSIZE).
 		*/
 		cursorHsplit = 15,
 		/**
@@ -415,7 +418,7 @@ public:
 		*/
 		presetHcenterWide = 14,
 		/**
-		Snap all 4 anchors to the respective corners of the parent control. Set all 4 margins to 0 after you applied this preset and the $(D Control) will fit its parent control. This is equivalent to to the "Full Rect" layout option in the editor. Use with $(D setAnchorsPreset).
+		Snap all 4 anchors to the respective corners of the parent control. Set all 4 margins to 0 after you applied this preset and the $(D Control) will fit its parent control. This is equivalent to the "Full Rect" layout option in the editor. Use with $(D setAnchorsPreset).
 		*/
 		presetWide = 15,
 	}
@@ -513,96 +516,85 @@ public:
 		notificationScrollEnd = 48,
 	}
 	/**
-	Use this method to process and accept inputs on UI elements. See $(D acceptEvent).
-	Replaces Godot 2's `_input_event`.
+	Virtual method to be implemented by the user. Returns whether $(D _guiInput) should not be called for children controls outside this control's rectangle. Input will be clipped to the Rect of this $(D Control). Similar to $(D rectClipContent), but doesn't affect visibility.
+	If not overridden, defaults to `false`.
+	*/
+	bool _clipsInput()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_clips_input");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Virtual method to be implemented by the user. Returns the minimum size for this control. Alternative to $(D rectMinSize) for controlling minimum size via code. The actual minimum size will be the max value of these two (in each axis separately).
+	If not overridden, defaults to $(D constant Vector2.ZERO).
+	*/
+	Vector2 _getMinimumSize()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_minimum_size");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
+	}
+	/**
+	
+	*/
+	String _getTooltip() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_tooltip");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
+	}
+	/**
+	Virtual method to be implemented by the user. Use this method to process and accept inputs on UI elements. See $(D acceptEvent).
+	Example: clicking a control.
+	
+	
+	func _gui_input(event):
+	    if event is InputEventMouseButton:
+	        if event.button_index == BUTTON_LEFT and event.pressed:
+	            print("I've been clicked D:")
+	
+	
+	The event won't trigger if:
+	* clicking outside the control (see $(D hasPoint));
+	* control has $(D mouseFilter) set to $(D constant MOUSE_FILTER_IGNORE);
+	* control is obstructed by another $(D Control) on top of it, which doesn't have $(D mouseFilter) set to $(D constant MOUSE_FILTER_IGNORE);
+	* control's parent has $(D mouseFilter) set to $(D constant MOUSE_FILTER_STOP) or has accepted the event;
+	* it happens outside parent's rectangle and the parent has either $(D rectClipContent) or $(D _clipsInput) enabled.
 	*/
 	void _guiInput(InputEvent event)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(event);
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Returns the minimum size for this control. See $(D rectMinSize).
-	*/
-	Vector2 _getMinimumSize()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_minimum_size");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
-	}
-	/**
-	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Return null if there is no data to drag. Controls that want to receive drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
-	A preview that will follow the mouse that should represent the data can be set with $(D setDragPreview). A good time to set the preview is in this method.
+	Virtual method to be implemented by the user. Returns a $(D Control) node that should be used as a tooltip instead of the default one. Use `for_text` parameter to determine what text the tooltip should contain (likely the contents of $(D hintTooltip)).
+	The returned node must be of type $(D Control) or Control-derieved. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance, not e.g. a node from scene. When `null` or non-Control node is returned, the default tooltip will be used instead.
+	$(B Note:) The tooltip is shrunk to minimal size. If you want to ensure it's fully visible, you might want to set its $(D rectMinSize) to some non-zero value.
+	Example of usage with custom-constructed node:
 	
 	
-	extends Control
-	
-	func get_drag_data(position):
-	    var mydata = make_data()
-	    set_drag_preview(make_preview(mydata))
-	    return mydata
+	func _make_custom_tooltip(for_text):
+	    var label = Label.new()
+	    label.text = for_text
+	    return label
 	
 	
-	*/
-	GodotObject getDragData(in Vector2 position)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(position);
-		String _GODOT_method_name = String("get_drag_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
-	}
-	/**
-	Godot calls this method to test if `data` from a control's $(D getDragData) can be dropped at `position`. `position` is local to this control.
-	This method should only be used to test the data. Process the data in $(D dropData).
+	Example of usage with custom scene instance:
 	
 	
-	extends Control
+	func _make_custom_tooltip(for_text):
+	    var tooltip = preload("SomeTooltipScene.tscn").instance()
+	    tooltip.get_node("Label").text = for_text
+	    return tooltip
 	
-	func can_drop_data(position, data):
-	    # check position if it is relevant to you
-	    # otherwise just check data
-	    return typeof(data) == TYPE_DICTIONARY and data.has('expected')
-	
-	
-	*/
-	bool canDropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(position);
-		_GODOT_args.append(data);
-		String _GODOT_method_name = String("can_drop_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
-	}
-	/**
-	Godot calls this method to pass you the `data` from a control's $(D getDragData) result. Godot first calls $(D canDropData) to test if `data` is allowed to drop at `position` where `position` is local to this control.
-	
-	
-	extends ColorRect
-	
-	func can_drop_data(position, data):
-	    return typeof(data) == TYPE_DICTIONARY and data.has('color')
-	
-	func drop_data(position, data):
-	    color = data$(D 'color')
-	
-	
-	*/
-	void dropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(position);
-		_GODOT_args.append(data);
-		String _GODOT_method_name = String("drop_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
 	
 	*/
 	GodotObject _makeCustomTooltip(in String for_text)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(for_text);
 		String _GODOT_method_name = String("_make_custom_tooltip");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
@@ -610,29 +602,69 @@ public:
 	/**
 	
 	*/
-	bool _clipsInput()
+	void _overrideChanged()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_clips_input");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_override_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	bool hasPoint(in Vector2 point)
+	void _setAnchor(in long margin, in double anchor)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(point);
-		String _GODOT_method_name = String("has_point");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(margin);
+		_GODOT_args.append(anchor);
+		String _GODOT_method_name = String("_set_anchor");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setGlobalPosition(in Vector2 position)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(position);
+		String _GODOT_method_name = String("_set_global_position");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setPosition(in Vector2 margin)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(margin);
+		String _GODOT_method_name = String("_set_position");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setSize(in Vector2 size)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(size);
+		String _GODOT_method_name = String("_set_size");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
 	void _sizeChanged()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_size_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _themeChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_theme_changed");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -640,7 +672,7 @@ public:
 	*/
 	void _updateMinimumSize()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update_minimum_size");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
@@ -653,175 +685,109 @@ public:
 		ptrcall!(void)(_classBinding.acceptEvent, _godot_object);
 	}
 	/**
-	Returns the minimum size for this control. See $(D rectMinSize).
+	Overrides the $(D Color) with given `name` in the $(D theme) resource the control uses. If the `color` is empty or invalid, the override is cleared and the color from assigned $(D Theme) is used.
 	*/
-	Vector2 getMinimumSize() const
+	void addColorOverride(in String name, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
+		ptrcall!(void)(_classBinding.addColorOverride, _godot_object, name, color);
 	}
 	/**
-	
+	Overrides an integer constant with given `name` in the $(D theme) resource the control uses. If the `constant` is empty or invalid, the override is cleared and the constant from assigned $(D Theme) is used.
 	*/
-	Vector2 getCombinedMinimumSize() const
+	void addConstantOverride(in String name, in long constant)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCombinedMinimumSize, _godot_object);
+		ptrcall!(void)(_classBinding.addConstantOverride, _godot_object, name, constant);
 	}
 	/**
-	
+	Overrides the font with given `name` in the $(D theme) resource the control uses. If `font` is empty or invalid, the override is cleared and the font from assigned $(D Theme) is used.
 	*/
-	void setAnchorsPreset(in long preset, in bool keep_margin = false)
+	void addFontOverride(in String name, Font font)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorsPreset, _godot_object, preset, keep_margin);
+		ptrcall!(void)(_classBinding.addFontOverride, _godot_object, name, font);
 	}
 	/**
-	
+	Overrides the icon with given `name` in the $(D theme) resource the control uses. If `icon` is empty or invalid, the override is cleared and the icon from assigned $(D Theme) is used.
 	*/
-	void setMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
+	void addIconOverride(in String name, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMarginsPreset, _godot_object, preset, resize_mode, margin);
+		ptrcall!(void)(_classBinding.addIconOverride, _godot_object, name, texture);
 	}
 	/**
-	
+	Overrides the $(D Shader) with given `name` in the $(D theme) resource the control uses. If `shader` is empty or invalid, the override is cleared and the shader from assigned $(D Theme) is used.
 	*/
-	void setAnchorsAndMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
+	void addShaderOverride(in String name, Shader shader)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
+		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
 	}
 	/**
-	
+	Overrides the $(D StyleBox) with given `name` in the $(D theme) resource the control uses. If `stylebox` is empty or invalid, the override is cleared and the $(D StyleBox) from assigned $(D Theme) is used.
 	*/
-	void setAnchor(in long margin, in double anchor, in bool keep_margin = false, in bool push_opposite_anchor = true)
+	void addStyleboxOverride(in String name, StyleBox stylebox)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
+		ptrcall!(void)(_classBinding.addStyleboxOverride, _godot_object, name, stylebox);
 	}
 	/**
+	Godot calls this method to test if `data` from a control's $(D getDragData) can be dropped at `position`. `position` is local to this control.
+	This method should only be used to test the data. Process the data in $(D dropData).
+	
+	
+	func can_drop_data(position, data):
+	    # Check position if it is relevant to you
+	    # Otherwise, just check data
+	    return typeof(data) == TYPE_DICTIONARY and data.has("expected")
+	
 	
 	*/
-	void _setAnchor(in long margin, in double anchor)
+	bool canDropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(margin);
-		_GODOT_args.append(anchor);
-		String _GODOT_method_name = String("_set_anchor");
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(position);
+		_GODOT_args.append(data);
+		String _GODOT_method_name = String("can_drop_data");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Godot calls this method to pass you the `data` from a control's $(D getDragData) result. Godot first calls $(D canDropData) to test if `data` is allowed to drop at `position` where `position` is local to this control.
+	
+	
+	func can_drop_data(position, data):
+	    return typeof(data) == TYPE_DICTIONARY and data.has("color")
+	
+	func drop_data(position, data):
+	    color = data$(D "color")
+	
+	
+	*/
+	void dropData(VariantArg1)(in Vector2 position, in VariantArg1 data)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(position);
+		_GODOT_args.append(data);
+		String _GODOT_method_name = String("drop_data");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
+	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
+	*/
+	void forceDrag(VariantArg0)(in VariantArg0 data, Control preview)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.forceDrag, _godot_object, data, preview);
+	}
+	/**
+	Returns the anchor identified by `margin` constant from $(D margin) enum. A getter method for $(D anchorBottom), $(D anchorLeft), $(D anchorRight) and $(D anchorTop).
 	*/
 	double getAnchor(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getAnchor, _godot_object, margin);
-	}
-	/**
-	
-	*/
-	void setMargin(in long margin, in double offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin, offset);
-	}
-	/**
-	
-	*/
-	void setAnchorAndMargin(in long margin, in double anchor, in double offset, in bool push_opposite_anchor = false)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorAndMargin, _godot_object, margin, anchor, offset, push_opposite_anchor);
-	}
-	/**
-	Sets $(D marginLeft) and $(D marginTop) at the same time.
-	*/
-	void setBegin(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBegin, _godot_object, position);
-	}
-	/**
-	Sets $(D marginRight) and $(D marginBottom) at the same time.
-	*/
-	void setEnd(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnd, _godot_object, position);
-	}
-	/**
-	
-	*/
-	void setPosition(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
-	}
-	/**
-	
-	*/
-	void setSize(in Vector2 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
-	}
-	/**
-	
-	*/
-	void setCustomMinimumSize(in Vector2 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomMinimumSize, _godot_object, size);
-	}
-	/**
-	
-	*/
-	void setGlobalPosition(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, position);
-	}
-	/**
-	Sets the rotation (in radians).
-	*/
-	void setRotation(in double radians)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
-	}
-	/**
-	
-	*/
-	void setRotationDegrees(in double degrees)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
-	}
-	/**
-	
-	*/
-	void setScale(in Vector2 scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	void setPivotOffset(in Vector2 pivot_offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPivotOffset, _godot_object, pivot_offset);
-	}
-	/**
-	
-	*/
-	double getMargin(in long margin) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
 	}
 	/**
 	Returns $(D marginLeft) and $(D marginTop). See also $(D rectPosition).
@@ -830,6 +796,79 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getBegin, _godot_object);
+	}
+	/**
+	Returns a color from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	
+	
+	func _ready():
+	    modulate = get_color("font_color", "Button") #get the color defined for button fonts
+	
+	
+	*/
+	Color getColor(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
+	}
+	/**
+	Returns combined minimum size from $(D rectMinSize) and $(D getMinimumSize).
+	*/
+	Vector2 getCombinedMinimumSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCombinedMinimumSize, _godot_object);
+	}
+	/**
+	Returns a constant from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	*/
+	long getConstant(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
+	}
+	/**
+	Returns the mouse cursor shape the control displays on mouse hover. See $(D cursorshape).
+	*/
+	Control.CursorShape getCursorShape(in Vector2 position = Vector2(0, 0)) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.CursorShape)(_classBinding.getCursorShape, _godot_object, position);
+	}
+	/**
+	
+	*/
+	Vector2 getCustomMinimumSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getCustomMinimumSize, _godot_object);
+	}
+	/**
+	
+	*/
+	Control.CursorShape getDefaultCursorShape() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.CursorShape)(_classBinding.getDefaultCursorShape, _godot_object);
+	}
+	/**
+	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Returns `null` if there is no data to drag. Controls that want to receive drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
+	A preview that will follow the mouse that should represent the data can be set with $(D setDragPreview). A good time to set the preview is in this method.
+	
+	
+	func get_drag_data(position):
+	    var mydata = make_data()
+	    set_drag_preview(make_preview(mydata))
+	    return mydata
+	
+	
+	*/
+	Variant getDragData(in Vector2 position)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(position);
+		String _GODOT_method_name = String("get_drag_data");
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Returns $(D marginRight) and $(D marginBottom).
@@ -842,18 +881,154 @@ public:
 	/**
 	
 	*/
+	Control.FocusMode getFocusMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.FocusMode)(_classBinding.getFocusMode, _godot_object);
+	}
+	/**
+	Returns the focus neighbour identified by `margin` constant from $(D margin) enum. A getter method for $(D focusNeighbourBottom), $(D focusNeighbourLeft), $(D focusNeighbourRight) and $(D focusNeighbourTop).
+	*/
+	NodePath getFocusNeighbour(in long margin) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusNeighbour, _godot_object, margin);
+	}
+	/**
+	
+	*/
+	NodePath getFocusNext() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusNext, _godot_object);
+	}
+	/**
+	Returns the control that has the keyboard focus or `null` if none.
+	*/
+	Control getFocusOwner() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(_classBinding.getFocusOwner, _godot_object);
+	}
+	/**
+	
+	*/
+	NodePath getFocusPrevious() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getFocusPrevious, _godot_object);
+	}
+	/**
+	Returns a font from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	*/
+	Ref!Font getFont(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
+	}
+	/**
+	
+	*/
+	Vector2 getGlobalPosition() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
+	}
+	/**
+	Returns the position and size of the control relative to the top-left corner of the screen. See $(D rectPosition) and $(D rectSize).
+	*/
+	Rect2 getGlobalRect() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getGlobalRect, _godot_object);
+	}
+	/**
+	
+	*/
+	Control.GrowDirection getHGrowDirection() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.GrowDirection)(_classBinding.getHGrowDirection, _godot_object);
+	}
+	/**
+	
+	*/
+	long getHSizeFlags() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getHSizeFlags, _godot_object);
+	}
+	/**
+	Returns an icon from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	*/
+	Ref!Texture getIcon(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
+	}
+	/**
+	Returns the anchor identified by `margin` constant from $(D margin) enum. A getter method for $(D marginBottom), $(D marginLeft), $(D marginRight) and $(D marginTop).
+	*/
+	double getMargin(in long margin) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
+	}
+	/**
+	Returns the minimum size for this control. See $(D rectMinSize).
+	*/
+	Vector2 getMinimumSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
+	}
+	/**
+	
+	*/
+	Control.MouseFilter getMouseFilter() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control.MouseFilter)(_classBinding.getMouseFilter, _godot_object);
+	}
+	/**
+	Returns the width/height occupied in the parent control.
+	*/
+	Vector2 getParentAreaSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getParentAreaSize, _godot_object);
+	}
+	/**
+	Returns the parent control node.
+	*/
+	Control getParentControl() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(_classBinding.getParentControl, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getPivotOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getPivotOffset, _godot_object);
+	}
+	/**
+	
+	*/
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
 	}
 	/**
-	
+	Returns the position and size of the control relative to the top-left corner of the parent Control. See $(D rectPosition) and $(D rectSize).
 	*/
-	Vector2 getSize() const
+	Rect2 getRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
 	}
 	/**
 	Returns the rotation (in radians).
@@ -882,130 +1057,10 @@ public:
 	/**
 	
 	*/
-	Vector2 getPivotOffset() const
+	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPivotOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getCustomMinimumSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCustomMinimumSize, _godot_object);
-	}
-	/**
-	Returns the width/height occupied in the parent control.
-	*/
-	Vector2 getParentAreaSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getParentAreaSize, _godot_object);
-	}
-	/**
-	
-	*/
-	Vector2 getGlobalPosition() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
-	}
-	/**
-	Returns the position and size of the control relative to the top-left corner of the parent Control. See $(D rectPosition) and $(D rectSize).
-	*/
-	Rect2 getRect() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
-	}
-	/**
-	Returns the position and size of the control relative to the top-left corner of the screen. See $(D rectPosition) and $(D rectSize).
-	*/
-	Rect2 getGlobalRect() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getGlobalRect, _godot_object);
-	}
-	/**
-	Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
-	*/
-	void showModal(in bool exclusive = false)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.showModal, _godot_object, exclusive);
-	}
-	/**
-	
-	*/
-	void setFocusMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	Control.FocusMode getFocusMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.FocusMode)(_classBinding.getFocusMode, _godot_object);
-	}
-	/**
-	Returns `true` if this is the current focused control. See $(D focusMode).
-	*/
-	bool hasFocus() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFocus, _godot_object);
-	}
-	/**
-	Steal the focus from another control and become the focused control (see $(D focusMode)).
-	*/
-	void grabFocus()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.grabFocus, _godot_object);
-	}
-	/**
-	Give up the focus. No other control will be able to receive keyboard input.
-	*/
-	void releaseFocus()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.releaseFocus, _godot_object);
-	}
-	/**
-	Returns the control that has the keyboard focus or `null` if none.
-	*/
-	Control getFocusOwner() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getFocusOwner, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHSizeFlags(in long flags)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHSizeFlags, _godot_object, flags);
-	}
-	/**
-	
-	*/
-	long getHSizeFlags() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHSizeFlags, _godot_object);
-	}
-	/**
-	
-	*/
-	void setStretchRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchRatio, _godot_object, ratio);
+		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -1016,28 +1071,12 @@ public:
 		return ptrcall!(double)(_classBinding.getStretchRatio, _godot_object);
 	}
 	/**
-	
+	Returns a $(D StyleBox) from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
 	*/
-	void setVSizeFlags(in long flags)
+	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVSizeFlags, _godot_object, flags);
-	}
-	/**
-	
-	*/
-	long getVSizeFlags() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVSizeFlags, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTheme(Theme theme)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTheme, _godot_object, theme);
+		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
 	}
 	/**
 	
@@ -1048,212 +1087,12 @@ public:
 		return ptrcall!(Theme)(_classBinding.getTheme, _godot_object);
 	}
 	/**
-	Overrides the `name` icon in the $(D theme) resource the node uses. If `icon` is empty, Godot clears the override.
+	Returns the tooltip, which will appear when the cursor is resting over this control. See $(D hintTooltip).
 	*/
-	void addIconOverride(in String name, Texture texture)
+	String getTooltip(in Vector2 at_position = Vector2(0, 0)) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconOverride, _godot_object, name, texture);
-	}
-	/**
-	Overrides the `name` shader in the $(D theme) resource the node uses. If `shader` is empty, Godot clears the override.
-	*/
-	void addShaderOverride(in String name, Shader shader)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
-	}
-	/**
-	Overrides the `name` $(D StyleBox) in the $(D theme) resource the node uses. If `stylebox` is empty, Godot clears the override.
-	*/
-	void addStyleboxOverride(in String name, StyleBox stylebox)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addStyleboxOverride, _godot_object, name, stylebox);
-	}
-	/**
-	Overrides the `name` font in the $(D theme) resource the node uses. If `font` is empty, Godot clears the override.
-	*/
-	void addFontOverride(in String name, Font font)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFontOverride, _godot_object, name, font);
-	}
-	/**
-	Overrides the color in the $(D theme) resource the node uses.
-	*/
-	void addColorOverride(in String name, in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addColorOverride, _godot_object, name, color);
-	}
-	/**
-	Overrides an integer constant in the $(D theme) resource the node uses. If the `constant` is invalid, Godot clears the override.
-	*/
-	void addConstantOverride(in String name, in long constant)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addConstantOverride, _godot_object, name, constant);
-	}
-	/**
-	
-	*/
-	Ref!Texture getIcon(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	Ref!Font getFont(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	Color getColor(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	long getConstant(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	bool hasIconOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasIconOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasShaderOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasShaderOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasStyleboxOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasStyleboxOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasFontOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFontOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasColorOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasColorOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasConstantOverride(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasConstantOverride, _godot_object, name);
-	}
-	/**
-	
-	*/
-	bool hasIcon(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	bool hasStylebox(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	bool hasFont(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	bool hasColor(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
-	}
-	/**
-	
-	*/
-	bool hasConstant(in String name, in String type = gs!"") const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
-	}
-	/**
-	Returns the parent control node.
-	*/
-	Control getParentControl() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getParentControl, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHGrowDirection(in long direction)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHGrowDirection, _godot_object, direction);
-	}
-	/**
-	
-	*/
-	Control.GrowDirection getHGrowDirection() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.GrowDirection)(_classBinding.getHGrowDirection, _godot_object);
-	}
-	/**
-	
-	*/
-	void setVGrowDirection(in long direction)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVGrowDirection, _godot_object, direction);
+		return ptrcall!(String)(_classBinding.getTooltip, _godot_object, at_position);
 	}
 	/**
 	
@@ -1266,124 +1105,207 @@ public:
 	/**
 	
 	*/
-	void setTooltip(in String tooltip)
+	long getVSizeFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTooltip, _godot_object, tooltip);
+		return ptrcall!(long)(_classBinding.getVSizeFlags, _godot_object);
 	}
 	/**
-	Returns the tooltip, which will appear when the cursor is resting over this control.
+	Creates an $(D InputEventMouseButton) that attempts to click the control. If the event is received, the control acquires focus.
+	
+	
+	func _process(delta):
+	    grab_click_focus() #when clicking another Control node, this node will be clicked instead
+	
+	
 	*/
-	String getTooltip(in Vector2 at_position = Vector2(0, 0)) const
+	void grabClickFocus()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTooltip, _godot_object, at_position);
+		ptrcall!(void)(_classBinding.grabClickFocus, _godot_object);
+	}
+	/**
+	Steal the focus from another control and become the focused control (see $(D focusMode)).
+	*/
+	void grabFocus()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.grabFocus, _godot_object);
+	}
+	/**
+	Returns `true` if $(D Color) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	*/
+	bool hasColor(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
+	}
+	/**
+	Returns `true` if $(D Color) with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasColorOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasColorOverride, _godot_object, name);
+	}
+	/**
+	Returns `true` if constant with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	*/
+	bool hasConstant(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
+	}
+	/**
+	Returns `true` if constant with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasConstantOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasConstantOverride, _godot_object, name);
+	}
+	/**
+	Returns `true` if this is the current focused control. See $(D focusMode).
+	*/
+	bool hasFocus() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFocus, _godot_object);
+	}
+	/**
+	Returns `true` if font with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	*/
+	bool hasFont(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
+	}
+	/**
+	Returns `true` if font with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasFontOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasFontOverride, _godot_object, name);
+	}
+	/**
+	Returns `true` if icon with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	*/
+	bool hasIcon(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
+	}
+	/**
+	Returns `true` if icon with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasIconOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasIconOverride, _godot_object, name);
+	}
+	/**
+	Virtual method to be implemented by the user. Returns whether the given `point` is inside this control.
+	If not overridden, default behavior is checking if the point is within control's Rect.
+	$(B Note:) If you want to check if a point is inside the control, you can use `get_rect().has_point(point)`.
+	*/
+	bool hasPoint(in Vector2 point)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(point);
+		String _GODOT_method_name = String("has_point");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Returns `true` if $(D Shader) with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasShaderOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasShaderOverride, _godot_object, name);
+	}
+	/**
+	Returns `true` if $(D StyleBox) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	*/
+	bool hasStylebox(in String name, in String type = gs!"") const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
+	}
+	/**
+	Returns `true` if $(D StyleBox) with given `name` has a valid override in this $(D Control) node.
+	*/
+	bool hasStyleboxOverride(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasStyleboxOverride, _godot_object, name);
 	}
 	/**
 	
 	*/
-	String _getTooltip() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_tooltip");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
-	}
-	/**
-	
-	*/
-	void setDefaultCursorShape(in long shape)
+	bool isClippingContents()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
+		return ptrcall!(bool)(_classBinding.isClippingContents, _godot_object);
 	}
 	/**
-	
+	Invalidates the size cache in this node and in parent nodes up to toplevel. Intended to be used with $(D getMinimumSize) when the return value is changed. Setting $(D rectMinSize) directly calls this method automatically.
 	*/
-	Control.CursorShape getDefaultCursorShape() const
+	void minimumSizeChanged()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.CursorShape)(_classBinding.getDefaultCursorShape, _godot_object);
+		ptrcall!(void)(_classBinding.minimumSizeChanged, _godot_object);
 	}
 	/**
-	Returns the mouse cursor shape the control displays on mouse hover. See $(D cursorshape).
+	Give up the focus. No other control will be able to receive keyboard input.
 	*/
-	Control.CursorShape getCursorShape(in Vector2 position = Vector2(0, 0)) const
+	void releaseFocus()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.CursorShape)(_classBinding.getCursorShape, _godot_object, position);
+		ptrcall!(void)(_classBinding.releaseFocus, _godot_object);
 	}
 	/**
-	
+	Sets the anchor identified by `margin` constant from $(D margin) enum to value `anchor`. A setter method for $(D anchorBottom), $(D anchorLeft), $(D anchorRight) and $(D anchorTop).
+	If `keep_margin` is `true`, margins aren't updated after this operation.
+	If `push_opposite_anchor` is `true` and the opposite anchor overlaps this anchor, the opposite one will have its value overridden. For example, when setting left anchor to 1 and the right anchor has value of 0.5, the right anchor will also get value of 1. If `push_opposite_anchor` was `false`, the left anchor would get value 0.5.
 	*/
-	void setFocusNeighbour(NodePathArg1)(in long margin, in NodePathArg1 neighbour)
+	void setAnchor(in long margin, in double anchor, in bool keep_margin = false, in bool push_opposite_anchor = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusNeighbour, _godot_object, margin, neighbour);
+		ptrcall!(void)(_classBinding.setAnchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
 	}
 	/**
-	
+	Works the same as $(D setAnchor), but instead of `keep_margin` argument and automatic update of margin, it allows to set the margin offset yourself (see $(D setMargin)).
 	*/
-	NodePath getFocusNeighbour(in long margin) const
+	void setAnchorAndMargin(in long margin, in double anchor, in double offset, in bool push_opposite_anchor = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusNeighbour, _godot_object, margin);
+		ptrcall!(void)(_classBinding.setAnchorAndMargin, _godot_object, margin, anchor, offset, push_opposite_anchor);
 	}
 	/**
-	
+	Sets both anchor preset and margin preset. See $(D setAnchorsPreset) and $(D setMarginsPreset).
 	*/
-	void setFocusNext(NodePathArg0)(in NodePathArg0 next)
+	void setAnchorsAndMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusNext, _godot_object, next);
+		ptrcall!(void)(_classBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
 	/**
-	
+	Sets the anchors to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
+	If `keep_margins` is `true`, control's position will also be updated.
 	*/
-	NodePath getFocusNext() const
+	void setAnchorsPreset(in long preset, in bool keep_margins = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusNext, _godot_object);
+		ptrcall!(void)(_classBinding.setAnchorsPreset, _godot_object, preset, keep_margins);
 	}
 	/**
-	
+	Sets $(D marginLeft) and $(D marginTop) at the same time. Equivalent of changing $(D rectPosition).
 	*/
-	void setFocusPrevious(NodePathArg0)(in NodePathArg0 previous)
+	void setBegin(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusPrevious, _godot_object, previous);
-	}
-	/**
-	
-	*/
-	NodePath getFocusPrevious() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusPrevious, _godot_object);
-	}
-	/**
-	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
-	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
-	*/
-	void forceDrag(VariantArg0)(in VariantArg0 data, Control preview)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceDrag, _godot_object, data, preview);
-	}
-	/**
-	
-	*/
-	void setMouseFilter(in long filter)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMouseFilter, _godot_object, filter);
-	}
-	/**
-	
-	*/
-	Control.MouseFilter getMouseFilter() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.MouseFilter)(_classBinding.getMouseFilter, _godot_object);
+		ptrcall!(void)(_classBinding.setBegin, _godot_object, position);
 	}
 	/**
 	
@@ -1396,18 +1318,18 @@ public:
 	/**
 	
 	*/
-	bool isClippingContents()
+	void setCustomMinimumSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClippingContents, _godot_object);
+		ptrcall!(void)(_classBinding.setCustomMinimumSize, _godot_object, size);
 	}
 	/**
 	
 	*/
-	void grabClickFocus()
+	void setDefaultCursorShape(in long shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.grabClickFocus, _godot_object);
+		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
 	}
 	/**
 	Forwards the handling of this control's drag and drop to `target` control.
@@ -1441,7 +1363,20 @@ public:
 		ptrcall!(void)(_classBinding.setDragForwarding, _godot_object, target);
 	}
 	/**
-	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData).
+	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData). The control must not be in the scene tree.
+	
+	
+	export (Color, RGBA) var color = Color(1, 0, 0, 1)
+	
+	func get_drag_data(position):
+	    # Use a control that is not in the tree
+	    var cpb = ColorPickerButton.new()
+	    cpb.color = color
+	    cpb.rect_size = Vector2(50, 50)
+	    set_drag_preview(cpb)
+	    return color
+	
+	
 	*/
 	void setDragPreview(Control control)
 	{
@@ -1449,7 +1384,197 @@ public:
 		ptrcall!(void)(_classBinding.setDragPreview, _godot_object, control);
 	}
 	/**
+	Sets $(D marginRight) and $(D marginBottom) at the same time.
+	*/
+	void setEnd(in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnd, _godot_object, position);
+	}
+	/**
 	
+	*/
+	void setFocusMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusMode, _godot_object, mode);
+	}
+	/**
+	Sets the anchor identified by `margin` constant from $(D margin) enum to $(D Control) at `neighbor` node path. A setter method for $(D focusNeighbourBottom), $(D focusNeighbourLeft), $(D focusNeighbourRight) and $(D focusNeighbourTop).
+	*/
+	void setFocusNeighbour(NodePathArg1)(in long margin, in NodePathArg1 neighbour)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusNeighbour, _godot_object, margin, neighbour);
+	}
+	/**
+	
+	*/
+	void setFocusNext(NodePathArg0)(in NodePathArg0 next)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusNext, _godot_object, next);
+	}
+	/**
+	
+	*/
+	void setFocusPrevious(NodePathArg0)(in NodePathArg0 previous)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusPrevious, _godot_object, previous);
+	}
+	/**
+	Sets the $(D rectGlobalPosition) to given `position`.
+	If `keep_margins` is `true`, control's anchors will be updated instead of margins.
+	*/
+	void setGlobalPosition(in Vector2 position, in bool keep_margins = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, position, keep_margins);
+	}
+	/**
+	
+	*/
+	void setHGrowDirection(in long direction)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHGrowDirection, _godot_object, direction);
+	}
+	/**
+	
+	*/
+	void setHSizeFlags(in long flags)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHSizeFlags, _godot_object, flags);
+	}
+	/**
+	Sets the margin identified by `margin` constant from $(D margin) enum to given `offset`. A setter method for $(D marginBottom), $(D marginLeft), $(D marginRight) and $(D marginTop).
+	*/
+	void setMargin(in long margin, in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin, offset);
+	}
+	/**
+	Sets the margins to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
+	Use parameter `resize_mode` with constants from $(D Control.layoutpresetmode) to better determine the resulting size of the $(D Control). Constant size will be ignored if used with presets that change size, e.g. `PRESET_LEFT_WIDE`.
+	Use parameter `margin` to determine the gap between the $(D Control) and the edges.
+	*/
+	void setMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMarginsPreset, _godot_object, preset, resize_mode, margin);
+	}
+	/**
+	
+	*/
+	void setMouseFilter(in long filter)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMouseFilter, _godot_object, filter);
+	}
+	/**
+	
+	*/
+	void setPivotOffset(in Vector2 pivot_offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPivotOffset, _godot_object, pivot_offset);
+	}
+	/**
+	Sets the $(D rectPosition) to given `position`.
+	If `keep_margins` is `true`, control's anchors will be updated instead of margins.
+	*/
+	void setPosition(in Vector2 position, in bool keep_margins = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position, keep_margins);
+	}
+	/**
+	Sets the rotation (in radians).
+	*/
+	void setRotation(in double radians)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
+	}
+	/**
+	
+	*/
+	void setRotationDegrees(in double degrees)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
+	}
+	/**
+	
+	*/
+	void setScale(in Vector2 scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
+	}
+	/**
+	Sets the size (see $(D rectSize)).
+	If `keep_margins` is `true`, control's anchors will be updated instead of margins.
+	*/
+	void setSize(in Vector2 size, in bool keep_margins = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size, keep_margins);
+	}
+	/**
+	
+	*/
+	void setStretchRatio(in double ratio)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchRatio, _godot_object, ratio);
+	}
+	/**
+	
+	*/
+	void setTheme(Theme theme)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTheme, _godot_object, theme);
+	}
+	/**
+	
+	*/
+	void setTooltip(in String tooltip)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTooltip, _godot_object, tooltip);
+	}
+	/**
+	
+	*/
+	void setVGrowDirection(in long direction)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVGrowDirection, _godot_object, direction);
+	}
+	/**
+	
+	*/
+	void setVSizeFlags(in long flags)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVSizeFlags, _godot_object, flags);
+	}
+	/**
+	Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
+	If `exclusive` is `true`, other controls will not receive input and clicking outside this control will not close it.
+	*/
+	void showModal(in bool exclusive = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.showModal, _godot_object, exclusive);
+	}
+	/**
+	Moves the mouse cursor to `to_position`, relative to $(D rectPosition) of this $(D Control).
 	*/
 	void warpMouse(in Vector2 to_position)
 	{
@@ -1457,69 +1582,7 @@ public:
 		ptrcall!(void)(_classBinding.warpMouse, _godot_object, to_position);
 	}
 	/**
-	
-	*/
-	void minimumSizeChanged()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.minimumSizeChanged, _godot_object);
-	}
-	/**
-	
-	*/
-	void _themeChanged()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_theme_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _overrideChanged()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_override_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Anchors the left edge of the node to the origin, the center or the end of its parent control. It changes how the left margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience.Default value: `ANCHOR_BEGIN`.
-	*/
-	@property double anchorLeft()
-	{
-		return getAnchor(0);
-	}
-	/// ditto
-	@property void anchorLeft(double v)
-	{
-		_setAnchor(0, v);
-	}
-	/**
-	Anchors the top edge of the node to the origin, the center or the end of its parent control. It changes how the top margin updates when the node moves or changes size. You can use  one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
-	*/
-	@property double anchorTop()
-	{
-		return getAnchor(1);
-	}
-	/// ditto
-	@property void anchorTop(double v)
-	{
-		_setAnchor(1, v);
-	}
-	/**
-	Anchors the right edge of the node to the origin, the center or the end of its parent control. It changes how the right margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
-	*/
-	@property double anchorRight()
-	{
-		return getAnchor(2);
-	}
-	/// ditto
-	@property void anchorRight(double v)
-	{
-		_setAnchor(2, v);
-	}
-	/**
-	Anchors the bottom edge of the node to the origin, the center, or the end of its parent control. It changes how the bottom margin updates when the node moves or changes size. You can use one of the `ANCHOR_*` constants for convenience. Default value: `ANCHOR_BEGIN`.
+	Anchors the bottom edge of the node to the origin, the center, or the end of its parent control. It changes how the bottom margin updates when the node moves or changes size. You can use one of the $(D anchor) constants for convenience.
 	*/
 	@property double anchorBottom()
 	{
@@ -1531,188 +1594,64 @@ public:
 		_setAnchor(3, v);
 	}
 	/**
-	Distance between the node's left edge and its parent control, based on $(D anchorLeft).
-	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	Anchors the left edge of the node to the origin, the center or the end of its parent control. It changes how the left margin updates when the node moves or changes size. You can use one of the $(D anchor) constants for convenience.
 	*/
-	@property double marginLeft()
+	@property double anchorLeft()
 	{
-		return getMargin(0);
+		return getAnchor(0);
 	}
 	/// ditto
-	@property void marginLeft(double v)
+	@property void anchorLeft(double v)
 	{
-		setMargin(0, v);
+		_setAnchor(0, v);
 	}
 	/**
-	Distance between the node's top edge and its parent control, based on $(D anchorTop).
-	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	Anchors the right edge of the node to the origin, the center or the end of its parent control. It changes how the right margin updates when the node moves or changes size. You can use one of the $(D anchor) constants for convenience.
 	*/
-	@property double marginTop()
+	@property double anchorRight()
 	{
-		return getMargin(1);
+		return getAnchor(2);
 	}
 	/// ditto
-	@property void marginTop(double v)
+	@property void anchorRight(double v)
 	{
-		setMargin(1, v);
+		_setAnchor(2, v);
 	}
 	/**
-	Distance between the node's right edge and its parent control, based on $(D anchorRight).
-	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	Anchors the top edge of the node to the origin, the center or the end of its parent control. It changes how the top margin updates when the node moves or changes size. You can use  one of the $(D anchor) constants for convenience.
 	*/
-	@property double marginRight()
+	@property double anchorTop()
 	{
-		return getMargin(2);
+		return getAnchor(1);
 	}
 	/// ditto
-	@property void marginRight(double v)
+	@property void anchorTop(double v)
 	{
-		setMargin(2, v);
+		_setAnchor(1, v);
 	}
 	/**
-	Distance between the node's bottom edge and its parent control, based on $(D anchorBottom).
-	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	The focus access mode for the control (None, Click or All). Only one Control can be focused at the same time, and it will receive keyboard signals.
 	*/
-	@property double marginBottom()
+	@property Control.FocusMode focusMode()
 	{
-		return getMargin(3);
+		return getFocusMode();
 	}
 	/// ditto
-	@property void marginBottom(double v)
+	@property void focusMode(long v)
 	{
-		setMargin(3, v);
+		setFocusMode(v);
 	}
 	/**
-	Controls the direction on the horizontal axis in which the control should grow if its horizontal minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
+	Tells Godot which node it should give keyboard focus to if the user presses the down arrow on the keyboard or down on a gamepad by default. You can change the key by editing the `ui_down` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
-	@property Control.GrowDirection growHorizontal()
+	@property NodePath focusNeighbourBottom()
 	{
-		return getHGrowDirection();
+		return getFocusNeighbour(3);
 	}
 	/// ditto
-	@property void growHorizontal(long v)
+	@property void focusNeighbourBottom(NodePath v)
 	{
-		setHGrowDirection(v);
-	}
-	/**
-	Controls the direction on the vertical axis in which the control should grow if its vertical minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
-	*/
-	@property Control.GrowDirection growVertical()
-	{
-		return getVGrowDirection();
-	}
-	/// ditto
-	@property void growVertical(long v)
-	{
-		setVGrowDirection(v);
-	}
-	/**
-	The node's position, relative to its parent. It corresponds to the rectangle's top-left corner. The property is not affected by $(D rectPivotOffset).
-	*/
-	@property Vector2 rectPosition()
-	{
-		return getPosition();
-	}
-	/// ditto
-	@property void rectPosition(Vector2 v)
-	{
-		setPosition(v);
-	}
-	/**
-	The node's global position, relative to the world (usually to the top-left corner of the window).
-	*/
-	@property Vector2 rectGlobalPosition()
-	{
-		return getGlobalPosition();
-	}
-	/// ditto
-	@property void rectGlobalPosition(Vector2 v)
-	{
-		setGlobalPosition(v);
-	}
-	/**
-	The size of the node's bounding rectangle, in pixels. $(D Container) nodes update this property automatically.
-	*/
-	@property Vector2 rectSize()
-	{
-		return getSize();
-	}
-	/// ditto
-	@property void rectSize(Vector2 v)
-	{
-		setSize(v);
-	}
-	/**
-	The minimum size of the node's bounding rectangle. If you set it to a value greater than (0, 0), the node's bounding rectangle will always have at least this size, even if its content is smaller. If it's set to (0, 0), the node sizes automatically to fit its content, be it a texture or child nodes.
-	*/
-	@property Vector2 rectMinSize()
-	{
-		return getCustomMinimumSize();
-	}
-	/// ditto
-	@property void rectMinSize(Vector2 v)
-	{
-		setCustomMinimumSize(v);
-	}
-	/**
-	The node's rotation around its pivot, in degrees. See $(D rectPivotOffset) to change the pivot's position.
-	*/
-	@property double rectRotation()
-	{
-		return getRotationDegrees();
-	}
-	/// ditto
-	@property void rectRotation(double v)
-	{
-		setRotationDegrees(v);
-	}
-	/**
-	The node's scale, relative to its $(D rectSize). Change this property to scale the node around its $(D rectPivotOffset).
-	*/
-	@property Vector2 rectScale()
-	{
-		return getScale();
-	}
-	/// ditto
-	@property void rectScale(Vector2 v)
-	{
-		setScale(v);
-	}
-	/**
-	By default, the node's pivot is its top-left corner. When you change its $(D rectScale), it will scale around this pivot. Set this property to $(D rectSize) / 2 to center the pivot in the node's rectangle.
-	*/
-	@property Vector2 rectPivotOffset()
-	{
-		return getPivotOffset();
-	}
-	/// ditto
-	@property void rectPivotOffset(Vector2 v)
-	{
-		setPivotOffset(v);
-	}
-	/**
-	Enables whether rendering of children should be clipped to this control's rectangle. If `true`, parts of a child which would be visibly outside of this control's rectangle will not be rendered.
-	*/
-	@property bool rectClipContent()
-	{
-		return isClippingContents();
-	}
-	/// ditto
-	@property void rectClipContent(bool v)
-	{
-		setClipContents(v);
-	}
-	/**
-	Changes the tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments, provided that the $(D mouseFilter) property is not $(D constant MOUSE_FILTER_IGNORE).
-	*/
-	@property String hintTooltip()
-	{
-		return _getTooltip();
-	}
-	/// ditto
-	@property void hintTooltip(String v)
-	{
-		setTooltip(v);
+		setFocusNeighbour(3, v);
 	}
 	/**
 	Tells Godot which node it should give keyboard focus to if the user presses the left arrow on the keyboard or left on a gamepad by default. You can change the key by editing the `ui_left` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the left of this one.
@@ -1727,18 +1666,6 @@ public:
 		setFocusNeighbour(0, v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses the top arrow on the keyboard or top on a gamepad by default. You can change the key by editing the `ui_top` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
-	*/
-	@property NodePath focusNeighbourTop()
-	{
-		return getFocusNeighbour(1);
-	}
-	/// ditto
-	@property void focusNeighbourTop(NodePath v)
-	{
-		setFocusNeighbour(1, v);
-	}
-	/**
 	Tells Godot which node it should give keyboard focus to if the user presses the right arrow on the keyboard or right on a gamepad  by default. You can change the key by editing the `ui_right` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
 	@property NodePath focusNeighbourRight()
@@ -1751,16 +1678,16 @@ public:
 		setFocusNeighbour(2, v);
 	}
 	/**
-	Tells Godot which node it should give keyboard focus to if the user presses the down arrow on the keyboard or down on a gamepad by default. You can change the key by editing the `ui_down` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
+	Tells Godot which node it should give keyboard focus to if the user presses the top arrow on the keyboard or top on a gamepad by default. You can change the key by editing the `ui_top` input action. The node must be a $(D Control). If this property is not set, Godot will give focus to the closest $(D Control) to the bottom of this one.
 	*/
-	@property NodePath focusNeighbourBottom()
+	@property NodePath focusNeighbourTop()
 	{
-		return getFocusNeighbour(3);
+		return getFocusNeighbour(1);
 	}
 	/// ditto
-	@property void focusNeighbourBottom(NodePath v)
+	@property void focusNeighbourTop(NodePath v)
 	{
-		setFocusNeighbour(3, v);
+		setFocusNeighbour(1, v);
 	}
 	/**
 	Tells Godot which node it should give keyboard focus to if the user presses Tab on a keyboard by default. You can change the key by editing the `ui_focus_next` input action.
@@ -1789,28 +1716,92 @@ public:
 		setFocusPrevious(v);
 	}
 	/**
-	The focus access mode for the control (None, Click or All). Only one Control can be focused at the same time, and it will receive keyboard signals.
+	Controls the direction on the horizontal axis in which the control should grow if its horizontal minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
 	*/
-	@property Control.FocusMode focusMode()
+	@property Control.GrowDirection growHorizontal()
 	{
-		return getFocusMode();
+		return getHGrowDirection();
 	}
 	/// ditto
-	@property void focusMode(long v)
+	@property void growHorizontal(long v)
 	{
-		setFocusMode(v);
+		setHGrowDirection(v);
 	}
 	/**
-	Controls whether the control will be able to receive mouse button input events through $(D _guiInput) and how these events should be handled. Also controls whether the control can receive the $(D mouseEntered), and $(D mouseExited) signals. See the constants to learn what each does.
+	Controls the direction on the vertical axis in which the control should grow if its vertical minimum size is changed to be greater than its current size, as the control always has to be at least the minimum size.
 	*/
-	@property Control.MouseFilter mouseFilter()
+	@property Control.GrowDirection growVertical()
 	{
-		return getMouseFilter();
+		return getVGrowDirection();
 	}
 	/// ditto
-	@property void mouseFilter(long v)
+	@property void growVertical(long v)
 	{
-		setMouseFilter(v);
+		setVGrowDirection(v);
+	}
+	/**
+	Changes the tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments, provided that the $(D mouseFilter) property is not $(D constant MOUSE_FILTER_IGNORE). You can change the time required for the tooltip to appear with `gui/timers/tooltip_delay_sec` option in Project Settings.
+	*/
+	@property String hintTooltip()
+	{
+		return _getTooltip();
+	}
+	/// ditto
+	@property void hintTooltip(String v)
+	{
+		setTooltip(v);
+	}
+	/**
+	Distance between the node's bottom edge and its parent control, based on $(D anchorBottom).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	*/
+	@property double marginBottom()
+	{
+		return getMargin(3);
+	}
+	/// ditto
+	@property void marginBottom(double v)
+	{
+		setMargin(3, v);
+	}
+	/**
+	Distance between the node's left edge and its parent control, based on $(D anchorLeft).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	*/
+	@property double marginLeft()
+	{
+		return getMargin(0);
+	}
+	/// ditto
+	@property void marginLeft(double v)
+	{
+		setMargin(0, v);
+	}
+	/**
+	Distance between the node's right edge and its parent control, based on $(D anchorRight).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	*/
+	@property double marginRight()
+	{
+		return getMargin(2);
+	}
+	/// ditto
+	@property void marginRight(double v)
+	{
+		setMargin(2, v);
+	}
+	/**
+	Distance between the node's top edge and its parent control, based on $(D anchorTop).
+	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
+	*/
+	@property double marginTop()
+	{
+		return getMargin(1);
+	}
+	/// ditto
+	@property void marginTop(double v)
+	{
+		setMargin(1, v);
 	}
 	/**
 	The default cursor shape for this control. Useful for Godot plugins and applications or games that use the system's mouse cursors.
@@ -1826,7 +1817,115 @@ public:
 		setDefaultCursorShape(v);
 	}
 	/**
-	Tells the parent $(D Container) nodes how they should resize and place the node on the X axis. Use one of the `SIZE_*` constants to change the flags. See the constants to learn what each does.
+	Controls whether the control will be able to receive mouse button input events through $(D _guiInput) and how these events should be handled. Also controls whether the control can receive the $(D mouseEntered), and $(D mouseExited) signals. See the constants to learn what each does.
+	*/
+	@property Control.MouseFilter mouseFilter()
+	{
+		return getMouseFilter();
+	}
+	/// ditto
+	@property void mouseFilter(long v)
+	{
+		setMouseFilter(v);
+	}
+	/**
+	Enables whether rendering of children should be clipped to this control's rectangle. If `true`, parts of a child which would be visibly outside of this control's rectangle will not be rendered.
+	*/
+	@property bool rectClipContent()
+	{
+		return isClippingContents();
+	}
+	/// ditto
+	@property void rectClipContent(bool v)
+	{
+		setClipContents(v);
+	}
+	/**
+	The node's global position, relative to the world (usually to the top-left corner of the window).
+	*/
+	@property Vector2 rectGlobalPosition()
+	{
+		return getGlobalPosition();
+	}
+	/// ditto
+	@property void rectGlobalPosition(Vector2 v)
+	{
+		_setGlobalPosition(v);
+	}
+	/**
+	The minimum size of the node's bounding rectangle. If you set it to a value greater than (0, 0), the node's bounding rectangle will always have at least this size, even if its content is smaller. If it's set to (0, 0), the node sizes automatically to fit its content, be it a texture or child nodes.
+	*/
+	@property Vector2 rectMinSize()
+	{
+		return getCustomMinimumSize();
+	}
+	/// ditto
+	@property void rectMinSize(Vector2 v)
+	{
+		setCustomMinimumSize(v);
+	}
+	/**
+	By default, the node's pivot is its top-left corner. When you change its $(D rectScale), it will scale around this pivot. Set this property to $(D rectSize) / 2 to center the pivot in the node's rectangle.
+	*/
+	@property Vector2 rectPivotOffset()
+	{
+		return getPivotOffset();
+	}
+	/// ditto
+	@property void rectPivotOffset(Vector2 v)
+	{
+		setPivotOffset(v);
+	}
+	/**
+	The node's position, relative to its parent. It corresponds to the rectangle's top-left corner. The property is not affected by $(D rectPivotOffset).
+	*/
+	@property Vector2 rectPosition()
+	{
+		return getPosition();
+	}
+	/// ditto
+	@property void rectPosition(Vector2 v)
+	{
+		_setPosition(v);
+	}
+	/**
+	The node's rotation around its pivot, in degrees. See $(D rectPivotOffset) to change the pivot's position.
+	*/
+	@property double rectRotation()
+	{
+		return getRotationDegrees();
+	}
+	/// ditto
+	@property void rectRotation(double v)
+	{
+		setRotationDegrees(v);
+	}
+	/**
+	The node's scale, relative to its $(D rectSize). Change this property to scale the node around its $(D rectPivotOffset).
+	*/
+	@property Vector2 rectScale()
+	{
+		return getScale();
+	}
+	/// ditto
+	@property void rectScale(Vector2 v)
+	{
+		setScale(v);
+	}
+	/**
+	The size of the node's bounding rectangle, in pixels. $(D Container) nodes update this property automatically.
+	*/
+	@property Vector2 rectSize()
+	{
+		return getSize();
+	}
+	/// ditto
+	@property void rectSize(Vector2 v)
+	{
+		_setSize(v);
+	}
+	/**
+	Tells the parent $(D Container) nodes how they should resize and place the node on the X axis. Use one of the $(D sizeflags) constants to change the flags. See the constants to learn what each does.
 	*/
 	@property long sizeFlagsHorizontal()
 	{
@@ -1838,19 +1937,7 @@ public:
 		setHSizeFlags(v);
 	}
 	/**
-	Tells the parent $(D Container) nodes how they should resize and place the node on the Y axis. Use one of the `SIZE_*` constants to change the flags. See the constants to learn what each does.
-	*/
-	@property long sizeFlagsVertical()
-	{
-		return getVSizeFlags();
-	}
-	/// ditto
-	@property void sizeFlagsVertical(long v)
-	{
-		setVSizeFlags(v);
-	}
-	/**
-	If the node and at least one of its neighbours uses the `SIZE_EXPAND` size flag, the parent $(D Container) will let it take more or less space depending on this property. If this node has a stretch ratio of 2 and its neighbour a ratio of 1, this node will take two thirds of the available space.
+	If the node and at least one of its neighbours uses the $(D constant SIZE_EXPAND) size flag, the parent $(D Container) will let it take more or less space depending on this property. If this node has a stretch ratio of 2 and its neighbour a ratio of 1, this node will take two thirds of the available space.
 	*/
 	@property double sizeFlagsStretchRatio()
 	{
@@ -1860,6 +1947,18 @@ public:
 	@property void sizeFlagsStretchRatio(double v)
 	{
 		setStretchRatio(v);
+	}
+	/**
+	Tells the parent $(D Container) nodes how they should resize and place the node on the Y axis. Use one of the $(D sizeflags) constants to change the flags. See the constants to learn what each does.
+	*/
+	@property long sizeFlagsVertical()
+	{
+		return getVSizeFlags();
+	}
+	/// ditto
+	@property void sizeFlagsVertical(long v)
+	{
+		setVSizeFlags(v);
 	}
 	/**
 	Changing this property replaces the current $(D Theme) resource this node and all its $(D Control) children use.

@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.container;
-import godot.inputevent;
 import godot.control;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
 /**
 Control for holding $(D Viewport)s.
 
@@ -42,12 +42,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
 		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
-		@GodotName("set_stretch") GodotMethod!(void, bool) setStretch;
-		@GodotName("is_stretch_enabled") GodotMethod!(bool) isStretchEnabled;
-		@GodotName("set_stretch_shrink") GodotMethod!(void, long) setStretchShrink;
+		@GodotName("_unhandled_input") GodotMethod!(void, InputEvent) _unhandledInput;
 		@GodotName("get_stretch_shrink") GodotMethod!(long) getStretchShrink;
+		@GodotName("is_stretch_enabled") GodotMethod!(bool) isStretchEnabled;
+		@GodotName("set_stretch") GodotMethod!(void, bool) setStretch;
+		@GodotName("set_stretch_shrink") GodotMethod!(void, long) setStretchShrink;
 	}
 	bool opEquals(in ViewportContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ViewportContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,19 +64,9 @@ public:
 	/**
 	
 	*/
-	void _unhandledInput(InputEvent event)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(event);
-		String _GODOT_method_name = String("_unhandled_input");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	void _input(InputEvent event)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(event);
 		String _GODOT_method_name = String("_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -84,10 +74,20 @@ public:
 	/**
 	
 	*/
-	void setStretch(in bool enable)
+	void _unhandledInput(InputEvent event)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(event);
+		String _GODOT_method_name = String("_unhandled_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	long getStretchShrink() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretch, _godot_object, enable);
+		return ptrcall!(long)(_classBinding.getStretchShrink, _godot_object);
 	}
 	/**
 	
@@ -100,21 +100,21 @@ public:
 	/**
 	
 	*/
+	void setStretch(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretch, _godot_object, enable);
+	}
+	/**
+	
+	*/
 	void setStretchShrink(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setStretchShrink, _godot_object, amount);
 	}
 	/**
-	
-	*/
-	long getStretchShrink() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStretchShrink, _godot_object);
-	}
-	/**
-	If `true`, the viewport will be scaled to the control's size. Default value:`false`.
+	If `true`, the viewport will be scaled to the control's size.
 	*/
 	@property bool stretch()
 	{
@@ -126,7 +126,9 @@ public:
 		setStretch(v);
 	}
 	/**
-	
+	Divides the viewport's effective resolution by this value while preserving its scale. This can be used to speed up rendering.
+	For example, a 1280×720 viewport with $(D stretchShrink) set to `2` will be rendered at 640×360 while occupying the same size in the container.
+	$(B Note:) $(D stretch) must be `true` for this property to work.
 	*/
 	@property long stretchShrink()
 	{

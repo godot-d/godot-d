@@ -37,9 +37,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("resume") GodotMethod!(Variant, Variant) resume;
-		@GodotName("is_valid") GodotMethod!(bool, bool) isValid;
 		@GodotName("_signal_callback") GodotMethod!(Variant, GodotVarArgs) _signalCallback;
+		@GodotName("is_valid") GodotMethod!(bool, bool) isValid;
+		@GodotName("resume") GodotMethod!(Variant, Variant) resume;
 	}
 	bool opEquals(in GDScriptFunctionState other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDScriptFunctionState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,14 +54,17 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Resume execution of the yielded function call.
-	If handed an argument, return the argument from the $(D @GDScript.yield) call in the yielded function call. You can pass e.g. an $(D Array) to hand multiple arguments.
-	This function returns what the resumed function call returns, possibly another function state if yielded again.
+	
 	*/
-	Variant resume(VariantArg0)(in VariantArg0 arg = Variant.nil)
+	Variant _signalCallback(VarArgs...)(VarArgs varArgs)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.resume, _godot_object, arg);
+		Array _GODOT_args = Array.make();
+		foreach(vai, VA; VarArgs)
+		{
+			_GODOT_args.append(varArgs[vai]);
+		}
+		String _GODOT_method_name = String("_signal_callback");
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Check whether the function call may be resumed. This is not the case if the function state was already resumed.
@@ -73,16 +76,13 @@ public:
 		return ptrcall!(bool)(_classBinding.isValid, _godot_object, extended_check);
 	}
 	/**
-	
+	Resume execution of the yielded function call.
+	If handed an argument, return the argument from the $(D @GDScript.yield) call in the yielded function call. You can pass e.g. an $(D Array) to hand multiple arguments.
+	This function returns what the resumed function call returns, possibly another function state if yielded again.
 	*/
-	Variant _signalCallback(VarArgs...)(VarArgs varArgs)
+	Variant resume(VariantArg0)(in VariantArg0 arg = Variant.nil)
 	{
-		Array _GODOT_args = Array.empty_array;
-		foreach(vai, VA; VarArgs)
-		{
-			_GODOT_args.append(varArgs[vai]);
-		}
-		String _GODOT_method_name = String("_signal_callback");
-		return this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.resume, _godot_object, arg);
 	}
 }

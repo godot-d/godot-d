@@ -1,5 +1,5 @@
 /**
-Base class for GUI Sliders.
+Base class for GUI sliders.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,12 +20,12 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.range;
-import godot.inputevent;
 import godot.control;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
 /**
-Base class for GUI Sliders.
+Base class for GUI sliders.
 
 
 */
@@ -42,14 +42,14 @@ public:
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("set_ticks") GodotMethod!(void, long) setTicks;
 		@GodotName("get_ticks") GodotMethod!(long) getTicks;
 		@GodotName("get_ticks_on_borders") GodotMethod!(bool) getTicksOnBorders;
-		@GodotName("set_ticks_on_borders") GodotMethod!(void, bool) setTicksOnBorders;
-		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
 		@GodotName("is_editable") GodotMethod!(bool) isEditable;
-		@GodotName("set_scrollable") GodotMethod!(void, bool) setScrollable;
 		@GodotName("is_scrollable") GodotMethod!(bool) isScrollable;
+		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
+		@GodotName("set_scrollable") GodotMethod!(void, bool) setScrollable;
+		@GodotName("set_ticks") GodotMethod!(void, long) setTicks;
+		@GodotName("set_ticks_on_borders") GodotMethod!(void, bool) setTicksOnBorders;
 	}
 	bool opEquals(in Slider other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Slider opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -68,18 +68,10 @@ public:
 	*/
 	void _guiInput(InputEvent arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_gui_input");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void setTicks(in long count)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTicks, _godot_object, count);
 	}
 	/**
 	
@@ -100,10 +92,18 @@ public:
 	/**
 	
 	*/
-	void setTicksOnBorders(in bool ticks_on_border)
+	bool isEditable() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTicksOnBorders, _godot_object, ticks_on_border);
+		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isScrollable() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isScrollable, _godot_object);
 	}
 	/**
 	
@@ -116,14 +116,6 @@ public:
 	/**
 	
 	*/
-	bool isEditable() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
-	}
-	/**
-	
-	*/
 	void setScrollable(in bool scrollable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -132,10 +124,18 @@ public:
 	/**
 	
 	*/
-	bool isScrollable() const
+	void setTicks(in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollable, _godot_object);
+		ptrcall!(void)(_classBinding.setTicks, _godot_object, count);
+	}
+	/**
+	
+	*/
+	void setTicksOnBorders(in bool ticks_on_border)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTicksOnBorders, _godot_object, ticks_on_border);
 	}
 	/**
 	If `true`, the slider can be interacted with. If `false`, the value can be changed only by code.
@@ -184,17 +184,5 @@ public:
 	@property void ticksOnBorders(bool v)
 	{
 		setTicksOnBorders(v);
-	}
-	/**
-	
-	*/
-	@property Control.FocusMode focusMode()
-	{
-		return getFocusMode();
-	}
-	/// ditto
-	@property void focusMode(long v)
-	{
-		setFocusMode(v);
 	}
 }

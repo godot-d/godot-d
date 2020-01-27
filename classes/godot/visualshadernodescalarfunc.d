@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_function") GodotMethod!(void, long) setFunction;
 		@GodotName("get_function") GodotMethod!(VisualShaderNodeScalarFunc.Function) getFunction;
+		@GodotName("set_function") GodotMethod!(void, long) setFunction;
 	}
 	bool opEquals(in VisualShaderNodeScalarFunc other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeScalarFunc opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -136,6 +136,54 @@ public:
 		
 		*/
 		funcNegate = 19,
+		/**
+		
+		*/
+		funcAcosh = 20,
+		/**
+		
+		*/
+		funcAsinh = 21,
+		/**
+		
+		*/
+		funcAtanh = 22,
+		/**
+		
+		*/
+		funcDegrees = 23,
+		/**
+		
+		*/
+		funcExp2 = 24,
+		/**
+		
+		*/
+		funcInverseSqrt = 25,
+		/**
+		
+		*/
+		funcLog2 = 26,
+		/**
+		
+		*/
+		funcRadians = 27,
+		/**
+		
+		*/
+		funcReciprocal = 28,
+		/**
+		
+		*/
+		funcRoundeven = 29,
+		/**
+		
+		*/
+		funcTrunc = 30,
+		/**
+		
+		*/
+		funcOneminus = 31,
 	}
 	/// 
 	enum Constants : int
@@ -160,14 +208,18 @@ public:
 		funcFrac = 17,
 		funcSaturate = 18,
 		funcNegate = 19,
-	}
-	/**
-	
-	*/
-	void setFunction(in long func)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, func);
+		funcAcosh = 20,
+		funcAsinh = 21,
+		funcAtanh = 22,
+		funcDegrees = 23,
+		funcExp2 = 24,
+		funcInverseSqrt = 25,
+		funcLog2 = 26,
+		funcRadians = 27,
+		funcReciprocal = 28,
+		funcRoundeven = 29,
+		funcTrunc = 30,
+		funcOneminus = 31,
 	}
 	/**
 	
@@ -176,6 +228,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualShaderNodeScalarFunc.Function)(_classBinding.getFunction, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFunction(in long func)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunction, _godot_object, func);
 	}
 	/**
 	

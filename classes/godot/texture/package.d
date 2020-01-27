@@ -20,13 +20,14 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.image;
 import godot.reference;
+import godot.image;
 /**
 Texture for 2D and 3D.
 
 A texture works by registering an image in the video hardware, which then can be used in 3D models or 2D $(D Sprite) or GUI $(D Control).
 Textures are often created by loading them from a file. See $(D @GDScript.load).
+$(D Texture) is a base for other resources. It cannot be used directly.
 */
 @GodotBaseClass struct Texture
 {
@@ -40,16 +41,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_width") GodotMethod!(long) getWidth;
-		@GodotName("get_height") GodotMethod!(long) getHeight;
-		@GodotName("get_size") GodotMethod!(Vector2) getSize;
-		@GodotName("has_alpha") GodotMethod!(bool) hasAlpha;
-		@GodotName("set_flags") GodotMethod!(void, long) setFlags;
-		@GodotName("get_flags") GodotMethod!(long) getFlags;
 		@GodotName("draw") GodotMethod!(void, RID, Vector2, Color, bool, Texture) draw;
 		@GodotName("draw_rect") GodotMethod!(void, RID, Rect2, bool, Color, bool, Texture) drawRect;
 		@GodotName("draw_rect_region") GodotMethod!(void, RID, Rect2, Rect2, Color, bool, Texture, bool) drawRectRegion;
 		@GodotName("get_data") GodotMethod!(Image) getData;
+		@GodotName("get_flags") GodotMethod!(long) getFlags;
+		@GodotName("get_height") GodotMethod!(long) getHeight;
+		@GodotName("get_size") GodotMethod!(Vector2) getSize;
+		@GodotName("get_width") GodotMethod!(long) getWidth;
+		@GodotName("has_alpha") GodotMethod!(bool) hasAlpha;
+		@GodotName("set_flags") GodotMethod!(void, long) setFlags;
 	}
 	bool opEquals(in Texture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Texture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,32 +68,32 @@ public:
 	enum Flags : int
 	{
 		/**
-		Generate mipmaps, which are smaller versions of the same texture to use when zoomed out, keeping the aspect ratio.
+		Generates mipmaps, which are smaller versions of the same texture to use when zoomed out, keeping the aspect ratio.
 		*/
 		flagMipmaps = 1,
 		/**
-		Repeats texture (instead of clamp to edge).
+		Repeats the texture (instead of clamp to edge).
 		*/
 		flagRepeat = 2,
 		/**
-		Magnifying filter, to enable smooth zooming in of the texture.
+		Uses a magnifying filter, to enable smooth zooming in of the texture.
 		*/
 		flagFilter = 4,
 		/**
-		Default flags. Generate mipmaps, repeat, and filter are enabled.
+		Default flags. $(D constant FLAG_MIPMAPS), $(D constant FLAG_REPEAT) and $(D constant FLAG_FILTER) are enabled.
 		*/
 		flagsDefault = 7,
 		/**
-		Anisotropic mipmap filtering. Generates smaller versions of the same texture with different aspect ratios.
-		More effective on planes often shown going to the horrizon as those textures (Walls or Ground for example) get squashed in the viewport to different aspect ratios and regular mipmaps keep the aspect ratio so they don't optimize storage that well in those cases.
+		Uses anisotropic mipmap filtering. Generates smaller versions of the same texture with different aspect ratios.
+		This results in better-looking textures when viewed from oblique angles.
 		*/
 		flagAnisotropicFilter = 8,
 		/**
-		Converts texture to SRGB color space.
+		Converts the texture to the sRGB color space.
 		*/
 		flagConvertToLinear = 16,
 		/**
-		Repeats texture with alternate sections mirrored.
+		Repeats the texture with alternate sections mirrored.
 		*/
 		flagMirroredRepeat = 32,
 		/**
@@ -113,15 +114,47 @@ public:
 		flagVideoSurface = 2048,
 	}
 	/**
-	Return the texture width.
+	Draws the texture using a $(D CanvasItem) with the $(D VisualServer) API at the specified `position`. Equivalent to $(D VisualServer.canvasItemAddTextureRect) with a rect at `position` and the size of this $(D Texture).
 	*/
-	long getWidth() const
+	void draw(in RID canvas_item, in Vector2 position, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
+		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, modulate, transpose, normal_map);
 	}
 	/**
-	Return the texture height.
+	Draws the texture using a $(D CanvasItem) with the $(D VisualServer) API. Equivalent to $(D VisualServer.canvasItemAddTextureRect).
+	*/
+	void drawRect(in RID canvas_item, in Rect2 rect, in bool tile, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawRect, _godot_object, canvas_item, rect, tile, modulate, transpose, normal_map);
+	}
+	/**
+	Draws a part of the texture using a $(D CanvasItem) with the $(D VisualServer) API. Equivalent to $(D VisualServer.canvasItemAddTextureRectRegion).
+	*/
+	void drawRectRegion(in RID canvas_item, in Rect2 rect, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init, in bool clip_uv = true) const
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.drawRectRegion, _godot_object, canvas_item, rect, src_rect, modulate, transpose, normal_map, clip_uv);
+	}
+	/**
+	Returns an $(D Image) with the data from this $(D Texture). $(D Image)s can be accessed and manipulated directly.
+	*/
+	Ref!Image getData() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Image)(_classBinding.getData, _godot_object);
+	}
+	/**
+	
+	*/
+	long getFlags() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
+	}
+	/**
+	Returns the texture height.
 	*/
 	long getHeight() const
 	{
@@ -129,7 +162,7 @@ public:
 		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
 	}
 	/**
-	Return the texture size.
+	Returns the texture size.
 	*/
 	Vector2 getSize() const
 	{
@@ -137,7 +170,15 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
 	/**
-	
+	Returns the texture width.
+	*/
+	long getWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
+	}
+	/**
+	Returns `true` if this $(D Texture) has an alpha channel.
 	*/
 	bool hasAlpha() const
 	{
@@ -153,47 +194,7 @@ public:
 		ptrcall!(void)(_classBinding.setFlags, _godot_object, flags);
 	}
 	/**
-	
-	*/
-	long getFlags() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
-	}
-	/**
-	
-	*/
-	void draw(in RID canvas_item, in Vector2 position, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, modulate, transpose, normal_map);
-	}
-	/**
-	
-	*/
-	void drawRect(in RID canvas_item, in Rect2 rect, in bool tile, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawRect, _godot_object, canvas_item, rect, tile, modulate, transpose, normal_map);
-	}
-	/**
-	
-	*/
-	void drawRectRegion(in RID canvas_item, in Rect2 rect, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init, in bool clip_uv = true) const
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawRectRegion, _godot_object, canvas_item, rect, src_rect, modulate, transpose, normal_map, clip_uv);
-	}
-	/**
-	
-	*/
-	Ref!Image getData() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getData, _godot_object);
-	}
-	/**
-	The texture's flags.
+	The texture's $(D flags). $(D flags) are used to set various properties of the $(D Texture).
 	*/
 	@property long flags()
 	{

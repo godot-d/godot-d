@@ -1,5 +1,5 @@
 /**
-
+Joint used with $(D Skeleton2D) to control and animate other nodes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
+Joint used with $(D Skeleton2D) to control and animate other nodes.
 
+Use a hierarchy of `Bone2D` bound to a $(D Skeleton2D) to control, and animate other $(D Node2D) nodes.
+You can use `Bone2D` and `Skeleton2D` nodes to animate 2D meshes created with the Polygon 2D UV editor.
+Each bone has a $(D rest) transform that you can reset to with $(D applyRest). These rest poses are relative to the bone's parent.
+If in the editor, you can set the rest pose of an entire skeleton using a menu option, from the code, you need to iterate over the bones to set their individual rest poses.
 */
 @GodotBaseClass struct Bone2D
 {
@@ -38,13 +41,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_rest") GodotMethod!(void, Transform2D) setRest;
-		@GodotName("get_rest") GodotMethod!(Transform2D) getRest;
 		@GodotName("apply_rest") GodotMethod!(void) applyRest;
-		@GodotName("get_skeleton_rest") GodotMethod!(Transform2D) getSkeletonRest;
-		@GodotName("get_index_in_skeleton") GodotMethod!(long) getIndexInSkeleton;
-		@GodotName("set_default_length") GodotMethod!(void, double) setDefaultLength;
 		@GodotName("get_default_length") GodotMethod!(double) getDefaultLength;
+		@GodotName("get_index_in_skeleton") GodotMethod!(long) getIndexInSkeleton;
+		@GodotName("get_rest") GodotMethod!(Transform2D) getRest;
+		@GodotName("get_skeleton_rest") GodotMethod!(Transform2D) getSkeletonRest;
+		@GodotName("set_default_length") GodotMethod!(void, double) setDefaultLength;
+		@GodotName("set_rest") GodotMethod!(void, Transform2D) setRest;
 	}
 	bool opEquals(in Bone2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Bone2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,12 +62,28 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Stores the node's current transforms in $(D rest).
 	*/
-	void setRest(in Transform2D rest)
+	void applyRest()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRest, _godot_object, rest);
+		ptrcall!(void)(_classBinding.applyRest, _godot_object);
+	}
+	/**
+	
+	*/
+	double getDefaultLength() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getDefaultLength, _godot_object);
+	}
+	/**
+	Returns the node's index as part of the entire skeleton. See $(D Skeleton2D).
+	*/
+	long getIndexInSkeleton() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getIndexInSkeleton, _godot_object);
 	}
 	/**
 	
@@ -75,28 +94,12 @@ public:
 		return ptrcall!(Transform2D)(_classBinding.getRest, _godot_object);
 	}
 	/**
-	
-	*/
-	void applyRest()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyRest, _godot_object);
-	}
-	/**
-	
+	Returns the node's $(D rest) `Transform2D` if it doesn't have a parent, or its rest pose relative to its parent.
 	*/
 	Transform2D getSkeletonRest() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Transform2D)(_classBinding.getSkeletonRest, _godot_object);
-	}
-	/**
-	
-	*/
-	long getIndexInSkeleton() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIndexInSkeleton, _godot_object);
 	}
 	/**
 	
@@ -109,25 +112,13 @@ public:
 	/**
 	
 	*/
-	double getDefaultLength() const
+	void setRest(in Transform2D rest)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDefaultLength, _godot_object);
+		ptrcall!(void)(_classBinding.setRest, _godot_object, rest);
 	}
 	/**
-	
-	*/
-	@property Transform2D rest()
-	{
-		return getRest();
-	}
-	/// ditto
-	@property void rest(Transform2D v)
-	{
-		setRest(v);
-	}
-	/**
-	
+	Length of the bone's representation drawn in the editor's viewport in pixels.
 	*/
 	@property double defaultLength()
 	{
@@ -137,5 +128,17 @@ public:
 	@property void defaultLength(double v)
 	{
 		setDefaultLength(v);
+	}
+	/**
+	Rest transform of the bone. You can reset the node's transforms to this value using $(D applyRest).
+	*/
+	@property Transform2D rest()
+	{
+		return getRest();
+	}
+	/// ditto
+	@property void rest(Transform2D v)
+	{
+		setRest(v);
 	}
 }

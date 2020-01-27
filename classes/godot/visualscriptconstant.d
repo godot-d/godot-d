@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 Gets a contant's value.
 
@@ -44,10 +42,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_constant_type") GodotMethod!(void, long) setConstantType;
 		@GodotName("get_constant_type") GodotMethod!(Variant.Type) getConstantType;
-		@GodotName("set_constant_value") GodotMethod!(void, Variant) setConstantValue;
 		@GodotName("get_constant_value") GodotMethod!(Variant) getConstantValue;
+		@GodotName("set_constant_type") GodotMethod!(void, long) setConstantType;
+		@GodotName("set_constant_value") GodotMethod!(void, Variant) setConstantValue;
 	}
 	bool opEquals(in VisualScriptConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,14 +62,6 @@ public:
 	/**
 	
 	*/
-	void setConstantType(in long type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantType, _godot_object, type);
-	}
-	/**
-	
-	*/
 	Variant.Type getConstantType() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -80,18 +70,26 @@ public:
 	/**
 	
 	*/
-	void setConstantValue(VariantArg0)(in VariantArg0 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantValue, _godot_object, value);
-	}
-	/**
-	
-	*/
 	Variant getConstantValue() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.getConstantValue, _godot_object);
+	}
+	/**
+	
+	*/
+	void setConstantType(in long type)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstantType, _godot_object, type);
+	}
+	/**
+	
+	*/
+	void setConstantValue(VariantArg0)(in VariantArg0 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstantValue, _godot_object, value);
 	}
 	/**
 	The constant's type.

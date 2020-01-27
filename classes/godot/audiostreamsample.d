@@ -1,5 +1,5 @@
 /**
-Plays audio.
+Stores audio data loaded from WAV files.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,11 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.audiostream;
 import godot.resource;
-import godot.reference;
 /**
-Plays audio.
+Stores audio data loaded from WAV files.
 
-Plays audio, can loop.
+AudioStreamSample stores sound samples loaded from WAV files. To play the stored sound, use an $(D AudioStreamPlayer) (for non-positional audio) or $(D AudioStreamPlayer2D)/$(D AudioStreamPlayer3D) (for positional audio). The sound can be looped.
+This class can also be used to store dynamically-generated PCM audio data.
 */
 @GodotBaseClass struct AudioStreamSample
 {
@@ -40,21 +40,21 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_data") GodotMethod!(void, PoolByteArray) setData;
 		@GodotName("get_data") GodotMethod!(PoolByteArray) getData;
-		@GodotName("set_format") GodotMethod!(void, long) setFormat;
 		@GodotName("get_format") GodotMethod!(AudioStreamSample.Format) getFormat;
-		@GodotName("set_loop_mode") GodotMethod!(void, long) setLoopMode;
-		@GodotName("get_loop_mode") GodotMethod!(AudioStreamSample.LoopMode) getLoopMode;
-		@GodotName("set_loop_begin") GodotMethod!(void, long) setLoopBegin;
 		@GodotName("get_loop_begin") GodotMethod!(long) getLoopBegin;
-		@GodotName("set_loop_end") GodotMethod!(void, long) setLoopEnd;
 		@GodotName("get_loop_end") GodotMethod!(long) getLoopEnd;
-		@GodotName("set_mix_rate") GodotMethod!(void, long) setMixRate;
+		@GodotName("get_loop_mode") GodotMethod!(AudioStreamSample.LoopMode) getLoopMode;
 		@GodotName("get_mix_rate") GodotMethod!(long) getMixRate;
-		@GodotName("set_stereo") GodotMethod!(void, bool) setStereo;
 		@GodotName("is_stereo") GodotMethod!(bool) isStereo;
 		@GodotName("save_to_wav") GodotMethod!(GodotError, String) saveToWav;
+		@GodotName("set_data") GodotMethod!(void, PoolByteArray) setData;
+		@GodotName("set_format") GodotMethod!(void, long) setFormat;
+		@GodotName("set_loop_begin") GodotMethod!(void, long) setLoopBegin;
+		@GodotName("set_loop_end") GodotMethod!(void, long) setLoopEnd;
+		@GodotName("set_loop_mode") GodotMethod!(void, long) setLoopMode;
+		@GodotName("set_mix_rate") GodotMethod!(void, long) setMixRate;
+		@GodotName("set_stereo") GodotMethod!(void, bool) setStereo;
 	}
 	bool opEquals(in AudioStreamSample other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamSample opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -76,15 +76,15 @@ public:
 		*/
 		loopDisabled = 0,
 		/**
-		Audio loops the data between loop_begin and loop_end playing forward only.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing forward only.
 		*/
 		loopForward = 1,
 		/**
-		Audio loops the data between loop_begin and loop_end playing back and forth.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing back and forth.
 		*/
 		loopPingPong = 2,
 		/**
-		Audio loops the data between loop_begin and loop_end playing backward only.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing backward only.
 		*/
 		loopBackward = 3,
 	}
@@ -92,15 +92,15 @@ public:
 	enum Format : int
 	{
 		/**
-		Audio codec 8 bit.
+		8-bit audio codec.
 		*/
 		format8Bits = 0,
 		/**
-		Audio codec 16 bit.
+		16-bit audio codec.
 		*/
 		format16Bits = 1,
 		/**
-		Audio codec IMA ADPCM.
+		Audio is compressed using IMA ADPCM.
 		*/
 		formatImaAdpcm = 2,
 	}
@@ -118,26 +118,10 @@ public:
 	/**
 	
 	*/
-	void setData(in PoolByteArray data)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setData, _godot_object, data);
-	}
-	/**
-	
-	*/
 	PoolByteArray getData() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolByteArray)(_classBinding.getData, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFormat(in long format)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFormat, _godot_object, format);
 	}
 	/**
 	
@@ -150,42 +134,10 @@ public:
 	/**
 	
 	*/
-	void setLoopMode(in long loop_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopMode, _godot_object, loop_mode);
-	}
-	/**
-	
-	*/
-	AudioStreamSample.LoopMode getLoopMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample.LoopMode)(_classBinding.getLoopMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLoopBegin(in long loop_begin)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopBegin, _godot_object, loop_begin);
-	}
-	/**
-	
-	*/
 	long getLoopBegin() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getLoopBegin, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLoopEnd(in long loop_end)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopEnd, _godot_object, loop_end);
 	}
 	/**
 	
@@ -198,10 +150,10 @@ public:
 	/**
 	
 	*/
-	void setMixRate(in long mix_rate)
+	AudioStreamSample.LoopMode getLoopMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixRate, _godot_object, mix_rate);
+		return ptrcall!(AudioStreamSample.LoopMode)(_classBinding.getLoopMode, _godot_object);
 	}
 	/**
 	
@@ -214,14 +166,6 @@ public:
 	/**
 	
 	*/
-	void setStereo(in bool stereo)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStereo, _godot_object, stereo);
-	}
-	/**
-	
-	*/
 	bool isStereo() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -229,7 +173,7 @@ public:
 	}
 	/**
 	Saves the AudioStreamSample as a WAV file to `path`. Samples with IMA ADPCM format can't be saved.
-	Note that a `.wav` extension is automatically appended to `path` if it is missing.
+	$(B Note:) A `.wav` extension is automatically appended to `path` if it is missing.
 	*/
 	GodotError saveToWav(in String path)
 	{
@@ -237,7 +181,64 @@ public:
 		return ptrcall!(GodotError)(_classBinding.saveToWav, _godot_object, path);
 	}
 	/**
+	
+	*/
+	void setData(in PoolByteArray data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setData, _godot_object, data);
+	}
+	/**
+	
+	*/
+	void setFormat(in long format)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFormat, _godot_object, format);
+	}
+	/**
+	
+	*/
+	void setLoopBegin(in long loop_begin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopBegin, _godot_object, loop_begin);
+	}
+	/**
+	
+	*/
+	void setLoopEnd(in long loop_end)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopEnd, _godot_object, loop_end);
+	}
+	/**
+	
+	*/
+	void setLoopMode(in long loop_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLoopMode, _godot_object, loop_mode);
+	}
+	/**
+	
+	*/
+	void setMixRate(in long mix_rate)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMixRate, _godot_object, mix_rate);
+	}
+	/**
+	
+	*/
+	void setStereo(in bool stereo)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStereo, _godot_object, stereo);
+	}
+	/**
 	Contains the audio data in bytes.
+	$(B Note:) This property expects signed PCM8 data. To convert unsigned PCM8 to signed PCM8, subtract 128 from each byte.
 	*/
 	@property PoolByteArray data()
 	{
@@ -249,7 +250,7 @@ public:
 		setData(v);
 	}
 	/**
-	Audio format. See FORMAT_* constants for values.
+	Audio format. See $(D format) constants for values.
 	*/
 	@property AudioStreamSample.Format format()
 	{
@@ -259,18 +260,6 @@ public:
 	@property void format(long v)
 	{
 		setFormat(v);
-	}
-	/**
-	Loop mode. See LOOP_* constants for values.
-	*/
-	@property AudioStreamSample.LoopMode loopMode()
-	{
-		return getLoopMode();
-	}
-	/// ditto
-	@property void loopMode(long v)
-	{
-		setLoopMode(v);
 	}
 	/**
 	Loop start in bytes.
@@ -297,6 +286,18 @@ public:
 		setLoopEnd(v);
 	}
 	/**
+	Loop mode. See $(D loopmode) constants for values.
+	*/
+	@property AudioStreamSample.LoopMode loopMode()
+	{
+		return getLoopMode();
+	}
+	/// ditto
+	@property void loopMode(long v)
+	{
+		setLoopMode(v);
+	}
+	/**
 	The sample rate for mixing this audio.
 	*/
 	@property long mixRate()
@@ -309,7 +310,7 @@ public:
 		setMixRate(v);
 	}
 	/**
-	If `true`, audio is stereo. Default value: `false`.
+	If `true`, audio is stereo.
 	*/
 	@property bool stereo()
 	{

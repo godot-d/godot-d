@@ -41,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
 		@GodotName("get_environment") GodotMethod!(Environment) getEnvironment;
+		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
 	}
 	bool opEquals(in WorldEnvironment other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	WorldEnvironment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,18 +59,18 @@ public:
 	/**
 	
 	*/
-	void setEnvironment(Environment env)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
-	}
-	/**
-	
-	*/
 	Ref!Environment getEnvironment() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Environment)(_classBinding.getEnvironment, _godot_object);
+	}
+	/**
+	
+	*/
+	void setEnvironment(Environment env)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
 	}
 	/**
 	The $(D Environment) resource used by this $(D WorldEnvironment), defining the default properties.

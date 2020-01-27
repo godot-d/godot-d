@@ -1,5 +1,6 @@
 /**
-Renders text using `*.fnt` fonts.
+Renders text using fonts under the $(D url=https://www.angelcode.com/products/bmfont/)BMFont$(D /url) format.
+Handles files with the `.fnt` extension.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,10 +23,9 @@ import godot.object;
 import godot.classdb;
 import godot.font;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
-Renders text using `*.fnt` fonts.
+Renders text using fonts under the $(D url=https://www.angelcode.com/products/bmfont/)BMFont$(D /url) format.
+Handles files with the `.fnt` extension.
 
 Renders text using `*.fnt` fonts containing texture atlases. Supports distance fields. For using vector font files like TTF directly, see $(D DynamicFont).
 */
@@ -41,26 +41,26 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("create_from_fnt") GodotMethod!(GodotError, String) createFromFnt;
-		@GodotName("set_height") GodotMethod!(void, double) setHeight;
-		@GodotName("set_ascent") GodotMethod!(void, double) setAscent;
-		@GodotName("add_kerning_pair") GodotMethod!(void, long, long, long) addKerningPair;
-		@GodotName("get_kerning_pair") GodotMethod!(long, long, long) getKerningPair;
-		@GodotName("add_texture") GodotMethod!(void, Texture) addTexture;
-		@GodotName("add_char") GodotMethod!(void, long, long, Rect2, Vector2, double) addChar;
-		@GodotName("get_texture_count") GodotMethod!(long) getTextureCount;
-		@GodotName("get_texture") GodotMethod!(Texture, long) getTexture;
-		@GodotName("get_char_size") GodotMethod!(Vector2, long, long) getCharSize;
-		@GodotName("set_distance_field_hint") GodotMethod!(void, bool) setDistanceFieldHint;
-		@GodotName("clear") GodotMethod!(void) clear;
-		@GodotName("_set_chars") GodotMethod!(void, PoolIntArray) _setChars;
 		@GodotName("_get_chars") GodotMethod!(PoolIntArray) _getChars;
-		@GodotName("_set_kernings") GodotMethod!(void, PoolIntArray) _setKernings;
 		@GodotName("_get_kernings") GodotMethod!(PoolIntArray) _getKernings;
-		@GodotName("_set_textures") GodotMethod!(void, Array) _setTextures;
 		@GodotName("_get_textures") GodotMethod!(Array) _getTextures;
-		@GodotName("set_fallback") GodotMethod!(void, BitmapFont) setFallback;
+		@GodotName("_set_chars") GodotMethod!(void, PoolIntArray) _setChars;
+		@GodotName("_set_kernings") GodotMethod!(void, PoolIntArray) _setKernings;
+		@GodotName("_set_textures") GodotMethod!(void, Array) _setTextures;
+		@GodotName("add_char") GodotMethod!(void, long, long, Rect2, Vector2, double) addChar;
+		@GodotName("add_kerning_pair") GodotMethod!(void, long, long, long) addKerningPair;
+		@GodotName("add_texture") GodotMethod!(void, Texture) addTexture;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("create_from_fnt") GodotMethod!(GodotError, String) createFromFnt;
+		@GodotName("get_char_size") GodotMethod!(Vector2, long, long) getCharSize;
 		@GodotName("get_fallback") GodotMethod!(BitmapFont) getFallback;
+		@GodotName("get_kerning_pair") GodotMethod!(long, long, long) getKerningPair;
+		@GodotName("get_texture") GodotMethod!(Texture, long) getTexture;
+		@GodotName("get_texture_count") GodotMethod!(long) getTextureCount;
+		@GodotName("set_ascent") GodotMethod!(void, double) setAscent;
+		@GodotName("set_distance_field_hint") GodotMethod!(void, bool) setDistanceFieldHint;
+		@GodotName("set_fallback") GodotMethod!(void, BitmapFont) setFallback;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
 	}
 	bool opEquals(in BitmapFont other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BitmapFont opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -75,28 +75,69 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Creates a BitmapFont from the `*.fnt` file at `path`.
+	
 	*/
-	GodotError createFromFnt(in String path)
+	PoolIntArray _getChars() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.createFromFnt, _godot_object, path);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_chars");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
 	}
 	/**
 	
 	*/
-	void setHeight(in double px)
+	PoolIntArray _getKernings() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, px);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_kernings");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
 	}
 	/**
 	
 	*/
-	void setAscent(in double px)
+	Array _getTextures() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_textures");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+	}
+	/**
+	
+	*/
+	void _setChars(in PoolIntArray arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_chars");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setKernings(in PoolIntArray arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_kernings");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setTextures(in Array arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_textures");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds a character to the font, where `character` is the Unicode value, `texture` is the texture index, `rect` is the region in the texture (in pixels!), `align` is the (optional) alignment for the character and `advance` is the (optional) advance.
+	*/
+	void addChar(in long character, in long texture, in Rect2 rect, in Vector2 _align = Vector2(0, 0), in double advance = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAscent, _godot_object, px);
+		ptrcall!(void)(_classBinding.addChar, _godot_object, character, texture, rect, _align, advance);
 	}
 	/**
 	Adds a kerning pair to the $(D BitmapFont) as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
@@ -107,14 +148,6 @@ public:
 		ptrcall!(void)(_classBinding.addKerningPair, _godot_object, char_a, char_b, kerning);
 	}
 	/**
-	Returns a kerning pair as a difference.
-	*/
-	long getKerningPair(in long char_a, in long char_b) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getKerningPair, _godot_object, char_a, char_b);
-	}
-	/**
 	Adds a texture to the $(D BitmapFont).
 	*/
 	void addTexture(Texture texture)
@@ -123,28 +156,20 @@ public:
 		ptrcall!(void)(_classBinding.addTexture, _godot_object, texture);
 	}
 	/**
-	Adds a character to the font, where `character` is the unicode value, `texture` is the texture index, `rect` is the region in the texture (in pixels!), `align` is the (optional) alignment for the character and `advance` is the (optional) advance.
+	Clears all the font data and settings.
 	*/
-	void addChar(in long character, in long texture, in Rect2 rect, in Vector2 _align = Vector2(0, 0), in double advance = -1)
+	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addChar, _godot_object, character, texture, rect, _align, advance);
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 	/**
-	Returns the number of textures in the BitmapFont atlas.
+	Creates a BitmapFont from the `*.fnt` file at `path`.
 	*/
-	long getTextureCount() const
+	GodotError createFromFnt(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTextureCount, _godot_object);
-	}
-	/**
-	Returns the font atlas texture at index `idx`.
-	*/
-	Ref!Texture getTexture(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object, idx);
+		return ptrcall!(GodotError)(_classBinding.createFromFnt, _godot_object, path);
 	}
 	/**
 	Returns the size of a character, optionally taking kerning into account if the next character is provided.
@@ -157,75 +182,50 @@ public:
 	/**
 	
 	*/
+	Ref!BitmapFont getFallback() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BitmapFont)(_classBinding.getFallback, _godot_object);
+	}
+	/**
+	Returns a kerning pair as a difference.
+	*/
+	long getKerningPair(in long char_a, in long char_b) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getKerningPair, _godot_object, char_a, char_b);
+	}
+	/**
+	Returns the font atlas texture at index `idx`.
+	*/
+	Ref!Texture getTexture(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object, idx);
+	}
+	/**
+	Returns the number of textures in the BitmapFont atlas.
+	*/
+	long getTextureCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTextureCount, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAscent(in double px)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAscent, _godot_object, px);
+	}
+	/**
+	
+	*/
 	void setDistanceFieldHint(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setDistanceFieldHint, _godot_object, enable);
-	}
-	/**
-	Clears all the font data and settings.
-	*/
-	void clear()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
-	}
-	/**
-	
-	*/
-	void _setChars(in PoolIntArray arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_chars");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	PoolIntArray _getChars() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_chars");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
-	}
-	/**
-	
-	*/
-	void _setKernings(in PoolIntArray arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_kernings");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	PoolIntArray _getKernings() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_kernings");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolIntArray);
-	}
-	/**
-	
-	*/
-	void _setTextures(in Array arg0)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_textures");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Array _getTextures() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_textures");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
 	}
 	/**
 	
@@ -238,58 +238,10 @@ public:
 	/**
 	
 	*/
-	Ref!BitmapFont getFallback() const
+	void setHeight(in double px)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BitmapFont)(_classBinding.getFallback, _godot_object);
-	}
-	/**
-	
-	*/
-	@property Array textures()
-	{
-		return _getTextures();
-	}
-	/// ditto
-	@property void textures(Array v)
-	{
-		_setTextures(v);
-	}
-	/**
-	
-	*/
-	@property PoolIntArray chars()
-	{
-		return _getChars();
-	}
-	/// ditto
-	@property void chars(PoolIntArray v)
-	{
-		_setChars(v);
-	}
-	/**
-	
-	*/
-	@property PoolIntArray kernings()
-	{
-		return _getKernings();
-	}
-	/// ditto
-	@property void kernings(PoolIntArray v)
-	{
-		_setKernings(v);
-	}
-	/**
-	Total font height (ascent plus descent) in pixels.
-	*/
-	@property double height()
-	{
-		return getHeight();
-	}
-	/// ditto
-	@property void height(double v)
-	{
-		setHeight(v);
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, px);
 	}
 	/**
 	Ascent (number of pixels above the baseline).
@@ -302,6 +254,18 @@ public:
 	@property void ascent(double v)
 	{
 		setAscent(v);
+	}
+	/**
+	
+	*/
+	@property PoolIntArray chars()
+	{
+		return _getChars();
+	}
+	/// ditto
+	@property void chars(PoolIntArray v)
+	{
+		_setChars(v);
 	}
 	/**
 	If `true`, distance field hint is enabled.
@@ -326,5 +290,41 @@ public:
 	@property void fallback(BitmapFont v)
 	{
 		setFallback(v);
+	}
+	/**
+	Total font height (ascent plus descent) in pixels.
+	*/
+	@property double height()
+	{
+		return getHeight();
+	}
+	/// ditto
+	@property void height(double v)
+	{
+		setHeight(v);
+	}
+	/**
+	
+	*/
+	@property PoolIntArray kernings()
+	{
+		return _getKernings();
+	}
+	/// ditto
+	@property void kernings(PoolIntArray v)
+	{
+		_setKernings(v);
+	}
+	/**
+	
+	*/
+	@property Array textures()
+	{
+		return _getTextures();
+	}
+	/// ditto
+	@property void textures(Array v)
+	{
+		_setTextures(v);
 	}
 }

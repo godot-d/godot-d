@@ -42,10 +42,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 		@GodotName("get_operator") GodotMethod!(Variant.Operator) getOperator;
-		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
 		@GodotName("get_typed") GodotMethod!(Variant.Type) getTyped;
+		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
+		@GodotName("set_typed") GodotMethod!(void, long) setTyped;
 	}
 	bool opEquals(in VisualScriptOperator other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptOperator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,14 +62,6 @@ public:
 	/**
 	
 	*/
-	void setOperator(in long op)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
-	}
-	/**
-	
-	*/
 	Variant.Operator getOperator() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -78,18 +70,26 @@ public:
 	/**
 	
 	*/
-	void setTyped(in long type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
-	}
-	/**
-	
-	*/
 	Variant.Type getTyped() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant.Type)(_classBinding.getTyped, _godot_object);
+	}
+	/**
+	
+	*/
+	void setOperator(in long op)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
+	}
+	/**
+	
+	*/
+	void setTyped(in long type)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTyped, _godot_object, type);
 	}
 	/**
 	

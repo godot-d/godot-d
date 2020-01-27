@@ -2,12 +2,13 @@ module godot.range.all;
 
 public import
 	godot.range,
+	godot.editorspinslider,
+	godot.progressbar,
 	godot.scrollbar,
 	godot.hscrollbar,
 	godot.vscrollbar,
-	godot.progressbar,
 	godot.slider,
 	godot.hslider,
 	godot.vslider,
-	godot.textureprogress,
-	godot.spinbox;
+	godot.spinbox,
+	godot.textureprogress;

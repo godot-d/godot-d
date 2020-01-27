@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Colored rectangle.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_frame_color") GodotMethod!(void, Color) setFrameColor;
 		@GodotName("get_frame_color") GodotMethod!(Color) getFrameColor;
+		@GodotName("set_frame_color") GodotMethod!(void, Color) setFrameColor;
 	}
 	bool opEquals(in ColorRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ColorRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setFrameColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameColor, _godot_object, color);
-	}
-	/**
-	
-	*/
 	Color getFrameColor() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getFrameColor, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFrameColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrameColor, _godot_object, color);
 	}
 	/**
 	The fill color.

@@ -19,7 +19,6 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.classdb;
 import godot.reference;
 /**
 
@@ -36,15 +35,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_export_file") GodotMethod!(void, String, String, PoolStringArray) _exportFile;
 		@GodotName("_export_begin") GodotMethod!(void, PoolStringArray, bool, String, long) _exportBegin;
-		@GodotName("add_shared_object") GodotMethod!(void, String, PoolStringArray) addSharedObject;
+		@GodotName("_export_end") GodotMethod!(void) _exportEnd;
+		@GodotName("_export_file") GodotMethod!(void, String, String, PoolStringArray) _exportFile;
 		@GodotName("add_file") GodotMethod!(void, String, PoolByteArray, bool) addFile;
-		@GodotName("add_ios_framework") GodotMethod!(void, String) addIosFramework;
-		@GodotName("add_ios_plist_content") GodotMethod!(void, String) addIosPlistContent;
-		@GodotName("add_ios_linker_flags") GodotMethod!(void, String) addIosLinkerFlags;
 		@GodotName("add_ios_bundle_file") GodotMethod!(void, String) addIosBundleFile;
 		@GodotName("add_ios_cpp_code") GodotMethod!(void, String) addIosCppCode;
+		@GodotName("add_ios_framework") GodotMethod!(void, String) addIosFramework;
+		@GodotName("add_ios_linker_flags") GodotMethod!(void, String) addIosLinkerFlags;
+		@GodotName("add_ios_plist_content") GodotMethod!(void, String) addIosPlistContent;
+		@GodotName("add_shared_object") GodotMethod!(void, String, PoolStringArray) addSharedObject;
 		@GodotName("skip") GodotMethod!(void) skip;
 	}
 	bool opEquals(in EditorExportPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -62,21 +62,9 @@ public:
 	/**
 	
 	*/
-	void _exportFile(in String path, in String type, in PoolStringArray features)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(path);
-		_GODOT_args.append(type);
-		_GODOT_args.append(features);
-		String _GODOT_method_name = String("_export_file");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	void _exportBegin(in PoolStringArray features, in bool is_debug, in String path, in long flags)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(features);
 		_GODOT_args.append(is_debug);
 		_GODOT_args.append(path);
@@ -87,10 +75,23 @@ public:
 	/**
 	
 	*/
-	void addSharedObject(in String path, in PoolStringArray tags)
+	void _exportEnd()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSharedObject, _godot_object, path, tags);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_export_end");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _exportFile(in String path, in String type, in PoolStringArray features)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(path);
+		_GODOT_args.append(type);
+		_GODOT_args.append(features);
+		String _GODOT_method_name = String("_export_file");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -99,30 +100,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addFile, _godot_object, path, file, remap);
-	}
-	/**
-	
-	*/
-	void addIosFramework(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosFramework, _godot_object, path);
-	}
-	/**
-	
-	*/
-	void addIosPlistContent(in String plist_content)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosPlistContent, _godot_object, plist_content);
-	}
-	/**
-	
-	*/
-	void addIosLinkerFlags(in String flags)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosLinkerFlags, _godot_object, flags);
 	}
 	/**
 	
@@ -139,6 +116,38 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addIosCppCode, _godot_object, code);
+	}
+	/**
+	
+	*/
+	void addIosFramework(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosFramework, _godot_object, path);
+	}
+	/**
+	
+	*/
+	void addIosLinkerFlags(in String flags)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosLinkerFlags, _godot_object, flags);
+	}
+	/**
+	
+	*/
+	void addIosPlistContent(in String plist_content)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addIosPlistContent, _godot_object, plist_content);
+	}
+	/**
+	
+	*/
+	void addSharedObject(in String path, in PoolStringArray tags)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSharedObject, _godot_object, path, tags);
 	}
 	/**
 	

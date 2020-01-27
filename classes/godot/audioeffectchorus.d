@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
 Adds a chorus audio effect.
 
@@ -40,24 +39,24 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_voice_count") GodotMethod!(void, long) setVoiceCount;
+		@GodotName("get_dry") GodotMethod!(double) getDry;
 		@GodotName("get_voice_count") GodotMethod!(long) getVoiceCount;
-		@GodotName("set_voice_delay_ms") GodotMethod!(void, long, double) setVoiceDelayMs;
-		@GodotName("get_voice_delay_ms") GodotMethod!(double, long) getVoiceDelayMs;
-		@GodotName("set_voice_rate_hz") GodotMethod!(void, long, double) setVoiceRateHz;
-		@GodotName("get_voice_rate_hz") GodotMethod!(double, long) getVoiceRateHz;
-		@GodotName("set_voice_depth_ms") GodotMethod!(void, long, double) setVoiceDepthMs;
-		@GodotName("get_voice_depth_ms") GodotMethod!(double, long) getVoiceDepthMs;
-		@GodotName("set_voice_level_db") GodotMethod!(void, long, double) setVoiceLevelDb;
-		@GodotName("get_voice_level_db") GodotMethod!(double, long) getVoiceLevelDb;
-		@GodotName("set_voice_cutoff_hz") GodotMethod!(void, long, double) setVoiceCutoffHz;
 		@GodotName("get_voice_cutoff_hz") GodotMethod!(double, long) getVoiceCutoffHz;
-		@GodotName("set_voice_pan") GodotMethod!(void, long, double) setVoicePan;
+		@GodotName("get_voice_delay_ms") GodotMethod!(double, long) getVoiceDelayMs;
+		@GodotName("get_voice_depth_ms") GodotMethod!(double, long) getVoiceDepthMs;
+		@GodotName("get_voice_level_db") GodotMethod!(double, long) getVoiceLevelDb;
 		@GodotName("get_voice_pan") GodotMethod!(double, long) getVoicePan;
-		@GodotName("set_wet") GodotMethod!(void, double) setWet;
+		@GodotName("get_voice_rate_hz") GodotMethod!(double, long) getVoiceRateHz;
 		@GodotName("get_wet") GodotMethod!(double) getWet;
 		@GodotName("set_dry") GodotMethod!(void, double) setDry;
-		@GodotName("get_dry") GodotMethod!(double) getDry;
+		@GodotName("set_voice_count") GodotMethod!(void, long) setVoiceCount;
+		@GodotName("set_voice_cutoff_hz") GodotMethod!(void, long, double) setVoiceCutoffHz;
+		@GodotName("set_voice_delay_ms") GodotMethod!(void, long, double) setVoiceDelayMs;
+		@GodotName("set_voice_depth_ms") GodotMethod!(void, long, double) setVoiceDepthMs;
+		@GodotName("set_voice_level_db") GodotMethod!(void, long, double) setVoiceLevelDb;
+		@GodotName("set_voice_pan") GodotMethod!(void, long, double) setVoicePan;
+		@GodotName("set_voice_rate_hz") GodotMethod!(void, long, double) setVoiceRateHz;
+		@GodotName("set_wet") GodotMethod!(void, double) setWet;
 	}
 	bool opEquals(in AudioEffectChorus other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectChorus opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -74,10 +73,10 @@ public:
 	/**
 	
 	*/
-	void setVoiceCount(in long voices)
+	double getDry() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceCount, _godot_object, voices);
+		return ptrcall!(double)(_classBinding.getDry, _godot_object);
 	}
 	/**
 	
@@ -90,10 +89,10 @@ public:
 	/**
 	
 	*/
-	void setVoiceDelayMs(in long voice_idx, in double delay_ms)
+	double getVoiceCutoffHz(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceDelayMs, _godot_object, voice_idx, delay_ms);
+		return ptrcall!(double)(_classBinding.getVoiceCutoffHz, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -106,42 +105,10 @@ public:
 	/**
 	
 	*/
-	void setVoiceRateHz(in long voice_idx, in double rate_hz)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceRateHz, _godot_object, voice_idx, rate_hz);
-	}
-	/**
-	
-	*/
-	double getVoiceRateHz(in long voice_idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceRateHz, _godot_object, voice_idx);
-	}
-	/**
-	
-	*/
-	void setVoiceDepthMs(in long voice_idx, in double depth_ms)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceDepthMs, _godot_object, voice_idx, depth_ms);
-	}
-	/**
-	
-	*/
 	double getVoiceDepthMs(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getVoiceDepthMs, _godot_object, voice_idx);
-	}
-	/**
-	
-	*/
-	void setVoiceLevelDb(in long voice_idx, in double level_db)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceLevelDb, _godot_object, voice_idx, level_db);
 	}
 	/**
 	
@@ -154,30 +121,6 @@ public:
 	/**
 	
 	*/
-	void setVoiceCutoffHz(in long voice_idx, in double cutoff_hz)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceCutoffHz, _godot_object, voice_idx, cutoff_hz);
-	}
-	/**
-	
-	*/
-	double getVoiceCutoffHz(in long voice_idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceCutoffHz, _godot_object, voice_idx);
-	}
-	/**
-	
-	*/
-	void setVoicePan(in long voice_idx, in double pan)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoicePan, _godot_object, voice_idx, pan);
-	}
-	/**
-	
-	*/
 	double getVoicePan(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
@@ -186,10 +129,10 @@ public:
 	/**
 	
 	*/
-	void setWet(in double amount)
+	double getVoiceRateHz(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
+		return ptrcall!(double)(_classBinding.getVoiceRateHz, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -210,22 +153,66 @@ public:
 	/**
 	
 	*/
-	double getDry() const
+	void setVoiceCount(in long voices)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDry, _godot_object);
+		ptrcall!(void)(_classBinding.setVoiceCount, _godot_object, voices);
 	}
 	/**
-	The amount of voices in the effect.
+	
 	*/
-	@property long voiceCount()
+	void setVoiceCutoffHz(in long voice_idx, in double cutoff_hz)
 	{
-		return getVoiceCount();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceCutoffHz, _godot_object, voice_idx, cutoff_hz);
 	}
-	/// ditto
-	@property void voiceCount(long v)
+	/**
+	
+	*/
+	void setVoiceDelayMs(in long voice_idx, in double delay_ms)
 	{
-		setVoiceCount(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceDelayMs, _godot_object, voice_idx, delay_ms);
+	}
+	/**
+	
+	*/
+	void setVoiceDepthMs(in long voice_idx, in double depth_ms)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceDepthMs, _godot_object, voice_idx, depth_ms);
+	}
+	/**
+	
+	*/
+	void setVoiceLevelDb(in long voice_idx, in double level_db)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceLevelDb, _godot_object, voice_idx, level_db);
+	}
+	/**
+	
+	*/
+	void setVoicePan(in long voice_idx, in double pan)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoicePan, _godot_object, voice_idx, pan);
+	}
+	/**
+	
+	*/
+	void setVoiceRateHz(in long voice_idx, in double rate_hz)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVoiceRateHz, _godot_object, voice_idx, rate_hz);
+	}
+	/**
+	
+	*/
+	void setWet(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
 	}
 	/**
 	The effect's raw signal.
@@ -240,16 +227,16 @@ public:
 		setDry(v);
 	}
 	/**
-	The effect's processed signal.
+	The voice's cutoff frequency.
 	*/
-	@property double wet()
+	@property double voice1CutoffHz()
 	{
-		return getWet();
+		return getVoiceCutoffHz(0);
 	}
 	/// ditto
-	@property void wet(double v)
+	@property void voice1CutoffHz(double v)
 	{
-		setWet(v);
+		setVoiceCutoffHz(0, v);
 	}
 	/**
 	The voice's signal delay.
@@ -262,18 +249,6 @@ public:
 	@property void voice1DelayMs(double v)
 	{
 		setVoiceDelayMs(0, v);
-	}
-	/**
-	The voice's filter rate.
-	*/
-	@property double voice1RateHz()
-	{
-		return getVoiceRateHz(0);
-	}
-	/// ditto
-	@property void voice1RateHz(double v)
-	{
-		setVoiceRateHz(0, v);
 	}
 	/**
 	The voice filter's depth.
@@ -300,18 +275,6 @@ public:
 		setVoiceLevelDb(0, v);
 	}
 	/**
-	The voice's cutoff frequency.
-	*/
-	@property double voice1CutoffHz()
-	{
-		return getVoiceCutoffHz(0);
-	}
-	/// ditto
-	@property void voice1CutoffHz(double v)
-	{
-		setVoiceCutoffHz(0, v);
-	}
-	/**
 	The voice's pan level.
 	*/
 	@property double voice1Pan()
@@ -324,6 +287,30 @@ public:
 		setVoicePan(0, v);
 	}
 	/**
+	The voice's filter rate.
+	*/
+	@property double voice1RateHz()
+	{
+		return getVoiceRateHz(0);
+	}
+	/// ditto
+	@property void voice1RateHz(double v)
+	{
+		setVoiceRateHz(0, v);
+	}
+	/**
+	The voice's cutoff frequency.
+	*/
+	@property double voice2CutoffHz()
+	{
+		return getVoiceCutoffHz(1);
+	}
+	/// ditto
+	@property void voice2CutoffHz(double v)
+	{
+		setVoiceCutoffHz(1, v);
+	}
+	/**
 	The voice's signal delay.
 	*/
 	@property double voice2DelayMs()
@@ -334,18 +321,6 @@ public:
 	@property void voice2DelayMs(double v)
 	{
 		setVoiceDelayMs(1, v);
-	}
-	/**
-	The voice's filter rate.
-	*/
-	@property double voice2RateHz()
-	{
-		return getVoiceRateHz(1);
-	}
-	/// ditto
-	@property void voice2RateHz(double v)
-	{
-		setVoiceRateHz(1, v);
 	}
 	/**
 	The voice filter's depth.
@@ -372,18 +347,6 @@ public:
 		setVoiceLevelDb(1, v);
 	}
 	/**
-	The voice's cutoff frequency.
-	*/
-	@property double voice2CutoffHz()
-	{
-		return getVoiceCutoffHz(1);
-	}
-	/// ditto
-	@property void voice2CutoffHz(double v)
-	{
-		setVoiceCutoffHz(1, v);
-	}
-	/**
 	The voice's pan level.
 	*/
 	@property double voice2Pan()
@@ -396,6 +359,30 @@ public:
 		setVoicePan(1, v);
 	}
 	/**
+	The voice's filter rate.
+	*/
+	@property double voice2RateHz()
+	{
+		return getVoiceRateHz(1);
+	}
+	/// ditto
+	@property void voice2RateHz(double v)
+	{
+		setVoiceRateHz(1, v);
+	}
+	/**
+	The voice's cutoff frequency.
+	*/
+	@property double voice3CutoffHz()
+	{
+		return getVoiceCutoffHz(2);
+	}
+	/// ditto
+	@property void voice3CutoffHz(double v)
+	{
+		setVoiceCutoffHz(2, v);
+	}
+	/**
 	The voice's signal delay.
 	*/
 	@property double voice3DelayMs()
@@ -406,18 +393,6 @@ public:
 	@property void voice3DelayMs(double v)
 	{
 		setVoiceDelayMs(2, v);
-	}
-	/**
-	The voice's filter rate.
-	*/
-	@property double voice3RateHz()
-	{
-		return getVoiceRateHz(2);
-	}
-	/// ditto
-	@property void voice3RateHz(double v)
-	{
-		setVoiceRateHz(2, v);
 	}
 	/**
 	The voice filter's depth.
@@ -444,18 +419,6 @@ public:
 		setVoiceLevelDb(2, v);
 	}
 	/**
-	The voice's cutoff frequency.
-	*/
-	@property double voice3CutoffHz()
-	{
-		return getVoiceCutoffHz(2);
-	}
-	/// ditto
-	@property void voice3CutoffHz(double v)
-	{
-		setVoiceCutoffHz(2, v);
-	}
-	/**
 	The voice's pan level.
 	*/
 	@property double voice3Pan()
@@ -468,6 +431,30 @@ public:
 		setVoicePan(2, v);
 	}
 	/**
+	The voice's filter rate.
+	*/
+	@property double voice3RateHz()
+	{
+		return getVoiceRateHz(2);
+	}
+	/// ditto
+	@property void voice3RateHz(double v)
+	{
+		setVoiceRateHz(2, v);
+	}
+	/**
+	The voice's cutoff frequency.
+	*/
+	@property double voice4CutoffHz()
+	{
+		return getVoiceCutoffHz(3);
+	}
+	/// ditto
+	@property void voice4CutoffHz(double v)
+	{
+		setVoiceCutoffHz(3, v);
+	}
+	/**
 	The voice's signal delay.
 	*/
 	@property double voice4DelayMs()
@@ -478,18 +465,6 @@ public:
 	@property void voice4DelayMs(double v)
 	{
 		setVoiceDelayMs(3, v);
-	}
-	/**
-	The voice's filter rate.
-	*/
-	@property double voice4RateHz()
-	{
-		return getVoiceRateHz(3);
-	}
-	/// ditto
-	@property void voice4RateHz(double v)
-	{
-		setVoiceRateHz(3, v);
 	}
 	/**
 	The voice filter's depth.
@@ -516,18 +491,6 @@ public:
 		setVoiceLevelDb(3, v);
 	}
 	/**
-	The voice's cutoff frequency.
-	*/
-	@property double voice4CutoffHz()
-	{
-		return getVoiceCutoffHz(3);
-	}
-	/// ditto
-	@property void voice4CutoffHz(double v)
-	{
-		setVoiceCutoffHz(3, v);
-	}
-	/**
 	The voice's pan level.
 	*/
 	@property double voice4Pan()
@@ -538,5 +501,41 @@ public:
 	@property void voice4Pan(double v)
 	{
 		setVoicePan(3, v);
+	}
+	/**
+	The voice's filter rate.
+	*/
+	@property double voice4RateHz()
+	{
+		return getVoiceRateHz(3);
+	}
+	/// ditto
+	@property void voice4RateHz(double v)
+	{
+		setVoiceRateHz(3, v);
+	}
+	/**
+	The amount of voices in the effect.
+	*/
+	@property long voiceCount()
+	{
+		return getVoiceCount();
+	}
+	/// ditto
+	@property void voiceCount(long v)
+	{
+		setVoiceCount(v);
+	}
+	/**
+	The effect's processed signal.
+	*/
+	@property double wet()
+	{
+		return getWet();
+	}
+	/// ditto
+	@property void wet(double v)
+	{
+		setWet(v);
 	}
 }

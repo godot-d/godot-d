@@ -25,8 +25,8 @@ import godot.streampeer;
 /**
 Hyper-text transfer protocol client.
 
-Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases.
-Note that this client only needs to connect to a host once (see $(D connectToHost)) to send multiple requests. Because of this, methods that take URLs usually take just the part after the host instead of the full URL, as the client is already connected to a host. See $(D request) for a full example and to get started.
+Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases. See $(D HTTPRequest) for an higher-level alternative.
+$(B Note:) This client only needs to connect to a host once (see $(D connectToHost)) to send multiple requests. Because of this, methods that take URLs usually take just the part after the host instead of the full URL, as the client is already connected to a host. See $(D request) for a full example and to get started.
 A $(D HTTPClient) should be reused between multiple requests or to connect to different hosts instead of creating one client per request. Supports SSL and SSL server certificate verification. HTTP status codes in the 2xx range indicate success, 3xx redirection (i.e. "try again, but over here"), 4xx something was wrong with the request, and 5xx something went wrong on the server's side.
 For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/HTTP (or read RFC 2616 to get it straight from the source: https://tools.ietf.org/html/rfc2616).
 */
@@ -42,25 +42,26 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long, bool, bool) connectToHost;
-		@GodotName("set_connection") GodotMethod!(void, StreamPeer) setConnection;
-		@GodotName("get_connection") GodotMethod!(StreamPeer) getConnection;
-		@GodotName("request_raw") GodotMethod!(GodotError, long, String, PoolStringArray, PoolByteArray) requestRaw;
-		@GodotName("request") GodotMethod!(GodotError, long, String, PoolStringArray, String) request;
 		@GodotName("close") GodotMethod!(void) close;
-		@GodotName("has_response") GodotMethod!(bool) hasResponse;
-		@GodotName("is_response_chunked") GodotMethod!(bool) isResponseChunked;
+		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long, bool, bool) connectToHost;
+		@GodotName("get_connection") GodotMethod!(StreamPeer) getConnection;
+		@GodotName("get_read_chunk_size") GodotMethod!(long) getReadChunkSize;
+		@GodotName("get_response_body_length") GodotMethod!(long) getResponseBodyLength;
 		@GodotName("get_response_code") GodotMethod!(long) getResponseCode;
 		@GodotName("get_response_headers") GodotMethod!(PoolStringArray) getResponseHeaders;
 		@GodotName("get_response_headers_as_dictionary") GodotMethod!(Dictionary) getResponseHeadersAsDictionary;
-		@GodotName("get_response_body_length") GodotMethod!(long) getResponseBodyLength;
-		@GodotName("read_response_body_chunk") GodotMethod!(PoolByteArray) readResponseBodyChunk;
-		@GodotName("set_read_chunk_size") GodotMethod!(void, long) setReadChunkSize;
-		@GodotName("set_blocking_mode") GodotMethod!(void, bool) setBlockingMode;
-		@GodotName("is_blocking_mode_enabled") GodotMethod!(bool) isBlockingModeEnabled;
 		@GodotName("get_status") GodotMethod!(HTTPClient.Status) getStatus;
+		@GodotName("has_response") GodotMethod!(bool) hasResponse;
+		@GodotName("is_blocking_mode_enabled") GodotMethod!(bool) isBlockingModeEnabled;
+		@GodotName("is_response_chunked") GodotMethod!(bool) isResponseChunked;
 		@GodotName("poll") GodotMethod!(GodotError) poll;
 		@GodotName("query_string_from_dict") GodotMethod!(String, Dictionary) queryStringFromDict;
+		@GodotName("read_response_body_chunk") GodotMethod!(PoolByteArray) readResponseBodyChunk;
+		@GodotName("request") GodotMethod!(GodotError, long, String, PoolStringArray, String) request;
+		@GodotName("request_raw") GodotMethod!(GodotError, long, String, PoolStringArray, PoolByteArray) requestRaw;
+		@GodotName("set_blocking_mode") GodotMethod!(void, bool) setBlockingMode;
+		@GodotName("set_connection") GodotMethod!(void, StreamPeer) setConnection;
+		@GodotName("set_read_chunk_size") GodotMethod!(void, long) setReadChunkSize;
 	}
 	bool opEquals(in HTTPClient other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	HTTPClient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -134,7 +135,7 @@ public:
 		*/
 		methodPost = 2,
 		/**
-		HTTP PUT method. The PUT method asks to replace all current representations of the target resource with the request payload. (You can think of `POST` as "create or update" and `PUT` as "update", although many services tend to not make a clear distinction or change their meaning).
+		HTTP PUT method. The PUT method asks to replace all current representations of the target resource with the request payload. (You can think of POST as "create or update" and PUT as "update", although many services tend to not make a clear distinction or change their meaning).
 		*/
 		methodPut = 3,
 		/**
@@ -158,7 +159,7 @@ public:
 		*/
 		methodPatch = 8,
 		/**
-		Marker for end of `METHOD_*` enum. Not used.
+		Represents the size of the $(D method) enum.
 		*/
 		methodMax = 9,
 	}
@@ -238,11 +239,11 @@ public:
 		*/
 		responseNotModified = 304,
 		/**
-		HTTP status code `305 Use Proxy`. Deprecated. Do not use.
+		HTTP status code `305 Use Proxy`. $(I Deprecated. Do not use.)
 		*/
 		responseUseProxy = 305,
 		/**
-		HTTP status code `306 Switch Proxy`. Deprecated. Do not use.
+		HTTP status code `306 Switch Proxy`. $(I Deprecated. Do not use.)
 		*/
 		responseSwitchProxy = 306,
 		/**
@@ -417,22 +418,22 @@ public:
 		statusDisconnected = 0,
 		methodHead = 1,
 		statusResolving = 1,
-		statusCantResolve = 2,
 		methodPost = 2,
+		statusCantResolve = 2,
 		methodPut = 3,
 		statusConnecting = 3,
 		statusCantConnect = 4,
 		methodDelete = 4,
-		methodOptions = 5,
 		statusConnected = 5,
-		methodTrace = 6,
+		methodOptions = 5,
 		statusRequesting = 6,
+		methodTrace = 6,
 		methodConnect = 7,
 		statusBody = 7,
 		methodPatch = 8,
 		statusConnectionError = 8,
-		statusSslHandshakeError = 9,
 		methodMax = 9,
+		statusSslHandshakeError = 9,
 		responseContinue = 100,
 		responseSwitchingProtocols = 101,
 		responseProcessing = 102,
@@ -496,7 +497,15 @@ public:
 		responseNetworkAuthRequired = 511,
 	}
 	/**
-	Connect to a host. This needs to be done before any requests are sent.
+	Closes the current connection, allowing reuse of this $(D HTTPClient).
+	*/
+	void close()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.close, _godot_object);
+	}
+	/**
+	Connects to a host. This needs to be done before any requests are sent.
 	The host should not have http:// prepended but will strip the protocol identifier if provided.
 	If no `port` is specified (or `-1` is used), it is automatically set to 80 for HTTP and 443 for HTTPS (if `use_ssl` is enabled).
 	`verify_host` will check the SSL identity of the host if set to `true`.
@@ -509,70 +518,27 @@ public:
 	/**
 	
 	*/
-	void setConnection(StreamPeer connection)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConnection, _godot_object, connection);
-	}
-	/**
-	
-	*/
 	Ref!StreamPeer getConnection() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(StreamPeer)(_classBinding.getConnection, _godot_object);
 	}
 	/**
-	Sends a raw request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
-	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
-	Sends the body data raw, as a byte array and does not encode it in any way.
-	*/
-	GodotError requestRaw(in long method, in String url, in PoolStringArray headers, in PoolByteArray _body)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.requestRaw, _godot_object, method, url, headers, _body);
-	}
-	/**
-	Sends a request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
-	Headers are HTTP request headers. For available HTTP methods, see `METHOD_*`.
-	To create a POST request with query strings to push to the server, do:
-	
-	
-	var fields = {"username" : "user", "password" : "pass"}
-	var query_string = http_client.query_string_from_dict(fields)
-	var headers = $(D "Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(query_string.length()))
-	var result = http_client.request(http_client.METHOD_POST, "index.php", headers, query_string)
-	
 	
 	*/
-	GodotError request(in long method, in String url, in PoolStringArray headers, in String _body = gs!"")
+	long getReadChunkSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);
+		return ptrcall!(long)(_classBinding.getReadChunkSize, _godot_object);
 	}
 	/**
-	Closes the current connection, allowing reuse of this $(D HTTPClient).
+	Returns the response's body length.
+	$(B Note:) Some Web servers may not send a body length. In this case, the value returned will be `-1`. If using chunked transfer encoding, the body length will also be `-1`.
 	*/
-	void close()
+	long getResponseBodyLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object);
-	}
-	/**
-	If `true`, this $(D HTTPClient) has a response available.
-	*/
-	bool hasResponse() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasResponse, _godot_object);
-	}
-	/**
-	If `true`, this $(D HTTPClient) has a response that is chunked.
-	*/
-	bool isResponseChunked() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isResponseChunked, _godot_object);
+		return ptrcall!(long)(_classBinding.getResponseBodyLength, _godot_object);
 	}
 	/**
 	Returns the response's HTTP status code.
@@ -591,9 +557,16 @@ public:
 		return ptrcall!(PoolStringArray)(_classBinding.getResponseHeaders, _godot_object);
 	}
 	/**
-	Returns all response headers as dictionary where the case-sensitivity of the keys and values is kept like the server delivers it. A value is a simple String, this string can have more than one value where "; " is used as separator.
-	Structure: ("key":"value1; value2")
-	Example: (content-length:12), (Content-Type:application/json; charset=UTF-8)
+	Returns all response headers as a Dictionary of structure `{ "key": "value1; value2" }` where the case-sensitivity of the keys and values is kept like the server delivers it. A value is a simple String, this string can have more than one value where "; " is used as separator.
+	$(B Example:)
+	
+	
+	{
+	    "content-length": 12,
+	    "Content-Type": "application/json; charset=UTF-8",
+	}
+	
+	
 	*/
 	Dictionary getResponseHeadersAsDictionary()
 	{
@@ -601,12 +574,67 @@ public:
 		return ptrcall!(Dictionary)(_classBinding.getResponseHeadersAsDictionary, _godot_object);
 	}
 	/**
-	Returns the response's body length.
+	Returns a $(D status) constant. Need to call $(D poll) in order to get status updates.
 	*/
-	long getResponseBodyLength() const
+	HTTPClient.Status getStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResponseBodyLength, _godot_object);
+		return ptrcall!(HTTPClient.Status)(_classBinding.getStatus, _godot_object);
+	}
+	/**
+	If `true`, this $(D HTTPClient) has a response available.
+	*/
+	bool hasResponse() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasResponse, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isBlockingModeEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBlockingModeEnabled, _godot_object);
+	}
+	/**
+	If `true`, this $(D HTTPClient) has a response that is chunked.
+	*/
+	bool isResponseChunked() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isResponseChunked, _godot_object);
+	}
+	/**
+	This needs to be called in order to have any request processed. Check results with $(D getStatus).
+	*/
+	GodotError poll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
+	}
+	/**
+	Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:
+	
+	
+	var fields = {"username": "user", "password": "pass"}
+	var query_string = http_client.query_string_from_dict(fields)
+	# Returns "username=user&amp;password=pass"
+	
+	
+	Furthermore, if a key has a `null` value, only the key itself is added, without equal sign and value. If the value is an array, for each value in it a pair with the same key is added.
+	
+	
+	var fields = {"single": 123, "not_valued": null, "multiple": $(D 22, 33, 44)}
+	var query_string = http_client.query_string_from_dict(fields)
+	# Returns "single=123&amp;not_valued&amp;multiple=22&amp;multiple=33&amp;multiple=44"
+	
+	
+	*/
+	String queryStringFromDict(in Dictionary fields)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.queryStringFromDict, _godot_object, fields);
 	}
 	/**
 	Reads one chunk from the response.
@@ -617,12 +645,32 @@ public:
 		return ptrcall!(PoolByteArray)(_classBinding.readResponseBodyChunk, _godot_object);
 	}
 	/**
-	Sets the size of the buffer used and maximum bytes to read per iteration. see $(D readResponseBodyChunk)
+	Sends a request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
+	Headers are HTTP request headers. For available HTTP methods, see $(D method).
+	To create a POST request with query strings to push to the server, do:
+	
+	
+	var fields = {"username" : "user", "password" : "pass"}
+	var query_string = http_client.query_string_from_dict(fields)
+	var headers = $(D "Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(query_string.length()))
+	var result = http_client.request(http_client.METHOD_POST, "index.php", headers, query_string)
+	
+	
 	*/
-	void setReadChunkSize(in long bytes)
+	GodotError request(in long method, in String url, in PoolStringArray headers, in String _body = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadChunkSize, _godot_object, bytes);
+		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);
+	}
+	/**
+	Sends a raw request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
+	Headers are HTTP request headers. For available HTTP methods, see $(D method).
+	Sends the body data raw, as a byte array and does not encode it in any way.
+	*/
+	GodotError requestRaw(in long method, in String url, in PoolStringArray headers, in PoolByteArray _body)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.requestRaw, _godot_object, method, url, headers, _body);
 	}
 	/**
 	
@@ -635,49 +683,18 @@ public:
 	/**
 	
 	*/
-	bool isBlockingModeEnabled() const
+	void setConnection(StreamPeer connection)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBlockingModeEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setConnection, _godot_object, connection);
 	}
 	/**
-	Returns a STATUS_* enum constant. Need to call $(D poll) in order to get status updates.
-	*/
-	HTTPClient.Status getStatus() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(HTTPClient.Status)(_classBinding.getStatus, _godot_object);
-	}
-	/**
-	This needs to be called in order to have any request processed. Check results with $(D getStatus)
-	*/
-	GodotError poll()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
-	}
-	/**
-	Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:
-	
-	
-	var fields = {"username": "user", "password": "pass"}
-	String query_string = http_client.query_string_from_dict(fields)
-	# returns: "username=user&amp;password=pass"
-	
-	
-	Furthermore, if a key has a null value, only the key itself is added, without equal sign and value. If the value is an array, for each value in it a pair with the same key is added.
-	
-	
-	var fields = {"single": 123, "not_valued": null, "multiple": $(D 22, 33, 44)}
-	String query_string = http_client.query_string_from_dict(fields)
-	# returns: "single=123&amp;not_valued&amp;multiple=22&amp;multiple=33&amp;multiple=44"
-	
 	
 	*/
-	String queryStringFromDict(in Dictionary fields)
+	void setReadChunkSize(in long bytes)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.queryStringFromDict, _godot_object, fields);
+		ptrcall!(void)(_classBinding.setReadChunkSize, _godot_object, bytes);
 	}
 	/**
 	If `true`, execution will block until all data is read from the response.
@@ -702,5 +719,17 @@ public:
 	@property void connection(StreamPeer v)
 	{
 		setConnection(v);
+	}
+	/**
+	The size of the buffer used and maximum bytes to read per iteration. See $(D readResponseBodyChunk).
+	*/
+	@property long readChunkSize()
+	{
+		return getReadChunkSize();
+	}
+	/// ditto
+	@property void readChunkSize(long v)
+	{
+		setReadChunkSize(v);
 	}
 }

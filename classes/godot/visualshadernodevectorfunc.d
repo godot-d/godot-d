@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_function") GodotMethod!(void, long) setFunction;
 		@GodotName("get_function") GodotMethod!(VisualShaderNodeVectorFunc.Function) getFunction;
+		@GodotName("set_function") GodotMethod!(void, long) setFunction;
 	}
 	bool opEquals(in VisualShaderNodeVectorFunc other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeVectorFunc opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -80,6 +80,122 @@ public:
 		
 		*/
 		funcHsv2rgb = 5,
+		/**
+		
+		*/
+		funcAbs = 6,
+		/**
+		
+		*/
+		funcAcos = 7,
+		/**
+		
+		*/
+		funcAcosh = 8,
+		/**
+		
+		*/
+		funcAsin = 9,
+		/**
+		
+		*/
+		funcAsinh = 10,
+		/**
+		
+		*/
+		funcAtan = 11,
+		/**
+		
+		*/
+		funcAtanh = 12,
+		/**
+		
+		*/
+		funcCeil = 13,
+		/**
+		
+		*/
+		funcCos = 14,
+		/**
+		
+		*/
+		funcCosh = 15,
+		/**
+		
+		*/
+		funcDegrees = 16,
+		/**
+		
+		*/
+		funcExp = 17,
+		/**
+		
+		*/
+		funcExp2 = 18,
+		/**
+		
+		*/
+		funcFloor = 19,
+		/**
+		
+		*/
+		funcFrac = 20,
+		/**
+		
+		*/
+		funcInverseSqrt = 21,
+		/**
+		
+		*/
+		funcLog = 22,
+		/**
+		
+		*/
+		funcLog2 = 23,
+		/**
+		
+		*/
+		funcRadians = 24,
+		/**
+		
+		*/
+		funcRound = 25,
+		/**
+		
+		*/
+		funcRoundeven = 26,
+		/**
+		
+		*/
+		funcSign = 27,
+		/**
+		
+		*/
+		funcSin = 28,
+		/**
+		
+		*/
+		funcSinh = 29,
+		/**
+		
+		*/
+		funcSqrt = 30,
+		/**
+		
+		*/
+		funcTan = 31,
+		/**
+		
+		*/
+		funcTanh = 32,
+		/**
+		
+		*/
+		funcTrunc = 33,
+		/**
+		
+		*/
+		funcOneminus = 34,
 	}
 	/// 
 	enum Constants : int
@@ -90,14 +206,35 @@ public:
 		funcReciprocal = 3,
 		funcRgb2hsv = 4,
 		funcHsv2rgb = 5,
-	}
-	/**
-	
-	*/
-	void setFunction(in long func)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, func);
+		funcAbs = 6,
+		funcAcos = 7,
+		funcAcosh = 8,
+		funcAsin = 9,
+		funcAsinh = 10,
+		funcAtan = 11,
+		funcAtanh = 12,
+		funcCeil = 13,
+		funcCos = 14,
+		funcCosh = 15,
+		funcDegrees = 16,
+		funcExp = 17,
+		funcExp2 = 18,
+		funcFloor = 19,
+		funcFrac = 20,
+		funcInverseSqrt = 21,
+		funcLog = 22,
+		funcLog2 = 23,
+		funcRadians = 24,
+		funcRound = 25,
+		funcRoundeven = 26,
+		funcSign = 27,
+		funcSin = 28,
+		funcSinh = 29,
+		funcSqrt = 30,
+		funcTan = 31,
+		funcTanh = 32,
+		funcTrunc = 33,
+		funcOneminus = 34,
 	}
 	/**
 	
@@ -106,6 +243,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualShaderNodeVectorFunc.Function)(_classBinding.getFunction, _godot_object);
+	}
+	/**
+	
+	*/
+	void setFunction(in long func)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunction, _godot_object, func);
 	}
 	/**
 	

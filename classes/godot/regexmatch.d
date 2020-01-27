@@ -1,5 +1,5 @@
 /**
-Contains the results of a regex search.
+Contains the results of a $(D RegEx) search.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-Contains the results of a regex search.
+Contains the results of a $(D RegEx) search.
 
-Contains the results of a single regex match returned by $(D RegEx.search) and $(D RegEx.searchAll). It can be used to find the position and range of the match and its capturing groups, and it can extract its sub-string for you.
+Contains the results of a single $(D RegEx) match returned by $(D RegEx.search) and $(D RegEx.searchAll). It can be used to find the position and range of the match and its capturing groups, and it can extract its substring for you.
 */
 @GodotBaseClass struct RegExMatch
 {
@@ -38,13 +38,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_subject") GodotMethod!(String) getSubject;
+		@GodotName("get_end") GodotMethod!(long, Variant) getEnd;
 		@GodotName("get_group_count") GodotMethod!(long) getGroupCount;
 		@GodotName("get_names") GodotMethod!(Dictionary) getNames;
-		@GodotName("get_strings") GodotMethod!(Array) getStrings;
-		@GodotName("get_string") GodotMethod!(String, Variant) getString;
 		@GodotName("get_start") GodotMethod!(long, Variant) getStart;
-		@GodotName("get_end") GodotMethod!(long, Variant) getEnd;
+		@GodotName("get_string") GodotMethod!(String, Variant) getString;
+		@GodotName("get_strings") GodotMethod!(Array) getStrings;
+		@GodotName("get_subject") GodotMethod!(String) getSubject;
 	}
 	bool opEquals(in RegExMatch other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RegExMatch opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,12 +59,13 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Returns the end position of the match within the source string. The end position of capturing groups can be retrieved by providing its group number as an integer or its string name (if it's a named group). The default value of 0 refers to the whole pattern.
+	Returns -1 if the group did not match or doesn't exist.
 	*/
-	String getSubject() const
+	long getEnd(VariantArg0)(in VariantArg0 name = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSubject, _godot_object);
+		return ptrcall!(long)(_classBinding.getEnd, _godot_object, name);
 	}
 	/**
 	Returns the number of capturing groups.
@@ -83,12 +84,13 @@ public:
 		return ptrcall!(Dictionary)(_classBinding.getNames, _godot_object);
 	}
 	/**
-	
+	Returns the starting position of the match within the source string. The starting position of capturing groups can be retrieved by providing its group number as an integer or its string name (if it's a named group). The default value of 0 refers to the whole pattern.
+	Returns -1 if the group did not match or doesn't exist.
 	*/
-	Array getStrings() const
+	long getStart(VariantArg0)(in VariantArg0 name = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getStrings, _godot_object);
+		return ptrcall!(long)(_classBinding.getStart, _godot_object, name);
 	}
 	/**
 	Returns the substring of the match from the source string. Capturing groups can be retrieved by providing its group number as an integer or its string name (if it's a named group). The default value of 0 refers to the whole pattern.
@@ -100,29 +102,20 @@ public:
 		return ptrcall!(String)(_classBinding.getString, _godot_object, name);
 	}
 	/**
-	Returns the starting position of the match within the source string. The starting position of capturing groups can be retrieved by providing its group number as an integer or its string name (if it's a named group). The default value of 0 refers to the whole pattern.
-	Returns -1 if the group did not match or doesn't exist.
+	
 	*/
-	long getStart(VariantArg0)(in VariantArg0 name = 0) const
+	Array getStrings() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStart, _godot_object, name);
+		return ptrcall!(Array)(_classBinding.getStrings, _godot_object);
 	}
 	/**
-	Returns the end position of the match within the source string. The end position of capturing groups can be retrieved by providing its group number as an integer or its string name (if it's a named group). The default value of 0 refers to the whole pattern.
-	Returns -1 if the group did not match or doesn't exist.
+	
 	*/
-	long getEnd(VariantArg0)(in VariantArg0 name = 0) const
+	String getSubject() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getEnd, _godot_object, name);
-	}
-	/**
-	The source string used with the search pattern to find this matching result.
-	*/
-	@property String subject()
-	{
-		return getSubject();
+		return ptrcall!(String)(_classBinding.getSubject, _godot_object);
 	}
 	/**
 	A dictionary of named groups and its corresponding group number. Only groups with that were matched are included. If multiple groups have the same name, that name would refer to the first matching one.
@@ -137,5 +130,12 @@ public:
 	@property Array strings()
 	{
 		return getStrings();
+	}
+	/**
+	The source string used with the search pattern to find this matching result.
+	*/
+	@property String subject()
+	{
+		return getSubject();
 	}
 }

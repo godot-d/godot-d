@@ -36,10 +36,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("connect_to_signal") GodotMethod!(void, GodotObject, String, Array) connectToSignal;
-		@GodotName("resume") GodotMethod!(Variant, Array) resume;
-		@GodotName("is_valid") GodotMethod!(bool) isValid;
 		@GodotName("_signal_callback") GodotMethod!(Variant, GodotVarArgs) _signalCallback;
+		@GodotName("connect_to_signal") GodotMethod!(void, GodotObject, String, Array) connectToSignal;
+		@GodotName("is_valid") GodotMethod!(bool) isValid;
+		@GodotName("resume") GodotMethod!(Variant, Array) resume;
 	}
 	bool opEquals(in VisualScriptFunctionState other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptFunctionState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +56,23 @@ public:
 	/**
 	
 	*/
-	void connectToSignal(GodotObject obj, in String signals, in Array args)
+	Variant _signalCallback(VarArgs...)(VarArgs varArgs)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.connectToSignal, _godot_object, obj, signals, args);
+		Array _GODOT_args = Array.make();
+		foreach(vai, VA; VarArgs)
+		{
+			_GODOT_args.append(varArgs[vai]);
+		}
+		String _GODOT_method_name = String("_signal_callback");
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	Variant resume(in Array args = Array.empty_array)
+	void connectToSignal(GodotObject obj, in String signals, in Array args)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.resume, _godot_object, args);
+		ptrcall!(void)(_classBinding.connectToSignal, _godot_object, obj, signals, args);
 	}
 	/**
 	
@@ -80,14 +85,9 @@ public:
 	/**
 	
 	*/
-	Variant _signalCallback(VarArgs...)(VarArgs varArgs)
+	Variant resume(in Array args = Array.make())
 	{
-		Array _GODOT_args = Array.empty_array;
-		foreach(vai, VA; VarArgs)
-		{
-			_GODOT_args.append(varArgs[vai]);
-		}
-		String _GODOT_method_name = String("_signal_callback");
-		return this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.resume, _godot_object, args);
 	}
 }

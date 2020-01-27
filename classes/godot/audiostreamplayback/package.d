@@ -23,7 +23,7 @@ import godot.reference;
 /**
 Meta class for playing back audio.
 
-Can play, loop, pause a scroll through Audio. See $(D AudioStream) and $(D AudioStreamOGGVorbis) for usage.
+Can play, loop, pause a scroll through audio. See $(D AudioStream) and $(D AudioStreamOGGVorbis) for usage.
 */
 @GodotBaseClass struct AudioStreamPlayback
 {

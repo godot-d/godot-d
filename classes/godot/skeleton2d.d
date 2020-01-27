@@ -1,5 +1,5 @@
 /**
-
+Skeleton for 2D characters and animated objects.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.bone2d;
 import godot.canvasitem;
 import godot.node;
+import godot.bone2d;
 /**
-
+Skeleton for 2D characters and animated objects.
 */
 @GodotBaseClass struct Skeleton2D
 {
@@ -41,8 +41,8 @@ public:
 		__gshared:
 		@GodotName("_update_bone_setup") GodotMethod!(void) _updateBoneSetup;
 		@GodotName("_update_transform") GodotMethod!(void) _updateTransform;
-		@GodotName("get_bone_count") GodotMethod!(long) getBoneCount;
 		@GodotName("get_bone") GodotMethod!(Bone2D, long) getBone;
+		@GodotName("get_bone_count") GodotMethod!(long) getBoneCount;
 		@GodotName("get_skeleton") GodotMethod!(RID) getSkeleton;
 	}
 	bool opEquals(in Skeleton2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -62,7 +62,7 @@ public:
 	*/
 	void _updateBoneSetup()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update_bone_setup");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
@@ -71,17 +71,9 @@ public:
 	*/
 	void _updateTransform()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update_transform");
 		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	long getBoneCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBoneCount, _godot_object);
 	}
 	/**
 	
@@ -90,6 +82,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Bone2D)(_classBinding.getBone, _godot_object, idx);
+	}
+	/**
+	Returns the amount of bones in the skeleton.
+	*/
+	long getBoneCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getBoneCount, _godot_object);
 	}
 	/**
 	

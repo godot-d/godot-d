@@ -1,5 +1,5 @@
 /**
-General purpose proximity-detection node.
+General-purpose proximity detection node.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
 /**
-General purpose proximity-detection node.
+General-purpose proximity detection node.
 
 
 */
@@ -39,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_group_name") GodotMethod!(void, String) setGroupName;
+		@GodotName("_proximity_group_broadcast") GodotMethod!(void, String, Variant) _proximityGroupBroadcast;
+		@GodotName("broadcast") GodotMethod!(void, String, Variant) broadcast;
+		@GodotName("get_dispatch_mode") GodotMethod!(ProximityGroup.DispatchMode) getDispatchMode;
+		@GodotName("get_grid_radius") GodotMethod!(Vector3) getGridRadius;
 		@GodotName("get_group_name") GodotMethod!(String) getGroupName;
 		@GodotName("set_dispatch_mode") GodotMethod!(void, long) setDispatchMode;
-		@GodotName("get_dispatch_mode") GodotMethod!(ProximityGroup.DispatchMode) getDispatchMode;
 		@GodotName("set_grid_radius") GodotMethod!(void, Vector3) setGridRadius;
-		@GodotName("get_grid_radius") GodotMethod!(Vector3) getGridRadius;
-		@GodotName("broadcast") GodotMethod!(void, String, Variant) broadcast;
-		@GodotName("_proximity_group_broadcast") GodotMethod!(void, String, Variant) _proximityGroupBroadcast;
+		@GodotName("set_group_name") GodotMethod!(void, String) setGroupName;
 	}
 	bool opEquals(in ProximityGroup other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProximityGroup opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -81,10 +80,37 @@ public:
 	/**
 	
 	*/
-	void setGroupName(in String name)
+	void _proximityGroupBroadcast(VariantArg1)(in String name, in VariantArg1 params)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(name);
+		_GODOT_args.append(params);
+		String _GODOT_method_name = String("_proximity_group_broadcast");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void broadcast(VariantArg1)(in String name, in VariantArg1 parameters)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroupName, _godot_object, name);
+		ptrcall!(void)(_classBinding.broadcast, _godot_object, name, parameters);
+	}
+	/**
+	
+	*/
+	ProximityGroup.DispatchMode getDispatchMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ProximityGroup.DispatchMode)(_classBinding.getDispatchMode, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getGridRadius() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGridRadius, _godot_object);
 	}
 	/**
 	
@@ -105,14 +131,6 @@ public:
 	/**
 	
 	*/
-	ProximityGroup.DispatchMode getDispatchMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(ProximityGroup.DispatchMode)(_classBinding.getDispatchMode, _godot_object);
-	}
-	/**
-	
-	*/
 	void setGridRadius(in Vector3 radius)
 	{
 		checkClassBinding!(typeof(this))();
@@ -121,41 +139,10 @@ public:
 	/**
 	
 	*/
-	Vector3 getGridRadius() const
+	void setGroupName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getGridRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void broadcast(VariantArg1)(in String name, in VariantArg1 parameters)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.broadcast, _godot_object, name, parameters);
-	}
-	/**
-	
-	*/
-	void _proximityGroupBroadcast(VariantArg1)(in String name, in VariantArg1 params)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(name);
-		_GODOT_args.append(params);
-		String _GODOT_method_name = String("_proximity_group_broadcast");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	@property String groupName()
-	{
-		return getGroupName();
-	}
-	/// ditto
-	@property void groupName(String v)
-	{
-		setGroupName(v);
+		ptrcall!(void)(_classBinding.setGroupName, _godot_object, name);
 	}
 	/**
 	
@@ -180,5 +167,17 @@ public:
 	@property void gridRadius(Vector3 v)
 	{
 		setGridRadius(v);
+	}
+	/**
+	
+	*/
+	@property String groupName()
+	{
+		return getGroupName();
+	}
+	/// ditto
+	@property void groupName(String v)
+	{
+		setGroupName(v);
 	}
 }

@@ -1,5 +1,5 @@
 /**
-Base class for anything that keeps a reference count.
+Base class for reference-counted objects.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 /**
-Base class for anything that keeps a reference count.
+Base class for reference-counted objects.
 
-Resource and many other helper objects inherit this. References keep an internal reference counter so they are only released when no longer in use.
+Base class for any object that keeps a reference count. $(D Resource) and many other helper objects inherit this class.
+References keep an internal reference counter so that they are automatically released when no longer in use, and only then. References therefore do not need to be freed manually with $(D GodotObject.free).
+In the vast majority of use cases, instantiating and using $(D Reference)-derived types is all you need to do. The methods provided in this class are only for advanced users, and can cause issues if misused.
 */
 @GodotBaseClass struct Reference
 {
@@ -54,7 +56,8 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Initializes the internal reference counter. Use this only if you really know what you are doing.
+	Returns whether the initialization was successful.
 	*/
 	bool initRef()
 	{
@@ -62,7 +65,8 @@ public:
 		return ptrcall!(bool)(_classBinding.initRef, _godot_object);
 	}
 	/**
-	Increase the internal reference counter. Use this only if you really know what you are doing.
+	Increments the internal reference counter. Use this only if you really know what you are doing.
+	Returns `true` if the increment was successful, `false` otherwise.
 	*/
 	bool reference()
 	{
@@ -70,7 +74,8 @@ public:
 		return ptrcall!(bool)(_classBinding.reference, _godot_object);
 	}
 	/**
-	Decrease the internal reference counter. Use this only if you really know what you are doing.
+	Decrements the internal reference counter. Use this only if you really know what you are doing.
+	Returns `true` if the decrement was successful, `false` otherwise.
 	*/
 	bool unreference()
 	{

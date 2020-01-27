@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.audiostream;
 import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,10 +37,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_mix_rate") GodotMethod!(void, double) setMixRate;
+		@GodotName("get_buffer_length") GodotMethod!(double) getBufferLength;
 		@GodotName("get_mix_rate") GodotMethod!(double) getMixRate;
 		@GodotName("set_buffer_length") GodotMethod!(void, double) setBufferLength;
-		@GodotName("get_buffer_length") GodotMethod!(double) getBufferLength;
+		@GodotName("set_mix_rate") GodotMethod!(void, double) setMixRate;
 	}
 	bool opEquals(in AudioStreamGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,10 +57,10 @@ public:
 	/**
 	
 	*/
-	void setMixRate(in double hz)
+	double getBufferLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixRate, _godot_object, hz);
+		return ptrcall!(double)(_classBinding.getBufferLength, _godot_object);
 	}
 	/**
 	
@@ -82,22 +81,10 @@ public:
 	/**
 	
 	*/
-	double getBufferLength() const
+	void setMixRate(in double hz)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBufferLength, _godot_object);
-	}
-	/**
-	
-	*/
-	@property double mixRate()
-	{
-		return getMixRate();
-	}
-	/// ditto
-	@property void mixRate(double v)
-	{
-		setMixRate(v);
+		ptrcall!(void)(_classBinding.setMixRate, _godot_object, hz);
 	}
 	/**
 	
@@ -110,5 +97,17 @@ public:
 	@property void bufferLength(double v)
 	{
 		setBufferLength(v);
+	}
+	/**
+	
+	*/
+	@property double mixRate()
+	{
+		return getMixRate();
+	}
+	/// ditto
+	@property void mixRate(double v)
+	{
+		setMixRate(v);
 	}
 }

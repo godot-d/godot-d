@@ -1,5 +1,5 @@
 /**
-
+Input animation to use in an $(D AnimationNodeBlendTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.animationrootnode;
-import godot.animationnode;
-import godot.resource;
-import godot.reference;
 /**
+Input animation to use in an $(D AnimationNodeBlendTree).
 
+A resource to add to an $(D AnimationNodeBlendTree). Only features one output set using the $(D animation) property. Use it as an input for $(D AnimationNode) that blend animations together.
 */
 @GodotBaseClass struct AnimationNodeAnimation
 {
@@ -39,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
 		@GodotName("get_animation") GodotMethod!(String) getAnimation;
+		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
 	}
 	bool opEquals(in AnimationNodeAnimation other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeAnimation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,14 +56,6 @@ public:
 	/**
 	
 	*/
-	void setAnimation(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimation, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getAnimation() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -72,6 +63,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setAnimation(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimation, _godot_object, name);
+	}
+	/**
+	Animation to use as an output. It is one of the animations provided by $(D AnimationTree.animPlayer).
 	*/
 	@property String animation()
 	{

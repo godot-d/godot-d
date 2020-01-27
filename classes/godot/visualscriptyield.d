@@ -38,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_yield_mode") GodotMethod!(void, long) setYieldMode;
+		@GodotName("get_wait_time") GodotMethod!(double) getWaitTime;
 		@GodotName("get_yield_mode") GodotMethod!(VisualScriptYield.YieldMode) getYieldMode;
 		@GodotName("set_wait_time") GodotMethod!(void, double) setWaitTime;
-		@GodotName("get_wait_time") GodotMethod!(double) getWaitTime;
+		@GodotName("set_yield_mode") GodotMethod!(void, long) setYieldMode;
 	}
 	bool opEquals(in VisualScriptYield other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptYield opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -81,10 +81,10 @@ public:
 	/**
 	
 	*/
-	void setYieldMode(in long mode)
+	double getWaitTime()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setYieldMode, _godot_object, mode);
+		return ptrcall!(double)(_classBinding.getWaitTime, _godot_object);
 	}
 	/**
 	
@@ -105,10 +105,10 @@ public:
 	/**
 	
 	*/
-	double getWaitTime()
+	void setYieldMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWaitTime, _godot_object);
+		ptrcall!(void)(_classBinding.setYieldMode, _godot_object, mode);
 	}
 	/**
 	

@@ -1,5 +1,5 @@
 /**
-A Texture capable of storing many smaller Textures with offsets.
+A $(D Texture) capable of storing many smaller textures with offsets.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
-A Texture capable of storing many smaller Textures with offsets.
+A $(D Texture) capable of storing many smaller textures with offsets.
 
-You can dynamically add pieces($(D Texture)) to this $(D LargeTexture) using different offsets.
+You can dynamically add pieces ($(D Texture)s) to this $(D LargeTexture) using different offsets.
 */
 @GodotBaseClass struct LargeTexture
 {
@@ -40,16 +38,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_get_data") GodotMethod!(Array) _getData;
+		@GodotName("_set_data") GodotMethod!(void, Array) _setData;
 		@GodotName("add_piece") GodotMethod!(long, Vector2, Texture) addPiece;
-		@GodotName("set_piece_offset") GodotMethod!(void, long, Vector2) setPieceOffset;
-		@GodotName("set_piece_texture") GodotMethod!(void, long, Texture) setPieceTexture;
-		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("get_piece_count") GodotMethod!(long) getPieceCount;
 		@GodotName("get_piece_offset") GodotMethod!(Vector2, long) getPieceOffset;
 		@GodotName("get_piece_texture") GodotMethod!(Texture, long) getPieceTexture;
-		@GodotName("_set_data") GodotMethod!(void, Array) _setData;
-		@GodotName("_get_data") GodotMethod!(Array) _getData;
+		@GodotName("set_piece_offset") GodotMethod!(void, long, Vector2) setPieceOffset;
+		@GodotName("set_piece_texture") GodotMethod!(void, long, Texture) setPieceTexture;
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 	}
 	bool opEquals(in LargeTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LargeTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,36 +62,31 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Add another $(D Texture) to this $(D LargeTexture), starting on offset "ofs".
+	
+	*/
+	Array _getData() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_data");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+	}
+	/**
+	
+	*/
+	void _setData(in Array data)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(data);
+		String _GODOT_method_name = String("_set_data");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds `texture` to this $(D LargeTexture), starting on offset `ofs`.
 	*/
 	long addPiece(in Vector2 ofs, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.addPiece, _godot_object, ofs, texture);
-	}
-	/**
-	Sets the offset of the piece with index "idx" to "ofs".
-	*/
-	void setPieceOffset(in long idx, in Vector2 ofs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPieceOffset, _godot_object, idx, ofs);
-	}
-	/**
-	Sets the $(D Texture) of the piece with index "idx" to "texture".
-	*/
-	void setPieceTexture(in long idx, Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPieceTexture, _godot_object, idx, texture);
-	}
-	/**
-	Sets the size of this $(D LargeTexture).
-	*/
-	void setSize(in Vector2 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
 	/**
 	Clears the $(D LargeTexture).
@@ -112,7 +105,7 @@ public:
 		return ptrcall!(long)(_classBinding.getPieceCount, _godot_object);
 	}
 	/**
-	Returns the offset of the piece with index "idx".
+	Returns the offset of the piece with the index `idx`.
 	*/
 	Vector2 getPieceOffset(in long idx) const
 	{
@@ -120,7 +113,7 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getPieceOffset, _godot_object, idx);
 	}
 	/**
-	Returns the $(D Texture) of the piece with index "idx".
+	Returns the $(D Texture) of the piece with the index `idx`.
 	*/
 	Ref!Texture getPieceTexture(in long idx) const
 	{
@@ -128,23 +121,28 @@ public:
 		return ptrcall!(Texture)(_classBinding.getPieceTexture, _godot_object, idx);
 	}
 	/**
-	
+	Sets the offset of the piece with the index `idx` to `ofs`.
 	*/
-	void _setData(in Array data)
+	void setPieceOffset(in long idx, in Vector2 ofs)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(data);
-		String _GODOT_method_name = String("_set_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPieceOffset, _godot_object, idx, ofs);
 	}
 	/**
-	
+	Sets the $(D Texture) of the piece with index `idx` to `texture`.
 	*/
-	Array _getData() const
+	void setPieceTexture(in long idx, Texture texture)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPieceTexture, _godot_object, idx, texture);
+	}
+	/**
+	Sets the size of this $(D LargeTexture).
+	*/
+	void setSize(in Vector2 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
 	/**
 	

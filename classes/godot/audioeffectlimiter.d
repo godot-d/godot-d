@@ -1,5 +1,5 @@
 /**
-Adds a soft clip Limiter audio effect to an Audio bus.
+Adds a soft-clip limiter audio effect to an Audio bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,11 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a soft clip Limiter audio effect to an Audio bus.
+Adds a soft-clip limiter audio effect to an Audio bus.
 
-A limiter is similar to a compressor, but it's less flexible and designed to disallow sound going over a given dB threshold. Adding one in the Master Bus is always recommended to reduce the effects of clipping.
+A limiter is similar to a compressor, but it's less flexible and designed to disallow sound going over a given dB threshold. Adding one in the Master bus is always recommended to reduce the effects of clipping.
 Soft clipping starts to reduce the peaks a little below the threshold level and progressively increases its effect as the input level increases such that the threshold is never exceeded.
 */
 @GodotBaseClass struct AudioEffectLimiter
@@ -41,14 +40,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_ceiling_db") GodotMethod!(void, double) setCeilingDb;
 		@GodotName("get_ceiling_db") GodotMethod!(double) getCeilingDb;
-		@GodotName("set_threshold_db") GodotMethod!(void, double) setThresholdDb;
-		@GodotName("get_threshold_db") GodotMethod!(double) getThresholdDb;
-		@GodotName("set_soft_clip_db") GodotMethod!(void, double) setSoftClipDb;
 		@GodotName("get_soft_clip_db") GodotMethod!(double) getSoftClipDb;
-		@GodotName("set_soft_clip_ratio") GodotMethod!(void, double) setSoftClipRatio;
 		@GodotName("get_soft_clip_ratio") GodotMethod!(double) getSoftClipRatio;
+		@GodotName("get_threshold_db") GodotMethod!(double) getThresholdDb;
+		@GodotName("set_ceiling_db") GodotMethod!(void, double) setCeilingDb;
+		@GodotName("set_soft_clip_db") GodotMethod!(void, double) setSoftClipDb;
+		@GodotName("set_soft_clip_ratio") GodotMethod!(void, double) setSoftClipRatio;
+		@GodotName("set_threshold_db") GodotMethod!(void, double) setThresholdDb;
 	}
 	bool opEquals(in AudioEffectLimiter other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectLimiter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,42 +64,10 @@ public:
 	/**
 	
 	*/
-	void setCeilingDb(in double ceiling)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCeilingDb, _godot_object, ceiling);
-	}
-	/**
-	
-	*/
 	double getCeilingDb() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getCeilingDb, _godot_object);
-	}
-	/**
-	
-	*/
-	void setThresholdDb(in double threshold)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setThresholdDb, _godot_object, threshold);
-	}
-	/**
-	
-	*/
-	double getThresholdDb() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getThresholdDb, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSoftClipDb(in double soft_clip)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSoftClipDb, _godot_object, soft_clip);
 	}
 	/**
 	
@@ -113,6 +80,38 @@ public:
 	/**
 	
 	*/
+	double getSoftClipRatio() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSoftClipRatio, _godot_object);
+	}
+	/**
+	
+	*/
+	double getThresholdDb() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getThresholdDb, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCeilingDb(in double ceiling)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCeilingDb, _godot_object, ceiling);
+	}
+	/**
+	
+	*/
+	void setSoftClipDb(in double soft_clip)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSoftClipDb, _godot_object, soft_clip);
+	}
+	/**
+	
+	*/
 	void setSoftClipRatio(in double soft_clip)
 	{
 		checkClassBinding!(typeof(this))();
@@ -121,13 +120,13 @@ public:
 	/**
 	
 	*/
-	double getSoftClipRatio() const
+	void setThresholdDb(in double threshold)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSoftClipRatio, _godot_object);
+		ptrcall!(void)(_classBinding.setThresholdDb, _godot_object, threshold);
 	}
 	/**
-	The waveform's maximum allowed value. Value can range from -20 to -0.1. Default value: `-0.1dB`.
+	The waveform's maximum allowed value, in decibels. Value can range from -20 to -0.1.
 	*/
 	@property double ceilingDb()
 	{
@@ -139,19 +138,7 @@ public:
 		setCeilingDb(v);
 	}
 	/**
-	Threshold from which the limiter begins to be active. Value can range from -30 to 0. Default value: `0dB`.
-	*/
-	@property double thresholdDb()
-	{
-		return getThresholdDb();
-	}
-	/// ditto
-	@property void thresholdDb(double v)
-	{
-		setThresholdDb(v);
-	}
-	/**
-	Applies a gain to the limited waves. Value can range from 0 to 6. Default value: `2dB`.
+	Applies a gain to the limited waves, in decibels. Value can range from 0 to 6.
 	*/
 	@property double softClipDb()
 	{
@@ -173,5 +160,17 @@ public:
 	@property void softClipRatio(double v)
 	{
 		setSoftClipRatio(v);
+	}
+	/**
+	Threshold from which the limiter begins to be active, in decibels. Value can range from -30 to 0.
+	*/
+	@property double thresholdDb()
+	{
+		return getThresholdDb();
+	}
+	/// ditto
+	@property void thresholdDb(double v)
+	{
+		setThresholdDb(v);
 	}
 }

@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
 Rectangle shape for 2D collisions.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_extents") GodotMethod!(void, Vector2) setExtents;
 		@GodotName("get_extents") GodotMethod!(Vector2) getExtents;
+		@GodotName("set_extents") GodotMethod!(void, Vector2) setExtents;
 	}
 	bool opEquals(in RectangleShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	RectangleShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setExtents(in Vector2 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
-	}
-	/**
-	
-	*/
 	Vector2 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getExtents, _godot_object);
+	}
+	/**
+	
+	*/
+	void setExtents(in Vector2 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
 	}
 	/**
 	The rectangle's half extents. The width and height of this shape is twice the half extents.

@@ -2,8 +2,11 @@ module godot.visualshadernodeuniform.all;
 
 public import
 	godot.visualshadernodeuniform,
-	godot.visualshadernodescalaruniform,
+	godot.visualshadernodebooleanuniform,
 	godot.visualshadernodecoloruniform,
-	godot.visualshadernodevec3uniform,
+	godot.visualshadernodescalaruniform,
+	godot.visualshadernodetextureuniform,
+	godot.visualshadernodecubemapuniform,
+	godot.visualshadernodetextureuniformtriplanar,
 	godot.visualshadernodetransformuniform,
-	godot.visualshadernodetextureuniform;
+	godot.visualshadernodevec3uniform;

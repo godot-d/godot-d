@@ -21,9 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.inputeventwithmodifiers;
-import godot.inputevent;
-import godot.resource;
-import godot.reference;
 /**
 Input event type for keyboard events.
 
@@ -41,13 +38,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
-		@GodotName("set_scancode") GodotMethod!(void, long) setScancode;
 		@GodotName("get_scancode") GodotMethod!(long) getScancode;
-		@GodotName("set_unicode") GodotMethod!(void, long) setUnicode;
+		@GodotName("get_scancode_with_modifiers") GodotMethod!(long) getScancodeWithModifiers;
 		@GodotName("get_unicode") GodotMethod!(long) getUnicode;
 		@GodotName("set_echo") GodotMethod!(void, bool) setEcho;
-		@GodotName("get_scancode_with_modifiers") GodotMethod!(long) getScancodeWithModifiers;
+		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+		@GodotName("set_scancode") GodotMethod!(void, long) setScancode;
+		@GodotName("set_unicode") GodotMethod!(void, long) setUnicode;
 	}
 	bool opEquals(in InputEventKey other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventKey opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,6 +58,39 @@ public:
 		return cast(InputEventKey)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	long getScancode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getScancode, _godot_object);
+	}
+	/**
+	Returns the scancode combined with modifier keys such as `Shift` or `Alt`. See also $(D InputEventWithModifiers).
+	To get a human-readable representation of the $(D InputEventKey) with modifiers, use `OS.get_scancode_string(event.get_scancode_with_modifiers())` where `event` is the $(D InputEventKey).
+	*/
+	long getScancodeWithModifiers() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getScancodeWithModifiers, _godot_object);
+	}
+	/**
+	
+	*/
+	long getUnicode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUnicode, _godot_object);
+	}
+	/**
+	
+	*/
+	void setEcho(in bool echo)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEcho, _godot_object, echo);
+	}
 	/**
 	
 	*/
@@ -80,42 +110,22 @@ public:
 	/**
 	
 	*/
-	long getScancode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getScancode, _godot_object);
-	}
-	/**
-	
-	*/
 	void setUnicode(in long unicode)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setUnicode, _godot_object, unicode);
 	}
 	/**
-	
+	If `true`, the key was already pressed before this event. It means the user is holding the key down.
 	*/
-	long getUnicode() const
+	@property bool echo()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUnicode, _godot_object);
+		return isEcho();
 	}
-	/**
-	
-	*/
-	void setEcho(in bool echo)
+	/// ditto
+	@property void echo(bool v)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEcho, _godot_object, echo);
-	}
-	/**
-	Returns the scancode combined with modifier keys such as `Shift` or `Alt`. See also $(D InputEventWithModifiers).
-	*/
-	long getScancodeWithModifiers() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getScancodeWithModifiers, _godot_object);
+		setEcho(v);
 	}
 	/**
 	If `true`, the key's state is pressed. If `false`, the key's state is released.
@@ -130,7 +140,8 @@ public:
 		setPressed(v);
 	}
 	/**
-	Key scancode, one of the $(D keylist) constants.
+	The key scancode, which corresponds to one of the $(D keylist) constants.
+	To get a human-readable representation of the $(D InputEventKey), use `OS.get_scancode_string(event.scancode)` where `event` is the $(D InputEventKey).
 	*/
 	@property long scancode()
 	{
@@ -142,7 +153,7 @@ public:
 		setScancode(v);
 	}
 	/**
-	Key unicode identifier when relevant.
+	The key Unicode identifier (when relevant). Unicode identifiers for the composite characters and complex scripts may not be available unless IME input mode is active. See $(D OS.setImeActive) for more information.
 	*/
 	@property long unicode()
 	{
@@ -152,17 +163,5 @@ public:
 	@property void unicode(long v)
 	{
 		setUnicode(v);
-	}
-	/**
-	If `true`, the key was already pressed before this event. It means the user is holding the key down.
-	*/
-	@property bool echo()
-	{
-		return isEcho();
-	}
-	/// ditto
-	@property void echo(bool v)
-	{
-		setEcho(v);
 	}
 }

@@ -25,6 +25,7 @@ import godot.reference;
 Type used to handle the filesystem.
 
 Directory type. It is used to manage directories and their content (not restricted to the project folder).
+When creating a new $(D Directory), its default opened directory will be `res://`. This may change in the future, so it is advised to always use $(D open) to initialize your $(D Directory) where you want to operate, with explicit error checking.
 Here is an example on how to iterate through the files of a directory:
 
 
@@ -33,7 +34,7 @@ func dir_contents(path):
     if dir.open(path) == OK:
         dir.list_dir_begin()
         var file_name = dir.get_next()
-        while (file_name != ""):
+        while file_name != "":
             if dir.current_is_dir():
                 print("Found directory: " + file_name)
             else:
@@ -56,24 +57,24 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("open") GodotMethod!(GodotError, String) open;
-		@GodotName("list_dir_begin") GodotMethod!(GodotError, bool, bool) listDirBegin;
-		@GodotName("get_next") GodotMethod!(String) getNext;
-		@GodotName("current_is_dir") GodotMethod!(bool) currentIsDir;
-		@GodotName("list_dir_end") GodotMethod!(void) listDirEnd;
-		@GodotName("get_drive_count") GodotMethod!(long) getDriveCount;
-		@GodotName("get_drive") GodotMethod!(String, long) getDrive;
-		@GodotName("get_current_drive") GodotMethod!(long) getCurrentDrive;
 		@GodotName("change_dir") GodotMethod!(GodotError, String) changeDir;
+		@GodotName("copy") GodotMethod!(GodotError, String, String) copy;
+		@GodotName("current_is_dir") GodotMethod!(bool) currentIsDir;
+		@GodotName("dir_exists") GodotMethod!(bool, String) dirExists;
+		@GodotName("file_exists") GodotMethod!(bool, String) fileExists;
 		@GodotName("get_current_dir") GodotMethod!(String) getCurrentDir;
+		@GodotName("get_current_drive") GodotMethod!(long) getCurrentDrive;
+		@GodotName("get_drive") GodotMethod!(String, long) getDrive;
+		@GodotName("get_drive_count") GodotMethod!(long) getDriveCount;
+		@GodotName("get_next") GodotMethod!(String) getNext;
+		@GodotName("get_space_left") GodotMethod!(long) getSpaceLeft;
+		@GodotName("list_dir_begin") GodotMethod!(GodotError, bool, bool) listDirBegin;
+		@GodotName("list_dir_end") GodotMethod!(void) listDirEnd;
 		@GodotName("make_dir") GodotMethod!(GodotError, String) makeDir;
 		@GodotName("make_dir_recursive") GodotMethod!(GodotError, String) makeDirRecursive;
-		@GodotName("file_exists") GodotMethod!(bool, String) fileExists;
-		@GodotName("dir_exists") GodotMethod!(bool, String) dirExists;
-		@GodotName("get_space_left") GodotMethod!(long) getSpaceLeft;
-		@GodotName("copy") GodotMethod!(GodotError, String, String) copy;
-		@GodotName("rename") GodotMethod!(GodotError, String, String) rename;
+		@GodotName("open") GodotMethod!(GodotError, String) open;
 		@GodotName("remove") GodotMethod!(GodotError, String) remove;
+		@GodotName("rename") GodotMethod!(GodotError, String, String) rename;
 	}
 	bool opEquals(in Directory other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Directory opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -88,35 +89,25 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Open an existing directory of the filesystem. The $(I path) argument can be within the project tree (`res://folder`), the user directory (`user://folder`) or an absolute path of the user filesystem (e.g. `/tmp/folder` or `C:\tmp\folder`).
-	The method returns one of the error code constants defined in $(D @GlobalScope) (OK or ERR_*).
+	Changes the currently opened directory to the one passed as an argument. The argument can be relative to the current directory (e.g. `newdir` or `../newdir`), or an absolute path (e.g. `/tmp/newdir` or `res://somedir/newdir`).
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
-	GodotError open(in String path)
+	GodotError changeDir(in String todir)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path);
+		return ptrcall!(GodotError)(_classBinding.changeDir, _godot_object, todir);
 	}
 	/**
-	Initialise the stream used to list all files and directories using the $(D getNext) function, closing the current opened stream if needed. Once the stream has been processed, it should typically be closed with $(D listDirEnd).
-	If you pass `skip_navigational`, then `.` and `..` would be filtered out.
-	If you pass `skip_hidden`, then hidden files would be filtered out.
+	Copies the `from` file to the `to` destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
-	GodotError listDirBegin(in bool skip_navigational = false, in bool skip_hidden = false)
+	GodotError copy(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listDirBegin, _godot_object, skip_navigational, skip_hidden);
+		return ptrcall!(GodotError)(_classBinding.copy, _godot_object, from, to);
 	}
 	/**
-	Return the next element (file or directory) in the current directory (including `.` and `..`, unless `skip_navigational` was given to $(D listDirBegin)).
-	The name of the file or directory is returned (and not its full path). Once the stream has been fully processed, the method returns an empty String and closes the stream automatically (i.e. $(D listDirEnd) would not be mandatory in such a case).
-	*/
-	String getNext()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNext, _godot_object);
-	}
-	/**
-	Return whether the current item processed with the last $(D getNext) call is a directory (`.` and `..` are considered directories).
+	Returns whether the current item processed with the last $(D getNext) call is a directory (`.` and `..` are considered directories).
 	*/
 	bool currentIsDir() const
 	{
@@ -124,28 +115,28 @@ public:
 		return ptrcall!(bool)(_classBinding.currentIsDir, _godot_object);
 	}
 	/**
-	Close the current stream opened with $(D listDirBegin) (whether it has been fully processed with $(D getNext) or not does not matter).
+	Returns whether the target directory exists. The argument can be relative to the current directory, or an absolute path.
 	*/
-	void listDirEnd()
+	bool dirExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.listDirEnd, _godot_object);
+		return ptrcall!(bool)(_classBinding.dirExists, _godot_object, path);
 	}
 	/**
-	On Windows, return the number of drives (partitions) mounted on the current filesystem. On other platforms, the method returns 0.
+	Returns whether the target file exists. The argument can be relative to the current directory, or an absolute path.
 	*/
-	long getDriveCount()
+	bool fileExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDriveCount, _godot_object);
+		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
 	}
 	/**
-	On Windows, return the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not existed, the method returns an empty String.
+	Returns the absolute path to the currently opened directory (e.g. `res://folder` or `C:\tmp\folder`).
 	*/
-	String getDrive(in long idx)
+	String getCurrentDir()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDrive, _godot_object, idx);
+		return ptrcall!(String)(_classBinding.getCurrentDir, _godot_object);
 	}
 	/**
 	Returns the currently opened directory's drive index. See $(D getDrive) to convert returned index to the name of the drive.
@@ -156,58 +147,32 @@ public:
 		return ptrcall!(long)(_classBinding.getCurrentDrive, _godot_object);
 	}
 	/**
-	Change the currently opened directory to the one passed as an argument. The argument can be relative to the current directory (e.g. `newdir` or `../newdir`), or an absolute path (e.g. `/tmp/newdir` or `res://somedir/newdir`).
-	The method returns one of the error code constants defined in $(D @GlobalScope) (OK or ERR_*).
+	On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not existed, the method returns an empty String.
 	*/
-	GodotError changeDir(in String todir)
+	String getDrive(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.changeDir, _godot_object, todir);
+		return ptrcall!(String)(_classBinding.getDrive, _godot_object, idx);
 	}
 	/**
-	Return the absolute path to the currently opened directory (e.g. `res://folder` or `C:\tmp\folder`).
+	On Windows, returns the number of drives (partitions) mounted on the current filesystem. On other platforms, the method returns 0.
 	*/
-	String getCurrentDir()
+	long getDriveCount()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentDir, _godot_object);
+		return ptrcall!(long)(_classBinding.getDriveCount, _godot_object);
 	}
 	/**
-	Create a directory. The argument can be relative to the current directory, or an absolute path. The target directory should be placed in an already existing directory (to create the full path recursively, see $(D makeDirRecursive)).
-	The method returns one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
+	Returns the next element (file or directory) in the current directory (including `.` and `..`, unless `skip_navigational` was given to $(D listDirBegin)).
+	The name of the file or directory is returned (and not its full path). Once the stream has been fully processed, the method returns an empty String and closes the stream automatically (i.e. $(D listDirEnd) would not be mandatory in such a case).
 	*/
-	GodotError makeDir(in String path)
+	String getNext()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.makeDir, _godot_object, path);
+		return ptrcall!(String)(_classBinding.getNext, _godot_object);
 	}
 	/**
-	Create a target directory and all necessary intermediate directories in its path, by calling $(D makeDir) recursively. The argument can be relative to the current directory, or an absolute path.
-	Return one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
-	*/
-	GodotError makeDirRecursive(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.makeDirRecursive, _godot_object, path);
-	}
-	/**
-	Return whether the target file exists. The argument can be relative to the current directory, or an absolute path.
-	*/
-	bool fileExists(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
-	}
-	/**
-	Return whether the target directory exists. The argument can be relative to the current directory, or an absolute path.
-	*/
-	bool dirExists(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.dirExists, _godot_object, path);
-	}
-	/**
-	On Unix desktop systems, return the available space on the current directory's disk. On other platforms, this information is not available and the method returns 0 or -1.
+	On UNIX desktop systems, returns the available space on the current directory's disk. On other platforms, this information is not available and the method returns 0 or -1.
 	*/
 	long getSpaceLeft()
 	{
@@ -215,30 +180,66 @@ public:
 		return ptrcall!(long)(_classBinding.getSpaceLeft, _godot_object);
 	}
 	/**
-	Copy the $(I from) file to the $(I to) destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
-	Returns one of the error code constants defined in $(D @GlobalScope) (OK, FAILED or ERR_*).
+	Initializes the stream used to list all files and directories using the $(D getNext) function, closing the current opened stream if needed. Once the stream has been processed, it should typically be closed with $(D listDirEnd).
+	If `skip_navigational` is `true`, `.` and `..` are filtered out.
+	If `skip_hidden` is `true`, hidden files are filtered out.
 	*/
-	GodotError copy(in String from, in String to)
+	GodotError listDirBegin(in bool skip_navigational = false, in bool skip_hidden = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.copy, _godot_object, from, to);
+		return ptrcall!(GodotError)(_classBinding.listDirBegin, _godot_object, skip_navigational, skip_hidden);
 	}
 	/**
-	Rename (move) the $(I from) file to the $(I to) destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
-	Return one of the error code constants defined in $(D @GlobalScope) (OK or FAILED).
+	Closes the current stream opened with $(D listDirBegin) (whether it has been fully processed with $(D getNext) or not does not matter).
 	*/
-	GodotError rename(in String from, in String to)
+	void listDirEnd()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.rename, _godot_object, from, to);
+		ptrcall!(void)(_classBinding.listDirEnd, _godot_object);
 	}
 	/**
-	Delete the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
-	Return one of the error code constants defined in $(D @GlobalScope) (OK or FAILED).
+	Creates a directory. The argument can be relative to the current directory, or an absolute path. The target directory should be placed in an already existing directory (to create the full path recursively, see $(D makeDirRecursive)).
+	Returns one of the $(D error) code constants (`OK` on success).
+	*/
+	GodotError makeDir(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.makeDir, _godot_object, path);
+	}
+	/**
+	Creates a target directory and all necessary intermediate directories in its path, by calling $(D makeDir) recursively. The argument can be relative to the current directory, or an absolute path.
+	Returns one of the $(D error) code constants (`OK` on success).
+	*/
+	GodotError makeDirRecursive(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.makeDirRecursive, _godot_object, path);
+	}
+	/**
+	Opens an existing directory of the filesystem. The `path` argument can be within the project tree (`res://folder`), the user directory (`user://folder`) or an absolute path of the user filesystem (e.g. `/tmp/folder` or `C:\tmp\folder`).
+	Returns one of the $(D error) code constants (`OK` on success).
+	*/
+	GodotError open(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path);
+	}
+	/**
+	Deletes the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError remove(in String path)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.remove, _godot_object, path);
+	}
+	/**
+	Renames (move) the `from` file to the `to` destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
+	Returns one of the $(D error) code constants (`OK` on success).
+	*/
+	GodotError rename(in String from, in String to)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.rename, _godot_object, from, to);
 	}
 }

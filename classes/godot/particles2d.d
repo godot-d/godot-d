@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.material;
-import godot.texture;
 import godot.canvasitem;
 import godot.node;
+import godot.texture;
+import godot.material;
 /**
 2D particle emitter.
 
@@ -43,40 +43,40 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
-		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
-		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
-		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
-		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
-		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
-		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
-		@GodotName("set_visibility_rect") GodotMethod!(void, Rect2) setVisibilityRect;
-		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
-		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
-		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
-		@GodotName("set_process_material") GodotMethod!(void, Material) setProcessMaterial;
-		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
-		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
+		@GodotName("capture_rect") GodotMethod!(Rect2) captureRect;
 		@GodotName("get_amount") GodotMethod!(long) getAmount;
-		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
-		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
-		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
+		@GodotName("get_draw_order") GodotMethod!(Particles2D.DrawOrder) getDrawOrder;
 		@GodotName("get_explosiveness_ratio") GodotMethod!(double) getExplosivenessRatio;
-		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
-		@GodotName("get_visibility_rect") GodotMethod!(Rect2) getVisibilityRect;
-		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
 		@GodotName("get_fixed_fps") GodotMethod!(long) getFixedFps;
 		@GodotName("get_fractional_delta") GodotMethod!(bool) getFractionalDelta;
-		@GodotName("get_process_material") GodotMethod!(Material) getProcessMaterial;
-		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
-		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
-		@GodotName("get_draw_order") GodotMethod!(Particles2D.DrawOrder) getDrawOrder;
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
-		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
+		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
 		@GodotName("get_normal_map") GodotMethod!(Texture) getNormalMap;
-		@GodotName("capture_rect") GodotMethod!(Rect2) captureRect;
+		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
+		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
+		@GodotName("get_process_material") GodotMethod!(Material) getProcessMaterial;
+		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
+		@GodotName("get_visibility_rect") GodotMethod!(Rect2) getVisibilityRect;
+		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
 		@GodotName("restart") GodotMethod!(void) restart;
+		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
+		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
+		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
+		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
+		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
+		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
+		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
+		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
+		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
+		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
+		@GodotName("set_process_material") GodotMethod!(void, Material) setProcessMaterial;
+		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
+		@GodotName("set_visibility_rect") GodotMethod!(void, Rect2) setVisibilityRect;
 	}
 	bool opEquals(in Particles2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Particles2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -109,116 +109,12 @@ public:
 		drawOrderLifetime = 1,
 	}
 	/**
-	
+	Returns a rectangle containing the positions of all existing particles.
 	*/
-	void setEmitting(in bool emitting)
+	Rect2 captureRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
-	}
-	/**
-	
-	*/
-	void setAmount(in long amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	void setLifetime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setOneShot(in bool secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneShot, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setPreProcessTime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setExplosivenessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setRandomnessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setVisibilityRect(in Rect2 visibility_rect)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibilityRect, _godot_object, visibility_rect);
-	}
-	/**
-	
-	*/
-	void setUseLocalCoordinates(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setFixedFps(in long fps)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
-	}
-	/**
-	
-	*/
-	void setFractionalDelta(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setProcessMaterial(Material material)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
-	}
-	/**
-	
-	*/
-	void setSpeedScale(in double scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	bool isEmitting() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+		return ptrcall!(Rect2)(_classBinding.captureRect, _godot_object);
 	}
 	/**
 	
@@ -231,26 +127,10 @@ public:
 	/**
 	
 	*/
-	double getLifetime() const
+	Particles2D.DrawOrder getDrawOrder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
-	}
-	/**
-	
-	*/
-	bool getOneShot() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
-	}
-	/**
-	
-	*/
-	double getPreProcessTime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
+		return ptrcall!(Particles2D.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
 	}
 	/**
 	
@@ -259,30 +139,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
-	}
-	/**
-	
-	*/
-	double getRandomnessRatio() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
-	}
-	/**
-	
-	*/
-	Rect2 getVisibilityRect() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getVisibilityRect, _godot_object);
-	}
-	/**
-	
-	*/
-	bool getUseLocalCoordinates() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
 	}
 	/**
 	
@@ -303,10 +159,50 @@ public:
 	/**
 	
 	*/
+	double getLifetime() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Texture getNormalMap() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getOneShot() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPreProcessTime() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
+	}
+	/**
+	
+	*/
 	Ref!Material getProcessMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Material)(_classBinding.getProcessMaterial, _godot_object);
+	}
+	/**
+	
+	*/
+	double getRandomnessRatio() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
 	}
 	/**
 	
@@ -319,6 +215,54 @@ public:
 	/**
 	
 	*/
+	Ref!Texture getTexture() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getUseLocalCoordinates() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
+	}
+	/**
+	
+	*/
+	Rect2 getVisibilityRect() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getVisibilityRect, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isEmitting() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+	}
+	/**
+	Restarts all the existing particles.
+	*/
+	void restart()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.restart, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAmount(in long amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
+	}
+	/**
+	
+	*/
 	void setDrawOrder(in long order)
 	{
 		checkClassBinding!(typeof(this))();
@@ -327,26 +271,42 @@ public:
 	/**
 	
 	*/
-	Particles2D.DrawOrder getDrawOrder() const
+	void setEmitting(in bool emitting)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Particles2D.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
+		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
 	}
 	/**
 	
 	*/
-	void setTexture(Texture texture)
+	void setExplosivenessRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
 	}
 	/**
 	
 	*/
-	Ref!Texture getTexture() const
+	void setFixedFps(in long fps)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
+	}
+	/**
+	
+	*/
+	void setFractionalDelta(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setLifetime(in double secs)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
 	}
 	/**
 	
@@ -359,38 +319,66 @@ public:
 	/**
 	
 	*/
-	Ref!Texture getNormalMap() const
+	void setOneShot(in bool secs)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
+		ptrcall!(void)(_classBinding.setOneShot, _godot_object, secs);
 	}
 	/**
-	Returns a rectangle containing the positions of all existing particles.
+	
 	*/
-	Rect2 captureRect() const
+	void setPreProcessTime(in double secs)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.captureRect, _godot_object);
+		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
 	}
 	/**
-	Restarts all the existing particles.
+	
 	*/
-	void restart()
+	void setProcessMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.restart, _godot_object);
+		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
 	}
 	/**
-	If `true`, particles are being emitted. Default value: `true`.
+	
 	*/
-	@property bool emitting()
+	void setRandomnessRatio(in double ratio)
 	{
-		return isEmitting();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
 	}
-	/// ditto
-	@property void emitting(bool v)
+	/**
+	
+	*/
+	void setSpeedScale(in double scale)
 	{
-		setEmitting(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
+	}
+	/**
+	
+	*/
+	void setTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setUseLocalCoordinates(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setVisibilityRect(in Rect2 visibility_rect)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVisibilityRect, _godot_object, visibility_rect);
 	}
 	/**
 	Number of particles emitted in one emission cycle.
@@ -405,7 +393,67 @@ public:
 		setAmount(v);
 	}
 	/**
-	Amount of time each particle will exist. Default value: `1`.
+	Particle draw order. Uses $(D draworder) values.
+	*/
+	@property Particles2D.DrawOrder drawOrder()
+	{
+		return getDrawOrder();
+	}
+	/// ditto
+	@property void drawOrder(long v)
+	{
+		setDrawOrder(v);
+	}
+	/**
+	If `true`, particles are being emitted.
+	*/
+	@property bool emitting()
+	{
+		return isEmitting();
+	}
+	/// ditto
+	@property void emitting(bool v)
+	{
+		setEmitting(v);
+	}
+	/**
+	How rapidly particles in an emission cycle are emitted. If greater than `0`, there will be a gap in emissions before the next cycle begins.
+	*/
+	@property double explosiveness()
+	{
+		return getExplosivenessRatio();
+	}
+	/// ditto
+	@property void explosiveness(double v)
+	{
+		setExplosivenessRatio(v);
+	}
+	/**
+	The particle system's frame rate is fixed to a value. For instance, changing the value to 2 will make the particles render at 2 frames per second. Note this does not slow down the simulation of the particle system itself.
+	*/
+	@property long fixedFps()
+	{
+		return getFixedFps();
+	}
+	/// ditto
+	@property void fixedFps(long v)
+	{
+		setFixedFps(v);
+	}
+	/**
+	If `true`, results in fractional delta calculation which has a smoother particles display effect.
+	*/
+	@property bool fractDelta()
+	{
+		return getFractionalDelta();
+	}
+	/// ditto
+	@property void fractDelta(bool v)
+	{
+		setFractionalDelta(v);
+	}
+	/**
+	Amount of time each particle will exist.
 	*/
 	@property double lifetime()
 	{
@@ -417,7 +465,31 @@ public:
 		setLifetime(v);
 	}
 	/**
-	If `true`, only one emission cycle occurs. If set `true` during a cycle, emission will stop at the cycle's end. Default value: `false`.
+	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates.
+	*/
+	@property bool localCoords()
+	{
+		return getUseLocalCoordinates();
+	}
+	/// ditto
+	@property void localCoords(bool v)
+	{
+		setUseLocalCoordinates(v);
+	}
+	/**
+	Normal map to be used for the $(D texture) property.
+	*/
+	@property Texture normalMap()
+	{
+		return getNormalMap();
+	}
+	/// ditto
+	@property void normalMap(Texture v)
+	{
+		setNormalMap(v);
+	}
+	/**
+	If `true`, only one emission cycle occurs. If set `true` during a cycle, emission will stop at the cycle's end.
 	*/
 	@property bool oneShot()
 	{
@@ -441,31 +513,7 @@ public:
 		setPreProcessTime(v);
 	}
 	/**
-	Particle system's running speed scaling ratio. Default value: `1`. A value of `0` can be used to pause the particles.
-	*/
-	@property double speedScale()
-	{
-		return getSpeedScale();
-	}
-	/// ditto
-	@property void speedScale(double v)
-	{
-		setSpeedScale(v);
-	}
-	/**
-	How rapidly particles in an emission cycle are emitted. If greater than `0`, there will be a gap in emissions before the next cycle begins. Default value: `0`.
-	*/
-	@property double explosiveness()
-	{
-		return getExplosivenessRatio();
-	}
-	/// ditto
-	@property void explosiveness(double v)
-	{
-		setExplosivenessRatio(v);
-	}
-	/**
-	Emission lifetime randomness ratio. Default value: `0`.
+	Emission lifetime randomness ratio.
 	*/
 	@property double randomness()
 	{
@@ -477,28 +525,28 @@ public:
 		setRandomnessRatio(v);
 	}
 	/**
-	The particle system's frame rate is fixed to a value. For instance, changing the value to 2 will make the particles render at 2 frames per second. Note this does not slow down the particle system itself.
+	Particle system's running speed scaling ratio. A value of `0` can be used to pause the particles.
 	*/
-	@property long fixedFps()
+	@property double speedScale()
 	{
-		return getFixedFps();
+		return getSpeedScale();
 	}
 	/// ditto
-	@property void fixedFps(long v)
+	@property void speedScale(double v)
 	{
-		setFixedFps(v);
+		setSpeedScale(v);
 	}
 	/**
-	If `true`, results in fractional delta calculation which has a smoother particles display effect. Default value: `true`
+	Particle texture. If `null`, particles will be squares.
 	*/
-	@property bool fractDelta()
+	@property Texture texture()
 	{
-		return getFractionalDelta();
+		return getTexture();
 	}
 	/// ditto
-	@property void fractDelta(bool v)
+	@property void texture(Texture v)
 	{
-		setFractionalDelta(v);
+		setTexture(v);
 	}
 	/**
 	Editor visibility helper.
@@ -511,53 +559,5 @@ public:
 	@property void visibilityRect(Rect2 v)
 	{
 		setVisibilityRect(v);
-	}
-	/**
-	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates. Default value: `true`.
-	*/
-	@property bool localCoords()
-	{
-		return getUseLocalCoordinates();
-	}
-	/// ditto
-	@property void localCoords(bool v)
-	{
-		setUseLocalCoordinates(v);
-	}
-	/**
-	Particle draw order. Uses `DRAW_ORDER_*` values. Default value: `DRAW_ORDER_INDEX`.
-	*/
-	@property Particles2D.DrawOrder drawOrder()
-	{
-		return getDrawOrder();
-	}
-	/// ditto
-	@property void drawOrder(long v)
-	{
-		setDrawOrder(v);
-	}
-	/**
-	Particle texture. If `null` particles will be squares.
-	*/
-	@property Texture texture()
-	{
-		return getTexture();
-	}
-	/// ditto
-	@property void texture(Texture v)
-	{
-		setTexture(v);
-	}
-	/**
-	Normal map to be used for the `texture` property.
-	*/
-	@property Texture normalMap()
-	{
-		return getNormalMap();
-	}
-	/// ditto
-	@property void normalMap(Texture v)
-	{
-		setNormalMap(v);
 	}
 }

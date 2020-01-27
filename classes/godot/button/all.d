@@ -2,9 +2,9 @@ module godot.button.all;
 
 public import
 	godot.button,
-	godot.menubutton,
 	godot.checkbox,
 	godot.checkbutton,
-	godot.toolbutton,
+	godot.colorpickerbutton,
+	godot.menubutton,
 	godot.optionbutton,
-	godot.colorpickerbutton;
+	godot.toolbutton;

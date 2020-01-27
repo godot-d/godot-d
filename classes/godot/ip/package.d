@@ -1,5 +1,5 @@
 /**
-Internet protocol (IP) support functions like DNS resolution.
+Internet protocol (IP) support functions such as DNS resolution.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,7 +20,7 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 /**
-Internet protocol (IP) support functions like DNS resolution.
+Internet protocol (IP) support functions such as DNS resolution.
 
 IP contains support functions for the Internet Protocol (IP). TCP/IP support is in different classes (see $(D StreamPeerTCP) and $(D TCP_Server)). IP provides DNS hostname resolution support, both blocking and threaded.
 */
@@ -38,13 +38,14 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "IP";
-		@GodotName("resolve_hostname") GodotMethod!(String, String, long) resolveHostname;
-		@GodotName("resolve_hostname_queue_item") GodotMethod!(long, String, long) resolveHostnameQueueItem;
-		@GodotName("get_resolve_item_status") GodotMethod!(IP.ResolverStatus, long) getResolveItemStatus;
-		@GodotName("get_resolve_item_address") GodotMethod!(String, long) getResolveItemAddress;
+		@GodotName("clear_cache") GodotMethod!(void, String) clearCache;
 		@GodotName("erase_resolve_item") GodotMethod!(void, long) eraseResolveItem;
 		@GodotName("get_local_addresses") GodotMethod!(Array) getLocalAddresses;
-		@GodotName("clear_cache") GodotMethod!(void, String) clearCache;
+		@GodotName("get_local_interfaces") GodotMethod!(Array) getLocalInterfaces;
+		@GodotName("get_resolve_item_address") GodotMethod!(String, long) getResolveItemAddress;
+		@GodotName("get_resolve_item_status") GodotMethod!(IP.ResolverStatus, long) getResolveItemStatus;
+		@GodotName("resolve_hostname") GodotMethod!(String, String, long) resolveHostname;
+		@GodotName("resolve_hostname_queue_item") GodotMethod!(long, String, long) resolveHostnameQueueItem;
 	}
 	bool opEquals(in IPSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	IPSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -102,7 +103,7 @@ public:
 	enum Constants : int
 	{
 		/**
-		Invalid ID constant. Returned if `RESOLVER_MAX_QUERIES` is exceeded.
+		Invalid ID constant. Returned if $(D constant RESOLVER_MAX_QUERIES) is exceeded.
 		*/
 		resolverInvalidId = -1,
 		typeNone = 0,
@@ -114,44 +115,20 @@ public:
 		resolverStatusError = 3,
 		typeAny = 3,
 		/**
-		Maximum number of concurrent DNS resolver queries allowed, `RESOLVER_INVALID_ID` is returned if exceeded.
+		Maximum number of concurrent DNS resolver queries allowed, $(D constant RESOLVER_INVALID_ID) is returned if exceeded.
 		*/
 		resolverMaxQueries = 32,
 	}
 	/**
-	Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the TYPE_* constant given as "ip_type".
+	Removes all of a `hostname`'s cached references. If no `hostname` is given, all cached IP addresses are removed.
 	*/
-	String resolveHostname(in String host, in long ip_type = 3)
+	void clearCache(in String hostname = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.resolveHostname, _godot_object, host, ip_type);
+		ptrcall!(void)(_classBinding.clearCache, _godot_object, hostname);
 	}
 	/**
-	Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the TYPE_* constant given as "ip_type". Returns the queue ID if successful, or RESOLVER_INVALID_ID on error.
-	*/
-	long resolveHostnameQueueItem(in String host, in long ip_type = 3)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.resolveHostnameQueueItem, _godot_object, host, ip_type);
-	}
-	/**
-	Returns a queued hostname's status as a RESOLVER_STATUS_* constant, given its queue "id".
-	*/
-	IP.ResolverStatus getResolveItemStatus(in long id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(IP.ResolverStatus)(_classBinding.getResolveItemStatus, _godot_object, id);
-	}
-	/**
-	Returns a queued hostname's IP address, given its queue "id". Returns an empty string on error or if resolution hasn't happened yet (see $(D getResolveItemStatus)).
-	*/
-	String getResolveItemAddress(in long id) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getResolveItemAddress, _godot_object, id);
-	}
-	/**
-	Removes a given item "id" from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
+	Removes a given item `id` from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
 	*/
 	void eraseResolveItem(in long id)
 	{
@@ -167,12 +144,55 @@ public:
 		return ptrcall!(Array)(_classBinding.getLocalAddresses, _godot_object);
 	}
 	/**
-	Removes all of a "hostname"'s cached references. If no "hostname" is given then all cached IP addresses are removed.
+	Returns all network adapters as an array.
+	Each adapter is a dictionary of the form:
+	
+	
+	{
+	    "index": "1", # Interface index.
+	    "name": "eth0", # Interface name.
+	    "friendly": "Ethernet One", # A friendly name (might be empty).
+	    "addresses": $(D "192.168.1.101"), # An array of IP addresses associated to this interface.
+	}
+	
+	
 	*/
-	void clearCache(in String hostname = gs!"")
+	Array getLocalInterfaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCache, _godot_object, hostname);
+		return ptrcall!(Array)(_classBinding.getLocalInterfaces, _godot_object);
+	}
+	/**
+	Returns a queued hostname's IP address, given its queue `id`. Returns an empty string on error or if resolution hasn't happened yet (see $(D getResolveItemStatus)).
+	*/
+	String getResolveItemAddress(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getResolveItemAddress, _godot_object, id);
+	}
+	/**
+	Returns a queued hostname's status as a $(D resolverstatus) constant, given its queue `id`.
+	*/
+	IP.ResolverStatus getResolveItemStatus(in long id) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(IP.ResolverStatus)(_classBinding.getResolveItemStatus, _godot_object, id);
+	}
+	/**
+	Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the $(D type) constant given as `ip_type`.
+	*/
+	String resolveHostname(in String host, in long ip_type = 3)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.resolveHostname, _godot_object, host, ip_type);
+	}
+	/**
+	Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the $(D type) constant given as `ip_type`. Returns the queue ID if successful, or $(D constant RESOLVER_INVALID_ID) on error.
+	*/
+	long resolveHostnameQueueItem(in String host, in long ip_type = 3)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.resolveHostnameQueueItem, _godot_object, host, ip_type);
 	}
 }
 /// Returns: the IPSingleton

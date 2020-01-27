@@ -26,7 +26,7 @@ import godot.reference;
 /**
 Branches program flow based on a given input's value.
 
-Branches the flow based on an input's value. Use "Case Count" in the Inspector to set the number of branches and each comparison's optional type.
+Branches the flow based on an input's value. Use $(B Case Count) in the Inspector to set the number of branches and each comparison's optional type.
 $(B Input Ports:)
 - Sequence: `'input' is`
 - Data (variant): `=`

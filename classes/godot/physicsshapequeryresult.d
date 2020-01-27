@@ -1,5 +1,5 @@
 /**
-Result of a shape query in Physics2DServer.
+Result of a 3D shape query in $(D PhysicsServer).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,7 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
-Result of a shape query in Physics2DServer.
+Result of a 3D shape query in $(D PhysicsServer).
+
+The result of a 3D shape query in $(D PhysicsServer). See also $(D PhysicsShapeQueryParameters).
 */
 @GodotBaseClass struct PhysicsShapeQueryResult
 {
@@ -36,10 +38,10 @@ public:
 	{
 		__gshared:
 		@GodotName("get_result_count") GodotMethod!(long) getResultCount;
-		@GodotName("get_result_rid") GodotMethod!(RID, long) getResultRid;
-		@GodotName("get_result_object_id") GodotMethod!(long, long) getResultObjectId;
 		@GodotName("get_result_object") GodotMethod!(GodotObject, long) getResultObject;
+		@GodotName("get_result_object_id") GodotMethod!(long, long) getResultObjectId;
 		@GodotName("get_result_object_shape") GodotMethod!(long, long) getResultObjectShape;
+		@GodotName("get_result_rid") GodotMethod!(RID, long) getResultRid;
 	}
 	bool opEquals(in PhysicsShapeQueryResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsShapeQueryResult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,7 +56,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Returns the number of objects that intersected with the shape.
 	*/
 	long getResultCount() const
 	{
@@ -62,23 +64,7 @@ public:
 		return ptrcall!(long)(_classBinding.getResultCount, _godot_object);
 	}
 	/**
-	
-	*/
-	RID getResultRid(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getResultRid, _godot_object, idx);
-	}
-	/**
-	
-	*/
-	long getResultObjectId(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResultObjectId, _godot_object, idx);
-	}
-	/**
-	
+	Returns the $(D GodotObject) that intersected with the shape at index `idx`.
 	*/
 	GodotObject getResultObject(in long idx) const
 	{
@@ -86,11 +72,27 @@ public:
 		return ptrcall!(GodotObject)(_classBinding.getResultObject, _godot_object, idx);
 	}
 	/**
-	
+	Returns the instance ID of the $(D GodotObject) that intersected with the shape at index `idx`.
+	*/
+	long getResultObjectId(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getResultObjectId, _godot_object, idx);
+	}
+	/**
+	Returns the child index of the object's $(D Shape) that intersected with the shape at index `idx`.
 	*/
 	long getResultObjectShape(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getResultObjectShape, _godot_object, idx);
+	}
+	/**
+	Returns the $(D RID) of the object that intersected with the shape at index `idx`.
+	*/
+	RID getResultRid(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getResultRid, _godot_object, idx);
 	}
 }

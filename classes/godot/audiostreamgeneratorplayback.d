@@ -20,8 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.audiostreamplaybackresampled;
-import godot.audiostreamplayback;
-import godot.reference;
 /**
 
 */
@@ -37,12 +35,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("push_frame") GodotMethod!(bool, Vector2) pushFrame;
 		@GodotName("can_push_buffer") GodotMethod!(bool, long) canPushBuffer;
-		@GodotName("push_buffer") GodotMethod!(bool, PoolVector2Array) pushBuffer;
+		@GodotName("clear_buffer") GodotMethod!(void) clearBuffer;
 		@GodotName("get_frames_available") GodotMethod!(long) getFramesAvailable;
 		@GodotName("get_skips") GodotMethod!(long) getSkips;
-		@GodotName("clear_buffer") GodotMethod!(void) clearBuffer;
+		@GodotName("push_buffer") GodotMethod!(bool, PoolVector2Array) pushBuffer;
+		@GodotName("push_frame") GodotMethod!(bool, Vector2) pushFrame;
 	}
 	bool opEquals(in AudioStreamGeneratorPlayback other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioStreamGeneratorPlayback opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,14 +57,6 @@ public:
 	/**
 	
 	*/
-	bool pushFrame(in Vector2 frame)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.pushFrame, _godot_object, frame);
-	}
-	/**
-	
-	*/
 	bool canPushBuffer(in long amount) const
 	{
 		checkClassBinding!(typeof(this))();
@@ -75,10 +65,10 @@ public:
 	/**
 	
 	*/
-	bool pushBuffer(in PoolVector2Array frames)
+	void clearBuffer()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.pushBuffer, _godot_object, frames);
+		ptrcall!(void)(_classBinding.clearBuffer, _godot_object);
 	}
 	/**
 	
@@ -99,9 +89,17 @@ public:
 	/**
 	
 	*/
-	void clearBuffer()
+	bool pushBuffer(in PoolVector2Array frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBuffer, _godot_object);
+		return ptrcall!(bool)(_classBinding.pushBuffer, _godot_object, frames);
+	}
+	/**
+	
+	*/
+	bool pushFrame(in Vector2 frame)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.pushFrame, _godot_object, frame);
 	}
 }

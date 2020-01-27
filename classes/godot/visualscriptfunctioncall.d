@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,28 +36,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
-		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
-		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
-		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
-		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
-		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
-		@GodotName("set_singleton") GodotMethod!(void, String) setSingleton;
-		@GodotName("get_singleton") GodotMethod!(String) getSingleton;
-		@GodotName("set_function") GodotMethod!(void, String) setFunction;
-		@GodotName("get_function") GodotMethod!(String) getFunction;
-		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
-		@GodotName("get_call_mode") GodotMethod!(VisualScriptFunctionCall.CallMode) getCallMode;
-		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
-		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
-		@GodotName("set_use_default_args") GodotMethod!(void, long) setUseDefaultArgs;
-		@GodotName("get_use_default_args") GodotMethod!(long) getUseDefaultArgs;
-		@GodotName("_set_argument_cache") GodotMethod!(void, Dictionary) _setArgumentCache;
 		@GodotName("_get_argument_cache") GodotMethod!(Dictionary) _getArgumentCache;
-		@GodotName("set_rpc_call_mode") GodotMethod!(void, long) setRpcCallMode;
+		@GodotName("_set_argument_cache") GodotMethod!(void, Dictionary) _setArgumentCache;
+		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
+		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
+		@GodotName("get_call_mode") GodotMethod!(VisualScriptFunctionCall.CallMode) getCallMode;
+		@GodotName("get_function") GodotMethod!(String) getFunction;
 		@GodotName("get_rpc_call_mode") GodotMethod!(VisualScriptFunctionCall.RPCCallMode) getRpcCallMode;
-		@GodotName("set_validate") GodotMethod!(void, bool) setValidate;
+		@GodotName("get_singleton") GodotMethod!(String) getSingleton;
+		@GodotName("get_use_default_args") GodotMethod!(long) getUseDefaultArgs;
 		@GodotName("get_validate") GodotMethod!(bool) getValidate;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
+		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
+		@GodotName("set_function") GodotMethod!(void, String) setFunction;
+		@GodotName("set_rpc_call_mode") GodotMethod!(void, long) setRpcCallMode;
+		@GodotName("set_singleton") GodotMethod!(void, String) setSingleton;
+		@GodotName("set_use_default_args") GodotMethod!(void, long) setUseDefaultArgs;
+		@GodotName("set_validate") GodotMethod!(void, bool) setValidate;
 	}
 	bool opEquals(in VisualScriptFunctionCall other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptFunctionCall opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -138,106 +136,21 @@ public:
 	/**
 	
 	*/
-	void setBaseType(in String base_type)
+	Dictionary _getArgumentCache() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_argument_cache");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
 	}
 	/**
 	
 	*/
-	String getBaseType() const
+	void _setArgumentCache(in Dictionary argument_cache)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBaseScript(in String base_script)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
-	}
-	/**
-	
-	*/
-	String getBaseScript() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBasicType(in long basic_type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
-	}
-	/**
-	
-	*/
-	Variant.Type getBasicType() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSingleton(in String singleton)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
-	}
-	/**
-	
-	*/
-	String getSingleton() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSingleton, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFunction(in String _function)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, _function);
-	}
-	/**
-	
-	*/
-	String getFunction() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFunction, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCallMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	VisualScriptFunctionCall.CallMode getCallMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptFunctionCall.CallMode)(_classBinding.getCallMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(argument_cache);
+		String _GODOT_method_name = String("_set_argument_cache");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -250,45 +163,42 @@ public:
 	/**
 	
 	*/
-	void setUseDefaultArgs(in long amount)
+	String getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseDefaultArgs, _godot_object, amount);
+		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
 	}
 	/**
 	
 	*/
-	long getUseDefaultArgs() const
+	String getBaseType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUseDefaultArgs, _godot_object);
+		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
 	}
 	/**
 	
 	*/
-	void _setArgumentCache(in Dictionary argument_cache)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(argument_cache);
-		String _GODOT_method_name = String("_set_argument_cache");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Dictionary _getArgumentCache() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_argument_cache");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
-	}
-	/**
-	
-	*/
-	void setRpcCallMode(in long mode)
+	Variant.Type getBasicType() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRpcCallMode, _godot_object, mode);
+		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
+	}
+	/**
+	
+	*/
+	VisualScriptFunctionCall.CallMode getCallMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptFunctionCall.CallMode)(_classBinding.getCallMode, _godot_object);
+	}
+	/**
+	
+	*/
+	String getFunction() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getFunction, _godot_object);
 	}
 	/**
 	
@@ -301,10 +211,18 @@ public:
 	/**
 	
 	*/
-	void setValidate(in bool enable)
+	String getSingleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValidate, _godot_object, enable);
+		return ptrcall!(String)(_classBinding.getSingleton, _godot_object);
+	}
+	/**
+	
+	*/
+	long getUseDefaultArgs() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getUseDefaultArgs, _godot_object);
 	}
 	/**
 	
@@ -317,74 +235,82 @@ public:
 	/**
 	
 	*/
-	@property VisualScriptFunctionCall.CallMode callMode()
+	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
-		return getCallMode();
-	}
-	/// ditto
-	@property void callMode(long v)
-	{
-		setCallMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
 	}
 	/**
 	
 	*/
-	@property String baseType()
+	void setBaseScript(in String base_script)
 	{
-		return getBaseType();
-	}
-	/// ditto
-	@property void baseType(String v)
-	{
-		setBaseType(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
 	}
 	/**
 	
 	*/
-	@property String baseScript()
+	void setBaseType(in String base_type)
 	{
-		return getBaseScript();
-	}
-	/// ditto
-	@property void baseScript(String v)
-	{
-		setBaseScript(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
 	}
 	/**
 	
 	*/
-	@property String singleton()
+	void setBasicType(in long basic_type)
 	{
-		return getSingleton();
-	}
-	/// ditto
-	@property void singleton(String v)
-	{
-		setSingleton(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
 	}
 	/**
 	
 	*/
-	@property Variant.Type basicType()
+	void setCallMode(in long mode)
 	{
-		return getBasicType();
-	}
-	/// ditto
-	@property void basicType(long v)
-	{
-		setBasicType(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
 	}
 	/**
 	
 	*/
-	@property NodePath nodePath()
+	void setFunction(in String _function)
 	{
-		return getBasePath();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFunction, _godot_object, _function);
 	}
-	/// ditto
-	@property void nodePath(NodePath v)
+	/**
+	
+	*/
+	void setRpcCallMode(in long mode)
 	{
-		setBasePath(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRpcCallMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setSingleton(in String singleton)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
+	}
+	/**
+	
+	*/
+	void setUseDefaultArgs(in long amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseDefaultArgs, _godot_object, amount);
+	}
+	/**
+	
+	*/
+	void setValidate(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setValidate, _godot_object, enable);
 	}
 	/**
 	
@@ -401,6 +327,54 @@ public:
 	/**
 	
 	*/
+	@property String baseScript()
+	{
+		return getBaseScript();
+	}
+	/// ditto
+	@property void baseScript(String v)
+	{
+		setBaseScript(v);
+	}
+	/**
+	
+	*/
+	@property String baseType()
+	{
+		return getBaseType();
+	}
+	/// ditto
+	@property void baseType(String v)
+	{
+		setBaseType(v);
+	}
+	/**
+	
+	*/
+	@property Variant.Type basicType()
+	{
+		return getBasicType();
+	}
+	/// ditto
+	@property void basicType(long v)
+	{
+		setBasicType(v);
+	}
+	/**
+	
+	*/
+	@property VisualScriptFunctionCall.CallMode callMode()
+	{
+		return getCallMode();
+	}
+	/// ditto
+	@property void callMode(long v)
+	{
+		setCallMode(v);
+	}
+	/**
+	
+	*/
 	@property String _function()
 	{
 		return getFunction();
@@ -409,6 +383,42 @@ public:
 	@property void _function(String v)
 	{
 		setFunction(v);
+	}
+	/**
+	
+	*/
+	@property NodePath nodePath()
+	{
+		return getBasePath();
+	}
+	/// ditto
+	@property void nodePath(NodePath v)
+	{
+		setBasePath(v);
+	}
+	/**
+	
+	*/
+	@property VisualScriptFunctionCall.RPCCallMode rpcCallMode()
+	{
+		return getRpcCallMode();
+	}
+	/// ditto
+	@property void rpcCallMode(long v)
+	{
+		setRpcCallMode(v);
+	}
+	/**
+	
+	*/
+	@property String singleton()
+	{
+		return getSingleton();
+	}
+	/// ditto
+	@property void singleton(String v)
+	{
+		setSingleton(v);
 	}
 	/**
 	
@@ -433,17 +443,5 @@ public:
 	@property void validate(bool v)
 	{
 		setValidate(v);
-	}
-	/**
-	
-	*/
-	@property VisualScriptFunctionCall.RPCCallMode rpcCallMode()
-	{
-		return getRpcCallMode();
-	}
-	/// ditto
-	@property void rpcCallMode(long v)
-	{
-		setRpcCallMode(v);
 	}
 }

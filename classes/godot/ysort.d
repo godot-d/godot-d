@@ -41,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_sort_enabled") GodotMethod!(void, bool) setSortEnabled;
 		@GodotName("is_sort_enabled") GodotMethod!(bool) isSortEnabled;
+		@GodotName("set_sort_enabled") GodotMethod!(void, bool) setSortEnabled;
 	}
 	bool opEquals(in YSort other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	YSort opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,21 +59,21 @@ public:
 	/**
 	
 	*/
-	void setSortEnabled(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSortEnabled, _godot_object, enabled);
-	}
-	/**
-	
-	*/
 	bool isSortEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isSortEnabled, _godot_object);
 	}
 	/**
-	If `true`, child nodes are sorted, otherwise sorting is disabled. Default: `true`.
+	
+	*/
+	void setSortEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSortEnabled, _godot_object, enabled);
+	}
+	/**
+	If `true`, child nodes are sorted, otherwise sorting is disabled.
 	*/
 	@property bool sortEnabled()
 	{

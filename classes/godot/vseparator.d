@@ -27,7 +27,7 @@ import godot.node;
 /**
 Vertical version of $(D Separator).
 
-It is used to separate objects horizontally, though (but it looks vertical!).
+Even though it looks vertical, it is used to separate objects horizontally.
 */
 @GodotBaseClass struct VSeparator
 {

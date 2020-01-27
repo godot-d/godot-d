@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 import godot.image;
-import godot.resource;
-import godot.reference;
 /**
 A $(D Texture) based on an $(D Image).
 
@@ -41,17 +39,17 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_reload_hook") GodotMethod!(void, RID) _reloadHook;
 		@GodotName("create") GodotMethod!(void, long, long, long, long) create;
 		@GodotName("create_from_image") GodotMethod!(void, Image, long) createFromImage;
 		@GodotName("get_format") GodotMethod!(Image.Format) getFormat;
+		@GodotName("get_lossy_storage_quality") GodotMethod!(double) getLossyStorageQuality;
+		@GodotName("get_storage") GodotMethod!(ImageTexture.Storage) getStorage;
 		@GodotName("load") GodotMethod!(GodotError, String) load;
 		@GodotName("set_data") GodotMethod!(void, Image) setData;
-		@GodotName("set_storage") GodotMethod!(void, long) setStorage;
-		@GodotName("get_storage") GodotMethod!(ImageTexture.Storage) getStorage;
 		@GodotName("set_lossy_storage_quality") GodotMethod!(void, double) setLossyStorageQuality;
-		@GodotName("get_lossy_storage_quality") GodotMethod!(double) getLossyStorageQuality;
 		@GodotName("set_size_override") GodotMethod!(void, Vector2) setSizeOverride;
-		@GodotName("_reload_hook") GodotMethod!(void, RID) _reloadHook;
+		@GodotName("set_storage") GodotMethod!(void, long) setStorage;
 	}
 	bool opEquals(in ImageTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ImageTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -89,6 +87,16 @@ public:
 		storageCompressLossless = 2,
 	}
 	/**
+	
+	*/
+	void _reloadHook(in RID rid)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(rid);
+		String _GODOT_method_name = String("_reload_hook");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
 	Create a new $(D ImageTexture) with `width` and `height`.
 	`format` is a value from $(D Image.format), `flags` is any combination of $(D Texture.flags).
 	*/
@@ -106,7 +114,7 @@ public:
 		ptrcall!(void)(_classBinding.createFromImage, _godot_object, image, flags);
 	}
 	/**
-	Return the format of the $(D ImageTexture), one of $(D Image.format).
+	Returns the format of the $(D ImageTexture), one of $(D Image.format).
 	*/
 	Image.Format getFormat() const
 	{
@@ -114,28 +122,12 @@ public:
 		return ptrcall!(Image.Format)(_classBinding.getFormat, _godot_object);
 	}
 	/**
-	Load an $(D ImageTexture) from a file path.
-	*/
-	GodotError load(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
-	}
-	/**
-	Set the $(D Image) of this $(D ImageTexture).
-	*/
-	void setData(Image image)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setData, _godot_object, image);
-	}
-	/**
 	
 	*/
-	void setStorage(in long mode)
+	double getLossyStorageQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStorage, _godot_object, mode);
+		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
 	
@@ -146,20 +138,28 @@ public:
 		return ptrcall!(ImageTexture.Storage)(_classBinding.getStorage, _godot_object);
 	}
 	/**
+	Load an $(D ImageTexture) from a file path.
+	*/
+	GodotError load(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+	}
+	/**
+	Sets the $(D Image) of this $(D ImageTexture).
+	*/
+	void setData(Image image)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setData, _godot_object, image);
+	}
+	/**
 	
 	*/
 	void setLossyStorageQuality(in double quality)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setLossyStorageQuality, _godot_object, quality);
-	}
-	/**
-	
-	*/
-	double getLossyStorageQuality() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
 	Resizes the $(D ImageTexture) to the specified dimensions.
@@ -172,12 +172,22 @@ public:
 	/**
 	
 	*/
-	void _reloadHook(in RID rid)
+	void setStorage(in long mode)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(rid);
-		String _GODOT_method_name = String("_reload_hook");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStorage, _godot_object, mode);
+	}
+	/**
+	The storage quality for $(D constant STORAGE_COMPRESS_LOSSY).
+	*/
+	@property double lossyQuality()
+	{
+		return getLossyStorageQuality();
+	}
+	/// ditto
+	@property void lossyQuality(double v)
+	{
+		setLossyStorageQuality(v);
 	}
 	/**
 	The storage type (raw, lossy, or compressed).
@@ -190,17 +200,5 @@ public:
 	@property void storage(long v)
 	{
 		setStorage(v);
-	}
-	/**
-	The storage quality for `STORAGE_COMPRESS_LOSSY`.
-	*/
-	@property double lossyQuality()
-	{
-		return getLossyStorageQuality();
-	}
-	/// ditto
-	@property void lossyQuality(double v)
-	{
-		setLossyStorageQuality(v);
 	}
 }

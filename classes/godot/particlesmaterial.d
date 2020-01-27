@@ -21,11 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.material;
-import godot.texture;
-import godot.curvetexture;
-import godot.gradienttexture;
 import godot.resource;
-import godot.reference;
+import godot.texture;
+import godot.gradienttexture;
+import godot.curvetexture;
 /**
 Particle properties for $(D Particles) and $(D Particles2D) nodes.
 
@@ -45,44 +44,48 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
-		@GodotName("get_spread") GodotMethod!(double) getSpread;
-		@GodotName("set_flatness") GodotMethod!(void, double) setFlatness;
-		@GodotName("get_flatness") GodotMethod!(double) getFlatness;
-		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
-		@GodotName("get_param") GodotMethod!(double, long) getParam;
-		@GodotName("set_param_randomness") GodotMethod!(void, long, double) setParamRandomness;
-		@GodotName("get_param_randomness") GodotMethod!(double, long) getParamRandomness;
-		@GodotName("set_param_texture") GodotMethod!(void, long, Texture) setParamTexture;
-		@GodotName("get_param_texture") GodotMethod!(Texture, long) getParamTexture;
-		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("get_color") GodotMethod!(Color) getColor;
-		@GodotName("set_color_ramp") GodotMethod!(void, Texture) setColorRamp;
 		@GodotName("get_color_ramp") GodotMethod!(Texture) getColorRamp;
-		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
-		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
-		@GodotName("set_emission_shape") GodotMethod!(void, long) setEmissionShape;
-		@GodotName("get_emission_shape") GodotMethod!(ParticlesMaterial.EmissionShape) getEmissionShape;
-		@GodotName("set_emission_sphere_radius") GodotMethod!(void, double) setEmissionSphereRadius;
-		@GodotName("get_emission_sphere_radius") GodotMethod!(double) getEmissionSphereRadius;
-		@GodotName("set_emission_box_extents") GodotMethod!(void, Vector3) setEmissionBoxExtents;
+		@GodotName("get_direction") GodotMethod!(Vector3) getDirection;
 		@GodotName("get_emission_box_extents") GodotMethod!(Vector3) getEmissionBoxExtents;
-		@GodotName("set_emission_point_texture") GodotMethod!(void, Texture) setEmissionPointTexture;
-		@GodotName("get_emission_point_texture") GodotMethod!(Texture) getEmissionPointTexture;
-		@GodotName("set_emission_normal_texture") GodotMethod!(void, Texture) setEmissionNormalTexture;
-		@GodotName("get_emission_normal_texture") GodotMethod!(Texture) getEmissionNormalTexture;
-		@GodotName("set_emission_color_texture") GodotMethod!(void, Texture) setEmissionColorTexture;
 		@GodotName("get_emission_color_texture") GodotMethod!(Texture) getEmissionColorTexture;
-		@GodotName("set_emission_point_count") GodotMethod!(void, long) setEmissionPointCount;
+		@GodotName("get_emission_normal_texture") GodotMethod!(Texture) getEmissionNormalTexture;
 		@GodotName("get_emission_point_count") GodotMethod!(long) getEmissionPointCount;
-		@GodotName("set_trail_divisor") GodotMethod!(void, long) setTrailDivisor;
-		@GodotName("get_trail_divisor") GodotMethod!(long) getTrailDivisor;
-		@GodotName("set_trail_size_modifier") GodotMethod!(void, CurveTexture) setTrailSizeModifier;
-		@GodotName("get_trail_size_modifier") GodotMethod!(CurveTexture) getTrailSizeModifier;
-		@GodotName("set_trail_color_modifier") GodotMethod!(void, GradientTexture) setTrailColorModifier;
-		@GodotName("get_trail_color_modifier") GodotMethod!(GradientTexture) getTrailColorModifier;
+		@GodotName("get_emission_point_texture") GodotMethod!(Texture) getEmissionPointTexture;
+		@GodotName("get_emission_shape") GodotMethod!(ParticlesMaterial.EmissionShape) getEmissionShape;
+		@GodotName("get_emission_sphere_radius") GodotMethod!(double) getEmissionSphereRadius;
+		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
+		@GodotName("get_flatness") GodotMethod!(double) getFlatness;
 		@GodotName("get_gravity") GodotMethod!(Vector3) getGravity;
+		@GodotName("get_lifetime_randomness") GodotMethod!(double) getLifetimeRandomness;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("get_param_randomness") GodotMethod!(double, long) getParamRandomness;
+		@GodotName("get_param_texture") GodotMethod!(Texture, long) getParamTexture;
+		@GodotName("get_spread") GodotMethod!(double) getSpread;
+		@GodotName("get_trail_color_modifier") GodotMethod!(GradientTexture) getTrailColorModifier;
+		@GodotName("get_trail_divisor") GodotMethod!(long) getTrailDivisor;
+		@GodotName("get_trail_size_modifier") GodotMethod!(CurveTexture) getTrailSizeModifier;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
+		@GodotName("set_color_ramp") GodotMethod!(void, Texture) setColorRamp;
+		@GodotName("set_direction") GodotMethod!(void, Vector3) setDirection;
+		@GodotName("set_emission_box_extents") GodotMethod!(void, Vector3) setEmissionBoxExtents;
+		@GodotName("set_emission_color_texture") GodotMethod!(void, Texture) setEmissionColorTexture;
+		@GodotName("set_emission_normal_texture") GodotMethod!(void, Texture) setEmissionNormalTexture;
+		@GodotName("set_emission_point_count") GodotMethod!(void, long) setEmissionPointCount;
+		@GodotName("set_emission_point_texture") GodotMethod!(void, Texture) setEmissionPointTexture;
+		@GodotName("set_emission_shape") GodotMethod!(void, long) setEmissionShape;
+		@GodotName("set_emission_sphere_radius") GodotMethod!(void, double) setEmissionSphereRadius;
+		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
+		@GodotName("set_flatness") GodotMethod!(void, double) setFlatness;
 		@GodotName("set_gravity") GodotMethod!(void, Vector3) setGravity;
+		@GodotName("set_lifetime_randomness") GodotMethod!(void, double) setLifetimeRandomness;
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
+		@GodotName("set_param_randomness") GodotMethod!(void, long, double) setParamRandomness;
+		@GodotName("set_param_texture") GodotMethod!(void, long, Texture) setParamTexture;
+		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
+		@GodotName("set_trail_color_modifier") GodotMethod!(void, GradientTexture) setTrailColorModifier;
+		@GodotName("set_trail_divisor") GodotMethod!(void, long) setTrailDivisor;
+		@GodotName("set_trail_size_modifier") GodotMethod!(void, CurveTexture) setTrailSizeModifier;
 	}
 	bool opEquals(in ParticlesMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ParticlesMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -104,11 +107,15 @@ public:
 		*/
 		flagAlignYToVelocity = 0,
 		/**
-		Use with $(D setFlag) to set $(D flagRotateY)
+		Use with $(D setFlag) to set $(D flagRotateY).
 		*/
 		flagRotateY = 1,
 		/**
-		
+		Use with $(D setFlag) to set $(D flagDisableZ).
+		*/
+		flagDisableZ = 2,
+		/**
+		Represents the size of the $(D flags) enum.
 		*/
 		flagMax = 3,
 	}
@@ -135,6 +142,10 @@ public:
 		Particles will be emitted at a position determined by sampling a random point on the $(D emissionPointTexture). Particle velocity and rotation will be set based on $(D emissionNormalTexture). Particle color will be modulated by $(D emissionColorTexture).
 		*/
 		emissionShapeDirectedPoints = 4,
+		/**
+		Represents the size of the $(D emissionshape) enum.
+		*/
+		emissionShapeMax = 5,
 	}
 	/// 
 	enum Parameter : int
@@ -148,7 +159,7 @@ public:
 		*/
 		paramAngularVelocity = 1,
 		/**
-		Use with $(D setParam), $(D setParamRandomness), and $(D setParamTexture) to set orbital_velocity properties.
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamTexture) to set orbital velocity properties.
 		*/
 		paramOrbitVelocity = 2,
 		/**
@@ -176,7 +187,7 @@ public:
 		*/
 		paramScale = 8,
 		/**
-		Use with $(D setParam), $(D setParamRandomness), and $(D setParamTexture) to set hue_variation properties.
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamTexture) to set hue variation properties.
 		*/
 		paramHueVariation = 9,
 		/**
@@ -188,7 +199,7 @@ public:
 		*/
 		paramAnimOffset = 11,
 		/**
-		
+		Represents the size of the $(D parameter) enum.
 		*/
 		paramMax = 12,
 	}
@@ -196,19 +207,21 @@ public:
 	enum Constants : int
 	{
 		flagAlignYToVelocity = 0,
-		paramInitialLinearVelocity = 0,
 		emissionShapePoint = 0,
+		paramInitialLinearVelocity = 0,
 		paramAngularVelocity = 1,
-		flagRotateY = 1,
 		emissionShapeSphere = 1,
-		paramOrbitVelocity = 2,
+		flagRotateY = 1,
+		flagDisableZ = 2,
 		emissionShapeBox = 2,
-		emissionShapePoints = 3,
+		paramOrbitVelocity = 2,
 		flagMax = 3,
 		paramLinearAccel = 3,
-		emissionShapeDirectedPoints = 4,
+		emissionShapePoints = 3,
 		paramRadialAccel = 4,
+		emissionShapeDirectedPoints = 4,
 		paramTangentialAccel = 5,
+		emissionShapeMax = 5,
 		paramDamping = 6,
 		paramAngle = 7,
 		paramScale = 8,
@@ -216,94 +229,6 @@ public:
 		paramAnimSpeed = 10,
 		paramAnimOffset = 11,
 		paramMax = 12,
-	}
-	/**
-	
-	*/
-	void setSpread(in double degrees)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpread, _godot_object, degrees);
-	}
-	/**
-	
-	*/
-	double getSpread() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpread, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFlatness(in double amount)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlatness, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	double getFlatness() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFlatness, _godot_object);
-	}
-	/**
-	
-	*/
-	void setParam(in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
-	}
-	/**
-	
-	*/
-	double getParam(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamRandomness(in long param, in double randomness)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamRandomness, _godot_object, param, randomness);
-	}
-	/**
-	
-	*/
-	double getParamRandomness(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamRandomness, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamTexture(in long param, Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamTexture, _godot_object, param, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getParamTexture(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getParamTexture, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -316,14 +241,6 @@ public:
 	/**
 	
 	*/
-	void setColorRamp(Texture ramp)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColorRamp, _godot_object, ramp);
-	}
-	/**
-	
-	*/
 	Ref!Texture getColorRamp() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -332,58 +249,10 @@ public:
 	/**
 	
 	*/
-	void setFlag(in long flag, in bool enable)
+	Vector3 getDirection() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enable);
-	}
-	/**
-	
-	*/
-	bool getFlag(in long flag) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void setEmissionShape(in long shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionShape, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	ParticlesMaterial.EmissionShape getEmissionShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(ParticlesMaterial.EmissionShape)(_classBinding.getEmissionShape, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionSphereRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionSphereRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getEmissionSphereRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEmissionSphereRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionBoxExtents(in Vector3 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionBoxExtents, _godot_object, extents);
+		return ptrcall!(Vector3)(_classBinding.getDirection, _godot_object);
 	}
 	/**
 	
@@ -396,26 +265,10 @@ public:
 	/**
 	
 	*/
-	void setEmissionPointTexture(Texture texture)
+	Ref!Texture getEmissionColorTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionPointTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getEmissionPointTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getEmissionPointTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionNormalTexture(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionNormalTexture, _godot_object, texture);
+		return ptrcall!(Texture)(_classBinding.getEmissionColorTexture, _godot_object);
 	}
 	/**
 	
@@ -428,30 +281,6 @@ public:
 	/**
 	
 	*/
-	void setEmissionColorTexture(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionColorTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getEmissionColorTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getEmissionColorTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionPointCount(in long point_count)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionPointCount, _godot_object, point_count);
-	}
-	/**
-	
-	*/
 	long getEmissionPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -460,50 +289,42 @@ public:
 	/**
 	
 	*/
-	void setTrailDivisor(in long divisor)
+	Ref!Texture getEmissionPointTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailDivisor, _godot_object, divisor);
+		return ptrcall!(Texture)(_classBinding.getEmissionPointTexture, _godot_object);
 	}
 	/**
 	
 	*/
-	long getTrailDivisor() const
+	ParticlesMaterial.EmissionShape getEmissionShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrailDivisor, _godot_object);
+		return ptrcall!(ParticlesMaterial.EmissionShape)(_classBinding.getEmissionShape, _godot_object);
 	}
 	/**
 	
 	*/
-	void setTrailSizeModifier(CurveTexture texture)
+	double getEmissionSphereRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailSizeModifier, _godot_object, texture);
+		return ptrcall!(double)(_classBinding.getEmissionSphereRadius, _godot_object);
+	}
+	/**
+	Returns `true` if the specified flag is enabled.
+	*/
+	bool getFlag(in long flag) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
 	}
 	/**
 	
 	*/
-	Ref!CurveTexture getTrailSizeModifier() const
+	double getFlatness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CurveTexture)(_classBinding.getTrailSizeModifier, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTrailColorModifier(GradientTexture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailColorModifier, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!GradientTexture getTrailColorModifier() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GradientTexture)(_classBinding.getTrailColorModifier, _godot_object);
+		return ptrcall!(double)(_classBinding.getFlatness, _godot_object);
 	}
 	/**
 	
@@ -516,448 +337,238 @@ public:
 	/**
 	
 	*/
+	double getLifetimeRandomness() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLifetimeRandomness, _godot_object);
+	}
+	/**
+	Returns the value of the specified parameter.
+	*/
+	double getParam(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+	}
+	/**
+	Returns the randomness ratio associated with the specified parameter.
+	*/
+	double getParamRandomness(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParamRandomness, _godot_object, param);
+	}
+	/**
+	Returns the $(D Texture) used by the specified parameter.
+	*/
+	Ref!Texture getParamTexture(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getParamTexture, _godot_object, param);
+	}
+	/**
+	
+	*/
+	double getSpread() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpread, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!GradientTexture getTrailColorModifier() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GradientTexture)(_classBinding.getTrailColorModifier, _godot_object);
+	}
+	/**
+	
+	*/
+	long getTrailDivisor() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrailDivisor, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!CurveTexture getTrailSizeModifier() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CurveTexture)(_classBinding.getTrailSizeModifier, _godot_object);
+	}
+	/**
+	
+	*/
+	void setColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+	}
+	/**
+	
+	*/
+	void setColorRamp(Texture ramp)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColorRamp, _godot_object, ramp);
+	}
+	/**
+	
+	*/
+	void setDirection(in Vector3 degrees)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDirection, _godot_object, degrees);
+	}
+	/**
+	
+	*/
+	void setEmissionBoxExtents(in Vector3 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionBoxExtents, _godot_object, extents);
+	}
+	/**
+	
+	*/
+	void setEmissionColorTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionColorTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setEmissionNormalTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionNormalTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setEmissionPointCount(in long point_count)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionPointCount, _godot_object, point_count);
+	}
+	/**
+	
+	*/
+	void setEmissionPointTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionPointTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setEmissionShape(in long shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionShape, _godot_object, shape);
+	}
+	/**
+	
+	*/
+	void setEmissionSphereRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionSphereRadius, _godot_object, radius);
+	}
+	/**
+	If `true`, enables the specified flag. See $(D flags) for options.
+	*/
+	void setFlag(in long flag, in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enable);
+	}
+	/**
+	
+	*/
+	void setFlatness(in double amount)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlatness, _godot_object, amount);
+	}
+	/**
+	
+	*/
 	void setGravity(in Vector3 accel_vec)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setGravity, _godot_object, accel_vec);
 	}
 	/**
-	Emitter will emit `amount` divided by `trail_divisor` particles. The remaining particles will be used as trail(s).
+	
 	*/
-	@property long trailDivisor()
+	void setLifetimeRandomness(in double randomness)
 	{
-		return getTrailDivisor();
-	}
-	/// ditto
-	@property void trailDivisor(long v)
-	{
-		setTrailDivisor(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLifetimeRandomness, _godot_object, randomness);
 	}
 	/**
-	Trail particles' size will vary along this $(D CurveTexture).
+	Sets the specified $(D parameter).
 	*/
-	@property CurveTexture trailSizeModifier()
+	void setParam(in long param, in double value)
 	{
-		return getTrailSizeModifier();
-	}
-	/// ditto
-	@property void trailSizeModifier(CurveTexture v)
-	{
-		setTrailSizeModifier(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
 	}
 	/**
-	Trail particles' color will vary along this $(D GradientTexture).
+	Sets the randomness ratio for the specified $(D parameter).
 	*/
-	@property GradientTexture trailColorModifier()
+	void setParamRandomness(in long param, in double randomness)
 	{
-		return getTrailColorModifier();
-	}
-	/// ditto
-	@property void trailColorModifier(GradientTexture v)
-	{
-		setTrailColorModifier(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamRandomness, _godot_object, param, randomness);
 	}
 	/**
-	Particles will be emitted inside this region. Use `EMISSION_SHAPE_*` constants for values. Default value: `EMISSION_SHAPE_POINT`.
+	Sets the $(D Texture) for the specified $(D parameter).
 	*/
-	@property ParticlesMaterial.EmissionShape emissionShape()
+	void setParamTexture(in long param, Texture texture)
 	{
-		return getEmissionShape();
-	}
-	/// ditto
-	@property void emissionShape(long v)
-	{
-		setEmissionShape(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamTexture, _godot_object, param, texture);
 	}
 	/**
-	The sphere's radius if `emission_shape` is set to `EMISSION_SHAPE_SPHERE`.
+	
 	*/
-	@property double emissionSphereRadius()
+	void setSpread(in double degrees)
 	{
-		return getEmissionSphereRadius();
-	}
-	/// ditto
-	@property void emissionSphereRadius(double v)
-	{
-		setEmissionSphereRadius(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpread, _godot_object, degrees);
 	}
 	/**
-	The box's extents if `emission_shape` is set to `EMISSION_SHAPE_BOX`.
+	
 	*/
-	@property Vector3 emissionBoxExtents()
+	void setTrailColorModifier(GradientTexture texture)
 	{
-		return getEmissionBoxExtents();
-	}
-	/// ditto
-	@property void emissionBoxExtents(Vector3 v)
-	{
-		setEmissionBoxExtents(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTrailColorModifier, _godot_object, texture);
 	}
 	/**
-	Particles will be emitted at positions determined by sampling this texture at a random position. Used with `EMISSION_SHAPE_POINTS` and `EMISSION_SHAPE_DIRECTED_POINTS`. Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
+	
 	*/
-	@property Texture emissionPointTexture()
+	void setTrailDivisor(in long divisor)
 	{
-		return getEmissionPointTexture();
-	}
-	/// ditto
-	@property void emissionPointTexture(Texture v)
-	{
-		setEmissionPointTexture(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTrailDivisor, _godot_object, divisor);
 	}
 	/**
-	Particle velocity and rotation will be set by sampling this texture at the same point as the $(D emissionPointTexture). Used only in `EMISSION_SHAPE_DIRECTED`. Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
+	
 	*/
-	@property Texture emissionNormalTexture()
+	void setTrailSizeModifier(CurveTexture texture)
 	{
-		return getEmissionNormalTexture();
-	}
-	/// ditto
-	@property void emissionNormalTexture(Texture v)
-	{
-		setEmissionNormalTexture(v);
-	}
-	/**
-	Particle color will be modulated by color determined by sampling this texture at the same point as the $(D emissionPointTexture).
-	*/
-	@property Texture emissionColorTexture()
-	{
-		return getEmissionColorTexture();
-	}
-	/// ditto
-	@property void emissionColorTexture(Texture v)
-	{
-		setEmissionColorTexture(v);
-	}
-	/**
-	The number of emission points if `emission_shape` is set to `EMISSION_SHAPE_POINTS` or `EMISSION_SHAPE_DIRECTED_POINTS`.
-	*/
-	@property long emissionPointCount()
-	{
-		return getEmissionPointCount();
-	}
-	/// ditto
-	@property void emissionPointCount(long v)
-	{
-		setEmissionPointCount(v);
-	}
-	/**
-	Align y-axis of particle with the direction of its velocity.
-	*/
-	@property bool flagAlignY()
-	{
-		return getFlag(0);
-	}
-	/// ditto
-	@property void flagAlignY(bool v)
-	{
-		setFlag(0, v);
-	}
-	/**
-	If `true`, particles rotate around y-axis by $(D angle).
-	*/
-	@property bool flagRotateY()
-	{
-		return getFlag(1);
-	}
-	/// ditto
-	@property void flagRotateY(bool v)
-	{
-		setFlag(1, v);
-	}
-	/**
-	If `true`, particles will not move on the z axis. Default value: `true` for $(D Particles2D), `false` for $(D Particles).
-	*/
-	@property bool flagDisableZ()
-	{
-		return getFlag(2);
-	}
-	/// ditto
-	@property void flagDisableZ(bool v)
-	{
-		setFlag(2, v);
-	}
-	/**
-	Each particle's initial direction range from `+spread` to `-spread` degrees. Default value: `45`. Applied to X/Z plane and Y/Z planes.
-	*/
-	@property double spread()
-	{
-		return getSpread();
-	}
-	/// ditto
-	@property void spread(double v)
-	{
-		setSpread(v);
-	}
-	/**
-	Amount of $(D spread) in Y/Z plane. A value of `1` restricts particles to X/Z plane. Default `0`.
-	*/
-	@property double flatness()
-	{
-		return getFlatness();
-	}
-	/// ditto
-	@property void flatness(double v)
-	{
-		setFlatness(v);
-	}
-	/**
-	Gravity applied to every particle. Default value: `(0, 98, 0)`.
-	*/
-	@property Vector3 gravity()
-	{
-		return getGravity();
-	}
-	/// ditto
-	@property void gravity(Vector3 v)
-	{
-		setGravity(v);
-	}
-	/**
-	Initial velocity magnitude for each particle. Direction comes from $(D spread).
-	*/
-	@property double initialVelocity()
-	{
-		return getParam(0);
-	}
-	/// ditto
-	@property void initialVelocity(double v)
-	{
-		setParam(0, v);
-	}
-	/**
-	Initial velocity randomness ratio. Default value: `0`.
-	*/
-	@property double initialVelocityRandom()
-	{
-		return getParamRandomness(0);
-	}
-	/// ditto
-	@property void initialVelocityRandom(double v)
-	{
-		setParamRandomness(0, v);
-	}
-	/**
-	Initial angular velocity applied to each particle. Sets the speed of rotation of the particle.
-	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using `BillboardMode.BILLBOARD_PARTICLES`.
-	*/
-	@property double angularVelocity()
-	{
-		return getParam(1);
-	}
-	/// ditto
-	@property void angularVelocity(double v)
-	{
-		setParam(1, v);
-	}
-	/**
-	Angular velocity randomness ratio. Default value: `0`.
-	*/
-	@property double angularVelocityRandom()
-	{
-		return getParamRandomness(1);
-	}
-	/// ditto
-	@property void angularVelocityRandom(double v)
-	{
-		setParamRandomness(1, v);
-	}
-	/**
-	Each particle's angular velocity will vary along this $(D CurveTexture).
-	*/
-	@property Texture angularVelocityCurve()
-	{
-		return getParamTexture(1);
-	}
-	/// ditto
-	@property void angularVelocityCurve(Texture v)
-	{
-		setParamTexture(1, v);
-	}
-	/**
-	Orbital velocity applied to each particle. Makes the particles circle around origin. Specified in number of full rotations around origin per second.
-	Only available when $(D flagDisableZ) is `true`.
-	*/
-	@property double orbitVelocity()
-	{
-		return getParam(2);
-	}
-	/// ditto
-	@property void orbitVelocity(double v)
-	{
-		setParam(2, v);
-	}
-	/**
-	Orbital velocity randomness ratio. Default value: `0`.
-	*/
-	@property double orbitVelocityRandom()
-	{
-		return getParamRandomness(2);
-	}
-	/// ditto
-	@property void orbitVelocityRandom(double v)
-	{
-		setParamRandomness(2, v);
-	}
-	/**
-	Each particle's orbital velocity will vary along this $(D CurveTexture).
-	*/
-	@property Texture orbitVelocityCurve()
-	{
-		return getParamTexture(2);
-	}
-	/// ditto
-	@property void orbitVelocityCurve(Texture v)
-	{
-		setParamTexture(2, v);
-	}
-	/**
-	Linear acceleration applied to each particle. Acceleration increases velocity magnitude each frame without affecting direction.
-	*/
-	@property double linearAccel()
-	{
-		return getParam(3);
-	}
-	/// ditto
-	@property void linearAccel(double v)
-	{
-		setParam(3, v);
-	}
-	/**
-	Linear acceleration randomness ratio. Default value: `0`.
-	*/
-	@property double linearAccelRandom()
-	{
-		return getParamRandomness(3);
-	}
-	/// ditto
-	@property void linearAccelRandom(double v)
-	{
-		setParamRandomness(3, v);
-	}
-	/**
-	Each particle's linear acceleration will vary along this $(D CurveTexture).
-	*/
-	@property Texture linearAccelCurve()
-	{
-		return getParamTexture(3);
-	}
-	/// ditto
-	@property void linearAccelCurve(Texture v)
-	{
-		setParamTexture(3, v);
-	}
-	/**
-	Radial acceleration applied to each particle. Makes particle accelerate away from origin.
-	*/
-	@property double radialAccel()
-	{
-		return getParam(4);
-	}
-	/// ditto
-	@property void radialAccel(double v)
-	{
-		setParam(4, v);
-	}
-	/**
-	Radial acceleration randomness ratio. Default value: `0`.
-	*/
-	@property double radialAccelRandom()
-	{
-		return getParamRandomness(4);
-	}
-	/// ditto
-	@property void radialAccelRandom(double v)
-	{
-		setParamRandomness(4, v);
-	}
-	/**
-	Each particle's radial acceleration will vary along this $(D CurveTexture).
-	*/
-	@property Texture radialAccelCurve()
-	{
-		return getParamTexture(4);
-	}
-	/// ditto
-	@property void radialAccelCurve(Texture v)
-	{
-		setParamTexture(4, v);
-	}
-	/**
-	Tangential acceleration applied to each particle. Tangential acceleration is perpendicular to the particle's velocity giving the particles a swirling motion.
-	*/
-	@property double tangentialAccel()
-	{
-		return getParam(5);
-	}
-	/// ditto
-	@property void tangentialAccel(double v)
-	{
-		setParam(5, v);
-	}
-	/**
-	Tangential acceleration randomness ratio. Default value: `0`.
-	*/
-	@property double tangentialAccelRandom()
-	{
-		return getParamRandomness(5);
-	}
-	/// ditto
-	@property void tangentialAccelRandom(double v)
-	{
-		setParamRandomness(5, v);
-	}
-	/**
-	Each particle's tangential acceleration will vary along this $(D CurveTexture).
-	*/
-	@property Texture tangentialAccelCurve()
-	{
-		return getParamTexture(5);
-	}
-	/// ditto
-	@property void tangentialAccelCurve(Texture v)
-	{
-		setParamTexture(5, v);
-	}
-	/**
-	The rate at which particles lose velocity.
-	*/
-	@property double damping()
-	{
-		return getParam(6);
-	}
-	/// ditto
-	@property void damping(double v)
-	{
-		setParam(6, v);
-	}
-	/**
-	Damping randomness ratio. Default value: `0`.
-	*/
-	@property double dampingRandom()
-	{
-		return getParamRandomness(6);
-	}
-	/// ditto
-	@property void dampingRandom(double v)
-	{
-		setParamRandomness(6, v);
-	}
-	/**
-	Damping will vary along this $(D CurveTexture).
-	*/
-	@property Texture dampingCurve()
-	{
-		return getParamTexture(6);
-	}
-	/// ditto
-	@property void dampingCurve(Texture v)
-	{
-		setParamTexture(6, v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTrailSizeModifier, _godot_object, texture);
 	}
 	/**
 	Initial rotation applied to each particle, in degrees.
-	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using `BillboardMode.BILLBOARD_PARTICLES`.
+	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using $(D constant SpatialMaterial.BILLBOARD_PARTICLES).
 	*/
 	@property double angle()
 	{
@@ -967,18 +578,6 @@ public:
 	@property void angle(double v)
 	{
 		setParam(7, v);
-	}
-	/**
-	Rotation randomness ratio. Default value: `0`.
-	*/
-	@property double angleRandom()
-	{
-		return getParamRandomness(7);
-	}
-	/// ditto
-	@property void angleRandom(double v)
-	{
-		setParamRandomness(7, v);
 	}
 	/**
 	Each particle's rotation will be animated along this $(D CurveTexture).
@@ -993,40 +592,125 @@ public:
 		setParamTexture(7, v);
 	}
 	/**
-	Initial scale applied to each particle.
+	Rotation randomness ratio.
 	*/
-	@property double scale()
+	@property double angleRandom()
 	{
-		return getParam(8);
+		return getParamRandomness(7);
 	}
 	/// ditto
-	@property void scale(double v)
+	@property void angleRandom(double v)
 	{
-		setParam(8, v);
+		setParamRandomness(7, v);
 	}
 	/**
-	Scale randomness ratio. Default value: `0`.
+	Initial angular velocity applied to each particle. Sets the speed of rotation of the particle.
+	Only applied when $(D flagDisableZ) or $(D flagRotateY) are `true` or the $(D SpatialMaterial) being used to draw the particle is using $(D constant SpatialMaterial.BILLBOARD_PARTICLES).
 	*/
-	@property double scaleRandom()
+	@property double angularVelocity()
 	{
-		return getParamRandomness(8);
+		return getParam(1);
 	}
 	/// ditto
-	@property void scaleRandom(double v)
+	@property void angularVelocity(double v)
 	{
-		setParamRandomness(8, v);
+		setParam(1, v);
 	}
 	/**
-	Each particle's scale will vary along this $(D CurveTexture).
+	Each particle's angular velocity will vary along this $(D CurveTexture).
 	*/
-	@property Texture scaleCurve()
+	@property Texture angularVelocityCurve()
 	{
-		return getParamTexture(8);
+		return getParamTexture(1);
 	}
 	/// ditto
-	@property void scaleCurve(Texture v)
+	@property void angularVelocityCurve(Texture v)
 	{
-		setParamTexture(8, v);
+		setParamTexture(1, v);
+	}
+	/**
+	Angular velocity randomness ratio.
+	*/
+	@property double angularVelocityRandom()
+	{
+		return getParamRandomness(1);
+	}
+	/// ditto
+	@property void angularVelocityRandom(double v)
+	{
+		setParamRandomness(1, v);
+	}
+	/**
+	Particle animation offset.
+	*/
+	@property double animOffset()
+	{
+		return getParam(11);
+	}
+	/// ditto
+	@property void animOffset(double v)
+	{
+		setParam(11, v);
+	}
+	/**
+	Each particle's animation offset will vary along this $(D CurveTexture).
+	*/
+	@property Texture animOffsetCurve()
+	{
+		return getParamTexture(11);
+	}
+	/// ditto
+	@property void animOffsetCurve(Texture v)
+	{
+		setParamTexture(11, v);
+	}
+	/**
+	Animation offset randomness ratio.
+	*/
+	@property double animOffsetRandom()
+	{
+		return getParamRandomness(11);
+	}
+	/// ditto
+	@property void animOffsetRandom(double v)
+	{
+		setParamRandomness(11, v);
+	}
+	/**
+	Particle animation speed.
+	*/
+	@property double animSpeed()
+	{
+		return getParam(10);
+	}
+	/// ditto
+	@property void animSpeed(double v)
+	{
+		setParam(10, v);
+	}
+	/**
+	Each particle's animation speed will vary along this $(D CurveTexture).
+	*/
+	@property Texture animSpeedCurve()
+	{
+		return getParamTexture(10);
+	}
+	/// ditto
+	@property void animSpeedCurve(Texture v)
+	{
+		setParamTexture(10, v);
+	}
+	/**
+	Animation speed randomness ratio.
+	*/
+	@property double animSpeedRandom()
+	{
+		return getParamRandomness(10);
+	}
+	/// ditto
+	@property void animSpeedRandom(double v)
+	{
+		setParamRandomness(10, v);
 	}
 	/**
 	Each particle's initial color. If the $(D Particles2D)'s `texture` is defined, it will be multiplied by this color. To have particle display color in a $(D SpatialMaterial) make sure to set $(D SpatialMaterial.vertexColorUseAsAlbedo) to `true`.
@@ -1053,6 +737,198 @@ public:
 		setColorRamp(v);
 	}
 	/**
+	The rate at which particles lose velocity.
+	*/
+	@property double damping()
+	{
+		return getParam(6);
+	}
+	/// ditto
+	@property void damping(double v)
+	{
+		setParam(6, v);
+	}
+	/**
+	Damping will vary along this $(D CurveTexture).
+	*/
+	@property Texture dampingCurve()
+	{
+		return getParamTexture(6);
+	}
+	/// ditto
+	@property void dampingCurve(Texture v)
+	{
+		setParamTexture(6, v);
+	}
+	/**
+	Damping randomness ratio.
+	*/
+	@property double dampingRandom()
+	{
+		return getParamRandomness(6);
+	}
+	/// ditto
+	@property void dampingRandom(double v)
+	{
+		setParamRandomness(6, v);
+	}
+	/**
+	Unit vector specifying the particles' emission direction.
+	*/
+	@property Vector3 direction()
+	{
+		return getDirection();
+	}
+	/// ditto
+	@property void direction(Vector3 v)
+	{
+		setDirection(v);
+	}
+	/**
+	The box's extents if `emission_shape` is set to $(D constant EMISSION_SHAPE_BOX).
+	*/
+	@property Vector3 emissionBoxExtents()
+	{
+		return getEmissionBoxExtents();
+	}
+	/// ditto
+	@property void emissionBoxExtents(Vector3 v)
+	{
+		setEmissionBoxExtents(v);
+	}
+	/**
+	Particle color will be modulated by color determined by sampling this texture at the same point as the $(D emissionPointTexture).
+	*/
+	@property Texture emissionColorTexture()
+	{
+		return getEmissionColorTexture();
+	}
+	/// ditto
+	@property void emissionColorTexture(Texture v)
+	{
+		setEmissionColorTexture(v);
+	}
+	/**
+	Particle velocity and rotation will be set by sampling this texture at the same point as the $(D emissionPointTexture). Used only in $(D constant EMISSION_SHAPE_DIRECTED_POINTS). Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
+	*/
+	@property Texture emissionNormalTexture()
+	{
+		return getEmissionNormalTexture();
+	}
+	/// ditto
+	@property void emissionNormalTexture(Texture v)
+	{
+		setEmissionNormalTexture(v);
+	}
+	/**
+	The number of emission points if `emission_shape` is set to $(D constant EMISSION_SHAPE_POINTS) or $(D constant EMISSION_SHAPE_DIRECTED_POINTS).
+	*/
+	@property long emissionPointCount()
+	{
+		return getEmissionPointCount();
+	}
+	/// ditto
+	@property void emissionPointCount(long v)
+	{
+		setEmissionPointCount(v);
+	}
+	/**
+	Particles will be emitted at positions determined by sampling this texture at a random position. Used with $(D constant EMISSION_SHAPE_POINTS) and $(D constant EMISSION_SHAPE_DIRECTED_POINTS). Can be created automatically from mesh or node by selecting "Create Emission Points from Mesh/Node" under the "Particles" tool in the toolbar.
+	*/
+	@property Texture emissionPointTexture()
+	{
+		return getEmissionPointTexture();
+	}
+	/// ditto
+	@property void emissionPointTexture(Texture v)
+	{
+		setEmissionPointTexture(v);
+	}
+	/**
+	Particles will be emitted inside this region. Use $(D emissionshape) constants for values.
+	*/
+	@property ParticlesMaterial.EmissionShape emissionShape()
+	{
+		return getEmissionShape();
+	}
+	/// ditto
+	@property void emissionShape(long v)
+	{
+		setEmissionShape(v);
+	}
+	/**
+	The sphere's radius if `emission_shape` is set to $(D constant EMISSION_SHAPE_SPHERE).
+	*/
+	@property double emissionSphereRadius()
+	{
+		return getEmissionSphereRadius();
+	}
+	/// ditto
+	@property void emissionSphereRadius(double v)
+	{
+		setEmissionSphereRadius(v);
+	}
+	/**
+	Align Y axis of particle with the direction of its velocity.
+	*/
+	@property bool flagAlignY()
+	{
+		return getFlag(0);
+	}
+	/// ditto
+	@property void flagAlignY(bool v)
+	{
+		setFlag(0, v);
+	}
+	/**
+	If `true`, particles will not move on the z axis.
+	*/
+	@property bool flagDisableZ()
+	{
+		return getFlag(2);
+	}
+	/// ditto
+	@property void flagDisableZ(bool v)
+	{
+		setFlag(2, v);
+	}
+	/**
+	If `true`, particles rotate around Y axis by $(D angle).
+	*/
+	@property bool flagRotateY()
+	{
+		return getFlag(1);
+	}
+	/// ditto
+	@property void flagRotateY(bool v)
+	{
+		setFlag(1, v);
+	}
+	/**
+	Amount of $(D spread) in Y/Z plane. A value of `1` restricts particles to X/Z plane.
+	*/
+	@property double flatness()
+	{
+		return getFlatness();
+	}
+	/// ditto
+	@property void flatness(double v)
+	{
+		setFlatness(v);
+	}
+	/**
+	Gravity applied to every particle.
+	*/
+	@property Vector3 gravity()
+	{
+		return getGravity();
+	}
+	/// ditto
+	@property void gravity(Vector3 v)
+	{
+		setGravity(v);
+	}
+	/**
 	Initial hue variation applied to each particle.
 	*/
 	@property double hueVariation()
@@ -1063,18 +939,6 @@ public:
 	@property void hueVariation(double v)
 	{
 		setParam(9, v);
-	}
-	/**
-	Hue variation randomness ratio. Default value: `0`.
-	*/
-	@property double hueVariationRandom()
-	{
-		return getParamRandomness(9);
-	}
-	/// ditto
-	@property void hueVariationRandom(double v)
-	{
-		setParamRandomness(9, v);
 	}
 	/**
 	Each particle's hue will vary along this $(D CurveTexture).
@@ -1089,75 +953,280 @@ public:
 		setParamTexture(9, v);
 	}
 	/**
-	Particle animation speed.
+	Hue variation randomness ratio.
 	*/
-	@property double animSpeed()
+	@property double hueVariationRandom()
 	{
-		return getParam(10);
+		return getParamRandomness(9);
 	}
 	/// ditto
-	@property void animSpeed(double v)
+	@property void hueVariationRandom(double v)
 	{
-		setParam(10, v);
+		setParamRandomness(9, v);
 	}
 	/**
-	Animation speed randomness ratio. Default value: `0`.
+	Initial velocity magnitude for each particle. Direction comes from $(D spread) and the node's orientation.
 	*/
-	@property double animSpeedRandom()
+	@property double initialVelocity()
 	{
-		return getParamRandomness(10);
+		return getParam(0);
 	}
 	/// ditto
-	@property void animSpeedRandom(double v)
+	@property void initialVelocity(double v)
 	{
-		setParamRandomness(10, v);
+		setParam(0, v);
 	}
 	/**
-	Each particle's animation speed will vary along this $(D CurveTexture).
+	Initial velocity randomness ratio.
 	*/
-	@property Texture animSpeedCurve()
+	@property double initialVelocityRandom()
 	{
-		return getParamTexture(10);
+		return getParamRandomness(0);
 	}
 	/// ditto
-	@property void animSpeedCurve(Texture v)
+	@property void initialVelocityRandom(double v)
 	{
-		setParamTexture(10, v);
+		setParamRandomness(0, v);
 	}
 	/**
-	Particle animation offset.
+	Particle lifetime randomness ratio.
 	*/
-	@property double animOffset()
+	@property double lifetimeRandomness()
 	{
-		return getParam(11);
+		return getLifetimeRandomness();
 	}
 	/// ditto
-	@property void animOffset(double v)
+	@property void lifetimeRandomness(double v)
 	{
-		setParam(11, v);
+		setLifetimeRandomness(v);
 	}
 	/**
-	Animation offset randomness ratio. Default value: `0`.
+	Linear acceleration applied to each particle in the direction of motion.
 	*/
-	@property double animOffsetRandom()
+	@property double linearAccel()
 	{
-		return getParamRandomness(11);
+		return getParam(3);
 	}
 	/// ditto
-	@property void animOffsetRandom(double v)
+	@property void linearAccel(double v)
 	{
-		setParamRandomness(11, v);
+		setParam(3, v);
 	}
 	/**
-	Each particle's animation offset will vary along this $(D CurveTexture).
+	Each particle's linear acceleration will vary along this $(D CurveTexture).
 	*/
-	@property Texture animOffsetCurve()
+	@property Texture linearAccelCurve()
 	{
-		return getParamTexture(11);
+		return getParamTexture(3);
 	}
 	/// ditto
-	@property void animOffsetCurve(Texture v)
+	@property void linearAccelCurve(Texture v)
 	{
-		setParamTexture(11, v);
+		setParamTexture(3, v);
+	}
+	/**
+	Linear acceleration randomness ratio.
+	*/
+	@property double linearAccelRandom()
+	{
+		return getParamRandomness(3);
+	}
+	/// ditto
+	@property void linearAccelRandom(double v)
+	{
+		setParamRandomness(3, v);
+	}
+	/**
+	Orbital velocity applied to each particle. Makes the particles circle around origin. Specified in number of full rotations around origin per second.
+	Only available when $(D flagDisableZ) is `true`.
+	*/
+	@property double orbitVelocity()
+	{
+		return getParam(2);
+	}
+	/// ditto
+	@property void orbitVelocity(double v)
+	{
+		setParam(2, v);
+	}
+	/**
+	Each particle's orbital velocity will vary along this $(D CurveTexture).
+	*/
+	@property Texture orbitVelocityCurve()
+	{
+		return getParamTexture(2);
+	}
+	/// ditto
+	@property void orbitVelocityCurve(Texture v)
+	{
+		setParamTexture(2, v);
+	}
+	/**
+	Orbital velocity randomness ratio.
+	*/
+	@property double orbitVelocityRandom()
+	{
+		return getParamRandomness(2);
+	}
+	/// ditto
+	@property void orbitVelocityRandom(double v)
+	{
+		setParamRandomness(2, v);
+	}
+	/**
+	Radial acceleration applied to each particle. Makes particle accelerate away from origin.
+	*/
+	@property double radialAccel()
+	{
+		return getParam(4);
+	}
+	/// ditto
+	@property void radialAccel(double v)
+	{
+		setParam(4, v);
+	}
+	/**
+	Each particle's radial acceleration will vary along this $(D CurveTexture).
+	*/
+	@property Texture radialAccelCurve()
+	{
+		return getParamTexture(4);
+	}
+	/// ditto
+	@property void radialAccelCurve(Texture v)
+	{
+		setParamTexture(4, v);
+	}
+	/**
+	Radial acceleration randomness ratio.
+	*/
+	@property double radialAccelRandom()
+	{
+		return getParamRandomness(4);
+	}
+	/// ditto
+	@property void radialAccelRandom(double v)
+	{
+		setParamRandomness(4, v);
+	}
+	/**
+	Initial scale applied to each particle.
+	*/
+	@property double scale()
+	{
+		return getParam(8);
+	}
+	/// ditto
+	@property void scale(double v)
+	{
+		setParam(8, v);
+	}
+	/**
+	Each particle's scale will vary along this $(D CurveTexture).
+	*/
+	@property Texture scaleCurve()
+	{
+		return getParamTexture(8);
+	}
+	/// ditto
+	@property void scaleCurve(Texture v)
+	{
+		setParamTexture(8, v);
+	}
+	/**
+	Scale randomness ratio.
+	*/
+	@property double scaleRandom()
+	{
+		return getParamRandomness(8);
+	}
+	/// ditto
+	@property void scaleRandom(double v)
+	{
+		setParamRandomness(8, v);
+	}
+	/**
+	Each particle's initial direction range from `+spread` to `-spread` degrees. Applied to X/Z plane and Y/Z planes.
+	*/
+	@property double spread()
+	{
+		return getSpread();
+	}
+	/// ditto
+	@property void spread(double v)
+	{
+		setSpread(v);
+	}
+	/**
+	Tangential acceleration applied to each particle. Tangential acceleration is perpendicular to the particle's velocity giving the particles a swirling motion.
+	*/
+	@property double tangentialAccel()
+	{
+		return getParam(5);
+	}
+	/// ditto
+	@property void tangentialAccel(double v)
+	{
+		setParam(5, v);
+	}
+	/**
+	Each particle's tangential acceleration will vary along this $(D CurveTexture).
+	*/
+	@property Texture tangentialAccelCurve()
+	{
+		return getParamTexture(5);
+	}
+	/// ditto
+	@property void tangentialAccelCurve(Texture v)
+	{
+		setParamTexture(5, v);
+	}
+	/**
+	Tangential acceleration randomness ratio.
+	*/
+	@property double tangentialAccelRandom()
+	{
+		return getParamRandomness(5);
+	}
+	/// ditto
+	@property void tangentialAccelRandom(double v)
+	{
+		setParamRandomness(5, v);
+	}
+	/**
+	Trail particles' color will vary along this $(D GradientTexture).
+	*/
+	@property GradientTexture trailColorModifier()
+	{
+		return getTrailColorModifier();
+	}
+	/// ditto
+	@property void trailColorModifier(GradientTexture v)
+	{
+		setTrailColorModifier(v);
+	}
+	/**
+	Emitter will emit `amount` divided by `trail_divisor` particles. The remaining particles will be used as trail(s).
+	*/
+	@property long trailDivisor()
+	{
+		return getTrailDivisor();
+	}
+	/// ditto
+	@property void trailDivisor(long v)
+	{
+		setTrailDivisor(v);
+	}
+	/**
+	Trail particles' size will vary along this $(D CurveTexture).
+	*/
+	@property CurveTexture trailSizeModifier()
+	{
+		return getTrailSizeModifier();
+	}
+	/// ditto
+	@property void trailSizeModifier(CurveTexture v)
+	{
+		setTrailSizeModifier(v);
 	}
 }

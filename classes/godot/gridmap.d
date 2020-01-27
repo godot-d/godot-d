@@ -23,14 +23,13 @@ import godot.classdb;
 import godot.spatial;
 import godot.meshlibrary;
 import godot.resource;
-import godot.node;
 /**
 Node for 3D tile-based maps.
 
-GridMap lets you place meshes on a grid interactively. It works both from the editor and can help you create in-game level editors.
-GridMaps use a $(D MeshLibrary) which contain a list of tiles: meshes with materials plus optional collisions and extra elements.
-A GridMap contains a collection of cells. Each grid cell refers to a $(D MeshLibrary) item. All cells in the map have the same dimensions.
-A GridMap is split into a sparse collection of octants for efficient rendering and physics processing. Every octant has the same dimensions and can contain several cells.
+GridMap lets you place meshes on a grid interactively. It works both from the editor and from scripts, which can help you create in-game level editors.
+GridMaps use a $(D MeshLibrary) which contains a list of tiles. Each tile is a mesh with materials plus optional collision and navigation shapes.
+A GridMap contains a collection of cells. Each grid cell refers to a tile in the $(D MeshLibrary). All cells in the map have the same dimensions.
+Internally, a GridMap is split into a sparse collection of octants for efficient rendering and physics processing. Every octant has the same dimensions and can contain several cells.
 */
 @GodotBaseClass struct GridMap
 {
@@ -44,45 +43,43 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
-		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
-		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
-		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
-		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
-		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
-		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
-		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
-		@GodotName("set_theme") GodotMethod!(void, MeshLibrary) setTheme;
-		@GodotName("get_theme") GodotMethod!(MeshLibrary) getTheme;
-		@GodotName("set_mesh_library") GodotMethod!(void, MeshLibrary) setMeshLibrary;
-		@GodotName("get_mesh_library") GodotMethod!(MeshLibrary) getMeshLibrary;
-		@GodotName("set_cell_size") GodotMethod!(void, Vector3) setCellSize;
-		@GodotName("get_cell_size") GodotMethod!(Vector3) getCellSize;
-		@GodotName("set_cell_scale") GodotMethod!(void, double) setCellScale;
-		@GodotName("get_cell_scale") GodotMethod!(double) getCellScale;
-		@GodotName("set_octant_size") GodotMethod!(void, long) setOctantSize;
-		@GodotName("get_octant_size") GodotMethod!(long) getOctantSize;
-		@GodotName("set_cell_item") GodotMethod!(void, long, long, long, long, long) setCellItem;
+		@GodotName("_update_octants_callback") GodotMethod!(void) _updateOctantsCallback;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("clear_baked_meshes") GodotMethod!(void) clearBakedMeshes;
+		@GodotName("get_bake_mesh_instance") GodotMethod!(RID, long) getBakeMeshInstance;
+		@GodotName("get_bake_meshes") GodotMethod!(Array) getBakeMeshes;
 		@GodotName("get_cell_item") GodotMethod!(long, long, long, long) getCellItem;
 		@GodotName("get_cell_item_orientation") GodotMethod!(long, long, long, long) getCellItemOrientation;
-		@GodotName("world_to_map") GodotMethod!(Vector3, Vector3) worldToMap;
-		@GodotName("map_to_world") GodotMethod!(Vector3, long, long, long) mapToWorld;
-		@GodotName("_update_octants_callback") GodotMethod!(void) _updateOctantsCallback;
-		@GodotName("resource_changed") GodotMethod!(void, Resource) resourceChanged;
-		@GodotName("set_center_x") GodotMethod!(void, bool) setCenterX;
+		@GodotName("get_cell_scale") GodotMethod!(double) getCellScale;
+		@GodotName("get_cell_size") GodotMethod!(Vector3) getCellSize;
 		@GodotName("get_center_x") GodotMethod!(bool) getCenterX;
-		@GodotName("set_center_y") GodotMethod!(void, bool) setCenterY;
 		@GodotName("get_center_y") GodotMethod!(bool) getCenterY;
-		@GodotName("set_center_z") GodotMethod!(void, bool) setCenterZ;
 		@GodotName("get_center_z") GodotMethod!(bool) getCenterZ;
-		@GodotName("set_clip") GodotMethod!(void, bool, bool, long, long) setClip;
-		@GodotName("clear") GodotMethod!(void) clear;
-		@GodotName("get_used_cells") GodotMethod!(Array) getUsedCells;
+		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
+		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
+		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
+		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
+		@GodotName("get_mesh_library") GodotMethod!(MeshLibrary) getMeshLibrary;
 		@GodotName("get_meshes") GodotMethod!(Array) getMeshes;
-		@GodotName("get_bake_meshes") GodotMethod!(Array) getBakeMeshes;
-		@GodotName("get_bake_mesh_instance") GodotMethod!(RID, long) getBakeMeshInstance;
-		@GodotName("clear_baked_meshes") GodotMethod!(void) clearBakedMeshes;
+		@GodotName("get_octant_size") GodotMethod!(long) getOctantSize;
+		@GodotName("get_used_cells") GodotMethod!(Array) getUsedCells;
 		@GodotName("make_baked_meshes") GodotMethod!(void, bool, double) makeBakedMeshes;
+		@GodotName("map_to_world") GodotMethod!(Vector3, long, long, long) mapToWorld;
+		@GodotName("resource_changed") GodotMethod!(void, Resource) resourceChanged;
+		@GodotName("set_cell_item") GodotMethod!(void, long, long, long, long, long) setCellItem;
+		@GodotName("set_cell_scale") GodotMethod!(void, double) setCellScale;
+		@GodotName("set_cell_size") GodotMethod!(void, Vector3) setCellSize;
+		@GodotName("set_center_x") GodotMethod!(void, bool) setCenterX;
+		@GodotName("set_center_y") GodotMethod!(void, bool) setCenterY;
+		@GodotName("set_center_z") GodotMethod!(void, bool) setCenterZ;
+		@GodotName("set_clip") GodotMethod!(void, bool, bool, long, long) setClip;
+		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
+		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
+		@GodotName("set_mesh_library") GodotMethod!(void, MeshLibrary) setMeshLibrary;
+		@GodotName("set_octant_size") GodotMethod!(void, long) setOctantSize;
+		@GodotName("world_to_map") GodotMethod!(Vector3, Vector3) worldToMap;
 	}
 	bool opEquals(in GridMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GridMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -107,156 +104,43 @@ public:
 	/**
 	
 	*/
-	void setCollisionLayer(in long layer)
+	void _updateOctantsCallback()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_octants_callback");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Clear all cells.
+	*/
+	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 	/**
 	
 	*/
-	long getCollisionLayer() const
+	void clearBakedMeshes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		ptrcall!(void)(_classBinding.clearBakedMeshes, _godot_object);
 	}
 	/**
 	
 	*/
-	void setCollisionMask(in long mask)
+	RID getBakeMeshInstance(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		return ptrcall!(RID)(_classBinding.getBakeMeshInstance, _godot_object, idx);
 	}
 	/**
 	
 	*/
-	long getCollisionMask() const
+	Array getBakeMeshes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCollisionMaskBit(in long bit, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
-	}
-	/**
-	
-	*/
-	bool getCollisionMaskBit(in long bit) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
-	}
-	/**
-	
-	*/
-	void setCollisionLayerBit(in long bit, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
-	}
-	/**
-	
-	*/
-	bool getCollisionLayerBit(in long bit) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
-	}
-	/**
-	
-	*/
-	void setTheme(MeshLibrary theme)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTheme, _godot_object, theme);
-	}
-	/**
-	
-	*/
-	Ref!MeshLibrary getTheme() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(MeshLibrary)(_classBinding.getTheme, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMeshLibrary(MeshLibrary mesh_library)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMeshLibrary, _godot_object, mesh_library);
-	}
-	/**
-	
-	*/
-	Ref!MeshLibrary getMeshLibrary() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(MeshLibrary)(_classBinding.getMeshLibrary, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCellSize(in Vector3 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSize, _godot_object, size);
-	}
-	/**
-	
-	*/
-	Vector3 getCellSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCellSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCellScale(in double scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	double getCellScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCellScale, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOctantSize(in long size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctantSize, _godot_object, size);
-	}
-	/**
-	
-	*/
-	long getOctantSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOctantSize, _godot_object);
-	}
-	/**
-	Set the mesh index for the cell referenced by its grid-based X, Y and Z coordinates.
-	A negative item index will clear the cell.
-	Optionally, the item's orientation can be passed.
-	*/
-	void setCellItem(in long x, in long y, in long z, in long item, in long orientation = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellItem, _godot_object, x, y, z, item, orientation);
+		return ptrcall!(Array)(_classBinding.getBakeMeshes, _godot_object);
 	}
 	/**
 	The $(D MeshLibrary) item index located at the grid-based X, Y and Z coordinates. If the cell is empty, $(D constant INVALID_CELL_ITEM) will be returned.
@@ -277,43 +161,18 @@ public:
 	/**
 	
 	*/
-	Vector3 worldToMap(in Vector3 pos) const
+	double getCellScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.worldToMap, _godot_object, pos);
+		return ptrcall!(double)(_classBinding.getCellScale, _godot_object);
 	}
 	/**
 	
 	*/
-	Vector3 mapToWorld(in long x, in long y, in long z) const
+	Vector3 getCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.mapToWorld, _godot_object, x, y, z);
-	}
-	/**
-	
-	*/
-	void _updateOctantsCallback()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update_octants_callback");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void resourceChanged(Resource resource)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resourceChanged, _godot_object, resource);
-	}
-	/**
-	
-	*/
-	void setCenterX(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterX, _godot_object, enable);
+		return ptrcall!(Vector3)(_classBinding.getCellSize, _godot_object);
 	}
 	/**
 	
@@ -326,26 +185,10 @@ public:
 	/**
 	
 	*/
-	void setCenterY(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterY, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool getCenterY() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getCenterY, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCenterZ(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterZ, _godot_object, enable);
 	}
 	/**
 	
@@ -358,29 +201,45 @@ public:
 	/**
 	
 	*/
-	void setClip(in bool enabled, in bool clipabove = true, in long floor = 0, in long axis = 0)
+	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClip, _godot_object, enabled, clipabove, floor, axis);
+		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
 	}
 	/**
-	Clear all cells.
+	Returns an individual bit on the $(D collisionLayer).
 	*/
-	void clear()
+	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
-	Array of $(D Vector3) with the non empty cell coordinates in the grid map.
+	
 	*/
-	Array getUsedCells() const
+	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getUsedCells, _godot_object);
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
 	}
 	/**
-	Array of $(D Transform) and $(D Mesh) references corresponding to the non empty cells in the grid. The transforms are specified in world space.
+	Returns an individual bit on the $(D collisionMask).
+	*/
+	bool getCollisionMaskBit(in long bit) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+	}
+	/**
+	
+	*/
+	Ref!MeshLibrary getMeshLibrary() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(MeshLibrary)(_classBinding.getMeshLibrary, _godot_object);
+	}
+	/**
+	Returns an array of $(D Transform) and $(D Mesh) references corresponding to the non-empty cells in the grid. The transforms are specified in world space.
 	*/
 	Array getMeshes()
 	{
@@ -390,26 +249,18 @@ public:
 	/**
 	
 	*/
-	Array getBakeMeshes()
+	long getOctantSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getBakeMeshes, _godot_object);
+		return ptrcall!(long)(_classBinding.getOctantSize, _godot_object);
 	}
 	/**
-	
+	Returns an array of $(D Vector3) with the non-empty cell coordinates in the grid map.
 	*/
-	RID getBakeMeshInstance(in long idx)
+	Array getUsedCells() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getBakeMeshInstance, _godot_object, idx);
-	}
-	/**
-	
-	*/
-	void clearBakedMeshes()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBakedMeshes, _godot_object);
+		return ptrcall!(Array)(_classBinding.getUsedCells, _godot_object);
 	}
 	/**
 	
@@ -420,52 +271,135 @@ public:
 		ptrcall!(void)(_classBinding.makeBakedMeshes, _godot_object, gen_lightmap_uv, lightmap_uv_texel_size);
 	}
 	/**
-	Deprecated, use $(D meshLibrary) instead.
+	Returns the position of a grid cell in the GridMap's local coordinate space.
 	*/
-	@property MeshLibrary theme()
+	Vector3 mapToWorld(in long x, in long y, in long z) const
 	{
-		return getTheme();
-	}
-	/// ditto
-	@property void theme(MeshLibrary v)
-	{
-		setTheme(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.mapToWorld, _godot_object, x, y, z);
 	}
 	/**
-	The assigned $(D MeshLibrary).
+	
 	*/
-	@property MeshLibrary meshLibrary()
+	void resourceChanged(Resource resource)
 	{
-		return getMeshLibrary();
-	}
-	/// ditto
-	@property void meshLibrary(MeshLibrary v)
-	{
-		setMeshLibrary(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.resourceChanged, _godot_object, resource);
 	}
 	/**
-	The dimensions of the grid's cells.
+	Sets the mesh index for the cell referenced by its grid-based X, Y and Z coordinates.
+	A negative item index such as $(D constant INVALID_CELL_ITEM) will clear the cell.
+	Optionally, the item's orientation can be passed. For valid orientation values, see $(D Basis.getOrthogonalIndex).
 	*/
-	@property Vector3 cellSize()
+	void setCellItem(in long x, in long y, in long z, in long item, in long orientation = 0)
 	{
-		return getCellSize();
-	}
-	/// ditto
-	@property void cellSize(Vector3 v)
-	{
-		setCellSize(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellItem, _godot_object, x, y, z, item, orientation);
 	}
 	/**
-	The size of each octant measured in number of cells. This applies to all three axis.
+	
 	*/
-	@property long cellOctantSize()
+	void setCellScale(in double scale)
 	{
-		return getOctantSize();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellScale, _godot_object, scale);
 	}
-	/// ditto
-	@property void cellOctantSize(long v)
+	/**
+	
+	*/
+	void setCellSize(in Vector3 size)
 	{
-		setOctantSize(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCellSize, _godot_object, size);
+	}
+	/**
+	
+	*/
+	void setCenterX(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCenterX, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setCenterY(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCenterY, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setCenterZ(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCenterZ, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setClip(in bool enabled, in bool clipabove = true, in long floor = 0, in long axis = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClip, _godot_object, enabled, clipabove, floor, axis);
+	}
+	/**
+	
+	*/
+	void setCollisionLayer(in long layer)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+	}
+	/**
+	Sets an individual bit on the $(D collisionLayer).
+	*/
+	void setCollisionLayerBit(in long bit, in bool value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+	}
+	/**
+	
+	*/
+	void setCollisionMask(in long mask)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+	}
+	/**
+	Sets an individual bit on the $(D collisionMask).
+	*/
+	void setCollisionMaskBit(in long bit, in bool value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+	}
+	/**
+	
+	*/
+	void setMeshLibrary(MeshLibrary mesh_library)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMeshLibrary, _godot_object, mesh_library);
+	}
+	/**
+	
+	*/
+	void setOctantSize(in long size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOctantSize, _godot_object, size);
+	}
+	/**
+	Returns the coordinates of the grid cell containing the given point.
+	`pos` should be in the GridMap's local coordinate space.
+	*/
+	Vector3 worldToMap(in Vector3 pos) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.worldToMap, _godot_object, pos);
 	}
 	/**
 	If `true`, grid items are centered on the X axis.
@@ -504,7 +438,20 @@ public:
 		setCenterZ(v);
 	}
 	/**
-	
+	The size of each octant measured in number of cells. This applies to all three axis.
+	*/
+	@property long cellOctantSize()
+	{
+		return getOctantSize();
+	}
+	/// ditto
+	@property void cellOctantSize(long v)
+	{
+		setOctantSize(v);
+	}
+	/**
+	The scale of the cell items.
+	This does not affect the size of the grid cells themselves, only the items in them. This can be used to make cell items overlap their neighbors.
 	*/
 	@property double cellScale()
 	{
@@ -516,7 +463,21 @@ public:
 		setCellScale(v);
 	}
 	/**
-	
+	The dimensions of the grid's cells.
+	This does not affect the size of the meshes. See $(D cellScale).
+	*/
+	@property Vector3 cellSize()
+	{
+		return getCellSize();
+	}
+	/// ditto
+	@property void cellSize(Vector3 v)
+	{
+		setCellSize(v);
+	}
+	/**
+	The physics layers this GridMap is in.
+	GridMaps act as static bodies, meaning they aren't affected by gravity or other forces. They only affect other physics bodies that collide with them.
 	*/
 	@property long collisionLayer()
 	{
@@ -528,7 +489,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	
+	The physics layers this GridMap detects collisions in.
 	*/
 	@property long collisionMask()
 	{
@@ -538,5 +499,17 @@ public:
 	@property void collisionMask(long v)
 	{
 		setCollisionMask(v);
+	}
+	/**
+	The assigned $(D MeshLibrary).
+	*/
+	@property MeshLibrary meshLibrary()
+	{
+		return getMeshLibrary();
+	}
+	/// ditto
+	@property void meshLibrary(MeshLibrary v)
+	{
+		setMeshLibrary(v);
 	}
 }

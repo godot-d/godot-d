@@ -26,7 +26,7 @@ import godot.node;
 /**
 Base container control for popups and dialogs.
 
-Popup is a base $(D Control) used to show dialogs and popups. It's a subwindow and modal by default (see $(D Control)) and has helpers for custom popup behavior.
+Popup is a base $(D Control) used to show dialogs and popups. It's a subwindow and modal by default (see $(D Control)) and has helpers for custom popup behavior. All popup methods ensure correct placement within the viewport.
 */
 @GodotBaseClass struct Popup
 {
@@ -40,12 +40,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("popup_centered") GodotMethod!(void, Vector2) popupCentered;
-		@GodotName("popup_centered_ratio") GodotMethod!(void, double) popupCenteredRatio;
-		@GodotName("popup_centered_minsize") GodotMethod!(void, Vector2) popupCenteredMinsize;
-		@GodotName("popup") GodotMethod!(void, Rect2) popup;
-		@GodotName("set_exclusive") GodotMethod!(void, bool) setExclusive;
 		@GodotName("is_exclusive") GodotMethod!(bool) isExclusive;
+		@GodotName("popup") GodotMethod!(void, Rect2) popup;
+		@GodotName("popup_centered") GodotMethod!(void, Vector2) popupCentered;
+		@GodotName("popup_centered_clamped") GodotMethod!(void, Vector2, double) popupCenteredClamped;
+		@GodotName("popup_centered_minsize") GodotMethod!(void, Vector2) popupCenteredMinsize;
+		@GodotName("popup_centered_ratio") GodotMethod!(void, double) popupCenteredRatio;
+		@GodotName("set_as_minsize") GodotMethod!(void) setAsMinsize;
+		@GodotName("set_exclusive") GodotMethod!(void, bool) setExclusive;
 	}
 	bool opEquals(in Popup other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Popup opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,28 +74,12 @@ public:
 		notificationPopupHide = 81,
 	}
 	/**
-	Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by "size".
+	
 	*/
-	void popupCentered(in Vector2 size = Vector2(0, 0))
+	bool isExclusive() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCentered, _godot_object, size);
-	}
-	/**
-	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, scaled at a ratio of size of the screen.
-	*/
-	void popupCenteredRatio(in double ratio = 0.75)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCenteredRatio, _godot_object, ratio);
-	}
-	/**
-	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, ensuring the size is never smaller than `minsize`.
-	*/
-	void popupCenteredMinsize(in Vector2 minsize = Vector2(0, 0))
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCenteredMinsize, _godot_object, minsize);
+		return ptrcall!(bool)(_classBinding.isExclusive, _godot_object);
 	}
 	/**
 	Popup (show the control in modal form).
@@ -104,20 +90,52 @@ public:
 		ptrcall!(void)(_classBinding.popup, _godot_object, bounds);
 	}
 	/**
+	Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by `size`.
+	*/
+	void popupCentered(in Vector2 size = Vector2(0, 0))
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.popupCentered, _godot_object, size);
+	}
+	/**
+	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, clamping the size to `size`, then ensuring the popup is no larger than the viewport size multiplied by `fallback_ratio`.
+	*/
+	void popupCenteredClamped(in Vector2 size = Vector2(0, 0), in double fallback_ratio = 0.75)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.popupCenteredClamped, _godot_object, size, fallback_ratio);
+	}
+	/**
+	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, ensuring the size is never smaller than `minsize`.
+	*/
+	void popupCenteredMinsize(in Vector2 minsize = Vector2(0, 0))
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.popupCenteredMinsize, _godot_object, minsize);
+	}
+	/**
+	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, scaled at a ratio of size of the screen.
+	*/
+	void popupCenteredRatio(in double ratio = 0.75)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.popupCenteredRatio, _godot_object, ratio);
+	}
+	/**
+	Shrink popup to keep to the minimum size of content.
+	*/
+	void setAsMinsize()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsMinsize, _godot_object);
+	}
+	/**
 	
 	*/
 	void setExclusive(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setExclusive, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isExclusive() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isExclusive, _godot_object);
 	}
 	/**
 	If `true`, the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.

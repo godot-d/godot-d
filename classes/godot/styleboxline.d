@@ -1,5 +1,5 @@
 /**
-
+$(D StyleBox) that displays a single line.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,9 @@ import godot.stylebox;
 import godot.resource;
 import godot.reference;
 /**
+$(D StyleBox) that displays a single line.
 
+$(D StyleBox) that displays a single line of a given color and thickness. It can be used to draw things like separators.
 */
 @GodotBaseClass struct StyleBoxLine
 {
@@ -38,16 +40,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("get_color") GodotMethod!(Color) getColor;
-		@GodotName("set_thickness") GodotMethod!(void, long) setThickness;
-		@GodotName("get_thickness") GodotMethod!(long) getThickness;
-		@GodotName("set_grow_begin") GodotMethod!(void, double) setGrowBegin;
 		@GodotName("get_grow_begin") GodotMethod!(double) getGrowBegin;
-		@GodotName("set_grow_end") GodotMethod!(void, double) setGrowEnd;
 		@GodotName("get_grow_end") GodotMethod!(double) getGrowEnd;
-		@GodotName("set_vertical") GodotMethod!(void, bool) setVertical;
+		@GodotName("get_thickness") GodotMethod!(long) getThickness;
 		@GodotName("is_vertical") GodotMethod!(bool) isVertical;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
+		@GodotName("set_grow_begin") GodotMethod!(void, double) setGrowBegin;
+		@GodotName("set_grow_end") GodotMethod!(void, double) setGrowEnd;
+		@GodotName("set_thickness") GodotMethod!(void, long) setThickness;
+		@GodotName("set_vertical") GodotMethod!(void, bool) setVertical;
 	}
 	bool opEquals(in StyleBoxLine other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StyleBoxLine opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,42 +66,10 @@ public:
 	/**
 	
 	*/
-	void setColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
-	}
-	/**
-	
-	*/
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
-	}
-	/**
-	
-	*/
-	void setThickness(in long thickness)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setThickness, _godot_object, thickness);
-	}
-	/**
-	
-	*/
-	long getThickness() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getThickness, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGrowBegin(in double offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrowBegin, _godot_object, offset);
 	}
 	/**
 	
@@ -112,14 +82,6 @@ public:
 	/**
 	
 	*/
-	void setGrowEnd(in double offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrowEnd, _godot_object, offset);
-	}
-	/**
-	
-	*/
 	double getGrowEnd() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -128,10 +90,10 @@ public:
 	/**
 	
 	*/
-	void setVertical(in bool vertical)
+	long getThickness() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertical, _godot_object, vertical);
+		return ptrcall!(long)(_classBinding.getThickness, _godot_object);
 	}
 	/**
 	
@@ -144,6 +106,46 @@ public:
 	/**
 	
 	*/
+	void setColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+	}
+	/**
+	
+	*/
+	void setGrowBegin(in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGrowBegin, _godot_object, offset);
+	}
+	/**
+	
+	*/
+	void setGrowEnd(in double offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGrowEnd, _godot_object, offset);
+	}
+	/**
+	
+	*/
+	void setThickness(in long thickness)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setThickness, _godot_object, thickness);
+	}
+	/**
+	
+	*/
+	void setVertical(in bool vertical)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVertical, _godot_object, vertical);
+	}
+	/**
+	The line's color.
+	*/
 	@property Color color()
 	{
 		return getColor();
@@ -154,7 +156,7 @@ public:
 		setColor(v);
 	}
 	/**
-	
+	The number of pixels the line will extend before the $(D StyleBoxLine)'s bounds. If set to a negative value, the line will begin inside the $(D StyleBoxLine)'s bounds.
 	*/
 	@property double growBegin()
 	{
@@ -166,7 +168,7 @@ public:
 		setGrowBegin(v);
 	}
 	/**
-	
+	The number of pixels the line will extend past the $(D StyleBoxLine)'s bounds. If set to a negative value, the line will end inside the $(D StyleBoxLine)'s bounds.
 	*/
 	@property double growEnd()
 	{
@@ -178,7 +180,7 @@ public:
 		setGrowEnd(v);
 	}
 	/**
-	
+	The line's thickness in pixels.
 	*/
 	@property long thickness()
 	{
@@ -190,7 +192,7 @@ public:
 		setThickness(v);
 	}
 	/**
-	
+	If `true`, the line will be vertical. If `false`, the line will be horizontal.
 	*/
 	@property bool vertical()
 	{

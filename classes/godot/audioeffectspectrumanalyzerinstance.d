@@ -54,11 +54,11 @@ public:
 	enum MagnitudeMode : int
 	{
 		/**
-		
+		Use the average value as magnitude.
 		*/
 		magnitudeAverage = 0,
 		/**
-		
+		Use the maximum value as magnitude.
 		*/
 		magnitudeMax = 1,
 	}

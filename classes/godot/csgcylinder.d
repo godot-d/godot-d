@@ -22,10 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.csgprimitive;
 import godot.material;
-import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 A CSG Cylinder shape.
 
@@ -43,18 +39,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
-		@GodotName("get_radius") GodotMethod!(double) getRadius;
-		@GodotName("set_height") GodotMethod!(void, double) setHeight;
 		@GodotName("get_height") GodotMethod!(double) getHeight;
-		@GodotName("set_sides") GodotMethod!(void, long) setSides;
-		@GodotName("get_sides") GodotMethod!(long) getSides;
-		@GodotName("set_cone") GodotMethod!(void, bool) setCone;
-		@GodotName("is_cone") GodotMethod!(bool) isCone;
-		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 		@GodotName("get_material") GodotMethod!(Material) getMaterial;
-		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("get_sides") GodotMethod!(long) getSides;
 		@GodotName("get_smooth_faces") GodotMethod!(bool) getSmoothFaces;
+		@GodotName("is_cone") GodotMethod!(bool) isCone;
+		@GodotName("set_cone") GodotMethod!(void, bool) setCone;
+		@GodotName("set_height") GodotMethod!(void, double) setHeight;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("set_sides") GodotMethod!(void, long) setSides;
+		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
 	}
 	bool opEquals(in CSGCylinder other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGCylinder opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -71,74 +67,10 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHeight(in double height)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
-	}
-	/**
-	
-	*/
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSides(in long sides)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSides, _godot_object, sides);
-	}
-	/**
-	
-	*/
-	long getSides() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSides, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCone(in bool cone)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCone, _godot_object, cone);
-	}
-	/**
-	
-	*/
-	bool isCone() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCone, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaterial(Material material)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -151,10 +83,18 @@ public:
 	/**
 	
 	*/
-	void setSmoothFaces(in bool smooth_faces)
+	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+	}
+	/**
+	
+	*/
+	long getSides() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSides, _godot_object);
 	}
 	/**
 	
@@ -165,16 +105,72 @@ public:
 		return ptrcall!(bool)(_classBinding.getSmoothFaces, _godot_object);
 	}
 	/**
-	The radius of the cylinder.
+	
 	*/
-	@property double radius()
+	bool isCone() const
 	{
-		return getRadius();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCone, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCone(in bool cone)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCone, _godot_object, cone);
+	}
+	/**
+	
+	*/
+	void setHeight(in double height)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+	}
+	/**
+	
+	*/
+	void setMaterial(Material material)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+	}
+	/**
+	
+	*/
+	void setRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
+	}
+	/**
+	
+	*/
+	void setSides(in long sides)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSides, _godot_object, sides);
+	}
+	/**
+	
+	*/
+	void setSmoothFaces(in bool smooth_faces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+	}
+	/**
+	If `true` a cone is created, the $(D radius) will only apply to one side.
+	*/
+	@property bool cone()
+	{
+		return isCone();
 	}
 	/// ditto
-	@property void radius(double v)
+	@property void cone(bool v)
 	{
-		setRadius(v);
+		setCone(v);
 	}
 	/**
 	The height of the cylinder.
@@ -189,6 +185,18 @@ public:
 		setHeight(v);
 	}
 	/**
+	The radius of the cylinder.
+	*/
+	@property double radius()
+	{
+		return getRadius();
+	}
+	/// ditto
+	@property void radius(double v)
+	{
+		setRadius(v);
+	}
+	/**
 	The number of sides of the cylinder, the higher this number the more detail there will be in the cylinder.
 	*/
 	@property long sides()
@@ -199,18 +207,6 @@ public:
 	@property void sides(long v)
 	{
 		setSides(v);
-	}
-	/**
-	If `true` a cone is created, the $(D radius) will only apply to one side.
-	*/
-	@property bool cone()
-	{
-		return isCone();
-	}
-	/// ditto
-	@property void cone(bool v)
-	{
-		setCone(v);
 	}
 	/**
 	If `true` the normals of the cylinder are set to give a smooth effect making the cylinder seem rounded. If `false` the cylinder will have a flat shaded look.

@@ -1,5 +1,5 @@
 /**
-
+A $(D Color) operator to be used within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,7 +24,9 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+A $(D Color) operator to be used within the visual shader graph.
 
+Applies $(D operator) to two color inputs.
 */
 @GodotBaseClass struct VisualShaderNodeColorOp
 {
@@ -38,8 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 		@GodotName("get_operator") GodotMethod!(VisualShaderNodeColorOp.Operator) getOperator;
+		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 	}
 	bool opEquals(in VisualShaderNodeColorOp other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeColorOp opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,38 +59,107 @@ public:
 	enum Operator : int
 	{
 		/**
+		Produce a screen effect with the following formula:
+		
+		
+		result = vec3(1.0) - (vec3(1.0) - a) * (vec3(1.0) - b);
+		
 		
 		*/
 		opScreen = 0,
 		/**
+		Produce a difference effect with the following formula:
+		
+		
+		result = abs(a - b);
+		
 		
 		*/
 		opDifference = 1,
 		/**
+		Produce a darken effect with the following formula:
+		
+		
+		result = min(a, b);
+		
 		
 		*/
 		opDarken = 2,
 		/**
+		Produce a lighten effect with the following formula:
+		
+		
+		result = max(a, b);
+		
 		
 		*/
 		opLighten = 3,
 		/**
+		Produce an overlay effect with the following formula:
+		
+		
+		for (int i = 0; i &lt; 3; i++) {
+		    float base = a$(D i);
+		    float blend = b$(D i);
+		    if (base &lt; 0.5) {
+		        result$(D i) = 2.0 * base * blend;
+		    } else {
+		        result$(D i) = 1.0 - 2.0 * (1.0 - blend) * (1.0 - base);
+		    }
+		}
+		
 		
 		*/
 		opOverlay = 4,
 		/**
+		Produce a dodge effect with the following formula:
+		
+		
+		result = a / (vec3(1.0) - b);
+		
 		
 		*/
 		opDodge = 5,
 		/**
+		Produce a burn effect with the following formula:
+		
+		
+		result = vec3(1.0) - (vec3(1.0) - a) / b;
+		
 		
 		*/
 		opBurn = 6,
 		/**
+		Produce a soft light effect with the following formula:
+		
+		
+		for (int i = 0; i &lt; 3; i++) {
+		    float base = a$(D i);
+		    float blend = b$(D i);
+		    if (base &lt; 0.5) {
+		        result$(D i) = base * (blend + 0.5);
+		    } else {
+		        result$(D i) = 1.0 - (1.0 - base) * (1.0 - (blend - 0.5));
+		    }
+		}
+		
 		
 		*/
 		opSoftLight = 7,
 		/**
+		Produce a hard light effect with the following formula:
+		
+		
+		for (int i = 0; i &lt; 3; i++) {
+		    float base = a$(D i);
+		    float blend = b$(D i);
+		    if (base &lt; 0.5) {
+		        result$(D i) = base * (2.0 * blend);
+		    } else {
+		        result$(D i) = 1.0 - (1.0 - base) * (1.0 - 2.0 * (blend - 0.5));
+		    }
+		}
+		
 		
 		*/
 		opHardLight = 8,
@@ -109,14 +180,6 @@ public:
 	/**
 	
 	*/
-	void setOperator(in long op)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
-	}
-	/**
-	
-	*/
 	VisualShaderNodeColorOp.Operator getOperator() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -124,6 +187,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setOperator(in long op)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
+	}
+	/**
+	An operator to be applied to the inputs. See $(D operator) for options.
 	*/
 	@property VisualShaderNodeColorOp.Operator operator()
 	{

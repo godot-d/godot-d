@@ -25,6 +25,7 @@ import godot.packedscene;
 A script interface to a scene file's data.
 
 Maintains a list of resources, nodes, exported, and overridden properties, and built-in scripts associated with a scene.
+This class cannot be instantiated directly, it is retrieved for a given scene as the result of $(D PackedScene.getState).
 */
 @GodotBaseClass struct SceneState
 {
@@ -38,26 +39,26 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("get_connection_binds") GodotMethod!(Array, long) getConnectionBinds;
+		@GodotName("get_connection_count") GodotMethod!(long) getConnectionCount;
+		@GodotName("get_connection_flags") GodotMethod!(long, long) getConnectionFlags;
+		@GodotName("get_connection_method") GodotMethod!(String, long) getConnectionMethod;
+		@GodotName("get_connection_signal") GodotMethod!(String, long) getConnectionSignal;
+		@GodotName("get_connection_source") GodotMethod!(NodePath, long) getConnectionSource;
+		@GodotName("get_connection_target") GodotMethod!(NodePath, long) getConnectionTarget;
 		@GodotName("get_node_count") GodotMethod!(long) getNodeCount;
-		@GodotName("get_node_type") GodotMethod!(String, long) getNodeType;
-		@GodotName("get_node_name") GodotMethod!(String, long) getNodeName;
-		@GodotName("get_node_path") GodotMethod!(NodePath, long, bool) getNodePath;
-		@GodotName("get_node_owner_path") GodotMethod!(NodePath, long) getNodeOwnerPath;
-		@GodotName("is_node_instance_placeholder") GodotMethod!(bool, long) isNodeInstancePlaceholder;
-		@GodotName("get_node_instance_placeholder") GodotMethod!(String, long) getNodeInstancePlaceholder;
-		@GodotName("get_node_instance") GodotMethod!(PackedScene, long) getNodeInstance;
 		@GodotName("get_node_groups") GodotMethod!(PoolStringArray, long) getNodeGroups;
 		@GodotName("get_node_index") GodotMethod!(long, long) getNodeIndex;
+		@GodotName("get_node_instance") GodotMethod!(PackedScene, long) getNodeInstance;
+		@GodotName("get_node_instance_placeholder") GodotMethod!(String, long) getNodeInstancePlaceholder;
+		@GodotName("get_node_name") GodotMethod!(String, long) getNodeName;
+		@GodotName("get_node_owner_path") GodotMethod!(NodePath, long) getNodeOwnerPath;
+		@GodotName("get_node_path") GodotMethod!(NodePath, long, bool) getNodePath;
 		@GodotName("get_node_property_count") GodotMethod!(long, long) getNodePropertyCount;
 		@GodotName("get_node_property_name") GodotMethod!(String, long, long) getNodePropertyName;
 		@GodotName("get_node_property_value") GodotMethod!(Variant, long, long) getNodePropertyValue;
-		@GodotName("get_connection_count") GodotMethod!(long) getConnectionCount;
-		@GodotName("get_connection_source") GodotMethod!(NodePath, long) getConnectionSource;
-		@GodotName("get_connection_signal") GodotMethod!(String, long) getConnectionSignal;
-		@GodotName("get_connection_target") GodotMethod!(NodePath, long) getConnectionTarget;
-		@GodotName("get_connection_method") GodotMethod!(String, long) getConnectionMethod;
-		@GodotName("get_connection_flags") GodotMethod!(long, long) getConnectionFlags;
-		@GodotName("get_connection_binds") GodotMethod!(Array, long) getConnectionBinds;
+		@GodotName("get_node_type") GodotMethod!(String, long) getNodeType;
+		@GodotName("is_node_instance_placeholder") GodotMethod!(bool, long) isNodeInstancePlaceholder;
 	}
 	bool opEquals(in SceneState other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SceneState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -79,11 +80,13 @@ public:
 		*/
 		genEditStateDisabled = 0,
 		/**
-		If passed to $(D PackedScene.instance), provides inherited scene resources to the local scene. Requires tools compiled.
+		If passed to $(D PackedScene.instance), provides inherited scene resources to the local scene.
+		$(B Note:) Only available in editor builds.
 		*/
 		genEditStateInstance = 1,
 		/**
-		If passed to $(D PackedScene.instance), provides local scene resources to the local scene. Only the main scene should receive the main edit state. Requires tools compiled.
+		If passed to $(D PackedScene.instance), provides local scene resources to the local scene. Only the main scene should receive the main edit state.
+		$(B Note:) Only available in editor builds.
 		*/
 		genEditStateMain = 2,
 	}
@@ -95,68 +98,70 @@ public:
 		genEditStateMain = 2,
 	}
 	/**
+	Returns the list of bound parameters for the signal at `idx`.
+	*/
+	Array getConnectionBinds(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getConnectionBinds, _godot_object, idx);
+	}
+	/**
+	Returns the number of signal connections in the scene.
+	The `idx` argument used to query connection metadata in other `get_connection_*` methods in the interval `$(D 0, get_connection_count() - 1)`.
+	*/
+	long getConnectionCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConnectionCount, _godot_object);
+	}
+	/**
+	Returns the connection flags for the signal at `idx`. See $(D GodotObject.connectflags) constants.
+	*/
+	long getConnectionFlags(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConnectionFlags, _godot_object, idx);
+	}
+	/**
+	Returns the method connected to the signal at `idx`.
+	*/
+	String getConnectionMethod(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getConnectionMethod, _godot_object, idx);
+	}
+	/**
+	Returns the name of the signal at `idx`.
+	*/
+	String getConnectionSignal(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getConnectionSignal, _godot_object, idx);
+	}
+	/**
+	Returns the path to the node that owns the signal at `idx`, relative to the root node.
+	*/
+	NodePath getConnectionSource(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getConnectionSource, _godot_object, idx);
+	}
+	/**
+	Returns the path to the node that owns the method connected to the signal at `idx`, relative to the root node.
+	*/
+	NodePath getConnectionTarget(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getConnectionTarget, _godot_object, idx);
+	}
+	/**
 	Returns the number of nodes in the scene.
+	The `idx` argument used to query node data in other `get_node_*` methods in the interval `$(D 0, get_node_count() - 1)`.
 	*/
 	long getNodeCount() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getNodeCount, _godot_object);
-	}
-	/**
-	Returns the type of the node at `idx`.
-	*/
-	String getNodeType(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeType, _godot_object, idx);
-	}
-	/**
-	Returns the name of the node at `idx`.
-	*/
-	String getNodeName(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeName, _godot_object, idx);
-	}
-	/**
-	Returns the path to the node at `idx`.
-	*/
-	NodePath getNodePath(in long idx, in bool for_parent = false) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodePath, _godot_object, idx, for_parent);
-	}
-	/**
-	Returns the path to the owner of the node at `idx`, relative to the root node.
-	*/
-	NodePath getNodeOwnerPath(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodeOwnerPath, _godot_object, idx);
-	}
-	/**
-	Returns `true` if the node at `idx` is an $(D InstancePlaceholder).
-	*/
-	bool isNodeInstancePlaceholder(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNodeInstancePlaceholder, _godot_object, idx);
-	}
-	/**
-	Returns the path to the represented scene file if the node at `idx` is an $(D InstancePlaceholder).
-	*/
-	String getNodeInstancePlaceholder(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeInstancePlaceholder, _godot_object, idx);
-	}
-	/**
-	Returns the scene for the node at `idx` or `null` if the node is not an instance.
-	*/
-	Ref!PackedScene getNodeInstance(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PackedScene)(_classBinding.getNodeInstance, _godot_object, idx);
 	}
 	/**
 	Returns the list of group names associated with the node at `idx`.
@@ -167,7 +172,7 @@ public:
 		return ptrcall!(PoolStringArray)(_classBinding.getNodeGroups, _godot_object, idx);
 	}
 	/**
-	
+	Returns the node's index, which is its position relative to its siblings. This is only relevant and saved in scenes for cases where new nodes are added to an instanced or inherited scene among siblings from the base scene. Despite the name, this index is not related to the `idx` argument used here and in other methods.
 	*/
 	long getNodeIndex(in long idx) const
 	{
@@ -175,7 +180,49 @@ public:
 		return ptrcall!(long)(_classBinding.getNodeIndex, _godot_object, idx);
 	}
 	/**
+	Returns a $(D PackedScene) for the node at `idx` (i.e. the whole branch starting at this node, with its child nodes and resources), or `null` if the node is not an instance.
+	*/
+	Ref!PackedScene getNodeInstance(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PackedScene)(_classBinding.getNodeInstance, _godot_object, idx);
+	}
+	/**
+	Returns the path to the represented scene file if the node at `idx` is an $(D InstancePlaceholder).
+	*/
+	String getNodeInstancePlaceholder(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getNodeInstancePlaceholder, _godot_object, idx);
+	}
+	/**
+	Returns the name of the node at `idx`.
+	*/
+	String getNodeName(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getNodeName, _godot_object, idx);
+	}
+	/**
+	Returns the path to the owner of the node at `idx`, relative to the root node.
+	*/
+	NodePath getNodeOwnerPath(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodeOwnerPath, _godot_object, idx);
+	}
+	/**
+	Returns the path to the node at `idx`.
+	If `for_parent` is `true`, returns the path of the `idx` node's parent instead.
+	*/
+	NodePath getNodePath(in long idx, in bool for_parent = false) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(NodePath)(_classBinding.getNodePath, _godot_object, idx, for_parent);
+	}
+	/**
 	Returns the number of exported or overridden properties for the node at `idx`.
+	The `prop_idx` argument used to query node property data in other `get_node_property_*` methods in the interval `$(D 0, get_node_property_count() - 1)`.
 	*/
 	long getNodePropertyCount(in long idx) const
 	{
@@ -199,59 +246,19 @@ public:
 		return ptrcall!(Variant)(_classBinding.getNodePropertyValue, _godot_object, idx, prop_idx);
 	}
 	/**
-	Returns the number of signal connections in the scene.
+	Returns the type of the node at `idx`.
 	*/
-	long getConnectionCount() const
+	String getNodeType(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionCount, _godot_object);
+		return ptrcall!(String)(_classBinding.getNodeType, _godot_object, idx);
 	}
 	/**
-	Returns the path to the node that owns the signal at `idx`, relative to the root node.
+	Returns `true` if the node at `idx` is an $(D InstancePlaceholder).
 	*/
-	NodePath getConnectionSource(in long idx) const
+	bool isNodeInstancePlaceholder(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getConnectionSource, _godot_object, idx);
-	}
-	/**
-	Returns the name of the signal at `idx`.
-	*/
-	String getConnectionSignal(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectionSignal, _godot_object, idx);
-	}
-	/**
-	Returns the path to the node that owns the method connected to the signal at `idx`, relative to the root node.
-	*/
-	NodePath getConnectionTarget(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getConnectionTarget, _godot_object, idx);
-	}
-	/**
-	Returns the method connected to the signal at `idx`.
-	*/
-	String getConnectionMethod(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectionMethod, _godot_object, idx);
-	}
-	/**
-	Returns the flags for the signal at `idx`. See $(D GodotObject)'s `CONNECT_*` flags.
-	*/
-	long getConnectionFlags(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionFlags, _godot_object, idx);
-	}
-	/**
-	Returns the list of bound parameters for the signal at `idx`.
-	*/
-	Array getConnectionBinds(in long idx) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getConnectionBinds, _godot_object, idx);
+		return ptrcall!(bool)(_classBinding.isNodeInstancePlaceholder, _godot_object, idx);
 	}
 }

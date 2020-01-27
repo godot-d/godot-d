@@ -1,5 +1,5 @@
 /**
-Adds a Distortion audio effect to an Audio bus.
+Adds a distortion audio effect to an Audio bus.
 Modify the sound to make it dirty.
 
 Copyright:
@@ -23,12 +23,11 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a Distortion audio effect to an Audio bus.
+Adds a distortion audio effect to an Audio bus.
 Modify the sound to make it dirty.
 
-Modify the sound and make it dirty. Different types are available : clip, tan, lofi (bit crushing), overdrive, or waveshape.
+Modify the sound and make it dirty. Different types are available: clip, tan, lo-fi (bit crushing), overdrive, or waveshape.
 By distorting the waveform the frequency content change, which will often make the sound "crunchy" or "abrasive". For games, it can simulate sound coming from some saturated device or speaker very efficiently.
 */
 @GodotBaseClass struct AudioEffectDistortion
@@ -43,16 +42,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_mode") GodotMethod!(void, long) setMode;
-		@GodotName("get_mode") GodotMethod!(AudioEffectDistortion.Mode) getMode;
-		@GodotName("set_pre_gain") GodotMethod!(void, double) setPreGain;
-		@GodotName("get_pre_gain") GodotMethod!(double) getPreGain;
-		@GodotName("set_keep_hf_hz") GodotMethod!(void, double) setKeepHfHz;
-		@GodotName("get_keep_hf_hz") GodotMethod!(double) getKeepHfHz;
-		@GodotName("set_drive") GodotMethod!(void, double) setDrive;
 		@GodotName("get_drive") GodotMethod!(double) getDrive;
-		@GodotName("set_post_gain") GodotMethod!(void, double) setPostGain;
+		@GodotName("get_keep_hf_hz") GodotMethod!(double) getKeepHfHz;
+		@GodotName("get_mode") GodotMethod!(AudioEffectDistortion.Mode) getMode;
 		@GodotName("get_post_gain") GodotMethod!(double) getPostGain;
+		@GodotName("get_pre_gain") GodotMethod!(double) getPreGain;
+		@GodotName("set_drive") GodotMethod!(void, double) setDrive;
+		@GodotName("set_keep_hf_hz") GodotMethod!(void, double) setKeepHfHz;
+		@GodotName("set_mode") GodotMethod!(void, long) setMode;
+		@GodotName("set_post_gain") GodotMethod!(void, double) setPostGain;
+		@GodotName("set_pre_gain") GodotMethod!(void, double) setPreGain;
 	}
 	bool opEquals(in AudioEffectDistortion other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectDistortion opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -102,42 +101,10 @@ public:
 	/**
 	
 	*/
-	void setMode(in long mode)
+	double getDrive() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	AudioEffectDistortion.Mode getMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectDistortion.Mode)(_classBinding.getMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPreGain(in double pre_gain)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreGain, _godot_object, pre_gain);
-	}
-	/**
-	
-	*/
-	double getPreGain() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPreGain, _godot_object);
-	}
-	/**
-	
-	*/
-	void setKeepHfHz(in double keep_hf_hz)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeepHfHz, _godot_object, keep_hf_hz);
+		return ptrcall!(double)(_classBinding.getDrive, _godot_object);
 	}
 	/**
 	
@@ -150,6 +117,30 @@ public:
 	/**
 	
 	*/
+	AudioEffectDistortion.Mode getMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AudioEffectDistortion.Mode)(_classBinding.getMode, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPostGain() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPostGain, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPreGain() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPreGain, _godot_object);
+	}
+	/**
+	
+	*/
 	void setDrive(in double drive)
 	{
 		checkClassBinding!(typeof(this))();
@@ -158,10 +149,18 @@ public:
 	/**
 	
 	*/
-	double getDrive() const
+	void setKeepHfHz(in double keep_hf_hz)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDrive, _godot_object);
+		ptrcall!(void)(_classBinding.setKeepHfHz, _godot_object, keep_hf_hz);
+	}
+	/**
+	
+	*/
+	void setMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -174,49 +173,13 @@ public:
 	/**
 	
 	*/
-	double getPostGain() const
+	void setPreGain(in double pre_gain)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPostGain, _godot_object);
+		ptrcall!(void)(_classBinding.setPreGain, _godot_object, pre_gain);
 	}
 	/**
-	Distortion type. Default value: `MODE_CLIP`.
-	*/
-	@property AudioEffectDistortion.Mode mode()
-	{
-		return getMode();
-	}
-	/// ditto
-	@property void mode(long v)
-	{
-		setMode(v);
-	}
-	/**
-	Increases or decreases the volume before the effect. Value can range from -60 to 60. Default value: `0`.
-	*/
-	@property double preGain()
-	{
-		return getPreGain();
-	}
-	/// ditto
-	@property void preGain(double v)
-	{
-		setPreGain(v);
-	}
-	/**
-	High-pass filter. Frequencies higher than this value will not be affected by the distortion. Value can range from 1 to 20000. Default value: `16000`.
-	*/
-	@property double keepHfHz()
-	{
-		return getKeepHfHz();
-	}
-	/// ditto
-	@property void keepHfHz(double v)
-	{
-		setKeepHfHz(v);
-	}
-	/**
-	Distortion power. Value can range from 0 to 1. Default value: `0`.
+	Distortion power. Value can range from 0 to 1.
 	*/
 	@property double drive()
 	{
@@ -228,7 +191,31 @@ public:
 		setDrive(v);
 	}
 	/**
-	Increases or decreases the volume after the effect. Value can range from -80 to 24. Default value: `0`.
+	High-pass filter, in Hz. Frequencies higher than this value will not be affected by the distortion. Value can range from 1 to 20000.
+	*/
+	@property double keepHfHz()
+	{
+		return getKeepHfHz();
+	}
+	/// ditto
+	@property void keepHfHz(double v)
+	{
+		setKeepHfHz(v);
+	}
+	/**
+	Distortion type.
+	*/
+	@property AudioEffectDistortion.Mode mode()
+	{
+		return getMode();
+	}
+	/// ditto
+	@property void mode(long v)
+	{
+		setMode(v);
+	}
+	/**
+	Increases or decreases the volume after the effect. Value can range from -80 to 24.
 	*/
 	@property double postGain()
 	{
@@ -238,5 +225,17 @@ public:
 	@property void postGain(double v)
 	{
 		setPostGain(v);
+	}
+	/**
+	Increases or decreases the volume before the effect. Value can range from -60 to 60.
+	*/
+	@property double preGain()
+	{
+		return getPreGain();
+	}
+	/// ditto
+	@property void preGain(double v)
+	{
+		setPreGain(v);
 	}
 }

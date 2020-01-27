@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.reference;
 /**
 A material for physics properties.
 
@@ -39,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
-		@GodotName("get_friction") GodotMethod!(double) getFriction;
-		@GodotName("set_rough") GodotMethod!(void, bool) setRough;
-		@GodotName("is_rough") GodotMethod!(bool) isRough;
-		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
 		@GodotName("get_bounce") GodotMethod!(double) getBounce;
-		@GodotName("set_absorbent") GodotMethod!(void, bool) setAbsorbent;
+		@GodotName("get_friction") GodotMethod!(double) getFriction;
 		@GodotName("is_absorbent") GodotMethod!(bool) isAbsorbent;
+		@GodotName("is_rough") GodotMethod!(bool) isRough;
+		@GodotName("set_absorbent") GodotMethod!(void, bool) setAbsorbent;
+		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
+		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
+		@GodotName("set_rough") GodotMethod!(void, bool) setRough;
 	}
 	bool opEquals(in PhysicsMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PhysicsMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,10 +62,10 @@ public:
 	/**
 	
 	*/
-	void setFriction(in double friction)
+	double getBounce() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
+		return ptrcall!(double)(_classBinding.getBounce, _godot_object);
 	}
 	/**
 	
@@ -79,10 +78,10 @@ public:
 	/**
 	
 	*/
-	void setRough(in bool rough)
+	bool isAbsorbent() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRough, _godot_object, rough);
+		return ptrcall!(bool)(_classBinding.isAbsorbent, _godot_object);
 	}
 	/**
 	
@@ -95,22 +94,6 @@ public:
 	/**
 	
 	*/
-	void setBounce(in double bounce)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
-	}
-	/**
-	
-	*/
-	double getBounce() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBounce, _godot_object);
-	}
-	/**
-	
-	*/
 	void setAbsorbent(in bool absorbent)
 	{
 		checkClassBinding!(typeof(this))();
@@ -119,13 +102,53 @@ public:
 	/**
 	
 	*/
-	bool isAbsorbent() const
+	void setBounce(in double bounce)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAbsorbent, _godot_object);
+		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
 	}
 	/**
-	The body's friction. Values range from `0` (frictionless) to `1` (maximum friction). Default value: `1`.
+	
+	*/
+	void setFriction(in double friction)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
+	}
+	/**
+	
+	*/
+	void setRough(in bool rough)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRough, _godot_object, rough);
+	}
+	/**
+	
+	*/
+	@property bool absorbent()
+	{
+		return isAbsorbent();
+	}
+	/// ditto
+	@property void absorbent(bool v)
+	{
+		setAbsorbent(v);
+	}
+	/**
+	The body's bounciness. Values range from `0` (no bounce) to `1` (full bounciness).
+	*/
+	@property double bounce()
+	{
+		return getBounce();
+	}
+	/// ditto
+	@property void bounce(double v)
+	{
+		setBounce(v);
+	}
+	/**
+	The body's friction. Values range from `0` (frictionless) to `1` (maximum friction).
 	*/
 	@property double friction()
 	{
@@ -147,29 +170,5 @@ public:
 	@property void rough(bool v)
 	{
 		setRough(v);
-	}
-	/**
-	The body's bounciness. Default value: `0`.
-	*/
-	@property double bounce()
-	{
-		return getBounce();
-	}
-	/// ditto
-	@property void bounce(double v)
-	{
-		setBounce(v);
-	}
-	/**
-	
-	*/
-	@property bool absorbent()
-	{
-		return isAbsorbent();
-	}
-	/// ditto
-	@property void absorbent(bool v)
-	{
-		setAbsorbent(v);
 	}
 }

@@ -2,8 +2,9 @@ module godot.networkedmultiplayerpeer.all;
 
 public import
 	godot.networkedmultiplayerpeer,
-	godot.networkedmultiplayerenet,
 	godot.multiplayerpeergdnative,
+	godot.networkedmultiplayerenet,
+	godot.webrtcmultiplayer,
 	godot.websocketmultiplayerpeer,
-	godot.websocketserver,
-	godot.websocketclient;
+	godot.websocketclient,
+	godot.websocketserver;

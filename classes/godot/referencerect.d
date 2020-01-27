@@ -26,7 +26,7 @@ import godot.node;
 /**
 Reference frame for GUI.
 
-It's just like an empty control, except a red box is displayed while editing around its size at all times.
+A rectangle box that displays only a $(D borderColor) border color around its rectangle. $(D ReferenceRect) has no fill $(D Color).
 */
 @GodotBaseClass struct ReferenceRect
 {
@@ -41,7 +41,9 @@ public:
 	{
 		__gshared:
 		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
+		@GodotName("get_editor_only") GodotMethod!(bool) getEditorOnly;
 		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
+		@GodotName("set_editor_only") GodotMethod!(void, bool) setEditorOnly;
 	}
 	bool opEquals(in ReferenceRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ReferenceRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,6 +68,14 @@ public:
 	/**
 	
 	*/
+	bool getEditorOnly() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getEditorOnly, _godot_object);
+	}
+	/**
+	
+	*/
 	void setBorderColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
@@ -73,6 +83,14 @@ public:
 	}
 	/**
 	
+	*/
+	void setEditorOnly(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEditorOnly, _godot_object, enabled);
+	}
+	/**
+	Sets the border $(D Color) of the $(D ReferenceRect).
 	*/
 	@property Color borderColor()
 	{
@@ -82,5 +100,17 @@ public:
 	@property void borderColor(Color v)
 	{
 		setBorderColor(v);
+	}
+	/**
+	If set to `true`, the $(D ReferenceRect) will only be visible while in editor. Otherwise, $(D ReferenceRect) will be visible in game.
+	*/
+	@property bool editorOnly()
+	{
+		return getEditorOnly();
+	}
+	/// ditto
+	@property void editorOnly(bool v)
+	{
+		setEditorOnly(v);
 	}
 }

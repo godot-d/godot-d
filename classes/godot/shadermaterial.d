@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.material;
-import godot.shader;
 import godot.resource;
 import godot.reference;
+import godot.shader;
 /**
 A material that uses a custom $(D Shader) program.
 
@@ -41,13 +41,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shader") GodotMethod!(void, Shader) setShader;
-		@GodotName("get_shader") GodotMethod!(Shader) getShader;
-		@GodotName("set_shader_param") GodotMethod!(void, String, Variant) setShaderParam;
-		@GodotName("get_shader_param") GodotMethod!(Variant, String) getShaderParam;
 		@GodotName("_shader_changed") GodotMethod!(void) _shaderChanged;
+		@GodotName("get_shader") GodotMethod!(Shader) getShader;
+		@GodotName("get_shader_param") GodotMethod!(Variant, String) getShaderParam;
 		@GodotName("property_can_revert") GodotMethod!(bool, String) propertyCanRevert;
 		@GodotName("property_get_revert") GodotMethod!(Variant, String) propertyGetRevert;
+		@GodotName("set_shader") GodotMethod!(void, Shader) setShader;
+		@GodotName("set_shader_param") GodotMethod!(void, String, Variant) setShaderParam;
 	}
 	bool opEquals(in ShaderMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ShaderMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,10 +64,11 @@ public:
 	/**
 	
 	*/
-	void setShader(Shader shader)
+	void _shaderChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShader, _godot_object, shader);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_shader_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -78,14 +79,6 @@ public:
 		return ptrcall!(Shader)(_classBinding.getShader, _godot_object);
 	}
 	/**
-	Changes the value set for this material of a uniform in the shader.
-	*/
-	void setShaderParam(VariantArg1)(in String param, in VariantArg1 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShaderParam, _godot_object, param, value);
-	}
-	/**
 	Returns the current value set for this material of a uniform in the shader.
 	*/
 	Variant getShaderParam(in String param) const
@@ -94,16 +87,7 @@ public:
 		return ptrcall!(Variant)(_classBinding.getShaderParam, _godot_object, param);
 	}
 	/**
-	
-	*/
-	void _shaderChanged()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_shader_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
+	Returns `true` if the property identified by `name` can be reverted to a default value.
 	*/
 	bool propertyCanRevert(in String name)
 	{
@@ -111,12 +95,28 @@ public:
 		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
 	}
 	/**
-	
+	Returns the default value of the material property with given `name`.
 	*/
 	Variant propertyGetRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
+	}
+	/**
+	
+	*/
+	void setShader(Shader shader)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShader, _godot_object, shader);
+	}
+	/**
+	Changes the value set for this material of a uniform in the shader. $(B Note:) `param` must match the name of the uniform in the code exactly.
+	*/
+	void setShaderParam(VariantArg1)(in String param, in VariantArg1 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShaderParam, _godot_object, param, value);
 	}
 	/**
 	The $(D Shader) program used to render this material.

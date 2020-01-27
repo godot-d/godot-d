@@ -21,9 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.resource;
 import godot.shape;
-import godot.node;
+import godot.resource;
 /**
 Node that represents collision shape data in 3D space.
 
@@ -41,12 +40,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("resource_changed") GodotMethod!(void, Resource) resourceChanged;
-		@GodotName("set_shape") GodotMethod!(void, Shape) setShape;
+		@GodotName("_shape_changed") GodotMethod!(void) _shapeChanged;
+		@GodotName("_update_debug_shape") GodotMethod!(void) _updateDebugShape;
 		@GodotName("get_shape") GodotMethod!(Shape) getShape;
-		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("make_convex_from_brothers") GodotMethod!(void) makeConvexFromBrothers;
+		@GodotName("resource_changed") GodotMethod!(void, Resource) resourceChanged;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_shape") GodotMethod!(void, Shape) setShape;
 	}
 	bool opEquals(in CollisionShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,20 +62,22 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	If this method exists within a script it will be called whenever the shape resource has been modified.
+	
 	*/
-	void resourceChanged(Resource resource)
+	void _shapeChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resourceChanged, _godot_object, resource);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_shape_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setShape(Shape shape)
+	void _updateDebugShape()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_debug_shape");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -83,14 +86,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Shape)(_classBinding.getShape, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDisabled(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, enable);
 	}
 	/**
 	
@@ -109,16 +104,28 @@ public:
 		ptrcall!(void)(_classBinding.makeConvexFromBrothers, _godot_object);
 	}
 	/**
-	The actual shape owned by this collision shape.
+	If this method exists within a script it will be called whenever the shape resource has been modified.
 	*/
-	@property Shape shape()
+	void resourceChanged(Resource resource)
 	{
-		return getShape();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.resourceChanged, _godot_object, resource);
 	}
-	/// ditto
-	@property void shape(Shape v)
+	/**
+	
+	*/
+	void setDisabled(in bool enable)
 	{
-		setShape(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabled, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setShape(Shape shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
 	}
 	/**
 	A disabled collision shape has no effect in the world.
@@ -131,5 +138,17 @@ public:
 	@property void disabled(bool v)
 	{
 		setDisabled(v);
+	}
+	/**
+	The actual shape owned by this collision shape.
+	*/
+	@property Shape shape()
+	{
+		return getShape();
+	}
+	/// ditto
+	@property void shape(Shape v)
+	{
+		setShape(v);
 	}
 }

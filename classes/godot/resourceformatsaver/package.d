@@ -25,8 +25,8 @@ import godot.resource;
 /**
 Saves a specific resource type to a file.
 
-The engine can save resources when you do it from the editor, or when you call $(D ResourceSaver.save). This is accomplished with multiple $(D ResourceFormatSaver)s, each handling its own format.
-By default, Godot saves resources as `.tres`, `.res` or another built-in format, but you can choose to create your own format by extending this class. You should give it a global class name with `class_name` for it to be registered. You may as well implement a $(D ResourceFormatLoader).
+The engine can save resources when you do it from the editor, or when you use the $(D ResourceSaver) singleton. This is accomplished thanks to multiple $(D ResourceFormatSaver)s, each handling its own format and called automatically by the engine.
+By default, Godot saves resources as `.tres` (text-based), `.res` (binary) or another built-in format, but you can choose to create your own format by extending this class. Be sure to respect the documented return types and values. You should give it a global class name with `class_name` for it to be registered. Like built-in ResourceFormatSavers, it will be called automatically when saving resources of its recognized type(s). You may also implement a $(D ResourceFormatLoader).
 */
 @GodotBaseClass struct ResourceFormatSaver
 {
@@ -40,9 +40,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("save") GodotMethod!(long, String, Resource, long) save;
 		@GodotName("get_recognized_extensions") GodotMethod!(PoolStringArray, Resource) getRecognizedExtensions;
 		@GodotName("recognize") GodotMethod!(bool, Resource) recognize;
+		@GodotName("save") GodotMethod!(long, String, Resource, long) save;
 	}
 	bool opEquals(in ResourceFormatSaver other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ResourceFormatSaver opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,35 +57,36 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Saves the given resource object to a file. `flags` is a bitmask composed with `FLAG_*` constants defined in $(D ResourceSaver). Returns `OK` on success, or an `ERR_*` constant listed in $(D @GlobalScope) if it failed.
-	*/
-	long save(in String path, Resource resource, in long flags)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(path);
-		_GODOT_args.append(resource);
-		_GODOT_args.append(flags);
-		String _GODOT_method_name = String("save");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
-	}
-	/**
-	Gets the list of extensions for files this saver is able to write.
+	Returns the list of extensions available for saving the resource object, provided it is recognized (see $(D recognize)).
 	*/
 	PoolStringArray getRecognizedExtensions(Resource resource)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(resource);
 		String _GODOT_method_name = String("get_recognized_extensions");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
 	}
 	/**
-	Returns `true` if the given resource object can be saved by this saver.
+	Returns whether the given resource object can be saved by this saver.
 	*/
 	bool recognize(Resource resource)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(resource);
 		String _GODOT_method_name = String("recognize");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Saves the given resource object to a file at the target `path`. `flags` is a bitmask composed with $(D ResourceSaver.saverflags) constants.
+	Returns $(D constant OK) on success, or an $(D error) constant in case of failure.
+	*/
+	long save(in String path, Resource resource, in long flags)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(path);
+		_GODOT_args.append(resource);
+		_GODOT_args.append(flags);
+		String _GODOT_method_name = String("save");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
 }

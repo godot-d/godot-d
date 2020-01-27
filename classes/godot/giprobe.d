@@ -1,5 +1,5 @@
 /**
-
+Real-time global illumination (GI) probe.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualinstance;
-import godot.giprobedata;
 import godot.node;
-import godot.spatial;
+import godot.giprobedata;
 /**
+Real-time global illumination (GI) probe.
 
+$(D GIProbe)s are used to provide high-quality real-time indirect light to scenes. They precompute the effect of objects that emit light and the effect of static geometry to simulate the behavior of complex light in real-time. $(D GIProbe)s need to be baked before using, however, once baked, dynamic objects will receive light from them. Further, lights can be fully dynamic or baked.
+Having $(D GIProbe)s in a scene can be expensive, the quality of the probe can be turned down in exchange for better performance in the $(D ProjectSettings) using $(D ProjectSettings.rendering/quality/voxelConeTracing/highQuality).
 */
 @GodotBaseClass struct GIProbe
 {
@@ -39,28 +41,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_probe_data") GodotMethod!(void, GIProbeData) setProbeData;
-		@GodotName("get_probe_data") GodotMethod!(GIProbeData) getProbeData;
-		@GodotName("set_subdiv") GodotMethod!(void, long) setSubdiv;
-		@GodotName("get_subdiv") GodotMethod!(GIProbe.Subdiv) getSubdiv;
-		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
-		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
-		@GodotName("set_dynamic_range") GodotMethod!(void, long) setDynamicRange;
-		@GodotName("get_dynamic_range") GodotMethod!(long) getDynamicRange;
-		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
-		@GodotName("get_energy") GodotMethod!(double) getEnergy;
-		@GodotName("set_bias") GodotMethod!(void, double) setBias;
-		@GodotName("get_bias") GodotMethod!(double) getBias;
-		@GodotName("set_normal_bias") GodotMethod!(void, double) setNormalBias;
-		@GodotName("get_normal_bias") GodotMethod!(double) getNormalBias;
-		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
-		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
-		@GodotName("set_interior") GodotMethod!(void, bool) setInterior;
-		@GodotName("is_interior") GodotMethod!(bool) isInterior;
-		@GodotName("set_compress") GodotMethod!(void, bool) setCompress;
-		@GodotName("is_compressed") GodotMethod!(bool) isCompressed;
 		@GodotName("bake") GodotMethod!(void, Node, bool) bake;
 		@GodotName("debug_bake") GodotMethod!(void) debugBake;
+		@GodotName("get_bias") GodotMethod!(double) getBias;
+		@GodotName("get_dynamic_range") GodotMethod!(long) getDynamicRange;
+		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
+		@GodotName("get_normal_bias") GodotMethod!(double) getNormalBias;
+		@GodotName("get_probe_data") GodotMethod!(GIProbeData) getProbeData;
+		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
+		@GodotName("get_subdiv") GodotMethod!(GIProbe.Subdiv) getSubdiv;
+		@GodotName("is_compressed") GodotMethod!(bool) isCompressed;
+		@GodotName("is_interior") GodotMethod!(bool) isInterior;
+		@GodotName("set_bias") GodotMethod!(void, double) setBias;
+		@GodotName("set_compress") GodotMethod!(void, bool) setCompress;
+		@GodotName("set_dynamic_range") GodotMethod!(void, long) setDynamicRange;
+		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
+		@GodotName("set_interior") GodotMethod!(void, bool) setInterior;
+		@GodotName("set_normal_bias") GodotMethod!(void, double) setNormalBias;
+		@GodotName("set_probe_data") GodotMethod!(void, GIProbeData) setProbeData;
+		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
+		@GodotName("set_subdiv") GodotMethod!(void, long) setSubdiv;
 	}
 	bool opEquals(in GIProbe other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GIProbe opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -78,23 +80,23 @@ public:
 	enum Subdiv : int
 	{
 		/**
-		
+		Use 64 subdivisions. This is the lowest quality setting, but the fastest. Use it if you can, but especially use it on lower-end hardware.
 		*/
 		subdiv64 = 0,
 		/**
-		
+		Use 128 subdivisions. This is the default quality setting.
 		*/
 		subdiv128 = 1,
 		/**
-		
+		Use 256 subdivisions.
 		*/
 		subdiv256 = 2,
 		/**
-		
+		Use 512 subdivisions. This is the highest quality setting, but the slowest. On lower-end hardware this could cause the GPU to stall.
 		*/
 		subdiv512 = 3,
 		/**
-		
+		Represents the size of the $(D subdiv) enum.
 		*/
 		subdivMax = 4,
 	}
@@ -108,92 +110,20 @@ public:
 		subdivMax = 4,
 	}
 	/**
-	
+	Bakes the effect from all $(D GeometryInstance)s marked with $(D GeometryInstance.useInBakedLight) and $(D Light)s marked with either $(D constant Light.BAKE_INDIRECT) or $(D constant Light.BAKE_ALL). If `create_visual_debug` is `true`, after baking the light, this will generate a $(D MultiMesh) that has a cube representing each solid cell with each cube colored to the cell's albedo color. This can be used to visualize the $(D GIProbe)'s data and debug any issues that may be occurring.
 	*/
-	void setProbeData(GIProbeData data)
+	void bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProbeData, _godot_object, data);
+		ptrcall!(void)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
 	}
 	/**
-	
+	Calls $(D bake) with `create_visual_debug` enabled.
 	*/
-	Ref!GIProbeData getProbeData() const
+	void debugBake()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GIProbeData)(_classBinding.getProbeData, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSubdiv(in long subdiv)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdiv, _godot_object, subdiv);
-	}
-	/**
-	
-	*/
-	GIProbe.Subdiv getSubdiv() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GIProbe.Subdiv)(_classBinding.getSubdiv, _godot_object);
-	}
-	/**
-	
-	*/
-	void setExtents(in Vector3 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
-	}
-	/**
-	
-	*/
-	Vector3 getExtents() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDynamicRange(in long max)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDynamicRange, _godot_object, max);
-	}
-	/**
-	
-	*/
-	long getDynamicRange() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDynamicRange, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnergy(in double max)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, max);
-	}
-	/**
-	
-	*/
-	double getEnergy() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBias(in double max)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBias, _godot_object, max);
+		ptrcall!(void)(_classBinding.debugBake, _godot_object);
 	}
 	/**
 	
@@ -206,10 +136,26 @@ public:
 	/**
 	
 	*/
-	void setNormalBias(in double max)
+	long getDynamicRange() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalBias, _godot_object, max);
+		return ptrcall!(long)(_classBinding.getDynamicRange, _godot_object);
+	}
+	/**
+	
+	*/
+	double getEnergy() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getExtents() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
 	}
 	/**
 	
@@ -222,10 +168,10 @@ public:
 	/**
 	
 	*/
-	void setPropagation(in double max)
+	Ref!GIProbeData getProbeData() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPropagation, _godot_object, max);
+		return ptrcall!(GIProbeData)(_classBinding.getProbeData, _godot_object);
 	}
 	/**
 	
@@ -238,26 +184,10 @@ public:
 	/**
 	
 	*/
-	void setInterior(in bool enable)
+	GIProbe.Subdiv getSubdiv() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterior, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isInterior() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInterior, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCompress(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCompress, _godot_object, enable);
+		return ptrcall!(GIProbe.Subdiv)(_classBinding.getSubdiv, _godot_object);
 	}
 	/**
 	
@@ -270,81 +200,94 @@ public:
 	/**
 	
 	*/
-	void bake(Node from_node = Node.init, in bool create_visual_debug = false)
+	bool isInterior() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
+		return ptrcall!(bool)(_classBinding.isInterior, _godot_object);
 	}
 	/**
 	
 	*/
-	void debugBake()
+	void setBias(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.debugBake, _godot_object);
+		ptrcall!(void)(_classBinding.setBias, _godot_object, max);
 	}
 	/**
 	
 	*/
-	@property GIProbe.Subdiv subdiv()
+	void setCompress(in bool enable)
 	{
-		return getSubdiv();
-	}
-	/// ditto
-	@property void subdiv(long v)
-	{
-		setSubdiv(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCompress, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	@property Vector3 extents()
+	void setDynamicRange(in long max)
 	{
-		return getExtents();
-	}
-	/// ditto
-	@property void extents(Vector3 v)
-	{
-		setExtents(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDynamicRange, _godot_object, max);
 	}
 	/**
 	
 	*/
-	@property long dynamicRange()
+	void setEnergy(in double max)
 	{
-		return getDynamicRange();
-	}
-	/// ditto
-	@property void dynamicRange(long v)
-	{
-		setDynamicRange(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnergy, _godot_object, max);
 	}
 	/**
 	
 	*/
-	@property double energy()
+	void setExtents(in Vector3 extents)
 	{
-		return getEnergy();
-	}
-	/// ditto
-	@property void energy(double v)
-	{
-		setEnergy(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
 	}
 	/**
 	
 	*/
-	@property double propagation()
+	void setInterior(in bool enable)
 	{
-		return getPropagation();
-	}
-	/// ditto
-	@property void propagation(double v)
-	{
-		setPropagation(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInterior, _godot_object, enable);
 	}
 	/**
 	
+	*/
+	void setNormalBias(in double max)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalBias, _godot_object, max);
+	}
+	/**
+	
+	*/
+	void setProbeData(GIProbeData data)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProbeData, _godot_object, data);
+	}
+	/**
+	
+	*/
+	void setPropagation(in double max)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPropagation, _godot_object, max);
+	}
+	/**
+	
+	*/
+	void setSubdiv(in long subdiv)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdiv, _godot_object, subdiv);
+	}
+	/**
+	Offsets the lookup of the light contribution from the $(D GIProbe). This can be used to avoid self-shadowing, but may introduce light leaking at higher values. This and $(D normalBias) should be played around with to minimize self-shadowing and light leaking.
+	$(B Note:) `bias` should usually be above 1.0 as that is the size of the voxels.
 	*/
 	@property double bias()
 	{
@@ -356,31 +299,7 @@ public:
 		setBias(v);
 	}
 	/**
-	
-	*/
-	@property double normalBias()
-	{
-		return getNormalBias();
-	}
-	/// ditto
-	@property void normalBias(double v)
-	{
-		setNormalBias(v);
-	}
-	/**
-	
-	*/
-	@property bool interior()
-	{
-		return isInterior();
-	}
-	/// ditto
-	@property void interior(bool v)
-	{
-		setInterior(v);
-	}
-	/**
-	
+	If `true`, the data for this $(D GIProbe) will be compressed. Compression saves space, but results in far worse visual quality.
 	*/
 	@property bool compress()
 	{
@@ -392,7 +311,7 @@ public:
 		setCompress(v);
 	}
 	/**
-	
+	The $(D GIProbeData) resource that holds the data for this $(D GIProbe).
 	*/
 	@property GIProbeData data()
 	{
@@ -402,5 +321,89 @@ public:
 	@property void data(GIProbeData v)
 	{
 		setProbeData(v);
+	}
+	/**
+	The maximum brightness that the $(D GIProbe) will recognize. Brightness will be scaled within this range.
+	*/
+	@property long dynamicRange()
+	{
+		return getDynamicRange();
+	}
+	/// ditto
+	@property void dynamicRange(long v)
+	{
+		setDynamicRange(v);
+	}
+	/**
+	Energy multiplier. Makes the lighting contribution from the $(D GIProbe) brighter.
+	*/
+	@property double energy()
+	{
+		return getEnergy();
+	}
+	/// ditto
+	@property void energy(double v)
+	{
+		setEnergy(v);
+	}
+	/**
+	The size of the area covered by the $(D GIProbe). If you make the extents larger without increasing the subdivisions with $(D subdiv), the size of each cell will increase and result in lower detailed lighting.
+	*/
+	@property Vector3 extents()
+	{
+		return getExtents();
+	}
+	/// ditto
+	@property void extents(Vector3 v)
+	{
+		setExtents(v);
+	}
+	/**
+	If `true`, ignores the sky contribution when calculating lighting.
+	*/
+	@property bool interior()
+	{
+		return isInterior();
+	}
+	/// ditto
+	@property void interior(bool v)
+	{
+		setInterior(v);
+	}
+	/**
+	Offsets the lookup into the $(D GIProbe) based on the object's normal direction. Can be used to reduce some self-shadowing artifacts.
+	*/
+	@property double normalBias()
+	{
+		return getNormalBias();
+	}
+	/// ditto
+	@property void normalBias(double v)
+	{
+		setNormalBias(v);
+	}
+	/**
+	How much light propagates through the probe internally. A higher value allows light to spread further.
+	*/
+	@property double propagation()
+	{
+		return getPropagation();
+	}
+	/// ditto
+	@property void propagation(double v)
+	{
+		setPropagation(v);
+	}
+	/**
+	Number of times to subdivide the grid that the $(D GIProbe) operates on. A higher number results in finer detail and thus higher visual quality, while lower numbers result in better performance.
+	*/
+	@property GIProbe.Subdiv subdiv()
+	{
+		return getSubdiv();
+	}
+	/// ditto
+	@property void subdiv(long v)
+	{
+		setSubdiv(v);
 	}
 }

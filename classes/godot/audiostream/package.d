@@ -20,7 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.resource;
-import godot.reference;
 /**
 Base class for audio streams.
 

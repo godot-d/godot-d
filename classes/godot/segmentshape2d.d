@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
 Segment shape for 2D collisions.
 
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_a") GodotMethod!(void, Vector2) setA;
 		@GodotName("get_a") GodotMethod!(Vector2) getA;
-		@GodotName("set_b") GodotMethod!(void, Vector2) setB;
 		@GodotName("get_b") GodotMethod!(Vector2) getB;
+		@GodotName("set_a") GodotMethod!(void, Vector2) setA;
+		@GodotName("set_b") GodotMethod!(void, Vector2) setB;
 	}
 	bool opEquals(in SegmentShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SegmentShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +58,6 @@ public:
 	/**
 	
 	*/
-	void setA(in Vector2 a)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setA, _godot_object, a);
-	}
-	/**
-	
-	*/
 	Vector2 getA() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -76,18 +66,26 @@ public:
 	/**
 	
 	*/
-	void setB(in Vector2 b)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setB, _godot_object, b);
-	}
-	/**
-	
-	*/
 	Vector2 getB() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getB, _godot_object);
+	}
+	/**
+	
+	*/
+	void setA(in Vector2 a)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setA, _godot_object, a);
+	}
+	/**
+	
+	*/
+	void setB(in Vector2 b)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setB, _godot_object, b);
 	}
 	/**
 	The segment's first point position.

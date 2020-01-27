@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape2d;
-import godot.resource;
-import godot.reference;
 /**
 Capsule shape for 2D collisions.
 
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("get_height") GodotMethod!(double) getHeight;
 		@GodotName("get_radius") GodotMethod!(double) getRadius;
 		@GodotName("set_height") GodotMethod!(void, double) setHeight;
-		@GodotName("get_height") GodotMethod!(double) getHeight;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 	}
 	bool opEquals(in CapsuleShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CapsuleShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
+	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
+		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -84,22 +82,10 @@ public:
 	/**
 	
 	*/
-	double getHeight() const
+	void setRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
-	}
-	/**
-	The capsule's radius.
-	*/
-	@property double radius()
-	{
-		return getRadius();
-	}
-	/// ditto
-	@property void radius(double v)
-	{
-		setRadius(v);
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
 	/**
 	The capsule's height.
@@ -112,5 +98,17 @@ public:
 	@property void height(double v)
 	{
 		setHeight(v);
+	}
+	/**
+	The capsule's radius.
+	*/
+	@property double radius()
+	{
+		return getRadius();
+	}
+	/// ditto
+	@property void radius(double v)
+	{
+		setRadius(v);
 	}
 }

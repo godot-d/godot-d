@@ -23,6 +23,8 @@ import godot.object;
 Contains global variables accessible from everywhere.
 
 Use $(D getSetting), $(D setSetting) or $(D hasSetting) to access them. Variables stored in `project.godot` are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options.
+When naming a Project Settings property, use the full path to the setting including the category. For example, `"application/config/name"` for the project name. Category and property names can be viewed in the Project Settings dialog.
+$(B Overriding:) Any project setting can be overridden by creating a file named `override.cfg` in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary.
 */
 @GodotBaseClass struct ProjectSettingsSingleton
 {
@@ -38,21 +40,21 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "ProjectSettings";
-		@GodotName("has_setting") GodotMethod!(bool, String) hasSetting;
-		@GodotName("set_setting") GodotMethod!(void, String, Variant) setSetting;
-		@GodotName("get_setting") GodotMethod!(Variant, String) getSetting;
-		@GodotName("set_order") GodotMethod!(void, String, long) setOrder;
-		@GodotName("get_order") GodotMethod!(long, String) getOrder;
-		@GodotName("set_initial_value") GodotMethod!(void, String, Variant) setInitialValue;
 		@GodotName("add_property_info") GodotMethod!(void, Dictionary) addPropertyInfo;
 		@GodotName("clear") GodotMethod!(void, String) clear;
-		@GodotName("localize_path") GodotMethod!(String, String) localizePath;
+		@GodotName("get_order") GodotMethod!(long, String) getOrder;
+		@GodotName("get_setting") GodotMethod!(Variant, String) getSetting;
 		@GodotName("globalize_path") GodotMethod!(String, String) globalizePath;
-		@GodotName("save") GodotMethod!(GodotError) save;
-		@GodotName("load_resource_pack") GodotMethod!(bool, String) loadResourcePack;
+		@GodotName("has_setting") GodotMethod!(bool, String) hasSetting;
+		@GodotName("load_resource_pack") GodotMethod!(bool, String, bool) loadResourcePack;
+		@GodotName("localize_path") GodotMethod!(String, String) localizePath;
 		@GodotName("property_can_revert") GodotMethod!(bool, String) propertyCanRevert;
 		@GodotName("property_get_revert") GodotMethod!(Variant, String) propertyGetRevert;
+		@GodotName("save") GodotMethod!(GodotError) save;
 		@GodotName("save_custom") GodotMethod!(GodotError, String) saveCustom;
+		@GodotName("set_initial_value") GodotMethod!(void, String, Variant) setInitialValue;
+		@GodotName("set_order") GodotMethod!(void, String, long) setOrder;
+		@GodotName("set_setting") GodotMethod!(void, String, Variant) setSetting;
 	}
 	bool opEquals(in ProjectSettingsSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProjectSettingsSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,56 +69,11 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Returns `true` if a configuration value is present.
-	*/
-	bool hasSetting(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSetting, _godot_object, name);
-	}
-	/**
-	
-	*/
-	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSetting, _godot_object, name, value);
-	}
-	/**
-	
-	*/
-	Variant getSetting(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getSetting, _godot_object, name);
-	}
-	/**
-	Sets the order of a configuration value (influences when saved to the config file).
-	*/
-	void setOrder(in String name, in long position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOrder, _godot_object, name, position);
-	}
-	/**
-	Returns the order of a configuration value (influences when saved to the config file).
-	*/
-	long getOrder(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOrder, _godot_object, name);
-	}
-	/**
-	
-	*/
-	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInitialValue, _godot_object, name, value);
-	}
-	/**
-	Adds a custom property info to a property. The dictionary must contain: name:$(D String)(the property's name) and type:$(D long)(see TYPE_* in $(D @GlobalScope)), and optionally hint:$(D long)(see PROPERTY_HINT_* in $(D @GlobalScope)), hint_string:$(D String).
-	Example:
+	Adds a custom property info to a property. The dictionary must contain:
+	- `name`: $(D String) (the property's name)
+	- `type`: $(D long) (see $(D Variant.type))
+	- optionally `hint`: $(D long) (see $(D propertyhint)) and `hint_string`: $(D String)
+	$(B Example:)
 	
 	
 	ProjectSettings.set("category/property_name", 0)
@@ -146,12 +103,26 @@ public:
 		ptrcall!(void)(_classBinding.clear, _godot_object, name);
 	}
 	/**
-	Convert a path to a localized path (`res://` path).
+	Returns the order of a configuration value (influences when saved to the config file).
 	*/
-	String localizePath(in String path) const
+	long getOrder(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.localizePath, _godot_object, path);
+		return ptrcall!(long)(_classBinding.getOrder, _godot_object, name);
+	}
+	/**
+	Returns the value of a setting.
+	$(B Example:)
+	
+	
+	print(ProjectSettings.get_setting("application/config/name"))
+	
+	
+	*/
+	Variant getSetting(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(_classBinding.getSetting, _godot_object, name);
 	}
 	/**
 	Converts a localized path (`res://`) to a full native OS path.
@@ -162,21 +133,29 @@ public:
 		return ptrcall!(String)(_classBinding.globalizePath, _godot_object, path);
 	}
 	/**
-	Saves the configuration to the `project.godot` file.
+	Returns `true` if a configuration value is present.
 	*/
-	GodotError save()
+	bool hasSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object);
+		return ptrcall!(bool)(_classBinding.hasSetting, _godot_object, name);
 	}
 	/**
 	Loads the contents of the .pck or .zip file specified by `pack` into the resource filesystem (`res://`). Returns `true` on success.
-	Note: If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack`.
+	$(B Note:) If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack` unless `replace_files` is set to `false`.
 	*/
-	bool loadResourcePack(in String pack)
+	bool loadResourcePack(in String pack, in bool replace_files = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.loadResourcePack, _godot_object, pack);
+		return ptrcall!(bool)(_classBinding.loadResourcePack, _godot_object, pack, replace_files);
+	}
+	/**
+	Convert a path to a localized path (`res://` path).
+	*/
+	String localizePath(in String path) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.localizePath, _godot_object, path);
 	}
 	/**
 	Returns `true` if the specified property exists and its initial value differs from the current value.
@@ -195,12 +174,50 @@ public:
 		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
 	}
 	/**
+	Saves the configuration to the `project.godot` file.
+	*/
+	GodotError save()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.save, _godot_object);
+	}
+	/**
 	Saves the configuration to a custom file.
 	*/
 	GodotError saveCustom(in String file)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.saveCustom, _godot_object, file);
+	}
+	/**
+	Sets the specified property's initial value. This is the value the property reverts to.
+	*/
+	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInitialValue, _godot_object, name, value);
+	}
+	/**
+	Sets the order of a configuration value (influences when saved to the config file).
+	*/
+	void setOrder(in String name, in long position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOrder, _godot_object, name, position);
+	}
+	/**
+	Sets the value of a setting.
+	$(B Example:)
+	
+	
+	ProjectSettings.set_setting("application/config/name", "Example")
+	
+	
+	*/
+	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSetting, _godot_object, name, value);
 	}
 }
 /// Returns: the ProjectSettingsSingleton

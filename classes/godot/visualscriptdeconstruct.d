@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 A Visual Script node which deconstructs a base type instance into its parts.
 
@@ -40,10 +38,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_deconstruct_type") GodotMethod!(void, long) setDeconstructType;
-		@GodotName("get_deconstruct_type") GodotMethod!(Variant.Type) getDeconstructType;
-		@GodotName("_set_elem_cache") GodotMethod!(void, Array) _setElemCache;
 		@GodotName("_get_elem_cache") GodotMethod!(Array) _getElemCache;
+		@GodotName("_set_elem_cache") GodotMethod!(void, Array) _setElemCache;
+		@GodotName("get_deconstruct_type") GodotMethod!(Variant.Type) getDeconstructType;
+		@GodotName("set_deconstruct_type") GodotMethod!(void, long) setDeconstructType;
 	}
 	bool opEquals(in VisualScriptDeconstruct other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptDeconstruct opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +58,21 @@ public:
 	/**
 	
 	*/
-	void setDeconstructType(in long type)
+	Array _getElemCache() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDeconstructType, _godot_object, type);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_elem_cache");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
+	}
+	/**
+	
+	*/
+	void _setElemCache(in Array _cache)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(_cache);
+		String _GODOT_method_name = String("_set_elem_cache");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -76,33 +85,10 @@ public:
 	/**
 	
 	*/
-	void _setElemCache(in Array _cache)
+	void setDeconstructType(in long type)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(_cache);
-		String _GODOT_method_name = String("_set_elem_cache");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Array _getElemCache() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_elem_cache");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Array);
-	}
-	/**
-	The type to deconstruct.
-	*/
-	@property Variant.Type type()
-	{
-		return getDeconstructType();
-	}
-	/// ditto
-	@property void type(long v)
-	{
-		setDeconstructType(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDeconstructType, _godot_object, type);
 	}
 	/**
 	
@@ -115,5 +101,17 @@ public:
 	@property void elemCache(Array v)
 	{
 		_setElemCache(v);
+	}
+	/**
+	The type to deconstruct.
+	*/
+	@property Variant.Type type()
+	{
+		return getDeconstructType();
+	}
+	/// ditto
+	@property void type(long v)
+	{
+		setDeconstructType(v);
 	}
 }

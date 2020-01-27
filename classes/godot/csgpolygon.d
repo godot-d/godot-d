@@ -22,10 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.csgprimitive;
 import godot.material;
-import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
 Extrudes a 2D polygon shape to create a 3D mesh.
 
@@ -43,36 +39,36 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
-		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
-		@GodotName("set_mode") GodotMethod!(void, long) setMode;
-		@GodotName("get_mode") GodotMethod!(CSGPolygon.Mode) getMode;
-		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
-		@GodotName("get_depth") GodotMethod!(double) getDepth;
-		@GodotName("set_spin_degrees") GodotMethod!(void, double) setSpinDegrees;
-		@GodotName("get_spin_degrees") GodotMethod!(double) getSpinDegrees;
-		@GodotName("set_spin_sides") GodotMethod!(void, long) setSpinSides;
-		@GodotName("get_spin_sides") GodotMethod!(long) getSpinSides;
-		@GodotName("set_path_node") GodotMethod!(void, NodePath) setPathNode;
-		@GodotName("get_path_node") GodotMethod!(NodePath) getPathNode;
-		@GodotName("set_path_interval") GodotMethod!(void, double) setPathInterval;
-		@GodotName("get_path_interval") GodotMethod!(double) getPathInterval;
-		@GodotName("set_path_rotation") GodotMethod!(void, long) setPathRotation;
-		@GodotName("get_path_rotation") GodotMethod!(CSGPolygon.PathRotation) getPathRotation;
-		@GodotName("set_path_local") GodotMethod!(void, bool) setPathLocal;
-		@GodotName("is_path_local") GodotMethod!(bool) isPathLocal;
-		@GodotName("set_path_continuous_u") GodotMethod!(void, bool) setPathContinuousU;
-		@GodotName("is_path_continuous_u") GodotMethod!(bool) isPathContinuousU;
-		@GodotName("set_path_joined") GodotMethod!(void, bool) setPathJoined;
-		@GodotName("is_path_joined") GodotMethod!(bool) isPathJoined;
-		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
-		@GodotName("get_material") GodotMethod!(Material) getMaterial;
-		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
-		@GodotName("get_smooth_faces") GodotMethod!(bool) getSmoothFaces;
-		@GodotName("_is_editable_3d_polygon") GodotMethod!(bool) _isEditable3dPolygon;
 		@GodotName("_has_editable_3d_polygon_no_depth") GodotMethod!(bool) _hasEditable3dPolygonNoDepth;
-		@GodotName("_path_exited") GodotMethod!(void) _pathExited;
+		@GodotName("_is_editable_3d_polygon") GodotMethod!(bool) _isEditable3dPolygon;
 		@GodotName("_path_changed") GodotMethod!(void) _pathChanged;
+		@GodotName("_path_exited") GodotMethod!(void) _pathExited;
+		@GodotName("get_depth") GodotMethod!(double) getDepth;
+		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+		@GodotName("get_mode") GodotMethod!(CSGPolygon.Mode) getMode;
+		@GodotName("get_path_interval") GodotMethod!(double) getPathInterval;
+		@GodotName("get_path_node") GodotMethod!(NodePath) getPathNode;
+		@GodotName("get_path_rotation") GodotMethod!(CSGPolygon.PathRotation) getPathRotation;
+		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
+		@GodotName("get_smooth_faces") GodotMethod!(bool) getSmoothFaces;
+		@GodotName("get_spin_degrees") GodotMethod!(double) getSpinDegrees;
+		@GodotName("get_spin_sides") GodotMethod!(long) getSpinSides;
+		@GodotName("is_path_continuous_u") GodotMethod!(bool) isPathContinuousU;
+		@GodotName("is_path_joined") GodotMethod!(bool) isPathJoined;
+		@GodotName("is_path_local") GodotMethod!(bool) isPathLocal;
+		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("set_mode") GodotMethod!(void, long) setMode;
+		@GodotName("set_path_continuous_u") GodotMethod!(void, bool) setPathContinuousU;
+		@GodotName("set_path_interval") GodotMethod!(void, double) setPathInterval;
+		@GodotName("set_path_joined") GodotMethod!(void, bool) setPathJoined;
+		@GodotName("set_path_local") GodotMethod!(void, bool) setPathLocal;
+		@GodotName("set_path_node") GodotMethod!(void, NodePath) setPathNode;
+		@GodotName("set_path_rotation") GodotMethod!(void, long) setPathRotation;
+		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
+		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
+		@GodotName("set_spin_degrees") GodotMethod!(void, double) setSpinDegrees;
+		@GodotName("set_spin_sides") GodotMethod!(void, long) setSpinSides;
 	}
 	bool opEquals(in CSGPolygon other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGPolygon opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -125,48 +121,44 @@ public:
 		pathRotationPolygon = 0,
 		pathRotationPath = 1,
 		modeSpin = 1,
-		modePath = 2,
 		pathRotationPathFollow = 2,
+		modePath = 2,
 	}
 	/**
 	
 	*/
-	void setPolygon(in PoolVector2Array polygon)
+	bool _hasEditable3dPolygonNoDepth() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_has_editable_3d_polygon_no_depth");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
 	
 	*/
-	PoolVector2Array getPolygon() const
+	bool _isEditable3dPolygon() const
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_is_editable_3d_polygon");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
 	
 	*/
-	void setMode(in long mode)
+	void _pathChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_path_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	CSGPolygon.Mode getMode() const
+	void _pathExited()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(CSGPolygon.Mode)(_classBinding.getMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDepth(in double depth)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_path_exited");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -179,58 +171,18 @@ public:
 	/**
 	
 	*/
-	void setSpinDegrees(in double degrees)
+	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpinDegrees, _godot_object, degrees);
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
 	/**
 	
 	*/
-	double getSpinDegrees() const
+	CSGPolygon.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpinDegrees, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSpinSides(in long spin_sides)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpinSides, _godot_object, spin_sides);
-	}
-	/**
-	
-	*/
-	long getSpinSides() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSpinSides, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPathNode(NodePathArg0)(in NodePathArg0 path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathNode, _godot_object, path);
-	}
-	/**
-	
-	*/
-	NodePath getPathNode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getPathNode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPathInterval(in double distance)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathInterval, _godot_object, distance);
+		return ptrcall!(CSGPolygon.Mode)(_classBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -243,10 +195,10 @@ public:
 	/**
 	
 	*/
-	void setPathRotation(in long mode)
+	NodePath getPathNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathRotation, _godot_object, mode);
+		return ptrcall!(NodePath)(_classBinding.getPathNode, _godot_object);
 	}
 	/**
 	
@@ -259,74 +211,10 @@ public:
 	/**
 	
 	*/
-	void setPathLocal(in bool enable)
+	PoolVector2Array getPolygon() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathLocal, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isPathLocal() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathLocal, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPathContinuousU(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathContinuousU, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isPathContinuousU() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathContinuousU, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPathJoined(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathJoined, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isPathJoined() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathJoined, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaterial(Material material)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
-	}
-	/**
-	
-	*/
-	Ref!Material getMaterial() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSmoothFaces(in bool smooth_faces)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
 	}
 	/**
 	
@@ -339,50 +227,158 @@ public:
 	/**
 	
 	*/
-	bool _isEditable3dPolygon() const
+	double getSpinDegrees() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_is_editable_3d_polygon");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpinDegrees, _godot_object);
 	}
 	/**
 	
 	*/
-	bool _hasEditable3dPolygonNoDepth() const
+	long getSpinSides() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_has_editable_3d_polygon_no_depth");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSpinSides, _godot_object);
 	}
 	/**
 	
 	*/
-	void _pathExited()
+	bool isPathContinuousU() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_path_exited");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPathContinuousU, _godot_object);
 	}
 	/**
 	
 	*/
-	void _pathChanged()
+	bool isPathJoined() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_path_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPathJoined, _godot_object);
 	}
 	/**
-	Point array that defines the shape that we'll extrude.
+	
 	*/
-	@property PoolVector2Array polygon()
+	bool isPathLocal() const
 	{
-		return getPolygon();
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPathLocal, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDepth(in double depth)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
+	}
+	/**
+	
+	*/
+	void setMaterial(Material material)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+	}
+	/**
+	
+	*/
+	void setMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setPathContinuousU(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathContinuousU, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setPathInterval(in double distance)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathInterval, _godot_object, distance);
+	}
+	/**
+	
+	*/
+	void setPathJoined(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathJoined, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setPathLocal(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathLocal, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setPathNode(NodePathArg0)(in NodePathArg0 path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathNode, _godot_object, path);
+	}
+	/**
+	
+	*/
+	void setPathRotation(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPathRotation, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setPolygon(in PoolVector2Array polygon)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+	}
+	/**
+	
+	*/
+	void setSmoothFaces(in bool smooth_faces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+	}
+	/**
+	
+	*/
+	void setSpinDegrees(in double degrees)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpinDegrees, _godot_object, degrees);
+	}
+	/**
+	
+	*/
+	void setSpinSides(in long spin_sides)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpinSides, _godot_object, spin_sides);
+	}
+	/**
+	Extrusion depth when $(D mode) is $(D constant MODE_DEPTH).
+	*/
+	@property double depth()
+	{
+		return getDepth();
 	}
 	/// ditto
-	@property void polygon(PoolVector2Array v)
+	@property void depth(double v)
 	{
-		setPolygon(v);
+		setDepth(v);
 	}
 	/**
 	Extrusion mode.
@@ -397,16 +393,100 @@ public:
 		setMode(v);
 	}
 	/**
-	Extrusion depth when $(D mode) is $(D constant MODE_DEPTH).
+	If `true` the u component of our uv will continuously increase in unison with the distance traveled along our path when $(D mode) is $(D constant MODE_PATH).
 	*/
-	@property double depth()
+	@property bool pathContinuousU()
 	{
-		return getDepth();
+		return isPathContinuousU();
 	}
 	/// ditto
-	@property void depth(double v)
+	@property void pathContinuousU(bool v)
 	{
-		setDepth(v);
+		setPathContinuousU(v);
+	}
+	/**
+	Interval at which a new extrusion slice is added along the path when $(D mode) is $(D constant MODE_PATH).
+	*/
+	@property double pathInterval()
+	{
+		return getPathInterval();
+	}
+	/// ditto
+	@property void pathInterval(double v)
+	{
+		setPathInterval(v);
+	}
+	/**
+	If `true` the start and end of our path are joined together ensuring there is no seam when $(D mode) is $(D constant MODE_PATH).
+	*/
+	@property bool pathJoined()
+	{
+		return isPathJoined();
+	}
+	/// ditto
+	@property void pathJoined(bool v)
+	{
+		setPathJoined(v);
+	}
+	/**
+	If `false` we extrude centered on our path, if `true` we extrude in relation to the position of our CSGPolygon when $(D mode) is $(D constant MODE_PATH).
+	*/
+	@property bool pathLocal()
+	{
+		return isPathLocal();
+	}
+	/// ditto
+	@property void pathLocal(bool v)
+	{
+		setPathLocal(v);
+	}
+	/**
+	The $(D Shape) object containing the path along which we extrude when $(D mode) is $(D constant MODE_PATH).
+	*/
+	@property NodePath pathNode()
+	{
+		return getPathNode();
+	}
+	/// ditto
+	@property void pathNode(NodePath v)
+	{
+		setPathNode(v);
+	}
+	/**
+	The method by which each slice is rotated along the path when $(D mode) is $(D constant MODE_PATH).
+	*/
+	@property CSGPolygon.PathRotation pathRotation()
+	{
+		return getPathRotation();
+	}
+	/// ditto
+	@property void pathRotation(long v)
+	{
+		setPathRotation(v);
+	}
+	/**
+	Point array that defines the shape that we'll extrude.
+	*/
+	@property PoolVector2Array polygon()
+	{
+		return getPolygon();
+	}
+	/// ditto
+	@property void polygon(PoolVector2Array v)
+	{
+		setPolygon(v);
+	}
+	/**
+	Generates smooth normals so smooth shading is applied to our mesh.
+	*/
+	@property bool smoothFaces()
+	{
+		return getSmoothFaces();
+	}
+	/// ditto
+	@property void smoothFaces(bool v)
+	{
+		setSmoothFaces(v);
 	}
 	/**
 	Degrees to rotate our extrusion for each slice when $(D mode) is $(D constant MODE_SPIN).
@@ -431,89 +511,5 @@ public:
 	@property void spinSides(long v)
 	{
 		setSpinSides(v);
-	}
-	/**
-	The $(D Shape) object containing the path along which we extrude when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property NodePath pathNode()
-	{
-		return getPathNode();
-	}
-	/// ditto
-	@property void pathNode(NodePath v)
-	{
-		setPathNode(v);
-	}
-	/**
-	Interval at which a new extrusion slice is added along the path when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property double pathInterval()
-	{
-		return getPathInterval();
-	}
-	/// ditto
-	@property void pathInterval(double v)
-	{
-		setPathInterval(v);
-	}
-	/**
-	The method by which each slice is rotated along the path when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property CSGPolygon.PathRotation pathRotation()
-	{
-		return getPathRotation();
-	}
-	/// ditto
-	@property void pathRotation(long v)
-	{
-		setPathRotation(v);
-	}
-	/**
-	If `false` we extrude centered on our path, if `true` we extrude in relation to the position of our CSGPolygon when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property bool pathLocal()
-	{
-		return isPathLocal();
-	}
-	/// ditto
-	@property void pathLocal(bool v)
-	{
-		setPathLocal(v);
-	}
-	/**
-	If `true` the u component of our uv will continuously increase in unison with the distance traveled along our path when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property bool pathContinuousU()
-	{
-		return isPathContinuousU();
-	}
-	/// ditto
-	@property void pathContinuousU(bool v)
-	{
-		setPathContinuousU(v);
-	}
-	/**
-	If `true` the start and end of our path are joined together ensuring there is no seam when $(D mode) is $(D constant MODE_PATH).
-	*/
-	@property bool pathJoined()
-	{
-		return isPathJoined();
-	}
-	/// ditto
-	@property void pathJoined(bool v)
-	{
-		setPathJoined(v);
-	}
-	/**
-	Generates smooth normals so smooth shading is applied to our mesh.
-	*/
-	@property bool smoothFaces()
-	{
-		return getSmoothFaces();
-	}
-	/// ditto
-	@property void smoothFaces(bool v)
-	{
-		setSmoothFaces(v);
 	}
 }

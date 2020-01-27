@@ -1,5 +1,5 @@
 /**
-Input event type for gamepad joysticks and other motions. For buttons see `InputEventJoypadButton`.
+Input event type for gamepad joysticks and other motions. For buttons, see `InputEventJoypadButton`.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,8 @@ import godot.object;
 import godot.classdb;
 import godot.inputevent;
 import godot.resource;
-import godot.reference;
 /**
-Input event type for gamepad joysticks and other motions. For buttons see `InputEventJoypadButton`.
+Input event type for gamepad joysticks and other motions. For buttons, see `InputEventJoypadButton`.
 
 Stores information about joystick motions. One $(D InputEventJoypadMotion) represents one axis at a time.
 */
@@ -40,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_axis") GodotMethod!(void, long) setAxis;
 		@GodotName("get_axis") GodotMethod!(long) getAxis;
-		@GodotName("set_axis_value") GodotMethod!(void, double) setAxisValue;
 		@GodotName("get_axis_value") GodotMethod!(double) getAxisValue;
+		@GodotName("set_axis") GodotMethod!(void, long) setAxis;
+		@GodotName("set_axis_value") GodotMethod!(void, double) setAxisValue;
 	}
 	bool opEquals(in InputEventJoypadMotion other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventJoypadMotion opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,14 +59,6 @@ public:
 	/**
 	
 	*/
-	void setAxis(in long axis)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxis, _godot_object, axis);
-	}
-	/**
-	
-	*/
 	long getAxis() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -76,18 +67,26 @@ public:
 	/**
 	
 	*/
-	void setAxisValue(in double axis_value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxisValue, _godot_object, axis_value);
-	}
-	/**
-	
-	*/
 	double getAxisValue() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getAxisValue, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAxis(in long axis)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAxis, _godot_object, axis);
+	}
+	/**
+	
+	*/
+	void setAxisValue(in double axis_value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAxisValue, _godot_object, axis_value);
 	}
 	/**
 	Axis identifier. Use one of the $(D joysticklist) axis constants.

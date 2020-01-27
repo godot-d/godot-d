@@ -23,7 +23,7 @@ import godot.reference;
 /**
 Abstraction and base class for packet-based protocols.
 
-PacketPeer is an abstraction and base class for packet-based protocols (such as UDP). It provides an API for sending and receiving packets both as raw data or variables. This makes it easy to transfer data over a protocol, without having to encode data as low level bytes or having to worry about network ordering.
+PacketPeer is an abstraction and base class for packet-based protocols (such as UDP). It provides an API for sending and receiving packets both as raw data or variables. This makes it easy to transfer data over a protocol, without having to encode data as low-level bytes or having to worry about network ordering.
 */
 @GodotBaseClass struct PacketPeer
 {
@@ -37,14 +37,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_var") GodotMethod!(Variant, bool) getVar;
-		@GodotName("put_var") GodotMethod!(GodotError, Variant, bool) putVar;
-		@GodotName("get_packet") GodotMethod!(PoolByteArray) getPacket;
-		@GodotName("put_packet") GodotMethod!(GodotError, PoolByteArray) putPacket;
-		@GodotName("get_packet_error") GodotMethod!(GodotError) getPacketError;
 		@GodotName("get_available_packet_count") GodotMethod!(long) getAvailablePacketCount;
-		@GodotName("set_allow_object_decoding") GodotMethod!(void, bool) setAllowObjectDecoding;
+		@GodotName("get_encode_buffer_max_size") GodotMethod!(long) getEncodeBufferMaxSize;
+		@GodotName("get_packet") GodotMethod!(PoolByteArray) getPacket;
+		@GodotName("get_packet_error") GodotMethod!(GodotError) getPacketError;
+		@GodotName("get_var") GodotMethod!(Variant, bool) getVar;
 		@GodotName("is_object_decoding_allowed") GodotMethod!(bool) isObjectDecodingAllowed;
+		@GodotName("put_packet") GodotMethod!(GodotError, PoolByteArray) putPacket;
+		@GodotName("put_var") GodotMethod!(GodotError, Variant, bool) putVar;
+		@GodotName("set_allow_object_decoding") GodotMethod!(void, bool) setAllowObjectDecoding;
+		@GodotName("set_encode_buffer_max_size") GodotMethod!(void, long) setEncodeBufferMaxSize;
 	}
 	bool opEquals(in PacketPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PacketPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,24 +61,23 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Get a Variant. When `allow_objects` (or $(D allowObjectDecoding)) is `true` decoding objects is allowed.
-	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+	Returns the number of packets currently available in the ring-buffer.
 	*/
-	Variant getVar(in bool allow_objects = false)
+	long getAvailablePacketCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
+		return ptrcall!(long)(_classBinding.getAvailablePacketCount, _godot_object);
 	}
 	/**
-	Send a Variant as a packet. When `full_objects` (or $(D allowObjectDecoding)) is `true` encoding objects is allowed (and can potentially include code).
+	
 	*/
-	GodotError putVar(VariantArg0)(in VariantArg0 var, in bool full_objects = false)
+	long getEncodeBufferMaxSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putVar, _godot_object, var, full_objects);
+		return ptrcall!(long)(_classBinding.getEncodeBufferMaxSize, _godot_object);
 	}
 	/**
-	Get a raw packet.
+	Gets a raw packet.
 	*/
 	PoolByteArray getPacket()
 	{
@@ -84,15 +85,7 @@ public:
 		return ptrcall!(PoolByteArray)(_classBinding.getPacket, _godot_object);
 	}
 	/**
-	Send a raw packet.
-	*/
-	GodotError putPacket(in PoolByteArray buffer)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putPacket, _godot_object, buffer);
-	}
-	/**
-	Return the error state of the last packet received (via $(D getPacket) and $(D getVar)).
+	Returns the error state of the last packet received (via $(D getPacket) and $(D getVar)).
 	*/
 	GodotError getPacketError() const
 	{
@@ -100,12 +93,37 @@ public:
 		return ptrcall!(GodotError)(_classBinding.getPacketError, _godot_object);
 	}
 	/**
-	Return the number of packets currently available in the ring-buffer.
+	Gets a Variant. If `allow_objects` (or $(D allowObjectDecoding)) is `true`, decoding objects is allowed.
+	$(B Warning:) Deserialized objects can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats such as remote code execution.
 	*/
-	long getAvailablePacketCount() const
+	Variant getVar(in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAvailablePacketCount, _godot_object);
+		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
+	}
+	/**
+	
+	*/
+	bool isObjectDecodingAllowed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
+	}
+	/**
+	Sends a raw packet.
+	*/
+	GodotError putPacket(in PoolByteArray buffer)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.putPacket, _godot_object, buffer);
+	}
+	/**
+	Sends a $(D Variant) as a packet. If `full_objects` (or $(D allowObjectDecoding)) is `true`, encoding objects is allowed (and can potentially include code).
+	*/
+	GodotError putVar(VariantArg0)(in VariantArg0 var, in bool full_objects = false)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.putVar, _godot_object, var, full_objects);
 	}
 	/**
 	
@@ -118,15 +136,15 @@ public:
 	/**
 	
 	*/
-	bool isObjectDecodingAllowed() const
+	void setEncodeBufferMaxSize(in long max_size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
+		ptrcall!(void)(_classBinding.setEncodeBufferMaxSize, _godot_object, max_size);
 	}
 	/**
-	Deprecated. Use `get_var` and `put_var` parameters instead.
-	If `true` the PacketPeer will allow encoding and decoding of object via $(D getVar) and $(D putVar).
-	$(B WARNING:) Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+	$(I Deprecated.) Use `get_var` and `put_var` parameters instead.
+	If `true`, the PacketPeer will allow encoding and decoding of object via $(D getVar) and $(D putVar).
+	$(B Warning:) Deserialized objects can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats such as remote code execution.
 	*/
 	@property bool allowObjectDecoding()
 	{
@@ -136,5 +154,18 @@ public:
 	@property void allowObjectDecoding(bool v)
 	{
 		setAllowObjectDecoding(v);
+	}
+	/**
+	Maximum buffer size allowed when encoding $(D Variant)s. Raise this value to support heavier memory allocations.
+	The $(D putVar) method allocates memory on the stack, and the buffer used will grow automatically to the closest power of two to match the size of the $(D Variant). If the $(D Variant) is bigger than `encode_buffer_max_size`, the method will error out with $(D constant ERR_OUT_OF_MEMORY).
+	*/
+	@property long encodeBufferMaxSize()
+	{
+		return getEncodeBufferMaxSize();
+	}
+	/// ditto
+	@property void encodeBufferMaxSize(long v)
+	{
+		setEncodeBufferMaxSize(v);
 	}
 }

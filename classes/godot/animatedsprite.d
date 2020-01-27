@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.node2d;
 import godot.spriteframes;
-import godot.canvasitem;
-import godot.node;
 /**
 Sprite node that can use multiple textures for animation.
 
@@ -41,28 +39,28 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_sprite_frames") GodotMethod!(void, SpriteFrames) setSpriteFrames;
-		@GodotName("get_sprite_frames") GodotMethod!(SpriteFrames) getSpriteFrames;
-		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
-		@GodotName("get_animation") GodotMethod!(String) getAnimation;
-		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
 		@GodotName("_is_playing") GodotMethod!(bool) _isPlaying;
-		@GodotName("play") GodotMethod!(void, String, bool) play;
-		@GodotName("stop") GodotMethod!(void) stop;
-		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
-		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
-		@GodotName("is_centered") GodotMethod!(bool) isCentered;
-		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
-		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
-		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
-		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
-		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
-		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
-		@GodotName("set_frame") GodotMethod!(void, long) setFrame;
-		@GodotName("get_frame") GodotMethod!(long) getFrame;
-		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
-		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
 		@GodotName("_res_changed") GodotMethod!(void) _resChanged;
+		@GodotName("_set_playing") GodotMethod!(void, bool) _setPlaying;
+		@GodotName("get_animation") GodotMethod!(String) getAnimation;
+		@GodotName("get_frame") GodotMethod!(long) getFrame;
+		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("get_sprite_frames") GodotMethod!(SpriteFrames) getSpriteFrames;
+		@GodotName("is_centered") GodotMethod!(bool) isCentered;
+		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
+		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
+		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
+		@GodotName("play") GodotMethod!(void, String, bool) play;
+		@GodotName("set_animation") GodotMethod!(void, String) setAnimation;
+		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
+		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
+		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
+		@GodotName("set_frame") GodotMethod!(void, long) setFrame;
+		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("set_sprite_frames") GodotMethod!(void, SpriteFrames) setSpriteFrames;
+		@GodotName("stop") GodotMethod!(void) stop;
 	}
 	bool opEquals(in AnimatedSprite other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimatedSprite opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -79,26 +77,30 @@ public:
 	/**
 	
 	*/
-	void setSpriteFrames(SpriteFrames sprite_frames)
+	bool _isPlaying() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpriteFrames, _godot_object, sprite_frames);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_is_playing");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
 	
 	*/
-	Ref!SpriteFrames getSpriteFrames() const
+	void _resChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpriteFrames)(_classBinding.getSpriteFrames, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_res_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setAnimation(in String animation)
+	void _setPlaying(in bool playing)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimation, _godot_object, animation);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(playing);
+		String _GODOT_method_name = String("_set_playing");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -111,69 +113,10 @@ public:
 	/**
 	
 	*/
-	void _setPlaying(in bool playing)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(playing);
-		String _GODOT_method_name = String("_set_playing");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	bool _isPlaying() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_is_playing");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
-	}
-	/**
-	Play the animation set in parameter. If no parameter is provided, the current animation is played. Property `backwards` plays the animation in reverse if set to `true`.
-	*/
-	void play(in String anim = gs!"", in bool backwards = false)
+	long getFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object, anim, backwards);
-	}
-	/**
-	Stop the current animation (does not reset the frame counter).
-	*/
-	void stop()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
-	}
-	/**
-	Return `true` if an animation if currently being played.
-	*/
-	bool isPlaying() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCentered(in bool centered)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
-	}
-	/**
-	
-	*/
-	bool isCentered() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOffset(in Vector2 offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
 	}
 	/**
 	
@@ -186,10 +129,26 @@ public:
 	/**
 	
 	*/
-	void setFlipH(in bool flip_h)
+	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!SpriteFrames getSpriteFrames() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(SpriteFrames)(_classBinding.getSpriteFrames, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCentered() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
 	}
 	/**
 	
@@ -202,18 +161,58 @@ public:
 	/**
 	
 	*/
-	void setFlipV(in bool flip_v)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
-	}
-	/**
-	
-	*/
 	bool isFlippedV() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+	}
+	/**
+	Returns `true` if an animation is currently being played.
+	*/
+	bool isPlaying() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+	}
+	/**
+	Plays the animation named `anim`. If no `anim` is provided, the current animation is played. If `backwards` is `true`, the animation will be played in reverse.
+	*/
+	void play(in String anim = gs!"", in bool backwards = false)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.play, _godot_object, anim, backwards);
+	}
+	/**
+	
+	*/
+	void setAnimation(in String animation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAnimation, _godot_object, animation);
+	}
+	/**
+	
+	*/
+	void setCentered(in bool centered)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+	}
+	/**
+	
+	*/
+	void setFlipH(in bool flip_h)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+	}
+	/**
+	
+	*/
+	void setFlipV(in bool flip_v)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
 	}
 	/**
 	
@@ -226,10 +225,10 @@ public:
 	/**
 	
 	*/
-	long getFrame() const
+	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -242,31 +241,18 @@ public:
 	/**
 	
 	*/
-	double getSpeedScale() const
+	void setSpriteFrames(SpriteFrames sprite_frames)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		ptrcall!(void)(_classBinding.setSpriteFrames, _godot_object, sprite_frames);
 	}
 	/**
-	
+	Stops the current animation (does not reset the frame counter).
 	*/
-	void _resChanged()
+	void stop()
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_res_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	The $(D SpriteFrames) resource containing the animation(s).
-	*/
-	@property SpriteFrames frames()
-	{
-		return getSpriteFrames();
-	}
-	/// ditto
-	@property void frames(SpriteFrames v)
-	{
-		setSpriteFrames(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
 	/**
 	The current animation from the `frames` resource. If this value changes, the `frame` counter is reset.
@@ -281,6 +267,42 @@ public:
 		setAnimation(v);
 	}
 	/**
+	If `true`, texture will be centered.
+	*/
+	@property bool centered()
+	{
+		return isCentered();
+	}
+	/// ditto
+	@property void centered(bool v)
+	{
+		setCentered(v);
+	}
+	/**
+	If `true`, texture is flipped horizontally.
+	*/
+	@property bool flipH()
+	{
+		return isFlippedH();
+	}
+	/// ditto
+	@property void flipH(bool v)
+	{
+		setFlipH(v);
+	}
+	/**
+	If `true`, texture is flipped vertically.
+	*/
+	@property bool flipV()
+	{
+		return isFlippedV();
+	}
+	/// ditto
+	@property void flipV(bool v)
+	{
+		setFlipV(v);
+	}
+	/**
 	The displayed animation frame's index.
 	*/
 	@property long frame()
@@ -293,40 +315,16 @@ public:
 		setFrame(v);
 	}
 	/**
-	
+	The $(D SpriteFrames) resource containing the animation(s).
 	*/
-	@property double speedScale()
+	@property SpriteFrames frames()
 	{
-		return getSpeedScale();
+		return getSpriteFrames();
 	}
 	/// ditto
-	@property void speedScale(double v)
+	@property void frames(SpriteFrames v)
 	{
-		setSpeedScale(v);
-	}
-	/**
-	If `true`, the $(D animation) is currently playing.
-	*/
-	@property bool playing()
-	{
-		return _isPlaying();
-	}
-	/// ditto
-	@property void playing(bool v)
-	{
-		_setPlaying(v);
-	}
-	/**
-	If `true`, texture will be centered. Default value: `true`.
-	*/
-	@property bool centered()
-	{
-		return isCentered();
-	}
-	/// ditto
-	@property void centered(bool v)
-	{
-		setCentered(v);
+		setSpriteFrames(v);
 	}
 	/**
 	The texture's drawing offset.
@@ -341,27 +339,27 @@ public:
 		setOffset(v);
 	}
 	/**
-	If `true`, texture is flipped horizontally. Default value: `false`.
+	If `true`, the $(D animation) is currently playing.
 	*/
-	@property bool flipH()
+	@property bool playing()
 	{
-		return isFlippedH();
+		return _isPlaying();
 	}
 	/// ditto
-	@property void flipH(bool v)
+	@property void playing(bool v)
 	{
-		setFlipH(v);
+		_setPlaying(v);
 	}
 	/**
-	If `true`, texture is flipped vertically. Default value: `false`.
+	The animation speed is multiplied by this value.
 	*/
-	@property bool flipV()
+	@property double speedScale()
 	{
-		return isFlippedV();
+		return getSpeedScale();
 	}
 	/// ditto
-	@property void flipV(bool v)
+	@property void speedScale(double v)
 	{
-		setFlipV(v);
+		setSpeedScale(v);
 	}
 }

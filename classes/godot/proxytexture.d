@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -38,8 +36,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_base") GodotMethod!(void, Texture) setBase;
 		@GodotName("get_base") GodotMethod!(Texture) getBase;
+		@GodotName("set_base") GodotMethod!(void, Texture) setBase;
 	}
 	bool opEquals(in ProxyTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProxyTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +54,18 @@ public:
 	/**
 	
 	*/
-	void setBase(Texture base)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
-	}
-	/**
-	
-	*/
 	Ref!Texture getBase() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getBase, _godot_object);
+	}
+	/**
+	
+	*/
+	void setBase(Texture base)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
 	}
 	/**
 	

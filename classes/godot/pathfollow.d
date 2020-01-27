@@ -21,12 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
 /**
 Point sampler for a $(D Path).
 
 This node takes its parent $(D Path), and returns the coordinates of a point within it, given a distance from the first vertex.
-It is useful for making other nodes follow a path, without coding the movement pattern. For that, the nodes must be descendants of this node. Then, when setting an offset in this node, the descendant nodes will move accordingly.
+It is useful for making other nodes follow a path, without coding the movement pattern. For that, the nodes must be children of this node. The descendant nodes will then move accordingly when setting an offset in this node.
 */
 @GodotBaseClass struct PathFollow
 {
@@ -40,20 +39,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_offset") GodotMethod!(void, double) setOffset;
-		@GodotName("get_offset") GodotMethod!(double) getOffset;
-		@GodotName("set_h_offset") GodotMethod!(void, double) setHOffset;
-		@GodotName("get_h_offset") GodotMethod!(double) getHOffset;
-		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
-		@GodotName("get_v_offset") GodotMethod!(double) getVOffset;
-		@GodotName("set_unit_offset") GodotMethod!(void, double) setUnitOffset;
-		@GodotName("get_unit_offset") GodotMethod!(double) getUnitOffset;
-		@GodotName("set_rotation_mode") GodotMethod!(void, long) setRotationMode;
-		@GodotName("get_rotation_mode") GodotMethod!(PathFollow.RotationMode) getRotationMode;
-		@GodotName("set_cubic_interpolation") GodotMethod!(void, bool) setCubicInterpolation;
 		@GodotName("get_cubic_interpolation") GodotMethod!(bool) getCubicInterpolation;
-		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
+		@GodotName("get_h_offset") GodotMethod!(double) getHOffset;
+		@GodotName("get_offset") GodotMethod!(double) getOffset;
+		@GodotName("get_rotation_mode") GodotMethod!(PathFollow.RotationMode) getRotationMode;
+		@GodotName("get_unit_offset") GodotMethod!(double) getUnitOffset;
+		@GodotName("get_v_offset") GodotMethod!(double) getVOffset;
 		@GodotName("has_loop") GodotMethod!(bool) hasLoop;
+		@GodotName("set_cubic_interpolation") GodotMethod!(void, bool) setCubicInterpolation;
+		@GodotName("set_h_offset") GodotMethod!(void, double) setHOffset;
+		@GodotName("set_loop") GodotMethod!(void, bool) setLoop;
+		@GodotName("set_offset") GodotMethod!(void, double) setOffset;
+		@GodotName("set_rotation_mode") GodotMethod!(void, long) setRotationMode;
+		@GodotName("set_unit_offset") GodotMethod!(void, double) setUnitOffset;
+		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
 	}
 	bool opEquals(in PathFollow other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PathFollow opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -103,26 +102,10 @@ public:
 	/**
 	
 	*/
-	void setOffset(in double offset)
+	bool getCubicInterpolation() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
-	}
-	/**
-	
-	*/
-	double getOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setHOffset(in double h_offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHOffset, _godot_object, h_offset);
+		return ptrcall!(bool)(_classBinding.getCubicInterpolation, _godot_object);
 	}
 	/**
 	
@@ -135,42 +118,10 @@ public:
 	/**
 	
 	*/
-	void setVOffset(in double v_offset)
+	double getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVOffset, _godot_object, v_offset);
-	}
-	/**
-	
-	*/
-	double getVOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setUnitOffset(in double unit_offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUnitOffset, _godot_object, unit_offset);
-	}
-	/**
-	
-	*/
-	double getUnitOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getUnitOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setRotationMode(in long rotation_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationMode, _godot_object, rotation_mode);
+		return ptrcall!(double)(_classBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -183,6 +134,30 @@ public:
 	/**
 	
 	*/
+	double getUnitOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getUnitOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	double getVOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	bool hasLoop() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
+	}
+	/**
+	
+	*/
 	void setCubicInterpolation(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -191,10 +166,10 @@ public:
 	/**
 	
 	*/
-	bool getCubicInterpolation() const
+	void setHOffset(in double h_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCubicInterpolation, _godot_object);
+		ptrcall!(void)(_classBinding.setHOffset, _godot_object, h_offset);
 	}
 	/**
 	
@@ -207,34 +182,48 @@ public:
 	/**
 	
 	*/
-	bool hasLoop() const
+	void setOffset(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
 	}
 	/**
-	The distance from the first vertex, measured in 3D units along the path. This sets this node's position to a point within the path.
+	
 	*/
-	@property double offset()
+	void setRotationMode(in long rotation_mode)
 	{
-		return getOffset();
-	}
-	/// ditto
-	@property void offset(double v)
-	{
-		setOffset(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRotationMode, _godot_object, rotation_mode);
 	}
 	/**
-	The distance from the first vertex, considering 0.0 as the first vertex and 1.0 as the last. This is just another way of expressing the offset within the path, as the offset supplied is multiplied internally by the path's length.
+	
 	*/
-	@property double unitOffset()
+	void setUnitOffset(in double unit_offset)
 	{
-		return getUnitOffset();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUnitOffset, _godot_object, unit_offset);
+	}
+	/**
+	
+	*/
+	void setVOffset(in double v_offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVOffset, _godot_object, v_offset);
+	}
+	/**
+	If `true`, the position between two cached points is interpolated cubically, and linearly otherwise.
+	The points along the $(D Curve3D) of the $(D Path) are precomputed before use, for faster calculations. The point at the requested offset is then calculated interpolating between two adjacent cached points. This may present a problem if the curve makes sharp turns, as the cached points may not follow the curve closely enough.
+	There are two answers to this problem: either increase the number of cached points and increase memory consumption, or make a cubic interpolation between two points at the cost of (slightly) slower calculations.
+	*/
+	@property bool cubicInterp()
+	{
+		return getCubicInterpolation();
 	}
 	/// ditto
-	@property void unitOffset(double v)
+	@property void cubicInterp(bool v)
 	{
-		setUnitOffset(v);
+		setCubicInterpolation(v);
 	}
 	/**
 	The node's offset along the curve.
@@ -249,19 +238,31 @@ public:
 		setHOffset(v);
 	}
 	/**
-	The node's offset perpendicular to the curve.
+	If `true`, any offset outside the path's length will wrap around, instead of stopping at the ends. Use it for cyclic paths.
 	*/
-	@property double vOffset()
+	@property bool loop()
 	{
-		return getVOffset();
+		return hasLoop();
 	}
 	/// ditto
-	@property void vOffset(double v)
+	@property void loop(bool v)
 	{
-		setVOffset(v);
+		setLoop(v);
 	}
 	/**
-	Allows or forbids rotation on one or more axes, depending on the constants being used.
+	The distance from the first vertex, measured in 3D units along the path. This sets this node's position to a point within the path.
+	*/
+	@property double offset()
+	{
+		return getOffset();
+	}
+	/// ditto
+	@property void offset(double v)
+	{
+		setOffset(v);
+	}
+	/**
+	Allows or forbids rotation on one or more axes, depending on the $(D rotationmode) constants being used.
 	*/
 	@property PathFollow.RotationMode rotationMode()
 	{
@@ -273,29 +274,27 @@ public:
 		setRotationMode(v);
 	}
 	/**
-	If `true`, the position between two cached points is interpolated cubically, and linearly otherwise.
-	The points along the $(D Curve3D) of the $(D Path) are precomputed before use, for faster calculations. The point at the requested offset is then calculated interpolating between two adjacent cached points. This may present a problem if the curve makes sharp turns, as the cached points may not follow the curve closely enough.
-	There are two answers to this problem: Either increase the number of cached points and increase memory consumption, or make a cubic interpolation between two points at the cost of (slightly) slower calculations.
+	The distance from the first vertex, considering 0.0 as the first vertex and 1.0 as the last. This is just another way of expressing the offset within the path, as the offset supplied is multiplied internally by the path's length.
 	*/
-	@property bool cubicInterp()
+	@property double unitOffset()
 	{
-		return getCubicInterpolation();
+		return getUnitOffset();
 	}
 	/// ditto
-	@property void cubicInterp(bool v)
+	@property void unitOffset(double v)
 	{
-		setCubicInterpolation(v);
+		setUnitOffset(v);
 	}
 	/**
-	If `true`, any offset outside the path's length will wrap around, instead of stopping at the ends. Use it for cyclic paths.
+	The node's offset perpendicular to the curve.
 	*/
-	@property bool loop()
+	@property double vOffset()
 	{
-		return hasLoop();
+		return getVOffset();
 	}
 	/// ditto
-	@property void loop(bool v)
+	@property void vOffset(double v)
 	{
-		setLoop(v);
+		setVOffset(v);
 	}
 }

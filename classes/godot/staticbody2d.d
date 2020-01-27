@@ -1,5 +1,5 @@
 /**
-Static body for 2D Physics.
+Static body for 2D physics.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,13 +21,13 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.physicsbody2d;
-import godot.physicsmaterial;
 import godot.collisionobject2d;
 import godot.node2d;
 import godot.canvasitem;
 import godot.node;
+import godot.physicsmaterial;
 /**
-Static body for 2D Physics.
+Static body for 2D physics.
 
 A StaticBody2D is a body that is not intended to move. It is ideal for implementing objects in the environment, such as walls or platforms.
 Additionally, a constant linear or angular velocity can be set for the static body, which will affect colliding bodies as if it were moving (for example, a conveyor belt).
@@ -44,17 +44,17 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_constant_linear_velocity") GodotMethod!(void, Vector2) setConstantLinearVelocity;
-		@GodotName("set_constant_angular_velocity") GodotMethod!(void, double) setConstantAngularVelocity;
-		@GodotName("get_constant_linear_velocity") GodotMethod!(Vector2) getConstantLinearVelocity;
-		@GodotName("get_constant_angular_velocity") GodotMethod!(double) getConstantAngularVelocity;
-		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
-		@GodotName("get_friction") GodotMethod!(double) getFriction;
-		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
-		@GodotName("get_bounce") GodotMethod!(double) getBounce;
-		@GodotName("set_physics_material_override") GodotMethod!(void, PhysicsMaterial) setPhysicsMaterialOverride;
-		@GodotName("get_physics_material_override") GodotMethod!(PhysicsMaterial) getPhysicsMaterialOverride;
 		@GodotName("_reload_physics_characteristics") GodotMethod!(void) _reloadPhysicsCharacteristics;
+		@GodotName("get_bounce") GodotMethod!(double) getBounce;
+		@GodotName("get_constant_angular_velocity") GodotMethod!(double) getConstantAngularVelocity;
+		@GodotName("get_constant_linear_velocity") GodotMethod!(Vector2) getConstantLinearVelocity;
+		@GodotName("get_friction") GodotMethod!(double) getFriction;
+		@GodotName("get_physics_material_override") GodotMethod!(PhysicsMaterial) getPhysicsMaterialOverride;
+		@GodotName("set_bounce") GodotMethod!(void, double) setBounce;
+		@GodotName("set_constant_angular_velocity") GodotMethod!(void, double) setConstantAngularVelocity;
+		@GodotName("set_constant_linear_velocity") GodotMethod!(void, Vector2) setConstantLinearVelocity;
+		@GodotName("set_friction") GodotMethod!(void, double) setFriction;
+		@GodotName("set_physics_material_override") GodotMethod!(void, PhysicsMaterial) setPhysicsMaterialOverride;
 	}
 	bool opEquals(in StaticBody2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StaticBody2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -71,58 +71,11 @@ public:
 	/**
 	
 	*/
-	void setConstantLinearVelocity(in Vector2 vel)
+	void _reloadPhysicsCharacteristics()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantLinearVelocity, _godot_object, vel);
-	}
-	/**
-	
-	*/
-	void setConstantAngularVelocity(in double vel)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantAngularVelocity, _godot_object, vel);
-	}
-	/**
-	
-	*/
-	Vector2 getConstantLinearVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getConstantLinearVelocity, _godot_object);
-	}
-	/**
-	
-	*/
-	double getConstantAngularVelocity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getConstantAngularVelocity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFriction(in double friction)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
-	}
-	/**
-	
-	*/
-	double getFriction() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFriction, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBounce(in double bounce)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_reload_physics_characteristics");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -135,10 +88,26 @@ public:
 	/**
 	
 	*/
-	void setPhysicsMaterialOverride(PhysicsMaterial physics_material_override)
+	double getConstantAngularVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
+		return ptrcall!(double)(_classBinding.getConstantAngularVelocity, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getConstantLinearVelocity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getConstantLinearVelocity, _godot_object);
+	}
+	/**
+	
+	*/
+	double getFriction() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFriction, _godot_object);
 	}
 	/**
 	
@@ -151,50 +120,46 @@ public:
 	/**
 	
 	*/
-	void _reloadPhysicsCharacteristics()
+	void setBounce(in double bounce)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_reload_physics_characteristics");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
 	}
 	/**
-	Constant linear velocity for the body. This does not move the body, but affects colliding bodies, as if it were moving.
+	
 	*/
-	@property Vector2 constantLinearVelocity()
+	void setConstantAngularVelocity(in double vel)
 	{
-		return getConstantLinearVelocity();
-	}
-	/// ditto
-	@property void constantLinearVelocity(Vector2 v)
-	{
-		setConstantLinearVelocity(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstantAngularVelocity, _godot_object, vel);
 	}
 	/**
-	Constant angular velocity for the body. This does not rotate the body, but affects colliding bodies, as if it were rotating.
+	
 	*/
-	@property double constantAngularVelocity()
+	void setConstantLinearVelocity(in Vector2 vel)
 	{
-		return getConstantAngularVelocity();
-	}
-	/// ditto
-	@property void constantAngularVelocity(double v)
-	{
-		setConstantAngularVelocity(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConstantLinearVelocity, _godot_object, vel);
 	}
 	/**
-	The body's friction. Values range from `0` (no friction) to `1` (full friction).
+	
 	*/
-	@property double friction()
+	void setFriction(in double friction)
 	{
-		return getFriction();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
 	}
-	/// ditto
-	@property void friction(double v)
+	/**
+	
+	*/
+	void setPhysicsMaterialOverride(PhysicsMaterial physics_material_override)
 	{
-		setFriction(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
 	}
 	/**
 	The body's bounciness. Values range from `0` (no bounce) to `1` (full bounciness).
+	Deprecated, use $(D PhysicsMaterial.bounce) instead via $(D physicsMaterialOverride).
 	*/
 	@property double bounce()
 	{
@@ -206,7 +171,45 @@ public:
 		setBounce(v);
 	}
 	/**
-	
+	The body's constant angular velocity. This does not rotate the body, but affects colliding bodies, as if it were rotating.
+	*/
+	@property double constantAngularVelocity()
+	{
+		return getConstantAngularVelocity();
+	}
+	/// ditto
+	@property void constantAngularVelocity(double v)
+	{
+		setConstantAngularVelocity(v);
+	}
+	/**
+	The body's constant linear velocity. This does not move the body, but affects colliding bodies, as if it were moving.
+	*/
+	@property Vector2 constantLinearVelocity()
+	{
+		return getConstantLinearVelocity();
+	}
+	/// ditto
+	@property void constantLinearVelocity(Vector2 v)
+	{
+		setConstantLinearVelocity(v);
+	}
+	/**
+	The body's friction. Values range from `0` (no friction) to `1` (full friction).
+	Deprecated, use $(D PhysicsMaterial.friction) instead via $(D physicsMaterialOverride).
+	*/
+	@property double friction()
+	{
+		return getFriction();
+	}
+	/// ditto
+	@property void friction(double v)
+	{
+		setFriction(v);
+	}
+	/**
+	The physics material override for the body.
+	If a material is assigned to this property, it will be used instead of any other physics material, such as an inherited one.
 	*/
 	@property PhysicsMaterial physicsMaterialOverride()
 	{

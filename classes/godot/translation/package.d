@@ -25,7 +25,7 @@ import godot.reference;
 /**
 Language Translation.
 
-Translations are resources that can be loaded/unloaded on demand. They map a string to another string.
+Translations are resources that can be loaded and unloaded on demand. They map a string to another string.
 */
 @GodotBaseClass struct Translation
 {
@@ -39,15 +39,15 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
-		@GodotName("get_locale") GodotMethod!(String) getLocale;
-		@GodotName("add_message") GodotMethod!(void, String, String) addMessage;
-		@GodotName("get_message") GodotMethod!(String, String) getMessage;
-		@GodotName("erase_message") GodotMethod!(void, String) eraseMessage;
-		@GodotName("get_message_list") GodotMethod!(PoolStringArray) getMessageList;
-		@GodotName("get_message_count") GodotMethod!(long) getMessageCount;
-		@GodotName("_set_messages") GodotMethod!(void, PoolStringArray) _setMessages;
 		@GodotName("_get_messages") GodotMethod!(PoolStringArray) _getMessages;
+		@GodotName("_set_messages") GodotMethod!(void, PoolStringArray) _setMessages;
+		@GodotName("add_message") GodotMethod!(void, String, String) addMessage;
+		@GodotName("erase_message") GodotMethod!(void, String) eraseMessage;
+		@GodotName("get_locale") GodotMethod!(String) getLocale;
+		@GodotName("get_message") GodotMethod!(String, String) getMessage;
+		@GodotName("get_message_count") GodotMethod!(long) getMessageCount;
+		@GodotName("get_message_list") GodotMethod!(PoolStringArray) getMessageList;
+		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
 	}
 	bool opEquals(in Translation other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Translation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,18 +64,21 @@ public:
 	/**
 	
 	*/
-	void setLocale(in String locale)
+	PoolStringArray _getMessages() const
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_messages");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
 	}
 	/**
 	
 	*/
-	String getLocale() const
+	void _setMessages(in PoolStringArray arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_messages");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Adds a message if nonexistent, followed by its translation.
@@ -86,14 +89,6 @@ public:
 		ptrcall!(void)(_classBinding.addMessage, _godot_object, src_message, xlated_message);
 	}
 	/**
-	Returns a message's translation.
-	*/
-	String getMessage(in String src_message) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getMessage, _godot_object, src_message);
-	}
-	/**
 	Erases a message.
 	*/
 	void eraseMessage(in String src_message)
@@ -102,12 +97,20 @@ public:
 		ptrcall!(void)(_classBinding.eraseMessage, _godot_object, src_message);
 	}
 	/**
-	Returns all the messages (keys).
+	
 	*/
-	PoolStringArray getMessageList() const
+	String getLocale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getMessageList, _godot_object);
+		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
+	}
+	/**
+	Returns a message's translation.
+	*/
+	String getMessage(in String src_message) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getMessage, _godot_object, src_message);
 	}
 	/**
 	Returns the number of existing messages.
@@ -118,35 +121,20 @@ public:
 		return ptrcall!(long)(_classBinding.getMessageCount, _godot_object);
 	}
 	/**
-	
+	Returns all the messages (keys).
 	*/
-	void _setMessages(in PoolStringArray arg0)
+	PoolStringArray getMessageList() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_messages");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolStringArray)(_classBinding.getMessageList, _godot_object);
 	}
 	/**
 	
 	*/
-	PoolStringArray _getMessages() const
+	void setLocale(in String locale)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_messages");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
-	}
-	/**
-	
-	*/
-	@property PoolStringArray messages()
-	{
-		return _getMessages();
-	}
-	/// ditto
-	@property void messages(PoolStringArray v)
-	{
-		_setMessages(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
 	}
 	/**
 	The locale of the translation.
@@ -159,5 +147,17 @@ public:
 	@property void locale(String v)
 	{
 		setLocale(v);
+	}
+	/**
+	
+	*/
+	@property PoolStringArray messages()
+	{
+		return _getMessages();
+	}
+	/// ditto
+	@property void messages(PoolStringArray v)
+	{
+		_setMessages(v);
 	}
 }

@@ -21,8 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.physics2ddirectspacestate;
 import godot.reference;
+import godot.physics2ddirectspacestate;
 /**
 Class that has everything pertaining to a 2D world.
 
@@ -41,8 +41,8 @@ public:
 	{
 		__gshared:
 		@GodotName("get_canvas") GodotMethod!(RID) getCanvas;
-		@GodotName("get_space") GodotMethod!(RID) getSpace;
 		@GodotName("get_direct_space_state") GodotMethod!(Physics2DDirectSpaceState) getDirectSpaceState;
+		@GodotName("get_space") GodotMethod!(RID) getSpace;
 	}
 	bool opEquals(in World2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	World2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,18 +67,18 @@ public:
 	/**
 	
 	*/
-	RID getSpace()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
-	}
-	/**
-	
-	*/
 	Physics2DDirectSpaceState getDirectSpaceState()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Physics2DDirectSpaceState)(_classBinding.getDirectSpaceState, _godot_object);
+	}
+	/**
+	
+	*/
+	RID getSpace()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
 	}
 	/**
 	The $(D RID) of this world's canvas resource. Used by the $(D VisualServer) for 2D drawing.
@@ -88,17 +88,17 @@ public:
 		return getCanvas();
 	}
 	/**
-	The $(D RID) of this world's physics space resource. Used by the $(D Physics2DServer) for 2D physics, treating it as both a space and an area.
-	*/
-	@property RID space()
-	{
-		return getSpace();
-	}
-	/**
 	The state of this world's physics space. This allows arbitrary querying for collision.
 	*/
 	@property Physics2DDirectSpaceState directSpaceState()
 	{
 		return getDirectSpaceState();
+	}
+	/**
+	The $(D RID) of this world's physics space resource. Used by the $(D Physics2DServer) for 2D physics, treating it as both a space and an area.
+	*/
+	@property RID space()
+	{
+		return getSpace();
 	}
 }

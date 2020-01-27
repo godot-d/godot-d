@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.geometryinstance;
-import godot.texture;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
+import godot.texture;
 /**
 Draws simple geometry from code.
 
@@ -42,16 +40,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("add_sphere") GodotMethod!(void, long, long, double, bool) addSphere;
+		@GodotName("add_vertex") GodotMethod!(void, Vector3) addVertex;
 		@GodotName("begin") GodotMethod!(void, long, Texture) begin;
+		@GodotName("clear") GodotMethod!(void) clear;
+		@GodotName("end") GodotMethod!(void) end;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("set_normal") GodotMethod!(void, Vector3) setNormal;
 		@GodotName("set_tangent") GodotMethod!(void, Plane) setTangent;
-		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("set_uv") GodotMethod!(void, Vector2) setUv;
 		@GodotName("set_uv2") GodotMethod!(void, Vector2) setUv2;
-		@GodotName("add_vertex") GodotMethod!(void, Vector3) addVertex;
-		@GodotName("add_sphere") GodotMethod!(void, long, long, double, bool) addSphere;
-		@GodotName("end") GodotMethod!(void) end;
-		@GodotName("clear") GodotMethod!(void) clear;
 	}
 	bool opEquals(in ImmediateGeometry other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ImmediateGeometry opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,13 +64,53 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Begin drawing (And optionally pass a texture override). When done call end(). For more information on how this works, search for glBegin() glEnd() references.
-	For the type of primitive, use the $(D Mesh).PRIMITIVE_* enumerations.
+	Simple helper to draw an UV sphere with given latitude, longitude and radius.
+	*/
+	void addSphere(in long lats, in long lons, in double radius, in bool add_uv = true)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addSphere, _godot_object, lats, lons, radius, add_uv);
+	}
+	/**
+	Adds a vertex in local coordinate space with the currently set color/uv/etc.
+	*/
+	void addVertex(in Vector3 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addVertex, _godot_object, position);
+	}
+	/**
+	Begin drawing (and optionally pass a texture override). When done call $(D end). For more information on how this works, search for `glBegin()` and `glEnd()` references.
+	For the type of primitive, see the $(D Mesh.primitivetype) enum.
 	*/
 	void begin(in long primitive, Texture texture = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.begin, _godot_object, primitive, texture);
+	}
+	/**
+	Clears everything that was drawn using begin/end.
+	*/
+	void clear()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.clear, _godot_object);
+	}
+	/**
+	Ends a drawing context and displays the results.
+	*/
+	void end()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.end, _godot_object);
+	}
+	/**
+	The current drawing color.
+	*/
+	void setColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
 	}
 	/**
 	The next vertex's normal.
@@ -91,14 +129,6 @@ public:
 		ptrcall!(void)(_classBinding.setTangent, _godot_object, tangent);
 	}
 	/**
-	The current drawing color.
-	*/
-	void setColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
-	}
-	/**
 	The next vertex's UV.
 	*/
 	void setUv(in Vector2 uv)
@@ -113,37 +143,5 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setUv2, _godot_object, uv);
-	}
-	/**
-	Adds a vertex with the currently set color/uv/etc.
-	*/
-	void addVertex(in Vector3 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addVertex, _godot_object, position);
-	}
-	/**
-	Simple helper to draw a uvsphere, with given latitudes, longitude and radius.
-	*/
-	void addSphere(in long lats, in long lons, in double radius, in bool add_uv = true)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSphere, _godot_object, lats, lons, radius, add_uv);
-	}
-	/**
-	Ends a drawing context and displays the results.
-	*/
-	void end()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.end, _godot_object);
-	}
-	/**
-	Clears everything that was drawn using begin/end.
-	*/
-	void clear()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 }

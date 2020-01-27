@@ -22,11 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.inputevent;
 import godot.resource;
-import godot.reference;
 /**
 Input event type for actions.
 
-Contains a generic action which can be targeted from several type of inputs. Actions can be created from the project settings menu `Project &gt; Project Settings &gt; Input Map`. See $(D Node._input).
+Contains a generic action which can be targeted from several types of inputs. Actions can be created from the $(B Input Map) tab in the $(B Project &gt; Project Settings) menu. See $(D Node._input).
 */
 @GodotBaseClass struct InputEventAction
 {
@@ -40,9 +39,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_action") GodotMethod!(void, String) setAction;
 		@GodotName("get_action") GodotMethod!(String) getAction;
+		@GodotName("get_strength") GodotMethod!(double) getStrength;
+		@GodotName("set_action") GodotMethod!(void, String) setAction;
 		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
+		@GodotName("set_strength") GodotMethod!(void, double) setStrength;
 	}
 	bool opEquals(in InputEventAction other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventAction opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,14 +60,6 @@ public:
 	/**
 	
 	*/
-	void setAction(in String action)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAction, _godot_object, action);
-	}
-	/**
-	
-	*/
 	String getAction() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -75,10 +68,34 @@ public:
 	/**
 	
 	*/
+	double getStrength() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getStrength, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAction(in String action)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAction, _godot_object, action);
+	}
+	/**
+	
+	*/
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
+	}
+	/**
+	
+	*/
+	void setStrength(in double strength)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStrength, _godot_object, strength);
 	}
 	/**
 	The action's name. Actions are accessed via this $(D String).
@@ -103,5 +120,17 @@ public:
 	@property void pressed(bool v)
 	{
 		setPressed(v);
+	}
+	/**
+	The action's strength between 0 and 1. This value is considered as equal to 0 if pressed is `false`. The event strength allows faking analog joypad motion events, by precising how strongly is the joypad axis bent or pressed.
+	*/
+	@property double strength()
+	{
+		return getStrength();
+	}
+	/// ditto
+	@property void strength(double v)
+	{
+		setStrength(v);
 	}
 }

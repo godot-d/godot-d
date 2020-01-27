@@ -1,5 +1,5 @@
 /**
-
+Array of textures stored in a single primitive.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texturelayered;
-import godot.resource;
-import godot.reference;
 /**
+Array of textures stored in a single primitive.
 
+$(D TextureArray)s store an array of images in a single $(D Texture) primitive. Each layer of the texture array has its own mipmap chain. This makes it is a good alternative to texture atlases.
 */
 @GodotBaseClass struct TextureArray
 {

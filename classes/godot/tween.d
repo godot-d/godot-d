@@ -24,7 +24,7 @@ import godot.node;
 /**
 Smoothly animates a node's properties over time.
 
-Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name *tween* comes from *in-betweening*, an animation technique where you specify *keyframes* and the computer interpolates the frames that appear between them.
+Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name $(I tween) comes from $(I in-betweening), an animation technique where you specify $(I keyframes) and the computer interpolates the frames that appear between them.
 Here is a brief usage example that causes a 2D node to move smoothly between two positions:
 
 
@@ -35,8 +35,8 @@ tween.interpolate_property($Node2D, "position",
 tween.start()
 
 
-Many methods require a property name, such as "position" above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using "property:component" (eg. `position:x`), where it would only apply to that particular component.
-Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see `http://easings.net/` for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with `EASE_IN_OUT`, and use the one that looks best.
+Many methods require a property name, such as `"position"` above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using `"property:component"` (eg. `position:x`), where it would only apply to that particular component.
+Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see `http://easings.net/` for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
 */
 @GodotBaseClass struct Tween
 {
@@ -50,35 +50,35 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("is_active") GodotMethod!(bool) isActive;
-		@GodotName("set_active") GodotMethod!(void, bool) setActive;
-		@GodotName("is_repeat") GodotMethod!(bool) isRepeat;
-		@GodotName("set_repeat") GodotMethod!(void, bool) setRepeat;
-		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
-		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
-		@GodotName("set_tween_process_mode") GodotMethod!(void, long) setTweenProcessMode;
-		@GodotName("get_tween_process_mode") GodotMethod!(Tween.TweenProcessMode) getTweenProcessMode;
-		@GodotName("start") GodotMethod!(bool) start;
-		@GodotName("reset") GodotMethod!(bool, GodotObject, String) reset;
-		@GodotName("reset_all") GodotMethod!(bool) resetAll;
-		@GodotName("stop") GodotMethod!(bool, GodotObject, String) stop;
-		@GodotName("stop_all") GodotMethod!(bool) stopAll;
-		@GodotName("resume") GodotMethod!(bool, GodotObject, String) resume;
-		@GodotName("resume_all") GodotMethod!(bool) resumeAll;
-		@GodotName("remove") GodotMethod!(bool, GodotObject, String) remove;
 		@GodotName("_remove_by_uid") GodotMethod!(void, long) _removeByUid;
-		@GodotName("remove_all") GodotMethod!(bool) removeAll;
-		@GodotName("seek") GodotMethod!(bool, double) seek;
-		@GodotName("tell") GodotMethod!(double) tell;
+		@GodotName("follow_method") GodotMethod!(bool, GodotObject, String, Variant, GodotObject, String, double, long, long, double) followMethod;
+		@GodotName("follow_property") GodotMethod!(bool, GodotObject, NodePath, Variant, GodotObject, NodePath, double, long, long, double) followProperty;
 		@GodotName("get_runtime") GodotMethod!(double) getRuntime;
-		@GodotName("interpolate_property") GodotMethod!(bool, GodotObject, NodePath, Variant, Variant, double, long, long, double) interpolateProperty;
-		@GodotName("interpolate_method") GodotMethod!(bool, GodotObject, String, Variant, Variant, double, long, long, double) interpolateMethod;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("get_tween_process_mode") GodotMethod!(Tween.TweenProcessMode) getTweenProcessMode;
 		@GodotName("interpolate_callback") GodotMethod!(bool, GodotObject, double, String, Variant, Variant, Variant, Variant, Variant) interpolateCallback;
 		@GodotName("interpolate_deferred_callback") GodotMethod!(bool, GodotObject, double, String, Variant, Variant, Variant, Variant, Variant) interpolateDeferredCallback;
-		@GodotName("follow_property") GodotMethod!(bool, GodotObject, NodePath, Variant, GodotObject, NodePath, double, long, long, double) followProperty;
-		@GodotName("follow_method") GodotMethod!(bool, GodotObject, String, Variant, GodotObject, String, double, long, long, double) followMethod;
-		@GodotName("targeting_property") GodotMethod!(bool, GodotObject, NodePath, GodotObject, NodePath, Variant, double, long, long, double) targetingProperty;
+		@GodotName("interpolate_method") GodotMethod!(bool, GodotObject, String, Variant, Variant, double, long, long, double) interpolateMethod;
+		@GodotName("interpolate_property") GodotMethod!(bool, GodotObject, NodePath, Variant, Variant, double, long, long, double) interpolateProperty;
+		@GodotName("is_active") GodotMethod!(bool) isActive;
+		@GodotName("is_repeat") GodotMethod!(bool) isRepeat;
+		@GodotName("remove") GodotMethod!(bool, GodotObject, String) remove;
+		@GodotName("remove_all") GodotMethod!(bool) removeAll;
+		@GodotName("reset") GodotMethod!(bool, GodotObject, String) reset;
+		@GodotName("reset_all") GodotMethod!(bool) resetAll;
+		@GodotName("resume") GodotMethod!(bool, GodotObject, String) resume;
+		@GodotName("resume_all") GodotMethod!(bool) resumeAll;
+		@GodotName("seek") GodotMethod!(bool, double) seek;
+		@GodotName("set_active") GodotMethod!(void, bool) setActive;
+		@GodotName("set_repeat") GodotMethod!(void, bool) setRepeat;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("set_tween_process_mode") GodotMethod!(void, long) setTweenProcessMode;
+		@GodotName("start") GodotMethod!(bool) start;
+		@GodotName("stop") GodotMethod!(bool, GodotObject, String) stop;
+		@GodotName("stop_all") GodotMethod!(bool) stopAll;
 		@GodotName("targeting_method") GodotMethod!(bool, GodotObject, String, GodotObject, String, Variant, double, long, long, double) targetingMethod;
+		@GodotName("targeting_property") GodotMethod!(bool, GodotObject, NodePath, GodotObject, NodePath, Variant, double, long, long, double) targetingProperty;
+		@GodotName("tell") GodotMethod!(double) tell;
 	}
 	bool opEquals(in Tween other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Tween opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -164,11 +164,11 @@ public:
 		*/
 		easeOut = 1,
 		/**
-		A combination of EASE_IN and EASE_OUT. The interpolation is slowest at both ends.
+		A combination of $(D constant EASE_IN) and $(D constant EASE_OUT). The interpolation is slowest at both ends.
 		*/
 		easeInOut = 2,
 		/**
-		A combination of EASE_IN and EASE_OUT. The interpolation is fastest at both ends.
+		A combination of $(D constant EASE_IN) and $(D constant EASE_OUT). The interpolation is fastest at both ends.
 		*/
 		easeOutIn = 3,
 	}
@@ -194,20 +194,99 @@ public:
 		transBack = 10,
 	}
 	/**
-	Returns `true` if any tweens are currently running. Note that this method doesn't consider tweens that have ended.
+	
+	*/
+	void _removeByUid(in long uid)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(uid);
+		String _GODOT_method_name = String("_remove_by_uid");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Follows `method` of `object` and applies the returned value on `target_method` of `target`, beginning from `initial_val` for `duration` seconds, `delay` later. Methods are called with consecutive values.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	*/
+	bool followMethod(VariantArg2)(GodotObject object, in String method, in VariantArg2 initial_val, GodotObject target, in String target_method, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.followMethod, _godot_object, object, method, initial_val, target, target_method, duration, trans_type, ease_type, delay);
+	}
+	/**
+	Follows `property` of `object` and applies it on `target_property` of `target`, beginning from `initial_val` for `duration` seconds, `delay` seconds later.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	*/
+	bool followProperty(NodePathArg1, VariantArg2, NodePathArg4)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, GodotObject target, in NodePathArg4 target_property, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.followProperty, _godot_object, object, property, initial_val, target, target_property, duration, trans_type, ease_type, delay);
+	}
+	/**
+	Returns the total time needed for all tweens to end. If you have two tweens, one lasting 10 seconds and the other 20 seconds, it would return 20 seconds, as by that time all tweens would have finished.
+	*/
+	double getRuntime() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRuntime, _godot_object);
+	}
+	/**
+	
+	*/
+	double getSpeedScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+	}
+	/**
+	
+	*/
+	Tween.TweenProcessMode getTweenProcessMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Tween.TweenProcessMode)(_classBinding.getTweenProcessMode, _godot_object);
+	}
+	/**
+	Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
+	*/
+	bool interpolateCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.interpolateCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
+	}
+	/**
+	Calls `callback` of `object` after `duration` on the main thread (similar to $(D GodotObject.callDeferred)). `arg1`-`arg5` are arguments to be passed to the callback.
+	*/
+	bool interpolateDeferredCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.interpolateDeferredCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
+	}
+	/**
+	Animates `method` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Methods are called with consecutive values.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	*/
+	bool interpolateMethod(VariantArg2, VariantArg3)(GodotObject object, in String method, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.interpolateMethod, _godot_object, object, method, initial_val, final_val, duration, trans_type, ease_type, delay);
+	}
+	/**
+	Animates `property` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Setting the initial value to `null` uses the current value of the property.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	*/
+	bool interpolateProperty(NodePathArg1, VariantArg2, VariantArg3)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.interpolateProperty, _godot_object, object, property, initial_val, final_val, duration, trans_type, ease_type, delay);
+	}
+	/**
+	Returns `true` if any tweens are currently running.
+	$(B Note:) This method doesn't consider tweens that have ended.
 	*/
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
-	}
-	/**
-	Activates/deactivates the tween. See also $(D stopAll) and $(D resumeAll).
-	*/
-	void setActive(in bool active)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
 	/**
 	
@@ -216,6 +295,70 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isRepeat, _godot_object);
+	}
+	/**
+	Stops animation and removes a tween, given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
+	*/
+	bool remove(GodotObject object, in String key = gs!"")
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.remove, _godot_object, object, key);
+	}
+	/**
+	Stops animation and removes all tweens.
+	*/
+	bool removeAll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.removeAll, _godot_object);
+	}
+	/**
+	Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
+	*/
+	bool reset(GodotObject object, in String key = gs!"")
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.reset, _godot_object, object, key);
+	}
+	/**
+	Resets all tweens to their initial values (the ones given, not those before the tween).
+	*/
+	bool resetAll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.resetAll, _godot_object);
+	}
+	/**
+	Continues animating a stopped tween, given its object and property/method pair. By default, all tweens are resumed, unless `key` is specified.
+	*/
+	bool resume(GodotObject object, in String key = gs!"")
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.resume, _godot_object, object, key);
+	}
+	/**
+	Continues animating all stopped tweens.
+	*/
+	bool resumeAll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.resumeAll, _godot_object);
+	}
+	/**
+	Sets the interpolation to the given `time` in seconds.
+	*/
+	bool seek(in double time)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.seek, _godot_object, time);
+	}
+	/**
+	Activates/deactivates the tween. See also $(D stopAll) and $(D resumeAll).
+	*/
+	void setActive(in bool active)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
 	}
 	/**
 	
@@ -236,26 +379,10 @@ public:
 	/**
 	
 	*/
-	double getSpeedScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
-	}
-	/**
-	
-	*/
 	void setTweenProcessMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setTweenProcessMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	Tween.TweenProcessMode getTweenProcessMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Tween.TweenProcessMode)(_classBinding.getTweenProcessMode, _godot_object);
 	}
 	/**
 	Starts the tween. You can define animations both before and after this.
@@ -264,22 +391,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.start, _godot_object);
-	}
-	/**
-	Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
-	*/
-	bool reset(GodotObject object, in String key = gs!"")
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.reset, _godot_object, object, key);
-	}
-	/**
-	Resets all tweens to their initial values (the ones given, not those before the tween).
-	*/
-	bool resetAll()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resetAll, _godot_object);
 	}
 	/**
 	Stops a tween, given its object and property/method pair. By default, all tweens are stopped, unless `key` is specified.
@@ -298,54 +409,22 @@ public:
 		return ptrcall!(bool)(_classBinding.stopAll, _godot_object);
 	}
 	/**
-	Continues animating a stopped tween, given its object and property/method pair. By default, all tweens are resumed, unless `key` is specified.
+	Animates `method` of `object` from the value returned by `initial_method` to `final_val` for `duration` seconds, `delay` seconds later. Methods are animated by calling them with consecutive values.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
 	*/
-	bool resume(GodotObject object, in String key = gs!"")
+	bool targetingMethod(VariantArg4)(GodotObject object, in String method, GodotObject initial, in String initial_method, in VariantArg4 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resume, _godot_object, object, key);
+		return ptrcall!(bool)(_classBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
-	Continues animating all stopped tweens.
+	Animates `property` of `object` from the current value of the `initial_val` property of `initial` to `final_val` for `duration` seconds, `delay` seconds later.
+	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information.
 	*/
-	bool resumeAll()
+	bool targetingProperty(NodePathArg1, NodePathArg3, VariantArg4)(GodotObject object, in NodePathArg1 property, GodotObject initial, in NodePathArg3 initial_val, in VariantArg4 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resumeAll, _godot_object);
-	}
-	/**
-	Stops animation and removes a tween, given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
-	*/
-	bool remove(GodotObject object, in String key = gs!"")
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.remove, _godot_object, object, key);
-	}
-	/**
-	
-	*/
-	void _removeByUid(in long uid)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(uid);
-		String _GODOT_method_name = String("_remove_by_uid");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Stops animation and removes all tweens.
-	*/
-	bool removeAll()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.removeAll, _godot_object);
-	}
-	/**
-	Sets the interpolation to the given `time` in seconds.
-	*/
-	bool seek(in double time)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.seek, _godot_object, time);
+		return ptrcall!(bool)(_classBinding.targetingProperty, _godot_object, object, property, initial, initial_val, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Returns the current time of the tween.
@@ -356,97 +435,7 @@ public:
 		return ptrcall!(double)(_classBinding.tell, _godot_object);
 	}
 	/**
-	Returns the total time needed for all tweens to end. If you have two tweens, one lasting 10 seconds and the other 20 seconds, it would return 20 seconds, as by that time all tweens would have finished.
-	*/
-	double getRuntime() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRuntime, _godot_object);
-	}
-	/**
-	Animates `property` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Setting the initial value to `null` uses the current value of the property.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool interpolateProperty(NodePathArg1, VariantArg2, VariantArg3)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateProperty, _godot_object, object, property, initial_val, final_val, duration, trans_type, ease_type, delay);
-	}
-	/**
-	Animates `method` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Methods are called with consecutive values.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool interpolateMethod(VariantArg2, VariantArg3)(GodotObject object, in String method, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateMethod, _godot_object, object, method, initial_val, final_val, duration, trans_type, ease_type, delay);
-	}
-	/**
-	Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
-	*/
-	bool interpolateCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
-	}
-	/**
-	Calls `callback` of `object` after `duration` on the main thread (similar to $(D GodotObject.callDeferred)). `arg1`-`arg5` are arguments to be passed to the callback.
-	*/
-	bool interpolateDeferredCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateDeferredCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
-	}
-	/**
-	Follows `property` of `object` and applies it on `target_property` of `target`, beginning from `initial_val` for `duration` seconds, `delay` seconds later.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool followProperty(NodePathArg1, VariantArg2, NodePathArg4)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, GodotObject target, in NodePathArg4 target_property, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.followProperty, _godot_object, object, property, initial_val, target, target_property, duration, trans_type, ease_type, delay);
-	}
-	/**
-	Follows `method` of `object` and applies the returned value on `target_method` of `target`, beginning from `initial_val` for `duration` seconds, `delay` later. Methods are called with consecutive values.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool followMethod(VariantArg2)(GodotObject object, in String method, in VariantArg2 initial_val, GodotObject target, in String target_method, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.followMethod, _godot_object, object, method, initial_val, target, target_method, duration, trans_type, ease_type, delay);
-	}
-	/**
-	Animates `property` of `object` from the current value of the `initial_val` property of `initial` to `final_val` for `duration` seconds, `delay` seconds later.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool targetingProperty(NodePathArg1, NodePathArg3, VariantArg4)(GodotObject object, in NodePathArg1 property, GodotObject initial, in NodePathArg3 initial_val, in VariantArg4 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.targetingProperty, _godot_object, object, property, initial, initial_val, final_val, duration, trans_type, ease_type, delay);
-	}
-	/**
-	Animates `method` of `object` from the value returned by `initial_method` to `final_val` for `duration` seconds, `delay` seconds later. Methods are animated by calling them with consecutive values.
-	Use $(D transitiontype) for `trans_type` and $(D easetype) for `ease_type` parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	*/
-	bool targetingMethod(VariantArg4)(GodotObject object, in String method, GodotObject initial, in String initial_method, in VariantArg4 final_val, in double duration, in long trans_type, in long ease_type, in double delay = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);
-	}
-	/**
-	If `true`, the tween loops.
-	*/
-	@property bool repeat()
-	{
-		return isRepeat();
-	}
-	/// ditto
-	@property void repeat(bool v)
-	{
-		setRepeat(v);
-	}
-	/**
-	The tween's animation process thread. See $(D tweenprocessmode). Default value: $(D constant TWEEN_PROCESS_IDLE).
+	The tween's animation process thread. See $(D tweenprocessmode).
 	*/
 	@property Tween.TweenProcessMode playbackProcessMode()
 	{
@@ -468,5 +457,17 @@ public:
 	@property void playbackSpeed(double v)
 	{
 		setSpeedScale(v);
+	}
+	/**
+	If `true`, the tween loops.
+	*/
+	@property bool repeat()
+	{
+		return isRepeat();
+	}
+	/// ditto
+	@property void repeat(bool v)
+	{
+		setRepeat(v);
 	}
 }

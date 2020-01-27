@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.collisionobject2d;
 import godot.node;
-import godot.node2d;
-import godot.canvasitem;
 /**
 2D area for detection and 2D physics influence.
 
@@ -41,48 +39,48 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
-		@GodotName("_body_exit_tree") GodotMethod!(void, long) _bodyExitTree;
 		@GodotName("_area_enter_tree") GodotMethod!(void, long) _areaEnterTree;
 		@GodotName("_area_exit_tree") GodotMethod!(void, long) _areaExitTree;
-		@GodotName("set_space_override_mode") GodotMethod!(void, long) setSpaceOverrideMode;
-		@GodotName("get_space_override_mode") GodotMethod!(Area2D.SpaceOverride) getSpaceOverrideMode;
-		@GodotName("set_gravity_is_point") GodotMethod!(void, bool) setGravityIsPoint;
-		@GodotName("is_gravity_a_point") GodotMethod!(bool) isGravityAPoint;
-		@GodotName("set_gravity_distance_scale") GodotMethod!(void, double) setGravityDistanceScale;
-		@GodotName("get_gravity_distance_scale") GodotMethod!(double) getGravityDistanceScale;
-		@GodotName("set_gravity_vector") GodotMethod!(void, Vector2) setGravityVector;
-		@GodotName("get_gravity_vector") GodotMethod!(Vector2) getGravityVector;
-		@GodotName("set_gravity") GodotMethod!(void, double) setGravity;
-		@GodotName("get_gravity") GodotMethod!(double) getGravity;
-		@GodotName("set_linear_damp") GodotMethod!(void, double) setLinearDamp;
-		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
-		@GodotName("set_angular_damp") GodotMethod!(void, double) setAngularDamp;
-		@GodotName("get_angular_damp") GodotMethod!(double) getAngularDamp;
-		@GodotName("set_priority") GodotMethod!(void, double) setPriority;
-		@GodotName("get_priority") GodotMethod!(double) getPriority;
-		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
-		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
-		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
-		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
-		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
-		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
-		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
-		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
-		@GodotName("set_monitoring") GodotMethod!(void, bool) setMonitoring;
-		@GodotName("is_monitoring") GodotMethod!(bool) isMonitoring;
-		@GodotName("set_monitorable") GodotMethod!(void, bool) setMonitorable;
-		@GodotName("is_monitorable") GodotMethod!(bool) isMonitorable;
-		@GodotName("get_overlapping_bodies") GodotMethod!(Array) getOverlappingBodies;
-		@GodotName("get_overlapping_areas") GodotMethod!(Array) getOverlappingAreas;
-		@GodotName("overlaps_body") GodotMethod!(bool, Node) overlapsBody;
-		@GodotName("overlaps_area") GodotMethod!(bool, Node) overlapsArea;
-		@GodotName("set_audio_bus_name") GodotMethod!(void, String) setAudioBusName;
-		@GodotName("get_audio_bus_name") GodotMethod!(String) getAudioBusName;
-		@GodotName("set_audio_bus_override") GodotMethod!(void, bool) setAudioBusOverride;
-		@GodotName("is_overriding_audio_bus") GodotMethod!(bool) isOverridingAudioBus;
-		@GodotName("_body_inout") GodotMethod!(void, long, RID, long, long, long) _bodyInout;
 		@GodotName("_area_inout") GodotMethod!(void, long, RID, long, long, long) _areaInout;
+		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
+		@GodotName("_body_exit_tree") GodotMethod!(void, long) _bodyExitTree;
+		@GodotName("_body_inout") GodotMethod!(void, long, RID, long, long, long) _bodyInout;
+		@GodotName("get_angular_damp") GodotMethod!(double) getAngularDamp;
+		@GodotName("get_audio_bus_name") GodotMethod!(String) getAudioBusName;
+		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
+		@GodotName("get_collision_layer_bit") GodotMethod!(bool, long) getCollisionLayerBit;
+		@GodotName("get_collision_mask") GodotMethod!(long) getCollisionMask;
+		@GodotName("get_collision_mask_bit") GodotMethod!(bool, long) getCollisionMaskBit;
+		@GodotName("get_gravity") GodotMethod!(double) getGravity;
+		@GodotName("get_gravity_distance_scale") GodotMethod!(double) getGravityDistanceScale;
+		@GodotName("get_gravity_vector") GodotMethod!(Vector2) getGravityVector;
+		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
+		@GodotName("get_overlapping_areas") GodotMethod!(Array) getOverlappingAreas;
+		@GodotName("get_overlapping_bodies") GodotMethod!(Array) getOverlappingBodies;
+		@GodotName("get_priority") GodotMethod!(double) getPriority;
+		@GodotName("get_space_override_mode") GodotMethod!(Area2D.SpaceOverride) getSpaceOverrideMode;
+		@GodotName("is_gravity_a_point") GodotMethod!(bool) isGravityAPoint;
+		@GodotName("is_monitorable") GodotMethod!(bool) isMonitorable;
+		@GodotName("is_monitoring") GodotMethod!(bool) isMonitoring;
+		@GodotName("is_overriding_audio_bus") GodotMethod!(bool) isOverridingAudioBus;
+		@GodotName("overlaps_area") GodotMethod!(bool, Node) overlapsArea;
+		@GodotName("overlaps_body") GodotMethod!(bool, Node) overlapsBody;
+		@GodotName("set_angular_damp") GodotMethod!(void, double) setAngularDamp;
+		@GodotName("set_audio_bus_name") GodotMethod!(void, String) setAudioBusName;
+		@GodotName("set_audio_bus_override") GodotMethod!(void, bool) setAudioBusOverride;
+		@GodotName("set_collision_layer") GodotMethod!(void, long) setCollisionLayer;
+		@GodotName("set_collision_layer_bit") GodotMethod!(void, long, bool) setCollisionLayerBit;
+		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
+		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
+		@GodotName("set_gravity") GodotMethod!(void, double) setGravity;
+		@GodotName("set_gravity_distance_scale") GodotMethod!(void, double) setGravityDistanceScale;
+		@GodotName("set_gravity_is_point") GodotMethod!(void, bool) setGravityIsPoint;
+		@GodotName("set_gravity_vector") GodotMethod!(void, Vector2) setGravityVector;
+		@GodotName("set_linear_damp") GodotMethod!(void, double) setLinearDamp;
+		@GodotName("set_monitorable") GodotMethod!(void, bool) setMonitorable;
+		@GodotName("set_monitoring") GodotMethod!(void, bool) setMonitoring;
+		@GodotName("set_priority") GodotMethod!(void, double) setPriority;
+		@GodotName("set_space_override_mode") GodotMethod!(void, long) setSpaceOverrideMode;
 	}
 	bool opEquals(in Area2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Area2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -132,29 +130,9 @@ public:
 	/**
 	
 	*/
-	void _bodyEnterTree(in long id)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(id);
-		String _GODOT_method_name = String("_body_enter_tree");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _bodyExitTree(in long id)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(id);
-		String _GODOT_method_name = String("_body_exit_tree");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	void _areaEnterTree(in long id)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(id);
 		String _GODOT_method_name = String("_area_enter_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -164,7 +142,7 @@ public:
 	*/
 	void _areaExitTree(in long id)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(id);
 		String _GODOT_method_name = String("_area_exit_tree");
 		this.callv(_GODOT_method_name, _GODOT_args);
@@ -172,106 +150,50 @@ public:
 	/**
 	
 	*/
-	void setSpaceOverrideMode(in long space_override_mode)
+	void _areaInout(in long arg0, in RID arg1, in long arg2, in long arg3, in long arg4)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpaceOverrideMode, _godot_object, space_override_mode);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		_GODOT_args.append(arg1);
+		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
+		_GODOT_args.append(arg4);
+		String _GODOT_method_name = String("_area_inout");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	Area2D.SpaceOverride getSpaceOverrideMode() const
+	void _bodyEnterTree(in long id)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Area2D.SpaceOverride)(_classBinding.getSpaceOverrideMode, _godot_object);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(id);
+		String _GODOT_method_name = String("_body_enter_tree");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setGravityIsPoint(in bool enable)
+	void _bodyExitTree(in long id)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityIsPoint, _godot_object, enable);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(id);
+		String _GODOT_method_name = String("_body_exit_tree");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	bool isGravityAPoint() const
+	void _bodyInout(in long arg0, in RID arg1, in long arg2, in long arg3, in long arg4)
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGravityAPoint, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGravityDistanceScale(in double distance_scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityDistanceScale, _godot_object, distance_scale);
-	}
-	/**
-	
-	*/
-	double getGravityDistanceScale() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravityDistanceScale, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGravityVector(in Vector2 vector)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityVector, _godot_object, vector);
-	}
-	/**
-	
-	*/
-	Vector2 getGravityVector() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGravityVector, _godot_object);
-	}
-	/**
-	
-	*/
-	void setGravity(in double gravity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravity, _godot_object, gravity);
-	}
-	/**
-	
-	*/
-	double getGravity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setLinearDamp(in double linear_damp)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
-	}
-	/**
-	
-	*/
-	double getLinearDamp() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAngularDamp(in double angular_damp)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		_GODOT_args.append(arg1);
+		_GODOT_args.append(arg2);
+		_GODOT_args.append(arg3);
+		_GODOT_args.append(arg4);
+		String _GODOT_method_name = String("_body_inout");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -284,10 +206,90 @@ public:
 	/**
 	
 	*/
-	void setPriority(in double priority)
+	String getAudioBusName() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPriority, _godot_object, priority);
+		return ptrcall!(String)(_classBinding.getAudioBusName, _godot_object);
+	}
+	/**
+	
+	*/
+	long getCollisionLayer() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+	}
+	/**
+	Returns an individual bit on the layer mask. Describes whether other areas will collide with this one on the given layer.
+	*/
+	bool getCollisionLayerBit(in long bit) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+	}
+	/**
+	
+	*/
+	long getCollisionMask() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+	}
+	/**
+	Returns an individual bit on the collision mask. Describes whether this area will collide with others on the given layer.
+	*/
+	bool getCollisionMaskBit(in long bit) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+	}
+	/**
+	
+	*/
+	double getGravity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGravity, _godot_object);
+	}
+	/**
+	
+	*/
+	double getGravityDistanceScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getGravityDistanceScale, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getGravityVector() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getGravityVector, _godot_object);
+	}
+	/**
+	
+	*/
+	double getLinearDamp() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
+	}
+	/**
+	Returns a list of intersecting $(D Area2D)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
+	*/
+	Array getOverlappingAreas() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getOverlappingAreas, _godot_object);
+	}
+	/**
+	Returns a list of intersecting $(D PhysicsBody2D)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
+	*/
+	Array getOverlappingBodies() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getOverlappingBodies, _godot_object);
 	}
 	/**
 	
@@ -300,74 +302,26 @@ public:
 	/**
 	
 	*/
-	void setCollisionMask(in long collision_mask)
+	Area2D.SpaceOverride getSpaceOverrideMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
+		return ptrcall!(Area2D.SpaceOverride)(_classBinding.getSpaceOverrideMode, _godot_object);
 	}
 	/**
 	
 	*/
-	long getCollisionMask() const
+	bool isGravityAPoint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(bool)(_classBinding.isGravityAPoint, _godot_object);
 	}
 	/**
 	
 	*/
-	void setCollisionLayer(in long collision_layer)
+	bool isMonitorable() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
-	}
-	/**
-	
-	*/
-	long getCollisionLayer() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
-	}
-	/**
-	Set/clear individual bits on the collision mask. This makes selecting the areas scanned easier.
-	*/
-	void setCollisionMaskBit(in long bit, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
-	}
-	/**
-	Return an individual bit on the collision mask. Describes whether this area will collide with others on the given layer.
-	*/
-	bool getCollisionMaskBit(in long bit) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
-	}
-	/**
-	Set/clear individual bits on the layer mask. This makes getting an area in/out of only one layer easier.
-	*/
-	void setCollisionLayerBit(in long bit, in bool value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
-	}
-	/**
-	Return an individual bit on the layer mask. Describes whether other areas will collide with this one on the given layer.
-	*/
-	bool getCollisionLayerBit(in long bit) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
-	}
-	/**
-	
-	*/
-	void setMonitoring(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMonitoring, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.isMonitorable, _godot_object);
 	}
 	/**
 	
@@ -380,37 +334,24 @@ public:
 	/**
 	
 	*/
-	void setMonitorable(in bool enable)
+	bool isOverridingAudioBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMonitorable, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.isOverridingAudioBus, _godot_object);
 	}
 	/**
-	
+	If `true`, the given area overlaps the Area2D.
+	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
-	bool isMonitorable() const
+	bool overlapsArea(Node area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMonitorable, _godot_object);
+		return ptrcall!(bool)(_classBinding.overlapsArea, _godot_object, area);
 	}
 	/**
-	Returns a list of intersecting $(D PhysicsBody2D)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
-	*/
-	Array getOverlappingBodies() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOverlappingBodies, _godot_object);
-	}
-	/**
-	Returns a list of intersecting $(D Area2D)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
-	*/
-	Array getOverlappingAreas() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOverlappingAreas, _godot_object);
-	}
-	/**
-	If `true`, the given body overlaps the Area2D. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	If `true`, the given physics body overlaps the Area2D.
+	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	The `body` argument can either be a $(D PhysicsBody2D) or a $(D TileMap) instance (while TileMaps are not physics body themselves, they register their tiles with collision shapes as a virtual physics body).
 	*/
 	bool overlapsBody(Node _body) const
 	{
@@ -418,12 +359,12 @@ public:
 		return ptrcall!(bool)(_classBinding.overlapsBody, _godot_object, _body);
 	}
 	/**
-	If `true`, the given area overlaps the Area2D. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	
 	*/
-	bool overlapsArea(Node area) const
+	void setAngularDamp(in double angular_damp)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.overlapsArea, _godot_object, area);
+		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
 	}
 	/**
 	
@@ -436,14 +377,6 @@ public:
 	/**
 	
 	*/
-	String getAudioBusName() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAudioBusName, _godot_object);
-	}
-	/**
-	
-	*/
 	void setAudioBusOverride(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -452,110 +385,106 @@ public:
 	/**
 	
 	*/
-	bool isOverridingAudioBus() const
+	void setCollisionLayer(in long collision_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingAudioBus, _godot_object);
+		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
+	}
+	/**
+	Set/clear individual bits on the layer mask. This makes getting an area in/out of only one layer easier.
+	*/
+	void setCollisionLayerBit(in long bit, in bool value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
 	*/
-	void _bodyInout(in long arg0, in RID arg1, in long arg2, in long arg3, in long arg4)
+	void setCollisionMask(in long collision_mask)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		_GODOT_args.append(arg1);
-		_GODOT_args.append(arg2);
-		_GODOT_args.append(arg3);
-		_GODOT_args.append(arg4);
-		String _GODOT_method_name = String("_body_inout");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
+	}
+	/**
+	Set/clear individual bits on the collision mask. This makes selecting the areas scanned easier.
+	*/
+	void setCollisionMaskBit(in long bit, in bool value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
 	*/
-	void _areaInout(in long arg0, in RID arg1, in long arg2, in long arg3, in long arg4)
+	void setGravity(in double gravity)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		_GODOT_args.append(arg1);
-		_GODOT_args.append(arg2);
-		_GODOT_args.append(arg3);
-		_GODOT_args.append(arg4);
-		String _GODOT_method_name = String("_area_inout");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravity, _godot_object, gravity);
 	}
 	/**
-	Override mode for gravity and damping calculations within this area. See $(D Area2D.spaceoverride) for possible values.
+	
 	*/
-	@property Area2D.SpaceOverride spaceOverride()
+	void setGravityDistanceScale(in double distance_scale)
 	{
-		return getSpaceOverrideMode();
-	}
-	/// ditto
-	@property void spaceOverride(long v)
-	{
-		setSpaceOverrideMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityDistanceScale, _godot_object, distance_scale);
 	}
 	/**
-	If `true`, gravity is calculated from a point (set via $(D gravityVec)). Also see $(D spaceOverride). Default value: `false`.
+	
 	*/
-	@property bool gravityPoint()
+	void setGravityIsPoint(in bool enable)
 	{
-		return isGravityAPoint();
-	}
-	/// ditto
-	@property void gravityPoint(bool v)
-	{
-		setGravityIsPoint(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityIsPoint, _godot_object, enable);
 	}
 	/**
-	The falloff factor for point gravity. The greater the value, the faster gravity decreases with distance.
+	
 	*/
-	@property double gravityDistanceScale()
+	void setGravityVector(in Vector2 vector)
 	{
-		return getGravityDistanceScale();
-	}
-	/// ditto
-	@property void gravityDistanceScale(double v)
-	{
-		setGravityDistanceScale(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setGravityVector, _godot_object, vector);
 	}
 	/**
-	The area's gravity vector (not normalized). If gravity is a point (see $(D gravityPoint)), this will be the point of attraction.
+	
 	*/
-	@property Vector2 gravityVec()
+	void setLinearDamp(in double linear_damp)
 	{
-		return getGravityVector();
-	}
-	/// ditto
-	@property void gravityVec(Vector2 v)
-	{
-		setGravityVector(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
 	}
 	/**
-	The area's gravity intensity (ranges from -1024 to 1024). This value multiplies the gravity vector. This is useful to alter the force of gravity without altering its direction.
+	
 	*/
-	@property double gravity()
+	void setMonitorable(in bool enable)
 	{
-		return getGravity();
-	}
-	/// ditto
-	@property void gravity(double v)
-	{
-		setGravity(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMonitorable, _godot_object, enable);
 	}
 	/**
-	The rate at which objects stop moving in this area. Represents the linear velocity lost per second. Values range from `0` (no damping) to `1` (full damping).
+	
 	*/
-	@property double linearDamp()
+	void setMonitoring(in bool enable)
 	{
-		return getLinearDamp();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMonitoring, _godot_object, enable);
 	}
-	/// ditto
-	@property void linearDamp(double v)
+	/**
+	
+	*/
+	void setPriority(in double priority)
 	{
-		setLinearDamp(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPriority, _godot_object, priority);
+	}
+	/**
+	
+	*/
+	void setSpaceOverrideMode(in long space_override_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpaceOverrideMode, _godot_object, space_override_mode);
 	}
 	/**
 	The rate at which objects stop spinning in this area. Represents the angular velocity lost per second. Values range from `0` (no damping) to `1` (full damping).
@@ -570,40 +499,28 @@ public:
 		setAngularDamp(v);
 	}
 	/**
-	The area's priority. Higher priority areas are processed first. Default value: 0.
+	The name of the area's audio bus.
 	*/
-	@property double priority()
+	@property String audioBusName()
 	{
-		return getPriority();
+		return getAudioBusName();
 	}
 	/// ditto
-	@property void priority(double v)
+	@property void audioBusName(String v)
 	{
-		setPriority(v);
+		setAudioBusName(v);
 	}
 	/**
-	If `true`, the area detects bodies or areas entering and exiting it. Default value: `true`.
+	If `true`, the area's audio bus overrides the default audio bus.
 	*/
-	@property bool monitoring()
+	@property bool audioBusOverride()
 	{
-		return isMonitoring();
+		return isOverridingAudioBus();
 	}
 	/// ditto
-	@property void monitoring(bool v)
+	@property void audioBusOverride(bool v)
 	{
-		setMonitoring(v);
-	}
-	/**
-	If `true`, other monitoring areas can detect this area. Default value: `true`.
-	*/
-	@property bool monitorable()
-	{
-		return isMonitorable();
-	}
-	/// ditto
-	@property void monitorable(bool v)
-	{
-		setMonitorable(v);
+		setAudioBusOverride(v);
 	}
 	/**
 	The area's physics layer(s). Collidable objects can exist in any of 32 different layers. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See also $(D collisionMask).
@@ -630,27 +547,111 @@ public:
 		setCollisionMask(v);
 	}
 	/**
-	If `true`, the area's audio bus overrides the default audio bus. Default value: `false`.
+	The area's gravity intensity (ranges from -1024 to 1024). This value multiplies the gravity vector. This is useful to alter the force of gravity without altering its direction.
 	*/
-	@property bool audioBusOverride()
+	@property double gravity()
 	{
-		return isOverridingAudioBus();
+		return getGravity();
 	}
 	/// ditto
-	@property void audioBusOverride(bool v)
+	@property void gravity(double v)
 	{
-		setAudioBusOverride(v);
+		setGravity(v);
 	}
 	/**
-	The name of the area's audio bus.
+	The falloff factor for point gravity. The greater the value, the faster gravity decreases with distance.
 	*/
-	@property String audioBusName()
+	@property double gravityDistanceScale()
 	{
-		return getAudioBusName();
+		return getGravityDistanceScale();
 	}
 	/// ditto
-	@property void audioBusName(String v)
+	@property void gravityDistanceScale(double v)
 	{
-		setAudioBusName(v);
+		setGravityDistanceScale(v);
+	}
+	/**
+	If `true`, gravity is calculated from a point (set via $(D gravityVec)). See also $(D spaceOverride).
+	*/
+	@property bool gravityPoint()
+	{
+		return isGravityAPoint();
+	}
+	/// ditto
+	@property void gravityPoint(bool v)
+	{
+		setGravityIsPoint(v);
+	}
+	/**
+	The area's gravity vector (not normalized). If gravity is a point (see $(D gravityPoint)), this will be the point of attraction.
+	*/
+	@property Vector2 gravityVec()
+	{
+		return getGravityVector();
+	}
+	/// ditto
+	@property void gravityVec(Vector2 v)
+	{
+		setGravityVector(v);
+	}
+	/**
+	The rate at which objects stop moving in this area. Represents the linear velocity lost per second. Values range from `0` (no damping) to `1` (full damping).
+	*/
+	@property double linearDamp()
+	{
+		return getLinearDamp();
+	}
+	/// ditto
+	@property void linearDamp(double v)
+	{
+		setLinearDamp(v);
+	}
+	/**
+	If `true`, other monitoring areas can detect this area.
+	*/
+	@property bool monitorable()
+	{
+		return isMonitorable();
+	}
+	/// ditto
+	@property void monitorable(bool v)
+	{
+		setMonitorable(v);
+	}
+	/**
+	If `true`, the area detects bodies or areas entering and exiting it.
+	*/
+	@property bool monitoring()
+	{
+		return isMonitoring();
+	}
+	/// ditto
+	@property void monitoring(bool v)
+	{
+		setMonitoring(v);
+	}
+	/**
+	The area's priority. Higher priority areas are processed first.
+	*/
+	@property double priority()
+	{
+		return getPriority();
+	}
+	/// ditto
+	@property void priority(double v)
+	{
+		setPriority(v);
+	}
+	/**
+	Override mode for gravity and damping calculations within this area. See $(D spaceoverride) for possible values.
+	*/
+	@property Area2D.SpaceOverride spaceOverride()
+	{
+		return getSpaceOverrideMode();
+	}
+	/// ditto
+	@property void spaceOverride(long v)
+	{
+		setSpaceOverrideMode(v);
 	}
 }

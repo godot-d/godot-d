@@ -1,5 +1,5 @@
 /**
-Adds a Amplify audio effect to an Audio bus.
+Adds an amplifying audio effect to an audio bus.
 Increases or decreases the volume of the selected audio bus.
 
 Copyright:
@@ -23,9 +23,8 @@ import godot.object;
 import godot.classdb;
 import godot.audioeffect;
 import godot.resource;
-import godot.reference;
 /**
-Adds a Amplify audio effect to an Audio bus.
+Adds an amplifying audio effect to an audio bus.
 Increases or decreases the volume of the selected audio bus.
 
 Increases or decreases the volume being routed through the audio bus.
@@ -42,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
 		@GodotName("get_volume_db") GodotMethod!(double) getVolumeDb;
+		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
 	}
 	bool opEquals(in AudioEffectAmplify other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AudioEffectAmplify opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,21 +59,21 @@ public:
 	/**
 	
 	*/
-	void setVolumeDb(in double volume)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume);
-	}
-	/**
-	
-	*/
 	double getVolumeDb() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getVolumeDb, _godot_object);
 	}
 	/**
-	Amount of amplification. Positive values make the sound louder, negative values make it quieter. Value can range from -80 to 24. Default value: `0`.
+	
+	*/
+	void setVolumeDb(in double volume)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume);
+	}
+	/**
+	Amount of amplification in decibels. Positive values make the sound louder, negative values make it quieter. Value can range from -80 to 24.
 	*/
 	@property double volumeDb()
 	{

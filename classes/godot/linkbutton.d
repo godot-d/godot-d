@@ -27,7 +27,7 @@ import godot.node;
 /**
 Simple button used to represent a link to some resource.
 
-This kind of buttons are primarily used when the interaction with the button causes a context change (like linking to a web page).
+This kind of button is primarily used when the interaction with the button causes a context change (like linking to a web page).
 */
 @GodotBaseClass struct LinkButton
 {
@@ -41,10 +41,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("get_text") GodotMethod!(String) getText;
-		@GodotName("set_underline_mode") GodotMethod!(void, long) setUnderlineMode;
 		@GodotName("get_underline_mode") GodotMethod!(LinkButton.UnderlineMode) getUnderlineMode;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("set_underline_mode") GodotMethod!(void, long) setUnderlineMode;
 	}
 	bool opEquals(in LinkButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	LinkButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,7 +62,7 @@ public:
 	enum UnderlineMode : int
 	{
 		/**
-		The LinkButton will always show an underline at the bottom of its text
+		The LinkButton will always show an underline at the bottom of its text.
 		*/
 		underlineModeAlways = 0,
 		/**
@@ -84,14 +84,6 @@ public:
 	/**
 	
 	*/
-	void setText(in String text)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
-	}
-	/**
-	
-	*/
 	String getText() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -100,18 +92,26 @@ public:
 	/**
 	
 	*/
-	void setUnderlineMode(in long underline_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUnderlineMode, _godot_object, underline_mode);
-	}
-	/**
-	
-	*/
 	LinkButton.UnderlineMode getUnderlineMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(LinkButton.UnderlineMode)(_classBinding.getUnderlineMode, _godot_object);
+	}
+	/**
+	
+	*/
+	void setText(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+	}
+	/**
+	
+	*/
+	void setUnderlineMode(in long underline_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUnderlineMode, _godot_object, underline_mode);
 	}
 	/**
 	

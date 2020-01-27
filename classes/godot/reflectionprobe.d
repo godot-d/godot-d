@@ -1,5 +1,5 @@
 /**
-
+Captures its surroundings to create reflections.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,10 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
+Captures its surroundings to create reflections.
 
+Capture its surroundings as a dual parabolid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.
+The $(D ReflectionProbe) is used to create high-quality reflections at the cost of performance. It can be combined with $(D GIProbe)s and Screen Space Reflections to achieve high quality reflections. $(D ReflectionProbe)s render all objects within their $(D cullMask), so updating them can be quite expensive. It is best to update them once with the important static objects and then leave them.
 */
 @GodotBaseClass struct ReflectionProbe
 {
@@ -38,30 +39,30 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_intensity") GodotMethod!(void, double) setIntensity;
-		@GodotName("get_intensity") GodotMethod!(double) getIntensity;
-		@GodotName("set_interior_ambient") GodotMethod!(void, Color) setInteriorAmbient;
-		@GodotName("get_interior_ambient") GodotMethod!(Color) getInteriorAmbient;
-		@GodotName("set_interior_ambient_energy") GodotMethod!(void, double) setInteriorAmbientEnergy;
-		@GodotName("get_interior_ambient_energy") GodotMethod!(double) getInteriorAmbientEnergy;
-		@GodotName("set_interior_ambient_probe_contribution") GodotMethod!(void, double) setInteriorAmbientProbeContribution;
-		@GodotName("get_interior_ambient_probe_contribution") GodotMethod!(double) getInteriorAmbientProbeContribution;
-		@GodotName("set_max_distance") GodotMethod!(void, double) setMaxDistance;
-		@GodotName("get_max_distance") GodotMethod!(double) getMaxDistance;
-		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
-		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
-		@GodotName("set_origin_offset") GodotMethod!(void, Vector3) setOriginOffset;
-		@GodotName("get_origin_offset") GodotMethod!(Vector3) getOriginOffset;
-		@GodotName("set_as_interior") GodotMethod!(void, bool) setAsInterior;
-		@GodotName("is_set_as_interior") GodotMethod!(bool) isSetAsInterior;
-		@GodotName("set_enable_box_projection") GodotMethod!(void, bool) setEnableBoxProjection;
-		@GodotName("is_box_projection_enabled") GodotMethod!(bool) isBoxProjectionEnabled;
-		@GodotName("set_enable_shadows") GodotMethod!(void, bool) setEnableShadows;
 		@GodotName("are_shadows_enabled") GodotMethod!(bool) areShadowsEnabled;
-		@GodotName("set_cull_mask") GodotMethod!(void, long) setCullMask;
 		@GodotName("get_cull_mask") GodotMethod!(long) getCullMask;
-		@GodotName("set_update_mode") GodotMethod!(void, long) setUpdateMode;
+		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
+		@GodotName("get_intensity") GodotMethod!(double) getIntensity;
+		@GodotName("get_interior_ambient") GodotMethod!(Color) getInteriorAmbient;
+		@GodotName("get_interior_ambient_energy") GodotMethod!(double) getInteriorAmbientEnergy;
+		@GodotName("get_interior_ambient_probe_contribution") GodotMethod!(double) getInteriorAmbientProbeContribution;
+		@GodotName("get_max_distance") GodotMethod!(double) getMaxDistance;
+		@GodotName("get_origin_offset") GodotMethod!(Vector3) getOriginOffset;
 		@GodotName("get_update_mode") GodotMethod!(ReflectionProbe.UpdateMode) getUpdateMode;
+		@GodotName("is_box_projection_enabled") GodotMethod!(bool) isBoxProjectionEnabled;
+		@GodotName("is_set_as_interior") GodotMethod!(bool) isSetAsInterior;
+		@GodotName("set_as_interior") GodotMethod!(void, bool) setAsInterior;
+		@GodotName("set_cull_mask") GodotMethod!(void, long) setCullMask;
+		@GodotName("set_enable_box_projection") GodotMethod!(void, bool) setEnableBoxProjection;
+		@GodotName("set_enable_shadows") GodotMethod!(void, bool) setEnableShadows;
+		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
+		@GodotName("set_intensity") GodotMethod!(void, double) setIntensity;
+		@GodotName("set_interior_ambient") GodotMethod!(void, Color) setInteriorAmbient;
+		@GodotName("set_interior_ambient_energy") GodotMethod!(void, double) setInteriorAmbientEnergy;
+		@GodotName("set_interior_ambient_probe_contribution") GodotMethod!(void, double) setInteriorAmbientProbeContribution;
+		@GodotName("set_max_distance") GodotMethod!(void, double) setMaxDistance;
+		@GodotName("set_origin_offset") GodotMethod!(void, Vector3) setOriginOffset;
+		@GodotName("set_update_mode") GodotMethod!(void, long) setUpdateMode;
 	}
 	bool opEquals(in ReflectionProbe other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ReflectionProbe opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -79,11 +80,11 @@ public:
 	enum UpdateMode : int
 	{
 		/**
-		
+		Update the probe once on the next frame.
 		*/
 		updateOnce = 0,
 		/**
-		
+		Update the probe every frame. This is needed when you want to capture dynamic objects. However, it results in an increased render time. Use $(D constant UPDATE_ONCE) whenever possible.
 		*/
 		updateAlways = 1,
 	}
@@ -96,170 +97,10 @@ public:
 	/**
 	
 	*/
-	void setIntensity(in double intensity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIntensity, _godot_object, intensity);
-	}
-	/**
-	
-	*/
-	double getIntensity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getIntensity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setInteriorAmbient(in Color ambient)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbient, _godot_object, ambient);
-	}
-	/**
-	
-	*/
-	Color getInteriorAmbient() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInteriorAmbient, _godot_object);
-	}
-	/**
-	
-	*/
-	void setInteriorAmbientEnergy(in double ambient_energy)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbientEnergy, _godot_object, ambient_energy);
-	}
-	/**
-	
-	*/
-	double getInteriorAmbientEnergy() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInteriorAmbientEnergy, _godot_object);
-	}
-	/**
-	
-	*/
-	void setInteriorAmbientProbeContribution(in double ambient_probe_contribution)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbientProbeContribution, _godot_object, ambient_probe_contribution);
-	}
-	/**
-	
-	*/
-	double getInteriorAmbientProbeContribution() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInteriorAmbientProbeContribution, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMaxDistance(in double max_distance)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxDistance, _godot_object, max_distance);
-	}
-	/**
-	
-	*/
-	double getMaxDistance() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMaxDistance, _godot_object);
-	}
-	/**
-	
-	*/
-	void setExtents(in Vector3 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
-	}
-	/**
-	
-	*/
-	Vector3 getExtents() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOriginOffset(in Vector3 origin_offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOriginOffset, _godot_object, origin_offset);
-	}
-	/**
-	
-	*/
-	Vector3 getOriginOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getOriginOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAsInterior(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsInterior, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isSetAsInterior() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSetAsInterior, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnableBoxProjection(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableBoxProjection, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool isBoxProjectionEnabled() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBoxProjectionEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEnableShadows(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableShadows, _godot_object, enable);
-	}
-	/**
-	
-	*/
 	bool areShadowsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.areShadowsEnabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCullMask(in long layers)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMask, _godot_object, layers);
 	}
 	/**
 	
@@ -272,10 +113,58 @@ public:
 	/**
 	
 	*/
-	void setUpdateMode(in long mode)
+	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdateMode, _godot_object, mode);
+		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
+	}
+	/**
+	
+	*/
+	double getIntensity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getIntensity, _godot_object);
+	}
+	/**
+	
+	*/
+	Color getInteriorAmbient() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getInteriorAmbient, _godot_object);
+	}
+	/**
+	
+	*/
+	double getInteriorAmbientEnergy() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getInteriorAmbientEnergy, _godot_object);
+	}
+	/**
+	
+	*/
+	double getInteriorAmbientProbeContribution() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getInteriorAmbientProbeContribution, _godot_object);
+	}
+	/**
+	
+	*/
+	double getMaxDistance() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getMaxDistance, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getOriginOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getOriginOffset, _godot_object);
 	}
 	/**
 	
@@ -288,65 +177,117 @@ public:
 	/**
 	
 	*/
-	@property ReflectionProbe.UpdateMode updateMode()
+	bool isBoxProjectionEnabled() const
 	{
-		return getUpdateMode();
-	}
-	/// ditto
-	@property void updateMode(long v)
-	{
-		setUpdateMode(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isBoxProjectionEnabled, _godot_object);
 	}
 	/**
 	
 	*/
-	@property double intensity()
+	bool isSetAsInterior() const
 	{
-		return getIntensity();
-	}
-	/// ditto
-	@property void intensity(double v)
-	{
-		setIntensity(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSetAsInterior, _godot_object);
 	}
 	/**
 	
 	*/
-	@property double maxDistance()
+	void setAsInterior(in bool enable)
 	{
-		return getMaxDistance();
-	}
-	/// ditto
-	@property void maxDistance(double v)
-	{
-		setMaxDistance(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAsInterior, _godot_object, enable);
 	}
 	/**
 	
 	*/
-	@property Vector3 extents()
+	void setCullMask(in long layers)
 	{
-		return getExtents();
-	}
-	/// ditto
-	@property void extents(Vector3 v)
-	{
-		setExtents(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCullMask, _godot_object, layers);
 	}
 	/**
 	
 	*/
-	@property Vector3 originOffset()
+	void setEnableBoxProjection(in bool enable)
 	{
-		return getOriginOffset();
-	}
-	/// ditto
-	@property void originOffset(Vector3 v)
-	{
-		setOriginOffset(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnableBoxProjection, _godot_object, enable);
 	}
 	/**
 	
+	*/
+	void setEnableShadows(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEnableShadows, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setExtents(in Vector3 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+	}
+	/**
+	
+	*/
+	void setIntensity(in double intensity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIntensity, _godot_object, intensity);
+	}
+	/**
+	
+	*/
+	void setInteriorAmbient(in Color ambient)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInteriorAmbient, _godot_object, ambient);
+	}
+	/**
+	
+	*/
+	void setInteriorAmbientEnergy(in double ambient_energy)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInteriorAmbientEnergy, _godot_object, ambient_energy);
+	}
+	/**
+	
+	*/
+	void setInteriorAmbientProbeContribution(in double ambient_probe_contribution)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setInteriorAmbientProbeContribution, _godot_object, ambient_probe_contribution);
+	}
+	/**
+	
+	*/
+	void setMaxDistance(in double max_distance)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMaxDistance, _godot_object, max_distance);
+	}
+	/**
+	
+	*/
+	void setOriginOffset(in Vector3 origin_offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOriginOffset, _godot_object, origin_offset);
+	}
+	/**
+	
+	*/
+	void setUpdateMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUpdateMode, _godot_object, mode);
+	}
+	/**
+	If `true`, enables box projection. This makes reflections look more correct in rectangle-shaped rooms by offsetting the reflection center depending on the camera's location.
 	*/
 	@property bool boxProjection()
 	{
@@ -358,19 +299,7 @@ public:
 		setEnableBoxProjection(v);
 	}
 	/**
-	
-	*/
-	@property bool enableShadows()
-	{
-		return areShadowsEnabled();
-	}
-	/// ditto
-	@property void enableShadows(bool v)
-	{
-		setEnableShadows(v);
-	}
-	/**
-	
+	Sets the cull mask which determines what objects are drawn by this probe. Every $(D VisualInstance) with a layer included in this cull mask will be rendered by the probe. It is best to only include large objects which are likely to take up a lot of space in the reflection in order to save on rendering cost.
 	*/
 	@property long cullMask()
 	{
@@ -382,19 +311,43 @@ public:
 		setCullMask(v);
 	}
 	/**
-	
+	If `true`, computes shadows in the reflection probe. This makes the reflection probe slower to render; you may want to disable this if using the $(D constant UPDATE_ALWAYS) $(D updateMode).
 	*/
-	@property bool interiorEnable()
+	@property bool enableShadows()
 	{
-		return isSetAsInterior();
+		return areShadowsEnabled();
 	}
 	/// ditto
-	@property void interiorEnable(bool v)
+	@property void enableShadows(bool v)
 	{
-		setAsInterior(v);
+		setEnableShadows(v);
 	}
 	/**
-	
+	The size of the reflection probe. The larger the extents the more space covered by the probe which will lower the perceived resolution. It is best to keep the extents only as large as you need them.
+	*/
+	@property Vector3 extents()
+	{
+		return getExtents();
+	}
+	/// ditto
+	@property void extents(Vector3 v)
+	{
+		setExtents(v);
+	}
+	/**
+	Defines the reflection intensity. Intensity modulates the strength of the reflection.
+	*/
+	@property double intensity()
+	{
+		return getIntensity();
+	}
+	/// ditto
+	@property void intensity(double v)
+	{
+		setIntensity(v);
+	}
+	/**
+	Sets the ambient light color to be used when this probe is set to $(D interiorEnable).
 	*/
 	@property Color interiorAmbientColor()
 	{
@@ -406,7 +359,19 @@ public:
 		setInteriorAmbient(v);
 	}
 	/**
-	
+	Sets the contribution value for how much the reflection affects the ambient light for this reflection probe when set to $(D interiorEnable). Useful so that ambient light matches the color of the room.
+	*/
+	@property double interiorAmbientContrib()
+	{
+		return getInteriorAmbientProbeContribution();
+	}
+	/// ditto
+	@property void interiorAmbientContrib(double v)
+	{
+		setInteriorAmbientProbeContribution(v);
+	}
+	/**
+	Sets the energy multiplier for this reflection probe's ambient light contribution when set to $(D interiorEnable).
 	*/
 	@property double interiorAmbientEnergy()
 	{
@@ -418,15 +383,51 @@ public:
 		setInteriorAmbientEnergy(v);
 	}
 	/**
-	
+	If `true`, reflections will ignore sky contribution. Ambient lighting is then controlled by the `interior_ambient_*` properties.
 	*/
-	@property double interiorAmbientContrib()
+	@property bool interiorEnable()
 	{
-		return getInteriorAmbientProbeContribution();
+		return isSetAsInterior();
 	}
 	/// ditto
-	@property void interiorAmbientContrib(double v)
+	@property void interiorEnable(bool v)
 	{
-		setInteriorAmbientProbeContribution(v);
+		setAsInterior(v);
+	}
+	/**
+	Sets the max distance away from the probe an object can be before it is culled.
+	*/
+	@property double maxDistance()
+	{
+		return getMaxDistance();
+	}
+	/// ditto
+	@property void maxDistance(double v)
+	{
+		setMaxDistance(v);
+	}
+	/**
+	Sets the origin offset to be used when this reflection probe is in box project mode.
+	*/
+	@property Vector3 originOffset()
+	{
+		return getOriginOffset();
+	}
+	/// ditto
+	@property void originOffset(Vector3 v)
+	{
+		setOriginOffset(v);
+	}
+	/**
+	Sets how frequently the probe is updated. Can be $(D constant UPDATE_ONCE) or $(D constant UPDATE_ALWAYS).
+	*/
+	@property ReflectionProbe.UpdateMode updateMode()
+	{
+		return getUpdateMode();
+	}
+	/// ditto
+	@property void updateMode(long v)
+	{
+		setUpdateMode(v);
 	}
 }

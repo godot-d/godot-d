@@ -39,13 +39,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("listen") GodotMethod!(GodotError, long, String, long) listen;
 		@GodotName("close") GodotMethod!(void) close;
-		@GodotName("wait") GodotMethod!(GodotError) wait;
-		@GodotName("is_listening") GodotMethod!(bool) isListening;
 		@GodotName("get_packet_ip") GodotMethod!(String) getPacketIp;
 		@GodotName("get_packet_port") GodotMethod!(long) getPacketPort;
+		@GodotName("is_listening") GodotMethod!(bool) isListening;
+		@GodotName("join_multicast_group") GodotMethod!(GodotError, String, String) joinMulticastGroup;
+		@GodotName("leave_multicast_group") GodotMethod!(GodotError, String, String) leaveMulticastGroup;
+		@GodotName("listen") GodotMethod!(GodotError, long, String, long) listen;
+		@GodotName("set_broadcast_enabled") GodotMethod!(void, bool) setBroadcastEnabled;
 		@GodotName("set_dest_address") GodotMethod!(GodotError, String, long) setDestAddress;
+		@GodotName("wait") GodotMethod!(GodotError) wait;
 	}
 	bool opEquals(in PacketPeerUDP other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PacketPeerUDP opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,18 +63,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Make this $(D PacketPeerUDP) listen on the "port" binding to "bind_address" with a buffer size "recv_buf_size".
-	If "bind_address" is set as "*" (default), the peer will listen on all available addresses (both IPv4 and IPv6).
-	If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the peer will listen on all available addresses matching that IP type.
-	If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
-	*/
-	GodotError listen(in long port, in String bind_address = gs!"*", in long recv_buf_size = 65536)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address, recv_buf_size);
-	}
-	/**
-	Close the UDP socket the $(D PacketPeerUDP) is currently listening on.
+	Closes the UDP socket the $(D PacketPeerUDP) is currently listening on.
 	*/
 	void close()
 	{
@@ -79,23 +71,7 @@ public:
 		ptrcall!(void)(_classBinding.close, _godot_object);
 	}
 	/**
-	Wait for a packet to arrive on the listening port, see $(D listen).
-	*/
-	GodotError wait()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
-	}
-	/**
-	Return whether this $(D PacketPeerUDP) is listening.
-	*/
-	bool isListening() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isListening, _godot_object);
-	}
-	/**
-	Return the IP of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
+	Returns the IP of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
 	*/
 	String getPacketIp() const
 	{
@@ -103,7 +79,7 @@ public:
 		return ptrcall!(String)(_classBinding.getPacketIp, _godot_object);
 	}
 	/**
-	Return the port of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
+	Returns the port of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
 	*/
 	long getPacketPort() const
 	{
@@ -111,11 +87,66 @@ public:
 		return ptrcall!(long)(_classBinding.getPacketPort, _godot_object);
 	}
 	/**
-	Set the destination address and port for sending packets and variables, a hostname will be resolved using if valid.
+	Returns whether this $(D PacketPeerUDP) is listening.
+	*/
+	bool isListening() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isListening, _godot_object);
+	}
+	/**
+	Joins the multicast group specified by `multicast_address` using the interface identified by `interface_name`.
+	You can join the same multicast group with multiple interfaces. Use $(D IP.getLocalInterfaces) to know which are available.
+	Note: Some Android devices might require the `CHANGE_WIFI_MULTICAST_STATE` permission for multicast to work.
+	*/
+	GodotError joinMulticastGroup(in String multicast_address, in String interface_name)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.joinMulticastGroup, _godot_object, multicast_address, interface_name);
+	}
+	/**
+	Removes the interface identified by `interface_name` from the multicast group specified by `multicast_address`.
+	*/
+	GodotError leaveMulticastGroup(in String multicast_address, in String interface_name)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.leaveMulticastGroup, _godot_object, multicast_address, interface_name);
+	}
+	/**
+	Makes this $(D PacketPeerUDP) listen on the `port` binding to `bind_address` with a buffer size `recv_buf_size`.
+	If `bind_address` is set to `"*"` (default), the peer will listen on all available addresses (both IPv4 and IPv6).
+	If `bind_address` is set to `"0.0.0.0"` (for IPv4) or `"::"` (for IPv6), the peer will listen on all available addresses matching that IP type.
+	If `bind_address` is set to any valid address (e.g. `"192.168.1.101"`, `"::1"`, etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
+	*/
+	GodotError listen(in long port, in String bind_address = gs!"*", in long recv_buf_size = 65536)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address, recv_buf_size);
+	}
+	/**
+	Enable or disable sending of broadcast packets (e.g. `set_dest_address("255.255.255.255", 4343)`. This option is disabled by default.
+	Note: Some Android devices might require the `CHANGE_WIFI_MULTICAST_STATE` permission and this option to be enabled to receive broadcast packets too.
+	*/
+	void setBroadcastEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBroadcastEnabled, _godot_object, enabled);
+	}
+	/**
+	Sets the destination address and port for sending packets and variables. A hostname will be resolved using DNS if needed.
+	Note: $(D setBroadcastEnabled) must be enabled before sending packets to a broadcast address (e.g. `255.255.255.255`).
 	*/
 	GodotError setDestAddress(in String host, in long port)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.setDestAddress, _godot_object, host, port);
+	}
+	/**
+	Waits for a packet to arrive on the listening port. See $(D listen).
+	*/
+	GodotError wait()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
 }

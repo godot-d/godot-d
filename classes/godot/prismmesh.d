@@ -23,7 +23,6 @@ import godot.classdb;
 import godot.primitivemesh;
 import godot.mesh;
 import godot.resource;
-import godot.reference;
 /**
 Class representing a prism-shaped $(D PrimitiveMesh).
 
@@ -41,16 +40,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_left_to_right") GodotMethod!(void, double) setLeftToRight;
 		@GodotName("get_left_to_right") GodotMethod!(double) getLeftToRight;
-		@GodotName("set_size") GodotMethod!(void, Vector3) setSize;
 		@GodotName("get_size") GodotMethod!(Vector3) getSize;
-		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
-		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
-		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
-		@GodotName("get_subdivide_height") GodotMethod!(long) getSubdivideHeight;
-		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
 		@GodotName("get_subdivide_depth") GodotMethod!(long) getSubdivideDepth;
+		@GodotName("get_subdivide_height") GodotMethod!(long) getSubdivideHeight;
+		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
+		@GodotName("set_left_to_right") GodotMethod!(void, double) setLeftToRight;
+		@GodotName("set_size") GodotMethod!(void, Vector3) setSize;
+		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
+		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
+		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
 	}
 	bool opEquals(in PrismMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PrismMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -67,26 +66,10 @@ public:
 	/**
 	
 	*/
-	void setLeftToRight(in double left_to_right)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLeftToRight, _godot_object, left_to_right);
-	}
-	/**
-	
-	*/
 	double getLeftToRight() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getLeftToRight, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSize(in Vector3 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
 	}
 	/**
 	
@@ -99,26 +82,10 @@ public:
 	/**
 	
 	*/
-	void setSubdivideWidth(in long segments)
+	long getSubdivideDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, segments);
-	}
-	/**
-	
-	*/
-	long getSubdivideWidth() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSubdivideHeight(in long segments)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, segments);
+		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
 	}
 	/**
 	
@@ -131,6 +98,30 @@ public:
 	/**
 	
 	*/
+	long getSubdivideWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
+	}
+	/**
+	
+	*/
+	void setLeftToRight(in double left_to_right)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLeftToRight, _godot_object, left_to_right);
+	}
+	/**
+	
+	*/
+	void setSize(in Vector3 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+	}
+	/**
+	
+	*/
 	void setSubdivideDepth(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
@@ -139,13 +130,21 @@ public:
 	/**
 	
 	*/
-	long getSubdivideDepth() const
+	void setSubdivideHeight(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
+		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, segments);
 	}
 	/**
-	Displacement of the upper edge along the x-axis. 0.0 positions edge straight above the bottome left edge. Defaults to 0.5 (positioned on the midpoint).
+	
+	*/
+	void setSubdivideWidth(in long segments)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, segments);
+	}
+	/**
+	Displacement of the upper edge along the X axis. 0.0 positions edge straight above the bottom-left edge.
 	*/
 	@property double leftToRight()
 	{
@@ -157,7 +156,7 @@ public:
 		setLeftToRight(v);
 	}
 	/**
-	Size of the prism. Defaults to (2.0, 2.0, 2.0).
+	Size of the prism.
 	*/
 	@property Vector3 size()
 	{
@@ -169,19 +168,19 @@ public:
 		setSize(v);
 	}
 	/**
-	Number of added edge loops along the x-axis. Defaults to 0.
+	Number of added edge loops along the Z axis.
 	*/
-	@property long subdivideWidth()
+	@property long subdivideDepth()
 	{
-		return getSubdivideWidth();
+		return getSubdivideDepth();
 	}
 	/// ditto
-	@property void subdivideWidth(long v)
+	@property void subdivideDepth(long v)
 	{
-		setSubdivideWidth(v);
+		setSubdivideDepth(v);
 	}
 	/**
-	Number of added edge loops along the y-axis. Defaults to 0.
+	Number of added edge loops along the Y axis.
 	*/
 	@property long subdivideHeight()
 	{
@@ -193,15 +192,15 @@ public:
 		setSubdivideHeight(v);
 	}
 	/**
-	Number of added edge loops along the z-axis. Defaults to 0.
+	Number of added edge loops along the X axis.
 	*/
-	@property long subdivideDepth()
+	@property long subdivideWidth()
 	{
-		return getSubdivideDepth();
+		return getSubdivideWidth();
 	}
 	/// ditto
-	@property void subdivideDepth(long v)
+	@property void subdivideWidth(long v)
 	{
-		setSubdivideDepth(v);
+		setSubdivideWidth(v);
 	}
 }

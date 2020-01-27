@@ -24,7 +24,7 @@ import godot.node;
 /**
 A countdown timer.
 
-Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one shot" mode.
+Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one-shot" mode.
 */
 @GodotBaseClass struct Timer
 {
@@ -38,20 +38,20 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_wait_time") GodotMethod!(void, double) setWaitTime;
+		@GodotName("get_time_left") GodotMethod!(double) getTimeLeft;
+		@GodotName("get_timer_process_mode") GodotMethod!(Timer.TimerProcessMode) getTimerProcessMode;
 		@GodotName("get_wait_time") GodotMethod!(double) getWaitTime;
-		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
-		@GodotName("is_one_shot") GodotMethod!(bool) isOneShot;
-		@GodotName("set_autostart") GodotMethod!(void, bool) setAutostart;
 		@GodotName("has_autostart") GodotMethod!(bool) hasAutostart;
-		@GodotName("start") GodotMethod!(void, double) start;
-		@GodotName("stop") GodotMethod!(void) stop;
-		@GodotName("set_paused") GodotMethod!(void, bool) setPaused;
+		@GodotName("is_one_shot") GodotMethod!(bool) isOneShot;
 		@GodotName("is_paused") GodotMethod!(bool) isPaused;
 		@GodotName("is_stopped") GodotMethod!(bool) isStopped;
-		@GodotName("get_time_left") GodotMethod!(double) getTimeLeft;
+		@GodotName("set_autostart") GodotMethod!(void, bool) setAutostart;
+		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
+		@GodotName("set_paused") GodotMethod!(void, bool) setPaused;
 		@GodotName("set_timer_process_mode") GodotMethod!(void, long) setTimerProcessMode;
-		@GodotName("get_timer_process_mode") GodotMethod!(Timer.TimerProcessMode) getTimerProcessMode;
+		@GodotName("set_wait_time") GodotMethod!(void, double) setWaitTime;
+		@GodotName("start") GodotMethod!(void, double) start;
+		@GodotName("stop") GodotMethod!(void) stop;
 	}
 	bool opEquals(in Timer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Timer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -86,10 +86,18 @@ public:
 	/**
 	
 	*/
-	void setWaitTime(in double time_sec)
+	double getTimeLeft() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWaitTime, _godot_object, time_sec);
+		return ptrcall!(double)(_classBinding.getTimeLeft, _godot_object);
+	}
+	/**
+	
+	*/
+	Timer.TimerProcessMode getTimerProcessMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Timer.TimerProcessMode)(_classBinding.getTimerProcessMode, _godot_object);
 	}
 	/**
 	
@@ -102,10 +110,10 @@ public:
 	/**
 	
 	*/
-	void setOneShot(in bool enable)
+	bool hasAutostart() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
+		return ptrcall!(bool)(_classBinding.hasAutostart, _godot_object);
 	}
 	/**
 	
@@ -114,47 +122,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isOneShot, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAutostart(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutostart, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	bool hasAutostart() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutostart, _godot_object);
-	}
-	/**
-	Starts the timer. Sets `wait_time` to `time_sec` if `time_sec &gt; 0`. This also resets the remaining time to `wait_time`.
-	Note: this method will not resume a paused timer. See $(D paused).
-	*/
-	void start(in double time_sec = -1)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.start, _godot_object, time_sec);
-	}
-	/**
-	Stops the timer.
-	*/
-	void stop()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPaused(in bool paused)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPaused, _godot_object, paused);
 	}
 	/**
 	
@@ -175,10 +142,26 @@ public:
 	/**
 	
 	*/
-	double getTimeLeft() const
+	void setAutostart(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTimeLeft, _godot_object);
+		ptrcall!(void)(_classBinding.setAutostart, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setOneShot(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setPaused(in bool paused)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPaused, _godot_object, paused);
 	}
 	/**
 	
@@ -191,49 +174,31 @@ public:
 	/**
 	
 	*/
-	Timer.TimerProcessMode getTimerProcessMode() const
+	void setWaitTime(in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Timer.TimerProcessMode)(_classBinding.getTimerProcessMode, _godot_object);
+		ptrcall!(void)(_classBinding.setWaitTime, _godot_object, time_sec);
 	}
 	/**
-	Processing mode. See $(D timerprocessmode).
+	Starts the timer. Sets `wait_time` to `time_sec` if `time_sec &gt; 0`. This also resets the remaining time to `wait_time`.
+	$(B Note:) this method will not resume a paused timer. See $(D paused).
 	*/
-	@property Timer.TimerProcessMode processMode()
+	void start(in double time_sec = -1)
 	{
-		return getTimerProcessMode();
-	}
-	/// ditto
-	@property void processMode(long v)
-	{
-		setTimerProcessMode(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.start, _godot_object, time_sec);
 	}
 	/**
-	Wait time in seconds.
+	Stops the timer.
 	*/
-	@property double waitTime()
+	void stop()
 	{
-		return getWaitTime();
-	}
-	/// ditto
-	@property void waitTime(double v)
-	{
-		setWaitTime(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.stop, _godot_object);
 	}
 	/**
-	If `true`, the timer will stop when reaching 0. If `false`, it will restart. Default value: `false`.
-	*/
-	@property bool oneShot()
-	{
-		return isOneShot();
-	}
-	/// ditto
-	@property void oneShot(bool v)
-	{
-		setOneShot(v);
-	}
-	/**
-	If `true`, the timer will automatically start when entering the scene tree. Default value: `false`.
+	If `true`, the timer will automatically start when entering the scene tree.
+	$(B Note:) This property is automatically set to `false` after the timer enters the scene tree and starts.
 	*/
 	@property bool autostart()
 	{
@@ -243,6 +208,18 @@ public:
 	@property void autostart(bool v)
 	{
 		setAutostart(v);
+	}
+	/**
+	If `true`, the timer will stop when reaching 0. If `false`, it will restart.
+	*/
+	@property bool oneShot()
+	{
+		return isOneShot();
+	}
+	/// ditto
+	@property void oneShot(bool v)
+	{
+		setOneShot(v);
 	}
 	/**
 	If `true`, the timer is paused and will not process until it is unpaused again, even if $(D start) is called.
@@ -257,11 +234,35 @@ public:
 		setPaused(v);
 	}
 	/**
+	Processing mode. See $(D timerprocessmode).
+	*/
+	@property Timer.TimerProcessMode processMode()
+	{
+		return getTimerProcessMode();
+	}
+	/// ditto
+	@property void processMode(long v)
+	{
+		setTimerProcessMode(v);
+	}
+	/**
 	The timer's remaining time in seconds. Returns 0 if the timer is inactive.
-	Note: You cannot set this value. To change the timer's remaining time, use $(D waitTime).
+	$(B Note:) You cannot set this value. To change the timer's remaining time, use $(D start).
 	*/
 	@property double timeLeft()
 	{
 		return getTimeLeft();
+	}
+	/**
+	Wait time in seconds.
+	*/
+	@property double waitTime()
+	{
+		return getWaitTime();
+	}
+	/// ditto
+	@property void waitTime(double v)
+	{
+		setWaitTime(v);
 	}
 }

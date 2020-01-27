@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
-import godot.resource;
-import godot.reference;
 /**
 Convex polygon shape for 3D physics.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_points") GodotMethod!(void, PoolVector3Array) setPoints;
 		@GodotName("get_points") GodotMethod!(PoolVector3Array) getPoints;
+		@GodotName("set_points") GodotMethod!(void, PoolVector3Array) setPoints;
 	}
 	bool opEquals(in ConvexPolygonShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConvexPolygonShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setPoints(in PoolVector3Array points)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
-	}
-	/**
-	
-	*/
 	PoolVector3Array getPoints() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolVector3Array)(_classBinding.getPoints, _godot_object);
+	}
+	/**
+	
+	*/
+	void setPoints(in PoolVector3Array points)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
 	}
 	/**
 	The list of 3D points forming the convex polygon shape.

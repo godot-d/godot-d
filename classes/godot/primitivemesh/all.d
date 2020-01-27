@@ -6,6 +6,7 @@ public import
 	godot.cubemesh,
 	godot.cylindermesh,
 	godot.planemesh,
+	godot.pointmesh,
 	godot.prismmesh,
 	godot.quadmesh,
 	godot.spheremesh;

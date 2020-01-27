@@ -21,8 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.packetpeer;
-import godot.streampeer;
 import godot.reference;
+import godot.streampeer;
 /**
 Wrapper to use a PacketPeer over a StreamPeer.
 
@@ -40,12 +40,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_stream_peer") GodotMethod!(void, StreamPeer) setStreamPeer;
+		@GodotName("get_input_buffer_max_size") GodotMethod!(long) getInputBufferMaxSize;
+		@GodotName("get_output_buffer_max_size") GodotMethod!(long) getOutputBufferMaxSize;
 		@GodotName("get_stream_peer") GodotMethod!(StreamPeer) getStreamPeer;
 		@GodotName("set_input_buffer_max_size") GodotMethod!(void, long) setInputBufferMaxSize;
 		@GodotName("set_output_buffer_max_size") GodotMethod!(void, long) setOutputBufferMaxSize;
-		@GodotName("get_input_buffer_max_size") GodotMethod!(long) getInputBufferMaxSize;
-		@GodotName("get_output_buffer_max_size") GodotMethod!(long) getOutputBufferMaxSize;
+		@GodotName("set_stream_peer") GodotMethod!(void, StreamPeer) setStreamPeer;
 	}
 	bool opEquals(in PacketPeerStream other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PacketPeerStream opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,10 +62,18 @@ public:
 	/**
 	
 	*/
-	void setStreamPeer(StreamPeer peer)
+	long getInputBufferMaxSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStreamPeer, _godot_object, peer);
+		return ptrcall!(long)(_classBinding.getInputBufferMaxSize, _godot_object);
+	}
+	/**
+	
+	*/
+	long getOutputBufferMaxSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getOutputBufferMaxSize, _godot_object);
 	}
 	/**
 	
@@ -94,18 +102,10 @@ public:
 	/**
 	
 	*/
-	long getInputBufferMaxSize() const
+	void setStreamPeer(StreamPeer peer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInputBufferMaxSize, _godot_object);
-	}
-	/**
-	
-	*/
-	long getOutputBufferMaxSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOutputBufferMaxSize, _godot_object);
+		ptrcall!(void)(_classBinding.setStreamPeer, _godot_object, peer);
 	}
 	/**
 	

@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 Commonly used mathematical constants.
 
@@ -44,8 +42,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_math_constant") GodotMethod!(void, long) setMathConstant;
 		@GodotName("get_math_constant") GodotMethod!(VisualScriptMathConstant.MathConstant) getMathConstant;
+		@GodotName("set_math_constant") GodotMethod!(void, long) setMathConstant;
 	}
 	bool opEquals(in VisualScriptMathConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptMathConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,39 +61,39 @@ public:
 	enum MathConstant : int
 	{
 		/**
-		Unity: `1`
+		Unity: `1`.
 		*/
 		mathConstantOne = 0,
 		/**
-		Pi: `3.141593`
+		Pi: `3.141593`.
 		*/
 		mathConstantPi = 1,
 		/**
-		Pi divided by two: `1.570796`
+		Pi divided by two: `1.570796`.
 		*/
 		mathConstantHalfPi = 2,
 		/**
-		Tau: `6.283185`
+		Tau: `6.283185`.
 		*/
 		mathConstantTau = 3,
 		/**
-		Mathematical constant `e`, the natural log base: `2.718282`
+		Mathematical constant `e`, the natural log base: `2.718282`.
 		*/
 		mathConstantE = 4,
 		/**
-		Square root of two: `1.414214`
+		Square root of two: `1.414214`.
 		*/
 		mathConstantSqrt2 = 5,
 		/**
-		Infinity: `inf`
+		Infinity: `inf`.
 		*/
 		mathConstantInf = 6,
 		/**
-		Not a number: `nan`
+		Not a number: `nan`.
 		*/
 		mathConstantNan = 7,
 		/**
-		
+		Represents the size of the $(D mathconstant) enum.
 		*/
 		mathConstantMax = 8,
 	}
@@ -115,18 +113,18 @@ public:
 	/**
 	
 	*/
-	void setMathConstant(in long which)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMathConstant, _godot_object, which);
-	}
-	/**
-	
-	*/
 	VisualScriptMathConstant.MathConstant getMathConstant()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(VisualScriptMathConstant.MathConstant)(_classBinding.getMathConstant, _godot_object);
+	}
+	/**
+	
+	*/
+	void setMathConstant(in long which)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMathConstant, _godot_object, which);
 	}
 	/**
 	The math constant.

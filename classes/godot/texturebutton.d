@@ -21,16 +21,16 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.basebutton;
-import godot.texture;
-import godot.bitmap;
 import godot.control;
 import godot.canvasitem;
 import godot.node;
+import godot.bitmap;
+import godot.texture;
 /**
 Texture-based button. Supports Pressed, Hover, Disabled and Focused states.
 
-$(D TextureButton) has the same functionality as $(D Button), except it uses sprites instead of Godot's $(D Theme) resource. It is faster to create, but it doesn't support localization like more complex Controls.
-The Normal state's texture is required. Others are optional.
+$(D TextureButton) has the same functionality as $(D Button), except it uses sprites instead of Godot's $(D Theme) resource. It is faster to create, but it doesn't support localization like more complex $(D Control)s.
+The "normal" state must contain a texture ($(D textureNormal)); other textures are optional.
 */
 @GodotBaseClass struct TextureButton
 {
@@ -44,22 +44,22 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_normal_texture") GodotMethod!(void, Texture) setNormalTexture;
-		@GodotName("set_pressed_texture") GodotMethod!(void, Texture) setPressedTexture;
-		@GodotName("set_hover_texture") GodotMethod!(void, Texture) setHoverTexture;
-		@GodotName("set_disabled_texture") GodotMethod!(void, Texture) setDisabledTexture;
-		@GodotName("set_focused_texture") GodotMethod!(void, Texture) setFocusedTexture;
-		@GodotName("set_click_mask") GodotMethod!(void, BitMap) setClickMask;
-		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
-		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
+		@GodotName("get_click_mask") GodotMethod!(BitMap) getClickMask;
+		@GodotName("get_disabled_texture") GodotMethod!(Texture) getDisabledTexture;
+		@GodotName("get_expand") GodotMethod!(bool) getExpand;
+		@GodotName("get_focused_texture") GodotMethod!(Texture) getFocusedTexture;
+		@GodotName("get_hover_texture") GodotMethod!(Texture) getHoverTexture;
 		@GodotName("get_normal_texture") GodotMethod!(Texture) getNormalTexture;
 		@GodotName("get_pressed_texture") GodotMethod!(Texture) getPressedTexture;
-		@GodotName("get_hover_texture") GodotMethod!(Texture) getHoverTexture;
-		@GodotName("get_disabled_texture") GodotMethod!(Texture) getDisabledTexture;
-		@GodotName("get_focused_texture") GodotMethod!(Texture) getFocusedTexture;
-		@GodotName("get_click_mask") GodotMethod!(BitMap) getClickMask;
-		@GodotName("get_expand") GodotMethod!(bool) getExpand;
 		@GodotName("get_stretch_mode") GodotMethod!(TextureButton.StretchMode) getStretchMode;
+		@GodotName("set_click_mask") GodotMethod!(void, BitMap) setClickMask;
+		@GodotName("set_disabled_texture") GodotMethod!(void, Texture) setDisabledTexture;
+		@GodotName("set_expand") GodotMethod!(void, bool) setExpand;
+		@GodotName("set_focused_texture") GodotMethod!(void, Texture) setFocusedTexture;
+		@GodotName("set_hover_texture") GodotMethod!(void, Texture) setHoverTexture;
+		@GodotName("set_normal_texture") GodotMethod!(void, Texture) setNormalTexture;
+		@GodotName("set_pressed_texture") GodotMethod!(void, Texture) setPressedTexture;
+		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
 	}
 	bool opEquals(in TextureButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	TextureButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -119,66 +119,42 @@ public:
 	/**
 	
 	*/
-	void setNormalTexture(Texture texture)
+	Ref!BitMap getClickMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalTexture, _godot_object, texture);
+		return ptrcall!(BitMap)(_classBinding.getClickMask, _godot_object);
 	}
 	/**
 	
 	*/
-	void setPressedTexture(Texture texture)
+	Ref!Texture getDisabledTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressedTexture, _godot_object, texture);
+		return ptrcall!(Texture)(_classBinding.getDisabledTexture, _godot_object);
 	}
 	/**
 	
 	*/
-	void setHoverTexture(Texture texture)
+	bool getExpand() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHoverTexture, _godot_object, texture);
+		return ptrcall!(bool)(_classBinding.getExpand, _godot_object);
 	}
 	/**
 	
 	*/
-	void setDisabledTexture(Texture texture)
+	Ref!Texture getFocusedTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabledTexture, _godot_object, texture);
+		return ptrcall!(Texture)(_classBinding.getFocusedTexture, _godot_object);
 	}
 	/**
 	
 	*/
-	void setFocusedTexture(Texture texture)
+	Ref!Texture getHoverTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusedTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	void setClickMask(BitMap mask)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClickMask, _godot_object, mask);
-	}
-	/**
-	
-	*/
-	void setExpand(in bool p_expand)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpand, _godot_object, p_expand);
-	}
-	/**
-	
-	*/
-	void setStretchMode(in long p_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, p_mode);
+		return ptrcall!(Texture)(_classBinding.getHoverTexture, _godot_object);
 	}
 	/**
 	
@@ -199,86 +175,110 @@ public:
 	/**
 	
 	*/
-	Ref!Texture getHoverTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getHoverTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	Ref!Texture getDisabledTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getDisabledTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	Ref!Texture getFocusedTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getFocusedTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	Ref!BitMap getClickMask() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(BitMap)(_classBinding.getClickMask, _godot_object);
-	}
-	/**
-	
-	*/
-	bool getExpand() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExpand, _godot_object);
-	}
-	/**
-	
-	*/
 	TextureButton.StretchMode getStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(TextureButton.StretchMode)(_classBinding.getStretchMode, _godot_object);
 	}
 	/**
-	Texture to display by default, when the node is $(B not) in the disabled, focused, hover or pressed state.
+	
 	*/
-	@property Texture textureNormal()
+	void setClickMask(BitMap mask)
 	{
-		return getNormalTexture();
-	}
-	/// ditto
-	@property void textureNormal(Texture v)
-	{
-		setNormalTexture(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClickMask, _godot_object, mask);
 	}
 	/**
-	Texture to display on mouse down over the node, if the node has keyboard focus and the player presses the enter key or if the player presses the $(D BaseButton.shortcut) key.
+	
 	*/
-	@property Texture texturePressed()
+	void setDisabledTexture(Texture texture)
 	{
-		return getPressedTexture();
-	}
-	/// ditto
-	@property void texturePressed(Texture v)
-	{
-		setPressedTexture(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabledTexture, _godot_object, texture);
 	}
 	/**
-	Texture to display when the mouse hovers the node.
+	
 	*/
-	@property Texture textureHover()
+	void setExpand(in bool p_expand)
 	{
-		return getHoverTexture();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpand, _godot_object, p_expand);
+	}
+	/**
+	
+	*/
+	void setFocusedTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFocusedTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setHoverTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setHoverTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setNormalTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setPressedTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPressedTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setStretchMode(in long p_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, p_mode);
+	}
+	/**
+	If `true`, the texture stretches to the edges of the node's bounding rectangle using the $(D stretchMode). If `false`, the texture will not scale with the node.
+	*/
+	@property bool expand()
+	{
+		return getExpand();
 	}
 	/// ditto
-	@property void textureHover(Texture v)
+	@property void expand(bool v)
 	{
-		setHoverTexture(v);
+		setExpand(v);
+	}
+	/**
+	Controls the texture's behavior when you resize the node's bounding rectangle, $(B only if) $(D expand) is `true`. Set it to one of the $(D stretchmode) constants. See the constants to learn more.
+	*/
+	@property TextureButton.StretchMode stretchMode()
+	{
+		return getStretchMode();
+	}
+	/// ditto
+	@property void stretchMode(long v)
+	{
+		setStretchMode(v);
+	}
+	/**
+	Pure black and white $(D BitMap) image to use for click detection. On the mask, white pixels represent the button's clickable area. Use it to create buttons with curved shapes.
+	*/
+	@property BitMap textureClickMask()
+	{
+		return getClickMask();
+	}
+	/// ditto
+	@property void textureClickMask(BitMap v)
+	{
+		setClickMask(v);
 	}
 	/**
 	Texture to display when the node is disabled. See $(D BaseButton.disabled).
@@ -305,39 +305,39 @@ public:
 		setFocusedTexture(v);
 	}
 	/**
-	Pure black and white $(D BitMap) image to use for click detection. On the mask, white pixels represent the button's clickable area. Use it to create buttons with curved shapes.
+	Texture to display when the mouse hovers the node.
 	*/
-	@property BitMap textureClickMask()
+	@property Texture textureHover()
 	{
-		return getClickMask();
+		return getHoverTexture();
 	}
 	/// ditto
-	@property void textureClickMask(BitMap v)
+	@property void textureHover(Texture v)
 	{
-		setClickMask(v);
+		setHoverTexture(v);
 	}
 	/**
-	If `true`, the texture stretches to the edges of the node's bounding rectangle using the $(D stretchMode). If `false`, the texture will not scale with the node. Default value: `false`.
+	Texture to display by default, when the node is $(B not) in the disabled, focused, hover or pressed state.
 	*/
-	@property bool expand()
+	@property Texture textureNormal()
 	{
-		return getExpand();
+		return getNormalTexture();
 	}
 	/// ditto
-	@property void expand(bool v)
+	@property void textureNormal(Texture v)
 	{
-		setExpand(v);
+		setNormalTexture(v);
 	}
 	/**
-	Controls the texture's behavior when you resize the node's bounding rectangle, $(B only if) $(D expand) is `true`. Set it to one of the `STRETCH_*` constants. See the constants to learn more.
+	Texture to display on mouse down over the node, if the node has keyboard focus and the player presses the Enter key or if the player presses the $(D BaseButton.shortcut) key.
 	*/
-	@property TextureButton.StretchMode stretchMode()
+	@property Texture texturePressed()
 	{
-		return getStretchMode();
+		return getPressedTexture();
 	}
 	/// ditto
-	@property void stretchMode(long v)
+	@property void texturePressed(Texture v)
 	{
-		setStretchMode(v);
+		setPressedTexture(v);
 	}
 }

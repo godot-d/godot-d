@@ -1,5 +1,5 @@
 /**
-Vertical version of $(D ScrollBar), which goes from left (min) to right (max).
+Vertical scroll bar.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -26,7 +26,9 @@ import godot.control;
 import godot.canvasitem;
 import godot.node;
 /**
-Vertical version of $(D ScrollBar), which goes from left (min) to right (max).
+Vertical scroll bar.
+
+Vertical version of $(D ScrollBar), which goes from top (min) to bottom (max).
 */
 @GodotBaseClass struct VScrollBar
 {

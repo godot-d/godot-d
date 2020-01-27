@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualscriptnode;
-import godot.resource;
-import godot.reference;
 /**
 Changes a local variable's value.
 
@@ -46,10 +44,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_var_name") GodotMethod!(void, String) setVarName;
 		@GodotName("get_var_name") GodotMethod!(String) getVarName;
-		@GodotName("set_var_type") GodotMethod!(void, long) setVarType;
 		@GodotName("get_var_type") GodotMethod!(Variant.Type) getVarType;
+		@GodotName("set_var_name") GodotMethod!(void, String) setVarName;
+		@GodotName("set_var_type") GodotMethod!(void, long) setVarType;
 	}
 	bool opEquals(in VisualScriptLocalVarSet other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptLocalVarSet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,26 +64,10 @@ public:
 	/**
 	
 	*/
-	void setVarName(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVarName, _godot_object, name);
-	}
-	/**
-	
-	*/
 	String getVarName() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getVarName, _godot_object);
-	}
-	/**
-	
-	*/
-	void setVarType(in long type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVarType, _godot_object, type);
 	}
 	/**
 	
@@ -96,16 +78,20 @@ public:
 		return ptrcall!(Variant.Type)(_classBinding.getVarType, _godot_object);
 	}
 	/**
-	The local variable's name.
+	
 	*/
-	@property String varName()
+	void setVarName(in String name)
 	{
-		return getVarName();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVarName, _godot_object, name);
 	}
-	/// ditto
-	@property void varName(String v)
+	/**
+	
+	*/
+	void setVarType(in long type)
 	{
-		setVarName(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setVarType, _godot_object, type);
 	}
 	/**
 	The local variable's type.
@@ -118,5 +104,17 @@ public:
 	@property void type(long v)
 	{
 		setVarType(v);
+	}
+	/**
+	The local variable's name.
+	*/
+	@property String varName()
+	{
+		return getVarName();
+	}
+	/// ditto
+	@property void varName(String v)
+	{
+		setVarName(v);
 	}
 }

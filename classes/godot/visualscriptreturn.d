@@ -45,10 +45,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_return_type") GodotMethod!(void, long) setReturnType;
 		@GodotName("get_return_type") GodotMethod!(Variant.Type) getReturnType;
-		@GodotName("set_enable_return_value") GodotMethod!(void, bool) setEnableReturnValue;
 		@GodotName("is_return_value_enabled") GodotMethod!(bool) isReturnValueEnabled;
+		@GodotName("set_enable_return_value") GodotMethod!(void, bool) setEnableReturnValue;
+		@GodotName("set_return_type") GodotMethod!(void, long) setReturnType;
 	}
 	bool opEquals(in VisualScriptReturn other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptReturn opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,18 +65,18 @@ public:
 	/**
 	
 	*/
-	void setReturnType(in long type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReturnType, _godot_object, type);
-	}
-	/**
-	
-	*/
 	Variant.Type getReturnType() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant.Type)(_classBinding.getReturnType, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isReturnValueEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isReturnValueEnabled, _godot_object);
 	}
 	/**
 	
@@ -89,10 +89,10 @@ public:
 	/**
 	
 	*/
-	bool isReturnValueEnabled() const
+	void setReturnType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isReturnValueEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setReturnType, _godot_object, type);
 	}
 	/**
 	If `true`, the `return` input port is available.

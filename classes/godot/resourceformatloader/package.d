@@ -24,9 +24,9 @@ import godot.reference;
 /**
 Loads a specific resource type from a file.
 
-Godot loads resources in the editor or in exported games using ResourceFormatLoaders. They get queried when you call `load`, or when a resource with internal dependencies is loaded. Each file type may load as a different resource type, so multiple ResourceFormatLoader are registered in the engine.
-Extending this class allows you to define your own. You should give it a global class name with `class_name` for it to be registered. You may as well implement a $(D ResourceFormatSaver).
-Note: You can also extend $(D EditorImportPlugin) if the resource type you need exists but Godot is unable to load its format. Choosing one way over another depends if the format is suitable or not for the final exported game. Example: it's better to import .PNG textures as .STEX first, so they can be loaded with better efficiency on the graphics card.
+Godot loads resources in the editor or in exported games using ResourceFormatLoaders. They are queried automatically via the $(D ResourceLoader) singleton, or when a resource with internal dependencies is loaded. Each file type may load as a different resource type, so multiple ResourceFormatLoaders are registered in the engine.
+Extending this class allows you to define your own loader. Be sure to respect the documented return types and values. You should give it a global class name with `class_name` for it to be registered. Like built-in ResourceFormatLoaders, it will be called automatically when loading resources of its handled type(s). You may also implement a $(D ResourceFormatSaver).
+$(B Note:) You can also extend $(D EditorImportPlugin) if the resource type you need exists but Godot is unable to load its format. Choosing one way over another depends if the format is suitable or not for the final exported game. For example, it's better to import `.png` textures as `.stex` ($(D StreamTexture)) first, so they can be loaded with better efficiency on the graphics card.
 */
 @GodotBaseClass struct ResourceFormatLoader
 {
@@ -40,11 +40,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("load") GodotMethod!(Variant, String, String) load;
-		@GodotName("get_recognized_extensions") GodotMethod!(PoolStringArray) getRecognizedExtensions;
-		@GodotName("handles_type") GodotMethod!(bool, String) handlesType;
-		@GodotName("get_resource_type") GodotMethod!(String, String) getResourceType;
 		@GodotName("get_dependencies") GodotMethod!(void, String, String) getDependencies;
+		@GodotName("get_recognized_extensions") GodotMethod!(PoolStringArray) getRecognizedExtensions;
+		@GodotName("get_resource_type") GodotMethod!(String, String) getResourceType;
+		@GodotName("handles_type") GodotMethod!(bool, String) handlesType;
+		@GodotName("load") GodotMethod!(Variant, String, String) load;
 		@GodotName("rename_dependencies") GodotMethod!(long, String, String) renameDependencies;
 	}
 	bool opEquals(in ResourceFormatLoader other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -60,62 +60,66 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Loads a resource when the engine finds this loader to be compatible. If the loaded resource is the result of an import, `original_path` will target the source file. Returns a resource object if succeeded, or an `ERR_*` constant listed in $(D @GlobalScope) if it failed.
-	*/
-	Variant load(in String path, in String original_path)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(path);
-		_GODOT_args.append(original_path);
-		String _GODOT_method_name = String("load");
-		return this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	Gets the list of extensions for files this loader is able to read.
-	*/
-	PoolStringArray getRecognizedExtensions()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("get_recognized_extensions");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
-	}
-	/**
-	Tells which resource class this loader can load. Note that custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just handle `"Resource"` for them.
-	*/
-	bool handlesType(in String typename)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(typename);
-		String _GODOT_method_name = String("handles_type");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
-	}
-	/**
-	Gets the class name of the resource associated with the given path. If the loader cannot handle it, it should return `""`. Note that custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just return `"Resource"` for them.
-	*/
-	String getResourceType(in String path)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(path);
-		String _GODOT_method_name = String("get_resource_type");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
-	}
-	/**
-	If implemented, gets the dependencies of a given resource. If `add_types` is `true`, paths should be appended `::TypeName`, where `TypeName` is the class name of the dependency. Note that custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just return `Resource` for them.
+	If implemented, gets the dependencies of a given resource. If `add_types` is `true`, paths should be appended `::TypeName`, where `TypeName` is the class name of the dependency.
+	$(B Note:) Custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just return `"Resource"` for them.
 	*/
 	void getDependencies(in String path, in String add_types)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(path);
 		_GODOT_args.append(add_types);
 		String _GODOT_method_name = String("get_dependencies");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	If implemented, renames dependencies within the given resource and saves it. `renames` is a dictionary `{ String =&gt; String }` mapping old dependency paths to new paths. Returns `OK` on success, or an `ERR_*` constant listed in $(D @GlobalScope) in case of failure.
+	Gets the list of extensions for files this loader is able to read.
+	*/
+	PoolStringArray getRecognizedExtensions()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("get_recognized_extensions");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!PoolStringArray);
+	}
+	/**
+	Gets the class name of the resource associated with the given path. If the loader cannot handle it, it should return `""`.
+	$(B Note:) Custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just return `"Resource"` for them.
+	*/
+	String getResourceType(in String path)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(path);
+		String _GODOT_method_name = String("get_resource_type");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
+	}
+	/**
+	Tells which resource class this loader can load.
+	$(B Note:) Custom resource types defined by scripts aren't known by the $(D ClassDB), so you might just handle `"Resource"` for them.
+	*/
+	bool handlesType(in String typename)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(typename);
+		String _GODOT_method_name = String("handles_type");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Loads a resource when the engine finds this loader to be compatible. If the loaded resource is the result of an import, `original_path` will target the source file. Returns a $(D Resource) object on success, or an $(D error) constant in case of failure.
+	*/
+	Variant load(in String path, in String original_path)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(path);
+		_GODOT_args.append(original_path);
+		String _GODOT_method_name = String("load");
+		return this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	If implemented, renames dependencies within the given resource and saves it. `renames` is a dictionary `{ String =&gt; String }` mapping old dependency paths to new paths.
+	Returns $(D constant OK) on success, or an $(D error) constant in case of failure.
 	*/
 	long renameDependencies(in String path, in String renames)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(path);
 		_GODOT_args.append(renames);
 		String _GODOT_method_name = String("rename_dependencies");

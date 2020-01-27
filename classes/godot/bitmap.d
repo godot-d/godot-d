@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.image;
-import godot.reference;
 /**
 Boolean matrix.
 
@@ -40,17 +39,17 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
+		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
 		@GodotName("create") GodotMethod!(void, Vector2) create;
 		@GodotName("create_from_image_alpha") GodotMethod!(void, Image, double) createFromImageAlpha;
-		@GodotName("set_bit") GodotMethod!(void, Vector2, bool) setBit;
 		@GodotName("get_bit") GodotMethod!(bool, Vector2) getBit;
-		@GodotName("set_bit_rect") GodotMethod!(void, Rect2, bool) setBitRect;
-		@GodotName("get_true_bit_count") GodotMethod!(long) getTrueBitCount;
 		@GodotName("get_size") GodotMethod!(Vector2) getSize;
-		@GodotName("_set_data") GodotMethod!(void, Dictionary) _setData;
-		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
+		@GodotName("get_true_bit_count") GodotMethod!(long) getTrueBitCount;
 		@GodotName("grow_mask") GodotMethod!(void, long, Rect2) growMask;
 		@GodotName("opaque_to_polygons") GodotMethod!(Array, Rect2, double) opaqueToPolygons;
+		@GodotName("set_bit") GodotMethod!(void, Vector2, bool) setBit;
+		@GodotName("set_bit_rect") GodotMethod!(void, Rect2, bool) setBitRect;
 	}
 	bool opEquals(in BitMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	BitMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,6 +63,25 @@ public:
 		return cast(BitMap)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	Dictionary _getData() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_data");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
+	}
+	/**
+	
+	*/
+	void _setData(in Dictionary arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_set_data");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
 	/**
 	Creates a bitmap with the specified size, filled with `false`.
 	*/
@@ -81,36 +99,12 @@ public:
 		ptrcall!(void)(_classBinding.createFromImageAlpha, _godot_object, image, threshold);
 	}
 	/**
-	Sets the bitmap's element at the specified position, to the specified value.
-	*/
-	void setBit(in Vector2 position, in bool bit)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBit, _godot_object, position, bit);
-	}
-	/**
 	Returns bitmap's value at the specified position.
 	*/
 	bool getBit(in Vector2 position) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.getBit, _godot_object, position);
-	}
-	/**
-	Sets a rectangular portion of the bitmap to the specified value.
-	*/
-	void setBitRect(in Rect2 rect, in bool bit)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBitRect, _godot_object, rect, bit);
-	}
-	/**
-	Returns the amount of bitmap elements that are set to `true`.
-	*/
-	long getTrueBitCount() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrueBitCount, _godot_object);
 	}
 	/**
 	Returns bitmap's dimensions.
@@ -121,23 +115,12 @@ public:
 		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
 	}
 	/**
-	
+	Returns the amount of bitmap elements that are set to `true`.
 	*/
-	void _setData(in Dictionary arg0)
+	long getTrueBitCount() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_set_data");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	Dictionary _getData() const
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_get_data");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Dictionary);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getTrueBitCount, _godot_object);
 	}
 	/**
 	
@@ -154,6 +137,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(_classBinding.opaqueToPolygons, _godot_object, rect, epsilon);
+	}
+	/**
+	Sets the bitmap's element at the specified position, to the specified value.
+	*/
+	void setBit(in Vector2 position, in bool bit)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBit, _godot_object, position, bit);
+	}
+	/**
+	Sets a rectangular portion of the bitmap to the specified value.
+	*/
+	void setBitRect(in Rect2 rect, in bool bit)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBitRect, _godot_object, rect, bit);
 	}
 	/**
 	

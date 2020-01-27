@@ -1,5 +1,5 @@
 /**
-Pin Joint for 2D Shapes.
+Pin Joint for 2D shapes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -25,9 +25,9 @@ import godot.node2d;
 import godot.canvasitem;
 import godot.node;
 /**
-Pin Joint for 2D Shapes.
+Pin Joint for 2D shapes.
 
-Pin Joint for 2D Rigid Bodies. It pins two bodies (rigid or static) together.
+Pin Joint for 2D rigid bodies. It pins two bodies (rigid or static) together.
 */
 @GodotBaseClass struct PinJoint2D
 {
@@ -41,8 +41,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_softness") GodotMethod!(void, double) setSoftness;
 		@GodotName("get_softness") GodotMethod!(double) getSoftness;
+		@GodotName("set_softness") GodotMethod!(void, double) setSoftness;
 	}
 	bool opEquals(in PinJoint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PinJoint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,18 +59,18 @@ public:
 	/**
 	
 	*/
-	void setSoftness(in double softness)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSoftness, _godot_object, softness);
-	}
-	/**
-	
-	*/
 	double getSoftness() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getSoftness, _godot_object);
+	}
+	/**
+	
+	*/
+	void setSoftness(in double softness)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSoftness, _godot_object, softness);
 	}
 	/**
 	The higher this value, the more the bond to the pinned partner can flex.

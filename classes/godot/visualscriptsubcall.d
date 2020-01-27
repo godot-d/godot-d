@@ -57,7 +57,7 @@ public:
 	*/
 	Variant _subcall(VariantArg0)(in VariantArg0 arguments)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arguments);
 		String _GODOT_method_name = String("_subcall");
 		return this.callv(_GODOT_method_name, _GODOT_args);

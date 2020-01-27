@@ -40,13 +40,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("get_write_mode") GodotMethod!(WebSocketPeer.WriteMode) getWriteMode;
-		@GodotName("set_write_mode") GodotMethod!(void, long) setWriteMode;
-		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
-		@GodotName("was_string_packet") GodotMethod!(bool) wasStringPacket;
 		@GodotName("close") GodotMethod!(void, long, String) close;
 		@GodotName("get_connected_host") GodotMethod!(String) getConnectedHost;
 		@GodotName("get_connected_port") GodotMethod!(long) getConnectedPort;
+		@GodotName("get_write_mode") GodotMethod!(WebSocketPeer.WriteMode) getWriteMode;
+		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
+		@GodotName("set_write_mode") GodotMethod!(void, long) setWriteMode;
+		@GodotName("was_string_packet") GodotMethod!(bool) wasStringPacket;
 	}
 	bool opEquals(in WebSocketPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	WebSocketPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,11 +64,11 @@ public:
 	enum WriteMode : int
 	{
 		/**
-		Specify that WebSockets messages should be transferred as text payload (only valid UTF-8 is allowed).
+		Specifies that WebSockets messages should be transferred as text payload (only valid UTF-8 is allowed).
 		*/
 		writeModeText = 0,
 		/**
-		Specify that WebSockets messages should be transferred as binary payload (any byte combination is allowed).
+		Specifies that WebSockets messages should be transferred as binary payload (any byte combination is allowed).
 		*/
 		writeModeBinary = 1,
 	}
@@ -79,20 +79,40 @@ public:
 		writeModeBinary = 1,
 	}
 	/**
-	Get the current selected write mode. See $(D writemode).
+	Closes this WebSocket connection. `code` is the status code for the closure (see RFC 6455 section 7.4 for a list of valid status codes). `reason` is the human readable reason for closing the connection (can be any UTF-8 string that's smaller than 123 bytes).
+	$(B Note:) To achieve a clean close, you will need to keep polling until either $(D WebSocketClient.connectionClosed) or $(D WebSocketServer.clientDisconnected) is received.
+	$(B Note:) The HTML5 export might not support all status codes. Please refer to browser-specific documentation for more details.
+	*/
+	void close(in long code = 1000, in String reason = gs!"")
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.close, _godot_object, code, reason);
+	}
+	/**
+	Returns the IP address of the connected peer.
+	$(B Note:) Not available in the HTML5 export.
+	*/
+	String getConnectedHost() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
+	}
+	/**
+	Returns the remote port of the connected peer.
+	$(B Note:) Not available in the HTML5 export.
+	*/
+	long getConnectedPort() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
+	}
+	/**
+	Gets the current selected write mode. See $(D writemode).
 	*/
 	WebSocketPeer.WriteMode getWriteMode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(WebSocketPeer.WriteMode)(_classBinding.getWriteMode, _godot_object);
-	}
-	/**
-	Sets the socket to use the given $(D writemode).
-	*/
-	void setWriteMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWriteMode, _godot_object, mode);
 	}
 	/**
 	Returns `true` if this peer is currently connected.
@@ -103,37 +123,19 @@ public:
 		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
 	}
 	/**
-	Returns `true` if the last received packet was sent as a text payload. See $(D writemode)
+	Sets the socket to use the given $(D writemode).
+	*/
+	void setWriteMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setWriteMode, _godot_object, mode);
+	}
+	/**
+	Returns `true` if the last received packet was sent as a text payload. See $(D writemode).
 	*/
 	bool wasStringPacket() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.wasStringPacket, _godot_object);
-	}
-	/**
-	Close this WebSocket connection. `code` is the status code for the closure (see RFC6455 section 7.4 for a list of valid status codes). `reason` is the human readable reason for closing the connection (can be any UTF8 string, must be less than 123 bytes).
-	Note: To achieve a clean close, you will need to keep polling until either $(D WebSocketClient.connectionClosed) or $(D WebSocketServer.clientDisconnected) is received.
-	Note: HTML5 export might not support all status codes. Please refer to browsers-specific documentation for more details.
-	*/
-	void close(in long code = 1000, in String reason = gs!"")
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object, code, reason);
-	}
-	/**
-	Returns the IP Address of the connected peer. (Not available in HTML5 export)
-	*/
-	String getConnectedHost() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
-	}
-	/**
-	Returns the remote port of the connected peer. (Not available in HTML5 export)
-	*/
-	long getConnectedPort() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
 	}
 }

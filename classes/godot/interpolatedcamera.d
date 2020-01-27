@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.camera;
 import godot.spatial;
-import godot.node;
 /**
 Camera which moves toward another node.
 
@@ -41,13 +40,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_target_path") GodotMethod!(void, NodePath) setTargetPath;
-		@GodotName("get_target_path") GodotMethod!(NodePath) getTargetPath;
-		@GodotName("set_target") GodotMethod!(void, GodotObject) setTarget;
-		@GodotName("set_speed") GodotMethod!(void, double) setSpeed;
 		@GodotName("get_speed") GodotMethod!(double) getSpeed;
-		@GodotName("set_interpolation_enabled") GodotMethod!(void, bool) setInterpolationEnabled;
+		@GodotName("get_target_path") GodotMethod!(NodePath) getTargetPath;
 		@GodotName("is_interpolation_enabled") GodotMethod!(bool) isInterpolationEnabled;
+		@GodotName("set_interpolation_enabled") GodotMethod!(void, bool) setInterpolationEnabled;
+		@GodotName("set_speed") GodotMethod!(void, double) setSpeed;
+		@GodotName("set_target") GodotMethod!(void, GodotObject) setTarget;
+		@GodotName("set_target_path") GodotMethod!(void, NodePath) setTargetPath;
 	}
 	bool opEquals(in InterpolatedCamera other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InterpolatedCamera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,10 +63,10 @@ public:
 	/**
 	
 	*/
-	void setTargetPath(NodePathArg0)(in NodePathArg0 target_path)
+	double getSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetPath, _godot_object, target_path);
+		return ptrcall!(double)(_classBinding.getSpeed, _godot_object);
 	}
 	/**
 	
@@ -78,28 +77,12 @@ public:
 		return ptrcall!(NodePath)(_classBinding.getTargetPath, _godot_object);
 	}
 	/**
-	Sets the node to move toward and orient with.
-	*/
-	void setTarget(GodotObject target)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTarget, _godot_object, target);
-	}
-	/**
 	
 	*/
-	void setSpeed(in double speed)
+	bool isInterpolationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeed, _godot_object, speed);
-	}
-	/**
-	
-	*/
-	double getSpeed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeed, _godot_object);
+		return ptrcall!(bool)(_classBinding.isInterpolationEnabled, _godot_object);
 	}
 	/**
 	
@@ -112,22 +95,38 @@ public:
 	/**
 	
 	*/
-	bool isInterpolationEnabled() const
+	void setSpeed(in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInterpolationEnabled, _godot_object);
+		ptrcall!(void)(_classBinding.setSpeed, _godot_object, speed);
 	}
 	/**
-	The target's $(D NodePath).
+	Sets the node to move toward and orient with.
 	*/
-	@property NodePath target()
+	void setTarget(GodotObject target)
 	{
-		return getTargetPath();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTarget, _godot_object, target);
+	}
+	/**
+	
+	*/
+	void setTargetPath(NodePathArg0)(in NodePathArg0 target_path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTargetPath, _godot_object, target_path);
+	}
+	/**
+	If `true`, and a target is set, the camera will move automatically.
+	*/
+	@property bool enabled()
+	{
+		return isInterpolationEnabled();
 	}
 	/// ditto
-	@property void target(NodePath v)
+	@property void enabled(bool v)
 	{
-		setTargetPath(v);
+		setInterpolationEnabled(v);
 	}
 	/**
 	How quickly the camera moves toward its target. Higher values will result in tighter camera motion.
@@ -142,15 +141,15 @@ public:
 		setSpeed(v);
 	}
 	/**
-	If `true`, and a target is set, the camera will move automatically.
+	The target's $(D NodePath).
 	*/
-	@property bool enabled()
+	@property NodePath target()
 	{
-		return isInterpolationEnabled();
+		return getTargetPath();
 	}
 	/// ditto
-	@property void enabled(bool v)
+	@property void target(NodePath v)
 	{
-		setInterpolationEnabled(v);
+		setTargetPath(v);
 	}
 }

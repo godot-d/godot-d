@@ -20,9 +20,6 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.container;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Base class for box containers.
 
@@ -80,7 +77,7 @@ public:
 		alignEnd = 2,
 	}
 	/**
-	Adds a control to the box as a spacer. If `true`, $(I begin) will insert the spacer control in front of other children.
+	Adds a control to the box as a spacer. If `true`, `begin` will insert the spacer control in front of other children.
 	*/
 	void addSpacer(in bool begin)
 	{
@@ -104,7 +101,7 @@ public:
 		ptrcall!(void)(_classBinding.setAlignment, _godot_object, alignment);
 	}
 	/**
-	The alignment of the container's children (must be one of ALIGN_BEGIN, ALIGN_CENTER, or ALIGN_END).
+	The alignment of the container's children (must be one of $(D constant ALIGN_BEGIN), $(D constant ALIGN_CENTER) or $(D constant ALIGN_END)).
 	*/
 	@property BoxContainer.AlignMode alignment()
 	{

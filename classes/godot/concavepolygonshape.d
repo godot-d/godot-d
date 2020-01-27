@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.shape;
-import godot.resource;
-import godot.reference;
 /**
 Concave polygon shape.
 
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_faces") GodotMethod!(void, PoolVector3Array) setFaces;
 		@GodotName("get_faces") GodotMethod!(PoolVector3Array) getFaces;
+		@GodotName("set_faces") GodotMethod!(void, PoolVector3Array) setFaces;
 	}
 	bool opEquals(in ConcavePolygonShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ConcavePolygonShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,20 +54,20 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Set the faces (an array of triangles).
-	*/
-	void setFaces(in PoolVector3Array faces)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFaces, _godot_object, faces);
-	}
-	/**
-	Return the faces (an array of triangles).
+	Returns the faces (an array of triangles).
 	*/
 	PoolVector3Array getFaces() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PoolVector3Array)(_classBinding.getFaces, _godot_object);
+	}
+	/**
+	Sets the faces (an array of triangles).
+	*/
+	void setFaces(in PoolVector3Array faces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFaces, _godot_object, faces);
 	}
 	/**
 	

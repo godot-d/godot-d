@@ -1,5 +1,5 @@
 /**
-A Singleton that deals with inputs.
+A singleton that deals with inputs.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -19,12 +19,12 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.resource;
 import godot.inputevent;
+import godot.resource;
 /**
-A Singleton that deals with inputs.
+A singleton that deals with inputs.
 
-This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the Project Settings / Input Map tab. Or be set with $(D InputMap).
+This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the $(B Input Map) tab in the $(B Project &gt; Project Settings), or with the $(D InputMap) class.
 */
 @GodotBaseClass struct InputSingleton
 {
@@ -40,44 +40,46 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "Input";
-		@GodotName("is_key_pressed") GodotMethod!(bool, long) isKeyPressed;
-		@GodotName("is_mouse_button_pressed") GodotMethod!(bool, long) isMouseButtonPressed;
-		@GodotName("is_joy_button_pressed") GodotMethod!(bool, long, long) isJoyButtonPressed;
-		@GodotName("is_action_pressed") GodotMethod!(bool, String) isActionPressed;
-		@GodotName("is_action_just_pressed") GodotMethod!(bool, String) isActionJustPressed;
-		@GodotName("is_action_just_released") GodotMethod!(bool, String) isActionJustReleased;
-		@GodotName("get_action_strength") GodotMethod!(double, String) getActionStrength;
-		@GodotName("add_joy_mapping") GodotMethod!(void, String, bool) addJoyMapping;
-		@GodotName("remove_joy_mapping") GodotMethod!(void, String) removeJoyMapping;
-		@GodotName("joy_connection_changed") GodotMethod!(void, long, bool, String, String) joyConnectionChanged;
-		@GodotName("is_joy_known") GodotMethod!(bool, long) isJoyKnown;
-		@GodotName("get_joy_axis") GodotMethod!(double, long, long) getJoyAxis;
-		@GodotName("get_joy_name") GodotMethod!(String, long) getJoyName;
-		@GodotName("get_joy_guid") GodotMethod!(String, long) getJoyGuid;
-		@GodotName("get_connected_joypads") GodotMethod!(Array) getConnectedJoypads;
-		@GodotName("get_joy_vibration_strength") GodotMethod!(Vector2, long) getJoyVibrationStrength;
-		@GodotName("get_joy_vibration_duration") GodotMethod!(double, long) getJoyVibrationDuration;
-		@GodotName("get_joy_button_string") GodotMethod!(String, long) getJoyButtonString;
-		@GodotName("get_joy_button_index_from_string") GodotMethod!(long, String) getJoyButtonIndexFromString;
-		@GodotName("get_joy_axis_string") GodotMethod!(String, long) getJoyAxisString;
-		@GodotName("get_joy_axis_index_from_string") GodotMethod!(long, String) getJoyAxisIndexFromString;
-		@GodotName("start_joy_vibration") GodotMethod!(void, long, double, double, double) startJoyVibration;
-		@GodotName("stop_joy_vibration") GodotMethod!(void, long) stopJoyVibration;
-		@GodotName("get_gravity") GodotMethod!(Vector3) getGravity;
-		@GodotName("get_accelerometer") GodotMethod!(Vector3) getAccelerometer;
-		@GodotName("get_magnetometer") GodotMethod!(Vector3) getMagnetometer;
-		@GodotName("get_gyroscope") GodotMethod!(Vector3) getGyroscope;
-		@GodotName("get_last_mouse_speed") GodotMethod!(Vector2) getLastMouseSpeed;
-		@GodotName("get_mouse_button_mask") GodotMethod!(long) getMouseButtonMask;
-		@GodotName("set_mouse_mode") GodotMethod!(void, long) setMouseMode;
-		@GodotName("get_mouse_mode") GodotMethod!(Input.MouseMode) getMouseMode;
-		@GodotName("warp_mouse_position") GodotMethod!(void, Vector2) warpMousePosition;
 		@GodotName("action_press") GodotMethod!(void, String, double) actionPress;
 		@GodotName("action_release") GodotMethod!(void, String) actionRelease;
-		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
-		@GodotName("set_custom_mouse_cursor") GodotMethod!(void, Resource, long, Vector2) setCustomMouseCursor;
+		@GodotName("add_joy_mapping") GodotMethod!(void, String, bool) addJoyMapping;
+		@GodotName("get_accelerometer") GodotMethod!(Vector3) getAccelerometer;
+		@GodotName("get_action_strength") GodotMethod!(double, String) getActionStrength;
+		@GodotName("get_connected_joypads") GodotMethod!(Array) getConnectedJoypads;
+		@GodotName("get_current_cursor_shape") GodotMethod!(Input.CursorShape) getCurrentCursorShape;
+		@GodotName("get_gravity") GodotMethod!(Vector3) getGravity;
+		@GodotName("get_gyroscope") GodotMethod!(Vector3) getGyroscope;
+		@GodotName("get_joy_axis") GodotMethod!(double, long, long) getJoyAxis;
+		@GodotName("get_joy_axis_index_from_string") GodotMethod!(long, String) getJoyAxisIndexFromString;
+		@GodotName("get_joy_axis_string") GodotMethod!(String, long) getJoyAxisString;
+		@GodotName("get_joy_button_index_from_string") GodotMethod!(long, String) getJoyButtonIndexFromString;
+		@GodotName("get_joy_button_string") GodotMethod!(String, long) getJoyButtonString;
+		@GodotName("get_joy_guid") GodotMethod!(String, long) getJoyGuid;
+		@GodotName("get_joy_name") GodotMethod!(String, long) getJoyName;
+		@GodotName("get_joy_vibration_duration") GodotMethod!(double, long) getJoyVibrationDuration;
+		@GodotName("get_joy_vibration_strength") GodotMethod!(Vector2, long) getJoyVibrationStrength;
+		@GodotName("get_last_mouse_speed") GodotMethod!(Vector2) getLastMouseSpeed;
+		@GodotName("get_magnetometer") GodotMethod!(Vector3) getMagnetometer;
+		@GodotName("get_mouse_button_mask") GodotMethod!(long) getMouseButtonMask;
+		@GodotName("get_mouse_mode") GodotMethod!(Input.MouseMode) getMouseMode;
+		@GodotName("is_action_just_pressed") GodotMethod!(bool, String) isActionJustPressed;
+		@GodotName("is_action_just_released") GodotMethod!(bool, String) isActionJustReleased;
+		@GodotName("is_action_pressed") GodotMethod!(bool, String) isActionPressed;
+		@GodotName("is_joy_button_pressed") GodotMethod!(bool, long, long) isJoyButtonPressed;
+		@GodotName("is_joy_known") GodotMethod!(bool, long) isJoyKnown;
+		@GodotName("is_key_pressed") GodotMethod!(bool, long) isKeyPressed;
+		@GodotName("is_mouse_button_pressed") GodotMethod!(bool, long) isMouseButtonPressed;
+		@GodotName("joy_connection_changed") GodotMethod!(void, long, bool, String, String) joyConnectionChanged;
 		@GodotName("parse_input_event") GodotMethod!(void, InputEvent) parseInputEvent;
+		@GodotName("remove_joy_mapping") GodotMethod!(void, String) removeJoyMapping;
+		@GodotName("set_custom_mouse_cursor") GodotMethod!(void, Resource, long, Vector2) setCustomMouseCursor;
+		@GodotName("set_default_cursor_shape") GodotMethod!(void, long) setDefaultCursorShape;
+		@GodotName("set_mouse_mode") GodotMethod!(void, long) setMouseMode;
 		@GodotName("set_use_accumulated_input") GodotMethod!(void, bool) setUseAccumulatedInput;
+		@GodotName("start_joy_vibration") GodotMethod!(void, long, double, double, double) startJoyVibration;
+		@GodotName("stop_joy_vibration") GodotMethod!(void, long) stopJoyVibration;
+		@GodotName("vibrate_handheld") GodotMethod!(void, long) vibrateHandheld;
+		@GodotName("warp_mouse_position") GodotMethod!(void, Vector2) warpMousePosition;
 	}
 	bool opEquals(in InputSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -103,7 +105,7 @@ public:
 		*/
 		mouseModeHidden = 1,
 		/**
-		Captures the mouse. The mouse will be hidden and unable to leave the game window. But it will still register movement and mouse button presses.
+		Captures the mouse. The mouse will be hidden and unable to leave the game window, but it will still register movement and mouse button presses. On Windows and Linux, the mouse will use raw input mode, which means the reported movement will be unaffected by the OS' mouse acceleration settings.
 		*/
 		mouseModeCaptured = 2,
 		/**
@@ -131,11 +133,11 @@ public:
 		*/
 		cursorCross = 3,
 		/**
-		Wait cursor. Indicates that the application is busy performing an operation.
+		Wait cursor. Indicates that the application is busy performing an operation. This cursor shape denotes that the application is still usable during the operation.
 		*/
 		cursorWait = 4,
 		/**
-		Busy cursor. See `CURSOR_WAIT`.
+		Busy cursor. Indicates that the application is busy performing an operation. This cursor shape denotes that the application isn't usable during the operation (e.g. something is blocking its main thread).
 		*/
 		cursorBusy = 5,
 		/**
@@ -151,19 +153,19 @@ public:
 		*/
 		cursorForbidden = 8,
 		/**
-		Vertical resize mouse cursor. A double headed vertical arrow. It tells the user they can resize the window or the panel vertically.
+		Vertical resize mouse cursor. A double-headed vertical arrow. It tells the user they can resize the window or the panel vertically.
 		*/
 		cursorVsize = 9,
 		/**
-		Horizontal resize mouse cursor. A double headed horizontal arrow. It tells the user they can resize the window or the panel horizontally.
+		Horizontal resize mouse cursor. A double-headed horizontal arrow. It tells the user they can resize the window or the panel horizontally.
 		*/
 		cursorHsize = 10,
 		/**
-		Window resize mouse cursor. The cursor is a double headed arrow that goes from the bottom left to the top right. It tells the user they can resize the window or the panel both horizontally and vertically.
+		Window resize mouse cursor. The cursor is a double-headed arrow that goes from the bottom left to the top right. It tells the user they can resize the window or the panel both horizontally and vertically.
 		*/
 		cursorBdiagsize = 11,
 		/**
-		Window resize mouse cursor. The cursor is a double headed arrow that goes from the top left to the bottom right, the opposite of `CURSOR_BDIAGSIZE`. It tells the user they can resize the window or the panel both horizontally and vertically.
+		Window resize mouse cursor. The cursor is a double-headed arrow that goes from the top left to the bottom right, the opposite of $(D constant CURSOR_BDIAGSIZE). It tells the user they can resize the window or the panel both horizontally and vertically.
 		*/
 		cursorFdiagsize = 12,
 		/**
@@ -171,11 +173,11 @@ public:
 		*/
 		cursorMove = 13,
 		/**
-		Vertical split mouse cursor. On Windows, it's the same as `CURSOR_VSIZE`.
+		Vertical split mouse cursor. On Windows, it's the same as $(D constant CURSOR_VSIZE).
 		*/
 		cursorVsplit = 14,
 		/**
-		Horizontal split mouse cursor. On Windows, it's the same as `CURSOR_HSIZE`.
+		Horizontal split mouse cursor. On Windows, it's the same as $(D constant CURSOR_HSIZE).
 		*/
 		cursorHsplit = 15,
 		/**
@@ -188,12 +190,12 @@ public:
 	{
 		cursorArrow = 0,
 		mouseModeVisible = 0,
-		mouseModeHidden = 1,
 		cursorIbeam = 1,
+		mouseModeHidden = 1,
 		mouseModeCaptured = 2,
 		cursorPointingHand = 2,
-		mouseModeConfined = 3,
 		cursorCross = 3,
+		mouseModeConfined = 3,
 		cursorWait = 4,
 		cursorBusy = 5,
 		cursorDrag = 6,
@@ -209,36 +211,183 @@ public:
 		cursorHelp = 16,
 	}
 	/**
-	Returns `true` if you are pressing the key. You can pass a $(D keylist) constant.
+	This will simulate pressing the specified action.
+	The strength can be used for non-boolean actions, it's ranged between 0 and 1 representing the intensity of the given action.
+	$(B Note:) This method will not cause any $(D Node._input) calls. It is intended to be used with $(D isActionPressed) and $(D isActionJustPressed). If you want to simulate `_input`, use $(D parseInputEvent) instead.
 	*/
-	bool isKeyPressed(in long scancode) const
+	void actionPress(in String action, in double strength = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isKeyPressed, _godot_object, scancode);
+		ptrcall!(void)(_classBinding.actionPress, _godot_object, action, strength);
 	}
 	/**
-	Returns `true` if you are pressing the mouse button specified with $(D buttonlist).
+	If the specified action is already pressed, this will release it.
 	*/
-	bool isMouseButtonPressed(in long button) const
+	void actionRelease(in String action)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMouseButtonPressed, _godot_object, button);
+		ptrcall!(void)(_classBinding.actionRelease, _godot_object, action);
 	}
 	/**
-	Returns `true` if you are pressing the joypad button (see $(D joysticklist)).
+	Adds a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
 	*/
-	bool isJoyButtonPressed(in long device, in long button) const
+	void addJoyMapping(in String mapping, in bool update_existing = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isJoyButtonPressed, _godot_object, device, button);
+		ptrcall!(void)(_classBinding.addJoyMapping, _godot_object, mapping, update_existing);
 	}
 	/**
-	Returns `true` if you are pressing the action event.
+	If the device has an accelerometer, this will return the acceleration. Otherwise, it returns an empty $(D Vector3).
+	Note this method returns an empty $(D Vector3) when running from the editor even when your device has an accelerometer. You must export your project to a supported device to read values from the accelerometer.
 	*/
-	bool isActionPressed(in String action) const
+	Vector3 getAccelerometer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
+		return ptrcall!(Vector3)(_classBinding.getAccelerometer, _godot_object);
+	}
+	/**
+	Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
+	*/
+	double getActionStrength(in String action) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
+	}
+	/**
+	Returns an $(D Array) containing the device IDs of all currently connected joypads.
+	*/
+	Array getConnectedJoypads()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Array)(_classBinding.getConnectedJoypads, _godot_object);
+	}
+	/**
+	Returns the currently assigned cursor shape (see $(D cursorshape)).
+	*/
+	Input.CursorShape getCurrentCursorShape() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Input.CursorShape)(_classBinding.getCurrentCursorShape, _godot_object);
+	}
+	/**
+	If the device has an accelerometer, this will return the gravity. Otherwise, it returns an empty $(D Vector3).
+	*/
+	Vector3 getGravity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGravity, _godot_object);
+	}
+	/**
+	If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's X, Y, and Z axes. Otherwise, it returns an empty $(D Vector3).
+	*/
+	Vector3 getGyroscope() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getGyroscope, _godot_object);
+	}
+	/**
+	Returns the current value of the joypad axis at given index (see $(D joysticklist)).
+	*/
+	double getJoyAxis(in long device, in long axis) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getJoyAxis, _godot_object, device, axis);
+	}
+	/**
+	Returns the index of the provided axis name.
+	*/
+	long getJoyAxisIndexFromString(in String axis)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getJoyAxisIndexFromString, _godot_object, axis);
+	}
+	/**
+	Receives a $(D joysticklist) axis and returns its equivalent name as a string.
+	*/
+	String getJoyAxisString(in long axis_index)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyAxisString, _godot_object, axis_index);
+	}
+	/**
+	Returns the index of the provided button name.
+	*/
+	long getJoyButtonIndexFromString(in String button)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getJoyButtonIndexFromString, _godot_object, button);
+	}
+	/**
+	Receives a gamepad button from $(D joysticklist) and returns its equivalent name as a string.
+	*/
+	String getJoyButtonString(in long button_index)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyButtonString, _godot_object, button_index);
+	}
+	/**
+	Returns a SDL2-compatible device GUID on platforms that use gamepad remapping. Returns `"Default Gamepad"` otherwise.
+	*/
+	String getJoyGuid(in long device) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyGuid, _godot_object, device);
+	}
+	/**
+	Returns the name of the joypad at the specified device index.
+	*/
+	String getJoyName(in long device)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getJoyName, _godot_object, device);
+	}
+	/**
+	Returns the duration of the current vibration effect in seconds.
+	*/
+	double getJoyVibrationDuration(in long device)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getJoyVibrationDuration, _godot_object, device);
+	}
+	/**
+	Returns the strength of the joypad vibration: x is the strength of the weak motor, and y is the strength of the strong motor.
+	*/
+	Vector2 getJoyVibrationStrength(in long device)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getJoyVibrationStrength, _godot_object, device);
+	}
+	/**
+	Returns the mouse speed for the last time the cursor was moved, and this until the next frame where the mouse moves. This means that even if the mouse is not moving, this function will still return the value of the last motion.
+	*/
+	Vector2 getLastMouseSpeed() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getLastMouseSpeed, _godot_object);
+	}
+	/**
+	If the device has a magnetometer, this will return the magnetic field strength in micro-Tesla for all axes.
+	*/
+	Vector3 getMagnetometer() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(_classBinding.getMagnetometer, _godot_object);
+	}
+	/**
+	Returns mouse buttons as a bitmask. If multiple mouse buttons are pressed at the same time, the bits are added together.
+	*/
+	long getMouseButtonMask() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(_classBinding.getMouseButtonMask, _godot_object);
+	}
+	/**
+	Returns the mouse mode. See the constants for more information.
+	*/
+	Input.MouseMode getMouseMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Input.MouseMode)(_classBinding.getMouseMode, _godot_object);
 	}
 	/**
 	Returns `true` when the user starts pressing the action event, meaning it's `true` only on the frame that the user pressed down the button.
@@ -258,36 +407,20 @@ public:
 		return ptrcall!(bool)(_classBinding.isActionJustReleased, _godot_object, action);
 	}
 	/**
-	Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
+	Returns `true` if you are pressing the action event. Note that if an action has multiple buttons assigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
 	*/
-	double getActionStrength(in String action) const
+	bool isActionPressed(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
+		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action);
 	}
 	/**
-	Add a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
+	Returns `true` if you are pressing the joypad button (see $(D joysticklist)).
 	*/
-	void addJoyMapping(in String mapping, in bool update_existing = false)
+	bool isJoyButtonPressed(in long device, in long button) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addJoyMapping, _godot_object, mapping, update_existing);
-	}
-	/**
-	Removes all mappings from the internal db that match the given uid.
-	*/
-	void removeJoyMapping(in String guid)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeJoyMapping, _godot_object, guid);
-	}
-	/**
-	
-	*/
-	void joyConnectionChanged(in long device, in bool connected, in String name, in String guid)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.joyConnectionChanged, _godot_object, device, connected, name, guid);
+		return ptrcall!(bool)(_classBinding.isJoyButtonPressed, _godot_object, device, button);
 	}
 	/**
 	Returns `true` if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in $(D joysticklist). Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
@@ -298,88 +431,96 @@ public:
 		return ptrcall!(bool)(_classBinding.isJoyKnown, _godot_object, device);
 	}
 	/**
-	Returns the current value of the joypad axis at given index (see $(D joysticklist)).
+	Returns `true` if you are pressing the key. You can pass a $(D keylist) constant.
 	*/
-	double getJoyAxis(in long device, in long axis) const
+	bool isKeyPressed(in long scancode) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getJoyAxis, _godot_object, device, axis);
+		return ptrcall!(bool)(_classBinding.isKeyPressed, _godot_object, scancode);
 	}
 	/**
-	Returns the name of the joypad at the specified device index
+	Returns `true` if you are pressing the mouse button specified with $(D buttonlist).
 	*/
-	String getJoyName(in long device)
+	bool isMouseButtonPressed(in long button) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getJoyName, _godot_object, device);
+		return ptrcall!(bool)(_classBinding.isMouseButtonPressed, _godot_object, button);
 	}
 	/**
-	Returns a SDL2 compatible device guid on platforms that use gamepad remapping. Returns "Default Gamepad" otherwise.
+	Notifies the $(D Input) singleton that a connection has changed, to update the state for the `device` index.
+	This is used internally and should not have to be called from user scripts. See $(D joyConnectionChanged) for the signal emitted when this is triggered internally.
 	*/
-	String getJoyGuid(in long device) const
+	void joyConnectionChanged(in long device, in bool connected, in String name, in String guid)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getJoyGuid, _godot_object, device);
+		ptrcall!(void)(_classBinding.joyConnectionChanged, _godot_object, device, connected, name, guid);
 	}
 	/**
-	Returns an $(D Array) containing the device IDs of all currently connected joypads.
+	Feeds an $(D InputEvent) to the game. Can be used to artificially trigger input events from code. Also generates $(D Node._input) calls.
+	Example:
+	
+	
+	var a = InputEventAction.new()
+	a.action = "ui_cancel"
+	a.pressed = true
+	Input.parse_input_event(a)
+	
+	
 	*/
-	Array getConnectedJoypads()
+	void parseInputEvent(InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getConnectedJoypads, _godot_object);
+		ptrcall!(void)(_classBinding.parseInputEvent, _godot_object, event);
 	}
 	/**
-	Returns the strength of the joypad vibration: x is the strength of the weak motor, and y is the strength of the strong motor.
+	Removes all mappings from the internal database that match the given GUID.
 	*/
-	Vector2 getJoyVibrationStrength(in long device)
+	void removeJoyMapping(in String guid)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getJoyVibrationStrength, _godot_object, device);
+		ptrcall!(void)(_classBinding.removeJoyMapping, _godot_object, guid);
 	}
 	/**
-	Returns the duration of the current vibration effect in seconds.
+	Sets a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing `null` to the image parameter resets to the system cursor. See $(D cursorshape) for the list of shapes.
+	`image`'s size must be lower than 256×256.
+	`hotspot` must be within `image`'s size.
+	$(B Note:) $(D AnimatedTexture)s aren't supported as custom mouse cursors. If using an $(D AnimatedTexture), only the first frame will be displayed.
+	$(B Note:) Only images imported with the $(B Lossless), $(B Lossy) or $(B Uncompressed) compression modes are supported. The $(B Video RAM) compression mode can't be used for custom cursors.
 	*/
-	double getJoyVibrationDuration(in long device)
+	void setCustomMouseCursor(Resource image, in long shape = 0, in Vector2 hotspot = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getJoyVibrationDuration, _godot_object, device);
+		ptrcall!(void)(_classBinding.setCustomMouseCursor, _godot_object, image, shape, hotspot);
 	}
 	/**
-	Receives a joy button from $(D joysticklist) and returns its equivalent name as a string.
+	Sets the default cursor shape to be used in the viewport instead of $(D constant CURSOR_ARROW).
+	$(B Note:) If you want to change the default cursor shape for $(D Control)'s nodes, use $(D Control.mouseDefaultCursorShape) instead.
+	$(B Note:) This method generates an $(D InputEventMouseMotion) to update cursor immediately.
 	*/
-	String getJoyButtonString(in long button_index)
+	void setDefaultCursorShape(in long shape = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getJoyButtonString, _godot_object, button_index);
+		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
 	}
 	/**
-	Returns the index of the provided button name.
+	Sets the mouse mode. See the constants for more information.
 	*/
-	long getJoyButtonIndexFromString(in String button)
+	void setMouseMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getJoyButtonIndexFromString, _godot_object, button);
+		ptrcall!(void)(_classBinding.setMouseMode, _godot_object, mode);
 	}
 	/**
-	Receives a $(D joysticklist) axis and returns its equivalent name as a string.
+	Whether to accumulate similar input events sent by the operating system. Enabled by default.
 	*/
-	String getJoyAxisString(in long axis_index)
+	void setUseAccumulatedInput(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getJoyAxisString, _godot_object, axis_index);
+		ptrcall!(void)(_classBinding.setUseAccumulatedInput, _godot_object, enable);
 	}
 	/**
-	Returns the index of the provided axis name.
-	*/
-	long getJoyAxisIndexFromString(in String axis)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getJoyAxisIndexFromString, _godot_object, axis);
-	}
-	/**
-	Starts to vibrate the joypad. Joypads usually come with two rumble motors, a strong and a weak one. weak_magnitude is the strength of the weak motor (between 0 and 1) and strong_magnitude is the strength of the strong motor (between 0 and 1). duration is the duration of the effect in seconds (a duration of 0 will try to play the vibration indefinitely).
-	Note that not every hardware is compatible with long effect durations, it is recommended to restart an effect if in need to play it for more than a few seconds.
+	Starts to vibrate the joypad. Joypads usually come with two rumble motors, a strong and a weak one. `weak_magnitude` is the strength of the weak motor (between 0 and 1) and `strong_magnitude` is the strength of the strong motor (between 0 and 1). `duration` is the duration of the effect in seconds (a duration of 0 will try to play the vibration indefinitely).
+	$(B Note:) Not every hardware is compatible with long effect durations; it is recommended to restart an effect if it has to be played for more than a few seconds.
 	*/
 	void startJoyVibration(in long device, in double weak_magnitude, in double strong_magnitude, in double duration = 0)
 	{
@@ -395,69 +536,13 @@ public:
 		ptrcall!(void)(_classBinding.stopJoyVibration, _godot_object, device);
 	}
 	/**
-	If the device has an accelerometer, this will return the gravity. Otherwise, it returns an empty $(D Vector3).
+	Vibrate Android and iOS devices.
+	$(B Note:) It needs VIBRATE permission for Android at export settings. iOS does not support duration.
 	*/
-	Vector3 getGravity() const
+	void vibrateHandheld(in long duration_ms = 500)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getGravity, _godot_object);
-	}
-	/**
-	If the device has an accelerometer, this will return the acceleration. Otherwise, it returns an empty $(D Vector3).
-	Note this method returns an empty $(D Vector3) when running from the editor even when your device has an accelerometer. You must export your project to a supported device to read values from the accelerometer.
-	*/
-	Vector3 getAccelerometer() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getAccelerometer, _godot_object);
-	}
-	/**
-	If the device has a magnetometer, this will return the magnetic field strength in micro-Tesla for all axes.
-	*/
-	Vector3 getMagnetometer() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getMagnetometer, _godot_object);
-	}
-	/**
-	If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's x, y, and z axis. Otherwise, it returns an empty $(D Vector3).
-	*/
-	Vector3 getGyroscope() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getGyroscope, _godot_object);
-	}
-	/**
-	Returns the mouse speed for the last time the cursor was moved, and this until the next frame where the mouse moves. This means that even if the mouse is not moving, this function will still return the value of the last motion.
-	*/
-	Vector2 getLastMouseSpeed() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLastMouseSpeed, _godot_object);
-	}
-	/**
-	Returns mouse buttons as a bitmask. If multiple mouse buttons are pressed at the same time the bits are added together.
-	*/
-	long getMouseButtonMask() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMouseButtonMask, _godot_object);
-	}
-	/**
-	Set the mouse mode. See the constants for more information.
-	*/
-	void setMouseMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMouseMode, _godot_object, mode);
-	}
-	/**
-	Return the mouse mode. See the constants for more information.
-	*/
-	Input.MouseMode getMouseMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Input.MouseMode)(_classBinding.getMouseMode, _godot_object);
+		ptrcall!(void)(_classBinding.vibrateHandheld, _godot_object, duration_ms);
 	}
 	/**
 	Sets the mouse position to the specified vector.
@@ -466,58 +551,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.warpMousePosition, _godot_object, to);
-	}
-	/**
-	This will simulate pressing the specified action.
-	The strength can be used for non-boolean actions, it's ranged between 0 and 1 representing the intensity of the given action.
-	*/
-	void actionPress(in String action, in double strength = 1)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionPress, _godot_object, action, strength);
-	}
-	/**
-	If the specified action is already pressed, this will release it.
-	*/
-	void actionRelease(in String action)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.actionRelease, _godot_object, action);
-	}
-	/**
-	Sets the default cursor shape to be used in the viewport instead of `CURSOR_ARROW`.
-	Note that if you want to change the default cursor shape for $(D Control)'s nodes, use $(D Control.mouseDefaultCursorShape) instead.
-	*/
-	void setDefaultCursorShape(in long shape = 0)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
-	}
-	/**
-	Sets a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing `null` to the image parameter resets to the system cursor. See enum `CURSOR_*` for the list of shapes.
-	`image`'s size must be lower than 256x256.
-	`hotspot` must be within `image`'s size.
-	*/
-	void setCustomMouseCursor(Resource image, in long shape = 0, in Vector2 hotspot = Vector2(0, 0))
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomMouseCursor, _godot_object, image, shape, hotspot);
-	}
-	/**
-	Feeds an $(D InputEvent) to the game. Can be used to artificially trigger input events from code.
-	*/
-	void parseInputEvent(InputEvent event)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.parseInputEvent, _godot_object, event);
-	}
-	/**
-	Whether to accumulate similar input events sent by the operating system. Defaults to `true`.
-	*/
-	void setUseAccumulatedInput(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseAccumulatedInput, _godot_object, enable);
 	}
 }
 /// Returns: the InputSingleton

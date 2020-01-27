@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Defines a 2D collision polygon.
 
-Provides a 2D collision polygon to a $(D CollisionObject2D) parent. Polygon can be drawn in the editor or specified by a list of vertices.
+Provides a 2D collision polygon to a $(D CollisionObject2D) parent. Polygons can be drawn in the editor or specified by a list of vertices.
 */
 @GodotBaseClass struct CollisionPolygon2D
 {
@@ -40,16 +38,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
-		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
-		@GodotName("set_build_mode") GodotMethod!(void, long) setBuildMode;
 		@GodotName("get_build_mode") GodotMethod!(CollisionPolygon2D.BuildMode) getBuildMode;
-		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
-		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
-		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
-		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
-		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
 		@GodotName("get_one_way_collision_margin") GodotMethod!(double) getOneWayCollisionMargin;
+		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
+		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
+		@GodotName("is_one_way_collision_enabled") GodotMethod!(bool) isOneWayCollisionEnabled;
+		@GodotName("set_build_mode") GodotMethod!(void, long) setBuildMode;
+		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_one_way_collision") GodotMethod!(void, bool) setOneWayCollision;
+		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
+		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
 	}
 	bool opEquals(in CollisionPolygon2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CollisionPolygon2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -84,10 +82,18 @@ public:
 	/**
 	
 	*/
-	void setPolygon(in PoolVector2Array polygon)
+	CollisionPolygon2D.BuildMode getBuildMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+		return ptrcall!(CollisionPolygon2D.BuildMode)(_classBinding.getBuildMode, _godot_object);
+	}
+	/**
+	
+	*/
+	double getOneWayCollisionMargin() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
 	}
 	/**
 	
@@ -100,42 +106,10 @@ public:
 	/**
 	
 	*/
-	void setBuildMode(in long build_mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBuildMode, _godot_object, build_mode);
-	}
-	/**
-	
-	*/
-	CollisionPolygon2D.BuildMode getBuildMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(CollisionPolygon2D.BuildMode)(_classBinding.getBuildMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDisabled(in bool disabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
-	}
-	/**
-	
-	*/
 	bool isDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOneWayCollision(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
 	}
 	/**
 	
@@ -148,6 +122,30 @@ public:
 	/**
 	
 	*/
+	void setBuildMode(in long build_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBuildMode, _godot_object, build_mode);
+	}
+	/**
+	
+	*/
+	void setDisabled(in bool disabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+	}
+	/**
+	
+	*/
+	void setOneWayCollision(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
+	}
+	/**
+	
+	*/
 	void setOneWayCollisionMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
@@ -156,13 +154,13 @@ public:
 	/**
 	
 	*/
-	double getOneWayCollisionMargin() const
+	void setPolygon(in PoolVector2Array polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
+		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
 	}
 	/**
-	Collision build mode. Use one of the `BUILD_*` constants. Default value: `BUILD_SOLIDS`.
+	Collision build mode. Use one of the $(D buildmode) constants.
 	*/
 	@property CollisionPolygon2D.BuildMode buildMode()
 	{
@@ -172,18 +170,6 @@ public:
 	@property void buildMode(long v)
 	{
 		setBuildMode(v);
-	}
-	/**
-	The polygon's list of vertices. The final point will be connected to the first. The returned value is a clone of the PoolVector2Array, not a reference.
-	*/
-	@property PoolVector2Array polygon()
-	{
-		return getPolygon();
-	}
-	/// ditto
-	@property void polygon(PoolVector2Array v)
-	{
-		setPolygon(v);
 	}
 	/**
 	If `true`, no collisions will be detected.
@@ -198,7 +184,7 @@ public:
 		setDisabled(v);
 	}
 	/**
-	If `true`, only edges that face up, relative to CollisionPolygon2D's rotation, will collide with other objects.
+	If `true`, only edges that face up, relative to $(D CollisionPolygon2D)'s rotation, will collide with other objects.
 	*/
 	@property bool oneWayCollision()
 	{
@@ -220,5 +206,17 @@ public:
 	@property void oneWayCollisionMargin(double v)
 	{
 		setOneWayCollisionMargin(v);
+	}
+	/**
+	The polygon's list of vertices. The final point will be connected to the first. The returned value is a clone of the $(D PoolVector2Array), not a reference.
+	*/
+	@property PoolVector2Array polygon()
+	{
+		return getPolygon();
+	}
+	/// ditto
+	@property void polygon(PoolVector2Array v)
+	{
+		setPolygon(v);
 	}
 }

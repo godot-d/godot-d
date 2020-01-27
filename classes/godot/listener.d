@@ -1,5 +1,5 @@
 /**
-
+Overrides the location sounds are heard from.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,9 +21,11 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
-import godot.node;
 /**
+Overrides the location sounds are heard from.
 
+Once added to the scene tree and enabled using $(D makeCurrent), this node will override the location sounds are heard from. This can be used to listen from a location different from the $(D Camera).
+$(B Note:) There is no 2D equivalent for this node yet.
 */
 @GodotBaseClass struct Listener
 {
@@ -37,10 +39,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("make_current") GodotMethod!(void) makeCurrent;
 		@GodotName("clear_current") GodotMethod!(void) clearCurrent;
-		@GodotName("is_current") GodotMethod!(bool) isCurrent;
 		@GodotName("get_listener_transform") GodotMethod!(Transform) getListenerTransform;
+		@GodotName("is_current") GodotMethod!(bool) isCurrent;
+		@GodotName("make_current") GodotMethod!(void) makeCurrent;
 	}
 	bool opEquals(in Listener other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Listener opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -55,15 +57,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
-	*/
-	void makeCurrent()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
-	}
-	/**
-	
+	Disables the listener to use the current camera's listener instead.
 	*/
 	void clearCurrent()
 	{
@@ -71,7 +65,16 @@ public:
 		ptrcall!(void)(_classBinding.clearCurrent, _godot_object);
 	}
 	/**
-	
+	Returns the listener's global orthonormalized $(D Transform).
+	*/
+	Transform getListenerTransform() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(_classBinding.getListenerTransform, _godot_object);
+	}
+	/**
+	Returns `true` if the listener was made current using $(D makeCurrent), `false` otherwise.
+	$(B Note:) There may be more than one Listener marked as "current" in the scene tree, but only the one that was made current last will be used.
 	*/
 	bool isCurrent() const
 	{
@@ -79,11 +82,11 @@ public:
 		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
 	}
 	/**
-	
+	Enables the listener. This will override the current camera's listener.
 	*/
-	Transform getListenerTransform() const
+	void makeCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getListenerTransform, _godot_object);
+		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
 	}
 }

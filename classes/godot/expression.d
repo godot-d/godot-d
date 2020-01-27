@@ -57,10 +57,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("parse") GodotMethod!(GodotError, String, PoolStringArray) parse;
 		@GodotName("execute") GodotMethod!(Variant, Array, GodotObject, bool) execute;
-		@GodotName("has_execute_failed") GodotMethod!(bool) hasExecuteFailed;
 		@GodotName("get_error_text") GodotMethod!(String) getErrorText;
+		@GodotName("has_execute_failed") GodotMethod!(bool) hasExecuteFailed;
+		@GodotName("parse") GodotMethod!(GodotError, String, PoolStringArray) parse;
 	}
 	bool opEquals(in Expression other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Expression opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -75,22 +75,21 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Parses the expression and returns a $(D @GlobalScope.error).
-	You can optionally specify names of variables that may appear in the expression with `input_names`, so that you can bind them when it gets executed.
-	*/
-	GodotError parse(in String expression, in PoolStringArray input_names = PoolStringArray.init)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.parse, _godot_object, expression, input_names);
-	}
-	/**
 	Executes the expression that was previously parsed by $(D parse) and returns the result. Before you use the returned object, you should check if the method failed by calling $(D hasExecuteFailed).
 	If you defined input variables in $(D parse), you can specify their values in the inputs array, in the same order.
 	*/
-	Variant execute(in Array inputs = Array.empty_array, GodotObject base_instance = GodotObject.init, in bool show_error = true)
+	Variant execute(in Array inputs = Array.make(), GodotObject base_instance = GodotObject.init, in bool show_error = true)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Variant)(_classBinding.execute, _godot_object, inputs, base_instance, show_error);
+	}
+	/**
+	Returns the error text if $(D parse) has failed.
+	*/
+	String getErrorText() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getErrorText, _godot_object);
 	}
 	/**
 	Returns `true` if $(D execute) has failed.
@@ -101,11 +100,12 @@ public:
 		return ptrcall!(bool)(_classBinding.hasExecuteFailed, _godot_object);
 	}
 	/**
-	Returns the error text if $(D parse) has failed.
+	Parses the expression and returns an $(D error) code.
+	You can optionally specify names of variables that may appear in the expression with `input_names`, so that you can bind them when it gets executed.
 	*/
-	String getErrorText() const
+	GodotError parse(in String expression, in PoolStringArray input_names = PoolStringArray.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getErrorText, _godot_object);
+		return ptrcall!(GodotError)(_classBinding.parse, _godot_object, expression, input_names);
 	}
 }

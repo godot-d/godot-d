@@ -21,13 +21,14 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.curve2d;
 import godot.canvasitem;
 import godot.node;
+import godot.curve2d;
 /**
 Contains a $(D Curve2D) path for $(D PathFollow2D) nodes to follow.
 
-Can have $(D PathFollow2D) child-nodes moving along the $(D Curve2D). See $(D PathFollow2D) for more information on this usage.
+Can have $(D PathFollow2D) child nodes moving along the $(D Curve2D). See $(D PathFollow2D) for more information on usage.
+$(B Note:) The path is considered as relative to the moved nodes (children of $(D PathFollow2D)). As such, the curve should usually start with a zero vector (`(0, 0)`).
 */
 @GodotBaseClass struct Path2D
 {
@@ -41,9 +42,9 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_curve") GodotMethod!(void, Curve2D) setCurve;
-		@GodotName("get_curve") GodotMethod!(Curve2D) getCurve;
 		@GodotName("_curve_changed") GodotMethod!(void) _curveChanged;
+		@GodotName("get_curve") GodotMethod!(Curve2D) getCurve;
+		@GodotName("set_curve") GodotMethod!(void, Curve2D) setCurve;
 	}
 	bool opEquals(in Path2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Path2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -60,10 +61,11 @@ public:
 	/**
 	
 	*/
-	void setCurve(Curve2D curve)
+	void _curveChanged()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_curve_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -76,11 +78,10 @@ public:
 	/**
 	
 	*/
-	void _curveChanged()
+	void setCurve(Curve2D curve)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_curve_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
 	}
 	/**
 	A $(D Curve2D) describing the path.

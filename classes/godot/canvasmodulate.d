@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
-import godot.canvasitem;
-import godot.node;
 /**
 Tint the entire canvas.
 
-$(D CanvasModulate) tints the canvas elements using its assigned `color`.
+$(D CanvasModulate) tints the canvas elements using its assigned $(D color).
 */
 @GodotBaseClass struct CanvasModulate
 {
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 		@GodotName("get_color") GodotMethod!(Color) getColor;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
 	}
 	bool opEquals(in CanvasModulate other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CanvasModulate opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setColor(in Color color)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
-	}
-	/**
-	
-	*/
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+	}
+	/**
+	
+	*/
+	void setColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
 	}
 	/**
 	The tint color to apply.

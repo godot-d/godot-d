@@ -19,7 +19,6 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.classdb;
 import godot.reference;
 import godot.resource;
 /**
@@ -57,7 +56,7 @@ public:
 	*/
 	Ref!Resource _convert(Resource resource)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(resource);
 		String _GODOT_method_name = String("_convert");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Resource);
@@ -67,7 +66,7 @@ public:
 	*/
 	String _convertsTo()
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_converts_to");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}

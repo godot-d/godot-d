@@ -21,9 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.visualshadernode;
-import godot.cubemap;
 import godot.resource;
 import godot.reference;
+import godot.cubemap;
 /**
 
 */
@@ -39,10 +39,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_cube_map") GodotMethod!(void, CubeMap) setCubeMap;
 		@GodotName("get_cube_map") GodotMethod!(CubeMap) getCubeMap;
-		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
+		@GodotName("get_source") GodotMethod!(VisualShaderNodeCubeMap.Source) getSource;
 		@GodotName("get_texture_type") GodotMethod!(VisualShaderNodeCubeMap.TextureType) getTextureType;
+		@GodotName("set_cube_map") GodotMethod!(void, CubeMap) setCubeMap;
+		@GodotName("set_source") GodotMethod!(void, long) setSource;
+		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
 	}
 	bool opEquals(in VisualShaderNodeCubeMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualShaderNodeCubeMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -73,19 +75,25 @@ public:
 		typeNormalmap = 2,
 	}
 	/// 
+	enum Source : int
+	{
+		/**
+		
+		*/
+		sourceTexture = 0,
+		/**
+		
+		*/
+		sourcePort = 1,
+	}
+	/// 
 	enum Constants : int
 	{
+		sourceTexture = 0,
 		typeData = 0,
 		typeColor = 1,
+		sourcePort = 1,
 		typeNormalmap = 2,
-	}
-	/**
-	
-	*/
-	void setCubeMap(CubeMap value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCubeMap, _godot_object, value);
 	}
 	/**
 	
@@ -98,10 +106,10 @@ public:
 	/**
 	
 	*/
-	void setTextureType(in long value)
+	VisualShaderNodeCubeMap.Source getSource() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureType, _godot_object, value);
+		return ptrcall!(VisualShaderNodeCubeMap.Source)(_classBinding.getSource, _godot_object);
 	}
 	/**
 	
@@ -114,6 +122,30 @@ public:
 	/**
 	
 	*/
+	void setCubeMap(CubeMap value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCubeMap, _godot_object, value);
+	}
+	/**
+	
+	*/
+	void setSource(in long value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSource, _godot_object, value);
+	}
+	/**
+	
+	*/
+	void setTextureType(in long value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextureType, _godot_object, value);
+	}
+	/**
+	
+	*/
 	@property CubeMap cubeMap()
 	{
 		return getCubeMap();
@@ -122,6 +154,18 @@ public:
 	@property void cubeMap(CubeMap v)
 	{
 		setCubeMap(v);
+	}
+	/**
+	
+	*/
+	@property VisualShaderNodeCubeMap.Source source()
+	{
+		return getSource();
+	}
+	/// ditto
+	@property void source(long v)
+	{
+		setSource(v);
 	}
 	/**
 	

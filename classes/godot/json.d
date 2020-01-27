@@ -39,8 +39,8 @@ public:
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "JSON";
-		@GodotName("print") GodotMethod!(String, Variant, String, bool) print;
 		@GodotName("parse") GodotMethod!(JSONParseResult, String) parse;
+		@GodotName("print") GodotMethod!(String, Variant, String, bool) print;
 	}
 	bool opEquals(in JSONSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	JSONSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -55,20 +55,20 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Converts a Variant var to JSON text and returns the result. Useful for serializing data to store or send over the network.
-	*/
-	String print(VariantArg0)(in VariantArg0 value, in String indent = gs!"", in bool sort_keys = false)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.print, _godot_object, value, indent, sort_keys);
-	}
-	/**
 	Parses a JSON encoded string and returns a $(D JSONParseResult) containing the result.
 	*/
 	Ref!JSONParseResult parse(in String json)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(JSONParseResult)(_classBinding.parse, _godot_object, json);
+	}
+	/**
+	Converts a $(D Variant) var to JSON text and returns the result. Useful for serializing data to store or send over the network.
+	*/
+	String print(VariantArg0)(in VariantArg0 value, in String indent = gs!"", in bool sort_keys = false)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.print, _godot_object, value, indent, sort_keys);
 	}
 }
 /// Returns: the JSONSingleton

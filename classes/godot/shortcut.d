@@ -21,8 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.inputevent;
 import godot.reference;
+import godot.inputevent;
 /**
 A shortcut for binding input.
 
@@ -40,11 +40,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_shortcut") GodotMethod!(void, InputEvent) setShortcut;
-		@GodotName("get_shortcut") GodotMethod!(InputEvent) getShortcut;
-		@GodotName("is_valid") GodotMethod!(bool) isValid;
-		@GodotName("is_shortcut") GodotMethod!(bool, InputEvent) isShortcut;
 		@GodotName("get_as_text") GodotMethod!(String) getAsText;
+		@GodotName("get_shortcut") GodotMethod!(InputEvent) getShortcut;
+		@GodotName("is_shortcut") GodotMethod!(bool, InputEvent) isShortcut;
+		@GodotName("is_valid") GodotMethod!(bool) isValid;
+		@GodotName("set_shortcut") GodotMethod!(void, InputEvent) setShortcut;
 	}
 	bool opEquals(in ShortCut other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ShortCut opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,12 +59,12 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Returns the shortcut's $(D InputEvent) as a $(D String).
 	*/
-	void setShortcut(InputEvent event)
+	String getAsText() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcut, _godot_object, event);
+		return ptrcall!(String)(_classBinding.getAsText, _godot_object);
 	}
 	/**
 	
@@ -75,14 +75,6 @@ public:
 		return ptrcall!(InputEvent)(_classBinding.getShortcut, _godot_object);
 	}
 	/**
-	If `true`, this shortcut is valid.
-	*/
-	bool isValid() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
-	}
-	/**
 	Returns `true` if the shortcut's $(D InputEvent) equals `event`.
 	*/
 	bool isShortcut(InputEvent event) const
@@ -91,12 +83,20 @@ public:
 		return ptrcall!(bool)(_classBinding.isShortcut, _godot_object, event);
 	}
 	/**
-	Returns the shortcut's $(D InputEvent) as a $(D String).
+	If `true`, this shortcut is valid.
 	*/
-	String getAsText() const
+	bool isValid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAsText, _godot_object);
+		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
+	}
+	/**
+	
+	*/
+	void setShortcut(InputEvent event)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setShortcut, _godot_object, event);
 	}
 	/**
 	The shortcut's $(D InputEvent).

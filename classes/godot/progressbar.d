@@ -1,5 +1,5 @@
 /**
-General purpose progress bar.
+General-purpose progress bar.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.range;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
-General purpose progress bar.
+General-purpose progress bar.
 
 Shows fill percentage from right to left.
 */
@@ -41,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_percent_visible") GodotMethod!(void, bool) setPercentVisible;
 		@GodotName("is_percent_visible") GodotMethod!(bool) isPercentVisible;
+		@GodotName("set_percent_visible") GodotMethod!(void, bool) setPercentVisible;
 	}
 	bool opEquals(in ProgressBar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ProgressBar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,21 +56,21 @@ public:
 	/**
 	
 	*/
-	void setPercentVisible(in bool visible)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, visible);
-	}
-	/**
-	
-	*/
 	bool isPercentVisible() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isPercentVisible, _godot_object);
 	}
 	/**
-	If `true`, the fill percentage is displayed on the bar. Default value: `true`.
+	
+	*/
+	void setPercentVisible(in bool visible)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, visible);
+	}
+	/**
+	If `true`, the fill percentage is displayed on the bar.
 	*/
 	@property bool percentVisible()
 	{

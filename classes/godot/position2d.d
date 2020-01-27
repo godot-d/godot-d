@@ -1,5 +1,5 @@
 /**
-Generic 2D Position hint for editing.
+Generic 2D position hint for editing.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,9 +24,9 @@ import godot.node2d;
 import godot.canvasitem;
 import godot.node;
 /**
-Generic 2D Position hint for editing.
+Generic 2D position hint for editing.
 
-It's just like a plain $(D Node2D) but displays as a cross in the 2D-Editor at all times.
+It's just like a plain $(D Node2D), but it displays as a cross in the 2D editor at all times. You can set cross' visual size by using the gizmo in the 2D editor while the node is selected.
 */
 @GodotBaseClass struct Position2D
 {
@@ -40,6 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_get_gizmo_extents") GodotMethod!(double) _getGizmoExtents;
+		@GodotName("_set_gizmo_extents") GodotMethod!(void, double) _setGizmoExtents;
 	}
 	bool opEquals(in Position2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Position2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -53,4 +55,35 @@ public:
 		return cast(Position2D)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	double _getGizmoExtents() const
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_get_gizmo_extents");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	
+	*/
+	void _setGizmoExtents(in double extents)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(extents);
+		String _GODOT_method_name = String("_set_gizmo_extents");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	@property double gizmoExtents()
+	{
+		return _getGizmoExtents();
+	}
+	/// ditto
+	@property void gizmoExtents(double v)
+	{
+		_setGizmoExtents(v);
+	}
 }

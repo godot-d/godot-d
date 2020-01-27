@@ -1,5 +1,5 @@
 /**
-
+An external library containing functions or script classes to use in Godot.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.resource;
 import godot.configfile;
-import godot.reference;
 /**
+An external library containing functions or script classes to use in Godot.
 
+A GDNative library can implement $(D NativeScript)s, global functions to call with the $(D GDNative) class, or low-level engine extensions through interfaces such as $(D ARVRInterfaceGDNative). The library must be compiled for each platform and architecture that the project will run on.
 */
 @GodotBaseClass struct GDNativeLibrary
 {
@@ -39,17 +40,17 @@ public:
 	{
 		__gshared:
 		@GodotName("get_config_file") GodotMethod!(ConfigFile) getConfigFile;
-		@GodotName("set_config_file") GodotMethod!(void, ConfigFile) setConfigFile;
-		@GodotName("get_current_library_path") GodotMethod!(String) getCurrentLibraryPath;
 		@GodotName("get_current_dependencies") GodotMethod!(PoolStringArray) getCurrentDependencies;
-		@GodotName("should_load_once") GodotMethod!(bool) shouldLoadOnce;
-		@GodotName("is_singleton") GodotMethod!(bool) isSingleton;
+		@GodotName("get_current_library_path") GodotMethod!(String) getCurrentLibraryPath;
 		@GodotName("get_symbol_prefix") GodotMethod!(String) getSymbolPrefix;
 		@GodotName("is_reloadable") GodotMethod!(bool) isReloadable;
+		@GodotName("is_singleton") GodotMethod!(bool) isSingleton;
+		@GodotName("set_config_file") GodotMethod!(void, ConfigFile) setConfigFile;
 		@GodotName("set_load_once") GodotMethod!(void, bool) setLoadOnce;
+		@GodotName("set_reloadable") GodotMethod!(void, bool) setReloadable;
 		@GodotName("set_singleton") GodotMethod!(void, bool) setSingleton;
 		@GodotName("set_symbol_prefix") GodotMethod!(void, String) setSymbolPrefix;
-		@GodotName("set_reloadable") GodotMethod!(void, bool) setReloadable;
+		@GodotName("should_load_once") GodotMethod!(bool) shouldLoadOnce;
 	}
 	bool opEquals(in GDNativeLibrary other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDNativeLibrary opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -72,23 +73,7 @@ public:
 		return ptrcall!(ConfigFile)(_classBinding.getConfigFile, _godot_object);
 	}
 	/**
-	
-	*/
-	void setConfigFile(ConfigFile config_file)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConfigFile, _godot_object, config_file);
-	}
-	/**
-	
-	*/
-	String getCurrentLibraryPath() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentLibraryPath, _godot_object);
-	}
-	/**
-	
+	Returns paths to all dependency libraries for the current platform and architecture.
 	*/
 	PoolStringArray getCurrentDependencies() const
 	{
@@ -96,20 +81,12 @@ public:
 		return ptrcall!(PoolStringArray)(_classBinding.getCurrentDependencies, _godot_object);
 	}
 	/**
-	
+	Returns the path to the dynamic library file for the current platform and architecture.
 	*/
-	bool shouldLoadOnce() const
+	String getCurrentLibraryPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.shouldLoadOnce, _godot_object);
-	}
-	/**
-	
-	*/
-	bool isSingleton() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSingleton, _godot_object);
+		return ptrcall!(String)(_classBinding.getCurrentLibraryPath, _godot_object);
 	}
 	/**
 	
@@ -130,10 +107,34 @@ public:
 	/**
 	
 	*/
+	bool isSingleton() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isSingleton, _godot_object);
+	}
+	/**
+	
+	*/
+	void setConfigFile(ConfigFile config_file)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setConfigFile, _godot_object, config_file);
+	}
+	/**
+	
+	*/
 	void setLoadOnce(in bool load_once)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setLoadOnce, _godot_object, load_once);
+	}
+	/**
+	
+	*/
+	void setReloadable(in bool reloadable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setReloadable, _godot_object, reloadable);
 	}
 	/**
 	
@@ -154,13 +155,13 @@ public:
 	/**
 	
 	*/
-	void setReloadable(in bool reloadable)
+	bool shouldLoadOnce() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReloadable, _godot_object, reloadable);
+		return ptrcall!(bool)(_classBinding.shouldLoadOnce, _godot_object);
 	}
 	/**
-	
+	This resource in INI-style $(D ConfigFile) format, as in `.gdnlib` files.
 	*/
 	@property ConfigFile configFile()
 	{
@@ -172,7 +173,8 @@ public:
 		setConfigFile(v);
 	}
 	/**
-	
+	If `true`, Godot loads only one copy of the library and each script that references the library will share static data like static or global variables.
+	If `false`, Godot loads a separate copy of the library into memory for each script that references it.
 	*/
 	@property bool loadOnce()
 	{
@@ -184,7 +186,21 @@ public:
 		setLoadOnce(v);
 	}
 	/**
-	
+	If `true`, the editor will temporarily unload the library whenever the user switches away from the editor window, allowing the user to recompile the library without restarting Godot.
+	$(B Note:) If the library defines tool scripts that run inside the editor, `reloadable` must be `false`. Otherwise, the editor will attempt to unload the tool scripts while they're in use and crash.
+	*/
+	@property bool reloadable()
+	{
+		return isReloadable();
+	}
+	/// ditto
+	@property void reloadable(bool v)
+	{
+		setReloadable(v);
+	}
+	/**
+	If `true`, Godot loads the library at startup rather than the first time a script uses the library, calling `{prefix}gdnative_singleton` after initializing the library (where `{prefix}` is the value of $(D symbolPrefix)). The library remains loaded as long as Godot is running.
+	$(B Note:) A singleton library cannot be $(D reloadable).
 	*/
 	@property bool singleton()
 	{
@@ -196,7 +212,8 @@ public:
 		setSingleton(v);
 	}
 	/**
-	
+	The prefix this library's entry point functions begin with. For example, a GDNativeLibrary would declare its `gdnative_init` function as `godot_gdnative_init` by default.
+	On platforms that require statically linking libraries (currently only iOS), each library must have a different `symbol_prefix`.
 	*/
 	@property String symbolPrefix()
 	{
@@ -206,17 +223,5 @@ public:
 	@property void symbolPrefix(String v)
 	{
 		setSymbolPrefix(v);
-	}
-	/**
-	
-	*/
-	@property bool reloadable()
-	{
-		return isReloadable();
-	}
-	/// ditto
-	@property void reloadable(bool v)
-	{
-		setReloadable(v);
 	}
 }

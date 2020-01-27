@@ -21,14 +21,12 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
 Proxy texture for simple frame-based animations.
 
 $(D AnimatedTexture) is a resource format for frame-based animations, where multiple textures can be chained automatically with a predefined delay for each frame. Unlike $(D AnimationPlayer) or $(D AnimatedSprite), it isn't a $(D Node), but has the advantage of being usable anywhere a $(D Texture) resource can be used, e.g. in a $(D TileSet).
 The playback of the animation is controlled by the $(D fps) property as well as each frame's optional delay (see $(D setFrameDelay)). The animation loops, i.e. it will restart at frame 0 automatically after playing the last frame.
-$(D AnimatedTexture) currently requires all frame textures to have the same size, otherwise the bigger ones will be cropped to match the smallest one.
+$(D AnimatedTexture) currently requires all frame textures to have the same size, otherwise the bigger ones will be cropped to match the smallest one. Also, it doesn't support $(D AtlasTexture). Each frame needs to be separate image.
 */
 @GodotBaseClass struct AnimatedTexture
 {
@@ -42,15 +40,15 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_frames") GodotMethod!(void, long) setFrames;
+		@GodotName("_update_proxy") GodotMethod!(void) _updateProxy;
+		@GodotName("get_fps") GodotMethod!(double) getFps;
+		@GodotName("get_frame_delay") GodotMethod!(double, long) getFrameDelay;
+		@GodotName("get_frame_texture") GodotMethod!(Texture, long) getFrameTexture;
 		@GodotName("get_frames") GodotMethod!(long) getFrames;
 		@GodotName("set_fps") GodotMethod!(void, double) setFps;
-		@GodotName("get_fps") GodotMethod!(double) getFps;
-		@GodotName("set_frame_texture") GodotMethod!(void, long, Texture) setFrameTexture;
-		@GodotName("get_frame_texture") GodotMethod!(Texture, long) getFrameTexture;
 		@GodotName("set_frame_delay") GodotMethod!(void, long, double) setFrameDelay;
-		@GodotName("get_frame_delay") GodotMethod!(double, long) getFrameDelay;
-		@GodotName("_update_proxy") GodotMethod!(void) _updateProxy;
+		@GodotName("set_frame_texture") GodotMethod!(void, long, Texture) setFrameTexture;
+		@GodotName("set_frames") GodotMethod!(void, long) setFrames;
 	}
 	bool opEquals(in AnimatedTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimatedTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -75,10 +73,35 @@ public:
 	/**
 	
 	*/
-	void setFrames(in long frames)
+	void _updateProxy()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_proxy");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	double getFps() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrames, _godot_object, frames);
+		return ptrcall!(double)(_classBinding.getFps, _godot_object);
+	}
+	/**
+	Returns the given frame's delay value.
+	*/
+	double getFrameDelay(in long frame) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getFrameDelay, _godot_object, frame);
+	}
+	/**
+	Returns the given frame's $(D Texture).
+	*/
+	Ref!Texture getFrameTexture(in long frame) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Texture)(_classBinding.getFrameTexture, _godot_object, frame);
 	}
 	/**
 	
@@ -95,31 +118,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setFps, _godot_object, fps);
-	}
-	/**
-	
-	*/
-	double getFps() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFps, _godot_object);
-	}
-	/**
-	Assigns a $(D Texture) to the given frame. Frame IDs start at 0, so the first frame has ID 0, and the last frame of the animation has ID $(D frames) - 1.
-	You can define any number of textures up to $(D constant MAX_FRAMES), but keep in mind that only frames from 0 to $(D frames) - 1 will be part of the animation.
-	*/
-	void setFrameTexture(in long frame, Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameTexture, _godot_object, frame, texture);
-	}
-	/**
-	Returns the given frame's $(D Texture).
-	*/
-	Ref!Texture getFrameTexture(in long frame) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getFrameTexture, _godot_object, frame);
 	}
 	/**
 	Sets an additional delay (in seconds) between this frame and the next one, that will be added to the time interval defined by $(D fps). By default, frames have no delay defined. If a delay value is defined, the final time interval between this frame and the next will be `1.0 / fps + delay`.
@@ -139,36 +137,24 @@ public:
 		ptrcall!(void)(_classBinding.setFrameDelay, _godot_object, frame, delay);
 	}
 	/**
-	Returns the given frame's delay value.
+	Assigns a $(D Texture) to the given frame. Frame IDs start at 0, so the first frame has ID 0, and the last frame of the animation has ID $(D frames) - 1.
+	You can define any number of textures up to $(D constant MAX_FRAMES), but keep in mind that only frames from 0 to $(D frames) - 1 will be part of the animation.
 	*/
-	double getFrameDelay(in long frame) const
+	void setFrameTexture(in long frame, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFrameDelay, _godot_object, frame);
+		ptrcall!(void)(_classBinding.setFrameTexture, _godot_object, frame, texture);
 	}
 	/**
 	
 	*/
-	void _updateProxy()
+	void setFrames(in long frames)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update_proxy");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFrames, _godot_object, frames);
 	}
 	/**
-	Number of frames to use in the animation. While you can create the frames independently with $(D setFrameTexture), you need to set this value for the animation to take new frames into account. The maximum number of frames is $(D constant MAX_FRAMES). Default value: 1.
-	*/
-	@property long frames()
-	{
-		return getFrames();
-	}
-	/// ditto
-	@property void frames(long v)
-	{
-		setFrames(v);
-	}
-	/**
-	Animation speed in frames per second. This value defines the default time interval between two frames of the animation, and thus the overall duration of the animation loop based on the $(D frames) property. A value of 0 means no predefined number of frames per second, the animation will play according to each frame's frame delay (see $(D setFrameDelay)). Default value: 4.
+	Animation speed in frames per second. This value defines the default time interval between two frames of the animation, and thus the overall duration of the animation loop based on the $(D frames) property. A value of 0 means no predefined number of frames per second, the animation will play according to each frame's frame delay (see $(D setFrameDelay)).
 	For example, an animation with 8 frames, no frame delay and a `fps` value of 2 will run for 4 seconds, with each frame lasting 0.5 seconds.
 	*/
 	@property double fps()
@@ -179,18 +165,6 @@ public:
 	@property void fps(double v)
 	{
 		setFps(v);
-	}
-	/**
-	
-	*/
-	@property Texture frame0Texture()
-	{
-		return getFrameTexture(0);
-	}
-	/// ditto
-	@property void frame0Texture(Texture v)
-	{
-		setFrameTexture(0, v);
 	}
 	/**
 	
@@ -207,14 +181,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame1Texture()
+	@property Texture frame0Texture()
 	{
-		return getFrameTexture(1);
+		return getFrameTexture(0);
 	}
 	/// ditto
-	@property void frame1Texture(Texture v)
+	@property void frame0Texture(Texture v)
 	{
-		setFrameTexture(1, v);
+		setFrameTexture(0, v);
 	}
 	/**
 	
@@ -231,206 +205,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame2Texture()
+	@property Texture frame1Texture()
 	{
-		return getFrameTexture(2);
+		return getFrameTexture(1);
 	}
 	/// ditto
-	@property void frame2Texture(Texture v)
+	@property void frame1Texture(Texture v)
 	{
-		setFrameTexture(2, v);
-	}
-	/**
-	
-	*/
-	@property double frame2DelaySec()
-	{
-		return getFrameDelay(2);
-	}
-	/// ditto
-	@property void frame2DelaySec(double v)
-	{
-		setFrameDelay(2, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame3Texture()
-	{
-		return getFrameTexture(3);
-	}
-	/// ditto
-	@property void frame3Texture(Texture v)
-	{
-		setFrameTexture(3, v);
-	}
-	/**
-	
-	*/
-	@property double frame3DelaySec()
-	{
-		return getFrameDelay(3);
-	}
-	/// ditto
-	@property void frame3DelaySec(double v)
-	{
-		setFrameDelay(3, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame4Texture()
-	{
-		return getFrameTexture(4);
-	}
-	/// ditto
-	@property void frame4Texture(Texture v)
-	{
-		setFrameTexture(4, v);
-	}
-	/**
-	
-	*/
-	@property double frame4DelaySec()
-	{
-		return getFrameDelay(4);
-	}
-	/// ditto
-	@property void frame4DelaySec(double v)
-	{
-		setFrameDelay(4, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame5Texture()
-	{
-		return getFrameTexture(5);
-	}
-	/// ditto
-	@property void frame5Texture(Texture v)
-	{
-		setFrameTexture(5, v);
-	}
-	/**
-	
-	*/
-	@property double frame5DelaySec()
-	{
-		return getFrameDelay(5);
-	}
-	/// ditto
-	@property void frame5DelaySec(double v)
-	{
-		setFrameDelay(5, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame6Texture()
-	{
-		return getFrameTexture(6);
-	}
-	/// ditto
-	@property void frame6Texture(Texture v)
-	{
-		setFrameTexture(6, v);
-	}
-	/**
-	
-	*/
-	@property double frame6DelaySec()
-	{
-		return getFrameDelay(6);
-	}
-	/// ditto
-	@property void frame6DelaySec(double v)
-	{
-		setFrameDelay(6, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame7Texture()
-	{
-		return getFrameTexture(7);
-	}
-	/// ditto
-	@property void frame7Texture(Texture v)
-	{
-		setFrameTexture(7, v);
-	}
-	/**
-	
-	*/
-	@property double frame7DelaySec()
-	{
-		return getFrameDelay(7);
-	}
-	/// ditto
-	@property void frame7DelaySec(double v)
-	{
-		setFrameDelay(7, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame8Texture()
-	{
-		return getFrameTexture(8);
-	}
-	/// ditto
-	@property void frame8Texture(Texture v)
-	{
-		setFrameTexture(8, v);
-	}
-	/**
-	
-	*/
-	@property double frame8DelaySec()
-	{
-		return getFrameDelay(8);
-	}
-	/// ditto
-	@property void frame8DelaySec(double v)
-	{
-		setFrameDelay(8, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame9Texture()
-	{
-		return getFrameTexture(9);
-	}
-	/// ditto
-	@property void frame9Texture(Texture v)
-	{
-		setFrameTexture(9, v);
-	}
-	/**
-	
-	*/
-	@property double frame9DelaySec()
-	{
-		return getFrameDelay(9);
-	}
-	/// ditto
-	@property void frame9DelaySec(double v)
-	{
-		setFrameDelay(9, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame10Texture()
-	{
-		return getFrameTexture(10);
-	}
-	/// ditto
-	@property void frame10Texture(Texture v)
-	{
-		setFrameTexture(10, v);
+		setFrameTexture(1, v);
 	}
 	/**
 	
@@ -447,2150 +229,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame11Texture()
+	@property Texture frame10Texture()
 	{
-		return getFrameTexture(11);
+		return getFrameTexture(10);
 	}
 	/// ditto
-	@property void frame11Texture(Texture v)
+	@property void frame10Texture(Texture v)
 	{
-		setFrameTexture(11, v);
-	}
-	/**
-	
-	*/
-	@property double frame11DelaySec()
-	{
-		return getFrameDelay(11);
-	}
-	/// ditto
-	@property void frame11DelaySec(double v)
-	{
-		setFrameDelay(11, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame12Texture()
-	{
-		return getFrameTexture(12);
-	}
-	/// ditto
-	@property void frame12Texture(Texture v)
-	{
-		setFrameTexture(12, v);
-	}
-	/**
-	
-	*/
-	@property double frame12DelaySec()
-	{
-		return getFrameDelay(12);
-	}
-	/// ditto
-	@property void frame12DelaySec(double v)
-	{
-		setFrameDelay(12, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame13Texture()
-	{
-		return getFrameTexture(13);
-	}
-	/// ditto
-	@property void frame13Texture(Texture v)
-	{
-		setFrameTexture(13, v);
-	}
-	/**
-	
-	*/
-	@property double frame13DelaySec()
-	{
-		return getFrameDelay(13);
-	}
-	/// ditto
-	@property void frame13DelaySec(double v)
-	{
-		setFrameDelay(13, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame14Texture()
-	{
-		return getFrameTexture(14);
-	}
-	/// ditto
-	@property void frame14Texture(Texture v)
-	{
-		setFrameTexture(14, v);
-	}
-	/**
-	
-	*/
-	@property double frame14DelaySec()
-	{
-		return getFrameDelay(14);
-	}
-	/// ditto
-	@property void frame14DelaySec(double v)
-	{
-		setFrameDelay(14, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame15Texture()
-	{
-		return getFrameTexture(15);
-	}
-	/// ditto
-	@property void frame15Texture(Texture v)
-	{
-		setFrameTexture(15, v);
-	}
-	/**
-	
-	*/
-	@property double frame15DelaySec()
-	{
-		return getFrameDelay(15);
-	}
-	/// ditto
-	@property void frame15DelaySec(double v)
-	{
-		setFrameDelay(15, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame16Texture()
-	{
-		return getFrameTexture(16);
-	}
-	/// ditto
-	@property void frame16Texture(Texture v)
-	{
-		setFrameTexture(16, v);
-	}
-	/**
-	
-	*/
-	@property double frame16DelaySec()
-	{
-		return getFrameDelay(16);
-	}
-	/// ditto
-	@property void frame16DelaySec(double v)
-	{
-		setFrameDelay(16, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame17Texture()
-	{
-		return getFrameTexture(17);
-	}
-	/// ditto
-	@property void frame17Texture(Texture v)
-	{
-		setFrameTexture(17, v);
-	}
-	/**
-	
-	*/
-	@property double frame17DelaySec()
-	{
-		return getFrameDelay(17);
-	}
-	/// ditto
-	@property void frame17DelaySec(double v)
-	{
-		setFrameDelay(17, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame18Texture()
-	{
-		return getFrameTexture(18);
-	}
-	/// ditto
-	@property void frame18Texture(Texture v)
-	{
-		setFrameTexture(18, v);
-	}
-	/**
-	
-	*/
-	@property double frame18DelaySec()
-	{
-		return getFrameDelay(18);
-	}
-	/// ditto
-	@property void frame18DelaySec(double v)
-	{
-		setFrameDelay(18, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame19Texture()
-	{
-		return getFrameTexture(19);
-	}
-	/// ditto
-	@property void frame19Texture(Texture v)
-	{
-		setFrameTexture(19, v);
-	}
-	/**
-	
-	*/
-	@property double frame19DelaySec()
-	{
-		return getFrameDelay(19);
-	}
-	/// ditto
-	@property void frame19DelaySec(double v)
-	{
-		setFrameDelay(19, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame20Texture()
-	{
-		return getFrameTexture(20);
-	}
-	/// ditto
-	@property void frame20Texture(Texture v)
-	{
-		setFrameTexture(20, v);
-	}
-	/**
-	
-	*/
-	@property double frame20DelaySec()
-	{
-		return getFrameDelay(20);
-	}
-	/// ditto
-	@property void frame20DelaySec(double v)
-	{
-		setFrameDelay(20, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame21Texture()
-	{
-		return getFrameTexture(21);
-	}
-	/// ditto
-	@property void frame21Texture(Texture v)
-	{
-		setFrameTexture(21, v);
-	}
-	/**
-	
-	*/
-	@property double frame21DelaySec()
-	{
-		return getFrameDelay(21);
-	}
-	/// ditto
-	@property void frame21DelaySec(double v)
-	{
-		setFrameDelay(21, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame22Texture()
-	{
-		return getFrameTexture(22);
-	}
-	/// ditto
-	@property void frame22Texture(Texture v)
-	{
-		setFrameTexture(22, v);
-	}
-	/**
-	
-	*/
-	@property double frame22DelaySec()
-	{
-		return getFrameDelay(22);
-	}
-	/// ditto
-	@property void frame22DelaySec(double v)
-	{
-		setFrameDelay(22, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame23Texture()
-	{
-		return getFrameTexture(23);
-	}
-	/// ditto
-	@property void frame23Texture(Texture v)
-	{
-		setFrameTexture(23, v);
-	}
-	/**
-	
-	*/
-	@property double frame23DelaySec()
-	{
-		return getFrameDelay(23);
-	}
-	/// ditto
-	@property void frame23DelaySec(double v)
-	{
-		setFrameDelay(23, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame24Texture()
-	{
-		return getFrameTexture(24);
-	}
-	/// ditto
-	@property void frame24Texture(Texture v)
-	{
-		setFrameTexture(24, v);
-	}
-	/**
-	
-	*/
-	@property double frame24DelaySec()
-	{
-		return getFrameDelay(24);
-	}
-	/// ditto
-	@property void frame24DelaySec(double v)
-	{
-		setFrameDelay(24, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame25Texture()
-	{
-		return getFrameTexture(25);
-	}
-	/// ditto
-	@property void frame25Texture(Texture v)
-	{
-		setFrameTexture(25, v);
-	}
-	/**
-	
-	*/
-	@property double frame25DelaySec()
-	{
-		return getFrameDelay(25);
-	}
-	/// ditto
-	@property void frame25DelaySec(double v)
-	{
-		setFrameDelay(25, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame26Texture()
-	{
-		return getFrameTexture(26);
-	}
-	/// ditto
-	@property void frame26Texture(Texture v)
-	{
-		setFrameTexture(26, v);
-	}
-	/**
-	
-	*/
-	@property double frame26DelaySec()
-	{
-		return getFrameDelay(26);
-	}
-	/// ditto
-	@property void frame26DelaySec(double v)
-	{
-		setFrameDelay(26, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame27Texture()
-	{
-		return getFrameTexture(27);
-	}
-	/// ditto
-	@property void frame27Texture(Texture v)
-	{
-		setFrameTexture(27, v);
-	}
-	/**
-	
-	*/
-	@property double frame27DelaySec()
-	{
-		return getFrameDelay(27);
-	}
-	/// ditto
-	@property void frame27DelaySec(double v)
-	{
-		setFrameDelay(27, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame28Texture()
-	{
-		return getFrameTexture(28);
-	}
-	/// ditto
-	@property void frame28Texture(Texture v)
-	{
-		setFrameTexture(28, v);
-	}
-	/**
-	
-	*/
-	@property double frame28DelaySec()
-	{
-		return getFrameDelay(28);
-	}
-	/// ditto
-	@property void frame28DelaySec(double v)
-	{
-		setFrameDelay(28, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame29Texture()
-	{
-		return getFrameTexture(29);
-	}
-	/// ditto
-	@property void frame29Texture(Texture v)
-	{
-		setFrameTexture(29, v);
-	}
-	/**
-	
-	*/
-	@property double frame29DelaySec()
-	{
-		return getFrameDelay(29);
-	}
-	/// ditto
-	@property void frame29DelaySec(double v)
-	{
-		setFrameDelay(29, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame30Texture()
-	{
-		return getFrameTexture(30);
-	}
-	/// ditto
-	@property void frame30Texture(Texture v)
-	{
-		setFrameTexture(30, v);
-	}
-	/**
-	
-	*/
-	@property double frame30DelaySec()
-	{
-		return getFrameDelay(30);
-	}
-	/// ditto
-	@property void frame30DelaySec(double v)
-	{
-		setFrameDelay(30, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame31Texture()
-	{
-		return getFrameTexture(31);
-	}
-	/// ditto
-	@property void frame31Texture(Texture v)
-	{
-		setFrameTexture(31, v);
-	}
-	/**
-	
-	*/
-	@property double frame31DelaySec()
-	{
-		return getFrameDelay(31);
-	}
-	/// ditto
-	@property void frame31DelaySec(double v)
-	{
-		setFrameDelay(31, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame32Texture()
-	{
-		return getFrameTexture(32);
-	}
-	/// ditto
-	@property void frame32Texture(Texture v)
-	{
-		setFrameTexture(32, v);
-	}
-	/**
-	
-	*/
-	@property double frame32DelaySec()
-	{
-		return getFrameDelay(32);
-	}
-	/// ditto
-	@property void frame32DelaySec(double v)
-	{
-		setFrameDelay(32, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame33Texture()
-	{
-		return getFrameTexture(33);
-	}
-	/// ditto
-	@property void frame33Texture(Texture v)
-	{
-		setFrameTexture(33, v);
-	}
-	/**
-	
-	*/
-	@property double frame33DelaySec()
-	{
-		return getFrameDelay(33);
-	}
-	/// ditto
-	@property void frame33DelaySec(double v)
-	{
-		setFrameDelay(33, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame34Texture()
-	{
-		return getFrameTexture(34);
-	}
-	/// ditto
-	@property void frame34Texture(Texture v)
-	{
-		setFrameTexture(34, v);
-	}
-	/**
-	
-	*/
-	@property double frame34DelaySec()
-	{
-		return getFrameDelay(34);
-	}
-	/// ditto
-	@property void frame34DelaySec(double v)
-	{
-		setFrameDelay(34, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame35Texture()
-	{
-		return getFrameTexture(35);
-	}
-	/// ditto
-	@property void frame35Texture(Texture v)
-	{
-		setFrameTexture(35, v);
-	}
-	/**
-	
-	*/
-	@property double frame35DelaySec()
-	{
-		return getFrameDelay(35);
-	}
-	/// ditto
-	@property void frame35DelaySec(double v)
-	{
-		setFrameDelay(35, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame36Texture()
-	{
-		return getFrameTexture(36);
-	}
-	/// ditto
-	@property void frame36Texture(Texture v)
-	{
-		setFrameTexture(36, v);
-	}
-	/**
-	
-	*/
-	@property double frame36DelaySec()
-	{
-		return getFrameDelay(36);
-	}
-	/// ditto
-	@property void frame36DelaySec(double v)
-	{
-		setFrameDelay(36, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame37Texture()
-	{
-		return getFrameTexture(37);
-	}
-	/// ditto
-	@property void frame37Texture(Texture v)
-	{
-		setFrameTexture(37, v);
-	}
-	/**
-	
-	*/
-	@property double frame37DelaySec()
-	{
-		return getFrameDelay(37);
-	}
-	/// ditto
-	@property void frame37DelaySec(double v)
-	{
-		setFrameDelay(37, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame38Texture()
-	{
-		return getFrameTexture(38);
-	}
-	/// ditto
-	@property void frame38Texture(Texture v)
-	{
-		setFrameTexture(38, v);
-	}
-	/**
-	
-	*/
-	@property double frame38DelaySec()
-	{
-		return getFrameDelay(38);
-	}
-	/// ditto
-	@property void frame38DelaySec(double v)
-	{
-		setFrameDelay(38, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame39Texture()
-	{
-		return getFrameTexture(39);
-	}
-	/// ditto
-	@property void frame39Texture(Texture v)
-	{
-		setFrameTexture(39, v);
-	}
-	/**
-	
-	*/
-	@property double frame39DelaySec()
-	{
-		return getFrameDelay(39);
-	}
-	/// ditto
-	@property void frame39DelaySec(double v)
-	{
-		setFrameDelay(39, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame40Texture()
-	{
-		return getFrameTexture(40);
-	}
-	/// ditto
-	@property void frame40Texture(Texture v)
-	{
-		setFrameTexture(40, v);
-	}
-	/**
-	
-	*/
-	@property double frame40DelaySec()
-	{
-		return getFrameDelay(40);
-	}
-	/// ditto
-	@property void frame40DelaySec(double v)
-	{
-		setFrameDelay(40, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame41Texture()
-	{
-		return getFrameTexture(41);
-	}
-	/// ditto
-	@property void frame41Texture(Texture v)
-	{
-		setFrameTexture(41, v);
-	}
-	/**
-	
-	*/
-	@property double frame41DelaySec()
-	{
-		return getFrameDelay(41);
-	}
-	/// ditto
-	@property void frame41DelaySec(double v)
-	{
-		setFrameDelay(41, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame42Texture()
-	{
-		return getFrameTexture(42);
-	}
-	/// ditto
-	@property void frame42Texture(Texture v)
-	{
-		setFrameTexture(42, v);
-	}
-	/**
-	
-	*/
-	@property double frame42DelaySec()
-	{
-		return getFrameDelay(42);
-	}
-	/// ditto
-	@property void frame42DelaySec(double v)
-	{
-		setFrameDelay(42, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame43Texture()
-	{
-		return getFrameTexture(43);
-	}
-	/// ditto
-	@property void frame43Texture(Texture v)
-	{
-		setFrameTexture(43, v);
-	}
-	/**
-	
-	*/
-	@property double frame43DelaySec()
-	{
-		return getFrameDelay(43);
-	}
-	/// ditto
-	@property void frame43DelaySec(double v)
-	{
-		setFrameDelay(43, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame44Texture()
-	{
-		return getFrameTexture(44);
-	}
-	/// ditto
-	@property void frame44Texture(Texture v)
-	{
-		setFrameTexture(44, v);
-	}
-	/**
-	
-	*/
-	@property double frame44DelaySec()
-	{
-		return getFrameDelay(44);
-	}
-	/// ditto
-	@property void frame44DelaySec(double v)
-	{
-		setFrameDelay(44, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame45Texture()
-	{
-		return getFrameTexture(45);
-	}
-	/// ditto
-	@property void frame45Texture(Texture v)
-	{
-		setFrameTexture(45, v);
-	}
-	/**
-	
-	*/
-	@property double frame45DelaySec()
-	{
-		return getFrameDelay(45);
-	}
-	/// ditto
-	@property void frame45DelaySec(double v)
-	{
-		setFrameDelay(45, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame46Texture()
-	{
-		return getFrameTexture(46);
-	}
-	/// ditto
-	@property void frame46Texture(Texture v)
-	{
-		setFrameTexture(46, v);
-	}
-	/**
-	
-	*/
-	@property double frame46DelaySec()
-	{
-		return getFrameDelay(46);
-	}
-	/// ditto
-	@property void frame46DelaySec(double v)
-	{
-		setFrameDelay(46, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame47Texture()
-	{
-		return getFrameTexture(47);
-	}
-	/// ditto
-	@property void frame47Texture(Texture v)
-	{
-		setFrameTexture(47, v);
-	}
-	/**
-	
-	*/
-	@property double frame47DelaySec()
-	{
-		return getFrameDelay(47);
-	}
-	/// ditto
-	@property void frame47DelaySec(double v)
-	{
-		setFrameDelay(47, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame48Texture()
-	{
-		return getFrameTexture(48);
-	}
-	/// ditto
-	@property void frame48Texture(Texture v)
-	{
-		setFrameTexture(48, v);
-	}
-	/**
-	
-	*/
-	@property double frame48DelaySec()
-	{
-		return getFrameDelay(48);
-	}
-	/// ditto
-	@property void frame48DelaySec(double v)
-	{
-		setFrameDelay(48, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame49Texture()
-	{
-		return getFrameTexture(49);
-	}
-	/// ditto
-	@property void frame49Texture(Texture v)
-	{
-		setFrameTexture(49, v);
-	}
-	/**
-	
-	*/
-	@property double frame49DelaySec()
-	{
-		return getFrameDelay(49);
-	}
-	/// ditto
-	@property void frame49DelaySec(double v)
-	{
-		setFrameDelay(49, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame50Texture()
-	{
-		return getFrameTexture(50);
-	}
-	/// ditto
-	@property void frame50Texture(Texture v)
-	{
-		setFrameTexture(50, v);
-	}
-	/**
-	
-	*/
-	@property double frame50DelaySec()
-	{
-		return getFrameDelay(50);
-	}
-	/// ditto
-	@property void frame50DelaySec(double v)
-	{
-		setFrameDelay(50, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame51Texture()
-	{
-		return getFrameTexture(51);
-	}
-	/// ditto
-	@property void frame51Texture(Texture v)
-	{
-		setFrameTexture(51, v);
-	}
-	/**
-	
-	*/
-	@property double frame51DelaySec()
-	{
-		return getFrameDelay(51);
-	}
-	/// ditto
-	@property void frame51DelaySec(double v)
-	{
-		setFrameDelay(51, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame52Texture()
-	{
-		return getFrameTexture(52);
-	}
-	/// ditto
-	@property void frame52Texture(Texture v)
-	{
-		setFrameTexture(52, v);
-	}
-	/**
-	
-	*/
-	@property double frame52DelaySec()
-	{
-		return getFrameDelay(52);
-	}
-	/// ditto
-	@property void frame52DelaySec(double v)
-	{
-		setFrameDelay(52, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame53Texture()
-	{
-		return getFrameTexture(53);
-	}
-	/// ditto
-	@property void frame53Texture(Texture v)
-	{
-		setFrameTexture(53, v);
-	}
-	/**
-	
-	*/
-	@property double frame53DelaySec()
-	{
-		return getFrameDelay(53);
-	}
-	/// ditto
-	@property void frame53DelaySec(double v)
-	{
-		setFrameDelay(53, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame54Texture()
-	{
-		return getFrameTexture(54);
-	}
-	/// ditto
-	@property void frame54Texture(Texture v)
-	{
-		setFrameTexture(54, v);
-	}
-	/**
-	
-	*/
-	@property double frame54DelaySec()
-	{
-		return getFrameDelay(54);
-	}
-	/// ditto
-	@property void frame54DelaySec(double v)
-	{
-		setFrameDelay(54, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame55Texture()
-	{
-		return getFrameTexture(55);
-	}
-	/// ditto
-	@property void frame55Texture(Texture v)
-	{
-		setFrameTexture(55, v);
-	}
-	/**
-	
-	*/
-	@property double frame55DelaySec()
-	{
-		return getFrameDelay(55);
-	}
-	/// ditto
-	@property void frame55DelaySec(double v)
-	{
-		setFrameDelay(55, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame56Texture()
-	{
-		return getFrameTexture(56);
-	}
-	/// ditto
-	@property void frame56Texture(Texture v)
-	{
-		setFrameTexture(56, v);
-	}
-	/**
-	
-	*/
-	@property double frame56DelaySec()
-	{
-		return getFrameDelay(56);
-	}
-	/// ditto
-	@property void frame56DelaySec(double v)
-	{
-		setFrameDelay(56, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame57Texture()
-	{
-		return getFrameTexture(57);
-	}
-	/// ditto
-	@property void frame57Texture(Texture v)
-	{
-		setFrameTexture(57, v);
-	}
-	/**
-	
-	*/
-	@property double frame57DelaySec()
-	{
-		return getFrameDelay(57);
-	}
-	/// ditto
-	@property void frame57DelaySec(double v)
-	{
-		setFrameDelay(57, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame58Texture()
-	{
-		return getFrameTexture(58);
-	}
-	/// ditto
-	@property void frame58Texture(Texture v)
-	{
-		setFrameTexture(58, v);
-	}
-	/**
-	
-	*/
-	@property double frame58DelaySec()
-	{
-		return getFrameDelay(58);
-	}
-	/// ditto
-	@property void frame58DelaySec(double v)
-	{
-		setFrameDelay(58, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame59Texture()
-	{
-		return getFrameTexture(59);
-	}
-	/// ditto
-	@property void frame59Texture(Texture v)
-	{
-		setFrameTexture(59, v);
-	}
-	/**
-	
-	*/
-	@property double frame59DelaySec()
-	{
-		return getFrameDelay(59);
-	}
-	/// ditto
-	@property void frame59DelaySec(double v)
-	{
-		setFrameDelay(59, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame60Texture()
-	{
-		return getFrameTexture(60);
-	}
-	/// ditto
-	@property void frame60Texture(Texture v)
-	{
-		setFrameTexture(60, v);
-	}
-	/**
-	
-	*/
-	@property double frame60DelaySec()
-	{
-		return getFrameDelay(60);
-	}
-	/// ditto
-	@property void frame60DelaySec(double v)
-	{
-		setFrameDelay(60, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame61Texture()
-	{
-		return getFrameTexture(61);
-	}
-	/// ditto
-	@property void frame61Texture(Texture v)
-	{
-		setFrameTexture(61, v);
-	}
-	/**
-	
-	*/
-	@property double frame61DelaySec()
-	{
-		return getFrameDelay(61);
-	}
-	/// ditto
-	@property void frame61DelaySec(double v)
-	{
-		setFrameDelay(61, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame62Texture()
-	{
-		return getFrameTexture(62);
-	}
-	/// ditto
-	@property void frame62Texture(Texture v)
-	{
-		setFrameTexture(62, v);
-	}
-	/**
-	
-	*/
-	@property double frame62DelaySec()
-	{
-		return getFrameDelay(62);
-	}
-	/// ditto
-	@property void frame62DelaySec(double v)
-	{
-		setFrameDelay(62, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame63Texture()
-	{
-		return getFrameTexture(63);
-	}
-	/// ditto
-	@property void frame63Texture(Texture v)
-	{
-		setFrameTexture(63, v);
-	}
-	/**
-	
-	*/
-	@property double frame63DelaySec()
-	{
-		return getFrameDelay(63);
-	}
-	/// ditto
-	@property void frame63DelaySec(double v)
-	{
-		setFrameDelay(63, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame64Texture()
-	{
-		return getFrameTexture(64);
-	}
-	/// ditto
-	@property void frame64Texture(Texture v)
-	{
-		setFrameTexture(64, v);
-	}
-	/**
-	
-	*/
-	@property double frame64DelaySec()
-	{
-		return getFrameDelay(64);
-	}
-	/// ditto
-	@property void frame64DelaySec(double v)
-	{
-		setFrameDelay(64, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame65Texture()
-	{
-		return getFrameTexture(65);
-	}
-	/// ditto
-	@property void frame65Texture(Texture v)
-	{
-		setFrameTexture(65, v);
-	}
-	/**
-	
-	*/
-	@property double frame65DelaySec()
-	{
-		return getFrameDelay(65);
-	}
-	/// ditto
-	@property void frame65DelaySec(double v)
-	{
-		setFrameDelay(65, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame66Texture()
-	{
-		return getFrameTexture(66);
-	}
-	/// ditto
-	@property void frame66Texture(Texture v)
-	{
-		setFrameTexture(66, v);
-	}
-	/**
-	
-	*/
-	@property double frame66DelaySec()
-	{
-		return getFrameDelay(66);
-	}
-	/// ditto
-	@property void frame66DelaySec(double v)
-	{
-		setFrameDelay(66, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame67Texture()
-	{
-		return getFrameTexture(67);
-	}
-	/// ditto
-	@property void frame67Texture(Texture v)
-	{
-		setFrameTexture(67, v);
-	}
-	/**
-	
-	*/
-	@property double frame67DelaySec()
-	{
-		return getFrameDelay(67);
-	}
-	/// ditto
-	@property void frame67DelaySec(double v)
-	{
-		setFrameDelay(67, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame68Texture()
-	{
-		return getFrameTexture(68);
-	}
-	/// ditto
-	@property void frame68Texture(Texture v)
-	{
-		setFrameTexture(68, v);
-	}
-	/**
-	
-	*/
-	@property double frame68DelaySec()
-	{
-		return getFrameDelay(68);
-	}
-	/// ditto
-	@property void frame68DelaySec(double v)
-	{
-		setFrameDelay(68, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame69Texture()
-	{
-		return getFrameTexture(69);
-	}
-	/// ditto
-	@property void frame69Texture(Texture v)
-	{
-		setFrameTexture(69, v);
-	}
-	/**
-	
-	*/
-	@property double frame69DelaySec()
-	{
-		return getFrameDelay(69);
-	}
-	/// ditto
-	@property void frame69DelaySec(double v)
-	{
-		setFrameDelay(69, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame70Texture()
-	{
-		return getFrameTexture(70);
-	}
-	/// ditto
-	@property void frame70Texture(Texture v)
-	{
-		setFrameTexture(70, v);
-	}
-	/**
-	
-	*/
-	@property double frame70DelaySec()
-	{
-		return getFrameDelay(70);
-	}
-	/// ditto
-	@property void frame70DelaySec(double v)
-	{
-		setFrameDelay(70, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame71Texture()
-	{
-		return getFrameTexture(71);
-	}
-	/// ditto
-	@property void frame71Texture(Texture v)
-	{
-		setFrameTexture(71, v);
-	}
-	/**
-	
-	*/
-	@property double frame71DelaySec()
-	{
-		return getFrameDelay(71);
-	}
-	/// ditto
-	@property void frame71DelaySec(double v)
-	{
-		setFrameDelay(71, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame72Texture()
-	{
-		return getFrameTexture(72);
-	}
-	/// ditto
-	@property void frame72Texture(Texture v)
-	{
-		setFrameTexture(72, v);
-	}
-	/**
-	
-	*/
-	@property double frame72DelaySec()
-	{
-		return getFrameDelay(72);
-	}
-	/// ditto
-	@property void frame72DelaySec(double v)
-	{
-		setFrameDelay(72, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame73Texture()
-	{
-		return getFrameTexture(73);
-	}
-	/// ditto
-	@property void frame73Texture(Texture v)
-	{
-		setFrameTexture(73, v);
-	}
-	/**
-	
-	*/
-	@property double frame73DelaySec()
-	{
-		return getFrameDelay(73);
-	}
-	/// ditto
-	@property void frame73DelaySec(double v)
-	{
-		setFrameDelay(73, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame74Texture()
-	{
-		return getFrameTexture(74);
-	}
-	/// ditto
-	@property void frame74Texture(Texture v)
-	{
-		setFrameTexture(74, v);
-	}
-	/**
-	
-	*/
-	@property double frame74DelaySec()
-	{
-		return getFrameDelay(74);
-	}
-	/// ditto
-	@property void frame74DelaySec(double v)
-	{
-		setFrameDelay(74, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame75Texture()
-	{
-		return getFrameTexture(75);
-	}
-	/// ditto
-	@property void frame75Texture(Texture v)
-	{
-		setFrameTexture(75, v);
-	}
-	/**
-	
-	*/
-	@property double frame75DelaySec()
-	{
-		return getFrameDelay(75);
-	}
-	/// ditto
-	@property void frame75DelaySec(double v)
-	{
-		setFrameDelay(75, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame76Texture()
-	{
-		return getFrameTexture(76);
-	}
-	/// ditto
-	@property void frame76Texture(Texture v)
-	{
-		setFrameTexture(76, v);
-	}
-	/**
-	
-	*/
-	@property double frame76DelaySec()
-	{
-		return getFrameDelay(76);
-	}
-	/// ditto
-	@property void frame76DelaySec(double v)
-	{
-		setFrameDelay(76, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame77Texture()
-	{
-		return getFrameTexture(77);
-	}
-	/// ditto
-	@property void frame77Texture(Texture v)
-	{
-		setFrameTexture(77, v);
-	}
-	/**
-	
-	*/
-	@property double frame77DelaySec()
-	{
-		return getFrameDelay(77);
-	}
-	/// ditto
-	@property void frame77DelaySec(double v)
-	{
-		setFrameDelay(77, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame78Texture()
-	{
-		return getFrameTexture(78);
-	}
-	/// ditto
-	@property void frame78Texture(Texture v)
-	{
-		setFrameTexture(78, v);
-	}
-	/**
-	
-	*/
-	@property double frame78DelaySec()
-	{
-		return getFrameDelay(78);
-	}
-	/// ditto
-	@property void frame78DelaySec(double v)
-	{
-		setFrameDelay(78, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame79Texture()
-	{
-		return getFrameTexture(79);
-	}
-	/// ditto
-	@property void frame79Texture(Texture v)
-	{
-		setFrameTexture(79, v);
-	}
-	/**
-	
-	*/
-	@property double frame79DelaySec()
-	{
-		return getFrameDelay(79);
-	}
-	/// ditto
-	@property void frame79DelaySec(double v)
-	{
-		setFrameDelay(79, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame80Texture()
-	{
-		return getFrameTexture(80);
-	}
-	/// ditto
-	@property void frame80Texture(Texture v)
-	{
-		setFrameTexture(80, v);
-	}
-	/**
-	
-	*/
-	@property double frame80DelaySec()
-	{
-		return getFrameDelay(80);
-	}
-	/// ditto
-	@property void frame80DelaySec(double v)
-	{
-		setFrameDelay(80, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame81Texture()
-	{
-		return getFrameTexture(81);
-	}
-	/// ditto
-	@property void frame81Texture(Texture v)
-	{
-		setFrameTexture(81, v);
-	}
-	/**
-	
-	*/
-	@property double frame81DelaySec()
-	{
-		return getFrameDelay(81);
-	}
-	/// ditto
-	@property void frame81DelaySec(double v)
-	{
-		setFrameDelay(81, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame82Texture()
-	{
-		return getFrameTexture(82);
-	}
-	/// ditto
-	@property void frame82Texture(Texture v)
-	{
-		setFrameTexture(82, v);
-	}
-	/**
-	
-	*/
-	@property double frame82DelaySec()
-	{
-		return getFrameDelay(82);
-	}
-	/// ditto
-	@property void frame82DelaySec(double v)
-	{
-		setFrameDelay(82, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame83Texture()
-	{
-		return getFrameTexture(83);
-	}
-	/// ditto
-	@property void frame83Texture(Texture v)
-	{
-		setFrameTexture(83, v);
-	}
-	/**
-	
-	*/
-	@property double frame83DelaySec()
-	{
-		return getFrameDelay(83);
-	}
-	/// ditto
-	@property void frame83DelaySec(double v)
-	{
-		setFrameDelay(83, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame84Texture()
-	{
-		return getFrameTexture(84);
-	}
-	/// ditto
-	@property void frame84Texture(Texture v)
-	{
-		setFrameTexture(84, v);
-	}
-	/**
-	
-	*/
-	@property double frame84DelaySec()
-	{
-		return getFrameDelay(84);
-	}
-	/// ditto
-	@property void frame84DelaySec(double v)
-	{
-		setFrameDelay(84, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame85Texture()
-	{
-		return getFrameTexture(85);
-	}
-	/// ditto
-	@property void frame85Texture(Texture v)
-	{
-		setFrameTexture(85, v);
-	}
-	/**
-	
-	*/
-	@property double frame85DelaySec()
-	{
-		return getFrameDelay(85);
-	}
-	/// ditto
-	@property void frame85DelaySec(double v)
-	{
-		setFrameDelay(85, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame86Texture()
-	{
-		return getFrameTexture(86);
-	}
-	/// ditto
-	@property void frame86Texture(Texture v)
-	{
-		setFrameTexture(86, v);
-	}
-	/**
-	
-	*/
-	@property double frame86DelaySec()
-	{
-		return getFrameDelay(86);
-	}
-	/// ditto
-	@property void frame86DelaySec(double v)
-	{
-		setFrameDelay(86, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame87Texture()
-	{
-		return getFrameTexture(87);
-	}
-	/// ditto
-	@property void frame87Texture(Texture v)
-	{
-		setFrameTexture(87, v);
-	}
-	/**
-	
-	*/
-	@property double frame87DelaySec()
-	{
-		return getFrameDelay(87);
-	}
-	/// ditto
-	@property void frame87DelaySec(double v)
-	{
-		setFrameDelay(87, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame88Texture()
-	{
-		return getFrameTexture(88);
-	}
-	/// ditto
-	@property void frame88Texture(Texture v)
-	{
-		setFrameTexture(88, v);
-	}
-	/**
-	
-	*/
-	@property double frame88DelaySec()
-	{
-		return getFrameDelay(88);
-	}
-	/// ditto
-	@property void frame88DelaySec(double v)
-	{
-		setFrameDelay(88, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame89Texture()
-	{
-		return getFrameTexture(89);
-	}
-	/// ditto
-	@property void frame89Texture(Texture v)
-	{
-		setFrameTexture(89, v);
-	}
-	/**
-	
-	*/
-	@property double frame89DelaySec()
-	{
-		return getFrameDelay(89);
-	}
-	/// ditto
-	@property void frame89DelaySec(double v)
-	{
-		setFrameDelay(89, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame90Texture()
-	{
-		return getFrameTexture(90);
-	}
-	/// ditto
-	@property void frame90Texture(Texture v)
-	{
-		setFrameTexture(90, v);
-	}
-	/**
-	
-	*/
-	@property double frame90DelaySec()
-	{
-		return getFrameDelay(90);
-	}
-	/// ditto
-	@property void frame90DelaySec(double v)
-	{
-		setFrameDelay(90, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame91Texture()
-	{
-		return getFrameTexture(91);
-	}
-	/// ditto
-	@property void frame91Texture(Texture v)
-	{
-		setFrameTexture(91, v);
-	}
-	/**
-	
-	*/
-	@property double frame91DelaySec()
-	{
-		return getFrameDelay(91);
-	}
-	/// ditto
-	@property void frame91DelaySec(double v)
-	{
-		setFrameDelay(91, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame92Texture()
-	{
-		return getFrameTexture(92);
-	}
-	/// ditto
-	@property void frame92Texture(Texture v)
-	{
-		setFrameTexture(92, v);
-	}
-	/**
-	
-	*/
-	@property double frame92DelaySec()
-	{
-		return getFrameDelay(92);
-	}
-	/// ditto
-	@property void frame92DelaySec(double v)
-	{
-		setFrameDelay(92, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame93Texture()
-	{
-		return getFrameTexture(93);
-	}
-	/// ditto
-	@property void frame93Texture(Texture v)
-	{
-		setFrameTexture(93, v);
-	}
-	/**
-	
-	*/
-	@property double frame93DelaySec()
-	{
-		return getFrameDelay(93);
-	}
-	/// ditto
-	@property void frame93DelaySec(double v)
-	{
-		setFrameDelay(93, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame94Texture()
-	{
-		return getFrameTexture(94);
-	}
-	/// ditto
-	@property void frame94Texture(Texture v)
-	{
-		setFrameTexture(94, v);
-	}
-	/**
-	
-	*/
-	@property double frame94DelaySec()
-	{
-		return getFrameDelay(94);
-	}
-	/// ditto
-	@property void frame94DelaySec(double v)
-	{
-		setFrameDelay(94, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame95Texture()
-	{
-		return getFrameTexture(95);
-	}
-	/// ditto
-	@property void frame95Texture(Texture v)
-	{
-		setFrameTexture(95, v);
-	}
-	/**
-	
-	*/
-	@property double frame95DelaySec()
-	{
-		return getFrameDelay(95);
-	}
-	/// ditto
-	@property void frame95DelaySec(double v)
-	{
-		setFrameDelay(95, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame96Texture()
-	{
-		return getFrameTexture(96);
-	}
-	/// ditto
-	@property void frame96Texture(Texture v)
-	{
-		setFrameTexture(96, v);
-	}
-	/**
-	
-	*/
-	@property double frame96DelaySec()
-	{
-		return getFrameDelay(96);
-	}
-	/// ditto
-	@property void frame96DelaySec(double v)
-	{
-		setFrameDelay(96, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame97Texture()
-	{
-		return getFrameTexture(97);
-	}
-	/// ditto
-	@property void frame97Texture(Texture v)
-	{
-		setFrameTexture(97, v);
-	}
-	/**
-	
-	*/
-	@property double frame97DelaySec()
-	{
-		return getFrameDelay(97);
-	}
-	/// ditto
-	@property void frame97DelaySec(double v)
-	{
-		setFrameDelay(97, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame98Texture()
-	{
-		return getFrameTexture(98);
-	}
-	/// ditto
-	@property void frame98Texture(Texture v)
-	{
-		setFrameTexture(98, v);
-	}
-	/**
-	
-	*/
-	@property double frame98DelaySec()
-	{
-		return getFrameDelay(98);
-	}
-	/// ditto
-	@property void frame98DelaySec(double v)
-	{
-		setFrameDelay(98, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame99Texture()
-	{
-		return getFrameTexture(99);
-	}
-	/// ditto
-	@property void frame99Texture(Texture v)
-	{
-		setFrameTexture(99, v);
-	}
-	/**
-	
-	*/
-	@property double frame99DelaySec()
-	{
-		return getFrameDelay(99);
-	}
-	/// ditto
-	@property void frame99DelaySec(double v)
-	{
-		setFrameDelay(99, v);
-	}
-	/**
-	
-	*/
-	@property Texture frame100Texture()
-	{
-		return getFrameTexture(100);
-	}
-	/// ditto
-	@property void frame100Texture(Texture v)
-	{
-		setFrameTexture(100, v);
+		setFrameTexture(10, v);
 	}
 	/**
 	
@@ -2607,14 +253,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame101Texture()
+	@property Texture frame100Texture()
 	{
-		return getFrameTexture(101);
+		return getFrameTexture(100);
 	}
 	/// ditto
-	@property void frame101Texture(Texture v)
+	@property void frame100Texture(Texture v)
 	{
-		setFrameTexture(101, v);
+		setFrameTexture(100, v);
 	}
 	/**
 	
@@ -2631,14 +277,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame102Texture()
+	@property Texture frame101Texture()
 	{
-		return getFrameTexture(102);
+		return getFrameTexture(101);
 	}
 	/// ditto
-	@property void frame102Texture(Texture v)
+	@property void frame101Texture(Texture v)
 	{
-		setFrameTexture(102, v);
+		setFrameTexture(101, v);
 	}
 	/**
 	
@@ -2655,14 +301,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame103Texture()
+	@property Texture frame102Texture()
 	{
-		return getFrameTexture(103);
+		return getFrameTexture(102);
 	}
 	/// ditto
-	@property void frame103Texture(Texture v)
+	@property void frame102Texture(Texture v)
 	{
-		setFrameTexture(103, v);
+		setFrameTexture(102, v);
 	}
 	/**
 	
@@ -2679,14 +325,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame104Texture()
+	@property Texture frame103Texture()
 	{
-		return getFrameTexture(104);
+		return getFrameTexture(103);
 	}
 	/// ditto
-	@property void frame104Texture(Texture v)
+	@property void frame103Texture(Texture v)
 	{
-		setFrameTexture(104, v);
+		setFrameTexture(103, v);
 	}
 	/**
 	
@@ -2703,14 +349,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame105Texture()
+	@property Texture frame104Texture()
 	{
-		return getFrameTexture(105);
+		return getFrameTexture(104);
 	}
 	/// ditto
-	@property void frame105Texture(Texture v)
+	@property void frame104Texture(Texture v)
 	{
-		setFrameTexture(105, v);
+		setFrameTexture(104, v);
 	}
 	/**
 	
@@ -2727,14 +373,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame106Texture()
+	@property Texture frame105Texture()
 	{
-		return getFrameTexture(106);
+		return getFrameTexture(105);
 	}
 	/// ditto
-	@property void frame106Texture(Texture v)
+	@property void frame105Texture(Texture v)
 	{
-		setFrameTexture(106, v);
+		setFrameTexture(105, v);
 	}
 	/**
 	
@@ -2751,14 +397,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame107Texture()
+	@property Texture frame106Texture()
 	{
-		return getFrameTexture(107);
+		return getFrameTexture(106);
 	}
 	/// ditto
-	@property void frame107Texture(Texture v)
+	@property void frame106Texture(Texture v)
 	{
-		setFrameTexture(107, v);
+		setFrameTexture(106, v);
 	}
 	/**
 	
@@ -2775,14 +421,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame108Texture()
+	@property Texture frame107Texture()
 	{
-		return getFrameTexture(108);
+		return getFrameTexture(107);
 	}
 	/// ditto
-	@property void frame108Texture(Texture v)
+	@property void frame107Texture(Texture v)
 	{
-		setFrameTexture(108, v);
+		setFrameTexture(107, v);
 	}
 	/**
 	
@@ -2799,14 +445,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame109Texture()
+	@property Texture frame108Texture()
 	{
-		return getFrameTexture(109);
+		return getFrameTexture(108);
 	}
 	/// ditto
-	@property void frame109Texture(Texture v)
+	@property void frame108Texture(Texture v)
 	{
-		setFrameTexture(109, v);
+		setFrameTexture(108, v);
 	}
 	/**
 	
@@ -2823,14 +469,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame110Texture()
+	@property Texture frame109Texture()
 	{
-		return getFrameTexture(110);
+		return getFrameTexture(109);
 	}
 	/// ditto
-	@property void frame110Texture(Texture v)
+	@property void frame109Texture(Texture v)
 	{
-		setFrameTexture(110, v);
+		setFrameTexture(109, v);
+	}
+	/**
+	
+	*/
+	@property double frame11DelaySec()
+	{
+		return getFrameDelay(11);
+	}
+	/// ditto
+	@property void frame11DelaySec(double v)
+	{
+		setFrameDelay(11, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame11Texture()
+	{
+		return getFrameTexture(11);
+	}
+	/// ditto
+	@property void frame11Texture(Texture v)
+	{
+		setFrameTexture(11, v);
 	}
 	/**
 	
@@ -2847,14 +517,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame111Texture()
+	@property Texture frame110Texture()
 	{
-		return getFrameTexture(111);
+		return getFrameTexture(110);
 	}
 	/// ditto
-	@property void frame111Texture(Texture v)
+	@property void frame110Texture(Texture v)
 	{
-		setFrameTexture(111, v);
+		setFrameTexture(110, v);
 	}
 	/**
 	
@@ -2871,14 +541,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame112Texture()
+	@property Texture frame111Texture()
 	{
-		return getFrameTexture(112);
+		return getFrameTexture(111);
 	}
 	/// ditto
-	@property void frame112Texture(Texture v)
+	@property void frame111Texture(Texture v)
 	{
-		setFrameTexture(112, v);
+		setFrameTexture(111, v);
 	}
 	/**
 	
@@ -2895,14 +565,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame113Texture()
+	@property Texture frame112Texture()
 	{
-		return getFrameTexture(113);
+		return getFrameTexture(112);
 	}
 	/// ditto
-	@property void frame113Texture(Texture v)
+	@property void frame112Texture(Texture v)
 	{
-		setFrameTexture(113, v);
+		setFrameTexture(112, v);
 	}
 	/**
 	
@@ -2919,14 +589,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame114Texture()
+	@property Texture frame113Texture()
 	{
-		return getFrameTexture(114);
+		return getFrameTexture(113);
 	}
 	/// ditto
-	@property void frame114Texture(Texture v)
+	@property void frame113Texture(Texture v)
 	{
-		setFrameTexture(114, v);
+		setFrameTexture(113, v);
 	}
 	/**
 	
@@ -2943,14 +613,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame115Texture()
+	@property Texture frame114Texture()
 	{
-		return getFrameTexture(115);
+		return getFrameTexture(114);
 	}
 	/// ditto
-	@property void frame115Texture(Texture v)
+	@property void frame114Texture(Texture v)
 	{
-		setFrameTexture(115, v);
+		setFrameTexture(114, v);
 	}
 	/**
 	
@@ -2967,14 +637,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame116Texture()
+	@property Texture frame115Texture()
 	{
-		return getFrameTexture(116);
+		return getFrameTexture(115);
 	}
 	/// ditto
-	@property void frame116Texture(Texture v)
+	@property void frame115Texture(Texture v)
 	{
-		setFrameTexture(116, v);
+		setFrameTexture(115, v);
 	}
 	/**
 	
@@ -2991,14 +661,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame117Texture()
+	@property Texture frame116Texture()
 	{
-		return getFrameTexture(117);
+		return getFrameTexture(116);
 	}
 	/// ditto
-	@property void frame117Texture(Texture v)
+	@property void frame116Texture(Texture v)
 	{
-		setFrameTexture(117, v);
+		setFrameTexture(116, v);
 	}
 	/**
 	
@@ -3015,14 +685,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame118Texture()
+	@property Texture frame117Texture()
 	{
-		return getFrameTexture(118);
+		return getFrameTexture(117);
 	}
 	/// ditto
-	@property void frame118Texture(Texture v)
+	@property void frame117Texture(Texture v)
 	{
-		setFrameTexture(118, v);
+		setFrameTexture(117, v);
 	}
 	/**
 	
@@ -3039,14 +709,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame119Texture()
+	@property Texture frame118Texture()
 	{
-		return getFrameTexture(119);
+		return getFrameTexture(118);
 	}
 	/// ditto
-	@property void frame119Texture(Texture v)
+	@property void frame118Texture(Texture v)
 	{
-		setFrameTexture(119, v);
+		setFrameTexture(118, v);
 	}
 	/**
 	
@@ -3063,14 +733,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame120Texture()
+	@property Texture frame119Texture()
 	{
-		return getFrameTexture(120);
+		return getFrameTexture(119);
 	}
 	/// ditto
-	@property void frame120Texture(Texture v)
+	@property void frame119Texture(Texture v)
 	{
-		setFrameTexture(120, v);
+		setFrameTexture(119, v);
+	}
+	/**
+	
+	*/
+	@property double frame12DelaySec()
+	{
+		return getFrameDelay(12);
+	}
+	/// ditto
+	@property void frame12DelaySec(double v)
+	{
+		setFrameDelay(12, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame12Texture()
+	{
+		return getFrameTexture(12);
+	}
+	/// ditto
+	@property void frame12Texture(Texture v)
+	{
+		setFrameTexture(12, v);
 	}
 	/**
 	
@@ -3087,14 +781,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame121Texture()
+	@property Texture frame120Texture()
 	{
-		return getFrameTexture(121);
+		return getFrameTexture(120);
 	}
 	/// ditto
-	@property void frame121Texture(Texture v)
+	@property void frame120Texture(Texture v)
 	{
-		setFrameTexture(121, v);
+		setFrameTexture(120, v);
 	}
 	/**
 	
@@ -3111,14 +805,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame122Texture()
+	@property Texture frame121Texture()
 	{
-		return getFrameTexture(122);
+		return getFrameTexture(121);
 	}
 	/// ditto
-	@property void frame122Texture(Texture v)
+	@property void frame121Texture(Texture v)
 	{
-		setFrameTexture(122, v);
+		setFrameTexture(121, v);
 	}
 	/**
 	
@@ -3135,14 +829,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame123Texture()
+	@property Texture frame122Texture()
 	{
-		return getFrameTexture(123);
+		return getFrameTexture(122);
 	}
 	/// ditto
-	@property void frame123Texture(Texture v)
+	@property void frame122Texture(Texture v)
 	{
-		setFrameTexture(123, v);
+		setFrameTexture(122, v);
 	}
 	/**
 	
@@ -3159,14 +853,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame124Texture()
+	@property Texture frame123Texture()
 	{
-		return getFrameTexture(124);
+		return getFrameTexture(123);
 	}
 	/// ditto
-	@property void frame124Texture(Texture v)
+	@property void frame123Texture(Texture v)
 	{
-		setFrameTexture(124, v);
+		setFrameTexture(123, v);
 	}
 	/**
 	
@@ -3183,14 +877,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame125Texture()
+	@property Texture frame124Texture()
 	{
-		return getFrameTexture(125);
+		return getFrameTexture(124);
 	}
 	/// ditto
-	@property void frame125Texture(Texture v)
+	@property void frame124Texture(Texture v)
 	{
-		setFrameTexture(125, v);
+		setFrameTexture(124, v);
 	}
 	/**
 	
@@ -3207,14 +901,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame126Texture()
+	@property Texture frame125Texture()
 	{
-		return getFrameTexture(126);
+		return getFrameTexture(125);
 	}
 	/// ditto
-	@property void frame126Texture(Texture v)
+	@property void frame125Texture(Texture v)
 	{
-		setFrameTexture(126, v);
+		setFrameTexture(125, v);
 	}
 	/**
 	
@@ -3231,14 +925,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame127Texture()
+	@property Texture frame126Texture()
 	{
-		return getFrameTexture(127);
+		return getFrameTexture(126);
 	}
 	/// ditto
-	@property void frame127Texture(Texture v)
+	@property void frame126Texture(Texture v)
 	{
-		setFrameTexture(127, v);
+		setFrameTexture(126, v);
 	}
 	/**
 	
@@ -3255,14 +949,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame128Texture()
+	@property Texture frame127Texture()
 	{
-		return getFrameTexture(128);
+		return getFrameTexture(127);
 	}
 	/// ditto
-	@property void frame128Texture(Texture v)
+	@property void frame127Texture(Texture v)
 	{
-		setFrameTexture(128, v);
+		setFrameTexture(127, v);
 	}
 	/**
 	
@@ -3279,14 +973,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame129Texture()
+	@property Texture frame128Texture()
 	{
-		return getFrameTexture(129);
+		return getFrameTexture(128);
 	}
 	/// ditto
-	@property void frame129Texture(Texture v)
+	@property void frame128Texture(Texture v)
 	{
-		setFrameTexture(129, v);
+		setFrameTexture(128, v);
 	}
 	/**
 	
@@ -3303,14 +997,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame130Texture()
+	@property Texture frame129Texture()
 	{
-		return getFrameTexture(130);
+		return getFrameTexture(129);
 	}
 	/// ditto
-	@property void frame130Texture(Texture v)
+	@property void frame129Texture(Texture v)
 	{
-		setFrameTexture(130, v);
+		setFrameTexture(129, v);
+	}
+	/**
+	
+	*/
+	@property double frame13DelaySec()
+	{
+		return getFrameDelay(13);
+	}
+	/// ditto
+	@property void frame13DelaySec(double v)
+	{
+		setFrameDelay(13, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame13Texture()
+	{
+		return getFrameTexture(13);
+	}
+	/// ditto
+	@property void frame13Texture(Texture v)
+	{
+		setFrameTexture(13, v);
 	}
 	/**
 	
@@ -3327,14 +1045,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame131Texture()
+	@property Texture frame130Texture()
 	{
-		return getFrameTexture(131);
+		return getFrameTexture(130);
 	}
 	/// ditto
-	@property void frame131Texture(Texture v)
+	@property void frame130Texture(Texture v)
 	{
-		setFrameTexture(131, v);
+		setFrameTexture(130, v);
 	}
 	/**
 	
@@ -3351,14 +1069,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame132Texture()
+	@property Texture frame131Texture()
 	{
-		return getFrameTexture(132);
+		return getFrameTexture(131);
 	}
 	/// ditto
-	@property void frame132Texture(Texture v)
+	@property void frame131Texture(Texture v)
 	{
-		setFrameTexture(132, v);
+		setFrameTexture(131, v);
 	}
 	/**
 	
@@ -3375,14 +1093,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame133Texture()
+	@property Texture frame132Texture()
 	{
-		return getFrameTexture(133);
+		return getFrameTexture(132);
 	}
 	/// ditto
-	@property void frame133Texture(Texture v)
+	@property void frame132Texture(Texture v)
 	{
-		setFrameTexture(133, v);
+		setFrameTexture(132, v);
 	}
 	/**
 	
@@ -3399,14 +1117,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame134Texture()
+	@property Texture frame133Texture()
 	{
-		return getFrameTexture(134);
+		return getFrameTexture(133);
 	}
 	/// ditto
-	@property void frame134Texture(Texture v)
+	@property void frame133Texture(Texture v)
 	{
-		setFrameTexture(134, v);
+		setFrameTexture(133, v);
 	}
 	/**
 	
@@ -3423,14 +1141,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame135Texture()
+	@property Texture frame134Texture()
 	{
-		return getFrameTexture(135);
+		return getFrameTexture(134);
 	}
 	/// ditto
-	@property void frame135Texture(Texture v)
+	@property void frame134Texture(Texture v)
 	{
-		setFrameTexture(135, v);
+		setFrameTexture(134, v);
 	}
 	/**
 	
@@ -3447,14 +1165,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame136Texture()
+	@property Texture frame135Texture()
 	{
-		return getFrameTexture(136);
+		return getFrameTexture(135);
 	}
 	/// ditto
-	@property void frame136Texture(Texture v)
+	@property void frame135Texture(Texture v)
 	{
-		setFrameTexture(136, v);
+		setFrameTexture(135, v);
 	}
 	/**
 	
@@ -3471,14 +1189,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame137Texture()
+	@property Texture frame136Texture()
 	{
-		return getFrameTexture(137);
+		return getFrameTexture(136);
 	}
 	/// ditto
-	@property void frame137Texture(Texture v)
+	@property void frame136Texture(Texture v)
 	{
-		setFrameTexture(137, v);
+		setFrameTexture(136, v);
 	}
 	/**
 	
@@ -3495,14 +1213,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame138Texture()
+	@property Texture frame137Texture()
 	{
-		return getFrameTexture(138);
+		return getFrameTexture(137);
 	}
 	/// ditto
-	@property void frame138Texture(Texture v)
+	@property void frame137Texture(Texture v)
 	{
-		setFrameTexture(138, v);
+		setFrameTexture(137, v);
 	}
 	/**
 	
@@ -3519,14 +1237,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame139Texture()
+	@property Texture frame138Texture()
 	{
-		return getFrameTexture(139);
+		return getFrameTexture(138);
 	}
 	/// ditto
-	@property void frame139Texture(Texture v)
+	@property void frame138Texture(Texture v)
 	{
-		setFrameTexture(139, v);
+		setFrameTexture(138, v);
 	}
 	/**
 	
@@ -3543,14 +1261,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame140Texture()
+	@property Texture frame139Texture()
 	{
-		return getFrameTexture(140);
+		return getFrameTexture(139);
 	}
 	/// ditto
-	@property void frame140Texture(Texture v)
+	@property void frame139Texture(Texture v)
 	{
-		setFrameTexture(140, v);
+		setFrameTexture(139, v);
+	}
+	/**
+	
+	*/
+	@property double frame14DelaySec()
+	{
+		return getFrameDelay(14);
+	}
+	/// ditto
+	@property void frame14DelaySec(double v)
+	{
+		setFrameDelay(14, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame14Texture()
+	{
+		return getFrameTexture(14);
+	}
+	/// ditto
+	@property void frame14Texture(Texture v)
+	{
+		setFrameTexture(14, v);
 	}
 	/**
 	
@@ -3567,14 +1309,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame141Texture()
+	@property Texture frame140Texture()
 	{
-		return getFrameTexture(141);
+		return getFrameTexture(140);
 	}
 	/// ditto
-	@property void frame141Texture(Texture v)
+	@property void frame140Texture(Texture v)
 	{
-		setFrameTexture(141, v);
+		setFrameTexture(140, v);
 	}
 	/**
 	
@@ -3591,14 +1333,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame142Texture()
+	@property Texture frame141Texture()
 	{
-		return getFrameTexture(142);
+		return getFrameTexture(141);
 	}
 	/// ditto
-	@property void frame142Texture(Texture v)
+	@property void frame141Texture(Texture v)
 	{
-		setFrameTexture(142, v);
+		setFrameTexture(141, v);
 	}
 	/**
 	
@@ -3615,14 +1357,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame143Texture()
+	@property Texture frame142Texture()
 	{
-		return getFrameTexture(143);
+		return getFrameTexture(142);
 	}
 	/// ditto
-	@property void frame143Texture(Texture v)
+	@property void frame142Texture(Texture v)
 	{
-		setFrameTexture(143, v);
+		setFrameTexture(142, v);
 	}
 	/**
 	
@@ -3639,14 +1381,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame144Texture()
+	@property Texture frame143Texture()
 	{
-		return getFrameTexture(144);
+		return getFrameTexture(143);
 	}
 	/// ditto
-	@property void frame144Texture(Texture v)
+	@property void frame143Texture(Texture v)
 	{
-		setFrameTexture(144, v);
+		setFrameTexture(143, v);
 	}
 	/**
 	
@@ -3663,14 +1405,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame145Texture()
+	@property Texture frame144Texture()
 	{
-		return getFrameTexture(145);
+		return getFrameTexture(144);
 	}
 	/// ditto
-	@property void frame145Texture(Texture v)
+	@property void frame144Texture(Texture v)
 	{
-		setFrameTexture(145, v);
+		setFrameTexture(144, v);
 	}
 	/**
 	
@@ -3687,14 +1429,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame146Texture()
+	@property Texture frame145Texture()
 	{
-		return getFrameTexture(146);
+		return getFrameTexture(145);
 	}
 	/// ditto
-	@property void frame146Texture(Texture v)
+	@property void frame145Texture(Texture v)
 	{
-		setFrameTexture(146, v);
+		setFrameTexture(145, v);
 	}
 	/**
 	
@@ -3711,14 +1453,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame147Texture()
+	@property Texture frame146Texture()
 	{
-		return getFrameTexture(147);
+		return getFrameTexture(146);
 	}
 	/// ditto
-	@property void frame147Texture(Texture v)
+	@property void frame146Texture(Texture v)
 	{
-		setFrameTexture(147, v);
+		setFrameTexture(146, v);
 	}
 	/**
 	
@@ -3735,14 +1477,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame148Texture()
+	@property Texture frame147Texture()
 	{
-		return getFrameTexture(148);
+		return getFrameTexture(147);
 	}
 	/// ditto
-	@property void frame148Texture(Texture v)
+	@property void frame147Texture(Texture v)
 	{
-		setFrameTexture(148, v);
+		setFrameTexture(147, v);
 	}
 	/**
 	
@@ -3759,14 +1501,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame149Texture()
+	@property Texture frame148Texture()
 	{
-		return getFrameTexture(149);
+		return getFrameTexture(148);
 	}
 	/// ditto
-	@property void frame149Texture(Texture v)
+	@property void frame148Texture(Texture v)
 	{
-		setFrameTexture(149, v);
+		setFrameTexture(148, v);
 	}
 	/**
 	
@@ -3783,14 +1525,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame150Texture()
+	@property Texture frame149Texture()
 	{
-		return getFrameTexture(150);
+		return getFrameTexture(149);
 	}
 	/// ditto
-	@property void frame150Texture(Texture v)
+	@property void frame149Texture(Texture v)
 	{
-		setFrameTexture(150, v);
+		setFrameTexture(149, v);
+	}
+	/**
+	
+	*/
+	@property double frame15DelaySec()
+	{
+		return getFrameDelay(15);
+	}
+	/// ditto
+	@property void frame15DelaySec(double v)
+	{
+		setFrameDelay(15, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame15Texture()
+	{
+		return getFrameTexture(15);
+	}
+	/// ditto
+	@property void frame15Texture(Texture v)
+	{
+		setFrameTexture(15, v);
 	}
 	/**
 	
@@ -3807,14 +1573,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame151Texture()
+	@property Texture frame150Texture()
 	{
-		return getFrameTexture(151);
+		return getFrameTexture(150);
 	}
 	/// ditto
-	@property void frame151Texture(Texture v)
+	@property void frame150Texture(Texture v)
 	{
-		setFrameTexture(151, v);
+		setFrameTexture(150, v);
 	}
 	/**
 	
@@ -3831,14 +1597,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame152Texture()
+	@property Texture frame151Texture()
 	{
-		return getFrameTexture(152);
+		return getFrameTexture(151);
 	}
 	/// ditto
-	@property void frame152Texture(Texture v)
+	@property void frame151Texture(Texture v)
 	{
-		setFrameTexture(152, v);
+		setFrameTexture(151, v);
 	}
 	/**
 	
@@ -3855,14 +1621,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame153Texture()
+	@property Texture frame152Texture()
 	{
-		return getFrameTexture(153);
+		return getFrameTexture(152);
 	}
 	/// ditto
-	@property void frame153Texture(Texture v)
+	@property void frame152Texture(Texture v)
 	{
-		setFrameTexture(153, v);
+		setFrameTexture(152, v);
 	}
 	/**
 	
@@ -3879,14 +1645,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame154Texture()
+	@property Texture frame153Texture()
 	{
-		return getFrameTexture(154);
+		return getFrameTexture(153);
 	}
 	/// ditto
-	@property void frame154Texture(Texture v)
+	@property void frame153Texture(Texture v)
 	{
-		setFrameTexture(154, v);
+		setFrameTexture(153, v);
 	}
 	/**
 	
@@ -3903,14 +1669,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame155Texture()
+	@property Texture frame154Texture()
 	{
-		return getFrameTexture(155);
+		return getFrameTexture(154);
 	}
 	/// ditto
-	@property void frame155Texture(Texture v)
+	@property void frame154Texture(Texture v)
 	{
-		setFrameTexture(155, v);
+		setFrameTexture(154, v);
 	}
 	/**
 	
@@ -3927,14 +1693,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame156Texture()
+	@property Texture frame155Texture()
 	{
-		return getFrameTexture(156);
+		return getFrameTexture(155);
 	}
 	/// ditto
-	@property void frame156Texture(Texture v)
+	@property void frame155Texture(Texture v)
 	{
-		setFrameTexture(156, v);
+		setFrameTexture(155, v);
 	}
 	/**
 	
@@ -3951,14 +1717,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame157Texture()
+	@property Texture frame156Texture()
 	{
-		return getFrameTexture(157);
+		return getFrameTexture(156);
 	}
 	/// ditto
-	@property void frame157Texture(Texture v)
+	@property void frame156Texture(Texture v)
 	{
-		setFrameTexture(157, v);
+		setFrameTexture(156, v);
 	}
 	/**
 	
@@ -3975,14 +1741,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame158Texture()
+	@property Texture frame157Texture()
 	{
-		return getFrameTexture(158);
+		return getFrameTexture(157);
 	}
 	/// ditto
-	@property void frame158Texture(Texture v)
+	@property void frame157Texture(Texture v)
 	{
-		setFrameTexture(158, v);
+		setFrameTexture(157, v);
 	}
 	/**
 	
@@ -3999,14 +1765,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame159Texture()
+	@property Texture frame158Texture()
 	{
-		return getFrameTexture(159);
+		return getFrameTexture(158);
 	}
 	/// ditto
-	@property void frame159Texture(Texture v)
+	@property void frame158Texture(Texture v)
 	{
-		setFrameTexture(159, v);
+		setFrameTexture(158, v);
 	}
 	/**
 	
@@ -4023,14 +1789,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame160Texture()
+	@property Texture frame159Texture()
 	{
-		return getFrameTexture(160);
+		return getFrameTexture(159);
 	}
 	/// ditto
-	@property void frame160Texture(Texture v)
+	@property void frame159Texture(Texture v)
 	{
-		setFrameTexture(160, v);
+		setFrameTexture(159, v);
+	}
+	/**
+	
+	*/
+	@property double frame16DelaySec()
+	{
+		return getFrameDelay(16);
+	}
+	/// ditto
+	@property void frame16DelaySec(double v)
+	{
+		setFrameDelay(16, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame16Texture()
+	{
+		return getFrameTexture(16);
+	}
+	/// ditto
+	@property void frame16Texture(Texture v)
+	{
+		setFrameTexture(16, v);
 	}
 	/**
 	
@@ -4047,14 +1837,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame161Texture()
+	@property Texture frame160Texture()
 	{
-		return getFrameTexture(161);
+		return getFrameTexture(160);
 	}
 	/// ditto
-	@property void frame161Texture(Texture v)
+	@property void frame160Texture(Texture v)
 	{
-		setFrameTexture(161, v);
+		setFrameTexture(160, v);
 	}
 	/**
 	
@@ -4071,14 +1861,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame162Texture()
+	@property Texture frame161Texture()
 	{
-		return getFrameTexture(162);
+		return getFrameTexture(161);
 	}
 	/// ditto
-	@property void frame162Texture(Texture v)
+	@property void frame161Texture(Texture v)
 	{
-		setFrameTexture(162, v);
+		setFrameTexture(161, v);
 	}
 	/**
 	
@@ -4095,14 +1885,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame163Texture()
+	@property Texture frame162Texture()
 	{
-		return getFrameTexture(163);
+		return getFrameTexture(162);
 	}
 	/// ditto
-	@property void frame163Texture(Texture v)
+	@property void frame162Texture(Texture v)
 	{
-		setFrameTexture(163, v);
+		setFrameTexture(162, v);
 	}
 	/**
 	
@@ -4119,14 +1909,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame164Texture()
+	@property Texture frame163Texture()
 	{
-		return getFrameTexture(164);
+		return getFrameTexture(163);
 	}
 	/// ditto
-	@property void frame164Texture(Texture v)
+	@property void frame163Texture(Texture v)
 	{
-		setFrameTexture(164, v);
+		setFrameTexture(163, v);
 	}
 	/**
 	
@@ -4143,14 +1933,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame165Texture()
+	@property Texture frame164Texture()
 	{
-		return getFrameTexture(165);
+		return getFrameTexture(164);
 	}
 	/// ditto
-	@property void frame165Texture(Texture v)
+	@property void frame164Texture(Texture v)
 	{
-		setFrameTexture(165, v);
+		setFrameTexture(164, v);
 	}
 	/**
 	
@@ -4167,14 +1957,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame166Texture()
+	@property Texture frame165Texture()
 	{
-		return getFrameTexture(166);
+		return getFrameTexture(165);
 	}
 	/// ditto
-	@property void frame166Texture(Texture v)
+	@property void frame165Texture(Texture v)
 	{
-		setFrameTexture(166, v);
+		setFrameTexture(165, v);
 	}
 	/**
 	
@@ -4191,14 +1981,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame167Texture()
+	@property Texture frame166Texture()
 	{
-		return getFrameTexture(167);
+		return getFrameTexture(166);
 	}
 	/// ditto
-	@property void frame167Texture(Texture v)
+	@property void frame166Texture(Texture v)
 	{
-		setFrameTexture(167, v);
+		setFrameTexture(166, v);
 	}
 	/**
 	
@@ -4215,14 +2005,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame168Texture()
+	@property Texture frame167Texture()
 	{
-		return getFrameTexture(168);
+		return getFrameTexture(167);
 	}
 	/// ditto
-	@property void frame168Texture(Texture v)
+	@property void frame167Texture(Texture v)
 	{
-		setFrameTexture(168, v);
+		setFrameTexture(167, v);
 	}
 	/**
 	
@@ -4239,14 +2029,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame169Texture()
+	@property Texture frame168Texture()
 	{
-		return getFrameTexture(169);
+		return getFrameTexture(168);
 	}
 	/// ditto
-	@property void frame169Texture(Texture v)
+	@property void frame168Texture(Texture v)
 	{
-		setFrameTexture(169, v);
+		setFrameTexture(168, v);
 	}
 	/**
 	
@@ -4263,14 +2053,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame170Texture()
+	@property Texture frame169Texture()
 	{
-		return getFrameTexture(170);
+		return getFrameTexture(169);
 	}
 	/// ditto
-	@property void frame170Texture(Texture v)
+	@property void frame169Texture(Texture v)
 	{
-		setFrameTexture(170, v);
+		setFrameTexture(169, v);
+	}
+	/**
+	
+	*/
+	@property double frame17DelaySec()
+	{
+		return getFrameDelay(17);
+	}
+	/// ditto
+	@property void frame17DelaySec(double v)
+	{
+		setFrameDelay(17, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame17Texture()
+	{
+		return getFrameTexture(17);
+	}
+	/// ditto
+	@property void frame17Texture(Texture v)
+	{
+		setFrameTexture(17, v);
 	}
 	/**
 	
@@ -4287,14 +2101,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame171Texture()
+	@property Texture frame170Texture()
 	{
-		return getFrameTexture(171);
+		return getFrameTexture(170);
 	}
 	/// ditto
-	@property void frame171Texture(Texture v)
+	@property void frame170Texture(Texture v)
 	{
-		setFrameTexture(171, v);
+		setFrameTexture(170, v);
 	}
 	/**
 	
@@ -4311,14 +2125,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame172Texture()
+	@property Texture frame171Texture()
 	{
-		return getFrameTexture(172);
+		return getFrameTexture(171);
 	}
 	/// ditto
-	@property void frame172Texture(Texture v)
+	@property void frame171Texture(Texture v)
 	{
-		setFrameTexture(172, v);
+		setFrameTexture(171, v);
 	}
 	/**
 	
@@ -4335,14 +2149,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame173Texture()
+	@property Texture frame172Texture()
 	{
-		return getFrameTexture(173);
+		return getFrameTexture(172);
 	}
 	/// ditto
-	@property void frame173Texture(Texture v)
+	@property void frame172Texture(Texture v)
 	{
-		setFrameTexture(173, v);
+		setFrameTexture(172, v);
 	}
 	/**
 	
@@ -4359,14 +2173,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame174Texture()
+	@property Texture frame173Texture()
 	{
-		return getFrameTexture(174);
+		return getFrameTexture(173);
 	}
 	/// ditto
-	@property void frame174Texture(Texture v)
+	@property void frame173Texture(Texture v)
 	{
-		setFrameTexture(174, v);
+		setFrameTexture(173, v);
 	}
 	/**
 	
@@ -4383,14 +2197,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame175Texture()
+	@property Texture frame174Texture()
 	{
-		return getFrameTexture(175);
+		return getFrameTexture(174);
 	}
 	/// ditto
-	@property void frame175Texture(Texture v)
+	@property void frame174Texture(Texture v)
 	{
-		setFrameTexture(175, v);
+		setFrameTexture(174, v);
 	}
 	/**
 	
@@ -4407,14 +2221,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame176Texture()
+	@property Texture frame175Texture()
 	{
-		return getFrameTexture(176);
+		return getFrameTexture(175);
 	}
 	/// ditto
-	@property void frame176Texture(Texture v)
+	@property void frame175Texture(Texture v)
 	{
-		setFrameTexture(176, v);
+		setFrameTexture(175, v);
 	}
 	/**
 	
@@ -4431,14 +2245,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame177Texture()
+	@property Texture frame176Texture()
 	{
-		return getFrameTexture(177);
+		return getFrameTexture(176);
 	}
 	/// ditto
-	@property void frame177Texture(Texture v)
+	@property void frame176Texture(Texture v)
 	{
-		setFrameTexture(177, v);
+		setFrameTexture(176, v);
 	}
 	/**
 	
@@ -4455,14 +2269,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame178Texture()
+	@property Texture frame177Texture()
 	{
-		return getFrameTexture(178);
+		return getFrameTexture(177);
 	}
 	/// ditto
-	@property void frame178Texture(Texture v)
+	@property void frame177Texture(Texture v)
 	{
-		setFrameTexture(178, v);
+		setFrameTexture(177, v);
 	}
 	/**
 	
@@ -4479,14 +2293,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame179Texture()
+	@property Texture frame178Texture()
 	{
-		return getFrameTexture(179);
+		return getFrameTexture(178);
 	}
 	/// ditto
-	@property void frame179Texture(Texture v)
+	@property void frame178Texture(Texture v)
 	{
-		setFrameTexture(179, v);
+		setFrameTexture(178, v);
 	}
 	/**
 	
@@ -4503,14 +2317,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame180Texture()
+	@property Texture frame179Texture()
 	{
-		return getFrameTexture(180);
+		return getFrameTexture(179);
 	}
 	/// ditto
-	@property void frame180Texture(Texture v)
+	@property void frame179Texture(Texture v)
 	{
-		setFrameTexture(180, v);
+		setFrameTexture(179, v);
+	}
+	/**
+	
+	*/
+	@property double frame18DelaySec()
+	{
+		return getFrameDelay(18);
+	}
+	/// ditto
+	@property void frame18DelaySec(double v)
+	{
+		setFrameDelay(18, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame18Texture()
+	{
+		return getFrameTexture(18);
+	}
+	/// ditto
+	@property void frame18Texture(Texture v)
+	{
+		setFrameTexture(18, v);
 	}
 	/**
 	
@@ -4527,14 +2365,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame181Texture()
+	@property Texture frame180Texture()
 	{
-		return getFrameTexture(181);
+		return getFrameTexture(180);
 	}
 	/// ditto
-	@property void frame181Texture(Texture v)
+	@property void frame180Texture(Texture v)
 	{
-		setFrameTexture(181, v);
+		setFrameTexture(180, v);
 	}
 	/**
 	
@@ -4551,14 +2389,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame182Texture()
+	@property Texture frame181Texture()
 	{
-		return getFrameTexture(182);
+		return getFrameTexture(181);
 	}
 	/// ditto
-	@property void frame182Texture(Texture v)
+	@property void frame181Texture(Texture v)
 	{
-		setFrameTexture(182, v);
+		setFrameTexture(181, v);
 	}
 	/**
 	
@@ -4575,14 +2413,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame183Texture()
+	@property Texture frame182Texture()
 	{
-		return getFrameTexture(183);
+		return getFrameTexture(182);
 	}
 	/// ditto
-	@property void frame183Texture(Texture v)
+	@property void frame182Texture(Texture v)
 	{
-		setFrameTexture(183, v);
+		setFrameTexture(182, v);
 	}
 	/**
 	
@@ -4599,14 +2437,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame184Texture()
+	@property Texture frame183Texture()
 	{
-		return getFrameTexture(184);
+		return getFrameTexture(183);
 	}
 	/// ditto
-	@property void frame184Texture(Texture v)
+	@property void frame183Texture(Texture v)
 	{
-		setFrameTexture(184, v);
+		setFrameTexture(183, v);
 	}
 	/**
 	
@@ -4623,14 +2461,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame185Texture()
+	@property Texture frame184Texture()
 	{
-		return getFrameTexture(185);
+		return getFrameTexture(184);
 	}
 	/// ditto
-	@property void frame185Texture(Texture v)
+	@property void frame184Texture(Texture v)
 	{
-		setFrameTexture(185, v);
+		setFrameTexture(184, v);
 	}
 	/**
 	
@@ -4647,14 +2485,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame186Texture()
+	@property Texture frame185Texture()
 	{
-		return getFrameTexture(186);
+		return getFrameTexture(185);
 	}
 	/// ditto
-	@property void frame186Texture(Texture v)
+	@property void frame185Texture(Texture v)
 	{
-		setFrameTexture(186, v);
+		setFrameTexture(185, v);
 	}
 	/**
 	
@@ -4671,14 +2509,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame187Texture()
+	@property Texture frame186Texture()
 	{
-		return getFrameTexture(187);
+		return getFrameTexture(186);
 	}
 	/// ditto
-	@property void frame187Texture(Texture v)
+	@property void frame186Texture(Texture v)
 	{
-		setFrameTexture(187, v);
+		setFrameTexture(186, v);
 	}
 	/**
 	
@@ -4695,14 +2533,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame188Texture()
+	@property Texture frame187Texture()
 	{
-		return getFrameTexture(188);
+		return getFrameTexture(187);
 	}
 	/// ditto
-	@property void frame188Texture(Texture v)
+	@property void frame187Texture(Texture v)
 	{
-		setFrameTexture(188, v);
+		setFrameTexture(187, v);
 	}
 	/**
 	
@@ -4719,14 +2557,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame189Texture()
+	@property Texture frame188Texture()
 	{
-		return getFrameTexture(189);
+		return getFrameTexture(188);
 	}
 	/// ditto
-	@property void frame189Texture(Texture v)
+	@property void frame188Texture(Texture v)
 	{
-		setFrameTexture(189, v);
+		setFrameTexture(188, v);
 	}
 	/**
 	
@@ -4743,14 +2581,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame190Texture()
+	@property Texture frame189Texture()
 	{
-		return getFrameTexture(190);
+		return getFrameTexture(189);
 	}
 	/// ditto
-	@property void frame190Texture(Texture v)
+	@property void frame189Texture(Texture v)
 	{
-		setFrameTexture(190, v);
+		setFrameTexture(189, v);
+	}
+	/**
+	
+	*/
+	@property double frame19DelaySec()
+	{
+		return getFrameDelay(19);
+	}
+	/// ditto
+	@property void frame19DelaySec(double v)
+	{
+		setFrameDelay(19, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame19Texture()
+	{
+		return getFrameTexture(19);
+	}
+	/// ditto
+	@property void frame19Texture(Texture v)
+	{
+		setFrameTexture(19, v);
 	}
 	/**
 	
@@ -4767,14 +2629,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame191Texture()
+	@property Texture frame190Texture()
 	{
-		return getFrameTexture(191);
+		return getFrameTexture(190);
 	}
 	/// ditto
-	@property void frame191Texture(Texture v)
+	@property void frame190Texture(Texture v)
 	{
-		setFrameTexture(191, v);
+		setFrameTexture(190, v);
 	}
 	/**
 	
@@ -4791,14 +2653,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame192Texture()
+	@property Texture frame191Texture()
 	{
-		return getFrameTexture(192);
+		return getFrameTexture(191);
 	}
 	/// ditto
-	@property void frame192Texture(Texture v)
+	@property void frame191Texture(Texture v)
 	{
-		setFrameTexture(192, v);
+		setFrameTexture(191, v);
 	}
 	/**
 	
@@ -4815,14 +2677,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame193Texture()
+	@property Texture frame192Texture()
 	{
-		return getFrameTexture(193);
+		return getFrameTexture(192);
 	}
 	/// ditto
-	@property void frame193Texture(Texture v)
+	@property void frame192Texture(Texture v)
 	{
-		setFrameTexture(193, v);
+		setFrameTexture(192, v);
 	}
 	/**
 	
@@ -4839,14 +2701,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame194Texture()
+	@property Texture frame193Texture()
 	{
-		return getFrameTexture(194);
+		return getFrameTexture(193);
 	}
 	/// ditto
-	@property void frame194Texture(Texture v)
+	@property void frame193Texture(Texture v)
 	{
-		setFrameTexture(194, v);
+		setFrameTexture(193, v);
 	}
 	/**
 	
@@ -4863,14 +2725,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame195Texture()
+	@property Texture frame194Texture()
 	{
-		return getFrameTexture(195);
+		return getFrameTexture(194);
 	}
 	/// ditto
-	@property void frame195Texture(Texture v)
+	@property void frame194Texture(Texture v)
 	{
-		setFrameTexture(195, v);
+		setFrameTexture(194, v);
 	}
 	/**
 	
@@ -4887,14 +2749,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame196Texture()
+	@property Texture frame195Texture()
 	{
-		return getFrameTexture(196);
+		return getFrameTexture(195);
 	}
 	/// ditto
-	@property void frame196Texture(Texture v)
+	@property void frame195Texture(Texture v)
 	{
-		setFrameTexture(196, v);
+		setFrameTexture(195, v);
 	}
 	/**
 	
@@ -4911,14 +2773,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame197Texture()
+	@property Texture frame196Texture()
 	{
-		return getFrameTexture(197);
+		return getFrameTexture(196);
 	}
 	/// ditto
-	@property void frame197Texture(Texture v)
+	@property void frame196Texture(Texture v)
 	{
-		setFrameTexture(197, v);
+		setFrameTexture(196, v);
 	}
 	/**
 	
@@ -4935,14 +2797,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame198Texture()
+	@property Texture frame197Texture()
 	{
-		return getFrameTexture(198);
+		return getFrameTexture(197);
 	}
 	/// ditto
-	@property void frame198Texture(Texture v)
+	@property void frame197Texture(Texture v)
 	{
-		setFrameTexture(198, v);
+		setFrameTexture(197, v);
 	}
 	/**
 	
@@ -4959,14 +2821,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame199Texture()
+	@property Texture frame198Texture()
 	{
-		return getFrameTexture(199);
+		return getFrameTexture(198);
 	}
 	/// ditto
-	@property void frame199Texture(Texture v)
+	@property void frame198Texture(Texture v)
 	{
-		setFrameTexture(199, v);
+		setFrameTexture(198, v);
 	}
 	/**
 	
@@ -4983,14 +2845,62 @@ public:
 	/**
 	
 	*/
-	@property Texture frame200Texture()
+	@property Texture frame199Texture()
 	{
-		return getFrameTexture(200);
+		return getFrameTexture(199);
 	}
 	/// ditto
-	@property void frame200Texture(Texture v)
+	@property void frame199Texture(Texture v)
 	{
-		setFrameTexture(200, v);
+		setFrameTexture(199, v);
+	}
+	/**
+	
+	*/
+	@property double frame2DelaySec()
+	{
+		return getFrameDelay(2);
+	}
+	/// ditto
+	@property void frame2DelaySec(double v)
+	{
+		setFrameDelay(2, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame2Texture()
+	{
+		return getFrameTexture(2);
+	}
+	/// ditto
+	@property void frame2Texture(Texture v)
+	{
+		setFrameTexture(2, v);
+	}
+	/**
+	
+	*/
+	@property double frame20DelaySec()
+	{
+		return getFrameDelay(20);
+	}
+	/// ditto
+	@property void frame20DelaySec(double v)
+	{
+		setFrameDelay(20, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame20Texture()
+	{
+		return getFrameTexture(20);
+	}
+	/// ditto
+	@property void frame20Texture(Texture v)
+	{
+		setFrameTexture(20, v);
 	}
 	/**
 	
@@ -5007,14 +2917,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame201Texture()
+	@property Texture frame200Texture()
 	{
-		return getFrameTexture(201);
+		return getFrameTexture(200);
 	}
 	/// ditto
-	@property void frame201Texture(Texture v)
+	@property void frame200Texture(Texture v)
 	{
-		setFrameTexture(201, v);
+		setFrameTexture(200, v);
 	}
 	/**
 	
@@ -5031,14 +2941,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame202Texture()
+	@property Texture frame201Texture()
 	{
-		return getFrameTexture(202);
+		return getFrameTexture(201);
 	}
 	/// ditto
-	@property void frame202Texture(Texture v)
+	@property void frame201Texture(Texture v)
 	{
-		setFrameTexture(202, v);
+		setFrameTexture(201, v);
 	}
 	/**
 	
@@ -5055,14 +2965,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame203Texture()
+	@property Texture frame202Texture()
 	{
-		return getFrameTexture(203);
+		return getFrameTexture(202);
 	}
 	/// ditto
-	@property void frame203Texture(Texture v)
+	@property void frame202Texture(Texture v)
 	{
-		setFrameTexture(203, v);
+		setFrameTexture(202, v);
 	}
 	/**
 	
@@ -5079,14 +2989,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame204Texture()
+	@property Texture frame203Texture()
 	{
-		return getFrameTexture(204);
+		return getFrameTexture(203);
 	}
 	/// ditto
-	@property void frame204Texture(Texture v)
+	@property void frame203Texture(Texture v)
 	{
-		setFrameTexture(204, v);
+		setFrameTexture(203, v);
 	}
 	/**
 	
@@ -5103,14 +3013,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame205Texture()
+	@property Texture frame204Texture()
 	{
-		return getFrameTexture(205);
+		return getFrameTexture(204);
 	}
 	/// ditto
-	@property void frame205Texture(Texture v)
+	@property void frame204Texture(Texture v)
 	{
-		setFrameTexture(205, v);
+		setFrameTexture(204, v);
 	}
 	/**
 	
@@ -5127,14 +3037,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame206Texture()
+	@property Texture frame205Texture()
 	{
-		return getFrameTexture(206);
+		return getFrameTexture(205);
 	}
 	/// ditto
-	@property void frame206Texture(Texture v)
+	@property void frame205Texture(Texture v)
 	{
-		setFrameTexture(206, v);
+		setFrameTexture(205, v);
 	}
 	/**
 	
@@ -5151,14 +3061,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame207Texture()
+	@property Texture frame206Texture()
 	{
-		return getFrameTexture(207);
+		return getFrameTexture(206);
 	}
 	/// ditto
-	@property void frame207Texture(Texture v)
+	@property void frame206Texture(Texture v)
 	{
-		setFrameTexture(207, v);
+		setFrameTexture(206, v);
 	}
 	/**
 	
@@ -5175,14 +3085,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame208Texture()
+	@property Texture frame207Texture()
 	{
-		return getFrameTexture(208);
+		return getFrameTexture(207);
 	}
 	/// ditto
-	@property void frame208Texture(Texture v)
+	@property void frame207Texture(Texture v)
 	{
-		setFrameTexture(208, v);
+		setFrameTexture(207, v);
 	}
 	/**
 	
@@ -5199,14 +3109,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame209Texture()
+	@property Texture frame208Texture()
 	{
-		return getFrameTexture(209);
+		return getFrameTexture(208);
 	}
 	/// ditto
-	@property void frame209Texture(Texture v)
+	@property void frame208Texture(Texture v)
 	{
-		setFrameTexture(209, v);
+		setFrameTexture(208, v);
 	}
 	/**
 	
@@ -5223,14 +3133,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame210Texture()
+	@property Texture frame209Texture()
 	{
-		return getFrameTexture(210);
+		return getFrameTexture(209);
 	}
 	/// ditto
-	@property void frame210Texture(Texture v)
+	@property void frame209Texture(Texture v)
 	{
-		setFrameTexture(210, v);
+		setFrameTexture(209, v);
+	}
+	/**
+	
+	*/
+	@property double frame21DelaySec()
+	{
+		return getFrameDelay(21);
+	}
+	/// ditto
+	@property void frame21DelaySec(double v)
+	{
+		setFrameDelay(21, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame21Texture()
+	{
+		return getFrameTexture(21);
+	}
+	/// ditto
+	@property void frame21Texture(Texture v)
+	{
+		setFrameTexture(21, v);
 	}
 	/**
 	
@@ -5247,14 +3181,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame211Texture()
+	@property Texture frame210Texture()
 	{
-		return getFrameTexture(211);
+		return getFrameTexture(210);
 	}
 	/// ditto
-	@property void frame211Texture(Texture v)
+	@property void frame210Texture(Texture v)
 	{
-		setFrameTexture(211, v);
+		setFrameTexture(210, v);
 	}
 	/**
 	
@@ -5271,14 +3205,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame212Texture()
+	@property Texture frame211Texture()
 	{
-		return getFrameTexture(212);
+		return getFrameTexture(211);
 	}
 	/// ditto
-	@property void frame212Texture(Texture v)
+	@property void frame211Texture(Texture v)
 	{
-		setFrameTexture(212, v);
+		setFrameTexture(211, v);
 	}
 	/**
 	
@@ -5295,14 +3229,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame213Texture()
+	@property Texture frame212Texture()
 	{
-		return getFrameTexture(213);
+		return getFrameTexture(212);
 	}
 	/// ditto
-	@property void frame213Texture(Texture v)
+	@property void frame212Texture(Texture v)
 	{
-		setFrameTexture(213, v);
+		setFrameTexture(212, v);
 	}
 	/**
 	
@@ -5319,14 +3253,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame214Texture()
+	@property Texture frame213Texture()
 	{
-		return getFrameTexture(214);
+		return getFrameTexture(213);
 	}
 	/// ditto
-	@property void frame214Texture(Texture v)
+	@property void frame213Texture(Texture v)
 	{
-		setFrameTexture(214, v);
+		setFrameTexture(213, v);
 	}
 	/**
 	
@@ -5343,14 +3277,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame215Texture()
+	@property Texture frame214Texture()
 	{
-		return getFrameTexture(215);
+		return getFrameTexture(214);
 	}
 	/// ditto
-	@property void frame215Texture(Texture v)
+	@property void frame214Texture(Texture v)
 	{
-		setFrameTexture(215, v);
+		setFrameTexture(214, v);
 	}
 	/**
 	
@@ -5367,14 +3301,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame216Texture()
+	@property Texture frame215Texture()
 	{
-		return getFrameTexture(216);
+		return getFrameTexture(215);
 	}
 	/// ditto
-	@property void frame216Texture(Texture v)
+	@property void frame215Texture(Texture v)
 	{
-		setFrameTexture(216, v);
+		setFrameTexture(215, v);
 	}
 	/**
 	
@@ -5391,14 +3325,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame217Texture()
+	@property Texture frame216Texture()
 	{
-		return getFrameTexture(217);
+		return getFrameTexture(216);
 	}
 	/// ditto
-	@property void frame217Texture(Texture v)
+	@property void frame216Texture(Texture v)
 	{
-		setFrameTexture(217, v);
+		setFrameTexture(216, v);
 	}
 	/**
 	
@@ -5415,14 +3349,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame218Texture()
+	@property Texture frame217Texture()
 	{
-		return getFrameTexture(218);
+		return getFrameTexture(217);
 	}
 	/// ditto
-	@property void frame218Texture(Texture v)
+	@property void frame217Texture(Texture v)
 	{
-		setFrameTexture(218, v);
+		setFrameTexture(217, v);
 	}
 	/**
 	
@@ -5439,14 +3373,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame219Texture()
+	@property Texture frame218Texture()
 	{
-		return getFrameTexture(219);
+		return getFrameTexture(218);
 	}
 	/// ditto
-	@property void frame219Texture(Texture v)
+	@property void frame218Texture(Texture v)
 	{
-		setFrameTexture(219, v);
+		setFrameTexture(218, v);
 	}
 	/**
 	
@@ -5463,14 +3397,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame220Texture()
+	@property Texture frame219Texture()
 	{
-		return getFrameTexture(220);
+		return getFrameTexture(219);
 	}
 	/// ditto
-	@property void frame220Texture(Texture v)
+	@property void frame219Texture(Texture v)
 	{
-		setFrameTexture(220, v);
+		setFrameTexture(219, v);
+	}
+	/**
+	
+	*/
+	@property double frame22DelaySec()
+	{
+		return getFrameDelay(22);
+	}
+	/// ditto
+	@property void frame22DelaySec(double v)
+	{
+		setFrameDelay(22, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame22Texture()
+	{
+		return getFrameTexture(22);
+	}
+	/// ditto
+	@property void frame22Texture(Texture v)
+	{
+		setFrameTexture(22, v);
 	}
 	/**
 	
@@ -5487,14 +3445,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame221Texture()
+	@property Texture frame220Texture()
 	{
-		return getFrameTexture(221);
+		return getFrameTexture(220);
 	}
 	/// ditto
-	@property void frame221Texture(Texture v)
+	@property void frame220Texture(Texture v)
 	{
-		setFrameTexture(221, v);
+		setFrameTexture(220, v);
 	}
 	/**
 	
@@ -5511,14 +3469,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame222Texture()
+	@property Texture frame221Texture()
 	{
-		return getFrameTexture(222);
+		return getFrameTexture(221);
 	}
 	/// ditto
-	@property void frame222Texture(Texture v)
+	@property void frame221Texture(Texture v)
 	{
-		setFrameTexture(222, v);
+		setFrameTexture(221, v);
 	}
 	/**
 	
@@ -5535,14 +3493,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame223Texture()
+	@property Texture frame222Texture()
 	{
-		return getFrameTexture(223);
+		return getFrameTexture(222);
 	}
 	/// ditto
-	@property void frame223Texture(Texture v)
+	@property void frame222Texture(Texture v)
 	{
-		setFrameTexture(223, v);
+		setFrameTexture(222, v);
 	}
 	/**
 	
@@ -5559,14 +3517,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame224Texture()
+	@property Texture frame223Texture()
 	{
-		return getFrameTexture(224);
+		return getFrameTexture(223);
 	}
 	/// ditto
-	@property void frame224Texture(Texture v)
+	@property void frame223Texture(Texture v)
 	{
-		setFrameTexture(224, v);
+		setFrameTexture(223, v);
 	}
 	/**
 	
@@ -5583,14 +3541,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame225Texture()
+	@property Texture frame224Texture()
 	{
-		return getFrameTexture(225);
+		return getFrameTexture(224);
 	}
 	/// ditto
-	@property void frame225Texture(Texture v)
+	@property void frame224Texture(Texture v)
 	{
-		setFrameTexture(225, v);
+		setFrameTexture(224, v);
 	}
 	/**
 	
@@ -5607,14 +3565,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame226Texture()
+	@property Texture frame225Texture()
 	{
-		return getFrameTexture(226);
+		return getFrameTexture(225);
 	}
 	/// ditto
-	@property void frame226Texture(Texture v)
+	@property void frame225Texture(Texture v)
 	{
-		setFrameTexture(226, v);
+		setFrameTexture(225, v);
 	}
 	/**
 	
@@ -5631,14 +3589,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame227Texture()
+	@property Texture frame226Texture()
 	{
-		return getFrameTexture(227);
+		return getFrameTexture(226);
 	}
 	/// ditto
-	@property void frame227Texture(Texture v)
+	@property void frame226Texture(Texture v)
 	{
-		setFrameTexture(227, v);
+		setFrameTexture(226, v);
 	}
 	/**
 	
@@ -5655,14 +3613,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame228Texture()
+	@property Texture frame227Texture()
 	{
-		return getFrameTexture(228);
+		return getFrameTexture(227);
 	}
 	/// ditto
-	@property void frame228Texture(Texture v)
+	@property void frame227Texture(Texture v)
 	{
-		setFrameTexture(228, v);
+		setFrameTexture(227, v);
 	}
 	/**
 	
@@ -5679,14 +3637,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame229Texture()
+	@property Texture frame228Texture()
 	{
-		return getFrameTexture(229);
+		return getFrameTexture(228);
 	}
 	/// ditto
-	@property void frame229Texture(Texture v)
+	@property void frame228Texture(Texture v)
 	{
-		setFrameTexture(229, v);
+		setFrameTexture(228, v);
 	}
 	/**
 	
@@ -5703,14 +3661,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame230Texture()
+	@property Texture frame229Texture()
 	{
-		return getFrameTexture(230);
+		return getFrameTexture(229);
 	}
 	/// ditto
-	@property void frame230Texture(Texture v)
+	@property void frame229Texture(Texture v)
 	{
-		setFrameTexture(230, v);
+		setFrameTexture(229, v);
+	}
+	/**
+	
+	*/
+	@property double frame23DelaySec()
+	{
+		return getFrameDelay(23);
+	}
+	/// ditto
+	@property void frame23DelaySec(double v)
+	{
+		setFrameDelay(23, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame23Texture()
+	{
+		return getFrameTexture(23);
+	}
+	/// ditto
+	@property void frame23Texture(Texture v)
+	{
+		setFrameTexture(23, v);
 	}
 	/**
 	
@@ -5727,14 +3709,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame231Texture()
+	@property Texture frame230Texture()
 	{
-		return getFrameTexture(231);
+		return getFrameTexture(230);
 	}
 	/// ditto
-	@property void frame231Texture(Texture v)
+	@property void frame230Texture(Texture v)
 	{
-		setFrameTexture(231, v);
+		setFrameTexture(230, v);
 	}
 	/**
 	
@@ -5751,14 +3733,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame232Texture()
+	@property Texture frame231Texture()
 	{
-		return getFrameTexture(232);
+		return getFrameTexture(231);
 	}
 	/// ditto
-	@property void frame232Texture(Texture v)
+	@property void frame231Texture(Texture v)
 	{
-		setFrameTexture(232, v);
+		setFrameTexture(231, v);
 	}
 	/**
 	
@@ -5775,14 +3757,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame233Texture()
+	@property Texture frame232Texture()
 	{
-		return getFrameTexture(233);
+		return getFrameTexture(232);
 	}
 	/// ditto
-	@property void frame233Texture(Texture v)
+	@property void frame232Texture(Texture v)
 	{
-		setFrameTexture(233, v);
+		setFrameTexture(232, v);
 	}
 	/**
 	
@@ -5799,14 +3781,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame234Texture()
+	@property Texture frame233Texture()
 	{
-		return getFrameTexture(234);
+		return getFrameTexture(233);
 	}
 	/// ditto
-	@property void frame234Texture(Texture v)
+	@property void frame233Texture(Texture v)
 	{
-		setFrameTexture(234, v);
+		setFrameTexture(233, v);
 	}
 	/**
 	
@@ -5823,14 +3805,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame235Texture()
+	@property Texture frame234Texture()
 	{
-		return getFrameTexture(235);
+		return getFrameTexture(234);
 	}
 	/// ditto
-	@property void frame235Texture(Texture v)
+	@property void frame234Texture(Texture v)
 	{
-		setFrameTexture(235, v);
+		setFrameTexture(234, v);
 	}
 	/**
 	
@@ -5847,14 +3829,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame236Texture()
+	@property Texture frame235Texture()
 	{
-		return getFrameTexture(236);
+		return getFrameTexture(235);
 	}
 	/// ditto
-	@property void frame236Texture(Texture v)
+	@property void frame235Texture(Texture v)
 	{
-		setFrameTexture(236, v);
+		setFrameTexture(235, v);
 	}
 	/**
 	
@@ -5871,14 +3853,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame237Texture()
+	@property Texture frame236Texture()
 	{
-		return getFrameTexture(237);
+		return getFrameTexture(236);
 	}
 	/// ditto
-	@property void frame237Texture(Texture v)
+	@property void frame236Texture(Texture v)
 	{
-		setFrameTexture(237, v);
+		setFrameTexture(236, v);
 	}
 	/**
 	
@@ -5895,14 +3877,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame238Texture()
+	@property Texture frame237Texture()
 	{
-		return getFrameTexture(238);
+		return getFrameTexture(237);
 	}
 	/// ditto
-	@property void frame238Texture(Texture v)
+	@property void frame237Texture(Texture v)
 	{
-		setFrameTexture(238, v);
+		setFrameTexture(237, v);
 	}
 	/**
 	
@@ -5919,14 +3901,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame239Texture()
+	@property Texture frame238Texture()
 	{
-		return getFrameTexture(239);
+		return getFrameTexture(238);
 	}
 	/// ditto
-	@property void frame239Texture(Texture v)
+	@property void frame238Texture(Texture v)
 	{
-		setFrameTexture(239, v);
+		setFrameTexture(238, v);
 	}
 	/**
 	
@@ -5943,14 +3925,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame240Texture()
+	@property Texture frame239Texture()
 	{
-		return getFrameTexture(240);
+		return getFrameTexture(239);
 	}
 	/// ditto
-	@property void frame240Texture(Texture v)
+	@property void frame239Texture(Texture v)
 	{
-		setFrameTexture(240, v);
+		setFrameTexture(239, v);
+	}
+	/**
+	
+	*/
+	@property double frame24DelaySec()
+	{
+		return getFrameDelay(24);
+	}
+	/// ditto
+	@property void frame24DelaySec(double v)
+	{
+		setFrameDelay(24, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame24Texture()
+	{
+		return getFrameTexture(24);
+	}
+	/// ditto
+	@property void frame24Texture(Texture v)
+	{
+		setFrameTexture(24, v);
 	}
 	/**
 	
@@ -5967,14 +3973,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame241Texture()
+	@property Texture frame240Texture()
 	{
-		return getFrameTexture(241);
+		return getFrameTexture(240);
 	}
 	/// ditto
-	@property void frame241Texture(Texture v)
+	@property void frame240Texture(Texture v)
 	{
-		setFrameTexture(241, v);
+		setFrameTexture(240, v);
 	}
 	/**
 	
@@ -5991,14 +3997,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame242Texture()
+	@property Texture frame241Texture()
 	{
-		return getFrameTexture(242);
+		return getFrameTexture(241);
 	}
 	/// ditto
-	@property void frame242Texture(Texture v)
+	@property void frame241Texture(Texture v)
 	{
-		setFrameTexture(242, v);
+		setFrameTexture(241, v);
 	}
 	/**
 	
@@ -6015,14 +4021,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame243Texture()
+	@property Texture frame242Texture()
 	{
-		return getFrameTexture(243);
+		return getFrameTexture(242);
 	}
 	/// ditto
-	@property void frame243Texture(Texture v)
+	@property void frame242Texture(Texture v)
 	{
-		setFrameTexture(243, v);
+		setFrameTexture(242, v);
 	}
 	/**
 	
@@ -6039,14 +4045,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame244Texture()
+	@property Texture frame243Texture()
 	{
-		return getFrameTexture(244);
+		return getFrameTexture(243);
 	}
 	/// ditto
-	@property void frame244Texture(Texture v)
+	@property void frame243Texture(Texture v)
 	{
-		setFrameTexture(244, v);
+		setFrameTexture(243, v);
 	}
 	/**
 	
@@ -6063,14 +4069,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame245Texture()
+	@property Texture frame244Texture()
 	{
-		return getFrameTexture(245);
+		return getFrameTexture(244);
 	}
 	/// ditto
-	@property void frame245Texture(Texture v)
+	@property void frame244Texture(Texture v)
 	{
-		setFrameTexture(245, v);
+		setFrameTexture(244, v);
 	}
 	/**
 	
@@ -6087,14 +4093,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame246Texture()
+	@property Texture frame245Texture()
 	{
-		return getFrameTexture(246);
+		return getFrameTexture(245);
 	}
 	/// ditto
-	@property void frame246Texture(Texture v)
+	@property void frame245Texture(Texture v)
 	{
-		setFrameTexture(246, v);
+		setFrameTexture(245, v);
 	}
 	/**
 	
@@ -6111,14 +4117,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame247Texture()
+	@property Texture frame246Texture()
 	{
-		return getFrameTexture(247);
+		return getFrameTexture(246);
 	}
 	/// ditto
-	@property void frame247Texture(Texture v)
+	@property void frame246Texture(Texture v)
 	{
-		setFrameTexture(247, v);
+		setFrameTexture(246, v);
 	}
 	/**
 	
@@ -6135,14 +4141,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame248Texture()
+	@property Texture frame247Texture()
 	{
-		return getFrameTexture(248);
+		return getFrameTexture(247);
 	}
 	/// ditto
-	@property void frame248Texture(Texture v)
+	@property void frame247Texture(Texture v)
 	{
-		setFrameTexture(248, v);
+		setFrameTexture(247, v);
 	}
 	/**
 	
@@ -6159,14 +4165,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame249Texture()
+	@property Texture frame248Texture()
 	{
-		return getFrameTexture(249);
+		return getFrameTexture(248);
 	}
 	/// ditto
-	@property void frame249Texture(Texture v)
+	@property void frame248Texture(Texture v)
 	{
-		setFrameTexture(249, v);
+		setFrameTexture(248, v);
 	}
 	/**
 	
@@ -6183,14 +4189,38 @@ public:
 	/**
 	
 	*/
-	@property Texture frame250Texture()
+	@property Texture frame249Texture()
 	{
-		return getFrameTexture(250);
+		return getFrameTexture(249);
 	}
 	/// ditto
-	@property void frame250Texture(Texture v)
+	@property void frame249Texture(Texture v)
 	{
-		setFrameTexture(250, v);
+		setFrameTexture(249, v);
+	}
+	/**
+	
+	*/
+	@property double frame25DelaySec()
+	{
+		return getFrameDelay(25);
+	}
+	/// ditto
+	@property void frame25DelaySec(double v)
+	{
+		setFrameDelay(25, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame25Texture()
+	{
+		return getFrameTexture(25);
+	}
+	/// ditto
+	@property void frame25Texture(Texture v)
+	{
+		setFrameTexture(25, v);
 	}
 	/**
 	
@@ -6207,14 +4237,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame251Texture()
+	@property Texture frame250Texture()
 	{
-		return getFrameTexture(251);
+		return getFrameTexture(250);
 	}
 	/// ditto
-	@property void frame251Texture(Texture v)
+	@property void frame250Texture(Texture v)
 	{
-		setFrameTexture(251, v);
+		setFrameTexture(250, v);
 	}
 	/**
 	
@@ -6231,14 +4261,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame252Texture()
+	@property Texture frame251Texture()
 	{
-		return getFrameTexture(252);
+		return getFrameTexture(251);
 	}
 	/// ditto
-	@property void frame252Texture(Texture v)
+	@property void frame251Texture(Texture v)
 	{
-		setFrameTexture(252, v);
+		setFrameTexture(251, v);
 	}
 	/**
 	
@@ -6255,14 +4285,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame253Texture()
+	@property Texture frame252Texture()
 	{
-		return getFrameTexture(253);
+		return getFrameTexture(252);
 	}
 	/// ditto
-	@property void frame253Texture(Texture v)
+	@property void frame252Texture(Texture v)
 	{
-		setFrameTexture(253, v);
+		setFrameTexture(252, v);
 	}
 	/**
 	
@@ -6279,14 +4309,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame254Texture()
+	@property Texture frame253Texture()
 	{
-		return getFrameTexture(254);
+		return getFrameTexture(253);
 	}
 	/// ditto
-	@property void frame254Texture(Texture v)
+	@property void frame253Texture(Texture v)
 	{
-		setFrameTexture(254, v);
+		setFrameTexture(253, v);
 	}
 	/**
 	
@@ -6303,14 +4333,14 @@ public:
 	/**
 	
 	*/
-	@property Texture frame255Texture()
+	@property Texture frame254Texture()
 	{
-		return getFrameTexture(255);
+		return getFrameTexture(254);
 	}
 	/// ditto
-	@property void frame255Texture(Texture v)
+	@property void frame254Texture(Texture v)
 	{
-		setFrameTexture(255, v);
+		setFrameTexture(254, v);
 	}
 	/**
 	
@@ -6323,5 +4353,1973 @@ public:
 	@property void frame255DelaySec(double v)
 	{
 		setFrameDelay(255, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame255Texture()
+	{
+		return getFrameTexture(255);
+	}
+	/// ditto
+	@property void frame255Texture(Texture v)
+	{
+		setFrameTexture(255, v);
+	}
+	/**
+	
+	*/
+	@property double frame26DelaySec()
+	{
+		return getFrameDelay(26);
+	}
+	/// ditto
+	@property void frame26DelaySec(double v)
+	{
+		setFrameDelay(26, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame26Texture()
+	{
+		return getFrameTexture(26);
+	}
+	/// ditto
+	@property void frame26Texture(Texture v)
+	{
+		setFrameTexture(26, v);
+	}
+	/**
+	
+	*/
+	@property double frame27DelaySec()
+	{
+		return getFrameDelay(27);
+	}
+	/// ditto
+	@property void frame27DelaySec(double v)
+	{
+		setFrameDelay(27, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame27Texture()
+	{
+		return getFrameTexture(27);
+	}
+	/// ditto
+	@property void frame27Texture(Texture v)
+	{
+		setFrameTexture(27, v);
+	}
+	/**
+	
+	*/
+	@property double frame28DelaySec()
+	{
+		return getFrameDelay(28);
+	}
+	/// ditto
+	@property void frame28DelaySec(double v)
+	{
+		setFrameDelay(28, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame28Texture()
+	{
+		return getFrameTexture(28);
+	}
+	/// ditto
+	@property void frame28Texture(Texture v)
+	{
+		setFrameTexture(28, v);
+	}
+	/**
+	
+	*/
+	@property double frame29DelaySec()
+	{
+		return getFrameDelay(29);
+	}
+	/// ditto
+	@property void frame29DelaySec(double v)
+	{
+		setFrameDelay(29, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame29Texture()
+	{
+		return getFrameTexture(29);
+	}
+	/// ditto
+	@property void frame29Texture(Texture v)
+	{
+		setFrameTexture(29, v);
+	}
+	/**
+	
+	*/
+	@property double frame3DelaySec()
+	{
+		return getFrameDelay(3);
+	}
+	/// ditto
+	@property void frame3DelaySec(double v)
+	{
+		setFrameDelay(3, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame3Texture()
+	{
+		return getFrameTexture(3);
+	}
+	/// ditto
+	@property void frame3Texture(Texture v)
+	{
+		setFrameTexture(3, v);
+	}
+	/**
+	
+	*/
+	@property double frame30DelaySec()
+	{
+		return getFrameDelay(30);
+	}
+	/// ditto
+	@property void frame30DelaySec(double v)
+	{
+		setFrameDelay(30, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame30Texture()
+	{
+		return getFrameTexture(30);
+	}
+	/// ditto
+	@property void frame30Texture(Texture v)
+	{
+		setFrameTexture(30, v);
+	}
+	/**
+	
+	*/
+	@property double frame31DelaySec()
+	{
+		return getFrameDelay(31);
+	}
+	/// ditto
+	@property void frame31DelaySec(double v)
+	{
+		setFrameDelay(31, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame31Texture()
+	{
+		return getFrameTexture(31);
+	}
+	/// ditto
+	@property void frame31Texture(Texture v)
+	{
+		setFrameTexture(31, v);
+	}
+	/**
+	
+	*/
+	@property double frame32DelaySec()
+	{
+		return getFrameDelay(32);
+	}
+	/// ditto
+	@property void frame32DelaySec(double v)
+	{
+		setFrameDelay(32, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame32Texture()
+	{
+		return getFrameTexture(32);
+	}
+	/// ditto
+	@property void frame32Texture(Texture v)
+	{
+		setFrameTexture(32, v);
+	}
+	/**
+	
+	*/
+	@property double frame33DelaySec()
+	{
+		return getFrameDelay(33);
+	}
+	/// ditto
+	@property void frame33DelaySec(double v)
+	{
+		setFrameDelay(33, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame33Texture()
+	{
+		return getFrameTexture(33);
+	}
+	/// ditto
+	@property void frame33Texture(Texture v)
+	{
+		setFrameTexture(33, v);
+	}
+	/**
+	
+	*/
+	@property double frame34DelaySec()
+	{
+		return getFrameDelay(34);
+	}
+	/// ditto
+	@property void frame34DelaySec(double v)
+	{
+		setFrameDelay(34, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame34Texture()
+	{
+		return getFrameTexture(34);
+	}
+	/// ditto
+	@property void frame34Texture(Texture v)
+	{
+		setFrameTexture(34, v);
+	}
+	/**
+	
+	*/
+	@property double frame35DelaySec()
+	{
+		return getFrameDelay(35);
+	}
+	/// ditto
+	@property void frame35DelaySec(double v)
+	{
+		setFrameDelay(35, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame35Texture()
+	{
+		return getFrameTexture(35);
+	}
+	/// ditto
+	@property void frame35Texture(Texture v)
+	{
+		setFrameTexture(35, v);
+	}
+	/**
+	
+	*/
+	@property double frame36DelaySec()
+	{
+		return getFrameDelay(36);
+	}
+	/// ditto
+	@property void frame36DelaySec(double v)
+	{
+		setFrameDelay(36, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame36Texture()
+	{
+		return getFrameTexture(36);
+	}
+	/// ditto
+	@property void frame36Texture(Texture v)
+	{
+		setFrameTexture(36, v);
+	}
+	/**
+	
+	*/
+	@property double frame37DelaySec()
+	{
+		return getFrameDelay(37);
+	}
+	/// ditto
+	@property void frame37DelaySec(double v)
+	{
+		setFrameDelay(37, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame37Texture()
+	{
+		return getFrameTexture(37);
+	}
+	/// ditto
+	@property void frame37Texture(Texture v)
+	{
+		setFrameTexture(37, v);
+	}
+	/**
+	
+	*/
+	@property double frame38DelaySec()
+	{
+		return getFrameDelay(38);
+	}
+	/// ditto
+	@property void frame38DelaySec(double v)
+	{
+		setFrameDelay(38, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame38Texture()
+	{
+		return getFrameTexture(38);
+	}
+	/// ditto
+	@property void frame38Texture(Texture v)
+	{
+		setFrameTexture(38, v);
+	}
+	/**
+	
+	*/
+	@property double frame39DelaySec()
+	{
+		return getFrameDelay(39);
+	}
+	/// ditto
+	@property void frame39DelaySec(double v)
+	{
+		setFrameDelay(39, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame39Texture()
+	{
+		return getFrameTexture(39);
+	}
+	/// ditto
+	@property void frame39Texture(Texture v)
+	{
+		setFrameTexture(39, v);
+	}
+	/**
+	
+	*/
+	@property double frame4DelaySec()
+	{
+		return getFrameDelay(4);
+	}
+	/// ditto
+	@property void frame4DelaySec(double v)
+	{
+		setFrameDelay(4, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame4Texture()
+	{
+		return getFrameTexture(4);
+	}
+	/// ditto
+	@property void frame4Texture(Texture v)
+	{
+		setFrameTexture(4, v);
+	}
+	/**
+	
+	*/
+	@property double frame40DelaySec()
+	{
+		return getFrameDelay(40);
+	}
+	/// ditto
+	@property void frame40DelaySec(double v)
+	{
+		setFrameDelay(40, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame40Texture()
+	{
+		return getFrameTexture(40);
+	}
+	/// ditto
+	@property void frame40Texture(Texture v)
+	{
+		setFrameTexture(40, v);
+	}
+	/**
+	
+	*/
+	@property double frame41DelaySec()
+	{
+		return getFrameDelay(41);
+	}
+	/// ditto
+	@property void frame41DelaySec(double v)
+	{
+		setFrameDelay(41, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame41Texture()
+	{
+		return getFrameTexture(41);
+	}
+	/// ditto
+	@property void frame41Texture(Texture v)
+	{
+		setFrameTexture(41, v);
+	}
+	/**
+	
+	*/
+	@property double frame42DelaySec()
+	{
+		return getFrameDelay(42);
+	}
+	/// ditto
+	@property void frame42DelaySec(double v)
+	{
+		setFrameDelay(42, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame42Texture()
+	{
+		return getFrameTexture(42);
+	}
+	/// ditto
+	@property void frame42Texture(Texture v)
+	{
+		setFrameTexture(42, v);
+	}
+	/**
+	
+	*/
+	@property double frame43DelaySec()
+	{
+		return getFrameDelay(43);
+	}
+	/// ditto
+	@property void frame43DelaySec(double v)
+	{
+		setFrameDelay(43, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame43Texture()
+	{
+		return getFrameTexture(43);
+	}
+	/// ditto
+	@property void frame43Texture(Texture v)
+	{
+		setFrameTexture(43, v);
+	}
+	/**
+	
+	*/
+	@property double frame44DelaySec()
+	{
+		return getFrameDelay(44);
+	}
+	/// ditto
+	@property void frame44DelaySec(double v)
+	{
+		setFrameDelay(44, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame44Texture()
+	{
+		return getFrameTexture(44);
+	}
+	/// ditto
+	@property void frame44Texture(Texture v)
+	{
+		setFrameTexture(44, v);
+	}
+	/**
+	
+	*/
+	@property double frame45DelaySec()
+	{
+		return getFrameDelay(45);
+	}
+	/// ditto
+	@property void frame45DelaySec(double v)
+	{
+		setFrameDelay(45, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame45Texture()
+	{
+		return getFrameTexture(45);
+	}
+	/// ditto
+	@property void frame45Texture(Texture v)
+	{
+		setFrameTexture(45, v);
+	}
+	/**
+	
+	*/
+	@property double frame46DelaySec()
+	{
+		return getFrameDelay(46);
+	}
+	/// ditto
+	@property void frame46DelaySec(double v)
+	{
+		setFrameDelay(46, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame46Texture()
+	{
+		return getFrameTexture(46);
+	}
+	/// ditto
+	@property void frame46Texture(Texture v)
+	{
+		setFrameTexture(46, v);
+	}
+	/**
+	
+	*/
+	@property double frame47DelaySec()
+	{
+		return getFrameDelay(47);
+	}
+	/// ditto
+	@property void frame47DelaySec(double v)
+	{
+		setFrameDelay(47, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame47Texture()
+	{
+		return getFrameTexture(47);
+	}
+	/// ditto
+	@property void frame47Texture(Texture v)
+	{
+		setFrameTexture(47, v);
+	}
+	/**
+	
+	*/
+	@property double frame48DelaySec()
+	{
+		return getFrameDelay(48);
+	}
+	/// ditto
+	@property void frame48DelaySec(double v)
+	{
+		setFrameDelay(48, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame48Texture()
+	{
+		return getFrameTexture(48);
+	}
+	/// ditto
+	@property void frame48Texture(Texture v)
+	{
+		setFrameTexture(48, v);
+	}
+	/**
+	
+	*/
+	@property double frame49DelaySec()
+	{
+		return getFrameDelay(49);
+	}
+	/// ditto
+	@property void frame49DelaySec(double v)
+	{
+		setFrameDelay(49, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame49Texture()
+	{
+		return getFrameTexture(49);
+	}
+	/// ditto
+	@property void frame49Texture(Texture v)
+	{
+		setFrameTexture(49, v);
+	}
+	/**
+	
+	*/
+	@property double frame5DelaySec()
+	{
+		return getFrameDelay(5);
+	}
+	/// ditto
+	@property void frame5DelaySec(double v)
+	{
+		setFrameDelay(5, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame5Texture()
+	{
+		return getFrameTexture(5);
+	}
+	/// ditto
+	@property void frame5Texture(Texture v)
+	{
+		setFrameTexture(5, v);
+	}
+	/**
+	
+	*/
+	@property double frame50DelaySec()
+	{
+		return getFrameDelay(50);
+	}
+	/// ditto
+	@property void frame50DelaySec(double v)
+	{
+		setFrameDelay(50, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame50Texture()
+	{
+		return getFrameTexture(50);
+	}
+	/// ditto
+	@property void frame50Texture(Texture v)
+	{
+		setFrameTexture(50, v);
+	}
+	/**
+	
+	*/
+	@property double frame51DelaySec()
+	{
+		return getFrameDelay(51);
+	}
+	/// ditto
+	@property void frame51DelaySec(double v)
+	{
+		setFrameDelay(51, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame51Texture()
+	{
+		return getFrameTexture(51);
+	}
+	/// ditto
+	@property void frame51Texture(Texture v)
+	{
+		setFrameTexture(51, v);
+	}
+	/**
+	
+	*/
+	@property double frame52DelaySec()
+	{
+		return getFrameDelay(52);
+	}
+	/// ditto
+	@property void frame52DelaySec(double v)
+	{
+		setFrameDelay(52, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame52Texture()
+	{
+		return getFrameTexture(52);
+	}
+	/// ditto
+	@property void frame52Texture(Texture v)
+	{
+		setFrameTexture(52, v);
+	}
+	/**
+	
+	*/
+	@property double frame53DelaySec()
+	{
+		return getFrameDelay(53);
+	}
+	/// ditto
+	@property void frame53DelaySec(double v)
+	{
+		setFrameDelay(53, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame53Texture()
+	{
+		return getFrameTexture(53);
+	}
+	/// ditto
+	@property void frame53Texture(Texture v)
+	{
+		setFrameTexture(53, v);
+	}
+	/**
+	
+	*/
+	@property double frame54DelaySec()
+	{
+		return getFrameDelay(54);
+	}
+	/// ditto
+	@property void frame54DelaySec(double v)
+	{
+		setFrameDelay(54, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame54Texture()
+	{
+		return getFrameTexture(54);
+	}
+	/// ditto
+	@property void frame54Texture(Texture v)
+	{
+		setFrameTexture(54, v);
+	}
+	/**
+	
+	*/
+	@property double frame55DelaySec()
+	{
+		return getFrameDelay(55);
+	}
+	/// ditto
+	@property void frame55DelaySec(double v)
+	{
+		setFrameDelay(55, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame55Texture()
+	{
+		return getFrameTexture(55);
+	}
+	/// ditto
+	@property void frame55Texture(Texture v)
+	{
+		setFrameTexture(55, v);
+	}
+	/**
+	
+	*/
+	@property double frame56DelaySec()
+	{
+		return getFrameDelay(56);
+	}
+	/// ditto
+	@property void frame56DelaySec(double v)
+	{
+		setFrameDelay(56, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame56Texture()
+	{
+		return getFrameTexture(56);
+	}
+	/// ditto
+	@property void frame56Texture(Texture v)
+	{
+		setFrameTexture(56, v);
+	}
+	/**
+	
+	*/
+	@property double frame57DelaySec()
+	{
+		return getFrameDelay(57);
+	}
+	/// ditto
+	@property void frame57DelaySec(double v)
+	{
+		setFrameDelay(57, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame57Texture()
+	{
+		return getFrameTexture(57);
+	}
+	/// ditto
+	@property void frame57Texture(Texture v)
+	{
+		setFrameTexture(57, v);
+	}
+	/**
+	
+	*/
+	@property double frame58DelaySec()
+	{
+		return getFrameDelay(58);
+	}
+	/// ditto
+	@property void frame58DelaySec(double v)
+	{
+		setFrameDelay(58, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame58Texture()
+	{
+		return getFrameTexture(58);
+	}
+	/// ditto
+	@property void frame58Texture(Texture v)
+	{
+		setFrameTexture(58, v);
+	}
+	/**
+	
+	*/
+	@property double frame59DelaySec()
+	{
+		return getFrameDelay(59);
+	}
+	/// ditto
+	@property void frame59DelaySec(double v)
+	{
+		setFrameDelay(59, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame59Texture()
+	{
+		return getFrameTexture(59);
+	}
+	/// ditto
+	@property void frame59Texture(Texture v)
+	{
+		setFrameTexture(59, v);
+	}
+	/**
+	
+	*/
+	@property double frame6DelaySec()
+	{
+		return getFrameDelay(6);
+	}
+	/// ditto
+	@property void frame6DelaySec(double v)
+	{
+		setFrameDelay(6, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame6Texture()
+	{
+		return getFrameTexture(6);
+	}
+	/// ditto
+	@property void frame6Texture(Texture v)
+	{
+		setFrameTexture(6, v);
+	}
+	/**
+	
+	*/
+	@property double frame60DelaySec()
+	{
+		return getFrameDelay(60);
+	}
+	/// ditto
+	@property void frame60DelaySec(double v)
+	{
+		setFrameDelay(60, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame60Texture()
+	{
+		return getFrameTexture(60);
+	}
+	/// ditto
+	@property void frame60Texture(Texture v)
+	{
+		setFrameTexture(60, v);
+	}
+	/**
+	
+	*/
+	@property double frame61DelaySec()
+	{
+		return getFrameDelay(61);
+	}
+	/// ditto
+	@property void frame61DelaySec(double v)
+	{
+		setFrameDelay(61, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame61Texture()
+	{
+		return getFrameTexture(61);
+	}
+	/// ditto
+	@property void frame61Texture(Texture v)
+	{
+		setFrameTexture(61, v);
+	}
+	/**
+	
+	*/
+	@property double frame62DelaySec()
+	{
+		return getFrameDelay(62);
+	}
+	/// ditto
+	@property void frame62DelaySec(double v)
+	{
+		setFrameDelay(62, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame62Texture()
+	{
+		return getFrameTexture(62);
+	}
+	/// ditto
+	@property void frame62Texture(Texture v)
+	{
+		setFrameTexture(62, v);
+	}
+	/**
+	
+	*/
+	@property double frame63DelaySec()
+	{
+		return getFrameDelay(63);
+	}
+	/// ditto
+	@property void frame63DelaySec(double v)
+	{
+		setFrameDelay(63, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame63Texture()
+	{
+		return getFrameTexture(63);
+	}
+	/// ditto
+	@property void frame63Texture(Texture v)
+	{
+		setFrameTexture(63, v);
+	}
+	/**
+	
+	*/
+	@property double frame64DelaySec()
+	{
+		return getFrameDelay(64);
+	}
+	/// ditto
+	@property void frame64DelaySec(double v)
+	{
+		setFrameDelay(64, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame64Texture()
+	{
+		return getFrameTexture(64);
+	}
+	/// ditto
+	@property void frame64Texture(Texture v)
+	{
+		setFrameTexture(64, v);
+	}
+	/**
+	
+	*/
+	@property double frame65DelaySec()
+	{
+		return getFrameDelay(65);
+	}
+	/// ditto
+	@property void frame65DelaySec(double v)
+	{
+		setFrameDelay(65, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame65Texture()
+	{
+		return getFrameTexture(65);
+	}
+	/// ditto
+	@property void frame65Texture(Texture v)
+	{
+		setFrameTexture(65, v);
+	}
+	/**
+	
+	*/
+	@property double frame66DelaySec()
+	{
+		return getFrameDelay(66);
+	}
+	/// ditto
+	@property void frame66DelaySec(double v)
+	{
+		setFrameDelay(66, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame66Texture()
+	{
+		return getFrameTexture(66);
+	}
+	/// ditto
+	@property void frame66Texture(Texture v)
+	{
+		setFrameTexture(66, v);
+	}
+	/**
+	
+	*/
+	@property double frame67DelaySec()
+	{
+		return getFrameDelay(67);
+	}
+	/// ditto
+	@property void frame67DelaySec(double v)
+	{
+		setFrameDelay(67, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame67Texture()
+	{
+		return getFrameTexture(67);
+	}
+	/// ditto
+	@property void frame67Texture(Texture v)
+	{
+		setFrameTexture(67, v);
+	}
+	/**
+	
+	*/
+	@property double frame68DelaySec()
+	{
+		return getFrameDelay(68);
+	}
+	/// ditto
+	@property void frame68DelaySec(double v)
+	{
+		setFrameDelay(68, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame68Texture()
+	{
+		return getFrameTexture(68);
+	}
+	/// ditto
+	@property void frame68Texture(Texture v)
+	{
+		setFrameTexture(68, v);
+	}
+	/**
+	
+	*/
+	@property double frame69DelaySec()
+	{
+		return getFrameDelay(69);
+	}
+	/// ditto
+	@property void frame69DelaySec(double v)
+	{
+		setFrameDelay(69, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame69Texture()
+	{
+		return getFrameTexture(69);
+	}
+	/// ditto
+	@property void frame69Texture(Texture v)
+	{
+		setFrameTexture(69, v);
+	}
+	/**
+	
+	*/
+	@property double frame7DelaySec()
+	{
+		return getFrameDelay(7);
+	}
+	/// ditto
+	@property void frame7DelaySec(double v)
+	{
+		setFrameDelay(7, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame7Texture()
+	{
+		return getFrameTexture(7);
+	}
+	/// ditto
+	@property void frame7Texture(Texture v)
+	{
+		setFrameTexture(7, v);
+	}
+	/**
+	
+	*/
+	@property double frame70DelaySec()
+	{
+		return getFrameDelay(70);
+	}
+	/// ditto
+	@property void frame70DelaySec(double v)
+	{
+		setFrameDelay(70, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame70Texture()
+	{
+		return getFrameTexture(70);
+	}
+	/// ditto
+	@property void frame70Texture(Texture v)
+	{
+		setFrameTexture(70, v);
+	}
+	/**
+	
+	*/
+	@property double frame71DelaySec()
+	{
+		return getFrameDelay(71);
+	}
+	/// ditto
+	@property void frame71DelaySec(double v)
+	{
+		setFrameDelay(71, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame71Texture()
+	{
+		return getFrameTexture(71);
+	}
+	/// ditto
+	@property void frame71Texture(Texture v)
+	{
+		setFrameTexture(71, v);
+	}
+	/**
+	
+	*/
+	@property double frame72DelaySec()
+	{
+		return getFrameDelay(72);
+	}
+	/// ditto
+	@property void frame72DelaySec(double v)
+	{
+		setFrameDelay(72, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame72Texture()
+	{
+		return getFrameTexture(72);
+	}
+	/// ditto
+	@property void frame72Texture(Texture v)
+	{
+		setFrameTexture(72, v);
+	}
+	/**
+	
+	*/
+	@property double frame73DelaySec()
+	{
+		return getFrameDelay(73);
+	}
+	/// ditto
+	@property void frame73DelaySec(double v)
+	{
+		setFrameDelay(73, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame73Texture()
+	{
+		return getFrameTexture(73);
+	}
+	/// ditto
+	@property void frame73Texture(Texture v)
+	{
+		setFrameTexture(73, v);
+	}
+	/**
+	
+	*/
+	@property double frame74DelaySec()
+	{
+		return getFrameDelay(74);
+	}
+	/// ditto
+	@property void frame74DelaySec(double v)
+	{
+		setFrameDelay(74, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame74Texture()
+	{
+		return getFrameTexture(74);
+	}
+	/// ditto
+	@property void frame74Texture(Texture v)
+	{
+		setFrameTexture(74, v);
+	}
+	/**
+	
+	*/
+	@property double frame75DelaySec()
+	{
+		return getFrameDelay(75);
+	}
+	/// ditto
+	@property void frame75DelaySec(double v)
+	{
+		setFrameDelay(75, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame75Texture()
+	{
+		return getFrameTexture(75);
+	}
+	/// ditto
+	@property void frame75Texture(Texture v)
+	{
+		setFrameTexture(75, v);
+	}
+	/**
+	
+	*/
+	@property double frame76DelaySec()
+	{
+		return getFrameDelay(76);
+	}
+	/// ditto
+	@property void frame76DelaySec(double v)
+	{
+		setFrameDelay(76, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame76Texture()
+	{
+		return getFrameTexture(76);
+	}
+	/// ditto
+	@property void frame76Texture(Texture v)
+	{
+		setFrameTexture(76, v);
+	}
+	/**
+	
+	*/
+	@property double frame77DelaySec()
+	{
+		return getFrameDelay(77);
+	}
+	/// ditto
+	@property void frame77DelaySec(double v)
+	{
+		setFrameDelay(77, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame77Texture()
+	{
+		return getFrameTexture(77);
+	}
+	/// ditto
+	@property void frame77Texture(Texture v)
+	{
+		setFrameTexture(77, v);
+	}
+	/**
+	
+	*/
+	@property double frame78DelaySec()
+	{
+		return getFrameDelay(78);
+	}
+	/// ditto
+	@property void frame78DelaySec(double v)
+	{
+		setFrameDelay(78, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame78Texture()
+	{
+		return getFrameTexture(78);
+	}
+	/// ditto
+	@property void frame78Texture(Texture v)
+	{
+		setFrameTexture(78, v);
+	}
+	/**
+	
+	*/
+	@property double frame79DelaySec()
+	{
+		return getFrameDelay(79);
+	}
+	/// ditto
+	@property void frame79DelaySec(double v)
+	{
+		setFrameDelay(79, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame79Texture()
+	{
+		return getFrameTexture(79);
+	}
+	/// ditto
+	@property void frame79Texture(Texture v)
+	{
+		setFrameTexture(79, v);
+	}
+	/**
+	
+	*/
+	@property double frame8DelaySec()
+	{
+		return getFrameDelay(8);
+	}
+	/// ditto
+	@property void frame8DelaySec(double v)
+	{
+		setFrameDelay(8, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame8Texture()
+	{
+		return getFrameTexture(8);
+	}
+	/// ditto
+	@property void frame8Texture(Texture v)
+	{
+		setFrameTexture(8, v);
+	}
+	/**
+	
+	*/
+	@property double frame80DelaySec()
+	{
+		return getFrameDelay(80);
+	}
+	/// ditto
+	@property void frame80DelaySec(double v)
+	{
+		setFrameDelay(80, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame80Texture()
+	{
+		return getFrameTexture(80);
+	}
+	/// ditto
+	@property void frame80Texture(Texture v)
+	{
+		setFrameTexture(80, v);
+	}
+	/**
+	
+	*/
+	@property double frame81DelaySec()
+	{
+		return getFrameDelay(81);
+	}
+	/// ditto
+	@property void frame81DelaySec(double v)
+	{
+		setFrameDelay(81, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame81Texture()
+	{
+		return getFrameTexture(81);
+	}
+	/// ditto
+	@property void frame81Texture(Texture v)
+	{
+		setFrameTexture(81, v);
+	}
+	/**
+	
+	*/
+	@property double frame82DelaySec()
+	{
+		return getFrameDelay(82);
+	}
+	/// ditto
+	@property void frame82DelaySec(double v)
+	{
+		setFrameDelay(82, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame82Texture()
+	{
+		return getFrameTexture(82);
+	}
+	/// ditto
+	@property void frame82Texture(Texture v)
+	{
+		setFrameTexture(82, v);
+	}
+	/**
+	
+	*/
+	@property double frame83DelaySec()
+	{
+		return getFrameDelay(83);
+	}
+	/// ditto
+	@property void frame83DelaySec(double v)
+	{
+		setFrameDelay(83, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame83Texture()
+	{
+		return getFrameTexture(83);
+	}
+	/// ditto
+	@property void frame83Texture(Texture v)
+	{
+		setFrameTexture(83, v);
+	}
+	/**
+	
+	*/
+	@property double frame84DelaySec()
+	{
+		return getFrameDelay(84);
+	}
+	/// ditto
+	@property void frame84DelaySec(double v)
+	{
+		setFrameDelay(84, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame84Texture()
+	{
+		return getFrameTexture(84);
+	}
+	/// ditto
+	@property void frame84Texture(Texture v)
+	{
+		setFrameTexture(84, v);
+	}
+	/**
+	
+	*/
+	@property double frame85DelaySec()
+	{
+		return getFrameDelay(85);
+	}
+	/// ditto
+	@property void frame85DelaySec(double v)
+	{
+		setFrameDelay(85, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame85Texture()
+	{
+		return getFrameTexture(85);
+	}
+	/// ditto
+	@property void frame85Texture(Texture v)
+	{
+		setFrameTexture(85, v);
+	}
+	/**
+	
+	*/
+	@property double frame86DelaySec()
+	{
+		return getFrameDelay(86);
+	}
+	/// ditto
+	@property void frame86DelaySec(double v)
+	{
+		setFrameDelay(86, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame86Texture()
+	{
+		return getFrameTexture(86);
+	}
+	/// ditto
+	@property void frame86Texture(Texture v)
+	{
+		setFrameTexture(86, v);
+	}
+	/**
+	
+	*/
+	@property double frame87DelaySec()
+	{
+		return getFrameDelay(87);
+	}
+	/// ditto
+	@property void frame87DelaySec(double v)
+	{
+		setFrameDelay(87, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame87Texture()
+	{
+		return getFrameTexture(87);
+	}
+	/// ditto
+	@property void frame87Texture(Texture v)
+	{
+		setFrameTexture(87, v);
+	}
+	/**
+	
+	*/
+	@property double frame88DelaySec()
+	{
+		return getFrameDelay(88);
+	}
+	/// ditto
+	@property void frame88DelaySec(double v)
+	{
+		setFrameDelay(88, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame88Texture()
+	{
+		return getFrameTexture(88);
+	}
+	/// ditto
+	@property void frame88Texture(Texture v)
+	{
+		setFrameTexture(88, v);
+	}
+	/**
+	
+	*/
+	@property double frame89DelaySec()
+	{
+		return getFrameDelay(89);
+	}
+	/// ditto
+	@property void frame89DelaySec(double v)
+	{
+		setFrameDelay(89, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame89Texture()
+	{
+		return getFrameTexture(89);
+	}
+	/// ditto
+	@property void frame89Texture(Texture v)
+	{
+		setFrameTexture(89, v);
+	}
+	/**
+	
+	*/
+	@property double frame9DelaySec()
+	{
+		return getFrameDelay(9);
+	}
+	/// ditto
+	@property void frame9DelaySec(double v)
+	{
+		setFrameDelay(9, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame9Texture()
+	{
+		return getFrameTexture(9);
+	}
+	/// ditto
+	@property void frame9Texture(Texture v)
+	{
+		setFrameTexture(9, v);
+	}
+	/**
+	
+	*/
+	@property double frame90DelaySec()
+	{
+		return getFrameDelay(90);
+	}
+	/// ditto
+	@property void frame90DelaySec(double v)
+	{
+		setFrameDelay(90, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame90Texture()
+	{
+		return getFrameTexture(90);
+	}
+	/// ditto
+	@property void frame90Texture(Texture v)
+	{
+		setFrameTexture(90, v);
+	}
+	/**
+	
+	*/
+	@property double frame91DelaySec()
+	{
+		return getFrameDelay(91);
+	}
+	/// ditto
+	@property void frame91DelaySec(double v)
+	{
+		setFrameDelay(91, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame91Texture()
+	{
+		return getFrameTexture(91);
+	}
+	/// ditto
+	@property void frame91Texture(Texture v)
+	{
+		setFrameTexture(91, v);
+	}
+	/**
+	
+	*/
+	@property double frame92DelaySec()
+	{
+		return getFrameDelay(92);
+	}
+	/// ditto
+	@property void frame92DelaySec(double v)
+	{
+		setFrameDelay(92, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame92Texture()
+	{
+		return getFrameTexture(92);
+	}
+	/// ditto
+	@property void frame92Texture(Texture v)
+	{
+		setFrameTexture(92, v);
+	}
+	/**
+	
+	*/
+	@property double frame93DelaySec()
+	{
+		return getFrameDelay(93);
+	}
+	/// ditto
+	@property void frame93DelaySec(double v)
+	{
+		setFrameDelay(93, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame93Texture()
+	{
+		return getFrameTexture(93);
+	}
+	/// ditto
+	@property void frame93Texture(Texture v)
+	{
+		setFrameTexture(93, v);
+	}
+	/**
+	
+	*/
+	@property double frame94DelaySec()
+	{
+		return getFrameDelay(94);
+	}
+	/// ditto
+	@property void frame94DelaySec(double v)
+	{
+		setFrameDelay(94, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame94Texture()
+	{
+		return getFrameTexture(94);
+	}
+	/// ditto
+	@property void frame94Texture(Texture v)
+	{
+		setFrameTexture(94, v);
+	}
+	/**
+	
+	*/
+	@property double frame95DelaySec()
+	{
+		return getFrameDelay(95);
+	}
+	/// ditto
+	@property void frame95DelaySec(double v)
+	{
+		setFrameDelay(95, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame95Texture()
+	{
+		return getFrameTexture(95);
+	}
+	/// ditto
+	@property void frame95Texture(Texture v)
+	{
+		setFrameTexture(95, v);
+	}
+	/**
+	
+	*/
+	@property double frame96DelaySec()
+	{
+		return getFrameDelay(96);
+	}
+	/// ditto
+	@property void frame96DelaySec(double v)
+	{
+		setFrameDelay(96, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame96Texture()
+	{
+		return getFrameTexture(96);
+	}
+	/// ditto
+	@property void frame96Texture(Texture v)
+	{
+		setFrameTexture(96, v);
+	}
+	/**
+	
+	*/
+	@property double frame97DelaySec()
+	{
+		return getFrameDelay(97);
+	}
+	/// ditto
+	@property void frame97DelaySec(double v)
+	{
+		setFrameDelay(97, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame97Texture()
+	{
+		return getFrameTexture(97);
+	}
+	/// ditto
+	@property void frame97Texture(Texture v)
+	{
+		setFrameTexture(97, v);
+	}
+	/**
+	
+	*/
+	@property double frame98DelaySec()
+	{
+		return getFrameDelay(98);
+	}
+	/// ditto
+	@property void frame98DelaySec(double v)
+	{
+		setFrameDelay(98, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame98Texture()
+	{
+		return getFrameTexture(98);
+	}
+	/// ditto
+	@property void frame98Texture(Texture v)
+	{
+		setFrameTexture(98, v);
+	}
+	/**
+	
+	*/
+	@property double frame99DelaySec()
+	{
+		return getFrameDelay(99);
+	}
+	/// ditto
+	@property void frame99DelaySec(double v)
+	{
+		setFrameDelay(99, v);
+	}
+	/**
+	
+	*/
+	@property Texture frame99Texture()
+	{
+		return getFrameTexture(99);
+	}
+	/// ditto
+	@property void frame99Texture(Texture v)
+	{
+		setFrameTexture(99, v);
+	}
+	/**
+	Number of frames to use in the animation. While you can create the frames independently with $(D setFrameTexture), you need to set this value for the animation to take new frames into account. The maximum number of frames is $(D constant MAX_FRAMES).
+	*/
+	@property long frames()
+	{
+		return getFrames();
+	}
+	/// ditto
+	@property void frames(long v)
+	{
+		setFrames(v);
 	}
 }

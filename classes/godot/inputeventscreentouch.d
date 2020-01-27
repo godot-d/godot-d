@@ -23,7 +23,6 @@ import godot.object;
 import godot.classdb;
 import godot.inputevent;
 import godot.resource;
-import godot.reference;
 /**
 Input event type for screen touch events.
 (only available on mobile devices)
@@ -42,10 +41,10 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_index") GodotMethod!(void, long) setIndex;
 		@GodotName("get_index") GodotMethod!(long) getIndex;
-		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
+		@GodotName("set_index") GodotMethod!(void, long) setIndex;
+		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
 	}
 	bool opEquals(in InputEventScreenTouch other) const { return _godot_object.ptr is other._godot_object.ptr; }
@@ -63,26 +62,10 @@ public:
 	/**
 	
 	*/
-	void setIndex(in long index)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
-	}
-	/**
-	
-	*/
 	long getIndex() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getIndex, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPosition(in Vector2 position)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
 	}
 	/**
 	
@@ -95,13 +78,29 @@ public:
 	/**
 	
 	*/
+	void setIndex(in long index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
+	}
+	/**
+	
+	*/
+	void setPosition(in Vector2 position)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+	}
+	/**
+	
+	*/
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
 	}
 	/**
-	Touch index in the case of a multi-touch event. One index = one finger.
+	The touch index in the case of a multi-touch event. One index = one finger.
 	*/
 	@property long index()
 	{
@@ -113,7 +112,7 @@ public:
 		setIndex(v);
 	}
 	/**
-	Touch position.
+	The touch position.
 	*/
 	@property Vector2 position()
 	{

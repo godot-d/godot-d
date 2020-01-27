@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_resource_path") GodotMethod!(void, String) setResourcePath;
 		@GodotName("get_resource_path") GodotMethod!(String) getResourcePath;
+		@GodotName("set_resource_path") GodotMethod!(void, String) setResourcePath;
 	}
 	bool opEquals(in VisualScriptResourcePath other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptResourcePath opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -56,18 +56,18 @@ public:
 	/**
 	
 	*/
-	void setResourcePath(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setResourcePath, _godot_object, path);
-	}
-	/**
-	
-	*/
 	String getResourcePath()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getResourcePath, _godot_object);
+	}
+	/**
+	
+	*/
+	void setResourcePath(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setResourcePath, _godot_object, path);
 	}
 	/**
 	

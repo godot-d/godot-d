@@ -1,5 +1,5 @@
 /**
-A synchronization Semaphore.
+A synchronization semaphore.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-A synchronization Semaphore.
+A synchronization semaphore.
 
-Element used to synchronize multiple $(D Thread)s. Initialized to zero on creation. Be careful to avoid deadlocks. For a binary version, see $(D Mutex).
+A synchronization semaphore which can be used to synchronize multiple $(D Thread)s. Initialized to zero on creation. Be careful to avoid deadlocks. For a binary version, see $(D Mutex).
 */
 @GodotBaseClass struct Semaphore
 {
@@ -38,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("wait") GodotMethod!(GodotError) wait;
 		@GodotName("post") GodotMethod!(GodotError) post;
+		@GodotName("wait") GodotMethod!(GodotError) wait;
 	}
 	bool opEquals(in Semaphore other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Semaphore opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -54,19 +54,19 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Tries to wait for the $(D Semaphore), if its value is zero, blocks until non-zero. Returns `OK` on success, `ERR_BUSY` otherwise.
-	*/
-	GodotError wait()
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
-	}
-	/**
-	Lowers the $(D Semaphore), allowing one more thread in. Returns `OK` on success, `ERR_BUSY` otherwise.
+	Lowers the $(D Semaphore), allowing one more thread in. Returns $(D constant OK) on success, $(D constant ERR_BUSY) otherwise.
 	*/
 	GodotError post()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(_classBinding.post, _godot_object);
+	}
+	/**
+	Tries to wait for the $(D Semaphore), if its value is zero, blocks until non-zero. Returns $(D constant OK) on success, $(D constant ERR_BUSY) otherwise.
+	*/
+	GodotError wait()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
 	}
 }

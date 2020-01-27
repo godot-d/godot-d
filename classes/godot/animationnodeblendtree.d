@@ -22,8 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.animationrootnode;
 import godot.animationnode;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -39,19 +37,19 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_node_changed") GodotMethod!(void, String) _nodeChanged;
+		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
 		@GodotName("add_node") GodotMethod!(void, String, AnimationNode, Vector2) addNode;
-		@GodotName("get_node") GodotMethod!(AnimationNode, String) getNode;
-		@GodotName("remove_node") GodotMethod!(void, String) removeNode;
-		@GodotName("rename_node") GodotMethod!(void, String, String) renameNode;
-		@GodotName("has_node") GodotMethod!(bool, String) hasNode;
 		@GodotName("connect_node") GodotMethod!(void, String, long, String) connectNode;
 		@GodotName("disconnect_node") GodotMethod!(void, String, long) disconnectNode;
-		@GodotName("set_node_position") GodotMethod!(void, String, Vector2) setNodePosition;
-		@GodotName("get_node_position") GodotMethod!(Vector2, String) getNodePosition;
-		@GodotName("set_graph_offset") GodotMethod!(void, Vector2) setGraphOffset;
 		@GodotName("get_graph_offset") GodotMethod!(Vector2) getGraphOffset;
-		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
-		@GodotName("_node_changed") GodotMethod!(void, String) _nodeChanged;
+		@GodotName("get_node") GodotMethod!(AnimationNode, String) getNode;
+		@GodotName("get_node_position") GodotMethod!(Vector2, String) getNodePosition;
+		@GodotName("has_node") GodotMethod!(bool, String) hasNode;
+		@GodotName("remove_node") GodotMethod!(void, String) removeNode;
+		@GodotName("rename_node") GodotMethod!(void, String, String) renameNode;
+		@GodotName("set_graph_offset") GodotMethod!(void, Vector2) setGraphOffset;
+		@GodotName("set_node_position") GodotMethod!(void, String, Vector2) setNodePosition;
 	}
 	bool opEquals(in AnimationNodeBlendTree other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	AnimationNodeBlendTree opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -96,42 +94,29 @@ public:
 	/**
 	
 	*/
+	void _nodeChanged(in String node)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(node);
+		String _GODOT_method_name = String("_node_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _treeChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_tree_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
 	void addNode(in String name, AnimationNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.addNode, _godot_object, name, node, position);
-	}
-	/**
-	
-	*/
-	Ref!AnimationNode getNode(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
-	}
-	/**
-	
-	*/
-	void removeNode(in String name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
-	}
-	/**
-	
-	*/
-	void renameNode(in String name, in String new_name)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
-	}
-	/**
-	
-	*/
-	bool hasNode(in String name) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
 	}
 	/**
 	
@@ -152,10 +137,18 @@ public:
 	/**
 	
 	*/
-	void setNodePosition(in String name, in Vector2 position)
+	Vector2 getGraphOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
+		return ptrcall!(Vector2)(_classBinding.getGraphOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!AnimationNode getNode(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
 	}
 	/**
 	
@@ -168,6 +161,30 @@ public:
 	/**
 	
 	*/
+	bool hasNode(in String name) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
+	}
+	/**
+	
+	*/
+	void removeNode(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
+	}
+	/**
+	
+	*/
+	void renameNode(in String name, in String new_name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
+	}
+	/**
+	
+	*/
 	void setGraphOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
@@ -176,29 +193,10 @@ public:
 	/**
 	
 	*/
-	Vector2 getGraphOffset() const
+	void setNodePosition(in String name, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGraphOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void _treeChanged()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_tree_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _nodeChanged(in String node)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(node);
-		String _GODOT_method_name = String("_node_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
 	}
 	/**
 	

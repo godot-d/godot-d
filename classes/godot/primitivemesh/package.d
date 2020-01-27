@@ -20,13 +20,12 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.mesh;
-import godot.material;
 import godot.resource;
-import godot.reference;
+import godot.material;
 /**
 Base class for all primitive meshes. Handles applying a $(D Material) to a primitive mesh.
 
-
+Examples include $(D CapsuleMesh), $(D CubeMesh), $(D CylinderMesh), $(D PlaneMesh), $(D PrismMesh), $(D QuadMesh), and $(D SphereMesh).
 */
 @GodotBaseClass struct PrimitiveMesh
 {
@@ -41,13 +40,13 @@ public:
 	{
 		__gshared:
 		@GodotName("_update") GodotMethod!(void) _update;
-		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
+		@GodotName("get_custom_aabb") GodotMethod!(AABB) getCustomAabb;
+		@GodotName("get_flip_faces") GodotMethod!(bool) getFlipFaces;
 		@GodotName("get_material") GodotMethod!(Material) getMaterial;
 		@GodotName("get_mesh_arrays") GodotMethod!(Array) getMeshArrays;
 		@GodotName("set_custom_aabb") GodotMethod!(void, AABB) setCustomAabb;
-		@GodotName("get_custom_aabb") GodotMethod!(AABB) getCustomAabb;
 		@GodotName("set_flip_faces") GodotMethod!(void, bool) setFlipFaces;
-		@GodotName("get_flip_faces") GodotMethod!(bool) getFlipFaces;
+		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 	}
 	bool opEquals(in PrimitiveMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PrimitiveMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -66,17 +65,25 @@ public:
 	*/
 	void _update() const
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setMaterial(Material material)
+	AABB getCustomAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		return ptrcall!(AABB)(_classBinding.getCustomAabb, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getFlipFaces() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getFlipFaces, _godot_object);
 	}
 	/**
 	
@@ -87,7 +94,7 @@ public:
 		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
 	/**
-	
+	Returns mesh arrays used to constitute surface of $(D Mesh). Mesh arrays can be used with $(D ArrayMesh) to create new surfaces.
 	*/
 	Array getMeshArrays() const
 	{
@@ -105,14 +112,6 @@ public:
 	/**
 	
 	*/
-	AABB getCustomAabb() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getCustomAabb, _godot_object);
-	}
-	/**
-	
-	*/
 	void setFlipFaces(in bool flip_faces)
 	{
 		checkClassBinding!(typeof(this))();
@@ -121,13 +120,13 @@ public:
 	/**
 	
 	*/
-	bool getFlipFaces() const
+	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlipFaces, _godot_object);
+		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
 	}
 	/**
-	
+	Overrides the $(D AABB) with one defined by user for use with frustum culling. Especially useful to avoid unnexpected culling when  using a shader to offset vertices.
 	*/
 	@property AABB customAabb()
 	{
@@ -139,7 +138,8 @@ public:
 		setCustomAabb(v);
 	}
 	/**
-	
+	If set, the order of the vertices in each triangle are reversed resulting in the backside of the mesh being drawn.
+	This gives the same result as using $(D constant SpatialMaterial.CULL_BACK) in $(D SpatialMaterial.paramsCullMode).
 	*/
 	@property bool flipFaces()
 	{

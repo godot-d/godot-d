@@ -21,8 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.node;
 import godot.texture;
-import godot.resource;
 import godot.editorresourcepreviewgenerator;
+import godot.resource;
 /**
 Helper to generate previews of resources or files.
 
@@ -41,11 +41,11 @@ public:
 	{
 		__gshared:
 		@GodotName("_preview_ready") GodotMethod!(void, String, Texture, Texture, long, String, Variant) _previewReady;
-		@GodotName("queue_resource_preview") GodotMethod!(void, String, GodotObject, String, Variant) queueResourcePreview;
-		@GodotName("queue_edited_resource_preview") GodotMethod!(void, Resource, GodotObject, String, Variant) queueEditedResourcePreview;
 		@GodotName("add_preview_generator") GodotMethod!(void, EditorResourcePreviewGenerator) addPreviewGenerator;
-		@GodotName("remove_preview_generator") GodotMethod!(void, EditorResourcePreviewGenerator) removePreviewGenerator;
 		@GodotName("check_for_invalidation") GodotMethod!(void, String) checkForInvalidation;
+		@GodotName("queue_edited_resource_preview") GodotMethod!(void, Resource, GodotObject, String, Variant) queueEditedResourcePreview;
+		@GodotName("queue_resource_preview") GodotMethod!(void, String, GodotObject, String, Variant) queueResourcePreview;
+		@GodotName("remove_preview_generator") GodotMethod!(void, EditorResourcePreviewGenerator) removePreviewGenerator;
 	}
 	bool opEquals(in EditorResourcePreview other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorResourcePreview opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -64,7 +64,7 @@ public:
 	*/
 	void _previewReady(VariantArg5)(in String arg0, Texture arg1, Texture arg2, in long arg3, in String arg4, in VariantArg5 arg5)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		_GODOT_args.append(arg1);
 		_GODOT_args.append(arg2);
@@ -75,12 +75,20 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Queue a resource file for preview (using a path). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
+	Create an own, custom preview generator.
 	*/
-	void queueResourcePreview(VariantArg3)(in String path, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
+	void addPreviewGenerator(EditorResourcePreviewGenerator generator)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queueResourcePreview, _godot_object, path, receiver, receiver_func, userdata);
+		ptrcall!(void)(_classBinding.addPreviewGenerator, _godot_object, generator);
+	}
+	/**
+	Check if the resource changed, if so, it will be invalidated and the corresponding signal emitted.
+	*/
+	void checkForInvalidation(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.checkForInvalidation, _godot_object, path);
 	}
 	/**
 	Queue a resource being edited for preview (using an instance). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
@@ -91,27 +99,19 @@ public:
 		ptrcall!(void)(_classBinding.queueEditedResourcePreview, _godot_object, resource, receiver, receiver_func, userdata);
 	}
 	/**
-	Create an own, custom preview generator.
+	Queue a resource file for preview (using a path). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
 	*/
-	void addPreviewGenerator(EditorResourcePreviewGenerator generator)
+	void queueResourcePreview(VariantArg3)(in String path, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPreviewGenerator, _godot_object, generator);
+		ptrcall!(void)(_classBinding.queueResourcePreview, _godot_object, path, receiver, receiver_func, userdata);
 	}
 	/**
-	Remove a custom preview generator.
+	Removes a custom preview generator.
 	*/
 	void removePreviewGenerator(EditorResourcePreviewGenerator generator)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(_classBinding.removePreviewGenerator, _godot_object, generator);
-	}
-	/**
-	Check if the resource changed, if so it will be invalidated and the corresponding signal emitted.
-	*/
-	void checkForInvalidation(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.checkForInvalidation, _godot_object, path);
 	}
 }

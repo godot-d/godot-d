@@ -37,11 +37,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_library") GodotMethod!(void, GDNativeLibrary) setLibrary;
+		@GodotName("call_native") GodotMethod!(Variant, String, String, Array) callNative;
 		@GodotName("get_library") GodotMethod!(GDNativeLibrary) getLibrary;
 		@GodotName("initialize") GodotMethod!(bool) initialize;
+		@GodotName("set_library") GodotMethod!(void, GDNativeLibrary) setLibrary;
 		@GodotName("terminate") GodotMethod!(bool) terminate;
-		@GodotName("call_native") GodotMethod!(Variant, String, String, Array) callNative;
 	}
 	bool opEquals(in GDNative other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDNative opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,10 +58,10 @@ public:
 	/**
 	
 	*/
-	void setLibrary(GDNativeLibrary library)
+	Variant callNative(in String calling_type, in String procedure_name, in Array arguments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
+		return ptrcall!(Variant)(_classBinding.callNative, _godot_object, calling_type, procedure_name, arguments);
 	}
 	/**
 	
@@ -82,18 +82,18 @@ public:
 	/**
 	
 	*/
-	bool terminate()
+	void setLibrary(GDNativeLibrary library)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.terminate, _godot_object);
+		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
 	}
 	/**
 	
 	*/
-	Variant callNative(in String calling_type, in String procedure_name, in Array arguments)
+	bool terminate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.callNative, _godot_object, calling_type, procedure_name, arguments);
+		return ptrcall!(bool)(_classBinding.terminate, _godot_object);
 	}
 	/**
 	

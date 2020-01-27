@@ -21,8 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.translation;
-import godot.resource;
-import godot.reference;
 /**
 Optimized translation.
 

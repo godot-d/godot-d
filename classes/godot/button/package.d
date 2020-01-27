@@ -21,10 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.basebutton;
-import godot.texture;
 import godot.control;
-import godot.canvasitem;
-import godot.node;
+import godot.texture;
 /**
 Standard themed Button.
 
@@ -42,16 +40,18 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_text") GodotMethod!(void, String) setText;
-		@GodotName("get_text") GodotMethod!(String) getText;
-		@GodotName("set_button_icon") GodotMethod!(void, Texture) setButtonIcon;
 		@GodotName("get_button_icon") GodotMethod!(Texture) getButtonIcon;
-		@GodotName("set_flat") GodotMethod!(void, bool) setFlat;
-		@GodotName("set_clip_text") GodotMethod!(void, bool) setClipText;
 		@GodotName("get_clip_text") GodotMethod!(bool) getClipText;
-		@GodotName("set_text_align") GodotMethod!(void, long) setTextAlign;
+		@GodotName("get_text") GodotMethod!(String) getText;
 		@GodotName("get_text_align") GodotMethod!(Button.TextAlign) getTextAlign;
+		@GodotName("is_expand_icon") GodotMethod!(bool) isExpandIcon;
 		@GodotName("is_flat") GodotMethod!(bool) isFlat;
+		@GodotName("set_button_icon") GodotMethod!(void, Texture) setButtonIcon;
+		@GodotName("set_clip_text") GodotMethod!(void, bool) setClipText;
+		@GodotName("set_expand_icon") GodotMethod!(void, bool) setExpandIcon;
+		@GodotName("set_flat") GodotMethod!(void, bool) setFlat;
+		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("set_text_align") GodotMethod!(void, long) setTextAlign;
 	}
 	bool opEquals(in Button other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	Button opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -91,50 +91,10 @@ public:
 	/**
 	
 	*/
-	void setText(in String text)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
-	}
-	/**
-	
-	*/
-	String getText() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
-	}
-	/**
-	
-	*/
-	void setButtonIcon(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonIcon, _godot_object, texture);
-	}
-	/**
-	
-	*/
 	Ref!Texture getButtonIcon() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Texture)(_classBinding.getButtonIcon, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFlat(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlat, _godot_object, enabled);
-	}
-	/**
-	
-	*/
-	void setClipText(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipText, _godot_object, enabled);
 	}
 	/**
 	
@@ -147,10 +107,10 @@ public:
 	/**
 	
 	*/
-	void setTextAlign(in long _align)
+	String getText() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextAlign, _godot_object, _align);
+		return ptrcall!(String)(_classBinding.getText, _godot_object);
 	}
 	/**
 	
@@ -163,34 +123,102 @@ public:
 	/**
 	
 	*/
+	bool isExpandIcon() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isExpandIcon, _godot_object);
+	}
+	/**
+	
+	*/
 	bool isFlat() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(_classBinding.isFlat, _godot_object);
 	}
 	/**
-	The button's text that will be displayed inside the button's area.
+	
 	*/
-	@property String text()
+	void setButtonIcon(Texture texture)
 	{
-		return getText();
-	}
-	/// ditto
-	@property void text(String v)
-	{
-		setText(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setButtonIcon, _godot_object, texture);
 	}
 	/**
-	Button's icon, if text is present the icon will be placed before the text.
+	
 	*/
-	@property Texture icon()
+	void setClipText(in bool enabled)
 	{
-		return getButtonIcon();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setClipText, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setExpandIcon(in bool arg0)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExpandIcon, _godot_object, arg0);
+	}
+	/**
+	
+	*/
+	void setFlat(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlat, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setText(in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+	}
+	/**
+	
+	*/
+	void setTextAlign(in long _align)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTextAlign, _godot_object, _align);
+	}
+	/**
+	Text alignment policy for the button's text, use one of the $(D textalign) constants.
+	*/
+	@property Button.TextAlign _align()
+	{
+		return getTextAlign();
 	}
 	/// ditto
-	@property void icon(Texture v)
+	@property void _align(long v)
 	{
-		setButtonIcon(v);
+		setTextAlign(v);
+	}
+	/**
+	When this property is enabled, text that is too large to fit the button is clipped, when disabled the Button will always be wide enough to hold the text.
+	*/
+	@property bool clipText()
+	{
+		return getClipText();
+	}
+	/// ditto
+	@property void clipText(bool v)
+	{
+		setClipText(v);
+	}
+	/**
+	When enabled, the button's icon will expand/shrink to fit the button's size while keeping its aspect.
+	*/
+	@property bool expandIcon()
+	{
+		return isExpandIcon();
+	}
+	/// ditto
+	@property void expandIcon(bool v)
+	{
+		setExpandIcon(v);
 	}
 	/**
 	Flat buttons don't display decoration.
@@ -205,27 +233,27 @@ public:
 		setFlat(v);
 	}
 	/**
-	When this property is enabled, text that is too large to fit the button is clipped, when disabled the Button will always be wide enough to hold the text. This property is disabled by default.
+	Button's icon, if text is present the icon will be placed before the text.
 	*/
-	@property bool clipText()
+	@property Texture icon()
 	{
-		return getClipText();
+		return getButtonIcon();
 	}
 	/// ditto
-	@property void clipText(bool v)
+	@property void icon(Texture v)
 	{
-		setClipText(v);
+		setButtonIcon(v);
 	}
 	/**
-	Text alignment policy for the button's text, use one of the ALIGN_* constants.
+	The button's text that will be displayed inside the button's area.
 	*/
-	@property Button.TextAlign _align()
+	@property String text()
 	{
-		return getTextAlign();
+		return getText();
 	}
 	/// ditto
-	@property void _align(long v)
+	@property void text(String v)
 	{
-		setTextAlign(v);
+		setText(v);
 	}
 }

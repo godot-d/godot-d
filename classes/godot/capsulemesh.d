@@ -21,9 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
-import godot.mesh;
-import godot.resource;
-import godot.reference;
 /**
 Class representing a capsule-shaped $(D PrimitiveMesh).
 
@@ -41,14 +38,14 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
-		@GodotName("get_radius") GodotMethod!(double) getRadius;
-		@GodotName("set_mid_height") GodotMethod!(void, double) setMidHeight;
 		@GodotName("get_mid_height") GodotMethod!(double) getMidHeight;
-		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
 		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
-		@GodotName("set_rings") GodotMethod!(void, long) setRings;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
 		@GodotName("get_rings") GodotMethod!(long) getRings;
+		@GodotName("set_mid_height") GodotMethod!(void, double) setMidHeight;
+		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("set_rings") GodotMethod!(void, long) setRings;
 	}
 	bool opEquals(in CapsuleMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CapsuleMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -65,42 +62,10 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setMidHeight(in double mid_height)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMidHeight, _godot_object, mid_height);
-	}
-	/**
-	
-	*/
 	double getMidHeight() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getMidHeight, _godot_object);
-	}
-	/**
-	
-	*/
-	void setRadialSegments(in long segments)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
 	}
 	/**
 	
@@ -113,10 +78,10 @@ public:
 	/**
 	
 	*/
-	void setRings(in long rings)
+	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -127,19 +92,39 @@ public:
 		return ptrcall!(long)(_classBinding.getRings, _godot_object);
 	}
 	/**
-	Radius of the capsule mesh. Defaults to 1.0.
+	
 	*/
-	@property double radius()
+	void setMidHeight(in double mid_height)
 	{
-		return getRadius();
-	}
-	/// ditto
-	@property void radius(double v)
-	{
-		setRadius(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setMidHeight, _godot_object, mid_height);
 	}
 	/**
-	Height of the capsule mesh from the center point. Defaults to 1.0.
+	
+	*/
+	void setRadialSegments(in long segments)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
+	}
+	/**
+	
+	*/
+	void setRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
+	}
+	/**
+	
+	*/
+	void setRings(in long rings)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+	}
+	/**
+	Height of the capsule mesh from the center point.
 	*/
 	@property double midHeight()
 	{
@@ -151,7 +136,7 @@ public:
 		setMidHeight(v);
 	}
 	/**
-	Number of radial segments on the capsule mesh. Defaults to 64.
+	Number of radial segments on the capsule mesh.
 	*/
 	@property long radialSegments()
 	{
@@ -163,7 +148,19 @@ public:
 		setRadialSegments(v);
 	}
 	/**
-	Number of rings along the height of the capsule. Defaults to 8.
+	Radius of the capsule mesh.
+	*/
+	@property double radius()
+	{
+		return getRadius();
+	}
+	/// ditto
+	@property void radius(double v)
+	{
+		setRadius(v);
+	}
+	/**
+	Number of rings along the height of the capsule.
 	*/
 	@property long rings()
 	{

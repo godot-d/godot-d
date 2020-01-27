@@ -21,13 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.primitivemesh;
-import godot.mesh;
-import godot.resource;
-import godot.reference;
 /**
 Class representing a planar $(D PrimitiveMesh).
 
-This flat mesh does not have a thickness.
+This flat mesh does not have a thickness. By default, this mesh is aligned on the X and Z axes; this default rotation isn't suited for use with billboarded materials. For billboarded materials, use $(D QuadMesh) instead.
 */
 @GodotBaseClass struct PlaneMesh
 {
@@ -41,12 +38,12 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 		@GodotName("get_size") GodotMethod!(Vector2) getSize;
-		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
-		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
-		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
 		@GodotName("get_subdivide_depth") GodotMethod!(long) getSubdivideDepth;
+		@GodotName("get_subdivide_width") GodotMethod!(long) getSubdivideWidth;
+		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
+		@GodotName("set_subdivide_depth") GodotMethod!(void, long) setSubdivideDepth;
+		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
 	}
 	bool opEquals(in PlaneMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PlaneMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -63,14 +60,6 @@ public:
 	/**
 	
 	*/
-	void setSize(in Vector2 size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
-	}
-	/**
-	
-	*/
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -79,10 +68,10 @@ public:
 	/**
 	
 	*/
-	void setSubdivideWidth(in long subdivide)
+	long getSubdivideDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, subdivide);
+		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
 	}
 	/**
 	
@@ -95,6 +84,14 @@ public:
 	/**
 	
 	*/
+	void setSize(in Vector2 size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+	}
+	/**
+	
+	*/
 	void setSubdivideDepth(in long subdivide)
 	{
 		checkClassBinding!(typeof(this))();
@@ -103,13 +100,13 @@ public:
 	/**
 	
 	*/
-	long getSubdivideDepth() const
+	void setSubdivideWidth(in long subdivide)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
+		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, subdivide);
 	}
 	/**
-	Size of the generated plane. Defaults to (2.0, 2.0).
+	Size of the generated plane.
 	*/
 	@property Vector2 size()
 	{
@@ -121,19 +118,7 @@ public:
 		setSize(v);
 	}
 	/**
-	Number of subdivision along the x-axis. Defaults to 0.
-	*/
-	@property long subdivideWidth()
-	{
-		return getSubdivideWidth();
-	}
-	/// ditto
-	@property void subdivideWidth(long v)
-	{
-		setSubdivideWidth(v);
-	}
-	/**
-	Number of subdivision along the z-axis. Defaults to 0.
+	Number of subdivision along the Z axis.
 	*/
 	@property long subdivideDepth()
 	{
@@ -143,5 +128,17 @@ public:
 	@property void subdivideDepth(long v)
 	{
 		setSubdivideDepth(v);
+	}
+	/**
+	Number of subdivision along the X axis.
+	*/
+	@property long subdivideWidth()
+	{
+		return getSubdivideWidth();
+	}
+	/// ditto
+	@property void subdivideWidth(long v)
+	{
+		setSubdivideWidth(v);
 	}
 }

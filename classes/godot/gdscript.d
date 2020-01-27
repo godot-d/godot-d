@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.script;
-import godot.resource;
-import godot.reference;
 /**
 A script implemented in the GDScript programming language.
 
-The script exends the functionality of all objects that instance it.
+The script extends the functionality of all objects that instance it.
 $(D _new) creates a new instance of the script. $(D GodotObject.setScript) extends an existing object, if that object's class matches one of the script's base classes.
 */
 @GodotBaseClass struct GDScript
@@ -41,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("new") GodotMethod!(GodotObject, GodotVarArgs) _new;
 		@GodotName("get_as_byte_code") GodotMethod!(PoolByteArray) getAsByteCode;
+		@GodotName("new") GodotMethod!(Variant, GodotVarArgs) _new;
 	}
 	bool opEquals(in GDScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	GDScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -57,6 +55,14 @@ public:
 	}
 	@disable new(size_t s);
 	/**
+	Returns byte code for the script source code.
+	*/
+	PoolByteArray getAsByteCode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(_classBinding.getAsByteCode, _godot_object);
+	}
+	/**
 	Returns a new instance of the script.
 	For example:
 	
@@ -67,22 +73,14 @@ public:
 	
 	
 	*/
-	GodotObject _new(VarArgs...)(VarArgs varArgs)
+	Variant _new(VarArgs...)(VarArgs varArgs)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		foreach(vai, VA; VarArgs)
 		{
 			_GODOT_args.append(varArgs[vai]);
 		}
 		String _GODOT_method_name = String("new");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
-	}
-	/**
-	Returns byte code for the script source code.
-	*/
-	PoolByteArray getAsByteCode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getAsByteCode, _godot_object);
+		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 }

@@ -1,5 +1,5 @@
 /**
-
+CPU-based 2D particle emitter.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,13 +21,15 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
+import godot.node;
+import godot.gradient;
 import godot.texture;
 import godot.curve;
-import godot.gradient;
-import godot.node;
-import godot.canvasitem;
 /**
+CPU-based 2D particle emitter.
 
+CPU-based 2D particle node used to create a variety of particle systems and effects.
+See also $(D Particles2D), which provides the same functionality with hardware acceleration, but may not run on older devices.
 */
 @GodotBaseClass struct CPUParticles2D
 {
@@ -41,67 +43,69 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
-		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
-		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
-		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
-		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
-		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
-		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
-		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
-		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
-		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
-		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
-		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
+		@GodotName("_update_render_thread") GodotMethod!(void) _updateRenderThread;
+		@GodotName("convert_from_particles") GodotMethod!(void, Node) convertFromParticles;
 		@GodotName("get_amount") GodotMethod!(long) getAmount;
-		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
-		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
-		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
+		@GodotName("get_color") GodotMethod!(Color) getColor;
+		@GodotName("get_color_ramp") GodotMethod!(Gradient) getColorRamp;
+		@GodotName("get_direction") GodotMethod!(Vector2) getDirection;
+		@GodotName("get_draw_order") GodotMethod!(CPUParticles2D.DrawOrder) getDrawOrder;
+		@GodotName("get_emission_colors") GodotMethod!(PoolColorArray) getEmissionColors;
+		@GodotName("get_emission_normals") GodotMethod!(PoolVector2Array) getEmissionNormals;
+		@GodotName("get_emission_points") GodotMethod!(PoolVector2Array) getEmissionPoints;
+		@GodotName("get_emission_rect_extents") GodotMethod!(Vector2) getEmissionRectExtents;
+		@GodotName("get_emission_shape") GodotMethod!(CPUParticles2D.EmissionShape) getEmissionShape;
+		@GodotName("get_emission_sphere_radius") GodotMethod!(double) getEmissionSphereRadius;
 		@GodotName("get_explosiveness_ratio") GodotMethod!(double) getExplosivenessRatio;
-		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
-		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
 		@GodotName("get_fixed_fps") GodotMethod!(long) getFixedFps;
 		@GodotName("get_fractional_delta") GodotMethod!(bool) getFractionalDelta;
-		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
-		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
-		@GodotName("get_draw_order") GodotMethod!(CPUParticles2D.DrawOrder) getDrawOrder;
-		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
-		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
-		@GodotName("set_normalmap") GodotMethod!(void, Texture) setNormalmap;
-		@GodotName("get_normalmap") GodotMethod!(Texture) getNormalmap;
-		@GodotName("restart") GodotMethod!(void) restart;
-		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
-		@GodotName("get_spread") GodotMethod!(double) getSpread;
-		@GodotName("set_flatness") GodotMethod!(void, double) setFlatness;
-		@GodotName("get_flatness") GodotMethod!(double) getFlatness;
-		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
-		@GodotName("get_param") GodotMethod!(double, long) getParam;
-		@GodotName("set_param_randomness") GodotMethod!(void, long, double) setParamRandomness;
-		@GodotName("get_param_randomness") GodotMethod!(double, long) getParamRandomness;
-		@GodotName("set_param_curve") GodotMethod!(void, long, Curve) setParamCurve;
-		@GodotName("get_param_curve") GodotMethod!(Curve, long) getParamCurve;
-		@GodotName("set_color") GodotMethod!(void, Color) setColor;
-		@GodotName("get_color") GodotMethod!(Color) getColor;
-		@GodotName("set_color_ramp") GodotMethod!(void, Gradient) setColorRamp;
-		@GodotName("get_color_ramp") GodotMethod!(Gradient) getColorRamp;
-		@GodotName("set_particle_flag") GodotMethod!(void, long, bool) setParticleFlag;
-		@GodotName("get_particle_flag") GodotMethod!(bool, long) getParticleFlag;
-		@GodotName("set_emission_shape") GodotMethod!(void, long) setEmissionShape;
-		@GodotName("get_emission_shape") GodotMethod!(CPUParticles2D.EmissionShape) getEmissionShape;
-		@GodotName("set_emission_sphere_radius") GodotMethod!(void, double) setEmissionSphereRadius;
-		@GodotName("get_emission_sphere_radius") GodotMethod!(double) getEmissionSphereRadius;
-		@GodotName("set_emission_rect_extents") GodotMethod!(void, Vector2) setEmissionRectExtents;
-		@GodotName("get_emission_rect_extents") GodotMethod!(Vector2) getEmissionRectExtents;
-		@GodotName("set_emission_points") GodotMethod!(void, PoolVector2Array) setEmissionPoints;
-		@GodotName("get_emission_points") GodotMethod!(PoolVector2Array) getEmissionPoints;
-		@GodotName("set_emission_normals") GodotMethod!(void, PoolVector2Array) setEmissionNormals;
-		@GodotName("get_emission_normals") GodotMethod!(PoolVector2Array) getEmissionNormals;
-		@GodotName("set_emission_colors") GodotMethod!(void, PoolColorArray) setEmissionColors;
-		@GodotName("get_emission_colors") GodotMethod!(PoolColorArray) getEmissionColors;
 		@GodotName("get_gravity") GodotMethod!(Vector2) getGravity;
+		@GodotName("get_lifetime") GodotMethod!(double) getLifetime;
+		@GodotName("get_lifetime_randomness") GodotMethod!(double) getLifetimeRandomness;
+		@GodotName("get_normalmap") GodotMethod!(Texture) getNormalmap;
+		@GodotName("get_one_shot") GodotMethod!(bool) getOneShot;
+		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("get_param_curve") GodotMethod!(Curve, long) getParamCurve;
+		@GodotName("get_param_randomness") GodotMethod!(double, long) getParamRandomness;
+		@GodotName("get_particle_flag") GodotMethod!(bool, long) getParticleFlag;
+		@GodotName("get_pre_process_time") GodotMethod!(double) getPreProcessTime;
+		@GodotName("get_randomness_ratio") GodotMethod!(double) getRandomnessRatio;
+		@GodotName("get_speed_scale") GodotMethod!(double) getSpeedScale;
+		@GodotName("get_spread") GodotMethod!(double) getSpread;
+		@GodotName("get_texture") GodotMethod!(Texture) getTexture;
+		@GodotName("get_use_local_coordinates") GodotMethod!(bool) getUseLocalCoordinates;
+		@GodotName("is_emitting") GodotMethod!(bool) isEmitting;
+		@GodotName("restart") GodotMethod!(void) restart;
+		@GodotName("set_amount") GodotMethod!(void, long) setAmount;
+		@GodotName("set_color") GodotMethod!(void, Color) setColor;
+		@GodotName("set_color_ramp") GodotMethod!(void, Gradient) setColorRamp;
+		@GodotName("set_direction") GodotMethod!(void, Vector2) setDirection;
+		@GodotName("set_draw_order") GodotMethod!(void, long) setDrawOrder;
+		@GodotName("set_emission_colors") GodotMethod!(void, PoolColorArray) setEmissionColors;
+		@GodotName("set_emission_normals") GodotMethod!(void, PoolVector2Array) setEmissionNormals;
+		@GodotName("set_emission_points") GodotMethod!(void, PoolVector2Array) setEmissionPoints;
+		@GodotName("set_emission_rect_extents") GodotMethod!(void, Vector2) setEmissionRectExtents;
+		@GodotName("set_emission_shape") GodotMethod!(void, long) setEmissionShape;
+		@GodotName("set_emission_sphere_radius") GodotMethod!(void, double) setEmissionSphereRadius;
+		@GodotName("set_emitting") GodotMethod!(void, bool) setEmitting;
+		@GodotName("set_explosiveness_ratio") GodotMethod!(void, double) setExplosivenessRatio;
+		@GodotName("set_fixed_fps") GodotMethod!(void, long) setFixedFps;
+		@GodotName("set_fractional_delta") GodotMethod!(void, bool) setFractionalDelta;
 		@GodotName("set_gravity") GodotMethod!(void, Vector2) setGravity;
-		@GodotName("convert_from_particles") GodotMethod!(void, Node) convertFromParticles;
-		@GodotName("_update_render_thread") GodotMethod!(void) _updateRenderThread;
+		@GodotName("set_lifetime") GodotMethod!(void, double) setLifetime;
+		@GodotName("set_lifetime_randomness") GodotMethod!(void, double) setLifetimeRandomness;
+		@GodotName("set_normalmap") GodotMethod!(void, Texture) setNormalmap;
+		@GodotName("set_one_shot") GodotMethod!(void, bool) setOneShot;
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
+		@GodotName("set_param_curve") GodotMethod!(void, long, Curve) setParamCurve;
+		@GodotName("set_param_randomness") GodotMethod!(void, long, double) setParamRandomness;
+		@GodotName("set_particle_flag") GodotMethod!(void, long, bool) setParticleFlag;
+		@GodotName("set_pre_process_time") GodotMethod!(void, double) setPreProcessTime;
+		@GodotName("set_randomness_ratio") GodotMethod!(void, double) setRandomnessRatio;
+		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
+		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
+		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
+		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
 	}
 	bool opEquals(in CPUParticles2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CPUParticles2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -119,91 +123,103 @@ public:
 	enum Flags : int
 	{
 		/**
-		
+		Use with $(D setParticleFlag) to set $(D flagAlignY).
 		*/
 		flagAlignYToVelocity = 0,
 		/**
-		
+		Present for consistency with 3D particle nodes, not used in 2D.
 		*/
-		flagMax = 1,
+		flagRotateY = 1,
+		/**
+		Present for consistency with 3D particle nodes, not used in 2D.
+		*/
+		flagDisableZ = 2,
+		/**
+		Represents the size of the $(D flags) enum.
+		*/
+		flagMax = 3,
 	}
 	/// 
 	enum EmissionShape : int
 	{
 		/**
-		
+		All particles will be emitted from a single point.
 		*/
 		emissionShapePoint = 0,
 		/**
-		
+		Particles will be emitted on the surface of a sphere flattened to two dimensions.
 		*/
-		emissionShapeCircle = 1,
+		emissionShapeSphere = 1,
 		/**
-		
+		Particles will be emitted in the area of a rectangle.
 		*/
 		emissionShapeRectangle = 2,
 		/**
-		
+		Particles will be emitted at a position chosen randomly among $(D emissionPoints). Particle color will be modulated by $(D emissionColors).
 		*/
 		emissionShapePoints = 3,
 		/**
-		
+		Particles will be emitted at a position chosen randomly among $(D emissionPoints). Particle velocity and rotation will be set based on $(D emissionNormals). Particle color will be modulated by $(D emissionColors).
 		*/
 		emissionShapeDirectedPoints = 4,
+		/**
+		Represents the size of the $(D emissionshape) enum.
+		*/
+		emissionShapeMax = 5,
 	}
 	/// 
 	enum Parameter : int
 	{
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set initial velocity properties.
 		*/
 		paramInitialLinearVelocity = 0,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set angular velocity properties.
 		*/
 		paramAngularVelocity = 1,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set orbital velocity properties.
 		*/
 		paramOrbitVelocity = 2,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set linear acceleration properties.
 		*/
 		paramLinearAccel = 3,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set radial acceleration properties.
 		*/
 		paramRadialAccel = 4,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set tangential acceleration properties.
 		*/
 		paramTangentialAccel = 5,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set damping properties.
 		*/
 		paramDamping = 6,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set angle properties.
 		*/
 		paramAngle = 7,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set scale properties.
 		*/
 		paramScale = 8,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set hue variation properties.
 		*/
 		paramHueVariation = 9,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set animation speed properties.
 		*/
 		paramAnimSpeed = 10,
 		/**
-		
+		Use with $(D setParam), $(D setParamRandomness), and $(D setParamCurve) to set animation offset properties.
 		*/
 		paramAnimOffset = 11,
 		/**
-		
+		Represents the size of the $(D parameter) enum.
 		*/
 		paramMax = 12,
 	}
@@ -211,11 +227,11 @@ public:
 	enum DrawOrder : int
 	{
 		/**
-		
+		Particles are drawn in the order emitted.
 		*/
 		drawOrderIndex = 0,
 		/**
-		
+		Particles are drawn in order of remaining lifetime.
 		*/
 		drawOrderLifetime = 1,
 	}
@@ -223,20 +239,23 @@ public:
 	enum Constants : int
 	{
 		flagAlignYToVelocity = 0,
-		paramInitialLinearVelocity = 0,
 		emissionShapePoint = 0,
 		drawOrderIndex = 0,
-		flagMax = 1,
+		paramInitialLinearVelocity = 0,
 		paramAngularVelocity = 1,
-		emissionShapeCircle = 1,
 		drawOrderLifetime = 1,
-		paramOrbitVelocity = 2,
+		emissionShapeSphere = 1,
+		flagRotateY = 1,
 		emissionShapeRectangle = 2,
-		emissionShapePoints = 3,
+		flagDisableZ = 2,
+		paramOrbitVelocity = 2,
+		flagMax = 3,
 		paramLinearAccel = 3,
-		emissionShapeDirectedPoints = 4,
+		emissionShapePoints = 3,
 		paramRadialAccel = 4,
+		emissionShapeDirectedPoints = 4,
 		paramTangentialAccel = 5,
+		emissionShapeMax = 5,
 		paramDamping = 6,
 		paramAngle = 7,
 		paramScale = 8,
@@ -248,98 +267,19 @@ public:
 	/**
 	
 	*/
-	void setEmitting(in bool emitting)
+	void _updateRenderThread()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_render_thread");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Sets this node's properties to match a given $(D Particles2D) node with an assigned $(D ParticlesMaterial).
 	*/
-	void setAmount(in long amount)
+	void convertFromParticles(Node particles)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
-	}
-	/**
-	
-	*/
-	void setLifetime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setOneShot(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setPreProcessTime(in double secs)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
-	}
-	/**
-	
-	*/
-	void setExplosivenessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setRandomnessRatio(in double ratio)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
-	}
-	/**
-	
-	*/
-	void setUseLocalCoordinates(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setFixedFps(in long fps)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
-	}
-	/**
-	
-	*/
-	void setFractionalDelta(in bool enable)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
-	}
-	/**
-	
-	*/
-	void setSpeedScale(in double scale)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
-	}
-	/**
-	
-	*/
-	bool isEmitting() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+		ptrcall!(void)(_classBinding.convertFromParticles, _godot_object, particles);
 	}
 	/**
 	
@@ -352,26 +292,82 @@ public:
 	/**
 	
 	*/
-	double getLifetime() const
+	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
+		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
 	}
 	/**
 	
 	*/
-	bool getOneShot() const
+	Ref!Gradient getColorRamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
+		return ptrcall!(Gradient)(_classBinding.getColorRamp, _godot_object);
 	}
 	/**
 	
 	*/
-	double getPreProcessTime() const
+	Vector2 getDirection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
+		return ptrcall!(Vector2)(_classBinding.getDirection, _godot_object);
+	}
+	/**
+	
+	*/
+	CPUParticles2D.DrawOrder getDrawOrder() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CPUParticles2D.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
+	}
+	/**
+	
+	*/
+	PoolColorArray getEmissionColors() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolColorArray)(_classBinding.getEmissionColors, _godot_object);
+	}
+	/**
+	
+	*/
+	PoolVector2Array getEmissionNormals() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getEmissionNormals, _godot_object);
+	}
+	/**
+	
+	*/
+	PoolVector2Array getEmissionPoints() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolVector2Array)(_classBinding.getEmissionPoints, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getEmissionRectExtents() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getEmissionRectExtents, _godot_object);
+	}
+	/**
+	
+	*/
+	CPUParticles2D.EmissionShape getEmissionShape() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(CPUParticles2D.EmissionShape)(_classBinding.getEmissionShape, _godot_object);
+	}
+	/**
+	
+	*/
+	double getEmissionSphereRadius() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getEmissionSphereRadius, _godot_object);
 	}
 	/**
 	
@@ -380,22 +376,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
-	}
-	/**
-	
-	*/
-	double getRandomnessRatio() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
-	}
-	/**
-	
-	*/
-	bool getUseLocalCoordinates() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
 	}
 	/**
 	
@@ -416,50 +396,26 @@ public:
 	/**
 	
 	*/
-	double getSpeedScale() const
+	Vector2 getGravity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		return ptrcall!(Vector2)(_classBinding.getGravity, _godot_object);
 	}
 	/**
 	
 	*/
-	void setDrawOrder(in long order)
+	double getLifetime() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawOrder, _godot_object, order);
+		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
 	}
 	/**
 	
 	*/
-	CPUParticles2D.DrawOrder getDrawOrder() const
+	double getLifetimeRandomness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CPUParticles2D.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
-	}
-	/**
-	
-	*/
-	void setTexture(Texture texture)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
-	}
-	/**
-	
-	*/
-	Ref!Texture getTexture() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
-	}
-	/**
-	
-	*/
-	void setNormalmap(Texture normalmap)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalmap, _godot_object, normalmap);
+		return ptrcall!(double)(_classBinding.getLifetimeRandomness, _godot_object);
 	}
 	/**
 	
@@ -472,18 +428,66 @@ public:
 	/**
 	
 	*/
-	void restart()
+	bool getOneShot() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.restart, _godot_object);
+		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
+	}
+	/**
+	Returns the base value of the parameter specified by $(D parameter).
+	*/
+	double getParam(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+	}
+	/**
+	Returns the $(D Curve) of the parameter specified by $(D parameter).
+	*/
+	Ref!Curve getParamCurve(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Curve)(_classBinding.getParamCurve, _godot_object, param);
+	}
+	/**
+	Returns the randomness factor of the parameter specified by $(D parameter).
+	*/
+	double getParamRandomness(in long param) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getParamRandomness, _godot_object, param);
+	}
+	/**
+	Returns the enabled state of the given flag (see $(D flags) for options).
+	*/
+	bool getParticleFlag(in long flag) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getParticleFlag, _godot_object, flag);
 	}
 	/**
 	
 	*/
-	void setSpread(in double degrees)
+	double getPreProcessTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpread, _godot_object, degrees);
+		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
+	}
+	/**
+	
+	*/
+	double getRandomnessRatio() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
+	}
+	/**
+	
+	*/
+	double getSpeedScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	
@@ -496,66 +500,42 @@ public:
 	/**
 	
 	*/
-	void setFlatness(in double amount)
+	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlatness, _godot_object, amount);
+		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
 	}
 	/**
 	
 	*/
-	double getFlatness() const
+	bool getUseLocalCoordinates() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFlatness, _godot_object);
+		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
 	}
 	/**
 	
 	*/
-	void setParam(in long param, in double value)
+	bool isEmitting() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+	}
+	/**
+	Restarts the particle emitter.
+	*/
+	void restart()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.restart, _godot_object);
 	}
 	/**
 	
 	*/
-	double getParam(in long param) const
+	void setAmount(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamRandomness(in long param, in double randomness)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamRandomness, _godot_object, param, randomness);
-	}
-	/**
-	
-	*/
-	double getParamRandomness(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamRandomness, _godot_object, param);
-	}
-	/**
-	
-	*/
-	void setParamCurve(in long param, Curve curve)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamCurve, _godot_object, param, curve);
-	}
-	/**
-	
-	*/
-	Ref!Curve getParamCurve(in long param) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve)(_classBinding.getParamCurve, _godot_object, param);
+		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
 	}
 	/**
 	
@@ -568,14 +548,6 @@ public:
 	/**
 	
 	*/
-	Color getColor() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
-	}
-	/**
-	
-	*/
 	void setColorRamp(Gradient ramp)
 	{
 		checkClassBinding!(typeof(this))();
@@ -584,106 +556,18 @@ public:
 	/**
 	
 	*/
-	Ref!Gradient getColorRamp() const
+	void setDirection(in Vector2 direction)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Gradient)(_classBinding.getColorRamp, _godot_object);
+		ptrcall!(void)(_classBinding.setDirection, _godot_object, direction);
 	}
 	/**
 	
 	*/
-	void setParticleFlag(in long flag, in bool enable)
+	void setDrawOrder(in long order)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticleFlag, _godot_object, flag, enable);
-	}
-	/**
-	
-	*/
-	bool getParticleFlag(in long flag) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticleFlag, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void setEmissionShape(in long shape)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionShape, _godot_object, shape);
-	}
-	/**
-	
-	*/
-	CPUParticles2D.EmissionShape getEmissionShape() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(CPUParticles2D.EmissionShape)(_classBinding.getEmissionShape, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionSphereRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionSphereRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getEmissionSphereRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEmissionSphereRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionRectExtents(in Vector2 extents)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionRectExtents, _godot_object, extents);
-	}
-	/**
-	
-	*/
-	Vector2 getEmissionRectExtents() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getEmissionRectExtents, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionPoints(in PoolVector2Array array)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionPoints, _godot_object, array);
-	}
-	/**
-	
-	*/
-	PoolVector2Array getEmissionPoints() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getEmissionPoints, _godot_object);
-	}
-	/**
-	
-	*/
-	void setEmissionNormals(in PoolVector2Array array)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionNormals, _godot_object, array);
-	}
-	/**
-	
-	*/
-	PoolVector2Array getEmissionNormals() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getEmissionNormals, _godot_object);
+		ptrcall!(void)(_classBinding.setDrawOrder, _godot_object, order);
 	}
 	/**
 	
@@ -696,18 +580,74 @@ public:
 	/**
 	
 	*/
-	PoolColorArray getEmissionColors() const
+	void setEmissionNormals(in PoolVector2Array array)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolColorArray)(_classBinding.getEmissionColors, _godot_object);
+		ptrcall!(void)(_classBinding.setEmissionNormals, _godot_object, array);
 	}
 	/**
 	
 	*/
-	Vector2 getGravity() const
+	void setEmissionPoints(in PoolVector2Array array)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGravity, _godot_object);
+		ptrcall!(void)(_classBinding.setEmissionPoints, _godot_object, array);
+	}
+	/**
+	
+	*/
+	void setEmissionRectExtents(in Vector2 extents)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionRectExtents, _godot_object, extents);
+	}
+	/**
+	
+	*/
+	void setEmissionShape(in long shape)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionShape, _godot_object, shape);
+	}
+	/**
+	
+	*/
+	void setEmissionSphereRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmissionSphereRadius, _godot_object, radius);
+	}
+	/**
+	
+	*/
+	void setEmitting(in bool emitting)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
+	}
+	/**
+	
+	*/
+	void setExplosivenessRatio(in double ratio)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
+	}
+	/**
+	
+	*/
+	void setFixedFps(in long fps)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
+	}
+	/**
+	
+	*/
+	void setFractionalDelta(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
 	}
 	/**
 	
@@ -720,34 +660,117 @@ public:
 	/**
 	
 	*/
-	void convertFromParticles(Node particles)
+	void setLifetime(in double secs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.convertFromParticles, _godot_object, particles);
+		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
 	}
 	/**
 	
 	*/
-	void _updateRenderThread()
+	void setLifetimeRandomness(in double random)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_update_render_thread");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setLifetimeRandomness, _godot_object, random);
 	}
 	/**
 	
 	*/
-	@property bool emitting()
+	void setNormalmap(Texture normalmap)
 	{
-		return isEmitting();
-	}
-	/// ditto
-	@property void emitting(bool v)
-	{
-		setEmitting(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setNormalmap, _godot_object, normalmap);
 	}
 	/**
 	
+	*/
+	void setOneShot(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
+	}
+	/**
+	Sets the base value of the parameter specified by $(D parameter).
+	*/
+	void setParam(in long param, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+	}
+	/**
+	Sets the $(D Curve) of the parameter specified by $(D parameter).
+	*/
+	void setParamCurve(in long param, Curve curve)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamCurve, _godot_object, param, curve);
+	}
+	/**
+	Sets the randomness factor of the parameter specified by $(D parameter).
+	*/
+	void setParamRandomness(in long param, in double randomness)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParamRandomness, _godot_object, param, randomness);
+	}
+	/**
+	Enables or disables the given flag (see $(D flags) for options).
+	*/
+	void setParticleFlag(in long flag, in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParticleFlag, _godot_object, flag, enable);
+	}
+	/**
+	
+	*/
+	void setPreProcessTime(in double secs)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
+	}
+	/**
+	
+	*/
+	void setRandomnessRatio(in double ratio)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
+	}
+	/**
+	
+	*/
+	void setSpeedScale(in double scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
+	}
+	/**
+	
+	*/
+	void setSpread(in double degrees)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSpread, _godot_object, degrees);
+	}
+	/**
+	
+	*/
+	void setTexture(Texture texture)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+	}
+	/**
+	
+	*/
+	void setUseLocalCoordinates(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
+	}
+	/**
+	Number of particles emitted in one emission cycle.
 	*/
 	@property long amount()
 	{
@@ -759,475 +782,7 @@ public:
 		setAmount(v);
 	}
 	/**
-	
-	*/
-	@property double lifetime()
-	{
-		return getLifetime();
-	}
-	/// ditto
-	@property void lifetime(double v)
-	{
-		setLifetime(v);
-	}
-	/**
-	
-	*/
-	@property bool oneShot()
-	{
-		return getOneShot();
-	}
-	/// ditto
-	@property void oneShot(bool v)
-	{
-		setOneShot(v);
-	}
-	/**
-	
-	*/
-	@property double preprocess()
-	{
-		return getPreProcessTime();
-	}
-	/// ditto
-	@property void preprocess(double v)
-	{
-		setPreProcessTime(v);
-	}
-	/**
-	
-	*/
-	@property double speedScale()
-	{
-		return getSpeedScale();
-	}
-	/// ditto
-	@property void speedScale(double v)
-	{
-		setSpeedScale(v);
-	}
-	/**
-	
-	*/
-	@property double explosiveness()
-	{
-		return getExplosivenessRatio();
-	}
-	/// ditto
-	@property void explosiveness(double v)
-	{
-		setExplosivenessRatio(v);
-	}
-	/**
-	
-	*/
-	@property double randomness()
-	{
-		return getRandomnessRatio();
-	}
-	/// ditto
-	@property void randomness(double v)
-	{
-		setRandomnessRatio(v);
-	}
-	/**
-	
-	*/
-	@property long fixedFps()
-	{
-		return getFixedFps();
-	}
-	/// ditto
-	@property void fixedFps(long v)
-	{
-		setFixedFps(v);
-	}
-	/**
-	
-	*/
-	@property bool fractDelta()
-	{
-		return getFractionalDelta();
-	}
-	/// ditto
-	@property void fractDelta(bool v)
-	{
-		setFractionalDelta(v);
-	}
-	/**
-	
-	*/
-	@property bool localCoords()
-	{
-		return getUseLocalCoordinates();
-	}
-	/// ditto
-	@property void localCoords(bool v)
-	{
-		setUseLocalCoordinates(v);
-	}
-	/**
-	
-	*/
-	@property CPUParticles2D.DrawOrder drawOrder()
-	{
-		return getDrawOrder();
-	}
-	/// ditto
-	@property void drawOrder(long v)
-	{
-		setDrawOrder(v);
-	}
-	/**
-	
-	*/
-	@property Texture texture()
-	{
-		return getTexture();
-	}
-	/// ditto
-	@property void texture(Texture v)
-	{
-		setTexture(v);
-	}
-	/**
-	
-	*/
-	@property Texture normalmap()
-	{
-		return getNormalmap();
-	}
-	/// ditto
-	@property void normalmap(Texture v)
-	{
-		setNormalmap(v);
-	}
-	/**
-	
-	*/
-	@property CPUParticles2D.EmissionShape emissionShape()
-	{
-		return getEmissionShape();
-	}
-	/// ditto
-	@property void emissionShape(long v)
-	{
-		setEmissionShape(v);
-	}
-	/**
-	
-	*/
-	@property double emissionSphereRadius()
-	{
-		return getEmissionSphereRadius();
-	}
-	/// ditto
-	@property void emissionSphereRadius(double v)
-	{
-		setEmissionSphereRadius(v);
-	}
-	/**
-	
-	*/
-	@property Vector2 emissionRectExtents()
-	{
-		return getEmissionRectExtents();
-	}
-	/// ditto
-	@property void emissionRectExtents(Vector2 v)
-	{
-		setEmissionRectExtents(v);
-	}
-	/**
-	
-	*/
-	@property PoolVector2Array emissionPoints()
-	{
-		return getEmissionPoints();
-	}
-	/// ditto
-	@property void emissionPoints(PoolVector2Array v)
-	{
-		setEmissionPoints(v);
-	}
-	/**
-	
-	*/
-	@property PoolVector2Array emissionNormals()
-	{
-		return getEmissionNormals();
-	}
-	/// ditto
-	@property void emissionNormals(PoolVector2Array v)
-	{
-		setEmissionNormals(v);
-	}
-	/**
-	
-	*/
-	@property PoolColorArray emissionColors()
-	{
-		return getEmissionColors();
-	}
-	/// ditto
-	@property void emissionColors(PoolColorArray v)
-	{
-		setEmissionColors(v);
-	}
-	/**
-	
-	*/
-	@property bool flagAlignY()
-	{
-		return getParticleFlag(0);
-	}
-	/// ditto
-	@property void flagAlignY(bool v)
-	{
-		setParticleFlag(0, v);
-	}
-	/**
-	
-	*/
-	@property double spread()
-	{
-		return getSpread();
-	}
-	/// ditto
-	@property void spread(double v)
-	{
-		setSpread(v);
-	}
-	/**
-	
-	*/
-	@property double flatness()
-	{
-		return getFlatness();
-	}
-	/// ditto
-	@property void flatness(double v)
-	{
-		setFlatness(v);
-	}
-	/**
-	
-	*/
-	@property Vector2 gravity()
-	{
-		return getGravity();
-	}
-	/// ditto
-	@property void gravity(Vector2 v)
-	{
-		setGravity(v);
-	}
-	/**
-	
-	*/
-	@property double initialVelocity()
-	{
-		return getParam(0);
-	}
-	/// ditto
-	@property void initialVelocity(double v)
-	{
-		setParam(0, v);
-	}
-	/**
-	
-	*/
-	@property double initialVelocityRandom()
-	{
-		return getParamRandomness(0);
-	}
-	/// ditto
-	@property void initialVelocityRandom(double v)
-	{
-		setParamRandomness(0, v);
-	}
-	/**
-	
-	*/
-	@property double angularVelocity()
-	{
-		return getParam(1);
-	}
-	/// ditto
-	@property void angularVelocity(double v)
-	{
-		setParam(1, v);
-	}
-	/**
-	
-	*/
-	@property double angularVelocityRandom()
-	{
-		return getParamRandomness(1);
-	}
-	/// ditto
-	@property void angularVelocityRandom(double v)
-	{
-		setParamRandomness(1, v);
-	}
-	/**
-	
-	*/
-	@property Curve angularVelocityCurve()
-	{
-		return getParamCurve(1);
-	}
-	/// ditto
-	@property void angularVelocityCurve(Curve v)
-	{
-		setParamCurve(1, v);
-	}
-	/**
-	
-	*/
-	@property double linearAccel()
-	{
-		return getParam(3);
-	}
-	/// ditto
-	@property void linearAccel(double v)
-	{
-		setParam(3, v);
-	}
-	/**
-	
-	*/
-	@property double linearAccelRandom()
-	{
-		return getParamRandomness(3);
-	}
-	/// ditto
-	@property void linearAccelRandom(double v)
-	{
-		setParamRandomness(3, v);
-	}
-	/**
-	
-	*/
-	@property Curve linearAccelCurve()
-	{
-		return getParamCurve(3);
-	}
-	/// ditto
-	@property void linearAccelCurve(Curve v)
-	{
-		setParamCurve(3, v);
-	}
-	/**
-	
-	*/
-	@property double radialAccel()
-	{
-		return getParam(4);
-	}
-	/// ditto
-	@property void radialAccel(double v)
-	{
-		setParam(4, v);
-	}
-	/**
-	
-	*/
-	@property double radialAccelRandom()
-	{
-		return getParamRandomness(4);
-	}
-	/// ditto
-	@property void radialAccelRandom(double v)
-	{
-		setParamRandomness(4, v);
-	}
-	/**
-	
-	*/
-	@property Curve radialAccelCurve()
-	{
-		return getParamCurve(4);
-	}
-	/// ditto
-	@property void radialAccelCurve(Curve v)
-	{
-		setParamCurve(4, v);
-	}
-	/**
-	
-	*/
-	@property double tangentialAccel()
-	{
-		return getParam(5);
-	}
-	/// ditto
-	@property void tangentialAccel(double v)
-	{
-		setParam(5, v);
-	}
-	/**
-	
-	*/
-	@property double tangentialAccelRandom()
-	{
-		return getParamRandomness(5);
-	}
-	/// ditto
-	@property void tangentialAccelRandom(double v)
-	{
-		setParamRandomness(5, v);
-	}
-	/**
-	
-	*/
-	@property Curve tangentialAccelCurve()
-	{
-		return getParamCurve(5);
-	}
-	/// ditto
-	@property void tangentialAccelCurve(Curve v)
-	{
-		setParamCurve(5, v);
-	}
-	/**
-	
-	*/
-	@property double damping()
-	{
-		return getParam(6);
-	}
-	/// ditto
-	@property void damping(double v)
-	{
-		setParam(6, v);
-	}
-	/**
-	
-	*/
-	@property double dampingRandom()
-	{
-		return getParamRandomness(6);
-	}
-	/// ditto
-	@property void dampingRandom(double v)
-	{
-		setParamRandomness(6, v);
-	}
-	/**
-	
-	*/
-	@property Curve dampingCurve()
-	{
-		return getParamCurve(6);
-	}
-	/// ditto
-	@property void dampingCurve(Curve v)
-	{
-		setParamCurve(6, v);
-	}
-	/**
-	
+	Initial rotation applied to each particle, in degrees.
 	*/
 	@property double angle()
 	{
@@ -1239,19 +794,7 @@ public:
 		setParam(7, v);
 	}
 	/**
-	
-	*/
-	@property double angleRandom()
-	{
-		return getParamRandomness(7);
-	}
-	/// ditto
-	@property void angleRandom(double v)
-	{
-		setParamRandomness(7, v);
-	}
-	/**
-	
+	Each particle's rotation will be animated along this $(D Curve).
 	*/
 	@property Curve angleCurve()
 	{
@@ -1263,139 +806,55 @@ public:
 		setParamCurve(7, v);
 	}
 	/**
-	
+	Rotation randomness ratio.
 	*/
-	@property double scaleAmount()
+	@property double angleRandom()
 	{
-		return getParam(8);
+		return getParamRandomness(7);
 	}
 	/// ditto
-	@property void scaleAmount(double v)
+	@property void angleRandom(double v)
 	{
-		setParam(8, v);
+		setParamRandomness(7, v);
 	}
 	/**
-	
+	Initial angular velocity applied to each particle. Sets the speed of rotation of the particle.
 	*/
-	@property double scaleAmountRandom()
+	@property double angularVelocity()
 	{
-		return getParamRandomness(8);
+		return getParam(1);
 	}
 	/// ditto
-	@property void scaleAmountRandom(double v)
+	@property void angularVelocity(double v)
 	{
-		setParamRandomness(8, v);
+		setParam(1, v);
 	}
 	/**
-	
+	Each particle's angular velocity will vary along this $(D Curve).
 	*/
-	@property Curve scaleAmountCurve()
+	@property Curve angularVelocityCurve()
 	{
-		return getParamCurve(8);
+		return getParamCurve(1);
 	}
 	/// ditto
-	@property void scaleAmountCurve(Curve v)
+	@property void angularVelocityCurve(Curve v)
 	{
-		setParamCurve(8, v);
+		setParamCurve(1, v);
 	}
 	/**
-	
+	Angular velocity randomness ratio.
 	*/
-	@property Color color()
+	@property double angularVelocityRandom()
 	{
-		return getColor();
+		return getParamRandomness(1);
 	}
 	/// ditto
-	@property void color(Color v)
+	@property void angularVelocityRandom(double v)
 	{
-		setColor(v);
+		setParamRandomness(1, v);
 	}
 	/**
-	
-	*/
-	@property Gradient colorRamp()
-	{
-		return getColorRamp();
-	}
-	/// ditto
-	@property void colorRamp(Gradient v)
-	{
-		setColorRamp(v);
-	}
-	/**
-	
-	*/
-	@property double hueVariation()
-	{
-		return getParam(9);
-	}
-	/// ditto
-	@property void hueVariation(double v)
-	{
-		setParam(9, v);
-	}
-	/**
-	
-	*/
-	@property double hueVariationRandom()
-	{
-		return getParamRandomness(9);
-	}
-	/// ditto
-	@property void hueVariationRandom(double v)
-	{
-		setParamRandomness(9, v);
-	}
-	/**
-	
-	*/
-	@property Curve hueVariationCurve()
-	{
-		return getParamCurve(9);
-	}
-	/// ditto
-	@property void hueVariationCurve(Curve v)
-	{
-		setParamCurve(9, v);
-	}
-	/**
-	
-	*/
-	@property double animSpeed()
-	{
-		return getParam(10);
-	}
-	/// ditto
-	@property void animSpeed(double v)
-	{
-		setParam(10, v);
-	}
-	/**
-	
-	*/
-	@property double animSpeedRandom()
-	{
-		return getParamRandomness(10);
-	}
-	/// ditto
-	@property void animSpeedRandom(double v)
-	{
-		setParamRandomness(10, v);
-	}
-	/**
-	
-	*/
-	@property Curve animSpeedCurve()
-	{
-		return getParamCurve(10);
-	}
-	/// ditto
-	@property void animSpeedCurve(Curve v)
-	{
-		setParamCurve(10, v);
-	}
-	/**
-	
+	Particle animation offset.
 	*/
 	@property double animOffset()
 	{
@@ -1407,7 +866,19 @@ public:
 		setParam(11, v);
 	}
 	/**
-	
+	Each particle's animation offset will vary along this $(D Curve).
+	*/
+	@property Curve animOffsetCurve()
+	{
+		return getParamCurve(11);
+	}
+	/// ditto
+	@property void animOffsetCurve(Curve v)
+	{
+		setParamCurve(11, v);
+	}
+	/**
+	Animation offset randomness ratio.
 	*/
 	@property double animOffsetRandom()
 	{
@@ -1419,15 +890,627 @@ public:
 		setParamRandomness(11, v);
 	}
 	/**
-	
+	Particle animation speed.
 	*/
-	@property Curve animOffsetCurve()
+	@property double animSpeed()
 	{
-		return getParamCurve(11);
+		return getParam(10);
 	}
 	/// ditto
-	@property void animOffsetCurve(Curve v)
+	@property void animSpeed(double v)
 	{
-		setParamCurve(11, v);
+		setParam(10, v);
+	}
+	/**
+	Each particle's animation speed will vary along this $(D Curve).
+	*/
+	@property Curve animSpeedCurve()
+	{
+		return getParamCurve(10);
+	}
+	/// ditto
+	@property void animSpeedCurve(Curve v)
+	{
+		setParamCurve(10, v);
+	}
+	/**
+	Animation speed randomness ratio.
+	*/
+	@property double animSpeedRandom()
+	{
+		return getParamRandomness(10);
+	}
+	/// ditto
+	@property void animSpeedRandom(double v)
+	{
+		setParamRandomness(10, v);
+	}
+	/**
+	Each particle's initial color. If $(D texture) is defined, it will be multiplied by this color.
+	*/
+	@property Color color()
+	{
+		return getColor();
+	}
+	/// ditto
+	@property void color(Color v)
+	{
+		setColor(v);
+	}
+	/**
+	Each particle's color will vary along this $(D Gradient).
+	*/
+	@property Gradient colorRamp()
+	{
+		return getColorRamp();
+	}
+	/// ditto
+	@property void colorRamp(Gradient v)
+	{
+		setColorRamp(v);
+	}
+	/**
+	The rate at which particles lose velocity.
+	*/
+	@property double damping()
+	{
+		return getParam(6);
+	}
+	/// ditto
+	@property void damping(double v)
+	{
+		setParam(6, v);
+	}
+	/**
+	Damping will vary along this $(D Curve).
+	*/
+	@property Curve dampingCurve()
+	{
+		return getParamCurve(6);
+	}
+	/// ditto
+	@property void dampingCurve(Curve v)
+	{
+		setParamCurve(6, v);
+	}
+	/**
+	Damping randomness ratio.
+	*/
+	@property double dampingRandom()
+	{
+		return getParamRandomness(6);
+	}
+	/// ditto
+	@property void dampingRandom(double v)
+	{
+		setParamRandomness(6, v);
+	}
+	/**
+	Unit vector specifying the particles' emission direction.
+	*/
+	@property Vector2 direction()
+	{
+		return getDirection();
+	}
+	/// ditto
+	@property void direction(Vector2 v)
+	{
+		setDirection(v);
+	}
+	/**
+	Particle draw order. Uses $(D draworder) values.
+	*/
+	@property CPUParticles2D.DrawOrder drawOrder()
+	{
+		return getDrawOrder();
+	}
+	/// ditto
+	@property void drawOrder(long v)
+	{
+		setDrawOrder(v);
+	}
+	/**
+	Sets the $(D Color)s to modulate particles by when using $(D constant EMISSION_SHAPE_POINTS) or $(D constant EMISSION_SHAPE_DIRECTED_POINTS).
+	*/
+	@property PoolColorArray emissionColors()
+	{
+		return getEmissionColors();
+	}
+	/// ditto
+	@property void emissionColors(PoolColorArray v)
+	{
+		setEmissionColors(v);
+	}
+	/**
+	Sets the direction the particles will be emitted in when using $(D constant EMISSION_SHAPE_DIRECTED_POINTS).
+	*/
+	@property PoolVector2Array emissionNormals()
+	{
+		return getEmissionNormals();
+	}
+	/// ditto
+	@property void emissionNormals(PoolVector2Array v)
+	{
+		setEmissionNormals(v);
+	}
+	/**
+	Sets the initial positions to spawn particles when using $(D constant EMISSION_SHAPE_POINTS) or $(D constant EMISSION_SHAPE_DIRECTED_POINTS).
+	*/
+	@property PoolVector2Array emissionPoints()
+	{
+		return getEmissionPoints();
+	}
+	/// ditto
+	@property void emissionPoints(PoolVector2Array v)
+	{
+		setEmissionPoints(v);
+	}
+	/**
+	The rectangle's extents if $(D emissionShape) is set to $(D constant EMISSION_SHAPE_RECTANGLE).
+	*/
+	@property Vector2 emissionRectExtents()
+	{
+		return getEmissionRectExtents();
+	}
+	/// ditto
+	@property void emissionRectExtents(Vector2 v)
+	{
+		setEmissionRectExtents(v);
+	}
+	/**
+	Particles will be emitted inside this region. See $(D emissionshape) for possible values.
+	*/
+	@property CPUParticles2D.EmissionShape emissionShape()
+	{
+		return getEmissionShape();
+	}
+	/// ditto
+	@property void emissionShape(long v)
+	{
+		setEmissionShape(v);
+	}
+	/**
+	The sphere's radius if $(D emissionShape) is set to $(D constant EMISSION_SHAPE_SPHERE).
+	*/
+	@property double emissionSphereRadius()
+	{
+		return getEmissionSphereRadius();
+	}
+	/// ditto
+	@property void emissionSphereRadius(double v)
+	{
+		setEmissionSphereRadius(v);
+	}
+	/**
+	If `true`, particles are being emitted.
+	*/
+	@property bool emitting()
+	{
+		return isEmitting();
+	}
+	/// ditto
+	@property void emitting(bool v)
+	{
+		setEmitting(v);
+	}
+	/**
+	How rapidly particles in an emission cycle are emitted. If greater than `0`, there will be a gap in emissions before the next cycle begins.
+	*/
+	@property double explosiveness()
+	{
+		return getExplosivenessRatio();
+	}
+	/// ditto
+	@property void explosiveness(double v)
+	{
+		setExplosivenessRatio(v);
+	}
+	/**
+	The particle system's frame rate is fixed to a value. For instance, changing the value to 2 will make the particles render at 2 frames per second. Note this does not slow down the simulation of the particle system itself.
+	*/
+	@property long fixedFps()
+	{
+		return getFixedFps();
+	}
+	/// ditto
+	@property void fixedFps(long v)
+	{
+		setFixedFps(v);
+	}
+	/**
+	Align Y axis of particle with the direction of its velocity.
+	*/
+	@property bool flagAlignY()
+	{
+		return getParticleFlag(0);
+	}
+	/// ditto
+	@property void flagAlignY(bool v)
+	{
+		setParticleFlag(0, v);
+	}
+	/**
+	If `true`, results in fractional delta calculation which has a smoother particles display effect.
+	*/
+	@property bool fractDelta()
+	{
+		return getFractionalDelta();
+	}
+	/// ditto
+	@property void fractDelta(bool v)
+	{
+		setFractionalDelta(v);
+	}
+	/**
+	Gravity applied to every particle.
+	*/
+	@property Vector2 gravity()
+	{
+		return getGravity();
+	}
+	/// ditto
+	@property void gravity(Vector2 v)
+	{
+		setGravity(v);
+	}
+	/**
+	Initial hue variation applied to each particle.
+	*/
+	@property double hueVariation()
+	{
+		return getParam(9);
+	}
+	/// ditto
+	@property void hueVariation(double v)
+	{
+		setParam(9, v);
+	}
+	/**
+	Each particle's hue will vary along this $(D Curve).
+	*/
+	@property Curve hueVariationCurve()
+	{
+		return getParamCurve(9);
+	}
+	/// ditto
+	@property void hueVariationCurve(Curve v)
+	{
+		setParamCurve(9, v);
+	}
+	/**
+	Hue variation randomness ratio.
+	*/
+	@property double hueVariationRandom()
+	{
+		return getParamRandomness(9);
+	}
+	/// ditto
+	@property void hueVariationRandom(double v)
+	{
+		setParamRandomness(9, v);
+	}
+	/**
+	Initial velocity magnitude for each particle. Direction comes from $(D spread) and the node's orientation.
+	*/
+	@property double initialVelocity()
+	{
+		return getParam(0);
+	}
+	/// ditto
+	@property void initialVelocity(double v)
+	{
+		setParam(0, v);
+	}
+	/**
+	Initial velocity randomness ratio.
+	*/
+	@property double initialVelocityRandom()
+	{
+		return getParamRandomness(0);
+	}
+	/// ditto
+	@property void initialVelocityRandom(double v)
+	{
+		setParamRandomness(0, v);
+	}
+	/**
+	Amount of time each particle will exist.
+	*/
+	@property double lifetime()
+	{
+		return getLifetime();
+	}
+	/// ditto
+	@property void lifetime(double v)
+	{
+		setLifetime(v);
+	}
+	/**
+	Particle lifetime randomness ratio.
+	*/
+	@property double lifetimeRandomness()
+	{
+		return getLifetimeRandomness();
+	}
+	/// ditto
+	@property void lifetimeRandomness(double v)
+	{
+		setLifetimeRandomness(v);
+	}
+	/**
+	Linear acceleration applied to each particle in the direction of motion.
+	*/
+	@property double linearAccel()
+	{
+		return getParam(3);
+	}
+	/// ditto
+	@property void linearAccel(double v)
+	{
+		setParam(3, v);
+	}
+	/**
+	Each particle's linear acceleration will vary along this $(D Curve).
+	*/
+	@property Curve linearAccelCurve()
+	{
+		return getParamCurve(3);
+	}
+	/// ditto
+	@property void linearAccelCurve(Curve v)
+	{
+		setParamCurve(3, v);
+	}
+	/**
+	Linear acceleration randomness ratio.
+	*/
+	@property double linearAccelRandom()
+	{
+		return getParamRandomness(3);
+	}
+	/// ditto
+	@property void linearAccelRandom(double v)
+	{
+		setParamRandomness(3, v);
+	}
+	/**
+	If `true`, particles use the parent node's coordinate space. If `false`, they use global coordinates.
+	*/
+	@property bool localCoords()
+	{
+		return getUseLocalCoordinates();
+	}
+	/// ditto
+	@property void localCoords(bool v)
+	{
+		setUseLocalCoordinates(v);
+	}
+	/**
+	Normal map to be used for the $(D texture) property.
+	*/
+	@property Texture normalmap()
+	{
+		return getNormalmap();
+	}
+	/// ditto
+	@property void normalmap(Texture v)
+	{
+		setNormalmap(v);
+	}
+	/**
+	If `true`, only one emission cycle occurs. If set `true` during a cycle, emission will stop at the cycle's end.
+	*/
+	@property bool oneShot()
+	{
+		return getOneShot();
+	}
+	/// ditto
+	@property void oneShot(bool v)
+	{
+		setOneShot(v);
+	}
+	/**
+	Orbital velocity applied to each particle. Makes the particles circle around origin. Specified in number of full rotations around origin per second.
+	*/
+	@property double orbitVelocity()
+	{
+		return getParam(2);
+	}
+	/// ditto
+	@property void orbitVelocity(double v)
+	{
+		setParam(2, v);
+	}
+	/**
+	Each particle's orbital velocity will vary along this $(D Curve).
+	*/
+	@property Curve orbitVelocityCurve()
+	{
+		return getParamCurve(2);
+	}
+	/// ditto
+	@property void orbitVelocityCurve(Curve v)
+	{
+		setParamCurve(2, v);
+	}
+	/**
+	Orbital velocity randomness ratio.
+	*/
+	@property double orbitVelocityRandom()
+	{
+		return getParamRandomness(2);
+	}
+	/// ditto
+	@property void orbitVelocityRandom(double v)
+	{
+		setParamRandomness(2, v);
+	}
+	/**
+	Particle system starts as if it had already run for this many seconds.
+	*/
+	@property double preprocess()
+	{
+		return getPreProcessTime();
+	}
+	/// ditto
+	@property void preprocess(double v)
+	{
+		setPreProcessTime(v);
+	}
+	/**
+	Radial acceleration applied to each particle. Makes particle accelerate away from origin.
+	*/
+	@property double radialAccel()
+	{
+		return getParam(4);
+	}
+	/// ditto
+	@property void radialAccel(double v)
+	{
+		setParam(4, v);
+	}
+	/**
+	Each particle's radial acceleration will vary along this $(D Curve).
+	*/
+	@property Curve radialAccelCurve()
+	{
+		return getParamCurve(4);
+	}
+	/// ditto
+	@property void radialAccelCurve(Curve v)
+	{
+		setParamCurve(4, v);
+	}
+	/**
+	Radial acceleration randomness ratio.
+	*/
+	@property double radialAccelRandom()
+	{
+		return getParamRandomness(4);
+	}
+	/// ditto
+	@property void radialAccelRandom(double v)
+	{
+		setParamRandomness(4, v);
+	}
+	/**
+	Emission lifetime randomness ratio.
+	*/
+	@property double randomness()
+	{
+		return getRandomnessRatio();
+	}
+	/// ditto
+	@property void randomness(double v)
+	{
+		setRandomnessRatio(v);
+	}
+	/**
+	Initial scale applied to each particle.
+	*/
+	@property double scaleAmount()
+	{
+		return getParam(8);
+	}
+	/// ditto
+	@property void scaleAmount(double v)
+	{
+		setParam(8, v);
+	}
+	/**
+	Each particle's scale will vary along this $(D Curve).
+	*/
+	@property Curve scaleAmountCurve()
+	{
+		return getParamCurve(8);
+	}
+	/// ditto
+	@property void scaleAmountCurve(Curve v)
+	{
+		setParamCurve(8, v);
+	}
+	/**
+	Scale randomness ratio.
+	*/
+	@property double scaleAmountRandom()
+	{
+		return getParamRandomness(8);
+	}
+	/// ditto
+	@property void scaleAmountRandom(double v)
+	{
+		setParamRandomness(8, v);
+	}
+	/**
+	Particle system's running speed scaling ratio. A value of `0` can be used to pause the particles.
+	*/
+	@property double speedScale()
+	{
+		return getSpeedScale();
+	}
+	/// ditto
+	@property void speedScale(double v)
+	{
+		setSpeedScale(v);
+	}
+	/**
+	Each particle's initial direction range from `+spread` to `-spread` degrees.
+	*/
+	@property double spread()
+	{
+		return getSpread();
+	}
+	/// ditto
+	@property void spread(double v)
+	{
+		setSpread(v);
+	}
+	/**
+	Tangential acceleration applied to each particle. Tangential acceleration is perpendicular to the particle's velocity giving the particles a swirling motion.
+	*/
+	@property double tangentialAccel()
+	{
+		return getParam(5);
+	}
+	/// ditto
+	@property void tangentialAccel(double v)
+	{
+		setParam(5, v);
+	}
+	/**
+	Each particle's tangential acceleration will vary along this $(D Curve).
+	*/
+	@property Curve tangentialAccelCurve()
+	{
+		return getParamCurve(5);
+	}
+	/// ditto
+	@property void tangentialAccelCurve(Curve v)
+	{
+		setParamCurve(5, v);
+	}
+	/**
+	Tangential acceleration randomness ratio.
+	*/
+	@property double tangentialAccelRandom()
+	{
+		return getParamRandomness(5);
+	}
+	/// ditto
+	@property void tangentialAccelRandom(double v)
+	{
+		setParamRandomness(5, v);
+	}
+	/**
+	Particle texture. If `null`, particles will be squares.
+	*/
+	@property Texture texture()
+	{
+		return getTexture();
+	}
+	/// ditto
+	@property void texture(Texture v)
+	{
+		setTexture(v);
 	}
 }

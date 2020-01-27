@@ -1,5 +1,5 @@
 /**
-Adds a band limit filter to the Audio Bus.
+Adds a band limit filter to the audio bus.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,11 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.audioeffectfilter;
-import godot.audioeffect;
-import godot.resource;
-import godot.reference;
 /**
-Adds a band limit filter to the Audio Bus.
+Adds a band limit filter to the audio bus.
 
 Limits the frequencies in a range around the $(D AudioEffectFilter.cutoffHz) and allows frequencies outside of this range to pass.
 */

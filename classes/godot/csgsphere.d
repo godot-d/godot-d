@@ -21,11 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.csgprimitive;
-import godot.material;
 import godot.csgshape;
-import godot.visualinstance;
-import godot.spatial;
-import godot.node;
+import godot.geometryinstance;
+import godot.material;
 /**
 A CSG Sphere shape.
 
@@ -43,16 +41,16 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
-		@GodotName("get_radius") GodotMethod!(double) getRadius;
-		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("get_material") GodotMethod!(Material) getMaterial;
 		@GodotName("get_radial_segments") GodotMethod!(long) getRadialSegments;
-		@GodotName("set_rings") GodotMethod!(void, long) setRings;
+		@GodotName("get_radius") GodotMethod!(double) getRadius;
 		@GodotName("get_rings") GodotMethod!(long) getRings;
-		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
 		@GodotName("get_smooth_faces") GodotMethod!(bool) getSmoothFaces;
 		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
-		@GodotName("get_material") GodotMethod!(Material) getMaterial;
+		@GodotName("set_radial_segments") GodotMethod!(void, long) setRadialSegments;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
+		@GodotName("set_rings") GodotMethod!(void, long) setRings;
+		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
 	}
 	bool opEquals(in CSGSphere other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	CSGSphere opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -69,26 +67,10 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
+	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
-	double getRadius() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
-	}
-	/**
-	
-	*/
-	void setRadialSegments(in long radial_segments)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, radial_segments);
+		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -101,10 +83,10 @@ public:
 	/**
 	
 	*/
-	void setRings(in long rings)
+	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -113,14 +95,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(_classBinding.getRings, _godot_object);
-	}
-	/**
-	
-	*/
-	void setSmoothFaces(in bool smooth_faces)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
 	}
 	/**
 	
@@ -141,22 +115,34 @@ public:
 	/**
 	
 	*/
-	Ref!Material getMaterial() const
+	void setRadialSegments(in long radial_segments)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, radial_segments);
 	}
 	/**
-	Radius of the sphere.
+	
 	*/
-	@property double radius()
+	void setRadius(in double radius)
 	{
-		return getRadius();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
-	/// ditto
-	@property void radius(double v)
+	/**
+	
+	*/
+	void setRings(in long rings)
 	{
-		setRadius(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+	}
+	/**
+	
+	*/
+	void setSmoothFaces(in bool smooth_faces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
 	}
 	/**
 	Number of vertical slices for the sphere.
@@ -169,6 +155,18 @@ public:
 	@property void radialSegments(long v)
 	{
 		setRadialSegments(v);
+	}
+	/**
+	Radius of the sphere.
+	*/
+	@property double radius()
+	{
+		return getRadius();
+	}
+	/// ditto
+	@property void radius(double v)
+	{
+		setRadius(v);
 	}
 	/**
 	Number of horizontal slices for the sphere.

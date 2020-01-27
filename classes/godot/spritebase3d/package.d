@@ -1,5 +1,5 @@
 /**
-2D Sprite node in 3D environment.
+2D sprite node in 3D environment.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -20,12 +20,11 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.geometryinstance;
-import godot.trianglemesh;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
+import godot.trianglemesh;
+import godot.spatialmaterial;
 /**
-2D Sprite node in 3D environment.
+2D sprite node in 3D environment.
 
 A node that displays 2D texture information in a 3D environment.
 */
@@ -41,30 +40,32 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
-		@GodotName("is_centered") GodotMethod!(bool) isCentered;
-		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
-		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
-		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
-		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
-		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
-		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
-		@GodotName("set_modulate") GodotMethod!(void, Color) setModulate;
-		@GodotName("get_modulate") GodotMethod!(Color) getModulate;
-		@GodotName("set_opacity") GodotMethod!(void, double) setOpacity;
-		@GodotName("get_opacity") GodotMethod!(double) getOpacity;
-		@GodotName("set_pixel_size") GodotMethod!(void, double) setPixelSize;
-		@GodotName("get_pixel_size") GodotMethod!(double) getPixelSize;
-		@GodotName("set_axis") GodotMethod!(void, long) setAxis;
-		@GodotName("get_axis") GodotMethod!(Vector3.Axis) getAxis;
-		@GodotName("set_draw_flag") GodotMethod!(void, long, bool) setDrawFlag;
-		@GodotName("get_draw_flag") GodotMethod!(bool, long) getDrawFlag;
-		@GodotName("set_alpha_cut_mode") GodotMethod!(void, long) setAlphaCutMode;
-		@GodotName("get_alpha_cut_mode") GodotMethod!(SpriteBase3D.AlphaCutMode) getAlphaCutMode;
-		@GodotName("get_item_rect") GodotMethod!(Rect2) getItemRect;
-		@GodotName("generate_triangle_mesh") GodotMethod!(TriangleMesh) generateTriangleMesh;
-		@GodotName("_queue_update") GodotMethod!(void) _queueUpdate;
 		@GodotName("_im_update") GodotMethod!(void) _imUpdate;
+		@GodotName("_queue_update") GodotMethod!(void) _queueUpdate;
+		@GodotName("generate_triangle_mesh") GodotMethod!(TriangleMesh) generateTriangleMesh;
+		@GodotName("get_alpha_cut_mode") GodotMethod!(SpriteBase3D.AlphaCutMode) getAlphaCutMode;
+		@GodotName("get_axis") GodotMethod!(Vector3.Axis) getAxis;
+		@GodotName("get_billboard_mode") GodotMethod!(SpatialMaterial.BillboardMode) getBillboardMode;
+		@GodotName("get_draw_flag") GodotMethod!(bool, long) getDrawFlag;
+		@GodotName("get_item_rect") GodotMethod!(Rect2) getItemRect;
+		@GodotName("get_modulate") GodotMethod!(Color) getModulate;
+		@GodotName("get_offset") GodotMethod!(Vector2) getOffset;
+		@GodotName("get_opacity") GodotMethod!(double) getOpacity;
+		@GodotName("get_pixel_size") GodotMethod!(double) getPixelSize;
+		@GodotName("is_centered") GodotMethod!(bool) isCentered;
+		@GodotName("is_flipped_h") GodotMethod!(bool) isFlippedH;
+		@GodotName("is_flipped_v") GodotMethod!(bool) isFlippedV;
+		@GodotName("set_alpha_cut_mode") GodotMethod!(void, long) setAlphaCutMode;
+		@GodotName("set_axis") GodotMethod!(void, long) setAxis;
+		@GodotName("set_billboard_mode") GodotMethod!(void, long) setBillboardMode;
+		@GodotName("set_centered") GodotMethod!(void, bool) setCentered;
+		@GodotName("set_draw_flag") GodotMethod!(void, long, bool) setDrawFlag;
+		@GodotName("set_flip_h") GodotMethod!(void, bool) setFlipH;
+		@GodotName("set_flip_v") GodotMethod!(void, bool) setFlipV;
+		@GodotName("set_modulate") GodotMethod!(void, Color) setModulate;
+		@GodotName("set_offset") GodotMethod!(void, Vector2) setOffset;
+		@GodotName("set_opacity") GodotMethod!(void, double) setOpacity;
+		@GodotName("set_pixel_size") GodotMethod!(void, double) setPixelSize;
 	}
 	bool opEquals(in SpriteBase3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SpriteBase3D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -82,11 +83,11 @@ public:
 	enum DrawFlags : int
 	{
 		/**
-		If set, the texture's transparency and the opacity are used to make those parts of the Sprite invisible.
+		If set, the texture's transparency and the opacity are used to make those parts of the sprite invisible.
 		*/
 		flagTransparent = 0,
 		/**
-		If set, the Light in the Environment has effects on the Sprite.
+		If set, lights in the environment affect the sprite.
 		*/
 		flagShaded = 1,
 		/**
@@ -94,7 +95,7 @@ public:
 		*/
 		flagDoubleSided = 2,
 		/**
-		Used internally to mark the end of the Flags section.
+		Represents the size of the $(D drawflags) enum.
 		*/
 		flagMax = 3,
 	}
@@ -128,170 +129,20 @@ public:
 	/**
 	
 	*/
-	void setCentered(in bool centered)
+	void _imUpdate()
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_im_update");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	bool isCentered() const
+	void _queueUpdate()
 	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOffset(in Vector2 offset)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
-	}
-	/**
-	
-	*/
-	Vector2 getOffset() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFlipH(in bool flip_h)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
-	}
-	/**
-	
-	*/
-	bool isFlippedH() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
-	}
-	/**
-	
-	*/
-	void setFlipV(in bool flip_v)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
-	}
-	/**
-	
-	*/
-	bool isFlippedV() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
-	}
-	/**
-	
-	*/
-	void setModulate(in Color modulate)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setModulate, _godot_object, modulate);
-	}
-	/**
-	
-	*/
-	Color getModulate() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
-	}
-	/**
-	
-	*/
-	void setOpacity(in double opacity)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOpacity, _godot_object, opacity);
-	}
-	/**
-	
-	*/
-	double getOpacity() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOpacity, _godot_object);
-	}
-	/**
-	
-	*/
-	void setPixelSize(in double pixel_size)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPixelSize, _godot_object, pixel_size);
-	}
-	/**
-	
-	*/
-	double getPixelSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPixelSize, _godot_object);
-	}
-	/**
-	
-	*/
-	void setAxis(in long axis)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxis, _godot_object, axis);
-	}
-	/**
-	
-	*/
-	Vector3.Axis getAxis() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3.Axis)(_classBinding.getAxis, _godot_object);
-	}
-	/**
-	
-	*/
-	void setDrawFlag(in long flag, in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawFlag, _godot_object, flag, enabled);
-	}
-	/**
-	
-	*/
-	bool getDrawFlag(in long flag) const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDrawFlag, _godot_object, flag);
-	}
-	/**
-	
-	*/
-	void setAlphaCutMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlphaCutMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	SpriteBase3D.AlphaCutMode getAlphaCutMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpriteBase3D.AlphaCutMode)(_classBinding.getAlphaCutMode, _godot_object);
-	}
-	/**
-	
-	*/
-	Rect2 getItemRect() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getItemRect, _godot_object);
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_queue_update");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -304,23 +155,225 @@ public:
 	/**
 	
 	*/
-	void _queueUpdate()
+	SpriteBase3D.AlphaCutMode getAlphaCutMode() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_queue_update");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(SpriteBase3D.AlphaCutMode)(_classBinding.getAlphaCutMode, _godot_object);
 	}
 	/**
 	
 	*/
-	void _imUpdate()
+	Vector3.Axis getAxis() const
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_im_update");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3.Axis)(_classBinding.getAxis, _godot_object);
 	}
 	/**
-	If `true`, texture will be centered. Default value: `true`.
+	
+	*/
+	SpatialMaterial.BillboardMode getBillboardMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(SpatialMaterial.BillboardMode)(_classBinding.getBillboardMode, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getDrawFlag(in long flag) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.getDrawFlag, _godot_object, flag);
+	}
+	/**
+	
+	*/
+	Rect2 getItemRect() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Rect2)(_classBinding.getItemRect, _godot_object);
+	}
+	/**
+	
+	*/
+	Color getModulate() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+	}
+	/**
+	
+	*/
+	double getOpacity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getOpacity, _godot_object);
+	}
+	/**
+	
+	*/
+	double getPixelSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(_classBinding.getPixelSize, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isCentered() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isFlippedH() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isFlippedV() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAlphaCutMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAlphaCutMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setAxis(in long axis)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setAxis, _godot_object, axis);
+	}
+	/**
+	
+	*/
+	void setBillboardMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBillboardMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setCentered(in bool centered)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+	}
+	/**
+	
+	*/
+	void setDrawFlag(in long flag, in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDrawFlag, _godot_object, flag, enabled);
+	}
+	/**
+	
+	*/
+	void setFlipH(in bool flip_h)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+	}
+	/**
+	
+	*/
+	void setFlipV(in bool flip_v)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
+	}
+	/**
+	
+	*/
+	void setModulate(in Color modulate)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setModulate, _godot_object, modulate);
+	}
+	/**
+	
+	*/
+	void setOffset(in Vector2 offset)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+	}
+	/**
+	
+	*/
+	void setOpacity(in double opacity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setOpacity, _godot_object, opacity);
+	}
+	/**
+	
+	*/
+	void setPixelSize(in double pixel_size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setPixelSize, _godot_object, pixel_size);
+	}
+	/**
+	
+	*/
+	@property SpriteBase3D.AlphaCutMode alphaCut()
+	{
+		return getAlphaCutMode();
+	}
+	/// ditto
+	@property void alphaCut(long v)
+	{
+		setAlphaCutMode(v);
+	}
+	/**
+	The direction in which the front of the texture faces.
+	*/
+	@property Vector3.Axis axis()
+	{
+		return getAxis();
+	}
+	/// ditto
+	@property void axis(long v)
+	{
+		setAxis(v);
+	}
+	/**
+	
+	*/
+	@property SpatialMaterial.BillboardMode billboard()
+	{
+		return getBillboardMode();
+	}
+	/// ditto
+	@property void billboard(long v)
+	{
+		setBillboardMode(v);
+	}
+	/**
+	If `true`, texture will be centered.
 	*/
 	@property bool centered()
 	{
@@ -332,19 +385,19 @@ public:
 		setCentered(v);
 	}
 	/**
-	The texture's drawing offset.
+	If `true`, texture can be seen from the back as well, if `false`, it is invisible when looking at it from behind.
 	*/
-	@property Vector2 offset()
+	@property bool doubleSided()
 	{
-		return getOffset();
+		return getDrawFlag(2);
 	}
 	/// ditto
-	@property void offset(Vector2 v)
+	@property void doubleSided(bool v)
 	{
-		setOffset(v);
+		setDrawFlag(2, v);
 	}
 	/**
-	If `true`, texture is flipped horizontally. Default value: `false`.
+	If `true`, texture is flipped horizontally.
 	*/
 	@property bool flipH()
 	{
@@ -356,7 +409,7 @@ public:
 		setFlipH(v);
 	}
 	/**
-	If `true`, texture is flipped vertically. Default value: `false`.
+	If `true`, texture is flipped vertically.
 	*/
 	@property bool flipV()
 	{
@@ -380,6 +433,18 @@ public:
 		setModulate(v);
 	}
 	/**
+	The texture's drawing offset.
+	*/
+	@property Vector2 offset()
+	{
+		return getOffset();
+	}
+	/// ditto
+	@property void offset(Vector2 v)
+	{
+		setOffset(v);
+	}
+	/**
 	The objects visibility on a scale from `0` fully invisible to `1` fully visible.
 	*/
 	@property double opacity()
@@ -392,7 +457,7 @@ public:
 		setOpacity(v);
 	}
 	/**
-	The size of one pixel's width on the Sprite to scale it in 3D.
+	The size of one pixel's width on the sprite to scale it in 3D.
 	*/
 	@property double pixelSize()
 	{
@@ -404,31 +469,7 @@ public:
 		setPixelSize(v);
 	}
 	/**
-	The direction in which the front of the texture faces.
-	*/
-	@property Vector3.Axis axis()
-	{
-		return getAxis();
-	}
-	/// ditto
-	@property void axis(long v)
-	{
-		setAxis(v);
-	}
-	/**
-	If `true`, the texture's transparency and the opacity are used to make those parts of the Sprite invisible. Default value: `true`.
-	*/
-	@property bool transparent()
-	{
-		return getDrawFlag(0);
-	}
-	/// ditto
-	@property void transparent(bool v)
-	{
-		setDrawFlag(0, v);
-	}
-	/**
-	If `true`, the $(D Light) in the $(D Environment) has effects on the Sprite. Default value: `false`.
+	If `true`, the $(D Light) in the $(D Environment) has effects on the sprite.
 	*/
 	@property bool shaded()
 	{
@@ -440,27 +481,15 @@ public:
 		setDrawFlag(1, v);
 	}
 	/**
-	If `true`, texture can be seen from the back as well, if `false`, it is invisible when looking at it from behind. Default value: `true`.
+	If `true`, the texture's transparency and the opacity are used to make those parts of the sprite invisible.
 	*/
-	@property bool doubleSided()
+	@property bool transparent()
 	{
-		return getDrawFlag(2);
+		return getDrawFlag(0);
 	}
 	/// ditto
-	@property void doubleSided(bool v)
+	@property void transparent(bool v)
 	{
-		setDrawFlag(2, v);
-	}
-	/**
-	
-	*/
-	@property SpriteBase3D.AlphaCutMode alphaCut()
-	{
-		return getAlphaCutMode();
-	}
-	/// ditto
-	@property void alphaCut(long v)
-	{
-		setAlphaCutMode(v);
+		setDrawFlag(0, v);
 	}
 }

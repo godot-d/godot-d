@@ -22,9 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.inputeventgesture;
 import godot.inputeventwithmodifiers;
-import godot.inputevent;
-import godot.resource;
-import godot.reference;
 /**
 
 */
@@ -40,8 +37,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_delta") GodotMethod!(void, Vector2) setDelta;
 		@GodotName("get_delta") GodotMethod!(Vector2) getDelta;
+		@GodotName("set_delta") GodotMethod!(void, Vector2) setDelta;
 	}
 	bool opEquals(in InputEventPanGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	InputEventPanGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +55,18 @@ public:
 	/**
 	
 	*/
-	void setDelta(in Vector2 delta)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDelta, _godot_object, delta);
-	}
-	/**
-	
-	*/
 	Vector2 getDelta() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(_classBinding.getDelta, _godot_object);
+	}
+	/**
+	
+	*/
+	void setDelta(in Vector2 delta)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setDelta, _godot_object, delta);
 	}
 	/**
 	

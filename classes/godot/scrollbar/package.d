@@ -20,14 +20,14 @@ import godot.d.bind;
 import godot.d.reference;
 import godot.object;
 import godot.range;
-import godot.inputevent;
 import godot.control;
 import godot.canvasitem;
 import godot.node;
+import godot.inputevent;
 /**
 Base class for scroll bars.
 
-Scrollbars are a $(D Range) based $(D Control), that display a draggable area (the size of the page). Horizontal ($(D HScrollBar)) and Vertical ($(D VScrollBar)) versions are available.
+Scrollbars are a $(D Range)-based $(D Control), that display a draggable area (the size of the page). Horizontal ($(D HScrollBar)) and Vertical ($(D VScrollBar)) versions are available.
 */
 @GodotBaseClass struct ScrollBar
 {
@@ -41,11 +41,11 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("set_custom_step") GodotMethod!(void, double) setCustomStep;
-		@GodotName("get_custom_step") GodotMethod!(double) getCustomStep;
-		@GodotName("_drag_node_input") GodotMethod!(void, InputEvent) _dragNodeInput;
 		@GodotName("_drag_node_exit") GodotMethod!(void) _dragNodeExit;
+		@GodotName("_drag_node_input") GodotMethod!(void, InputEvent) _dragNodeInput;
+		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("get_custom_step") GodotMethod!(double) getCustomStep;
+		@GodotName("set_custom_step") GodotMethod!(void, double) setCustomStep;
 	}
 	bool opEquals(in ScrollBar other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	ScrollBar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -62,20 +62,31 @@ public:
 	/**
 	
 	*/
-	void _guiInput(InputEvent arg0)
+	void _dragNodeExit()
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_gui_input");
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_drag_node_exit");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void setCustomStep(in double step)
+	void _dragNodeInput(InputEvent arg0)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomStep, _godot_object, step);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_drag_node_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _guiInput(InputEvent arg0)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		String _GODOT_method_name = String("_gui_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -88,24 +99,13 @@ public:
 	/**
 	
 	*/
-	void _dragNodeInput(InputEvent arg0)
+	void setCustomStep(in double step)
 	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(arg0);
-		String _GODOT_method_name = String("_drag_node_input");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCustomStep, _godot_object, step);
 	}
 	/**
-	
-	*/
-	void _dragNodeExit()
-	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_drag_node_exit");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
+	Overrides the step used when clicking increment and decrement buttons or when using arrow keys when the $(D ScrollBar) is focused.
 	*/
 	@property double customStep()
 	{

@@ -1,5 +1,5 @@
 /**
-A .stex texture.
+A `.stex` texture.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,12 +21,10 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.texture;
-import godot.resource;
-import godot.reference;
 /**
-A .stex texture.
+A `.stex` texture.
 
-A texture that is loaded from a .stex file.
+A texture that is loaded from a `.stex` file.
 */
 @GodotBaseClass struct StreamTexture
 {
@@ -40,8 +38,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("load") GodotMethod!(GodotError, String) load;
 		@GodotName("get_load_path") GodotMethod!(String) getLoadPath;
+		@GodotName("load") GodotMethod!(GodotError, String) load;
 	}
 	bool opEquals(in StreamTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	StreamTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,21 +56,21 @@ public:
 	/**
 	
 	*/
-	GodotError load(in String path)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
-	}
-	/**
-	
-	*/
 	String getLoadPath() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(_classBinding.getLoadPath, _godot_object);
 	}
 	/**
-	The StreamTexture's filepath to a .stex file.
+	
+	*/
+	GodotError load(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+	}
+	/**
+	The StreamTexture's file path to a `.stex` file.
 	*/
 	@property String loadPath()
 	{

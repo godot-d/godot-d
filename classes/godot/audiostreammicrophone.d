@@ -22,7 +22,6 @@ import godot.object;
 import godot.classdb;
 import godot.audiostream;
 import godot.resource;
-import godot.reference;
 /**
 
 */

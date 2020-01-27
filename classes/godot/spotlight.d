@@ -1,5 +1,5 @@
 /**
-Spotlight $(D Light), such as a reflector spotlight or a lantern.
+A spotlight, such as a reflector spotlight or a lantern.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,12 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.light;
 import godot.visualinstance;
-import godot.spatial;
-import godot.node;
 /**
-Spotlight $(D Light), such as a reflector spotlight or a lantern.
+A spotlight, such as a reflector spotlight or a lantern.
 
-A SpotLight light is a type of $(D Light) node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance and this attenuation can be configured by changing the energy, radius and attenuation parameters of $(D Light).
+A Spotlight is a type of $(D Light) node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance. This attenuation can be configured by changing the energy, radius and attenuation parameters of $(D Light).
 */
 @GodotBaseClass struct SpotLight
 {
@@ -55,31 +53,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
-	*/
-	@property double spotRange()
-	{
-		return getParam(3);
-	}
-	/// ditto
-	@property void spotRange(double v)
-	{
-		setParam(3, v);
-	}
-	/**
-	
-	*/
-	@property double spotAttenuation()
-	{
-		return getParam(4);
-	}
-	/// ditto
-	@property void spotAttenuation(double v)
-	{
-		setParam(4, v);
-	}
-	/**
-	
+	The spotlight's angle in degrees.
 	*/
 	@property double spotAngle()
 	{
@@ -91,7 +65,7 @@ public:
 		setParam(5, v);
 	}
 	/**
-	
+	The spotlight's angular attenuation curve.
 	*/
 	@property double spotAngleAttenuation()
 	{
@@ -101,5 +75,29 @@ public:
 	@property void spotAngleAttenuation(double v)
 	{
 		setParam(6, v);
+	}
+	/**
+	The spotlight's light energy attenuation curve.
+	*/
+	@property double spotAttenuation()
+	{
+		return getParam(4);
+	}
+	/// ditto
+	@property void spotAttenuation(double v)
+	{
+		setParam(4, v);
+	}
+	/**
+	The maximal range that can be reached by the spotlight.
+	*/
+	@property double spotRange()
+	{
+		return getParam(3);
+	}
+	/// ditto
+	@property void spotRange(double v)
+	{
+		setParam(3, v);
 	}
 }

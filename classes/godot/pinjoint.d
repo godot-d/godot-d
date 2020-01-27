@@ -1,5 +1,5 @@
 /**
-Pin Joint for 3D Shapes.
+Pin joint for 3D shapes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,11 +22,10 @@ import godot.object;
 import godot.classdb;
 import godot.joint;
 import godot.spatial;
-import godot.node;
 /**
-Pin Joint for 3D Shapes.
+Pin joint for 3D shapes.
 
-Pin Joint for 3D Rigid Bodies. It pins 2 bodies (rigid or static) together.
+Pin joint for 3D rigid bodies. It pins 2 bodies (rigid or static) together.
 */
 @GodotBaseClass struct PinJoint
 {
@@ -40,8 +39,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
 		@GodotName("get_param") GodotMethod!(double, long) getParam;
+		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
 	}
 	bool opEquals(in PinJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	PinJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -59,13 +58,11 @@ public:
 	enum Param : int
 	{
 		/**
-		The force with which the pinned objects stay in positional relation to each other.
-		The higher, the stronger.
+		The force with which the pinned objects stay in positional relation to each other. The higher, the stronger.
 		*/
 		paramBias = 0,
 		/**
-		The force with which the pinned objects stay in velocity relation to each other.
-		The higher, the stronger.
+		The force with which the pinned objects stay in velocity relation to each other. The higher, the stronger.
 		*/
 		paramDamping = 1,
 		/**
@@ -83,22 +80,21 @@ public:
 	/**
 	
 	*/
-	void setParam(in long param, in double value)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
-	}
-	/**
-	
-	*/
 	double getParam(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
 	}
 	/**
-	The force with which the pinned objects stay in positional relation to each other.
-	The higher, the stronger.
+	
+	*/
+	void setParam(in long param, in double value)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+	}
+	/**
+	The force with which the pinned objects stay in positional relation to each other. The higher, the stronger.
 	*/
 	@property double paramsBias()
 	{
@@ -110,8 +106,7 @@ public:
 		setParam(0, v);
 	}
 	/**
-	The force with which the pinned objects stay in velocity relation to each other.
-	The higher, the stronger.
+	The force with which the pinned objects stay in velocity relation to each other. The higher, the stronger.
 	*/
 	@property double paramsDamping()
 	{

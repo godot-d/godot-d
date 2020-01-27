@@ -19,7 +19,6 @@ import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.classdb;
 import godot.node;
 /**
 Manages the SceneTree selection in the editor.
@@ -38,13 +37,13 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
+		@GodotName("_emit_change") GodotMethod!(void) _emitChange;
 		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
-		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("add_node") GodotMethod!(void, Node) addNode;
-		@GodotName("remove_node") GodotMethod!(void, Node) removeNode;
+		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("get_selected_nodes") GodotMethod!(Array) getSelectedNodes;
 		@GodotName("get_transformable_selected_nodes") GodotMethod!(Array) getTransformableSelectedNodes;
-		@GodotName("_emit_change") GodotMethod!(void) _emitChange;
+		@GodotName("remove_node") GodotMethod!(void, Node) removeNode;
 	}
 	bool opEquals(in EditorSelection other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	EditorSelection opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -61,12 +60,29 @@ public:
 	/**
 	
 	*/
+	void _emitChange()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_emit_change");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
 	void _nodeRemoved(Node arg0)
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_node_removed");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	Adds a node to the selection.
+	*/
+	void addNode(Node node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.addNode, _godot_object, node);
 	}
 	/**
 	Clear the selection.
@@ -77,23 +93,7 @@ public:
 		ptrcall!(void)(_classBinding.clear, _godot_object);
 	}
 	/**
-	Add a node to the selection.
-	*/
-	void addNode(Node node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, node);
-	}
-	/**
-	Remove a node from the selection.
-	*/
-	void removeNode(Node node)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, node);
-	}
-	/**
-	Get the list of selected nodes.
+	Gets the list of selected nodes.
 	*/
 	Array getSelectedNodes()
 	{
@@ -101,7 +101,7 @@ public:
 		return ptrcall!(Array)(_classBinding.getSelectedNodes, _godot_object);
 	}
 	/**
-	Get the list of selected nodes, optimized for transform operations (ie, moving them, rotating, etc). This list avoids situations where a node is selected and also chid/grandchild.
+	Gets the list of selected nodes, optimized for transform operations (i.e. moving them, rotating, etc). This list avoids situations where a node is selected and also child/grandchild.
 	*/
 	Array getTransformableSelectedNodes()
 	{
@@ -109,12 +109,11 @@ public:
 		return ptrcall!(Array)(_classBinding.getTransformableSelectedNodes, _godot_object);
 	}
 	/**
-	
+	Removes a node from the selection.
 	*/
-	void _emitChange()
+	void removeNode(Node node)
 	{
-		Array _GODOT_args = Array.empty_array;
-		String _GODOT_method_name = String("_emit_change");
-		this.callv(_GODOT_method_name, _GODOT_args);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.removeNode, _godot_object, node);
 	}
 }

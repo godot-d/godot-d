@@ -40,8 +40,8 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 		@GodotName("get_radius") GodotMethod!(double) getRadius;
+		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 	}
 	bool opEquals(in SphereShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	SphereShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -58,18 +58,18 @@ public:
 	/**
 	
 	*/
-	void setRadius(in double radius)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
-	}
-	/**
-	
-	*/
 	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+	}
+	/**
+	
+	*/
+	void setRadius(in double radius)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
 	}
 	/**
 	The sphere's radius. The shape's diameter is double the radius.

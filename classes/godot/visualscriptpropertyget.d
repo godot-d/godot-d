@@ -38,22 +38,22 @@ public:
 	package(godot) static struct _classBinding
 	{
 		__gshared:
-		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
-		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
-		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
-		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
-		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
-		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
-		@GodotName("_set_type_cache") GodotMethod!(void, long) _setTypeCache;
 		@GodotName("_get_type_cache") GodotMethod!(Variant.Type) _getTypeCache;
-		@GodotName("set_property") GodotMethod!(void, String) setProperty;
-		@GodotName("get_property") GodotMethod!(String) getProperty;
-		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
-		@GodotName("get_call_mode") GodotMethod!(VisualScriptPropertyGet.CallMode) getCallMode;
-		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("_set_type_cache") GodotMethod!(void, long) _setTypeCache;
 		@GodotName("get_base_path") GodotMethod!(NodePath) getBasePath;
-		@GodotName("set_index") GodotMethod!(void, String) setIndex;
+		@GodotName("get_base_script") GodotMethod!(String) getBaseScript;
+		@GodotName("get_base_type") GodotMethod!(String) getBaseType;
+		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
+		@GodotName("get_call_mode") GodotMethod!(VisualScriptPropertyGet.CallMode) getCallMode;
 		@GodotName("get_index") GodotMethod!(String) getIndex;
+		@GodotName("get_property") GodotMethod!(String) getProperty;
+		@GodotName("set_base_path") GodotMethod!(void, NodePath) setBasePath;
+		@GodotName("set_base_script") GodotMethod!(void, String) setBaseScript;
+		@GodotName("set_base_type") GodotMethod!(void, String) setBaseType;
+		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
+		@GodotName("set_call_mode") GodotMethod!(void, long) setCallMode;
+		@GodotName("set_index") GodotMethod!(void, String) setIndex;
+		@GodotName("set_property") GodotMethod!(void, String) setProperty;
 	}
 	bool opEquals(in VisualScriptPropertyGet other) const { return _godot_object.ptr is other._godot_object.ptr; }
 	VisualScriptPropertyGet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
@@ -93,109 +93,21 @@ public:
 	/**
 	
 	*/
-	void setBaseType(in String base_type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
-	}
-	/**
-	
-	*/
-	String getBaseType() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBaseScript(in String base_script)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
-	}
-	/**
-	
-	*/
-	String getBaseScript() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBasicType(in long basic_type)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
-	}
-	/**
-	
-	*/
-	Variant.Type getBasicType() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
-	}
-	/**
-	
-	*/
-	void _setTypeCache(in long type_cache)
-	{
-		Array _GODOT_args = Array.empty_array;
-		_GODOT_args.append(type_cache);
-		String _GODOT_method_name = String("_set_type_cache");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
 	Variant.Type _getTypeCache() const
 	{
-		Array _GODOT_args = Array.empty_array;
+		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_get_type_cache");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Variant.Type);
 	}
 	/**
 	
 	*/
-	void setProperty(in String property)
+	void _setTypeCache(in long type_cache)
 	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProperty, _godot_object, property);
-	}
-	/**
-	
-	*/
-	String getProperty() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getProperty, _godot_object);
-	}
-	/**
-	
-	*/
-	void setCallMode(in long mode)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
-	}
-	/**
-	
-	*/
-	VisualScriptPropertyGet.CallMode getCallMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptPropertyGet.CallMode)(_classBinding.getCallMode, _godot_object);
-	}
-	/**
-	
-	*/
-	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(type_cache);
+		String _GODOT_method_name = String("_set_type_cache");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -208,10 +120,34 @@ public:
 	/**
 	
 	*/
-	void setIndex(in String index)
+	String getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
+		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
+	}
+	/**
+	
+	*/
+	String getBaseType() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
+	}
+	/**
+	
+	*/
+	Variant.Type getBasicType() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
+	}
+	/**
+	
+	*/
+	VisualScriptPropertyGet.CallMode getCallMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(VisualScriptPropertyGet.CallMode)(_classBinding.getCallMode, _godot_object);
 	}
 	/**
 	
@@ -224,26 +160,66 @@ public:
 	/**
 	
 	*/
-	@property VisualScriptPropertyGet.CallMode setMode()
+	String getProperty() const
 	{
-		return getCallMode();
-	}
-	/// ditto
-	@property void setMode(long v)
-	{
-		setCallMode(v);
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(_classBinding.getProperty, _godot_object);
 	}
 	/**
 	
 	*/
-	@property String baseType()
+	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
-		return getBaseType();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
 	}
-	/// ditto
-	@property void baseType(String v)
+	/**
+	
+	*/
+	void setBaseScript(in String base_script)
 	{
-		setBaseType(v);
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
+	}
+	/**
+	
+	*/
+	void setBaseType(in String base_type)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
+	}
+	/**
+	
+	*/
+	void setBasicType(in long basic_type)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
+	}
+	/**
+	
+	*/
+	void setCallMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
+	}
+	/**
+	
+	*/
+	void setIndex(in String index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
+	}
+	/**
+	
+	*/
+	void setProperty(in String property)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(_classBinding.setProperty, _godot_object, property);
 	}
 	/**
 	
@@ -260,14 +236,14 @@ public:
 	/**
 	
 	*/
-	@property Variant.Type typeCache()
+	@property String baseType()
 	{
-		return _getTypeCache();
+		return getBaseType();
 	}
 	/// ditto
-	@property void typeCache(long v)
+	@property void baseType(String v)
 	{
-		_setTypeCache(v);
+		setBaseType(v);
 	}
 	/**
 	
@@ -280,6 +256,18 @@ public:
 	@property void basicType(long v)
 	{
 		setBasicType(v);
+	}
+	/**
+	
+	*/
+	@property String index()
+	{
+		return getIndex();
+	}
+	/// ditto
+	@property void index(String v)
+	{
+		setIndex(v);
 	}
 	/**
 	
@@ -308,13 +296,25 @@ public:
 	/**
 	
 	*/
-	@property String index()
+	@property VisualScriptPropertyGet.CallMode setMode()
 	{
-		return getIndex();
+		return getCallMode();
 	}
 	/// ditto
-	@property void index(String v)
+	@property void setMode(long v)
 	{
-		setIndex(v);
+		setCallMode(v);
+	}
+	/**
+	
+	*/
+	@property Variant.Type typeCache()
+	{
+		return _getTypeCache();
+	}
+	/// ditto
+	@property void typeCache(long v)
+	{
+		_setTypeCache(v);
 	}
 }

@@ -21,10 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.splitcontainer;
-import godot.container;
-import godot.control;
-import godot.canvasitem;
-import godot.node;
 /**
 Horizontal split container.
 
