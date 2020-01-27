@@ -283,6 +283,7 @@ string escapeD(string s)
 		"in",
 		"out",
 		"ref",
+		"scope",
 		"auto",
 		"init",
 		"body", // for now at least...
