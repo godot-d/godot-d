@@ -146,12 +146,6 @@ struct Dictionary
 		return a;
 	}
 	
-	Variant* opIndex(K)(in K key) if(is(K : Variant) || Variant.compatibleToGodot!K)
-	{
-		const Variant k = key;
-		return cast(Variant*)_godot_api.godot_dictionary_operator_index(&_godot_dictionary, &k._godot_variant);
-	}
-	
 	Variant opIndex(K)(in K key) const if(is(K : Variant) || Variant.compatibleToGodot!K)
 	{
 		const Variant k = key;
