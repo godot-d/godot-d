@@ -16,6 +16,8 @@ import core.stdc.stddef : wchar_t;
 import godot.c;
 import std.traits;
 
+import godot.core.variant;
+
 struct CharString
 {
 	@nogc nothrow:
@@ -30,6 +32,11 @@ struct CharString
 	size_t length() const
 	{
 		return _godot_api.godot_char_string_length(&_char_string);
+	}
+
+	bool empty() const
+	{
+		return length == 0;
 	}
 	
 	immutable(char)[] data() const
@@ -139,7 +146,7 @@ struct String
 	}
 	
 	/// Returns: $(D true) if length is 0
-	bool empty()
+	bool empty() const
 	{
 		return length == 0;
 	}
@@ -183,6 +190,25 @@ struct String
 		CharString ret = void;
 		ret._char_string = _godot_api.godot_string_utf8(&_godot_string);
 		return ret;
+	}
+
+	String format(V)(V values) const if(is(V : Variant) || Variant.compatibleToGodot!V)
+	{
+		const Variant v = values;
+		String new_string = void;
+		new_string._godot_string = _godot_api.godot_string_format(&_godot_string, cast(godot_variant *)&v);
+
+		return new_string;
+	}
+
+	String format(V)(V values, String placeholder) const if(is(V : Variant) || Variant.compatibleToGodot!V)
+	{
+		const Variant v = values;
+		String new_string = void;
+		CharString contents = placeholder.utf8;
+		new_string._godot_string = _godot_api.godot_string_format_with_custom_placeholder(&_godot_string, cast(godot_variant *)&v, contents.ptr);
+
+		return new_string;
 	}
 }
 
