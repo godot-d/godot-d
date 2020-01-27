@@ -463,26 +463,7 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		attr.usage = cast(godot_property_usage_flags)uda.usage |
 			cast(godot_property_usage_flags)Property.Usage.scriptVariable;
 		
-		static if(hasUDA!(mixin("T."~pName), DefaultValue))
-		{
-			alias defExprSeq = TemplateArgsOf!(getUDAs!(mixin("T."~pName), DefaultValue)[0]);
-			Variant defval = defExprSeq[0];
-		}
-		else static if( is(typeof( { P p; } )) )
-		{
-			import std.math : isNaN;
-			static if(isFloatingPoint!P && mixin("T."~pName~".init").isNaN)
-			{
-				// Godot doesn't support NaNs. Initialize properties to 0.0 instead.
-				Variant defval = P(0.0);
-			}
-			else Variant defval = (mixin("T."~pName)).init;
-		}
-		else
-		{
-			/// FIXME: call default constructor function
-			Variant defval = null;
-		}
+		Variant defval = getDefaultValueFromAlias!(T, pName)();
 		attr.default_value = defval._godot_variant;
 		
 		alias Wrapper = VariableWrapper!(T, pName);

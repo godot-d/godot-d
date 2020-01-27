@@ -16,7 +16,7 @@ $(TABLE
 	$(TR $(TD $(B Scripts)))
 	$(TR $(TD Inheritance:) $(TD `class MyNode extends Node:`) $(TD $(D class MyNode : GodotScript!Node { })))
 	$(TR $(TD Export method:) $(TD `func _ready(): # automatically exported`) $(TD $(D @Method void _ready() { })))
-	$(TR $(TD Export property:) $(TD `export var text = "asdf"`) $(TD $(D @Property String text = "asdf";)))
+	$(TR $(TD Export property:) $(TD `export var text = "asdf"`) $(TD $(D @Property String text = gs!"asdf";)))
 	$(TR $(TD Global variables:) $(TD $(LINK2 https://godot.readthedocs.io/en/latest/getting_started/step_by_step/singletons_autoload.html, Autoloaded singleton nodes) only) $(TD Autoloaded singleton nodes; alternatively, D variables declared outside any class, or as $(D static) inside a class))
 	
 	$(TR $(TD $(B Naming conventions)))

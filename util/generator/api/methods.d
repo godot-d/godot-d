@@ -131,7 +131,7 @@ class GodotMethod
 		// implementation
 		if(is_virtual || has_varargs)
 		{
-			ret ~= "\t\tArray _GODOT_args = Array.empty_array;\n";
+			ret ~= "\t\tArray _GODOT_args = Array.make();\n";
 			foreach(const a; arguments)
 			{
 				ret ~= "\t\t_GODOT_args.append("~escapeD(a.name)~");\n";

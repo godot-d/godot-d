@@ -16,6 +16,8 @@ import godot.c;
 import godot.core.variant;
 import godot.core.poolarrays;
 
+import std.meta;
+
 /**
 Generic array, contains several elements of any type, accessible by numerical index starting at 0. Negative indices can be used to count from the right, like in Python. Arrays are always passed by reference.
 */
@@ -86,14 +88,28 @@ struct Array
 	/++
 	Assigning null empties the Array variable, but unlike `clear`, does not
 	destroy the original memory unless it was the only remaining reference.
-	
-	Equivalent to assigning empty_array.
 	+/
 	Array opAssign(in typeof(null) n)
 	{
-		return opAssign(empty_array);
+		return opAssign(Array.make());
+	}
+
+	/++
+	Create an array and add all $(PARAM args) to it.
+	+/
+	static Array make(Args...)(Args args)
+		if(allSatisfy!(Variant.compatibleToGodot, Args))
+	{
+		Array ret = void;
+		_godot_api.godot_array_new(&ret._godot_array);
+		static foreach(i, Arg; Args)
+		{
+			ret ~= args[i];
+		}
+		return ret;
 	}
 	
+	deprecated("Use Array.make() with 0 args instead.")
 	static Array empty_array()
 	{
 		Array ret = void;
@@ -286,7 +302,7 @@ struct Array
 	/// Allocate a new separate copy of the Array
 	Array dup() const
 	{
-		Array ret = empty_array;
+		Array ret = Array.make();
 		size_t l = size();
 		ret.resize(l);
 		foreach(vi; 0..l)

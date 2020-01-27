@@ -30,6 +30,12 @@ class GodotClass
 	GodotProperty[] properties;
 	GodotEnum[] enums;
 	
+	void addUsedClass(in Type c)
+	{
+		if(c.isPrimitive || c.isCoreType || c.godot == "Object") return;
+		if(!used_classes.canFind(c)) used_classes ~= c;
+	}
+
 	void finalizeDeserialization(Asdf data)
 	{
 		assert(name.objectClass is null);
@@ -37,60 +43,15 @@ class GodotClass
 		
 		if(base_class && base_class.godot != "Object" && name.godot != "Object") used_classes ~= base_class;
 		
-		void addUsedClass(in Type c)
-		{
-			if(c.isPrimitive || c.isCoreType || c.godot == "Object") return;
-			if(!used_classes.canFind(c)) used_classes ~= c;
-		}
-		
-		// generate the set of referenced classes
 		foreach(m; methods)
 		{
-			import std.algorithm.searching;
-			if(m.return_type.isEnum)
-			{
-				auto c = m.return_type.enumParent;
-				if(c && c !is name) addUsedClass(c);
-			}
-			else if(m.return_type !is name)
-			{
-				addUsedClass(m.return_type);
-			}
-			foreach(const a; m.arguments)
-			{
-				if(a.type.isEnum)
-				{
-					auto c = a.type.enumParent;
-					if(c && c !is name) addUsedClass(c);
-				}
-				else if(a.type !is name)
-				{
-					addUsedClass(a.type);
-				}
-			}
-			
 			m.parent = this;
-		}
-		foreach(p; properties)
-		{
-			if(p.type.godot.canFind(',')) continue; /// FIXME: handle with common base
-			if(p.type.isEnum)
-			{
-				auto c = p.type.enumParent;
-				if(c && c !is name) addUsedClass(c);
-			}
-			else if(p.type !is name)
-			{
-				addUsedClass(p.type);
-			}
 		}
 		foreach(ref e; enums)
 		{
 			e.parent = this;
 			foreach(n; e.values.keys) constantsInEnums ~= n;
 		}
-		assert(!used_classes.canFind(name));
-		assert(!used_classes.canFind!(c => c.godot == "Object"));
 	}
 	
 	@serializationIgnore:
@@ -126,10 +87,75 @@ class GodotClass
 		return ret;
 	}
 	
-	string source() const
+	string source()
 	{
 		string ret;
-		
+
+		// generate the set of referenced classes
+		foreach(m; methods)
+		{
+			import std.algorithm.searching;
+			if(m.return_type.isEnum)
+			{
+				auto c = m.return_type.enumParent;
+				if(c && c !is name) addUsedClass(c);
+			}
+			else if(m.return_type !is name)
+			{
+				addUsedClass(m.return_type);
+			}
+			foreach(const a; m.arguments)
+			{
+				if(a.type.isEnum)
+				{
+					auto c = a.type.enumParent;
+					if(c && c !is name) addUsedClass(c);
+				}
+				else if(a.type !is name)
+				{
+					addUsedClass(a.type);
+				}
+			}
+		}
+		foreach(p; properties)
+		{
+			Type pType;
+			GodotMethod getterMethod;
+			foreach(GodotClass c; BaseRange(cast()this))
+			{
+				if(!getterMethod)
+				{
+					auto g = c.methods.find!(m => m.name == p.getter);
+					if(!g.empty) getterMethod = g.front;
+				}
+				
+				if(getterMethod) break;
+				if(c.base_class_ptr is null) break;
+			}
+			if(getterMethod) pType = getterMethod.return_type;
+			else pType = p.type;
+
+			if(pType.godot.canFind(',')) continue; /// FIXME: handle with common base. Also see godot#35467
+			if(pType.isEnum)
+			{
+				auto c = pType.enumParent;
+				if(c && c !is name) addUsedClass(c);
+			}
+			else if(pType !is name)
+			{
+				addUsedClass(pType);
+			}
+		}
+		assert(!used_classes.canFind(name));
+		assert(!used_classes.canFind!(c => c.godot == "Object"));
+
+		foreach(const u; used_classes)
+		{
+			ret ~= "import godot.";
+			ret ~= u.moduleName;
+			ret ~= ";\n";
+		}
+
 		string className = name.d;
 		if(singleton) className ~= "Singleton";
 		ret ~= "/**\n"~ddoc~"\n*/\n";

@@ -144,11 +144,42 @@ constructor through GDNative.
 +/
 template godotDefaultInit(T)
 {
-	static if(is(T : Array)) alias godotDefaultInit = Alias!(T.empty_array);
+	static if(is(T : Array)) alias godotDefaultInit = Alias!(Array.make);
 	else static if(is(T : Dictionary)) alias godotDefaultInit = Alias!(
-		Dictionary.empty_dictionary);
+		Dictionary.make);
 	else alias godotDefaultInit = Alias!(T.init);
 }
+
+/++
+Get the Godot-compatible default value of a field in T.
++/
+auto getDefaultValueFromAlias(T, string fieldName)()
+{
+	alias a = Alias!(mixin("T."~fieldName));
+	alias P = typeof(a);
+
+	static if(hasUDA!(a, DefaultValue))
+	{
+		alias defExprSeq = TemplateArgsOf!(getUDAs!(a, DefaultValue)[0]);
+		static if(isCallable!(defExprSeq[0])) return defExprSeq[0]();
+		else return defExprSeq[0];
+	}
+	else static if( is(typeof( { P p; } )) )
+	{
+		import std.math : isNaN;
+		static if(isFloatingPoint!P && a.init.isNaN)
+		{
+			// Godot doesn't support NaNs. Initialize properties to 0.0 instead.
+			return P(0.0);
+		}
+		else return a.init;
+	}
+	else
+	{
+		return Variant.init;
+	}
+}
+
 
 package(godot) enum string dName(alias a) = __traits(identifier, a);
 package(godot) template godotName(alias a)

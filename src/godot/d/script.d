@@ -106,25 +106,25 @@ package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 {
 	import godot.node;
 	
-	template isRAII(string memberName)
+	template isOnInit(string memberName)
 	{
 		static if(__traits(getProtection, __traits(getMember, T, memberName)) == "public")
-			enum bool isRAII = hasUDA!( __traits(getMember, T, memberName), RAII);
-		else enum bool isRAII = false;
+			enum bool isOnInit = hasUDA!( __traits(getMember, T, memberName), OnInit);
+		else enum bool isOnInit = false;
 	}
-	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
+	foreach(n; Filter!(isOnInit, FieldNameTuple!T ))
 	{
 		alias M = typeof(mixin("t."~n));
-		static assert(getUDAs!(mixin("t."~n), RAII).length == 1, "Multiple RAIIs on "
+		static assert(getUDAs!(mixin("t."~n), OnInit).length == 1, "Multiple OnInits on "
 			~T.stringof~"."~n);
 		
-		enum RAII raii = is(getUDAs!(mixin("t."~n), RAII)[0]) ?
-			RAII.makeDefault!(M, T)() : getUDAs!(mixin("t."~n), RAII)[0];
+		enum OnInit raii = is(getUDAs!(mixin("t."~n), OnInit)[0]) ?
+			OnInit.makeDefault!(M, T)() : getUDAs!(mixin("t."~n), OnInit)[0];
 		
 		static if(raii.autoCreate)
 		{
 			mixin("t."~n) = memnew!M();
-			static if( raii.autoAddChild && RAII.canAddChild!(M, T) )
+			static if( raii.autoAddChild && OnInit.canAddChild!(M, T) )
 			{
 				t.owner.addChild( mixin("t."~n).getGodotObject );
 			}
@@ -142,25 +142,6 @@ package(godot) void initialize(T)(T t) if(extendsGodotBaseClass!T)
 
 package(godot) void finalize(T)(T t) if(extendsGodotBaseClass!T)
 {
-	import godot.node;
-	
-	template isRAII(string memberName)
-	{
-		static if(__traits(getProtection, __traits(getMember, T, memberName)) == "public")
-			enum bool isRAII = hasUDA!( __traits(getMember, T, memberName), RAII);
-		else enum bool isRAII = false;
-	}
-	foreach(n; Filter!(isRAII, FieldNameTuple!T ))
-	{
-		alias M = typeof(mixin("t."~n));
-		enum RAII raii(string rn : n) = is(getUDAs!(mixin("t."~n), RAII)[0]) ?
-			RAII.makeDefault!(M, T)() : getUDAs!(mixin("t."~n), RAII)[0];
-		
-		static if(raii!n.autoDelete)
-		{
-			memdelete(mixin("t."~n));
-		}
-	}
 }
 
 /++

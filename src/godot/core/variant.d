@@ -224,7 +224,7 @@ struct Variant
 			alias conversionToGodot = (T t)
 			{
 				import std.algorithm.iteration;
-				Array ret = Array.empty_array;
+				Array ret = Array.make();
 				static if(hasLength!T)
 				{
 					ret.resize(cast(int)t.length);
@@ -409,12 +409,13 @@ struct Variant
 		}
 		else
 		{
-			InternalType[VarType] ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
-			
-			static if(directlyCompatible!R) return *cast(DType[VarType]*)&ret;
+			DType[VarType] ret = void;
+			*cast(InternalType[VarType]*)&ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
+
+			static if(directlyCompatible!R) return ret;
 			else
 			{
-				return conversionFromGodot!R(*cast(DType[VarType]*)&ret);
+				return conversionFromGodot!R(ret);
 			}
 		}
 	}

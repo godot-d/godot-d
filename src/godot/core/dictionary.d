@@ -15,6 +15,8 @@ module godot.core.dictionary;
 import godot.c;
 import godot.core;
 
+import std.meta;
+
 /**
 Associative container which contains values referenced by unique keys. Dictionaries are always passed by reference.
 */
@@ -67,8 +69,37 @@ struct Dictionary
 		_godot_api.godot_dictionary_new_copy(&_godot_dictionary, &other._godot_dictionary);
 		return this;
 	}
+
+	/++
+	Create a Dictionary and add the key-value pairs $(PARAM args) to it.
+
+	Example:
+	---
+	Dictionary emptyDictionary = Dictionary.make();
+	Dictionary status = Dictionary.make(gs!"health", 100, gs!"shields", 75);
+	---
+	+/
+	static Dictionary make(Args...)(Args args)
+		if(Args.length % 2 == 0 && allSatisfy!(Variant.compatibleToGodot, Args))
+	{
+		Dictionary ret = void;
+		_godot_api.godot_dictionary_new(&ret._godot_dictionary);
+		/+
+		BUG: wtf? when using static foreach(i; 0..Args.length/2):
+		Error: cannot use operator ~= in @nogc delegate godot.core.dictionary.Dictionary.make!(GodotStringLiteral!"name", String, GodotStringLiteral!"type", int).make.__lambda6
+		+/
+		static foreach(i, Arg; Args)
+		{
+			static if(i % 2 == 0)
+			{
+				ret[args[i]] = args[i+1];
+			}
+		}
+		return ret;
+	}
 	
 	/// FIXME: naming convention fail again
+	deprecated("Use Dictionary.make() with 0 args instead.")
 	static Dictionary empty_dictionary()
 	{
 		Dictionary d = void;
