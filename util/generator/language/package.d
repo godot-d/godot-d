@@ -18,7 +18,7 @@ struct Language
 			[0] the filename
 			[1] the contents to put in the file
 		+/
-		string[2] function(in GodotClass c) generator;
+		string[2] function(GodotClass c) generator;
 	}
 	
 	/++

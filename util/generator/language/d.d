@@ -34,7 +34,7 @@ static immutable string copyrightNotice =
 Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md)  
 Copyright (c) 2017-2018 Godot-D contributors  `;
 
-string[2] generatePackage(in GodotClass c)
+string[2] generatePackage(GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
 	
@@ -50,7 +50,7 @@ string[2] generatePackage(in GodotClass c)
 	ret ~= "public import\n\tgodot."~c.name.moduleName;
 	
 	const(GodotClass)[] recursiveDescendants;
-	void addDescendant(in GodotClass d)
+	void addDescendant(GodotClass d)
 	{
 		import std.algorithm.searching;
 		if(!recursiveDescendants[].canFind(d)) recursiveDescendants ~= d;
@@ -69,7 +69,7 @@ string[2] generatePackage(in GodotClass c)
 }
 
 
-string[2] generateClass(in GodotClass c)
+string[2] generateClass(GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
 	
@@ -101,20 +101,13 @@ string[2] generateClass(in GodotClass c)
 		ret ~= "import godot.classdb;\n";
 	}
 	
-	foreach(const u; c.used_classes)
-	{
-		ret ~= "import godot.";
-		ret ~= u.moduleName;
-		ret ~= ";\n";
-	}
-	
 	ret ~= c.source;
 	
 	string[2] arr = [filename, ret];
 	return arr;
 }
 
-string[2] generateGlobalConstants(in GodotClass c)
+string[2] generateGlobalConstants(GodotClass c)
 {
 	import std.conv : text;
 	import std.string;
