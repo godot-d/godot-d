@@ -8,7 +8,7 @@ import std.string;
 import std.conv : text;
 import std.getopt;
 import std.file;
-import std.path : asRelativePath, buildPath;
+import std.path : asRelativePath, buildPath, dirName;
 import std.range;
 import std.algorithm.searching : find, endsWith, countUntil;
 import std.algorithm.sorting : sort;
@@ -146,6 +146,8 @@ int main(string[] args)
 	}
 	writeln("Writing class list to ", classesFile);
 	std.file.write(classesFile, project.toCsv);
+	string gdignore = classesFile.dirName.buildPath(".gdignore");
+	if(!gdignore.exists) std.file.write(gdignore, "");
 
 	if(firstTimeSetup)
 	{
