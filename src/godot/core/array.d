@@ -175,7 +175,10 @@ struct Array
 		Variant v = Variant(t);
 		_godot_api.godot_array_append(&_godot_array, &v._godot_variant);
 	}
-	alias opOpAssign(string op : "~") = append;
+	template opOpAssign(string op) if(op == "~" || op == "+")
+	{
+		alias opOpAssign = append;
+	}
 	
 	void clear()
 	{

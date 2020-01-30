@@ -159,7 +159,7 @@ struct String
 		return less?(-1):1;
 	}
 	
-	String opBinary(string op : "~")(in String other) const
+	String opBinary(string op)(in String other) const if(op == "~" || op == "+")
 	{
 		String ret = void;
 		ret._godot_string = _godot_api.godot_string_operator_plus(&_godot_string, &other._godot_string);
@@ -167,7 +167,7 @@ struct String
 		return ret;
 	}
 	
-	void opOpAssign(string op : "~")(in String other)
+	void opOpAssign(string op)(in String other) if(op == "~" || op == "+")
 	{
 		_godot_string = _godot_api.godot_string_operator_plus(&_godot_string, &other._godot_string);
 	}

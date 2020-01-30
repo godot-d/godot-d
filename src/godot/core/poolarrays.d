@@ -206,7 +206,10 @@ struct PoolArray(T)
 	}
 	
 	alias append = pushBack;
-	alias opOpAssign(string op : "~") = pushBack;
+	template opOpAssign(string op) if(op == "~" || op == "+")
+	{
+		alias opOpAssign = pushBack;
+	}
 	
 	/// Slice-like view of the PoolArray
 	/// TODO: implement this with Read/Write?
