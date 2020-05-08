@@ -182,12 +182,12 @@ class GodotClass
 		ret ~= bindingStruct;
 		
 		// equality
-		ret ~= "\tbool opEquals(in "~className~" other) const ";
+		ret ~= "\tpragma(inline, true) bool opEquals(in "~className~" other) const ";
 		ret ~= "{ return _godot_object.ptr is other._godot_object.ptr; }\n";
 		// null assignment to simulate D class references
-		ret ~= "\t"~className~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
+		ret ~= "\tpragma(inline, true) "~className~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = n; }\n";
 		// equality with null; unfortunately `_godot_object is null` doesn't work with structs
-		ret ~= "\tbool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }\n";
+		ret ~= "\tpragma(inline, true) bool opEquals(typeof(null) n) const { return _godot_object.ptr is n; }\n";
 		// hash function
 		ret ~= "\tsize_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }\n";
 		
