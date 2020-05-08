@@ -55,16 +55,16 @@ package(godot) void initializeClassBinding(C)()
 	{
 		if(!C._classBindingInitialized)
 		{
-			static foreach(n; __traits(allMembers, C._classBinding))
+			static foreach(n; __traits(allMembers, C.GDNativeClassBinding))
 			{
-				static if(n == "_singleton") C._classBinding._singleton = _godot_api
-					.godot_global_get_singleton(cast(char*)C._classBinding._singletonName);
+				static if(n == "_singleton") C.GDNativeClassBinding._singleton = _godot_api
+					.godot_global_get_singleton(cast(char*)C.GDNativeClassBinding._singletonName);
 				else static if(n == "_singletonName"){}
 				else
 				{
 					//enum immutable(char*) cn = C._GODOT_internal_name;
-					mixin("C._classBinding."~n).bind(C._GODOT_internal_name,
-						getUDAs!(mixin("C._classBinding."~n), GodotName)[0].name);
+					mixin("C.GDNativeClassBinding."~n).bind(C._GODOT_internal_name,
+						getUDAs!(mixin("C.GDNativeClassBinding."~n), GodotName)[0].name);
 				}
 			}
 			C._classBindingInitialized = true;
