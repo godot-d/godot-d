@@ -89,6 +89,19 @@ struct Color
 	
 		return c;
 	}
+
+	@property
+	{
+		ubyte r8() const { return cast(ubyte)(r*255); }
+		ubyte g8() const { return cast(ubyte)(g*255); }
+		ubyte b8() const { return cast(ubyte)(b*255); }
+		ubyte a8() const { return cast(ubyte)(a*255); }
+
+		void r8(ubyte value) { r = (1f/255f)*value; }
+		void g8(ubyte value) { g = (1f/255f)*value; }
+		void b8(ubyte value) { b = (1f/255f)*value; }
+		void a8(ubyte value) { a = (1f/255f)*value; }
+	}
 	
 	uint toARGB32() const
 	{
