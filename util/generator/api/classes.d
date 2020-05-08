@@ -188,6 +188,8 @@ class GodotClass
 		ret ~= "\t"~className~" opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }\n";
 		// equality with null; unfortunately `_godot_object is null` doesn't work with structs
 		ret ~= "\tbool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }\n";
+		// hash function
+		ret ~= "\tsize_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }\n";
 		
 		ret ~= "\tmixin baseCasts;\n";
 		
