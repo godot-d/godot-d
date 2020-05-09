@@ -199,21 +199,21 @@ mixin template baseCasts()
 {
 	private import godot.d.reference, godot.d.meta : RefOrT, NonRef;
 	
-	To as(To)() if(isGodotBaseClass!To)
+	inout(To) as(To)() inout if(isGodotBaseClass!To)
 	{
 		static if(extends!(typeof(this), To)) return To(_godot_object);
 		else static if(extends!(To, typeof(this)))
 		{
 			if(_godot_object.ptr is null) return typeof(return).init;
 			String c = String(To._GODOT_internal_name);
-			if(isClass(c)) return To(_godot_object);
+			if(isClass(c)) return inout(To)(_godot_object);
 			return typeof(return).init;
 		}
 		else static assert(0, To.stringof ~ " is not polymorphic to "
 			~ typeof(this).stringof);
 	}
 	
-	To as(To)() if(extendsGodotBaseClass!To)
+	inout(To) as(To)() inout if(extendsGodotBaseClass!To)
 	{
 		import godot.d.script : NativeScriptTag;
 		static assert(extends!(To, typeof(this)), "D class " ~ To.stringof
@@ -221,22 +221,23 @@ mixin template baseCasts()
 		if(_godot_object.ptr is null) return typeof(return).init;
 		if(GDNativeVersion.hasNativescript!(1, 1))
 		{
-			if(NativeScriptTag!To.matches(_godot_nativescript_api.godot_nativescript_get_type_tag(_godot_object)))
+			if(NativeScriptTag!To.matches(_godot_nativescript_api.godot_nativescript_get_type_tag(cast()_godot_object)))
 			{
-				return cast(To)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object));
+				return cast(inout(To))(_godot_nativescript_api.godot_nativescript_get_userdata(cast()_godot_object));
 			}
 		}
 		else if(hasMethod(String(`_GDNATIVE_D_typeid`)))
 		{
-			return cast(To)(cast(Object)(_godot_nativescript_api.godot_nativescript_get_userdata(_godot_object)));
+			return cast(inout(To))(cast(Object)(_godot_nativescript_api.godot_nativescript_get_userdata(cast()_godot_object)));
 		}
 		return typeof(return).init;
 	}
 	
-	ToRef as(ToRef)() if(is(ToRef : Ref!To, To) && extends!(To, Reference))
+	inout(ToRef) as(ToRef)() inout if(is(ToRef : Ref!To, To) && extends!(To, Reference))
 	{
-		import std.traits : TemplateArgsOf;
-		return ToRef(as!(TemplateArgsOf!ToRef[0]));
+		import std.traits : TemplateArgsOf, Unqual;
+		ToRef ret = cast()as!(Unqual!(TemplateArgsOf!ToRef[0]));
+		return cast(inout)ret;
 	}
 	
 	template opCast(To) if(isGodotBaseClass!To)
