@@ -40,7 +40,7 @@ string[2] generatePackage(GodotClass c)
 	
 	if(c.descendant_ptrs.length == 0) return [null, null];
 	
-	string filename = buildPath("classes", "godot", c.name.moduleName, "all.d");
+	string filename = buildPath("godot", c.name.moduleName, "all.d");
 	string ret;
 	
 	ret ~= "module godot.";
@@ -73,10 +73,10 @@ string[2] generateClass(GodotClass c)
 {
 	if(c.name.godot == "GlobalConstants") return [null, null];
 	
-	string folder = "classes";
+	string folder = "godot";
 	string filename = (c.descendant_ptrs.length == 0) ?
-		buildPath(folder, "godot", c.name.moduleName~".d") :
-		buildPath(folder, "godot", c.name.moduleName, "package.d");
+		buildPath(folder, c.name.moduleName~".d") :
+		buildPath(folder, c.name.moduleName, "package.d");
 	string ret;
 	
 	ret ~= "/**\n"~c.ddocBrief~"\n\n";
@@ -117,7 +117,7 @@ string[2] generateGlobalConstants(GodotClass c)
 	
 	if(c.name.godot != "GlobalConstants") return [null, null];
 	
-	string filename = buildPath("classes", "godot", "globalconstants.d");
+	string filename = buildPath("godot", "globalconstants.d");
 	string ret;
 	
 	ret ~= "/// \n";
