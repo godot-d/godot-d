@@ -12,6 +12,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 */
 module godot.core.color;
 
+import godot.core.defs;
 import godot.core.string;
 
 import std.math;
@@ -428,6 +429,57 @@ struct Color
 		return ret;
 	}
 	
+	Color opBinary(string op)(in Color other) const
+		if(op=="+" || op=="-" || op=="*" || op=="/")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~"other.r");
+		ret.b = mixin("b "~op~"other.b");
+		ret.g = mixin("g "~op~"other.g");
+		ret.a = mixin("a "~op~"other.a");
+		return ret;
+	}
+	void opOpAssign(string op)(in Color other)
+		if(op=="+" || op=="-" || op=="*" || op=="/")
+	{
+		r = mixin("r "~op~"other.r");
+		b = mixin("b "~op~"other.b");
+		g = mixin("g "~op~"other.g");
+	}
+
+	Color opUnary(string op : "-")()
+	{
+		return Color(-r, -g, -b, -a);
+	}
+
+	Color opBinary(string op)(in real_t scalar) const
+		if(op=="*" || op=="/")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~" scalar");
+		ret.g = mixin("g "~op~" scalar");
+		ret.b = mixin("b "~op~" scalar");
+		ret.a = mixin("a "~op~" scalar");
+		return ret;
+	}
+	Color opBinaryRight(string op)(in real_t scalar) const
+		if(op=="*")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~" scalar");
+		ret.g = mixin("g "~op~" scalar");
+		ret.b = mixin("b "~op~" scalar");
+		ret.a = mixin("a "~op~" scalar");
+		return ret;
+	}
+	void opOpAssign(string op)(in real_t scalar)
+		if(op=="*" || op=="/")
+	{
+		r = mixin("r "~op~" scalar");
+		g = mixin("g "~op~" scalar");
+		b = mixin("b "~op~" scalar");
+		a = mixin("a "~op~" scalar");
+	}
 	
 	/+bool operator<(const Color& p_color) const {
 	
