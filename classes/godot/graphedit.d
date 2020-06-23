@@ -33,14 +33,14 @@ It is greatly advised to enable low-processor usage mode (see $(D OS.lowProcesso
 */
 @GodotBaseClass struct GraphEdit
 {
-	enum string _GODOT_internal_name = "GraphEdit";
+	package(godot) enum string _GODOT_internal_name = "GraphEdit";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_connections_layer_draw") GodotMethod!(void) _connectionsLayerDraw;
@@ -82,10 +82,20 @@ public:
 		@GodotName("set_use_snap") GodotMethod!(void, bool) setUseSnap;
 		@GodotName("set_zoom") GodotMethod!(void, double) setZoom;
 	}
-	bool opEquals(in GraphEdit other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GraphEdit opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GraphEdit other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GraphEdit opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GraphEdit.
+	/// Note: use `memnew!GraphEdit` instead.
 	static GraphEdit _new()
 	{
 		static godot_class_constructor constructor;
@@ -223,7 +233,7 @@ public:
 	void addValidConnectionType(in long from_type, in long to_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addValidConnectionType, _godot_object, from_type, to_type);
+		ptrcall!(void)(GDNativeClassBinding.addValidConnectionType, _godot_object, from_type, to_type);
 	}
 	/**
 	Makes possible to disconnect nodes when dragging from the slot at the left if it has the specified type.
@@ -231,7 +241,7 @@ public:
 	void addValidLeftDisconnectType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addValidLeftDisconnectType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.addValidLeftDisconnectType, _godot_object, type);
 	}
 	/**
 	Makes possible to disconnect nodes when dragging from the slot at the right if it has the specified type.
@@ -239,7 +249,7 @@ public:
 	void addValidRightDisconnectType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addValidRightDisconnectType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.addValidRightDisconnectType, _godot_object, type);
 	}
 	/**
 	Removes all connections between nodes.
@@ -247,7 +257,7 @@ public:
 	void clearConnections()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearConnections, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearConnections, _godot_object);
 	}
 	/**
 	Create a connection between the `from_port` slot of the `from` GraphNode and the `to_port` slot of the `to` GraphNode. If the connection already exists, no connection is created.
@@ -255,7 +265,7 @@ public:
 	GodotError connectNode(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectNode, _godot_object, from, from_port, to, to_port);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectNode, _godot_object, from, from_port, to, to_port);
 	}
 	/**
 	Removes the connection between the `from_port` slot of the `from` GraphNode and the `to_port` slot of the `to` GraphNode. If the connection does not exist, no connection is removed.
@@ -263,7 +273,7 @@ public:
 	void disconnectNode(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectNode, _godot_object, from, from_port, to, to_port);
+		ptrcall!(void)(GDNativeClassBinding.disconnectNode, _godot_object, from, from_port, to, to_port);
 	}
 	/**
 	Returns an Array containing the list of connections. A connection consists in a structure of the form `{ from_port: 0, from: "GraphNode name 0", to_port: 1, to: "GraphNode name 1" }`.
@@ -271,7 +281,7 @@ public:
 	Array getConnectionList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getConnectionList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getConnectionList, _godot_object);
 	}
 	/**
 	
@@ -279,7 +289,7 @@ public:
 	Vector2 getScrollOfs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollOfs, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScrollOfs, _godot_object);
 	}
 	/**
 	
@@ -287,7 +297,7 @@ public:
 	long getSnap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSnap, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSnap, _godot_object);
 	}
 	/**
 	
@@ -295,7 +305,7 @@ public:
 	double getZoom() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getZoom, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getZoom, _godot_object);
 	}
 	/**
 	Gets the $(D HBoxContainer) that contains the zooming and grid snap controls in the top left of the graph.
@@ -304,7 +314,7 @@ public:
 	HBoxContainer getZoomHbox()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(HBoxContainer)(_classBinding.getZoomHbox, _godot_object);
+		return ptrcall!(HBoxContainer)(GDNativeClassBinding.getZoomHbox, _godot_object);
 	}
 	/**
 	Returns `true` if the `from_port` slot of the `from` GraphNode is connected to the `to_port` slot of the `to` GraphNode.
@@ -312,7 +322,7 @@ public:
 	bool isNodeConnected(in String from, in long from_port, in String to, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNodeConnected, _godot_object, from, from_port, to, to_port);
+		return ptrcall!(bool)(GDNativeClassBinding.isNodeConnected, _godot_object, from, from_port, to, to_port);
 	}
 	/**
 	
@@ -320,7 +330,7 @@ public:
 	bool isRightDisconnectsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRightDisconnectsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRightDisconnectsEnabled, _godot_object);
 	}
 	/**
 	
@@ -328,7 +338,7 @@ public:
 	bool isUsingSnap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingSnap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingSnap, _godot_object);
 	}
 	/**
 	Returns whether it's possible to connect slots of the specified types.
@@ -336,7 +346,7 @@ public:
 	bool isValidConnectionType(in long from_type, in long to_type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValidConnectionType, _godot_object, from_type, to_type);
+		return ptrcall!(bool)(GDNativeClassBinding.isValidConnectionType, _godot_object, from_type, to_type);
 	}
 	/**
 	Makes it not possible to connect between two different slot types. The type is defined with the $(D GraphNode.setSlot) method.
@@ -344,7 +354,7 @@ public:
 	void removeValidConnectionType(in long from_type, in long to_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeValidConnectionType, _godot_object, from_type, to_type);
+		ptrcall!(void)(GDNativeClassBinding.removeValidConnectionType, _godot_object, from_type, to_type);
 	}
 	/**
 	Removes the possibility to disconnect nodes when dragging from the slot at the left if it has the specified type.
@@ -352,7 +362,7 @@ public:
 	void removeValidLeftDisconnectType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeValidLeftDisconnectType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.removeValidLeftDisconnectType, _godot_object, type);
 	}
 	/**
 	Removes the possibility to disconnect nodes when dragging from the slot at the right if it has the specified type.
@@ -360,7 +370,7 @@ public:
 	void removeValidRightDisconnectType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeValidRightDisconnectType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.removeValidRightDisconnectType, _godot_object, type);
 	}
 	/**
 	Sets the coloration of the connection between `from`'s `from_port` and `to`'s `to_port` with the color provided in the `activity` theme property.
@@ -368,7 +378,7 @@ public:
 	void setConnectionActivity(in String from, in long from_port, in String to, in long to_port, in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConnectionActivity, _godot_object, from, from_port, to, to_port, amount);
+		ptrcall!(void)(GDNativeClassBinding.setConnectionActivity, _godot_object, from, from_port, to, to_port, amount);
 	}
 	/**
 	
@@ -376,7 +386,7 @@ public:
 	void setRightDisconnects(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRightDisconnects, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setRightDisconnects, _godot_object, enable);
 	}
 	/**
 	
@@ -384,7 +394,7 @@ public:
 	void setScrollOfs(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollOfs, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setScrollOfs, _godot_object, ofs);
 	}
 	/**
 	Sets the specified `node` as the one selected.
@@ -392,7 +402,7 @@ public:
 	void setSelected(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelected, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setSelected, _godot_object, node);
 	}
 	/**
 	
@@ -400,7 +410,7 @@ public:
 	void setSnap(in long pixels)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnap, _godot_object, pixels);
+		ptrcall!(void)(GDNativeClassBinding.setSnap, _godot_object, pixels);
 	}
 	/**
 	
@@ -408,7 +418,7 @@ public:
 	void setUseSnap(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseSnap, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseSnap, _godot_object, enable);
 	}
 	/**
 	
@@ -416,7 +426,7 @@ public:
 	void setZoom(in double p_zoom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZoom, _godot_object, p_zoom);
+		ptrcall!(void)(GDNativeClassBinding.setZoom, _godot_object, p_zoom);
 	}
 	/**
 	If `true`, enables disconnection of existing connections in the GraphEdit by dragging the right end.

@@ -37,14 +37,14 @@ To hide only a tab's content, nest the content inside a child $(D Control), so i
 */
 @GodotBaseClass struct TabContainer
 {
-	enum string _GODOT_internal_name = "TabContainer";
+	package(godot) enum string _GODOT_internal_name = "TabContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_child_renamed_callback") GodotMethod!(void) _childRenamedCallback;
@@ -77,10 +77,20 @@ public:
 		@GodotName("set_tabs_visible") GodotMethod!(void, bool) setTabsVisible;
 		@GodotName("set_use_hidden_tabs_for_min_size") GodotMethod!(void, bool) setUseHiddenTabsForMinSize;
 	}
-	bool opEquals(in TabContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TabContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TabContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TabContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TabContainer.
+	/// Note: use `memnew!TabContainer` instead.
 	static TabContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -164,7 +174,7 @@ public:
 	bool areTabsVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.areTabsVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.areTabsVisible, _godot_object);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	long getCurrentTab() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCurrentTab, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentTab, _godot_object);
 	}
 	/**
 	Returns the child $(D Control) node located at the active tab index.
@@ -180,7 +190,7 @@ public:
 	Control getCurrentTabControl() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getCurrentTabControl, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getCurrentTabControl, _godot_object);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	bool getDragToRearrangeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDragToRearrangeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getDragToRearrangeEnabled, _godot_object);
 	}
 	/**
 	Returns the $(D Popup) node instance if one has been set already with $(D setPopup).
@@ -196,7 +206,7 @@ public:
 	Popup getPopup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Popup)(_classBinding.getPopup, _godot_object);
+		return ptrcall!(Popup)(GDNativeClassBinding.getPopup, _godot_object);
 	}
 	/**
 	Returns the previously active tab index.
@@ -204,7 +214,7 @@ public:
 	long getPreviousTab() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPreviousTab, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPreviousTab, _godot_object);
 	}
 	/**
 	
@@ -212,15 +222,15 @@ public:
 	TabContainer.TabAlign getTabAlign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TabContainer.TabAlign)(_classBinding.getTabAlign, _godot_object);
+		return ptrcall!(TabContainer.TabAlign)(GDNativeClassBinding.getTabAlign, _godot_object);
 	}
 	/**
-	Returns the currently visible tab's $(D Control) node.
+	Returns the $(D Control) node from the tab at index `tab_idx`.
 	*/
 	Control getTabControl(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getTabControl, _godot_object, idx);
+		return ptrcall!(Control)(GDNativeClassBinding.getTabControl, _godot_object, idx);
 	}
 	/**
 	Returns the number of tabs.
@@ -228,7 +238,7 @@ public:
 	long getTabCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabCount, _godot_object);
 	}
 	/**
 	Returns `true` if the tab at index `tab_idx` is disabled.
@@ -236,7 +246,7 @@ public:
 	bool getTabDisabled(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getTabDisabled, _godot_object, tab_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.getTabDisabled, _godot_object, tab_idx);
 	}
 	/**
 	Returns the $(D Texture) for the tab at index `tab_idx` or `null` if the tab has no $(D Texture).
@@ -244,7 +254,7 @@ public:
 	Ref!Texture getTabIcon(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTabIcon, _godot_object, tab_idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTabIcon, _godot_object, tab_idx);
 	}
 	/**
 	Returns the title of the tab at index `tab_idx`. Tab titles default to the name of the indexed child node, but this can be overridden with $(D setTabTitle).
@@ -252,7 +262,7 @@ public:
 	String getTabTitle(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTabTitle, _godot_object, tab_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getTabTitle, _godot_object, tab_idx);
 	}
 	/**
 	Returns the $(D TabContainer) rearrange group id.
@@ -260,7 +270,7 @@ public:
 	long getTabsRearrangeGroup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabsRearrangeGroup, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabsRearrangeGroup, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	bool getUseHiddenTabsForMinSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseHiddenTabsForMinSize, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseHiddenTabsForMinSize, _godot_object);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	void setCurrentTab(in long tab_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentTab, _godot_object, tab_idx);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentTab, _godot_object, tab_idx);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	void setDragToRearrangeEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragToRearrangeEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setDragToRearrangeEnabled, _godot_object, enabled);
 	}
 	/**
 	If set on a $(D Popup) node instance, a popup menu icon appears in the top-right corner of the $(D TabContainer). Clicking it will expand the $(D Popup) node.
@@ -292,7 +302,7 @@ public:
 	void setPopup(Node popup)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPopup, _godot_object, popup);
+		ptrcall!(void)(GDNativeClassBinding.setPopup, _godot_object, popup);
 	}
 	/**
 	
@@ -300,7 +310,7 @@ public:
 	void setTabAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.setTabAlign, _godot_object, _align);
 	}
 	/**
 	If `disabled` is `false`, hides the tab at index `tab_idx`.
@@ -309,7 +319,7 @@ public:
 	void setTabDisabled(in long tab_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabDisabled, _godot_object, tab_idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setTabDisabled, _godot_object, tab_idx, disabled);
 	}
 	/**
 	Sets an icon for the tab at index `tab_idx`.
@@ -317,7 +327,7 @@ public:
 	void setTabIcon(in long tab_idx, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabIcon, _godot_object, tab_idx, icon);
+		ptrcall!(void)(GDNativeClassBinding.setTabIcon, _godot_object, tab_idx, icon);
 	}
 	/**
 	Sets a title for the tab at index `tab_idx`. Tab titles default to the name of the indexed child node, but this can be overridden with $(D setTabTitle).
@@ -325,7 +335,7 @@ public:
 	void setTabTitle(in long tab_idx, in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabTitle, _godot_object, tab_idx, title);
+		ptrcall!(void)(GDNativeClassBinding.setTabTitle, _godot_object, tab_idx, title);
 	}
 	/**
 	Defines rearrange group id, choose for each $(D TabContainer) the same value to enable tab drag between $(D TabContainer). Enable drag with `set_drag_to_rearrange_enabled(true)`.
@@ -333,7 +343,7 @@ public:
 	void setTabsRearrangeGroup(in long group_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabsRearrangeGroup, _godot_object, group_id);
+		ptrcall!(void)(GDNativeClassBinding.setTabsRearrangeGroup, _godot_object, group_id);
 	}
 	/**
 	
@@ -341,7 +351,7 @@ public:
 	void setTabsVisible(in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabsVisible, _godot_object, visible);
+		ptrcall!(void)(GDNativeClassBinding.setTabsVisible, _godot_object, visible);
 	}
 	/**
 	
@@ -349,7 +359,7 @@ public:
 	void setUseHiddenTabsForMinSize(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseHiddenTabsForMinSize, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setUseHiddenTabsForMinSize, _godot_object, enabled);
 	}
 	/**
 	The current tab index. When set, this index's $(D Control) node's `visible` property is set to `true` and all others are set to `false`.

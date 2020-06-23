@@ -32,14 +32,14 @@ You will receive appropriate signals when connecting, disconnecting, or when new
 */
 @GodotBaseClass struct WebSocketClient
 {
-	enum string _GODOT_internal_name = "WebSocketClient";
+	package(godot) enum string _GODOT_internal_name = "WebSocketClient";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; WebSocketMultiplayerPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ WebSocketMultiplayerPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("connect_to_url") GodotMethod!(GodotError, String, PoolStringArray, bool, PoolStringArray) connectToUrl;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_trusted_ssl_certificate") GodotMethod!(void, X509Certificate) setTrustedSslCertificate;
 		@GodotName("set_verify_ssl_enabled") GodotMethod!(void, bool) setVerifySslEnabled;
 	}
-	bool opEquals(in WebSocketClient other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebSocketClient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebSocketClient other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebSocketClient opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebSocketClient.
+	/// Note: use `memnew!WebSocketClient` instead.
 	static WebSocketClient _new()
 	{
 		static godot_class_constructor constructor;
@@ -73,7 +83,7 @@ public:
 	GodotError connectToUrl(in String url, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false, in PoolStringArray custom_headers = PoolStringArray.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectToUrl, _godot_object, url, protocols, gd_mp_api, custom_headers);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectToUrl, _godot_object, url, protocols, gd_mp_api, custom_headers);
 	}
 	/**
 	Disconnects this client from the connected host. See $(D WebSocketPeer.close) for more information.
@@ -81,7 +91,7 @@ public:
 	void disconnectFromHost(in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object, code, reason);
+		ptrcall!(void)(GDNativeClassBinding.disconnectFromHost, _godot_object, code, reason);
 	}
 	/**
 	Return the IP address of the currently connected host.
@@ -89,7 +99,7 @@ public:
 	String getConnectedHost() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getConnectedHost, _godot_object);
 	}
 	/**
 	Return the IP port of the currently connected host.
@@ -97,7 +107,7 @@ public:
 	long getConnectedPort() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectedPort, _godot_object);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	Ref!X509Certificate getTrustedSslCertificate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(X509Certificate)(_classBinding.getTrustedSslCertificate, _godot_object);
+		return ptrcall!(X509Certificate)(GDNativeClassBinding.getTrustedSslCertificate, _godot_object);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	bool isVerifySslEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVerifySslEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVerifySslEnabled, _godot_object);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	void setTrustedSslCertificate(X509Certificate arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrustedSslCertificate, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setTrustedSslCertificate, _godot_object, arg0);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	void setVerifySslEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVerifySslEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setVerifySslEnabled, _godot_object, enabled);
 	}
 	/**
 	If specified, this $(D X509Certificate) will be the only one accepted when connecting to an SSL host. Any other certificate provided by the server will be regarded as invalid.

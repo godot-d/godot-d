@@ -1,5 +1,5 @@
 /**
-
+A generic animation transition node for $(D AnimationTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,18 +23,20 @@ import godot.classdb;
 import godot.animationnode;
 import godot.resource;
 /**
+A generic animation transition node for $(D AnimationTree).
 
+Simple state machine for cases which don't require a more advanced $(D AnimationNodeStateMachine). Animations can be connected to the inputs and transition times can be specified.
 */
 @GodotBaseClass struct AnimationNodeTransition
 {
-	enum string _GODOT_internal_name = "AnimationNodeTransition";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeTransition";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AnimationNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AnimationNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_cross_fade_time") GodotMethod!(double) getCrossFadeTime;
@@ -46,10 +48,20 @@ public:
 		@GodotName("set_input_as_auto_advance") GodotMethod!(void, long, bool) setInputAsAutoAdvance;
 		@GodotName("set_input_caption") GodotMethod!(void, long, String) setInputCaption;
 	}
-	bool opEquals(in AnimationNodeTransition other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeTransition opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeTransition other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeTransition opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeTransition.
+	/// Note: use `memnew!AnimationNodeTransition` instead.
 	static AnimationNodeTransition _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +76,7 @@ public:
 	double getCrossFadeTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCrossFadeTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCrossFadeTime, _godot_object);
 	}
 	/**
 	
@@ -72,7 +84,7 @@ public:
 	long getEnabledInputs()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getEnabledInputs, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getEnabledInputs, _godot_object);
 	}
 	/**
 	
@@ -80,7 +92,7 @@ public:
 	String getInputCaption(in long input) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInputCaption, _godot_object, input);
+		return ptrcall!(String)(GDNativeClassBinding.getInputCaption, _godot_object, input);
 	}
 	/**
 	
@@ -88,7 +100,7 @@ public:
 	bool isInputSetAsAutoAdvance(in long input) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInputSetAsAutoAdvance, _godot_object, input);
+		return ptrcall!(bool)(GDNativeClassBinding.isInputSetAsAutoAdvance, _godot_object, input);
 	}
 	/**
 	
@@ -96,7 +108,7 @@ public:
 	void setCrossFadeTime(in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCrossFadeTime, _godot_object, time);
+		ptrcall!(void)(GDNativeClassBinding.setCrossFadeTime, _godot_object, time);
 	}
 	/**
 	
@@ -104,7 +116,7 @@ public:
 	void setEnabledInputs(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabledInputs, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setEnabledInputs, _godot_object, amount);
 	}
 	/**
 	
@@ -112,7 +124,7 @@ public:
 	void setInputAsAutoAdvance(in long input, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputAsAutoAdvance, _godot_object, input, enable);
+		ptrcall!(void)(GDNativeClassBinding.setInputAsAutoAdvance, _godot_object, input, enable);
 	}
 	/**
 	
@@ -120,7 +132,7 @@ public:
 	void setInputCaption(in long input, in String caption)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputCaption, _godot_object, input, caption);
+		ptrcall!(void)(GDNativeClassBinding.setInputCaption, _godot_object, input, caption);
 	}
 	/**
 	
@@ -891,7 +903,7 @@ public:
 		setInputCaption(9, v);
 	}
 	/**
-	
+	The number of available input ports for this node.
 	*/
 	@property long inputCount()
 	{
@@ -903,7 +915,7 @@ public:
 		setEnabledInputs(v);
 	}
 	/**
-	
+	Cross-fading time (in seconds) between each animation connected to the inputs.
 	*/
 	@property double xfadeTime()
 	{

@@ -30,23 +30,33 @@ Base class for WebSocket server and client, allowing them to be used as network 
 */
 @GodotBaseClass struct WebSocketMultiplayerPeer
 {
-	enum string _GODOT_internal_name = "WebSocketMultiplayerPeer";
+	package(godot) enum string _GODOT_internal_name = "WebSocketMultiplayerPeer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; NetworkedMultiplayerPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ NetworkedMultiplayerPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_peer") GodotMethod!(WebSocketPeer, long) getPeer;
 		@GodotName("set_buffers") GodotMethod!(GodotError, long, long, long, long) setBuffers;
 	}
-	bool opEquals(in WebSocketMultiplayerPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebSocketMultiplayerPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebSocketMultiplayerPeer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebSocketMultiplayerPeer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebSocketMultiplayerPeer.
+	/// Note: use `memnew!WebSocketMultiplayerPeer` instead.
 	static WebSocketMultiplayerPeer _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	Ref!WebSocketPeer getPeer(in long peer_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(WebSocketPeer)(_classBinding.getPeer, _godot_object, peer_id);
+		return ptrcall!(WebSocketPeer)(GDNativeClassBinding.getPeer, _godot_object, peer_id);
 	}
 	/**
 	Configures the buffer sizes for this WebSocket peer. Default values can be specified in the Project Settings under `network/limits`. For server, values are meant per connected peer.
@@ -72,6 +82,6 @@ public:
 	GodotError setBuffers(in long input_buffer_size_kb, in long input_max_packets, in long output_buffer_size_kb, in long output_max_packets)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.setBuffers, _godot_object, input_buffer_size_kb, input_max_packets, output_buffer_size_kb, output_max_packets);
+		return ptrcall!(GodotError)(GDNativeClassBinding.setBuffers, _godot_object, input_buffer_size_kb, input_max_packets, output_buffer_size_kb, output_max_packets);
 	}
 }

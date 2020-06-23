@@ -25,7 +25,8 @@ import godot.node;
 Smoothly animates a node's properties over time.
 
 Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name $(I tween) comes from $(I in-betweening), an animation technique where you specify $(I keyframes) and the computer interpolates the frames that appear between them.
-Here is a brief usage example that causes a 2D node to move smoothly between two positions:
+$(D Tween) is more suited than $(D AnimationPlayer) for animations where you don't know the final values in advance. For example, interpolating a dynamically-chosen camera zoom value is best done with a $(D Tween) node; it would be difficult to do the same thing with an $(D AnimationPlayer) node.
+Here is a brief usage example that makes a 2D node move smoothly between two positions:
 
 
 var tween = get_node("Tween")
@@ -36,18 +37,19 @@ tween.start()
 
 
 Many methods require a property name, such as `"position"` above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using `"property:component"` (eg. `position:x`), where it would only apply to that particular component.
-Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see `http://easings.net/` for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
+Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see $(D url=https://easings.net/)easings.net$(D /url) for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
+$(D url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/tween_cheatsheet.png)Tween easing and transition types cheatsheet$(D /url)
 */
 @GodotBaseClass struct Tween
 {
-	enum string _GODOT_internal_name = "Tween";
+	package(godot) enum string _GODOT_internal_name = "Tween";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_remove_by_uid") GodotMethod!(void, long) _removeByUid;
@@ -80,10 +82,20 @@ public:
 		@GodotName("targeting_property") GodotMethod!(bool, GodotObject, NodePath, GodotObject, NodePath, Variant, double, long, long, double) targetingProperty;
 		@GodotName("tell") GodotMethod!(double) tell;
 	}
-	bool opEquals(in Tween other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Tween opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Tween other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Tween opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Tween.
+	/// Note: use `memnew!Tween` instead.
 	static Tween _new()
 	{
 		static godot_class_constructor constructor;
@@ -210,7 +222,7 @@ public:
 	bool followMethod(VariantArg2)(GodotObject object, in String method, in VariantArg2 initial_val, GodotObject target, in String target_method, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.followMethod, _godot_object, object, method, initial_val, target, target_method, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.followMethod, _godot_object, object, method, initial_val, target, target_method, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Follows `property` of `object` and applies it on `target_property` of `target`, beginning from `initial_val` for `duration` seconds, `delay` seconds later.
@@ -219,7 +231,7 @@ public:
 	bool followProperty(NodePathArg1, VariantArg2, NodePathArg4)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, GodotObject target, in NodePathArg4 target_property, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.followProperty, _godot_object, object, property, initial_val, target, target_property, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.followProperty, _godot_object, object, property, initial_val, target, target_property, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Returns the total time needed for all tweens to end. If you have two tweens, one lasting 10 seconds and the other 20 seconds, it would return 20 seconds, as by that time all tweens would have finished.
@@ -227,7 +239,7 @@ public:
 	double getRuntime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRuntime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRuntime, _godot_object);
 	}
 	/**
 	
@@ -235,7 +247,7 @@ public:
 	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	
@@ -243,7 +255,7 @@ public:
 	Tween.TweenProcessMode getTweenProcessMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Tween.TweenProcessMode)(_classBinding.getTweenProcessMode, _godot_object);
+		return ptrcall!(Tween.TweenProcessMode)(GDNativeClassBinding.getTweenProcessMode, _godot_object);
 	}
 	/**
 	Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
@@ -251,7 +263,7 @@ public:
 	bool interpolateCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
+		return ptrcall!(bool)(GDNativeClassBinding.interpolateCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
 	}
 	/**
 	Calls `callback` of `object` after `duration` on the main thread (similar to $(D GodotObject.callDeferred)). `arg1`-`arg5` are arguments to be passed to the callback.
@@ -259,7 +271,7 @@ public:
 	bool interpolateDeferredCallback(VariantArg3, VariantArg4, VariantArg5, VariantArg6, VariantArg7)(GodotObject object, in double duration, in String callback, in VariantArg3 arg1 = Variant.nil, in VariantArg4 arg2 = Variant.nil, in VariantArg5 arg3 = Variant.nil, in VariantArg6 arg4 = Variant.nil, in VariantArg7 arg5 = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateDeferredCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
+		return ptrcall!(bool)(GDNativeClassBinding.interpolateDeferredCallback, _godot_object, object, duration, callback, arg1, arg2, arg3, arg4, arg5);
 	}
 	/**
 	Animates `method` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Methods are called with consecutive values.
@@ -268,7 +280,7 @@ public:
 	bool interpolateMethod(VariantArg2, VariantArg3)(GodotObject object, in String method, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateMethod, _godot_object, object, method, initial_val, final_val, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.interpolateMethod, _godot_object, object, method, initial_val, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Animates `property` of `object` from `initial_val` to `final_val` for `duration` seconds, `delay` seconds later. Setting the initial value to `null` uses the current value of the property.
@@ -277,7 +289,7 @@ public:
 	bool interpolateProperty(NodePathArg1, VariantArg2, VariantArg3)(GodotObject object, in NodePathArg1 property, in VariantArg2 initial_val, in VariantArg3 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.interpolateProperty, _godot_object, object, property, initial_val, final_val, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.interpolateProperty, _godot_object, object, property, initial_val, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Returns `true` if any tweens are currently running.
@@ -286,7 +298,7 @@ public:
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActive, _godot_object);
 	}
 	/**
 	
@@ -294,7 +306,7 @@ public:
 	bool isRepeat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRepeat, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRepeat, _godot_object);
 	}
 	/**
 	Stops animation and removes a tween, given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
@@ -302,7 +314,7 @@ public:
 	bool remove(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.remove, _godot_object, object, key);
+		return ptrcall!(bool)(GDNativeClassBinding.remove, _godot_object, object, key);
 	}
 	/**
 	Stops animation and removes all tweens.
@@ -310,7 +322,7 @@ public:
 	bool removeAll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.removeAll, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.removeAll, _godot_object);
 	}
 	/**
 	Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
@@ -318,7 +330,7 @@ public:
 	bool reset(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.reset, _godot_object, object, key);
+		return ptrcall!(bool)(GDNativeClassBinding.reset, _godot_object, object, key);
 	}
 	/**
 	Resets all tweens to their initial values (the ones given, not those before the tween).
@@ -326,7 +338,7 @@ public:
 	bool resetAll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resetAll, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.resetAll, _godot_object);
 	}
 	/**
 	Continues animating a stopped tween, given its object and property/method pair. By default, all tweens are resumed, unless `key` is specified.
@@ -334,7 +346,7 @@ public:
 	bool resume(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resume, _godot_object, object, key);
+		return ptrcall!(bool)(GDNativeClassBinding.resume, _godot_object, object, key);
 	}
 	/**
 	Continues animating all stopped tweens.
@@ -342,7 +354,7 @@ public:
 	bool resumeAll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.resumeAll, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.resumeAll, _godot_object);
 	}
 	/**
 	Sets the interpolation to the given `time` in seconds.
@@ -350,7 +362,7 @@ public:
 	bool seek(in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.seek, _godot_object, time);
+		return ptrcall!(bool)(GDNativeClassBinding.seek, _godot_object, time);
 	}
 	/**
 	Activates/deactivates the tween. See also $(D stopAll) and $(D resumeAll).
@@ -358,7 +370,7 @@ public:
 	void setActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setActive, _godot_object, active);
 	}
 	/**
 	
@@ -366,7 +378,7 @@ public:
 	void setRepeat(in bool repeat)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRepeat, _godot_object, repeat);
+		ptrcall!(void)(GDNativeClassBinding.setRepeat, _godot_object, repeat);
 	}
 	/**
 	
@@ -374,7 +386,7 @@ public:
 	void setSpeedScale(in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setSpeedScale, _godot_object, speed);
 	}
 	/**
 	
@@ -382,7 +394,7 @@ public:
 	void setTweenProcessMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTweenProcessMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setTweenProcessMode, _godot_object, mode);
 	}
 	/**
 	Starts the tween. You can define animations both before and after this.
@@ -390,7 +402,7 @@ public:
 	bool start()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.start, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.start, _godot_object);
 	}
 	/**
 	Stops a tween, given its object and property/method pair. By default, all tweens are stopped, unless `key` is specified.
@@ -398,7 +410,7 @@ public:
 	bool stop(GodotObject object, in String key = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.stop, _godot_object, object, key);
+		return ptrcall!(bool)(GDNativeClassBinding.stop, _godot_object, object, key);
 	}
 	/**
 	Stops animating all tweens.
@@ -406,7 +418,7 @@ public:
 	bool stopAll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.stopAll, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.stopAll, _godot_object);
 	}
 	/**
 	Animates `method` of `object` from the value returned by `initial_method` to `final_val` for `duration` seconds, `delay` seconds later. Methods are animated by calling them with consecutive values.
@@ -415,7 +427,7 @@ public:
 	bool targetingMethod(VariantArg4)(GodotObject object, in String method, GodotObject initial, in String initial_method, in VariantArg4 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.targetingMethod, _godot_object, object, method, initial, initial_method, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Animates `property` of `object` from the current value of the `initial_val` property of `initial` to `final_val` for `duration` seconds, `delay` seconds later.
@@ -424,7 +436,7 @@ public:
 	bool targetingProperty(NodePathArg1, NodePathArg3, VariantArg4)(GodotObject object, in NodePathArg1 property, GodotObject initial, in NodePathArg3 initial_val, in VariantArg4 final_val, in double duration, in long trans_type = 0, in long ease_type = 2, in double delay = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.targetingProperty, _godot_object, object, property, initial, initial_val, final_val, duration, trans_type, ease_type, delay);
+		return ptrcall!(bool)(GDNativeClassBinding.targetingProperty, _godot_object, object, property, initial, initial_val, final_val, duration, trans_type, ease_type, delay);
 	}
 	/**
 	Returns the current time of the tween.
@@ -432,7 +444,7 @@ public:
 	double tell() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.tell, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.tell, _godot_object);
 	}
 	/**
 	The tween's animation process thread. See $(D tweenprocessmode).

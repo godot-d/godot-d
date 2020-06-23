@@ -30,14 +30,14 @@ You can choose to write to the socket in binary or text mode, and you can recogn
 */
 @GodotBaseClass struct WebSocketPeer
 {
-	enum string _GODOT_internal_name = "WebSocketPeer";
+	package(godot) enum string _GODOT_internal_name = "WebSocketPeer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PacketPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PacketPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("close") GodotMethod!(void, long, String) close;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_write_mode") GodotMethod!(void, long) setWriteMode;
 		@GodotName("was_string_packet") GodotMethod!(bool) wasStringPacket;
 	}
-	bool opEquals(in WebSocketPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebSocketPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebSocketPeer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebSocketPeer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebSocketPeer.
+	/// Note: use `memnew!WebSocketPeer` instead.
 	static WebSocketPeer _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	void close(in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object, code, reason);
+		ptrcall!(void)(GDNativeClassBinding.close, _godot_object, code, reason);
 	}
 	/**
 	Returns the IP address of the connected peer.
@@ -95,7 +105,7 @@ public:
 	String getConnectedHost() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getConnectedHost, _godot_object);
 	}
 	/**
 	Returns the remote port of the connected peer.
@@ -104,7 +114,7 @@ public:
 	long getConnectedPort() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectedPort, _godot_object);
 	}
 	/**
 	Gets the current selected write mode. See $(D writemode).
@@ -112,7 +122,7 @@ public:
 	WebSocketPeer.WriteMode getWriteMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(WebSocketPeer.WriteMode)(_classBinding.getWriteMode, _godot_object);
+		return ptrcall!(WebSocketPeer.WriteMode)(GDNativeClassBinding.getWriteMode, _godot_object);
 	}
 	/**
 	Returns `true` if this peer is currently connected.
@@ -120,7 +130,7 @@ public:
 	bool isConnectedToHost() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isConnectedToHost, _godot_object);
 	}
 	/**
 	Sets the socket to use the given $(D writemode).
@@ -128,7 +138,7 @@ public:
 	void setWriteMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWriteMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setWriteMode, _godot_object, mode);
 	}
 	/**
 	Returns `true` if the last received packet was sent as a text payload. See $(D writemode).
@@ -136,6 +146,6 @@ public:
 	bool wasStringPacket() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.wasStringPacket, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.wasStringPacket, _godot_object);
 	}
 }

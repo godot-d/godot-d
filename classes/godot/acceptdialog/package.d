@@ -31,14 +31,14 @@ This dialog is useful for small notifications to the user about an event. It can
 */
 @GodotBaseClass struct AcceptDialog
 {
-	enum string _GODOT_internal_name = "AcceptDialog";
+	package(godot) enum string _GODOT_internal_name = "AcceptDialog";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; WindowDialog _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ WindowDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_builtin_text_entered") GodotMethod!(void, String) _builtinTextEntered;
@@ -56,10 +56,20 @@ public:
 		@GodotName("set_hide_on_ok") GodotMethod!(void, bool) setHideOnOk;
 		@GodotName("set_text") GodotMethod!(void, String) setText;
 	}
-	bool opEquals(in AcceptDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AcceptDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AcceptDialog other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AcceptDialog opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AcceptDialog.
+	/// Note: use `memnew!AcceptDialog` instead.
 	static AcceptDialog _new()
 	{
 		static godot_class_constructor constructor;
@@ -104,7 +114,7 @@ public:
 	Button addButton(in String text, in bool right = false, in String action = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Button)(_classBinding.addButton, _godot_object, text, right, action);
+		return ptrcall!(Button)(GDNativeClassBinding.addButton, _godot_object, text, right, action);
 	}
 	/**
 	Adds a button with label `name` and a cancel action to the dialog and returns the created button.
@@ -112,7 +122,7 @@ public:
 	Button addCancel(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Button)(_classBinding.addCancel, _godot_object, name);
+		return ptrcall!(Button)(GDNativeClassBinding.addCancel, _godot_object, name);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	bool getHideOnOk() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getHideOnOk, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getHideOnOk, _godot_object);
 	}
 	/**
 	Returns the label used for built-in text.
@@ -128,7 +138,7 @@ public:
 	Label getLabel()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Label)(_classBinding.getLabel, _godot_object);
+		return ptrcall!(Label)(GDNativeClassBinding.getLabel, _godot_object);
 	}
 	/**
 	Returns the OK $(D Button) instance.
@@ -136,7 +146,7 @@ public:
 	Button getOk()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Button)(_classBinding.getOk, _godot_object);
+		return ptrcall!(Button)(GDNativeClassBinding.getOk, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	String getText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	bool hasAutowrap()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutowrap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutowrap, _godot_object);
 	}
 	/**
 	Registers a $(D LineEdit) in the dialog. When the enter key is pressed, the dialog will be accepted.
@@ -160,7 +170,7 @@ public:
 	void registerTextEnter(Node line_edit)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.registerTextEnter, _godot_object, line_edit);
+		ptrcall!(void)(GDNativeClassBinding.registerTextEnter, _godot_object, line_edit);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	void setAutowrap(in bool autowrap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutowrap, _godot_object, autowrap);
+		ptrcall!(void)(GDNativeClassBinding.setAutowrap, _godot_object, autowrap);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setHideOnOk(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideOnOk, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setHideOnOk, _godot_object, enabled);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
 	}
 	/**
 	Sets autowrapping for the text in the dialog.

@@ -29,14 +29,14 @@ Resource is the base class for all Godot-specific resource types, serving primar
 */
 @GodotBaseClass struct Resource
 {
-	enum string _GODOT_internal_name = "Resource";
+	package(godot) enum string _GODOT_internal_name = "Resource";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_setup_local_to_scene") GodotMethod!(void) _setupLocalToScene;
@@ -52,10 +52,20 @@ public:
 		@GodotName("setup_local_to_scene") GodotMethod!(void) setupLocalToScene;
 		@GodotName("take_over_path") GodotMethod!(void, String) takeOverPath;
 	}
-	bool opEquals(in Resource other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Resource opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Resource other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Resource opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Resource.
+	/// Note: use `memnew!Resource` instead.
 	static Resource _new()
 	{
 		static godot_class_constructor constructor;
@@ -79,7 +89,7 @@ public:
 	Ref!Resource duplicate(in bool subresources = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.duplicate, _godot_object, subresources);
+		return ptrcall!(Resource)(GDNativeClassBinding.duplicate, _godot_object, subresources);
 	}
 	/**
 	If $(D resourceLocalToScene) is enabled and the resource was loaded from a $(D PackedScene) instantiation, returns the local scene where this resource's unique copy is in use. Otherwise, returns `null`.
@@ -87,7 +97,7 @@ public:
 	Node getLocalScene() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getLocalScene, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getLocalScene, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	String getName()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
 	
@@ -103,7 +113,7 @@ public:
 	String getPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPath, _godot_object);
 	}
 	/**
 	Returns the RID of the resource (or an empty RID). Many resources (such as $(D Texture), $(D Mesh), etc) are high-level abstractions of resources stored in a server, so this function will return the original RID.
@@ -111,7 +121,7 @@ public:
 	RID getRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getRid, _godot_object);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	bool isLocalToScene() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLocalToScene, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLocalToScene, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	void setLocalToScene(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLocalToScene, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setLocalToScene, _godot_object, enable);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	void setName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setName, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setName, _godot_object, name);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	void setPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPath, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setPath, _godot_object, path);
 	}
 	/**
 	This method is called when a resource with $(D resourceLocalToScene) enabled is loaded from a $(D PackedScene) instantiation. Its behavior can be customized by overriding $(D _setupLocalToScene) from script.
@@ -152,7 +162,7 @@ public:
 	void setupLocalToScene()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setupLocalToScene, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setupLocalToScene, _godot_object);
 	}
 	/**
 	Sets the path of the resource, potentially overriding an existing cache entry for this path. This differs from setting $(D resourcePath), as the latter would error out if another resource was already cached for the given path.
@@ -160,7 +170,7 @@ public:
 	void takeOverPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.takeOverPath, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.takeOverPath, _godot_object, path);
 	}
 	/**
 	If `true`, the resource will be made unique in each instance of its local scene. It can thus be modified in a scene instance without impacting other instances of that same scene.

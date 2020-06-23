@@ -38,14 +38,14 @@ func _ready():
 */
 @GodotBaseClass struct RandomNumberGenerator
 {
-	enum string _GODOT_internal_name = "RandomNumberGenerator";
+	package(godot) enum string _GODOT_internal_name = "RandomNumberGenerator";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_seed") GodotMethod!(long) getSeed;
@@ -57,10 +57,20 @@ public:
 		@GodotName("randomize") GodotMethod!(void) randomize;
 		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
 	}
-	bool opEquals(in RandomNumberGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RandomNumberGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RandomNumberGenerator other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RandomNumberGenerator opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RandomNumberGenerator.
+	/// Note: use `memnew!RandomNumberGenerator` instead.
 	static RandomNumberGenerator _new()
 	{
 		static godot_class_constructor constructor;
@@ -75,7 +85,7 @@ public:
 	long getSeed()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSeed, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSeed, _godot_object);
 	}
 	/**
 	Generates a pseudo-random float between `0.0` and `1.0` (inclusive).
@@ -83,7 +93,7 @@ public:
 	double randf()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.randf, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.randf, _godot_object);
 	}
 	/**
 	Generates a pseudo-random float between `from` and `to` (inclusive).
@@ -91,7 +101,7 @@ public:
 	double randfRange(in double from, in double to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.randfRange, _godot_object, from, to);
+		return ptrcall!(double)(GDNativeClassBinding.randfRange, _godot_object, from, to);
 	}
 	/**
 	Generates a $(D url=https://en.wikipedia.org/wiki/Normal_distribution)normally-distributed$(D /url) pseudo-random number, using Box-Muller transform with the specified `mean` and a standard `deviation`. This is also called Gaussian distribution.
@@ -99,7 +109,7 @@ public:
 	double randfn(in double mean = 0, in double deviation = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.randfn, _godot_object, mean, deviation);
+		return ptrcall!(double)(GDNativeClassBinding.randfn, _godot_object, mean, deviation);
 	}
 	/**
 	Generates a pseudo-random 32-bit unsigned integer between `0` and `4294967295` (inclusive).
@@ -107,7 +117,7 @@ public:
 	long randi()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.randi, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.randi, _godot_object);
 	}
 	/**
 	Generates a pseudo-random 32-bit signed integer between `from` and `to` (inclusive).
@@ -115,7 +125,7 @@ public:
 	long randiRange(in long from, in long to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.randiRange, _godot_object, from, to);
+		return ptrcall!(long)(GDNativeClassBinding.randiRange, _godot_object, from, to);
 	}
 	/**
 	Setups a time-based seed to generator.
@@ -123,7 +133,7 @@ public:
 	void randomize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.randomize, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.randomize, _godot_object);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	void setSeed(in long seed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
+		ptrcall!(void)(GDNativeClassBinding.setSeed, _godot_object, seed);
 	}
 	/**
 	The seed used by the random number generator. A given seed will give a reproducible sequence of pseudo-random numbers.

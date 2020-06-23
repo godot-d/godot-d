@@ -29,14 +29,14 @@ This node allows you to create a box for use with the CSG system.
 */
 @GodotBaseClass struct CSGBox
 {
-	enum string _GODOT_internal_name = "CSGBox";
+	package(godot) enum string _GODOT_internal_name = "CSGBox";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CSGPrimitive _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CSGPrimitive _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_depth") GodotMethod!(double) getDepth;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 		@GodotName("set_width") GodotMethod!(void, double) setWidth;
 	}
-	bool opEquals(in CSGBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGBox other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGBox opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGBox.
+	/// Note: use `memnew!CSGBox` instead.
 	static CSGBox _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	double getDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDepth, _godot_object);
 	}
 	/**
 	
@@ -74,7 +84,7 @@ public:
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -82,7 +92,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	double getWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWidth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWidth, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	void setDepth(in double depth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
+		ptrcall!(void)(GDNativeClassBinding.setDepth, _godot_object, depth);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	void setHeight(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setHeight, _godot_object, height);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	void setWidth(in double width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setWidth, _godot_object, width);
 	}
 	/**
 	Depth of the box measured from the center of the box.

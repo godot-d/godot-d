@@ -27,14 +27,14 @@ This is the CSG base class that provides CSG operation support to the various CS
 */
 @GodotBaseClass struct CSGShape
 {
-	enum string _GODOT_internal_name = "CSGShape";
+	package(godot) enum string _GODOT_internal_name = "CSGShape";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update_shape") GodotMethod!(void) _updateShape;
@@ -57,10 +57,20 @@ public:
 		@GodotName("set_snap") GodotMethod!(void, double) setSnap;
 		@GodotName("set_use_collision") GodotMethod!(void, bool) setUseCollision;
 	}
-	bool opEquals(in CSGShape other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGShape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGShape other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGShape opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGShape.
+	/// Note: use `memnew!CSGShape` instead.
 	static CSGShape _new()
 	{
 		static godot_class_constructor constructor;
@@ -107,7 +117,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns an individual bit on the collision mask.
@@ -115,7 +125,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns an individual bit on the collision mask.
@@ -131,7 +141,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	Returns an $(D Array) with two elements, the first is the $(D Transform) of this node and the second is the root $(D Mesh) of this node. Only works when this node is the root shape.
@@ -139,7 +149,7 @@ public:
 	Array getMeshes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getMeshes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getMeshes, _godot_object);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	CSGShape.Operation getOperation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CSGShape.Operation)(_classBinding.getOperation, _godot_object);
+		return ptrcall!(CSGShape.Operation)(GDNativeClassBinding.getOperation, _godot_object);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	double getSnap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSnap, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSnap, _godot_object);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	bool isCalculatingTangents() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCalculatingTangents, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCalculatingTangents, _godot_object);
 	}
 	/**
 	Returns `true` if this is a root shape and is thus the object that is rendered.
@@ -171,7 +181,7 @@ public:
 	bool isRootShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRootShape, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRootShape, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	bool isUsingCollision() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingCollision, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingCollision, _godot_object);
 	}
 	/**
 	
@@ -187,7 +197,7 @@ public:
 	void setCalculateTangents(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCalculateTangents, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setCalculateTangents, _godot_object, enabled);
 	}
 	/**
 	
@@ -195,7 +205,7 @@ public:
 	void setCollisionLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, layer);
 	}
 	/**
 	Sets individual bits on the layer mask. Use this if you only need to change one layer's value.
@@ -203,7 +213,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets individual bits on the collision mask. Use this if you only need to change one layer's value.
@@ -219,7 +229,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	void setOperation(in long operation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOperation, _godot_object, operation);
+		ptrcall!(void)(GDNativeClassBinding.setOperation, _godot_object, operation);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	void setSnap(in double snap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
+		ptrcall!(void)(GDNativeClassBinding.setSnap, _godot_object, snap);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	void setUseCollision(in bool operation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseCollision, _godot_object, operation);
+		ptrcall!(void)(GDNativeClassBinding.setUseCollision, _godot_object, operation);
 	}
 	/**
 	Calculate tangents for the CSG shape which allows the use of normal maps. This is only applied on the root shape, this setting is ignored on any child.

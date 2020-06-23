@@ -28,14 +28,14 @@ See $(D UPNP) for UPNP discovery and utility functions. Provides low-level acces
 */
 @GodotBaseClass struct UPNPDevice
 {
-	enum string _GODOT_internal_name = "UPNPDevice";
+	package(godot) enum string _GODOT_internal_name = "UPNPDevice";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_port_mapping") GodotMethod!(long, long, long, String, String, long) addPortMapping;
@@ -55,10 +55,20 @@ public:
 		@GodotName("set_igd_status") GodotMethod!(void, long) setIgdStatus;
 		@GodotName("set_service_type") GodotMethod!(void, String) setServiceType;
 	}
-	bool opEquals(in UPNPDevice other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	UPNPDevice opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in UPNPDevice other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) UPNPDevice opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of UPNPDevice.
+	/// Note: use `memnew!UPNPDevice` instead.
 	static UPNPDevice _new()
 	{
 		static godot_class_constructor constructor;
@@ -131,7 +141,7 @@ public:
 	long addPortMapping(in long port, in long port_internal = 0, in String desc = gs!"", in String proto = gs!"UDP", in long duration = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.addPortMapping, _godot_object, port, port_internal, desc, proto, duration);
+		return ptrcall!(long)(GDNativeClassBinding.addPortMapping, _godot_object, port, port_internal, desc, proto, duration);
 	}
 	/**
 	Deletes the port mapping identified by the given port and protocol combination on this device. See $(D UPNP.deletePortMapping).
@@ -139,7 +149,7 @@ public:
 	long deletePortMapping(in long port, in String proto = gs!"UDP") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.deletePortMapping, _godot_object, port, proto);
+		return ptrcall!(long)(GDNativeClassBinding.deletePortMapping, _godot_object, port, proto);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	String getDescriptionUrl() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDescriptionUrl, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getDescriptionUrl, _godot_object);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	String getIgdControlUrl() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getIgdControlUrl, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getIgdControlUrl, _godot_object);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	String getIgdOurAddr() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getIgdOurAddr, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getIgdOurAddr, _godot_object);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	String getIgdServiceType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getIgdServiceType, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getIgdServiceType, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	UPNPDevice.IGDStatus getIgdStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(UPNPDevice.IGDStatus)(_classBinding.getIgdStatus, _godot_object);
+		return ptrcall!(UPNPDevice.IGDStatus)(GDNativeClassBinding.getIgdStatus, _godot_object);
 	}
 	/**
 	
@@ -187,7 +197,7 @@ public:
 	String getServiceType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getServiceType, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getServiceType, _godot_object);
 	}
 	/**
 	Returns `true` if this is a valid IGD (InternetGatewayDevice) which potentially supports port forwarding.
@@ -195,7 +205,7 @@ public:
 	bool isValidGateway() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValidGateway, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isValidGateway, _godot_object);
 	}
 	/**
 	Returns the external IP address of this $(D UPNPDevice) or an empty string.
@@ -203,7 +213,7 @@ public:
 	String queryExternalAddress() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.queryExternalAddress, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.queryExternalAddress, _godot_object);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	void setDescriptionUrl(in String url)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDescriptionUrl, _godot_object, url);
+		ptrcall!(void)(GDNativeClassBinding.setDescriptionUrl, _godot_object, url);
 	}
 	/**
 	
@@ -219,7 +229,7 @@ public:
 	void setIgdControlUrl(in String url)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdControlUrl, _godot_object, url);
+		ptrcall!(void)(GDNativeClassBinding.setIgdControlUrl, _godot_object, url);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	void setIgdOurAddr(in String addr)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdOurAddr, _godot_object, addr);
+		ptrcall!(void)(GDNativeClassBinding.setIgdOurAddr, _godot_object, addr);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	void setIgdServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdServiceType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setIgdServiceType, _godot_object, type);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	void setIgdStatus(in long status)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgdStatus, _godot_object, status);
+		ptrcall!(void)(GDNativeClassBinding.setIgdStatus, _godot_object, status);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	void setServiceType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setServiceType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setServiceType, _godot_object, type);
 	}
 	/**
 	URL to the device description.

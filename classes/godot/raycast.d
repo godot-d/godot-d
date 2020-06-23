@@ -32,14 +32,14 @@ RayCast calculates intersection every physics frame (see $(D Node)), and the res
 */
 @GodotBaseClass struct RayCast
 {
-	enum string _GODOT_internal_name = "RayCast";
+	package(godot) enum string _GODOT_internal_name = "RayCast";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_exception") GodotMethod!(void, GodotObject) addException;
@@ -68,10 +68,20 @@ public:
 		@GodotName("set_enabled") GodotMethod!(void, bool) setEnabled;
 		@GodotName("set_exclude_parent_body") GodotMethod!(void, bool) setExcludeParentBody;
 	}
-	bool opEquals(in RayCast other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RayCast opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RayCast other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RayCast opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RayCast.
+	/// Note: use `memnew!RayCast` instead.
 	static RayCast _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	void addException(GodotObject node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addException, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.addException, _godot_object, node);
 	}
 	/**
 	Adds a collision exception so the ray does not report collisions with the specified $(D RID).
@@ -94,7 +104,7 @@ public:
 	void addExceptionRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addExceptionRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.addExceptionRid, _godot_object, rid);
 	}
 	/**
 	Removes all collision exceptions for this ray.
@@ -102,7 +112,7 @@ public:
 	void clearExceptions()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearExceptions, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearExceptions, _godot_object);
 	}
 	/**
 	Updates the collision information for the ray.
@@ -112,7 +122,7 @@ public:
 	void forceRaycastUpdate()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceRaycastUpdate, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceRaycastUpdate, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	Vector3 getCastTo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCastTo, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getCastTo, _godot_object);
 	}
 	/**
 	Returns the first object that the ray intersects, or `null` if no object is intersecting the ray (i.e. $(D isColliding) returns `false`).
@@ -128,7 +138,7 @@ public:
 	GodotObject getCollider() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getCollider, _godot_object);
 	}
 	/**
 	Returns the shape ID of the first object that the ray intersects, or `0` if no object is intersecting the ray (i.e. $(D isColliding) returns `false`).
@@ -136,7 +146,7 @@ public:
 	long getColliderShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColliderShape, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColliderShape, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns `true` if the bit index passed is turned on.
@@ -153,7 +163,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	Returns the normal of the intersecting object's shape at the collision point.
@@ -161,7 +171,7 @@ public:
 	Vector3 getCollisionNormal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCollisionNormal, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getCollisionNormal, _godot_object);
 	}
 	/**
 	Returns the collision point at which the ray intersects the closest object.
@@ -170,7 +180,7 @@ public:
 	Vector3 getCollisionPoint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCollisionPoint, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getCollisionPoint, _godot_object);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	bool getExcludeParentBody() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExcludeParentBody, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getExcludeParentBody, _godot_object);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	bool isCollideWithAreasEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollideWithAreasEnabled, _godot_object);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	bool isCollideWithBodiesEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollideWithBodiesEnabled, _godot_object);
 	}
 	/**
 	Returns whether any object is intersecting with the ray's vector (considering the vector length).
@@ -202,7 +212,7 @@ public:
 	bool isColliding() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isColliding, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isColliding, _godot_object);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	bool isEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEnabled, _godot_object);
 	}
 	/**
 	Removes a collision exception so the ray does report collisions with the specified node.
@@ -218,7 +228,7 @@ public:
 	void removeException(GodotObject node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeException, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.removeException, _godot_object, node);
 	}
 	/**
 	Removes a collision exception so the ray does report collisions with the specified $(D RID).
@@ -226,7 +236,7 @@ public:
 	void removeExceptionRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeExceptionRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.removeExceptionRid, _godot_object, rid);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	void setCastTo(in Vector3 local_point)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCastTo, _godot_object, local_point);
+		ptrcall!(void)(GDNativeClassBinding.setCastTo, _godot_object, local_point);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	void setCollideWithAreas(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithAreas, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCollideWithAreas, _godot_object, enable);
 	}
 	/**
 	
@@ -250,7 +260,7 @@ public:
 	void setCollideWithBodies(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithBodies, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCollideWithBodies, _godot_object, enable);
 	}
 	/**
 	
@@ -258,7 +268,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets the bit index passed to the `value` passed.
@@ -267,7 +277,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	void setEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	void setExcludeParentBody(in bool mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExcludeParentBody, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setExcludeParentBody, _godot_object, mask);
 	}
 	/**
 	The ray's destination point, relative to the RayCast's `position`.

@@ -28,24 +28,34 @@ $(B Note:) Many of these monitors are not updated in real-time, so there may be 
 */
 @GodotBaseClass struct PerformanceSingleton
 {
-	enum string _GODOT_internal_name = "Performance";
+	package(godot) enum string _GODOT_internal_name = "Performance";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "Performance";
 		@GodotName("get_monitor") GodotMethod!(double, long) getMonitor;
 	}
-	bool opEquals(in PerformanceSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PerformanceSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PerformanceSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PerformanceSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PerformanceSingleton.
+	/// Note: use `memnew!PerformanceSingleton` instead.
 	static PerformanceSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -223,7 +233,7 @@ public:
 	double getMonitor(in long monitor) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMonitor, _godot_object, monitor);
+		return ptrcall!(double)(GDNativeClassBinding.getMonitor, _godot_object, monitor);
 	}
 }
 /// Returns: the PerformanceSingleton
@@ -231,5 +241,5 @@ public:
 PerformanceSingleton Performance()
 {
 	checkClassBinding!PerformanceSingleton();
-	return PerformanceSingleton(PerformanceSingleton._classBinding._singleton);
+	return PerformanceSingleton(PerformanceSingleton.GDNativeClassBinding._singleton);
 }

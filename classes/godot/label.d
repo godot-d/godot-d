@@ -31,14 +31,14 @@ $(B Note:) Contrarily to most other $(D Control)s, Label's $(D Control.mouseFilt
 */
 @GodotBaseClass struct Label
 {
-	enum string _GODOT_internal_name = "Label";
+	package(godot) enum string _GODOT_internal_name = "Label";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_align") GodotMethod!(Label.Align) getAlign;
@@ -66,10 +66,20 @@ public:
 		@GodotName("set_valign") GodotMethod!(void, long) setValign;
 		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
 	}
-	bool opEquals(in Label other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Label opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Label other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Label opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Label.
+	/// Note: use `memnew!Label` instead.
 	static Label _new()
 	{
 		static godot_class_constructor constructor;
@@ -136,7 +146,7 @@ public:
 	Label.Align getAlign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Label.Align)(_classBinding.getAlign, _godot_object);
+		return ptrcall!(Label.Align)(GDNativeClassBinding.getAlign, _godot_object);
 	}
 	/**
 	Returns the amount of lines of text the Label has.
@@ -144,7 +154,7 @@ public:
 	long getLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLineCount, _godot_object);
 	}
 	/**
 	Returns the font size in pixels.
@@ -152,7 +162,7 @@ public:
 	long getLineHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLineHeight, _godot_object);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	long getLinesSkipped() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLinesSkipped, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLinesSkipped, _godot_object);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	long getMaxLinesVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxLinesVisible, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxLinesVisible, _godot_object);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	double getPercentVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPercentVisible, _godot_object);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	String getText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object);
 	}
 	/**
 	Returns the total number of printable characters in the text (excluding spaces and newlines).
@@ -192,7 +202,7 @@ public:
 	long getTotalCharacterCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTotalCharacterCount, _godot_object);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	Label.VAlign getValign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Label.VAlign)(_classBinding.getValign, _godot_object);
+		return ptrcall!(Label.VAlign)(GDNativeClassBinding.getValign, _godot_object);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	long getVisibleCharacters() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVisibleCharacters, _godot_object);
 	}
 	/**
 	Returns the number of lines shown. Useful if the $(D Label)'s height cannot currently display all lines.
@@ -216,7 +226,7 @@ public:
 	long getVisibleLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVisibleLineCount, _godot_object);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	bool hasAutowrap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutowrap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutowrap, _godot_object);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	bool isClippingText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClippingText, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isClippingText, _godot_object);
 	}
 	/**
 	
@@ -240,7 +250,7 @@ public:
 	bool isUppercase() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUppercase, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUppercase, _godot_object);
 	}
 	/**
 	
@@ -248,7 +258,7 @@ public:
 	void setAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.setAlign, _godot_object, _align);
 	}
 	/**
 	
@@ -256,7 +266,7 @@ public:
 	void setAutowrap(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutowrap, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutowrap, _godot_object, enable);
 	}
 	/**
 	
@@ -264,7 +274,7 @@ public:
 	void setClipText(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipText, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setClipText, _godot_object, enable);
 	}
 	/**
 	
@@ -272,7 +282,7 @@ public:
 	void setLinesSkipped(in long lines_skipped)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinesSkipped, _godot_object, lines_skipped);
+		ptrcall!(void)(GDNativeClassBinding.setLinesSkipped, _godot_object, lines_skipped);
 	}
 	/**
 	
@@ -280,7 +290,7 @@ public:
 	void setMaxLinesVisible(in long lines_visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxLinesVisible, _godot_object, lines_visible);
+		ptrcall!(void)(GDNativeClassBinding.setMaxLinesVisible, _godot_object, lines_visible);
 	}
 	/**
 	
@@ -288,7 +298,7 @@ public:
 	void setPercentVisible(in double percent_visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, percent_visible);
+		ptrcall!(void)(GDNativeClassBinding.setPercentVisible, _godot_object, percent_visible);
 	}
 	/**
 	
@@ -296,7 +306,7 @@ public:
 	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
 	}
 	/**
 	
@@ -304,7 +314,7 @@ public:
 	void setUppercase(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUppercase, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUppercase, _godot_object, enable);
 	}
 	/**
 	
@@ -312,7 +322,7 @@ public:
 	void setValign(in long valign)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValign, _godot_object, valign);
+		ptrcall!(void)(GDNativeClassBinding.setValign, _godot_object, valign);
 	}
 	/**
 	
@@ -320,7 +330,7 @@ public:
 	void setVisibleCharacters(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setVisibleCharacters, _godot_object, amount);
 	}
 	/**
 	Controls the text's horizontal align. Supports left, center, right, and fill, or justify. Set it to one of the $(D _align) constants.
@@ -383,7 +393,7 @@ public:
 		setMaxLinesVisible(v);
 	}
 	/**
-	Limits the count of visible characters. If you set `percent_visible` to 50, only up to half of the text's characters will display on screen. Useful to animate the text in a dialog box.
+	Limits the amount of visible characters. If you set `percent_visible` to 0.5, only up to half of the text's characters will display on screen. Useful to animate the text in a dialog box.
 	*/
 	@property double percentVisible()
 	{

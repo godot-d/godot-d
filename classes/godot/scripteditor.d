@@ -1,5 +1,5 @@
 /**
-
+Godot editor's script editor.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -29,18 +29,20 @@ import godot.resource;
 import godot.script;
 import godot.inputevent;
 /**
+Godot editor's script editor.
 
+$(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorInterface.getScriptEditor).
 */
 @GodotBaseClass struct ScriptEditor
 {
-	enum string _GODOT_internal_name = "ScriptEditor";
+	package(godot) enum string _GODOT_internal_name = "ScriptEditor";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PanelContainer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PanelContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_add_callback") GodotMethod!(void, GodotObject, String, PoolStringArray) _addCallback;
@@ -107,10 +109,20 @@ public:
 		@GodotName("goto_line") GodotMethod!(void, long) gotoLine;
 		@GodotName("open_script_create_dialog") GodotMethod!(void, String, String) openScriptCreateDialog;
 	}
-	bool opEquals(in ScriptEditor other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ScriptEditor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ScriptEditor other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ScriptEditor opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ScriptEditor.
+	/// Note: use `memnew!ScriptEditor` instead.
 	static ScriptEditor _new()
 	{
 		static godot_class_constructor constructor;
@@ -672,7 +684,7 @@ public:
 	bool canDropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, Control from) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canDropDataFw, _godot_object, point, data, from);
+		return ptrcall!(bool)(GDNativeClassBinding.canDropDataFw, _godot_object, point, data, from);
 	}
 	/**
 	
@@ -680,7 +692,7 @@ public:
 	void dropDataFw(VariantArg1)(in Vector2 point, in VariantArg1 data, Control from)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.dropDataFw, _godot_object, point, data, from);
+		ptrcall!(void)(GDNativeClassBinding.dropDataFw, _godot_object, point, data, from);
 	}
 	/**
 	Returns a $(D Script) that is currently active in editor.
@@ -688,7 +700,7 @@ public:
 	Ref!Script getCurrentScript()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Script)(_classBinding.getCurrentScript, _godot_object);
+		return ptrcall!(Script)(GDNativeClassBinding.getCurrentScript, _godot_object);
 	}
 	/**
 	
@@ -696,7 +708,7 @@ public:
 	Variant getDragDataFw(in Vector2 point, Control from)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getDragDataFw, _godot_object, point, from);
+		return ptrcall!(Variant)(GDNativeClassBinding.getDragDataFw, _godot_object, point, from);
 	}
 	/**
 	Returns an array with all $(D Script) objects which are currently open in editor.
@@ -704,7 +716,7 @@ public:
 	Array getOpenScripts() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOpenScripts, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getOpenScripts, _godot_object);
 	}
 	/**
 	Goes to the specified line in the current script.
@@ -712,7 +724,7 @@ public:
 	void gotoLine(in long line_number)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.gotoLine, _godot_object, line_number);
+		ptrcall!(void)(GDNativeClassBinding.gotoLine, _godot_object, line_number);
 	}
 	/**
 	
@@ -720,6 +732,6 @@ public:
 	void openScriptCreateDialog(in String base_name, in String base_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.openScriptCreateDialog, _godot_object, base_name, base_path);
+		ptrcall!(void)(GDNativeClassBinding.openScriptCreateDialog, _godot_object, base_name, base_path);
 	}
 }

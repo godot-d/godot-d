@@ -34,14 +34,14 @@ The "normal" state must contain a texture ($(D textureNormal)); other textures a
 */
 @GodotBaseClass struct TextureButton
 {
-	enum string _GODOT_internal_name = "TextureButton";
+	package(godot) enum string _GODOT_internal_name = "TextureButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; BaseButton _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ BaseButton _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_click_mask") GodotMethod!(BitMap) getClickMask;
@@ -61,10 +61,20 @@ public:
 		@GodotName("set_pressed_texture") GodotMethod!(void, Texture) setPressedTexture;
 		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
 	}
-	bool opEquals(in TextureButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TextureButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TextureButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TextureButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TextureButton.
+	/// Note: use `memnew!TextureButton` instead.
 	static TextureButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -122,7 +132,7 @@ public:
 	Ref!BitMap getClickMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BitMap)(_classBinding.getClickMask, _godot_object);
+		return ptrcall!(BitMap)(GDNativeClassBinding.getClickMask, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	Ref!Texture getDisabledTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getDisabledTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getDisabledTexture, _godot_object);
 	}
 	/**
 	
@@ -138,7 +148,7 @@ public:
 	bool getExpand() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExpand, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getExpand, _godot_object);
 	}
 	/**
 	
@@ -146,7 +156,7 @@ public:
 	Ref!Texture getFocusedTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getFocusedTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getFocusedTexture, _godot_object);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	Ref!Texture getHoverTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getHoverTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getHoverTexture, _godot_object);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	Ref!Texture getNormalTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getNormalTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getNormalTexture, _godot_object);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	Ref!Texture getPressedTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getPressedTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getPressedTexture, _godot_object);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	TextureButton.StretchMode getStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TextureButton.StretchMode)(_classBinding.getStretchMode, _godot_object);
+		return ptrcall!(TextureButton.StretchMode)(GDNativeClassBinding.getStretchMode, _godot_object);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	void setClickMask(BitMap mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClickMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setClickMask, _godot_object, mask);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	void setDisabledTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabledTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setDisabledTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	void setExpand(in bool p_expand)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpand, _godot_object, p_expand);
+		ptrcall!(void)(GDNativeClassBinding.setExpand, _godot_object, p_expand);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	void setFocusedTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusedTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setFocusedTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	void setHoverTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHoverTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setHoverTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -226,7 +236,7 @@ public:
 	void setNormalTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setNormalTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	void setPressedTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressedTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setPressedTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	void setStretchMode(in long p_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, p_mode);
+		ptrcall!(void)(GDNativeClassBinding.setStretchMode, _godot_object, p_mode);
 	}
 	/**
 	If `true`, the texture stretches to the edges of the node's bounding rectangle using the $(D stretchMode). If `false`, the texture will not scale with the node.

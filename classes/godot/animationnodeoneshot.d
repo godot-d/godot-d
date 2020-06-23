@@ -1,5 +1,5 @@
 /**
-
+Plays an animation once in $(D AnimationNodeBlendTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,18 +23,20 @@ import godot.classdb;
 import godot.animationnode;
 import godot.resource;
 /**
+Plays an animation once in $(D AnimationNodeBlendTree).
 
+A resource to add to an $(D AnimationNodeBlendTree). This node will execute a sub-animation and return once it finishes. Blend times for fading in and out can be customized, as well as filters.
 */
 @GodotBaseClass struct AnimationNodeOneShot
 {
-	enum string _GODOT_internal_name = "AnimationNodeOneShot";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeOneShot";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AnimationNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AnimationNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_autorestart_delay") GodotMethod!(double) getAutorestartDelay;
@@ -52,10 +54,20 @@ public:
 		@GodotName("set_mix_mode") GodotMethod!(void, long) setMixMode;
 		@GodotName("set_use_sync") GodotMethod!(void, bool) setUseSync;
 	}
-	bool opEquals(in AnimationNodeOneShot other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeOneShot opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeOneShot other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeOneShot opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeOneShot.
+	/// Note: use `memnew!AnimationNodeOneShot` instead.
 	static AnimationNodeOneShot _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +100,7 @@ public:
 	double getAutorestartDelay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAutorestartDelay, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAutorestartDelay, _godot_object);
 	}
 	/**
 	
@@ -96,7 +108,7 @@ public:
 	double getAutorestartRandomDelay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAutorestartRandomDelay, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAutorestartRandomDelay, _godot_object);
 	}
 	/**
 	
@@ -104,7 +116,7 @@ public:
 	double getFadeinTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFadeinTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFadeinTime, _godot_object);
 	}
 	/**
 	
@@ -112,7 +124,7 @@ public:
 	double getFadeoutTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFadeoutTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFadeoutTime, _godot_object);
 	}
 	/**
 	
@@ -120,7 +132,7 @@ public:
 	AnimationNodeOneShot.MixMode getMixMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNodeOneShot.MixMode)(_classBinding.getMixMode, _godot_object);
+		return ptrcall!(AnimationNodeOneShot.MixMode)(GDNativeClassBinding.getMixMode, _godot_object);
 	}
 	/**
 	
@@ -128,7 +140,7 @@ public:
 	bool hasAutorestart() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutorestart, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutorestart, _godot_object);
 	}
 	/**
 	
@@ -136,7 +148,7 @@ public:
 	bool isUsingSync() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingSync, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingSync, _godot_object);
 	}
 	/**
 	
@@ -144,7 +156,7 @@ public:
 	void setAutorestart(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestart, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutorestart, _godot_object, enable);
 	}
 	/**
 	
@@ -152,7 +164,7 @@ public:
 	void setAutorestartDelay(in double enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestartDelay, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutorestartDelay, _godot_object, enable);
 	}
 	/**
 	
@@ -160,7 +172,7 @@ public:
 	void setAutorestartRandomDelay(in double enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutorestartRandomDelay, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutorestartRandomDelay, _godot_object, enable);
 	}
 	/**
 	
@@ -168,7 +180,7 @@ public:
 	void setFadeinTime(in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFadeinTime, _godot_object, time);
+		ptrcall!(void)(GDNativeClassBinding.setFadeinTime, _godot_object, time);
 	}
 	/**
 	
@@ -176,7 +188,7 @@ public:
 	void setFadeoutTime(in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFadeoutTime, _godot_object, time);
+		ptrcall!(void)(GDNativeClassBinding.setFadeoutTime, _godot_object, time);
 	}
 	/**
 	
@@ -184,7 +196,7 @@ public:
 	void setMixMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMixMode, _godot_object, mode);
 	}
 	/**
 	
@@ -192,10 +204,10 @@ public:
 	void setUseSync(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseSync, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseSync, _godot_object, enable);
 	}
 	/**
-	
+	If `true`, the sub-animation will restart automatically after finishing.
 	*/
 	@property bool autorestart()
 	{
@@ -207,7 +219,7 @@ public:
 		setAutorestart(v);
 	}
 	/**
-	
+	The delay after which the automatic restart is triggered, in seconds.
 	*/
 	@property double autorestartDelay()
 	{
@@ -219,7 +231,7 @@ public:
 		setAutorestartDelay(v);
 	}
 	/**
-	
+	If $(D autorestart) is `true`, a random additional delay (in seconds) between 0 and this value will be added to $(D autorestartDelay).
 	*/
 	@property double autorestartRandomDelay()
 	{

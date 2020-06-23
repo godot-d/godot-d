@@ -45,14 +45,14 @@ func load():
 */
 @GodotBaseClass struct File
 {
-	enum string _GODOT_internal_name = "_File";
+	package(godot) enum string _GODOT_internal_name = "_File";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("close") GodotMethod!(void) close;
@@ -102,10 +102,20 @@ public:
 		@GodotName("store_string") GodotMethod!(void, String) storeString;
 		@GodotName("store_var") GodotMethod!(void, Variant, bool) storeVar;
 	}
-	bool opEquals(in File other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	File opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in File other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) File opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of File.
+	/// Note: use `memnew!File` instead.
 	static File _new()
 	{
 		static godot_class_constructor constructor;
@@ -172,7 +182,7 @@ public:
 	void close()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.close, _godot_object);
 	}
 	/**
 	Returns `true` if the file cursor has read past the end of the file.
@@ -181,7 +191,7 @@ public:
 	bool eofReached() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.eofReached, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.eofReached, _godot_object);
 	}
 	/**
 	Returns `true` if the file exists in the given path.
@@ -190,39 +200,39 @@ public:
 	bool fileExists(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.fileExists, _godot_object, path);
 	}
 	/**
-	Returns the next 16 bits from the file as an integer.
+	Returns the next 16 bits from the file as an integer. See $(D store16) for details on what values can be stored and retrieved this way.
 	*/
 	long get16() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get16, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get16, _godot_object);
 	}
 	/**
-	Returns the next 32 bits from the file as an integer.
+	Returns the next 32 bits from the file as an integer. See $(D store32) for details on what values can be stored and retrieved this way.
 	*/
 	long get32() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get32, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get32, _godot_object);
 	}
 	/**
-	Returns the next 64 bits from the file as an integer.
+	Returns the next 64 bits from the file as an integer. See $(D store64) for details on what values can be stored and retrieved this way.
 	*/
 	long get64() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get64, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get64, _godot_object);
 	}
 	/**
-	Returns the next 8 bits from the file as an integer.
+	Returns the next 8 bits from the file as an integer. See $(D store8) for details on what values can be stored and retrieved this way.
 	*/
 	long get8() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get8, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get8, _godot_object);
 	}
 	/**
 	Returns the whole file as a $(D String).
@@ -231,7 +241,7 @@ public:
 	String getAsText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAsText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAsText, _godot_object);
 	}
 	/**
 	Returns next `len` bytes of the file as a $(D PoolByteArray).
@@ -239,7 +249,7 @@ public:
 	PoolByteArray getBuffer(in long len) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getBuffer, _godot_object, len);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.getBuffer, _godot_object, len);
 	}
 	/**
 	Returns the next value of the file in CSV (Comma-Separated Values) format. You can pass a different delimiter `delim` to use other than the default `","` (comma). This delimiter must be one-character long.
@@ -248,7 +258,7 @@ public:
 	PoolStringArray getCsvLine(in String delim = gs!",") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getCsvLine, _godot_object, delim);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getCsvLine, _godot_object, delim);
 	}
 	/**
 	Returns the next 64 bits from the file as a floating-point number.
@@ -256,7 +266,7 @@ public:
 	double getDouble() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDouble, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDouble, _godot_object);
 	}
 	/**
 	
@@ -264,7 +274,7 @@ public:
 	bool getEndianSwap()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getEndianSwap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getEndianSwap, _godot_object);
 	}
 	/**
 	Returns the last error that happened when trying to perform operations. Compare with the `ERR_FILE_*` constants from $(D error).
@@ -272,7 +282,7 @@ public:
 	GodotError getError() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.getError, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.getError, _godot_object);
 	}
 	/**
 	Returns the next 32 bits from the file as a floating-point number.
@@ -280,7 +290,7 @@ public:
 	double getFloat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFloat, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFloat, _godot_object);
 	}
 	/**
 	Returns the size of the file in bytes.
@@ -288,7 +298,7 @@ public:
 	long getLen() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLen, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLen, _godot_object);
 	}
 	/**
 	Returns the next line of the file as a $(D String).
@@ -297,7 +307,7 @@ public:
 	String getLine() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLine, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLine, _godot_object);
 	}
 	/**
 	Returns an MD5 String representing the file at the given path or an empty $(D String) on failure.
@@ -305,7 +315,7 @@ public:
 	String getMd5(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getMd5, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.getMd5, _godot_object, path);
 	}
 	/**
 	Returns the last time the `file` was modified in unix timestamp format or returns a $(D String) "ERROR IN `file`". This unix timestamp can be converted to datetime by using $(D OS.getDatetimeFromUnixTime).
@@ -313,7 +323,7 @@ public:
 	long getModifiedTime(in String file) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getModifiedTime, _godot_object, file);
+		return ptrcall!(long)(GDNativeClassBinding.getModifiedTime, _godot_object, file);
 	}
 	/**
 	Returns a $(D String) saved in Pascal format from the file.
@@ -322,7 +332,7 @@ public:
 	String getPascalString()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPascalString, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPascalString, _godot_object);
 	}
 	/**
 	Returns the path as a $(D String) for the current open file.
@@ -330,7 +340,7 @@ public:
 	String getPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPath, _godot_object);
 	}
 	/**
 	Returns the absolute path as a $(D String) for the current open file.
@@ -338,7 +348,7 @@ public:
 	String getPathAbsolute() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPathAbsolute, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPathAbsolute, _godot_object);
 	}
 	/**
 	Returns the file cursor's position.
@@ -346,7 +356,7 @@ public:
 	long getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	Returns the next bits from the file as a floating-point number.
@@ -354,7 +364,7 @@ public:
 	double getReal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getReal, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getReal, _godot_object);
 	}
 	/**
 	Returns a SHA-256 $(D String) representing the file at the given path or an empty $(D String) on failure.
@@ -362,7 +372,7 @@ public:
 	String getSha256(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSha256, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.getSha256, _godot_object, path);
 	}
 	/**
 	Returns the next $(D Variant) value from the file. If `allow_objects` is `true`, decoding objects is allowed.
@@ -371,7 +381,7 @@ public:
 	Variant getVar(in bool allow_objects = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
+		return ptrcall!(Variant)(GDNativeClassBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
 	Returns `true` if the file is currently opened.
@@ -379,7 +389,7 @@ public:
 	bool isOpen() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOpen, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOpen, _godot_object);
 	}
 	/**
 	Opens the file for writing or reading, depending on the flags.
@@ -387,7 +397,7 @@ public:
 	GodotError open(in String path, in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path, flags);
+		return ptrcall!(GodotError)(GDNativeClassBinding.open, _godot_object, path, flags);
 	}
 	/**
 	Opens a compressed file for reading or writing.
@@ -395,7 +405,7 @@ public:
 	GodotError openCompressed(in String path, in long mode_flags, in long compression_mode = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.openCompressed, _godot_object, path, mode_flags, compression_mode);
+		return ptrcall!(GodotError)(GDNativeClassBinding.openCompressed, _godot_object, path, mode_flags, compression_mode);
 	}
 	/**
 	Opens an encrypted file in write or read mode. You need to pass a binary key to encrypt/decrypt it.
@@ -403,7 +413,7 @@ public:
 	GodotError openEncrypted(in String path, in long mode_flags, in PoolByteArray key)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.openEncrypted, _godot_object, path, mode_flags, key);
+		return ptrcall!(GodotError)(GDNativeClassBinding.openEncrypted, _godot_object, path, mode_flags, key);
 	}
 	/**
 	Opens an encrypted file in write or read mode. You need to pass a password to encrypt/decrypt it.
@@ -411,7 +421,7 @@ public:
 	GodotError openEncryptedWithPass(in String path, in long mode_flags, in String pass)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.openEncryptedWithPass, _godot_object, path, mode_flags, pass);
+		return ptrcall!(GodotError)(GDNativeClassBinding.openEncryptedWithPass, _godot_object, path, mode_flags, pass);
 	}
 	/**
 	Changes the file reading/writing cursor to the specified position (in bytes from the beginning of the file).
@@ -419,7 +429,7 @@ public:
 	void seek(in long position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.seek, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.seek, _godot_object, position);
 	}
 	/**
 	Changes the file reading/writing cursor to the specified position (in bytes from the end of the file).
@@ -428,7 +438,7 @@ public:
 	void seekEnd(in long position = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.seekEnd, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.seekEnd, _godot_object, position);
 	}
 	/**
 	
@@ -436,39 +446,66 @@ public:
 	void setEndianSwap(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEndianSwap, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setEndianSwap, _godot_object, enable);
 	}
 	/**
 	Stores an integer as 16 bits in the file.
+	$(B Note:) The `value` should lie in the interval `$(D 0, 2^16 - 1)`. Any other value will overflow and wrap around.
+	To store a signed integer, use $(D store64) or store a signed integer from the interval `$(D -2^15, 2^15 - 1)` (i.e. keeping one bit for the signedness) and compute its sign manually when reading. For example:
+	
+	
+	const MAX_15B = 1 &lt;&lt; 15
+	const MAX_16B = 1 &lt;&lt; 16
+	
+	func unsigned16_to_signed(unsigned):
+	    return (unsigned + MAX_15B) % MAX_16B - MAX_15B
+	
+	func _ready():
+	    var f = File.new()
+	    f.open("user://file.dat", File.WRITE_READ)
+	    f.store_16(-42) # This wraps around and stores 65494 (2^16 - 42).
+	    f.store_16(121) # In bounds, will store 121.
+	    f.seek(0) # Go back to start to read the stored value.
+	    var read1 = f.get_16() # 65494
+	    var read2 = f.get_16() # 121
+	    var converted1 = unsigned16_to_signed(read1) # -42
+	    var converted2 = unsigned16_to_signed(read2) # 121
+	
+	
 	*/
 	void store16(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.store16, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.store16, _godot_object, value);
 	}
 	/**
 	Stores an integer as 32 bits in the file.
+	$(B Note:) The `value` should lie in the interval `$(D 0, 2^32 - 1)`. Any other value will overflow and wrap around.
+	To store a signed integer, use $(D store64), or convert it manually (see $(D store16) for an example).
 	*/
 	void store32(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.store32, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.store32, _godot_object, value);
 	}
 	/**
 	Stores an integer as 64 bits in the file.
+	$(B Note:) The `value` must lie in the interval `$(D -2^63, 2^63 - 1)` (i.e. be a valid $(D long) value).
 	*/
 	void store64(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.store64, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.store64, _godot_object, value);
 	}
 	/**
 	Stores an integer as 8 bits in the file.
+	$(B Note:) The `value` should lie in the interval `$(D 0, 255)`. Any other value will overflow and wrap around.
+	To store a signed integer, use $(D store64), or convert it manually (see $(D store16) for an example).
 	*/
 	void store8(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.store8, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.store8, _godot_object, value);
 	}
 	/**
 	Stores the given array of bytes in the file.
@@ -476,7 +513,7 @@ public:
 	void storeBuffer(in PoolByteArray buffer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeBuffer, _godot_object, buffer);
+		ptrcall!(void)(GDNativeClassBinding.storeBuffer, _godot_object, buffer);
 	}
 	/**
 	Store the given $(D PoolStringArray) in the file as a line formatted in the CSV (Comma-Separated Values) format. You can pass a different delimiter `delim` to use other than the default `","` (comma). This delimiter must be one-character long.
@@ -485,7 +522,7 @@ public:
 	void storeCsvLine(in PoolStringArray values, in String delim = gs!",")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeCsvLine, _godot_object, values, delim);
+		ptrcall!(void)(GDNativeClassBinding.storeCsvLine, _godot_object, values, delim);
 	}
 	/**
 	Stores a floating-point number as 64 bits in the file.
@@ -493,7 +530,7 @@ public:
 	void storeDouble(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeDouble, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.storeDouble, _godot_object, value);
 	}
 	/**
 	Stores a floating-point number as 32 bits in the file.
@@ -501,7 +538,7 @@ public:
 	void storeFloat(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeFloat, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.storeFloat, _godot_object, value);
 	}
 	/**
 	Stores the given $(D String) as a line in the file.
@@ -510,7 +547,7 @@ public:
 	void storeLine(in String line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeLine, _godot_object, line);
+		ptrcall!(void)(GDNativeClassBinding.storeLine, _godot_object, line);
 	}
 	/**
 	Stores the given $(D String) as a line in the file in Pascal format (i.e. also store the length of the string).
@@ -519,7 +556,7 @@ public:
 	void storePascalString(in String string)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storePascalString, _godot_object, string);
+		ptrcall!(void)(GDNativeClassBinding.storePascalString, _godot_object, string);
 	}
 	/**
 	Stores a floating-point number in the file.
@@ -527,7 +564,7 @@ public:
 	void storeReal(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeReal, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.storeReal, _godot_object, value);
 	}
 	/**
 	Stores the given $(D String) in the file.
@@ -536,7 +573,7 @@ public:
 	void storeString(in String string)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeString, _godot_object, string);
+		ptrcall!(void)(GDNativeClassBinding.storeString, _godot_object, string);
 	}
 	/**
 	Stores any Variant value in the file. If `full_objects` is `true`, encoding objects is allowed (and can potentially include code).
@@ -544,7 +581,7 @@ public:
 	void storeVar(VariantArg0)(in VariantArg0 value, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.storeVar, _godot_object, value, full_objects);
+		ptrcall!(void)(GDNativeClassBinding.storeVar, _godot_object, value, full_objects);
 	}
 	/**
 	If `true`, the file's endianness is swapped. Use this if you're dealing with files written on big-endian machines.

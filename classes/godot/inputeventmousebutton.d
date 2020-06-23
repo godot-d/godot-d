@@ -29,14 +29,14 @@ Contains mouse click information. See $(D Node._input).
 */
 @GodotBaseClass struct InputEventMouseButton
 {
-	enum string _GODOT_internal_name = "InputEventMouseButton";
+	package(godot) enum string _GODOT_internal_name = "InputEventMouseButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventMouse _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventMouse _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_button_index") GodotMethod!(long) getButtonIndex;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_factor") GodotMethod!(void, double) setFactor;
 		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
 	}
-	bool opEquals(in InputEventMouseButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventMouseButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventMouseButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventMouseButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventMouseButton.
+	/// Note: use `memnew!InputEventMouseButton` instead.
 	static InputEventMouseButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	long getButtonIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getButtonIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getButtonIndex, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	double getFactor()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFactor, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFactor, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	bool isDoubleclick() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDoubleclick, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDoubleclick, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	void setButtonIndex(in long button_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonIndex, _godot_object, button_index);
+		ptrcall!(void)(GDNativeClassBinding.setButtonIndex, _godot_object, button_index);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	void setDoubleclick(in bool doubleclick)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDoubleclick, _godot_object, doubleclick);
+		ptrcall!(void)(GDNativeClassBinding.setDoubleclick, _godot_object, doubleclick);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	void setFactor(in double factor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFactor, _godot_object, factor);
+		ptrcall!(void)(GDNativeClassBinding.setFactor, _godot_object, factor);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
+		ptrcall!(void)(GDNativeClassBinding.setPressed, _godot_object, pressed);
 	}
 	/**
 	The mouse button identifier, one of the $(D buttonlist) button or button wheel constants.

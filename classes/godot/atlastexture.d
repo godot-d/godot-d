@@ -28,14 +28,14 @@ $(D Texture) resource aimed at managing big textures files that pack multiple sm
 */
 @GodotBaseClass struct AtlasTexture
 {
-	enum string _GODOT_internal_name = "AtlasTexture";
+	package(godot) enum string _GODOT_internal_name = "AtlasTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_atlas") GodotMethod!(Texture) getAtlas;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_margin") GodotMethod!(void, Rect2) setMargin;
 		@GodotName("set_region") GodotMethod!(void, Rect2) setRegion;
 	}
-	bool opEquals(in AtlasTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AtlasTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AtlasTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AtlasTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AtlasTexture.
+	/// Note: use `memnew!AtlasTexture` instead.
 	static AtlasTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	Ref!Texture getAtlas() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getAtlas, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getAtlas, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	Rect2 getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getMargin, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getMargin, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	Rect2 getRegion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRegion, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRegion, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	bool hasFilterClip() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFilterClip, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFilterClip, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	void setAtlas(Texture atlas)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAtlas, _godot_object, atlas);
+		ptrcall!(void)(GDNativeClassBinding.setAtlas, _godot_object, atlas);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	void setFilterClip(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterClip, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFilterClip, _godot_object, enable);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	void setMargin(in Rect2 margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	void setRegion(in Rect2 region)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegion, _godot_object, region);
+		ptrcall!(void)(GDNativeClassBinding.setRegion, _godot_object, region);
 	}
 	/**
 	The texture that contains the atlas. Can be any $(D Texture) subtype.

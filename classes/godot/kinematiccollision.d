@@ -29,14 +29,14 @@ This object contains information about the collision, including the colliding ob
 */
 @GodotBaseClass struct KinematicCollision
 {
-	enum string _GODOT_internal_name = "KinematicCollision";
+	package(godot) enum string _GODOT_internal_name = "KinematicCollision";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
@@ -51,10 +51,20 @@ public:
 		@GodotName("get_remainder") GodotMethod!(Vector3) getRemainder;
 		@GodotName("get_travel") GodotMethod!(Vector3) getTravel;
 	}
-	bool opEquals(in KinematicCollision other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	KinematicCollision opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in KinematicCollision other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) KinematicCollision opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of KinematicCollision.
+	/// Note: use `memnew!KinematicCollision` instead.
 	static KinematicCollision _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	GodotObject getCollider() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getCollider, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	long getColliderId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColliderId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColliderId, _godot_object);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	Variant getColliderMetadata() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getColliderMetadata, _godot_object);
+		return ptrcall!(Variant)(GDNativeClassBinding.getColliderMetadata, _godot_object);
 	}
 	/**
 	
@@ -93,7 +103,7 @@ public:
 	GodotObject getColliderShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getColliderShape, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getColliderShape, _godot_object);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	long getColliderShapeIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColliderShapeIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColliderShapeIndex, _godot_object);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	Vector3 getColliderVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getColliderVelocity, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getColliderVelocity, _godot_object);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	GodotObject getLocalShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getLocalShape, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getLocalShape, _godot_object);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	Vector3 getNormal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getNormal, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getNormal, _godot_object);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	Vector3 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	Vector3 getRemainder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getRemainder, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getRemainder, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	Vector3 getTravel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getTravel, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getTravel, _godot_object);
 	}
 	/**
 	The colliding body.

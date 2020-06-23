@@ -49,14 +49,14 @@ $NavigationPolygonInstance.navpoly = polygon
 */
 @GodotBaseClass struct NavigationPolygon
 {
-	enum string _GODOT_internal_name = "NavigationPolygon";
+	package(godot) enum string _GODOT_internal_name = "NavigationPolygon";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_outlines") GodotMethod!(Array) _getOutlines;
@@ -78,10 +78,20 @@ public:
 		@GodotName("set_outline") GodotMethod!(void, long, PoolVector2Array) setOutline;
 		@GodotName("set_vertices") GodotMethod!(void, PoolVector2Array) setVertices;
 	}
-	bool opEquals(in NavigationPolygon other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NavigationPolygon opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NavigationPolygon other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NavigationPolygon opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NavigationPolygon.
+	/// Note: use `memnew!NavigationPolygon` instead.
 	static NavigationPolygon _new()
 	{
 		static godot_class_constructor constructor;
@@ -134,7 +144,7 @@ public:
 	void addOutline(in PoolVector2Array outline)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addOutline, _godot_object, outline);
+		ptrcall!(void)(GDNativeClassBinding.addOutline, _godot_object, outline);
 	}
 	/**
 	Adds a $(D PoolVector2Array) that contains the vertices of an outline to the internal array that contains all the outlines at a fixed position. You have to call $(D makePolygonsFromOutlines) in order for this array to be converted to polygons that the engine will use.
@@ -142,7 +152,7 @@ public:
 	void addOutlineAtIndex(in PoolVector2Array outline, in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addOutlineAtIndex, _godot_object, outline, index);
+		ptrcall!(void)(GDNativeClassBinding.addOutlineAtIndex, _godot_object, outline, index);
 	}
 	/**
 	Adds a polygon using the indices of the vertices you get when calling $(D getVertices).
@@ -150,7 +160,7 @@ public:
 	void addPolygon(in PoolIntArray polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPolygon, _godot_object, polygon);
+		ptrcall!(void)(GDNativeClassBinding.addPolygon, _godot_object, polygon);
 	}
 	/**
 	Clears the array of the outlines, but it doesn't clear the vertices and the polygons that were created by them.
@@ -158,7 +168,7 @@ public:
 	void clearOutlines()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearOutlines, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearOutlines, _godot_object);
 	}
 	/**
 	Clears the array of polygons, but it doesn't clear the array of outlines and vertices.
@@ -166,7 +176,7 @@ public:
 	void clearPolygons()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearPolygons, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearPolygons, _godot_object);
 	}
 	/**
 	Returns a $(D PoolVector2Array) containing the vertices of an outline that was created in the editor or by script.
@@ -174,7 +184,7 @@ public:
 	PoolVector2Array getOutline(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getOutline, _godot_object, idx);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getOutline, _godot_object, idx);
 	}
 	/**
 	Returns the number of outlines that were created in the editor or by script.
@@ -182,7 +192,7 @@ public:
 	long getOutlineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOutlineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOutlineCount, _godot_object);
 	}
 	/**
 	Returns a $(D PoolIntArray) containing the indices of the vertices of a created polygon.
@@ -190,7 +200,7 @@ public:
 	PoolIntArray getPolygon(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getPolygon, _godot_object, idx);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getPolygon, _godot_object, idx);
 	}
 	/**
 	Returns the count of all polygons.
@@ -198,7 +208,7 @@ public:
 	long getPolygonCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPolygonCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPolygonCount, _godot_object);
 	}
 	/**
 	Returns a $(D PoolVector2Array) containing all the vertices being used to create the polygons.
@@ -206,7 +216,7 @@ public:
 	PoolVector2Array getVertices() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getVertices, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getVertices, _godot_object);
 	}
 	/**
 	Creates polygons from the outlines added in the editor or by script.
@@ -214,7 +224,7 @@ public:
 	void makePolygonsFromOutlines()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makePolygonsFromOutlines, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.makePolygonsFromOutlines, _godot_object);
 	}
 	/**
 	Removes an outline created in the editor or by script. You have to call $(D makePolygonsFromOutlines) for the polygons to update.
@@ -222,7 +232,7 @@ public:
 	void removeOutline(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeOutline, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeOutline, _godot_object, idx);
 	}
 	/**
 	Changes an outline created in the editor or by script. You have to call $(D makePolygonsFromOutlines) for the polygons to update.
@@ -230,7 +240,7 @@ public:
 	void setOutline(in long idx, in PoolVector2Array outline)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutline, _godot_object, idx, outline);
+		ptrcall!(void)(GDNativeClassBinding.setOutline, _godot_object, idx, outline);
 	}
 	/**
 	Sets the vertices that can be then indexed to create polygons with the $(D addPolygon) method.
@@ -238,7 +248,7 @@ public:
 	void setVertices(in PoolVector2Array vertices)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertices, _godot_object, vertices);
+		ptrcall!(void)(GDNativeClassBinding.setVertices, _godot_object, vertices);
 	}
 	/**
 	

@@ -29,14 +29,14 @@ A Control can inherit this to create custom container classes.
 */
 @GodotBaseClass struct Container
 {
-	enum string _GODOT_internal_name = "Container";
+	package(godot) enum string _GODOT_internal_name = "Container";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_child_minsize_changed") GodotMethod!(void) _childMinsizeChanged;
@@ -44,10 +44,20 @@ public:
 		@GodotName("fit_child_in_rect") GodotMethod!(void, Control, Rect2) fitChildInRect;
 		@GodotName("queue_sort") GodotMethod!(void) queueSort;
 	}
-	bool opEquals(in Container other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Container opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Container other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Container opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Container.
+	/// Note: use `memnew!Container` instead.
 	static Container _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +98,7 @@ public:
 	void fitChildInRect(Control child, in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.fitChildInRect, _godot_object, child, rect);
+		ptrcall!(void)(GDNativeClassBinding.fitChildInRect, _godot_object, child, rect);
 	}
 	/**
 	Queue resort of the contained children. This is called automatically anyway, but can be called upon request.
@@ -96,6 +106,6 @@ public:
 	void queueSort()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queueSort, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.queueSort, _godot_object);
 	}
 }

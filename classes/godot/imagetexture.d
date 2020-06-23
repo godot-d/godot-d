@@ -26,17 +26,18 @@ import godot.image;
 A $(D Texture) based on an $(D Image).
 
 Can be created from an $(D Image) with $(D createFromImage).
+$(B Note:) The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images will fail to import.
 */
 @GodotBaseClass struct ImageTexture
 {
-	enum string _GODOT_internal_name = "ImageTexture";
+	package(godot) enum string _GODOT_internal_name = "ImageTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_reload_hook") GodotMethod!(void, RID) _reloadHook;
@@ -51,10 +52,20 @@ public:
 		@GodotName("set_size_override") GodotMethod!(void, Vector2) setSizeOverride;
 		@GodotName("set_storage") GodotMethod!(void, long) setStorage;
 	}
-	bool opEquals(in ImageTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ImageTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ImageTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ImageTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ImageTexture.
+	/// Note: use `memnew!ImageTexture` instead.
 	static ImageTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -103,7 +114,7 @@ public:
 	void create(in long width, in long height, in long format, in long flags = 7)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.create, _godot_object, width, height, format, flags);
+		ptrcall!(void)(GDNativeClassBinding.create, _godot_object, width, height, format, flags);
 	}
 	/**
 	Create a new $(D ImageTexture) from an $(D Image) with `flags` from $(D Texture.flags). An sRGB to linear color space conversion can take place, according to $(D Image.format).
@@ -111,7 +122,7 @@ public:
 	void createFromImage(Image image, in long flags = 7)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createFromImage, _godot_object, image, flags);
+		ptrcall!(void)(GDNativeClassBinding.createFromImage, _godot_object, image, flags);
 	}
 	/**
 	Returns the format of the $(D ImageTexture), one of $(D Image.format).
@@ -119,7 +130,7 @@ public:
 	Image.Format getFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image.Format)(_classBinding.getFormat, _godot_object);
+		return ptrcall!(Image.Format)(GDNativeClassBinding.getFormat, _godot_object);
 	}
 	/**
 	
@@ -127,7 +138,7 @@ public:
 	double getLossyStorageQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
 	
@@ -135,7 +146,7 @@ public:
 	ImageTexture.Storage getStorage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ImageTexture.Storage)(_classBinding.getStorage, _godot_object);
+		return ptrcall!(ImageTexture.Storage)(GDNativeClassBinding.getStorage, _godot_object);
 	}
 	/**
 	Load an $(D ImageTexture) from a file path.
@@ -143,7 +154,7 @@ public:
 	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
 	Sets the $(D Image) of this $(D ImageTexture).
@@ -151,7 +162,7 @@ public:
 	void setData(Image image)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setData, _godot_object, image);
+		ptrcall!(void)(GDNativeClassBinding.setData, _godot_object, image);
 	}
 	/**
 	
@@ -159,7 +170,7 @@ public:
 	void setLossyStorageQuality(in double quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLossyStorageQuality, _godot_object, quality);
+		ptrcall!(void)(GDNativeClassBinding.setLossyStorageQuality, _godot_object, quality);
 	}
 	/**
 	Resizes the $(D ImageTexture) to the specified dimensions.
@@ -167,7 +178,7 @@ public:
 	void setSizeOverride(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSizeOverride, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSizeOverride, _godot_object, size);
 	}
 	/**
 	
@@ -175,7 +186,7 @@ public:
 	void setStorage(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStorage, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setStorage, _godot_object, mode);
 	}
 	/**
 	The storage quality for $(D constant STORAGE_COMPRESS_LOSSY).

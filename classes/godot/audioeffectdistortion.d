@@ -32,14 +32,14 @@ By distorting the waveform the frequency content change, which will often make t
 */
 @GodotBaseClass struct AudioEffectDistortion
 {
-	enum string _GODOT_internal_name = "AudioEffectDistortion";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectDistortion";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_drive") GodotMethod!(double) getDrive;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_post_gain") GodotMethod!(void, double) setPostGain;
 		@GodotName("set_pre_gain") GodotMethod!(void, double) setPreGain;
 	}
-	bool opEquals(in AudioEffectDistortion other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectDistortion opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectDistortion other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectDistortion opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectDistortion.
+	/// Note: use `memnew!AudioEffectDistortion` instead.
 	static AudioEffectDistortion _new()
 	{
 		static godot_class_constructor constructor;
@@ -104,7 +114,7 @@ public:
 	double getDrive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDrive, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDrive, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	double getKeepHfHz() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getKeepHfHz, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getKeepHfHz, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	AudioEffectDistortion.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectDistortion.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(AudioEffectDistortion.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	double getPostGain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPostGain, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPostGain, _godot_object);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	double getPreGain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPreGain, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPreGain, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	void setDrive(in double drive)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrive, _godot_object, drive);
+		ptrcall!(void)(GDNativeClassBinding.setDrive, _godot_object, drive);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	void setKeepHfHz(in double keep_hf_hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeepHfHz, _godot_object, keep_hf_hz);
+		ptrcall!(void)(GDNativeClassBinding.setKeepHfHz, _godot_object, keep_hf_hz);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	void setPostGain(in double post_gain)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPostGain, _godot_object, post_gain);
+		ptrcall!(void)(GDNativeClassBinding.setPostGain, _godot_object, post_gain);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setPreGain(in double pre_gain)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreGain, _godot_object, pre_gain);
+		ptrcall!(void)(GDNativeClassBinding.setPreGain, _godot_object, pre_gain);
 	}
 	/**
 	Distortion power. Value can range from 0 to 1.

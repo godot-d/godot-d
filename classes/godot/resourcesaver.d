@@ -28,14 +28,14 @@ It uses the many $(D ResourceFormatSaver) classes registered in the engine (eith
 */
 @GodotBaseClass struct ResourceSaverSingleton
 {
-	enum string _GODOT_internal_name = "_ResourceSaver";
+	package(godot) enum string _GODOT_internal_name = "_ResourceSaver";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -43,10 +43,20 @@ public:
 		@GodotName("get_recognized_extensions") GodotMethod!(PoolStringArray, Resource) getRecognizedExtensions;
 		@GodotName("save") GodotMethod!(GodotError, String, Resource, long) save;
 	}
-	bool opEquals(in ResourceSaverSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourceSaverSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ResourceSaverSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ResourceSaverSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ResourceSaverSingleton.
+	/// Note: use `memnew!ResourceSaverSingleton` instead.
 	static ResourceSaverSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -104,7 +114,7 @@ public:
 	PoolStringArray getRecognizedExtensions(Resource type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getRecognizedExtensions, _godot_object, type);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getRecognizedExtensions, _godot_object, type);
 	}
 	/**
 	Saves a resource to disk to the given path, using a $(D ResourceFormatSaver) that recognizes the resource object.
@@ -114,7 +124,7 @@ public:
 	GodotError save(in String path, Resource resource, in long flags = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path, resource, flags);
+		return ptrcall!(GodotError)(GDNativeClassBinding.save, _godot_object, path, resource, flags);
 	}
 }
 /// Returns: the ResourceSaverSingleton
@@ -122,5 +132,5 @@ public:
 ResourceSaverSingleton ResourceSaver()
 {
 	checkClassBinding!ResourceSaverSingleton();
-	return ResourceSaverSingleton(ResourceSaverSingleton._classBinding._singleton);
+	return ResourceSaverSingleton(ResourceSaverSingleton.GDNativeClassBinding._singleton);
 }

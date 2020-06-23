@@ -31,24 +31,34 @@ AudioEffectEQ gives you control over frequencies. Use it to compensate for exist
 */
 @GodotBaseClass struct AudioEffectEQ
 {
-	enum string _GODOT_internal_name = "AudioEffectEQ";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectEQ";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_band_count") GodotMethod!(long) getBandCount;
 		@GodotName("get_band_gain_db") GodotMethod!(double, long) getBandGainDb;
 		@GodotName("set_band_gain_db") GodotMethod!(void, long, double) setBandGainDb;
 	}
-	bool opEquals(in AudioEffectEQ other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectEQ opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectEQ other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectEQ opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectEQ.
+	/// Note: use `memnew!AudioEffectEQ` instead.
 	static AudioEffectEQ _new()
 	{
 		static godot_class_constructor constructor;
@@ -63,7 +73,7 @@ public:
 	long getBandCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBandCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBandCount, _godot_object);
 	}
 	/**
 	Returns the band's gain at the specified index, in dB.
@@ -71,7 +81,7 @@ public:
 	double getBandGainDb(in long band_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBandGainDb, _godot_object, band_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getBandGainDb, _godot_object, band_idx);
 	}
 	/**
 	Sets band's gain at the specified index, in dB.
@@ -79,6 +89,6 @@ public:
 	void setBandGainDb(in long band_idx, in double volume_db)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBandGainDb, _godot_object, band_idx, volume_db);
+		ptrcall!(void)(GDNativeClassBinding.setBandGainDb, _godot_object, band_idx, volume_db);
 	}
 }

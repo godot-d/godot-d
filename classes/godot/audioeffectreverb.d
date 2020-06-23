@@ -31,14 +31,14 @@ Simulates rooms of different sizes. Its parameters can be adjusted to simulate t
 */
 @GodotBaseClass struct AudioEffectReverb
 {
-	enum string _GODOT_internal_name = "AudioEffectReverb";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectReverb";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_damping") GodotMethod!(double) getDamping;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_spread") GodotMethod!(void, double) setSpread;
 		@GodotName("set_wet") GodotMethod!(void, double) setWet;
 	}
-	bool opEquals(in AudioEffectReverb other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectReverb opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectReverb other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectReverb opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectReverb.
+	/// Note: use `memnew!AudioEffectReverb` instead.
 	static AudioEffectReverb _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	double getDamping() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDamping, _godot_object);
 	}
 	/**
 	
@@ -84,7 +94,7 @@ public:
 	double getDry() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDry, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDry, _godot_object);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	double getHpf() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHpf, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHpf, _godot_object);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	double getPredelayFeedback() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPredelayFeedback, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPredelayFeedback, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	double getPredelayMsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPredelayMsec, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPredelayMsec, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getRoomSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRoomSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRoomSize, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	double getSpread() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpread, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpread, _godot_object);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	double getWet() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWet, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWet, _godot_object);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	void setDamping(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDamping, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setDamping, _godot_object, amount);
 	}
 	/**
 	
@@ -148,7 +158,7 @@ public:
 	void setDry(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setDry, _godot_object, amount);
 	}
 	/**
 	
@@ -156,7 +166,7 @@ public:
 	void setHpf(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHpf, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setHpf, _godot_object, amount);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	void setPredelayFeedback(in double feedback)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPredelayFeedback, _godot_object, feedback);
+		ptrcall!(void)(GDNativeClassBinding.setPredelayFeedback, _godot_object, feedback);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	void setPredelayMsec(in double msec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPredelayMsec, _godot_object, msec);
+		ptrcall!(void)(GDNativeClassBinding.setPredelayMsec, _godot_object, msec);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	void setRoomSize(in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRoomSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setRoomSize, _godot_object, size);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	void setSpread(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpread, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setSpread, _godot_object, amount);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	void setWet(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setWet, _godot_object, amount);
 	}
 	/**
 	Defines how reflective the imaginary room's walls are. Value can range from 0 to 1.

@@ -31,23 +31,33 @@ This is useful to optimize the rendering of a high amount of instances of a give
 */
 @GodotBaseClass struct MultiMeshInstance
 {
-	enum string _GODOT_internal_name = "MultiMeshInstance";
+	package(godot) enum string _GODOT_internal_name = "MultiMeshInstance";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_multimesh") GodotMethod!(MultiMesh) getMultimesh;
 		@GodotName("set_multimesh") GodotMethod!(void, MultiMesh) setMultimesh;
 	}
-	bool opEquals(in MultiMeshInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MultiMeshInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MultiMeshInstance other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MultiMeshInstance opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MultiMeshInstance.
+	/// Note: use `memnew!MultiMeshInstance` instead.
 	static MultiMeshInstance _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	Ref!MultiMesh getMultimesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MultiMesh)(_classBinding.getMultimesh, _godot_object);
+		return ptrcall!(MultiMesh)(GDNativeClassBinding.getMultimesh, _godot_object);
 	}
 	/**
 	
@@ -70,7 +80,7 @@ public:
 	void setMultimesh(MultiMesh multimesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMultimesh, _godot_object, multimesh);
+		ptrcall!(void)(GDNativeClassBinding.setMultimesh, _godot_object, multimesh);
 	}
 	/**
 	The $(D MultiMesh) resource that will be used and shared among all instances of the $(D MultiMeshInstance).

@@ -31,14 +31,14 @@ This node allows you to create a sphere for use with the CSG system.
 */
 @GodotBaseClass struct CSGSphere
 {
-	enum string _GODOT_internal_name = "CSGSphere";
+	package(godot) enum string _GODOT_internal_name = "CSGSphere";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CSGPrimitive _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CSGPrimitive _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_material") GodotMethod!(Material) getMaterial;
@@ -52,10 +52,20 @@ public:
 		@GodotName("set_rings") GodotMethod!(void, long) setRings;
 		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
 	}
-	bool opEquals(in CSGSphere other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGSphere opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGSphere other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGSphere opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGSphere.
+	/// Note: use `memnew!CSGSphere` instead.
 	static CSGSphere _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -78,7 +88,7 @@ public:
 	long getRadialSegments() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRadialSegments, _godot_object);
 	}
 	/**
 	
@@ -86,7 +96,7 @@ public:
 	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	long getRings() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRings, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRings, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	bool getSmoothFaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSmoothFaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getSmoothFaces, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	void setRadialSegments(in long radial_segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, radial_segments);
+		ptrcall!(void)(GDNativeClassBinding.setRadialSegments, _godot_object, radial_segments);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	void setRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	void setRings(in long rings)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		ptrcall!(void)(GDNativeClassBinding.setRings, _godot_object, rings);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	void setSmoothFaces(in bool smooth_faces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+		ptrcall!(void)(GDNativeClassBinding.setSmoothFaces, _godot_object, smooth_faces);
 	}
 	/**
 	Number of vertical slices for the sphere.

@@ -27,14 +27,14 @@ The result of a 2D shape query in $(D Physics2DServer). See also $(D Physics2DSh
 */
 @GodotBaseClass struct Physics2DShapeQueryResult
 {
-	enum string _GODOT_internal_name = "Physics2DShapeQueryResult";
+	package(godot) enum string _GODOT_internal_name = "Physics2DShapeQueryResult";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_result_count") GodotMethod!(long) getResultCount;
@@ -43,10 +43,20 @@ public:
 		@GodotName("get_result_object_shape") GodotMethod!(long, long) getResultObjectShape;
 		@GodotName("get_result_rid") GodotMethod!(RID, long) getResultRid;
 	}
-	bool opEquals(in Physics2DShapeQueryResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Physics2DShapeQueryResult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Physics2DShapeQueryResult other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Physics2DShapeQueryResult opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Physics2DShapeQueryResult.
+	/// Note: use `memnew!Physics2DShapeQueryResult` instead.
 	static Physics2DShapeQueryResult _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	long getResultCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResultCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getResultCount, _godot_object);
 	}
 	/**
 	Returns the $(D GodotObject) that intersected with the shape at index `idx`.
@@ -69,7 +79,7 @@ public:
 	GodotObject getResultObject(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getResultObject, _godot_object, idx);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getResultObject, _godot_object, idx);
 	}
 	/**
 	Returns the instance ID of the $(D GodotObject) that intersected with the shape at index `idx`.
@@ -77,7 +87,7 @@ public:
 	long getResultObjectId(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResultObjectId, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getResultObjectId, _godot_object, idx);
 	}
 	/**
 	Returns the child index of the object's $(D Shape) that intersected with the shape at index `idx`.
@@ -85,7 +95,7 @@ public:
 	long getResultObjectShape(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResultObjectShape, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getResultObjectShape, _godot_object, idx);
 	}
 	/**
 	Returns the $(D RID) of the object that intersected with the shape at index `idx`.
@@ -93,6 +103,6 @@ public:
 	RID getResultRid(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getResultRid, _godot_object, idx);
+		return ptrcall!(RID)(GDNativeClassBinding.getResultRid, _godot_object, idx);
 	}
 }

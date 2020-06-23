@@ -47,14 +47,14 @@ func _on_text_entered(command):
 */
 @GodotBaseClass struct Expression
 {
-	enum string _GODOT_internal_name = "Expression";
+	package(godot) enum string _GODOT_internal_name = "Expression";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("execute") GodotMethod!(Variant, Array, GodotObject, bool) execute;
@@ -62,10 +62,20 @@ public:
 		@GodotName("has_execute_failed") GodotMethod!(bool) hasExecuteFailed;
 		@GodotName("parse") GodotMethod!(GodotError, String, PoolStringArray) parse;
 	}
-	bool opEquals(in Expression other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Expression opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Expression other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Expression opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Expression.
+	/// Note: use `memnew!Expression` instead.
 	static Expression _new()
 	{
 		static godot_class_constructor constructor;
@@ -81,7 +91,7 @@ public:
 	Variant execute(in Array inputs = Array.make(), GodotObject base_instance = GodotObject.init, in bool show_error = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.execute, _godot_object, inputs, base_instance, show_error);
+		return ptrcall!(Variant)(GDNativeClassBinding.execute, _godot_object, inputs, base_instance, show_error);
 	}
 	/**
 	Returns the error text if $(D parse) has failed.
@@ -89,7 +99,7 @@ public:
 	String getErrorText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getErrorText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getErrorText, _godot_object);
 	}
 	/**
 	Returns `true` if $(D execute) has failed.
@@ -97,7 +107,7 @@ public:
 	bool hasExecuteFailed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasExecuteFailed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasExecuteFailed, _godot_object);
 	}
 	/**
 	Parses the expression and returns an $(D error) code.
@@ -106,6 +116,6 @@ public:
 	GodotError parse(in String expression, in PoolStringArray input_names = PoolStringArray.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.parse, _godot_object, expression, input_names);
+		return ptrcall!(GodotError)(GDNativeClassBinding.parse, _godot_object, expression, input_names);
 	}
 }

@@ -30,14 +30,14 @@ The ProceduralSky is updated on the CPU after the parameters change. It is store
 */
 @GodotBaseClass struct ProceduralSky
 {
-	enum string _GODOT_internal_name = "ProceduralSky";
+	package(godot) enum string _GODOT_internal_name = "ProceduralSky";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Sky _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Sky _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_thread_done") GodotMethod!(void, Image) _threadDone;
@@ -75,10 +75,20 @@ public:
 		@GodotName("set_sun_longitude") GodotMethod!(void, double) setSunLongitude;
 		@GodotName("set_texture_size") GodotMethod!(void, long) setTextureSize;
 	}
-	bool opEquals(in ProceduralSky other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ProceduralSky opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ProceduralSky other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ProceduralSky opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ProceduralSky.
+	/// Note: use `memnew!ProceduralSky` instead.
 	static ProceduralSky _new()
 	{
 		static godot_class_constructor constructor;
@@ -150,7 +160,7 @@ public:
 	Color getGroundBottomColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getGroundBottomColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getGroundBottomColor, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	double getGroundCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGroundCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGroundCurve, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	double getGroundEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGroundEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGroundEnergy, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	Color getGroundHorizonColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getGroundHorizonColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getGroundHorizonColor, _godot_object);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	double getSkyCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSkyCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSkyCurve, _godot_object);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	double getSkyEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSkyEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSkyEnergy, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	Color getSkyHorizonColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSkyHorizonColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getSkyHorizonColor, _godot_object);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	Color getSkyTopColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSkyTopColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getSkyTopColor, _godot_object);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	double getSunAngleMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunAngleMax, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunAngleMax, _godot_object);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	double getSunAngleMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunAngleMin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunAngleMin, _godot_object);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	Color getSunColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSunColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getSunColor, _godot_object);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	double getSunCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunCurve, _godot_object);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	double getSunEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunEnergy, _godot_object);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	double getSunLatitude() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunLatitude, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunLatitude, _godot_object);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	double getSunLongitude() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSunLongitude, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSunLongitude, _godot_object);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	ProceduralSky.TextureSize getTextureSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ProceduralSky.TextureSize)(_classBinding.getTextureSize, _godot_object);
+		return ptrcall!(ProceduralSky.TextureSize)(GDNativeClassBinding.getTextureSize, _godot_object);
 	}
 	/**
 	
@@ -278,7 +288,7 @@ public:
 	void setGroundBottomColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroundBottomColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setGroundBottomColor, _godot_object, color);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	void setGroundCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroundCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setGroundCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -294,7 +304,7 @@ public:
 	void setGroundEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroundEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setGroundEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	void setGroundHorizonColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroundHorizonColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setGroundHorizonColor, _godot_object, color);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setSkyCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setSkyCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -318,7 +328,7 @@ public:
 	void setSkyEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setSkyEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -326,7 +336,7 @@ public:
 	void setSkyHorizonColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyHorizonColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setSkyHorizonColor, _godot_object, color);
 	}
 	/**
 	
@@ -334,7 +344,7 @@ public:
 	void setSkyTopColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyTopColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setSkyTopColor, _godot_object, color);
 	}
 	/**
 	
@@ -342,7 +352,7 @@ public:
 	void setSunAngleMax(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunAngleMax, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSunAngleMax, _godot_object, degrees);
 	}
 	/**
 	
@@ -350,7 +360,7 @@ public:
 	void setSunAngleMin(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunAngleMin, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSunAngleMin, _godot_object, degrees);
 	}
 	/**
 	
@@ -358,7 +368,7 @@ public:
 	void setSunColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setSunColor, _godot_object, color);
 	}
 	/**
 	
@@ -366,7 +376,7 @@ public:
 	void setSunCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setSunCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -374,7 +384,7 @@ public:
 	void setSunEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setSunEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -382,7 +392,7 @@ public:
 	void setSunLatitude(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunLatitude, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSunLatitude, _godot_object, degrees);
 	}
 	/**
 	
@@ -390,7 +400,7 @@ public:
 	void setSunLongitude(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSunLongitude, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSunLongitude, _godot_object, degrees);
 	}
 	/**
 	
@@ -398,7 +408,7 @@ public:
 	void setTextureSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setTextureSize, _godot_object, size);
 	}
 	/**
 	Color of the ground at the bottom.

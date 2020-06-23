@@ -29,14 +29,14 @@ CollisionObject is the base class for physics objects. It can hold any number of
 */
 @GodotBaseClass struct CollisionObject
 {
-	enum string _GODOT_internal_name = "CollisionObject";
+	package(godot) enum string _GODOT_internal_name = "CollisionObject";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_input_event") GodotMethod!(void, GodotObject, InputEvent, Vector3, Vector3, long) _inputEvent;
@@ -61,10 +61,20 @@ public:
 		@GodotName("shape_owner_set_disabled") GodotMethod!(void, long, bool) shapeOwnerSetDisabled;
 		@GodotName("shape_owner_set_transform") GodotMethod!(void, long, Transform) shapeOwnerSetTransform;
 	}
-	bool opEquals(in CollisionObject other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CollisionObject opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CollisionObject other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CollisionObject opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CollisionObject.
+	/// Note: use `memnew!CollisionObject` instead.
 	static CollisionObject _new()
 	{
 		static godot_class_constructor constructor;
@@ -93,7 +103,7 @@ public:
 	long createShapeOwner(GodotObject owner)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.createShapeOwner, _godot_object, owner);
+		return ptrcall!(long)(GDNativeClassBinding.createShapeOwner, _godot_object, owner);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	bool getCaptureInputOnDrag() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCaptureInputOnDrag, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCaptureInputOnDrag, _godot_object);
 	}
 	/**
 	Returns the object's $(D RID).
@@ -109,7 +119,7 @@ public:
 	RID getRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getRid, _godot_object);
 	}
 	/**
 	Returns an $(D Array) of `owner_id` identifiers. You can use these ids in other methods that take `owner_id` as an argument.
@@ -117,7 +127,7 @@ public:
 	Array getShapeOwners()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getShapeOwners, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getShapeOwners, _godot_object);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	bool isRayPickable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRayPickable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRayPickable, _godot_object);
 	}
 	/**
 	If `true`, the shape owner and its shapes are disabled.
@@ -133,7 +143,7 @@ public:
 	bool isShapeOwnerDisabled(in long owner_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShapeOwnerDisabled, _godot_object, owner_id);
+		return ptrcall!(bool)(GDNativeClassBinding.isShapeOwnerDisabled, _godot_object, owner_id);
 	}
 	/**
 	Removes the given shape owner.
@@ -141,7 +151,7 @@ public:
 	void removeShapeOwner(in long owner_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeShapeOwner, _godot_object, owner_id);
+		ptrcall!(void)(GDNativeClassBinding.removeShapeOwner, _godot_object, owner_id);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	void setCaptureInputOnDrag(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCaptureInputOnDrag, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCaptureInputOnDrag, _godot_object, enable);
 	}
 	/**
 	
@@ -157,7 +167,7 @@ public:
 	void setRayPickable(in bool ray_pickable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRayPickable, _godot_object, ray_pickable);
+		ptrcall!(void)(GDNativeClassBinding.setRayPickable, _godot_object, ray_pickable);
 	}
 	/**
 	Returns the `owner_id` of the given shape.
@@ -165,7 +175,7 @@ public:
 	long shapeFindOwner(in long shape_index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.shapeFindOwner, _godot_object, shape_index);
+		return ptrcall!(long)(GDNativeClassBinding.shapeFindOwner, _godot_object, shape_index);
 	}
 	/**
 	Adds a $(D Shape) to the shape owner.
@@ -173,7 +183,7 @@ public:
 	void shapeOwnerAddShape(in long owner_id, Shape shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerAddShape, _godot_object, owner_id, shape);
+		ptrcall!(void)(GDNativeClassBinding.shapeOwnerAddShape, _godot_object, owner_id, shape);
 	}
 	/**
 	Removes all shapes from the shape owner.
@@ -181,7 +191,7 @@ public:
 	void shapeOwnerClearShapes(in long owner_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerClearShapes, _godot_object, owner_id);
+		ptrcall!(void)(GDNativeClassBinding.shapeOwnerClearShapes, _godot_object, owner_id);
 	}
 	/**
 	Returns the parent object of the given shape owner.
@@ -189,7 +199,7 @@ public:
 	GodotObject shapeOwnerGetOwner(in long owner_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.shapeOwnerGetOwner, _godot_object, owner_id);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.shapeOwnerGetOwner, _godot_object, owner_id);
 	}
 	/**
 	Returns the $(D Shape) with the given id from the given shape owner.
@@ -197,7 +207,7 @@ public:
 	Ref!Shape shapeOwnerGetShape(in long owner_id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.shapeOwnerGetShape, _godot_object, owner_id, shape_id);
+		return ptrcall!(Shape)(GDNativeClassBinding.shapeOwnerGetShape, _godot_object, owner_id, shape_id);
 	}
 	/**
 	Returns the number of shapes the given shape owner contains.
@@ -205,7 +215,7 @@ public:
 	long shapeOwnerGetShapeCount(in long owner_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeCount, _godot_object, owner_id);
+		return ptrcall!(long)(GDNativeClassBinding.shapeOwnerGetShapeCount, _godot_object, owner_id);
 	}
 	/**
 	Returns the child index of the $(D Shape) with the given id from the given shape owner.
@@ -213,7 +223,7 @@ public:
 	long shapeOwnerGetShapeIndex(in long owner_id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.shapeOwnerGetShapeIndex, _godot_object, owner_id, shape_id);
+		return ptrcall!(long)(GDNativeClassBinding.shapeOwnerGetShapeIndex, _godot_object, owner_id, shape_id);
 	}
 	/**
 	Returns the shape owner's $(D Transform).
@@ -221,7 +231,7 @@ public:
 	Transform shapeOwnerGetTransform(in long owner_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.shapeOwnerGetTransform, _godot_object, owner_id);
+		return ptrcall!(Transform)(GDNativeClassBinding.shapeOwnerGetTransform, _godot_object, owner_id);
 	}
 	/**
 	Removes a shape from the given shape owner.
@@ -229,7 +239,7 @@ public:
 	void shapeOwnerRemoveShape(in long owner_id, in long shape_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerRemoveShape, _godot_object, owner_id, shape_id);
+		ptrcall!(void)(GDNativeClassBinding.shapeOwnerRemoveShape, _godot_object, owner_id, shape_id);
 	}
 	/**
 	If `true`, disables the given shape owner.
@@ -237,7 +247,7 @@ public:
 	void shapeOwnerSetDisabled(in long owner_id, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
+		ptrcall!(void)(GDNativeClassBinding.shapeOwnerSetDisabled, _godot_object, owner_id, disabled);
 	}
 	/**
 	Sets the $(D Transform) of the given shape owner.
@@ -245,7 +255,7 @@ public:
 	void shapeOwnerSetTransform(in long owner_id, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeOwnerSetTransform, _godot_object, owner_id, transform);
+		ptrcall!(void)(GDNativeClassBinding.shapeOwnerSetTransform, _godot_object, owner_id, transform);
 	}
 	/**
 	If `true`, the $(D CollisionObject) will continue to receive input events as the mouse is dragged across its shapes.

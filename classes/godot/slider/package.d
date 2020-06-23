@@ -31,14 +31,14 @@ Base class for GUI sliders.
 */
 @GodotBaseClass struct Slider
 {
-	enum string _GODOT_internal_name = "Slider";
+	package(godot) enum string _GODOT_internal_name = "Slider";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Range _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_ticks") GodotMethod!(void, long) setTicks;
 		@GodotName("set_ticks_on_borders") GodotMethod!(void, bool) setTicksOnBorders;
 	}
-	bool opEquals(in Slider other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Slider opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Slider other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Slider opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Slider.
+	/// Note: use `memnew!Slider` instead.
 	static Slider _new()
 	{
 		static godot_class_constructor constructor;
@@ -79,7 +89,7 @@ public:
 	long getTicks() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTicks, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTicks, _godot_object);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	bool getTicksOnBorders() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getTicksOnBorders, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getTicksOnBorders, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	bool isEditable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditable, _godot_object);
 	}
 	/**
 	
@@ -103,7 +113,7 @@ public:
 	bool isScrollable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScrollable, _godot_object);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	void setEditable(in bool editable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditable, _godot_object, editable);
+		ptrcall!(void)(GDNativeClassBinding.setEditable, _godot_object, editable);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	void setScrollable(in bool scrollable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollable, _godot_object, scrollable);
+		ptrcall!(void)(GDNativeClassBinding.setScrollable, _godot_object, scrollable);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	void setTicks(in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTicks, _godot_object, count);
+		ptrcall!(void)(GDNativeClassBinding.setTicks, _godot_object, count);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	void setTicksOnBorders(in bool ticks_on_border)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTicksOnBorders, _godot_object, ticks_on_border);
+		ptrcall!(void)(GDNativeClassBinding.setTicksOnBorders, _godot_object, ticks_on_border);
 	}
 	/**
 	If `true`, the slider can be interacted with. If `false`, the value can be changed only by code.

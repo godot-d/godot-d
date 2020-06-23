@@ -27,14 +27,14 @@ Material is a base $(D Resource) used for coloring and shading geometry. All mat
 */
 @GodotBaseClass struct Material
 {
-	enum string _GODOT_internal_name = "Material";
+	package(godot) enum string _GODOT_internal_name = "Material";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_next_pass") GodotMethod!(Material) getNextPass;
@@ -42,10 +42,20 @@ public:
 		@GodotName("set_next_pass") GodotMethod!(void, Material) setNextPass;
 		@GodotName("set_render_priority") GodotMethod!(void, long) setRenderPriority;
 	}
-	bool opEquals(in Material other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Material opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Material other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Material opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Material.
+	/// Note: use `memnew!Material` instead.
 	static Material _new()
 	{
 		static godot_class_constructor constructor;
@@ -72,7 +82,7 @@ public:
 	Ref!Material getNextPass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getNextPass, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getNextPass, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	long getRenderPriority() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRenderPriority, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRenderPriority, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	void setNextPass(Material next_pass)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNextPass, _godot_object, next_pass);
+		ptrcall!(void)(GDNativeClassBinding.setNextPass, _godot_object, next_pass);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	void setRenderPriority(in long priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRenderPriority, _godot_object, priority);
+		ptrcall!(void)(GDNativeClassBinding.setRenderPriority, _godot_object, priority);
 	}
 	/**
 	Sets the $(D Material) to be used for the next pass. This renders the object again using a different material.
@@ -113,7 +123,7 @@ public:
 	}
 	/**
 	Sets the render priority for transparent objects in 3D scenes. Higher priority objects will be sorted in front of lower priority objects.
-	$(B Note:) this only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are sorted based on depth, while transparent objects are sorted from back to front (subject to priority).
+	$(B Note:) this only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are not sorted, while transparent objects are sorted from back to front (subject to priority).
 	*/
 	@property long renderPriority()
 	{

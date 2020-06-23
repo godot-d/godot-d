@@ -32,14 +32,14 @@ EditorSpatialGizmoPlugin allows you to define a new type of Gizmo. There are two
 */
 @GodotBaseClass struct EditorSpatialGizmoPlugin
 {
-	enum string _GODOT_internal_name = "EditorSpatialGizmoPlugin";
+	package(godot) enum string _GODOT_internal_name = "EditorSpatialGizmoPlugin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_material") GodotMethod!(void, String, SpatialMaterial) addMaterial;
@@ -60,10 +60,20 @@ public:
 		@GodotName("redraw") GodotMethod!(void, EditorSpatialGizmo) redraw;
 		@GodotName("set_handle") GodotMethod!(void, EditorSpatialGizmo, long, Camera, Vector2) setHandle;
 	}
-	bool opEquals(in EditorSpatialGizmoPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSpatialGizmoPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSpatialGizmoPlugin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSpatialGizmoPlugin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSpatialGizmoPlugin.
+	/// Note: use `memnew!EditorSpatialGizmoPlugin` instead.
 	static EditorSpatialGizmoPlugin _new()
 	{
 		static godot_class_constructor constructor;
@@ -78,7 +88,7 @@ public:
 	void addMaterial(in String name, SpatialMaterial material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addMaterial, _godot_object, name, material);
+		ptrcall!(void)(GDNativeClassBinding.addMaterial, _godot_object, name, material);
 	}
 	/**
 	Override this method to define whether the gizmo can be hidden or not. Returns `true` if not overridden.
@@ -118,7 +128,7 @@ public:
 	void createHandleMaterial(in String name, in bool billboard = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createHandleMaterial, _godot_object, name, billboard);
+		ptrcall!(void)(GDNativeClassBinding.createHandleMaterial, _godot_object, name, billboard);
 	}
 	/**
 	Creates an icon material with its variants (selected and/or editable) and adds them to the internal material list. They can then be accessed with $(D getMaterial) and used in $(D EditorSpatialGizmo.addUnscaledBillboard). Should not be overridden.
@@ -126,7 +136,7 @@ public:
 	void createIconMaterial(in String name, Texture texture, in bool on_top = false, in Color color = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createIconMaterial, _godot_object, name, texture, on_top, color);
+		ptrcall!(void)(GDNativeClassBinding.createIconMaterial, _godot_object, name, texture, on_top, color);
 	}
 	/**
 	Creates an unshaded material with its variants (selected and/or editable) and adds them to the internal material list. They can then be accessed with $(D getMaterial) and used in $(D EditorSpatialGizmo.addMesh) and $(D EditorSpatialGizmo.addLines). Should not be overridden.
@@ -134,7 +144,7 @@ public:
 	void createMaterial(in String name, in Color color, in bool billboard = false, in bool on_top = false, in bool use_vertex_color = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createMaterial, _godot_object, name, color, billboard, on_top, use_vertex_color);
+		ptrcall!(void)(GDNativeClassBinding.createMaterial, _godot_object, name, color, billboard, on_top, use_vertex_color);
 	}
 	/**
 	Override this method to provide gizmo's handle names. Called for this plugin's active gizmos.
@@ -164,7 +174,7 @@ public:
 	Ref!SpatialMaterial getMaterial(in String name, EditorSpatialGizmo gizmo)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial)(_classBinding.getMaterial, _godot_object, name, gizmo);
+		return ptrcall!(SpatialMaterial)(GDNativeClassBinding.getMaterial, _godot_object, name, gizmo);
 	}
 	/**
 	Override this method to provide the name that will appear in the gizmo visibility menu.

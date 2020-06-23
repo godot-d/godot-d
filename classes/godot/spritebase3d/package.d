@@ -30,14 +30,14 @@ A node that displays 2D texture information in a 3D environment.
 */
 @GodotBaseClass struct SpriteBase3D
 {
-	enum string _GODOT_internal_name = "SpriteBase3D";
+	package(godot) enum string _GODOT_internal_name = "SpriteBase3D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_im_update") GodotMethod!(void) _imUpdate;
@@ -67,10 +67,20 @@ public:
 		@GodotName("set_opacity") GodotMethod!(void, double) setOpacity;
 		@GodotName("set_pixel_size") GodotMethod!(void, double) setPixelSize;
 	}
-	bool opEquals(in SpriteBase3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SpriteBase3D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SpriteBase3D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SpriteBase3D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SpriteBase3D.
+	/// Note: use `memnew!SpriteBase3D` instead.
 	static SpriteBase3D _new()
 	{
 		static godot_class_constructor constructor;
@@ -150,7 +160,7 @@ public:
 	Ref!TriangleMesh generateTriangleMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TriangleMesh)(_classBinding.generateTriangleMesh, _godot_object);
+		return ptrcall!(TriangleMesh)(GDNativeClassBinding.generateTriangleMesh, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	SpriteBase3D.AlphaCutMode getAlphaCutMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpriteBase3D.AlphaCutMode)(_classBinding.getAlphaCutMode, _godot_object);
+		return ptrcall!(SpriteBase3D.AlphaCutMode)(GDNativeClassBinding.getAlphaCutMode, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	Vector3.Axis getAxis() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3.Axis)(_classBinding.getAxis, _godot_object);
+		return ptrcall!(Vector3.Axis)(GDNativeClassBinding.getAxis, _godot_object);
 	}
 	/**
 	
@@ -174,23 +184,23 @@ public:
 	SpatialMaterial.BillboardMode getBillboardMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.BillboardMode)(_classBinding.getBillboardMode, _godot_object);
+		return ptrcall!(SpatialMaterial.BillboardMode)(GDNativeClassBinding.getBillboardMode, _godot_object);
 	}
 	/**
-	
+	Returns the value of the specified flag.
 	*/
 	bool getDrawFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDrawFlag, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getDrawFlag, _godot_object, flag);
 	}
 	/**
-	
+	Returns the rectangle representing this sprite.
 	*/
 	Rect2 getItemRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getItemRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getItemRect, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	Color getModulate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getModulate, _godot_object);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	double getOpacity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOpacity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOpacity, _godot_object);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	double getPixelSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPixelSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPixelSize, _godot_object);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	bool isCentered() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCentered, _godot_object);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	bool isFlippedH() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedH, _godot_object);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	bool isFlippedV() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedV, _godot_object);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	void setAlphaCutMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlphaCutMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setAlphaCutMode, _godot_object, mode);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	void setAxis(in long axis)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxis, _godot_object, axis);
+		ptrcall!(void)(GDNativeClassBinding.setAxis, _godot_object, axis);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	void setBillboardMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBillboardMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setBillboardMode, _godot_object, mode);
 	}
 	/**
 	
@@ -278,15 +288,15 @@ public:
 	void setCentered(in bool centered)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+		ptrcall!(void)(GDNativeClassBinding.setCentered, _godot_object, centered);
 	}
 	/**
-	
+	If `true`, the specified flag will be enabled.
 	*/
 	void setDrawFlag(in long flag, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawFlag, _godot_object, flag, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setDrawFlag, _godot_object, flag, enabled);
 	}
 	/**
 	
@@ -294,7 +304,7 @@ public:
 	void setFlipH(in bool flip_h)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+		ptrcall!(void)(GDNativeClassBinding.setFlipH, _godot_object, flip_h);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	void setFlipV(in bool flip_v)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
+		ptrcall!(void)(GDNativeClassBinding.setFlipV, _godot_object, flip_v);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setModulate(in Color modulate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setModulate, _godot_object, modulate);
+		ptrcall!(void)(GDNativeClassBinding.setModulate, _godot_object, modulate);
 	}
 	/**
 	
@@ -318,7 +328,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -326,7 +336,7 @@ public:
 	void setOpacity(in double opacity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOpacity, _godot_object, opacity);
+		ptrcall!(void)(GDNativeClassBinding.setOpacity, _godot_object, opacity);
 	}
 	/**
 	
@@ -334,7 +344,7 @@ public:
 	void setPixelSize(in double pixel_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPixelSize, _godot_object, pixel_size);
+		ptrcall!(void)(GDNativeClassBinding.setPixelSize, _godot_object, pixel_size);
 	}
 	/**
 	

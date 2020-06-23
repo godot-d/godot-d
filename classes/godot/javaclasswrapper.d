@@ -25,24 +25,34 @@ import godot.javaclass;
 */
 @GodotBaseClass struct JavaClassWrapperSingleton
 {
-	enum string _GODOT_internal_name = "JavaClassWrapper";
+	package(godot) enum string _GODOT_internal_name = "JavaClassWrapper";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
 		immutable char* _singletonName = "JavaClassWrapper";
 		@GodotName("wrap") GodotMethod!(JavaClass, String) wrap;
 	}
-	bool opEquals(in JavaClassWrapperSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	JavaClassWrapperSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in JavaClassWrapperSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) JavaClassWrapperSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of JavaClassWrapperSingleton.
+	/// Note: use `memnew!JavaClassWrapperSingleton` instead.
 	static JavaClassWrapperSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -57,7 +67,7 @@ public:
 	Ref!JavaClass wrap(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(JavaClass)(_classBinding.wrap, _godot_object, name);
+		return ptrcall!(JavaClass)(GDNativeClassBinding.wrap, _godot_object, name);
 	}
 }
 /// Returns: the JavaClassWrapperSingleton
@@ -65,5 +75,5 @@ public:
 JavaClassWrapperSingleton JavaClassWrapper()
 {
 	checkClassBinding!JavaClassWrapperSingleton();
-	return JavaClassWrapperSingleton(JavaClassWrapperSingleton._classBinding._singleton);
+	return JavaClassWrapperSingleton(JavaClassWrapperSingleton.GDNativeClassBinding._singleton);
 }

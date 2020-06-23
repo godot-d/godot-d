@@ -27,14 +27,14 @@ Imports scenes from third-parties' 3D files.
 */
 @GodotBaseClass struct EditorSceneImporter
 {
-	enum string _GODOT_internal_name = "EditorSceneImporter";
+	package(godot) enum string _GODOT_internal_name = "EditorSceneImporter";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_extensions") GodotMethod!(Array) _getExtensions;
@@ -44,10 +44,20 @@ public:
 		@GodotName("import_animation_from_other_importer") GodotMethod!(Animation, String, long, long) importAnimationFromOtherImporter;
 		@GodotName("import_scene_from_other_importer") GodotMethod!(Node, String, long, long) importSceneFromOtherImporter;
 	}
-	bool opEquals(in EditorSceneImporter other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSceneImporter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSceneImporter other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSceneImporter opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSceneImporter.
+	/// Note: use `memnew!EditorSceneImporter` instead.
 	static EditorSceneImporter _new()
 	{
 		static godot_class_constructor constructor;
@@ -148,7 +158,7 @@ public:
 	Ref!Animation importAnimationFromOtherImporter(in String path, in long flags, in long bake_fps)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation)(_classBinding.importAnimationFromOtherImporter, _godot_object, path, flags, bake_fps);
+		return ptrcall!(Animation)(GDNativeClassBinding.importAnimationFromOtherImporter, _godot_object, path, flags, bake_fps);
 	}
 	/**
 	
@@ -156,6 +166,6 @@ public:
 	Node importSceneFromOtherImporter(in String path, in long flags, in long bake_fps)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.importSceneFromOtherImporter, _godot_object, path, flags, bake_fps);
+		return ptrcall!(Node)(GDNativeClassBinding.importSceneFromOtherImporter, _godot_object, path, flags, bake_fps);
 	}
 }

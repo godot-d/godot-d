@@ -28,14 +28,14 @@ The first 3 DOF axes are linear axes, which represent translation of Bodies, and
 */
 @GodotBaseClass struct Generic6DOFJoint
 {
-	enum string _GODOT_internal_name = "Generic6DOFJoint";
+	package(godot) enum string _GODOT_internal_name = "Generic6DOFJoint";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Joint _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_angular_hi_limit_x") GodotMethod!(double) _getAngularHiLimitX;
@@ -65,10 +65,20 @@ public:
 		@GodotName("set_param_z") GodotMethod!(void, long, double) setParamZ;
 		@GodotName("set_precision") GodotMethod!(void, long) setPrecision;
 	}
-	bool opEquals(in Generic6DOFJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Generic6DOFJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Generic6DOFJoint other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Generic6DOFJoint opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Generic6DOFJoint.
+	/// Note: use `memnew!Generic6DOFJoint` instead.
 	static Generic6DOFJoint _new()
 	{
 		static godot_class_constructor constructor;
@@ -329,7 +339,7 @@ public:
 	bool getFlagX(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlagX, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlagX, _godot_object, flag);
 	}
 	/**
 	
@@ -337,7 +347,7 @@ public:
 	bool getFlagY(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlagY, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlagY, _godot_object, flag);
 	}
 	/**
 	
@@ -345,7 +355,7 @@ public:
 	bool getFlagZ(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlagZ, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlagZ, _godot_object, flag);
 	}
 	/**
 	
@@ -353,7 +363,7 @@ public:
 	double getParamX(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamX, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParamX, _godot_object, param);
 	}
 	/**
 	
@@ -361,7 +371,7 @@ public:
 	double getParamY(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamY, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParamY, _godot_object, param);
 	}
 	/**
 	
@@ -369,7 +379,7 @@ public:
 	double getParamZ(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamZ, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParamZ, _godot_object, param);
 	}
 	/**
 	
@@ -377,7 +387,7 @@ public:
 	long getPrecision() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPrecision, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPrecision, _godot_object);
 	}
 	/**
 	
@@ -385,7 +395,7 @@ public:
 	void setFlagX(in long flag, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagX, _godot_object, flag, value);
+		ptrcall!(void)(GDNativeClassBinding.setFlagX, _godot_object, flag, value);
 	}
 	/**
 	
@@ -393,7 +403,7 @@ public:
 	void setFlagY(in long flag, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagY, _godot_object, flag, value);
+		ptrcall!(void)(GDNativeClassBinding.setFlagY, _godot_object, flag, value);
 	}
 	/**
 	
@@ -401,7 +411,7 @@ public:
 	void setFlagZ(in long flag, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlagZ, _godot_object, flag, value);
+		ptrcall!(void)(GDNativeClassBinding.setFlagZ, _godot_object, flag, value);
 	}
 	/**
 	
@@ -409,7 +419,7 @@ public:
 	void setParamX(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamX, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParamX, _godot_object, param, value);
 	}
 	/**
 	
@@ -417,7 +427,7 @@ public:
 	void setParamY(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamY, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParamY, _godot_object, param, value);
 	}
 	/**
 	
@@ -425,7 +435,7 @@ public:
 	void setParamZ(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamZ, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParamZ, _godot_object, param, value);
 	}
 	/**
 	
@@ -433,7 +443,7 @@ public:
 	void setPrecision(in long precision)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPrecision, _godot_object, precision);
+		ptrcall!(void)(GDNativeClassBinding.setPrecision, _godot_object, precision);
 	}
 	/**
 	The amount of rotational damping across the X axis.

@@ -1,5 +1,5 @@
 /**
-
+A tab used to edit properties of the selected node.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,18 +23,21 @@ import godot.scrollcontainer;
 import godot.node;
 import godot.resource;
 /**
+A tab used to edit properties of the selected node.
 
+The editor inspector is by default located on the right-hand side of the editor. It's used to edit the properties of the selected node. For example, you can select a node such as $(D Sprite) then edit its transform through the inspector tool. The editor inspector is an essential tool in the game development workflow.
+$(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorInterface.getInspector).
 */
 @GodotBaseClass struct EditorInspector
 {
-	enum string _GODOT_internal_name = "EditorInspector";
+	package(godot) enum string _GODOT_internal_name = "EditorInspector";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ScrollContainer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ ScrollContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_edit_request_change") GodotMethod!(void, GodotObject, String) _editRequestChange;
@@ -53,10 +56,20 @@ public:
 		@GodotName("_vscroll_changed") GodotMethod!(void, double) _vscrollChanged;
 		@GodotName("refresh") GodotMethod!(void) refresh;
 	}
-	bool opEquals(in EditorInspector other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorInspector opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorInspector other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorInspector opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorInspector.
+	/// Note: use `memnew!EditorInspector` instead.
 	static EditorInspector _new()
 	{
 		static godot_class_constructor constructor;
@@ -225,6 +238,6 @@ public:
 	void refresh()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.refresh, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.refresh, _godot_object);
 	}
 }

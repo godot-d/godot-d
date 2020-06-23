@@ -30,14 +30,14 @@ $(B Note:) Many cameras will return YCbCr images which are split into two textur
 */
 @GodotBaseClass struct CameraFeed
 {
-	enum string _GODOT_internal_name = "CameraFeed";
+	package(godot) enum string _GODOT_internal_name = "CameraFeed";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_allocate_texture") GodotMethod!(void, long, long, long, long, long) _allocateTexture;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_active") GodotMethod!(void, bool) setActive;
 		@GodotName("set_transform") GodotMethod!(void, Transform2D) setTransform;
 	}
-	bool opEquals(in CameraFeed other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CameraFeed opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CameraFeed other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CameraFeed opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CameraFeed.
+	/// Note: use `memnew!CameraFeed` instead.
 	static CameraFeed _new()
 	{
 		static godot_class_constructor constructor;
@@ -184,7 +194,7 @@ public:
 	long getId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getId, _godot_object);
 	}
 	/**
 	Returns the camera's name.
@@ -192,7 +202,7 @@ public:
 	String getName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
 	Returns the position of camera on the device.
@@ -200,7 +210,7 @@ public:
 	CameraFeed.FeedPosition getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CameraFeed.FeedPosition)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(CameraFeed.FeedPosition)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	Transform2D getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	
@@ -216,7 +226,7 @@ public:
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActive, _godot_object);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setActive, _godot_object, active);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	void setTransform(in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, transform);
 	}
 	/**
 	If `true`, the feed is active.

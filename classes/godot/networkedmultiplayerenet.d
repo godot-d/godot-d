@@ -28,14 +28,14 @@ A PacketPeer implementation that should be passed to $(D SceneTree.networkPeer) 
 */
 @GodotBaseClass struct NetworkedMultiplayerENet
 {
-	enum string _GODOT_internal_name = "NetworkedMultiplayerENet";
+	package(godot) enum string _GODOT_internal_name = "NetworkedMultiplayerENet";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; NetworkedMultiplayerPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ NetworkedMultiplayerPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("close_connection") GodotMethod!(void, long) closeConnection;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_server_relay_enabled") GodotMethod!(void, bool) setServerRelayEnabled;
 		@GodotName("set_transfer_channel") GodotMethod!(void, long) setTransferChannel;
 	}
-	bool opEquals(in NetworkedMultiplayerENet other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NetworkedMultiplayerENet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NetworkedMultiplayerENet other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NetworkedMultiplayerENet opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NetworkedMultiplayerENet.
+	/// Note: use `memnew!NetworkedMultiplayerENet` instead.
 	static NetworkedMultiplayerENet _new()
 	{
 		static godot_class_constructor constructor;
@@ -109,7 +119,7 @@ public:
 	void closeConnection(in long wait_usec = 100)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.closeConnection, _godot_object, wait_usec);
+		ptrcall!(void)(GDNativeClassBinding.closeConnection, _godot_object, wait_usec);
 	}
 	/**
 	Create client that connects to a server at `address` using specified `port`. The given address needs to be either a fully qualified domain name (e.g. `"www.example.com"`) or an IP address in IPv4 or IPv6 format (e.g. `"192.168.1.1"`). The `port` is the port the server is listening on. The `in_bandwidth` and `out_bandwidth` parameters can be used to limit the incoming and outgoing bandwidth to the given number of bytes per second. The default of 0 means unlimited bandwidth. Note that ENet will strategically drop packets on specific sides of a connection between peers to ensure the peer's bandwidth is not overwhelmed. The bandwidth parameters also determine the window size of a connection which limits the amount of reliable packets that may be in transit at any given time. Returns $(D constant OK) if a client was created, $(D constant ERR_ALREADY_IN_USE) if this NetworkedMultiplayerENet instance already has an open connection (in which case you need to call $(D closeConnection) first) or $(D constant ERR_CANT_CREATE) if the client could not be created. If `client_port` is specified, the client will also listen to the given port; this is useful for some NAT traversal techniques.
@@ -117,7 +127,7 @@ public:
 	GodotError createClient(in String address, in long port, in long in_bandwidth = 0, in long out_bandwidth = 0, in long client_port = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.createClient, _godot_object, address, port, in_bandwidth, out_bandwidth, client_port);
+		return ptrcall!(GodotError)(GDNativeClassBinding.createClient, _godot_object, address, port, in_bandwidth, out_bandwidth, client_port);
 	}
 	/**
 	Create server that listens to connections via `port`. The port needs to be an available, unused port between 0 and 65535. Note that ports below 1024 are privileged and may require elevated permissions depending on the platform. To change the interface the server listens on, use $(D setBindIp). The default IP is the wildcard `"*"`, which listens on all available interfaces. `max_clients` is the maximum number of clients that are allowed at once, any number up to 4095 may be used, although the achievable number of simultaneous clients may be far lower and depends on the application. For additional details on the bandwidth parameters, see $(D createClient). Returns $(D constant OK) if a server was created, $(D constant ERR_ALREADY_IN_USE) if this NetworkedMultiplayerENet instance already has an open connection (in which case you need to call $(D closeConnection) first) or $(D constant ERR_CANT_CREATE) if the server could not be created.
@@ -125,7 +135,7 @@ public:
 	GodotError createServer(in long port, in long max_clients = 32, in long in_bandwidth = 0, in long out_bandwidth = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.createServer, _godot_object, port, max_clients, in_bandwidth, out_bandwidth);
+		return ptrcall!(GodotError)(GDNativeClassBinding.createServer, _godot_object, port, max_clients, in_bandwidth, out_bandwidth);
 	}
 	/**
 	Disconnect the given peer. If "now" is set to `true`, the connection will be closed immediately without flushing queued messages.
@@ -133,7 +143,7 @@ public:
 	void disconnectPeer(in long id, in bool now = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectPeer, _godot_object, id, now);
+		ptrcall!(void)(GDNativeClassBinding.disconnectPeer, _godot_object, id, now);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	long getChannelCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getChannelCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getChannelCount, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	NetworkedMultiplayerENet.CompressionMode getCompressionMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerENet.CompressionMode)(_classBinding.getCompressionMode, _godot_object);
+		return ptrcall!(NetworkedMultiplayerENet.CompressionMode)(GDNativeClassBinding.getCompressionMode, _godot_object);
 	}
 	/**
 	Returns the channel of the last packet fetched via $(D PacketPeer.getPacket).
@@ -157,7 +167,7 @@ public:
 	long getLastPacketChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastPacketChannel, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastPacketChannel, _godot_object);
 	}
 	/**
 	Returns the channel of the next packet that will be retrieved via $(D PacketPeer.getPacket).
@@ -165,7 +175,7 @@ public:
 	long getPacketChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPacketChannel, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPacketChannel, _godot_object);
 	}
 	/**
 	Returns the IP address of the given peer.
@@ -173,7 +183,7 @@ public:
 	String getPeerAddress(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPeerAddress, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.getPeerAddress, _godot_object, id);
 	}
 	/**
 	Returns the remote port of the given peer.
@@ -181,7 +191,7 @@ public:
 	long getPeerPort(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPeerPort, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.getPeerPort, _godot_object, id);
 	}
 	/**
 	
@@ -189,7 +199,7 @@ public:
 	long getTransferChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTransferChannel, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTransferChannel, _godot_object);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	bool isAlwaysOrdered() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAlwaysOrdered, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAlwaysOrdered, _godot_object);
 	}
 	/**
 	
@@ -205,7 +215,7 @@ public:
 	bool isServerRelayEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isServerRelayEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isServerRelayEnabled, _godot_object);
 	}
 	/**
 	
@@ -213,7 +223,7 @@ public:
 	void setAlwaysOrdered(in bool ordered)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlwaysOrdered, _godot_object, ordered);
+		ptrcall!(void)(GDNativeClassBinding.setAlwaysOrdered, _godot_object, ordered);
 	}
 	/**
 	The IP used when creating a server. This is set to the wildcard `"*"` by default, which binds to all available interfaces. The given IP needs to be in IPv4 or IPv6 address format, for example: `"192.168.1.1"`.
@@ -221,7 +231,7 @@ public:
 	void setBindIp(in String ip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBindIp, _godot_object, ip);
+		ptrcall!(void)(GDNativeClassBinding.setBindIp, _godot_object, ip);
 	}
 	/**
 	
@@ -229,7 +239,7 @@ public:
 	void setChannelCount(in long channels)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setChannelCount, _godot_object, channels);
+		ptrcall!(void)(GDNativeClassBinding.setChannelCount, _godot_object, channels);
 	}
 	/**
 	
@@ -237,7 +247,7 @@ public:
 	void setCompressionMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCompressionMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setCompressionMode, _godot_object, mode);
 	}
 	/**
 	
@@ -245,7 +255,7 @@ public:
 	void setServerRelayEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setServerRelayEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setServerRelayEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -253,7 +263,7 @@ public:
 	void setTransferChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransferChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setTransferChannel, _godot_object, channel);
 	}
 	/**
 	Enforce ordered packets when using $(D constant NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE) (thus behaving similarly to $(D constant NetworkedMultiplayerPeer.TRANSFER_MODE_UNRELIABLE_ORDERED)). This is the only way to use ordering with the RPC system.

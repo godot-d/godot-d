@@ -29,14 +29,14 @@ A GDNative library can implement $(D NativeScript)s, global functions to call wi
 */
 @GodotBaseClass struct GDNativeLibrary
 {
-	enum string _GODOT_internal_name = "GDNativeLibrary";
+	package(godot) enum string _GODOT_internal_name = "GDNativeLibrary";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_config_file") GodotMethod!(ConfigFile) getConfigFile;
@@ -52,10 +52,20 @@ public:
 		@GodotName("set_symbol_prefix") GodotMethod!(void, String) setSymbolPrefix;
 		@GodotName("should_load_once") GodotMethod!(bool) shouldLoadOnce;
 	}
-	bool opEquals(in GDNativeLibrary other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GDNativeLibrary opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GDNativeLibrary other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GDNativeLibrary opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GDNativeLibrary.
+	/// Note: use `memnew!GDNativeLibrary` instead.
 	static GDNativeLibrary _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	Ref!ConfigFile getConfigFile()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ConfigFile)(_classBinding.getConfigFile, _godot_object);
+		return ptrcall!(ConfigFile)(GDNativeClassBinding.getConfigFile, _godot_object);
 	}
 	/**
 	Returns paths to all dependency libraries for the current platform and architecture.
@@ -78,7 +88,7 @@ public:
 	PoolStringArray getCurrentDependencies() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getCurrentDependencies, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getCurrentDependencies, _godot_object);
 	}
 	/**
 	Returns the path to the dynamic library file for the current platform and architecture.
@@ -86,7 +96,7 @@ public:
 	String getCurrentLibraryPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentLibraryPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentLibraryPath, _godot_object);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	String getSymbolPrefix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSymbolPrefix, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSymbolPrefix, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	bool isReloadable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isReloadable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isReloadable, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	bool isSingleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSingleton, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSingleton, _godot_object);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	void setConfigFile(ConfigFile config_file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConfigFile, _godot_object, config_file);
+		ptrcall!(void)(GDNativeClassBinding.setConfigFile, _godot_object, config_file);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	void setLoadOnce(in bool load_once)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoadOnce, _godot_object, load_once);
+		ptrcall!(void)(GDNativeClassBinding.setLoadOnce, _godot_object, load_once);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	void setReloadable(in bool reloadable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReloadable, _godot_object, reloadable);
+		ptrcall!(void)(GDNativeClassBinding.setReloadable, _godot_object, reloadable);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	void setSingleton(in bool singleton)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
+		ptrcall!(void)(GDNativeClassBinding.setSingleton, _godot_object, singleton);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	void setSymbolPrefix(in String symbol_prefix)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSymbolPrefix, _godot_object, symbol_prefix);
+		ptrcall!(void)(GDNativeClassBinding.setSymbolPrefix, _godot_object, symbol_prefix);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	bool shouldLoadOnce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.shouldLoadOnce, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.shouldLoadOnce, _godot_object);
 	}
 	/**
 	This resource in INI-style $(D ConfigFile) format, as in `.gdnlib` files.

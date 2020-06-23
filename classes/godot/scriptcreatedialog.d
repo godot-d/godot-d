@@ -37,14 +37,14 @@ func _ready():
 */
 @GodotBaseClass struct ScriptCreateDialog
 {
-	enum string _GODOT_internal_name = "ScriptCreateDialog";
+	package(godot) enum string _GODOT_internal_name = "ScriptCreateDialog";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ConfirmationDialog _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ ConfirmationDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_browse_class_in_tree") GodotMethod!(void) _browseClassInTree;
@@ -61,10 +61,20 @@ public:
 		@GodotName("_template_changed") GodotMethod!(void, long) _templateChanged;
 		@GodotName("config") GodotMethod!(void, String, String, bool, bool) config;
 	}
-	bool opEquals(in ScriptCreateDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ScriptCreateDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ScriptCreateDialog other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ScriptCreateDialog opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ScriptCreateDialog.
+	/// Note: use `memnew!ScriptCreateDialog` instead.
 	static ScriptCreateDialog _new()
 	{
 		static godot_class_constructor constructor;
@@ -196,6 +206,6 @@ public:
 	void config(in String inherits, in String path, in bool built_in_enabled = true, in bool load_enabled = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.config, _godot_object, inherits, path, built_in_enabled, load_enabled);
+		ptrcall!(void)(GDNativeClassBinding.config, _godot_object, inherits, path, built_in_enabled, load_enabled);
 	}
 }

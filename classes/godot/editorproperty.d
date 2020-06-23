@@ -31,14 +31,14 @@ This control allows property editing for one or multiple properties into $(D Edi
 */
 @GodotBaseClass struct EditorProperty
 {
-	enum string _GODOT_internal_name = "EditorProperty";
+	package(godot) enum string _GODOT_internal_name = "EditorProperty";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_focusable_focused") GodotMethod!(void, long) _focusableFocused;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_read_only") GodotMethod!(void, bool) setReadOnly;
 		@GodotName("update_property") GodotMethod!(void) updateProperty;
 	}
-	bool opEquals(in EditorProperty other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorProperty opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorProperty other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorProperty opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorProperty.
+	/// Note: use `memnew!EditorProperty` instead.
 	static EditorProperty _new()
 	{
 		static godot_class_constructor constructor;
@@ -101,7 +111,7 @@ public:
 	void addFocusable(Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFocusable, _godot_object, control);
+		ptrcall!(void)(GDNativeClassBinding.addFocusable, _godot_object, control);
 	}
 	/**
 	If one or several properties have changed, this must be called. `field` is used in case your editor can modify fields separately (as an example, Vector3.x). The `changing` argument avoids the editor requesting this property to be refreshed (leave as `false` if unsure).
@@ -109,7 +119,7 @@ public:
 	void emitChanged(VariantArg1)(in String property, in VariantArg1 value, in String field = gs!"", in bool changing = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.emitChanged, _godot_object, property, value, field, changing);
+		ptrcall!(void)(GDNativeClassBinding.emitChanged, _godot_object, property, value, field, changing);
 	}
 	/**
 	Gets the edited object.
@@ -117,7 +127,7 @@ public:
 	GodotObject getEditedObject()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getEditedObject, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getEditedObject, _godot_object);
 	}
 	/**
 	Gets the edited property. If your editor is for a single property (added via $(D EditorInspectorPlugin.parseProperty)), then this will return the property.
@@ -125,7 +135,7 @@ public:
 	String getEditedProperty()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getEditedProperty, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getEditedProperty, _godot_object);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	String getLabel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLabel, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLabel, _godot_object);
 	}
 	/**
 	Override if you want to allow a custom tooltip over your property.
@@ -141,7 +151,7 @@ public:
 	String getTooltipText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTooltipText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getTooltipText, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	bool isCheckable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCheckable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCheckable, _godot_object);
 	}
 	/**
 	
@@ -157,7 +167,7 @@ public:
 	bool isChecked() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isChecked, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isChecked, _godot_object);
 	}
 	/**
 	
@@ -165,7 +175,7 @@ public:
 	bool isDrawRed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawRed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawRed, _godot_object);
 	}
 	/**
 	
@@ -173,7 +183,7 @@ public:
 	bool isKeying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isKeying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isKeying, _godot_object);
 	}
 	/**
 	
@@ -181,7 +191,7 @@ public:
 	bool isReadOnly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isReadOnly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isReadOnly, _godot_object);
 	}
 	/**
 	Adds controls with this function if you want them on the bottom (below the label).
@@ -189,7 +199,7 @@ public:
 	void setBottomEditor(Control editor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBottomEditor, _godot_object, editor);
+		ptrcall!(void)(GDNativeClassBinding.setBottomEditor, _godot_object, editor);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	void setCheckable(in bool checkable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCheckable, _godot_object, checkable);
+		ptrcall!(void)(GDNativeClassBinding.setCheckable, _godot_object, checkable);
 	}
 	/**
 	
@@ -205,7 +215,7 @@ public:
 	void setChecked(in bool checked)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setChecked, _godot_object, checked);
+		ptrcall!(void)(GDNativeClassBinding.setChecked, _godot_object, checked);
 	}
 	/**
 	
@@ -213,7 +223,7 @@ public:
 	void setDrawRed(in bool draw_red)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawRed, _godot_object, draw_red);
+		ptrcall!(void)(GDNativeClassBinding.setDrawRed, _godot_object, draw_red);
 	}
 	/**
 	
@@ -221,7 +231,7 @@ public:
 	void setKeying(in bool keying)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeying, _godot_object, keying);
+		ptrcall!(void)(GDNativeClassBinding.setKeying, _godot_object, keying);
 	}
 	/**
 	
@@ -229,7 +239,7 @@ public:
 	void setLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLabel, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setLabel, _godot_object, text);
 	}
 	/**
 	
@@ -237,7 +247,7 @@ public:
 	void setReadOnly(in bool read_only)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadOnly, _godot_object, read_only);
+		ptrcall!(void)(GDNativeClassBinding.setReadOnly, _godot_object, read_only);
 	}
 	/**
 	When this virtual function is called, you must update your editor.

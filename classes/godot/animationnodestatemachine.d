@@ -37,14 +37,14 @@ state_machine.travel("some_state")
 */
 @GodotBaseClass struct AnimationNodeStateMachine
 {
-	enum string _GODOT_internal_name = "AnimationNodeStateMachine";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeStateMachine";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AnimationRootNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AnimationRootNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_tree_changed") GodotMethod!(void) _treeChanged;
@@ -71,10 +71,20 @@ public:
 		@GodotName("set_node_position") GodotMethod!(void, String, Vector2) setNodePosition;
 		@GodotName("set_start_node") GodotMethod!(void, String) setStartNode;
 	}
-	bool opEquals(in AnimationNodeStateMachine other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeStateMachine opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeStateMachine other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeStateMachine opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeStateMachine.
+	/// Note: use `memnew!AnimationNodeStateMachine` instead.
 	static AnimationNodeStateMachine _new()
 	{
 		static godot_class_constructor constructor;
@@ -98,7 +108,7 @@ public:
 	void addNode(in String name, AnimationNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, name, node, position);
+		ptrcall!(void)(GDNativeClassBinding.addNode, _godot_object, name, node, position);
 	}
 	/**
 	Adds a transition between the given nodes.
@@ -106,7 +116,7 @@ public:
 	void addTransition(in String from, in String to, AnimationNodeStateMachineTransition transition)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTransition, _godot_object, from, to, transition);
+		ptrcall!(void)(GDNativeClassBinding.addTransition, _godot_object, from, to, transition);
 	}
 	/**
 	Returns the graph's end node.
@@ -114,7 +124,7 @@ public:
 	String getEndNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getEndNode, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getEndNode, _godot_object);
 	}
 	/**
 	Returns the draw offset of the graph. Used for display in the editor.
@@ -122,7 +132,7 @@ public:
 	Vector2 getGraphOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGraphOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGraphOffset, _godot_object);
 	}
 	/**
 	Returns the animation node with the given name.
@@ -130,7 +140,7 @@ public:
 	Ref!AnimationNode getNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
+		return ptrcall!(AnimationNode)(GDNativeClassBinding.getNode, _godot_object, name);
 	}
 	/**
 	Returns the given animation node's name.
@@ -138,7 +148,7 @@ public:
 	String getNodeName(AnimationNode node) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNodeName, _godot_object, node);
+		return ptrcall!(String)(GDNativeClassBinding.getNodeName, _godot_object, node);
 	}
 	/**
 	Returns the given node's coordinates. Used for display in the editor.
@@ -146,7 +156,7 @@ public:
 	Vector2 getNodePosition(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, name);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getNodePosition, _godot_object, name);
 	}
 	/**
 	Returns the graph's end node.
@@ -154,7 +164,7 @@ public:
 	String getStartNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getStartNode, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getStartNode, _godot_object);
 	}
 	/**
 	Returns the given transition.
@@ -162,7 +172,7 @@ public:
 	Ref!AnimationNodeStateMachineTransition getTransition(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNodeStateMachineTransition)(_classBinding.getTransition, _godot_object, idx);
+		return ptrcall!(AnimationNodeStateMachineTransition)(GDNativeClassBinding.getTransition, _godot_object, idx);
 	}
 	/**
 	Returns the number of connections in the graph.
@@ -170,7 +180,7 @@ public:
 	long getTransitionCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTransitionCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTransitionCount, _godot_object);
 	}
 	/**
 	Returns the given transition's start node.
@@ -178,7 +188,7 @@ public:
 	String getTransitionFrom(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTransitionFrom, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getTransitionFrom, _godot_object, idx);
 	}
 	/**
 	Returns the given transition's end node.
@@ -186,7 +196,7 @@ public:
 	String getTransitionTo(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTransitionTo, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getTransitionTo, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the graph contains the given node.
@@ -194,7 +204,7 @@ public:
 	bool hasNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasNode, _godot_object, name);
 	}
 	/**
 	Returns `true` if there is a transition between the given nodes.
@@ -202,7 +212,7 @@ public:
 	bool hasTransition(in String from, in String to) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasTransition, _godot_object, from, to);
+		return ptrcall!(bool)(GDNativeClassBinding.hasTransition, _godot_object, from, to);
 	}
 	/**
 	Deletes the given node from the graph.
@@ -210,7 +220,7 @@ public:
 	void removeNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeNode, _godot_object, name);
 	}
 	/**
 	Deletes the transition between the two specified nodes.
@@ -218,7 +228,7 @@ public:
 	void removeTransition(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTransition, _godot_object, from, to);
+		ptrcall!(void)(GDNativeClassBinding.removeTransition, _godot_object, from, to);
 	}
 	/**
 	Deletes the given transition by index.
@@ -226,7 +236,7 @@ public:
 	void removeTransitionByIndex(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTransitionByIndex, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeTransitionByIndex, _godot_object, idx);
 	}
 	/**
 	Renames the given node.
@@ -234,7 +244,7 @@ public:
 	void renameNode(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
+		ptrcall!(void)(GDNativeClassBinding.renameNode, _godot_object, name, new_name);
 	}
 	/**
 	Sets the given node as the graph end point.
@@ -242,7 +252,7 @@ public:
 	void setEndNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEndNode, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setEndNode, _godot_object, name);
 	}
 	/**
 	Sets the draw offset of the graph. Used for display in the editor.
@@ -250,7 +260,7 @@ public:
 	void setGraphOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGraphOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setGraphOffset, _godot_object, offset);
 	}
 	/**
 	Sets the node's coordinates. Used for display in the editor.
@@ -258,7 +268,7 @@ public:
 	void setNodePosition(in String name, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
+		ptrcall!(void)(GDNativeClassBinding.setNodePosition, _godot_object, name, position);
 	}
 	/**
 	Sets the given node as the graph start point.
@@ -266,6 +276,6 @@ public:
 	void setStartNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStartNode, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setStartNode, _godot_object, name);
 	}
 }

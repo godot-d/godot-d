@@ -29,14 +29,14 @@ Contains mouse and pen motion information. Supports relative, absolute positions
 */
 @GodotBaseClass struct InputEventMouseMotion
 {
-	enum string _GODOT_internal_name = "InputEventMouseMotion";
+	package(godot) enum string _GODOT_internal_name = "InputEventMouseMotion";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventMouse _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventMouse _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_pressure") GodotMethod!(double) getPressure;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_speed") GodotMethod!(void, Vector2) setSpeed;
 		@GodotName("set_tilt") GodotMethod!(void, Vector2) setTilt;
 	}
-	bool opEquals(in InputEventMouseMotion other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventMouseMotion opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventMouseMotion other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventMouseMotion opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventMouseMotion.
+	/// Note: use `memnew!InputEventMouseMotion` instead.
 	static InputEventMouseMotion _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	double getPressure() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPressure, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPressure, _godot_object);
 	}
 	/**
 	
@@ -74,7 +84,7 @@ public:
 	Vector2 getRelative() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRelative, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getRelative, _godot_object);
 	}
 	/**
 	
@@ -82,7 +92,7 @@ public:
 	Vector2 getSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSpeed, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSpeed, _godot_object);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	Vector2 getTilt() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getTilt, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getTilt, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	void setPressure(in double pressure)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
+		ptrcall!(void)(GDNativeClassBinding.setPressure, _godot_object, pressure);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	void setRelative(in Vector2 relative)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRelative, _godot_object, relative);
+		ptrcall!(void)(GDNativeClassBinding.setRelative, _godot_object, relative);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	void setSpeed(in Vector2 speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeed, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setSpeed, _godot_object, speed);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	void setTilt(in Vector2 tilt)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTilt, _godot_object, tilt);
+		ptrcall!(void)(GDNativeClassBinding.setTilt, _godot_object, tilt);
 	}
 	/**
 	Represents the pressure the user puts on the pen. Ranges from `0.0` to `1.0`.
@@ -137,7 +147,8 @@ public:
 		setPressure(v);
 	}
 	/**
-	The mouse position relative to the previous position (position at the last frame).
+	The mouse position relative to the previous position (position at the last frame). 
+	$(B Note:) Since $(D InputEventMouseMotion) is only emitted when the mouse moves, the last event won't have a relative position of `Vector2(0, 0)` when the user stops moving the mouse.
 	*/
 	@property Vector2 relative()
 	{

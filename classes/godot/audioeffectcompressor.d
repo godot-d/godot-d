@@ -36,14 +36,14 @@ Compressor has many uses in the mix:
 */
 @GodotBaseClass struct AudioEffectCompressor
 {
-	enum string _GODOT_internal_name = "AudioEffectCompressor";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectCompressor";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_attack_us") GodotMethod!(double) getAttackUs;
@@ -61,10 +61,20 @@ public:
 		@GodotName("set_sidechain") GodotMethod!(void, String) setSidechain;
 		@GodotName("set_threshold") GodotMethod!(void, double) setThreshold;
 	}
-	bool opEquals(in AudioEffectCompressor other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectCompressor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectCompressor other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectCompressor opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectCompressor.
+	/// Note: use `memnew!AudioEffectCompressor` instead.
 	static AudioEffectCompressor _new()
 	{
 		static godot_class_constructor constructor;
@@ -79,7 +89,7 @@ public:
 	double getAttackUs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAttackUs, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAttackUs, _godot_object);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	double getGain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGain, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGain, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	double getMix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMix, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMix, _godot_object);
 	}
 	/**
 	
@@ -103,7 +113,7 @@ public:
 	double getRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRatio, _godot_object);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	double getReleaseMs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getReleaseMs, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getReleaseMs, _godot_object);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	String getSidechain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSidechain, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSidechain, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	double getThreshold() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getThreshold, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getThreshold, _godot_object);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	void setAttackUs(in double attack_us)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAttackUs, _godot_object, attack_us);
+		ptrcall!(void)(GDNativeClassBinding.setAttackUs, _godot_object, attack_us);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	void setGain(in double gain)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGain, _godot_object, gain);
+		ptrcall!(void)(GDNativeClassBinding.setGain, _godot_object, gain);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	void setMix(in double mix)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMix, _godot_object, mix);
+		ptrcall!(void)(GDNativeClassBinding.setMix, _godot_object, mix);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	void setRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRatio, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.setRatio, _godot_object, ratio);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	void setReleaseMs(in double release_ms)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReleaseMs, _godot_object, release_ms);
+		ptrcall!(void)(GDNativeClassBinding.setReleaseMs, _godot_object, release_ms);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	void setSidechain(in String sidechain)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSidechain, _godot_object, sidechain);
+		ptrcall!(void)(GDNativeClassBinding.setSidechain, _godot_object, sidechain);
 	}
 	/**
 	
@@ -183,7 +193,7 @@ public:
 	void setThreshold(in double threshold)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setThreshold, _godot_object, threshold);
+		ptrcall!(void)(GDNativeClassBinding.setThreshold, _godot_object, threshold);
 	}
 	/**
 	Compressor's reaction time when the signal exceeds the threshold, in microseconds. Value can range from 20 to 2000.

@@ -1,5 +1,5 @@
 /**
-
+Represents the output shader parameters within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,25 +23,37 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+Represents the output shader parameters within the visual shader graph.
 
+This visual shader node is present in all shader graphs in form of "Output" block with mutliple output value ports.
 */
 @GodotBaseClass struct VisualShaderNodeOutput
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeOutput";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeOutput";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeOutput other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeOutput opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeOutput other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeOutput opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeOutput.
+	/// Note: use `memnew!VisualShaderNodeOutput` instead.
 	static VisualShaderNodeOutput _new()
 	{
 		static godot_class_constructor constructor;

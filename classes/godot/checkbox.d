@@ -1,5 +1,5 @@
 /**
-Binary choice user interface widget.
+Binary choice user interface widget. See also $(D CheckButton).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,27 +24,37 @@ import godot.button;
 import godot.basebutton;
 import godot.control;
 /**
-Binary choice user interface widget.
+Binary choice user interface widget. See also $(D CheckButton).
 
-A checkbox allows the user to make a binary choice (choosing only one of two possible options).
+A checkbox allows the user to make a binary choice (choosing only one of two possible options). It's similar to $(D CheckButton) in functionality, but it has a different apperance. To follow established UX patterns, it's recommended to use CheckBox when toggling it has $(B no) immediate effect on something. For instance, it should be used when toggling it will only do something once a confirmation button is pressed.
 */
 @GodotBaseClass struct CheckBox
 {
-	enum string _GODOT_internal_name = "CheckBox";
+	package(godot) enum string _GODOT_internal_name = "CheckBox";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Button _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in CheckBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CheckBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CheckBox other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CheckBox opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CheckBox.
+	/// Note: use `memnew!CheckBox` instead.
 	static CheckBox _new()
 	{
 		static godot_class_constructor constructor;

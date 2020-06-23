@@ -30,14 +30,14 @@ This class allows you to define a custom shader program that can be used by a $(
 */
 @GodotBaseClass struct Shader
 {
-	enum string _GODOT_internal_name = "Shader";
+	package(godot) enum string _GODOT_internal_name = "Shader";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_code") GodotMethod!(String) getCode;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_code") GodotMethod!(void, String) setCode;
 		@GodotName("set_default_texture_param") GodotMethod!(void, String, Texture) setDefaultTextureParam;
 	}
-	bool opEquals(in Shader other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Shader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Shader other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Shader opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Shader.
+	/// Note: use `memnew!Shader` instead.
 	static Shader _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +98,7 @@ public:
 	String getCode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCode, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCode, _godot_object);
 	}
 	/**
 	Returns the texture that is set as default for the specified parameter.
@@ -97,7 +107,7 @@ public:
 	Ref!Texture getDefaultTextureParam(in String param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getDefaultTextureParam, _godot_object, param);
+		return ptrcall!(Texture)(GDNativeClassBinding.getDefaultTextureParam, _godot_object, param);
 	}
 	/**
 	Returns the shader mode for the shader, either $(D constant MODE_CANVAS_ITEM), $(D constant MODE_SPATIAL) or $(D constant MODE_PARTICLES).
@@ -105,7 +115,7 @@ public:
 	Shader.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shader.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(Shader.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	Returns `true` if the shader has this param defined as a uniform in its code.
@@ -114,7 +124,7 @@ public:
 	bool hasParam(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasParam, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasParam, _godot_object, name);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	void setCode(in String code)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCode, _godot_object, code);
+		ptrcall!(void)(GDNativeClassBinding.setCode, _godot_object, code);
 	}
 	/**
 	Sets the default texture to be used with a texture uniform. The default is used if a texture is not set in the $(D ShaderMaterial).
@@ -131,7 +141,7 @@ public:
 	void setDefaultTextureParam(in String param, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultTextureParam, _godot_object, param, texture);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultTextureParam, _godot_object, param, texture);
 	}
 	/**
 	Returns the shader's code as the user has written it, not the full generated code used internally.

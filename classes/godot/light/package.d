@@ -23,18 +23,18 @@ import godot.visualinstance;
 /**
 Provides a base class for different kinds of light nodes.
 
-Light is the abstract base class for light nodes, so it shouldn't be used directly (it can't be instanced). Other types of light nodes inherit from it. Light contains the common variables and parameters used for lighting.
+Light is the $(I abstract) base class for light nodes. As it can't be instanced, it shouldn't be used directly. Other types of light nodes inherit from it. Light contains the common variables and parameters used for lighting.
 */
 @GodotBaseClass struct Light
 {
-	enum string _GODOT_internal_name = "Light";
+	package(godot) enum string _GODOT_internal_name = "Light";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_bake_mode") GodotMethod!(Light.BakeMode) getBakeMode;
@@ -56,10 +56,20 @@ public:
 		@GodotName("set_shadow_color") GodotMethod!(void, Color) setShadowColor;
 		@GodotName("set_shadow_reverse_cull_face") GodotMethod!(void, bool) setShadowReverseCullFace;
 	}
-	bool opEquals(in Light other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Light opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Light other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Light opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Light.
+	/// Note: use `memnew!Light` instead.
 	static Light _new()
 	{
 		static godot_class_constructor constructor;
@@ -183,7 +193,7 @@ public:
 	Light.BakeMode getBakeMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Light.BakeMode)(_classBinding.getBakeMode, _godot_object);
+		return ptrcall!(Light.BakeMode)(GDNativeClassBinding.getBakeMode, _godot_object);
 	}
 	/**
 	
@@ -191,7 +201,7 @@ public:
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -199,7 +209,7 @@ public:
 	long getCullMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCullMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCullMask, _godot_object);
 	}
 	/**
 	Returns the value of the specified $(D Light.param) parameter.
@@ -207,7 +217,7 @@ public:
 	double getParam(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParam, _godot_object, param);
 	}
 	/**
 	
@@ -215,7 +225,7 @@ public:
 	Color getShadowColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getShadowColor, _godot_object);
 	}
 	/**
 	
@@ -223,7 +233,7 @@ public:
 	bool getShadowReverseCullFace() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getShadowReverseCullFace, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getShadowReverseCullFace, _godot_object);
 	}
 	/**
 	
@@ -231,7 +241,7 @@ public:
 	bool hasShadow() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasShadow, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasShadow, _godot_object);
 	}
 	/**
 	
@@ -239,7 +249,7 @@ public:
 	bool isEditorOnly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditorOnly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditorOnly, _godot_object);
 	}
 	/**
 	
@@ -247,7 +257,7 @@ public:
 	bool isNegative() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNegative, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isNegative, _godot_object);
 	}
 	/**
 	
@@ -255,7 +265,7 @@ public:
 	void setBakeMode(in long bake_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeMode, _godot_object, bake_mode);
+		ptrcall!(void)(GDNativeClassBinding.setBakeMode, _godot_object, bake_mode);
 	}
 	/**
 	
@@ -263,7 +273,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -271,7 +281,7 @@ public:
 	void setCullMask(in long cull_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMask, _godot_object, cull_mask);
+		ptrcall!(void)(GDNativeClassBinding.setCullMask, _godot_object, cull_mask);
 	}
 	/**
 	
@@ -279,7 +289,7 @@ public:
 	void setEditorOnly(in bool editor_only)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditorOnly, _godot_object, editor_only);
+		ptrcall!(void)(GDNativeClassBinding.setEditorOnly, _godot_object, editor_only);
 	}
 	/**
 	
@@ -287,7 +297,7 @@ public:
 	void setNegative(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNegative, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setNegative, _godot_object, enabled);
 	}
 	/**
 	Sets the value of the specified $(D Light.param) parameter.
@@ -295,7 +305,7 @@ public:
 	void setParam(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParam, _godot_object, param, value);
 	}
 	/**
 	
@@ -303,7 +313,7 @@ public:
 	void setShadow(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadow, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setShadow, _godot_object, enabled);
 	}
 	/**
 	
@@ -311,7 +321,7 @@ public:
 	void setShadowColor(in Color shadow_color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, shadow_color);
+		ptrcall!(void)(GDNativeClassBinding.setShadowColor, _godot_object, shadow_color);
 	}
 	/**
 	
@@ -319,7 +329,7 @@ public:
 	void setShadowReverseCullFace(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowReverseCullFace, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setShadowReverseCullFace, _godot_object, enable);
 	}
 	/**
 	If `true`, the light only appears in the editor and will not be visible at runtime.
@@ -346,7 +356,7 @@ public:
 		setBakeMode(v);
 	}
 	/**
-	The light's color.
+	The light's color. An $(I overbright) color can be used to achieve a result equivalent to increasing the light's $(D lightEnergy).
 	*/
 	@property Color lightColor()
 	{
@@ -370,7 +380,7 @@ public:
 		setCullMask(v);
 	}
 	/**
-	The light's strength multiplier.
+	The light's strength multiplier (this is not a physical unit). For $(D OmniLight) and $(D SpotLight), changing this value will only change the light color's intensity, not the light's radius.
 	*/
 	@property double lightEnergy()
 	{
@@ -406,7 +416,7 @@ public:
 		setNegative(v);
 	}
 	/**
-	The intensity of the specular blob in objects affected by the light. At `0` the light becomes a pure diffuse light.
+	The intensity of the specular blob in objects affected by the light. At `0`, the light becomes a pure diffuse light. When not baking emission, this can be used to avoid unrealistic reflections when placing lights above an emissive surface.
 	*/
 	@property double lightSpecular()
 	{
@@ -418,7 +428,7 @@ public:
 		setParam(2, v);
 	}
 	/**
-	Used to adjust shadow appearance. Too small a value results in self-shadowing, while too large a value causes shadows to separate from casters. Adjust as needed.
+	Used to adjust shadow appearance. Too small a value results in self-shadowing ("shadow acne"), while too large a value causes shadows to separate from casters ("peter-panning"). Adjust as needed.
 	*/
 	@property double shadowBias()
 	{

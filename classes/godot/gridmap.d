@@ -33,14 +33,14 @@ Internally, a GridMap is split into a sparse collection of octants for efficient
 */
 @GodotBaseClass struct GridMap
 {
-	enum string _GODOT_internal_name = "GridMap";
+	package(godot) enum string _GODOT_internal_name = "GridMap";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update_octants_callback") GodotMethod!(void) _updateOctantsCallback;
@@ -81,10 +81,20 @@ public:
 		@GodotName("set_octant_size") GodotMethod!(void, long) setOctantSize;
 		@GodotName("world_to_map") GodotMethod!(Vector3, Vector3) worldToMap;
 	}
-	bool opEquals(in GridMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GridMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GridMap other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GridMap opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GridMap.
+	/// Note: use `memnew!GridMap` instead.
 	static GridMap _new()
 	{
 		static godot_class_constructor constructor;
@@ -116,7 +126,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	void clearBakedMeshes()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBakedMeshes, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearBakedMeshes, _godot_object);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	RID getBakeMeshInstance(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getBakeMeshInstance, _godot_object, idx);
+		return ptrcall!(RID)(GDNativeClassBinding.getBakeMeshInstance, _godot_object, idx);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	Array getBakeMeshes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getBakeMeshes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getBakeMeshes, _godot_object);
 	}
 	/**
 	The $(D MeshLibrary) item index located at the grid-based X, Y and Z coordinates. If the cell is empty, $(D constant INVALID_CELL_ITEM) will be returned.
@@ -148,7 +158,7 @@ public:
 	long getCellItem(in long x, in long y, in long z) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCellItem, _godot_object, x, y, z);
+		return ptrcall!(long)(GDNativeClassBinding.getCellItem, _godot_object, x, y, z);
 	}
 	/**
 	The orientation of the cell at the grid-based X, Y and Z coordinates. -1 is returned if the cell is empty.
@@ -156,7 +166,7 @@ public:
 	long getCellItemOrientation(in long x, in long y, in long z) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCellItemOrientation, _godot_object, x, y, z);
+		return ptrcall!(long)(GDNativeClassBinding.getCellItemOrientation, _godot_object, x, y, z);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	double getCellScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCellScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCellScale, _godot_object);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	Vector3 getCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCellSize, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getCellSize, _godot_object);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	bool getCenterX() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCenterX, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCenterX, _godot_object);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	bool getCenterY() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCenterY, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCenterY, _godot_object);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	bool getCenterZ() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCenterZ, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCenterZ, _godot_object);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns an individual bit on the $(D collisionLayer).
@@ -212,7 +222,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -220,7 +230,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns an individual bit on the $(D collisionMask).
@@ -228,7 +238,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	Ref!MeshLibrary getMeshLibrary() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MeshLibrary)(_classBinding.getMeshLibrary, _godot_object);
+		return ptrcall!(MeshLibrary)(GDNativeClassBinding.getMeshLibrary, _godot_object);
 	}
 	/**
 	Returns an array of $(D Transform) and $(D Mesh) references corresponding to the non-empty cells in the grid. The transforms are specified in world space.
@@ -244,7 +254,7 @@ public:
 	Array getMeshes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getMeshes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getMeshes, _godot_object);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	long getOctantSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOctantSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOctantSize, _godot_object);
 	}
 	/**
 	Returns an array of $(D Vector3) with the non-empty cell coordinates in the grid map.
@@ -260,7 +270,7 @@ public:
 	Array getUsedCells() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getUsedCells, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getUsedCells, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	void makeBakedMeshes(in bool gen_lightmap_uv = false, in double lightmap_uv_texel_size = 0.1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeBakedMeshes, _godot_object, gen_lightmap_uv, lightmap_uv_texel_size);
+		ptrcall!(void)(GDNativeClassBinding.makeBakedMeshes, _godot_object, gen_lightmap_uv, lightmap_uv_texel_size);
 	}
 	/**
 	Returns the position of a grid cell in the GridMap's local coordinate space.
@@ -276,7 +286,7 @@ public:
 	Vector3 mapToWorld(in long x, in long y, in long z) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.mapToWorld, _godot_object, x, y, z);
+		return ptrcall!(Vector3)(GDNativeClassBinding.mapToWorld, _godot_object, x, y, z);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	void resourceChanged(Resource resource)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resourceChanged, _godot_object, resource);
+		ptrcall!(void)(GDNativeClassBinding.resourceChanged, _godot_object, resource);
 	}
 	/**
 	Sets the mesh index for the cell referenced by its grid-based X, Y and Z coordinates.
@@ -294,7 +304,7 @@ public:
 	void setCellItem(in long x, in long y, in long z, in long item, in long orientation = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellItem, _godot_object, x, y, z, item, orientation);
+		ptrcall!(void)(GDNativeClassBinding.setCellItem, _godot_object, x, y, z, item, orientation);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	void setCellScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setCellScale, _godot_object, scale);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setCellSize(in Vector3 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setCellSize, _godot_object, size);
 	}
 	/**
 	
@@ -318,7 +328,7 @@ public:
 	void setCenterX(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterX, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCenterX, _godot_object, enable);
 	}
 	/**
 	
@@ -326,7 +336,7 @@ public:
 	void setCenterY(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterY, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCenterY, _godot_object, enable);
 	}
 	/**
 	
@@ -334,7 +344,7 @@ public:
 	void setCenterZ(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenterZ, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCenterZ, _godot_object, enable);
 	}
 	/**
 	
@@ -342,7 +352,7 @@ public:
 	void setClip(in bool enabled, in bool clipabove = true, in long floor = 0, in long axis = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClip, _godot_object, enabled, clipabove, floor, axis);
+		ptrcall!(void)(GDNativeClassBinding.setClip, _godot_object, enabled, clipabove, floor, axis);
 	}
 	/**
 	
@@ -350,7 +360,7 @@ public:
 	void setCollisionLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, layer);
 	}
 	/**
 	Sets an individual bit on the $(D collisionLayer).
@@ -358,7 +368,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -366,7 +376,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets an individual bit on the $(D collisionMask).
@@ -374,7 +384,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -382,7 +392,7 @@ public:
 	void setMeshLibrary(MeshLibrary mesh_library)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMeshLibrary, _godot_object, mesh_library);
+		ptrcall!(void)(GDNativeClassBinding.setMeshLibrary, _godot_object, mesh_library);
 	}
 	/**
 	
@@ -390,7 +400,7 @@ public:
 	void setOctantSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctantSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setOctantSize, _godot_object, size);
 	}
 	/**
 	Returns the coordinates of the grid cell containing the given point.
@@ -399,7 +409,7 @@ public:
 	Vector3 worldToMap(in Vector3 pos) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.worldToMap, _godot_object, pos);
+		return ptrcall!(Vector3)(GDNativeClassBinding.worldToMap, _godot_object, pos);
 	}
 	/**
 	If `true`, grid items are centered on the X axis.

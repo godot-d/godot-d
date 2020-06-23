@@ -27,23 +27,33 @@ import godot.inputeventwithmodifiers;
 */
 @GodotBaseClass struct InputEventPanGesture
 {
-	enum string _GODOT_internal_name = "InputEventPanGesture";
+	package(godot) enum string _GODOT_internal_name = "InputEventPanGesture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventGesture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventGesture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_delta") GodotMethod!(Vector2) getDelta;
 		@GodotName("set_delta") GodotMethod!(void, Vector2) setDelta;
 	}
-	bool opEquals(in InputEventPanGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventPanGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventPanGesture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventPanGesture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventPanGesture.
+	/// Note: use `memnew!InputEventPanGesture` instead.
 	static InputEventPanGesture _new()
 	{
 		static godot_class_constructor constructor;
@@ -58,7 +68,7 @@ public:
 	Vector2 getDelta() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getDelta, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getDelta, _godot_object);
 	}
 	/**
 	
@@ -66,7 +76,7 @@ public:
 	void setDelta(in Vector2 delta)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDelta, _godot_object, delta);
+		ptrcall!(void)(GDNativeClassBinding.setDelta, _godot_object, delta);
 	}
 	/**
 	

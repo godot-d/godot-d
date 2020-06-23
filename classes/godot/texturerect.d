@@ -31,14 +31,14 @@ Used to draw icons and sprites in a user interface. The texture's placement can 
 */
 @GodotBaseClass struct TextureRect
 {
-	enum string _GODOT_internal_name = "TextureRect";
+	package(godot) enum string _GODOT_internal_name = "TextureRect";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_texture_changed") GodotMethod!(void) _textureChanged;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_stretch_mode") GodotMethod!(void, long) setStretchMode;
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 	}
-	bool opEquals(in TextureRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TextureRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TextureRect other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TextureRect opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TextureRect.
+	/// Note: use `memnew!TextureRect` instead.
 	static TextureRect _new()
 	{
 		static godot_class_constructor constructor;
@@ -128,7 +138,7 @@ public:
 	TextureRect.StretchMode getStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TextureRect.StretchMode)(_classBinding.getStretchMode, _godot_object);
+		return ptrcall!(TextureRect.StretchMode)(GDNativeClassBinding.getStretchMode, _godot_object);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	bool hasExpand() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasExpand, _godot_object);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	bool isFlippedH() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedH, _godot_object);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	bool isFlippedV() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedV, _godot_object);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	void setExpand(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpand, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExpand, _godot_object, enable);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setFlipH(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFlipH, _godot_object, enable);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setFlipV(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFlipV, _godot_object, enable);
 	}
 	/**
 	
@@ -192,7 +202,7 @@ public:
 	void setStretchMode(in long stretch_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchMode, _godot_object, stretch_mode);
+		ptrcall!(void)(GDNativeClassBinding.setStretchMode, _godot_object, stretch_mode);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	If `true`, the texture scales to fit its bounding rectangle.

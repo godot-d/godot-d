@@ -28,17 +28,18 @@ Most basic 3D game object, parent of all 3D-related nodes.
 
 Most basic 3D game object, with a 3D $(D Transform) and visibility settings. All other 3D game objects inherit from Spatial. Use $(D Spatial) as a parent node to move, scale, rotate and show/hide children in a 3D project.
 Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the $(D Spatial) object is set as top-level. Affine operations in this coordinate system correspond to direct affine operations on the $(D Spatial)'s transform. The word local below refers to this coordinate system. The coordinate system that is attached to the $(D Spatial) object itself is referred to as object-local coordinate system.
+$(B Note:) Unless otherwise specified, all methods that have angle parameters must have angles specified as $(I radians). To convert degrees to radians, use $(D @GDScript.deg2rad).
 */
 @GodotBaseClass struct Spatial
 {
-	enum string _GODOT_internal_name = "Spatial";
+	package(godot) enum string _GODOT_internal_name = "Spatial";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update_gizmo") GodotMethod!(void) _updateGizmo;
@@ -92,10 +93,20 @@ public:
 		@GodotName("translate_object_local") GodotMethod!(void, Vector3) translateObjectLocal;
 		@GodotName("update_gizmo") GodotMethod!(void) updateGizmo;
 	}
-	bool opEquals(in Spatial other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Spatial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Spatial other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Spatial opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Spatial.
+	/// Note: use `memnew!Spatial` instead.
 	static Spatial _new()
 	{
 		static godot_class_constructor constructor;
@@ -140,7 +151,7 @@ public:
 	void forceUpdateTransform()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceUpdateTransform, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceUpdateTransform, _godot_object);
 	}
 	/**
 	
@@ -148,7 +159,7 @@ public:
 	Ref!SpatialGizmo getGizmo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialGizmo)(_classBinding.getGizmo, _godot_object);
+		return ptrcall!(SpatialGizmo)(GDNativeClassBinding.getGizmo, _godot_object);
 	}
 	/**
 	
@@ -156,7 +167,7 @@ public:
 	Transform getGlobalTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getGlobalTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getGlobalTransform, _godot_object);
 	}
 	/**
 	Returns the parent $(D Spatial), or an empty $(D GodotObject) if no parent exists or parent is not of type $(D Spatial).
@@ -164,7 +175,7 @@ public:
 	Spatial getParentSpatial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Spatial)(_classBinding.getParentSpatial, _godot_object);
+		return ptrcall!(Spatial)(GDNativeClassBinding.getParentSpatial, _godot_object);
 	}
 	/**
 	
@@ -172,7 +183,7 @@ public:
 	Vector3 getRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getRotation, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getRotation, _godot_object);
 	}
 	/**
 	
@@ -180,7 +191,7 @@ public:
 	Vector3 getRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getRotationDegrees, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -188,7 +199,7 @@ public:
 	Vector3 getScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getScale, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getScale, _godot_object);
 	}
 	/**
 	
@@ -196,7 +207,7 @@ public:
 	Transform getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	
@@ -204,7 +215,7 @@ public:
 	Vector3 getTranslation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getTranslation, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getTranslation, _godot_object);
 	}
 	/**
 	Returns the current $(D World) resource this $(D Spatial) node is registered to.
@@ -212,7 +223,7 @@ public:
 	Ref!World getWorld() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World)(_classBinding.getWorld, _godot_object);
+		return ptrcall!(World)(GDNativeClassBinding.getWorld, _godot_object);
 	}
 	/**
 	Rotates the global (world) transformation around axis, a unit $(D Vector3), by specified angle in radians. The rotation axis is in global coordinate system.
@@ -220,7 +231,7 @@ public:
 	void globalRotate(in Vector3 axis, in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalRotate, _godot_object, axis, angle);
+		ptrcall!(void)(GDNativeClassBinding.globalRotate, _godot_object, axis, angle);
 	}
 	/**
 	Scales the global (world) transformation by the given $(D Vector3) scale factors.
@@ -228,7 +239,7 @@ public:
 	void globalScale(in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.globalScale, _godot_object, scale);
 	}
 	/**
 	Moves the global (world) transformation by $(D Vector3) offset. The offset is in global coordinate system.
@@ -236,7 +247,7 @@ public:
 	void globalTranslate(in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalTranslate, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.globalTranslate, _godot_object, offset);
 	}
 	/**
 	Disables rendering of this node. Changes $(D visible) to `false`.
@@ -244,7 +255,7 @@ public:
 	void hide()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.hide, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.hide, _godot_object);
 	}
 	/**
 	Returns whether node notifies about its local transformation changes. $(D Spatial) will not propagate this by default.
@@ -252,7 +263,7 @@ public:
 	bool isLocalTransformNotificationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLocalTransformNotificationEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLocalTransformNotificationEnabled, _godot_object);
 	}
 	/**
 	Returns whether this node uses a scale of `(1, 1, 1)` or its local transformation scale.
@@ -260,7 +271,7 @@ public:
 	bool isScaleDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScaleDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScaleDisabled, _godot_object);
 	}
 	/**
 	Returns whether this node is set as Toplevel, that is whether it ignores its parent nodes transformations.
@@ -268,7 +279,7 @@ public:
 	bool isSetAsToplevel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSetAsToplevel, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSetAsToplevel, _godot_object);
 	}
 	/**
 	Returns whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default.
@@ -276,7 +287,7 @@ public:
 	bool isTransformNotificationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isTransformNotificationEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isTransformNotificationEnabled, _godot_object);
 	}
 	/**
 	
@@ -284,7 +295,7 @@ public:
 	bool isVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVisible, _godot_object);
 	}
 	/**
 	Returns whether the node is visible, taking into consideration that its parents visibility.
@@ -292,7 +303,7 @@ public:
 	bool isVisibleInTree() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVisibleInTree, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVisibleInTree, _godot_object);
 	}
 	/**
 	Rotates itself so that the local -Z axis points towards the `target` position.
@@ -302,7 +313,7 @@ public:
 	void lookAt(in Vector3 target, in Vector3 up)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lookAt, _godot_object, target, up);
+		ptrcall!(void)(GDNativeClassBinding.lookAt, _godot_object, target, up);
 	}
 	/**
 	Moves the node to the specified `position`, and then rotates itself to point toward the `target` as per $(D lookAt). Operations take place in global space.
@@ -310,7 +321,7 @@ public:
 	void lookAtFromPosition(in Vector3 position, in Vector3 target, in Vector3 up)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lookAtFromPosition, _godot_object, position, target, up);
+		ptrcall!(void)(GDNativeClassBinding.lookAtFromPosition, _godot_object, position, target, up);
 	}
 	/**
 	Resets this node's transformations (like scale, skew and taper) preserving its rotation and translation by performing Gram-Schmidt orthonormalization on this node's $(D Transform).
@@ -318,7 +329,7 @@ public:
 	void orthonormalize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.orthonormalize, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.orthonormalize, _godot_object);
 	}
 	/**
 	Rotates the local transformation around axis, a unit $(D Vector3), by specified angle in radians.
@@ -326,7 +337,7 @@ public:
 	void rotate(in Vector3 axis, in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotate, _godot_object, axis, angle);
+		ptrcall!(void)(GDNativeClassBinding.rotate, _godot_object, axis, angle);
 	}
 	/**
 	Rotates the local transformation around axis, a unit $(D Vector3), by specified angle in radians. The rotation axis is in object-local coordinate system.
@@ -334,7 +345,7 @@ public:
 	void rotateObjectLocal(in Vector3 axis, in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotateObjectLocal, _godot_object, axis, angle);
+		ptrcall!(void)(GDNativeClassBinding.rotateObjectLocal, _godot_object, axis, angle);
 	}
 	/**
 	Rotates the local transformation around the X axis by angle in radians.
@@ -342,7 +353,7 @@ public:
 	void rotateX(in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotateX, _godot_object, angle);
+		ptrcall!(void)(GDNativeClassBinding.rotateX, _godot_object, angle);
 	}
 	/**
 	Rotates the local transformation around the Y axis by angle in radians.
@@ -350,7 +361,7 @@ public:
 	void rotateY(in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotateY, _godot_object, angle);
+		ptrcall!(void)(GDNativeClassBinding.rotateY, _godot_object, angle);
 	}
 	/**
 	Rotates the local transformation around the Z axis by angle in radians.
@@ -358,7 +369,7 @@ public:
 	void rotateZ(in double angle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotateZ, _godot_object, angle);
+		ptrcall!(void)(GDNativeClassBinding.rotateZ, _godot_object, angle);
 	}
 	/**
 	Scales the local transformation by given 3D scale factors in object-local coordinate system.
@@ -366,7 +377,7 @@ public:
 	void scaleObjectLocal(in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scaleObjectLocal, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.scaleObjectLocal, _godot_object, scale);
 	}
 	/**
 	Makes the node ignore its parents transformations. Node transformations are only in global space.
@@ -374,7 +385,7 @@ public:
 	void setAsToplevel(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsToplevel, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAsToplevel, _godot_object, enable);
 	}
 	/**
 	Sets whether the node uses a scale of `(1, 1, 1)` or its local transformation scale. Changes to the local transformation scale are preserved.
@@ -382,7 +393,7 @@ public:
 	void setDisableScale(in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableScale, _godot_object, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableScale, _godot_object, disable);
 	}
 	/**
 	
@@ -390,7 +401,7 @@ public:
 	void setGizmo(SpatialGizmo gizmo)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGizmo, _godot_object, gizmo);
+		ptrcall!(void)(GDNativeClassBinding.setGizmo, _godot_object, gizmo);
 	}
 	/**
 	
@@ -398,7 +409,7 @@ public:
 	void setGlobalTransform(in Transform global)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalTransform, _godot_object, global);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalTransform, _godot_object, global);
 	}
 	/**
 	Reset all transformations for this node (sets its $(D Transform) to the identity matrix).
@@ -406,7 +417,7 @@ public:
 	void setIdentity()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIdentity, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setIdentity, _godot_object);
 	}
 	/**
 	Sets whether the node ignores notification that its transformation (global or local) changed.
@@ -414,7 +425,7 @@ public:
 	void setIgnoreTransformNotification(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgnoreTransformNotification, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setIgnoreTransformNotification, _godot_object, enabled);
 	}
 	/**
 	Sets whether the node notifies about its local transformation changes. $(D Spatial) will not propagate this by default.
@@ -422,7 +433,7 @@ public:
 	void setNotifyLocalTransform(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNotifyLocalTransform, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setNotifyLocalTransform, _godot_object, enable);
 	}
 	/**
 	Sets whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default.
@@ -430,7 +441,7 @@ public:
 	void setNotifyTransform(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNotifyTransform, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setNotifyTransform, _godot_object, enable);
 	}
 	/**
 	
@@ -438,7 +449,7 @@ public:
 	void setRotation(in Vector3 euler)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotation, _godot_object, euler);
+		ptrcall!(void)(GDNativeClassBinding.setRotation, _godot_object, euler);
 	}
 	/**
 	
@@ -446,7 +457,7 @@ public:
 	void setRotationDegrees(in Vector3 euler_degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, euler_degrees);
+		ptrcall!(void)(GDNativeClassBinding.setRotationDegrees, _godot_object, euler_degrees);
 	}
 	/**
 	
@@ -454,7 +465,7 @@ public:
 	void setScale(in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setScale, _godot_object, scale);
 	}
 	/**
 	
@@ -462,7 +473,7 @@ public:
 	void setTransform(in Transform local)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, local);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, local);
 	}
 	/**
 	
@@ -470,7 +481,7 @@ public:
 	void setTranslation(in Vector3 translation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTranslation, _godot_object, translation);
+		ptrcall!(void)(GDNativeClassBinding.setTranslation, _godot_object, translation);
 	}
 	/**
 	
@@ -478,7 +489,7 @@ public:
 	void setVisible(in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisible, _godot_object, visible);
+		ptrcall!(void)(GDNativeClassBinding.setVisible, _godot_object, visible);
 	}
 	/**
 	Enables rendering of this node. Changes $(D visible) to `true`.
@@ -486,7 +497,7 @@ public:
 	void show()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.show, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.show, _godot_object);
 	}
 	/**
 	Transforms `local_point` from this node's local space to world space.
@@ -494,7 +505,7 @@ public:
 	Vector3 toGlobal(in Vector3 local_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.toGlobal, _godot_object, local_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.toGlobal, _godot_object, local_point);
 	}
 	/**
 	Transforms `global_point` from world space to this node's local space.
@@ -502,7 +513,7 @@ public:
 	Vector3 toLocal(in Vector3 global_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.toLocal, _godot_object, global_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.toLocal, _godot_object, global_point);
 	}
 	/**
 	Changes the node's position by the given offset $(D Vector3).
@@ -511,7 +522,7 @@ public:
 	void translate(in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.translate, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.translate, _godot_object, offset);
 	}
 	/**
 	Changes the node's position by the given offset $(D Vector3) in local space.
@@ -519,7 +530,7 @@ public:
 	void translateObjectLocal(in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.translateObjectLocal, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.translateObjectLocal, _godot_object, offset);
 	}
 	/**
 	Updates the $(D SpatialGizmo) of this node.
@@ -527,7 +538,7 @@ public:
 	void updateGizmo()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateGizmo, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.updateGizmo, _godot_object);
 	}
 	/**
 	The $(D SpatialGizmo) for this node. Used for example in $(D EditorSpatialGizmo) as custom visualization and editing handles in Editor.

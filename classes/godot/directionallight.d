@@ -28,14 +28,14 @@ A directional light is a type of $(D Light) node that models an infinite number 
 */
 @GodotBaseClass struct DirectionalLight
 {
-	enum string _GODOT_internal_name = "DirectionalLight";
+	package(godot) enum string _GODOT_internal_name = "DirectionalLight";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Light _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Light _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_shadow_depth_range") GodotMethod!(DirectionalLight.ShadowDepthRange) getShadowDepthRange;
@@ -45,10 +45,20 @@ public:
 		@GodotName("set_shadow_depth_range") GodotMethod!(void, long) setShadowDepthRange;
 		@GodotName("set_shadow_mode") GodotMethod!(void, long) setShadowMode;
 	}
-	bool opEquals(in DirectionalLight other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	DirectionalLight opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in DirectionalLight other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) DirectionalLight opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of DirectionalLight.
+	/// Note: use `memnew!DirectionalLight` instead.
 	static DirectionalLight _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,15 +71,15 @@ public:
 	enum ShadowMode : int
 	{
 		/**
-		Renders the entire scene's shadow map from an orthogonal point of view. May result in blockier shadows on close objects.
+		Renders the entire scene's shadow map from an orthogonal point of view. This is the fastest directional shadow mode. May result in blurrier shadows on close objects.
 		*/
 		shadowOrthogonal = 0,
 		/**
-		Splits the view frustum in 2 areas, each with its own shadow map.
+		Splits the view frustum in 2 areas, each with its own shadow map. This shadow mode is a compromise between $(D constant SHADOW_ORTHOGONAL) and $(D constant SHADOW_PARALLEL_4_SPLITS) in terms of performance.
 		*/
 		shadowParallel2Splits = 1,
 		/**
-		Splits the view frustum in 4 areas, each with its own shadow map.
+		Splits the view frustum in 4 areas, each with its own shadow map. This is the slowest directional shadow mode.
 		*/
 		shadowParallel4Splits = 2,
 	}
@@ -81,7 +91,7 @@ public:
 		*/
 		shadowDepthRangeStable = 0,
 		/**
-		Tries to achieve maximum shadow resolution. May result in saw effect on shadow edges.
+		Tries to achieve maximum shadow resolution. May result in saw effect on shadow edges. This mode typically works best in games where the camera will often move at high speeds, such as most racing games.
 		*/
 		shadowDepthRangeOptimized = 1,
 	}
@@ -100,7 +110,7 @@ public:
 	DirectionalLight.ShadowDepthRange getShadowDepthRange() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(DirectionalLight.ShadowDepthRange)(_classBinding.getShadowDepthRange, _godot_object);
+		return ptrcall!(DirectionalLight.ShadowDepthRange)(GDNativeClassBinding.getShadowDepthRange, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	DirectionalLight.ShadowMode getShadowMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(DirectionalLight.ShadowMode)(_classBinding.getShadowMode, _godot_object);
+		return ptrcall!(DirectionalLight.ShadowMode)(GDNativeClassBinding.getShadowMode, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	bool isBlendSplitsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBlendSplitsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBlendSplitsEnabled, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	void setBlendSplits(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendSplits, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setBlendSplits, _godot_object, enabled);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	void setShadowDepthRange(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowDepthRange, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setShadowDepthRange, _godot_object, mode);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	void setShadowMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setShadowMode, _godot_object, mode);
 	}
 	/**
 	Amount of extra bias for shadow splits that are far away. If self-shadowing occurs only on the splits far away, increasing this value can fix them.

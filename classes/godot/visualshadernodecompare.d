@@ -30,14 +30,14 @@ Compares `a` and `b` of $(D type) by $(D _function). Returns a boolean scalar. T
 */
 @GodotBaseClass struct VisualShaderNodeCompare
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeCompare";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeCompare";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_comparison_type") GodotMethod!(VisualShaderNodeCompare.ComparisonType) getComparisonType;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_condition") GodotMethod!(void, long) setCondition;
 		@GodotName("set_function") GodotMethod!(void, long) setFunction;
 	}
-	bool opEquals(in VisualShaderNodeCompare other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeCompare opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeCompare other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeCompare opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeCompare.
+	/// Note: use `memnew!VisualShaderNodeCompare` instead.
 	static VisualShaderNodeCompare _new()
 	{
 		static godot_class_constructor constructor;
@@ -141,7 +151,7 @@ public:
 	VisualShaderNodeCompare.ComparisonType getComparisonType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeCompare.ComparisonType)(_classBinding.getComparisonType, _godot_object);
+		return ptrcall!(VisualShaderNodeCompare.ComparisonType)(GDNativeClassBinding.getComparisonType, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	VisualShaderNodeCompare.Condition getCondition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeCompare.Condition)(_classBinding.getCondition, _godot_object);
+		return ptrcall!(VisualShaderNodeCompare.Condition)(GDNativeClassBinding.getCondition, _godot_object);
 	}
 	/**
 	
@@ -157,7 +167,7 @@ public:
 	VisualShaderNodeCompare.Function getFunction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeCompare.Function)(_classBinding.getFunction, _godot_object);
+		return ptrcall!(VisualShaderNodeCompare.Function)(GDNativeClassBinding.getFunction, _godot_object);
 	}
 	/**
 	
@@ -165,7 +175,7 @@ public:
 	void setComparisonType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setComparisonType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setComparisonType, _godot_object, type);
 	}
 	/**
 	
@@ -173,7 +183,7 @@ public:
 	void setCondition(in long condition)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCondition, _godot_object, condition);
+		ptrcall!(void)(GDNativeClassBinding.setCondition, _godot_object, condition);
 	}
 	/**
 	
@@ -181,7 +191,7 @@ public:
 	void setFunction(in long func)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, func);
+		ptrcall!(void)(GDNativeClassBinding.setFunction, _godot_object, func);
 	}
 	/**
 	Extra condition which is applied if $(D type) is set to $(D constant CTYPE_VECTOR).

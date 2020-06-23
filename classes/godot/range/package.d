@@ -29,14 +29,14 @@ Range is a base class for $(D Control) nodes that change a floating-point $(I va
 */
 @GodotBaseClass struct Range
 {
-	enum string _GODOT_internal_name = "Range";
+	package(godot) enum string _GODOT_internal_name = "Range";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_as_ratio") GodotMethod!(double) getAsRatio;
@@ -62,10 +62,20 @@ public:
 		@GodotName("share") GodotMethod!(void, Node) share;
 		@GodotName("unshare") GodotMethod!(void) unshare;
 	}
-	bool opEquals(in Range other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Range opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Range other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Range opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Range.
+	/// Note: use `memnew!Range` instead.
 	static Range _new()
 	{
 		static godot_class_constructor constructor;
@@ -80,7 +90,7 @@ public:
 	double getAsRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAsRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAsRatio, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	double getMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMax, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMax, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	double getMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMin, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	double getPage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPage, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPage, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	double getStep() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStep, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStep, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	double getValue() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getValue, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getValue, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	bool isGreaterAllowed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGreaterAllowed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGreaterAllowed, _godot_object);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	bool isLesserAllowed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLesserAllowed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLesserAllowed, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	bool isRatioExp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRatioExp, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRatioExp, _godot_object);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	bool isUsingRoundedValues() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingRoundedValues, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingRoundedValues, _godot_object);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	void setAllowGreater(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowGreater, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowGreater, _godot_object, allow);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	void setAllowLesser(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowLesser, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowLesser, _godot_object, allow);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setAsRatio(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsRatio, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setAsRatio, _godot_object, value);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setExpRatio(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpRatio, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setExpRatio, _godot_object, enabled);
 	}
 	/**
 	
@@ -192,7 +202,7 @@ public:
 	void setMax(in double maximum)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMax, _godot_object, maximum);
+		ptrcall!(void)(GDNativeClassBinding.setMax, _godot_object, maximum);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	void setMin(in double minimum)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMin, _godot_object, minimum);
+		ptrcall!(void)(GDNativeClassBinding.setMin, _godot_object, minimum);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	void setPage(in double pagesize)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPage, _godot_object, pagesize);
+		ptrcall!(void)(GDNativeClassBinding.setPage, _godot_object, pagesize);
 	}
 	/**
 	
@@ -216,7 +226,7 @@ public:
 	void setStep(in double step)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStep, _godot_object, step);
+		ptrcall!(void)(GDNativeClassBinding.setStep, _godot_object, step);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setUseRoundedValues(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseRoundedValues, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setUseRoundedValues, _godot_object, enabled);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	void setValue(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValue, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setValue, _godot_object, value);
 	}
 	/**
 	Binds two ranges together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
@@ -240,7 +250,7 @@ public:
 	void share(Node _with)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.share, _godot_object, _with);
+		ptrcall!(void)(GDNativeClassBinding.share, _godot_object, _with);
 	}
 	/**
 	Stops range from sharing its member variables with any other.
@@ -248,7 +258,7 @@ public:
 	void unshare()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unshare, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unshare, _godot_object);
 	}
 	/**
 	If `true`, $(D value) may be greater than $(D maxValue).

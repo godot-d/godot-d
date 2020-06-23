@@ -29,14 +29,14 @@ Animations are created using a $(D SpriteFrames) resource, which can be configur
 */
 @GodotBaseClass struct AnimatedSprite
 {
-	enum string _GODOT_internal_name = "AnimatedSprite";
+	package(godot) enum string _GODOT_internal_name = "AnimatedSprite";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_is_playing") GodotMethod!(bool) _isPlaying;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_sprite_frames") GodotMethod!(void, SpriteFrames) setSpriteFrames;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
-	bool opEquals(in AnimatedSprite other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimatedSprite opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimatedSprite other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimatedSprite opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimatedSprite.
+	/// Note: use `memnew!AnimatedSprite` instead.
 	static AnimatedSprite _new()
 	{
 		static godot_class_constructor constructor;
@@ -108,7 +118,7 @@ public:
 	String getAnimation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAnimation, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAnimation, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	long getFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFrame, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	Ref!SpriteFrames getSpriteFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpriteFrames)(_classBinding.getSpriteFrames, _godot_object);
+		return ptrcall!(SpriteFrames)(GDNativeClassBinding.getSpriteFrames, _godot_object);
 	}
 	/**
 	
@@ -148,7 +158,7 @@ public:
 	bool isCentered() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCentered, _godot_object);
 	}
 	/**
 	
@@ -156,7 +166,7 @@ public:
 	bool isFlippedH() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedH, _godot_object);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	bool isFlippedV() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedV, _godot_object);
 	}
 	/**
 	Returns `true` if an animation is currently being played.
@@ -172,7 +182,7 @@ public:
 	bool isPlaying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPlaying, _godot_object);
 	}
 	/**
 	Plays the animation named `anim`. If no `anim` is provided, the current animation is played. If `backwards` is `true`, the animation will be played in reverse.
@@ -180,7 +190,7 @@ public:
 	void play(in String anim = gs!"", in bool backwards = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object, anim, backwards);
+		ptrcall!(void)(GDNativeClassBinding.play, _godot_object, anim, backwards);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	void setAnimation(in String animation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimation, _godot_object, animation);
+		ptrcall!(void)(GDNativeClassBinding.setAnimation, _godot_object, animation);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	void setCentered(in bool centered)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+		ptrcall!(void)(GDNativeClassBinding.setCentered, _godot_object, centered);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	void setFlipH(in bool flip_h)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+		ptrcall!(void)(GDNativeClassBinding.setFlipH, _godot_object, flip_h);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	void setFlipV(in bool flip_v)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
+		ptrcall!(void)(GDNativeClassBinding.setFlipV, _godot_object, flip_v);
 	}
 	/**
 	
@@ -220,7 +230,7 @@ public:
 	void setFrame(in long frame)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
+		ptrcall!(void)(GDNativeClassBinding.setFrame, _godot_object, frame);
 	}
 	/**
 	
@@ -228,7 +238,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	void setSpeedScale(in double speed_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, speed_scale);
+		ptrcall!(void)(GDNativeClassBinding.setSpeedScale, _godot_object, speed_scale);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	void setSpriteFrames(SpriteFrames sprite_frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpriteFrames, _godot_object, sprite_frames);
+		ptrcall!(void)(GDNativeClassBinding.setSpriteFrames, _godot_object, sprite_frames);
 	}
 	/**
 	Stops the current animation (does not reset the frame counter).
@@ -252,7 +262,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	The current animation from the `frames` resource. If this value changes, the `frame` counter is reset.

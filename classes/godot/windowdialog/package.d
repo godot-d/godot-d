@@ -33,14 +33,14 @@ Windowdialog is the base class for all window-based dialogs. It's a by-default t
 */
 @GodotBaseClass struct WindowDialog
 {
-	enum string _GODOT_internal_name = "WindowDialog";
+	package(godot) enum string _GODOT_internal_name = "WindowDialog";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Popup _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Popup _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_closed") GodotMethod!(void) _closed;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_resizable") GodotMethod!(void, bool) setResizable;
 		@GodotName("set_title") GodotMethod!(void, String) setTitle;
 	}
-	bool opEquals(in WindowDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WindowDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WindowDialog other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WindowDialog opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WindowDialog.
+	/// Note: use `memnew!WindowDialog` instead.
 	static WindowDialog _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +98,7 @@ public:
 	TextureButton getCloseButton()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TextureButton)(_classBinding.getCloseButton, _godot_object);
+		return ptrcall!(TextureButton)(GDNativeClassBinding.getCloseButton, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	bool getResizable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getResizable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getResizable, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	String getTitle() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTitle, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getTitle, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	void setResizable(in bool resizable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setResizable, _godot_object, resizable);
+		ptrcall!(void)(GDNativeClassBinding.setResizable, _godot_object, resizable);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	void setTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
+		ptrcall!(void)(GDNativeClassBinding.setTitle, _godot_object, title);
 	}
 	/**
 	If `true`, the user can resize the window.

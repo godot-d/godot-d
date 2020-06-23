@@ -38,14 +38,14 @@ if interface and interface.initialize():
 */
 @GodotBaseClass struct MobileVRInterface
 {
-	enum string _GODOT_internal_name = "MobileVRInterface";
+	package(godot) enum string _GODOT_internal_name = "MobileVRInterface";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ARVRInterface _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ ARVRInterface _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_display_to_lens") GodotMethod!(double) getDisplayToLens;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_k2") GodotMethod!(void, double) setK2;
 		@GodotName("set_oversample") GodotMethod!(void, double) setOversample;
 	}
-	bool opEquals(in MobileVRInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MobileVRInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MobileVRInterface other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MobileVRInterface opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MobileVRInterface.
+	/// Note: use `memnew!MobileVRInterface` instead.
 	static MobileVRInterface _new()
 	{
 		static godot_class_constructor constructor;
@@ -81,7 +91,7 @@ public:
 	double getDisplayToLens() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDisplayToLens, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDisplayToLens, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	double getDisplayWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDisplayWidth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDisplayWidth, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	double getEyeHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEyeHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEyeHeight, _godot_object);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	double getIod() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getIod, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getIod, _godot_object);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	double getK1() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getK1, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getK1, _godot_object);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	double getK2() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getK2, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getK2, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	double getOversample() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOversample, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOversample, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	void setDisplayToLens(in double display_to_lens)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisplayToLens, _godot_object, display_to_lens);
+		ptrcall!(void)(GDNativeClassBinding.setDisplayToLens, _godot_object, display_to_lens);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	void setDisplayWidth(in double display_width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisplayWidth, _godot_object, display_width);
+		ptrcall!(void)(GDNativeClassBinding.setDisplayWidth, _godot_object, display_width);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	void setEyeHeight(in double eye_height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEyeHeight, _godot_object, eye_height);
+		ptrcall!(void)(GDNativeClassBinding.setEyeHeight, _godot_object, eye_height);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	void setIod(in double iod)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIod, _godot_object, iod);
+		ptrcall!(void)(GDNativeClassBinding.setIod, _godot_object, iod);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	void setK1(in double k)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setK1, _godot_object, k);
+		ptrcall!(void)(GDNativeClassBinding.setK1, _godot_object, k);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	void setK2(in double k)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setK2, _godot_object, k);
+		ptrcall!(void)(GDNativeClassBinding.setK2, _godot_object, k);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setOversample(in double oversample)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOversample, _godot_object, oversample);
+		ptrcall!(void)(GDNativeClassBinding.setOversample, _godot_object, oversample);
 	}
 	/**
 	The distance between the display and the lenses inside of the device in centimeters.

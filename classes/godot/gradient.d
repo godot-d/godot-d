@@ -28,14 +28,14 @@ Given a set of colors, this resource will interpolate them in order. This means 
 */
 @GodotBaseClass struct Gradient
 {
-	enum string _GODOT_internal_name = "Gradient";
+	package(godot) enum string _GODOT_internal_name = "Gradient";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_point") GodotMethod!(void, double, Color) addPoint;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_offset") GodotMethod!(void, long, double) setOffset;
 		@GodotName("set_offsets") GodotMethod!(void, PoolRealArray) setOffsets;
 	}
-	bool opEquals(in Gradient other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Gradient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Gradient other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Gradient opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Gradient.
+	/// Note: use `memnew!Gradient` instead.
 	static Gradient _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	void addPoint(in double offset, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPoint, _godot_object, offset, color);
+		ptrcall!(void)(GDNativeClassBinding.addPoint, _godot_object, offset, color);
 	}
 	/**
 	Returns the color of the ramp color at index `point`.
@@ -77,7 +87,7 @@ public:
 	Color getColor(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object, point);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, point);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	PoolColorArray getColors() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolColorArray)(_classBinding.getColors, _godot_object);
+		return ptrcall!(PoolColorArray)(GDNativeClassBinding.getColors, _godot_object);
 	}
 	/**
 	Returns the offset of the ramp color at index `point`.
@@ -93,7 +103,7 @@ public:
 	double getOffset(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOffset, _godot_object, point);
+		return ptrcall!(double)(GDNativeClassBinding.getOffset, _godot_object, point);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	PoolRealArray getOffsets() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolRealArray)(_classBinding.getOffsets, _godot_object);
+		return ptrcall!(PoolRealArray)(GDNativeClassBinding.getOffsets, _godot_object);
 	}
 	/**
 	Returns the number of colors in the ramp.
@@ -109,7 +119,7 @@ public:
 	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
 	Returns the interpolated color specified by `offset`.
@@ -117,7 +127,7 @@ public:
 	Color interpolate(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.interpolate, _godot_object, offset);
+		return ptrcall!(Color)(GDNativeClassBinding.interpolate, _godot_object, offset);
 	}
 	/**
 	Removes the color at the index `offset`.
@@ -125,7 +135,7 @@ public:
 	void removePoint(in long offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, offset);
 	}
 	/**
 	Sets the color of the ramp color at index `point`.
@@ -133,7 +143,7 @@ public:
 	void setColor(in long point, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, point, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, point, color);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	void setColors(in PoolColorArray colors)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColors, _godot_object, colors);
+		ptrcall!(void)(GDNativeClassBinding.setColors, _godot_object, colors);
 	}
 	/**
 	Sets the offset for the ramp color at index `point`.
@@ -149,7 +159,7 @@ public:
 	void setOffset(in long point, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, point, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, point, offset);
 	}
 	/**
 	
@@ -157,7 +167,7 @@ public:
 	void setOffsets(in PoolRealArray offsets)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffsets, _godot_object, offsets);
+		ptrcall!(void)(GDNativeClassBinding.setOffsets, _godot_object, offsets);
 	}
 	/**
 	Gradient's colors returned as a $(D PoolColorArray).

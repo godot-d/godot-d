@@ -31,14 +31,14 @@ A deformable physics body. Used to create elastic or deformable objects such as 
 */
 @GodotBaseClass struct SoftBody
 {
-	enum string _GODOT_internal_name = "SoftBody";
+	package(godot) enum string _GODOT_internal_name = "SoftBody";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; MeshInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ MeshInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_draw_soft_mesh") GodotMethod!(void) _drawSoftMesh;
@@ -76,10 +76,20 @@ public:
 		@GodotName("set_total_mass") GodotMethod!(void, double) setTotalMass;
 		@GodotName("set_volume_stiffness") GodotMethod!(void, double) setVolumeStiffness;
 	}
-	bool opEquals(in SoftBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SoftBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SoftBody other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SoftBody opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SoftBody.
+	/// Note: use `memnew!SoftBody` instead.
 	static SoftBody _new()
 	{
 		static godot_class_constructor constructor;
@@ -103,7 +113,7 @@ public:
 	void addCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCollisionExceptionWith, _godot_object, _body);
+		ptrcall!(void)(GDNativeClassBinding.addCollisionExceptionWith, _godot_object, _body);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	double getAreaangularStiffness()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAreaangularStiffness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAreaangularStiffness, _godot_object);
 	}
 	/**
 	Returns an array of nodes that were added as collision exceptions for this body.
@@ -119,7 +129,7 @@ public:
 	Array getCollisionExceptions()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getCollisionExceptions, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getCollisionExceptions, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns an individual bit on the collision mask.
@@ -135,7 +145,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns an individual bit on the collision mask.
@@ -151,7 +161,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	double getDampingCoefficient()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDampingCoefficient, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDampingCoefficient, _godot_object);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	double getDragCoefficient()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDragCoefficient, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDragCoefficient, _godot_object);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	double getLinearStiffness()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLinearStiffness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLinearStiffness, _godot_object);
 	}
 	/**
 	
@@ -183,7 +193,7 @@ public:
 	NodePath getParentCollisionIgnore() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getParentCollisionIgnore, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getParentCollisionIgnore, _godot_object);
 	}
 	/**
 	
@@ -191,7 +201,7 @@ public:
 	double getPoseMatchingCoefficient()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPoseMatchingCoefficient, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPoseMatchingCoefficient, _godot_object);
 	}
 	/**
 	
@@ -199,7 +209,7 @@ public:
 	double getPressureCoefficient()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPressureCoefficient, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPressureCoefficient, _godot_object);
 	}
 	/**
 	
@@ -207,7 +217,7 @@ public:
 	long getSimulationPrecision()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSimulationPrecision, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSimulationPrecision, _godot_object);
 	}
 	/**
 	
@@ -215,7 +225,7 @@ public:
 	double getTotalMass()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTotalMass, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTotalMass, _godot_object);
 	}
 	/**
 	
@@ -223,7 +233,7 @@ public:
 	double getVolumeStiffness()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVolumeStiffness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVolumeStiffness, _godot_object);
 	}
 	/**
 	
@@ -231,7 +241,7 @@ public:
 	bool isRayPickable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRayPickable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRayPickable, _godot_object);
 	}
 	/**
 	Removes a body from the list of bodies that this body can't collide with.
@@ -239,7 +249,7 @@ public:
 	void removeCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeCollisionExceptionWith, _godot_object, _body);
+		ptrcall!(void)(GDNativeClassBinding.removeCollisionExceptionWith, _godot_object, _body);
 	}
 	/**
 	
@@ -247,7 +257,7 @@ public:
 	void setAreaangularStiffness(in double areaAngular_stiffness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAreaangularStiffness, _godot_object, areaAngular_stiffness);
+		ptrcall!(void)(GDNativeClassBinding.setAreaangularStiffness, _godot_object, areaAngular_stiffness);
 	}
 	/**
 	
@@ -255,7 +265,7 @@ public:
 	void setCollisionLayer(in long collision_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, collision_layer);
 	}
 	/**
 	Sets individual bits on the layer mask. Use this if you only need to change one layer's value.
@@ -263,7 +273,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -271,7 +281,7 @@ public:
 	void setCollisionMask(in long collision_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, collision_mask);
 	}
 	/**
 	Sets individual bits on the collision mask. Use this if you only need to change one layer's value.
@@ -279,7 +289,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -287,7 +297,7 @@ public:
 	void setDampingCoefficient(in double damping_coefficient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDampingCoefficient, _godot_object, damping_coefficient);
+		ptrcall!(void)(GDNativeClassBinding.setDampingCoefficient, _godot_object, damping_coefficient);
 	}
 	/**
 	
@@ -295,7 +305,7 @@ public:
 	void setDragCoefficient(in double drag_coefficient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragCoefficient, _godot_object, drag_coefficient);
+		ptrcall!(void)(GDNativeClassBinding.setDragCoefficient, _godot_object, drag_coefficient);
 	}
 	/**
 	
@@ -303,7 +313,7 @@ public:
 	void setLinearStiffness(in double linear_stiffness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearStiffness, _godot_object, linear_stiffness);
+		ptrcall!(void)(GDNativeClassBinding.setLinearStiffness, _godot_object, linear_stiffness);
 	}
 	/**
 	
@@ -311,7 +321,7 @@ public:
 	void setParentCollisionIgnore(NodePathArg0)(in NodePathArg0 parent_collision_ignore)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParentCollisionIgnore, _godot_object, parent_collision_ignore);
+		ptrcall!(void)(GDNativeClassBinding.setParentCollisionIgnore, _godot_object, parent_collision_ignore);
 	}
 	/**
 	
@@ -319,7 +329,7 @@ public:
 	void setPoseMatchingCoefficient(in double pose_matching_coefficient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPoseMatchingCoefficient, _godot_object, pose_matching_coefficient);
+		ptrcall!(void)(GDNativeClassBinding.setPoseMatchingCoefficient, _godot_object, pose_matching_coefficient);
 	}
 	/**
 	
@@ -327,7 +337,7 @@ public:
 	void setPressureCoefficient(in double pressure_coefficient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressureCoefficient, _godot_object, pressure_coefficient);
+		ptrcall!(void)(GDNativeClassBinding.setPressureCoefficient, _godot_object, pressure_coefficient);
 	}
 	/**
 	
@@ -335,7 +345,7 @@ public:
 	void setRayPickable(in bool ray_pickable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRayPickable, _godot_object, ray_pickable);
+		ptrcall!(void)(GDNativeClassBinding.setRayPickable, _godot_object, ray_pickable);
 	}
 	/**
 	
@@ -343,7 +353,7 @@ public:
 	void setSimulationPrecision(in long simulation_precision)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSimulationPrecision, _godot_object, simulation_precision);
+		ptrcall!(void)(GDNativeClassBinding.setSimulationPrecision, _godot_object, simulation_precision);
 	}
 	/**
 	
@@ -351,7 +361,7 @@ public:
 	void setTotalMass(in double mass)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTotalMass, _godot_object, mass);
+		ptrcall!(void)(GDNativeClassBinding.setTotalMass, _godot_object, mass);
 	}
 	/**
 	
@@ -359,7 +369,7 @@ public:
 	void setVolumeStiffness(in double volume_stiffness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolumeStiffness, _godot_object, volume_stiffness);
+		ptrcall!(void)(GDNativeClassBinding.setVolumeStiffness, _godot_object, volume_stiffness);
 	}
 	/**
 	

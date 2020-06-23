@@ -29,14 +29,14 @@ Navigation2D provides navigation and pathfinding within a 2D area, specified as 
 */
 @GodotBaseClass struct Navigation2D
 {
-	enum string _GODOT_internal_name = "Navigation2D";
+	package(godot) enum string _GODOT_internal_name = "Navigation2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_closest_point") GodotMethod!(Vector2, Vector2) getClosestPoint;
@@ -46,10 +46,20 @@ public:
 		@GodotName("navpoly_remove") GodotMethod!(void, long) navpolyRemove;
 		@GodotName("navpoly_set_transform") GodotMethod!(void, long, Transform2D) navpolySetTransform;
 	}
-	bool opEquals(in Navigation2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Navigation2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Navigation2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Navigation2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Navigation2D.
+	/// Note: use `memnew!Navigation2D` instead.
 	static Navigation2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	Vector2 getClosestPoint(in Vector2 to_point)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, to_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
 	Returns the owner of the $(D NavigationPolygon) which contains the navigation point closest to the point given. This is usually a $(D NavigationPolygonInstance). For polygons added via $(D navpolyAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
@@ -72,7 +82,7 @@ public:
 	GodotObject getClosestPointOwner(in Vector2 to_point)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getClosestPointOwner, _godot_object, to_point);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getClosestPointOwner, _godot_object, to_point);
 	}
 	/**
 	Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the path is smoothed by merging path segments where possible.
@@ -80,7 +90,7 @@ public:
 	PoolVector2Array getSimplePath(in Vector2 start, in Vector2 end, in bool optimize = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getSimplePath, _godot_object, start, end, optimize);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getSimplePath, _godot_object, start, end, optimize);
 	}
 	/**
 	Adds a $(D NavigationPolygon). Returns an ID for use with $(D navpolyRemove) or $(D navpolySetTransform). If given, a $(D Transform2D) is applied to the polygon. The optional `owner` is used as return value for $(D getClosestPointOwner).
@@ -88,7 +98,7 @@ public:
 	long navpolyAdd(NavigationPolygon mesh, in Transform2D xform, GodotObject owner = GodotObject.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.navpolyAdd, _godot_object, mesh, xform, owner);
+		return ptrcall!(long)(GDNativeClassBinding.navpolyAdd, _godot_object, mesh, xform, owner);
 	}
 	/**
 	Removes the $(D NavigationPolygon) with the given ID.
@@ -96,7 +106,7 @@ public:
 	void navpolyRemove(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.navpolyRemove, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.navpolyRemove, _godot_object, id);
 	}
 	/**
 	Sets the transform applied to the $(D NavigationPolygon) with the given ID.
@@ -104,6 +114,6 @@ public:
 	void navpolySetTransform(in long id, in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.navpolySetTransform, _godot_object, id, xform);
+		ptrcall!(void)(GDNativeClassBinding.navpolySetTransform, _godot_object, id, xform);
 	}
 }

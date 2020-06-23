@@ -33,14 +33,14 @@ Note that "global pose" below refers to the overall transform of the bone with r
 */
 @GodotBaseClass struct Skeleton
 {
-	enum string _GODOT_internal_name = "Skeleton";
+	package(godot) enum string _GODOT_internal_name = "Skeleton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_bone") GodotMethod!(void, String) addBone;
@@ -71,10 +71,20 @@ public:
 		@GodotName("unbind_child_node_from_bone") GodotMethod!(void, long, Node) unbindChildNodeFromBone;
 		@GodotName("unparent_bone_and_rest") GodotMethod!(void, long) unparentBoneAndRest;
 	}
-	bool opEquals(in Skeleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Skeleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Skeleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Skeleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Skeleton.
+	/// Note: use `memnew!Skeleton` instead.
 	static Skeleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -97,7 +107,7 @@ public:
 	void addBone(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBone, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.addBone, _godot_object, name);
 	}
 	/**
 	$(I Deprecated soon.)
@@ -105,7 +115,7 @@ public:
 	void bindChildNodeToBone(in long bone_idx, Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bindChildNodeToBone, _godot_object, bone_idx, node);
+		ptrcall!(void)(GDNativeClassBinding.bindChildNodeToBone, _godot_object, bone_idx, node);
 	}
 	/**
 	Clear all the bones in this skeleton.
@@ -113,7 +123,7 @@ public:
 	void clearBones()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBones, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearBones, _godot_object);
 	}
 	/**
 	Returns the bone index that matches `name` as its name.
@@ -121,7 +131,7 @@ public:
 	long findBone(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findBone, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.findBone, _godot_object, name);
 	}
 	/**
 	Returns the amount of bones in the skeleton.
@@ -129,7 +139,7 @@ public:
 	long getBoneCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBoneCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBoneCount, _godot_object);
 	}
 	/**
 	Returns the custom pose of the specified bone. Custom pose is applied on top of the rest pose.
@@ -137,7 +147,7 @@ public:
 	Transform getBoneCustomPose(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getBoneCustomPose, _godot_object, bone_idx);
+		return ptrcall!(Transform)(GDNativeClassBinding.getBoneCustomPose, _godot_object, bone_idx);
 	}
 	/**
 	Returns the overall transform of the specified bone, with respect to the skeleton. Being relative to the skeleton frame, this is not the actual "global" transform of the bone.
@@ -145,7 +155,7 @@ public:
 	Transform getBoneGlobalPose(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getBoneGlobalPose, _godot_object, bone_idx);
+		return ptrcall!(Transform)(GDNativeClassBinding.getBoneGlobalPose, _godot_object, bone_idx);
 	}
 	/**
 	Returns the name of the bone at index `index`.
@@ -153,7 +163,7 @@ public:
 	String getBoneName(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBoneName, _godot_object, bone_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getBoneName, _godot_object, bone_idx);
 	}
 	/**
 	Returns the bone index which is the parent of the bone at `bone_idx`. If -1, then bone has no parent.
@@ -162,7 +172,7 @@ public:
 	long getBoneParent(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBoneParent, _godot_object, bone_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getBoneParent, _godot_object, bone_idx);
 	}
 	/**
 	Returns the pose transform of the specified bone. Pose is applied on top of the custom pose, which is applied on top the rest pose.
@@ -170,7 +180,7 @@ public:
 	Transform getBonePose(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getBonePose, _godot_object, bone_idx);
+		return ptrcall!(Transform)(GDNativeClassBinding.getBonePose, _godot_object, bone_idx);
 	}
 	/**
 	Returns the rest transform for a bone `bone_idx`.
@@ -178,7 +188,7 @@ public:
 	Transform getBoneRest(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getBoneRest, _godot_object, bone_idx);
+		return ptrcall!(Transform)(GDNativeClassBinding.getBoneRest, _godot_object, bone_idx);
 	}
 	/**
 	$(I Deprecated soon.)
@@ -186,7 +196,7 @@ public:
 	Array getBoundChildNodesToBone(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getBoundChildNodesToBone, _godot_object, bone_idx);
+		return ptrcall!(Array)(GDNativeClassBinding.getBoundChildNodesToBone, _godot_object, bone_idx);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	bool isBoneRestDisabled(in long bone_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBoneRestDisabled, _godot_object, bone_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isBoneRestDisabled, _godot_object, bone_idx);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	void localizeRests()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.localizeRests, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.localizeRests, _godot_object);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	void physicalBonesAddCollisionException(in RID exception)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.physicalBonesAddCollisionException, _godot_object, exception);
+		ptrcall!(void)(GDNativeClassBinding.physicalBonesAddCollisionException, _godot_object, exception);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	void physicalBonesRemoveCollisionException(in RID exception)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.physicalBonesRemoveCollisionException, _godot_object, exception);
+		ptrcall!(void)(GDNativeClassBinding.physicalBonesRemoveCollisionException, _godot_object, exception);
 	}
 	/**
 	
@@ -226,7 +236,7 @@ public:
 	void physicalBonesStartSimulation(in Array bones = Array.make())
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.physicalBonesStartSimulation, _godot_object, bones);
+		ptrcall!(void)(GDNativeClassBinding.physicalBonesStartSimulation, _godot_object, bones);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	void physicalBonesStopSimulation()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.physicalBonesStopSimulation, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.physicalBonesStopSimulation, _godot_object);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	Ref!SkinReference registerSkin(Skin skin)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SkinReference)(_classBinding.registerSkin, _godot_object, skin);
+		return ptrcall!(SkinReference)(GDNativeClassBinding.registerSkin, _godot_object, skin);
 	}
 	/**
 	
@@ -250,7 +260,7 @@ public:
 	void setBoneCustomPose(in long bone_idx, in Transform custom_pose)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneCustomPose, _godot_object, bone_idx, custom_pose);
+		ptrcall!(void)(GDNativeClassBinding.setBoneCustomPose, _godot_object, bone_idx, custom_pose);
 	}
 	/**
 	
@@ -258,7 +268,7 @@ public:
 	void setBoneDisableRest(in long bone_idx, in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneDisableRest, _godot_object, bone_idx, disable);
+		ptrcall!(void)(GDNativeClassBinding.setBoneDisableRest, _godot_object, bone_idx, disable);
 	}
 	/**
 	
@@ -266,7 +276,7 @@ public:
 	void setBoneGlobalPoseOverride(in long bone_idx, in Transform pose, in double amount, in bool persistent = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneGlobalPoseOverride, _godot_object, bone_idx, pose, amount, persistent);
+		ptrcall!(void)(GDNativeClassBinding.setBoneGlobalPoseOverride, _godot_object, bone_idx, pose, amount, persistent);
 	}
 	/**
 	Sets the bone index `parent_idx` as the parent of the bone at `bone_idx`. If -1, then bone has no parent.
@@ -275,7 +285,7 @@ public:
 	void setBoneParent(in long bone_idx, in long parent_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneParent, _godot_object, bone_idx, parent_idx);
+		ptrcall!(void)(GDNativeClassBinding.setBoneParent, _godot_object, bone_idx, parent_idx);
 	}
 	/**
 	Returns the pose transform for bone `bone_idx`.
@@ -283,7 +293,7 @@ public:
 	void setBonePose(in long bone_idx, in Transform pose)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBonePose, _godot_object, bone_idx, pose);
+		ptrcall!(void)(GDNativeClassBinding.setBonePose, _godot_object, bone_idx, pose);
 	}
 	/**
 	Sets the rest transform for bone `bone_idx`.
@@ -291,7 +301,7 @@ public:
 	void setBoneRest(in long bone_idx, in Transform rest)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneRest, _godot_object, bone_idx, rest);
+		ptrcall!(void)(GDNativeClassBinding.setBoneRest, _godot_object, bone_idx, rest);
 	}
 	/**
 	$(I Deprecated soon.)
@@ -299,7 +309,7 @@ public:
 	void unbindChildNodeFromBone(in long bone_idx, Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unbindChildNodeFromBone, _godot_object, bone_idx, node);
+		ptrcall!(void)(GDNativeClassBinding.unbindChildNodeFromBone, _godot_object, bone_idx, node);
 	}
 	/**
 	
@@ -307,6 +317,6 @@ public:
 	void unparentBoneAndRest(in long bone_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unparentBoneAndRest, _godot_object, bone_idx);
+		ptrcall!(void)(GDNativeClassBinding.unparentBoneAndRest, _godot_object, bone_idx);
 	}
 }

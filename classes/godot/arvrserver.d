@@ -28,14 +28,14 @@ The AR/VR server is the heart of our Advanced and Virtual Reality solution and h
 */
 @GodotBaseClass struct ARVRServerSingleton
 {
-	enum string _GODOT_internal_name = "ARVRServer";
+	package(godot) enum string _GODOT_internal_name = "ARVRServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -57,10 +57,20 @@ public:
 		@GodotName("set_primary_interface") GodotMethod!(void, ARVRInterface) setPrimaryInterface;
 		@GodotName("set_world_scale") GodotMethod!(void, double) setWorldScale;
 	}
-	bool opEquals(in ARVRServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ARVRServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ARVRServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ARVRServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ARVRServerSingleton.
+	/// Note: use `memnew!ARVRServerSingleton` instead.
 	static ARVRServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -137,7 +147,7 @@ public:
 	void centerOnHmd(in long rotation_mode, in bool keep_height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.centerOnHmd, _godot_object, rotation_mode, keep_height);
+		ptrcall!(void)(GDNativeClassBinding.centerOnHmd, _godot_object, rotation_mode, keep_height);
 	}
 	/**
 	Finds an interface by its name. For instance, if your project uses capabilities of an AR/VR platform, you can find the interface for that platform by name and initialize it.
@@ -145,7 +155,7 @@ public:
 	Ref!ARVRInterface findInterface(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRInterface)(_classBinding.findInterface, _godot_object, name);
+		return ptrcall!(ARVRInterface)(GDNativeClassBinding.findInterface, _godot_object, name);
 	}
 	/**
 	Returns the primary interface's transformation.
@@ -153,7 +163,7 @@ public:
 	Transform getHmdTransform()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getHmdTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getHmdTransform, _godot_object);
 	}
 	/**
 	Returns the interface registered at a given index in our list of interfaces.
@@ -161,7 +171,7 @@ public:
 	Ref!ARVRInterface getInterface(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRInterface)(_classBinding.getInterface, _godot_object, idx);
+		return ptrcall!(ARVRInterface)(GDNativeClassBinding.getInterface, _godot_object, idx);
 	}
 	/**
 	Returns the number of interfaces currently registered with the AR/VR server. If your project supports multiple AR/VR platforms, you can look through the available interface, and either present the user with a selection or simply try to initialize each interface and use the first one that returns `true`.
@@ -169,7 +179,7 @@ public:
 	long getInterfaceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInterfaceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInterfaceCount, _godot_object);
 	}
 	/**
 	Returns a list of available interfaces the ID and name of each interface.
@@ -177,7 +187,7 @@ public:
 	Array getInterfaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getInterfaces, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getInterfaces, _godot_object);
 	}
 	/**
 	Returns the absolute timestamp (in μs) of the last $(D ARVRServer) commit of the AR/VR eyes to $(D VisualServer). The value comes from an internal call to $(D OS.getTicksUsec).
@@ -185,7 +195,7 @@ public:
 	long getLastCommitUsec()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastCommitUsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastCommitUsec, _godot_object);
 	}
 	/**
 	Returns the duration (in μs) of the last frame. This is computed as the difference between $(D getLastCommitUsec) and $(D getLastProcessUsec) when committing.
@@ -193,7 +203,7 @@ public:
 	long getLastFrameUsec()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastFrameUsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastFrameUsec, _godot_object);
 	}
 	/**
 	Returns the absolute timestamp (in μs) of the last $(D ARVRServer) process callback. The value comes from an internal call to $(D OS.getTicksUsec).
@@ -201,7 +211,7 @@ public:
 	long getLastProcessUsec()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastProcessUsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastProcessUsec, _godot_object);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	Ref!ARVRInterface getPrimaryInterface() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRInterface)(_classBinding.getPrimaryInterface, _godot_object);
+		return ptrcall!(ARVRInterface)(GDNativeClassBinding.getPrimaryInterface, _godot_object);
 	}
 	/**
 	Returns the reference frame transform. Mostly used internally and exposed for GDNative build interfaces.
@@ -217,7 +227,7 @@ public:
 	Transform getReferenceFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getReferenceFrame, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getReferenceFrame, _godot_object);
 	}
 	/**
 	Returns the positional tracker at the given ID.
@@ -225,7 +235,7 @@ public:
 	ARVRPositionalTracker getTracker(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRPositionalTracker)(_classBinding.getTracker, _godot_object, idx);
+		return ptrcall!(ARVRPositionalTracker)(GDNativeClassBinding.getTracker, _godot_object, idx);
 	}
 	/**
 	Returns the number of trackers currently registered.
@@ -233,7 +243,7 @@ public:
 	long getTrackerCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrackerCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTrackerCount, _godot_object);
 	}
 	/**
 	
@@ -241,7 +251,7 @@ public:
 	double getWorldScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWorldScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWorldScale, _godot_object);
 	}
 	/**
 	
@@ -249,7 +259,7 @@ public:
 	void setPrimaryInterface(ARVRInterface _interface)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPrimaryInterface, _godot_object, _interface);
+		ptrcall!(void)(GDNativeClassBinding.setPrimaryInterface, _godot_object, _interface);
 	}
 	/**
 	
@@ -257,7 +267,7 @@ public:
 	void setWorldScale(in double arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWorldScale, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setWorldScale, _godot_object, arg0);
 	}
 	/**
 	The primary $(D ARVRInterface) currently bound to the $(D ARVRServer).
@@ -289,5 +299,5 @@ public:
 ARVRServerSingleton ARVRServer()
 {
 	checkClassBinding!ARVRServerSingleton();
-	return ARVRServerSingleton(ARVRServerSingleton._classBinding._singleton);
+	return ARVRServerSingleton(ARVRServerSingleton.GDNativeClassBinding._singleton);
 }

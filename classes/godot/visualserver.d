@@ -35,14 +35,14 @@ In 2D, all visible objects are some form of canvas item. In order to be visible,
 */
 @GodotBaseClass struct VisualServerSingleton
 {
-	enum string _GODOT_internal_name = "VisualServer";
+	package(godot) enum string _GODOT_internal_name = "VisualServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -413,10 +413,20 @@ public:
 		@GodotName("viewport_set_use_arvr") GodotMethod!(void, RID, bool) viewportSetUseArvr;
 		@GodotName("viewport_set_vflip") GodotMethod!(void, RID, bool) viewportSetVflip;
 	}
-	bool opEquals(in VisualServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualServerSingleton.
+	/// Note: use `memnew!VisualServerSingleton` instead.
 	static VisualServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -1667,7 +1677,7 @@ public:
 	void blackBarsSetImages(in RID left, in RID top, in RID right, in RID bottom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blackBarsSetImages, _godot_object, left, top, right, bottom);
+		ptrcall!(void)(GDNativeClassBinding.blackBarsSetImages, _godot_object, left, top, right, bottom);
 	}
 	/**
 	Sets margin size, where black bars (or images, if $(D blackBarsSetImages) was used) are rendered.
@@ -1675,7 +1685,7 @@ public:
 	void blackBarsSetMargins(in long left, in long top, in long right, in long bottom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blackBarsSetMargins, _godot_object, left, top, right, bottom);
+		ptrcall!(void)(GDNativeClassBinding.blackBarsSetMargins, _godot_object, left, top, right, bottom);
 	}
 	/**
 	Creates a camera and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `camera_*` VisualServer functions.
@@ -1684,7 +1694,7 @@ public:
 	RID cameraCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.cameraCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.cameraCreate, _godot_object);
 	}
 	/**
 	Sets the cull mask associated with this camera. The cull mask describes which 3D layers are rendered by this camera. Equivalent to $(D Camera.cullMask).
@@ -1692,7 +1702,7 @@ public:
 	void cameraSetCullMask(in RID camera, in long layers)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetCullMask, _godot_object, camera, layers);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetCullMask, _godot_object, camera, layers);
 	}
 	/**
 	Sets the environment used by this camera. Equivalent to $(D Camera.environment).
@@ -1700,7 +1710,7 @@ public:
 	void cameraSetEnvironment(in RID camera, in RID env)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetEnvironment, _godot_object, camera, env);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetEnvironment, _godot_object, camera, env);
 	}
 	/**
 	Sets camera to use frustum projection. This mode allows adjusting the `offset` argument to create "tilted frustum" effects.
@@ -1708,7 +1718,7 @@ public:
 	void cameraSetFrustum(in RID camera, in double size, in Vector2 offset, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetFrustum, _godot_object, camera, size, offset, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetFrustum, _godot_object, camera, size, offset, z_near, z_far);
 	}
 	/**
 	Sets camera to use orthogonal projection, also known as orthographic projection. Objects remain the same size on the screen no matter how far away they are.
@@ -1716,7 +1726,7 @@ public:
 	void cameraSetOrthogonal(in RID camera, in double size, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetOrthogonal, _godot_object, camera, size, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetOrthogonal, _godot_object, camera, size, z_near, z_far);
 	}
 	/**
 	Sets camera to use perspective projection. Objects on the screen becomes smaller when they are far away.
@@ -1724,7 +1734,7 @@ public:
 	void cameraSetPerspective(in RID camera, in double fovy_degrees, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetPerspective, _godot_object, camera, fovy_degrees, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetPerspective, _godot_object, camera, fovy_degrees, z_near, z_far);
 	}
 	/**
 	Sets $(D Transform) of camera.
@@ -1732,7 +1742,7 @@ public:
 	void cameraSetTransform(in RID camera, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetTransform, _godot_object, camera, transform);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetTransform, _godot_object, camera, transform);
 	}
 	/**
 	If `true`, preserves the horizontal aspect ratio which is equivalent to $(D constant Camera.KEEP_WIDTH). If `false`, preserves the vertical aspect ratio which is equivalent to $(D constant Camera.KEEP_HEIGHT).
@@ -1740,7 +1750,7 @@ public:
 	void cameraSetUseVerticalAspect(in RID camera, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cameraSetUseVerticalAspect, _godot_object, camera, enable);
+		ptrcall!(void)(GDNativeClassBinding.cameraSetUseVerticalAspect, _godot_object, camera, enable);
 	}
 	/**
 	Creates a canvas and returns the assigned $(D RID). It can be accessed with the RID that is returned. This RID will be used in all `canvas_*` VisualServer functions.
@@ -1749,7 +1759,7 @@ public:
 	RID canvasCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.canvasCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.canvasCreate, _godot_object);
 	}
 	/**
 	Adds a circle command to the $(D CanvasItem)'s draw commands.
@@ -1757,7 +1767,7 @@ public:
 	void canvasItemAddCircle(in RID item, in Vector2 pos, in double radius, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddCircle, _godot_object, item, pos, radius, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddCircle, _godot_object, item, pos, radius, color);
 	}
 	/**
 	If ignore is `true`, the VisualServer does not perform clipping.
@@ -1765,7 +1775,7 @@ public:
 	void canvasItemAddClipIgnore(in RID item, in bool ignore)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddClipIgnore, _godot_object, item, ignore);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddClipIgnore, _godot_object, item, ignore);
 	}
 	/**
 	Adds a line command to the $(D CanvasItem)'s draw commands.
@@ -1773,7 +1783,7 @@ public:
 	void canvasItemAddLine(in RID item, in Vector2 from, in Vector2 to, in Color color, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddLine, _godot_object, item, from, to, color, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddLine, _godot_object, item, from, to, color, width, antialiased);
 	}
 	/**
 	Adds a mesh command to the $(D CanvasItem)'s draw commands.
@@ -1781,7 +1791,7 @@ public:
 	void canvasItemAddMesh(in RID item, in RID mesh, in Transform2D transform = Transform2D.init, in Color modulate = Color(1,1,1,1), in RID texture = RID.init, in RID normal_map = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddMesh, _godot_object, item, mesh, transform, modulate, texture, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddMesh, _godot_object, item, mesh, transform, modulate, texture, normal_map);
 	}
 	/**
 	Adds a $(D MultiMesh) to the $(D CanvasItem)'s draw commands. Only affects its aabb at the moment.
@@ -1789,7 +1799,7 @@ public:
 	void canvasItemAddMultimesh(in RID item, in RID mesh, in RID texture, in RID normal_map = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddMultimesh, _godot_object, item, mesh, texture, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddMultimesh, _godot_object, item, mesh, texture, normal_map);
 	}
 	/**
 	Adds a nine patch image to the $(D CanvasItem)'s draw commands.
@@ -1798,7 +1808,7 @@ public:
 	void canvasItemAddNinePatch(in RID item, in Rect2 rect, in Rect2 source, in RID texture, in Vector2 topleft, in Vector2 bottomright, in long x_axis_mode = 0, in long y_axis_mode = 0, in bool draw_center = true, in Color modulate = Color(1,1,1,1), in RID normal_map = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddNinePatch, _godot_object, item, rect, source, texture, topleft, bottomright, x_axis_mode, y_axis_mode, draw_center, modulate, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddNinePatch, _godot_object, item, rect, source, texture, topleft, bottomright, x_axis_mode, y_axis_mode, draw_center, modulate, normal_map);
 	}
 	/**
 	Adds a particle system to the $(D CanvasItem)'s draw commands.
@@ -1806,7 +1816,7 @@ public:
 	void canvasItemAddParticles(in RID item, in RID particles, in RID texture, in RID normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddParticles, _godot_object, item, particles, texture, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddParticles, _godot_object, item, particles, texture, normal_map);
 	}
 	/**
 	Adds a polygon to the $(D CanvasItem)'s draw commands.
@@ -1814,7 +1824,7 @@ public:
 	void canvasItemAddPolygon(in RID item, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, in RID texture = RID.init, in RID normal_map = RID.init, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddPolygon, _godot_object, item, points, colors, uvs, texture, normal_map, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddPolygon, _godot_object, item, points, colors, uvs, texture, normal_map, antialiased);
 	}
 	/**
 	Adds a polyline, which is a line from multiple points with a width, to the $(D CanvasItem)'s draw commands.
@@ -1822,7 +1832,7 @@ public:
 	void canvasItemAddPolyline(in RID item, in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddPolyline, _godot_object, item, points, colors, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddPolyline, _godot_object, item, points, colors, width, antialiased);
 	}
 	/**
 	Adds a primitive to the $(D CanvasItem)'s draw commands.
@@ -1830,7 +1840,7 @@ public:
 	void canvasItemAddPrimitive(in RID item, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs, in RID texture, in double width = 1, in RID normal_map = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddPrimitive, _godot_object, item, points, colors, uvs, texture, width, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddPrimitive, _godot_object, item, points, colors, uvs, texture, width, normal_map);
 	}
 	/**
 	Adds a rectangle to the $(D CanvasItem)'s draw commands.
@@ -1838,7 +1848,7 @@ public:
 	void canvasItemAddRect(in RID item, in Rect2 rect, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddRect, _godot_object, item, rect, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddRect, _godot_object, item, rect, color);
 	}
 	/**
 	Adds a $(D Transform2D) command to the $(D CanvasItem)'s draw commands.
@@ -1847,7 +1857,7 @@ public:
 	void canvasItemAddSetTransform(in RID item, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddSetTransform, _godot_object, item, transform);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddSetTransform, _godot_object, item, transform);
 	}
 	/**
 	Adds a textured rect to the $(D CanvasItem)'s draw commands.
@@ -1855,7 +1865,7 @@ public:
 	void canvasItemAddTextureRect(in RID item, in Rect2 rect, in RID texture, in bool tile = false, in Color modulate = Color(1,1,1,1), in bool transpose = false, in RID normal_map = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddTextureRect, _godot_object, item, rect, texture, tile, modulate, transpose, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddTextureRect, _godot_object, item, rect, texture, tile, modulate, transpose, normal_map);
 	}
 	/**
 	Adds a texture rect with region setting to the $(D CanvasItem)'s draw commands.
@@ -1863,7 +1873,7 @@ public:
 	void canvasItemAddTextureRectRegion(in RID item, in Rect2 rect, in RID texture, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, in RID normal_map = RID.init, in bool clip_uv = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddTextureRectRegion, _godot_object, item, rect, texture, src_rect, modulate, transpose, normal_map, clip_uv);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddTextureRectRegion, _godot_object, item, rect, texture, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
 	/**
 	Adds a triangle array to the $(D CanvasItem)'s draw commands.
@@ -1871,7 +1881,7 @@ public:
 	void canvasItemAddTriangleArray(in RID item, in PoolIntArray indices, in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, in PoolIntArray bones = PoolIntArray.init, in PoolRealArray weights = PoolRealArray.init, in RID texture = RID.init, in long count = -1, in RID normal_map = RID.init, in bool antialiased = false, in bool antialiasing_use_indices = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemAddTriangleArray, _godot_object, item, indices, points, colors, uvs, bones, weights, texture, count, normal_map, antialiased, antialiasing_use_indices);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemAddTriangleArray, _godot_object, item, indices, points, colors, uvs, bones, weights, texture, count, normal_map, antialiased, antialiasing_use_indices);
 	}
 	/**
 	Clears the $(D CanvasItem) and removes all commands in it.
@@ -1879,7 +1889,7 @@ public:
 	void canvasItemClear(in RID item)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemClear, _godot_object, item);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemClear, _godot_object, item);
 	}
 	/**
 	Creates a new $(D CanvasItem) and returns its $(D RID). It can be accessed with the RID that is returned. This RID will be used in all `canvas_item_*` VisualServer functions.
@@ -1888,7 +1898,7 @@ public:
 	RID canvasItemCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.canvasItemCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.canvasItemCreate, _godot_object);
 	}
 	/**
 	Sets clipping for the $(D CanvasItem).
@@ -1896,7 +1906,7 @@ public:
 	void canvasItemSetClip(in RID item, in bool clip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetClip, _godot_object, item, clip);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetClip, _godot_object, item, clip);
 	}
 	/**
 	Sets the $(D CanvasItem) to copy a rect to the backbuffer.
@@ -1904,7 +1914,7 @@ public:
 	void canvasItemSetCopyToBackbuffer(in RID item, in bool enabled, in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetCopyToBackbuffer, _godot_object, item, enabled, rect);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetCopyToBackbuffer, _godot_object, item, enabled, rect);
 	}
 	/**
 	Defines a custom drawing rectangle for the $(D CanvasItem).
@@ -1912,7 +1922,7 @@ public:
 	void canvasItemSetCustomRect(in RID item, in bool use_custom_rect, in Rect2 rect = Rect2(0, 0, 0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetCustomRect, _godot_object, item, use_custom_rect, rect);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetCustomRect, _godot_object, item, use_custom_rect, rect);
 	}
 	/**
 	Enables the use of distance fields for GUI elements that are rendering distance field based fonts.
@@ -1920,7 +1930,7 @@ public:
 	void canvasItemSetDistanceFieldMode(in RID item, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetDistanceFieldMode, _godot_object, item, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetDistanceFieldMode, _godot_object, item, enabled);
 	}
 	/**
 	Sets $(D CanvasItem) to be drawn behind its parent.
@@ -1928,7 +1938,7 @@ public:
 	void canvasItemSetDrawBehindParent(in RID item, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetDrawBehindParent, _godot_object, item, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetDrawBehindParent, _godot_object, item, enabled);
 	}
 	/**
 	Sets the index for the $(D CanvasItem).
@@ -1936,7 +1946,7 @@ public:
 	void canvasItemSetDrawIndex(in RID item, in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetDrawIndex, _godot_object, item, index);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetDrawIndex, _godot_object, item, index);
 	}
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks.
@@ -1944,7 +1954,7 @@ public:
 	void canvasItemSetLightMask(in RID item, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetLightMask, _godot_object, item, mask);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetLightMask, _godot_object, item, mask);
 	}
 	/**
 	Sets a new material to the $(D CanvasItem).
@@ -1952,7 +1962,7 @@ public:
 	void canvasItemSetMaterial(in RID item, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetMaterial, _godot_object, item, material);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetMaterial, _godot_object, item, material);
 	}
 	/**
 	Sets the color that modulates the $(D CanvasItem) and its children.
@@ -1960,7 +1970,7 @@ public:
 	void canvasItemSetModulate(in RID item, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetModulate, _godot_object, item, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetModulate, _godot_object, item, color);
 	}
 	/**
 	Sets the parent for the $(D CanvasItem). The parent can be another canvas item, or it can be the root canvas that is attached to the viewport.
@@ -1968,7 +1978,7 @@ public:
 	void canvasItemSetParent(in RID item, in RID parent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetParent, _godot_object, item, parent);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetParent, _godot_object, item, parent);
 	}
 	/**
 	Sets the color that modulates the $(D CanvasItem) without children.
@@ -1976,7 +1986,7 @@ public:
 	void canvasItemSetSelfModulate(in RID item, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetSelfModulate, _godot_object, item, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetSelfModulate, _godot_object, item, color);
 	}
 	/**
 	Sets if $(D CanvasItem)'s children should be sorted by y-position.
@@ -1984,7 +1994,7 @@ public:
 	void canvasItemSetSortChildrenByY(in RID item, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetSortChildrenByY, _godot_object, item, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetSortChildrenByY, _godot_object, item, enabled);
 	}
 	/**
 	Sets the $(D CanvasItem)'s $(D Transform2D).
@@ -1992,7 +2002,7 @@ public:
 	void canvasItemSetTransform(in RID item, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetTransform, _godot_object, item, transform);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetTransform, _godot_object, item, transform);
 	}
 	/**
 	Sets if the $(D CanvasItem) uses its parent's material.
@@ -2000,7 +2010,7 @@ public:
 	void canvasItemSetUseParentMaterial(in RID item, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetUseParentMaterial, _godot_object, item, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetUseParentMaterial, _godot_object, item, enabled);
 	}
 	/**
 	Sets if the canvas item (including its children) is visible.
@@ -2008,7 +2018,7 @@ public:
 	void canvasItemSetVisible(in RID item, in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetVisible, _godot_object, item, visible);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetVisible, _godot_object, item, visible);
 	}
 	/**
 	If this is enabled, the Z index of the parent will be added to the children's Z index.
@@ -2016,7 +2026,7 @@ public:
 	void canvasItemSetZAsRelativeToParent(in RID item, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetZAsRelativeToParent, _godot_object, item, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetZAsRelativeToParent, _godot_object, item, enabled);
 	}
 	/**
 	Sets the $(D CanvasItem)'s Z index, i.e. its draw order (lower indexes are drawn first).
@@ -2024,7 +2034,7 @@ public:
 	void canvasItemSetZIndex(in RID item, in long z_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasItemSetZIndex, _godot_object, item, z_index);
+		ptrcall!(void)(GDNativeClassBinding.canvasItemSetZIndex, _godot_object, item, z_index);
 	}
 	/**
 	Attaches the canvas light to the canvas. Removes it from its previous canvas.
@@ -2032,7 +2042,7 @@ public:
 	void canvasLightAttachToCanvas(in RID light, in RID canvas)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightAttachToCanvas, _godot_object, light, canvas);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightAttachToCanvas, _godot_object, light, canvas);
 	}
 	/**
 	Creates a canvas light and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `canvas_light_*` VisualServer functions.
@@ -2041,7 +2051,7 @@ public:
 	RID canvasLightCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.canvasLightCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.canvasLightCreate, _godot_object);
 	}
 	/**
 	Attaches a light occluder to the canvas. Removes it from its previous canvas.
@@ -2049,7 +2059,7 @@ public:
 	void canvasLightOccluderAttachToCanvas(in RID occluder, in RID canvas)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightOccluderAttachToCanvas, _godot_object, occluder, canvas);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightOccluderAttachToCanvas, _godot_object, occluder, canvas);
 	}
 	/**
 	Creates a light occluder and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `canvas_light_ocluder_*` VisualServer functions.
@@ -2058,7 +2068,7 @@ public:
 	RID canvasLightOccluderCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.canvasLightOccluderCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.canvasLightOccluderCreate, _godot_object);
 	}
 	/**
 	Enables or disables light occluder.
@@ -2066,7 +2076,7 @@ public:
 	void canvasLightOccluderSetEnabled(in RID occluder, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightOccluderSetEnabled, _godot_object, occluder, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightOccluderSetEnabled, _godot_object, occluder, enabled);
 	}
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks.
@@ -2074,7 +2084,7 @@ public:
 	void canvasLightOccluderSetLightMask(in RID occluder, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightOccluderSetLightMask, _godot_object, occluder, mask);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightOccluderSetLightMask, _godot_object, occluder, mask);
 	}
 	/**
 	Sets a light occluder's polygon.
@@ -2082,7 +2092,7 @@ public:
 	void canvasLightOccluderSetPolygon(in RID occluder, in RID polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightOccluderSetPolygon, _godot_object, occluder, polygon);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightOccluderSetPolygon, _godot_object, occluder, polygon);
 	}
 	/**
 	Sets a light occluder's $(D Transform2D).
@@ -2090,7 +2100,7 @@ public:
 	void canvasLightOccluderSetTransform(in RID occluder, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightOccluderSetTransform, _godot_object, occluder, transform);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightOccluderSetTransform, _godot_object, occluder, transform);
 	}
 	/**
 	Sets the color for a light.
@@ -2098,7 +2108,7 @@ public:
 	void canvasLightSetColor(in RID light, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetColor, _godot_object, light, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetColor, _godot_object, light, color);
 	}
 	/**
 	Enables or disables a canvas light.
@@ -2106,7 +2116,7 @@ public:
 	void canvasLightSetEnabled(in RID light, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetEnabled, _godot_object, light, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetEnabled, _godot_object, light, enabled);
 	}
 	/**
 	Sets a canvas light's energy.
@@ -2114,7 +2124,7 @@ public:
 	void canvasLightSetEnergy(in RID light, in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetEnergy, _godot_object, light, energy);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetEnergy, _godot_object, light, energy);
 	}
 	/**
 	Sets a canvas light's height.
@@ -2122,7 +2132,7 @@ public:
 	void canvasLightSetHeight(in RID light, in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetHeight, _godot_object, light, height);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetHeight, _godot_object, light, height);
 	}
 	/**
 	The light mask. See $(D LightOccluder2D) for more information on light masks.
@@ -2130,7 +2140,7 @@ public:
 	void canvasLightSetItemCullMask(in RID light, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetItemCullMask, _godot_object, light, mask);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetItemCullMask, _godot_object, light, mask);
 	}
 	/**
 	The binary mask used to determine which layers this canvas light's shadows affects. See $(D LightOccluder2D) for more information on light masks.
@@ -2138,7 +2148,7 @@ public:
 	void canvasLightSetItemShadowCullMask(in RID light, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetItemShadowCullMask, _godot_object, light, mask);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetItemShadowCullMask, _godot_object, light, mask);
 	}
 	/**
 	The layer range that gets rendered with this light.
@@ -2146,7 +2156,7 @@ public:
 	void canvasLightSetLayerRange(in RID light, in long min_layer, in long max_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetLayerRange, _godot_object, light, min_layer, max_layer);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetLayerRange, _godot_object, light, min_layer, max_layer);
 	}
 	/**
 	The mode of the light, see $(D canvaslightmode) constants.
@@ -2154,7 +2164,7 @@ public:
 	void canvasLightSetMode(in RID light, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetMode, _godot_object, light, mode);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetMode, _godot_object, light, mode);
 	}
 	/**
 	Sets the texture's scale factor of the light. Equivalent to $(D Light2D.textureScale).
@@ -2162,7 +2172,7 @@ public:
 	void canvasLightSetScale(in RID light, in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetScale, _godot_object, light, scale);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetScale, _godot_object, light, scale);
 	}
 	/**
 	Sets the width of the shadow buffer, size gets scaled to the next power of two for this.
@@ -2170,7 +2180,7 @@ public:
 	void canvasLightSetShadowBufferSize(in RID light, in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowBufferSize, _godot_object, light, size);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowBufferSize, _godot_object, light, size);
 	}
 	/**
 	Sets the color of the canvas light's shadow.
@@ -2178,7 +2188,7 @@ public:
 	void canvasLightSetShadowColor(in RID light, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowColor, _godot_object, light, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowColor, _godot_object, light, color);
 	}
 	/**
 	Enables or disables the canvas light's shadow.
@@ -2186,7 +2196,7 @@ public:
 	void canvasLightSetShadowEnabled(in RID light, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowEnabled, _godot_object, light, enabled);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowEnabled, _godot_object, light, enabled);
 	}
 	/**
 	Sets the canvas light's shadow's filter, see $(D canvaslightshadowfilter) constants.
@@ -2194,7 +2204,7 @@ public:
 	void canvasLightSetShadowFilter(in RID light, in long filter)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowFilter, _godot_object, light, filter);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowFilter, _godot_object, light, filter);
 	}
 	/**
 	Sets the length of the shadow's gradient.
@@ -2202,7 +2212,7 @@ public:
 	void canvasLightSetShadowGradientLength(in RID light, in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowGradientLength, _godot_object, light, length);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowGradientLength, _godot_object, light, length);
 	}
 	/**
 	Smoothens the shadow. The lower, the smoother.
@@ -2210,7 +2220,7 @@ public:
 	void canvasLightSetShadowSmooth(in RID light, in double smooth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetShadowSmooth, _godot_object, light, smooth);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetShadowSmooth, _godot_object, light, smooth);
 	}
 	/**
 	Sets texture to be used by light. Equivalent to $(D Light2D.texture).
@@ -2218,7 +2228,7 @@ public:
 	void canvasLightSetTexture(in RID light, in RID texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetTexture, _godot_object, light, texture);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetTexture, _godot_object, light, texture);
 	}
 	/**
 	Sets the offset of the light's texture. Equivalent to $(D Light2D.offset).
@@ -2226,7 +2236,7 @@ public:
 	void canvasLightSetTextureOffset(in RID light, in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetTextureOffset, _godot_object, light, offset);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetTextureOffset, _godot_object, light, offset);
 	}
 	/**
 	Sets the canvas light's $(D Transform2D).
@@ -2234,7 +2244,7 @@ public:
 	void canvasLightSetTransform(in RID light, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetTransform, _godot_object, light, transform);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetTransform, _godot_object, light, transform);
 	}
 	/**
 	Sets the Z range of objects that will be affected by this light. Equivalent to $(D Light2D.rangeZMin) and $(D Light2D.rangeZMax).
@@ -2242,7 +2252,7 @@ public:
 	void canvasLightSetZRange(in RID light, in long min_z, in long max_z)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasLightSetZRange, _godot_object, light, min_z, max_z);
+		ptrcall!(void)(GDNativeClassBinding.canvasLightSetZRange, _godot_object, light, min_z, max_z);
 	}
 	/**
 	Creates a new light occluder polygon and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `canvas_occluder_polygon_*` VisualServer functions.
@@ -2251,7 +2261,7 @@ public:
 	RID canvasOccluderPolygonCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.canvasOccluderPolygonCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.canvasOccluderPolygonCreate, _godot_object);
 	}
 	/**
 	Sets an occluder polygons cull mode. See $(D canvasoccluderpolygoncullmode) constants.
@@ -2259,7 +2269,7 @@ public:
 	void canvasOccluderPolygonSetCullMode(in RID occluder_polygon, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetCullMode, _godot_object, occluder_polygon, mode);
+		ptrcall!(void)(GDNativeClassBinding.canvasOccluderPolygonSetCullMode, _godot_object, occluder_polygon, mode);
 	}
 	/**
 	Sets the shape of the occluder polygon.
@@ -2267,7 +2277,7 @@ public:
 	void canvasOccluderPolygonSetShape(in RID occluder_polygon, in PoolVector2Array shape, in bool closed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetShape, _godot_object, occluder_polygon, shape, closed);
+		ptrcall!(void)(GDNativeClassBinding.canvasOccluderPolygonSetShape, _godot_object, occluder_polygon, shape, closed);
 	}
 	/**
 	Sets the shape of the occluder polygon as lines.
@@ -2275,7 +2285,7 @@ public:
 	void canvasOccluderPolygonSetShapeAsLines(in RID occluder_polygon, in PoolVector2Array shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasOccluderPolygonSetShapeAsLines, _godot_object, occluder_polygon, shape);
+		ptrcall!(void)(GDNativeClassBinding.canvasOccluderPolygonSetShapeAsLines, _godot_object, occluder_polygon, shape);
 	}
 	/**
 	A copy of the canvas item will be drawn with a local offset of the mirroring $(D Vector2).
@@ -2283,7 +2293,7 @@ public:
 	void canvasSetItemMirroring(in RID canvas, in RID item, in Vector2 mirroring)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasSetItemMirroring, _godot_object, canvas, item, mirroring);
+		ptrcall!(void)(GDNativeClassBinding.canvasSetItemMirroring, _godot_object, canvas, item, mirroring);
 	}
 	/**
 	Modulates all colors in the given canvas.
@@ -2291,7 +2301,7 @@ public:
 	void canvasSetModulate(in RID canvas, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.canvasSetModulate, _godot_object, canvas, color);
+		ptrcall!(void)(GDNativeClassBinding.canvasSetModulate, _godot_object, canvas, color);
 	}
 	/**
 	Creates a directional light and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID can be used in most `light_*` VisualServer functions.
@@ -2301,7 +2311,7 @@ public:
 	RID directionalLightCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.directionalLightCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.directionalLightCreate, _godot_object);
 	}
 	/**
 	Draws a frame. $(I This method is deprecated), please use $(D forceDraw) instead.
@@ -2309,7 +2319,7 @@ public:
 	void draw(in bool swap_buffers = true, in double frame_step = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.draw, _godot_object, swap_buffers, frame_step);
+		ptrcall!(void)(GDNativeClassBinding.draw, _godot_object, swap_buffers, frame_step);
 	}
 	/**
 	Creates an environment and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `environment_*` VisualServer functions.
@@ -2318,7 +2328,7 @@ public:
 	RID environmentCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.environmentCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.environmentCreate, _godot_object);
 	}
 	/**
 	Sets the values to be used with the "Adjustment" post-process effect. See $(D Environment) for more details.
@@ -2326,7 +2336,7 @@ public:
 	void environmentSetAdjustment(in RID env, in bool enable, in double brightness, in double contrast, in double saturation, in RID ramp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetAdjustment, _godot_object, env, enable, brightness, contrast, saturation, ramp);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetAdjustment, _godot_object, env, enable, brightness, contrast, saturation, ramp);
 	}
 	/**
 	Sets the ambient light parameters. See $(D Environment) for more details.
@@ -2334,7 +2344,7 @@ public:
 	void environmentSetAmbientLight(in RID env, in Color color, in double energy = 1, in double sky_contibution = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetAmbientLight, _godot_object, env, color, energy, sky_contibution);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetAmbientLight, _godot_object, env, color, energy, sky_contibution);
 	}
 	/**
 	Sets the $(I BGMode) of the environment. Equivalent to $(D Environment.backgroundMode).
@@ -2342,7 +2352,7 @@ public:
 	void environmentSetBackground(in RID env, in long bg)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetBackground, _godot_object, env, bg);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetBackground, _godot_object, env, bg);
 	}
 	/**
 	Color displayed for clear areas of the scene (if using Custom color or Color+Sky background modes).
@@ -2350,7 +2360,7 @@ public:
 	void environmentSetBgColor(in RID env, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetBgColor, _godot_object, env, color);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetBgColor, _godot_object, env, color);
 	}
 	/**
 	Sets the intensity of the background color.
@@ -2358,7 +2368,7 @@ public:
 	void environmentSetBgEnergy(in RID env, in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetBgEnergy, _godot_object, env, energy);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetBgEnergy, _godot_object, env, energy);
 	}
 	/**
 	Sets the maximum layer to use if using Canvas background mode.
@@ -2366,7 +2376,7 @@ public:
 	void environmentSetCanvasMaxLayer(in RID env, in long max_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetCanvasMaxLayer, _godot_object, env, max_layer);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetCanvasMaxLayer, _godot_object, env, max_layer);
 	}
 	/**
 	Sets the values to be used with the "DoF Far Blur" post-process effect. See $(D Environment) for more details.
@@ -2374,7 +2384,7 @@ public:
 	void environmentSetDofBlurFar(in RID env, in bool enable, in double distance, in double transition, in double far_amount, in long quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetDofBlurFar, _godot_object, env, enable, distance, transition, far_amount, quality);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetDofBlurFar, _godot_object, env, enable, distance, transition, far_amount, quality);
 	}
 	/**
 	Sets the values to be used with the "DoF Near Blur" post-process effect. See $(D Environment) for more details.
@@ -2382,7 +2392,7 @@ public:
 	void environmentSetDofBlurNear(in RID env, in bool enable, in double distance, in double transition, in double far_amount, in long quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetDofBlurNear, _godot_object, env, enable, distance, transition, far_amount, quality);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetDofBlurNear, _godot_object, env, enable, distance, transition, far_amount, quality);
 	}
 	/**
 	Sets the variables to be used with the scene fog. See $(D Environment) for more details.
@@ -2390,7 +2400,7 @@ public:
 	void environmentSetFog(in RID env, in bool enable, in Color color, in Color sun_color, in double sun_amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetFog, _godot_object, env, enable, color, sun_color, sun_amount);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetFog, _godot_object, env, enable, color, sun_color, sun_amount);
 	}
 	/**
 	Sets the variables to be used with the fog depth effect. See $(D Environment) for more details.
@@ -2398,7 +2408,7 @@ public:
 	void environmentSetFogDepth(in RID env, in bool enable, in double depth_begin, in double depth_end, in double depth_curve, in bool transmit, in double transmit_curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetFogDepth, _godot_object, env, enable, depth_begin, depth_end, depth_curve, transmit, transmit_curve);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetFogDepth, _godot_object, env, enable, depth_begin, depth_end, depth_curve, transmit, transmit_curve);
 	}
 	/**
 	Sets the variables to be used with the fog height effect. See $(D Environment) for more details.
@@ -2406,7 +2416,7 @@ public:
 	void environmentSetFogHeight(in RID env, in bool enable, in double min_height, in double max_height, in double height_curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetFogHeight, _godot_object, env, enable, min_height, max_height, height_curve);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetFogHeight, _godot_object, env, enable, min_height, max_height, height_curve);
 	}
 	/**
 	Sets the variables to be used with the "glow" post-process effect. See $(D Environment) for more details.
@@ -2414,7 +2424,7 @@ public:
 	void environmentSetGlow(in RID env, in bool enable, in long level_flags, in double intensity, in double strength, in double bloom_threshold, in long blend_mode, in double hdr_bleed_threshold, in double hdr_bleed_scale, in double hdr_luminance_cap, in bool bicubic_upscale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetGlow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, hdr_luminance_cap, bicubic_upscale);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetGlow, _godot_object, env, enable, level_flags, intensity, strength, bloom_threshold, blend_mode, hdr_bleed_threshold, hdr_bleed_scale, hdr_luminance_cap, bicubic_upscale);
 	}
 	/**
 	Sets the $(D Sky) to be used as the environment's background when using $(I BGMode) sky. Equivalent to $(D Environment.backgroundSky).
@@ -2422,7 +2432,7 @@ public:
 	void environmentSetSky(in RID env, in RID sky)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetSky, _godot_object, env, sky);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetSky, _godot_object, env, sky);
 	}
 	/**
 	Sets a custom field of view for the background $(D Sky). Equivalent to $(D Environment.backgroundSkyCustomFov).
@@ -2430,7 +2440,7 @@ public:
 	void environmentSetSkyCustomFov(in RID env, in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetSkyCustomFov, _godot_object, env, scale);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetSkyCustomFov, _godot_object, env, scale);
 	}
 	/**
 	Sets the rotation of the background $(D Sky) expressed as a $(D Basis). Equivalent to $(D Environment.backgroundSkyOrientation).
@@ -2438,7 +2448,7 @@ public:
 	void environmentSetSkyOrientation(in RID env, in Basis orientation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetSkyOrientation, _godot_object, env, orientation);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetSkyOrientation, _godot_object, env, orientation);
 	}
 	/**
 	Sets the variables to be used with the "Screen Space Ambient Occlusion (SSAO)" post-process effect. See $(D Environment) for more details.
@@ -2446,7 +2456,7 @@ public:
 	void environmentSetSsao(in RID env, in bool enable, in double radius, in double intensity, in double radius2, in double intensity2, in double bias, in double light_affect, in double ao_channel_affect, in Color color, in long quality, in long blur, in double bilateral_sharpness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetSsao, _godot_object, env, enable, radius, intensity, radius2, intensity2, bias, light_affect, ao_channel_affect, color, quality, blur, bilateral_sharpness);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetSsao, _godot_object, env, enable, radius, intensity, radius2, intensity2, bias, light_affect, ao_channel_affect, color, quality, blur, bilateral_sharpness);
 	}
 	/**
 	Sets the variables to be used with the "screen space reflections" post-process effect. See $(D Environment) for more details.
@@ -2454,7 +2464,7 @@ public:
 	void environmentSetSsr(in RID env, in bool enable, in long max_steps, in double fade_in, in double fade_out, in double depth_tolerance, in bool roughness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetSsr, _godot_object, env, enable, max_steps, fade_in, fade_out, depth_tolerance, roughness);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetSsr, _godot_object, env, enable, max_steps, fade_in, fade_out, depth_tolerance, roughness);
 	}
 	/**
 	Sets the variables to be used with the "tonemap" post-process effect. See $(D Environment) for more details.
@@ -2462,7 +2472,7 @@ public:
 	void environmentSetTonemap(in RID env, in long tone_mapper, in double exposure, in double white, in bool auto_exposure, in double min_luminance, in double max_luminance, in double auto_exp_speed, in double auto_exp_grey)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.environmentSetTonemap, _godot_object, env, tone_mapper, exposure, white, auto_exposure, min_luminance, max_luminance, auto_exp_speed, auto_exp_grey);
+		ptrcall!(void)(GDNativeClassBinding.environmentSetTonemap, _godot_object, env, tone_mapper, exposure, white, auto_exposure, min_luminance, max_luminance, auto_exp_speed, auto_exp_grey);
 	}
 	/**
 	Removes buffers and clears testcubes.
@@ -2470,7 +2480,7 @@ public:
 	void finish()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.finish, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.finish, _godot_object);
 	}
 	/**
 	Forces a frame to be drawn when the function is called. Drawing a frame updates all $(D Viewport)s that are set to update. Use with extreme caution.
@@ -2478,7 +2488,7 @@ public:
 	void forceDraw(in bool swap_buffers = true, in double frame_step = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceDraw, _godot_object, swap_buffers, frame_step);
+		ptrcall!(void)(GDNativeClassBinding.forceDraw, _godot_object, swap_buffers, frame_step);
 	}
 	/**
 	Synchronizes threads.
@@ -2486,7 +2496,7 @@ public:
 	void forceSync()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceSync, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceSync, _godot_object);
 	}
 	/**
 	Tries to free an object in the VisualServer.
@@ -2494,7 +2504,7 @@ public:
 	void freeRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.freeRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.freeRid, _godot_object, rid);
 	}
 	/**
 	Returns a certain information, see $(D renderinfo) for options.
@@ -2502,7 +2512,7 @@ public:
 	long getRenderInfo(in long info)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRenderInfo, _godot_object, info);
+		return ptrcall!(long)(GDNativeClassBinding.getRenderInfo, _godot_object, info);
 	}
 	/**
 	Returns the id of the test cube. Creates one if none exists.
@@ -2510,7 +2520,7 @@ public:
 	RID getTestCube()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getTestCube, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getTestCube, _godot_object);
 	}
 	/**
 	Returns the id of the test texture. Creates one if none exists.
@@ -2518,7 +2528,7 @@ public:
 	RID getTestTexture()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getTestTexture, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getTestTexture, _godot_object);
 	}
 	/**
 	Returns the name of the video adapter (e.g. "GeForce GTX 1080/PCIe/SSE2").
@@ -2527,7 +2537,7 @@ public:
 	String getVideoAdapterName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getVideoAdapterName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getVideoAdapterName, _godot_object);
 	}
 	/**
 	Returns the vendor of the video adapter (e.g. "NVIDIA Corporation").
@@ -2536,7 +2546,7 @@ public:
 	String getVideoAdapterVendor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getVideoAdapterVendor, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getVideoAdapterVendor, _godot_object);
 	}
 	/**
 	Returns the id of a white texture. Creates one if none exists.
@@ -2544,7 +2554,7 @@ public:
 	RID getWhiteTexture()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getWhiteTexture, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getWhiteTexture, _godot_object);
 	}
 	/**
 	Creates a GI probe and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `gi_probe_*` VisualServer functions.
@@ -2554,7 +2564,7 @@ public:
 	RID giProbeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.giProbeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.giProbeCreate, _godot_object);
 	}
 	/**
 	Returns the bias value for the GI probe. Bias is used to avoid self occlusion. Equivalent to $(D GIProbeData.bias).
@@ -2562,7 +2572,7 @@ public:
 	double giProbeGetBias(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.giProbeGetBias, _godot_object, probe);
+		return ptrcall!(double)(GDNativeClassBinding.giProbeGetBias, _godot_object, probe);
 	}
 	/**
 	Returns the axis-aligned bounding box that covers the full extent of the GI probe.
@@ -2570,7 +2580,7 @@ public:
 	AABB giProbeGetBounds(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.giProbeGetBounds, _godot_object, probe);
+		return ptrcall!(AABB)(GDNativeClassBinding.giProbeGetBounds, _godot_object, probe);
 	}
 	/**
 	Returns the cell size set by $(D giProbeSetCellSize).
@@ -2578,7 +2588,7 @@ public:
 	double giProbeGetCellSize(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.giProbeGetCellSize, _godot_object, probe);
+		return ptrcall!(double)(GDNativeClassBinding.giProbeGetCellSize, _godot_object, probe);
 	}
 	/**
 	Returns the data used by the GI probe.
@@ -2586,7 +2596,7 @@ public:
 	PoolIntArray giProbeGetDynamicData(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.giProbeGetDynamicData, _godot_object, probe);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.giProbeGetDynamicData, _godot_object, probe);
 	}
 	/**
 	Returns the dynamic range set for this GI probe. Equivalent to $(D GIProbe.dynamicRange).
@@ -2594,7 +2604,7 @@ public:
 	long giProbeGetDynamicRange(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.giProbeGetDynamicRange, _godot_object, probe);
+		return ptrcall!(long)(GDNativeClassBinding.giProbeGetDynamicRange, _godot_object, probe);
 	}
 	/**
 	Returns the energy multiplier for this GI probe. Equivalent to $(D GIProbe.energy).
@@ -2602,7 +2612,7 @@ public:
 	double giProbeGetEnergy(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.giProbeGetEnergy, _godot_object, probe);
+		return ptrcall!(double)(GDNativeClassBinding.giProbeGetEnergy, _godot_object, probe);
 	}
 	/**
 	Returns the normal bias for this GI probe. Equivalent to $(D GIProbe.normalBias).
@@ -2610,7 +2620,7 @@ public:
 	double giProbeGetNormalBias(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.giProbeGetNormalBias, _godot_object, probe);
+		return ptrcall!(double)(GDNativeClassBinding.giProbeGetNormalBias, _godot_object, probe);
 	}
 	/**
 	Returns the propagation value for this GI probe. Equivalent to $(D GIProbe.propagation).
@@ -2618,7 +2628,7 @@ public:
 	double giProbeGetPropagation(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.giProbeGetPropagation, _godot_object, probe);
+		return ptrcall!(double)(GDNativeClassBinding.giProbeGetPropagation, _godot_object, probe);
 	}
 	/**
 	Returns the Transform set by $(D giProbeSetToCellXform).
@@ -2626,7 +2636,7 @@ public:
 	Transform giProbeGetToCellXform(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.giProbeGetToCellXform, _godot_object, probe);
+		return ptrcall!(Transform)(GDNativeClassBinding.giProbeGetToCellXform, _godot_object, probe);
 	}
 	/**
 	Returns `true` if the GI probe data associated with this GI probe is compressed. Equivalent to $(D GIProbe.compress).
@@ -2634,7 +2644,7 @@ public:
 	bool giProbeIsCompressed(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.giProbeIsCompressed, _godot_object, probe);
+		return ptrcall!(bool)(GDNativeClassBinding.giProbeIsCompressed, _godot_object, probe);
 	}
 	/**
 	Returns `true` if the GI probe is set to interior, meaning it does not account for sky light. Equivalent to $(D GIProbe.interior).
@@ -2642,7 +2652,7 @@ public:
 	bool giProbeIsInterior(in RID probe) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.giProbeIsInterior, _godot_object, probe);
+		return ptrcall!(bool)(GDNativeClassBinding.giProbeIsInterior, _godot_object, probe);
 	}
 	/**
 	Sets the bias value to avoid self-occlusion. Equivalent to $(D GIProbe.bias).
@@ -2650,7 +2660,7 @@ public:
 	void giProbeSetBias(in RID probe, in double bias)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetBias, _godot_object, probe, bias);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetBias, _godot_object, probe, bias);
 	}
 	/**
 	Sets the axis-aligned bounding box that covers the extent of the GI probe.
@@ -2658,7 +2668,7 @@ public:
 	void giProbeSetBounds(in RID probe, in AABB bounds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetBounds, _godot_object, probe, bounds);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetBounds, _godot_object, probe, bounds);
 	}
 	/**
 	Sets the size of individual cells within the GI probe.
@@ -2666,7 +2676,7 @@ public:
 	void giProbeSetCellSize(in RID probe, in double range)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetCellSize, _godot_object, probe, range);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetCellSize, _godot_object, probe, range);
 	}
 	/**
 	Sets the compression setting for the GI probe data. Compressed data will take up less space but may look worse. Equivalent to $(D GIProbe.compress).
@@ -2674,7 +2684,7 @@ public:
 	void giProbeSetCompress(in RID probe, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetCompress, _godot_object, probe, enable);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetCompress, _godot_object, probe, enable);
 	}
 	/**
 	Sets the data to be used in the GI probe for lighting calculations. Normally this is created and called internally within the $(D GIProbe) node. You should not try to set this yourself.
@@ -2682,7 +2692,7 @@ public:
 	void giProbeSetDynamicData(in RID probe, in PoolIntArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetDynamicData, _godot_object, probe, data);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetDynamicData, _godot_object, probe, data);
 	}
 	/**
 	Sets the dynamic range of the GI probe. Dynamic range sets the limit for how bright lights can be. A smaller range captures greater detail but limits how bright lights can be. Equivalent to $(D GIProbe.dynamicRange).
@@ -2690,7 +2700,7 @@ public:
 	void giProbeSetDynamicRange(in RID probe, in long range)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetDynamicRange, _godot_object, probe, range);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetDynamicRange, _godot_object, probe, range);
 	}
 	/**
 	Sets the energy multiplier for this GI probe. A higher energy makes the indirect light from the GI probe brighter. Equivalent to $(D GIProbe.energy).
@@ -2698,7 +2708,7 @@ public:
 	void giProbeSetEnergy(in RID probe, in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetEnergy, _godot_object, probe, energy);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetEnergy, _godot_object, probe, energy);
 	}
 	/**
 	Sets the interior value of this GI probe. A GI probe set to interior does not include the sky when calculating lighting. Equivalent to $(D GIProbe.interior).
@@ -2706,7 +2716,7 @@ public:
 	void giProbeSetInterior(in RID probe, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetInterior, _godot_object, probe, enable);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetInterior, _godot_object, probe, enable);
 	}
 	/**
 	Sets the normal bias for this GI probe. Normal bias behaves similar to the other form of bias and may help reduce self-occlusion. Equivalent to $(D GIProbe.normalBias).
@@ -2714,7 +2724,7 @@ public:
 	void giProbeSetNormalBias(in RID probe, in double bias)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetNormalBias, _godot_object, probe, bias);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetNormalBias, _godot_object, probe, bias);
 	}
 	/**
 	Sets the propagation of light within this GI probe. Equivalent to $(D GIProbe.propagation).
@@ -2722,7 +2732,7 @@ public:
 	void giProbeSetPropagation(in RID probe, in double propagation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetPropagation, _godot_object, probe, propagation);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetPropagation, _godot_object, probe, propagation);
 	}
 	/**
 	Sets the to cell $(D Transform) for this GI probe.
@@ -2730,7 +2740,7 @@ public:
 	void giProbeSetToCellXform(in RID probe, in Transform xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.giProbeSetToCellXform, _godot_object, probe, xform);
+		ptrcall!(void)(GDNativeClassBinding.giProbeSetToCellXform, _godot_object, probe, xform);
 	}
 	/**
 	Returns `true` if changes have been made to the VisualServer's data. $(D draw) is usually called if this happens.
@@ -2738,7 +2748,7 @@ public:
 	bool hasChanged() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasChanged, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasChanged, _godot_object);
 	}
 	/**
 	Not yet implemented. Always returns `false`.
@@ -2746,7 +2756,7 @@ public:
 	bool hasFeature(in long feature) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFeature, _godot_object, feature);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFeature, _godot_object, feature);
 	}
 	/**
 	Returns `true` if the OS supports a certain feature. Features might be `s3tc`, `etc`, `etc2` and `pvrtc`.
@@ -2754,7 +2764,7 @@ public:
 	bool hasOsFeature(in String feature) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasOsFeature, _godot_object, feature);
+		return ptrcall!(bool)(GDNativeClassBinding.hasOsFeature, _godot_object, feature);
 	}
 	/**
 	Sets up $(D ImmediateGeometry) internals to prepare for drawing. Equivalent to $(D ImmediateGeometry.begin).
@@ -2762,7 +2772,7 @@ public:
 	void immediateBegin(in RID immediate, in long primitive, in RID texture = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateBegin, _godot_object, immediate, primitive, texture);
+		ptrcall!(void)(GDNativeClassBinding.immediateBegin, _godot_object, immediate, primitive, texture);
 	}
 	/**
 	Clears everything that was set up between $(D immediateBegin) and $(D immediateEnd). Equivalent to $(D ImmediateGeometry.clear).
@@ -2770,7 +2780,7 @@ public:
 	void immediateClear(in RID immediate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateClear, _godot_object, immediate);
+		ptrcall!(void)(GDNativeClassBinding.immediateClear, _godot_object, immediate);
 	}
 	/**
 	Sets the color to be used with next vertex. Equivalent to $(D ImmediateGeometry.setColor).
@@ -2778,7 +2788,7 @@ public:
 	void immediateColor(in RID immediate, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateColor, _godot_object, immediate, color);
+		ptrcall!(void)(GDNativeClassBinding.immediateColor, _godot_object, immediate, color);
 	}
 	/**
 	Creates an immediate geometry and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `immediate_*` VisualServer functions.
@@ -2788,7 +2798,7 @@ public:
 	RID immediateCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.immediateCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.immediateCreate, _godot_object);
 	}
 	/**
 	Ends drawing the $(D ImmediateGeometry) and displays it. Equivalent to $(D ImmediateGeometry.end).
@@ -2796,7 +2806,7 @@ public:
 	void immediateEnd(in RID immediate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateEnd, _godot_object, immediate);
+		ptrcall!(void)(GDNativeClassBinding.immediateEnd, _godot_object, immediate);
 	}
 	/**
 	Returns the material assigned to the $(D ImmediateGeometry).
@@ -2804,7 +2814,7 @@ public:
 	RID immediateGetMaterial(in RID immediate) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.immediateGetMaterial, _godot_object, immediate);
+		return ptrcall!(RID)(GDNativeClassBinding.immediateGetMaterial, _godot_object, immediate);
 	}
 	/**
 	Sets the normal to be used with next vertex. Equivalent to $(D ImmediateGeometry.setNormal).
@@ -2812,7 +2822,7 @@ public:
 	void immediateNormal(in RID immediate, in Vector3 normal)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateNormal, _godot_object, immediate, normal);
+		ptrcall!(void)(GDNativeClassBinding.immediateNormal, _godot_object, immediate, normal);
 	}
 	/**
 	Sets the material to be used to draw the $(D ImmediateGeometry).
@@ -2820,7 +2830,7 @@ public:
 	void immediateSetMaterial(in RID immediate, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateSetMaterial, _godot_object, immediate, material);
+		ptrcall!(void)(GDNativeClassBinding.immediateSetMaterial, _godot_object, immediate, material);
 	}
 	/**
 	Sets the tangent to be used with next vertex. Equivalent to $(D ImmediateGeometry.setTangent).
@@ -2828,7 +2838,7 @@ public:
 	void immediateTangent(in RID immediate, in Plane tangent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateTangent, _godot_object, immediate, tangent);
+		ptrcall!(void)(GDNativeClassBinding.immediateTangent, _godot_object, immediate, tangent);
 	}
 	/**
 	Sets the UV to be used with next vertex. Equivalent to $(D ImmediateGeometry.setUv).
@@ -2836,7 +2846,7 @@ public:
 	void immediateUv(in RID immediate, in Vector2 tex_uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateUv, _godot_object, immediate, tex_uv);
+		ptrcall!(void)(GDNativeClassBinding.immediateUv, _godot_object, immediate, tex_uv);
 	}
 	/**
 	Sets the UV2 to be used with next vertex. Equivalent to $(D ImmediateGeometry.setUv2).
@@ -2844,7 +2854,7 @@ public:
 	void immediateUv2(in RID immediate, in Vector2 tex_uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateUv2, _godot_object, immediate, tex_uv);
+		ptrcall!(void)(GDNativeClassBinding.immediateUv2, _godot_object, immediate, tex_uv);
 	}
 	/**
 	Adds the next vertex using the information provided in advance. Equivalent to $(D ImmediateGeometry.addVertex).
@@ -2852,7 +2862,7 @@ public:
 	void immediateVertex(in RID immediate, in Vector3 vertex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateVertex, _godot_object, immediate, vertex);
+		ptrcall!(void)(GDNativeClassBinding.immediateVertex, _godot_object, immediate, vertex);
 	}
 	/**
 	Adds the next vertex using the information provided in advance. This is a helper class that calls $(D immediateVertex) under the hood. Equivalent to $(D ImmediateGeometry.addVertex).
@@ -2860,7 +2870,7 @@ public:
 	void immediateVertex2d(in RID immediate, in Vector2 vertex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.immediateVertex2d, _godot_object, immediate, vertex);
+		ptrcall!(void)(GDNativeClassBinding.immediateVertex2d, _godot_object, immediate, vertex);
 	}
 	/**
 	Initializes the visual server. This function is called internally by platform-dependent code during engine initialization. If called from a running game, it will not do anything.
@@ -2868,7 +2878,7 @@ public:
 	void _init()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding._init, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding._init, _godot_object);
 	}
 	/**
 	Attaches a unique Object ID to instance. Object ID must be attached to instance for proper culling with $(D instancesCullAabb), $(D instancesCullConvex), and $(D instancesCullRay).
@@ -2876,7 +2886,7 @@ public:
 	void instanceAttachObjectInstanceId(in RID instance, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceAttachObjectInstanceId, _godot_object, instance, id);
+		ptrcall!(void)(GDNativeClassBinding.instanceAttachObjectInstanceId, _godot_object, instance, id);
 	}
 	/**
 	Attaches a skeleton to an instance. Removes the previous skeleton from the instance.
@@ -2884,7 +2894,7 @@ public:
 	void instanceAttachSkeleton(in RID instance, in RID skeleton)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceAttachSkeleton, _godot_object, instance, skeleton);
+		ptrcall!(void)(GDNativeClassBinding.instanceAttachSkeleton, _godot_object, instance, skeleton);
 	}
 	/**
 	Creates a visual instance and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `instance_*` VisualServer functions.
@@ -2894,7 +2904,7 @@ public:
 	RID instanceCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.instanceCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.instanceCreate, _godot_object);
 	}
 	/**
 	Creates a visual instance, adds it to the VisualServer, and sets both base and scenario. It can be accessed with the RID that is returned. This RID will be used in all `instance_*` VisualServer functions.
@@ -2903,7 +2913,7 @@ public:
 	RID instanceCreate2(in RID base, in RID scenario)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.instanceCreate2, _godot_object, base, scenario);
+		return ptrcall!(RID)(GDNativeClassBinding.instanceCreate2, _godot_object, base, scenario);
 	}
 	/**
 	Not implemented in Godot 3.x.
@@ -2911,7 +2921,7 @@ public:
 	void instanceGeometrySetAsInstanceLod(in RID instance, in RID as_lod_of_instance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceGeometrySetAsInstanceLod, _godot_object, instance, as_lod_of_instance);
+		ptrcall!(void)(GDNativeClassBinding.instanceGeometrySetAsInstanceLod, _godot_object, instance, as_lod_of_instance);
 	}
 	/**
 	Sets the shadow casting setting to one of $(D shadowcastingsetting). Equivalent to $(D GeometryInstance.castShadow).
@@ -2919,7 +2929,7 @@ public:
 	void instanceGeometrySetCastShadowsSetting(in RID instance, in long shadow_casting_setting)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceGeometrySetCastShadowsSetting, _godot_object, instance, shadow_casting_setting);
+		ptrcall!(void)(GDNativeClassBinding.instanceGeometrySetCastShadowsSetting, _godot_object, instance, shadow_casting_setting);
 	}
 	/**
 	Not implemented in Godot 3.x.
@@ -2927,7 +2937,7 @@ public:
 	void instanceGeometrySetDrawRange(in RID instance, in double min, in double max, in double min_margin, in double max_margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceGeometrySetDrawRange, _godot_object, instance, min, max, min_margin, max_margin);
+		ptrcall!(void)(GDNativeClassBinding.instanceGeometrySetDrawRange, _godot_object, instance, min, max, min_margin, max_margin);
 	}
 	/**
 	Sets the flag for a given $(D instanceflags). See $(D instanceflags) for more details.
@@ -2935,7 +2945,7 @@ public:
 	void instanceGeometrySetFlag(in RID instance, in long flag, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceGeometrySetFlag, _godot_object, instance, flag, enabled);
+		ptrcall!(void)(GDNativeClassBinding.instanceGeometrySetFlag, _godot_object, instance, flag, enabled);
 	}
 	/**
 	Sets a material that will override the material for all surfaces on the mesh associated with this instance. Equivalent to $(D GeometryInstance.materialOverride).
@@ -2943,7 +2953,7 @@ public:
 	void instanceGeometrySetMaterialOverride(in RID instance, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceGeometrySetMaterialOverride, _godot_object, instance, material);
+		ptrcall!(void)(GDNativeClassBinding.instanceGeometrySetMaterialOverride, _godot_object, instance, material);
 	}
 	/**
 	Sets the base of the instance. A base can be any of the 3D objects that are created in the VisualServer that can be displayed. For example, any of the light types, mesh, multimesh, immediate geometry, particle system, reflection probe, lightmap capture, and the GI probe are all types that can be set as the base of an instance in order to be displayed in the scenario.
@@ -2951,7 +2961,7 @@ public:
 	void instanceSetBase(in RID instance, in RID base)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetBase, _godot_object, instance, base);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetBase, _godot_object, instance, base);
 	}
 	/**
 	Sets the weight for a given blend shape associated with this instance.
@@ -2959,7 +2969,7 @@ public:
 	void instanceSetBlendShapeWeight(in RID instance, in long shape, in double weight)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetBlendShapeWeight, _godot_object, instance, shape, weight);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetBlendShapeWeight, _godot_object, instance, shape, weight);
 	}
 	/**
 	Sets a custom AABB to use when culling objects from the view frustum. Equivalent to $(D GeometryInstance.setCustomAabb).
@@ -2967,7 +2977,7 @@ public:
 	void instanceSetCustomAabb(in RID instance, in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetCustomAabb, _godot_object, instance, aabb);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetCustomAabb, _godot_object, instance, aabb);
 	}
 	/**
 	Function not implemented in Godot 3.x.
@@ -2975,7 +2985,7 @@ public:
 	void instanceSetExterior(in RID instance, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetExterior, _godot_object, instance, enabled);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetExterior, _godot_object, instance, enabled);
 	}
 	/**
 	Sets a margin to increase the size of the AABB when culling objects from the view frustum. This allows you avoid culling objects that fall outside the view frustum. Equivalent to $(D GeometryInstance.extraCullMargin).
@@ -2983,7 +2993,7 @@ public:
 	void instanceSetExtraVisibilityMargin(in RID instance, in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetExtraVisibilityMargin, _godot_object, instance, margin);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetExtraVisibilityMargin, _godot_object, instance, margin);
 	}
 	/**
 	Sets the render layers that this instance will be drawn to. Equivalent to $(D VisualInstance.layers).
@@ -2991,7 +3001,7 @@ public:
 	void instanceSetLayerMask(in RID instance, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetLayerMask, _godot_object, instance, mask);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetLayerMask, _godot_object, instance, mask);
 	}
 	/**
 	Sets the scenario that the instance is in. The scenario is the 3D world that the objects will be displayed in.
@@ -2999,7 +3009,7 @@ public:
 	void instanceSetScenario(in RID instance, in RID scenario)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetScenario, _godot_object, instance, scenario);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetScenario, _godot_object, instance, scenario);
 	}
 	/**
 	Sets the material of a specific surface. Equivalent to $(D MeshInstance.setSurfaceMaterial).
@@ -3007,7 +3017,7 @@ public:
 	void instanceSetSurfaceMaterial(in RID instance, in long surface, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetSurfaceMaterial, _godot_object, instance, surface, material);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetSurfaceMaterial, _godot_object, instance, surface, material);
 	}
 	/**
 	Sets the world space transform of the instance. Equivalent to $(D Spatial.transform).
@@ -3015,7 +3025,7 @@ public:
 	void instanceSetTransform(in RID instance, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetTransform, _godot_object, instance, transform);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetTransform, _godot_object, instance, transform);
 	}
 	/**
 	Sets the lightmap to use with this instance.
@@ -3023,7 +3033,7 @@ public:
 	void instanceSetUseLightmap(in RID instance, in RID lightmap_instance, in RID lightmap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetUseLightmap, _godot_object, instance, lightmap_instance, lightmap);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetUseLightmap, _godot_object, instance, lightmap_instance, lightmap);
 	}
 	/**
 	Sets whether an instance is drawn or not. Equivalent to $(D Spatial.visible).
@@ -3031,7 +3041,7 @@ public:
 	void instanceSetVisible(in RID instance, in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.instanceSetVisible, _godot_object, instance, visible);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetVisible, _godot_object, instance, visible);
 	}
 	/**
 	Returns an array of object IDs intersecting with the provided AABB. Only visual 3D nodes are considered, such as $(D MeshInstance) or $(D DirectionalLight). Use $(D @GDScript.instanceFromId) to obtain the actual nodes. A scenario RID must be provided, which is available in the $(D World) you want to query. This forces an update for all resources queued to update.
@@ -3040,7 +3050,7 @@ public:
 	Array instancesCullAabb(in AABB aabb, in RID scenario = RID.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.instancesCullAabb, _godot_object, aabb, scenario);
+		return ptrcall!(Array)(GDNativeClassBinding.instancesCullAabb, _godot_object, aabb, scenario);
 	}
 	/**
 	Returns an array of object IDs intersecting with the provided convex shape. Only visual 3D nodes are considered, such as $(D MeshInstance) or $(D DirectionalLight). Use $(D @GDScript.instanceFromId) to obtain the actual nodes. A scenario RID must be provided, which is available in the $(D World) you want to query. This forces an update for all resources queued to update.
@@ -3049,7 +3059,7 @@ public:
 	Array instancesCullConvex(in Array convex, in RID scenario = RID.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.instancesCullConvex, _godot_object, convex, scenario);
+		return ptrcall!(Array)(GDNativeClassBinding.instancesCullConvex, _godot_object, convex, scenario);
 	}
 	/**
 	Returns an array of object IDs intersecting with the provided 3D ray. Only visual 3D nodes are considered, such as $(D MeshInstance) or $(D DirectionalLight). Use $(D @GDScript.instanceFromId) to obtain the actual nodes. A scenario RID must be provided, which is available in the $(D World) you want to query. This forces an update for all resources queued to update.
@@ -3058,7 +3068,7 @@ public:
 	Array instancesCullRay(in Vector3 from, in Vector3 to, in RID scenario = RID.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.instancesCullRay, _godot_object, from, to, scenario);
+		return ptrcall!(Array)(GDNativeClassBinding.instancesCullRay, _godot_object, from, to, scenario);
 	}
 	/**
 	If `true`, this directional light will blend between shadow map splits resulting in a smoother transition between them. Equivalent to $(D DirectionalLight.directionalShadowBlendSplits).
@@ -3066,7 +3076,7 @@ public:
 	void lightDirectionalSetBlendSplits(in RID light, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightDirectionalSetBlendSplits, _godot_object, light, enable);
+		ptrcall!(void)(GDNativeClassBinding.lightDirectionalSetBlendSplits, _godot_object, light, enable);
 	}
 	/**
 	Sets the shadow depth range mode for this directional light. Equivalent to $(D DirectionalLight.directionalShadowDepthRange). See $(D lightdirectionalshadowdepthrangemode) for options.
@@ -3074,7 +3084,7 @@ public:
 	void lightDirectionalSetShadowDepthRangeMode(in RID light, in long range_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightDirectionalSetShadowDepthRangeMode, _godot_object, light, range_mode);
+		ptrcall!(void)(GDNativeClassBinding.lightDirectionalSetShadowDepthRangeMode, _godot_object, light, range_mode);
 	}
 	/**
 	Sets the shadow mode for this directional light. Equivalent to $(D DirectionalLight.directionalShadowMode). See $(D lightdirectionalshadowmode) for options.
@@ -3082,7 +3092,7 @@ public:
 	void lightDirectionalSetShadowMode(in RID light, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightDirectionalSetShadowMode, _godot_object, light, mode);
+		ptrcall!(void)(GDNativeClassBinding.lightDirectionalSetShadowMode, _godot_object, light, mode);
 	}
 	/**
 	Sets whether to use vertical or horizontal detail for this omni light. This can be used to alleviate artifacts in the shadow map. Equivalent to $(D OmniLight.omniShadowDetail).
@@ -3090,7 +3100,7 @@ public:
 	void lightOmniSetShadowDetail(in RID light, in long detail)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightOmniSetShadowDetail, _godot_object, light, detail);
+		ptrcall!(void)(GDNativeClassBinding.lightOmniSetShadowDetail, _godot_object, light, detail);
 	}
 	/**
 	Sets whether to use a dual paraboloid or a cubemap for the shadow map. Dual paraboloid is faster but may suffer from artifacts. Equivalent to $(D OmniLight.omniShadowMode).
@@ -3098,7 +3108,7 @@ public:
 	void lightOmniSetShadowMode(in RID light, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightOmniSetShadowMode, _godot_object, light, mode);
+		ptrcall!(void)(GDNativeClassBinding.lightOmniSetShadowMode, _godot_object, light, mode);
 	}
 	/**
 	Sets the color of the light. Equivalent to $(D Light.lightColor).
@@ -3106,7 +3116,7 @@ public:
 	void lightSetColor(in RID light, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetColor, _godot_object, light, color);
+		ptrcall!(void)(GDNativeClassBinding.lightSetColor, _godot_object, light, color);
 	}
 	/**
 	Sets the cull mask for this Light. Lights only affect objects in the selected layers. Equivalent to $(D Light.lightCullMask).
@@ -3114,7 +3124,7 @@ public:
 	void lightSetCullMask(in RID light, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetCullMask, _godot_object, light, mask);
+		ptrcall!(void)(GDNativeClassBinding.lightSetCullMask, _godot_object, light, mask);
 	}
 	/**
 	If `true`, light will subtract light instead of adding light. Equivalent to $(D Light.lightNegative).
@@ -3122,7 +3132,7 @@ public:
 	void lightSetNegative(in RID light, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetNegative, _godot_object, light, enable);
+		ptrcall!(void)(GDNativeClassBinding.lightSetNegative, _godot_object, light, enable);
 	}
 	/**
 	Sets the specified light parameter. See $(D lightparam) for options. Equivalent to $(D Light.setParam).
@@ -3130,7 +3140,7 @@ public:
 	void lightSetParam(in RID light, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetParam, _godot_object, light, param, value);
+		ptrcall!(void)(GDNativeClassBinding.lightSetParam, _godot_object, light, param, value);
 	}
 	/**
 	Not implemented in Godot 3.x.
@@ -3138,7 +3148,7 @@ public:
 	void lightSetProjector(in RID light, in RID texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetProjector, _godot_object, light, texture);
+		ptrcall!(void)(GDNativeClassBinding.lightSetProjector, _godot_object, light, texture);
 	}
 	/**
 	If `true`, reverses the backface culling of the mesh. This can be useful when you have a flat mesh that has a light behind it. If you need to cast a shadow on both sides of the mesh, set the mesh to use double sided shadows with $(D instanceGeometrySetCastShadowsSetting). Equivalent to $(D Light.shadowReverseCullFace).
@@ -3146,7 +3156,7 @@ public:
 	void lightSetReverseCullFaceMode(in RID light, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetReverseCullFaceMode, _godot_object, light, enabled);
+		ptrcall!(void)(GDNativeClassBinding.lightSetReverseCullFaceMode, _godot_object, light, enabled);
 	}
 	/**
 	If `true`, light will cast shadows. Equivalent to $(D Light.shadowEnabled).
@@ -3154,7 +3164,7 @@ public:
 	void lightSetShadow(in RID light, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetShadow, _godot_object, light, enabled);
+		ptrcall!(void)(GDNativeClassBinding.lightSetShadow, _godot_object, light, enabled);
 	}
 	/**
 	Sets the color of the shadow cast by the light. Equivalent to $(D Light.shadowColor).
@@ -3162,7 +3172,7 @@ public:
 	void lightSetShadowColor(in RID light, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetShadowColor, _godot_object, light, color);
+		ptrcall!(void)(GDNativeClassBinding.lightSetShadowColor, _godot_object, light, color);
 	}
 	/**
 	Sets whether GI probes capture light information from this light.
@@ -3170,7 +3180,7 @@ public:
 	void lightSetUseGi(in RID light, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightSetUseGi, _godot_object, light, enabled);
+		ptrcall!(void)(GDNativeClassBinding.lightSetUseGi, _godot_object, light, enabled);
 	}
 	/**
 	Creates a lightmap capture and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `lightmap_capture_*` VisualServer functions.
@@ -3180,7 +3190,7 @@ public:
 	RID lightmapCaptureCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.lightmapCaptureCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.lightmapCaptureCreate, _godot_object);
 	}
 	/**
 	Returns the size of the lightmap capture area.
@@ -3188,7 +3198,7 @@ public:
 	AABB lightmapCaptureGetBounds(in RID capture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.lightmapCaptureGetBounds, _godot_object, capture);
+		return ptrcall!(AABB)(GDNativeClassBinding.lightmapCaptureGetBounds, _godot_object, capture);
 	}
 	/**
 	Returns the energy multiplier used by the lightmap capture.
@@ -3196,7 +3206,7 @@ public:
 	double lightmapCaptureGetEnergy(in RID capture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.lightmapCaptureGetEnergy, _godot_object, capture);
+		return ptrcall!(double)(GDNativeClassBinding.lightmapCaptureGetEnergy, _godot_object, capture);
 	}
 	/**
 	Returns the octree used by the lightmap capture.
@@ -3204,7 +3214,7 @@ public:
 	PoolByteArray lightmapCaptureGetOctree(in RID capture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.lightmapCaptureGetOctree, _godot_object, capture);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.lightmapCaptureGetOctree, _godot_object, capture);
 	}
 	/**
 	Returns the cell subdivision amount used by this lightmap capture's octree.
@@ -3212,7 +3222,7 @@ public:
 	long lightmapCaptureGetOctreeCellSubdiv(in RID capture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.lightmapCaptureGetOctreeCellSubdiv, _godot_object, capture);
+		return ptrcall!(long)(GDNativeClassBinding.lightmapCaptureGetOctreeCellSubdiv, _godot_object, capture);
 	}
 	/**
 	Returns the cell transform for this lightmap capture's octree.
@@ -3220,7 +3230,7 @@ public:
 	Transform lightmapCaptureGetOctreeCellTransform(in RID capture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.lightmapCaptureGetOctreeCellTransform, _godot_object, capture);
+		return ptrcall!(Transform)(GDNativeClassBinding.lightmapCaptureGetOctreeCellTransform, _godot_object, capture);
 	}
 	/**
 	Sets the size of the area covered by the lightmap capture. Equivalent to $(D BakedLightmapData.bounds).
@@ -3228,7 +3238,7 @@ public:
 	void lightmapCaptureSetBounds(in RID capture, in AABB bounds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightmapCaptureSetBounds, _godot_object, capture, bounds);
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetBounds, _godot_object, capture, bounds);
 	}
 	/**
 	Sets the energy multiplier for this lightmap capture. Equivalent to $(D BakedLightmapData.energy).
@@ -3236,7 +3246,7 @@ public:
 	void lightmapCaptureSetEnergy(in RID capture, in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightmapCaptureSetEnergy, _godot_object, capture, energy);
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetEnergy, _godot_object, capture, energy);
 	}
 	/**
 	Sets the octree to be used by this lightmap capture. This function is normally used by the $(D BakedLightmap) node. Equivalent to $(D BakedLightmapData.octree).
@@ -3244,7 +3254,7 @@ public:
 	void lightmapCaptureSetOctree(in RID capture, in PoolByteArray octree)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightmapCaptureSetOctree, _godot_object, capture, octree);
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetOctree, _godot_object, capture, octree);
 	}
 	/**
 	Sets the subdivision level of this lightmap capture's octree. Equivalent to $(D BakedLightmapData.cellSubdiv).
@@ -3252,7 +3262,7 @@ public:
 	void lightmapCaptureSetOctreeCellSubdiv(in RID capture, in long subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightmapCaptureSetOctreeCellSubdiv, _godot_object, capture, subdiv);
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetOctreeCellSubdiv, _godot_object, capture, subdiv);
 	}
 	/**
 	Sets the octree cell transform for this lightmap capture's octree. Equivalent to $(D BakedLightmapData.cellSpaceTransform).
@@ -3260,7 +3270,7 @@ public:
 	void lightmapCaptureSetOctreeCellTransform(in RID capture, in Transform xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lightmapCaptureSetOctreeCellTransform, _godot_object, capture, xform);
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetOctreeCellTransform, _godot_object, capture, xform);
 	}
 	/**
 	Returns a mesh of a sphere with the given amount of horizontal and vertical subdivisions.
@@ -3268,7 +3278,7 @@ public:
 	RID makeSphereMesh(in long latitudes, in long longitudes, in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.makeSphereMesh, _godot_object, latitudes, longitudes, radius);
+		return ptrcall!(RID)(GDNativeClassBinding.makeSphereMesh, _godot_object, latitudes, longitudes, radius);
 	}
 	/**
 	Creates an empty material and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `material_*` VisualServer functions.
@@ -3277,7 +3287,7 @@ public:
 	RID materialCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.materialCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.materialCreate, _godot_object);
 	}
 	/**
 	Returns the value of a certain material's parameter.
@@ -3285,7 +3295,7 @@ public:
 	Variant materialGetParam(in RID material, in String parameter) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.materialGetParam, _godot_object, material, parameter);
+		return ptrcall!(Variant)(GDNativeClassBinding.materialGetParam, _godot_object, material, parameter);
 	}
 	/**
 	Returns the default value for the param if available. Otherwise returns an empty $(D Variant).
@@ -3293,7 +3303,7 @@ public:
 	Variant materialGetParamDefault(in RID material, in String parameter) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.materialGetParamDefault, _godot_object, material, parameter);
+		return ptrcall!(Variant)(GDNativeClassBinding.materialGetParamDefault, _godot_object, material, parameter);
 	}
 	/**
 	Returns the shader of a certain material's shader. Returns an empty RID if the material doesn't have a shader.
@@ -3301,7 +3311,7 @@ public:
 	RID materialGetShader(in RID shader_material) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.materialGetShader, _godot_object, shader_material);
+		return ptrcall!(RID)(GDNativeClassBinding.materialGetShader, _godot_object, shader_material);
 	}
 	/**
 	Sets a material's line width.
@@ -3309,7 +3319,7 @@ public:
 	void materialSetLineWidth(in RID material, in double width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.materialSetLineWidth, _godot_object, material, width);
+		ptrcall!(void)(GDNativeClassBinding.materialSetLineWidth, _godot_object, material, width);
 	}
 	/**
 	Sets an object's next material.
@@ -3317,7 +3327,7 @@ public:
 	void materialSetNextPass(in RID material, in RID next_material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.materialSetNextPass, _godot_object, material, next_material);
+		ptrcall!(void)(GDNativeClassBinding.materialSetNextPass, _godot_object, material, next_material);
 	}
 	/**
 	Sets a material's parameter.
@@ -3325,7 +3335,7 @@ public:
 	void materialSetParam(VariantArg2)(in RID material, in String parameter, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.materialSetParam, _godot_object, material, parameter, value);
+		ptrcall!(void)(GDNativeClassBinding.materialSetParam, _godot_object, material, parameter, value);
 	}
 	/**
 	Sets a material's render priority.
@@ -3333,7 +3343,7 @@ public:
 	void materialSetRenderPriority(in RID material, in long priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.materialSetRenderPriority, _godot_object, material, priority);
+		ptrcall!(void)(GDNativeClassBinding.materialSetRenderPriority, _godot_object, material, priority);
 	}
 	/**
 	Sets a shader material's shader.
@@ -3341,7 +3351,7 @@ public:
 	void materialSetShader(in RID shader_material, in RID shader)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.materialSetShader, _godot_object, shader_material, shader);
+		ptrcall!(void)(GDNativeClassBinding.materialSetShader, _godot_object, shader_material, shader);
 	}
 	/**
 	Adds a surface generated from the Arrays to a mesh. See $(D primitivetype) constants for types.
@@ -3349,7 +3359,7 @@ public:
 	void meshAddSurfaceFromArrays(in RID mesh, in long primitive, in Array arrays, in Array blend_shapes = Array.make(), in long compress_format = 97280)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshAddSurfaceFromArrays, _godot_object, mesh, primitive, arrays, blend_shapes, compress_format);
+		ptrcall!(void)(GDNativeClassBinding.meshAddSurfaceFromArrays, _godot_object, mesh, primitive, arrays, blend_shapes, compress_format);
 	}
 	/**
 	Removes all surfaces from a mesh.
@@ -3357,7 +3367,7 @@ public:
 	void meshClear(in RID mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshClear, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.meshClear, _godot_object, mesh);
 	}
 	/**
 	Creates a new mesh and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `mesh_*` VisualServer functions.
@@ -3367,7 +3377,7 @@ public:
 	RID meshCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.meshCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.meshCreate, _godot_object);
 	}
 	/**
 	Returns a mesh's blend shape count.
@@ -3375,7 +3385,7 @@ public:
 	long meshGetBlendShapeCount(in RID mesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshGetBlendShapeCount, _godot_object, mesh);
+		return ptrcall!(long)(GDNativeClassBinding.meshGetBlendShapeCount, _godot_object, mesh);
 	}
 	/**
 	Returns a mesh's blend shape mode.
@@ -3383,7 +3393,7 @@ public:
 	VisualServer.BlendShapeMode meshGetBlendShapeMode(in RID mesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualServer.BlendShapeMode)(_classBinding.meshGetBlendShapeMode, _godot_object, mesh);
+		return ptrcall!(VisualServer.BlendShapeMode)(GDNativeClassBinding.meshGetBlendShapeMode, _godot_object, mesh);
 	}
 	/**
 	Returns a mesh's custom aabb.
@@ -3391,7 +3401,7 @@ public:
 	AABB meshGetCustomAabb(in RID mesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.meshGetCustomAabb, _godot_object, mesh);
+		return ptrcall!(AABB)(GDNativeClassBinding.meshGetCustomAabb, _godot_object, mesh);
 	}
 	/**
 	Returns a mesh's number of surfaces.
@@ -3399,7 +3409,7 @@ public:
 	long meshGetSurfaceCount(in RID mesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshGetSurfaceCount, _godot_object, mesh);
+		return ptrcall!(long)(GDNativeClassBinding.meshGetSurfaceCount, _godot_object, mesh);
 	}
 	/**
 	Removes a mesh's surface.
@@ -3407,7 +3417,7 @@ public:
 	void meshRemoveSurface(in RID mesh, in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshRemoveSurface, _godot_object, mesh, index);
+		ptrcall!(void)(GDNativeClassBinding.meshRemoveSurface, _godot_object, mesh, index);
 	}
 	/**
 	Sets a mesh's blend shape count.
@@ -3415,7 +3425,7 @@ public:
 	void meshSetBlendShapeCount(in RID mesh, in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshSetBlendShapeCount, _godot_object, mesh, amount);
+		ptrcall!(void)(GDNativeClassBinding.meshSetBlendShapeCount, _godot_object, mesh, amount);
 	}
 	/**
 	Sets a mesh's blend shape mode.
@@ -3423,7 +3433,7 @@ public:
 	void meshSetBlendShapeMode(in RID mesh, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshSetBlendShapeMode, _godot_object, mesh, mode);
+		ptrcall!(void)(GDNativeClassBinding.meshSetBlendShapeMode, _godot_object, mesh, mode);
 	}
 	/**
 	Sets a mesh's custom aabb.
@@ -3431,7 +3441,7 @@ public:
 	void meshSetCustomAabb(in RID mesh, in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshSetCustomAabb, _godot_object, mesh, aabb);
+		ptrcall!(void)(GDNativeClassBinding.meshSetCustomAabb, _godot_object, mesh, aabb);
 	}
 	/**
 	Returns a mesh's surface's aabb.
@@ -3439,7 +3449,7 @@ public:
 	AABB meshSurfaceGetAabb(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.meshSurfaceGetAabb, _godot_object, mesh, surface);
+		return ptrcall!(AABB)(GDNativeClassBinding.meshSurfaceGetAabb, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's vertex buffer.
@@ -3447,7 +3457,7 @@ public:
 	PoolByteArray meshSurfaceGetArray(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.meshSurfaceGetArray, _godot_object, mesh, surface);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.meshSurfaceGetArray, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's amount of indices.
@@ -3455,7 +3465,7 @@ public:
 	long meshSurfaceGetArrayIndexLen(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshSurfaceGetArrayIndexLen, _godot_object, mesh, surface);
+		return ptrcall!(long)(GDNativeClassBinding.meshSurfaceGetArrayIndexLen, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's amount of vertices.
@@ -3463,7 +3473,7 @@ public:
 	long meshSurfaceGetArrayLen(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshSurfaceGetArrayLen, _godot_object, mesh, surface);
+		return ptrcall!(long)(GDNativeClassBinding.meshSurfaceGetArrayLen, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's buffer arrays.
@@ -3471,7 +3481,7 @@ public:
 	Array meshSurfaceGetArrays(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.meshSurfaceGetArrays, _godot_object, mesh, surface);
+		return ptrcall!(Array)(GDNativeClassBinding.meshSurfaceGetArrays, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's arrays for blend shapes.
@@ -3479,7 +3489,7 @@ public:
 	Array meshSurfaceGetBlendShapeArrays(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.meshSurfaceGetBlendShapeArrays, _godot_object, mesh, surface);
+		return ptrcall!(Array)(GDNativeClassBinding.meshSurfaceGetBlendShapeArrays, _godot_object, mesh, surface);
 	}
 	/**
 	Returns the format of a mesh's surface.
@@ -3487,7 +3497,7 @@ public:
 	long meshSurfaceGetFormat(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshSurfaceGetFormat, _godot_object, mesh, surface);
+		return ptrcall!(long)(GDNativeClassBinding.meshSurfaceGetFormat, _godot_object, mesh, surface);
 	}
 	/**
 	Function is unused in Godot 3.x.
@@ -3495,7 +3505,7 @@ public:
 	long meshSurfaceGetFormatOffset(in long format, in long vertex_len, in long index_len, in long array_index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshSurfaceGetFormatOffset, _godot_object, format, vertex_len, index_len, array_index);
+		return ptrcall!(long)(GDNativeClassBinding.meshSurfaceGetFormatOffset, _godot_object, format, vertex_len, index_len, array_index);
 	}
 	/**
 	Function is unused in Godot 3.x.
@@ -3503,7 +3513,7 @@ public:
 	long meshSurfaceGetFormatStride(in long format, in long vertex_len, in long index_len) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.meshSurfaceGetFormatStride, _godot_object, format, vertex_len, index_len);
+		return ptrcall!(long)(GDNativeClassBinding.meshSurfaceGetFormatStride, _godot_object, format, vertex_len, index_len);
 	}
 	/**
 	Returns a mesh's surface's index buffer.
@@ -3511,7 +3521,7 @@ public:
 	PoolByteArray meshSurfaceGetIndexArray(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.meshSurfaceGetIndexArray, _godot_object, mesh, surface);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.meshSurfaceGetIndexArray, _godot_object, mesh, surface);
 	}
 	/**
 	Returns a mesh's surface's material.
@@ -3519,7 +3529,7 @@ public:
 	RID meshSurfaceGetMaterial(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.meshSurfaceGetMaterial, _godot_object, mesh, surface);
+		return ptrcall!(RID)(GDNativeClassBinding.meshSurfaceGetMaterial, _godot_object, mesh, surface);
 	}
 	/**
 	Returns the primitive type of a mesh's surface.
@@ -3527,7 +3537,7 @@ public:
 	VisualServer.PrimitiveType meshSurfaceGetPrimitiveType(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualServer.PrimitiveType)(_classBinding.meshSurfaceGetPrimitiveType, _godot_object, mesh, surface);
+		return ptrcall!(VisualServer.PrimitiveType)(GDNativeClassBinding.meshSurfaceGetPrimitiveType, _godot_object, mesh, surface);
 	}
 	/**
 	Returns the aabb of a mesh's surface's skeleton.
@@ -3535,7 +3545,7 @@ public:
 	Array meshSurfaceGetSkeletonAabb(in RID mesh, in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.meshSurfaceGetSkeletonAabb, _godot_object, mesh, surface);
+		return ptrcall!(Array)(GDNativeClassBinding.meshSurfaceGetSkeletonAabb, _godot_object, mesh, surface);
 	}
 	/**
 	Sets a mesh's surface's material.
@@ -3543,7 +3553,7 @@ public:
 	void meshSurfaceSetMaterial(in RID mesh, in long surface, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshSurfaceSetMaterial, _godot_object, mesh, surface, material);
+		ptrcall!(void)(GDNativeClassBinding.meshSurfaceSetMaterial, _godot_object, mesh, surface, material);
 	}
 	/**
 	Updates a specific region of a vertex buffer for the specified surface. Warning: this function alters the vertex buffer directly with no safety mechanisms, you can easily corrupt your mesh.
@@ -3551,7 +3561,7 @@ public:
 	void meshSurfaceUpdateRegion(in RID mesh, in long surface, in long offset, in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.meshSurfaceUpdateRegion, _godot_object, mesh, surface, offset, data);
+		ptrcall!(void)(GDNativeClassBinding.meshSurfaceUpdateRegion, _godot_object, mesh, surface, offset, data);
 	}
 	/**
 	Allocates space for the multimesh data. Format parameters determine how the data will be stored by OpenGL. See $(D multimeshtransformformat), $(D multimeshcolorformat), and $(D multimeshcustomdataformat) for usage. Equivalent to $(D MultiMesh.instanceCount).
@@ -3559,7 +3569,7 @@ public:
 	void multimeshAllocate(in RID multimesh, in long instances, in long transform_format, in long color_format, in long custom_data_format = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshAllocate, _godot_object, multimesh, instances, transform_format, color_format, custom_data_format);
+		ptrcall!(void)(GDNativeClassBinding.multimeshAllocate, _godot_object, multimesh, instances, transform_format, color_format, custom_data_format);
 	}
 	/**
 	Creates a new multimesh on the VisualServer and returns an $(D RID) handle. This RID will be used in all `multimesh_*` VisualServer functions.
@@ -3569,7 +3579,7 @@ public:
 	RID multimeshCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.multimeshCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.multimeshCreate, _godot_object);
 	}
 	/**
 	Calculates and returns the axis-aligned bounding box that encloses all instances within the multimesh.
@@ -3577,7 +3587,7 @@ public:
 	AABB multimeshGetAabb(in RID multimesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.multimeshGetAabb, _godot_object, multimesh);
+		return ptrcall!(AABB)(GDNativeClassBinding.multimeshGetAabb, _godot_object, multimesh);
 	}
 	/**
 	Returns the number of instances allocated for this multimesh.
@@ -3585,7 +3595,7 @@ public:
 	long multimeshGetInstanceCount(in RID multimesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.multimeshGetInstanceCount, _godot_object, multimesh);
+		return ptrcall!(long)(GDNativeClassBinding.multimeshGetInstanceCount, _godot_object, multimesh);
 	}
 	/**
 	Returns the RID of the mesh that will be used in drawing this multimesh.
@@ -3593,7 +3603,7 @@ public:
 	RID multimeshGetMesh(in RID multimesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.multimeshGetMesh, _godot_object, multimesh);
+		return ptrcall!(RID)(GDNativeClassBinding.multimeshGetMesh, _godot_object, multimesh);
 	}
 	/**
 	Returns the number of visible instances for this multimesh.
@@ -3601,7 +3611,7 @@ public:
 	long multimeshGetVisibleInstances(in RID multimesh) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.multimeshGetVisibleInstances, _godot_object, multimesh);
+		return ptrcall!(long)(GDNativeClassBinding.multimeshGetVisibleInstances, _godot_object, multimesh);
 	}
 	/**
 	Returns the color by which the specified instance will be modulated.
@@ -3609,7 +3619,7 @@ public:
 	Color multimeshInstanceGetColor(in RID multimesh, in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.multimeshInstanceGetColor, _godot_object, multimesh, index);
+		return ptrcall!(Color)(GDNativeClassBinding.multimeshInstanceGetColor, _godot_object, multimesh, index);
 	}
 	/**
 	Returns the custom data associated with the specified instance.
@@ -3617,7 +3627,7 @@ public:
 	Color multimeshInstanceGetCustomData(in RID multimesh, in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.multimeshInstanceGetCustomData, _godot_object, multimesh, index);
+		return ptrcall!(Color)(GDNativeClassBinding.multimeshInstanceGetCustomData, _godot_object, multimesh, index);
 	}
 	/**
 	Returns the $(D Transform) of the specified instance.
@@ -3625,7 +3635,7 @@ public:
 	Transform multimeshInstanceGetTransform(in RID multimesh, in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.multimeshInstanceGetTransform, _godot_object, multimesh, index);
+		return ptrcall!(Transform)(GDNativeClassBinding.multimeshInstanceGetTransform, _godot_object, multimesh, index);
 	}
 	/**
 	Returns the $(D Transform2D) of the specified instance. For use when the multimesh is set to use 2D transforms.
@@ -3633,7 +3643,7 @@ public:
 	Transform2D multimeshInstanceGetTransform2d(in RID multimesh, in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.multimeshInstanceGetTransform2d, _godot_object, multimesh, index);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.multimeshInstanceGetTransform2d, _godot_object, multimesh, index);
 	}
 	/**
 	Sets the color by which this instance will be modulated. Equivalent to $(D MultiMesh.setInstanceColor).
@@ -3641,7 +3651,7 @@ public:
 	void multimeshInstanceSetColor(in RID multimesh, in long index, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshInstanceSetColor, _godot_object, multimesh, index, color);
+		ptrcall!(void)(GDNativeClassBinding.multimeshInstanceSetColor, _godot_object, multimesh, index, color);
 	}
 	/**
 	Sets the custom data for this instance. Custom data is passed as a $(D Color), but is interpreted as a `vec4` in the shader. Equivalent to $(D MultiMesh.setInstanceCustomData).
@@ -3649,7 +3659,7 @@ public:
 	void multimeshInstanceSetCustomData(in RID multimesh, in long index, in Color custom_data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshInstanceSetCustomData, _godot_object, multimesh, index, custom_data);
+		ptrcall!(void)(GDNativeClassBinding.multimeshInstanceSetCustomData, _godot_object, multimesh, index, custom_data);
 	}
 	/**
 	Sets the $(D Transform) for this instance. Equivalent to $(D MultiMesh.setInstanceTransform).
@@ -3657,7 +3667,7 @@ public:
 	void multimeshInstanceSetTransform(in RID multimesh, in long index, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshInstanceSetTransform, _godot_object, multimesh, index, transform);
+		ptrcall!(void)(GDNativeClassBinding.multimeshInstanceSetTransform, _godot_object, multimesh, index, transform);
 	}
 	/**
 	Sets the $(D Transform2D) for this instance. For use when multimesh is used in 2D. Equivalent to $(D MultiMesh.setInstanceTransform2d).
@@ -3665,7 +3675,7 @@ public:
 	void multimeshInstanceSetTransform2d(in RID multimesh, in long index, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshInstanceSetTransform2d, _godot_object, multimesh, index, transform);
+		ptrcall!(void)(GDNativeClassBinding.multimeshInstanceSetTransform2d, _godot_object, multimesh, index, transform);
 	}
 	/**
 	Sets all data related to the instances in one go. This is especially useful when loading the data from disk or preparing the data from GDNative.
@@ -3677,7 +3687,7 @@ public:
 	void multimeshSetAsBulkArray(in RID multimesh, in PoolRealArray array)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshSetAsBulkArray, _godot_object, multimesh, array);
+		ptrcall!(void)(GDNativeClassBinding.multimeshSetAsBulkArray, _godot_object, multimesh, array);
 	}
 	/**
 	Sets the mesh to be drawn by the multimesh. Equivalent to $(D MultiMesh.mesh).
@@ -3685,7 +3695,7 @@ public:
 	void multimeshSetMesh(in RID multimesh, in RID mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshSetMesh, _godot_object, multimesh, mesh);
+		ptrcall!(void)(GDNativeClassBinding.multimeshSetMesh, _godot_object, multimesh, mesh);
 	}
 	/**
 	Sets the number of instances visible at a given time. If -1, all instances that have been allocated are drawn. Equivalent to $(D MultiMesh.visibleInstanceCount).
@@ -3693,7 +3703,7 @@ public:
 	void multimeshSetVisibleInstances(in RID multimesh, in long visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.multimeshSetVisibleInstances, _godot_object, multimesh, visible);
+		ptrcall!(void)(GDNativeClassBinding.multimeshSetVisibleInstances, _godot_object, multimesh, visible);
 	}
 	/**
 	Creates a new omni light and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID can be used in most `light_*` VisualServer functions.
@@ -3703,7 +3713,7 @@ public:
 	RID omniLightCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.omniLightCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.omniLightCreate, _godot_object);
 	}
 	/**
 	Creates a particle system and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `particles_*` VisualServer functions.
@@ -3713,7 +3723,7 @@ public:
 	RID particlesCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.particlesCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.particlesCreate, _godot_object);
 	}
 	/**
 	Calculates and returns the axis-aligned bounding box that contains all the particles. Equivalent to $(D Particles.captureAabb).
@@ -3721,7 +3731,7 @@ public:
 	AABB particlesGetCurrentAabb(in RID particles)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.particlesGetCurrentAabb, _godot_object, particles);
+		return ptrcall!(AABB)(GDNativeClassBinding.particlesGetCurrentAabb, _godot_object, particles);
 	}
 	/**
 	Returns `true` if particles are currently set to emitting.
@@ -3729,7 +3739,7 @@ public:
 	bool particlesGetEmitting(in RID particles)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.particlesGetEmitting, _godot_object, particles);
+		return ptrcall!(bool)(GDNativeClassBinding.particlesGetEmitting, _godot_object, particles);
 	}
 	/**
 	Returns `true` if particles are not emitting and particles are set to inactive.
@@ -3737,7 +3747,7 @@ public:
 	bool particlesIsInactive(in RID particles)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.particlesIsInactive, _godot_object, particles);
+		return ptrcall!(bool)(GDNativeClassBinding.particlesIsInactive, _godot_object, particles);
 	}
 	/**
 	Add particle system to list of particle systems that need to be updated. Update will take place on the next frame, or on the next call to $(D instancesCullAabb), $(D instancesCullConvex), or $(D instancesCullRay).
@@ -3745,7 +3755,7 @@ public:
 	void particlesRequestProcess(in RID particles)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesRequestProcess, _godot_object, particles);
+		ptrcall!(void)(GDNativeClassBinding.particlesRequestProcess, _godot_object, particles);
 	}
 	/**
 	Reset the particles on the next update. Equivalent to $(D Particles.restart).
@@ -3753,7 +3763,7 @@ public:
 	void particlesRestart(in RID particles)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesRestart, _godot_object, particles);
+		ptrcall!(void)(GDNativeClassBinding.particlesRestart, _godot_object, particles);
 	}
 	/**
 	Sets the number of particles to be drawn and allocates the memory for them. Equivalent to $(D Particles.amount).
@@ -3761,7 +3771,7 @@ public:
 	void particlesSetAmount(in RID particles, in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetAmount, _godot_object, particles, amount);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetAmount, _godot_object, particles, amount);
 	}
 	/**
 	Sets a custom axis-aligned bounding box for the particle system. Equivalent to $(D Particles.visibilityAabb).
@@ -3769,7 +3779,7 @@ public:
 	void particlesSetCustomAabb(in RID particles, in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetCustomAabb, _godot_object, particles, aabb);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetCustomAabb, _godot_object, particles, aabb);
 	}
 	/**
 	Sets the draw order of the particles to one of the named enums from $(D particlesdraworder). See $(D particlesdraworder) for options. Equivalent to $(D Particles.drawOrder).
@@ -3777,7 +3787,7 @@ public:
 	void particlesSetDrawOrder(in RID particles, in long order)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetDrawOrder, _godot_object, particles, order);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetDrawOrder, _godot_object, particles, order);
 	}
 	/**
 	Sets the mesh to be used for the specified draw pass. Equivalent to $(D Particles.drawPass1), $(D Particles.drawPass2), $(D Particles.drawPass3), and $(D Particles.drawPass4).
@@ -3785,7 +3795,7 @@ public:
 	void particlesSetDrawPassMesh(in RID particles, in long pass, in RID mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetDrawPassMesh, _godot_object, particles, pass, mesh);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetDrawPassMesh, _godot_object, particles, pass, mesh);
 	}
 	/**
 	Sets the number of draw passes to use. Equivalent to $(D Particles.drawPasses).
@@ -3793,7 +3803,7 @@ public:
 	void particlesSetDrawPasses(in RID particles, in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetDrawPasses, _godot_object, particles, count);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetDrawPasses, _godot_object, particles, count);
 	}
 	/**
 	Sets the $(D Transform) that will be used by the particles when they first emit.
@@ -3801,7 +3811,7 @@ public:
 	void particlesSetEmissionTransform(in RID particles, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetEmissionTransform, _godot_object, particles, transform);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetEmissionTransform, _godot_object, particles, transform);
 	}
 	/**
 	If `true`, particles will emit over time. Setting to false does not reset the particles, but only stops their emission. Equivalent to $(D Particles.emitting).
@@ -3809,7 +3819,7 @@ public:
 	void particlesSetEmitting(in RID particles, in bool emitting)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetEmitting, _godot_object, particles, emitting);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetEmitting, _godot_object, particles, emitting);
 	}
 	/**
 	Sets the explosiveness ratio. Equivalent to $(D Particles.explosiveness).
@@ -3817,7 +3827,7 @@ public:
 	void particlesSetExplosivenessRatio(in RID particles, in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetExplosivenessRatio, _godot_object, particles, ratio);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetExplosivenessRatio, _godot_object, particles, ratio);
 	}
 	/**
 	Sets the frame rate that the particle system rendering will be fixed to. Equivalent to $(D Particles.fixedFps).
@@ -3825,7 +3835,7 @@ public:
 	void particlesSetFixedFps(in RID particles, in long fps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetFixedFps, _godot_object, particles, fps);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetFixedFps, _godot_object, particles, fps);
 	}
 	/**
 	If `true`, uses fractional delta which smooths the movement of the particles. Equivalent to $(D Particles.fractDelta).
@@ -3833,7 +3843,7 @@ public:
 	void particlesSetFractionalDelta(in RID particles, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetFractionalDelta, _godot_object, particles, enable);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetFractionalDelta, _godot_object, particles, enable);
 	}
 	/**
 	Sets the lifetime of each particle in the system. Equivalent to $(D Particles.lifetime).
@@ -3841,7 +3851,7 @@ public:
 	void particlesSetLifetime(in RID particles, in double lifetime)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetLifetime, _godot_object, particles, lifetime);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetLifetime, _godot_object, particles, lifetime);
 	}
 	/**
 	If `true`, particles will emit once and then stop. Equivalent to $(D Particles.oneShot).
@@ -3849,7 +3859,7 @@ public:
 	void particlesSetOneShot(in RID particles, in bool one_shot)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetOneShot, _godot_object, particles, one_shot);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetOneShot, _godot_object, particles, one_shot);
 	}
 	/**
 	Sets the preprocess time for the particles animation. This lets you delay starting an animation until after the particles have begun emitting. Equivalent to $(D Particles.preprocess).
@@ -3857,7 +3867,7 @@ public:
 	void particlesSetPreProcessTime(in RID particles, in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetPreProcessTime, _godot_object, particles, time);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetPreProcessTime, _godot_object, particles, time);
 	}
 	/**
 	Sets the material for processing the particles. Note: this is not the material used to draw the materials. Equivalent to $(D Particles.processMaterial).
@@ -3865,7 +3875,7 @@ public:
 	void particlesSetProcessMaterial(in RID particles, in RID material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetProcessMaterial, _godot_object, particles, material);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetProcessMaterial, _godot_object, particles, material);
 	}
 	/**
 	Sets the emission randomness ratio. This randomizes the emission of particles within their phase. Equivalent to $(D Particles.randomness).
@@ -3873,7 +3883,7 @@ public:
 	void particlesSetRandomnessRatio(in RID particles, in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetRandomnessRatio, _godot_object, particles, ratio);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetRandomnessRatio, _godot_object, particles, ratio);
 	}
 	/**
 	Sets the speed scale of the particle system. Equivalent to $(D Particles.speedScale).
@@ -3881,7 +3891,7 @@ public:
 	void particlesSetSpeedScale(in RID particles, in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetSpeedScale, _godot_object, particles, scale);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetSpeedScale, _godot_object, particles, scale);
 	}
 	/**
 	If `true`, particles use local coordinates. If `false` they use global coordinates. Equivalent to $(D Particles.localCoords).
@@ -3889,7 +3899,7 @@ public:
 	void particlesSetUseLocalCoordinates(in RID particles, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.particlesSetUseLocalCoordinates, _godot_object, particles, enable);
+		ptrcall!(void)(GDNativeClassBinding.particlesSetUseLocalCoordinates, _godot_object, particles, enable);
 	}
 	/**
 	Creates a reflection probe and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `reflection_probe_*` VisualServer functions.
@@ -3899,7 +3909,7 @@ public:
 	RID reflectionProbeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.reflectionProbeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.reflectionProbeCreate, _godot_object);
 	}
 	/**
 	If `true`, reflections will ignore sky contribution. Equivalent to $(D ReflectionProbe.interiorEnable).
@@ -3907,7 +3917,7 @@ public:
 	void reflectionProbeSetAsInterior(in RID probe, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetAsInterior, _godot_object, probe, enable);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetAsInterior, _godot_object, probe, enable);
 	}
 	/**
 	Sets the render cull mask for this reflection probe. Only instances with a matching cull mask will be rendered by this probe. Equivalent to $(D ReflectionProbe.cullMask).
@@ -3915,7 +3925,7 @@ public:
 	void reflectionProbeSetCullMask(in RID probe, in long layers)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetCullMask, _godot_object, probe, layers);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetCullMask, _godot_object, probe, layers);
 	}
 	/**
 	If `true`, uses box projection. This can make reflections look more correct in certain situations. Equivalent to $(D ReflectionProbe.boxProjection).
@@ -3923,7 +3933,7 @@ public:
 	void reflectionProbeSetEnableBoxProjection(in RID probe, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetEnableBoxProjection, _godot_object, probe, enable);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetEnableBoxProjection, _godot_object, probe, enable);
 	}
 	/**
 	If `true`, computes shadows in the reflection probe. This makes the reflection much slower to compute. Equivalent to $(D ReflectionProbe.enableShadows).
@@ -3931,7 +3941,7 @@ public:
 	void reflectionProbeSetEnableShadows(in RID probe, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetEnableShadows, _godot_object, probe, enable);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetEnableShadows, _godot_object, probe, enable);
 	}
 	/**
 	Sets the size of the area that the reflection probe will capture. Equivalent to $(D ReflectionProbe.extents).
@@ -3939,7 +3949,7 @@ public:
 	void reflectionProbeSetExtents(in RID probe, in Vector3 extents)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetExtents, _godot_object, probe, extents);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetExtents, _godot_object, probe, extents);
 	}
 	/**
 	Sets the intensity of the reflection probe. Intensity modulates the strength of the reflection. Equivalent to $(D ReflectionProbe.intensity).
@@ -3947,7 +3957,7 @@ public:
 	void reflectionProbeSetIntensity(in RID probe, in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetIntensity, _godot_object, probe, intensity);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetIntensity, _godot_object, probe, intensity);
 	}
 	/**
 	Sets the ambient light color for this reflection probe when set to interior mode. Equivalent to $(D ReflectionProbe.interiorAmbientColor).
@@ -3955,7 +3965,7 @@ public:
 	void reflectionProbeSetInteriorAmbient(in RID probe, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbient, _godot_object, probe, color);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetInteriorAmbient, _godot_object, probe, color);
 	}
 	/**
 	Sets the energy multiplier for this reflection probes ambient light contribution when set to interior mode. Equivalent to $(D ReflectionProbe.interiorAmbientEnergy).
@@ -3963,7 +3973,7 @@ public:
 	void reflectionProbeSetInteriorAmbientEnergy(in RID probe, in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbientEnergy, _godot_object, probe, energy);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetInteriorAmbientEnergy, _godot_object, probe, energy);
 	}
 	/**
 	Sets the contribution value for how much the reflection affects the ambient light for this reflection probe when set to interior mode. Useful so that ambient light matches the color of the room. Equivalent to $(D ReflectionProbe.interiorAmbientContrib).
@@ -3971,7 +3981,7 @@ public:
 	void reflectionProbeSetInteriorAmbientProbeContribution(in RID probe, in double contrib)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetInteriorAmbientProbeContribution, _godot_object, probe, contrib);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetInteriorAmbientProbeContribution, _godot_object, probe, contrib);
 	}
 	/**
 	Sets the max distance away from the probe an object can be before it is culled. Equivalent to $(D ReflectionProbe.maxDistance).
@@ -3979,7 +3989,7 @@ public:
 	void reflectionProbeSetMaxDistance(in RID probe, in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetMaxDistance, _godot_object, probe, distance);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetMaxDistance, _godot_object, probe, distance);
 	}
 	/**
 	Sets the origin offset to be used when this reflection probe is in box project mode. Equivalent to $(D ReflectionProbe.originOffset).
@@ -3987,7 +3997,7 @@ public:
 	void reflectionProbeSetOriginOffset(in RID probe, in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetOriginOffset, _godot_object, probe, offset);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetOriginOffset, _godot_object, probe, offset);
 	}
 	/**
 	Sets how often the reflection probe updates. Can either be once or every frame. See $(D reflectionprobeupdatemode) for options.
@@ -3995,7 +4005,7 @@ public:
 	void reflectionProbeSetUpdateMode(in RID probe, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reflectionProbeSetUpdateMode, _godot_object, probe, mode);
+		ptrcall!(void)(GDNativeClassBinding.reflectionProbeSetUpdateMode, _godot_object, probe, mode);
 	}
 	/**
 	Schedules a callback to the corresponding named `method` on `where` after a frame has been drawn.
@@ -4004,7 +4014,7 @@ public:
 	void requestFrameDrawnCallback(VariantArg2)(GodotObject where, in String method, in VariantArg2 userdata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.requestFrameDrawnCallback, _godot_object, where, method, userdata);
+		ptrcall!(void)(GDNativeClassBinding.requestFrameDrawnCallback, _godot_object, where, method, userdata);
 	}
 	/**
 	Creates a scenario and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `scenario_*` VisualServer functions.
@@ -4014,7 +4024,7 @@ public:
 	RID scenarioCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.scenarioCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.scenarioCreate, _godot_object);
 	}
 	/**
 	Sets the $(D scenariodebugmode) for this scenario. See $(D scenariodebugmode) for options.
@@ -4022,7 +4032,7 @@ public:
 	void scenarioSetDebug(in RID scenario, in long debug_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scenarioSetDebug, _godot_object, scenario, debug_mode);
+		ptrcall!(void)(GDNativeClassBinding.scenarioSetDebug, _godot_object, scenario, debug_mode);
 	}
 	/**
 	Sets the environment that will be used with this scenario.
@@ -4030,7 +4040,7 @@ public:
 	void scenarioSetEnvironment(in RID scenario, in RID environment)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scenarioSetEnvironment, _godot_object, scenario, environment);
+		ptrcall!(void)(GDNativeClassBinding.scenarioSetEnvironment, _godot_object, scenario, environment);
 	}
 	/**
 	Sets the fallback environment to be used by this scenario. The fallback environment is used if no environment is set. Internally, this is used by the editor to provide a default environment.
@@ -4038,7 +4048,7 @@ public:
 	void scenarioSetFallbackEnvironment(in RID scenario, in RID environment)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scenarioSetFallbackEnvironment, _godot_object, scenario, environment);
+		ptrcall!(void)(GDNativeClassBinding.scenarioSetFallbackEnvironment, _godot_object, scenario, environment);
 	}
 	/**
 	Sets the size of the reflection atlas shared by all reflection probes in this scenario.
@@ -4046,7 +4056,7 @@ public:
 	void scenarioSetReflectionAtlasSize(in RID scenario, in long size, in long subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scenarioSetReflectionAtlasSize, _godot_object, scenario, size, subdiv);
+		ptrcall!(void)(GDNativeClassBinding.scenarioSetReflectionAtlasSize, _godot_object, scenario, size, subdiv);
 	}
 	/**
 	Sets a boot image. The color defines the background color. If `scale` is `true`, the image will be scaled to fit the screen size. If `use_filter` is `true`, the image will be scaled with linear interpolation. If `use_filter` is `false`, the image will be scaled with nearest-neighbor interpolation.
@@ -4054,7 +4064,7 @@ public:
 	void setBootImage(Image image, in Color color, in bool scale, in bool use_filter = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBootImage, _godot_object, image, color, scale, use_filter);
+		ptrcall!(void)(GDNativeClassBinding.setBootImage, _godot_object, image, color, scale, use_filter);
 	}
 	/**
 	If `true`, the engine will generate wireframes for use with the wireframe debug mode.
@@ -4062,7 +4072,7 @@ public:
 	void setDebugGenerateWireframes(in bool generate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDebugGenerateWireframes, _godot_object, generate);
+		ptrcall!(void)(GDNativeClassBinding.setDebugGenerateWireframes, _godot_object, generate);
 	}
 	/**
 	Sets the default clear color which is used when a specific clear color has not been selected.
@@ -4070,7 +4080,7 @@ public:
 	void setDefaultClearColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultClearColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultClearColor, _godot_object, color);
 	}
 	/**
 	Creates an empty shader and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `shader_*` VisualServer functions.
@@ -4079,7 +4089,7 @@ public:
 	RID shaderCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.shaderCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.shaderCreate, _godot_object);
 	}
 	/**
 	Returns a shader's code.
@@ -4087,7 +4097,7 @@ public:
 	String shaderGetCode(in RID shader) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.shaderGetCode, _godot_object, shader);
+		return ptrcall!(String)(GDNativeClassBinding.shaderGetCode, _godot_object, shader);
 	}
 	/**
 	Returns a default texture from a shader searched by name.
@@ -4095,7 +4105,7 @@ public:
 	RID shaderGetDefaultTextureParam(in RID shader, in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.shaderGetDefaultTextureParam, _godot_object, shader, name);
+		return ptrcall!(RID)(GDNativeClassBinding.shaderGetDefaultTextureParam, _godot_object, shader, name);
 	}
 	/**
 	Returns the parameters of a shader.
@@ -4103,7 +4113,7 @@ public:
 	Array shaderGetParamList(in RID shader) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.shaderGetParamList, _godot_object, shader);
+		return ptrcall!(Array)(GDNativeClassBinding.shaderGetParamList, _godot_object, shader);
 	}
 	/**
 	Sets a shader's code.
@@ -4111,7 +4121,7 @@ public:
 	void shaderSetCode(in RID shader, in String code)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shaderSetCode, _godot_object, shader, code);
+		ptrcall!(void)(GDNativeClassBinding.shaderSetCode, _godot_object, shader, code);
 	}
 	/**
 	Sets a shader's default texture. Overwrites the texture given by name.
@@ -4119,7 +4129,7 @@ public:
 	void shaderSetDefaultTextureParam(in RID shader, in String name, in RID texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shaderSetDefaultTextureParam, _godot_object, shader, name, texture);
+		ptrcall!(void)(GDNativeClassBinding.shaderSetDefaultTextureParam, _godot_object, shader, name, texture);
 	}
 	/**
 	Allocates the GPU buffers for this skeleton.
@@ -4127,7 +4137,7 @@ public:
 	void skeletonAllocate(in RID skeleton, in long bones, in bool is_2d_skeleton = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.skeletonAllocate, _godot_object, skeleton, bones, is_2d_skeleton);
+		ptrcall!(void)(GDNativeClassBinding.skeletonAllocate, _godot_object, skeleton, bones, is_2d_skeleton);
 	}
 	/**
 	Returns the $(D Transform) set for a specific bone of this skeleton.
@@ -4135,7 +4145,7 @@ public:
 	Transform skeletonBoneGetTransform(in RID skeleton, in long bone) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.skeletonBoneGetTransform, _godot_object, skeleton, bone);
+		return ptrcall!(Transform)(GDNativeClassBinding.skeletonBoneGetTransform, _godot_object, skeleton, bone);
 	}
 	/**
 	Returns the $(D Transform2D) set for a specific bone of this skeleton.
@@ -4143,7 +4153,7 @@ public:
 	Transform2D skeletonBoneGetTransform2d(in RID skeleton, in long bone) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.skeletonBoneGetTransform2d, _godot_object, skeleton, bone);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.skeletonBoneGetTransform2d, _godot_object, skeleton, bone);
 	}
 	/**
 	Sets the $(D Transform) for a specific bone of this skeleton.
@@ -4151,7 +4161,7 @@ public:
 	void skeletonBoneSetTransform(in RID skeleton, in long bone, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.skeletonBoneSetTransform, _godot_object, skeleton, bone, transform);
+		ptrcall!(void)(GDNativeClassBinding.skeletonBoneSetTransform, _godot_object, skeleton, bone, transform);
 	}
 	/**
 	Sets the $(D Transform2D) for a specific bone of this skeleton.
@@ -4159,7 +4169,7 @@ public:
 	void skeletonBoneSetTransform2d(in RID skeleton, in long bone, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.skeletonBoneSetTransform2d, _godot_object, skeleton, bone, transform);
+		ptrcall!(void)(GDNativeClassBinding.skeletonBoneSetTransform2d, _godot_object, skeleton, bone, transform);
 	}
 	/**
 	Creates a skeleton and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `skeleton_*` VisualServer functions.
@@ -4168,7 +4178,7 @@ public:
 	RID skeletonCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.skeletonCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.skeletonCreate, _godot_object);
 	}
 	/**
 	Returns the number of bones allocated for this skeleton.
@@ -4176,7 +4186,7 @@ public:
 	long skeletonGetBoneCount(in RID skeleton) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.skeletonGetBoneCount, _godot_object, skeleton);
+		return ptrcall!(long)(GDNativeClassBinding.skeletonGetBoneCount, _godot_object, skeleton);
 	}
 	/**
 	Creates an empty sky and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `sky_*` VisualServer functions.
@@ -4185,7 +4195,7 @@ public:
 	RID skyCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.skyCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.skyCreate, _godot_object);
 	}
 	/**
 	Sets a sky's texture.
@@ -4193,7 +4203,7 @@ public:
 	void skySetTexture(in RID sky, in RID cube_map, in long radiance_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.skySetTexture, _godot_object, sky, cube_map, radiance_size);
+		ptrcall!(void)(GDNativeClassBinding.skySetTexture, _godot_object, sky, cube_map, radiance_size);
 	}
 	/**
 	Creates a spot light and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID can be used in most `light_*` VisualServer functions.
@@ -4203,7 +4213,7 @@ public:
 	RID spotLightCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.spotLightCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.spotLightCreate, _godot_object);
 	}
 	/**
 	Not implemented in Godot 3.x.
@@ -4211,7 +4221,7 @@ public:
 	void sync()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.sync, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.sync, _godot_object);
 	}
 	/**
 	Allocates the GPU memory for the texture.
@@ -4219,7 +4229,7 @@ public:
 	void textureAllocate(in RID texture, in long width, in long height, in long depth_3d, in long format, in long type, in long flags = 7)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureAllocate, _godot_object, texture, width, height, depth_3d, format, type, flags);
+		ptrcall!(void)(GDNativeClassBinding.textureAllocate, _godot_object, texture, width, height, depth_3d, format, type, flags);
 	}
 	/**
 	Binds the texture to a texture slot.
@@ -4227,7 +4237,7 @@ public:
 	void textureBind(in RID texture, in long number)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureBind, _godot_object, texture, number);
+		ptrcall!(void)(GDNativeClassBinding.textureBind, _godot_object, texture, number);
 	}
 	/**
 	Creates an empty texture and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `texture_*` VisualServer functions.
@@ -4236,7 +4246,7 @@ public:
 	RID textureCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.textureCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.textureCreate, _godot_object);
 	}
 	/**
 	Creates a texture, allocates the space for an image, and fills in the image.
@@ -4244,7 +4254,7 @@ public:
 	RID textureCreateFromImage(Image image, in long flags = 7)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.textureCreateFromImage, _godot_object, image, flags);
+		return ptrcall!(RID)(GDNativeClassBinding.textureCreateFromImage, _godot_object, image, flags);
 	}
 	/**
 	Returns a list of all the textures and their information.
@@ -4252,7 +4262,7 @@ public:
 	Array textureDebugUsage()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.textureDebugUsage, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.textureDebugUsage, _godot_object);
 	}
 	/**
 	Returns a copy of a texture's image unless it's a CubeMap, in which case it returns the $(D RID) of the image at one of the cubes sides.
@@ -4260,7 +4270,7 @@ public:
 	Ref!Image textureGetData(in RID texture, in long cube_side = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.textureGetData, _godot_object, texture, cube_side);
+		return ptrcall!(Image)(GDNativeClassBinding.textureGetData, _godot_object, texture, cube_side);
 	}
 	/**
 	Returns the depth of the texture.
@@ -4268,7 +4278,7 @@ public:
 	long textureGetDepth(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.textureGetDepth, _godot_object, texture);
+		return ptrcall!(long)(GDNativeClassBinding.textureGetDepth, _godot_object, texture);
 	}
 	/**
 	Returns the flags of a texture.
@@ -4276,7 +4286,7 @@ public:
 	long textureGetFlags(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.textureGetFlags, _godot_object, texture);
+		return ptrcall!(long)(GDNativeClassBinding.textureGetFlags, _godot_object, texture);
 	}
 	/**
 	Returns the format of the texture's image.
@@ -4284,7 +4294,7 @@ public:
 	Image.Format textureGetFormat(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image.Format)(_classBinding.textureGetFormat, _godot_object, texture);
+		return ptrcall!(Image.Format)(GDNativeClassBinding.textureGetFormat, _godot_object, texture);
 	}
 	/**
 	Returns the texture's height.
@@ -4292,7 +4302,7 @@ public:
 	long textureGetHeight(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.textureGetHeight, _godot_object, texture);
+		return ptrcall!(long)(GDNativeClassBinding.textureGetHeight, _godot_object, texture);
 	}
 	/**
 	Returns the texture's path.
@@ -4300,7 +4310,7 @@ public:
 	String textureGetPath(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.textureGetPath, _godot_object, texture);
+		return ptrcall!(String)(GDNativeClassBinding.textureGetPath, _godot_object, texture);
 	}
 	/**
 	Returns the opengl id of the texture's image.
@@ -4308,7 +4318,7 @@ public:
 	long textureGetTexid(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.textureGetTexid, _godot_object, texture);
+		return ptrcall!(long)(GDNativeClassBinding.textureGetTexid, _godot_object, texture);
 	}
 	/**
 	Returns the type of the texture, can be any of the $(D texturetype).
@@ -4316,7 +4326,7 @@ public:
 	VisualServer.TextureType textureGetType(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualServer.TextureType)(_classBinding.textureGetType, _godot_object, texture);
+		return ptrcall!(VisualServer.TextureType)(GDNativeClassBinding.textureGetType, _godot_object, texture);
 	}
 	/**
 	Returns the texture's width.
@@ -4324,7 +4334,7 @@ public:
 	long textureGetWidth(in RID texture) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.textureGetWidth, _godot_object, texture);
+		return ptrcall!(long)(GDNativeClassBinding.textureGetWidth, _godot_object, texture);
 	}
 	/**
 	Sets the texture's image data. If it's a CubeMap, it sets the image data at a cube side.
@@ -4332,7 +4342,7 @@ public:
 	void textureSetData(in RID texture, Image image, in long layer = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetData, _godot_object, texture, image, layer);
+		ptrcall!(void)(GDNativeClassBinding.textureSetData, _godot_object, texture, image, layer);
 	}
 	/**
 	Sets a part of the data for a texture. Warning: this function calls the underlying graphics API directly and may corrupt your texture if used improperly.
@@ -4340,7 +4350,7 @@ public:
 	void textureSetDataPartial(in RID texture, Image image, in long src_x, in long src_y, in long src_w, in long src_h, in long dst_x, in long dst_y, in long dst_mip, in long layer = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetDataPartial, _godot_object, texture, image, src_x, src_y, src_w, src_h, dst_x, dst_y, dst_mip, layer);
+		ptrcall!(void)(GDNativeClassBinding.textureSetDataPartial, _godot_object, texture, image, src_x, src_y, src_w, src_h, dst_x, dst_y, dst_mip, layer);
 	}
 	/**
 	Sets the texture's flags. See $(D textureflags) for options.
@@ -4348,7 +4358,7 @@ public:
 	void textureSetFlags(in RID texture, in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetFlags, _godot_object, texture, flags);
+		ptrcall!(void)(GDNativeClassBinding.textureSetFlags, _godot_object, texture, flags);
 	}
 	/**
 	Sets the texture's path.
@@ -4356,7 +4366,7 @@ public:
 	void textureSetPath(in RID texture, in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetPath, _godot_object, texture, path);
+		ptrcall!(void)(GDNativeClassBinding.textureSetPath, _godot_object, texture, path);
 	}
 	/**
 	If `true`, sets internal processes to shrink all image data to half the size.
@@ -4364,7 +4374,7 @@ public:
 	void textureSetShrinkAllX2OnSetData(in bool shrink)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetShrinkAllX2OnSetData, _godot_object, shrink);
+		ptrcall!(void)(GDNativeClassBinding.textureSetShrinkAllX2OnSetData, _godot_object, shrink);
 	}
 	/**
 	Resizes the texture to the specified dimensions.
@@ -4372,7 +4382,7 @@ public:
 	void textureSetSizeOverride(in RID texture, in long width, in long height, in long depth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.textureSetSizeOverride, _godot_object, texture, width, height, depth);
+		ptrcall!(void)(GDNativeClassBinding.textureSetSizeOverride, _godot_object, texture, width, height, depth);
 	}
 	/**
 	If `true`, the image will be stored in the texture's images array if overwritten.
@@ -4380,7 +4390,7 @@ public:
 	void texturesKeepOriginal(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.texturesKeepOriginal, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.texturesKeepOriginal, _godot_object, enable);
 	}
 	/**
 	Sets a viewport's camera.
@@ -4388,7 +4398,7 @@ public:
 	void viewportAttachCamera(in RID viewport, in RID camera)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportAttachCamera, _godot_object, viewport, camera);
+		ptrcall!(void)(GDNativeClassBinding.viewportAttachCamera, _godot_object, viewport, camera);
 	}
 	/**
 	Sets a viewport's canvas.
@@ -4396,7 +4406,7 @@ public:
 	void viewportAttachCanvas(in RID viewport, in RID canvas)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportAttachCanvas, _godot_object, viewport, canvas);
+		ptrcall!(void)(GDNativeClassBinding.viewportAttachCanvas, _godot_object, viewport, canvas);
 	}
 	/**
 	Copies viewport to a region of the screen specified by `rect`. If $(D Viewport.renderDirectToScreen) is `true`, then viewport does not use a framebuffer and the contents of the viewport are rendered directly to screen. However, note that the root viewport is drawn last, therefore it will draw over the screen. Accordingly, you must set the root viewport to an area that does not cover the area that you have attached this viewport to.
@@ -4413,7 +4423,7 @@ public:
 	void viewportAttachToScreen(in RID viewport, in Rect2 rect = Rect2(0, 0, 0, 0), in long screen = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportAttachToScreen, _godot_object, viewport, rect, screen);
+		ptrcall!(void)(GDNativeClassBinding.viewportAttachToScreen, _godot_object, viewport, rect, screen);
 	}
 	/**
 	Creates an empty viewport and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `viewport_*` VisualServer functions.
@@ -4422,7 +4432,7 @@ public:
 	RID viewportCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.viewportCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.viewportCreate, _godot_object);
 	}
 	/**
 	Detaches the viewport from the screen.
@@ -4430,7 +4440,7 @@ public:
 	void viewportDetach(in RID viewport)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportDetach, _godot_object, viewport);
+		ptrcall!(void)(GDNativeClassBinding.viewportDetach, _godot_object, viewport);
 	}
 	/**
 	Returns a viewport's render information. For options, see the $(D viewportrenderinfo) constants.
@@ -4438,7 +4448,7 @@ public:
 	long viewportGetRenderInfo(in RID viewport, in long info)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.viewportGetRenderInfo, _godot_object, viewport, info);
+		return ptrcall!(long)(GDNativeClassBinding.viewportGetRenderInfo, _godot_object, viewport, info);
 	}
 	/**
 	Returns the viewport's last rendered frame.
@@ -4446,7 +4456,7 @@ public:
 	RID viewportGetTexture(in RID viewport) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.viewportGetTexture, _godot_object, viewport);
+		return ptrcall!(RID)(GDNativeClassBinding.viewportGetTexture, _godot_object, viewport);
 	}
 	/**
 	Detaches a viewport from a canvas and vice versa.
@@ -4454,7 +4464,7 @@ public:
 	void viewportRemoveCanvas(in RID viewport, in RID canvas)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportRemoveCanvas, _godot_object, viewport, canvas);
+		ptrcall!(void)(GDNativeClassBinding.viewportRemoveCanvas, _godot_object, viewport, canvas);
 	}
 	/**
 	If `true`, sets the viewport active, else sets it inactive.
@@ -4462,7 +4472,7 @@ public:
 	void viewportSetActive(in RID viewport, in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetActive, _godot_object, viewport, active);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetActive, _godot_object, viewport, active);
 	}
 	/**
 	Sets the stacking order for a viewport's canvas.
@@ -4471,7 +4481,7 @@ public:
 	void viewportSetCanvasStacking(in RID viewport, in RID canvas, in long layer, in long sublayer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetCanvasStacking, _godot_object, viewport, canvas, layer, sublayer);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetCanvasStacking, _godot_object, viewport, canvas, layer, sublayer);
 	}
 	/**
 	Sets the transformation of a viewport's canvas.
@@ -4479,7 +4489,7 @@ public:
 	void viewportSetCanvasTransform(in RID viewport, in RID canvas, in Transform2D offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetCanvasTransform, _godot_object, viewport, canvas, offset);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetCanvasTransform, _godot_object, viewport, canvas, offset);
 	}
 	/**
 	Sets the clear mode of a viewport. See $(D viewportclearmode) for options.
@@ -4487,7 +4497,7 @@ public:
 	void viewportSetClearMode(in RID viewport, in long clear_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetClearMode, _godot_object, viewport, clear_mode);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetClearMode, _godot_object, viewport, clear_mode);
 	}
 	/**
 	Sets the debug draw mode of a viewport. See $(D viewportdebugdraw) for options.
@@ -4495,7 +4505,7 @@ public:
 	void viewportSetDebugDraw(in RID viewport, in long draw)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetDebugDraw, _godot_object, viewport, draw);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetDebugDraw, _godot_object, viewport, draw);
 	}
 	/**
 	If `true`, a viewport's 3D rendering is disabled.
@@ -4503,7 +4513,7 @@ public:
 	void viewportSetDisable3d(in RID viewport, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetDisable3d, _godot_object, viewport, disabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetDisable3d, _godot_object, viewport, disabled);
 	}
 	/**
 	If `true`, rendering of a viewport's environment is disabled.
@@ -4511,7 +4521,7 @@ public:
 	void viewportSetDisableEnvironment(in RID viewport, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetDisableEnvironment, _godot_object, viewport, disabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetDisableEnvironment, _godot_object, viewport, disabled);
 	}
 	/**
 	Sets the viewport's global transformation matrix.
@@ -4519,7 +4529,7 @@ public:
 	void viewportSetGlobalCanvasTransform(in RID viewport, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetGlobalCanvasTransform, _godot_object, viewport, transform);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetGlobalCanvasTransform, _godot_object, viewport, transform);
 	}
 	/**
 	If `true`, the viewport renders to hdr.
@@ -4527,7 +4537,7 @@ public:
 	void viewportSetHdr(in RID viewport, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetHdr, _godot_object, viewport, enabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetHdr, _godot_object, viewport, enabled);
 	}
 	/**
 	If `true`, the viewport's canvas is not rendered.
@@ -4535,7 +4545,7 @@ public:
 	void viewportSetHideCanvas(in RID viewport, in bool hidden)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetHideCanvas, _godot_object, viewport, hidden);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetHideCanvas, _godot_object, viewport, hidden);
 	}
 	/**
 	Currently unimplemented in Godot 3.x.
@@ -4543,7 +4553,7 @@ public:
 	void viewportSetHideScenario(in RID viewport, in bool hidden)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetHideScenario, _godot_object, viewport, hidden);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetHideScenario, _godot_object, viewport, hidden);
 	}
 	/**
 	Sets the anti-aliasing mode. See $(D viewportmsaa) for options.
@@ -4551,7 +4561,7 @@ public:
 	void viewportSetMsaa(in RID viewport, in long msaa)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetMsaa, _godot_object, viewport, msaa);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetMsaa, _godot_object, viewport, msaa);
 	}
 	/**
 	Sets the viewport's parent to another viewport.
@@ -4559,7 +4569,7 @@ public:
 	void viewportSetParentViewport(in RID viewport, in RID parent_viewport)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetParentViewport, _godot_object, viewport, parent_viewport);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetParentViewport, _godot_object, viewport, parent_viewport);
 	}
 	/**
 	If `true`, render the contents of the viewport directly to screen. This allows a low-level optimization where you can skip drawing a viewport to the root viewport. While this optimization can result in a significant increase in speed (especially on older devices), it comes at a cost of usability. When this is enabled, you cannot read from the viewport or from the `SCREEN_TEXTURE`. You also lose the benefit of certain window settings, such as the various stretch modes. Another consequence to be aware of is that in 2D the rendering happens in window coordinates, so if you have a viewport that is double the size of the window, and you set this, then only the portion that fits within the window will be drawn, no automatic scaling is possible, even if your game scene is significantly larger than the window size.
@@ -4567,7 +4577,7 @@ public:
 	void viewportSetRenderDirectToScreen(in RID viewport, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetRenderDirectToScreen, _godot_object, viewport, enabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetRenderDirectToScreen, _godot_object, viewport, enabled);
 	}
 	/**
 	Sets a viewport's scenario.
@@ -4576,7 +4586,7 @@ public:
 	void viewportSetScenario(in RID viewport, in RID scenario)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetScenario, _godot_object, viewport, scenario);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetScenario, _godot_object, viewport, scenario);
 	}
 	/**
 	Sets the shadow atlas quadrant's subdivision.
@@ -4584,7 +4594,7 @@ public:
 	void viewportSetShadowAtlasQuadrantSubdivision(in RID viewport, in long quadrant, in long subdivision)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetShadowAtlasQuadrantSubdivision, _godot_object, viewport, quadrant, subdivision);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetShadowAtlasQuadrantSubdivision, _godot_object, viewport, quadrant, subdivision);
 	}
 	/**
 	Sets the size of the shadow atlas's images (used for omni and spot lights). The value will be rounded up to the nearest power of 2.
@@ -4592,7 +4602,7 @@ public:
 	void viewportSetShadowAtlasSize(in RID viewport, in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetShadowAtlasSize, _godot_object, viewport, size);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetShadowAtlasSize, _godot_object, viewport, size);
 	}
 	/**
 	Sets the viewport's width and height.
@@ -4600,7 +4610,7 @@ public:
 	void viewportSetSize(in RID viewport, in long width, in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetSize, _godot_object, viewport, width, height);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetSize, _godot_object, viewport, width, height);
 	}
 	/**
 	If `true`, the viewport renders its background as transparent.
@@ -4608,7 +4618,7 @@ public:
 	void viewportSetTransparentBackground(in RID viewport, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetTransparentBackground, _godot_object, viewport, enabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetTransparentBackground, _godot_object, viewport, enabled);
 	}
 	/**
 	Sets when the viewport should be updated. See $(D viewportupdatemode) constants for options.
@@ -4616,7 +4626,7 @@ public:
 	void viewportSetUpdateMode(in RID viewport, in long update_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetUpdateMode, _godot_object, viewport, update_mode);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetUpdateMode, _godot_object, viewport, update_mode);
 	}
 	/**
 	Sets the viewport's 2D/3D mode. See $(D viewportusage) constants for options.
@@ -4624,7 +4634,7 @@ public:
 	void viewportSetUsage(in RID viewport, in long usage)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetUsage, _godot_object, viewport, usage);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetUsage, _godot_object, viewport, usage);
 	}
 	/**
 	If `true`, the viewport uses augmented or virtual reality technologies. See $(D ARVRInterface).
@@ -4632,7 +4642,7 @@ public:
 	void viewportSetUseArvr(in RID viewport, in bool use_arvr)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetUseArvr, _godot_object, viewport, use_arvr);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetUseArvr, _godot_object, viewport, use_arvr);
 	}
 	/**
 	If `true`, the viewport's rendering is flipped vertically.
@@ -4640,7 +4650,7 @@ public:
 	void viewportSetVflip(in RID viewport, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.viewportSetVflip, _godot_object, viewport, enabled);
+		ptrcall!(void)(GDNativeClassBinding.viewportSetVflip, _godot_object, viewport, enabled);
 	}
 }
 /// Returns: the VisualServerSingleton
@@ -4648,5 +4658,5 @@ public:
 VisualServerSingleton VisualServer()
 {
 	checkClassBinding!VisualServerSingleton();
-	return VisualServerSingleton(VisualServerSingleton._classBinding._singleton);
+	return VisualServerSingleton(VisualServerSingleton.GDNativeClassBinding._singleton);
 }

@@ -31,21 +31,31 @@ This container fits controls inside of the delimited area of a stylebox. It's us
 */
 @GodotBaseClass struct PanelContainer
 {
-	enum string _GODOT_internal_name = "PanelContainer";
+	package(godot) enum string _GODOT_internal_name = "PanelContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in PanelContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PanelContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PanelContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PanelContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PanelContainer.
+	/// Note: use `memnew!PanelContainer` instead.
 	static PanelContainer _new()
 	{
 		static godot_class_constructor constructor;

@@ -27,14 +27,14 @@ import godot.skeleton;
 */
 @GodotBaseClass struct SkeletonIK
 {
-	enum string _GODOT_internal_name = "SkeletonIK";
+	package(godot) enum string _GODOT_internal_name = "SkeletonIK";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_interpolation") GodotMethod!(double) getInterpolation;
@@ -62,10 +62,20 @@ public:
 		@GodotName("start") GodotMethod!(void, bool) start;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
-	bool opEquals(in SkeletonIK other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SkeletonIK opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SkeletonIK other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SkeletonIK opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SkeletonIK.
+	/// Note: use `memnew!SkeletonIK` instead.
 	static SkeletonIK _new()
 	{
 		static godot_class_constructor constructor;
@@ -80,7 +90,7 @@ public:
 	double getInterpolation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInterpolation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInterpolation, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	Vector3 getMagnetPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getMagnetPosition, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getMagnetPosition, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	long getMaxIterations() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxIterations, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxIterations, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	double getMinDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMinDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMinDistance, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	Skeleton getParentSkeleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Skeleton)(_classBinding.getParentSkeleton, _godot_object);
+		return ptrcall!(Skeleton)(GDNativeClassBinding.getParentSkeleton, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	String getRootBone() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getRootBone, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getRootBone, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	NodePath getTargetNode()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getTargetNode, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getTargetNode, _godot_object);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	Transform getTargetTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getTargetTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getTargetTransform, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	String getTipBone() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTipBone, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getTipBone, _godot_object);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	bool isOverrideTipBasis() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverrideTipBasis, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOverrideTipBasis, _godot_object);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	bool isRunning()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRunning, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRunning, _godot_object);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	bool isUsingMagnet() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingMagnet, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingMagnet, _godot_object);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setInterpolation(in double interpolation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterpolation, _godot_object, interpolation);
+		ptrcall!(void)(GDNativeClassBinding.setInterpolation, _godot_object, interpolation);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setMagnetPosition(in Vector3 local_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMagnetPosition, _godot_object, local_position);
+		ptrcall!(void)(GDNativeClassBinding.setMagnetPosition, _godot_object, local_position);
 	}
 	/**
 	
@@ -192,7 +202,7 @@ public:
 	void setMaxIterations(in long iterations)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxIterations, _godot_object, iterations);
+		ptrcall!(void)(GDNativeClassBinding.setMaxIterations, _godot_object, iterations);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	void setMinDistance(in double min_distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinDistance, _godot_object, min_distance);
+		ptrcall!(void)(GDNativeClassBinding.setMinDistance, _godot_object, min_distance);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	void setOverrideTipBasis(in bool _override)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverrideTipBasis, _godot_object, _override);
+		ptrcall!(void)(GDNativeClassBinding.setOverrideTipBasis, _godot_object, _override);
 	}
 	/**
 	
@@ -216,7 +226,7 @@ public:
 	void setRootBone(in String root_bone)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRootBone, _godot_object, root_bone);
+		ptrcall!(void)(GDNativeClassBinding.setRootBone, _godot_object, root_bone);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setTargetNode(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setTargetNode, _godot_object, node);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	void setTargetTransform(in Transform target)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetTransform, _godot_object, target);
+		ptrcall!(void)(GDNativeClassBinding.setTargetTransform, _godot_object, target);
 	}
 	/**
 	
@@ -240,7 +250,7 @@ public:
 	void setTipBone(in String tip_bone)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTipBone, _godot_object, tip_bone);
+		ptrcall!(void)(GDNativeClassBinding.setTipBone, _godot_object, tip_bone);
 	}
 	/**
 	
@@ -248,7 +258,7 @@ public:
 	void setUseMagnet(in bool use)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseMagnet, _godot_object, use);
+		ptrcall!(void)(GDNativeClassBinding.setUseMagnet, _godot_object, use);
 	}
 	/**
 	
@@ -256,7 +266,7 @@ public:
 	void start(in bool one_time = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.start, _godot_object, one_time);
+		ptrcall!(void)(GDNativeClassBinding.start, _godot_object, one_time);
 	}
 	/**
 	
@@ -264,7 +274,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	

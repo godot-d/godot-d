@@ -28,14 +28,14 @@ A HingeJoint normally uses the Z axis of body A as the hinge axis, another axis 
 */
 @GodotBaseClass struct HingeJoint
 {
-	enum string _GODOT_internal_name = "HingeJoint";
+	package(godot) enum string _GODOT_internal_name = "HingeJoint";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Joint _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_lower_limit") GodotMethod!(double) _getLowerLimit;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
 		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
 	}
-	bool opEquals(in HingeJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	HingeJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in HingeJoint other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) HingeJoint opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of HingeJoint.
+	/// Note: use `memnew!HingeJoint` instead.
 	static HingeJoint _new()
 	{
 		static godot_class_constructor constructor;
@@ -170,36 +180,36 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Returns the value of the specified flag.
 	*/
 	bool getFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlag, _godot_object, flag);
 	}
 	/**
-	
+	Returns the value of the specified parameter.
 	*/
 	double getParam(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParam, _godot_object, param);
 	}
 	/**
-	
+	If `true`, enables the specified flag.
 	*/
 	void setFlag(in long flag, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFlag, _godot_object, flag, enabled);
 	}
 	/**
-	
+	Sets the value of the specified parameter.
 	*/
 	void setParam(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParam, _godot_object, param, value);
 	}
 	/**
 	The speed with which the rotation across the axis perpendicular to the hinge gets corrected.

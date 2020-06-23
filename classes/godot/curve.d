@@ -28,14 +28,14 @@ A curve that can be saved and re-used for other objects. By default, it ranges b
 */
 @GodotBaseClass struct Curve
 {
-	enum string _GODOT_internal_name = "Curve";
+	package(godot) enum string _GODOT_internal_name = "Curve";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_data") GodotMethod!(Array) _getData;
@@ -66,10 +66,20 @@ public:
 		@GodotName("set_point_right_tangent") GodotMethod!(void, long, double) setPointRightTangent;
 		@GodotName("set_point_value") GodotMethod!(void, long, double) setPointValue;
 	}
-	bool opEquals(in Curve other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Curve opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Curve other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Curve opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Curve.
+	/// Note: use `memnew!Curve` instead.
 	static Curve _new()
 	{
 		static godot_class_constructor constructor;
@@ -126,7 +136,7 @@ public:
 	long addPoint(in Vector2 position, in double left_tangent = 0, in double right_tangent = 0, in long left_mode = 0, in long right_mode = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.addPoint, _godot_object, position, left_tangent, right_tangent, left_mode, right_mode);
+		return ptrcall!(long)(GDNativeClassBinding.addPoint, _godot_object, position, left_tangent, right_tangent, left_mode, right_mode);
 	}
 	/**
 	Recomputes the baked cache of points for the curve.
@@ -134,7 +144,7 @@ public:
 	void bake()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bake, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.bake, _godot_object);
 	}
 	/**
 	Removes points that are closer than `CMP_EPSILON` (0.00001) units to their neighbor on the curve.
@@ -142,7 +152,7 @@ public:
 	void cleanDupes()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cleanDupes, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.cleanDupes, _godot_object);
 	}
 	/**
 	Removes all points from the curve.
@@ -150,7 +160,7 @@ public:
 	void clearPoints()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearPoints, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	long getBakeResolution() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBakeResolution, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBakeResolution, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	double getMaxValue() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMaxValue, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMaxValue, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	double getMinValue() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMinValue, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMinValue, _godot_object);
 	}
 	/**
 	Returns the number of points describing the curve.
@@ -182,7 +192,7 @@ public:
 	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
 	Returns the left $(D tangentmode) for the point at `index`.
@@ -190,7 +200,7 @@ public:
 	Curve.TangentMode getPointLeftMode(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve.TangentMode)(_classBinding.getPointLeftMode, _godot_object, index);
+		return ptrcall!(Curve.TangentMode)(GDNativeClassBinding.getPointLeftMode, _godot_object, index);
 	}
 	/**
 	Returns the left tangent angle (in degrees) for the point at `index`.
@@ -198,7 +208,7 @@ public:
 	double getPointLeftTangent(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointLeftTangent, _godot_object, index);
+		return ptrcall!(double)(GDNativeClassBinding.getPointLeftTangent, _godot_object, index);
 	}
 	/**
 	Returns the curve coordinates for the point at `index`.
@@ -206,7 +216,7 @@ public:
 	Vector2 getPointPosition(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, index);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointPosition, _godot_object, index);
 	}
 	/**
 	Returns the right $(D tangentmode) for the point at `index`.
@@ -214,7 +224,7 @@ public:
 	Curve.TangentMode getPointRightMode(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve.TangentMode)(_classBinding.getPointRightMode, _godot_object, index);
+		return ptrcall!(Curve.TangentMode)(GDNativeClassBinding.getPointRightMode, _godot_object, index);
 	}
 	/**
 	Returns the right tangent angle (in degrees) for the point at `index`.
@@ -222,7 +232,7 @@ public:
 	double getPointRightTangent(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointRightTangent, _godot_object, index);
+		return ptrcall!(double)(GDNativeClassBinding.getPointRightTangent, _godot_object, index);
 	}
 	/**
 	Returns the Y value for the point that would exist at the X position `offset` along the curve.
@@ -230,7 +240,7 @@ public:
 	double interpolate(in double offset) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.interpolate, _godot_object, offset);
+		return ptrcall!(double)(GDNativeClassBinding.interpolate, _godot_object, offset);
 	}
 	/**
 	Returns the Y value for the point that would exist at the X position `offset` along the curve using the baked cache. Bakes the curve's points if not already baked.
@@ -238,7 +248,7 @@ public:
 	double interpolateBaked(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.interpolateBaked, _godot_object, offset);
+		return ptrcall!(double)(GDNativeClassBinding.interpolateBaked, _godot_object, offset);
 	}
 	/**
 	Removes the point at `index` from the curve.
@@ -246,7 +256,7 @@ public:
 	void removePoint(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, index);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	void setBakeResolution(in long resolution)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeResolution, _godot_object, resolution);
+		ptrcall!(void)(GDNativeClassBinding.setBakeResolution, _godot_object, resolution);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	void setMaxValue(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxValue, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setMaxValue, _godot_object, max);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	void setMinValue(in double min)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinValue, _godot_object, min);
+		ptrcall!(void)(GDNativeClassBinding.setMinValue, _godot_object, min);
 	}
 	/**
 	Sets the left $(D tangentmode) for the point at `index` to `mode`.
@@ -278,7 +288,7 @@ public:
 	void setPointLeftMode(in long index, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointLeftMode, _godot_object, index, mode);
+		ptrcall!(void)(GDNativeClassBinding.setPointLeftMode, _godot_object, index, mode);
 	}
 	/**
 	Sets the left tangent angle for the point at `index` to `tangent`.
@@ -286,7 +296,7 @@ public:
 	void setPointLeftTangent(in long index, in double tangent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointLeftTangent, _godot_object, index, tangent);
+		ptrcall!(void)(GDNativeClassBinding.setPointLeftTangent, _godot_object, index, tangent);
 	}
 	/**
 	Sets the offset from `0.5`.
@@ -294,7 +304,7 @@ public:
 	long setPointOffset(in long index, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.setPointOffset, _godot_object, index, offset);
+		return ptrcall!(long)(GDNativeClassBinding.setPointOffset, _godot_object, index, offset);
 	}
 	/**
 	Sets the right $(D tangentmode) for the point at `index` to `mode`.
@@ -302,7 +312,7 @@ public:
 	void setPointRightMode(in long index, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointRightMode, _godot_object, index, mode);
+		ptrcall!(void)(GDNativeClassBinding.setPointRightMode, _godot_object, index, mode);
 	}
 	/**
 	Sets the right tangent angle for the point at `index` to `tangent`.
@@ -310,7 +320,7 @@ public:
 	void setPointRightTangent(in long index, in double tangent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointRightTangent, _godot_object, index, tangent);
+		ptrcall!(void)(GDNativeClassBinding.setPointRightTangent, _godot_object, index, tangent);
 	}
 	/**
 	Assigns the vertical position `y` to the point at `index`.
@@ -318,7 +328,7 @@ public:
 	void setPointValue(in long index, in double y)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointValue, _godot_object, index, y);
+		ptrcall!(void)(GDNativeClassBinding.setPointValue, _godot_object, index, y);
 	}
 	/**
 	

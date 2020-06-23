@@ -31,14 +31,14 @@ Renders text using `*.fnt` fonts containing texture atlases. Supports distance f
 */
 @GodotBaseClass struct BitmapFont
 {
-	enum string _GODOT_internal_name = "BitmapFont";
+	package(godot) enum string _GODOT_internal_name = "BitmapFont";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Font _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Font _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_chars") GodotMethod!(PoolIntArray) _getChars;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_fallback") GodotMethod!(void, BitmapFont) setFallback;
 		@GodotName("set_height") GodotMethod!(void, double) setHeight;
 	}
-	bool opEquals(in BitmapFont other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BitmapFont opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BitmapFont other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BitmapFont opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BitmapFont.
+	/// Note: use `memnew!BitmapFont` instead.
 	static BitmapFont _new()
 	{
 		static godot_class_constructor constructor;
@@ -137,7 +147,7 @@ public:
 	void addChar(in long character, in long texture, in Rect2 rect, in Vector2 _align = Vector2(0, 0), in double advance = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addChar, _godot_object, character, texture, rect, _align, advance);
+		ptrcall!(void)(GDNativeClassBinding.addChar, _godot_object, character, texture, rect, _align, advance);
 	}
 	/**
 	Adds a kerning pair to the $(D BitmapFont) as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
@@ -145,7 +155,7 @@ public:
 	void addKerningPair(in long char_a, in long char_b, in long kerning)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addKerningPair, _godot_object, char_a, char_b, kerning);
+		ptrcall!(void)(GDNativeClassBinding.addKerningPair, _godot_object, char_a, char_b, kerning);
 	}
 	/**
 	Adds a texture to the $(D BitmapFont).
@@ -153,7 +163,7 @@ public:
 	void addTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.addTexture, _godot_object, texture);
 	}
 	/**
 	Clears all the font data and settings.
@@ -161,7 +171,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Creates a BitmapFont from the `*.fnt` file at `path`.
@@ -169,15 +179,15 @@ public:
 	GodotError createFromFnt(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.createFromFnt, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.createFromFnt, _godot_object, path);
 	}
 	/**
-	Returns the size of a character, optionally taking kerning into account if the next character is provided.
+	
 	*/
 	Vector2 getCharSize(in long _char, in long next = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCharSize, _godot_object, _char, next);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCharSize, _godot_object, _char, next);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	Ref!BitmapFont getFallback() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BitmapFont)(_classBinding.getFallback, _godot_object);
+		return ptrcall!(BitmapFont)(GDNativeClassBinding.getFallback, _godot_object);
 	}
 	/**
 	Returns a kerning pair as a difference.
@@ -193,7 +203,7 @@ public:
 	long getKerningPair(in long char_a, in long char_b) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getKerningPair, _godot_object, char_a, char_b);
+		return ptrcall!(long)(GDNativeClassBinding.getKerningPair, _godot_object, char_a, char_b);
 	}
 	/**
 	Returns the font atlas texture at index `idx`.
@@ -201,7 +211,7 @@ public:
 	Ref!Texture getTexture(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object, idx);
 	}
 	/**
 	Returns the number of textures in the BitmapFont atlas.
@@ -209,7 +219,7 @@ public:
 	long getTextureCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTextureCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTextureCount, _godot_object);
 	}
 	/**
 	
@@ -217,7 +227,7 @@ public:
 	void setAscent(in double px)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAscent, _godot_object, px);
+		ptrcall!(void)(GDNativeClassBinding.setAscent, _godot_object, px);
 	}
 	/**
 	
@@ -225,7 +235,7 @@ public:
 	void setDistanceFieldHint(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDistanceFieldHint, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDistanceFieldHint, _godot_object, enable);
 	}
 	/**
 	
@@ -233,7 +243,7 @@ public:
 	void setFallback(BitmapFont fallback)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFallback, _godot_object, fallback);
+		ptrcall!(void)(GDNativeClassBinding.setFallback, _godot_object, fallback);
 	}
 	/**
 	
@@ -241,7 +251,7 @@ public:
 	void setHeight(in double px)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, px);
+		ptrcall!(void)(GDNativeClassBinding.setHeight, _godot_object, px);
 	}
 	/**
 	Ascent (number of pixels above the baseline).

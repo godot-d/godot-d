@@ -29,14 +29,14 @@ This node extends $(D Camera) to add collisions with $(D Area) and/or $(D Physic
 */
 @GodotBaseClass struct ClippedCamera
 {
-	enum string _GODOT_internal_name = "ClippedCamera";
+	package(godot) enum string _GODOT_internal_name = "ClippedCamera";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Camera _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Camera _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_exception") GodotMethod!(void, GodotObject) addException;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 		@GodotName("set_process_mode") GodotMethod!(void, long) setProcessMode;
 	}
-	bool opEquals(in ClippedCamera other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ClippedCamera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ClippedCamera other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ClippedCamera opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ClippedCamera.
+	/// Note: use `memnew!ClippedCamera` instead.
 	static ClippedCamera _new()
 	{
 		static godot_class_constructor constructor;
@@ -94,7 +104,7 @@ public:
 	void addException(GodotObject node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addException, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.addException, _godot_object, node);
 	}
 	/**
 	Adds a collision exception so the camera does not collide with the specified $(D RID).
@@ -102,7 +112,7 @@ public:
 	void addExceptionRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addExceptionRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.addExceptionRid, _godot_object, rid);
 	}
 	/**
 	Removes all collision exceptions.
@@ -110,7 +120,7 @@ public:
 	void clearExceptions()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearExceptions, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearExceptions, _godot_object);
 	}
 	/**
 	Returns the distance the camera has been offset due to a collision.
@@ -118,7 +128,7 @@ public:
 	double getClipOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getClipOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getClipOffset, _godot_object);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns `true` if the specified bit index is on.
@@ -135,7 +145,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	double getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	ClippedCamera.ProcessMode getProcessMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ClippedCamera.ProcessMode)(_classBinding.getProcessMode, _godot_object);
+		return ptrcall!(ClippedCamera.ProcessMode)(GDNativeClassBinding.getProcessMode, _godot_object);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	bool isClipToAreasEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClipToAreasEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isClipToAreasEnabled, _godot_object);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	bool isClipToBodiesEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClipToBodiesEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isClipToBodiesEnabled, _godot_object);
 	}
 	/**
 	Removes a collision exception with the specified node.
@@ -175,7 +185,7 @@ public:
 	void removeException(GodotObject node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeException, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.removeException, _godot_object, node);
 	}
 	/**
 	Removes a collision exception with the specified $(D RID).
@@ -183,7 +193,7 @@ public:
 	void removeExceptionRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeExceptionRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.removeExceptionRid, _godot_object, rid);
 	}
 	/**
 	
@@ -191,7 +201,7 @@ public:
 	void setClipToAreas(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipToAreas, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setClipToAreas, _godot_object, enable);
 	}
 	/**
 	
@@ -199,7 +209,7 @@ public:
 	void setClipToBodies(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipToBodies, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setClipToBodies, _godot_object, enable);
 	}
 	/**
 	
@@ -207,7 +217,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets the specified bit index to the `value`.
@@ -216,7 +226,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	void setProcessMode(in long process_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProcessMode, _godot_object, process_mode);
+		ptrcall!(void)(GDNativeClassBinding.setProcessMode, _godot_object, process_mode);
 	}
 	/**
 	If `true`, the camera stops on contact with $(D Area)s.

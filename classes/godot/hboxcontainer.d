@@ -32,21 +32,31 @@ See $(D BoxContainer).
 */
 @GodotBaseClass struct HBoxContainer
 {
-	enum string _GODOT_internal_name = "HBoxContainer";
+	package(godot) enum string _GODOT_internal_name = "HBoxContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; BoxContainer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ BoxContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in HBoxContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	HBoxContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in HBoxContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) HBoxContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of HBoxContainer.
+	/// Note: use `memnew!HBoxContainer` instead.
 	static HBoxContainer _new()
 	{
 		static godot_class_constructor constructor;

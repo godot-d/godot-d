@@ -26,14 +26,14 @@ import godot.inputevent;
 */
 @GodotBaseClass struct EditorSpinSlider
 {
-	enum string _GODOT_internal_name = "EditorSpinSlider";
+	package(godot) enum string _GODOT_internal_name = "EditorSpinSlider";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Range _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_grabber_gui_input") GodotMethod!(void, InputEvent) _grabberGuiInput;
@@ -50,10 +50,20 @@ public:
 		@GodotName("set_label") GodotMethod!(void, String) setLabel;
 		@GodotName("set_read_only") GodotMethod!(void, bool) setReadOnly;
 	}
-	bool opEquals(in EditorSpinSlider other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSpinSlider opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSpinSlider other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSpinSlider opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSpinSlider.
+	/// Note: use `memnew!EditorSpinSlider` instead.
 	static EditorSpinSlider _new()
 	{
 		static godot_class_constructor constructor;
@@ -134,7 +144,7 @@ public:
 	String getLabel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLabel, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLabel, _godot_object);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	bool isFlat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlat, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlat, _godot_object);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	bool isReadOnly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isReadOnly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isReadOnly, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	void setFlat(in bool flat)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlat, _godot_object, flat);
+		ptrcall!(void)(GDNativeClassBinding.setFlat, _godot_object, flat);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	void setLabel(in String label)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLabel, _godot_object, label);
+		ptrcall!(void)(GDNativeClassBinding.setLabel, _godot_object, label);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	void setReadOnly(in bool read_only)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadOnly, _godot_object, read_only);
+		ptrcall!(void)(GDNativeClassBinding.setReadOnly, _godot_object, read_only);
 	}
 	/**
 	

@@ -44,17 +44,19 @@ m.mesh = arr_mesh
 
 
 The $(D MeshInstance) is ready to be added to the $(D SceneTree) to be shown.
+See also $(D ImmediateGeometry), $(D MeshDataTool) and $(D SurfaceTool) for procedural geometry generation.
+$(B Note:) Godot uses clockwise $(D url=https://learnopengl.com/Advanced-OpenGL/Face-culling)winding order$(D /url) for front faces of triangle primitive modes.
 */
 @GodotBaseClass struct ArrayMesh
 {
-	enum string _GODOT_internal_name = "ArrayMesh";
+	package(godot) enum string _GODOT_internal_name = "ArrayMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Mesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Mesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_blend_shape") GodotMethod!(void, String) addBlendShape;
@@ -78,10 +80,20 @@ public:
 		@GodotName("surface_set_name") GodotMethod!(void, long, String) surfaceSetName;
 		@GodotName("surface_update_region") GodotMethod!(void, long, long, PoolByteArray) surfaceUpdateRegion;
 	}
-	bool opEquals(in ArrayMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ArrayMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ArrayMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ArrayMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ArrayMesh.
+	/// Note: use `memnew!ArrayMesh` instead.
 	static ArrayMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -212,19 +224,18 @@ public:
 	void addBlendShape(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBlendShape, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.addBlendShape, _godot_object, name);
 	}
 	/**
 	Creates a new surface.
 	Surfaces are created to be rendered using a `primitive`, which may be any of the types defined in $(D Mesh.primitivetype). (As a note, when using indices, it is recommended to only use points, lines or triangles.) $(D Mesh.getSurfaceCount) will become the `surf_idx` for this new surface.
 	The `arrays` argument is an array of arrays. See $(D arraytype) for the values used in this array. For example, `arrays$(D 0)` is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for $(D constant ARRAY_INDEX) if it is used.
 	Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices.
-	Godot uses clockwise winding order for front faces of triangle primitive modes.
 	*/
 	void addSurfaceFromArrays(in long primitive, in Array arrays, in Array blend_shapes = Array.make(), in long compress_flags = 97280)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSurfaceFromArrays, _godot_object, primitive, arrays, blend_shapes, compress_flags);
+		ptrcall!(void)(GDNativeClassBinding.addSurfaceFromArrays, _godot_object, primitive, arrays, blend_shapes, compress_flags);
 	}
 	/**
 	Removes all blend shapes from this $(D ArrayMesh).
@@ -232,7 +243,7 @@ public:
 	void clearBlendShapes()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBlendShapes, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearBlendShapes, _godot_object);
 	}
 	/**
 	Returns the number of blend shapes that the $(D ArrayMesh) holds.
@@ -240,7 +251,7 @@ public:
 	long getBlendShapeCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBlendShapeCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBlendShapeCount, _godot_object);
 	}
 	/**
 	
@@ -248,7 +259,7 @@ public:
 	Mesh.BlendShapeMode getBlendShapeMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh.BlendShapeMode)(_classBinding.getBlendShapeMode, _godot_object);
+		return ptrcall!(Mesh.BlendShapeMode)(GDNativeClassBinding.getBlendShapeMode, _godot_object);
 	}
 	/**
 	Returns the name of the blend shape at this index.
@@ -256,7 +267,7 @@ public:
 	String getBlendShapeName(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBlendShapeName, _godot_object, index);
+		return ptrcall!(String)(GDNativeClassBinding.getBlendShapeName, _godot_object, index);
 	}
 	/**
 	
@@ -264,7 +275,7 @@ public:
 	AABB getCustomAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getCustomAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getCustomAabb, _godot_object);
 	}
 	/**
 	Will perform a UV unwrap on the $(D ArrayMesh) to prepare the mesh for lightmapping.
@@ -272,7 +283,7 @@ public:
 	GodotError lightmapUnwrap(in Transform transform, in double texel_size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.lightmapUnwrap, _godot_object, transform, texel_size);
+		return ptrcall!(GodotError)(GDNativeClassBinding.lightmapUnwrap, _godot_object, transform, texel_size);
 	}
 	/**
 	Will regenerate normal maps for the $(D ArrayMesh).
@@ -280,7 +291,7 @@ public:
 	void regenNormalmaps()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.regenNormalmaps, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.regenNormalmaps, _godot_object);
 	}
 	/**
 	
@@ -288,7 +299,7 @@ public:
 	void setBlendShapeMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendShapeMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setBlendShapeMode, _godot_object, mode);
 	}
 	/**
 	
@@ -296,7 +307,7 @@ public:
 	void setCustomAabb(in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomAabb, _godot_object, aabb);
+		ptrcall!(void)(GDNativeClassBinding.setCustomAabb, _godot_object, aabb);
 	}
 	/**
 	Returns the index of the first surface with this name held within this $(D ArrayMesh). If none are found, -1 is returned.
@@ -304,7 +315,7 @@ public:
 	long surfaceFindByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.surfaceFindByName, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.surfaceFindByName, _godot_object, name);
 	}
 	/**
 	Returns the length in indices of the index array in the requested surface (see $(D addSurfaceFromArrays)).
@@ -312,7 +323,7 @@ public:
 	long surfaceGetArrayIndexLen(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.surfaceGetArrayIndexLen, _godot_object, surf_idx);
+		return ptrcall!(long)(GDNativeClassBinding.surfaceGetArrayIndexLen, _godot_object, surf_idx);
 	}
 	/**
 	Returns the length in vertices of the vertex array in the requested surface (see $(D addSurfaceFromArrays)).
@@ -320,7 +331,7 @@ public:
 	long surfaceGetArrayLen(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.surfaceGetArrayLen, _godot_object, surf_idx);
+		return ptrcall!(long)(GDNativeClassBinding.surfaceGetArrayLen, _godot_object, surf_idx);
 	}
 	/**
 	Returns the format mask of the requested surface (see $(D addSurfaceFromArrays)).
@@ -328,7 +339,7 @@ public:
 	long surfaceGetFormat(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.surfaceGetFormat, _godot_object, surf_idx);
+		return ptrcall!(long)(GDNativeClassBinding.surfaceGetFormat, _godot_object, surf_idx);
 	}
 	/**
 	Gets the name assigned to this surface.
@@ -336,7 +347,7 @@ public:
 	String surfaceGetName(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.surfaceGetName, _godot_object, surf_idx);
+		return ptrcall!(String)(GDNativeClassBinding.surfaceGetName, _godot_object, surf_idx);
 	}
 	/**
 	Returns the primitive type of the requested surface (see $(D addSurfaceFromArrays)).
@@ -344,7 +355,7 @@ public:
 	Mesh.PrimitiveType surfaceGetPrimitiveType(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh.PrimitiveType)(_classBinding.surfaceGetPrimitiveType, _godot_object, surf_idx);
+		return ptrcall!(Mesh.PrimitiveType)(GDNativeClassBinding.surfaceGetPrimitiveType, _godot_object, surf_idx);
 	}
 	/**
 	Removes a surface at position `surf_idx`, shifting greater surfaces one `surf_idx` slot down.
@@ -352,7 +363,7 @@ public:
 	void surfaceRemove(in long surf_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.surfaceRemove, _godot_object, surf_idx);
+		ptrcall!(void)(GDNativeClassBinding.surfaceRemove, _godot_object, surf_idx);
 	}
 	/**
 	Sets a name for a given surface.
@@ -360,7 +371,7 @@ public:
 	void surfaceSetName(in long surf_idx, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.surfaceSetName, _godot_object, surf_idx, name);
+		ptrcall!(void)(GDNativeClassBinding.surfaceSetName, _godot_object, surf_idx, name);
 	}
 	/**
 	Updates a specified region of mesh arrays on the GPU.
@@ -369,7 +380,7 @@ public:
 	void surfaceUpdateRegion(in long surf_idx, in long offset, in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.surfaceUpdateRegion, _godot_object, surf_idx, offset, data);
+		ptrcall!(void)(GDNativeClassBinding.surfaceUpdateRegion, _godot_object, surf_idx, offset, data);
 	}
 	/**
 	Sets the blend shape mode to one of $(D Mesh.blendshapemode).

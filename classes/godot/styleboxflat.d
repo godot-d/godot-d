@@ -49,14 +49,14 @@ corner_radius_bottom_left: 20
 */
 @GodotBaseClass struct StyleBoxFlat
 {
-	enum string _GODOT_internal_name = "StyleBoxFlat";
+	package(godot) enum string _GODOT_internal_name = "StyleBoxFlat";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; StyleBox _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ StyleBox _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_aa_size") GodotMethod!(long) getAaSize;
@@ -92,10 +92,20 @@ public:
 		@GodotName("set_shadow_offset") GodotMethod!(void, Vector2) setShadowOffset;
 		@GodotName("set_shadow_size") GodotMethod!(void, long) setShadowSize;
 	}
-	bool opEquals(in StyleBoxFlat other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StyleBoxFlat opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StyleBoxFlat other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StyleBoxFlat opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StyleBoxFlat.
+	/// Note: use `memnew!StyleBoxFlat` instead.
 	static StyleBoxFlat _new()
 	{
 		static godot_class_constructor constructor;
@@ -110,7 +120,7 @@ public:
 	long getAaSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAaSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAaSize, _godot_object);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	Color getBgColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getBgColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getBgColor, _godot_object);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	bool getBorderBlend() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getBorderBlend, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getBorderBlend, _godot_object);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	Color getBorderColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getBorderColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getBorderColor, _godot_object);
 	}
 	/**
 	Returns the given `margin`'s border width. See $(D margin) for possible values.
@@ -142,7 +152,7 @@ public:
 	long getBorderWidth(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBorderWidth, _godot_object, margin);
+		return ptrcall!(long)(GDNativeClassBinding.getBorderWidth, _godot_object, margin);
 	}
 	/**
 	Returns the smallest border width out of all four borders.
@@ -150,7 +160,7 @@ public:
 	long getBorderWidthMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBorderWidthMin, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBorderWidthMin, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	long getCornerDetail() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCornerDetail, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCornerDetail, _godot_object);
 	}
 	/**
 	Returns the given `corner`'s radius. See $(D corner) for possible values.
@@ -166,7 +176,7 @@ public:
 	long getCornerRadius(in long corner) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCornerRadius, _godot_object, corner);
+		return ptrcall!(long)(GDNativeClassBinding.getCornerRadius, _godot_object, corner);
 	}
 	/**
 	Returns the size of the given `margin`'s expand margin. See $(D margin) for possible values.
@@ -174,7 +184,7 @@ public:
 	double getExpandMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getExpandMargin, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getExpandMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	Color getShadowColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getShadowColor, _godot_object);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	Vector2 getShadowOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getShadowOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getShadowOffset, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	long getShadowSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getShadowSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getShadowSize, _godot_object);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	bool isAntiAliased() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAntiAliased, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAntiAliased, _godot_object);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	bool isDrawCenterEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawCenterEnabled, _godot_object);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	void setAaSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAaSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setAaSize, _godot_object, size);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	void setAntiAliased(in bool anti_aliased)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntiAliased, _godot_object, anti_aliased);
+		ptrcall!(void)(GDNativeClassBinding.setAntiAliased, _godot_object, anti_aliased);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	void setBgColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setBgColor, _godot_object, color);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	void setBorderBlend(in bool blend)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderBlend, _godot_object, blend);
+		ptrcall!(void)(GDNativeClassBinding.setBorderBlend, _godot_object, blend);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	void setBorderColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setBorderColor, _godot_object, color);
 	}
 	/**
 	Sets the border width to `width` pixels for the given `margin`. See $(D margin) for possible values.
@@ -262,7 +272,7 @@ public:
 	void setBorderWidth(in long margin, in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderWidth, _godot_object, margin, width);
+		ptrcall!(void)(GDNativeClassBinding.setBorderWidth, _godot_object, margin, width);
 	}
 	/**
 	Sets the border width to `width` pixels for all margins.
@@ -270,7 +280,7 @@ public:
 	void setBorderWidthAll(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderWidthAll, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setBorderWidthAll, _godot_object, width);
 	}
 	/**
 	
@@ -278,7 +288,7 @@ public:
 	void setCornerDetail(in long detail)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerDetail, _godot_object, detail);
+		ptrcall!(void)(GDNativeClassBinding.setCornerDetail, _godot_object, detail);
 	}
 	/**
 	Sets the corner radius to `radius` pixels for the given `corner`. See $(D corner) for possible values.
@@ -286,7 +296,7 @@ public:
 	void setCornerRadius(in long corner, in long radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadius, _godot_object, corner, radius);
+		ptrcall!(void)(GDNativeClassBinding.setCornerRadius, _godot_object, corner, radius);
 	}
 	/**
 	Sets the corner radius to `radius` pixels for all corners.
@@ -294,7 +304,7 @@ public:
 	void setCornerRadiusAll(in long radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadiusAll, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setCornerRadiusAll, _godot_object, radius);
 	}
 	/**
 	Sets the corner radius for each corner to `radius_top_left`, `radius_top_right`, `radius_bottom_right`, and `radius_bottom_left` pixels.
@@ -302,7 +312,7 @@ public:
 	void setCornerRadiusIndividual(in long radius_top_left, in long radius_top_right, in long radius_bottom_right, in long radius_bottom_left)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCornerRadiusIndividual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
+		ptrcall!(void)(GDNativeClassBinding.setCornerRadiusIndividual, _godot_object, radius_top_left, radius_top_right, radius_bottom_right, radius_bottom_left);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setDrawCenter(in bool draw_center)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
+		ptrcall!(void)(GDNativeClassBinding.setDrawCenter, _godot_object, draw_center);
 	}
 	/**
 	Sets the expand margin to `size` pixels for the given `margin`. See $(D margin) for possible values.
@@ -318,7 +328,7 @@ public:
 	void setExpandMargin(in long margin, in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMargin, _godot_object, margin, size);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMargin, _godot_object, margin, size);
 	}
 	/**
 	Sets the expand margin to `size` pixels for all margins.
@@ -326,7 +336,7 @@ public:
 	void setExpandMarginAll(in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMarginAll, _godot_object, size);
 	}
 	/**
 	Sets the expand margin for each margin to `size_left`, `size_top`, `size_right`, and `size_bottom` pixels.
@@ -334,7 +344,7 @@ public:
 	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
 	}
 	/**
 	
@@ -342,7 +352,7 @@ public:
 	void setShadowColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setShadowColor, _godot_object, color);
 	}
 	/**
 	
@@ -350,7 +360,7 @@ public:
 	void setShadowOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setShadowOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -358,7 +368,7 @@ public:
 	void setShadowSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setShadowSize, _godot_object, size);
 	}
 	/**
 	Antialiasing draws a small ring around the edges, which fades to transparency. As a result, edges look much smoother. This is only noticeable when using rounded corners.

@@ -27,14 +27,14 @@ Font contains a Unicode-compatible character set, as well as the ability to draw
 */
 @GodotBaseClass struct Font
 {
-	enum string _GODOT_internal_name = "Font";
+	package(godot) enum string _GODOT_internal_name = "Font";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("draw") GodotMethod!(void, RID, Vector2, String, Color, long, Color) draw;
@@ -48,10 +48,20 @@ public:
 		@GodotName("is_distance_field_hint") GodotMethod!(bool) isDistanceFieldHint;
 		@GodotName("update_changes") GodotMethod!(void) updateChanges;
 	}
-	bool opEquals(in Font other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Font opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Font other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Font opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Font.
+	/// Note: use `memnew!Font` instead.
 	static Font _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	void draw(in RID canvas_item, in Vector2 position, in String string, in Color modulate = Color(1,1,1,1), in long clip_w = -1, in Color outline_modulate = Color(1,1,1,1)) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, string, modulate, clip_w, outline_modulate);
+		ptrcall!(void)(GDNativeClassBinding.draw, _godot_object, canvas_item, position, string, modulate, clip_w, outline_modulate);
 	}
 	/**
 	Draw character `char` into a canvas item using the font at a given position, with `modulate` color, and optionally kerning if `next` is passed. clipping the width. `position` specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis. The width used by the character is returned, making this function useful for drawing strings character by character.
@@ -74,7 +84,7 @@ public:
 	double drawChar(in RID canvas_item, in Vector2 position, in long _char, in long next = -1, in Color modulate = Color(1,1,1,1), in bool outline = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.drawChar, _godot_object, canvas_item, position, _char, next, modulate, outline);
+		return ptrcall!(double)(GDNativeClassBinding.drawChar, _godot_object, canvas_item, position, _char, next, modulate, outline);
 	}
 	/**
 	Returns the font ascent (number of pixels above the baseline).
@@ -82,7 +92,7 @@ public:
 	double getAscent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAscent, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAscent, _godot_object);
 	}
 	/**
 	Returns the font descent (number of pixels below the baseline).
@@ -90,7 +100,7 @@ public:
 	double getDescent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDescent, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDescent, _godot_object);
 	}
 	/**
 	Returns the total font height (ascent plus descent) in pixels.
@@ -98,7 +108,7 @@ public:
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	Returns the size of a string, taking kerning and advance into account.
@@ -106,15 +116,15 @@ public:
 	Vector2 getStringSize(in String string) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getStringSize, _godot_object, string);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getStringSize, _godot_object, string);
 	}
 	/**
-	
+	Returns the size that the string would have with word wrapping enabled with a fixed `width`.
 	*/
 	Vector2 getWordwrapStringSize(in String string, in double width) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getWordwrapStringSize, _godot_object, string, width);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getWordwrapStringSize, _godot_object, string, width);
 	}
 	/**
 	Returns `true` if the font has an outline.
@@ -122,7 +132,7 @@ public:
 	bool hasOutline() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasOutline, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasOutline, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	bool isDistanceFieldHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDistanceFieldHint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDistanceFieldHint, _godot_object);
 	}
 	/**
 	After editing a font (changing size, ascent, char rects, etc.). Call this function to propagate changes to controls that might use it.
@@ -138,6 +148,6 @@ public:
 	void updateChanges()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateChanges, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.updateChanges, _godot_object);
 	}
 }

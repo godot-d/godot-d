@@ -29,14 +29,14 @@ $(D AudioServer) is a low-level server interface for audio access. It is in char
 */
 @GodotBaseClass struct AudioServerSingleton
 {
-	enum string _GODOT_internal_name = "AudioServer";
+	package(godot) enum string _GODOT_internal_name = "AudioServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -88,10 +88,20 @@ public:
 		@GodotName("swap_bus_effects") GodotMethod!(void, long, long, long) swapBusEffects;
 		@GodotName("unlock") GodotMethod!(void) unlock;
 	}
-	bool opEquals(in AudioServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioServerSingleton.
+	/// Note: use `memnew!AudioServerSingleton` instead.
 	static AudioServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -134,7 +144,7 @@ public:
 	void addBus(in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBus, _godot_object, at_position);
+		ptrcall!(void)(GDNativeClassBinding.addBus, _godot_object, at_position);
 	}
 	/**
 	Adds an $(D AudioEffect) effect to the bus `bus_idx` at `at_position`.
@@ -142,7 +152,7 @@ public:
 	void addBusEffect(in long bus_idx, AudioEffect effect, in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBusEffect, _godot_object, bus_idx, effect, at_position);
+		ptrcall!(void)(GDNativeClassBinding.addBusEffect, _godot_object, bus_idx, effect, at_position);
 	}
 	/**
 	Name of the current device for audio input (see $(D captureGetDeviceList)).
@@ -150,7 +160,7 @@ public:
 	String captureGetDevice()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.captureGetDevice, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.captureGetDevice, _godot_object);
 	}
 	/**
 	Returns the names of all audio input devices detected on the system.
@@ -158,7 +168,7 @@ public:
 	Array captureGetDeviceList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.captureGetDeviceList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.captureGetDeviceList, _godot_object);
 	}
 	/**
 	Sets which audio input device is used for audio capture.
@@ -166,7 +176,7 @@ public:
 	void captureSetDevice(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.captureSetDevice, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.captureSetDevice, _godot_object, name);
 	}
 	/**
 	Generates an $(D AudioBusLayout) using the available buses and effects.
@@ -174,7 +184,7 @@ public:
 	Ref!AudioBusLayout generateBusLayout() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioBusLayout)(_classBinding.generateBusLayout, _godot_object);
+		return ptrcall!(AudioBusLayout)(GDNativeClassBinding.generateBusLayout, _godot_object);
 	}
 	/**
 	Returns the amount of channels of the bus at index `bus_idx`.
@@ -182,7 +192,7 @@ public:
 	long getBusChannels(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBusChannels, _godot_object, bus_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getBusChannels, _godot_object, bus_idx);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	long getBusCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBusCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBusCount, _godot_object);
 	}
 	/**
 	Returns the $(D AudioEffect) at position `effect_idx` in bus `bus_idx`.
@@ -198,7 +208,7 @@ public:
 	Ref!AudioEffect getBusEffect(in long bus_idx, in long effect_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffect)(_classBinding.getBusEffect, _godot_object, bus_idx, effect_idx);
+		return ptrcall!(AudioEffect)(GDNativeClassBinding.getBusEffect, _godot_object, bus_idx, effect_idx);
 	}
 	/**
 	Returns the number of effects on the bus at `bus_idx`.
@@ -206,7 +216,7 @@ public:
 	long getBusEffectCount(in long bus_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBusEffectCount, _godot_object, bus_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getBusEffectCount, _godot_object, bus_idx);
 	}
 	/**
 	Returns the $(D AudioEffectInstance) assigned to the given bus and effect indices (and optionally channel).
@@ -214,7 +224,7 @@ public:
 	Ref!AudioEffectInstance getBusEffectInstance(in long bus_idx, in long effect_idx, in long channel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectInstance)(_classBinding.getBusEffectInstance, _godot_object, bus_idx, effect_idx, channel);
+		return ptrcall!(AudioEffectInstance)(GDNativeClassBinding.getBusEffectInstance, _godot_object, bus_idx, effect_idx, channel);
 	}
 	/**
 	Returns the index of the bus with the name `bus_name`.
@@ -222,7 +232,7 @@ public:
 	long getBusIndex(in String bus_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBusIndex, _godot_object, bus_name);
+		return ptrcall!(long)(GDNativeClassBinding.getBusIndex, _godot_object, bus_name);
 	}
 	/**
 	Returns the name of the bus with the index `bus_idx`.
@@ -230,7 +240,7 @@ public:
 	String getBusName(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBusName, _godot_object, bus_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getBusName, _godot_object, bus_idx);
 	}
 	/**
 	Returns the peak volume of the left speaker at bus index `bus_idx` and channel index `channel`.
@@ -238,7 +248,7 @@ public:
 	double getBusPeakVolumeLeftDb(in long bus_idx, in long channel) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBusPeakVolumeLeftDb, _godot_object, bus_idx, channel);
+		return ptrcall!(double)(GDNativeClassBinding.getBusPeakVolumeLeftDb, _godot_object, bus_idx, channel);
 	}
 	/**
 	Returns the peak volume of the right speaker at bus index `bus_idx` and channel index `channel`.
@@ -246,7 +256,7 @@ public:
 	double getBusPeakVolumeRightDb(in long bus_idx, in long channel) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBusPeakVolumeRightDb, _godot_object, bus_idx, channel);
+		return ptrcall!(double)(GDNativeClassBinding.getBusPeakVolumeRightDb, _godot_object, bus_idx, channel);
 	}
 	/**
 	Returns the name of the bus that the bus at index `bus_idx` sends to.
@@ -254,7 +264,7 @@ public:
 	String getBusSend(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBusSend, _godot_object, bus_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getBusSend, _godot_object, bus_idx);
 	}
 	/**
 	Returns the volume of the bus at index `bus_idx` in dB.
@@ -262,7 +272,7 @@ public:
 	double getBusVolumeDb(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBusVolumeDb, _godot_object, bus_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getBusVolumeDb, _godot_object, bus_idx);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	String getDevice()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDevice, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getDevice, _godot_object);
 	}
 	/**
 	Returns the names of all audio devices detected on the system.
@@ -278,7 +288,7 @@ public:
 	Array getDeviceList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getDeviceList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getDeviceList, _godot_object);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	double getGlobalRateScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlobalRateScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlobalRateScale, _godot_object);
 	}
 	/**
 	Returns the sample rate at the output of the $(D AudioServer).
@@ -294,7 +304,7 @@ public:
 	double getMixRate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMixRate, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMixRate, _godot_object);
 	}
 	/**
 	Returns the audio driver's output latency.
@@ -302,7 +312,7 @@ public:
 	double getOutputLatency() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOutputLatency, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOutputLatency, _godot_object);
 	}
 	/**
 	Returns the speaker configuration.
@@ -310,7 +320,7 @@ public:
 	AudioServer.SpeakerMode getSpeakerMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioServer.SpeakerMode)(_classBinding.getSpeakerMode, _godot_object);
+		return ptrcall!(AudioServer.SpeakerMode)(GDNativeClassBinding.getSpeakerMode, _godot_object);
 	}
 	/**
 	Returns the relative time since the last mix occurred.
@@ -318,7 +328,7 @@ public:
 	double getTimeSinceLastMix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTimeSinceLastMix, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTimeSinceLastMix, _godot_object);
 	}
 	/**
 	Returns the relative time until the next mix occurs.
@@ -326,7 +336,7 @@ public:
 	double getTimeToNextMix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTimeToNextMix, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTimeToNextMix, _godot_object);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is bypassing effects.
@@ -334,7 +344,7 @@ public:
 	bool isBusBypassingEffects(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBusBypassingEffects, _godot_object, bus_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isBusBypassingEffects, _godot_object, bus_idx);
 	}
 	/**
 	If `true`, the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
@@ -342,7 +352,7 @@ public:
 	bool isBusEffectEnabled(in long bus_idx, in long effect_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBusEffectEnabled, _godot_object, bus_idx, effect_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isBusEffectEnabled, _godot_object, bus_idx, effect_idx);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is muted.
@@ -350,7 +360,7 @@ public:
 	bool isBusMute(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBusMute, _godot_object, bus_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isBusMute, _godot_object, bus_idx);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is in solo mode.
@@ -358,7 +368,7 @@ public:
 	bool isBusSolo(in long bus_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBusSolo, _godot_object, bus_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isBusSolo, _godot_object, bus_idx);
 	}
 	/**
 	Locks the audio driver's main loop.
@@ -367,7 +377,7 @@ public:
 	void lock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.lock, _godot_object);
 	}
 	/**
 	Moves the bus from index `index` to index `to_index`.
@@ -375,7 +385,7 @@ public:
 	void moveBus(in long index, in long to_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveBus, _godot_object, index, to_index);
+		ptrcall!(void)(GDNativeClassBinding.moveBus, _godot_object, index, to_index);
 	}
 	/**
 	Removes the bus at index `index`.
@@ -383,7 +393,7 @@ public:
 	void removeBus(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBus, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.removeBus, _godot_object, index);
 	}
 	/**
 	Removes the effect at index `effect_idx` from the bus at index `bus_idx`.
@@ -391,7 +401,7 @@ public:
 	void removeBusEffect(in long bus_idx, in long effect_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBusEffect, _godot_object, bus_idx, effect_idx);
+		ptrcall!(void)(GDNativeClassBinding.removeBusEffect, _godot_object, bus_idx, effect_idx);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is bypassing effects.
@@ -399,7 +409,7 @@ public:
 	void setBusBypassEffects(in long bus_idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusBypassEffects, _godot_object, bus_idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBusBypassEffects, _godot_object, bus_idx, enable);
 	}
 	/**
 	
@@ -407,7 +417,7 @@ public:
 	void setBusCount(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusCount, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setBusCount, _godot_object, amount);
 	}
 	/**
 	If `true`, the effect at index `effect_idx` on the bus at index `bus_idx` is enabled.
@@ -415,7 +425,7 @@ public:
 	void setBusEffectEnabled(in long bus_idx, in long effect_idx, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusEffectEnabled, _godot_object, bus_idx, effect_idx, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setBusEffectEnabled, _godot_object, bus_idx, effect_idx, enabled);
 	}
 	/**
 	Overwrites the currently used $(D AudioBusLayout).
@@ -423,7 +433,7 @@ public:
 	void setBusLayout(AudioBusLayout bus_layout)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusLayout, _godot_object, bus_layout);
+		ptrcall!(void)(GDNativeClassBinding.setBusLayout, _godot_object, bus_layout);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is muted.
@@ -431,7 +441,7 @@ public:
 	void setBusMute(in long bus_idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusMute, _godot_object, bus_idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBusMute, _godot_object, bus_idx, enable);
 	}
 	/**
 	Sets the name of the bus at index `bus_idx` to `name`.
@@ -439,7 +449,7 @@ public:
 	void setBusName(in long bus_idx, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusName, _godot_object, bus_idx, name);
+		ptrcall!(void)(GDNativeClassBinding.setBusName, _godot_object, bus_idx, name);
 	}
 	/**
 	Connects the output of the bus at `bus_idx` to the bus named `send`.
@@ -447,7 +457,7 @@ public:
 	void setBusSend(in long bus_idx, in String send)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusSend, _godot_object, bus_idx, send);
+		ptrcall!(void)(GDNativeClassBinding.setBusSend, _godot_object, bus_idx, send);
 	}
 	/**
 	If `true`, the bus at index `bus_idx` is in solo mode.
@@ -455,7 +465,7 @@ public:
 	void setBusSolo(in long bus_idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusSolo, _godot_object, bus_idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBusSolo, _godot_object, bus_idx, enable);
 	}
 	/**
 	Sets the volume of the bus at index `bus_idx` to `volume_db`.
@@ -463,7 +473,7 @@ public:
 	void setBusVolumeDb(in long bus_idx, in double volume_db)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBusVolumeDb, _godot_object, bus_idx, volume_db);
+		ptrcall!(void)(GDNativeClassBinding.setBusVolumeDb, _godot_object, bus_idx, volume_db);
 	}
 	/**
 	
@@ -471,7 +481,7 @@ public:
 	void setDevice(in String device)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDevice, _godot_object, device);
+		ptrcall!(void)(GDNativeClassBinding.setDevice, _godot_object, device);
 	}
 	/**
 	
@@ -479,7 +489,7 @@ public:
 	void setGlobalRateScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalRateScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalRateScale, _godot_object, scale);
 	}
 	/**
 	Swaps the position of two effects in bus `bus_idx`.
@@ -487,7 +497,7 @@ public:
 	void swapBusEffects(in long bus_idx, in long effect_idx, in long by_effect_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.swapBusEffects, _godot_object, bus_idx, effect_idx, by_effect_idx);
+		ptrcall!(void)(GDNativeClassBinding.swapBusEffects, _godot_object, bus_idx, effect_idx, by_effect_idx);
 	}
 	/**
 	Unlocks the audio driver's main loop. (After locking it, you should always unlock it.)
@@ -495,7 +505,7 @@ public:
 	void unlock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unlock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unlock, _godot_object);
 	}
 	/**
 	Number of available audio buses.
@@ -539,5 +549,5 @@ public:
 AudioServerSingleton AudioServer()
 {
 	checkClassBinding!AudioServerSingleton();
-	return AudioServerSingleton(AudioServerSingleton._classBinding._singleton);
+	return AudioServerSingleton(AudioServerSingleton.GDNativeClassBinding._singleton);
 }

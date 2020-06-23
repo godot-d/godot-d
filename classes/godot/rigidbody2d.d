@@ -39,14 +39,14 @@ If you need to override the default physics behavior or add a transformation at 
 */
 @GodotBaseClass struct RigidBody2D
 {
-	enum string _GODOT_internal_name = "RigidBody2D";
+	package(godot) enum string _GODOT_internal_name = "RigidBody2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PhysicsBody2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PhysicsBody2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_body_enter_tree") GodotMethod!(void, long) _bodyEnterTree;
@@ -104,10 +104,20 @@ public:
 		@GodotName("set_weight") GodotMethod!(void, double) setWeight;
 		@GodotName("test_motion") GodotMethod!(bool, Vector2, bool, double, Physics2DTestMotionResult) testMotion;
 	}
-	bool opEquals(in RigidBody2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RigidBody2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RigidBody2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RigidBody2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RigidBody2D.
+	/// Note: use `memnew!RigidBody2D` instead.
 	static RigidBody2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -218,7 +228,7 @@ public:
 	void addCentralForce(in Vector2 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCentralForce, _godot_object, force);
+		ptrcall!(void)(GDNativeClassBinding.addCentralForce, _godot_object, force);
 	}
 	/**
 	Adds a positioned force to the body. Both the force and the offset from the body origin are in global coordinates.
@@ -226,7 +236,7 @@ public:
 	void addForce(in Vector2 offset, in Vector2 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addForce, _godot_object, offset, force);
+		ptrcall!(void)(GDNativeClassBinding.addForce, _godot_object, offset, force);
 	}
 	/**
 	Adds a constant rotational force.
@@ -234,7 +244,7 @@ public:
 	void addTorque(in double torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTorque, _godot_object, torque);
+		ptrcall!(void)(GDNativeClassBinding.addTorque, _godot_object, torque);
 	}
 	/**
 	Applies a directional impulse without affecting rotation.
@@ -242,7 +252,7 @@ public:
 	void applyCentralImpulse(in Vector2 impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, impulse);
+		ptrcall!(void)(GDNativeClassBinding.applyCentralImpulse, _godot_object, impulse);
 	}
 	/**
 	Applies a positioned impulse to the body. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts (use the "_force" functions otherwise). The position uses the rotation of the global coordinate system, but is centered at the object's origin.
@@ -250,7 +260,7 @@ public:
 	void applyImpulse(in Vector2 offset, in Vector2 impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyImpulse, _godot_object, offset, impulse);
+		ptrcall!(void)(GDNativeClassBinding.applyImpulse, _godot_object, offset, impulse);
 	}
 	/**
 	Applies a rotational impulse to the body.
@@ -258,7 +268,7 @@ public:
 	void applyTorqueImpulse(in double torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyTorqueImpulse, _godot_object, torque);
+		ptrcall!(void)(GDNativeClassBinding.applyTorqueImpulse, _godot_object, torque);
 	}
 	/**
 	
@@ -266,7 +276,7 @@ public:
 	double getAngularDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAngularDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAngularDamp, _godot_object);
 	}
 	/**
 	
@@ -274,7 +284,7 @@ public:
 	double getAngularVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAngularVelocity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAngularVelocity, _godot_object);
 	}
 	/**
 	
@@ -282,7 +292,7 @@ public:
 	Vector2 getAppliedForce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getAppliedForce, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getAppliedForce, _godot_object);
 	}
 	/**
 	
@@ -290,7 +300,7 @@ public:
 	double getAppliedTorque() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAppliedTorque, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAppliedTorque, _godot_object);
 	}
 	/**
 	
@@ -298,7 +308,7 @@ public:
 	double getBounce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBounce, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBounce, _godot_object);
 	}
 	/**
 	Returns a list of the bodies colliding with this one. Use $(D contactsReported) to set the maximum number reported. You must also set $(D contactMonitor) to `true`.
@@ -307,7 +317,7 @@ public:
 	Array getCollidingBodies() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getCollidingBodies, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getCollidingBodies, _godot_object);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	RigidBody2D.CCDMode getContinuousCollisionDetectionMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RigidBody2D.CCDMode)(_classBinding.getContinuousCollisionDetectionMode, _godot_object);
+		return ptrcall!(RigidBody2D.CCDMode)(GDNativeClassBinding.getContinuousCollisionDetectionMode, _godot_object);
 	}
 	/**
 	
@@ -323,7 +333,7 @@ public:
 	double getFriction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFriction, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFriction, _godot_object);
 	}
 	/**
 	
@@ -331,7 +341,7 @@ public:
 	double getGravityScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravityScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGravityScale, _godot_object);
 	}
 	/**
 	
@@ -339,7 +349,7 @@ public:
 	double getInertia() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInertia, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInertia, _godot_object);
 	}
 	/**
 	
@@ -347,7 +357,7 @@ public:
 	double getLinearDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLinearDamp, _godot_object);
 	}
 	/**
 	
@@ -355,7 +365,7 @@ public:
 	Vector2 getLinearVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLinearVelocity, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getLinearVelocity, _godot_object);
 	}
 	/**
 	
@@ -363,7 +373,7 @@ public:
 	double getMass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMass, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMass, _godot_object);
 	}
 	/**
 	
@@ -371,7 +381,7 @@ public:
 	long getMaxContactsReported() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxContactsReported, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxContactsReported, _godot_object);
 	}
 	/**
 	
@@ -379,7 +389,7 @@ public:
 	RigidBody2D.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RigidBody2D.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(RigidBody2D.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -387,7 +397,7 @@ public:
 	Ref!PhysicsMaterial getPhysicsMaterialOverride() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PhysicsMaterial)(_classBinding.getPhysicsMaterialOverride, _godot_object);
+		return ptrcall!(PhysicsMaterial)(GDNativeClassBinding.getPhysicsMaterialOverride, _godot_object);
 	}
 	/**
 	
@@ -395,7 +405,7 @@ public:
 	double getWeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWeight, _godot_object);
 	}
 	/**
 	
@@ -403,7 +413,7 @@ public:
 	bool isAbleToSleep() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAbleToSleep, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAbleToSleep, _godot_object);
 	}
 	/**
 	
@@ -411,7 +421,7 @@ public:
 	bool isContactMonitorEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isContactMonitorEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isContactMonitorEnabled, _godot_object);
 	}
 	/**
 	
@@ -419,7 +429,7 @@ public:
 	bool isSleeping() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSleeping, _godot_object);
 	}
 	/**
 	
@@ -427,7 +437,7 @@ public:
 	bool isUsingCustomIntegrator()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingCustomIntegrator, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingCustomIntegrator, _godot_object);
 	}
 	/**
 	
@@ -435,7 +445,7 @@ public:
 	void setAngularDamp(in double angular_damp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
+		ptrcall!(void)(GDNativeClassBinding.setAngularDamp, _godot_object, angular_damp);
 	}
 	/**
 	
@@ -443,7 +453,7 @@ public:
 	void setAngularVelocity(in double angular_velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularVelocity, _godot_object, angular_velocity);
+		ptrcall!(void)(GDNativeClassBinding.setAngularVelocity, _godot_object, angular_velocity);
 	}
 	/**
 	
@@ -451,7 +461,7 @@ public:
 	void setAppliedForce(in Vector2 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAppliedForce, _godot_object, force);
+		ptrcall!(void)(GDNativeClassBinding.setAppliedForce, _godot_object, force);
 	}
 	/**
 	
@@ -459,7 +469,7 @@ public:
 	void setAppliedTorque(in double torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAppliedTorque, _godot_object, torque);
+		ptrcall!(void)(GDNativeClassBinding.setAppliedTorque, _godot_object, torque);
 	}
 	/**
 	Sets the body's velocity on the given axis. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
@@ -467,7 +477,7 @@ public:
 	void setAxisVelocity(in Vector2 axis_velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAxisVelocity, _godot_object, axis_velocity);
+		ptrcall!(void)(GDNativeClassBinding.setAxisVelocity, _godot_object, axis_velocity);
 	}
 	/**
 	
@@ -475,7 +485,7 @@ public:
 	void setBounce(in double bounce)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounce, _godot_object, bounce);
+		ptrcall!(void)(GDNativeClassBinding.setBounce, _godot_object, bounce);
 	}
 	/**
 	
@@ -483,7 +493,7 @@ public:
 	void setCanSleep(in bool able_to_sleep)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCanSleep, _godot_object, able_to_sleep);
+		ptrcall!(void)(GDNativeClassBinding.setCanSleep, _godot_object, able_to_sleep);
 	}
 	/**
 	
@@ -491,7 +501,7 @@ public:
 	void setContactMonitor(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setContactMonitor, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setContactMonitor, _godot_object, enabled);
 	}
 	/**
 	
@@ -499,7 +509,7 @@ public:
 	void setContinuousCollisionDetectionMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setContinuousCollisionDetectionMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setContinuousCollisionDetectionMode, _godot_object, mode);
 	}
 	/**
 	
@@ -507,7 +517,7 @@ public:
 	void setFriction(in double friction)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFriction, _godot_object, friction);
+		ptrcall!(void)(GDNativeClassBinding.setFriction, _godot_object, friction);
 	}
 	/**
 	
@@ -515,7 +525,7 @@ public:
 	void setGravityScale(in double gravity_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityScale, _godot_object, gravity_scale);
+		ptrcall!(void)(GDNativeClassBinding.setGravityScale, _godot_object, gravity_scale);
 	}
 	/**
 	
@@ -523,7 +533,7 @@ public:
 	void setInertia(in double inertia)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInertia, _godot_object, inertia);
+		ptrcall!(void)(GDNativeClassBinding.setInertia, _godot_object, inertia);
 	}
 	/**
 	
@@ -531,7 +541,7 @@ public:
 	void setLinearDamp(in double linear_damp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
+		ptrcall!(void)(GDNativeClassBinding.setLinearDamp, _godot_object, linear_damp);
 	}
 	/**
 	
@@ -539,7 +549,7 @@ public:
 	void setLinearVelocity(in Vector2 linear_velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearVelocity, _godot_object, linear_velocity);
+		ptrcall!(void)(GDNativeClassBinding.setLinearVelocity, _godot_object, linear_velocity);
 	}
 	/**
 	
@@ -547,7 +557,7 @@ public:
 	void setMass(in double mass)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMass, _godot_object, mass);
+		ptrcall!(void)(GDNativeClassBinding.setMass, _godot_object, mass);
 	}
 	/**
 	
@@ -555,7 +565,7 @@ public:
 	void setMaxContactsReported(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxContactsReported, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setMaxContactsReported, _godot_object, amount);
 	}
 	/**
 	
@@ -563,7 +573,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -571,7 +581,7 @@ public:
 	void setPhysicsMaterialOverride(PhysicsMaterial physics_material_override)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
+		ptrcall!(void)(GDNativeClassBinding.setPhysicsMaterialOverride, _godot_object, physics_material_override);
 	}
 	/**
 	
@@ -579,7 +589,7 @@ public:
 	void setSleeping(in bool sleeping)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSleeping, _godot_object, sleeping);
+		ptrcall!(void)(GDNativeClassBinding.setSleeping, _godot_object, sleeping);
 	}
 	/**
 	
@@ -587,7 +597,7 @@ public:
 	void setUseCustomIntegrator(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseCustomIntegrator, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseCustomIntegrator, _godot_object, enable);
 	}
 	/**
 	
@@ -595,7 +605,7 @@ public:
 	void setWeight(in double weight)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWeight, _godot_object, weight);
+		ptrcall!(void)(GDNativeClassBinding.setWeight, _godot_object, weight);
 	}
 	/**
 	Returns `true` if a collision would result from moving in the given vector. `margin` increases the size of the shapes involved in the collision detection, and `result` is an object of type $(D Physics2DTestMotionResult), which contains additional information about the collision (should there be one).
@@ -603,7 +613,7 @@ public:
 	bool testMotion(in Vector2 motion, in bool infinite_inertia = true, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.testMotion, _godot_object, motion, infinite_inertia, margin, result);
+		return ptrcall!(bool)(GDNativeClassBinding.testMotion, _godot_object, motion, infinite_inertia, margin, result);
 	}
 	/**
 	Damps the body's $(D angularVelocity). If `-1`, the body will use the $(B Default Angular Damp) defined in $(B Project &gt; Project Settings &gt; Physics &gt; 2d).
@@ -667,7 +677,7 @@ public:
 		setBounce(v);
 	}
 	/**
-	If `true`, the body will not calculate forces and will act as a static body if there is no movement. The body will wake up when other forces are applied via collisions or by using $(D applyImpulse) or $(D addForce).
+	If `true`, the body can enter sleep mode when there is no movement. See $(D sleeping).
 	*/
 	@property bool canSleep()
 	{
@@ -826,7 +836,7 @@ public:
 		setPhysicsMaterialOverride(v);
 	}
 	/**
-	If `true`, the body is sleeping and will not calculate forces until woken up by a collision or by using $(D applyImpulse) or $(D addForce).
+	If `true`, the body will not move and will not calculate forces until woken up by another body through, for example, a collision, or by using the $(D applyImpulse) or $(D addForce) methods.
 	*/
 	@property bool sleeping()
 	{

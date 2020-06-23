@@ -30,14 +30,14 @@ $(D StyleBox) that displays a single line of a given color and thickness. It can
 */
 @GodotBaseClass struct StyleBoxLine
 {
-	enum string _GODOT_internal_name = "StyleBoxLine";
+	package(godot) enum string _GODOT_internal_name = "StyleBoxLine";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; StyleBox _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ StyleBox _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_color") GodotMethod!(Color) getColor;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_thickness") GodotMethod!(void, long) setThickness;
 		@GodotName("set_vertical") GodotMethod!(void, bool) setVertical;
 	}
-	bool opEquals(in StyleBoxLine other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StyleBoxLine opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StyleBoxLine other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StyleBoxLine opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StyleBoxLine.
+	/// Note: use `memnew!StyleBoxLine` instead.
 	static StyleBoxLine _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	double getGrowBegin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGrowBegin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGrowBegin, _godot_object);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	double getGrowEnd() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGrowEnd, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGrowEnd, _godot_object);
 	}
 	/**
 	
@@ -93,7 +103,7 @@ public:
 	long getThickness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getThickness, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getThickness, _godot_object);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	bool isVertical() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVertical, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVertical, _godot_object);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	void setGrowBegin(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrowBegin, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setGrowBegin, _godot_object, offset);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	void setGrowEnd(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrowEnd, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setGrowEnd, _godot_object, offset);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	void setThickness(in long thickness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setThickness, _godot_object, thickness);
+		ptrcall!(void)(GDNativeClassBinding.setThickness, _godot_object, thickness);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	void setVertical(in bool vertical)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertical, _godot_object, vertical);
+		ptrcall!(void)(GDNativeClassBinding.setVertical, _godot_object, vertical);
 	}
 	/**
 	The line's color.

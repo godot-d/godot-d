@@ -34,14 +34,14 @@ $(D PopupMenu) is a $(D Control) that displays a list of options. They are popul
 */
 @GodotBaseClass struct PopupMenu
 {
-	enum string _GODOT_internal_name = "PopupMenu";
+	package(godot) enum string _GODOT_internal_name = "PopupMenu";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Popup _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Popup _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_items") GodotMethod!(Array) _getItems;
@@ -111,10 +111,20 @@ public:
 		@GodotName("toggle_item_checked") GodotMethod!(void, long) toggleItemChecked;
 		@GodotName("toggle_item_multistate") GodotMethod!(void, long) toggleItemMultistate;
 	}
-	bool opEquals(in PopupMenu other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PopupMenu opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PopupMenu other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PopupMenu opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PopupMenu.
+	/// Note: use `memnew!PopupMenu` instead.
 	static PopupMenu _new()
 	{
 		static godot_class_constructor constructor;
@@ -169,7 +179,7 @@ public:
 	void addCheckItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCheckItem, _godot_object, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addCheckItem, _godot_object, label, id, accel);
 	}
 	/**
 	Adds a new checkable item and assigns the specified $(D ShortCut) to it. Sets the label of the checkbox to the $(D ShortCut)'s name.
@@ -179,7 +189,7 @@ public:
 	void addCheckShortcut(ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCheckShortcut, _godot_object, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addCheckShortcut, _godot_object, shortcut, id, global);
 	}
 	/**
 	Adds a new checkable item with text `label` and icon `texture`.
@@ -189,7 +199,7 @@ public:
 	void addIconCheckItem(Texture texture, in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconCheckItem, _godot_object, texture, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addIconCheckItem, _godot_object, texture, label, id, accel);
 	}
 	/**
 	Adds a new checkable item and assigns the specified $(D ShortCut) and icon `texture` to it. Sets the label of the checkbox to the $(D ShortCut)'s name.
@@ -199,7 +209,7 @@ public:
 	void addIconCheckShortcut(Texture texture, ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconCheckShortcut, _godot_object, texture, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addIconCheckShortcut, _godot_object, texture, shortcut, id, global);
 	}
 	/**
 	Adds a new item with text `label` and icon `texture`.
@@ -208,7 +218,7 @@ public:
 	void addIconItem(Texture texture, in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconItem, _godot_object, texture, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addIconItem, _godot_object, texture, label, id, accel);
 	}
 	/**
 	Same as $(D addIconCheckItem), but uses a radio check button.
@@ -216,7 +226,7 @@ public:
 	void addIconRadioCheckItem(Texture texture, in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconRadioCheckItem, _godot_object, texture, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addIconRadioCheckItem, _godot_object, texture, label, id, accel);
 	}
 	/**
 	Same as $(D addIconCheckShortcut), but uses a radio check button.
@@ -224,7 +234,7 @@ public:
 	void addIconRadioCheckShortcut(Texture texture, ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconRadioCheckShortcut, _godot_object, texture, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addIconRadioCheckShortcut, _godot_object, texture, shortcut, id, global);
 	}
 	/**
 	Adds a new item and assigns the specified $(D ShortCut) and icon `texture` to it. Sets the label of the checkbox to the $(D ShortCut)'s name.
@@ -233,7 +243,7 @@ public:
 	void addIconShortcut(Texture texture, ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconShortcut, _godot_object, texture, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addIconShortcut, _godot_object, texture, shortcut, id, global);
 	}
 	/**
 	Adds a new item with text `label`.
@@ -242,7 +252,7 @@ public:
 	void addItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addItem, _godot_object, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addItem, _godot_object, label, id, accel);
 	}
 	/**
 	Adds a new multistate item with text `label`.
@@ -252,7 +262,7 @@ public:
 	void addMultistateItem(in String label, in long max_states, in long default_state = 0, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addMultistateItem, _godot_object, label, max_states, default_state, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addMultistateItem, _godot_object, label, max_states, default_state, id, accel);
 	}
 	/**
 	Adds a new radio check button with text `label`.
@@ -262,7 +272,7 @@ public:
 	void addRadioCheckItem(in String label, in long id = -1, in long accel = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addRadioCheckItem, _godot_object, label, id, accel);
+		ptrcall!(void)(GDNativeClassBinding.addRadioCheckItem, _godot_object, label, id, accel);
 	}
 	/**
 	Adds a new radio check button and assigns a $(D ShortCut) to it. Sets the label of the checkbox to the $(D ShortCut)'s name.
@@ -272,7 +282,7 @@ public:
 	void addRadioCheckShortcut(ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addRadioCheckShortcut, _godot_object, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addRadioCheckShortcut, _godot_object, shortcut, id, global);
 	}
 	/**
 	Adds a separator between items. Separators also occupy an index.
@@ -280,7 +290,7 @@ public:
 	void addSeparator(in String label = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSeparator, _godot_object, label);
+		ptrcall!(void)(GDNativeClassBinding.addSeparator, _godot_object, label);
 	}
 	/**
 	Adds a $(D ShortCut).
@@ -289,7 +299,7 @@ public:
 	void addShortcut(ShortCut shortcut, in long id = -1, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addShortcut, _godot_object, shortcut, id, global);
+		ptrcall!(void)(GDNativeClassBinding.addShortcut, _godot_object, shortcut, id, global);
 	}
 	/**
 	Adds an item that will act as a submenu of the parent $(D PopupMenu) node when clicked. The `submenu` argument is the name of the child $(D PopupMenu) node that will be shown when the item is clicked.
@@ -298,7 +308,7 @@ public:
 	void addSubmenuItem(in String label, in String submenu, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSubmenuItem, _godot_object, label, submenu, id);
+		ptrcall!(void)(GDNativeClassBinding.addSubmenuItem, _godot_object, label, submenu, id);
 	}
 	/**
 	Removes all items from the $(D PopupMenu).
@@ -306,7 +316,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	
@@ -314,7 +324,7 @@ public:
 	bool getAllowSearch() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAllowSearch, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAllowSearch, _godot_object);
 	}
 	/**
 	Returns the accelerator of the item at index `idx`. Accelerators are special combinations of keys that activate the item, no matter which control is focused.
@@ -322,7 +332,7 @@ public:
 	long getItemAccelerator(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemAccelerator, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getItemAccelerator, _godot_object, idx);
 	}
 	/**
 	Returns the number of items in the $(D PopupMenu).
@@ -330,7 +340,7 @@ public:
 	long getItemCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getItemCount, _godot_object);
 	}
 	/**
 	Returns the icon of the item at index `idx`.
@@ -338,7 +348,7 @@ public:
 	Ref!Texture getItemIcon(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getItemIcon, _godot_object, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getItemIcon, _godot_object, idx);
 	}
 	/**
 	Returns the id of the item at index `idx`. `id` can be manually assigned, while index can not.
@@ -346,7 +356,7 @@ public:
 	long getItemId(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemId, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getItemId, _godot_object, idx);
 	}
 	/**
 	Returns the index of the item containing the specified `id`. Index is automatically assigned to each item by the engine. Index can not be set manually.
@@ -354,7 +364,7 @@ public:
 	long getItemIndex(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemIndex, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.getItemIndex, _godot_object, id);
 	}
 	/**
 	Returns the metadata of the specified item, which might be of any type. You can set it with $(D setItemMetadata), which provides a simple way of assigning context data to items.
@@ -362,7 +372,7 @@ public:
 	Variant getItemMetadata(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getItemMetadata, _godot_object, idx);
+		return ptrcall!(Variant)(GDNativeClassBinding.getItemMetadata, _godot_object, idx);
 	}
 	/**
 	Returns the $(D ShortCut) associated with the specified `idx` item.
@@ -370,7 +380,7 @@ public:
 	Ref!ShortCut getItemShortcut(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ShortCut)(_classBinding.getItemShortcut, _godot_object, idx);
+		return ptrcall!(ShortCut)(GDNativeClassBinding.getItemShortcut, _godot_object, idx);
 	}
 	/**
 	Returns the submenu name of the item at index `idx`. See $(D addSubmenuItem) for more info on how to add a submenu.
@@ -378,7 +388,7 @@ public:
 	String getItemSubmenu(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemSubmenu, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemSubmenu, _godot_object, idx);
 	}
 	/**
 	Returns the text of the item at index `idx`.
@@ -386,7 +396,7 @@ public:
 	String getItemText(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemText, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemText, _godot_object, idx);
 	}
 	/**
 	Returns the tooltip associated with the specified index index `idx`.
@@ -394,7 +404,7 @@ public:
 	String getItemTooltip(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemTooltip, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemTooltip, _godot_object, idx);
 	}
 	/**
 	
@@ -402,7 +412,7 @@ public:
 	double getSubmenuPopupDelay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSubmenuPopupDelay, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSubmenuPopupDelay, _godot_object);
 	}
 	/**
 	
@@ -410,7 +420,7 @@ public:
 	bool isHideOnCheckableItemSelection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHideOnCheckableItemSelection, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHideOnCheckableItemSelection, _godot_object);
 	}
 	/**
 	
@@ -418,7 +428,7 @@ public:
 	bool isHideOnItemSelection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHideOnItemSelection, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHideOnItemSelection, _godot_object);
 	}
 	/**
 	
@@ -426,7 +436,7 @@ public:
 	bool isHideOnStateItemSelection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHideOnStateItemSelection, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHideOnStateItemSelection, _godot_object);
 	}
 	/**
 	Returns `true` if the popup will be hidden when the window loses focus or not.
@@ -434,7 +444,7 @@ public:
 	bool isHideOnWindowLoseFocus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHideOnWindowLoseFocus, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHideOnWindowLoseFocus, _godot_object);
 	}
 	/**
 	Returns `true` if the item at index `idx` is checkable in some way, i.e. if it has a checkbox or radio button.
@@ -443,7 +453,7 @@ public:
 	bool isItemCheckable(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemCheckable, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemCheckable, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item at index `idx` is checked.
@@ -451,7 +461,7 @@ public:
 	bool isItemChecked(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemChecked, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemChecked, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item at index `idx` is disabled. When it is disabled it can't be selected, or its action invoked.
@@ -460,7 +470,7 @@ public:
 	bool isItemDisabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemDisabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemDisabled, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item at index `idx` has radio button-style checkability.
@@ -469,7 +479,7 @@ public:
 	bool isItemRadioCheckable(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemRadioCheckable, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemRadioCheckable, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item is a separator. If it is, it will be displayed as a line. See $(D addSeparator) for more info on how to add a separator.
@@ -477,7 +487,7 @@ public:
 	bool isItemSeparator(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemSeparator, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemSeparator, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the specified item's shortcut is disabled.
@@ -485,7 +495,7 @@ public:
 	bool isItemShortcutDisabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemShortcutDisabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemShortcutDisabled, _godot_object, idx);
 	}
 	/**
 	Removes the item at index `idx` from the menu.
@@ -494,7 +504,7 @@ public:
 	void removeItem(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeItem, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeItem, _godot_object, idx);
 	}
 	/**
 	
@@ -502,7 +512,7 @@ public:
 	void setAllowSearch(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowSearch, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowSearch, _godot_object, allow);
 	}
 	/**
 	
@@ -510,7 +520,7 @@ public:
 	void setHideOnCheckableItemSelection(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideOnCheckableItemSelection, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHideOnCheckableItemSelection, _godot_object, enable);
 	}
 	/**
 	
@@ -518,7 +528,7 @@ public:
 	void setHideOnItemSelection(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideOnItemSelection, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHideOnItemSelection, _godot_object, enable);
 	}
 	/**
 	
@@ -526,7 +536,7 @@ public:
 	void setHideOnStateItemSelection(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideOnStateItemSelection, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHideOnStateItemSelection, _godot_object, enable);
 	}
 	/**
 	Hides the $(D PopupMenu) when the window loses focus.
@@ -534,7 +544,7 @@ public:
 	void setHideOnWindowLoseFocus(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideOnWindowLoseFocus, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHideOnWindowLoseFocus, _godot_object, enable);
 	}
 	/**
 	Sets the accelerator of the item at index `idx`. Accelerators are special combinations of keys that activate the item, no matter which control is focused.
@@ -542,7 +552,7 @@ public:
 	void setItemAccelerator(in long idx, in long accel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemAccelerator, _godot_object, idx, accel);
+		ptrcall!(void)(GDNativeClassBinding.setItemAccelerator, _godot_object, idx, accel);
 	}
 	/**
 	Sets whether the item at index `idx` has a checkbox. If `false`, sets the type of the item to plain text.
@@ -551,7 +561,7 @@ public:
 	void setItemAsCheckable(in long idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemAsCheckable, _godot_object, idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setItemAsCheckable, _godot_object, idx, enable);
 	}
 	/**
 	Sets the type of the item at the specified index `idx` to radio button. If `false`, sets the type of the item to plain text.
@@ -559,7 +569,7 @@ public:
 	void setItemAsRadioCheckable(in long idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemAsRadioCheckable, _godot_object, idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setItemAsRadioCheckable, _godot_object, idx, enable);
 	}
 	/**
 	Mark the item at index `idx` as a separator, which means that it would be displayed as a line. If `false`, sets the type of the item to plain text.
@@ -567,7 +577,7 @@ public:
 	void setItemAsSeparator(in long idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemAsSeparator, _godot_object, idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setItemAsSeparator, _godot_object, idx, enable);
 	}
 	/**
 	Sets the checkstate status of the item at index `idx`.
@@ -575,7 +585,7 @@ public:
 	void setItemChecked(in long idx, in bool checked)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemChecked, _godot_object, idx, checked);
+		ptrcall!(void)(GDNativeClassBinding.setItemChecked, _godot_object, idx, checked);
 	}
 	/**
 	Enables/disables the item at index `idx`. When it is disabled, it can't be selected and its action can't be invoked.
@@ -583,7 +593,7 @@ public:
 	void setItemDisabled(in long idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemDisabled, _godot_object, idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setItemDisabled, _godot_object, idx, disabled);
 	}
 	/**
 	Replaces the $(D Texture) icon of the specified `idx`.
@@ -591,7 +601,7 @@ public:
 	void setItemIcon(in long idx, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIcon, _godot_object, idx, icon);
+		ptrcall!(void)(GDNativeClassBinding.setItemIcon, _godot_object, idx, icon);
 	}
 	/**
 	Sets the `id` of the item at index `idx`.
@@ -599,7 +609,7 @@ public:
 	void setItemId(in long idx, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemId, _godot_object, idx, id);
+		ptrcall!(void)(GDNativeClassBinding.setItemId, _godot_object, idx, id);
 	}
 	/**
 	Sets the metadata of an item, which may be of any type. You can later get it with $(D getItemMetadata), which provides a simple way of assigning context data to items.
@@ -607,7 +617,7 @@ public:
 	void setItemMetadata(VariantArg1)(in long idx, in VariantArg1 metadata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemMetadata, _godot_object, idx, metadata);
+		ptrcall!(void)(GDNativeClassBinding.setItemMetadata, _godot_object, idx, metadata);
 	}
 	/**
 	Sets the state of an multistate item. See $(D addMultistateItem) for details.
@@ -615,7 +625,7 @@ public:
 	void setItemMultistate(in long idx, in long state)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemMultistate, _godot_object, idx, state);
+		ptrcall!(void)(GDNativeClassBinding.setItemMultistate, _godot_object, idx, state);
 	}
 	/**
 	Sets a $(D ShortCut) for the specified item `idx`.
@@ -623,7 +633,7 @@ public:
 	void setItemShortcut(in long idx, ShortCut shortcut, in bool global = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemShortcut, _godot_object, idx, shortcut, global);
+		ptrcall!(void)(GDNativeClassBinding.setItemShortcut, _godot_object, idx, shortcut, global);
 	}
 	/**
 	Disables the $(D ShortCut) of the specified index `idx`.
@@ -631,7 +641,7 @@ public:
 	void setItemShortcutDisabled(in long idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemShortcutDisabled, _godot_object, idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setItemShortcutDisabled, _godot_object, idx, disabled);
 	}
 	/**
 	Sets the submenu of the item at index `idx`. The submenu is the name of a child $(D PopupMenu) node that would be shown when the item is clicked.
@@ -639,7 +649,7 @@ public:
 	void setItemSubmenu(in long idx, in String submenu)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemSubmenu, _godot_object, idx, submenu);
+		ptrcall!(void)(GDNativeClassBinding.setItemSubmenu, _godot_object, idx, submenu);
 	}
 	/**
 	Sets the text of the item at index `idx`.
@@ -647,7 +657,7 @@ public:
 	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);
+		ptrcall!(void)(GDNativeClassBinding.setItemText, _godot_object, idx, text);
 	}
 	/**
 	Sets the $(D String) tooltip of the item at the specified index `idx`.
@@ -655,7 +665,7 @@ public:
 	void setItemTooltip(in long idx, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemTooltip, _godot_object, idx, tooltip);
+		ptrcall!(void)(GDNativeClassBinding.setItemTooltip, _godot_object, idx, tooltip);
 	}
 	/**
 	
@@ -663,7 +673,7 @@ public:
 	void setSubmenuPopupDelay(in double seconds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubmenuPopupDelay, _godot_object, seconds);
+		ptrcall!(void)(GDNativeClassBinding.setSubmenuPopupDelay, _godot_object, seconds);
 	}
 	/**
 	Toggles the check state of the item of the specified index `idx`.
@@ -671,7 +681,7 @@ public:
 	void toggleItemChecked(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.toggleItemChecked, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.toggleItemChecked, _godot_object, idx);
 	}
 	/**
 	Cycle to the next state of an multistate item. See $(D addMultistateItem) for details.
@@ -679,7 +689,7 @@ public:
 	void toggleItemMultistate(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.toggleItemMultistate, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.toggleItemMultistate, _godot_object, idx);
 	}
 	/**
 	If `true`, allows to navigate $(D PopupMenu) with letter keys.

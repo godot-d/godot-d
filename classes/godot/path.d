@@ -30,24 +30,34 @@ Note that the path is considered as relative to the moved nodes (children of $(D
 */
 @GodotBaseClass struct Path
 {
-	enum string _GODOT_internal_name = "Path";
+	package(godot) enum string _GODOT_internal_name = "Path";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_curve_changed") GodotMethod!(void) _curveChanged;
 		@GodotName("get_curve") GodotMethod!(Curve3D) getCurve;
 		@GodotName("set_curve") GodotMethod!(void, Curve3D) setCurve;
 	}
-	bool opEquals(in Path other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Path opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Path other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Path opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Path.
+	/// Note: use `memnew!Path` instead.
 	static Path _new()
 	{
 		static godot_class_constructor constructor;
@@ -71,7 +81,7 @@ public:
 	Ref!Curve3D getCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve3D)(_classBinding.getCurve, _godot_object);
+		return ptrcall!(Curve3D)(GDNativeClassBinding.getCurve, _godot_object);
 	}
 	/**
 	
@@ -79,7 +89,7 @@ public:
 	void setCurve(Curve3D curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setCurve, _godot_object, curve);
 	}
 	/**
 	A $(D Curve3D) describing the path.

@@ -64,14 +64,14 @@ func _finalize():
 */
 @GodotBaseClass struct MainLoop
 {
-	enum string _GODOT_internal_name = "MainLoop";
+	package(godot) enum string _GODOT_internal_name = "MainLoop";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_drop_files") GodotMethod!(void, PoolStringArray, long) _dropFiles;
@@ -89,10 +89,20 @@ public:
 		@GodotName("input_text") GodotMethod!(void, String) inputText;
 		@GodotName("iteration") GodotMethod!(bool, double) iteration;
 	}
-	bool opEquals(in MainLoop other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MainLoop opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MainLoop other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MainLoop opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MainLoop.
+	/// Note: use `memnew!MainLoop` instead.
 	static MainLoop _new()
 	{
 		static godot_class_constructor constructor;
@@ -262,7 +272,7 @@ public:
 	void finish()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.finish, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.finish, _godot_object);
 	}
 	/**
 	Should not be called manually, override $(D _idle) instead. Will be removed in Godot 4.0.
@@ -270,7 +280,7 @@ public:
 	bool idle(in double delta)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.idle, _godot_object, delta);
+		return ptrcall!(bool)(GDNativeClassBinding.idle, _godot_object, delta);
 	}
 	/**
 	Should not be called manually, override $(D _initialize) instead. Will be removed in Godot 4.0.
@@ -278,7 +288,7 @@ public:
 	void _init()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding._init, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding._init, _godot_object);
 	}
 	/**
 	Should not be called manually, override $(D _inputEvent) instead. Will be removed in Godot 4.0.
@@ -286,7 +296,7 @@ public:
 	void inputEvent(InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.inputEvent, _godot_object, event);
+		ptrcall!(void)(GDNativeClassBinding.inputEvent, _godot_object, event);
 	}
 	/**
 	Should not be called manually, override $(D _inputText) instead. Will be removed in Godot 4.0.
@@ -294,7 +304,7 @@ public:
 	void inputText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.inputText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.inputText, _godot_object, text);
 	}
 	/**
 	Should not be called manually, override $(D _iteration) instead. Will be removed in Godot 4.0.
@@ -302,6 +312,6 @@ public:
 	bool iteration(in double delta)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.iteration, _godot_object, delta);
+		return ptrcall!(bool)(GDNativeClassBinding.iteration, _godot_object, delta);
 	}
 }

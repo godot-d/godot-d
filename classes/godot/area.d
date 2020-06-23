@@ -29,14 +29,14 @@ General-purpose area node for detection and 3D physics influence.
 */
 @GodotBaseClass struct Area
 {
-	enum string _GODOT_internal_name = "Area";
+	package(godot) enum string _GODOT_internal_name = "Area";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CollisionObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CollisionObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_area_enter_tree") GodotMethod!(void, long) _areaEnterTree;
@@ -90,10 +90,20 @@ public:
 		@GodotName("set_space_override_mode") GodotMethod!(void, long) setSpaceOverrideMode;
 		@GodotName("set_use_reverb_bus") GodotMethod!(void, bool) setUseReverbBus;
 	}
-	bool opEquals(in Area other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Area opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Area other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Area opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Area.
+	/// Note: use `memnew!Area` instead.
 	static Area _new()
 	{
 		static godot_class_constructor constructor;
@@ -209,7 +219,7 @@ public:
 	double getAngularDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAngularDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAngularDamp, _godot_object);
 	}
 	/**
 	
@@ -217,7 +227,7 @@ public:
 	String getAudioBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAudioBus, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAudioBus, _godot_object);
 	}
 	/**
 	
@@ -225,7 +235,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns an individual bit on the layer mask.
@@ -233,7 +243,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -241,7 +251,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns an individual bit on the collision mask.
@@ -249,7 +259,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -257,7 +267,7 @@ public:
 	double getGravity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGravity, _godot_object);
 	}
 	/**
 	
@@ -265,7 +275,7 @@ public:
 	double getGravityDistanceScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGravityDistanceScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGravityDistanceScale, _godot_object);
 	}
 	/**
 	
@@ -273,7 +283,7 @@ public:
 	Vector3 getGravityVector() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getGravityVector, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getGravityVector, _godot_object);
 	}
 	/**
 	
@@ -281,7 +291,7 @@ public:
 	double getLinearDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLinearDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLinearDamp, _godot_object);
 	}
 	/**
 	Returns a list of intersecting $(D Area)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
@@ -289,7 +299,7 @@ public:
 	Array getOverlappingAreas() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOverlappingAreas, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getOverlappingAreas, _godot_object);
 	}
 	/**
 	Returns a list of intersecting $(D PhysicsBody)s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
@@ -297,7 +307,7 @@ public:
 	Array getOverlappingBodies() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOverlappingBodies, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getOverlappingBodies, _godot_object);
 	}
 	/**
 	
@@ -305,7 +315,7 @@ public:
 	double getPriority() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPriority, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPriority, _godot_object);
 	}
 	/**
 	
@@ -313,7 +323,7 @@ public:
 	double getReverbAmount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getReverbAmount, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getReverbAmount, _godot_object);
 	}
 	/**
 	
@@ -321,7 +331,7 @@ public:
 	String getReverbBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getReverbBus, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getReverbBus, _godot_object);
 	}
 	/**
 	
@@ -329,7 +339,7 @@ public:
 	double getReverbUniformity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getReverbUniformity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getReverbUniformity, _godot_object);
 	}
 	/**
 	
@@ -337,7 +347,7 @@ public:
 	Area.SpaceOverride getSpaceOverrideMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Area.SpaceOverride)(_classBinding.getSpaceOverrideMode, _godot_object);
+		return ptrcall!(Area.SpaceOverride)(GDNativeClassBinding.getSpaceOverrideMode, _godot_object);
 	}
 	/**
 	
@@ -345,7 +355,7 @@ public:
 	bool isGravityAPoint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGravityAPoint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGravityAPoint, _godot_object);
 	}
 	/**
 	
@@ -353,7 +363,7 @@ public:
 	bool isMonitorable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMonitorable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isMonitorable, _godot_object);
 	}
 	/**
 	
@@ -361,7 +371,7 @@ public:
 	bool isMonitoring() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMonitoring, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isMonitoring, _godot_object);
 	}
 	/**
 	
@@ -369,7 +379,7 @@ public:
 	bool isOverridingAudioBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingAudioBus, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOverridingAudioBus, _godot_object);
 	}
 	/**
 	
@@ -377,7 +387,7 @@ public:
 	bool isUsingReverbBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingReverbBus, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingReverbBus, _godot_object);
 	}
 	/**
 	If `true`, the given area overlaps the Area.
@@ -386,7 +396,7 @@ public:
 	bool overlapsArea(Node area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.overlapsArea, _godot_object, area);
+		return ptrcall!(bool)(GDNativeClassBinding.overlapsArea, _godot_object, area);
 	}
 	/**
 	If `true`, the given physics body overlaps the Area.
@@ -396,7 +406,7 @@ public:
 	bool overlapsBody(Node _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.overlapsBody, _godot_object, _body);
+		return ptrcall!(bool)(GDNativeClassBinding.overlapsBody, _godot_object, _body);
 	}
 	/**
 	
@@ -404,7 +414,7 @@ public:
 	void setAngularDamp(in double angular_damp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularDamp, _godot_object, angular_damp);
+		ptrcall!(void)(GDNativeClassBinding.setAngularDamp, _godot_object, angular_damp);
 	}
 	/**
 	
@@ -412,7 +422,7 @@ public:
 	void setAudioBus(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAudioBus, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setAudioBus, _godot_object, name);
 	}
 	/**
 	
@@ -420,7 +430,7 @@ public:
 	void setAudioBusOverride(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAudioBusOverride, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAudioBusOverride, _godot_object, enable);
 	}
 	/**
 	
@@ -428,7 +438,7 @@ public:
 	void setCollisionLayer(in long collision_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, collision_layer);
 	}
 	/**
 	Set/clear individual bits on the layer mask. This simplifies editing this $(D Area)'s layers.
@@ -436,7 +446,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -444,7 +454,7 @@ public:
 	void setCollisionMask(in long collision_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, collision_mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, collision_mask);
 	}
 	/**
 	Set/clear individual bits on the collision mask. This simplifies editing which $(D Area) layers this $(D Area) scans.
@@ -452,7 +462,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -460,7 +470,7 @@ public:
 	void setGravity(in double gravity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravity, _godot_object, gravity);
+		ptrcall!(void)(GDNativeClassBinding.setGravity, _godot_object, gravity);
 	}
 	/**
 	
@@ -468,7 +478,7 @@ public:
 	void setGravityDistanceScale(in double distance_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityDistanceScale, _godot_object, distance_scale);
+		ptrcall!(void)(GDNativeClassBinding.setGravityDistanceScale, _godot_object, distance_scale);
 	}
 	/**
 	
@@ -476,7 +486,7 @@ public:
 	void setGravityIsPoint(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityIsPoint, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setGravityIsPoint, _godot_object, enable);
 	}
 	/**
 	
@@ -484,7 +494,7 @@ public:
 	void setGravityVector(in Vector3 vector)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravityVector, _godot_object, vector);
+		ptrcall!(void)(GDNativeClassBinding.setGravityVector, _godot_object, vector);
 	}
 	/**
 	
@@ -492,7 +502,7 @@ public:
 	void setLinearDamp(in double linear_damp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearDamp, _godot_object, linear_damp);
+		ptrcall!(void)(GDNativeClassBinding.setLinearDamp, _godot_object, linear_damp);
 	}
 	/**
 	
@@ -500,7 +510,7 @@ public:
 	void setMonitorable(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMonitorable, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setMonitorable, _godot_object, enable);
 	}
 	/**
 	
@@ -508,7 +518,7 @@ public:
 	void setMonitoring(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMonitoring, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setMonitoring, _godot_object, enable);
 	}
 	/**
 	
@@ -516,7 +526,7 @@ public:
 	void setPriority(in double priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPriority, _godot_object, priority);
+		ptrcall!(void)(GDNativeClassBinding.setPriority, _godot_object, priority);
 	}
 	/**
 	
@@ -524,7 +534,7 @@ public:
 	void setReverbAmount(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReverbAmount, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setReverbAmount, _godot_object, amount);
 	}
 	/**
 	
@@ -532,7 +542,7 @@ public:
 	void setReverbBus(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReverbBus, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setReverbBus, _godot_object, name);
 	}
 	/**
 	
@@ -540,7 +550,7 @@ public:
 	void setReverbUniformity(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReverbUniformity, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setReverbUniformity, _godot_object, amount);
 	}
 	/**
 	
@@ -548,7 +558,7 @@ public:
 	void setSpaceOverrideMode(in long enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpaceOverrideMode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSpaceOverrideMode, _godot_object, enable);
 	}
 	/**
 	
@@ -556,7 +566,7 @@ public:
 	void setUseReverbBus(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseReverbBus, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseReverbBus, _godot_object, enable);
 	}
 	/**
 	The rate at which objects stop spinning in this area. Represents the angular velocity lost per second. Values range from `0` (no damping) to `1` (full damping).

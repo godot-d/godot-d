@@ -32,36 +32,38 @@ $(B Note:) The node doesn't need to own itself.
 $(B Example of saving a node with different owners:) The following example creates 3 objects: `Node2D` (`node`), `RigidBody2D` (`rigid`) and `CollisionObject2D` (`collision`). `collision` is a child of `rigid` which is a child of `node`. Only `rigid` is owned by `node` and `pack` will therefore only save those two nodes, but not `collision`.
 
 
-# Create the objects
+# Create the objects.
 var node = Node2D.new()
 var rigid = RigidBody2D.new()
 var collision = CollisionShape2D.new()
 
-# Create the object hierarchy
+# Create the object hierarchy.
 rigid.add_child(collision)
 node.add_child(rigid)
 
-# Change owner of rigid, but not of collision
+# Change owner of `rigid`, but not of `collision`.
 rigid.owner = node
 
 var scene = PackedScene.new()
-# Only node and rigid are now packed
+# Only `node` and `rigid` are now packed.
 var result = scene.pack(node)
 if result == OK:
-    ResourceSaver.save("res://path/name.scn", scene) # Or "user://..."
+    var error = ResourceSaver.save("res://path/name.scn", scene)  # Or "user://..."
+    if error != OK:
+        push_error("An error occurred while saving the scene to disk.")
 
 
 */
 @GodotBaseClass struct PackedScene
 {
-	enum string _GODOT_internal_name = "PackedScene";
+	package(godot) enum string _GODOT_internal_name = "PackedScene";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_bundled_scene") GodotMethod!(Dictionary) _getBundledScene;
@@ -71,10 +73,20 @@ public:
 		@GodotName("instance") GodotMethod!(Node, long) instance;
 		@GodotName("pack") GodotMethod!(GodotError, Node) pack;
 	}
-	bool opEquals(in PackedScene other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PackedScene opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PackedScene other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PackedScene opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PackedScene.
+	/// Note: use `memnew!PackedScene` instead.
 	static PackedScene _new()
 	{
 		static godot_class_constructor constructor;
@@ -133,7 +145,7 @@ public:
 	bool canInstance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canInstance, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.canInstance, _godot_object);
 	}
 	/**
 	Returns the `SceneState` representing the scene file contents.
@@ -141,7 +153,7 @@ public:
 	Ref!SceneState getState()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SceneState)(_classBinding.getState, _godot_object);
+		return ptrcall!(SceneState)(GDNativeClassBinding.getState, _godot_object);
 	}
 	/**
 	Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers a $(D constant Node.NOTIFICATION_INSTANCED) notification on the root node.
@@ -149,7 +161,7 @@ public:
 	Node instance(in long edit_state = 0) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.instance, _godot_object, edit_state);
+		return ptrcall!(Node)(GDNativeClassBinding.instance, _godot_object, edit_state);
 	}
 	/**
 	Pack will ignore any sub-nodes not owned by given node. See $(D Node.owner).
@@ -157,7 +169,7 @@ public:
 	GodotError pack(Node path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.pack, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.pack, _godot_object, path);
 	}
 	/**
 	A dictionary representation of the scene contents.

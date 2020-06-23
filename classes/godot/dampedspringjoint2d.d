@@ -28,14 +28,14 @@ This resembles a spring joint that always wants to go back to a given length.
 */
 @GodotBaseClass struct DampedSpringJoint2D
 {
-	enum string _GODOT_internal_name = "DampedSpringJoint2D";
+	package(godot) enum string _GODOT_internal_name = "DampedSpringJoint2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Joint2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Joint2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_damping") GodotMethod!(double) getDamping;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_rest_length") GodotMethod!(void, double) setRestLength;
 		@GodotName("set_stiffness") GodotMethod!(void, double) setStiffness;
 	}
-	bool opEquals(in DampedSpringJoint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	DampedSpringJoint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in DampedSpringJoint2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) DampedSpringJoint2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of DampedSpringJoint2D.
+	/// Note: use `memnew!DampedSpringJoint2D` instead.
 	static DampedSpringJoint2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	double getDamping() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDamping, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDamping, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	double getLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLength, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	double getRestLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRestLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRestLength, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	double getStiffness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStiffness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStiffness, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	void setDamping(in double damping)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDamping, _godot_object, damping);
+		ptrcall!(void)(GDNativeClassBinding.setDamping, _godot_object, damping);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	void setLength(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLength, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setLength, _godot_object, length);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	void setRestLength(in double rest_length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRestLength, _godot_object, rest_length);
+		ptrcall!(void)(GDNativeClassBinding.setRestLength, _godot_object, rest_length);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	void setStiffness(in double stiffness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStiffness, _godot_object, stiffness);
+		ptrcall!(void)(GDNativeClassBinding.setStiffness, _godot_object, stiffness);
 	}
 	/**
 	The spring joint's damping ratio. A value between `0` and `1`. When the two bodies move into different directions the system tries to align them to the spring axis again. A high `damping` value forces the attached bodies to align faster.

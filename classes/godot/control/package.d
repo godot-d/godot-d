@@ -41,14 +41,14 @@ $(D Theme) resources change the Control's appearance. If you change the $(D Them
 */
 @GodotBaseClass struct Control
 {
-	enum string _GODOT_internal_name = "Control";
+	package(godot) enum string _GODOT_internal_name = "Control";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CanvasItem _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CanvasItem _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_clips_input") GodotMethod!(bool) _clipsInput;
@@ -166,10 +166,20 @@ public:
 		@GodotName("show_modal") GodotMethod!(void, bool) showModal;
 		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
 	}
-	bool opEquals(in Control other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Control opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Control other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Control opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Control.
+	/// Note: use `memnew!Control` instead.
 	static Control _new()
 	{
 		static godot_class_constructor constructor;
@@ -682,7 +692,7 @@ public:
 	void acceptEvent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.acceptEvent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.acceptEvent, _godot_object);
 	}
 	/**
 	Overrides the $(D Color) with given `name` in the $(D theme) resource the control uses. If the `color` is empty or invalid, the override is cleared and the color from assigned $(D Theme) is used.
@@ -690,7 +700,7 @@ public:
 	void addColorOverride(in String name, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addColorOverride, _godot_object, name, color);
+		ptrcall!(void)(GDNativeClassBinding.addColorOverride, _godot_object, name, color);
 	}
 	/**
 	Overrides an integer constant with given `name` in the $(D theme) resource the control uses. If the `constant` is empty or invalid, the override is cleared and the constant from assigned $(D Theme) is used.
@@ -698,7 +708,7 @@ public:
 	void addConstantOverride(in String name, in long constant)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addConstantOverride, _godot_object, name, constant);
+		ptrcall!(void)(GDNativeClassBinding.addConstantOverride, _godot_object, name, constant);
 	}
 	/**
 	Overrides the font with given `name` in the $(D theme) resource the control uses. If `font` is empty or invalid, the override is cleared and the font from assigned $(D Theme) is used.
@@ -706,7 +716,7 @@ public:
 	void addFontOverride(in String name, Font font)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFontOverride, _godot_object, name, font);
+		ptrcall!(void)(GDNativeClassBinding.addFontOverride, _godot_object, name, font);
 	}
 	/**
 	Overrides the icon with given `name` in the $(D theme) resource the control uses. If `icon` is empty or invalid, the override is cleared and the icon from assigned $(D Theme) is used.
@@ -714,7 +724,7 @@ public:
 	void addIconOverride(in String name, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconOverride, _godot_object, name, texture);
+		ptrcall!(void)(GDNativeClassBinding.addIconOverride, _godot_object, name, texture);
 	}
 	/**
 	Overrides the $(D Shader) with given `name` in the $(D theme) resource the control uses. If `shader` is empty or invalid, the override is cleared and the shader from assigned $(D Theme) is used.
@@ -722,7 +732,7 @@ public:
 	void addShaderOverride(in String name, Shader shader)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addShaderOverride, _godot_object, name, shader);
+		ptrcall!(void)(GDNativeClassBinding.addShaderOverride, _godot_object, name, shader);
 	}
 	/**
 	Overrides the $(D StyleBox) with given `name` in the $(D theme) resource the control uses. If `stylebox` is empty or invalid, the override is cleared and the $(D StyleBox) from assigned $(D Theme) is used.
@@ -730,7 +740,7 @@ public:
 	void addStyleboxOverride(in String name, StyleBox stylebox)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addStyleboxOverride, _godot_object, name, stylebox);
+		ptrcall!(void)(GDNativeClassBinding.addStyleboxOverride, _godot_object, name, stylebox);
 	}
 	/**
 	Godot calls this method to test if `data` from a control's $(D getDragData) can be dropped at `position`. `position` is local to this control.
@@ -779,7 +789,7 @@ public:
 	void forceDrag(VariantArg0)(in VariantArg0 data, Control preview)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceDrag, _godot_object, data, preview);
+		ptrcall!(void)(GDNativeClassBinding.forceDrag, _godot_object, data, preview);
 	}
 	/**
 	Returns the anchor identified by `margin` constant from $(D margin) enum. A getter method for $(D anchorBottom), $(D anchorLeft), $(D anchorRight) and $(D anchorTop).
@@ -787,7 +797,7 @@ public:
 	double getAnchor(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAnchor, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getAnchor, _godot_object, margin);
 	}
 	/**
 	Returns $(D marginLeft) and $(D marginTop). See also $(D rectPosition).
@@ -795,7 +805,7 @@ public:
 	Vector2 getBegin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getBegin, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getBegin, _godot_object);
 	}
 	/**
 	Returns a color from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
@@ -809,7 +819,7 @@ public:
 	Color getColor(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object, name, type);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, name, type);
 	}
 	/**
 	Returns combined minimum size from $(D rectMinSize) and $(D getMinimumSize).
@@ -817,7 +827,7 @@ public:
 	Vector2 getCombinedMinimumSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCombinedMinimumSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCombinedMinimumSize, _godot_object);
 	}
 	/**
 	Returns a constant from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
@@ -825,7 +835,7 @@ public:
 	long getConstant(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConstant, _godot_object, name, type);
+		return ptrcall!(long)(GDNativeClassBinding.getConstant, _godot_object, name, type);
 	}
 	/**
 	Returns the mouse cursor shape the control displays on mouse hover. See $(D cursorshape).
@@ -833,7 +843,7 @@ public:
 	Control.CursorShape getCursorShape(in Vector2 position = Vector2(0, 0)) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.CursorShape)(_classBinding.getCursorShape, _godot_object, position);
+		return ptrcall!(Control.CursorShape)(GDNativeClassBinding.getCursorShape, _godot_object, position);
 	}
 	/**
 	
@@ -841,7 +851,7 @@ public:
 	Vector2 getCustomMinimumSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCustomMinimumSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCustomMinimumSize, _godot_object);
 	}
 	/**
 	
@@ -849,7 +859,7 @@ public:
 	Control.CursorShape getDefaultCursorShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.CursorShape)(_classBinding.getDefaultCursorShape, _godot_object);
+		return ptrcall!(Control.CursorShape)(GDNativeClassBinding.getDefaultCursorShape, _godot_object);
 	}
 	/**
 	Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Returns `null` if there is no data to drag. Controls that want to receive drop data should implement $(D canDropData) and $(D dropData). `position` is local to this control. Drag may be forced with $(D forceDrag).
@@ -876,7 +886,7 @@ public:
 	Vector2 getEnd() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getEnd, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getEnd, _godot_object);
 	}
 	/**
 	
@@ -884,7 +894,7 @@ public:
 	Control.FocusMode getFocusMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.FocusMode)(_classBinding.getFocusMode, _godot_object);
+		return ptrcall!(Control.FocusMode)(GDNativeClassBinding.getFocusMode, _godot_object);
 	}
 	/**
 	Returns the focus neighbour identified by `margin` constant from $(D margin) enum. A getter method for $(D focusNeighbourBottom), $(D focusNeighbourLeft), $(D focusNeighbourRight) and $(D focusNeighbourTop).
@@ -892,7 +902,7 @@ public:
 	NodePath getFocusNeighbour(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusNeighbour, _godot_object, margin);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getFocusNeighbour, _godot_object, margin);
 	}
 	/**
 	
@@ -900,7 +910,7 @@ public:
 	NodePath getFocusNext() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusNext, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getFocusNext, _godot_object);
 	}
 	/**
 	Returns the control that has the keyboard focus or `null` if none.
@@ -908,7 +918,7 @@ public:
 	Control getFocusOwner() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getFocusOwner, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getFocusOwner, _godot_object);
 	}
 	/**
 	
@@ -916,7 +926,7 @@ public:
 	NodePath getFocusPrevious() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getFocusPrevious, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getFocusPrevious, _godot_object);
 	}
 	/**
 	Returns a font from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
@@ -924,7 +934,7 @@ public:
 	Ref!Font getFont(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Font)(_classBinding.getFont, _godot_object, name, type);
+		return ptrcall!(Font)(GDNativeClassBinding.getFont, _godot_object, name, type);
 	}
 	/**
 	
@@ -932,7 +942,7 @@ public:
 	Vector2 getGlobalPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGlobalPosition, _godot_object);
 	}
 	/**
 	Returns the position and size of the control relative to the top-left corner of the screen. See $(D rectPosition) and $(D rectSize).
@@ -940,7 +950,7 @@ public:
 	Rect2 getGlobalRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getGlobalRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getGlobalRect, _godot_object);
 	}
 	/**
 	
@@ -948,7 +958,7 @@ public:
 	Control.GrowDirection getHGrowDirection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.GrowDirection)(_classBinding.getHGrowDirection, _godot_object);
+		return ptrcall!(Control.GrowDirection)(GDNativeClassBinding.getHGrowDirection, _godot_object);
 	}
 	/**
 	
@@ -956,7 +966,7 @@ public:
 	long getHSizeFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHSizeFlags, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHSizeFlags, _godot_object);
 	}
 	/**
 	Returns an icon from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
@@ -964,7 +974,7 @@ public:
 	Ref!Texture getIcon(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, name, type);
+		return ptrcall!(Texture)(GDNativeClassBinding.getIcon, _godot_object, name, type);
 	}
 	/**
 	Returns the anchor identified by `margin` constant from $(D margin) enum. A getter method for $(D marginBottom), $(D marginLeft), $(D marginRight) and $(D marginTop).
@@ -972,7 +982,7 @@ public:
 	double getMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object, margin);
 	}
 	/**
 	Returns the minimum size for this control. See $(D rectMinSize).
@@ -980,7 +990,7 @@ public:
 	Vector2 getMinimumSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMinimumSize, _godot_object);
 	}
 	/**
 	
@@ -988,7 +998,7 @@ public:
 	Control.MouseFilter getMouseFilter() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.MouseFilter)(_classBinding.getMouseFilter, _godot_object);
+		return ptrcall!(Control.MouseFilter)(GDNativeClassBinding.getMouseFilter, _godot_object);
 	}
 	/**
 	Returns the width/height occupied in the parent control.
@@ -996,7 +1006,7 @@ public:
 	Vector2 getParentAreaSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getParentAreaSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getParentAreaSize, _godot_object);
 	}
 	/**
 	Returns the parent control node.
@@ -1004,7 +1014,7 @@ public:
 	Control getParentControl() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getParentControl, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getParentControl, _godot_object);
 	}
 	/**
 	
@@ -1012,7 +1022,7 @@ public:
 	Vector2 getPivotOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPivotOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPivotOffset, _godot_object);
 	}
 	/**
 	
@@ -1020,7 +1030,7 @@ public:
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	Returns the position and size of the control relative to the top-left corner of the parent Control. See $(D rectPosition) and $(D rectSize).
@@ -1028,7 +1038,7 @@ public:
 	Rect2 getRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRect, _godot_object);
 	}
 	/**
 	Returns the rotation (in radians).
@@ -1036,7 +1046,7 @@ public:
 	double getRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotation, _godot_object);
 	}
 	/**
 	
@@ -1044,7 +1054,7 @@ public:
 	double getRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotationDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -1052,7 +1062,7 @@ public:
 	Vector2 getScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScale, _godot_object);
 	}
 	/**
 	
@@ -1060,7 +1070,7 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -1068,7 +1078,7 @@ public:
 	double getStretchRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStretchRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStretchRatio, _godot_object);
 	}
 	/**
 	Returns a $(D StyleBox) from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
@@ -1076,7 +1086,7 @@ public:
 	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StyleBox)(_classBinding.getStylebox, _godot_object, name, type);
+		return ptrcall!(StyleBox)(GDNativeClassBinding.getStylebox, _godot_object, name, type);
 	}
 	/**
 	
@@ -1084,7 +1094,7 @@ public:
 	Ref!Theme getTheme() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Theme)(_classBinding.getTheme, _godot_object);
+		return ptrcall!(Theme)(GDNativeClassBinding.getTheme, _godot_object);
 	}
 	/**
 	Returns the tooltip, which will appear when the cursor is resting over this control. See $(D hintTooltip).
@@ -1092,7 +1102,7 @@ public:
 	String getTooltip(in Vector2 at_position = Vector2(0, 0)) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTooltip, _godot_object, at_position);
+		return ptrcall!(String)(GDNativeClassBinding.getTooltip, _godot_object, at_position);
 	}
 	/**
 	
@@ -1100,7 +1110,7 @@ public:
 	Control.GrowDirection getVGrowDirection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.GrowDirection)(_classBinding.getVGrowDirection, _godot_object);
+		return ptrcall!(Control.GrowDirection)(GDNativeClassBinding.getVGrowDirection, _godot_object);
 	}
 	/**
 	
@@ -1108,7 +1118,7 @@ public:
 	long getVSizeFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVSizeFlags, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVSizeFlags, _godot_object);
 	}
 	/**
 	Creates an $(D InputEventMouseButton) that attempts to click the control. If the event is received, the control acquires focus.
@@ -1122,7 +1132,7 @@ public:
 	void grabClickFocus()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.grabClickFocus, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.grabClickFocus, _godot_object);
 	}
 	/**
 	Steal the focus from another control and become the focused control (see $(D focusMode)).
@@ -1130,7 +1140,7 @@ public:
 	void grabFocus()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.grabFocus, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.grabFocus, _godot_object);
 	}
 	/**
 	Returns `true` if $(D Color) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
@@ -1138,7 +1148,7 @@ public:
 	bool hasColor(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasColor, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasColor, _godot_object, name, type);
 	}
 	/**
 	Returns `true` if $(D Color) with given `name` has a valid override in this $(D Control) node.
@@ -1146,7 +1156,7 @@ public:
 	bool hasColorOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasColorOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasColorOverride, _godot_object, name);
 	}
 	/**
 	Returns `true` if constant with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
@@ -1154,7 +1164,7 @@ public:
 	bool hasConstant(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasConstant, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasConstant, _godot_object, name, type);
 	}
 	/**
 	Returns `true` if constant with given `name` has a valid override in this $(D Control) node.
@@ -1162,7 +1172,7 @@ public:
 	bool hasConstantOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasConstantOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasConstantOverride, _godot_object, name);
 	}
 	/**
 	Returns `true` if this is the current focused control. See $(D focusMode).
@@ -1170,7 +1180,7 @@ public:
 	bool hasFocus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFocus, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFocus, _godot_object);
 	}
 	/**
 	Returns `true` if font with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
@@ -1178,7 +1188,7 @@ public:
 	bool hasFont(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFont, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFont, _godot_object, name, type);
 	}
 	/**
 	Returns `true` if font with given `name` has a valid override in this $(D Control) node.
@@ -1186,7 +1196,7 @@ public:
 	bool hasFontOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFontOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFontOverride, _godot_object, name);
 	}
 	/**
 	Returns `true` if icon with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
@@ -1194,7 +1204,7 @@ public:
 	bool hasIcon(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasIcon, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasIcon, _godot_object, name, type);
 	}
 	/**
 	Returns `true` if icon with given `name` has a valid override in this $(D Control) node.
@@ -1202,7 +1212,7 @@ public:
 	bool hasIconOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasIconOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasIconOverride, _godot_object, name);
 	}
 	/**
 	Virtual method to be implemented by the user. Returns whether the given `point` is inside this control.
@@ -1222,7 +1232,7 @@ public:
 	bool hasShaderOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasShaderOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasShaderOverride, _godot_object, name);
 	}
 	/**
 	Returns `true` if $(D StyleBox) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
@@ -1230,7 +1240,7 @@ public:
 	bool hasStylebox(in String name, in String type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasStylebox, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasStylebox, _godot_object, name, type);
 	}
 	/**
 	Returns `true` if $(D StyleBox) with given `name` has a valid override in this $(D Control) node.
@@ -1238,7 +1248,7 @@ public:
 	bool hasStyleboxOverride(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasStyleboxOverride, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasStyleboxOverride, _godot_object, name);
 	}
 	/**
 	
@@ -1246,7 +1256,7 @@ public:
 	bool isClippingContents()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClippingContents, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isClippingContents, _godot_object);
 	}
 	/**
 	Invalidates the size cache in this node and in parent nodes up to toplevel. Intended to be used with $(D getMinimumSize) when the return value is changed. Setting $(D rectMinSize) directly calls this method automatically.
@@ -1254,7 +1264,7 @@ public:
 	void minimumSizeChanged()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.minimumSizeChanged, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.minimumSizeChanged, _godot_object);
 	}
 	/**
 	Give up the focus. No other control will be able to receive keyboard input.
@@ -1262,7 +1272,7 @@ public:
 	void releaseFocus()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.releaseFocus, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.releaseFocus, _godot_object);
 	}
 	/**
 	Sets the anchor identified by `margin` constant from $(D margin) enum to value `anchor`. A setter method for $(D anchorBottom), $(D anchorLeft), $(D anchorRight) and $(D anchorTop).
@@ -1272,7 +1282,7 @@ public:
 	void setAnchor(in long margin, in double anchor, in bool keep_margin = false, in bool push_opposite_anchor = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
+		ptrcall!(void)(GDNativeClassBinding.setAnchor, _godot_object, margin, anchor, keep_margin, push_opposite_anchor);
 	}
 	/**
 	Works the same as $(D setAnchor), but instead of `keep_margin` argument and automatic update of margin, it allows to set the margin offset yourself (see $(D setMargin)).
@@ -1280,7 +1290,7 @@ public:
 	void setAnchorAndMargin(in long margin, in double anchor, in double offset, in bool push_opposite_anchor = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorAndMargin, _godot_object, margin, anchor, offset, push_opposite_anchor);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorAndMargin, _godot_object, margin, anchor, offset, push_opposite_anchor);
 	}
 	/**
 	Sets both anchor preset and margin preset. See $(D setAnchorsPreset) and $(D setMarginsPreset).
@@ -1288,7 +1298,7 @@ public:
 	void setAnchorsAndMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
 	/**
 	Sets the anchors to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
@@ -1297,7 +1307,7 @@ public:
 	void setAnchorsPreset(in long preset, in bool keep_margins = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorsPreset, _godot_object, preset, keep_margins);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorsPreset, _godot_object, preset, keep_margins);
 	}
 	/**
 	Sets $(D marginLeft) and $(D marginTop) at the same time. Equivalent of changing $(D rectPosition).
@@ -1305,7 +1315,7 @@ public:
 	void setBegin(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBegin, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setBegin, _godot_object, position);
 	}
 	/**
 	
@@ -1313,7 +1323,7 @@ public:
 	void setClipContents(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipContents, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setClipContents, _godot_object, enable);
 	}
 	/**
 	
@@ -1321,7 +1331,7 @@ public:
 	void setCustomMinimumSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomMinimumSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setCustomMinimumSize, _godot_object, size);
 	}
 	/**
 	
@@ -1329,7 +1339,7 @@ public:
 	void setDefaultCursorShape(in long shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultCursorShape, _godot_object, shape);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultCursorShape, _godot_object, shape);
 	}
 	/**
 	Forwards the handling of this control's drag and drop to `target` control.
@@ -1360,7 +1370,7 @@ public:
 	void setDragForwarding(Control target)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragForwarding, _godot_object, target);
+		ptrcall!(void)(GDNativeClassBinding.setDragForwarding, _godot_object, target);
 	}
 	/**
 	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData). The control must not be in the scene tree.
@@ -1381,7 +1391,7 @@ public:
 	void setDragPreview(Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragPreview, _godot_object, control);
+		ptrcall!(void)(GDNativeClassBinding.setDragPreview, _godot_object, control);
 	}
 	/**
 	Sets $(D marginRight) and $(D marginBottom) at the same time.
@@ -1389,7 +1399,7 @@ public:
 	void setEnd(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnd, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setEnd, _godot_object, position);
 	}
 	/**
 	
@@ -1397,7 +1407,7 @@ public:
 	void setFocusMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setFocusMode, _godot_object, mode);
 	}
 	/**
 	Sets the anchor identified by `margin` constant from $(D margin) enum to $(D Control) at `neighbor` node path. A setter method for $(D focusNeighbourBottom), $(D focusNeighbourLeft), $(D focusNeighbourRight) and $(D focusNeighbourTop).
@@ -1405,7 +1415,7 @@ public:
 	void setFocusNeighbour(NodePathArg1)(in long margin, in NodePathArg1 neighbour)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusNeighbour, _godot_object, margin, neighbour);
+		ptrcall!(void)(GDNativeClassBinding.setFocusNeighbour, _godot_object, margin, neighbour);
 	}
 	/**
 	
@@ -1413,7 +1423,7 @@ public:
 	void setFocusNext(NodePathArg0)(in NodePathArg0 next)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusNext, _godot_object, next);
+		ptrcall!(void)(GDNativeClassBinding.setFocusNext, _godot_object, next);
 	}
 	/**
 	
@@ -1421,7 +1431,7 @@ public:
 	void setFocusPrevious(NodePathArg0)(in NodePathArg0 previous)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFocusPrevious, _godot_object, previous);
+		ptrcall!(void)(GDNativeClassBinding.setFocusPrevious, _godot_object, previous);
 	}
 	/**
 	Sets the $(D rectGlobalPosition) to given `position`.
@@ -1430,7 +1440,7 @@ public:
 	void setGlobalPosition(in Vector2 position, in bool keep_margins = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, position, keep_margins);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalPosition, _godot_object, position, keep_margins);
 	}
 	/**
 	
@@ -1438,7 +1448,7 @@ public:
 	void setHGrowDirection(in long direction)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHGrowDirection, _godot_object, direction);
+		ptrcall!(void)(GDNativeClassBinding.setHGrowDirection, _godot_object, direction);
 	}
 	/**
 	
@@ -1446,7 +1456,7 @@ public:
 	void setHSizeFlags(in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHSizeFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.setHSizeFlags, _godot_object, flags);
 	}
 	/**
 	Sets the margin identified by `margin` constant from $(D margin) enum to given `offset`. A setter method for $(D marginBottom), $(D marginLeft), $(D marginRight) and $(D marginTop).
@@ -1454,7 +1464,7 @@ public:
 	void setMargin(in long margin, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin, offset);
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin, offset);
 	}
 	/**
 	Sets the margins to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
@@ -1464,7 +1474,7 @@ public:
 	void setMarginsPreset(in long preset, in long resize_mode = 0, in long margin = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMarginsPreset, _godot_object, preset, resize_mode, margin);
+		ptrcall!(void)(GDNativeClassBinding.setMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
 	/**
 	
@@ -1472,7 +1482,7 @@ public:
 	void setMouseFilter(in long filter)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMouseFilter, _godot_object, filter);
+		ptrcall!(void)(GDNativeClassBinding.setMouseFilter, _godot_object, filter);
 	}
 	/**
 	
@@ -1480,7 +1490,7 @@ public:
 	void setPivotOffset(in Vector2 pivot_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPivotOffset, _godot_object, pivot_offset);
+		ptrcall!(void)(GDNativeClassBinding.setPivotOffset, _godot_object, pivot_offset);
 	}
 	/**
 	Sets the $(D rectPosition) to given `position`.
@@ -1489,7 +1499,7 @@ public:
 	void setPosition(in Vector2 position, in bool keep_margins = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position, keep_margins);
+		ptrcall!(void)(GDNativeClassBinding.setPosition, _godot_object, position, keep_margins);
 	}
 	/**
 	Sets the rotation (in radians).
@@ -1497,7 +1507,7 @@ public:
 	void setRotation(in double radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
+		ptrcall!(void)(GDNativeClassBinding.setRotation, _godot_object, radians);
 	}
 	/**
 	
@@ -1505,7 +1515,7 @@ public:
 	void setRotationDegrees(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setRotationDegrees, _godot_object, degrees);
 	}
 	/**
 	
@@ -1513,7 +1523,7 @@ public:
 	void setScale(in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setScale, _godot_object, scale);
 	}
 	/**
 	Sets the size (see $(D rectSize)).
@@ -1522,7 +1532,7 @@ public:
 	void setSize(in Vector2 size, in bool keep_margins = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size, keep_margins);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size, keep_margins);
 	}
 	/**
 	
@@ -1530,7 +1540,7 @@ public:
 	void setStretchRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchRatio, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.setStretchRatio, _godot_object, ratio);
 	}
 	/**
 	
@@ -1538,7 +1548,7 @@ public:
 	void setTheme(Theme theme)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTheme, _godot_object, theme);
+		ptrcall!(void)(GDNativeClassBinding.setTheme, _godot_object, theme);
 	}
 	/**
 	
@@ -1546,7 +1556,7 @@ public:
 	void setTooltip(in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTooltip, _godot_object, tooltip);
+		ptrcall!(void)(GDNativeClassBinding.setTooltip, _godot_object, tooltip);
 	}
 	/**
 	
@@ -1554,7 +1564,7 @@ public:
 	void setVGrowDirection(in long direction)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVGrowDirection, _godot_object, direction);
+		ptrcall!(void)(GDNativeClassBinding.setVGrowDirection, _godot_object, direction);
 	}
 	/**
 	
@@ -1562,7 +1572,7 @@ public:
 	void setVSizeFlags(in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVSizeFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.setVSizeFlags, _godot_object, flags);
 	}
 	/**
 	Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
@@ -1571,7 +1581,7 @@ public:
 	void showModal(in bool exclusive = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.showModal, _godot_object, exclusive);
+		ptrcall!(void)(GDNativeClassBinding.showModal, _godot_object, exclusive);
 	}
 	/**
 	Moves the mouse cursor to `to_position`, relative to $(D rectPosition) of this $(D Control).
@@ -1579,7 +1589,7 @@ public:
 	void warpMouse(in Vector2 to_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.warpMouse, _godot_object, to_position);
+		ptrcall!(void)(GDNativeClassBinding.warpMouse, _godot_object, to_position);
 	}
 	/**
 	Anchors the bottom edge of the node to the origin, the center, or the end of its parent control. It changes how the bottom margin updates when the node moves or changes size. You can use one of the $(D anchor) constants for convenience.
@@ -1829,7 +1839,7 @@ public:
 		setMouseFilter(v);
 	}
 	/**
-	Enables whether rendering of children should be clipped to this control's rectangle. If `true`, parts of a child which would be visibly outside of this control's rectangle will not be rendered.
+	Enables whether rendering of $(D CanvasItem) based children should be clipped to this control's rectangle. If `true`, parts of a child which would be visibly outside of this control's rectangle will not be rendered.
 	*/
 	@property bool rectClipContent()
 	{

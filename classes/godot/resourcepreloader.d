@@ -30,14 +30,14 @@ GDScript has a simplified $(D @GDScript.preload) built-in method which can be us
 */
 @GodotBaseClass struct ResourcePreloader
 {
-	enum string _GODOT_internal_name = "ResourcePreloader";
+	package(godot) enum string _GODOT_internal_name = "ResourcePreloader";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_resources") GodotMethod!(Array) _getResources;
@@ -49,10 +49,20 @@ public:
 		@GodotName("remove_resource") GodotMethod!(void, String) removeResource;
 		@GodotName("rename_resource") GodotMethod!(void, String, String) renameResource;
 	}
-	bool opEquals(in ResourcePreloader other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourcePreloader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ResourcePreloader other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ResourcePreloader opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ResourcePreloader.
+	/// Note: use `memnew!ResourcePreloader` instead.
 	static ResourcePreloader _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	void addResource(in String name, Resource resource)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addResource, _godot_object, name, resource);
+		ptrcall!(void)(GDNativeClassBinding.addResource, _godot_object, name, resource);
 	}
 	/**
 	Returns the resource associated to `name`.
@@ -94,7 +104,7 @@ public:
 	Ref!Resource getResource(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.getResource, _godot_object, name);
+		return ptrcall!(Resource)(GDNativeClassBinding.getResource, _godot_object, name);
 	}
 	/**
 	Returns the list of resources inside the preloader.
@@ -102,7 +112,7 @@ public:
 	PoolStringArray getResourceList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getResourceList, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getResourceList, _godot_object);
 	}
 	/**
 	Returns `true` if the preloader contains a resource associated to `name`.
@@ -110,7 +120,7 @@ public:
 	bool hasResource(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasResource, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasResource, _godot_object, name);
 	}
 	/**
 	Removes the resource associated to `name` from the preloader.
@@ -118,7 +128,7 @@ public:
 	void removeResource(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeResource, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeResource, _godot_object, name);
 	}
 	/**
 	Renames a resource inside the preloader from `name` to `newname`.
@@ -126,7 +136,7 @@ public:
 	void renameResource(in String name, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameResource, _godot_object, name, newname);
+		ptrcall!(void)(GDNativeClassBinding.renameResource, _godot_object, name, newname);
 	}
 	/**
 	

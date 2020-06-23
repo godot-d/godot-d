@@ -29,14 +29,14 @@ Inherit this when creating nodes mainly for use in $(D AnimationNodeBlendTree), 
 */
 @GodotBaseClass struct AnimationNode
 {
-	enum string _GODOT_internal_name = "AnimationNode";
+	package(godot) enum string _GODOT_internal_name = "AnimationNode";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_filters") GodotMethod!(Array) _getFilters;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_filter_path") GodotMethod!(void, NodePath, bool) setFilterPath;
 		@GodotName("set_parameter") GodotMethod!(void, String, Variant) setParameter;
 	}
-	bool opEquals(in AnimationNode other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNode opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNode other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNode opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNode.
+	/// Note: use `memnew!AnimationNode` instead.
 	static AnimationNode _new()
 	{
 		static godot_class_constructor constructor;
@@ -127,7 +137,7 @@ public:
 	void addInput(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addInput, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.addInput, _godot_object, name);
 	}
 	/**
 	Blend an animation by `blend` amount (name must be valid in the linked $(D AnimationPlayer)). A `time` and `delta` may be passed, as well as whether `seek` happened.
@@ -135,7 +145,7 @@ public:
 	void blendAnimation(in String animation, in double time, in double delta, in bool seeked, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blendAnimation, _godot_object, animation, time, delta, seeked, blend);
+		ptrcall!(void)(GDNativeClassBinding.blendAnimation, _godot_object, animation, time, delta, seeked, blend);
 	}
 	/**
 	Blend an input. This is only useful for nodes created for an $(D AnimationNodeBlendTree). The `time` parameter is a relative delta, unless `seek` is `true`, in which case it is absolute. A filter mode may be optionally passed (see $(D filteraction) for options).
@@ -143,7 +153,7 @@ public:
 	double blendInput(in long input_index, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.blendInput, _godot_object, input_index, time, seek, blend, filter, optimize);
+		return ptrcall!(double)(GDNativeClassBinding.blendInput, _godot_object, input_index, time, seek, blend, filter, optimize);
 	}
 	/**
 	Blend another animation node (in case this node contains children animation nodes). This function is only useful if you inherit from $(D AnimationRootNode) instead, else editors will not display your node for addition.
@@ -151,7 +161,7 @@ public:
 	double blendNode(in String name, AnimationNode node, in double time, in bool seek, in double blend, in long filter = 0, in bool optimize = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.blendNode, _godot_object, name, node, time, seek, blend, filter, optimize);
+		return ptrcall!(double)(GDNativeClassBinding.blendNode, _godot_object, name, node, time, seek, blend, filter, optimize);
 	}
 	/**
 	Gets the text caption for this node (used by some editors).
@@ -187,7 +197,7 @@ public:
 	long getInputCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInputCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInputCount, _godot_object);
 	}
 	/**
 	Gets the name of an input by index.
@@ -195,7 +205,7 @@ public:
 	String getInputName(in long input)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInputName, _godot_object, input);
+		return ptrcall!(String)(GDNativeClassBinding.getInputName, _godot_object, input);
 	}
 	/**
 	Gets the value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
@@ -203,7 +213,7 @@ public:
 	Variant getParameter(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getParameter, _godot_object, name);
+		return ptrcall!(Variant)(GDNativeClassBinding.getParameter, _godot_object, name);
 	}
 	/**
 	Gets the default value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
@@ -239,7 +249,7 @@ public:
 	bool isFilterEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFilterEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFilterEnabled, _godot_object);
 	}
 	/**
 	Returns `true` whether a given path is filtered.
@@ -247,7 +257,7 @@ public:
 	bool isPathFiltered(NodePathArg0)(in NodePathArg0 path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathFiltered, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.isPathFiltered, _godot_object, path);
 	}
 	/**
 	User-defined callback called when a custom node is processed. The `time` parameter is a relative delta, unless `seek` is `true`, in which case it is absolute.
@@ -268,7 +278,7 @@ public:
 	void removeInput(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeInput, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.removeInput, _godot_object, index);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	void setFilterEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFilterEnabled, _godot_object, enable);
 	}
 	/**
 	Adds or removes a path for the filter.
@@ -284,7 +294,7 @@ public:
 	void setFilterPath(NodePathArg0)(in NodePathArg0 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterPath, _godot_object, path, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFilterPath, _godot_object, path, enable);
 	}
 	/**
 	Sets a custom parameter. These are used as local storage, because resources can be reused across the tree or scenes.
@@ -292,7 +302,7 @@ public:
 	void setParameter(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParameter, _godot_object, name, value);
+		ptrcall!(void)(GDNativeClassBinding.setParameter, _godot_object, name, value);
 	}
 	/**
 	If `true`, filtering is enabled.

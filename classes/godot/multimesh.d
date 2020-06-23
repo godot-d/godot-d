@@ -32,14 +32,14 @@ Since instances may have any behavior, the AABB used for visibility must be prov
 */
 @GodotBaseClass struct MultiMesh
 {
-	enum string _GODOT_internal_name = "MultiMesh";
+	package(godot) enum string _GODOT_internal_name = "MultiMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_color_array") GodotMethod!(PoolColorArray) _getColorArray;
@@ -73,10 +73,20 @@ public:
 		@GodotName("set_transform_format") GodotMethod!(void, long) setTransformFormat;
 		@GodotName("set_visible_instance_count") GodotMethod!(void, long) setVisibleInstanceCount;
 	}
-	bool opEquals(in MultiMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MultiMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MultiMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MultiMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MultiMesh.
+	/// Note: use `memnew!MultiMesh` instead.
 	static MultiMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -223,7 +233,7 @@ public:
 	AABB getAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getAabb, _godot_object);
 	}
 	/**
 	
@@ -231,7 +241,7 @@ public:
 	MultiMesh.ColorFormat getColorFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MultiMesh.ColorFormat)(_classBinding.getColorFormat, _godot_object);
+		return ptrcall!(MultiMesh.ColorFormat)(GDNativeClassBinding.getColorFormat, _godot_object);
 	}
 	/**
 	
@@ -239,7 +249,7 @@ public:
 	MultiMesh.CustomDataFormat getCustomDataFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MultiMesh.CustomDataFormat)(_classBinding.getCustomDataFormat, _godot_object);
+		return ptrcall!(MultiMesh.CustomDataFormat)(GDNativeClassBinding.getCustomDataFormat, _godot_object);
 	}
 	/**
 	Gets a specific instance's color.
@@ -247,7 +257,7 @@ public:
 	Color getInstanceColor(in long instance) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInstanceColor, _godot_object, instance);
+		return ptrcall!(Color)(GDNativeClassBinding.getInstanceColor, _godot_object, instance);
 	}
 	/**
 	
@@ -255,7 +265,7 @@ public:
 	long getInstanceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInstanceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInstanceCount, _godot_object);
 	}
 	/**
 	Returns the custom data that has been set for a specific instance.
@@ -263,7 +273,7 @@ public:
 	Color getInstanceCustomData(in long instance) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInstanceCustomData, _godot_object, instance);
+		return ptrcall!(Color)(GDNativeClassBinding.getInstanceCustomData, _godot_object, instance);
 	}
 	/**
 	Returns the $(D Transform) of a specific instance.
@@ -271,7 +281,7 @@ public:
 	Transform getInstanceTransform(in long instance) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getInstanceTransform, _godot_object, instance);
+		return ptrcall!(Transform)(GDNativeClassBinding.getInstanceTransform, _godot_object, instance);
 	}
 	/**
 	Returns the $(D Transform2D) of a specific instance.
@@ -279,7 +289,7 @@ public:
 	Transform2D getInstanceTransform2d(in long instance) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getInstanceTransform2d, _godot_object, instance);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getInstanceTransform2d, _godot_object, instance);
 	}
 	/**
 	
@@ -287,7 +297,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -295,7 +305,7 @@ public:
 	MultiMesh.TransformFormat getTransformFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MultiMesh.TransformFormat)(_classBinding.getTransformFormat, _godot_object);
+		return ptrcall!(MultiMesh.TransformFormat)(GDNativeClassBinding.getTransformFormat, _godot_object);
 	}
 	/**
 	
@@ -303,7 +313,7 @@ public:
 	long getVisibleInstanceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleInstanceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVisibleInstanceCount, _godot_object);
 	}
 	/**
 	Sets all data related to the instances in one go. This is especially useful when loading the data from disk or preparing the data from GDNative.
@@ -313,7 +323,7 @@ public:
 	void setAsBulkArray(in PoolRealArray array)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsBulkArray, _godot_object, array);
+		ptrcall!(void)(GDNativeClassBinding.setAsBulkArray, _godot_object, array);
 	}
 	/**
 	
@@ -321,7 +331,7 @@ public:
 	void setColorFormat(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColorFormat, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.setColorFormat, _godot_object, format);
 	}
 	/**
 	
@@ -329,7 +339,7 @@ public:
 	void setCustomDataFormat(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomDataFormat, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.setCustomDataFormat, _godot_object, format);
 	}
 	/**
 	Sets the color of a specific instance.
@@ -338,7 +348,7 @@ public:
 	void setInstanceColor(in long instance, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceColor, _godot_object, instance, color);
+		ptrcall!(void)(GDNativeClassBinding.setInstanceColor, _godot_object, instance, color);
 	}
 	/**
 	
@@ -346,7 +356,7 @@ public:
 	void setInstanceCount(in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceCount, _godot_object, count);
+		ptrcall!(void)(GDNativeClassBinding.setInstanceCount, _godot_object, count);
 	}
 	/**
 	Sets custom data for a specific instance. Although $(D Color) is used, it is just a container for 4 floating point numbers. The format of the number can change depending on the $(D customdataformat) used.
@@ -354,7 +364,7 @@ public:
 	void setInstanceCustomData(in long instance, in Color custom_data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceCustomData, _godot_object, instance, custom_data);
+		ptrcall!(void)(GDNativeClassBinding.setInstanceCustomData, _godot_object, instance, custom_data);
 	}
 	/**
 	Sets the $(D Transform) for a specific instance.
@@ -362,7 +372,7 @@ public:
 	void setInstanceTransform(in long instance, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceTransform, _godot_object, instance, transform);
+		ptrcall!(void)(GDNativeClassBinding.setInstanceTransform, _godot_object, instance, transform);
 	}
 	/**
 	Sets the $(D Transform2D) for a specific instance.
@@ -370,7 +380,7 @@ public:
 	void setInstanceTransform2d(in long instance, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstanceTransform2d, _godot_object, instance, transform);
+		ptrcall!(void)(GDNativeClassBinding.setInstanceTransform2d, _godot_object, instance, transform);
 	}
 	/**
 	
@@ -378,7 +388,7 @@ public:
 	void setMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setMesh, _godot_object, mesh);
 	}
 	/**
 	
@@ -386,7 +396,7 @@ public:
 	void setTransformFormat(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransformFormat, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.setTransformFormat, _godot_object, format);
 	}
 	/**
 	
@@ -394,7 +404,7 @@ public:
 	void setVisibleInstanceCount(in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibleInstanceCount, _godot_object, count);
+		ptrcall!(void)(GDNativeClassBinding.setVisibleInstanceCount, _godot_object, count);
 	}
 	/**
 	

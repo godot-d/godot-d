@@ -46,14 +46,14 @@ print(noise.get_noise_4d(0.5, 1.9, 4.7, 0.0))
 */
 @GodotBaseClass struct OpenSimplexNoise
 {
-	enum string _GODOT_internal_name = "OpenSimplexNoise";
+	package(godot) enum string _GODOT_internal_name = "OpenSimplexNoise";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_image") GodotMethod!(Image, long, long) getImage;
@@ -75,10 +75,20 @@ public:
 		@GodotName("set_persistence") GodotMethod!(void, double) setPersistence;
 		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
 	}
-	bool opEquals(in OpenSimplexNoise other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	OpenSimplexNoise opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in OpenSimplexNoise other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) OpenSimplexNoise opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of OpenSimplexNoise.
+	/// Note: use `memnew!OpenSimplexNoise` instead.
 	static OpenSimplexNoise _new()
 	{
 		static godot_class_constructor constructor;
@@ -93,7 +103,7 @@ public:
 	Ref!Image getImage(in long width, in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getImage, _godot_object, width, height);
+		return ptrcall!(Image)(GDNativeClassBinding.getImage, _godot_object, width, height);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	double getLacunarity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLacunarity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLacunarity, _godot_object);
 	}
 	/**
 	Returns the 1D noise value `$(D -1,1)` at the given x-coordinate.
@@ -110,7 +120,7 @@ public:
 	double getNoise1d(in double x)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise1d, _godot_object, x);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise1d, _godot_object, x);
 	}
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
@@ -118,7 +128,7 @@ public:
 	double getNoise2d(in double x, in double y)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise2d, _godot_object, x, y);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise2d, _godot_object, x, y);
 	}
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
@@ -126,7 +136,7 @@ public:
 	double getNoise2dv(in Vector2 pos)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise2dv, _godot_object, pos);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise2dv, _godot_object, pos);
 	}
 	/**
 	Returns the 3D noise value `$(D -1,1)` at the given position.
@@ -134,7 +144,7 @@ public:
 	double getNoise3d(in double x, in double y, in double z)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise3d, _godot_object, x, y, z);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise3d, _godot_object, x, y, z);
 	}
 	/**
 	Returns the 3D noise value `$(D -1,1)` at the given position.
@@ -142,7 +152,7 @@ public:
 	double getNoise3dv(in Vector3 pos)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise3dv, _godot_object, pos);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise3dv, _godot_object, pos);
 	}
 	/**
 	Returns the 4D noise value `$(D -1,1)` at the given position.
@@ -150,7 +160,7 @@ public:
 	double getNoise4d(in double x, in double y, in double z, in double w)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNoise4d, _godot_object, x, y, z, w);
+		return ptrcall!(double)(GDNativeClassBinding.getNoise4d, _godot_object, x, y, z, w);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	long getOctaves() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOctaves, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOctaves, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	double getPeriod() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPeriod, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPeriod, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	double getPersistence() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPersistence, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPersistence, _godot_object);
 	}
 	/**
 	Generate a tileable noise image, based on the current noise parameters. Generated seamless images are always square (`size` × `size`).
@@ -182,7 +192,7 @@ public:
 	Ref!Image getSeamlessImage(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getSeamlessImage, _godot_object, size);
+		return ptrcall!(Image)(GDNativeClassBinding.getSeamlessImage, _godot_object, size);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	long getSeed()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSeed, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSeed, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	void setLacunarity(in double lacunarity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLacunarity, _godot_object, lacunarity);
+		ptrcall!(void)(GDNativeClassBinding.setLacunarity, _godot_object, lacunarity);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	void setOctaves(in long octave_count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctaves, _godot_object, octave_count);
+		ptrcall!(void)(GDNativeClassBinding.setOctaves, _godot_object, octave_count);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	void setPeriod(in double period)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPeriod, _godot_object, period);
+		ptrcall!(void)(GDNativeClassBinding.setPeriod, _godot_object, period);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	void setPersistence(in double persistence)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPersistence, _godot_object, persistence);
+		ptrcall!(void)(GDNativeClassBinding.setPersistence, _godot_object, persistence);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	void setSeed(in long seed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSeed, _godot_object, seed);
+		ptrcall!(void)(GDNativeClassBinding.setSeed, _godot_object, seed);
 	}
 	/**
 	Difference in period between $(D octaves).
@@ -245,7 +255,8 @@ public:
 		setLacunarity(v);
 	}
 	/**
-	Number of OpenSimplex noise layers that are sampled to get the fractal noise.
+	Number of OpenSimplex noise layers that are sampled to get the fractal noise. Higher values result in more detailed noise but take more time to generate.
+	$(B Note:) The maximum allowed value is 9.
 	*/
 	@property long octaves()
 	{

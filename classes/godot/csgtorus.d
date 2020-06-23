@@ -31,14 +31,14 @@ This node allows you to create a torus for use with the CSG system.
 */
 @GodotBaseClass struct CSGTorus
 {
-	enum string _GODOT_internal_name = "CSGTorus";
+	package(godot) enum string _GODOT_internal_name = "CSGTorus";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CSGPrimitive _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CSGPrimitive _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_inner_radius") GodotMethod!(double) getInnerRadius;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_sides") GodotMethod!(void, long) setSides;
 		@GodotName("set_smooth_faces") GodotMethod!(void, bool) setSmoothFaces;
 	}
-	bool opEquals(in CSGTorus other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGTorus opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGTorus other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGTorus opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGTorus.
+	/// Note: use `memnew!CSGTorus` instead.
 	static CSGTorus _new()
 	{
 		static godot_class_constructor constructor;
@@ -72,7 +82,7 @@ public:
 	double getInnerRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInnerRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInnerRadius, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	double getOuterRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOuterRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOuterRadius, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	long getRingSides() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRingSides, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRingSides, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	long getSides() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSides, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSides, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	bool getSmoothFaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSmoothFaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getSmoothFaces, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	void setInnerRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInnerRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setInnerRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	void setOuterRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOuterRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setOuterRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	void setRingSides(in long sides)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRingSides, _godot_object, sides);
+		ptrcall!(void)(GDNativeClassBinding.setRingSides, _godot_object, sides);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	void setSides(in long sides)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSides, _godot_object, sides);
+		ptrcall!(void)(GDNativeClassBinding.setSides, _godot_object, sides);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	void setSmoothFaces(in bool smooth_faces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+		ptrcall!(void)(GDNativeClassBinding.setSmoothFaces, _godot_object, smooth_faces);
 	}
 	/**
 	The inner radius of the torus.

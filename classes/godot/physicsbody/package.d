@@ -29,14 +29,14 @@ PhysicsBody is an abstract base class for implementing a physics body. All *Body
 */
 @GodotBaseClass struct PhysicsBody
 {
-	enum string _GODOT_internal_name = "PhysicsBody";
+	package(godot) enum string _GODOT_internal_name = "PhysicsBody";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CollisionObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CollisionObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_layers") GodotMethod!(long) _getLayers;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_collision_mask") GodotMethod!(void, long) setCollisionMask;
 		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
 	}
-	bool opEquals(in PhysicsBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PhysicsBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PhysicsBody other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PhysicsBody opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PhysicsBody.
+	/// Note: use `memnew!PhysicsBody` instead.
 	static PhysicsBody _new()
 	{
 		static godot_class_constructor constructor;
@@ -90,7 +100,7 @@ public:
 	void addCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCollisionExceptionWith, _godot_object, _body);
+		ptrcall!(void)(GDNativeClassBinding.addCollisionExceptionWith, _godot_object, _body);
 	}
 	/**
 	Returns an array of nodes that were added as collision exceptions for this body.
@@ -98,7 +108,7 @@ public:
 	Array getCollisionExceptions()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getCollisionExceptions, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getCollisionExceptions, _godot_object);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns an individual bit on the $(D collisionLayer).
@@ -114,7 +124,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns an individual bit on the $(D collisionMask).
@@ -130,7 +140,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	Removes a body from the list of bodies that this body can't collide with.
@@ -138,7 +148,7 @@ public:
 	void removeCollisionExceptionWith(Node _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeCollisionExceptionWith, _godot_object, _body);
+		ptrcall!(void)(GDNativeClassBinding.removeCollisionExceptionWith, _godot_object, _body);
 	}
 	/**
 	
@@ -146,7 +156,7 @@ public:
 	void setCollisionLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, layer);
 	}
 	/**
 	Sets individual bits on the $(D collisionLayer) bitmask. Use this if you only need to change one layer's value.
@@ -154,7 +164,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets individual bits on the $(D collisionMask) bitmask. Use this if you only need to change one layer's value.
@@ -170,7 +180,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	The physics layers this area is in.

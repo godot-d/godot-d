@@ -26,18 +26,19 @@ import godot.node;
 Camera node for 2D scenes.
 
 It forces the screen (current layer) to scroll following this node. This makes it easier (and faster) to program scrollable scenes than manually changing the position of $(D CanvasItem)-based nodes.
-This node is intended to be a simple helper to get things going quickly and it may happen that more functionality is desired to change how the camera works. To make your own custom camera node, simply inherit from $(D Node2D) and change the transform of the canvas by calling get_viewport().set_canvas_transform(m) in $(D Viewport).
+This node is intended to be a simple helper to get things going quickly and it may happen that more functionality is desired to change how the camera works. To make your own custom camera node, inherit from $(D Node2D) and change the transform of the canvas by setting $(D Viewport.canvasTransform) in $(D Viewport) (you can obtain the current $(D Viewport) by using $(D Node.getViewport)).
+Note that the $(D Camera2D) node's `position` doesn't represent the actual position of the screen, which may differ due to applied smoothing or limits. You can use $(D getCameraScreenCenter) to get the real position.
 */
 @GodotBaseClass struct Camera2D
 {
-	enum string _GODOT_internal_name = "Camera2D";
+	package(godot) enum string _GODOT_internal_name = "Camera2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_make_current") GodotMethod!(void, GodotObject) _makeCurrent;
@@ -89,10 +90,20 @@ public:
 		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
 		@GodotName("set_zoom") GodotMethod!(void, Vector2) setZoom;
 	}
-	bool opEquals(in Camera2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Camera2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Camera2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Camera2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Camera2D.
+	/// Note: use `memnew!Camera2D` instead.
 	static Camera2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -178,7 +189,7 @@ public:
 	void _align()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding._align, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding._align, _godot_object);
 	}
 	/**
 	Removes any $(D Camera2D) from the ancestor $(D Viewport)'s internal currently-assigned camera.
@@ -186,7 +197,7 @@ public:
 	void clearCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCurrent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearCurrent, _godot_object);
 	}
 	/**
 	Forces the camera to update scroll immediately.
@@ -194,7 +205,7 @@ public:
 	void forceUpdateScroll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceUpdateScroll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceUpdateScroll, _godot_object);
 	}
 	/**
 	
@@ -202,7 +213,7 @@ public:
 	Camera2D.AnchorMode getAnchorMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera2D.AnchorMode)(_classBinding.getAnchorMode, _godot_object);
+		return ptrcall!(Camera2D.AnchorMode)(GDNativeClassBinding.getAnchorMode, _godot_object);
 	}
 	/**
 	Returns the camera position.
@@ -210,7 +221,7 @@ public:
 	Vector2 getCameraPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCameraPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCameraPosition, _godot_object);
 	}
 	/**
 	Returns the location of the $(D Camera2D)'s screen-center, relative to the origin.
@@ -218,7 +229,7 @@ public:
 	Vector2 getCameraScreenCenter() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCameraScreenCenter, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCameraScreenCenter, _godot_object);
 	}
 	/**
 	
@@ -226,7 +237,7 @@ public:
 	Node getCustomViewport() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getCustomViewport, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getCustomViewport, _godot_object);
 	}
 	/**
 	Returns the specified margin. See also $(D dragMarginBottom), $(D dragMarginTop), $(D dragMarginLeft), and $(D dragMarginRight).
@@ -234,7 +245,7 @@ public:
 	double getDragMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDragMargin, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getDragMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -242,7 +253,7 @@ public:
 	double getFollowSmoothing() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFollowSmoothing, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFollowSmoothing, _godot_object);
 	}
 	/**
 	
@@ -250,7 +261,7 @@ public:
 	double getHOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHOffset, _godot_object);
 	}
 	/**
 	Returns the specified camera limit. See also $(D limitBottom), $(D limitTop), $(D limitLeft), and $(D limitRight).
@@ -258,7 +269,7 @@ public:
 	long getLimit(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLimit, _godot_object, margin);
+		return ptrcall!(long)(GDNativeClassBinding.getLimit, _godot_object, margin);
 	}
 	/**
 	
@@ -266,7 +277,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -274,7 +285,7 @@ public:
 	Camera2D.Camera2DProcessMode getProcessMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera2D.Camera2DProcessMode)(_classBinding.getProcessMode, _godot_object);
+		return ptrcall!(Camera2D.Camera2DProcessMode)(GDNativeClassBinding.getProcessMode, _godot_object);
 	}
 	/**
 	
@@ -282,7 +293,7 @@ public:
 	double getVOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVOffset, _godot_object);
 	}
 	/**
 	
@@ -290,7 +301,7 @@ public:
 	Vector2 getZoom() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getZoom, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getZoom, _godot_object);
 	}
 	/**
 	
@@ -298,7 +309,7 @@ public:
 	bool isCurrent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCurrent, _godot_object);
 	}
 	/**
 	
@@ -306,7 +317,7 @@ public:
 	bool isFollowSmoothingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFollowSmoothingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFollowSmoothingEnabled, _godot_object);
 	}
 	/**
 	
@@ -314,7 +325,7 @@ public:
 	bool isHDragEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHDragEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHDragEnabled, _godot_object);
 	}
 	/**
 	
@@ -322,7 +333,7 @@ public:
 	bool isLimitDrawingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLimitDrawingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLimitDrawingEnabled, _godot_object);
 	}
 	/**
 	
@@ -330,7 +341,7 @@ public:
 	bool isLimitSmoothingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLimitSmoothingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLimitSmoothingEnabled, _godot_object);
 	}
 	/**
 	
@@ -338,7 +349,7 @@ public:
 	bool isMarginDrawingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMarginDrawingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isMarginDrawingEnabled, _godot_object);
 	}
 	/**
 	
@@ -346,7 +357,7 @@ public:
 	bool isRotating() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRotating, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRotating, _godot_object);
 	}
 	/**
 	
@@ -354,7 +365,7 @@ public:
 	bool isScreenDrawingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScreenDrawingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScreenDrawingEnabled, _godot_object);
 	}
 	/**
 	
@@ -362,7 +373,7 @@ public:
 	bool isVDragEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVDragEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVDragEnabled, _godot_object);
 	}
 	/**
 	Make this the current 2D camera for the scene (viewport and layer), in case there are many cameras in the scene.
@@ -370,7 +381,7 @@ public:
 	void makeCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.makeCurrent, _godot_object);
 	}
 	/**
 	Sets the camera's position immediately to its current smoothing destination.
@@ -379,7 +390,7 @@ public:
 	void resetSmoothing()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resetSmoothing, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.resetSmoothing, _godot_object);
 	}
 	/**
 	
@@ -387,7 +398,7 @@ public:
 	void setAnchorMode(in long anchor_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorMode, _godot_object, anchor_mode);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorMode, _godot_object, anchor_mode);
 	}
 	/**
 	
@@ -395,7 +406,7 @@ public:
 	void setCustomViewport(Node viewport)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomViewport, _godot_object, viewport);
+		ptrcall!(void)(GDNativeClassBinding.setCustomViewport, _godot_object, viewport);
 	}
 	/**
 	Sets the specified margin. See also $(D dragMarginBottom), $(D dragMarginTop), $(D dragMarginLeft), and $(D dragMarginRight).
@@ -403,7 +414,7 @@ public:
 	void setDragMargin(in long margin, in double drag_margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragMargin, _godot_object, margin, drag_margin);
+		ptrcall!(void)(GDNativeClassBinding.setDragMargin, _godot_object, margin, drag_margin);
 	}
 	/**
 	
@@ -411,7 +422,7 @@ public:
 	void setEnableFollowSmoothing(in bool follow_smoothing)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableFollowSmoothing, _godot_object, follow_smoothing);
+		ptrcall!(void)(GDNativeClassBinding.setEnableFollowSmoothing, _godot_object, follow_smoothing);
 	}
 	/**
 	
@@ -419,7 +430,7 @@ public:
 	void setFollowSmoothing(in double follow_smoothing)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFollowSmoothing, _godot_object, follow_smoothing);
+		ptrcall!(void)(GDNativeClassBinding.setFollowSmoothing, _godot_object, follow_smoothing);
 	}
 	/**
 	
@@ -427,7 +438,7 @@ public:
 	void setHDragEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHDragEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setHDragEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -435,7 +446,7 @@ public:
 	void setHOffset(in double ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setHOffset, _godot_object, ofs);
 	}
 	/**
 	Sets the specified camera limit. See also $(D limitBottom), $(D limitTop), $(D limitLeft), and $(D limitRight).
@@ -443,7 +454,7 @@ public:
 	void setLimit(in long margin, in long limit)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimit, _godot_object, margin, limit);
+		ptrcall!(void)(GDNativeClassBinding.setLimit, _godot_object, margin, limit);
 	}
 	/**
 	
@@ -451,7 +462,7 @@ public:
 	void setLimitDrawingEnabled(in bool limit_drawing_enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitDrawingEnabled, _godot_object, limit_drawing_enabled);
+		ptrcall!(void)(GDNativeClassBinding.setLimitDrawingEnabled, _godot_object, limit_drawing_enabled);
 	}
 	/**
 	
@@ -459,7 +470,7 @@ public:
 	void setLimitSmoothingEnabled(in bool limit_smoothing_enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitSmoothingEnabled, _godot_object, limit_smoothing_enabled);
+		ptrcall!(void)(GDNativeClassBinding.setLimitSmoothingEnabled, _godot_object, limit_smoothing_enabled);
 	}
 	/**
 	
@@ -467,7 +478,7 @@ public:
 	void setMarginDrawingEnabled(in bool margin_drawing_enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMarginDrawingEnabled, _godot_object, margin_drawing_enabled);
+		ptrcall!(void)(GDNativeClassBinding.setMarginDrawingEnabled, _godot_object, margin_drawing_enabled);
 	}
 	/**
 	
@@ -475,7 +486,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -483,7 +494,7 @@ public:
 	void setProcessMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProcessMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setProcessMode, _godot_object, mode);
 	}
 	/**
 	
@@ -491,7 +502,7 @@ public:
 	void setRotating(in bool rotating)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotating, _godot_object, rotating);
+		ptrcall!(void)(GDNativeClassBinding.setRotating, _godot_object, rotating);
 	}
 	/**
 	
@@ -499,7 +510,7 @@ public:
 	void setScreenDrawingEnabled(in bool screen_drawing_enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScreenDrawingEnabled, _godot_object, screen_drawing_enabled);
+		ptrcall!(void)(GDNativeClassBinding.setScreenDrawingEnabled, _godot_object, screen_drawing_enabled);
 	}
 	/**
 	
@@ -507,7 +518,7 @@ public:
 	void setVDragEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVDragEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setVDragEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -515,7 +526,7 @@ public:
 	void setVOffset(in double ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setVOffset, _godot_object, ofs);
 	}
 	/**
 	
@@ -523,7 +534,7 @@ public:
 	void setZoom(in Vector2 zoom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZoom, _godot_object, zoom);
+		ptrcall!(void)(GDNativeClassBinding.setZoom, _godot_object, zoom);
 	}
 	/**
 	The Camera2D's anchor point. See $(D anchormode) constants.

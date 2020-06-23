@@ -31,14 +31,14 @@ A node that displays a 2D texture. The texture displayed can be a region from a 
 */
 @GodotBaseClass struct Sprite
 {
-	enum string _GODOT_internal_name = "Sprite";
+	package(godot) enum string _GODOT_internal_name = "Sprite";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_texture_changed") GodotMethod!(void) _textureChanged;
@@ -71,10 +71,20 @@ public:
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 		@GodotName("set_vframes") GodotMethod!(void, long) setVframes;
 	}
-	bool opEquals(in Sprite other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Sprite opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Sprite other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Sprite opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Sprite.
+	/// Note: use `memnew!Sprite` instead.
 	static Sprite _new()
 	{
 		static godot_class_constructor constructor;
@@ -98,7 +108,7 @@ public:
 	long getFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFrame, _godot_object);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	Vector2 getFrameCoords() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFrameCoords, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFrameCoords, _godot_object);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	long getHframes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHframes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHframes, _godot_object);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	Ref!Texture getNormalMap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getNormalMap, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	Returns a $(D Rect2) representing the Sprite's boundary in local coordinates. Can be used to detect if the Sprite was clicked. Example:
@@ -146,7 +156,7 @@ public:
 	Rect2 getRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRect, _godot_object);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	Rect2 getRegionRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRegionRect, _godot_object);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	long getVframes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVframes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVframes, _godot_object);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	bool isCentered() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCentered, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCentered, _godot_object);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	bool isFlippedH() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedH, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedH, _godot_object);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	bool isFlippedV() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlippedV, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlippedV, _godot_object);
 	}
 	/**
 	Returns `true`, if the pixel at the given position is opaque and `false` in other case.
@@ -203,7 +213,7 @@ public:
 	bool isPixelOpaque(in Vector2 pos) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPixelOpaque, _godot_object, pos);
+		return ptrcall!(bool)(GDNativeClassBinding.isPixelOpaque, _godot_object, pos);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	bool isRegion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRegion, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRegion, _godot_object);
 	}
 	/**
 	
@@ -219,7 +229,7 @@ public:
 	bool isRegionFilterClipEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRegionFilterClipEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRegionFilterClipEnabled, _godot_object);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	void setCentered(in bool centered)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCentered, _godot_object, centered);
+		ptrcall!(void)(GDNativeClassBinding.setCentered, _godot_object, centered);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	void setFlipH(in bool flip_h)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipH, _godot_object, flip_h);
+		ptrcall!(void)(GDNativeClassBinding.setFlipH, _godot_object, flip_h);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	void setFlipV(in bool flip_v)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipV, _godot_object, flip_v);
+		ptrcall!(void)(GDNativeClassBinding.setFlipV, _godot_object, flip_v);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	void setFrame(in long frame)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
+		ptrcall!(void)(GDNativeClassBinding.setFrame, _godot_object, frame);
 	}
 	/**
 	
@@ -259,7 +269,7 @@ public:
 	void setFrameCoords(in Vector2 coords)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameCoords, _godot_object, coords);
+		ptrcall!(void)(GDNativeClassBinding.setFrameCoords, _godot_object, coords);
 	}
 	/**
 	
@@ -267,7 +277,7 @@ public:
 	void setHframes(in long hframes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHframes, _godot_object, hframes);
+		ptrcall!(void)(GDNativeClassBinding.setHframes, _godot_object, hframes);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	void setNormalMap(Texture normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.setNormalMap, _godot_object, normal_map);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -291,7 +301,7 @@ public:
 	void setRegion(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegion, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setRegion, _godot_object, enabled);
 	}
 	/**
 	
@@ -299,7 +309,7 @@ public:
 	void setRegionFilterClip(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionFilterClip, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setRegionFilterClip, _godot_object, enabled);
 	}
 	/**
 	
@@ -307,7 +317,7 @@ public:
 	void setRegionRect(in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
+		ptrcall!(void)(GDNativeClassBinding.setRegionRect, _godot_object, rect);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -323,7 +333,7 @@ public:
 	void setVframes(in long vframes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVframes, _godot_object, vframes);
+		ptrcall!(void)(GDNativeClassBinding.setVframes, _godot_object, vframes);
 	}
 	/**
 	If `true`, texture is centered.
@@ -399,6 +409,7 @@ public:
 	}
 	/**
 	The normal map gives depth to the Sprite.
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	@property Texture normalMap()
 	{

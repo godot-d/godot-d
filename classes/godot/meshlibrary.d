@@ -31,14 +31,14 @@ A library of meshes. Contains a list of $(D Mesh) resources, each with a name an
 */
 @GodotBaseClass struct MeshLibrary
 {
-	enum string _GODOT_internal_name = "MeshLibrary";
+	package(godot) enum string _GODOT_internal_name = "MeshLibrary";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("clear") GodotMethod!(void) clear;
@@ -60,10 +60,20 @@ public:
 		@GodotName("set_item_preview") GodotMethod!(void, long, Texture) setItemPreview;
 		@GodotName("set_item_shapes") GodotMethod!(void, long, Array) setItemShapes;
 	}
-	bool opEquals(in MeshLibrary other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MeshLibrary opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MeshLibrary other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MeshLibrary opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MeshLibrary.
+	/// Note: use `memnew!MeshLibrary` instead.
 	static MeshLibrary _new()
 	{
 		static godot_class_constructor constructor;
@@ -78,7 +88,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Creates a new item in the library with the given ID.
@@ -87,7 +97,7 @@ public:
 	void createItem(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createItem, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.createItem, _godot_object, id);
 	}
 	/**
 	Returns the first item with the given name.
@@ -95,7 +105,7 @@ public:
 	long findItemByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findItemByName, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.findItemByName, _godot_object, name);
 	}
 	/**
 	Returns the list of item IDs in use.
@@ -103,7 +113,7 @@ public:
 	PoolIntArray getItemList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getItemList, _godot_object);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getItemList, _godot_object);
 	}
 	/**
 	Returns the item's mesh.
@@ -111,7 +121,7 @@ public:
 	Ref!Mesh getItemMesh(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getItemMesh, _godot_object, id);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getItemMesh, _godot_object, id);
 	}
 	/**
 	Returns the item's name.
@@ -119,7 +129,7 @@ public:
 	String getItemName(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemName, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.getItemName, _godot_object, id);
 	}
 	/**
 	Returns the item's navigation mesh.
@@ -127,7 +137,7 @@ public:
 	Ref!NavigationMesh getItemNavmesh(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NavigationMesh)(_classBinding.getItemNavmesh, _godot_object, id);
+		return ptrcall!(NavigationMesh)(GDNativeClassBinding.getItemNavmesh, _godot_object, id);
 	}
 	/**
 	Returns the transform applied to the item's navigation mesh.
@@ -135,16 +145,15 @@ public:
 	Transform getItemNavmeshTransform(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getItemNavmeshTransform, _godot_object, id);
+		return ptrcall!(Transform)(GDNativeClassBinding.getItemNavmeshTransform, _godot_object, id);
 	}
 	/**
-	Returns a generated item preview (a 3D rendering in isometric perspective).
-	$(B Note:) Since item previews are only generated in an editor context, this function will return an empty $(D Texture) in a running project.
+	When running in the editor, returns a generated item preview (a 3D rendering in isometric perspective). When used in a running project, returns the manually-defined item preview which can be set using $(D setItemPreview). Returns an empty $(D Texture) if no preview was manually set in a running project.
 	*/
 	Ref!Texture getItemPreview(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getItemPreview, _godot_object, id);
+		return ptrcall!(Texture)(GDNativeClassBinding.getItemPreview, _godot_object, id);
 	}
 	/**
 	Returns an item's collision shapes.
@@ -153,7 +162,7 @@ public:
 	Array getItemShapes(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getItemShapes, _godot_object, id);
+		return ptrcall!(Array)(GDNativeClassBinding.getItemShapes, _godot_object, id);
 	}
 	/**
 	Gets an unused ID for a new item.
@@ -161,7 +170,7 @@ public:
 	long getLastUnusedItemId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastUnusedItemId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastUnusedItemId, _godot_object);
 	}
 	/**
 	Removes the item.
@@ -169,7 +178,7 @@ public:
 	void removeItem(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeItem, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removeItem, _godot_object, id);
 	}
 	/**
 	Sets the item's mesh.
@@ -177,7 +186,7 @@ public:
 	void setItemMesh(in long id, Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemMesh, _godot_object, id, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setItemMesh, _godot_object, id, mesh);
 	}
 	/**
 	Sets the item's name.
@@ -186,7 +195,7 @@ public:
 	void setItemName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemName, _godot_object, id, name);
+		ptrcall!(void)(GDNativeClassBinding.setItemName, _godot_object, id, name);
 	}
 	/**
 	Sets the item's navigation mesh.
@@ -194,7 +203,7 @@ public:
 	void setItemNavmesh(in long id, NavigationMesh navmesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemNavmesh, _godot_object, id, navmesh);
+		ptrcall!(void)(GDNativeClassBinding.setItemNavmesh, _godot_object, id, navmesh);
 	}
 	/**
 	Sets the transform to apply to the item's navigation mesh.
@@ -202,7 +211,7 @@ public:
 	void setItemNavmeshTransform(in long id, in Transform navmesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemNavmeshTransform, _godot_object, id, navmesh);
+		ptrcall!(void)(GDNativeClassBinding.setItemNavmeshTransform, _godot_object, id, navmesh);
 	}
 	/**
 	Sets a texture to use as the item's preview icon in the editor.
@@ -210,7 +219,7 @@ public:
 	void setItemPreview(in long id, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemPreview, _godot_object, id, texture);
+		ptrcall!(void)(GDNativeClassBinding.setItemPreview, _godot_object, id, texture);
 	}
 	/**
 	Sets an item's collision shapes.
@@ -219,6 +228,6 @@ public:
 	void setItemShapes(in long id, in Array shapes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemShapes, _godot_object, id, shapes);
+		ptrcall!(void)(GDNativeClassBinding.setItemShapes, _godot_object, id, shapes);
 	}
 }

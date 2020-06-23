@@ -30,23 +30,33 @@ Class representing a square $(D PrimitiveMesh). This flat mesh does not have a t
 */
 @GodotBaseClass struct QuadMesh
 {
-	enum string _GODOT_internal_name = "QuadMesh";
+	package(godot) enum string _GODOT_internal_name = "QuadMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_size") GodotMethod!(Vector2) getSize;
 		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 	}
-	bool opEquals(in QuadMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	QuadMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in QuadMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) QuadMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of QuadMesh.
+	/// Note: use `memnew!QuadMesh` instead.
 	static QuadMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -69,7 +79,7 @@ public:
 	void setSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
 	Size on the X and Y axes.

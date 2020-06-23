@@ -29,20 +29,20 @@ import godot.texture;
 /**
 A GraphNode is a container with potentially several input and output slots allowing connections between GraphNodes. Slots can have different, incompatible types.
 
-A GraphNode is a container. Each GraphNode can have several input and output slots, sometimes refered to as ports, allowing connections between GraphNodes. To add a slot to GraphNode, add any $(D Control)-derived child node to it.
+A GraphNode is a container. Each GraphNode can have several input and output slots, sometimes referred to as ports, allowing connections between GraphNodes. To add a slot to GraphNode, add any $(D Control)-derived child node to it.
 After adding at least one child to GraphNode new sections will be automatically created in the Inspector called 'Slot'. When 'Slot' is expanded you will see list with index number for each slot. You can click on each of them to expand further.
 In the Inspector you can enable (show) or disable (hide) slots. By default all slots are disabled so you may not see any slots on your GraphNode initially. You can assign a type to each slot. Only slots of the same type will be able to connect to each other. You can also assign colors to slots. A tuple of input and output slots is defined for each GUI element included in the GraphNode. Input connections are on the left and output connections are on the right side of GraphNode. Only enabled slots are counted as connections.
 */
 @GodotBaseClass struct GraphNode
 {
-	enum string _GODOT_internal_name = "GraphNode";
+	package(godot) enum string _GODOT_internal_name = "GraphNode";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -78,10 +78,20 @@ public:
 		@GodotName("set_slot") GodotMethod!(void, long, bool, long, Color, bool, long, Color, Texture, Texture) setSlot;
 		@GodotName("set_title") GodotMethod!(void, String) setTitle;
 	}
-	bool opEquals(in GraphNode other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GraphNode opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GraphNode other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GraphNode opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GraphNode.
+	/// Note: use `memnew!GraphNode` instead.
 	static GraphNode _new()
 	{
 		static godot_class_constructor constructor;
@@ -129,7 +139,7 @@ public:
 	void clearAllSlots()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearAllSlots, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearAllSlots, _godot_object);
 	}
 	/**
 	Disables input and output slot whose index is `idx`.
@@ -137,7 +147,7 @@ public:
 	void clearSlot(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearSlot, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.clearSlot, _godot_object, idx);
 	}
 	/**
 	Returns the color of the input connection `idx`.
@@ -145,7 +155,7 @@ public:
 	Color getConnectionInputColor(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getConnectionInputColor, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getConnectionInputColor, _godot_object, idx);
 	}
 	/**
 	Returns the number of enabled input slots (connections) to the GraphNode.
@@ -153,7 +163,7 @@ public:
 	long getConnectionInputCount()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionInputCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectionInputCount, _godot_object);
 	}
 	/**
 	Returns the position of the input connection `idx`.
@@ -161,7 +171,7 @@ public:
 	Vector2 getConnectionInputPosition(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getConnectionInputPosition, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getConnectionInputPosition, _godot_object, idx);
 	}
 	/**
 	Returns the type of the input connection `idx`.
@@ -169,7 +179,7 @@ public:
 	long getConnectionInputType(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionInputType, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectionInputType, _godot_object, idx);
 	}
 	/**
 	Returns the color of the output connection `idx`.
@@ -177,7 +187,7 @@ public:
 	Color getConnectionOutputColor(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getConnectionOutputColor, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getConnectionOutputColor, _godot_object, idx);
 	}
 	/**
 	Returns the number of enabled output slots (connections) of the GraphNode.
@@ -185,7 +195,7 @@ public:
 	long getConnectionOutputCount()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionOutputCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectionOutputCount, _godot_object);
 	}
 	/**
 	Returns the position of the output connection `idx`.
@@ -193,7 +203,7 @@ public:
 	Vector2 getConnectionOutputPosition(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getConnectionOutputPosition, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getConnectionOutputPosition, _godot_object, idx);
 	}
 	/**
 	Returns the type of the output connection `idx`.
@@ -201,7 +211,7 @@ public:
 	long getConnectionOutputType(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectionOutputType, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectionOutputType, _godot_object, idx);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -217,7 +227,7 @@ public:
 	GraphNode.Overlay getOverlay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GraphNode.Overlay)(_classBinding.getOverlay, _godot_object);
+		return ptrcall!(GraphNode.Overlay)(GDNativeClassBinding.getOverlay, _godot_object);
 	}
 	/**
 	Returns the color set to `idx` left (input) slot.
@@ -225,7 +235,7 @@ public:
 	Color getSlotColorLeft(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSlotColorLeft, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getSlotColorLeft, _godot_object, idx);
 	}
 	/**
 	Returns the color set to `idx` right (output) slot.
@@ -233,7 +243,7 @@ public:
 	Color getSlotColorRight(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSlotColorRight, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getSlotColorRight, _godot_object, idx);
 	}
 	/**
 	Returns the (integer) type of left (input) `idx` slot.
@@ -241,7 +251,7 @@ public:
 	long getSlotTypeLeft(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSlotTypeLeft, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getSlotTypeLeft, _godot_object, idx);
 	}
 	/**
 	Returns the (integer) type of right (output) `idx` slot.
@@ -249,7 +259,7 @@ public:
 	long getSlotTypeRight(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSlotTypeRight, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getSlotTypeRight, _godot_object, idx);
 	}
 	/**
 	
@@ -257,7 +267,7 @@ public:
 	String getTitle() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTitle, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getTitle, _godot_object);
 	}
 	/**
 	
@@ -265,7 +275,7 @@ public:
 	bool isCloseButtonVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCloseButtonVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCloseButtonVisible, _godot_object);
 	}
 	/**
 	
@@ -273,7 +283,7 @@ public:
 	bool isComment() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isComment, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isComment, _godot_object);
 	}
 	/**
 	
@@ -281,7 +291,7 @@ public:
 	bool isResizable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isResizable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isResizable, _godot_object);
 	}
 	/**
 	
@@ -289,7 +299,7 @@ public:
 	bool isSelected()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelected, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelected, _godot_object);
 	}
 	/**
 	Returns `true` if left (input) slot `idx` is enabled, `false` otherwise.
@@ -297,7 +307,7 @@ public:
 	bool isSlotEnabledLeft(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSlotEnabledLeft, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isSlotEnabledLeft, _godot_object, idx);
 	}
 	/**
 	Returns `true` if right (output) slot `idx` is enabled, `false` otherwise.
@@ -305,7 +315,7 @@ public:
 	bool isSlotEnabledRight(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSlotEnabledRight, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isSlotEnabledRight, _godot_object, idx);
 	}
 	/**
 	
@@ -313,7 +323,7 @@ public:
 	void setComment(in bool comment)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setComment, _godot_object, comment);
+		ptrcall!(void)(GDNativeClassBinding.setComment, _godot_object, comment);
 	}
 	/**
 	
@@ -321,7 +331,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -329,7 +339,7 @@ public:
 	void setOverlay(in long overlay)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverlay, _godot_object, overlay);
+		ptrcall!(void)(GDNativeClassBinding.setOverlay, _godot_object, overlay);
 	}
 	/**
 	
@@ -337,7 +347,7 @@ public:
 	void setResizable(in bool resizable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setResizable, _godot_object, resizable);
+		ptrcall!(void)(GDNativeClassBinding.setResizable, _godot_object, resizable);
 	}
 	/**
 	
@@ -345,7 +355,7 @@ public:
 	void setSelected(in bool selected)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelected, _godot_object, selected);
+		ptrcall!(void)(GDNativeClassBinding.setSelected, _godot_object, selected);
 	}
 	/**
 	
@@ -353,7 +363,7 @@ public:
 	void setShowCloseButton(in bool show)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShowCloseButton, _godot_object, show);
+		ptrcall!(void)(GDNativeClassBinding.setShowCloseButton, _godot_object, show);
 	}
 	/**
 	Sets properties of the slot with ID `idx`.
@@ -366,7 +376,7 @@ public:
 	void setSlot(in long idx, in bool enable_left, in long type_left, in Color color_left, in bool enable_right, in long type_right, in Color color_right, Texture custom_left = Texture.init, Texture custom_right = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSlot, _godot_object, idx, enable_left, type_left, color_left, enable_right, type_right, color_right, custom_left, custom_right);
+		ptrcall!(void)(GDNativeClassBinding.setSlot, _godot_object, idx, enable_left, type_left, color_left, enable_right, type_right, color_right, custom_left, custom_right);
 	}
 	/**
 	
@@ -374,7 +384,7 @@ public:
 	void setTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTitle, _godot_object, title);
+		ptrcall!(void)(GDNativeClassBinding.setTitle, _godot_object, title);
 	}
 	/**
 	If `true`, the GraphNode is a comment node.

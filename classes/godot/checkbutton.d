@@ -1,5 +1,5 @@
 /**
-Checkable button.
+Checkable button. See also $(D CheckBox).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,27 +24,37 @@ import godot.button;
 import godot.basebutton;
 import godot.control;
 /**
-Checkable button.
+Checkable button. See also $(D CheckBox).
 
-CheckButton is a toggle button displayed as a check field.
+CheckButton is a toggle button displayed as a check field. It's similar to $(D CheckBox) in functionality, but it has a different apperance. To follow established UX patterns, it's recommended to use CheckButton when toggling it has an $(B immediate) effect on something. For instance, it should be used if toggling it enables/disables a setting without requiring the user to press a confirmation button.
 */
 @GodotBaseClass struct CheckButton
 {
-	enum string _GODOT_internal_name = "CheckButton";
+	package(godot) enum string _GODOT_internal_name = "CheckButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Button _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in CheckButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CheckButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CheckButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CheckButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CheckButton.
+	/// Note: use `memnew!CheckButton` instead.
 	static CheckButton _new()
 	{
 		static godot_class_constructor constructor;

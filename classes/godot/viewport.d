@@ -39,14 +39,14 @@ Finally, viewports can also behave as render targets, in which case they will no
 */
 @GodotBaseClass struct Viewport
 {
-	enum string _GODOT_internal_name = "Viewport";
+	package(godot) enum string _GODOT_internal_name = "Viewport";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_remove_focus") GodotMethod!(void) _guiRemoveFocus;
@@ -135,10 +135,20 @@ public:
 		@GodotName("use_arvr") GodotMethod!(bool) useArvr;
 		@GodotName("warp_mouse") GodotMethod!(void, Vector2) warpMouse;
 	}
-	bool opEquals(in Viewport other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Viewport opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Viewport other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Viewport opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Viewport.
+	/// Note: use `memnew!Viewport` instead.
 	static Viewport _new()
 	{
 		static godot_class_constructor constructor;
@@ -435,7 +445,7 @@ public:
 	Ref!World findWorld() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World)(_classBinding.findWorld, _godot_object);
+		return ptrcall!(World)(GDNativeClassBinding.findWorld, _godot_object);
 	}
 	/**
 	Returns the 2D world of the viewport.
@@ -443,7 +453,7 @@ public:
 	Ref!World2D findWorld2d() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World2D)(_classBinding.findWorld2d, _godot_object);
+		return ptrcall!(World2D)(GDNativeClassBinding.findWorld2d, _godot_object);
 	}
 	/**
 	Returns the active 3D camera.
@@ -451,7 +461,7 @@ public:
 	Camera getCamera() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera)(_classBinding.getCamera, _godot_object);
+		return ptrcall!(Camera)(GDNativeClassBinding.getCamera, _godot_object);
 	}
 	/**
 	
@@ -459,7 +469,7 @@ public:
 	Transform2D getCanvasTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getCanvasTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getCanvasTransform, _godot_object);
 	}
 	/**
 	
@@ -467,7 +477,7 @@ public:
 	Viewport.ClearMode getClearMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.ClearMode)(_classBinding.getClearMode, _godot_object);
+		return ptrcall!(Viewport.ClearMode)(GDNativeClassBinding.getClearMode, _godot_object);
 	}
 	/**
 	
@@ -475,7 +485,7 @@ public:
 	Viewport.DebugDraw getDebugDraw() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.DebugDraw)(_classBinding.getDebugDraw, _godot_object);
+		return ptrcall!(Viewport.DebugDraw)(GDNativeClassBinding.getDebugDraw, _godot_object);
 	}
 	/**
 	Returns the total transform of the viewport.
@@ -483,7 +493,7 @@ public:
 	Transform2D getFinalTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getFinalTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getFinalTransform, _godot_object);
 	}
 	/**
 	
@@ -491,7 +501,7 @@ public:
 	Transform2D getGlobalCanvasTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getGlobalCanvasTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getGlobalCanvasTransform, _godot_object);
 	}
 	/**
 	
@@ -499,7 +509,7 @@ public:
 	bool getHdr() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getHdr, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getHdr, _godot_object);
 	}
 	/**
 	
@@ -507,7 +517,7 @@ public:
 	bool getKeep3dLinear() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getKeep3dLinear, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getKeep3dLinear, _godot_object);
 	}
 	/**
 	Returns the topmost modal in the stack.
@@ -515,7 +525,7 @@ public:
 	Control getModalStackTop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getModalStackTop, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getModalStackTop, _godot_object);
 	}
 	/**
 	Returns the mouse position relative to the viewport.
@@ -523,7 +533,7 @@ public:
 	Vector2 getMousePosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMousePosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMousePosition, _godot_object);
 	}
 	/**
 	
@@ -531,7 +541,7 @@ public:
 	Viewport.MSAA getMsaa() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.MSAA)(_classBinding.getMsaa, _godot_object);
+		return ptrcall!(Viewport.MSAA)(GDNativeClassBinding.getMsaa, _godot_object);
 	}
 	/**
 	
@@ -539,7 +549,7 @@ public:
 	bool getPhysicsObjectPicking()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getPhysicsObjectPicking, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getPhysicsObjectPicking, _godot_object);
 	}
 	/**
 	Returns information about the viewport from the rendering pipeline.
@@ -547,7 +557,7 @@ public:
 	long getRenderInfo(in long info)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRenderInfo, _godot_object, info);
+		return ptrcall!(long)(GDNativeClassBinding.getRenderInfo, _godot_object, info);
 	}
 	/**
 	Returns the $(D shadowatlasquadrantsubdiv) of the specified quadrant.
@@ -555,7 +565,7 @@ public:
 	Viewport.ShadowAtlasQuadrantSubdiv getShadowAtlasQuadrantSubdiv(in long quadrant) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.ShadowAtlasQuadrantSubdiv)(_classBinding.getShadowAtlasQuadrantSubdiv, _godot_object, quadrant);
+		return ptrcall!(Viewport.ShadowAtlasQuadrantSubdiv)(GDNativeClassBinding.getShadowAtlasQuadrantSubdiv, _godot_object, quadrant);
 	}
 	/**
 	
@@ -563,7 +573,7 @@ public:
 	long getShadowAtlasSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getShadowAtlasSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getShadowAtlasSize, _godot_object);
 	}
 	/**
 	
@@ -571,7 +581,7 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	Returns the size override set with $(D setSizeOverride).
@@ -579,7 +589,7 @@ public:
 	Vector2 getSizeOverride() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSizeOverride, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSizeOverride, _godot_object);
 	}
 	/**
 	Returns the viewport's texture.
@@ -594,7 +604,7 @@ public:
 	Ref!ViewportTexture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ViewportTexture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(ViewportTexture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -602,7 +612,7 @@ public:
 	Viewport.UpdateMode getUpdateMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.UpdateMode)(_classBinding.getUpdateMode, _godot_object);
+		return ptrcall!(Viewport.UpdateMode)(GDNativeClassBinding.getUpdateMode, _godot_object);
 	}
 	/**
 	
@@ -610,7 +620,7 @@ public:
 	Viewport.Usage getUsage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport.Usage)(_classBinding.getUsage, _godot_object);
+		return ptrcall!(Viewport.Usage)(GDNativeClassBinding.getUsage, _godot_object);
 	}
 	/**
 	
@@ -618,7 +628,7 @@ public:
 	bool getVflip() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getVflip, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getVflip, _godot_object);
 	}
 	/**
 	Returns the viewport's RID from the $(D VisualServer).
@@ -626,7 +636,7 @@ public:
 	RID getViewportRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getViewportRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getViewportRid, _godot_object);
 	}
 	/**
 	Returns the visible rectangle in global screen coordinates.
@@ -634,7 +644,7 @@ public:
 	Rect2 getVisibleRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getVisibleRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getVisibleRect, _godot_object);
 	}
 	/**
 	
@@ -642,7 +652,7 @@ public:
 	Ref!World getWorld() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World)(_classBinding.getWorld, _godot_object);
+		return ptrcall!(World)(GDNativeClassBinding.getWorld, _godot_object);
 	}
 	/**
 	
@@ -650,7 +660,7 @@ public:
 	Ref!World2D getWorld2d() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World2D)(_classBinding.getWorld2d, _godot_object);
+		return ptrcall!(World2D)(GDNativeClassBinding.getWorld2d, _godot_object);
 	}
 	/**
 	Returns the drag data from the GUI, that was previously returned by $(D Control.getDragData).
@@ -658,7 +668,7 @@ public:
 	Variant guiGetDragData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.guiGetDragData, _godot_object);
+		return ptrcall!(Variant)(GDNativeClassBinding.guiGetDragData, _godot_object);
 	}
 	/**
 	Returns `true` if there are visible modals on-screen.
@@ -666,7 +676,7 @@ public:
 	bool guiHasModalStack() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.guiHasModalStack, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.guiHasModalStack, _godot_object);
 	}
 	/**
 	Returns `true` if the viewport is currently performing a drag operation.
@@ -674,7 +684,7 @@ public:
 	bool guiIsDragging() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.guiIsDragging, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.guiIsDragging, _godot_object);
 	}
 	/**
 	
@@ -682,7 +692,7 @@ public:
 	bool hasTransparentBackground() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasTransparentBackground, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasTransparentBackground, _godot_object);
 	}
 	/**
 	
@@ -690,7 +700,7 @@ public:
 	void input(InputEvent local_event)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.input, _godot_object, local_event);
+		ptrcall!(void)(GDNativeClassBinding.input, _godot_object, local_event);
 	}
 	/**
 	
@@ -698,7 +708,7 @@ public:
 	bool is3dDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.is3dDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.is3dDisabled, _godot_object);
 	}
 	/**
 	
@@ -706,7 +716,7 @@ public:
 	bool isAudioListener() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAudioListener, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAudioListener, _godot_object);
 	}
 	/**
 	
@@ -714,7 +724,7 @@ public:
 	bool isAudioListener2d() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAudioListener2d, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAudioListener2d, _godot_object);
 	}
 	/**
 	
@@ -722,7 +732,7 @@ public:
 	bool isHandlingInputLocally() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHandlingInputLocally, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHandlingInputLocally, _godot_object);
 	}
 	/**
 	
@@ -730,7 +740,7 @@ public:
 	bool isInputDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInputDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInputDisabled, _godot_object);
 	}
 	/**
 	
@@ -738,7 +748,7 @@ public:
 	bool isInputHandled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInputHandled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInputHandled, _godot_object);
 	}
 	/**
 	Returns `true` if the size override is enabled. See $(D setSizeOverride).
@@ -746,7 +756,7 @@ public:
 	bool isSizeOverrideEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSizeOverrideEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSizeOverrideEnabled, _godot_object);
 	}
 	/**
 	
@@ -754,7 +764,7 @@ public:
 	bool isSizeOverrideStretchEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSizeOverrideStretchEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSizeOverrideStretchEnabled, _godot_object);
 	}
 	/**
 	
@@ -762,7 +772,7 @@ public:
 	bool isSnapControlsToPixelsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSnapControlsToPixelsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSnapControlsToPixelsEnabled, _godot_object);
 	}
 	/**
 	
@@ -770,7 +780,7 @@ public:
 	bool isUsingOwnWorld() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingOwnWorld, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingOwnWorld, _godot_object);
 	}
 	/**
 	
@@ -778,7 +788,7 @@ public:
 	bool isUsingRenderDirectToScreen() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingRenderDirectToScreen, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingRenderDirectToScreen, _godot_object);
 	}
 	/**
 	
@@ -786,7 +796,7 @@ public:
 	void setAsAudioListener(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsAudioListener, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAsAudioListener, _godot_object, enable);
 	}
 	/**
 	
@@ -794,7 +804,7 @@ public:
 	void setAsAudioListener2d(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsAudioListener2d, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAsAudioListener2d, _godot_object, enable);
 	}
 	/**
 	Attaches this $(D Viewport) to the root $(D Viewport) with the specified rectangle. This bypasses the need for another node to display this $(D Viewport) but makes you responsible for updating the position of this $(D Viewport) manually.
@@ -802,7 +812,7 @@ public:
 	void setAttachToScreenRect(in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAttachToScreenRect, _godot_object, rect);
+		ptrcall!(void)(GDNativeClassBinding.setAttachToScreenRect, _godot_object, rect);
 	}
 	/**
 	
@@ -810,7 +820,7 @@ public:
 	void setCanvasTransform(in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCanvasTransform, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.setCanvasTransform, _godot_object, xform);
 	}
 	/**
 	
@@ -818,7 +828,7 @@ public:
 	void setClearMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClearMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setClearMode, _godot_object, mode);
 	}
 	/**
 	
@@ -826,7 +836,7 @@ public:
 	void setDebugDraw(in long debug_draw)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDebugDraw, _godot_object, debug_draw);
+		ptrcall!(void)(GDNativeClassBinding.setDebugDraw, _godot_object, debug_draw);
 	}
 	/**
 	
@@ -834,7 +844,7 @@ public:
 	void setDisable3d(in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisable3d, _godot_object, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisable3d, _godot_object, disable);
 	}
 	/**
 	
@@ -842,7 +852,7 @@ public:
 	void setDisableInput(in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableInput, _godot_object, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableInput, _godot_object, disable);
 	}
 	/**
 	
@@ -850,7 +860,7 @@ public:
 	void setGlobalCanvasTransform(in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalCanvasTransform, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalCanvasTransform, _godot_object, xform);
 	}
 	/**
 	
@@ -858,7 +868,7 @@ public:
 	void setHandleInputLocally(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHandleInputLocally, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHandleInputLocally, _godot_object, enable);
 	}
 	/**
 	
@@ -866,7 +876,7 @@ public:
 	void setHdr(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHdr, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHdr, _godot_object, enable);
 	}
 	/**
 	Stops the input from propagating further down the $(D SceneTree).
@@ -874,7 +884,7 @@ public:
 	void setInputAsHandled()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputAsHandled, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setInputAsHandled, _godot_object);
 	}
 	/**
 	
@@ -882,7 +892,7 @@ public:
 	void setKeep3dLinear(in bool keep_3d_linear)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeep3dLinear, _godot_object, keep_3d_linear);
+		ptrcall!(void)(GDNativeClassBinding.setKeep3dLinear, _godot_object, keep_3d_linear);
 	}
 	/**
 	
@@ -890,7 +900,7 @@ public:
 	void setMsaa(in long msaa)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMsaa, _godot_object, msaa);
+		ptrcall!(void)(GDNativeClassBinding.setMsaa, _godot_object, msaa);
 	}
 	/**
 	
@@ -898,7 +908,7 @@ public:
 	void setPhysicsObjectPicking(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPhysicsObjectPicking, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setPhysicsObjectPicking, _godot_object, enable);
 	}
 	/**
 	Sets the number of subdivisions to use in the specified quadrant. A higher number of subdivisions allows you to have more shadows in the scene at once, but reduces the quality of the shadows. A good practice is to have quadrants with a varying number of subdivisions and to have as few subdivisions as possible.
@@ -906,7 +916,7 @@ public:
 	void setShadowAtlasQuadrantSubdiv(in long quadrant, in long subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowAtlasQuadrantSubdiv, _godot_object, quadrant, subdiv);
+		ptrcall!(void)(GDNativeClassBinding.setShadowAtlasQuadrantSubdiv, _godot_object, quadrant, subdiv);
 	}
 	/**
 	
@@ -914,7 +924,7 @@ public:
 	void setShadowAtlasSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowAtlasSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setShadowAtlasSize, _godot_object, size);
 	}
 	/**
 	
@@ -922,7 +932,7 @@ public:
 	void setSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
 	Sets the size override of the viewport. If the `enable` parameter is `true` the override is used, otherwise it uses the default size. If the size parameter is `(-1, -1)`, it won't update the size.
@@ -930,7 +940,7 @@ public:
 	void setSizeOverride(in bool enable, in Vector2 size = Vector2(-1, -1), in Vector2 margin = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSizeOverride, _godot_object, enable, size, margin);
+		ptrcall!(void)(GDNativeClassBinding.setSizeOverride, _godot_object, enable, size, margin);
 	}
 	/**
 	
@@ -938,7 +948,7 @@ public:
 	void setSizeOverrideStretch(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSizeOverrideStretch, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSizeOverrideStretch, _godot_object, enabled);
 	}
 	/**
 	
@@ -946,7 +956,7 @@ public:
 	void setSnapControlsToPixels(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnapControlsToPixels, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSnapControlsToPixels, _godot_object, enabled);
 	}
 	/**
 	
@@ -954,7 +964,7 @@ public:
 	void setTransparentBackground(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransparentBackground, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setTransparentBackground, _godot_object, enable);
 	}
 	/**
 	
@@ -962,7 +972,7 @@ public:
 	void setUpdateMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdateMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setUpdateMode, _godot_object, mode);
 	}
 	/**
 	
@@ -970,7 +980,7 @@ public:
 	void setUsage(in long usage)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUsage, _godot_object, usage);
+		ptrcall!(void)(GDNativeClassBinding.setUsage, _godot_object, usage);
 	}
 	/**
 	
@@ -978,7 +988,7 @@ public:
 	void setUseArvr(in bool use)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseArvr, _godot_object, use);
+		ptrcall!(void)(GDNativeClassBinding.setUseArvr, _godot_object, use);
 	}
 	/**
 	
@@ -986,7 +996,7 @@ public:
 	void setUseOwnWorld(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseOwnWorld, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseOwnWorld, _godot_object, enable);
 	}
 	/**
 	
@@ -994,7 +1004,7 @@ public:
 	void setUseRenderDirectToScreen(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseRenderDirectToScreen, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseRenderDirectToScreen, _godot_object, enable);
 	}
 	/**
 	
@@ -1002,7 +1012,7 @@ public:
 	void setVflip(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVflip, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setVflip, _godot_object, enable);
 	}
 	/**
 	
@@ -1010,7 +1020,7 @@ public:
 	void setWorld(World world)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWorld, _godot_object, world);
+		ptrcall!(void)(GDNativeClassBinding.setWorld, _godot_object, world);
 	}
 	/**
 	
@@ -1018,7 +1028,7 @@ public:
 	void setWorld2d(World2D world_2d)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWorld2d, _godot_object, world_2d);
+		ptrcall!(void)(GDNativeClassBinding.setWorld2d, _godot_object, world_2d);
 	}
 	/**
 	
@@ -1026,7 +1036,7 @@ public:
 	void unhandledInput(InputEvent local_event)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unhandledInput, _godot_object, local_event);
+		ptrcall!(void)(GDNativeClassBinding.unhandledInput, _godot_object, local_event);
 	}
 	/**
 	Forces update of the 2D and 3D worlds.
@@ -1034,7 +1044,7 @@ public:
 	void updateWorlds()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateWorlds, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.updateWorlds, _godot_object);
 	}
 	/**
 	
@@ -1042,7 +1052,7 @@ public:
 	bool useArvr()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.useArvr, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.useArvr, _godot_object);
 	}
 	/**
 	Warps the mouse to a position relative to the viewport.
@@ -1050,7 +1060,7 @@ public:
 	void warpMouse(in Vector2 to_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.warpMouse, _godot_object, to_position);
+		ptrcall!(void)(GDNativeClassBinding.warpMouse, _godot_object, to_position);
 	}
 	/**
 	If `true`, the viewport will be used in AR/VR process.
@@ -1174,6 +1184,7 @@ public:
 	}
 	/**
 	If `true`, the viewport rendering will receive benefits from High Dynamic Range algorithm. High Dynamic Range allows the viewport to receive values that are outside the 0-1 range. In Godot HDR uses 16 bits, meaning it does not store the full range of a floating point number.
+	$(B Note:) Requires $(D usage) to be set to $(D constant USAGE_3D) or $(D constant USAGE_3D_NO_EFFECTS), since HDR is not supported for 2D.
 	*/
 	@property bool hdr()
 	{
@@ -1197,7 +1208,7 @@ public:
 		setKeep3dLinear(v);
 	}
 	/**
-	The multisample anti-aliasing mode. A higher number results in smoother edges at the cost of significantly worse performance. A value of 4 is best unless targetting very high-end systems.
+	The multisample anti-aliasing mode. A higher number results in smoother edges at the cost of significantly worse performance. A value of 4 is best unless targeting very high-end systems.
 	*/
 	@property Viewport.MSAA msaa()
 	{

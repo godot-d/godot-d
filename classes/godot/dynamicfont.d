@@ -35,17 +35,18 @@ dynamic_font.size = 64
 $"Label".set("custom_fonts/font", dynamic_font)
 
 
+$(B Note:) DynamicFont doesn't support features such as right-to-left typesetting, ligatures, text shaping, variable fonts and optional font features yet. If you wish to "bake" an optional font feature into a TTF font file, you can use $(D url=https://fontforge.org/)FontForge$(D /url) to do so. In FontForge, use $(B File &gt; Generate Fonts), click $(B Options), choose the desired features then generate the font.
 */
 @GodotBaseClass struct DynamicFont
 {
-	enum string _GODOT_internal_name = "DynamicFont";
+	package(godot) enum string _GODOT_internal_name = "DynamicFont";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Font _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Font _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_fallback") GodotMethod!(void, DynamicFontData) addFallback;
@@ -68,10 +69,20 @@ public:
 		@GodotName("set_use_filter") GodotMethod!(void, bool) setUseFilter;
 		@GodotName("set_use_mipmaps") GodotMethod!(void, bool) setUseMipmaps;
 	}
-	bool opEquals(in DynamicFont other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	DynamicFont opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in DynamicFont other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) DynamicFont opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of DynamicFont.
+	/// Note: use `memnew!DynamicFont` instead.
 	static DynamicFont _new()
 	{
 		static godot_class_constructor constructor;
@@ -114,7 +125,7 @@ public:
 	void addFallback(DynamicFontData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFallback, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.addFallback, _godot_object, data);
 	}
 	/**
 	Returns the fallback font at index `idx`.
@@ -122,7 +133,7 @@ public:
 	Ref!DynamicFontData getFallback(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(DynamicFontData)(_classBinding.getFallback, _godot_object, idx);
+		return ptrcall!(DynamicFontData)(GDNativeClassBinding.getFallback, _godot_object, idx);
 	}
 	/**
 	Returns the number of fallback fonts.
@@ -130,7 +141,7 @@ public:
 	long getFallbackCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFallbackCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFallbackCount, _godot_object);
 	}
 	/**
 	
@@ -138,7 +149,7 @@ public:
 	Ref!DynamicFontData getFontData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(DynamicFontData)(_classBinding.getFontData, _godot_object);
+		return ptrcall!(DynamicFontData)(GDNativeClassBinding.getFontData, _godot_object);
 	}
 	/**
 	
@@ -146,7 +157,7 @@ public:
 	Color getOutlineColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getOutlineColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getOutlineColor, _godot_object);
 	}
 	/**
 	
@@ -154,7 +165,7 @@ public:
 	long getOutlineSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOutlineSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOutlineSize, _godot_object);
 	}
 	/**
 	
@@ -162,7 +173,7 @@ public:
 	long getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	Returns the spacing for the given `type` (see $(D spacingtype)).
@@ -170,7 +181,7 @@ public:
 	long getSpacing(in long type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSpacing, _godot_object, type);
+		return ptrcall!(long)(GDNativeClassBinding.getSpacing, _godot_object, type);
 	}
 	/**
 	
@@ -178,7 +189,7 @@ public:
 	bool getUseFilter() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseFilter, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseFilter, _godot_object);
 	}
 	/**
 	
@@ -186,7 +197,7 @@ public:
 	bool getUseMipmaps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseMipmaps, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseMipmaps, _godot_object);
 	}
 	/**
 	Removes the fallback font at index `idx`.
@@ -194,7 +205,7 @@ public:
 	void removeFallback(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeFallback, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeFallback, _godot_object, idx);
 	}
 	/**
 	Sets the fallback font at index `idx`.
@@ -202,7 +213,7 @@ public:
 	void setFallback(in long idx, DynamicFontData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFallback, _godot_object, idx, data);
+		ptrcall!(void)(GDNativeClassBinding.setFallback, _godot_object, idx, data);
 	}
 	/**
 	
@@ -210,7 +221,7 @@ public:
 	void setFontData(DynamicFontData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFontData, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.setFontData, _godot_object, data);
 	}
 	/**
 	
@@ -218,7 +229,7 @@ public:
 	void setOutlineColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutlineColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setOutlineColor, _godot_object, color);
 	}
 	/**
 	
@@ -226,7 +237,7 @@ public:
 	void setOutlineSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutlineSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setOutlineSize, _godot_object, size);
 	}
 	/**
 	
@@ -234,7 +245,7 @@ public:
 	void setSize(in long data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, data);
 	}
 	/**
 	Sets the spacing for `type` (see $(D spacingtype)) to `value` in pixels (not relative to the font size).
@@ -242,7 +253,7 @@ public:
 	void setSpacing(in long type, in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpacing, _godot_object, type, value);
+		ptrcall!(void)(GDNativeClassBinding.setSpacing, _godot_object, type, value);
 	}
 	/**
 	
@@ -250,7 +261,7 @@ public:
 	void setUseFilter(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseFilter, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseFilter, _godot_object, enable);
 	}
 	/**
 	
@@ -258,7 +269,7 @@ public:
 	void setUseMipmaps(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseMipmaps, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseMipmaps, _godot_object, enable);
 	}
 	/**
 	Extra spacing at the bottom in pixels.

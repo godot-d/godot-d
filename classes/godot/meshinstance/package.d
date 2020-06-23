@@ -32,14 +32,14 @@ MeshInstance is a node that takes a $(D Mesh) resource and adds it to the curren
 */
 @GodotBaseClass struct MeshInstance
 {
-	enum string _GODOT_internal_name = "MeshInstance";
+	package(godot) enum string _GODOT_internal_name = "MeshInstance";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_mesh_changed") GodotMethod!(void) _meshChanged;
@@ -56,10 +56,20 @@ public:
 		@GodotName("set_skin") GodotMethod!(void, Skin) setSkin;
 		@GodotName("set_surface_material") GodotMethod!(void, long, Material) setSurfaceMaterial;
 	}
-	bool opEquals(in MeshInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MeshInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MeshInstance other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MeshInstance opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MeshInstance.
+	/// Note: use `memnew!MeshInstance` instead.
 	static MeshInstance _new()
 	{
 		static godot_class_constructor constructor;
@@ -83,7 +93,7 @@ public:
 	void createConvexCollision()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createConvexCollision, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.createConvexCollision, _godot_object);
 	}
 	/**
 	This helper creates a $(D MeshInstance) child node with gizmos at every vertex calculated from the mesh geometry. It's mainly used for testing.
@@ -91,7 +101,7 @@ public:
 	void createDebugTangents()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createDebugTangents, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.createDebugTangents, _godot_object);
 	}
 	/**
 	This helper creates a $(D StaticBody) child node with a $(D ConcavePolygonShape) collision shape calculated from the mesh geometry. It's mainly used for testing.
@@ -99,7 +109,7 @@ public:
 	void createTrimeshCollision()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createTrimeshCollision, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.createTrimeshCollision, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	NodePath getSkeletonPath()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getSkeletonPath, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getSkeletonPath, _godot_object);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	Ref!Skin getSkin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Skin)(_classBinding.getSkin, _godot_object);
+		return ptrcall!(Skin)(GDNativeClassBinding.getSkin, _godot_object);
 	}
 	/**
 	Returns the $(D Material) for a surface of the $(D Mesh) resource.
@@ -131,7 +141,7 @@ public:
 	Ref!Material getSurfaceMaterial(in long surface) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getSurfaceMaterial, _godot_object, surface);
+		return ptrcall!(Material)(GDNativeClassBinding.getSurfaceMaterial, _godot_object, surface);
 	}
 	/**
 	Returns the number of surface materials.
@@ -139,7 +149,7 @@ public:
 	long getSurfaceMaterialCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSurfaceMaterialCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSurfaceMaterialCount, _godot_object);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	void setMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setMesh, _godot_object, mesh);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	void setSkeletonPath(NodePathArg0)(in NodePathArg0 skeleton_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkeletonPath, _godot_object, skeleton_path);
+		ptrcall!(void)(GDNativeClassBinding.setSkeletonPath, _godot_object, skeleton_path);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	void setSkin(Skin skin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkin, _godot_object, skin);
+		ptrcall!(void)(GDNativeClassBinding.setSkin, _godot_object, skin);
 	}
 	/**
 	Sets the $(D Material) for a surface of the $(D Mesh) resource.
@@ -171,7 +181,7 @@ public:
 	void setSurfaceMaterial(in long surface, Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSurfaceMaterial, _godot_object, surface, material);
+		ptrcall!(void)(GDNativeClassBinding.setSurfaceMaterial, _godot_object, surface, material);
 	}
 	/**
 	The $(D Mesh) resource for the instance.

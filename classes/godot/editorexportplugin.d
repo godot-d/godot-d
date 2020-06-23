@@ -1,5 +1,5 @@
 /**
-
+A script that is executed when exporting projects.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,18 +21,18 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
-
+A script that is executed when exporting projects.
 */
 @GodotBaseClass struct EditorExportPlugin
 {
-	enum string _GODOT_internal_name = "EditorExportPlugin";
+	package(godot) enum string _GODOT_internal_name = "EditorExportPlugin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_export_begin") GodotMethod!(void, PoolStringArray, bool, String, long) _exportBegin;
@@ -47,10 +47,20 @@ public:
 		@GodotName("add_shared_object") GodotMethod!(void, String, PoolStringArray) addSharedObject;
 		@GodotName("skip") GodotMethod!(void) skip;
 	}
-	bool opEquals(in EditorExportPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorExportPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorExportPlugin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorExportPlugin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorExportPlugin.
+	/// Note: use `memnew!EditorExportPlugin` instead.
 	static EditorExportPlugin _new()
 	{
 		static godot_class_constructor constructor;
@@ -60,7 +70,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Virtual method to be overridden by the user. It is called when the export starts and provides all information about the export.
 	*/
 	void _exportBegin(in PoolStringArray features, in bool is_debug, in String path, in long flags)
 	{
@@ -73,7 +83,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Virtual method to be overridden by the user. Called when the export is finished.
 	*/
 	void _exportEnd()
 	{
@@ -99,7 +109,7 @@ public:
 	void addFile(in String path, in PoolByteArray file, in bool remap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFile, _godot_object, path, file, remap);
+		ptrcall!(void)(GDNativeClassBinding.addFile, _godot_object, path, file, remap);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void addIosBundleFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosBundleFile, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.addIosBundleFile, _godot_object, path);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void addIosCppCode(in String code)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosCppCode, _godot_object, code);
+		ptrcall!(void)(GDNativeClassBinding.addIosCppCode, _godot_object, code);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	void addIosFramework(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosFramework, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.addIosFramework, _godot_object, path);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	void addIosLinkerFlags(in String flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosLinkerFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.addIosLinkerFlags, _godot_object, flags);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	void addIosPlistContent(in String plist_content)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIosPlistContent, _godot_object, plist_content);
+		ptrcall!(void)(GDNativeClassBinding.addIosPlistContent, _godot_object, plist_content);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	void addSharedObject(in String path, in PoolStringArray tags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSharedObject, _godot_object, path, tags);
+		ptrcall!(void)(GDNativeClassBinding.addSharedObject, _godot_object, path, tags);
 	}
 	/**
 	
@@ -155,6 +165,6 @@ public:
 	void skip()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.skip, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.skip, _godot_object);
 	}
 }

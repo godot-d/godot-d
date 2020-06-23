@@ -30,14 +30,14 @@ Once the Bodies swing, the twist axis is calculated as the middle of the x-axes 
 */
 @GodotBaseClass struct ConeTwistJoint
 {
-	enum string _GODOT_internal_name = "ConeTwistJoint";
+	package(godot) enum string _GODOT_internal_name = "ConeTwistJoint";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Joint _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Joint _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_swing_span") GodotMethod!(double) _getSwingSpan;
@@ -47,10 +47,20 @@ public:
 		@GodotName("get_param") GodotMethod!(double, long) getParam;
 		@GodotName("set_param") GodotMethod!(void, long, double) setParam;
 	}
-	bool opEquals(in ConeTwistJoint other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ConeTwistJoint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ConeTwistJoint other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ConeTwistJoint opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ConeTwistJoint.
+	/// Note: use `memnew!ConeTwistJoint` instead.
 	static ConeTwistJoint _new()
 	{
 		static godot_class_constructor constructor;
@@ -146,7 +156,7 @@ public:
 	double getParam(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParam, _godot_object, param);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	void setParam(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParam, _godot_object, param, value);
 	}
 	/**
 	The speed with which the swing or twist will take place.

@@ -31,14 +31,14 @@ Keep in mind that, as long as plane detection is enabled, the size, placing and 
 */
 @GodotBaseClass struct ARVRAnchor
 {
-	enum string _GODOT_internal_name = "ARVRAnchor";
+	package(godot) enum string _GODOT_internal_name = "ARVRAnchor";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_anchor_id") GodotMethod!(long) getAnchorId;
@@ -49,10 +49,20 @@ public:
 		@GodotName("get_size") GodotMethod!(Vector3) getSize;
 		@GodotName("set_anchor_id") GodotMethod!(void, long) setAnchorId;
 	}
-	bool opEquals(in ARVRAnchor other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ARVRAnchor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ARVRAnchor other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ARVRAnchor opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ARVRAnchor.
+	/// Note: use `memnew!ARVRAnchor` instead.
 	static ARVRAnchor _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	long getAnchorId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAnchorId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAnchorId, _godot_object);
 	}
 	/**
 	Returns the name given to this anchor.
@@ -75,7 +85,7 @@ public:
 	String getAnchorName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAnchorName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAnchorName, _godot_object);
 	}
 	/**
 	Returns `true` if the anchor is being tracked and `false` if no anchor with this ID is currently known.
@@ -83,7 +93,7 @@ public:
 	bool getIsActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getIsActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getIsActive, _godot_object);
 	}
 	/**
 	If provided by the $(D ARVRInterface), this returns a mesh object for the anchor. For an anchor, this can be a shape related to the object being tracked or it can be a mesh that provides topology related to the anchor and can be used to create shadows/reflections on surfaces or for generating collision shapes.
@@ -91,7 +101,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	Returns a plane aligned with our anchor; handy for intersection testing.
@@ -99,7 +109,7 @@ public:
 	Plane getPlane() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Plane)(_classBinding.getPlane, _godot_object);
+		return ptrcall!(Plane)(GDNativeClassBinding.getPlane, _godot_object);
 	}
 	/**
 	Returns the estimated size of the plane that was detected. Say when the anchor relates to a table in the real world, this is the estimated size of the surface of that table.
@@ -107,7 +117,7 @@ public:
 	Vector3 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void setAnchorId(in long anchor_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorId, _godot_object, anchor_id);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorId, _godot_object, anchor_id);
 	}
 	/**
 	The anchor's ID. You can set this before the anchor itself exists. The first anchor gets an ID of `1`, the second an ID of `2`, etc. When anchors get removed, the engine can then assign the corresponding ID to new anchors. The most common situation where anchors "disappear" is when the AR server identifies that two anchors represent different parts of the same plane and merges them.

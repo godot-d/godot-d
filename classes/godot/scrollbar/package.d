@@ -31,14 +31,14 @@ Scrollbars are a $(D Range)-based $(D Control), that display a draggable area (t
 */
 @GodotBaseClass struct ScrollBar
 {
-	enum string _GODOT_internal_name = "ScrollBar";
+	package(godot) enum string _GODOT_internal_name = "ScrollBar";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Range _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_drag_node_exit") GodotMethod!(void) _dragNodeExit;
@@ -47,10 +47,20 @@ public:
 		@GodotName("get_custom_step") GodotMethod!(double) getCustomStep;
 		@GodotName("set_custom_step") GodotMethod!(void, double) setCustomStep;
 	}
-	bool opEquals(in ScrollBar other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ScrollBar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ScrollBar other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ScrollBar opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ScrollBar.
+	/// Note: use `memnew!ScrollBar` instead.
 	static ScrollBar _new()
 	{
 		static godot_class_constructor constructor;
@@ -94,7 +104,7 @@ public:
 	double getCustomStep() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCustomStep, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCustomStep, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	void setCustomStep(in double step)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomStep, _godot_object, step);
+		ptrcall!(void)(GDNativeClassBinding.setCustomStep, _godot_object, step);
 	}
 	/**
 	Overrides the step used when clicking increment and decrement buttons or when using arrow keys when the $(D ScrollBar) is focused.

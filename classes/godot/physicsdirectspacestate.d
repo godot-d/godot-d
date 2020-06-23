@@ -27,14 +27,14 @@ It's used mainly to do queries against objects and areas residing in a given spa
 */
 @GodotBaseClass struct PhysicsDirectSpaceState
 {
-	enum string _GODOT_internal_name = "PhysicsDirectSpaceState";
+	package(godot) enum string _GODOT_internal_name = "PhysicsDirectSpaceState";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("cast_motion") GodotMethod!(Array, PhysicsShapeQueryParameters, Vector3) castMotion;
@@ -43,10 +43,20 @@ public:
 		@GodotName("intersect_ray") GodotMethod!(Dictionary, Vector3, Vector3, Array, long, bool, bool) intersectRay;
 		@GodotName("intersect_shape") GodotMethod!(Array, PhysicsShapeQueryParameters, long) intersectShape;
 	}
-	bool opEquals(in PhysicsDirectSpaceState other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PhysicsDirectSpaceState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PhysicsDirectSpaceState other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PhysicsDirectSpaceState opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PhysicsDirectSpaceState.
+	/// Note: use `memnew!PhysicsDirectSpaceState` instead.
 	static PhysicsDirectSpaceState _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	Array castMotion(PhysicsShapeQueryParameters shape, in Vector3 motion)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.castMotion, _godot_object, shape, motion);
+		return ptrcall!(Array)(GDNativeClassBinding.castMotion, _godot_object, shape, motion);
 	}
 	/**
 	Checks the intersections of a shape, given through a $(D PhysicsShapeQueryParameters) object, against the space. The resulting array contains a list of points where the shape intersects another. Like with $(D intersectShape), the number of returned results can be limited to save processing time.
@@ -70,7 +80,7 @@ public:
 	Array collideShape(PhysicsShapeQueryParameters shape, in long max_results = 32)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.collideShape, _godot_object, shape, max_results);
+		return ptrcall!(Array)(GDNativeClassBinding.collideShape, _godot_object, shape, max_results);
 	}
 	/**
 	Checks the intersections of a shape, given through a $(D PhysicsShapeQueryParameters) object, against the space. If it collides with more than one shape, the nearest one is selected. The returned object is a dictionary containing the following fields:
@@ -85,7 +95,7 @@ public:
 	Dictionary getRestInfo(PhysicsShapeQueryParameters shape)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getRestInfo, _godot_object, shape);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getRestInfo, _godot_object, shape);
 	}
 	/**
 	Intersects a ray in a given space. The returned object is a dictionary with the following fields:
@@ -101,7 +111,7 @@ public:
 	Dictionary intersectRay(in Vector3 from, in Vector3 to, in Array exclude = Array.make(), in long collision_mask = 2147483647, in bool collide_with_bodies = true, in bool collide_with_areas = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.intersectRay, _godot_object, from, to, exclude, collision_mask, collide_with_bodies, collide_with_areas);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.intersectRay, _godot_object, from, to, exclude, collision_mask, collide_with_bodies, collide_with_areas);
 	}
 	/**
 	Checks the intersections of a shape, given through a $(D PhysicsShapeQueryParameters) object, against the space. The intersected shapes are returned in an array containing dictionaries with the following fields:
@@ -114,6 +124,6 @@ public:
 	Array intersectShape(PhysicsShapeQueryParameters shape, in long max_results = 32)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.intersectShape, _godot_object, shape, max_results);
+		return ptrcall!(Array)(GDNativeClassBinding.intersectShape, _godot_object, shape, max_results);
 	}
 }

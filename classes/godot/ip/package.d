@@ -26,14 +26,14 @@ IP contains support functions for the Internet Protocol (IP). TCP/IP support is 
 */
 @GodotBaseClass struct IPSingleton
 {
-	enum string _GODOT_internal_name = "IP";
+	package(godot) enum string _GODOT_internal_name = "IP";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -47,10 +47,20 @@ public:
 		@GodotName("resolve_hostname") GodotMethod!(String, String, long) resolveHostname;
 		@GodotName("resolve_hostname_queue_item") GodotMethod!(long, String, long) resolveHostnameQueueItem;
 	}
-	bool opEquals(in IPSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	IPSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in IPSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) IPSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of IPSingleton.
+	/// Note: use `memnew!IPSingleton` instead.
 	static IPSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -125,7 +135,7 @@ public:
 	void clearCache(in String hostname = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCache, _godot_object, hostname);
+		ptrcall!(void)(GDNativeClassBinding.clearCache, _godot_object, hostname);
 	}
 	/**
 	Removes a given item `id` from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
@@ -133,7 +143,7 @@ public:
 	void eraseResolveItem(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseResolveItem, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.eraseResolveItem, _godot_object, id);
 	}
 	/**
 	Returns all of the user's current IPv4 and IPv6 addresses as an array.
@@ -141,7 +151,7 @@ public:
 	Array getLocalAddresses() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getLocalAddresses, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getLocalAddresses, _godot_object);
 	}
 	/**
 	Returns all network adapters as an array.
@@ -160,7 +170,7 @@ public:
 	Array getLocalInterfaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getLocalInterfaces, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getLocalInterfaces, _godot_object);
 	}
 	/**
 	Returns a queued hostname's IP address, given its queue `id`. Returns an empty string on error or if resolution hasn't happened yet (see $(D getResolveItemStatus)).
@@ -168,7 +178,7 @@ public:
 	String getResolveItemAddress(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getResolveItemAddress, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.getResolveItemAddress, _godot_object, id);
 	}
 	/**
 	Returns a queued hostname's status as a $(D resolverstatus) constant, given its queue `id`.
@@ -176,7 +186,7 @@ public:
 	IP.ResolverStatus getResolveItemStatus(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(IP.ResolverStatus)(_classBinding.getResolveItemStatus, _godot_object, id);
+		return ptrcall!(IP.ResolverStatus)(GDNativeClassBinding.getResolveItemStatus, _godot_object, id);
 	}
 	/**
 	Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the $(D type) constant given as `ip_type`.
@@ -184,7 +194,7 @@ public:
 	String resolveHostname(in String host, in long ip_type = 3)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.resolveHostname, _godot_object, host, ip_type);
+		return ptrcall!(String)(GDNativeClassBinding.resolveHostname, _godot_object, host, ip_type);
 	}
 	/**
 	Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the $(D type) constant given as `ip_type`. Returns the queue ID if successful, or $(D constant RESOLVER_INVALID_ID) on error.
@@ -192,7 +202,7 @@ public:
 	long resolveHostnameQueueItem(in String host, in long ip_type = 3)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.resolveHostnameQueueItem, _godot_object, host, ip_type);
+		return ptrcall!(long)(GDNativeClassBinding.resolveHostnameQueueItem, _godot_object, host, ip_type);
 	}
 }
 /// Returns: the IPSingleton
@@ -200,5 +210,5 @@ public:
 IPSingleton IP()
 {
 	checkClassBinding!IPSingleton();
-	return IPSingleton(IPSingleton._classBinding._singleton);
+	return IPSingleton(IPSingleton.GDNativeClassBinding._singleton);
 }

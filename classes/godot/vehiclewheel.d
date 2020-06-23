@@ -29,14 +29,14 @@ This node needs to be used as a child node of $(D VehicleBody) and simulates the
 */
 @GodotBaseClass struct VehicleWheel
 {
-	enum string _GODOT_internal_name = "VehicleWheel";
+	package(godot) enum string _GODOT_internal_name = "VehicleWheel";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_brake") GodotMethod!(double) getBrake;
@@ -71,10 +71,20 @@ public:
 		@GodotName("set_use_as_steering") GodotMethod!(void, bool) setUseAsSteering;
 		@GodotName("set_use_as_traction") GodotMethod!(void, bool) setUseAsTraction;
 	}
-	bool opEquals(in VehicleWheel other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VehicleWheel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VehicleWheel other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VehicleWheel opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VehicleWheel.
+	/// Note: use `memnew!VehicleWheel` instead.
 	static VehicleWheel _new()
 	{
 		static godot_class_constructor constructor;
@@ -89,7 +99,7 @@ public:
 	double getBrake() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBrake, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBrake, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	double getDampingCompression() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDampingCompression, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDampingCompression, _godot_object);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	double getDampingRelaxation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDampingRelaxation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDampingRelaxation, _godot_object);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	double getEngineForce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEngineForce, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEngineForce, _godot_object);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	double getFrictionSlip() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFrictionSlip, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFrictionSlip, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	double getRollInfluence() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRollInfluence, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRollInfluence, _godot_object);
 	}
 	/**
 	Returns the rotational speed of the wheel in revolutions per minute.
@@ -145,7 +155,7 @@ public:
 	double getRpm() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRpm, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRpm, _godot_object);
 	}
 	/**
 	Returns a value between 0.0 and 1.0 that indicates whether this wheel is skidding. 0.0 is skidding (the wheel has lost grip, e.g. icy terrain), 1.0 means not skidding (the wheel has full grip, e.g. dry asphalt road).
@@ -153,7 +163,7 @@ public:
 	double getSkidinfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSkidinfo, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSkidinfo, _godot_object);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	double getSteering() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSteering, _godot_object);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	double getSuspensionMaxForce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSuspensionMaxForce, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSuspensionMaxForce, _godot_object);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	double getSuspensionRestLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSuspensionRestLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSuspensionRestLength, _godot_object);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	double getSuspensionStiffness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSuspensionStiffness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSuspensionStiffness, _godot_object);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	double getSuspensionTravel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSuspensionTravel, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSuspensionTravel, _godot_object);
 	}
 	/**
 	Returns `true` if this wheel is in contact with a surface.
@@ -201,7 +211,7 @@ public:
 	bool isInContact() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInContact, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInContact, _godot_object);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	bool isUsedAsSteering() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsedAsSteering, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsedAsSteering, _godot_object);
 	}
 	/**
 	
@@ -217,7 +227,7 @@ public:
 	bool isUsedAsTraction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsedAsTraction, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsedAsTraction, _godot_object);
 	}
 	/**
 	
@@ -225,7 +235,7 @@ public:
 	void setBrake(in double brake)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBrake, _godot_object, brake);
+		ptrcall!(void)(GDNativeClassBinding.setBrake, _godot_object, brake);
 	}
 	/**
 	
@@ -233,7 +243,7 @@ public:
 	void setDampingCompression(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDampingCompression, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setDampingCompression, _godot_object, length);
 	}
 	/**
 	
@@ -241,7 +251,7 @@ public:
 	void setDampingRelaxation(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDampingRelaxation, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setDampingRelaxation, _godot_object, length);
 	}
 	/**
 	
@@ -249,7 +259,7 @@ public:
 	void setEngineForce(in double engine_force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEngineForce, _godot_object, engine_force);
+		ptrcall!(void)(GDNativeClassBinding.setEngineForce, _godot_object, engine_force);
 	}
 	/**
 	
@@ -257,7 +267,7 @@ public:
 	void setFrictionSlip(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrictionSlip, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setFrictionSlip, _godot_object, length);
 	}
 	/**
 	
@@ -265,7 +275,7 @@ public:
 	void setRadius(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setRadius, _godot_object, length);
 	}
 	/**
 	
@@ -273,7 +283,7 @@ public:
 	void setRollInfluence(in double roll_influence)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRollInfluence, _godot_object, roll_influence);
+		ptrcall!(void)(GDNativeClassBinding.setRollInfluence, _godot_object, roll_influence);
 	}
 	/**
 	
@@ -281,7 +291,7 @@ public:
 	void setSteering(in double steering)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSteering, _godot_object, steering);
+		ptrcall!(void)(GDNativeClassBinding.setSteering, _godot_object, steering);
 	}
 	/**
 	
@@ -289,7 +299,7 @@ public:
 	void setSuspensionMaxForce(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSuspensionMaxForce, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setSuspensionMaxForce, _godot_object, length);
 	}
 	/**
 	
@@ -297,7 +307,7 @@ public:
 	void setSuspensionRestLength(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSuspensionRestLength, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setSuspensionRestLength, _godot_object, length);
 	}
 	/**
 	
@@ -305,7 +315,7 @@ public:
 	void setSuspensionStiffness(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSuspensionStiffness, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setSuspensionStiffness, _godot_object, length);
 	}
 	/**
 	
@@ -313,7 +323,7 @@ public:
 	void setSuspensionTravel(in double length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSuspensionTravel, _godot_object, length);
+		ptrcall!(void)(GDNativeClassBinding.setSuspensionTravel, _godot_object, length);
 	}
 	/**
 	
@@ -321,7 +331,7 @@ public:
 	void setUseAsSteering(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseAsSteering, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseAsSteering, _godot_object, enable);
 	}
 	/**
 	
@@ -329,7 +339,7 @@ public:
 	void setUseAsTraction(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseAsTraction, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseAsTraction, _godot_object, enable);
 	}
 	/**
 	Slows down the wheel by applying a braking force. The wheel is only slowed down if it is in contact with a surface. The force you need to apply to adequately slow down your vehicle depends on the $(D RigidBody.mass) of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 30 range for hard braking.

@@ -29,17 +29,18 @@ import godot.inputevent;
 Control for holding $(D Viewport)s.
 
 A $(D Container) node that holds a $(D Viewport), automatically setting its size.
+$(B Note:) Changing a ViewportContainer's $(D Control.rectScale) will cause its contents to appear distorted. To change its visual size without causing distortion, adjust the node's margins instead (if it's not already in a container).
 */
 @GodotBaseClass struct ViewportContainer
 {
-	enum string _GODOT_internal_name = "ViewportContainer";
+	package(godot) enum string _GODOT_internal_name = "ViewportContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_input") GodotMethod!(void, InputEvent) _input;
@@ -49,10 +50,20 @@ public:
 		@GodotName("set_stretch") GodotMethod!(void, bool) setStretch;
 		@GodotName("set_stretch_shrink") GodotMethod!(void, long) setStretchShrink;
 	}
-	bool opEquals(in ViewportContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ViewportContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ViewportContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ViewportContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ViewportContainer.
+	/// Note: use `memnew!ViewportContainer` instead.
 	static ViewportContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -87,7 +98,7 @@ public:
 	long getStretchShrink() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStretchShrink, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getStretchShrink, _godot_object);
 	}
 	/**
 	
@@ -95,7 +106,7 @@ public:
 	bool isStretchEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isStretchEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isStretchEnabled, _godot_object);
 	}
 	/**
 	
@@ -103,7 +114,7 @@ public:
 	void setStretch(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretch, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setStretch, _godot_object, enable);
 	}
 	/**
 	
@@ -111,7 +122,7 @@ public:
 	void setStretchShrink(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchShrink, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setStretchShrink, _godot_object, amount);
 	}
 	/**
 	If `true`, the viewport will be scaled to the control's size.

@@ -31,14 +31,14 @@ Plays input signal back after a period of time. The delayed signal may be played
 */
 @GodotBaseClass struct AudioEffectDelay
 {
-	enum string _GODOT_internal_name = "AudioEffectDelay";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectDelay";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_dry") GodotMethod!(double) getDry;
@@ -68,10 +68,20 @@ public:
 		@GodotName("set_tap2_level_db") GodotMethod!(void, double) setTap2LevelDb;
 		@GodotName("set_tap2_pan") GodotMethod!(void, double) setTap2Pan;
 	}
-	bool opEquals(in AudioEffectDelay other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectDelay opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectDelay other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectDelay opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectDelay.
+	/// Note: use `memnew!AudioEffectDelay` instead.
 	static AudioEffectDelay _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	double getDry()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDry, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDry, _godot_object);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	double getFeedbackDelayMs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFeedbackDelayMs, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFeedbackDelayMs, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	double getFeedbackLevelDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFeedbackLevelDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFeedbackLevelDb, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	double getFeedbackLowpass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFeedbackLowpass, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFeedbackLowpass, _godot_object);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	double getTap1DelayMs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap1DelayMs, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap1DelayMs, _godot_object);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	double getTap1LevelDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap1LevelDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap1LevelDb, _godot_object);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	double getTap1Pan() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap1Pan, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap1Pan, _godot_object);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	double getTap2DelayMs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap2DelayMs, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap2DelayMs, _godot_object);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	double getTap2LevelDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap2LevelDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap2LevelDb, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	double getTap2Pan() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTap2Pan, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTap2Pan, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	bool isFeedbackActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFeedbackActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFeedbackActive, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	bool isTap1Active() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isTap1Active, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isTap1Active, _godot_object);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	bool isTap2Active() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isTap2Active, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isTap2Active, _godot_object);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	void setDry(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setDry, _godot_object, amount);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	void setFeedbackActive(in bool amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedbackActive, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFeedbackActive, _godot_object, amount);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	void setFeedbackDelayMs(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedbackDelayMs, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFeedbackDelayMs, _godot_object, amount);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	void setFeedbackLevelDb(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedbackLevelDb, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFeedbackLevelDb, _godot_object, amount);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	void setFeedbackLowpass(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedbackLowpass, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFeedbackLowpass, _godot_object, amount);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	void setTap1Active(in bool amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap1Active, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap1Active, _godot_object, amount);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	void setTap1DelayMs(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap1DelayMs, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap1DelayMs, _godot_object, amount);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	void setTap1LevelDb(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap1LevelDb, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap1LevelDb, _godot_object, amount);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	void setTap1Pan(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap1Pan, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap1Pan, _godot_object, amount);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	void setTap2Active(in bool amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap2Active, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap2Active, _godot_object, amount);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	void setTap2DelayMs(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap2DelayMs, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap2DelayMs, _godot_object, amount);
 	}
 	/**
 	
@@ -278,7 +288,7 @@ public:
 	void setTap2LevelDb(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap2LevelDb, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap2LevelDb, _godot_object, amount);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	void setTap2Pan(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTap2Pan, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTap2Pan, _godot_object, amount);
 	}
 	/**
 	Output percent of original sound. At 0, only delayed sounds are output. Value can range from 0 to 1.

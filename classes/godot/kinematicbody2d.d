@@ -31,14 +31,14 @@ $(B Kinematic characters:) KinematicBody2D also has an API for moving objects (t
 */
 @GodotBaseClass struct KinematicBody2D
 {
-	enum string _GODOT_internal_name = "KinematicBody2D";
+	package(godot) enum string _GODOT_internal_name = "KinematicBody2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PhysicsBody2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PhysicsBody2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_direct_state_changed") GodotMethod!(void, GodotObject) _directStateChanged;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_sync_to_physics") GodotMethod!(void, bool) setSyncToPhysics;
 		@GodotName("test_move") GodotMethod!(bool, Transform2D, Vector2, bool) testMove;
 	}
-	bool opEquals(in KinematicBody2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	KinematicBody2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in KinematicBody2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) KinematicBody2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of KinematicBody2D.
+	/// Note: use `memnew!KinematicBody2D` instead.
 	static KinematicBody2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	Vector2 getFloorNormal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFloorNormal, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFloorNormal, _godot_object);
 	}
 	/**
 	Returns the linear velocity of the floor at the last collision point. Only valid after calling $(D moveAndSlide) or $(D moveAndSlideWithSnap) and when $(D isOnFloor) returns `true`.
@@ -94,7 +104,7 @@ public:
 	Vector2 getFloorVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFloorVelocity, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFloorVelocity, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	double getSafeMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSafeMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSafeMargin, _godot_object);
 	}
 	/**
 	Returns a $(D KinematicCollision2D), which contains information about a collision that occurred during the last $(D moveAndSlide) call. Since the body can collide several times in a single call to $(D moveAndSlide), you must specify the index of the collision in the range 0 to ($(D getSlideCount) - 1).
@@ -118,7 +128,7 @@ public:
 	Ref!KinematicCollision2D getSlideCollision(in long slide_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(KinematicCollision2D)(_classBinding.getSlideCollision, _godot_object, slide_idx);
+		return ptrcall!(KinematicCollision2D)(GDNativeClassBinding.getSlideCollision, _godot_object, slide_idx);
 	}
 	/**
 	Returns the number of times the body collided and changed direction during the last call to $(D moveAndSlide).
@@ -126,7 +136,7 @@ public:
 	long getSlideCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSlideCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSlideCount, _godot_object);
 	}
 	/**
 	Returns `true` if the body is on the ceiling. Only updates when calling $(D moveAndSlide).
@@ -134,7 +144,7 @@ public:
 	bool isOnCeiling() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOnCeiling, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOnCeiling, _godot_object);
 	}
 	/**
 	Returns `true` if the body is on the floor. Only updates when calling $(D moveAndSlide).
@@ -142,7 +152,7 @@ public:
 	bool isOnFloor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOnFloor, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOnFloor, _godot_object);
 	}
 	/**
 	Returns `true` if the body is on a wall. Only updates when calling $(D moveAndSlide).
@@ -150,7 +160,7 @@ public:
 	bool isOnWall() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOnWall, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOnWall, _godot_object);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	bool isSyncToPhysicsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSyncToPhysicsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSyncToPhysicsEnabled, _godot_object);
 	}
 	/**
 	Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a $(D KinematicCollision2D), which contains information about the collision.
@@ -167,11 +177,12 @@ public:
 	Ref!KinematicCollision2D moveAndCollide(in Vector2 rel_vec, in bool infinite_inertia = true, in bool exclude_raycast_shapes = true, in bool test_only = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(KinematicCollision2D)(_classBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, exclude_raycast_shapes, test_only);
+		return ptrcall!(KinematicCollision2D)(GDNativeClassBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, exclude_raycast_shapes, test_only);
 	}
 	/**
 	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a $(D KinematicBody2D) or $(D RigidBody2D), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
-	`linear_velocity` is the velocity vector in pixels per second. Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity.
+	This method should be used in $(D Node._physicsProcess) (or in a method called by $(D Node._physicsProcess)), as it uses the physics step's `delta` value automatically in calculations. Otherwise, the simulation will run at an incorrect speed.
+	`linear_velocity` is the velocity vector in pixels per second. Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity. 
 	`up_direction` is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of `Vector2(0, 0)`, everything is considered a wall. This is useful for topdown games.
 	If `stop_on_slope` is `true`, body will not slide on slopes when you include gravity in `linear_velocity` and the body is standing still.
 	If the body collides, it will change direction a maximum of `max_slides` times before it stops.
@@ -182,7 +193,7 @@ public:
 	Vector2 moveAndSlide(in Vector2 linear_velocity, in Vector2 up_direction = Vector2(0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.moveAndSlide, _godot_object, linear_velocity, up_direction, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
+		return ptrcall!(Vector2)(GDNativeClassBinding.moveAndSlide, _godot_object, linear_velocity, up_direction, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
 	}
 	/**
 	Moves the body while keeping it attached to slopes. Similar to $(D moveAndSlide).
@@ -191,7 +202,7 @@ public:
 	Vector2 moveAndSlideWithSnap(in Vector2 linear_velocity, in Vector2 snap, in Vector2 up_direction = Vector2(0, 0), in bool stop_on_slope = false, in long max_slides = 4, in double floor_max_angle = 0.785398, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, up_direction, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
+		return ptrcall!(Vector2)(GDNativeClassBinding.moveAndSlideWithSnap, _godot_object, linear_velocity, snap, up_direction, stop_on_slope, max_slides, floor_max_angle, infinite_inertia);
 	}
 	/**
 	
@@ -199,7 +210,7 @@ public:
 	void setSafeMargin(in double pixels)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSafeMargin, _godot_object, pixels);
+		ptrcall!(void)(GDNativeClassBinding.setSafeMargin, _godot_object, pixels);
 	}
 	/**
 	
@@ -207,7 +218,7 @@ public:
 	void setSyncToPhysics(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSyncToPhysics, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSyncToPhysics, _godot_object, enable);
 	}
 	/**
 	Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given $(D Transform2D), then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
@@ -215,7 +226,7 @@ public:
 	bool testMove(in Transform2D from, in Vector2 rel_vec, in bool infinite_inertia = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.testMove, _godot_object, from, rel_vec, infinite_inertia);
+		return ptrcall!(bool)(GDNativeClassBinding.testMove, _godot_object, from, rel_vec, infinite_inertia);
 	}
 	/**
 	If the body is at least this close to another body, this body will consider them to be colliding.

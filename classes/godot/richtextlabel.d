@@ -35,14 +35,14 @@ $(B Note:) Assignments to $(D bbcodeText) clear the tag stack and reconstruct it
 */
 @GodotBaseClass struct RichTextLabel
 {
-	enum string _GODOT_internal_name = "RichTextLabel";
+	package(godot) enum string _GODOT_internal_name = "RichTextLabel";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -104,10 +104,20 @@ public:
 		@GodotName("set_use_bbcode") GodotMethod!(void, bool) setUseBbcode;
 		@GodotName("set_visible_characters") GodotMethod!(void, long) setVisibleCharacters;
 	}
-	bool opEquals(in RichTextLabel other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RichTextLabel opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RichTextLabel other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RichTextLabel opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RichTextLabel.
+	/// Note: use `memnew!RichTextLabel` instead.
 	static RichTextLabel _new()
 	{
 		static godot_class_constructor constructor;
@@ -289,7 +299,7 @@ public:
 	void addImage(Texture image, in long width = 0, in long height = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addImage, _godot_object, image, width, height);
+		ptrcall!(void)(GDNativeClassBinding.addImage, _godot_object, image, width, height);
 	}
 	/**
 	Adds raw non-BBCode-parsed text to the tag stack.
@@ -297,7 +307,7 @@ public:
 	void addText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.addText, _godot_object, text);
 	}
 	/**
 	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, $(D constant OK) if successful.
@@ -305,7 +315,7 @@ public:
 	GodotError appendBbcode(in String bbcode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.appendBbcode, _godot_object, bbcode);
+		return ptrcall!(GodotError)(GDNativeClassBinding.appendBbcode, _godot_object, bbcode);
 	}
 	/**
 	Clears the tag stack and sets $(D bbcodeText) to an empty string.
@@ -313,7 +323,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	
@@ -321,7 +331,7 @@ public:
 	String getBbcode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBbcode, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBbcode, _godot_object);
 	}
 	/**
 	Returns the height of the content.
@@ -329,7 +339,7 @@ public:
 	long getContentHeight()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContentHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getContentHeight, _godot_object);
 	}
 	/**
 	
@@ -337,7 +347,7 @@ public:
 	Array getEffects()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getEffects, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getEffects, _godot_object);
 	}
 	/**
 	Returns the total number of newlines in the tag stack's text tags. Considers wrapped text as one line.
@@ -345,7 +355,7 @@ public:
 	long getLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLineCount, _godot_object);
 	}
 	/**
 	
@@ -353,7 +363,7 @@ public:
 	double getPercentVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPercentVisible, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPercentVisible, _godot_object);
 	}
 	/**
 	
@@ -361,7 +371,7 @@ public:
 	long getTabSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabSize, _godot_object);
 	}
 	/**
 	
@@ -369,7 +379,7 @@ public:
 	String getText()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object);
 	}
 	/**
 	Returns the total number of characters from text tags. Does not include BBCodes.
@@ -377,7 +387,7 @@ public:
 	long getTotalCharacterCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTotalCharacterCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTotalCharacterCount, _godot_object);
 	}
 	/**
 	Returns the vertical scrollbar.
@@ -385,7 +395,7 @@ public:
 	VScrollBar getVScroll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VScrollBar)(_classBinding.getVScroll, _godot_object);
+		return ptrcall!(VScrollBar)(GDNativeClassBinding.getVScroll, _godot_object);
 	}
 	/**
 	
@@ -393,7 +403,7 @@ public:
 	long getVisibleCharacters() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleCharacters, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVisibleCharacters, _godot_object);
 	}
 	/**
 	Returns the number of visible lines.
@@ -401,7 +411,7 @@ public:
 	long getVisibleLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVisibleLineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVisibleLineCount, _godot_object);
 	}
 	/**
 	Installs a custom effect. `effect` should be a valid $(D RichTextEffect).
@@ -409,7 +419,7 @@ public:
 	void installEffect(VariantArg0)(in VariantArg0 effect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.installEffect, _godot_object, effect);
+		ptrcall!(void)(GDNativeClassBinding.installEffect, _godot_object, effect);
 	}
 	/**
 	
@@ -417,7 +427,7 @@ public:
 	bool isMetaUnderlined() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMetaUnderlined, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isMetaUnderlined, _godot_object);
 	}
 	/**
 	
@@ -425,7 +435,7 @@ public:
 	bool isOverridingSelectedFontColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOverridingSelectedFontColor, _godot_object);
 	}
 	/**
 	
@@ -433,7 +443,7 @@ public:
 	bool isScrollActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScrollActive, _godot_object);
 	}
 	/**
 	
@@ -441,7 +451,7 @@ public:
 	bool isScrollFollowing() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScrollFollowing, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScrollFollowing, _godot_object);
 	}
 	/**
 	
@@ -449,7 +459,7 @@ public:
 	bool isSelectionEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectionEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelectionEnabled, _godot_object);
 	}
 	/**
 	
@@ -457,7 +467,7 @@ public:
 	bool isUsingBbcode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingBbcode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingBbcode, _godot_object);
 	}
 	/**
 	Adds a newline tag to the tag stack.
@@ -465,7 +475,7 @@ public:
 	void newline()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.newline, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.newline, _godot_object);
 	}
 	/**
 	The assignment version of $(D appendBbcode). Clears the tag stack and inserts the new content. Returns $(D constant OK) if parses `bbcode` successfully.
@@ -473,7 +483,7 @@ public:
 	GodotError parseBbcode(in String bbcode)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.parseBbcode, _godot_object, bbcode);
+		return ptrcall!(GodotError)(GDNativeClassBinding.parseBbcode, _godot_object, bbcode);
 	}
 	/**
 	Parses BBCode parameter `expressions` into a dictionary.
@@ -481,7 +491,7 @@ public:
 	Dictionary parseExpressionsForValues(in PoolStringArray expressions)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.parseExpressionsForValues, _godot_object, expressions);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.parseExpressionsForValues, _godot_object, expressions);
 	}
 	/**
 	Terminates the current tag. Use after `push_*` methods to close BBCodes manually. Does not need to follow `add_*` methods.
@@ -489,7 +499,7 @@ public:
 	void pop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pop, _godot_object);
 	}
 	/**
 	Adds an `$(D align)` tag based on the given `align` value. See $(D _align) for possible values.
@@ -497,7 +507,7 @@ public:
 	void pushAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.pushAlign, _godot_object, _align);
 	}
 	/**
 	Adds a `$(D font)` tag with a bold font to the tag stack. This is the same as adding a `$(D b)` tag if not currently in a `$(D i)` tag.
@@ -505,7 +515,7 @@ public:
 	void pushBold()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushBold, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushBold, _godot_object);
 	}
 	/**
 	Adds a `$(D font)` tag with a bold italics font to the tag stack.
@@ -513,7 +523,7 @@ public:
 	void pushBoldItalics()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushBoldItalics, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushBoldItalics, _godot_object);
 	}
 	/**
 	Adds a `$(D cell)` tag to the tag stack. Must be inside a `$(D table)` tag. See $(D pushTable) for details.
@@ -521,7 +531,7 @@ public:
 	void pushCell()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushCell, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushCell, _godot_object);
 	}
 	/**
 	Adds a `$(D color)` tag to the tag stack.
@@ -529,7 +539,7 @@ public:
 	void pushColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.pushColor, _godot_object, color);
 	}
 	/**
 	Adds a `$(D font)` tag to the tag stack. Overrides default fonts for its duration.
@@ -537,7 +547,7 @@ public:
 	void pushFont(Font font)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushFont, _godot_object, font);
+		ptrcall!(void)(GDNativeClassBinding.pushFont, _godot_object, font);
 	}
 	/**
 	Adds an `$(D indent)` tag to the tag stack. Multiplies `level` by current $(D tabSize) to determine new margin length.
@@ -545,7 +555,7 @@ public:
 	void pushIndent(in long level)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushIndent, _godot_object, level);
+		ptrcall!(void)(GDNativeClassBinding.pushIndent, _godot_object, level);
 	}
 	/**
 	Adds a `$(D font)` tag with a italics font to the tag stack. This is the same as adding a `$(D i)` tag if not currently in a `$(D b)` tag.
@@ -553,7 +563,7 @@ public:
 	void pushItalics()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushItalics, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushItalics, _godot_object);
 	}
 	/**
 	Adds a `$(D list)` tag to the tag stack. Similar to the BBCodes `$(D ol)` or `$(D ul)`, but supports more list types. Not fully implemented!
@@ -561,7 +571,7 @@ public:
 	void pushList(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushList, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.pushList, _godot_object, type);
 	}
 	/**
 	Adds a `$(D meta)` tag to the tag stack. Similar to the BBCode `$(D url=something){text}$(D /url)`, but supports non-$(D String) metadata types.
@@ -569,7 +579,7 @@ public:
 	void pushMeta(VariantArg0)(in VariantArg0 data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushMeta, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.pushMeta, _godot_object, data);
 	}
 	/**
 	Adds a `$(D font)` tag with a monospace font to the tag stack.
@@ -577,7 +587,7 @@ public:
 	void pushMono()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushMono, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushMono, _godot_object);
 	}
 	/**
 	Adds a `$(D font)` tag with a normal font to the tag stack.
@@ -585,7 +595,7 @@ public:
 	void pushNormal()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushNormal, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushNormal, _godot_object);
 	}
 	/**
 	Adds a `$(D s)` tag to the tag stack.
@@ -593,7 +603,7 @@ public:
 	void pushStrikethrough()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushStrikethrough, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushStrikethrough, _godot_object);
 	}
 	/**
 	Adds a `$(D table=columns)` tag to the tag stack.
@@ -601,7 +611,7 @@ public:
 	void pushTable(in long columns)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushTable, _godot_object, columns);
+		ptrcall!(void)(GDNativeClassBinding.pushTable, _godot_object, columns);
 	}
 	/**
 	Adds a `$(D u)` tag to the tag stack.
@@ -609,7 +619,7 @@ public:
 	void pushUnderline()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.pushUnderline, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.pushUnderline, _godot_object);
 	}
 	/**
 	Removes a line of content from the label. Returns `true` if the line exists.
@@ -618,7 +628,7 @@ public:
 	bool removeLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.removeLine, _godot_object, line);
+		return ptrcall!(bool)(GDNativeClassBinding.removeLine, _godot_object, line);
 	}
 	/**
 	Scrolls the window's top line to match `line`.
@@ -626,7 +636,7 @@ public:
 	void scrollToLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scrollToLine, _godot_object, line);
+		ptrcall!(void)(GDNativeClassBinding.scrollToLine, _godot_object, line);
 	}
 	/**
 	
@@ -634,7 +644,7 @@ public:
 	void setBbcode(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBbcode, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setBbcode, _godot_object, text);
 	}
 	/**
 	
@@ -642,7 +652,7 @@ public:
 	void setEffects(in Array effects)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEffects, _godot_object, effects);
+		ptrcall!(void)(GDNativeClassBinding.setEffects, _godot_object, effects);
 	}
 	/**
 	
@@ -650,7 +660,7 @@ public:
 	void setMetaUnderline(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetaUnderline, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setMetaUnderline, _godot_object, enable);
 	}
 	/**
 	
@@ -658,7 +668,7 @@ public:
 	void setOverrideSelectedFontColor(in bool _override)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverrideSelectedFontColor, _godot_object, _override);
+		ptrcall!(void)(GDNativeClassBinding.setOverrideSelectedFontColor, _godot_object, _override);
 	}
 	/**
 	
@@ -666,7 +676,7 @@ public:
 	void setPercentVisible(in double percent_visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPercentVisible, _godot_object, percent_visible);
+		ptrcall!(void)(GDNativeClassBinding.setPercentVisible, _godot_object, percent_visible);
 	}
 	/**
 	
@@ -674,7 +684,7 @@ public:
 	void setScrollActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setScrollActive, _godot_object, active);
 	}
 	/**
 	
@@ -682,7 +692,7 @@ public:
 	void setScrollFollow(in bool follow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollFollow, _godot_object, follow);
+		ptrcall!(void)(GDNativeClassBinding.setScrollFollow, _godot_object, follow);
 	}
 	/**
 	
@@ -690,7 +700,7 @@ public:
 	void setSelectionEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectionEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSelectionEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -698,7 +708,7 @@ public:
 	void setTabSize(in long spaces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabSize, _godot_object, spaces);
+		ptrcall!(void)(GDNativeClassBinding.setTabSize, _godot_object, spaces);
 	}
 	/**
 	Edits the selected column's expansion options. If `expand` is `true`, the column expands in proportion to its expansion ratio versus the other columns' ratios.
@@ -708,7 +718,7 @@ public:
 	void setTableColumnExpand(in long column, in bool expand, in long ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
+		ptrcall!(void)(GDNativeClassBinding.setTableColumnExpand, _godot_object, column, expand, ratio);
 	}
 	/**
 	
@@ -716,7 +726,7 @@ public:
 	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
 	}
 	/**
 	
@@ -724,7 +734,7 @@ public:
 	void setUseBbcode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseBbcode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseBbcode, _godot_object, enable);
 	}
 	/**
 	
@@ -732,7 +742,7 @@ public:
 	void setVisibleCharacters(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibleCharacters, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setVisibleCharacters, _godot_object, amount);
 	}
 	/**
 	If `true`, the label uses BBCode formatting.

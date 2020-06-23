@@ -28,14 +28,14 @@ $(B Overriding:) Any project setting can be overridden by creating a file named 
 */
 @GodotBaseClass struct ProjectSettingsSingleton
 {
-	enum string _GODOT_internal_name = "ProjectSettings";
+	package(godot) enum string _GODOT_internal_name = "ProjectSettings";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -56,10 +56,20 @@ public:
 		@GodotName("set_order") GodotMethod!(void, String, long) setOrder;
 		@GodotName("set_setting") GodotMethod!(void, String, Variant) setSetting;
 	}
-	bool opEquals(in ProjectSettingsSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ProjectSettingsSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ProjectSettingsSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ProjectSettingsSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ProjectSettingsSingleton.
+	/// Note: use `memnew!ProjectSettingsSingleton` instead.
 	static ProjectSettingsSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -92,7 +102,7 @@ public:
 	void addPropertyInfo(in Dictionary hint)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPropertyInfo, _godot_object, hint);
+		ptrcall!(void)(GDNativeClassBinding.addPropertyInfo, _godot_object, hint);
 	}
 	/**
 	Clears the whole configuration (not recommended, may break things).
@@ -100,7 +110,7 @@ public:
 	void clear(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object, name);
 	}
 	/**
 	Returns the order of a configuration value (influences when saved to the config file).
@@ -108,7 +118,7 @@ public:
 	long getOrder(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOrder, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.getOrder, _godot_object, name);
 	}
 	/**
 	Returns the value of a setting.
@@ -122,7 +132,7 @@ public:
 	Variant getSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getSetting, _godot_object, name);
+		return ptrcall!(Variant)(GDNativeClassBinding.getSetting, _godot_object, name);
 	}
 	/**
 	Converts a localized path (`res://`) to a full native OS path.
@@ -130,7 +140,7 @@ public:
 	String globalizePath(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.globalizePath, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.globalizePath, _godot_object, path);
 	}
 	/**
 	Returns `true` if a configuration value is present.
@@ -138,7 +148,7 @@ public:
 	bool hasSetting(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSetting, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasSetting, _godot_object, name);
 	}
 	/**
 	Loads the contents of the .pck or .zip file specified by `pack` into the resource filesystem (`res://`). Returns `true` on success.
@@ -147,7 +157,7 @@ public:
 	bool loadResourcePack(in String pack, in bool replace_files = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.loadResourcePack, _godot_object, pack, replace_files);
+		return ptrcall!(bool)(GDNativeClassBinding.loadResourcePack, _godot_object, pack, replace_files);
 	}
 	/**
 	Convert a path to a localized path (`res://` path).
@@ -155,7 +165,7 @@ public:
 	String localizePath(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.localizePath, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.localizePath, _godot_object, path);
 	}
 	/**
 	Returns `true` if the specified property exists and its initial value differs from the current value.
@@ -163,7 +173,7 @@ public:
 	bool propertyCanRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.propertyCanRevert, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.propertyCanRevert, _godot_object, name);
 	}
 	/**
 	Returns the specified property's initial value. Returns `null` if the property does not exist.
@@ -171,7 +181,7 @@ public:
 	Variant propertyGetRevert(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.propertyGetRevert, _godot_object, name);
+		return ptrcall!(Variant)(GDNativeClassBinding.propertyGetRevert, _godot_object, name);
 	}
 	/**
 	Saves the configuration to the `project.godot` file.
@@ -179,15 +189,15 @@ public:
 	GodotError save()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.save, _godot_object);
 	}
 	/**
-	Saves the configuration to a custom file.
+	Saves the configuration to a custom file. The file extension must be `.godot` (to save in text-based $(D ConfigFile) format) or `.binary` (to save in binary format).
 	*/
 	GodotError saveCustom(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveCustom, _godot_object, file);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveCustom, _godot_object, file);
 	}
 	/**
 	Sets the specified property's initial value. This is the value the property reverts to.
@@ -195,7 +205,7 @@ public:
 	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInitialValue, _godot_object, name, value);
+		ptrcall!(void)(GDNativeClassBinding.setInitialValue, _godot_object, name, value);
 	}
 	/**
 	Sets the order of a configuration value (influences when saved to the config file).
@@ -203,7 +213,7 @@ public:
 	void setOrder(in String name, in long position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOrder, _godot_object, name, position);
+		ptrcall!(void)(GDNativeClassBinding.setOrder, _godot_object, name, position);
 	}
 	/**
 	Sets the value of a setting.
@@ -217,7 +227,7 @@ public:
 	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSetting, _godot_object, name, value);
+		ptrcall!(void)(GDNativeClassBinding.setSetting, _godot_object, name, value);
 	}
 }
 /// Returns: the ProjectSettingsSingleton
@@ -225,5 +235,5 @@ public:
 ProjectSettingsSingleton ProjectSettings()
 {
 	checkClassBinding!ProjectSettingsSingleton();
-	return ProjectSettingsSingleton(ProjectSettingsSingleton._classBinding._singleton);
+	return ProjectSettingsSingleton(ProjectSettingsSingleton.GDNativeClassBinding._singleton);
 }

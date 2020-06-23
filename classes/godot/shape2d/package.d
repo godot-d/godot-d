@@ -28,14 +28,14 @@ All 2D shape types inherit from this.
 */
 @GodotBaseClass struct Shape2D
 {
-	enum string _GODOT_internal_name = "Shape2D";
+	package(godot) enum string _GODOT_internal_name = "Shape2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("collide") GodotMethod!(bool, Transform2D, Shape2D, Transform2D) collide;
@@ -45,10 +45,20 @@ public:
 		@GodotName("get_custom_solver_bias") GodotMethod!(double) getCustomSolverBias;
 		@GodotName("set_custom_solver_bias") GodotMethod!(void, double) setCustomSolverBias;
 	}
-	bool opEquals(in Shape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Shape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Shape2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Shape2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Shape2D.
+	/// Note: use `memnew!Shape2D` instead.
 	static Shape2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	bool collide(in Transform2D local_xform, Shape2D with_shape, in Transform2D shape_xform)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.collide, _godot_object, local_xform, with_shape, shape_xform);
+		return ptrcall!(bool)(GDNativeClassBinding.collide, _godot_object, local_xform, with_shape, shape_xform);
 	}
 	/**
 	Returns a list of the points where this shape touches another. If there are no collisions the list is empty.
@@ -73,7 +83,7 @@ public:
 	Array collideAndGetContacts(in Transform2D local_xform, Shape2D with_shape, in Transform2D shape_xform)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.collideAndGetContacts, _godot_object, local_xform, with_shape, shape_xform);
+		return ptrcall!(Array)(GDNativeClassBinding.collideAndGetContacts, _godot_object, local_xform, with_shape, shape_xform);
 	}
 	/**
 	Returns whether this shape would collide with another, if a given movement was applied.
@@ -82,7 +92,7 @@ public:
 	bool collideWithMotion(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.collideWithMotion, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
+		return ptrcall!(bool)(GDNativeClassBinding.collideWithMotion, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
 	}
 	/**
 	Returns a list of the points where this shape would touch another, if a given movement was applied. If there are no collisions the list is empty.
@@ -91,7 +101,7 @@ public:
 	Array collideWithMotionAndGetContacts(in Transform2D local_xform, in Vector2 local_motion, Shape2D with_shape, in Transform2D shape_xform, in Vector2 shape_motion)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.collideWithMotionAndGetContacts, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
+		return ptrcall!(Array)(GDNativeClassBinding.collideWithMotionAndGetContacts, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
 	}
 	/**
 	
@@ -99,7 +109,7 @@ public:
 	double getCustomSolverBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCustomSolverBias, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCustomSolverBias, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setCustomSolverBias(in double bias)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomSolverBias, _godot_object, bias);
+		ptrcall!(void)(GDNativeClassBinding.setCustomSolverBias, _godot_object, bias);
 	}
 	/**
 	The shape's custom solver bias.

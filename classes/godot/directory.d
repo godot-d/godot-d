@@ -47,14 +47,14 @@ func dir_contents(path):
 */
 @GodotBaseClass struct Directory
 {
-	enum string _GODOT_internal_name = "_Directory";
+	package(godot) enum string _GODOT_internal_name = "_Directory";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("change_dir") GodotMethod!(GodotError, String) changeDir;
@@ -76,10 +76,20 @@ public:
 		@GodotName("remove") GodotMethod!(GodotError, String) remove;
 		@GodotName("rename") GodotMethod!(GodotError, String, String) rename;
 	}
-	bool opEquals(in Directory other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Directory opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Directory other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Directory opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Directory.
+	/// Note: use `memnew!Directory` instead.
 	static Directory _new()
 	{
 		static godot_class_constructor constructor;
@@ -95,7 +105,7 @@ public:
 	GodotError changeDir(in String todir)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.changeDir, _godot_object, todir);
+		return ptrcall!(GodotError)(GDNativeClassBinding.changeDir, _godot_object, todir);
 	}
 	/**
 	Copies the `from` file to the `to` destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
@@ -104,7 +114,7 @@ public:
 	GodotError copy(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.copy, _godot_object, from, to);
+		return ptrcall!(GodotError)(GDNativeClassBinding.copy, _godot_object, from, to);
 	}
 	/**
 	Returns whether the current item processed with the last $(D getNext) call is a directory (`.` and `..` are considered directories).
@@ -112,7 +122,7 @@ public:
 	bool currentIsDir() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.currentIsDir, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.currentIsDir, _godot_object);
 	}
 	/**
 	Returns whether the target directory exists. The argument can be relative to the current directory, or an absolute path.
@@ -120,7 +130,7 @@ public:
 	bool dirExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.dirExists, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.dirExists, _godot_object, path);
 	}
 	/**
 	Returns whether the target file exists. The argument can be relative to the current directory, or an absolute path.
@@ -128,7 +138,7 @@ public:
 	bool fileExists(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.fileExists, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.fileExists, _godot_object, path);
 	}
 	/**
 	Returns the absolute path to the currently opened directory (e.g. `res://folder` or `C:\tmp\folder`).
@@ -136,7 +146,7 @@ public:
 	String getCurrentDir()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentDir, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentDir, _godot_object);
 	}
 	/**
 	Returns the currently opened directory's drive index. See $(D getDrive) to convert returned index to the name of the drive.
@@ -144,7 +154,7 @@ public:
 	long getCurrentDrive()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCurrentDrive, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentDrive, _godot_object);
 	}
 	/**
 	On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not existed, the method returns an empty String.
@@ -152,7 +162,7 @@ public:
 	String getDrive(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDrive, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getDrive, _godot_object, idx);
 	}
 	/**
 	On Windows, returns the number of drives (partitions) mounted on the current filesystem. On other platforms, the method returns 0.
@@ -160,7 +170,7 @@ public:
 	long getDriveCount()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDriveCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDriveCount, _godot_object);
 	}
 	/**
 	Returns the next element (file or directory) in the current directory (including `.` and `..`, unless `skip_navigational` was given to $(D listDirBegin)).
@@ -169,7 +179,7 @@ public:
 	String getNext()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getNext, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getNext, _godot_object);
 	}
 	/**
 	On UNIX desktop systems, returns the available space on the current directory's disk. On other platforms, this information is not available and the method returns 0 or -1.
@@ -177,7 +187,7 @@ public:
 	long getSpaceLeft()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSpaceLeft, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSpaceLeft, _godot_object);
 	}
 	/**
 	Initializes the stream used to list all files and directories using the $(D getNext) function, closing the current opened stream if needed. Once the stream has been processed, it should typically be closed with $(D listDirEnd).
@@ -187,7 +197,7 @@ public:
 	GodotError listDirBegin(in bool skip_navigational = false, in bool skip_hidden = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listDirBegin, _godot_object, skip_navigational, skip_hidden);
+		return ptrcall!(GodotError)(GDNativeClassBinding.listDirBegin, _godot_object, skip_navigational, skip_hidden);
 	}
 	/**
 	Closes the current stream opened with $(D listDirBegin) (whether it has been fully processed with $(D getNext) or not does not matter).
@@ -195,7 +205,7 @@ public:
 	void listDirEnd()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.listDirEnd, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.listDirEnd, _godot_object);
 	}
 	/**
 	Creates a directory. The argument can be relative to the current directory, or an absolute path. The target directory should be placed in an already existing directory (to create the full path recursively, see $(D makeDirRecursive)).
@@ -204,7 +214,7 @@ public:
 	GodotError makeDir(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.makeDir, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.makeDir, _godot_object, path);
 	}
 	/**
 	Creates a target directory and all necessary intermediate directories in its path, by calling $(D makeDir) recursively. The argument can be relative to the current directory, or an absolute path.
@@ -213,7 +223,7 @@ public:
 	GodotError makeDirRecursive(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.makeDirRecursive, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.makeDirRecursive, _godot_object, path);
 	}
 	/**
 	Opens an existing directory of the filesystem. The `path` argument can be within the project tree (`res://folder`), the user directory (`user://folder`) or an absolute path of the user filesystem (e.g. `/tmp/folder` or `C:\tmp\folder`).
@@ -222,7 +232,7 @@ public:
 	GodotError open(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.open, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.open, _godot_object, path);
 	}
 	/**
 	Deletes the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
@@ -231,7 +241,7 @@ public:
 	GodotError remove(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.remove, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.remove, _godot_object, path);
 	}
 	/**
 	Renames (move) the `from` file to the `to` destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
@@ -240,6 +250,6 @@ public:
 	GodotError rename(in String from, in String to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.rename, _godot_object, from, to);
+		return ptrcall!(GodotError)(GDNativeClassBinding.rename, _godot_object, from, to);
 	}
 }

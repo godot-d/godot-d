@@ -36,14 +36,14 @@ $(D SceneTree) is the default $(D MainLoop) implementation used by scenes, and i
 */
 @GodotBaseClass struct SceneTree
 {
-	enum string _GODOT_internal_name = "SceneTree";
+	package(godot) enum string _GODOT_internal_name = "SceneTree";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; MainLoop _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ MainLoop _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_change_scene") GodotMethod!(void, Node) _changeScene;
@@ -100,10 +100,20 @@ public:
 		@GodotName("set_screen_stretch") GodotMethod!(void, long, long, Vector2, double) setScreenStretch;
 		@GodotName("set_use_font_oversampling") GodotMethod!(void, bool) setUseFontOversampling;
 	}
-	bool opEquals(in SceneTree other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SceneTree opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SceneTree other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SceneTree opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SceneTree.
+	/// Note: use `memnew!SceneTree` instead.
 	static SceneTree _new()
 	{
 		static godot_class_constructor constructor;
@@ -283,7 +293,7 @@ public:
 	GodotError changeScene(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.changeScene, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.changeScene, _godot_object, path);
 	}
 	/**
 	Changes the running scene to a new instance of the given $(D PackedScene).
@@ -292,7 +302,7 @@ public:
 	GodotError changeSceneTo(PackedScene packed_scene)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.changeSceneTo, _godot_object, packed_scene);
+		return ptrcall!(GodotError)(GDNativeClassBinding.changeSceneTo, _godot_object, packed_scene);
 	}
 	/**
 	Returns a $(D SceneTreeTimer) which will $(D SceneTreeTimer.timeout) after the given time in seconds elapsed in this $(D SceneTree). If `pause_mode_process` is set to `false`, pausing the $(D SceneTree) will also pause the timer.
@@ -309,7 +319,7 @@ public:
 	Ref!SceneTreeTimer createTimer(in double time_sec, in bool pause_mode_process = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SceneTreeTimer)(_classBinding.createTimer, _godot_object, time_sec, pause_mode_process);
+		return ptrcall!(SceneTreeTimer)(GDNativeClassBinding.createTimer, _godot_object, time_sec, pause_mode_process);
 	}
 	/**
 	
@@ -317,7 +327,7 @@ public:
 	Node getCurrentScene() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getCurrentScene, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getCurrentScene, _godot_object);
 	}
 	/**
 	
@@ -325,7 +335,7 @@ public:
 	Node getEditedSceneRoot() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getEditedSceneRoot, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getEditedSceneRoot, _godot_object);
 	}
 	/**
 	Returns the current frame number, i.e. the total frame count since the application started.
@@ -333,7 +343,7 @@ public:
 	long getFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFrame, _godot_object);
 	}
 	/**
 	
@@ -341,7 +351,7 @@ public:
 	Ref!MultiplayerAPI getMultiplayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MultiplayerAPI)(_classBinding.getMultiplayer, _godot_object);
+		return ptrcall!(MultiplayerAPI)(GDNativeClassBinding.getMultiplayer, _godot_object);
 	}
 	/**
 	Returns the peer IDs of all connected peers of this $(D SceneTree)'s $(D networkPeer).
@@ -349,7 +359,7 @@ public:
 	PoolIntArray getNetworkConnectedPeers() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getNetworkConnectedPeers, _godot_object);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getNetworkConnectedPeers, _godot_object);
 	}
 	/**
 	
@@ -357,7 +367,7 @@ public:
 	Ref!NetworkedMultiplayerPeer getNetworkPeer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer)(_classBinding.getNetworkPeer, _godot_object);
+		return ptrcall!(NetworkedMultiplayerPeer)(GDNativeClassBinding.getNetworkPeer, _godot_object);
 	}
 	/**
 	Returns the unique peer ID of this $(D SceneTree)'s $(D networkPeer).
@@ -365,7 +375,7 @@ public:
 	long getNetworkUniqueId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getNetworkUniqueId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getNetworkUniqueId, _godot_object);
 	}
 	/**
 	Returns the number of nodes in this $(D SceneTree).
@@ -373,7 +383,7 @@ public:
 	long getNodeCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getNodeCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getNodeCount, _godot_object);
 	}
 	/**
 	Returns a list of all nodes assigned to the given group.
@@ -381,7 +391,7 @@ public:
 	Array getNodesInGroup(in String group)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getNodesInGroup, _godot_object, group);
+		return ptrcall!(Array)(GDNativeClassBinding.getNodesInGroup, _godot_object, group);
 	}
 	/**
 	
@@ -389,7 +399,7 @@ public:
 	Viewport getRoot() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Viewport)(_classBinding.getRoot, _godot_object);
+		return ptrcall!(Viewport)(GDNativeClassBinding.getRoot, _godot_object);
 	}
 	/**
 	Returns the sender's peer ID for the most recently received RPC call.
@@ -397,7 +407,7 @@ public:
 	long getRpcSenderId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRpcSenderId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRpcSenderId, _godot_object);
 	}
 	/**
 	Returns `true` if the given group exists.
@@ -405,7 +415,7 @@ public:
 	bool hasGroup(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasGroup, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasGroup, _godot_object, name);
 	}
 	/**
 	Returns `true` if there is a $(D networkPeer) set.
@@ -413,7 +423,7 @@ public:
 	bool hasNetworkPeer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasNetworkPeer, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasNetworkPeer, _godot_object);
 	}
 	/**
 	
@@ -421,7 +431,7 @@ public:
 	bool isDebuggingCollisionsHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDebuggingCollisionsHint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDebuggingCollisionsHint, _godot_object);
 	}
 	/**
 	
@@ -429,7 +439,7 @@ public:
 	bool isDebuggingNavigationHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDebuggingNavigationHint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDebuggingNavigationHint, _godot_object);
 	}
 	/**
 	Returns `true` if the most recent $(D InputEvent) was marked as handled with $(D setInputAsHandled).
@@ -437,7 +447,7 @@ public:
 	bool isInputHandled()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInputHandled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInputHandled, _godot_object);
 	}
 	/**
 	
@@ -445,7 +455,7 @@ public:
 	bool isMultiplayerPollEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isMultiplayerPollEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isMultiplayerPollEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if this $(D SceneTree)'s $(D networkPeer) is in server mode (listening for connections).
@@ -453,7 +463,7 @@ public:
 	bool isNetworkServer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNetworkServer, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isNetworkServer, _godot_object);
 	}
 	/**
 	
@@ -461,7 +471,7 @@ public:
 	bool isPaused() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPaused, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPaused, _godot_object);
 	}
 	/**
 	
@@ -469,7 +479,7 @@ public:
 	bool isRefusingNewNetworkConnections() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRefusingNewNetworkConnections, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRefusingNewNetworkConnections, _godot_object);
 	}
 	/**
 	
@@ -477,7 +487,7 @@ public:
 	bool isUsingFontOversampling() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingFontOversampling, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingFontOversampling, _godot_object);
 	}
 	/**
 	Sends the given notification to all members of the `group`.
@@ -485,7 +495,7 @@ public:
 	void notifyGroup(in String group, in long notification)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.notifyGroup, _godot_object, group, notification);
+		ptrcall!(void)(GDNativeClassBinding.notifyGroup, _godot_object, group, notification);
 	}
 	/**
 	Sends the given notification to all members of the `group`, respecting the given $(D groupcallflags).
@@ -493,7 +503,7 @@ public:
 	void notifyGroupFlags(in long call_flags, in String group, in long notification)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.notifyGroupFlags, _godot_object, call_flags, group, notification);
+		ptrcall!(void)(GDNativeClassBinding.notifyGroupFlags, _godot_object, call_flags, group, notification);
 	}
 	/**
 	Queues the given object for deletion, delaying the call to $(D GodotObject.free) to after the current frame.
@@ -501,7 +511,7 @@ public:
 	void queueDelete(GodotObject obj)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queueDelete, _godot_object, obj);
+		ptrcall!(void)(GDNativeClassBinding.queueDelete, _godot_object, obj);
 	}
 	/**
 	Quits the application. A process `exit_code` can optionally be passed as an argument. If this argument is `0` or greater, it will override the $(D OS.exitCode) defined before quitting the application.
@@ -509,7 +519,7 @@ public:
 	void quit(in long exit_code = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.quit, _godot_object, exit_code);
+		ptrcall!(void)(GDNativeClassBinding.quit, _godot_object, exit_code);
 	}
 	/**
 	Reloads the currently active scene.
@@ -518,7 +528,7 @@ public:
 	GodotError reloadCurrentScene()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.reloadCurrentScene, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.reloadCurrentScene, _godot_object);
 	}
 	/**
 	If `true`, the application automatically accepts quitting. Enabled by default.
@@ -527,7 +537,7 @@ public:
 	void setAutoAcceptQuit(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoAcceptQuit, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setAutoAcceptQuit, _godot_object, enabled);
 	}
 	/**
 	
@@ -535,7 +545,7 @@ public:
 	void setCurrentScene(Node child_node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentScene, _godot_object, child_node);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentScene, _godot_object, child_node);
 	}
 	/**
 	
@@ -543,7 +553,7 @@ public:
 	void setDebugCollisionsHint(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDebugCollisionsHint, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDebugCollisionsHint, _godot_object, enable);
 	}
 	/**
 	
@@ -551,7 +561,7 @@ public:
 	void setDebugNavigationHint(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDebugNavigationHint, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDebugNavigationHint, _godot_object, enable);
 	}
 	/**
 	
@@ -559,7 +569,7 @@ public:
 	void setEditedSceneRoot(Node scene)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditedSceneRoot, _godot_object, scene);
+		ptrcall!(void)(GDNativeClassBinding.setEditedSceneRoot, _godot_object, scene);
 	}
 	/**
 	Sets the given `property` to `value` on all members of the given group.
@@ -567,7 +577,7 @@ public:
 	void setGroup(VariantArg2)(in String group, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroup, _godot_object, group, property, value);
+		ptrcall!(void)(GDNativeClassBinding.setGroup, _godot_object, group, property, value);
 	}
 	/**
 	Sets the given `property` to `value` on all members of the given group, respecting the given $(D groupcallflags).
@@ -575,7 +585,7 @@ public:
 	void setGroupFlags(VariantArg3)(in long call_flags, in String group, in String property, in VariantArg3 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGroupFlags, _godot_object, call_flags, group, property, value);
+		ptrcall!(void)(GDNativeClassBinding.setGroupFlags, _godot_object, call_flags, group, property, value);
 	}
 	/**
 	Marks the most recent $(D InputEvent) as handled.
@@ -583,7 +593,7 @@ public:
 	void setInputAsHandled()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputAsHandled, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setInputAsHandled, _godot_object);
 	}
 	/**
 	
@@ -591,7 +601,7 @@ public:
 	void setMultiplayer(MultiplayerAPI multiplayer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMultiplayer, _godot_object, multiplayer);
+		ptrcall!(void)(GDNativeClassBinding.setMultiplayer, _godot_object, multiplayer);
 	}
 	/**
 	
@@ -599,7 +609,7 @@ public:
 	void setMultiplayerPollEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMultiplayerPollEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setMultiplayerPollEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -607,7 +617,7 @@ public:
 	void setNetworkPeer(NetworkedMultiplayerPeer peer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNetworkPeer, _godot_object, peer);
+		ptrcall!(void)(GDNativeClassBinding.setNetworkPeer, _godot_object, peer);
 	}
 	/**
 	
@@ -615,7 +625,7 @@ public:
 	void setPause(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPause, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setPause, _godot_object, enable);
 	}
 	/**
 	If `true`, the application quits automatically on going back (e.g. on Android). Enabled by default.
@@ -624,7 +634,7 @@ public:
 	void setQuitOnGoBack(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setQuitOnGoBack, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setQuitOnGoBack, _godot_object, enabled);
 	}
 	/**
 	
@@ -632,7 +642,7 @@ public:
 	void setRefuseNewNetworkConnections(in bool refuse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefuseNewNetworkConnections, _godot_object, refuse);
+		ptrcall!(void)(GDNativeClassBinding.setRefuseNewNetworkConnections, _godot_object, refuse);
 	}
 	/**
 	Configures screen stretching to the given $(D stretchmode), $(D stretchaspect), minimum size and `shrink` ratio.
@@ -640,7 +650,7 @@ public:
 	void setScreenStretch(in long mode, in long aspect, in Vector2 minsize, in double shrink = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScreenStretch, _godot_object, mode, aspect, minsize, shrink);
+		ptrcall!(void)(GDNativeClassBinding.setScreenStretch, _godot_object, mode, aspect, minsize, shrink);
 	}
 	/**
 	
@@ -648,7 +658,7 @@ public:
 	void setUseFontOversampling(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseFontOversampling, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseFontOversampling, _godot_object, enable);
 	}
 	/**
 	The current scene.

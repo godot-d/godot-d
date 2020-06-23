@@ -27,24 +27,34 @@ Calling $(D @GDScript.yield) within a function will cause that function to yield
 */
 @GodotBaseClass struct GDScriptFunctionState
 {
-	enum string _GODOT_internal_name = "GDScriptFunctionState";
+	package(godot) enum string _GODOT_internal_name = "GDScriptFunctionState";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_signal_callback") GodotMethod!(Variant, GodotVarArgs) _signalCallback;
 		@GodotName("is_valid") GodotMethod!(bool, bool) isValid;
 		@GodotName("resume") GodotMethod!(Variant, Variant) resume;
 	}
-	bool opEquals(in GDScriptFunctionState other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GDScriptFunctionState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GDScriptFunctionState other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GDScriptFunctionState opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GDScriptFunctionState.
+	/// Note: use `memnew!GDScriptFunctionState` instead.
 	static GDScriptFunctionState _new()
 	{
 		static godot_class_constructor constructor;
@@ -73,7 +83,7 @@ public:
 	bool isValid(in bool extended_check = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValid, _godot_object, extended_check);
+		return ptrcall!(bool)(GDNativeClassBinding.isValid, _godot_object, extended_check);
 	}
 	/**
 	Resume execution of the yielded function call.
@@ -83,6 +93,6 @@ public:
 	Variant resume(VariantArg0)(in VariantArg0 arg = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.resume, _godot_object, arg);
+		return ptrcall!(Variant)(GDNativeClassBinding.resume, _godot_object, arg);
 	}
 }

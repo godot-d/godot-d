@@ -29,14 +29,14 @@ This node takes a 2D polygon shape and extrudes it to create a 3D mesh.
 */
 @GodotBaseClass struct CSGPolygon
 {
-	enum string _GODOT_internal_name = "CSGPolygon";
+	package(godot) enum string _GODOT_internal_name = "CSGPolygon";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CSGPrimitive _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CSGPrimitive _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_has_editable_3d_polygon_no_depth") GodotMethod!(bool) _hasEditable3dPolygonNoDepth;
@@ -70,10 +70,20 @@ public:
 		@GodotName("set_spin_degrees") GodotMethod!(void, double) setSpinDegrees;
 		@GodotName("set_spin_sides") GodotMethod!(void, long) setSpinSides;
 	}
-	bool opEquals(in CSGPolygon other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGPolygon opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGPolygon other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGPolygon opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGPolygon.
+	/// Note: use `memnew!CSGPolygon` instead.
 	static CSGPolygon _new()
 	{
 		static godot_class_constructor constructor;
@@ -166,7 +176,7 @@ public:
 	double getDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDepth, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	CSGPolygon.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CSGPolygon.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(CSGPolygon.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	double getPathInterval() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPathInterval, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPathInterval, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	NodePath getPathNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getPathNode, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getPathNode, _godot_object);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	CSGPolygon.PathRotation getPathRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CSGPolygon.PathRotation)(_classBinding.getPathRotation, _godot_object);
+		return ptrcall!(CSGPolygon.PathRotation)(GDNativeClassBinding.getPathRotation, _godot_object);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	PoolVector2Array getPolygon() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getPolygon, _godot_object);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	bool getSmoothFaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSmoothFaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getSmoothFaces, _godot_object);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	double getSpinDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpinDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpinDegrees, _godot_object);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	long getSpinSides() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSpinSides, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSpinSides, _godot_object);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	bool isPathContinuousU() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathContinuousU, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPathContinuousU, _godot_object);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	bool isPathJoined() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathJoined, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPathJoined, _godot_object);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	bool isPathLocal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPathLocal, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPathLocal, _godot_object);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	void setDepth(in double depth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
+		ptrcall!(void)(GDNativeClassBinding.setDepth, _godot_object, depth);
 	}
 	/**
 	
@@ -278,7 +288,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -294,7 +304,7 @@ public:
 	void setPathContinuousU(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathContinuousU, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setPathContinuousU, _godot_object, enable);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	void setPathInterval(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathInterval, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setPathInterval, _godot_object, distance);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setPathJoined(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathJoined, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setPathJoined, _godot_object, enable);
 	}
 	/**
 	
@@ -318,7 +328,7 @@ public:
 	void setPathLocal(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathLocal, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setPathLocal, _godot_object, enable);
 	}
 	/**
 	
@@ -326,7 +336,7 @@ public:
 	void setPathNode(NodePathArg0)(in NodePathArg0 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathNode, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setPathNode, _godot_object, path);
 	}
 	/**
 	
@@ -334,7 +344,7 @@ public:
 	void setPathRotation(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPathRotation, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setPathRotation, _godot_object, mode);
 	}
 	/**
 	
@@ -342,7 +352,7 @@ public:
 	void setPolygon(in PoolVector2Array polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+		ptrcall!(void)(GDNativeClassBinding.setPolygon, _godot_object, polygon);
 	}
 	/**
 	
@@ -350,7 +360,7 @@ public:
 	void setSmoothFaces(in bool smooth_faces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothFaces, _godot_object, smooth_faces);
+		ptrcall!(void)(GDNativeClassBinding.setSmoothFaces, _godot_object, smooth_faces);
 	}
 	/**
 	
@@ -358,7 +368,7 @@ public:
 	void setSpinDegrees(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpinDegrees, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSpinDegrees, _godot_object, degrees);
 	}
 	/**
 	
@@ -366,7 +376,7 @@ public:
 	void setSpinSides(in long spin_sides)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpinSides, _godot_object, spin_sides);
+		ptrcall!(void)(GDNativeClassBinding.setSpinSides, _godot_object, spin_sides);
 	}
 	/**
 	Extrusion depth when $(D mode) is $(D constant MODE_DEPTH).

@@ -1,5 +1,5 @@
 /**
-
+Base class for touch control gestures.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,27 +21,37 @@ import godot.d.reference;
 import godot.object;
 import godot.inputeventwithmodifiers;
 /**
-
+Base class for touch control gestures.
 */
 @GodotBaseClass struct InputEventGesture
 {
-	enum string _GODOT_internal_name = "InputEventGesture";
+	package(godot) enum string _GODOT_internal_name = "InputEventGesture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventWithModifiers _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventWithModifiers _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
 		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 	}
-	bool opEquals(in InputEventGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventGesture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventGesture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventGesture.
+	/// Note: use `memnew!InputEventGesture` instead.
 	static InputEventGesture _new()
 	{
 		static godot_class_constructor constructor;
@@ -56,7 +66,7 @@ public:
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	
@@ -64,10 +74,10 @@ public:
 	void setPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setPosition, _godot_object, position);
 	}
 	/**
-	
+	The local gesture position relative to the $(D Viewport). If used in $(D Control._guiInput), the position is relative to the current $(D Control) that received this gesture.
 	*/
 	@property Vector2 position()
 	{

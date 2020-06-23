@@ -24,17 +24,18 @@ import godot.texture;
 Control for a single item inside a $(D Tree).
 
 May have child $(D TreeItem)s and be styled as well as contain buttons.
+You can remove a $(D TreeItem) by using $(D GodotObject.free).
 */
 @GodotBaseClass struct TreeItem
 {
-	enum string _GODOT_internal_name = "TreeItem";
+	package(godot) enum string _GODOT_internal_name = "TreeItem";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_button") GodotMethod!(void, long, Texture, long, bool, String) addButton;
@@ -104,10 +105,20 @@ public:
 		@GodotName("set_text_align") GodotMethod!(void, long, long) setTextAlign;
 		@GodotName("set_tooltip") GodotMethod!(void, long, String) setTooltip;
 	}
-	bool opEquals(in TreeItem other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TreeItem opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TreeItem other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TreeItem opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TreeItem.
+	/// Note: use `memnew!TreeItem` instead.
 	static TreeItem _new()
 	{
 		static godot_class_constructor constructor;
@@ -174,7 +185,7 @@ public:
 	void addButton(in long column, Texture button, in long button_idx = -1, in bool disabled = false, in String tooltip = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addButton, _godot_object, column, button, button_idx, disabled, tooltip);
+		ptrcall!(void)(GDNativeClassBinding.addButton, _godot_object, column, button, button_idx, disabled, tooltip);
 	}
 	/**
 	Calls the `method` on the actual TreeItem and its children recursively. Pass parameters as a comma separated list.
@@ -196,7 +207,7 @@ public:
 	void clearCustomBgColor(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCustomBgColor, _godot_object, column);
+		ptrcall!(void)(GDNativeClassBinding.clearCustomBgColor, _godot_object, column);
 	}
 	/**
 	Resets the color for the given column to default.
@@ -204,7 +215,7 @@ public:
 	void clearCustomColor(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCustomColor, _godot_object, column);
+		ptrcall!(void)(GDNativeClassBinding.clearCustomColor, _godot_object, column);
 	}
 	/**
 	Deselects the given column.
@@ -212,7 +223,7 @@ public:
 	void deselect(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.deselect, _godot_object, column);
+		ptrcall!(void)(GDNativeClassBinding.deselect, _godot_object, column);
 	}
 	/**
 	Removes the button at index `button_idx` in column `column`.
@@ -220,7 +231,7 @@ public:
 	void eraseButton(in long column, in long button_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseButton, _godot_object, column, button_idx);
+		ptrcall!(void)(GDNativeClassBinding.eraseButton, _godot_object, column, button_idx);
 	}
 	/**
 	Returns the $(D Texture) of the button at index `button_idx` in column `column`.
@@ -228,7 +239,7 @@ public:
 	Ref!Texture getButton(in long column, in long button_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getButton, _godot_object, column, button_idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getButton, _godot_object, column, button_idx);
 	}
 	/**
 	Returns the number of buttons in column `column`. May be used to get the most recently added button's index, if no index was specified.
@@ -236,7 +247,7 @@ public:
 	long getButtonCount(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getButtonCount, _godot_object, column);
+		return ptrcall!(long)(GDNativeClassBinding.getButtonCount, _godot_object, column);
 	}
 	/**
 	Returns the tooltip string for the button at index `button_idx` in column `column`.
@@ -244,7 +255,7 @@ public:
 	String getButtonTooltip(in long column, in long button_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getButtonTooltip, _godot_object, column, button_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getButtonTooltip, _godot_object, column, button_idx);
 	}
 	/**
 	Returns the column's cell mode.
@@ -252,7 +263,7 @@ public:
 	TreeItem.TreeCellMode getCellMode(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem.TreeCellMode)(_classBinding.getCellMode, _godot_object, column);
+		return ptrcall!(TreeItem.TreeCellMode)(GDNativeClassBinding.getCellMode, _godot_object, column);
 	}
 	/**
 	Returns the TreeItem's child items.
@@ -260,7 +271,7 @@ public:
 	TreeItem getChildren()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getChildren, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getChildren, _godot_object);
 	}
 	/**
 	Returns the custom background color of column `column`.
@@ -268,7 +279,7 @@ public:
 	Color getCustomBgColor(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getCustomBgColor, _godot_object, column);
+		return ptrcall!(Color)(GDNativeClassBinding.getCustomBgColor, _godot_object, column);
 	}
 	/**
 	Returns the custom color of column `column`.
@@ -276,7 +287,7 @@ public:
 	Color getCustomColor(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getCustomColor, _godot_object, column);
+		return ptrcall!(Color)(GDNativeClassBinding.getCustomColor, _godot_object, column);
 	}
 	/**
 	
@@ -284,7 +295,7 @@ public:
 	long getCustomMinimumHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCustomMinimumHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCustomMinimumHeight, _godot_object);
 	}
 	/**
 	Returns `true` if `expand_right` is set.
@@ -292,7 +303,7 @@ public:
 	bool getExpandRight(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExpandRight, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.getExpandRight, _godot_object, column);
 	}
 	/**
 	Returns the given column's icon $(D Texture). Error if no icon is set.
@@ -300,7 +311,7 @@ public:
 	Ref!Texture getIcon(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getIcon, _godot_object, column);
+		return ptrcall!(Texture)(GDNativeClassBinding.getIcon, _godot_object, column);
 	}
 	/**
 	Returns the column's icon's maximum width.
@@ -308,7 +319,7 @@ public:
 	long getIconMaxWidth(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIconMaxWidth, _godot_object, column);
+		return ptrcall!(long)(GDNativeClassBinding.getIconMaxWidth, _godot_object, column);
 	}
 	/**
 	Returns the $(D Color) modulating the column's icon.
@@ -316,7 +327,7 @@ public:
 	Color getIconModulate(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getIconModulate, _godot_object, column);
+		return ptrcall!(Color)(GDNativeClassBinding.getIconModulate, _godot_object, column);
 	}
 	/**
 	Returns the icon $(D Texture) region as $(D Rect2).
@@ -324,7 +335,7 @@ public:
 	Rect2 getIconRegion(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getIconRegion, _godot_object, column);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getIconRegion, _godot_object, column);
 	}
 	/**
 	
@@ -332,7 +343,7 @@ public:
 	Variant getMetadata(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getMetadata, _godot_object, column);
+		return ptrcall!(Variant)(GDNativeClassBinding.getMetadata, _godot_object, column);
 	}
 	/**
 	Returns the next TreeItem in the tree.
@@ -340,7 +351,7 @@ public:
 	TreeItem getNext()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getNext, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getNext, _godot_object);
 	}
 	/**
 	Returns the next visible TreeItem in the tree.
@@ -349,7 +360,7 @@ public:
 	TreeItem getNextVisible(in bool wrap = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getNextVisible, _godot_object, wrap);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getNextVisible, _godot_object, wrap);
 	}
 	/**
 	Returns the parent TreeItem.
@@ -357,7 +368,7 @@ public:
 	TreeItem getParent()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getParent, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getParent, _godot_object);
 	}
 	/**
 	Returns the previous TreeItem in the tree.
@@ -365,7 +376,7 @@ public:
 	TreeItem getPrev()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getPrev, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getPrev, _godot_object);
 	}
 	/**
 	Returns the previous visible TreeItem in the tree.
@@ -374,7 +385,7 @@ public:
 	TreeItem getPrevVisible(in bool wrap = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getPrevVisible, _godot_object, wrap);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getPrevVisible, _godot_object, wrap);
 	}
 	/**
 	
@@ -382,7 +393,7 @@ public:
 	double getRange(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRange, _godot_object, column);
+		return ptrcall!(double)(GDNativeClassBinding.getRange, _godot_object, column);
 	}
 	/**
 	
@@ -390,7 +401,7 @@ public:
 	Dictionary getRangeConfig(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getRangeConfig, _godot_object, column);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getRangeConfig, _godot_object, column);
 	}
 	/**
 	Returns the given column's text.
@@ -398,7 +409,7 @@ public:
 	String getText(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object, column);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object, column);
 	}
 	/**
 	Returns the given column's text alignment.
@@ -406,7 +417,7 @@ public:
 	TreeItem.TextAlign getTextAlign(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem.TextAlign)(_classBinding.getTextAlign, _godot_object, column);
+		return ptrcall!(TreeItem.TextAlign)(GDNativeClassBinding.getTextAlign, _godot_object, column);
 	}
 	/**
 	Returns the given column's tooltip.
@@ -414,7 +425,7 @@ public:
 	String getTooltip(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTooltip, _godot_object, column);
+		return ptrcall!(String)(GDNativeClassBinding.getTooltip, _godot_object, column);
 	}
 	/**
 	Returns `true` if the button at index `button_idx` for the given column is disabled.
@@ -422,7 +433,7 @@ public:
 	bool isButtonDisabled(in long column, in long button_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isButtonDisabled, _godot_object, column, button_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isButtonDisabled, _godot_object, column, button_idx);
 	}
 	/**
 	Returns `true` if the given column is checked.
@@ -430,7 +441,7 @@ public:
 	bool isChecked(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isChecked, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.isChecked, _godot_object, column);
 	}
 	/**
 	
@@ -438,7 +449,7 @@ public:
 	bool isCollapsed()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollapsed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollapsed, _godot_object);
 	}
 	/**
 	
@@ -446,7 +457,7 @@ public:
 	bool isCustomSetAsButton(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCustomSetAsButton, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.isCustomSetAsButton, _godot_object, column);
 	}
 	/**
 	Returns `true` if column `column` is editable.
@@ -454,7 +465,7 @@ public:
 	bool isEditable(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditable, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditable, _godot_object, column);
 	}
 	/**
 	
@@ -462,7 +473,7 @@ public:
 	bool isFoldingDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFoldingDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFoldingDisabled, _godot_object);
 	}
 	/**
 	Returns `true` if column `column` is selectable.
@@ -470,7 +481,7 @@ public:
 	bool isSelectable(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectable, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelectable, _godot_object, column);
 	}
 	/**
 	Returns `true` if column `column` is selected.
@@ -478,7 +489,7 @@ public:
 	bool isSelected(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelected, _godot_object, column);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelected, _godot_object, column);
 	}
 	/**
 	Moves this TreeItem to the bottom in the $(D Tree) hierarchy.
@@ -486,7 +497,7 @@ public:
 	void moveToBottom()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveToBottom, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.moveToBottom, _godot_object);
 	}
 	/**
 	Moves this TreeItem to the top in the $(D Tree) hierarchy.
@@ -494,15 +505,15 @@ public:
 	void moveToTop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveToTop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.moveToTop, _godot_object);
 	}
 	/**
-	Removes the given child TreeItem.
+	Removes the given child $(D TreeItem) and all its children from the $(D Tree). Note that it doesn't free the item from memory, so it can be reused later. To completely remove a $(D TreeItem) use $(D GodotObject.free).
 	*/
 	void removeChild(GodotObject child)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeChild, _godot_object, child);
+		ptrcall!(void)(GDNativeClassBinding.removeChild, _godot_object, child);
 	}
 	/**
 	Selects the column `column`.
@@ -510,7 +521,7 @@ public:
 	void select(in long column)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.select, _godot_object, column);
+		ptrcall!(void)(GDNativeClassBinding.select, _godot_object, column);
 	}
 	/**
 	Sets the given column's button $(D Texture) at index `button_idx` to `button`.
@@ -518,7 +529,7 @@ public:
 	void setButton(in long column, in long button_idx, Texture button)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButton, _godot_object, column, button_idx, button);
+		ptrcall!(void)(GDNativeClassBinding.setButton, _godot_object, column, button_idx, button);
 	}
 	/**
 	If `true`, disables the button at index `button_idx` in column `column`.
@@ -526,7 +537,7 @@ public:
 	void setButtonDisabled(in long column, in long button_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonDisabled, _godot_object, column, button_idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setButtonDisabled, _godot_object, column, button_idx, disabled);
 	}
 	/**
 	Sets the given column's cell mode to `mode`. See $(D treecellmode) constants.
@@ -534,7 +545,7 @@ public:
 	void setCellMode(in long column, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellMode, _godot_object, column, mode);
+		ptrcall!(void)(GDNativeClassBinding.setCellMode, _godot_object, column, mode);
 	}
 	/**
 	If `true`, the column `column` is checked.
@@ -542,7 +553,7 @@ public:
 	void setChecked(in long column, in bool checked)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setChecked, _godot_object, column, checked);
+		ptrcall!(void)(GDNativeClassBinding.setChecked, _godot_object, column, checked);
 	}
 	/**
 	
@@ -550,7 +561,7 @@ public:
 	void setCollapsed(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollapsed, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCollapsed, _godot_object, enable);
 	}
 	/**
 	
@@ -558,7 +569,7 @@ public:
 	void setCustomAsButton(in long column, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomAsButton, _godot_object, column, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCustomAsButton, _godot_object, column, enable);
 	}
 	/**
 	Sets the given column's custom background color and whether to just use it as an outline.
@@ -566,7 +577,7 @@ public:
 	void setCustomBgColor(in long column, in Color color, in bool just_outline = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomBgColor, _godot_object, column, color, just_outline);
+		ptrcall!(void)(GDNativeClassBinding.setCustomBgColor, _godot_object, column, color, just_outline);
 	}
 	/**
 	Sets the given column's custom color.
@@ -574,7 +585,7 @@ public:
 	void setCustomColor(in long column, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomColor, _godot_object, column, color);
+		ptrcall!(void)(GDNativeClassBinding.setCustomColor, _godot_object, column, color);
 	}
 	/**
 	Sets the given column's custom draw callback to `callback` method on `object`.
@@ -583,7 +594,7 @@ public:
 	void setCustomDraw(in long column, GodotObject object, in String callback)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomDraw, _godot_object, column, object, callback);
+		ptrcall!(void)(GDNativeClassBinding.setCustomDraw, _godot_object, column, object, callback);
 	}
 	/**
 	
@@ -591,7 +602,7 @@ public:
 	void setCustomMinimumHeight(in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomMinimumHeight, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setCustomMinimumHeight, _godot_object, height);
 	}
 	/**
 	
@@ -599,7 +610,7 @@ public:
 	void setDisableFolding(in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableFolding, _godot_object, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableFolding, _godot_object, disable);
 	}
 	/**
 	If `true`, column `column` is editable.
@@ -607,7 +618,7 @@ public:
 	void setEditable(in long column, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditable, _godot_object, column, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEditable, _godot_object, column, enabled);
 	}
 	/**
 	If `true`, column `column` is expanded to the right.
@@ -615,7 +626,7 @@ public:
 	void setExpandRight(in long column, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandRight, _godot_object, column, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExpandRight, _godot_object, column, enable);
 	}
 	/**
 	Sets the given column's icon $(D Texture).
@@ -623,7 +634,7 @@ public:
 	void setIcon(in long column, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIcon, _godot_object, column, texture);
+		ptrcall!(void)(GDNativeClassBinding.setIcon, _godot_object, column, texture);
 	}
 	/**
 	Sets the given column's icon's maximum width.
@@ -631,7 +642,7 @@ public:
 	void setIconMaxWidth(in long column, in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIconMaxWidth, _godot_object, column, width);
+		ptrcall!(void)(GDNativeClassBinding.setIconMaxWidth, _godot_object, column, width);
 	}
 	/**
 	Modulates the given column's icon with `modulate`.
@@ -639,7 +650,7 @@ public:
 	void setIconModulate(in long column, in Color modulate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIconModulate, _godot_object, column, modulate);
+		ptrcall!(void)(GDNativeClassBinding.setIconModulate, _godot_object, column, modulate);
 	}
 	/**
 	Sets the given column's icon's texture region.
@@ -647,7 +658,7 @@ public:
 	void setIconRegion(in long column, in Rect2 region)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIconRegion, _godot_object, column, region);
+		ptrcall!(void)(GDNativeClassBinding.setIconRegion, _godot_object, column, region);
 	}
 	/**
 	
@@ -655,7 +666,7 @@ public:
 	void setMetadata(VariantArg1)(in long column, in VariantArg1 meta)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetadata, _godot_object, column, meta);
+		ptrcall!(void)(GDNativeClassBinding.setMetadata, _godot_object, column, meta);
 	}
 	/**
 	
@@ -663,7 +674,7 @@ public:
 	void setRange(in long column, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRange, _godot_object, column, value);
+		ptrcall!(void)(GDNativeClassBinding.setRange, _godot_object, column, value);
 	}
 	/**
 	
@@ -671,7 +682,7 @@ public:
 	void setRangeConfig(in long column, in double min, in double max, in double step, in bool expr = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRangeConfig, _godot_object, column, min, max, step, expr);
+		ptrcall!(void)(GDNativeClassBinding.setRangeConfig, _godot_object, column, min, max, step, expr);
 	}
 	/**
 	If `true`, the given column is selectable.
@@ -679,7 +690,7 @@ public:
 	void setSelectable(in long column, in bool selectable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectable, _godot_object, column, selectable);
+		ptrcall!(void)(GDNativeClassBinding.setSelectable, _godot_object, column, selectable);
 	}
 	/**
 	
@@ -687,7 +698,7 @@ public:
 	void setText(in long column, in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, column, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, column, text);
 	}
 	/**
 	Sets the given column's text alignment. See $(D textalign) for possible values.
@@ -695,7 +706,7 @@ public:
 	void setTextAlign(in long column, in long text_align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextAlign, _godot_object, column, text_align);
+		ptrcall!(void)(GDNativeClassBinding.setTextAlign, _godot_object, column, text_align);
 	}
 	/**
 	Sets the given column's tooltip text.
@@ -703,7 +714,7 @@ public:
 	void setTooltip(in long column, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTooltip, _godot_object, column, tooltip);
+		ptrcall!(void)(GDNativeClassBinding.setTooltip, _godot_object, column, tooltip);
 	}
 	/**
 	If `true`, the TreeItem is collapsed.

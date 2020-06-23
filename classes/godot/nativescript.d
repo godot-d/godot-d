@@ -27,14 +27,14 @@ import godot.gdnativelibrary;
 */
 @GodotBaseClass struct NativeScript
 {
-	enum string _GODOT_internal_name = "NativeScript";
+	package(godot) enum string _GODOT_internal_name = "NativeScript";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Script _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Script _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_class_documentation") GodotMethod!(String) getClassDocumentation;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_script_class_icon_path") GodotMethod!(void, String) setScriptClassIconPath;
 		@GodotName("set_script_class_name") GodotMethod!(void, String) setScriptClassName;
 	}
-	bool opEquals(in NativeScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NativeScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NativeScript other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NativeScript opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NativeScript.
+	/// Note: use `memnew!NativeScript` instead.
 	static NativeScript _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	String getClassDocumentation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getClassDocumentation, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getClassDocumentation, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	String getClassName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getClassName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getClassName, _godot_object);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	Ref!GDNativeLibrary getLibrary() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GDNativeLibrary)(_classBinding.getLibrary, _godot_object);
+		return ptrcall!(GDNativeLibrary)(GDNativeClassBinding.getLibrary, _godot_object);
 	}
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_method_documentation`.
@@ -93,7 +103,7 @@ public:
 	String getMethodDocumentation(in String method) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getMethodDocumentation, _godot_object, method);
+		return ptrcall!(String)(GDNativeClassBinding.getMethodDocumentation, _godot_object, method);
 	}
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_property_documentation`.
@@ -101,7 +111,7 @@ public:
 	String getPropertyDocumentation(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPropertyDocumentation, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.getPropertyDocumentation, _godot_object, path);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	String getScriptClassIconPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getScriptClassIconPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getScriptClassIconPath, _godot_object);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	String getScriptClassName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getScriptClassName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getScriptClassName, _godot_object);
 	}
 	/**
 	Returns the documentation string that was previously set with `godot_nativescript_set_signal_documentation`.
@@ -125,7 +135,7 @@ public:
 	String getSignalDocumentation(in String signal_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSignalDocumentation, _godot_object, signal_name);
+		return ptrcall!(String)(GDNativeClassBinding.getSignalDocumentation, _godot_object, signal_name);
 	}
 	/**
 	Constructs a new object of the base type with a script of this type already attached.
@@ -147,7 +157,7 @@ public:
 	void setClassName(in String class_name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClassName, _godot_object, class_name);
+		ptrcall!(void)(GDNativeClassBinding.setClassName, _godot_object, class_name);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	void setLibrary(GDNativeLibrary library)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
+		ptrcall!(void)(GDNativeClassBinding.setLibrary, _godot_object, library);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	void setScriptClassIconPath(in String icon_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScriptClassIconPath, _godot_object, icon_path);
+		ptrcall!(void)(GDNativeClassBinding.setScriptClassIconPath, _godot_object, icon_path);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	void setScriptClassName(in String class_name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScriptClassName, _godot_object, class_name);
+		ptrcall!(void)(GDNativeClassBinding.setScriptClassName, _godot_object, class_name);
 	}
 	/**
 	

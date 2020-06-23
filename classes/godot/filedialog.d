@@ -29,18 +29,18 @@ import godot.vboxcontainer;
 /**
 Dialog for selecting files or directories in the filesystem.
 
-FileDialog is a preset dialog used to choose files and directories in the filesystem. It supports filter masks.
+FileDialog is a preset dialog used to choose files and directories in the filesystem. It supports filter masks. The FileDialog automatically sets its window title according to the $(D mode). If you want to use a custom title, disable this by setting $(D modeOverridesTitle) to `false`.
 */
 @GodotBaseClass struct FileDialog
 {
-	enum string _GODOT_internal_name = "FileDialog";
+	package(godot) enum string _GODOT_internal_name = "FileDialog";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ConfirmationDialog _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ ConfirmationDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_action_pressed") GodotMethod!(void) _actionPressed;
@@ -83,10 +83,20 @@ public:
 		@GodotName("set_mode_overrides_title") GodotMethod!(void, bool) setModeOverridesTitle;
 		@GodotName("set_show_hidden_files") GodotMethod!(void, bool) setShowHiddenFiles;
 	}
-	bool opEquals(in FileDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	FileDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in FileDialog other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) FileDialog opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of FileDialog.
+	/// Note: use `memnew!FileDialog` instead.
 	static FileDialog _new()
 	{
 		static godot_class_constructor constructor;
@@ -314,7 +324,7 @@ public:
 	void addFilter(in String filter)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFilter, _godot_object, filter);
+		ptrcall!(void)(GDNativeClassBinding.addFilter, _godot_object, filter);
 	}
 	/**
 	Clear all the added filters in the dialog.
@@ -322,7 +332,7 @@ public:
 	void clearFilters()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearFilters, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearFilters, _godot_object);
 	}
 	/**
 	Clear currently selected items in the dialog.
@@ -330,7 +340,7 @@ public:
 	void deselectItems()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.deselectItems, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.deselectItems, _godot_object);
 	}
 	/**
 	
@@ -338,7 +348,7 @@ public:
 	FileDialog.Access getAccess() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(FileDialog.Access)(_classBinding.getAccess, _godot_object);
+		return ptrcall!(FileDialog.Access)(GDNativeClassBinding.getAccess, _godot_object);
 	}
 	/**
 	
@@ -346,7 +356,7 @@ public:
 	String getCurrentDir() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentDir, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentDir, _godot_object);
 	}
 	/**
 	
@@ -354,7 +364,7 @@ public:
 	String getCurrentFile() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentFile, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentFile, _godot_object);
 	}
 	/**
 	
@@ -362,7 +372,7 @@ public:
 	String getCurrentPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentPath, _godot_object);
 	}
 	/**
 	
@@ -370,7 +380,7 @@ public:
 	PoolStringArray getFilters() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getFilters, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getFilters, _godot_object);
 	}
 	/**
 	Returns the LineEdit for the selected file.
@@ -378,7 +388,7 @@ public:
 	LineEdit getLineEdit()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(LineEdit)(_classBinding.getLineEdit, _godot_object);
+		return ptrcall!(LineEdit)(GDNativeClassBinding.getLineEdit, _godot_object);
 	}
 	/**
 	
@@ -386,7 +396,7 @@ public:
 	FileDialog.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(FileDialog.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(FileDialog.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	Returns the vertical box container of the dialog, custom controls can be added to it.
@@ -394,7 +404,7 @@ public:
 	VBoxContainer getVbox()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VBoxContainer)(_classBinding.getVbox, _godot_object);
+		return ptrcall!(VBoxContainer)(GDNativeClassBinding.getVbox, _godot_object);
 	}
 	/**
 	Invalidate and update the current dialog content list.
@@ -402,7 +412,7 @@ public:
 	void invalidate()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.invalidate, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.invalidate, _godot_object);
 	}
 	/**
 	
@@ -410,7 +420,7 @@ public:
 	bool isModeOverridingTitle() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isModeOverridingTitle, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isModeOverridingTitle, _godot_object);
 	}
 	/**
 	
@@ -418,7 +428,7 @@ public:
 	bool isShowingHiddenFiles() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShowingHiddenFiles, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isShowingHiddenFiles, _godot_object);
 	}
 	/**
 	
@@ -426,7 +436,7 @@ public:
 	void setAccess(in long access)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAccess, _godot_object, access);
+		ptrcall!(void)(GDNativeClassBinding.setAccess, _godot_object, access);
 	}
 	/**
 	
@@ -434,7 +444,7 @@ public:
 	void setCurrentDir(in String dir)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentDir, _godot_object, dir);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentDir, _godot_object, dir);
 	}
 	/**
 	
@@ -442,7 +452,7 @@ public:
 	void setCurrentFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentFile, _godot_object, file);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentFile, _godot_object, file);
 	}
 	/**
 	
@@ -450,7 +460,7 @@ public:
 	void setCurrentPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentPath, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentPath, _godot_object, path);
 	}
 	/**
 	
@@ -458,7 +468,7 @@ public:
 	void setFilters(in PoolStringArray filters)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilters, _godot_object, filters);
+		ptrcall!(void)(GDNativeClassBinding.setFilters, _godot_object, filters);
 	}
 	/**
 	
@@ -466,7 +476,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -474,7 +484,7 @@ public:
 	void setModeOverridesTitle(in bool _override)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setModeOverridesTitle, _godot_object, _override);
+		ptrcall!(void)(GDNativeClassBinding.setModeOverridesTitle, _godot_object, _override);
 	}
 	/**
 	
@@ -482,7 +492,7 @@ public:
 	void setShowHiddenFiles(in bool show)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShowHiddenFiles, _godot_object, show);
+		ptrcall!(void)(GDNativeClassBinding.setShowHiddenFiles, _godot_object, show);
 	}
 	/**
 	The file system access scope. See enum `Access` constants.

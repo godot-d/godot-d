@@ -30,14 +30,14 @@ Button is the standard themed button. It can contain text and an icon, and will 
 */
 @GodotBaseClass struct Button
 {
-	enum string _GODOT_internal_name = "Button";
+	package(godot) enum string _GODOT_internal_name = "Button";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; BaseButton _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ BaseButton _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_button_icon") GodotMethod!(Texture) getButtonIcon;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("set_text_align") GodotMethod!(void, long) setTextAlign;
 	}
-	bool opEquals(in Button other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Button opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Button other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Button opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Button.
+	/// Note: use `memnew!Button` instead.
 	static Button _new()
 	{
 		static godot_class_constructor constructor;
@@ -94,7 +104,7 @@ public:
 	Ref!Texture getButtonIcon() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getButtonIcon, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getButtonIcon, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	bool getClipText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getClipText, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getClipText, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	String getText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	Button.TextAlign getTextAlign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Button.TextAlign)(_classBinding.getTextAlign, _godot_object);
+		return ptrcall!(Button.TextAlign)(GDNativeClassBinding.getTextAlign, _godot_object);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	bool isExpandIcon() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isExpandIcon, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isExpandIcon, _godot_object);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	bool isFlat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFlat, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFlat, _godot_object);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	void setButtonIcon(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonIcon, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setButtonIcon, _godot_object, texture);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	void setClipText(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipText, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setClipText, _godot_object, enabled);
 	}
 	/**
 	
@@ -158,7 +168,7 @@ public:
 	void setExpandIcon(in bool arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandIcon, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setExpandIcon, _godot_object, arg0);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	void setFlat(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlat, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFlat, _godot_object, enabled);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	void setTextAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.setTextAlign, _godot_object, _align);
 	}
 	/**
 	Text alignment policy for the button's text, use one of the $(D textalign) constants.

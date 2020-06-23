@@ -34,14 +34,14 @@ When a randomness ratio is applied to a property it is used to scale that proper
 */
 @GodotBaseClass struct ParticlesMaterial
 {
-	enum string _GODOT_internal_name = "ParticlesMaterial";
+	package(godot) enum string _GODOT_internal_name = "ParticlesMaterial";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Material _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Material _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_color") GodotMethod!(Color) getColor;
@@ -87,10 +87,20 @@ public:
 		@GodotName("set_trail_divisor") GodotMethod!(void, long) setTrailDivisor;
 		@GodotName("set_trail_size_modifier") GodotMethod!(void, CurveTexture) setTrailSizeModifier;
 	}
-	bool opEquals(in ParticlesMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ParticlesMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ParticlesMaterial other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ParticlesMaterial opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ParticlesMaterial.
+	/// Note: use `memnew!ParticlesMaterial` instead.
 	static ParticlesMaterial _new()
 	{
 		static godot_class_constructor constructor;
@@ -236,7 +246,7 @@ public:
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	Ref!Texture getColorRamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getColorRamp, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getColorRamp, _godot_object);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	Vector3 getDirection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getDirection, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getDirection, _godot_object);
 	}
 	/**
 	
@@ -260,7 +270,7 @@ public:
 	Vector3 getEmissionBoxExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getEmissionBoxExtents, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getEmissionBoxExtents, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	Ref!Texture getEmissionColorTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getEmissionColorTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getEmissionColorTexture, _godot_object);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	Ref!Texture getEmissionNormalTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getEmissionNormalTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getEmissionNormalTexture, _godot_object);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	long getEmissionPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getEmissionPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getEmissionPointCount, _godot_object);
 	}
 	/**
 	
@@ -292,7 +302,7 @@ public:
 	Ref!Texture getEmissionPointTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getEmissionPointTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getEmissionPointTexture, _godot_object);
 	}
 	/**
 	
@@ -300,7 +310,7 @@ public:
 	ParticlesMaterial.EmissionShape getEmissionShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ParticlesMaterial.EmissionShape)(_classBinding.getEmissionShape, _godot_object);
+		return ptrcall!(ParticlesMaterial.EmissionShape)(GDNativeClassBinding.getEmissionShape, _godot_object);
 	}
 	/**
 	
@@ -308,7 +318,7 @@ public:
 	double getEmissionSphereRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEmissionSphereRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEmissionSphereRadius, _godot_object);
 	}
 	/**
 	Returns `true` if the specified flag is enabled.
@@ -316,7 +326,7 @@ public:
 	bool getFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlag, _godot_object, flag);
 	}
 	/**
 	
@@ -324,7 +334,7 @@ public:
 	double getFlatness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFlatness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFlatness, _godot_object);
 	}
 	/**
 	
@@ -332,7 +342,7 @@ public:
 	Vector3 getGravity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getGravity, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getGravity, _godot_object);
 	}
 	/**
 	
@@ -340,7 +350,7 @@ public:
 	double getLifetimeRandomness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLifetimeRandomness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLifetimeRandomness, _godot_object);
 	}
 	/**
 	Returns the value of the specified parameter.
@@ -348,7 +358,7 @@ public:
 	double getParam(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParam, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParam, _godot_object, param);
 	}
 	/**
 	Returns the randomness ratio associated with the specified parameter.
@@ -356,7 +366,7 @@ public:
 	double getParamRandomness(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getParamRandomness, _godot_object, param);
+		return ptrcall!(double)(GDNativeClassBinding.getParamRandomness, _godot_object, param);
 	}
 	/**
 	Returns the $(D Texture) used by the specified parameter.
@@ -364,7 +374,7 @@ public:
 	Ref!Texture getParamTexture(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getParamTexture, _godot_object, param);
+		return ptrcall!(Texture)(GDNativeClassBinding.getParamTexture, _godot_object, param);
 	}
 	/**
 	
@@ -372,7 +382,7 @@ public:
 	double getSpread() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpread, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpread, _godot_object);
 	}
 	/**
 	
@@ -380,7 +390,7 @@ public:
 	Ref!GradientTexture getTrailColorModifier() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GradientTexture)(_classBinding.getTrailColorModifier, _godot_object);
+		return ptrcall!(GradientTexture)(GDNativeClassBinding.getTrailColorModifier, _godot_object);
 	}
 	/**
 	
@@ -388,7 +398,7 @@ public:
 	long getTrailDivisor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrailDivisor, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTrailDivisor, _godot_object);
 	}
 	/**
 	
@@ -396,7 +406,7 @@ public:
 	Ref!CurveTexture getTrailSizeModifier() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CurveTexture)(_classBinding.getTrailSizeModifier, _godot_object);
+		return ptrcall!(CurveTexture)(GDNativeClassBinding.getTrailSizeModifier, _godot_object);
 	}
 	/**
 	
@@ -404,7 +414,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -412,7 +422,7 @@ public:
 	void setColorRamp(Texture ramp)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColorRamp, _godot_object, ramp);
+		ptrcall!(void)(GDNativeClassBinding.setColorRamp, _godot_object, ramp);
 	}
 	/**
 	
@@ -420,7 +430,7 @@ public:
 	void setDirection(in Vector3 degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDirection, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setDirection, _godot_object, degrees);
 	}
 	/**
 	
@@ -428,7 +438,7 @@ public:
 	void setEmissionBoxExtents(in Vector3 extents)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionBoxExtents, _godot_object, extents);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionBoxExtents, _godot_object, extents);
 	}
 	/**
 	
@@ -436,7 +446,7 @@ public:
 	void setEmissionColorTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionColorTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionColorTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -444,7 +454,7 @@ public:
 	void setEmissionNormalTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionNormalTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionNormalTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -452,7 +462,7 @@ public:
 	void setEmissionPointCount(in long point_count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionPointCount, _godot_object, point_count);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionPointCount, _godot_object, point_count);
 	}
 	/**
 	
@@ -460,7 +470,7 @@ public:
 	void setEmissionPointTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionPointTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionPointTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -468,7 +478,7 @@ public:
 	void setEmissionShape(in long shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionShape, _godot_object, shape);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionShape, _godot_object, shape);
 	}
 	/**
 	
@@ -476,7 +486,7 @@ public:
 	void setEmissionSphereRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionSphereRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionSphereRadius, _godot_object, radius);
 	}
 	/**
 	If `true`, enables the specified flag. See $(D flags) for options.
@@ -484,7 +494,7 @@ public:
 	void setFlag(in long flag, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFlag, _godot_object, flag, enable);
 	}
 	/**
 	
@@ -492,7 +502,7 @@ public:
 	void setFlatness(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlatness, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFlatness, _godot_object, amount);
 	}
 	/**
 	
@@ -500,7 +510,7 @@ public:
 	void setGravity(in Vector3 accel_vec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGravity, _godot_object, accel_vec);
+		ptrcall!(void)(GDNativeClassBinding.setGravity, _godot_object, accel_vec);
 	}
 	/**
 	
@@ -508,7 +518,7 @@ public:
 	void setLifetimeRandomness(in double randomness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLifetimeRandomness, _godot_object, randomness);
+		ptrcall!(void)(GDNativeClassBinding.setLifetimeRandomness, _godot_object, randomness);
 	}
 	/**
 	Sets the specified $(D parameter).
@@ -516,7 +526,7 @@ public:
 	void setParam(in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParam, _godot_object, param, value);
+		ptrcall!(void)(GDNativeClassBinding.setParam, _godot_object, param, value);
 	}
 	/**
 	Sets the randomness ratio for the specified $(D parameter).
@@ -524,7 +534,7 @@ public:
 	void setParamRandomness(in long param, in double randomness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamRandomness, _godot_object, param, randomness);
+		ptrcall!(void)(GDNativeClassBinding.setParamRandomness, _godot_object, param, randomness);
 	}
 	/**
 	Sets the $(D Texture) for the specified $(D parameter).
@@ -532,7 +542,7 @@ public:
 	void setParamTexture(in long param, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParamTexture, _godot_object, param, texture);
+		ptrcall!(void)(GDNativeClassBinding.setParamTexture, _godot_object, param, texture);
 	}
 	/**
 	
@@ -540,7 +550,7 @@ public:
 	void setSpread(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpread, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSpread, _godot_object, degrees);
 	}
 	/**
 	
@@ -548,7 +558,7 @@ public:
 	void setTrailColorModifier(GradientTexture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailColorModifier, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTrailColorModifier, _godot_object, texture);
 	}
 	/**
 	
@@ -556,7 +566,7 @@ public:
 	void setTrailDivisor(in long divisor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailDivisor, _godot_object, divisor);
+		ptrcall!(void)(GDNativeClassBinding.setTrailDivisor, _godot_object, divisor);
 	}
 	/**
 	
@@ -564,7 +574,7 @@ public:
 	void setTrailSizeModifier(CurveTexture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTrailSizeModifier, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTrailSizeModifier, _godot_object, texture);
 	}
 	/**
 	Initial rotation applied to each particle, in degrees.

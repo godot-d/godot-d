@@ -30,14 +30,14 @@ GDScript has a simplified $(D @GDScript.load) built-in method which can be used 
 */
 @GodotBaseClass struct ResourceLoaderSingleton
 {
-	enum string _GODOT_internal_name = "_ResourceLoader";
+	package(godot) enum string _GODOT_internal_name = "_ResourceLoader";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -51,10 +51,20 @@ public:
 		@GodotName("load_interactive") GodotMethod!(ResourceInteractiveLoader, String, String) loadInteractive;
 		@GodotName("set_abort_on_missing_resources") GodotMethod!(void, bool) setAbortOnMissingResources;
 	}
-	bool opEquals(in ResourceLoaderSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourceLoaderSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ResourceLoaderSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ResourceLoaderSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ResourceLoaderSingleton.
+	/// Note: use `memnew!ResourceLoaderSingleton` instead.
 	static ResourceLoaderSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	bool exists(in String path, in String type_hint = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.exists, _godot_object, path, type_hint);
+		return ptrcall!(bool)(GDNativeClassBinding.exists, _godot_object, path, type_hint);
 	}
 	/**
 	Returns the dependencies for the resource at the given `path`.
@@ -78,7 +88,7 @@ public:
 	PoolStringArray getDependencies(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getDependencies, _godot_object, path);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getDependencies, _godot_object, path);
 	}
 	/**
 	Returns the list of recognized extensions for a resource type.
@@ -86,7 +96,7 @@ public:
 	PoolStringArray getRecognizedExtensionsForType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getRecognizedExtensionsForType, _godot_object, type);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getRecognizedExtensionsForType, _godot_object, type);
 	}
 	/**
 	$(I Deprecated method.) Use $(D hasCached) or $(D exists) instead.
@@ -94,7 +104,7 @@ public:
 	bool has(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.has, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.has, _godot_object, path);
 	}
 	/**
 	Returns whether a cached resource is available for the given `path`.
@@ -103,7 +113,7 @@ public:
 	bool hasCached(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasCached, _godot_object, path);
+		return ptrcall!(bool)(GDNativeClassBinding.hasCached, _godot_object, path);
 	}
 	/**
 	Loads a resource at the given `path`, caching the result for further access.
@@ -115,7 +125,7 @@ public:
 	Ref!Resource load(in String path, in String type_hint = gs!"", in bool no_cache = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.load, _godot_object, path, type_hint, no_cache);
+		return ptrcall!(Resource)(GDNativeClassBinding.load, _godot_object, path, type_hint, no_cache);
 	}
 	/**
 	Starts loading a resource interactively. The returned $(D ResourceInteractiveLoader) object allows to load with high granularity, calling its $(D ResourceInteractiveLoader.poll) method successively to load chunks.
@@ -124,7 +134,7 @@ public:
 	Ref!ResourceInteractiveLoader loadInteractive(in String path, in String type_hint = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ResourceInteractiveLoader)(_classBinding.loadInteractive, _godot_object, path, type_hint);
+		return ptrcall!(ResourceInteractiveLoader)(GDNativeClassBinding.loadInteractive, _godot_object, path, type_hint);
 	}
 	/**
 	Changes the behavior on missing sub-resources. The default behavior is to abort loading.
@@ -132,7 +142,7 @@ public:
 	void setAbortOnMissingResources(in bool abort)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAbortOnMissingResources, _godot_object, abort);
+		ptrcall!(void)(GDNativeClassBinding.setAbortOnMissingResources, _godot_object, abort);
 	}
 }
 /// Returns: the ResourceLoaderSingleton
@@ -140,5 +150,5 @@ public:
 ResourceLoaderSingleton ResourceLoader()
 {
 	checkClassBinding!ResourceLoaderSingleton();
-	return ResourceLoaderSingleton(ResourceLoaderSingleton._classBinding._singleton);
+	return ResourceLoaderSingleton(ResourceLoaderSingleton.GDNativeClassBinding._singleton);
 }

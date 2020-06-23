@@ -28,14 +28,14 @@ By setting various properties on this object, you can control how individual cha
 */
 @GodotBaseClass struct CharFXTransform
 {
-	enum string _GODOT_internal_name = "CharFXTransform";
+	package(godot) enum string _GODOT_internal_name = "CharFXTransform";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_absolute_index") GodotMethod!(long) getAbsoluteIndex;
@@ -55,10 +55,20 @@ public:
 		@GodotName("set_relative_index") GodotMethod!(void, long) setRelativeIndex;
 		@GodotName("set_visibility") GodotMethod!(void, bool) setVisibility;
 	}
-	bool opEquals(in CharFXTransform other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CharFXTransform opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CharFXTransform other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CharFXTransform opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CharFXTransform.
+	/// Note: use `memnew!CharFXTransform` instead.
 	static CharFXTransform _new()
 	{
 		static godot_class_constructor constructor;
@@ -73,7 +83,7 @@ public:
 	long getAbsoluteIndex()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAbsoluteIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAbsoluteIndex, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	long getCharacter()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCharacter, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCharacter, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	Color getColor()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	double getElapsedTime()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getElapsedTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getElapsedTime, _godot_object);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	Dictionary getEnvironment()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getEnvironment, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getEnvironment, _godot_object);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	Vector2 getOffset()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	long getRelativeIndex()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRelativeIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRelativeIndex, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	bool isVisible()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVisible, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	void setAbsoluteIndex(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAbsoluteIndex, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.setAbsoluteIndex, _godot_object, index);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	void setCharacter(in long character)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCharacter, _godot_object, character);
+		ptrcall!(void)(GDNativeClassBinding.setCharacter, _godot_object, character);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	void setElapsedTime(in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setElapsedTime, _godot_object, time);
+		ptrcall!(void)(GDNativeClassBinding.setElapsedTime, _godot_object, time);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	void setEnvironment(in Dictionary environment)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, environment);
+		ptrcall!(void)(GDNativeClassBinding.setEnvironment, _godot_object, environment);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setRelativeIndex(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRelativeIndex, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.setRelativeIndex, _godot_object, index);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	void setVisibility(in bool visibility)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibility, _godot_object, visibility);
+		ptrcall!(void)(GDNativeClassBinding.setVisibility, _godot_object, visibility);
 	}
 	/**
 	The index of the current character (starting from 0). Setting this property won't affect drawing.

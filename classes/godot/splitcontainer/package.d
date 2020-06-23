@@ -31,14 +31,14 @@ Container for splitting two $(D Control)s vertically or horizontally, with a gra
 */
 @GodotBaseClass struct SplitContainer
 {
-	enum string _GODOT_internal_name = "SplitContainer";
+	package(godot) enum string _GODOT_internal_name = "SplitContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -50,10 +50,20 @@ public:
 		@GodotName("set_dragger_visibility") GodotMethod!(void, long) setDraggerVisibility;
 		@GodotName("set_split_offset") GodotMethod!(void, long) setSplitOffset;
 	}
-	bool opEquals(in SplitContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SplitContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SplitContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SplitContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SplitContainer.
+	/// Note: use `memnew!SplitContainer` instead.
 	static SplitContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -101,7 +111,7 @@ public:
 	void clampSplitOffset()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clampSplitOffset, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clampSplitOffset, _godot_object);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	SplitContainer.DraggerVisibility getDraggerVisibility() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SplitContainer.DraggerVisibility)(_classBinding.getDraggerVisibility, _godot_object);
+		return ptrcall!(SplitContainer.DraggerVisibility)(GDNativeClassBinding.getDraggerVisibility, _godot_object);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	long getSplitOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSplitOffset, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSplitOffset, _godot_object);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	bool isCollapsed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollapsed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollapsed, _godot_object);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	void setCollapsed(in bool collapsed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollapsed, _godot_object, collapsed);
+		ptrcall!(void)(GDNativeClassBinding.setCollapsed, _godot_object, collapsed);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	void setDraggerVisibility(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDraggerVisibility, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setDraggerVisibility, _godot_object, mode);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	void setSplitOffset(in long offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSplitOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setSplitOffset, _godot_object, offset);
 	}
 	/**
 	If `true`, the area of the first $(D Control) will be collapsed and the dragger will be disabled.

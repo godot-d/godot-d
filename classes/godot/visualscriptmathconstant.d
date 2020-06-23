@@ -32,23 +32,33 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptMathConstant
 {
-	enum string _GODOT_internal_name = "VisualScriptMathConstant";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptMathConstant";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_math_constant") GodotMethod!(VisualScriptMathConstant.MathConstant) getMathConstant;
 		@GodotName("set_math_constant") GodotMethod!(void, long) setMathConstant;
 	}
-	bool opEquals(in VisualScriptMathConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptMathConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptMathConstant other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptMathConstant opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptMathConstant.
+	/// Note: use `memnew!VisualScriptMathConstant` instead.
 	static VisualScriptMathConstant _new()
 	{
 		static godot_class_constructor constructor;
@@ -116,7 +126,7 @@ public:
 	VisualScriptMathConstant.MathConstant getMathConstant()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptMathConstant.MathConstant)(_classBinding.getMathConstant, _godot_object);
+		return ptrcall!(VisualScriptMathConstant.MathConstant)(GDNativeClassBinding.getMathConstant, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	void setMathConstant(in long which)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMathConstant, _godot_object, which);
+		ptrcall!(void)(GDNativeClassBinding.setMathConstant, _godot_object, which);
 	}
 	/**
 	The math constant.

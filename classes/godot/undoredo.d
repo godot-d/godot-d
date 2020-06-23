@@ -51,14 +51,14 @@ If you don't need to register a method, you can leave $(D addDoMethod) and $(D a
 */
 @GodotBaseClass struct UndoRedo
 {
-	enum string _GODOT_internal_name = "UndoRedo";
+	package(godot) enum string _GODOT_internal_name = "UndoRedo";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_do_method") GodotMethod!(void, GodotObject, String, GodotVarArgs) addDoMethod;
@@ -78,10 +78,20 @@ public:
 		@GodotName("redo") GodotMethod!(bool) redo;
 		@GodotName("undo") GodotMethod!(bool) undo;
 	}
-	bool opEquals(in UndoRedo other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	UndoRedo opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in UndoRedo other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) UndoRedo opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of UndoRedo.
+	/// Note: use `memnew!UndoRedo` instead.
 	static UndoRedo _new()
 	{
 		static godot_class_constructor constructor;
@@ -134,7 +144,7 @@ public:
 	void addDoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addDoProperty, _godot_object, object, property, value);
+		ptrcall!(void)(GDNativeClassBinding.addDoProperty, _godot_object, object, property, value);
 	}
 	/**
 	Register a reference for "do" that will be erased if the "do" history is lost. This is useful mostly for new nodes created for the "do" call. Do not use for resources.
@@ -142,7 +152,7 @@ public:
 	void addDoReference(GodotObject object)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addDoReference, _godot_object, object);
+		ptrcall!(void)(GDNativeClassBinding.addDoReference, _godot_object, object);
 	}
 	/**
 	Register a method that will be called when the action is undone.
@@ -165,7 +175,7 @@ public:
 	void addUndoProperty(VariantArg2)(GodotObject object, in String property, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUndoProperty, _godot_object, object, property, value);
+		ptrcall!(void)(GDNativeClassBinding.addUndoProperty, _godot_object, object, property, value);
 	}
 	/**
 	Register a reference for "undo" that will be erased if the "undo" history is lost. This is useful mostly for nodes removed with the "do" call (not the "undo" call!).
@@ -173,7 +183,7 @@ public:
 	void addUndoReference(GodotObject object)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUndoReference, _godot_object, object);
+		ptrcall!(void)(GDNativeClassBinding.addUndoReference, _godot_object, object);
 	}
 	/**
 	Clear the undo/redo history and associated references.
@@ -182,7 +192,7 @@ public:
 	void clearHistory(in bool increase_version = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearHistory, _godot_object, increase_version);
+		ptrcall!(void)(GDNativeClassBinding.clearHistory, _godot_object, increase_version);
 	}
 	/**
 	Commit the action. All "do" methods/properties are called/set when this function is called.
@@ -190,7 +200,7 @@ public:
 	void commitAction()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.commitAction, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.commitAction, _godot_object);
 	}
 	/**
 	Create a new action. After this is called, do all your calls to $(D addDoMethod), $(D addUndoMethod), $(D addDoProperty), and $(D addUndoProperty), then commit the action with $(D commitAction).
@@ -199,7 +209,7 @@ public:
 	void createAction(in String name, in long merge_mode = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createAction, _godot_object, name, merge_mode);
+		ptrcall!(void)(GDNativeClassBinding.createAction, _godot_object, name, merge_mode);
 	}
 	/**
 	Gets the name of the current action.
@@ -207,7 +217,7 @@ public:
 	String getCurrentActionName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentActionName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentActionName, _godot_object);
 	}
 	/**
 	Gets the version. Every time a new action is committed, the $(D UndoRedo)'s version number is increased automatically.
@@ -216,7 +226,7 @@ public:
 	long getVersion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVersion, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVersion, _godot_object);
 	}
 	/**
 	Returns `true` if a "redo" action is available.
@@ -224,7 +234,7 @@ public:
 	bool hasRedo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasRedo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasRedo, _godot_object);
 	}
 	/**
 	Returns `true` if an "undo" action is available.
@@ -232,7 +242,7 @@ public:
 	bool hasUndo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasUndo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasUndo, _godot_object);
 	}
 	/**
 	Returns `true` if the $(D UndoRedo) is currently committing the action, i.e. running its "do" method or property change (see $(D commitAction)).
@@ -240,7 +250,7 @@ public:
 	bool isCommitingAction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCommitingAction, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCommitingAction, _godot_object);
 	}
 	/**
 	Redo the last action.
@@ -248,7 +258,7 @@ public:
 	bool redo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.redo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.redo, _godot_object);
 	}
 	/**
 	Undo the last action.
@@ -256,6 +266,6 @@ public:
 	bool undo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.undo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.undo, _godot_object);
 	}
 }

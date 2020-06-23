@@ -28,14 +28,14 @@ A Visual Script node representing a constant from base types, such as $(D consta
 */
 @GodotBaseClass struct VisualScriptBasicTypeConstant
 {
-	enum string _GODOT_internal_name = "VisualScriptBasicTypeConstant";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptBasicTypeConstant";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_basic_type") GodotMethod!(Variant.Type) getBasicType;
@@ -43,10 +43,20 @@ public:
 		@GodotName("set_basic_type") GodotMethod!(void, long) setBasicType;
 		@GodotName("set_basic_type_constant") GodotMethod!(void, String) setBasicTypeConstant;
 	}
-	bool opEquals(in VisualScriptBasicTypeConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptBasicTypeConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptBasicTypeConstant other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptBasicTypeConstant opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptBasicTypeConstant.
+	/// Note: use `memnew!VisualScriptBasicTypeConstant` instead.
 	static VisualScriptBasicTypeConstant _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	Variant.Type getBasicType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
+		return ptrcall!(Variant.Type)(GDNativeClassBinding.getBasicType, _godot_object);
 	}
 	/**
 	
@@ -69,7 +79,7 @@ public:
 	String getBasicTypeConstant() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBasicTypeConstant, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBasicTypeConstant, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	void setBasicType(in long name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setBasicType, _godot_object, name);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	void setBasicTypeConstant(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicTypeConstant, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setBasicTypeConstant, _godot_object, name);
 	}
 	/**
 	The type to get the constant from.

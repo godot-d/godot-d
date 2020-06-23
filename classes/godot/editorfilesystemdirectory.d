@@ -26,14 +26,14 @@ A more generalized, low-level variation of the directory concept.
 */
 @GodotBaseClass struct EditorFileSystemDirectory
 {
-	enum string _GODOT_internal_name = "EditorFileSystemDirectory";
+	package(godot) enum string _GODOT_internal_name = "EditorFileSystemDirectory";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("find_dir_index") GodotMethod!(long, String) findDirIndex;
@@ -51,10 +51,20 @@ public:
 		@GodotName("get_subdir") GodotMethod!(EditorFileSystemDirectory, long) getSubdir;
 		@GodotName("get_subdir_count") GodotMethod!(long) getSubdirCount;
 	}
-	bool opEquals(in EditorFileSystemDirectory other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorFileSystemDirectory opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorFileSystemDirectory other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorFileSystemDirectory opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorFileSystemDirectory.
+	/// Note: use `memnew!EditorFileSystemDirectory` instead.
 	static EditorFileSystemDirectory _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	long findDirIndex(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findDirIndex, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.findDirIndex, _godot_object, name);
 	}
 	/**
 	Returns the index of the file with name `name` or `-1` if not found.
@@ -77,7 +87,7 @@ public:
 	long findFileIndex(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findFileIndex, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.findFileIndex, _godot_object, name);
 	}
 	/**
 	Returns the name of the file at index `idx`.
@@ -85,7 +95,7 @@ public:
 	String getFile(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFile, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getFile, _godot_object, idx);
 	}
 	/**
 	Returns the number of files in this directory.
@@ -93,7 +103,7 @@ public:
 	long getFileCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFileCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFileCount, _godot_object);
 	}
 	/**
 	Returns `true` if the file at index `idx` imported properly.
@@ -101,7 +111,7 @@ public:
 	bool getFileImportIsValid(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFileImportIsValid, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.getFileImportIsValid, _godot_object, idx);
 	}
 	/**
 	Returns the path to the file at index `idx`.
@@ -109,7 +119,7 @@ public:
 	String getFilePath(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFilePath, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getFilePath, _godot_object, idx);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	String getFileScriptClassExtends(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFileScriptClassExtends, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getFileScriptClassExtends, _godot_object, idx);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	String getFileScriptClassName(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFileScriptClassName, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getFileScriptClassName, _godot_object, idx);
 	}
 	/**
 	Returns the file extension of the file at index `idx`.
@@ -133,7 +143,7 @@ public:
 	String getFileType(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFileType, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getFileType, _godot_object, idx);
 	}
 	/**
 	Returns the name of this directory.
@@ -141,7 +151,7 @@ public:
 	String getName()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
 	Returns the parent directory for this directory or `null` if called on a directory at `res://` or `user://`.
@@ -149,7 +159,7 @@ public:
 	EditorFileSystemDirectory getParent()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getParent, _godot_object);
+		return ptrcall!(EditorFileSystemDirectory)(GDNativeClassBinding.getParent, _godot_object);
 	}
 	/**
 	Returns the path to this directory.
@@ -157,7 +167,7 @@ public:
 	String getPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPath, _godot_object);
 	}
 	/**
 	Returns the subdirectory at index `idx`.
@@ -165,7 +175,7 @@ public:
 	EditorFileSystemDirectory getSubdir(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getSubdir, _godot_object, idx);
+		return ptrcall!(EditorFileSystemDirectory)(GDNativeClassBinding.getSubdir, _godot_object, idx);
 	}
 	/**
 	Returns the number of subdirectories in this directory.
@@ -173,6 +183,6 @@ public:
 	long getSubdirCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdirCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSubdirCount, _godot_object);
 	}
 }

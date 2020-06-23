@@ -24,17 +24,18 @@ import godot.node;
 Manages the SceneTree selection in the editor.
 
 This object manages the SceneTree selection in the editor.
+$(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorInterface.getSelection).
 */
 @GodotBaseClass struct EditorSelection
 {
-	enum string _GODOT_internal_name = "EditorSelection";
+	package(godot) enum string _GODOT_internal_name = "EditorSelection";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_emit_change") GodotMethod!(void) _emitChange;
@@ -45,10 +46,20 @@ public:
 		@GodotName("get_transformable_selected_nodes") GodotMethod!(Array) getTransformableSelectedNodes;
 		@GodotName("remove_node") GodotMethod!(void, Node) removeNode;
 	}
-	bool opEquals(in EditorSelection other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSelection opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSelection other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSelection opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSelection.
+	/// Note: use `memnew!EditorSelection` instead.
 	static EditorSelection _new()
 	{
 		static godot_class_constructor constructor;
@@ -82,7 +93,7 @@ public:
 	void addNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.addNode, _godot_object, node);
 	}
 	/**
 	Clear the selection.
@@ -90,7 +101,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Gets the list of selected nodes.
@@ -98,7 +109,7 @@ public:
 	Array getSelectedNodes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getSelectedNodes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getSelectedNodes, _godot_object);
 	}
 	/**
 	Gets the list of selected nodes, optimized for transform operations (i.e. moving them, rotating, etc). This list avoids situations where a node is selected and also child/grandchild.
@@ -106,7 +117,7 @@ public:
 	Array getTransformableSelectedNodes()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getTransformableSelectedNodes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getTransformableSelectedNodes, _godot_object);
 	}
 	/**
 	Removes a node from the selection.
@@ -114,6 +125,6 @@ public:
 	void removeNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.removeNode, _godot_object, node);
 	}
 }

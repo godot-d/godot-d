@@ -34,14 +34,14 @@ Resource for environment nodes (like $(D WorldEnvironment)) that define multiple
 */
 @GodotBaseClass struct Environment
 {
-	enum string _GODOT_internal_name = "Environment";
+	package(godot) enum string _GODOT_internal_name = "Environment";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_adjustment_brightness") GodotMethod!(double) getAdjustmentBrightness;
@@ -201,10 +201,20 @@ public:
 		@GodotName("set_tonemap_white") GodotMethod!(void, double) setTonemapWhite;
 		@GodotName("set_tonemapper") GodotMethod!(void, long) setTonemapper;
 	}
-	bool opEquals(in Environment other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Environment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Environment other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Environment opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Environment.
+	/// Note: use `memnew!Environment` instead.
 	static Environment _new()
 	{
 		static godot_class_constructor constructor;
@@ -377,7 +387,7 @@ public:
 	double getAdjustmentBrightness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAdjustmentBrightness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAdjustmentBrightness, _godot_object);
 	}
 	/**
 	
@@ -385,7 +395,7 @@ public:
 	Ref!Texture getAdjustmentColorCorrection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getAdjustmentColorCorrection, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getAdjustmentColorCorrection, _godot_object);
 	}
 	/**
 	
@@ -393,7 +403,7 @@ public:
 	double getAdjustmentContrast() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAdjustmentContrast, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAdjustmentContrast, _godot_object);
 	}
 	/**
 	
@@ -401,7 +411,7 @@ public:
 	double getAdjustmentSaturation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAdjustmentSaturation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAdjustmentSaturation, _godot_object);
 	}
 	/**
 	
@@ -409,7 +419,7 @@ public:
 	Color getAmbientLightColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getAmbientLightColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getAmbientLightColor, _godot_object);
 	}
 	/**
 	
@@ -417,7 +427,7 @@ public:
 	double getAmbientLightEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAmbientLightEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAmbientLightEnergy, _godot_object);
 	}
 	/**
 	
@@ -425,7 +435,7 @@ public:
 	double getAmbientLightSkyContribution() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAmbientLightSkyContribution, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAmbientLightSkyContribution, _godot_object);
 	}
 	/**
 	
@@ -433,7 +443,7 @@ public:
 	Environment.BGMode getBackground() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.BGMode)(_classBinding.getBackground, _godot_object);
+		return ptrcall!(Environment.BGMode)(GDNativeClassBinding.getBackground, _godot_object);
 	}
 	/**
 	
@@ -441,7 +451,7 @@ public:
 	Color getBgColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getBgColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getBgColor, _godot_object);
 	}
 	/**
 	
@@ -449,7 +459,7 @@ public:
 	double getBgEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBgEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBgEnergy, _godot_object);
 	}
 	/**
 	
@@ -457,7 +467,7 @@ public:
 	long getCameraFeedId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCameraFeedId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCameraFeedId, _godot_object);
 	}
 	/**
 	
@@ -465,7 +475,7 @@ public:
 	long getCanvasMaxLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCanvasMaxLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCanvasMaxLayer, _godot_object);
 	}
 	/**
 	
@@ -473,7 +483,7 @@ public:
 	double getDofBlurFarAmount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurFarAmount, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurFarAmount, _godot_object);
 	}
 	/**
 	
@@ -481,7 +491,7 @@ public:
 	double getDofBlurFarDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurFarDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurFarDistance, _godot_object);
 	}
 	/**
 	
@@ -489,7 +499,7 @@ public:
 	Environment.DOFBlurQuality getDofBlurFarQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.DOFBlurQuality)(_classBinding.getDofBlurFarQuality, _godot_object);
+		return ptrcall!(Environment.DOFBlurQuality)(GDNativeClassBinding.getDofBlurFarQuality, _godot_object);
 	}
 	/**
 	
@@ -497,7 +507,7 @@ public:
 	double getDofBlurFarTransition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurFarTransition, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurFarTransition, _godot_object);
 	}
 	/**
 	
@@ -505,7 +515,7 @@ public:
 	double getDofBlurNearAmount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurNearAmount, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurNearAmount, _godot_object);
 	}
 	/**
 	
@@ -513,7 +523,7 @@ public:
 	double getDofBlurNearDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurNearDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurNearDistance, _godot_object);
 	}
 	/**
 	
@@ -521,7 +531,7 @@ public:
 	Environment.DOFBlurQuality getDofBlurNearQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.DOFBlurQuality)(_classBinding.getDofBlurNearQuality, _godot_object);
+		return ptrcall!(Environment.DOFBlurQuality)(GDNativeClassBinding.getDofBlurNearQuality, _godot_object);
 	}
 	/**
 	
@@ -529,7 +539,7 @@ public:
 	double getDofBlurNearTransition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDofBlurNearTransition, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDofBlurNearTransition, _godot_object);
 	}
 	/**
 	
@@ -537,7 +547,7 @@ public:
 	Color getFogColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getFogColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getFogColor, _godot_object);
 	}
 	/**
 	
@@ -545,7 +555,7 @@ public:
 	double getFogDepthBegin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogDepthBegin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogDepthBegin, _godot_object);
 	}
 	/**
 	
@@ -553,7 +563,7 @@ public:
 	double getFogDepthCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogDepthCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogDepthCurve, _godot_object);
 	}
 	/**
 	
@@ -561,7 +571,7 @@ public:
 	double getFogDepthEnd() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogDepthEnd, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogDepthEnd, _godot_object);
 	}
 	/**
 	
@@ -569,7 +579,7 @@ public:
 	double getFogHeightCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogHeightCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogHeightCurve, _godot_object);
 	}
 	/**
 	
@@ -577,7 +587,7 @@ public:
 	double getFogHeightMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogHeightMax, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogHeightMax, _godot_object);
 	}
 	/**
 	
@@ -585,7 +595,7 @@ public:
 	double getFogHeightMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogHeightMin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogHeightMin, _godot_object);
 	}
 	/**
 	
@@ -593,7 +603,7 @@ public:
 	double getFogSunAmount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogSunAmount, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogSunAmount, _godot_object);
 	}
 	/**
 	
@@ -601,7 +611,7 @@ public:
 	Color getFogSunColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getFogSunColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getFogSunColor, _godot_object);
 	}
 	/**
 	
@@ -609,7 +619,7 @@ public:
 	double getFogTransmitCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFogTransmitCurve, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFogTransmitCurve, _godot_object);
 	}
 	/**
 	
@@ -617,7 +627,7 @@ public:
 	Environment.GlowBlendMode getGlowBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.GlowBlendMode)(_classBinding.getGlowBlendMode, _godot_object);
+		return ptrcall!(Environment.GlowBlendMode)(GDNativeClassBinding.getGlowBlendMode, _godot_object);
 	}
 	/**
 	
@@ -625,7 +635,7 @@ public:
 	double getGlowBloom() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowBloom, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowBloom, _godot_object);
 	}
 	/**
 	
@@ -633,7 +643,7 @@ public:
 	double getGlowHdrBleedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowHdrBleedScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowHdrBleedScale, _godot_object);
 	}
 	/**
 	
@@ -641,7 +651,7 @@ public:
 	double getGlowHdrBleedThreshold() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowHdrBleedThreshold, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowHdrBleedThreshold, _godot_object);
 	}
 	/**
 	
@@ -649,7 +659,7 @@ public:
 	double getGlowHdrLuminanceCap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowHdrLuminanceCap, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowHdrLuminanceCap, _godot_object);
 	}
 	/**
 	
@@ -657,7 +667,7 @@ public:
 	double getGlowIntensity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowIntensity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowIntensity, _godot_object);
 	}
 	/**
 	
@@ -665,7 +675,7 @@ public:
 	double getGlowStrength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlowStrength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlowStrength, _godot_object);
 	}
 	/**
 	
@@ -673,7 +683,7 @@ public:
 	Ref!Sky getSky() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Sky)(_classBinding.getSky, _godot_object);
+		return ptrcall!(Sky)(GDNativeClassBinding.getSky, _godot_object);
 	}
 	/**
 	
@@ -681,7 +691,7 @@ public:
 	double getSkyCustomFov() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSkyCustomFov, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSkyCustomFov, _godot_object);
 	}
 	/**
 	
@@ -689,7 +699,7 @@ public:
 	Basis getSkyOrientation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Basis)(_classBinding.getSkyOrientation, _godot_object);
+		return ptrcall!(Basis)(GDNativeClassBinding.getSkyOrientation, _godot_object);
 	}
 	/**
 	
@@ -697,7 +707,7 @@ public:
 	Vector3 getSkyRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getSkyRotation, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getSkyRotation, _godot_object);
 	}
 	/**
 	
@@ -705,7 +715,7 @@ public:
 	Vector3 getSkyRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getSkyRotationDegrees, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getSkyRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -713,7 +723,7 @@ public:
 	double getSsaoAoChannelAffect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoAoChannelAffect, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoAoChannelAffect, _godot_object);
 	}
 	/**
 	
@@ -721,7 +731,7 @@ public:
 	double getSsaoBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoBias, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoBias, _godot_object);
 	}
 	/**
 	
@@ -729,7 +739,7 @@ public:
 	Environment.SSAOBlur getSsaoBlur() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.SSAOBlur)(_classBinding.getSsaoBlur, _godot_object);
+		return ptrcall!(Environment.SSAOBlur)(GDNativeClassBinding.getSsaoBlur, _godot_object);
 	}
 	/**
 	
@@ -737,7 +747,7 @@ public:
 	Color getSsaoColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSsaoColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getSsaoColor, _godot_object);
 	}
 	/**
 	
@@ -745,7 +755,7 @@ public:
 	double getSsaoDirectLightAffect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoDirectLightAffect, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoDirectLightAffect, _godot_object);
 	}
 	/**
 	
@@ -753,7 +763,7 @@ public:
 	double getSsaoEdgeSharpness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoEdgeSharpness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoEdgeSharpness, _godot_object);
 	}
 	/**
 	
@@ -761,7 +771,7 @@ public:
 	double getSsaoIntensity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoIntensity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoIntensity, _godot_object);
 	}
 	/**
 	
@@ -769,7 +779,7 @@ public:
 	double getSsaoIntensity2() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoIntensity2, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoIntensity2, _godot_object);
 	}
 	/**
 	
@@ -777,7 +787,7 @@ public:
 	Environment.SSAOQuality getSsaoQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.SSAOQuality)(_classBinding.getSsaoQuality, _godot_object);
+		return ptrcall!(Environment.SSAOQuality)(GDNativeClassBinding.getSsaoQuality, _godot_object);
 	}
 	/**
 	
@@ -785,7 +795,7 @@ public:
 	double getSsaoRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoRadius, _godot_object);
 	}
 	/**
 	
@@ -793,7 +803,7 @@ public:
 	double getSsaoRadius2() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsaoRadius2, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsaoRadius2, _godot_object);
 	}
 	/**
 	
@@ -801,7 +811,7 @@ public:
 	double getSsrDepthTolerance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsrDepthTolerance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsrDepthTolerance, _godot_object);
 	}
 	/**
 	
@@ -809,7 +819,7 @@ public:
 	double getSsrFadeIn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsrFadeIn, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsrFadeIn, _godot_object);
 	}
 	/**
 	
@@ -817,7 +827,7 @@ public:
 	double getSsrFadeOut() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSsrFadeOut, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSsrFadeOut, _godot_object);
 	}
 	/**
 	
@@ -825,7 +835,7 @@ public:
 	long getSsrMaxSteps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSsrMaxSteps, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSsrMaxSteps, _godot_object);
 	}
 	/**
 	
@@ -833,7 +843,7 @@ public:
 	bool getTonemapAutoExposure() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getTonemapAutoExposure, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getTonemapAutoExposure, _godot_object);
 	}
 	/**
 	
@@ -841,7 +851,7 @@ public:
 	double getTonemapAutoExposureGrey() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapAutoExposureGrey, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapAutoExposureGrey, _godot_object);
 	}
 	/**
 	
@@ -849,7 +859,7 @@ public:
 	double getTonemapAutoExposureMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapAutoExposureMax, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapAutoExposureMax, _godot_object);
 	}
 	/**
 	
@@ -857,7 +867,7 @@ public:
 	double getTonemapAutoExposureMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapAutoExposureMin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapAutoExposureMin, _godot_object);
 	}
 	/**
 	
@@ -865,7 +875,7 @@ public:
 	double getTonemapAutoExposureSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapAutoExposureSpeed, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapAutoExposureSpeed, _godot_object);
 	}
 	/**
 	
@@ -873,7 +883,7 @@ public:
 	double getTonemapExposure() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapExposure, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapExposure, _godot_object);
 	}
 	/**
 	
@@ -881,7 +891,7 @@ public:
 	double getTonemapWhite() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTonemapWhite, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTonemapWhite, _godot_object);
 	}
 	/**
 	
@@ -889,7 +899,7 @@ public:
 	Environment.ToneMapper getTonemapper() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment.ToneMapper)(_classBinding.getTonemapper, _godot_object);
+		return ptrcall!(Environment.ToneMapper)(GDNativeClassBinding.getTonemapper, _godot_object);
 	}
 	/**
 	
@@ -897,7 +907,7 @@ public:
 	bool isAdjustmentEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAdjustmentEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAdjustmentEnabled, _godot_object);
 	}
 	/**
 	
@@ -905,7 +915,7 @@ public:
 	bool isDofBlurFarEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDofBlurFarEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDofBlurFarEnabled, _godot_object);
 	}
 	/**
 	
@@ -913,7 +923,7 @@ public:
 	bool isDofBlurNearEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDofBlurNearEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDofBlurNearEnabled, _godot_object);
 	}
 	/**
 	
@@ -921,7 +931,7 @@ public:
 	bool isFogDepthEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFogDepthEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFogDepthEnabled, _godot_object);
 	}
 	/**
 	
@@ -929,7 +939,7 @@ public:
 	bool isFogEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFogEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFogEnabled, _godot_object);
 	}
 	/**
 	
@@ -937,7 +947,7 @@ public:
 	bool isFogHeightEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFogHeightEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFogHeightEnabled, _godot_object);
 	}
 	/**
 	
@@ -945,7 +955,7 @@ public:
 	bool isFogTransmitEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFogTransmitEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFogTransmitEnabled, _godot_object);
 	}
 	/**
 	
@@ -953,7 +963,7 @@ public:
 	bool isGlowBicubicUpscaleEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGlowBicubicUpscaleEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGlowBicubicUpscaleEnabled, _godot_object);
 	}
 	/**
 	
@@ -961,7 +971,7 @@ public:
 	bool isGlowEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGlowEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGlowEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the glow level `idx` is specified, `false` otherwise.
@@ -969,7 +979,7 @@ public:
 	bool isGlowLevelEnabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGlowLevelEnabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isGlowLevelEnabled, _godot_object, idx);
 	}
 	/**
 	
@@ -977,7 +987,7 @@ public:
 	bool isSsaoEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSsaoEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSsaoEnabled, _godot_object);
 	}
 	/**
 	
@@ -985,7 +995,7 @@ public:
 	bool isSsrEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSsrEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSsrEnabled, _godot_object);
 	}
 	/**
 	
@@ -993,7 +1003,7 @@ public:
 	bool isSsrRough() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSsrRough, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSsrRough, _godot_object);
 	}
 	/**
 	
@@ -1001,7 +1011,7 @@ public:
 	void setAdjustmentBrightness(in double brightness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdjustmentBrightness, _godot_object, brightness);
+		ptrcall!(void)(GDNativeClassBinding.setAdjustmentBrightness, _godot_object, brightness);
 	}
 	/**
 	
@@ -1009,7 +1019,7 @@ public:
 	void setAdjustmentColorCorrection(Texture color_correction)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdjustmentColorCorrection, _godot_object, color_correction);
+		ptrcall!(void)(GDNativeClassBinding.setAdjustmentColorCorrection, _godot_object, color_correction);
 	}
 	/**
 	
@@ -1017,7 +1027,7 @@ public:
 	void setAdjustmentContrast(in double contrast)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdjustmentContrast, _godot_object, contrast);
+		ptrcall!(void)(GDNativeClassBinding.setAdjustmentContrast, _godot_object, contrast);
 	}
 	/**
 	
@@ -1025,7 +1035,7 @@ public:
 	void setAdjustmentEnable(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdjustmentEnable, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setAdjustmentEnable, _godot_object, enabled);
 	}
 	/**
 	
@@ -1033,7 +1043,7 @@ public:
 	void setAdjustmentSaturation(in double saturation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdjustmentSaturation, _godot_object, saturation);
+		ptrcall!(void)(GDNativeClassBinding.setAdjustmentSaturation, _godot_object, saturation);
 	}
 	/**
 	
@@ -1041,7 +1051,7 @@ public:
 	void setAmbientLightColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmbientLightColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setAmbientLightColor, _godot_object, color);
 	}
 	/**
 	
@@ -1049,7 +1059,7 @@ public:
 	void setAmbientLightEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmbientLightEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setAmbientLightEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -1057,7 +1067,7 @@ public:
 	void setAmbientLightSkyContribution(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmbientLightSkyContribution, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setAmbientLightSkyContribution, _godot_object, energy);
 	}
 	/**
 	
@@ -1065,7 +1075,7 @@ public:
 	void setBackground(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBackground, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setBackground, _godot_object, mode);
 	}
 	/**
 	
@@ -1073,7 +1083,7 @@ public:
 	void setBgColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBgColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setBgColor, _godot_object, color);
 	}
 	/**
 	
@@ -1081,7 +1091,7 @@ public:
 	void setBgEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBgEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setBgEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -1089,7 +1099,7 @@ public:
 	void setCameraFeedId(in long camera_feed_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCameraFeedId, _godot_object, camera_feed_id);
+		ptrcall!(void)(GDNativeClassBinding.setCameraFeedId, _godot_object, camera_feed_id);
 	}
 	/**
 	
@@ -1097,7 +1107,7 @@ public:
 	void setCanvasMaxLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCanvasMaxLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setCanvasMaxLayer, _godot_object, layer);
 	}
 	/**
 	
@@ -1105,7 +1115,7 @@ public:
 	void setDofBlurFarAmount(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurFarAmount, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurFarAmount, _godot_object, intensity);
 	}
 	/**
 	
@@ -1113,7 +1123,7 @@ public:
 	void setDofBlurFarDistance(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurFarDistance, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurFarDistance, _godot_object, intensity);
 	}
 	/**
 	
@@ -1121,7 +1131,7 @@ public:
 	void setDofBlurFarEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurFarEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurFarEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1129,7 +1139,7 @@ public:
 	void setDofBlurFarQuality(in long intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurFarQuality, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurFarQuality, _godot_object, intensity);
 	}
 	/**
 	
@@ -1137,7 +1147,7 @@ public:
 	void setDofBlurFarTransition(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurFarTransition, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurFarTransition, _godot_object, intensity);
 	}
 	/**
 	
@@ -1145,7 +1155,7 @@ public:
 	void setDofBlurNearAmount(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurNearAmount, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurNearAmount, _godot_object, intensity);
 	}
 	/**
 	
@@ -1153,7 +1163,7 @@ public:
 	void setDofBlurNearDistance(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurNearDistance, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurNearDistance, _godot_object, intensity);
 	}
 	/**
 	
@@ -1161,7 +1171,7 @@ public:
 	void setDofBlurNearEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurNearEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurNearEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1169,7 +1179,7 @@ public:
 	void setDofBlurNearQuality(in long level)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurNearQuality, _godot_object, level);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurNearQuality, _godot_object, level);
 	}
 	/**
 	
@@ -1177,7 +1187,7 @@ public:
 	void setDofBlurNearTransition(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDofBlurNearTransition, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setDofBlurNearTransition, _godot_object, intensity);
 	}
 	/**
 	
@@ -1185,7 +1195,7 @@ public:
 	void setFogColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setFogColor, _godot_object, color);
 	}
 	/**
 	
@@ -1193,7 +1203,7 @@ public:
 	void setFogDepthBegin(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogDepthBegin, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setFogDepthBegin, _godot_object, distance);
 	}
 	/**
 	
@@ -1201,7 +1211,7 @@ public:
 	void setFogDepthCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogDepthCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setFogDepthCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -1209,7 +1219,7 @@ public:
 	void setFogDepthEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogDepthEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFogDepthEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1217,7 +1227,7 @@ public:
 	void setFogDepthEnd(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogDepthEnd, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setFogDepthEnd, _godot_object, distance);
 	}
 	/**
 	
@@ -1225,7 +1235,7 @@ public:
 	void setFogEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFogEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1233,7 +1243,7 @@ public:
 	void setFogHeightCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogHeightCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setFogHeightCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -1241,7 +1251,7 @@ public:
 	void setFogHeightEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogHeightEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFogHeightEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1249,7 +1259,7 @@ public:
 	void setFogHeightMax(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogHeightMax, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setFogHeightMax, _godot_object, height);
 	}
 	/**
 	
@@ -1257,7 +1267,7 @@ public:
 	void setFogHeightMin(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogHeightMin, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setFogHeightMin, _godot_object, height);
 	}
 	/**
 	
@@ -1265,7 +1275,7 @@ public:
 	void setFogSunAmount(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogSunAmount, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setFogSunAmount, _godot_object, amount);
 	}
 	/**
 	
@@ -1273,7 +1283,7 @@ public:
 	void setFogSunColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogSunColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setFogSunColor, _godot_object, color);
 	}
 	/**
 	
@@ -1281,7 +1291,7 @@ public:
 	void setFogTransmitCurve(in double curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogTransmitCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setFogTransmitCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -1289,7 +1299,7 @@ public:
 	void setFogTransmitEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFogTransmitEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFogTransmitEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1297,7 +1307,7 @@ public:
 	void setGlowBicubicUpscale(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowBicubicUpscale, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setGlowBicubicUpscale, _godot_object, enabled);
 	}
 	/**
 	
@@ -1305,7 +1315,7 @@ public:
 	void setGlowBlendMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowBlendMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setGlowBlendMode, _godot_object, mode);
 	}
 	/**
 	
@@ -1313,7 +1323,7 @@ public:
 	void setGlowBloom(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowBloom, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setGlowBloom, _godot_object, amount);
 	}
 	/**
 	
@@ -1321,7 +1331,7 @@ public:
 	void setGlowEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setGlowEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1329,7 +1339,7 @@ public:
 	void setGlowHdrBleedScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowHdrBleedScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setGlowHdrBleedScale, _godot_object, scale);
 	}
 	/**
 	
@@ -1337,7 +1347,7 @@ public:
 	void setGlowHdrBleedThreshold(in double threshold)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowHdrBleedThreshold, _godot_object, threshold);
+		ptrcall!(void)(GDNativeClassBinding.setGlowHdrBleedThreshold, _godot_object, threshold);
 	}
 	/**
 	
@@ -1345,7 +1355,7 @@ public:
 	void setGlowHdrLuminanceCap(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowHdrLuminanceCap, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setGlowHdrLuminanceCap, _godot_object, amount);
 	}
 	/**
 	
@@ -1353,7 +1363,7 @@ public:
 	void setGlowIntensity(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowIntensity, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setGlowIntensity, _godot_object, intensity);
 	}
 	/**
 	Enables or disables the glow level at index `idx`. Each level relies on the previous level. This means that enabling higher glow levels will slow down the glow effect rendering, even if previous levels aren't enabled.
@@ -1361,7 +1371,7 @@ public:
 	void setGlowLevel(in long idx, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowLevel, _godot_object, idx, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setGlowLevel, _godot_object, idx, enabled);
 	}
 	/**
 	
@@ -1369,7 +1379,7 @@ public:
 	void setGlowStrength(in double strength)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlowStrength, _godot_object, strength);
+		ptrcall!(void)(GDNativeClassBinding.setGlowStrength, _godot_object, strength);
 	}
 	/**
 	
@@ -1377,7 +1387,7 @@ public:
 	void setSky(Sky sky)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSky, _godot_object, sky);
+		ptrcall!(void)(GDNativeClassBinding.setSky, _godot_object, sky);
 	}
 	/**
 	
@@ -1385,7 +1395,7 @@ public:
 	void setSkyCustomFov(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyCustomFov, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setSkyCustomFov, _godot_object, scale);
 	}
 	/**
 	
@@ -1393,7 +1403,7 @@ public:
 	void setSkyOrientation(in Basis orientation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyOrientation, _godot_object, orientation);
+		ptrcall!(void)(GDNativeClassBinding.setSkyOrientation, _godot_object, orientation);
 	}
 	/**
 	
@@ -1401,7 +1411,7 @@ public:
 	void setSkyRotation(in Vector3 euler_radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyRotation, _godot_object, euler_radians);
+		ptrcall!(void)(GDNativeClassBinding.setSkyRotation, _godot_object, euler_radians);
 	}
 	/**
 	
@@ -1409,7 +1419,7 @@ public:
 	void setSkyRotationDegrees(in Vector3 euler_degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkyRotationDegrees, _godot_object, euler_degrees);
+		ptrcall!(void)(GDNativeClassBinding.setSkyRotationDegrees, _godot_object, euler_degrees);
 	}
 	/**
 	
@@ -1417,7 +1427,7 @@ public:
 	void setSsaoAoChannelAffect(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoAoChannelAffect, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoAoChannelAffect, _godot_object, amount);
 	}
 	/**
 	
@@ -1425,7 +1435,7 @@ public:
 	void setSsaoBias(in double bias)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoBias, _godot_object, bias);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoBias, _godot_object, bias);
 	}
 	/**
 	
@@ -1433,7 +1443,7 @@ public:
 	void setSsaoBlur(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoBlur, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoBlur, _godot_object, mode);
 	}
 	/**
 	
@@ -1441,7 +1451,7 @@ public:
 	void setSsaoColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoColor, _godot_object, color);
 	}
 	/**
 	
@@ -1449,7 +1459,7 @@ public:
 	void setSsaoDirectLightAffect(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoDirectLightAffect, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoDirectLightAffect, _godot_object, amount);
 	}
 	/**
 	
@@ -1457,7 +1467,7 @@ public:
 	void setSsaoEdgeSharpness(in double edge_sharpness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoEdgeSharpness, _godot_object, edge_sharpness);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoEdgeSharpness, _godot_object, edge_sharpness);
 	}
 	/**
 	
@@ -1465,7 +1475,7 @@ public:
 	void setSsaoEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1473,7 +1483,7 @@ public:
 	void setSsaoIntensity(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoIntensity, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoIntensity, _godot_object, intensity);
 	}
 	/**
 	
@@ -1481,7 +1491,7 @@ public:
 	void setSsaoIntensity2(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoIntensity2, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoIntensity2, _godot_object, intensity);
 	}
 	/**
 	
@@ -1489,7 +1499,7 @@ public:
 	void setSsaoQuality(in long quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoQuality, _godot_object, quality);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoQuality, _godot_object, quality);
 	}
 	/**
 	
@@ -1497,7 +1507,7 @@ public:
 	void setSsaoRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -1505,7 +1515,7 @@ public:
 	void setSsaoRadius2(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsaoRadius2, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setSsaoRadius2, _godot_object, radius);
 	}
 	/**
 	
@@ -1513,7 +1523,7 @@ public:
 	void setSsrDepthTolerance(in double depth_tolerance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrDepthTolerance, _godot_object, depth_tolerance);
+		ptrcall!(void)(GDNativeClassBinding.setSsrDepthTolerance, _godot_object, depth_tolerance);
 	}
 	/**
 	
@@ -1521,7 +1531,7 @@ public:
 	void setSsrEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSsrEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1529,7 +1539,7 @@ public:
 	void setSsrFadeIn(in double fade_in)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrFadeIn, _godot_object, fade_in);
+		ptrcall!(void)(GDNativeClassBinding.setSsrFadeIn, _godot_object, fade_in);
 	}
 	/**
 	
@@ -1537,7 +1547,7 @@ public:
 	void setSsrFadeOut(in double fade_out)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrFadeOut, _godot_object, fade_out);
+		ptrcall!(void)(GDNativeClassBinding.setSsrFadeOut, _godot_object, fade_out);
 	}
 	/**
 	
@@ -1545,7 +1555,7 @@ public:
 	void setSsrMaxSteps(in long max_steps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrMaxSteps, _godot_object, max_steps);
+		ptrcall!(void)(GDNativeClassBinding.setSsrMaxSteps, _godot_object, max_steps);
 	}
 	/**
 	
@@ -1553,7 +1563,7 @@ public:
 	void setSsrRough(in bool rough)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSsrRough, _godot_object, rough);
+		ptrcall!(void)(GDNativeClassBinding.setSsrRough, _godot_object, rough);
 	}
 	/**
 	
@@ -1561,7 +1571,7 @@ public:
 	void setTonemapAutoExposure(in bool auto_exposure)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapAutoExposure, _godot_object, auto_exposure);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapAutoExposure, _godot_object, auto_exposure);
 	}
 	/**
 	
@@ -1569,7 +1579,7 @@ public:
 	void setTonemapAutoExposureGrey(in double exposure_grey)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapAutoExposureGrey, _godot_object, exposure_grey);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapAutoExposureGrey, _godot_object, exposure_grey);
 	}
 	/**
 	
@@ -1577,7 +1587,7 @@ public:
 	void setTonemapAutoExposureMax(in double exposure_max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapAutoExposureMax, _godot_object, exposure_max);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapAutoExposureMax, _godot_object, exposure_max);
 	}
 	/**
 	
@@ -1585,7 +1595,7 @@ public:
 	void setTonemapAutoExposureMin(in double exposure_min)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapAutoExposureMin, _godot_object, exposure_min);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapAutoExposureMin, _godot_object, exposure_min);
 	}
 	/**
 	
@@ -1593,7 +1603,7 @@ public:
 	void setTonemapAutoExposureSpeed(in double exposure_speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapAutoExposureSpeed, _godot_object, exposure_speed);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapAutoExposureSpeed, _godot_object, exposure_speed);
 	}
 	/**
 	
@@ -1601,7 +1611,7 @@ public:
 	void setTonemapExposure(in double exposure)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapExposure, _godot_object, exposure);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapExposure, _godot_object, exposure);
 	}
 	/**
 	
@@ -1609,7 +1619,7 @@ public:
 	void setTonemapWhite(in double white)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapWhite, _godot_object, white);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapWhite, _godot_object, white);
 	}
 	/**
 	
@@ -1617,7 +1627,7 @@ public:
 	void setTonemapper(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTonemapper, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setTonemapper, _godot_object, mode);
 	}
 	/**
 	The global brightness value of the rendered scene. Effective only if `adjustment_enabled` is `true`.

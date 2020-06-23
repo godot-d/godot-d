@@ -31,14 +31,14 @@ Combines phase-shifted signals with the original signal. The movement of the pha
 */
 @GodotBaseClass struct AudioEffectPhaser
 {
-	enum string _GODOT_internal_name = "AudioEffectPhaser";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectPhaser";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_depth") GodotMethod!(double) getDepth;
@@ -52,10 +52,20 @@ public:
 		@GodotName("set_range_min_hz") GodotMethod!(void, double) setRangeMinHz;
 		@GodotName("set_rate_hz") GodotMethod!(void, double) setRateHz;
 	}
-	bool opEquals(in AudioEffectPhaser other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectPhaser opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectPhaser other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectPhaser opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectPhaser.
+	/// Note: use `memnew!AudioEffectPhaser` instead.
 	static AudioEffectPhaser _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	double getDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDepth, _godot_object);
 	}
 	/**
 	
@@ -78,7 +88,7 @@ public:
 	double getFeedback() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFeedback, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFeedback, _godot_object);
 	}
 	/**
 	
@@ -86,7 +96,7 @@ public:
 	double getRangeMaxHz() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRangeMaxHz, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRangeMaxHz, _godot_object);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	double getRangeMinHz() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRangeMinHz, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRangeMinHz, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	double getRateHz() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRateHz, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRateHz, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	void setDepth(in double depth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepth, _godot_object, depth);
+		ptrcall!(void)(GDNativeClassBinding.setDepth, _godot_object, depth);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	void setFeedback(in double fbk)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeedback, _godot_object, fbk);
+		ptrcall!(void)(GDNativeClassBinding.setFeedback, _godot_object, fbk);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	void setRangeMaxHz(in double hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRangeMaxHz, _godot_object, hz);
+		ptrcall!(void)(GDNativeClassBinding.setRangeMaxHz, _godot_object, hz);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	void setRangeMinHz(in double hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRangeMinHz, _godot_object, hz);
+		ptrcall!(void)(GDNativeClassBinding.setRangeMinHz, _godot_object, hz);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	void setRateHz(in double hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRateHz, _godot_object, hz);
+		ptrcall!(void)(GDNativeClassBinding.setRateHz, _godot_object, hz);
 	}
 	/**
 	Governs how high the filter frequencies sweep. Low value will primarily affect bass frequencies. High value can sweep high into the treble. Value can range from 0.1 to 4.

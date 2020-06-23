@@ -28,17 +28,18 @@ import godot.texture;
 A 2D line.
 
 A line through several points in 2D space.
+$(B Note:) By default, Godot can only draw up to 4,096 polygon points at a time. To increase this limit, open the Project Settings and increase $(D ProjectSettings.rendering/limits/buffers/canvasPolygonBufferSizeKb) and $(D ProjectSettings.rendering/limits/buffers/canvasPolygonIndexBufferSizeKb).
 */
 @GodotBaseClass struct Line2D
 {
-	enum string _GODOT_internal_name = "Line2D";
+	package(godot) enum string _GODOT_internal_name = "Line2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_curve_changed") GodotMethod!(void) _curveChanged;
@@ -76,10 +77,20 @@ public:
 		@GodotName("set_texture_mode") GodotMethod!(void, long) setTextureMode;
 		@GodotName("set_width") GodotMethod!(void, double) setWidth;
 	}
-	bool opEquals(in Line2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Line2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Line2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Line2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Line2D.
+	/// Note: use `memnew!Line2D` instead.
 	static Line2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -174,7 +185,7 @@ public:
 	void addPoint(in Vector2 position, in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPoint, _godot_object, position, at_position);
+		ptrcall!(void)(GDNativeClassBinding.addPoint, _godot_object, position, at_position);
 	}
 	/**
 	Removes all points from the line.
@@ -182,7 +193,7 @@ public:
 	void clearPoints()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearPoints, _godot_object);
 	}
 	/**
 	
@@ -190,7 +201,7 @@ public:
 	bool getAntialiased() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAntialiased, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAntialiased, _godot_object);
 	}
 	/**
 	
@@ -198,7 +209,7 @@ public:
 	Line2D.LineCapMode getBeginCapMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Line2D.LineCapMode)(_classBinding.getBeginCapMode, _godot_object);
+		return ptrcall!(Line2D.LineCapMode)(GDNativeClassBinding.getBeginCapMode, _godot_object);
 	}
 	/**
 	
@@ -206,7 +217,7 @@ public:
 	Ref!Curve getCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve)(_classBinding.getCurve, _godot_object);
+		return ptrcall!(Curve)(GDNativeClassBinding.getCurve, _godot_object);
 	}
 	/**
 	
@@ -214,7 +225,7 @@ public:
 	Color getDefaultColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getDefaultColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getDefaultColor, _godot_object);
 	}
 	/**
 	
@@ -222,7 +233,7 @@ public:
 	Line2D.LineCapMode getEndCapMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Line2D.LineCapMode)(_classBinding.getEndCapMode, _godot_object);
+		return ptrcall!(Line2D.LineCapMode)(GDNativeClassBinding.getEndCapMode, _godot_object);
 	}
 	/**
 	
@@ -230,7 +241,7 @@ public:
 	Ref!Gradient getGradient() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Gradient)(_classBinding.getGradient, _godot_object);
+		return ptrcall!(Gradient)(GDNativeClassBinding.getGradient, _godot_object);
 	}
 	/**
 	
@@ -238,7 +249,7 @@ public:
 	Line2D.LineJointMode getJointMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Line2D.LineJointMode)(_classBinding.getJointMode, _godot_object);
+		return ptrcall!(Line2D.LineJointMode)(GDNativeClassBinding.getJointMode, _godot_object);
 	}
 	/**
 	Returns the Line2D's amount of points.
@@ -246,7 +257,7 @@ public:
 	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
 	Returns point `i`'s position.
@@ -254,7 +265,7 @@ public:
 	Vector2 getPointPosition(in long i) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, i);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointPosition, _godot_object, i);
 	}
 	/**
 	
@@ -262,7 +273,7 @@ public:
 	PoolVector2Array getPoints() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPoints, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getPoints, _godot_object);
 	}
 	/**
 	
@@ -270,7 +281,7 @@ public:
 	long getRoundPrecision() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRoundPrecision, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRoundPrecision, _godot_object);
 	}
 	/**
 	
@@ -278,7 +289,7 @@ public:
 	double getSharpLimit() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSharpLimit, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSharpLimit, _godot_object);
 	}
 	/**
 	
@@ -286,7 +297,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -294,7 +305,7 @@ public:
 	Line2D.LineTextureMode getTextureMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Line2D.LineTextureMode)(_classBinding.getTextureMode, _godot_object);
+		return ptrcall!(Line2D.LineTextureMode)(GDNativeClassBinding.getTextureMode, _godot_object);
 	}
 	/**
 	
@@ -302,7 +313,7 @@ public:
 	double getWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWidth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWidth, _godot_object);
 	}
 	/**
 	Removes the point at index `i` from the line.
@@ -310,7 +321,7 @@ public:
 	void removePoint(in long i)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, i);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, i);
 	}
 	/**
 	
@@ -318,7 +329,7 @@ public:
 	void setAntialiased(in bool antialiased)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.setAntialiased, _godot_object, antialiased);
 	}
 	/**
 	
@@ -326,7 +337,7 @@ public:
 	void setBeginCapMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBeginCapMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setBeginCapMode, _godot_object, mode);
 	}
 	/**
 	
@@ -334,7 +345,7 @@ public:
 	void setCurve(Curve curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -342,7 +353,7 @@ public:
 	void setDefaultColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultColor, _godot_object, color);
 	}
 	/**
 	
@@ -350,7 +361,7 @@ public:
 	void setEndCapMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEndCapMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setEndCapMode, _godot_object, mode);
 	}
 	/**
 	
@@ -358,7 +369,7 @@ public:
 	void setGradient(Gradient color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGradient, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setGradient, _godot_object, color);
 	}
 	/**
 	
@@ -366,7 +377,7 @@ public:
 	void setJointMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setJointMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setJointMode, _godot_object, mode);
 	}
 	/**
 	Overwrites the position in point `i` with the supplied `position`.
@@ -374,7 +385,7 @@ public:
 	void setPointPosition(in long i, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, i, position);
+		ptrcall!(void)(GDNativeClassBinding.setPointPosition, _godot_object, i, position);
 	}
 	/**
 	
@@ -382,7 +393,7 @@ public:
 	void setPoints(in PoolVector2Array points)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPoints, _godot_object, points);
+		ptrcall!(void)(GDNativeClassBinding.setPoints, _godot_object, points);
 	}
 	/**
 	
@@ -390,7 +401,7 @@ public:
 	void setRoundPrecision(in long precision)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRoundPrecision, _godot_object, precision);
+		ptrcall!(void)(GDNativeClassBinding.setRoundPrecision, _godot_object, precision);
 	}
 	/**
 	
@@ -398,7 +409,7 @@ public:
 	void setSharpLimit(in double limit)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSharpLimit, _godot_object, limit);
+		ptrcall!(void)(GDNativeClassBinding.setSharpLimit, _godot_object, limit);
 	}
 	/**
 	
@@ -406,7 +417,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -414,7 +425,7 @@ public:
 	void setTextureMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setTextureMode, _godot_object, mode);
 	}
 	/**
 	
@@ -422,7 +433,7 @@ public:
 	void setWidth(in double width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setWidth, _godot_object, width);
 	}
 	/**
 	If `true`, the line's border will be anti-aliased.

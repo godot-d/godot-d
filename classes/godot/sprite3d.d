@@ -26,17 +26,18 @@ import godot.texture;
 2D sprite node in a 3D world.
 
 A node that displays a 2D texture in a 3D environment. The texture displayed can be a region from a larger atlas texture, or a frame from a sprite sheet animation.
+$(B Note:) There are $(D url=https://github.com/godotengine/godot/issues/20855)known performance issues$(D /url) when using $(D Sprite3D). Consider using a $(D MeshInstance) with a $(D QuadMesh) as the mesh instead. You can still have billboarding by enabling billboard properties in the QuadMesh's $(D SpatialMaterial).
 */
 @GodotBaseClass struct Sprite3D
 {
-	enum string _GODOT_internal_name = "Sprite3D";
+	package(godot) enum string _GODOT_internal_name = "Sprite3D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; SpriteBase3D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ SpriteBase3D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_frame") GodotMethod!(long) getFrame;
@@ -54,10 +55,20 @@ public:
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 		@GodotName("set_vframes") GodotMethod!(void, long) setVframes;
 	}
-	bool opEquals(in Sprite3D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Sprite3D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Sprite3D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Sprite3D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Sprite3D.
+	/// Note: use `memnew!Sprite3D` instead.
 	static Sprite3D _new()
 	{
 		static godot_class_constructor constructor;
@@ -72,7 +83,7 @@ public:
 	long getFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrame, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFrame, _godot_object);
 	}
 	/**
 	
@@ -80,7 +91,7 @@ public:
 	Vector2 getFrameCoords() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFrameCoords, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFrameCoords, _godot_object);
 	}
 	/**
 	
@@ -88,7 +99,7 @@ public:
 	long getHframes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHframes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHframes, _godot_object);
 	}
 	/**
 	
@@ -96,7 +107,7 @@ public:
 	Rect2 getRegionRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRegionRect, _godot_object);
 	}
 	/**
 	
@@ -104,7 +115,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -112,7 +123,7 @@ public:
 	long getVframes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVframes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVframes, _godot_object);
 	}
 	/**
 	
@@ -120,7 +131,7 @@ public:
 	bool isRegion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRegion, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRegion, _godot_object);
 	}
 	/**
 	
@@ -128,7 +139,7 @@ public:
 	void setFrame(in long frame)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrame, _godot_object, frame);
+		ptrcall!(void)(GDNativeClassBinding.setFrame, _godot_object, frame);
 	}
 	/**
 	
@@ -136,7 +147,7 @@ public:
 	void setFrameCoords(in Vector2 coords)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameCoords, _godot_object, coords);
+		ptrcall!(void)(GDNativeClassBinding.setFrameCoords, _godot_object, coords);
 	}
 	/**
 	
@@ -144,7 +155,7 @@ public:
 	void setHframes(in long hframes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHframes, _godot_object, hframes);
+		ptrcall!(void)(GDNativeClassBinding.setHframes, _godot_object, hframes);
 	}
 	/**
 	
@@ -152,7 +163,7 @@ public:
 	void setRegion(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegion, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setRegion, _godot_object, enabled);
 	}
 	/**
 	
@@ -160,7 +171,7 @@ public:
 	void setRegionRect(in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
+		ptrcall!(void)(GDNativeClassBinding.setRegionRect, _godot_object, rect);
 	}
 	/**
 	
@@ -168,7 +179,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -176,7 +187,7 @@ public:
 	void setVframes(in long vframes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVframes, _godot_object, vframes);
+		ptrcall!(void)(GDNativeClassBinding.setVframes, _godot_object, vframes);
 	}
 	/**
 	Current frame to display from sprite sheet. $(D vframes) or $(D hframes) must be greater than 1.

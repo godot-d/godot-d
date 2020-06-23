@@ -32,14 +32,14 @@ For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/H
 */
 @GodotBaseClass struct HTTPClient
 {
-	enum string _GODOT_internal_name = "HTTPClient";
+	package(godot) enum string _GODOT_internal_name = "HTTPClient";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("close") GodotMethod!(void) close;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_connection") GodotMethod!(void, StreamPeer) setConnection;
 		@GodotName("set_read_chunk_size") GodotMethod!(void, long) setReadChunkSize;
 	}
-	bool opEquals(in HTTPClient other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	HTTPClient opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in HTTPClient other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) HTTPClient opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of HTTPClient.
+	/// Note: use `memnew!HTTPClient` instead.
 	static HTTPClient _new()
 	{
 		static godot_class_constructor constructor;
@@ -502,7 +512,7 @@ public:
 	void close()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.close, _godot_object);
 	}
 	/**
 	Connects to a host. This needs to be done before any requests are sent.
@@ -513,7 +523,7 @@ public:
 	GodotError connectToHost(in String host, in long port = -1, in bool use_ssl = false, in bool verify_host = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port, use_ssl, verify_host);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectToHost, _godot_object, host, port, use_ssl, verify_host);
 	}
 	/**
 	
@@ -521,7 +531,7 @@ public:
 	Ref!StreamPeer getConnection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeer)(_classBinding.getConnection, _godot_object);
+		return ptrcall!(StreamPeer)(GDNativeClassBinding.getConnection, _godot_object);
 	}
 	/**
 	
@@ -529,7 +539,7 @@ public:
 	long getReadChunkSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getReadChunkSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getReadChunkSize, _godot_object);
 	}
 	/**
 	Returns the response's body length.
@@ -538,7 +548,7 @@ public:
 	long getResponseBodyLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResponseBodyLength, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getResponseBodyLength, _godot_object);
 	}
 	/**
 	Returns the response's HTTP status code.
@@ -546,7 +556,7 @@ public:
 	long getResponseCode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getResponseCode, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getResponseCode, _godot_object);
 	}
 	/**
 	Returns the response headers.
@@ -554,7 +564,7 @@ public:
 	PoolStringArray getResponseHeaders()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getResponseHeaders, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getResponseHeaders, _godot_object);
 	}
 	/**
 	Returns all response headers as a Dictionary of structure `{ "key": "value1; value2" }` where the case-sensitivity of the keys and values is kept like the server delivers it. A value is a simple String, this string can have more than one value where "; " is used as separator.
@@ -571,7 +581,7 @@ public:
 	Dictionary getResponseHeadersAsDictionary()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getResponseHeadersAsDictionary, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getResponseHeadersAsDictionary, _godot_object);
 	}
 	/**
 	Returns a $(D status) constant. Need to call $(D poll) in order to get status updates.
@@ -579,7 +589,7 @@ public:
 	HTTPClient.Status getStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(HTTPClient.Status)(_classBinding.getStatus, _godot_object);
+		return ptrcall!(HTTPClient.Status)(GDNativeClassBinding.getStatus, _godot_object);
 	}
 	/**
 	If `true`, this $(D HTTPClient) has a response available.
@@ -587,7 +597,7 @@ public:
 	bool hasResponse() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasResponse, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasResponse, _godot_object);
 	}
 	/**
 	
@@ -595,7 +605,7 @@ public:
 	bool isBlockingModeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBlockingModeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBlockingModeEnabled, _godot_object);
 	}
 	/**
 	If `true`, this $(D HTTPClient) has a response that is chunked.
@@ -603,7 +613,7 @@ public:
 	bool isResponseChunked() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isResponseChunked, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isResponseChunked, _godot_object);
 	}
 	/**
 	This needs to be called in order to have any request processed. Check results with $(D getStatus).
@@ -611,7 +621,7 @@ public:
 	GodotError poll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:
@@ -634,7 +644,7 @@ public:
 	String queryStringFromDict(in Dictionary fields)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.queryStringFromDict, _godot_object, fields);
+		return ptrcall!(String)(GDNativeClassBinding.queryStringFromDict, _godot_object, fields);
 	}
 	/**
 	Reads one chunk from the response.
@@ -642,7 +652,7 @@ public:
 	PoolByteArray readResponseBodyChunk()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.readResponseBodyChunk, _godot_object);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.readResponseBodyChunk, _godot_object);
 	}
 	/**
 	Sends a request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
@@ -660,7 +670,7 @@ public:
 	GodotError request(in long method, in String url, in PoolStringArray headers, in String _body = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.request, _godot_object, method, url, headers, _body);
+		return ptrcall!(GodotError)(GDNativeClassBinding.request, _godot_object, method, url, headers, _body);
 	}
 	/**
 	Sends a raw request to the connected host. The URL parameter is just the part after the host, so for `http://somehost.com/index.php`, it is `index.php`.
@@ -670,7 +680,7 @@ public:
 	GodotError requestRaw(in long method, in String url, in PoolStringArray headers, in PoolByteArray _body)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.requestRaw, _godot_object, method, url, headers, _body);
+		return ptrcall!(GodotError)(GDNativeClassBinding.requestRaw, _godot_object, method, url, headers, _body);
 	}
 	/**
 	
@@ -678,7 +688,7 @@ public:
 	void setBlockingMode(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlockingMode, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setBlockingMode, _godot_object, enabled);
 	}
 	/**
 	
@@ -686,7 +696,7 @@ public:
 	void setConnection(StreamPeer connection)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConnection, _godot_object, connection);
+		ptrcall!(void)(GDNativeClassBinding.setConnection, _godot_object, connection);
 	}
 	/**
 	
@@ -694,7 +704,7 @@ public:
 	void setReadChunkSize(in long bytes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadChunkSize, _godot_object, bytes);
+		ptrcall!(void)(GDNativeClassBinding.setReadChunkSize, _godot_object, bytes);
 	}
 	/**
 	If `true`, execution will block until all data is read from the response.

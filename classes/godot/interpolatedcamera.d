@@ -30,14 +30,14 @@ If it is not $(D enabled) or does not have a valid target set, InterpolatedCamer
 */
 @GodotBaseClass struct InterpolatedCamera
 {
-	enum string _GODOT_internal_name = "InterpolatedCamera";
+	package(godot) enum string _GODOT_internal_name = "InterpolatedCamera";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Camera _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Camera _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_speed") GodotMethod!(double) getSpeed;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_target") GodotMethod!(void, GodotObject) setTarget;
 		@GodotName("set_target_path") GodotMethod!(void, NodePath) setTargetPath;
 	}
-	bool opEquals(in InterpolatedCamera other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InterpolatedCamera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InterpolatedCamera other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InterpolatedCamera opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InterpolatedCamera.
+	/// Note: use `memnew!InterpolatedCamera` instead.
 	static InterpolatedCamera _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	double getSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeed, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpeed, _godot_object);
 	}
 	/**
 	
@@ -74,7 +84,7 @@ public:
 	NodePath getTargetPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getTargetPath, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getTargetPath, _godot_object);
 	}
 	/**
 	
@@ -82,7 +92,7 @@ public:
 	bool isInterpolationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInterpolationEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInterpolationEnabled, _godot_object);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	void setInterpolationEnabled(in bool target_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterpolationEnabled, _godot_object, target_path);
+		ptrcall!(void)(GDNativeClassBinding.setInterpolationEnabled, _godot_object, target_path);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	void setSpeed(in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeed, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setSpeed, _godot_object, speed);
 	}
 	/**
 	Sets the node to move toward and orient with.
@@ -106,7 +116,7 @@ public:
 	void setTarget(GodotObject target)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTarget, _godot_object, target);
+		ptrcall!(void)(GDNativeClassBinding.setTarget, _godot_object, target);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	void setTargetPath(NodePathArg0)(in NodePathArg0 target_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetPath, _godot_object, target_path);
+		ptrcall!(void)(GDNativeClassBinding.setTargetPath, _godot_object, target_path);
 	}
 	/**
 	If `true`, and a target is set, the camera will move automatically.

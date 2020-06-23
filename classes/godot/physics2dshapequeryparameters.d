@@ -29,14 +29,14 @@ This class contains the shape and other parameters for 2D intersection/collision
 */
 @GodotBaseClass struct Physics2DShapeQueryParameters
 {
-	enum string _GODOT_internal_name = "Physics2DShapeQueryParameters";
+	package(godot) enum string _GODOT_internal_name = "Physics2DShapeQueryParameters";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_collision_layer") GodotMethod!(long) getCollisionLayer;
@@ -57,10 +57,20 @@ public:
 		@GodotName("set_shape_rid") GodotMethod!(void, RID) setShapeRid;
 		@GodotName("set_transform") GodotMethod!(void, Transform2D) setTransform;
 	}
-	bool opEquals(in Physics2DShapeQueryParameters other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Physics2DShapeQueryParameters opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Physics2DShapeQueryParameters other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Physics2DShapeQueryParameters opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Physics2DShapeQueryParameters.
+	/// Note: use `memnew!Physics2DShapeQueryParameters` instead.
 	static Physics2DShapeQueryParameters _new()
 	{
 		static godot_class_constructor constructor;
@@ -75,7 +85,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	
@@ -83,7 +93,7 @@ public:
 	Array getExclude() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getExclude, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getExclude, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	double getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object);
 	}
 	/**
 	
@@ -99,7 +109,7 @@ public:
 	Vector2 getMotion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMotion, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	RID getShapeRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getShapeRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getShapeRid, _godot_object);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	Transform2D getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	bool isCollideWithAreasEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithAreasEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollideWithAreasEnabled, _godot_object);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	bool isCollideWithBodiesEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCollideWithBodiesEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCollideWithBodiesEnabled, _godot_object);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	void setCollideWithAreas(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithAreas, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCollideWithAreas, _godot_object, enable);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	void setCollideWithBodies(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollideWithBodies, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCollideWithBodies, _godot_object, enable);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	void setCollisionLayer(in long collision_layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, collision_layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, collision_layer);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	void setExclude(in Array exclude)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExclude, _godot_object, exclude);
+		ptrcall!(void)(GDNativeClassBinding.setExclude, _godot_object, exclude);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	void setMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	void setMotion(in Vector2 motion)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMotion, _godot_object, motion);
+		ptrcall!(void)(GDNativeClassBinding.setMotion, _godot_object, motion);
 	}
 	/**
 	Sets the $(D Shape2D) that will be used for collision/intersection queries.
@@ -187,7 +197,7 @@ public:
 	void setShape(Resource shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+		ptrcall!(void)(GDNativeClassBinding.setShape, _godot_object, shape);
 	}
 	/**
 	
@@ -195,7 +205,7 @@ public:
 	void setShapeRid(in RID shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShapeRid, _godot_object, shape);
+		ptrcall!(void)(GDNativeClassBinding.setShapeRid, _godot_object, shape);
 	}
 	/**
 	
@@ -203,7 +213,7 @@ public:
 	void setTransform(in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, transform);
 	}
 	/**
 	If `true`, the query will take $(D Area2D)s into account.

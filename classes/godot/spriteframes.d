@@ -30,14 +30,14 @@ Sprite frame library for $(D AnimatedSprite). Contains frames and animation data
 */
 @GodotBaseClass struct SpriteFrames
 {
-	enum string _GODOT_internal_name = "SpriteFrames";
+	package(godot) enum string _GODOT_internal_name = "SpriteFrames";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_animations") GodotMethod!(Array) _getAnimations;
@@ -61,10 +61,20 @@ public:
 		@GodotName("set_animation_speed") GodotMethod!(void, String, double) setAnimationSpeed;
 		@GodotName("set_frame") GodotMethod!(void, String, long, Texture) setFrame;
 	}
-	bool opEquals(in SpriteFrames other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SpriteFrames opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SpriteFrames other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SpriteFrames opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SpriteFrames.
+	/// Note: use `memnew!SpriteFrames` instead.
 	static SpriteFrames _new()
 	{
 		static godot_class_constructor constructor;
@@ -117,7 +127,7 @@ public:
 	void addAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addAnimation, _godot_object, anim);
+		ptrcall!(void)(GDNativeClassBinding.addAnimation, _godot_object, anim);
 	}
 	/**
 	Adds a frame to the given animation.
@@ -125,7 +135,7 @@ public:
 	void addFrame(in String anim, Texture frame, in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFrame, _godot_object, anim, frame, at_position);
+		ptrcall!(void)(GDNativeClassBinding.addFrame, _godot_object, anim, frame, at_position);
 	}
 	/**
 	Removes all frames from the given animation.
@@ -133,7 +143,7 @@ public:
 	void clear(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object, anim);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object, anim);
 	}
 	/**
 	Removes all animations. A "default" animation will be created.
@@ -141,7 +151,7 @@ public:
 	void clearAll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearAll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearAll, _godot_object);
 	}
 	/**
 	If `true`, the given animation will loop.
@@ -149,7 +159,7 @@ public:
 	bool getAnimationLoop(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAnimationLoop, _godot_object, anim);
+		return ptrcall!(bool)(GDNativeClassBinding.getAnimationLoop, _godot_object, anim);
 	}
 	/**
 	Returns an array containing the names associated to each animation. Values are placed in alphabetical order.
@@ -157,7 +167,7 @@ public:
 	PoolStringArray getAnimationNames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getAnimationNames, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getAnimationNames, _godot_object);
 	}
 	/**
 	The animation's speed in frames per second.
@@ -165,7 +175,7 @@ public:
 	double getAnimationSpeed(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAnimationSpeed, _godot_object, anim);
+		return ptrcall!(double)(GDNativeClassBinding.getAnimationSpeed, _godot_object, anim);
 	}
 	/**
 	Returns the animation's selected frame.
@@ -173,7 +183,7 @@ public:
 	Ref!Texture getFrame(in String anim, in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getFrame, _godot_object, anim, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getFrame, _godot_object, anim, idx);
 	}
 	/**
 	Returns the number of frames in the animation.
@@ -181,7 +191,7 @@ public:
 	long getFrameCount(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrameCount, _godot_object, anim);
+		return ptrcall!(long)(GDNativeClassBinding.getFrameCount, _godot_object, anim);
 	}
 	/**
 	If `true`, the named animation exists.
@@ -189,7 +199,7 @@ public:
 	bool hasAnimation(in String anim) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, anim);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAnimation, _godot_object, anim);
 	}
 	/**
 	Removes the given animation.
@@ -197,7 +207,7 @@ public:
 	void removeAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, anim);
+		ptrcall!(void)(GDNativeClassBinding.removeAnimation, _godot_object, anim);
 	}
 	/**
 	Removes the animation's selected frame.
@@ -205,7 +215,7 @@ public:
 	void removeFrame(in String anim, in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeFrame, _godot_object, anim, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeFrame, _godot_object, anim, idx);
 	}
 	/**
 	Changes the animation's name to `newname`.
@@ -213,7 +223,7 @@ public:
 	void renameAnimation(in String anim, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, anim, newname);
+		ptrcall!(void)(GDNativeClassBinding.renameAnimation, _godot_object, anim, newname);
 	}
 	/**
 	If `true`, the animation will loop.
@@ -221,7 +231,7 @@ public:
 	void setAnimationLoop(in String anim, in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimationLoop, _godot_object, anim, loop);
+		ptrcall!(void)(GDNativeClassBinding.setAnimationLoop, _godot_object, anim, loop);
 	}
 	/**
 	The animation's speed in frames per second.
@@ -229,7 +239,7 @@ public:
 	void setAnimationSpeed(in String anim, in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimationSpeed, _godot_object, anim, speed);
+		ptrcall!(void)(GDNativeClassBinding.setAnimationSpeed, _godot_object, anim, speed);
 	}
 	/**
 	Sets the texture of the given frame.
@@ -237,7 +247,7 @@ public:
 	void setFrame(in String anim, in long idx, Texture txt)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrame, _godot_object, anim, idx, txt);
+		ptrcall!(void)(GDNativeClassBinding.setFrame, _godot_object, anim, idx, txt);
 	}
 	/**
 	

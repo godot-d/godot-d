@@ -26,14 +26,14 @@ import godot.resource;
 */
 @GodotBaseClass struct AnimationNodeStateMachineTransition
 {
-	enum string _GODOT_internal_name = "AnimationNodeStateMachineTransition";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeStateMachineTransition";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_advance_condition") GodotMethod!(String) getAdvanceCondition;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_switch_mode") GodotMethod!(void, long) setSwitchMode;
 		@GodotName("set_xfade_time") GodotMethod!(void, double) setXfadeTime;
 	}
-	bool opEquals(in AnimationNodeStateMachineTransition other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeStateMachineTransition opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeStateMachineTransition other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeStateMachineTransition opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeStateMachineTransition.
+	/// Note: use `memnew!AnimationNodeStateMachineTransition` instead.
 	static AnimationNodeStateMachineTransition _new()
 	{
 		static godot_class_constructor constructor;
@@ -90,7 +100,7 @@ public:
 	String getAdvanceCondition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAdvanceCondition, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAdvanceCondition, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	long getPriority() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPriority, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPriority, _godot_object);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	AnimationNodeStateMachineTransition.SwitchMode getSwitchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNodeStateMachineTransition.SwitchMode)(_classBinding.getSwitchMode, _godot_object);
+		return ptrcall!(AnimationNodeStateMachineTransition.SwitchMode)(GDNativeClassBinding.getSwitchMode, _godot_object);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	double getXfadeTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getXfadeTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getXfadeTime, _godot_object);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	bool hasAutoAdvance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutoAdvance, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutoAdvance, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	bool isDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDisabled, _godot_object);
 	}
 	/**
 	
@@ -138,7 +148,7 @@ public:
 	void setAdvanceCondition(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAdvanceCondition, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setAdvanceCondition, _godot_object, name);
 	}
 	/**
 	
@@ -146,7 +156,7 @@ public:
 	void setAutoAdvance(in bool auto_advance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoAdvance, _godot_object, auto_advance);
+		ptrcall!(void)(GDNativeClassBinding.setAutoAdvance, _godot_object, auto_advance);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	void setDisabled(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setDisabled, _godot_object, disabled);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	void setPriority(in long priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPriority, _godot_object, priority);
+		ptrcall!(void)(GDNativeClassBinding.setPriority, _godot_object, priority);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	void setSwitchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSwitchMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setSwitchMode, _godot_object, mode);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	void setXfadeTime(in double secs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setXfadeTime, _godot_object, secs);
+		ptrcall!(void)(GDNativeClassBinding.setXfadeTime, _godot_object, secs);
 	}
 	/**
 	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/latest/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:

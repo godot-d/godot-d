@@ -40,17 +40,19 @@ st.add_vertex(Vector3(0, 0, 0))
 The above $(D SurfaceTool) now contains one vertex of a triangle which has a UV coordinate and a specified $(D Color). If another vertex were added without calling $(D addUv) or $(D addColor), then the last values would be used.
 Vertex attributes must be passed $(B before) calling $(D addVertex). Failure to do so will result in an error when committing the vertex information to a mesh.
 Additionally, the attributes used before the first vertex is added determine the format of the mesh. For example, if you only add UVs to the first vertex, you cannot add color to any of the subsequent vertices.
+See also $(D ArrayMesh), $(D ImmediateGeometry) and $(D MeshDataTool) for procedural geometry generation.
+$(B Note:) Godot uses clockwise $(D url=https://learnopengl.com/Advanced-OpenGL/Face-culling)winding order$(D /url) for front faces of triangle primitive modes.
 */
 @GodotBaseClass struct SurfaceTool
 {
-	enum string _GODOT_internal_name = "SurfaceTool";
+	package(godot) enum string _GODOT_internal_name = "SurfaceTool";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_bones") GodotMethod!(void, PoolIntArray) addBones;
@@ -77,10 +79,20 @@ public:
 		@GodotName("index") GodotMethod!(void) index;
 		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 	}
-	bool opEquals(in SurfaceTool other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SurfaceTool opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SurfaceTool other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SurfaceTool opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SurfaceTool.
+	/// Note: use `memnew!SurfaceTool` instead.
 	static SurfaceTool _new()
 	{
 		static godot_class_constructor constructor;
@@ -95,7 +107,7 @@ public:
 	void addBones(in PoolIntArray bones)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBones, _godot_object, bones);
+		ptrcall!(void)(GDNativeClassBinding.addBones, _godot_object, bones);
 	}
 	/**
 	Specifies a $(D Color) for the next vertex to use.
@@ -103,7 +115,7 @@ public:
 	void addColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.addColor, _godot_object, color);
 	}
 	/**
 	Adds an index to index array if you are using indexed vertices. Does not need to be called before adding vertices.
@@ -111,7 +123,7 @@ public:
 	void addIndex(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIndex, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.addIndex, _godot_object, index);
 	}
 	/**
 	Specifies a normal for the next vertex to use.
@@ -119,7 +131,7 @@ public:
 	void addNormal(in Vector3 normal)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNormal, _godot_object, normal);
+		ptrcall!(void)(GDNativeClassBinding.addNormal, _godot_object, normal);
 	}
 	/**
 	Specifies whether the current vertex (if using only vertex arrays) or current index (if also using index arrays) should use smooth normals for normal calculation.
@@ -127,7 +139,7 @@ public:
 	void addSmoothGroup(in bool smooth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSmoothGroup, _godot_object, smooth);
+		ptrcall!(void)(GDNativeClassBinding.addSmoothGroup, _godot_object, smooth);
 	}
 	/**
 	Specifies a tangent for the next vertex to use.
@@ -135,7 +147,7 @@ public:
 	void addTangent(in Plane tangent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTangent, _godot_object, tangent);
+		ptrcall!(void)(GDNativeClassBinding.addTangent, _godot_object, tangent);
 	}
 	/**
 	Inserts a triangle fan made of array data into $(D Mesh) being constructed.
@@ -144,7 +156,7 @@ public:
 	void addTriangleFan(in PoolVector3Array vertices, in PoolVector2Array uvs = PoolVector2Array.init, in PoolColorArray colors = PoolColorArray.init, in PoolVector2Array uv2s = PoolVector2Array.init, in PoolVector3Array normals = PoolVector3Array.init, in Array tangents = Array.make())
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTriangleFan, _godot_object, vertices, uvs, colors, uv2s, normals, tangents);
+		ptrcall!(void)(GDNativeClassBinding.addTriangleFan, _godot_object, vertices, uvs, colors, uv2s, normals, tangents);
 	}
 	/**
 	Specifies a set of UV coordinates to use for the next vertex.
@@ -152,7 +164,7 @@ public:
 	void addUv(in Vector2 uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUv, _godot_object, uv);
+		ptrcall!(void)(GDNativeClassBinding.addUv, _godot_object, uv);
 	}
 	/**
 	Specifies an optional second set of UV coordinates to use for the next vertex.
@@ -160,7 +172,7 @@ public:
 	void addUv2(in Vector2 uv2)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUv2, _godot_object, uv2);
+		ptrcall!(void)(GDNativeClassBinding.addUv2, _godot_object, uv2);
 	}
 	/**
 	Specifies the position of current vertex. Should be called after specifying other vertex properties (e.g. Color, UV).
@@ -168,7 +180,7 @@ public:
 	void addVertex(in Vector3 vertex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addVertex, _godot_object, vertex);
+		ptrcall!(void)(GDNativeClassBinding.addVertex, _godot_object, vertex);
 	}
 	/**
 	Specifies weight values for next vertex to use. `weights` must contain 4 values.
@@ -176,7 +188,7 @@ public:
 	void addWeights(in PoolRealArray weights)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addWeights, _godot_object, weights);
+		ptrcall!(void)(GDNativeClassBinding.addWeights, _godot_object, weights);
 	}
 	/**
 	Append vertices from a given $(D Mesh) surface onto the current vertex array with specified $(D Transform).
@@ -184,7 +196,7 @@ public:
 	void appendFrom(Mesh existing, in long surface, in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.appendFrom, _godot_object, existing, surface, transform);
+		ptrcall!(void)(GDNativeClassBinding.appendFrom, _godot_object, existing, surface, transform);
 	}
 	/**
 	Called before adding any vertices. Takes the primitive type as an argument (e.g. $(D constant Mesh.PRIMITIVE_TRIANGLES)).
@@ -192,7 +204,7 @@ public:
 	void begin(in long primitive)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.begin, _godot_object, primitive);
+		ptrcall!(void)(GDNativeClassBinding.begin, _godot_object, primitive);
 	}
 	/**
 	Clear all information passed into the surface tool so far.
@@ -200,7 +212,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Returns a constructed $(D ArrayMesh) from current information passed in. If an existing $(D ArrayMesh) is passed in as an argument, will add an extra surface to the existing $(D ArrayMesh).
@@ -209,7 +221,7 @@ public:
 	Ref!ArrayMesh commit(ArrayMesh existing = ArrayMesh.init, in long flags = 97280)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ArrayMesh)(_classBinding.commit, _godot_object, existing, flags);
+		return ptrcall!(ArrayMesh)(GDNativeClassBinding.commit, _godot_object, existing, flags);
 	}
 	/**
 	Commits the data to the same format used by $(D ArrayMesh.addSurfaceFromArrays). This way you can further process the mesh data using the $(D ArrayMesh) API.
@@ -217,7 +229,7 @@ public:
 	Array commitToArrays()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.commitToArrays, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.commitToArrays, _godot_object);
 	}
 	/**
 	Creates a vertex array from an existing $(D Mesh).
@@ -225,7 +237,7 @@ public:
 	void createFrom(Mesh existing, in long surface)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createFrom, _godot_object, existing, surface);
+		ptrcall!(void)(GDNativeClassBinding.createFrom, _godot_object, existing, surface);
 	}
 	/**
 	Creates a vertex array from the specified blend shape of an existing $(D Mesh). This can be used to extract a specific pose from a blend shape.
@@ -233,7 +245,7 @@ public:
 	void createFromBlendShape(Mesh existing, in long surface, in String blend_shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createFromBlendShape, _godot_object, existing, surface, blend_shape);
+		ptrcall!(void)(GDNativeClassBinding.createFromBlendShape, _godot_object, existing, surface, blend_shape);
 	}
 	/**
 	Removes the index array by expanding the vertex array.
@@ -241,7 +253,7 @@ public:
 	void deindex()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.deindex, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.deindex, _godot_object);
 	}
 	/**
 	Generates normals from vertices so you do not have to do it manually. If `flip` is `true`, the resulting normals will be inverted.
@@ -250,7 +262,7 @@ public:
 	void generateNormals(in bool flip = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.generateNormals, _godot_object, flip);
+		ptrcall!(void)(GDNativeClassBinding.generateNormals, _godot_object, flip);
 	}
 	/**
 	Generates a tangent vector for each vertex. Requires that each vertex have UVs and normals set already.
@@ -258,7 +270,7 @@ public:
 	void generateTangents()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.generateTangents, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.generateTangents, _godot_object);
 	}
 	/**
 	Shrinks the vertex array by creating an index array (avoids reusing vertices).
@@ -266,7 +278,7 @@ public:
 	void index()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.index, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.index, _godot_object);
 	}
 	/**
 	Sets $(D Material) to be used by the $(D Mesh) you are constructing.
@@ -274,6 +286,6 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 }

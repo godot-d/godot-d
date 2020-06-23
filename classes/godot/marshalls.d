@@ -27,14 +27,14 @@ Provides data transformation and encoding utility functions.
 */
 @GodotBaseClass struct MarshallsSingleton
 {
-	enum string _GODOT_internal_name = "_Marshalls";
+	package(godot) enum string _GODOT_internal_name = "_Marshalls";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -46,10 +46,20 @@ public:
 		@GodotName("utf8_to_base64") GodotMethod!(String, String) utf8ToBase64;
 		@GodotName("variant_to_base64") GodotMethod!(String, Variant, bool) variantToBase64;
 	}
-	bool opEquals(in MarshallsSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MarshallsSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MarshallsSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MarshallsSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MarshallsSingleton.
+	/// Note: use `memnew!MarshallsSingleton` instead.
 	static MarshallsSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	PoolByteArray base64ToRaw(in String base64_str)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.base64ToRaw, _godot_object, base64_str);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.base64ToRaw, _godot_object, base64_str);
 	}
 	/**
 	Returns a decoded string corresponding to the Base64-encoded string `base64_str`.
@@ -72,7 +82,7 @@ public:
 	String base64ToUtf8(in String base64_str)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.base64ToUtf8, _godot_object, base64_str);
+		return ptrcall!(String)(GDNativeClassBinding.base64ToUtf8, _godot_object, base64_str);
 	}
 	/**
 	Returns a decoded $(D Variant) corresponding to the Base64-encoded string `base64_str`. If `allow_objects` is `true`, decoding objects is allowed.
@@ -81,7 +91,7 @@ public:
 	Variant base64ToVariant(in String base64_str, in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.base64ToVariant, _godot_object, base64_str, allow_objects);
+		return ptrcall!(Variant)(GDNativeClassBinding.base64ToVariant, _godot_object, base64_str, allow_objects);
 	}
 	/**
 	Returns a Base64-encoded string of a given $(D PoolByteArray).
@@ -89,7 +99,7 @@ public:
 	String rawToBase64(in PoolByteArray array)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.rawToBase64, _godot_object, array);
+		return ptrcall!(String)(GDNativeClassBinding.rawToBase64, _godot_object, array);
 	}
 	/**
 	Returns a Base64-encoded string of the UTF-8 string `utf8_str`.
@@ -97,7 +107,7 @@ public:
 	String utf8ToBase64(in String utf8_str)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.utf8ToBase64, _godot_object, utf8_str);
+		return ptrcall!(String)(GDNativeClassBinding.utf8ToBase64, _godot_object, utf8_str);
 	}
 	/**
 	Returns a Base64-encoded string of the $(D Variant) `variant`. If `full_objects` is `true`, encoding objects is allowed (and can potentially include code).
@@ -105,7 +115,7 @@ public:
 	String variantToBase64(VariantArg0)(in VariantArg0 variant, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.variantToBase64, _godot_object, variant, full_objects);
+		return ptrcall!(String)(GDNativeClassBinding.variantToBase64, _godot_object, variant, full_objects);
 	}
 }
 /// Returns: the MarshallsSingleton
@@ -113,5 +123,5 @@ public:
 MarshallsSingleton Marshalls()
 {
 	checkClassBinding!MarshallsSingleton();
-	return MarshallsSingleton(MarshallsSingleton._classBinding._singleton);
+	return MarshallsSingleton(MarshallsSingleton.GDNativeClassBinding._singleton);
 }

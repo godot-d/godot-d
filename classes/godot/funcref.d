@@ -29,14 +29,14 @@ However, by creating a $(D FuncRef) using the $(D @GDScript.funcref) function, a
 */
 @GodotBaseClass struct FuncRef
 {
-	enum string _GODOT_internal_name = "FuncRef";
+	package(godot) enum string _GODOT_internal_name = "FuncRef";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("call_func") GodotMethod!(Variant, GodotVarArgs) callFunc;
@@ -45,10 +45,20 @@ public:
 		@GodotName("set_function") GodotMethod!(void, String) setFunction;
 		@GodotName("set_instance") GodotMethod!(void, GodotObject) setInstance;
 	}
-	bool opEquals(in FuncRef other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	FuncRef opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in FuncRef other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) FuncRef opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of FuncRef.
+	/// Note: use `memnew!FuncRef` instead.
 	static FuncRef _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	Variant callFuncv(in Array arg_array)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.callFuncv, _godot_object, arg_array);
+		return ptrcall!(Variant)(GDNativeClassBinding.callFuncv, _godot_object, arg_array);
 	}
 	/**
 	Returns whether the object still exists and has the function assigned.
@@ -84,7 +94,7 @@ public:
 	bool isValid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isValid, _godot_object);
 	}
 	/**
 	The name of the referenced function to call on the object, without parentheses or any parameters.
@@ -92,7 +102,7 @@ public:
 	void setFunction(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setFunction, _godot_object, name);
 	}
 	/**
 	The object containing the referenced function. This object must be of a type actually inheriting from $(D GodotObject), not a built-in type such as $(D long), $(D Vector2) or $(D Dictionary).
@@ -100,6 +110,6 @@ public:
 	void setInstance(GodotObject instance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstance, _godot_object, instance);
+		ptrcall!(void)(GDNativeClassBinding.setInstance, _godot_object, instance);
 	}
 }

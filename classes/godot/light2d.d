@@ -30,14 +30,14 @@ $(B Note:) Light2D can also be used as a mask.
 */
 @GodotBaseClass struct Light2D
 {
-	enum string _GODOT_internal_name = "Light2D";
+	package(godot) enum string _GODOT_internal_name = "Light2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_color") GodotMethod!(Color) getColor;
@@ -83,10 +83,20 @@ public:
 		@GodotName("set_z_range_max") GodotMethod!(void, long) setZRangeMax;
 		@GodotName("set_z_range_min") GodotMethod!(void, long) setZRangeMin;
 	}
-	bool opEquals(in Light2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Light2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Light2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Light2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Light2D.
+	/// Note: use `memnew!Light2D` instead.
 	static Light2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -163,7 +173,7 @@ public:
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	double getEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEnergy, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -187,7 +197,7 @@ public:
 	long getItemCullMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemCullMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getItemCullMask, _godot_object);
 	}
 	/**
 	
@@ -195,7 +205,7 @@ public:
 	long getItemShadowCullMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemShadowCullMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getItemShadowCullMask, _godot_object);
 	}
 	/**
 	
@@ -203,7 +213,7 @@ public:
 	long getLayerRangeMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLayerRangeMax, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLayerRangeMax, _godot_object);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	long getLayerRangeMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLayerRangeMin, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLayerRangeMin, _godot_object);
 	}
 	/**
 	
@@ -219,7 +229,7 @@ public:
 	Light2D.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Light2D.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(Light2D.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	long getShadowBufferSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getShadowBufferSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getShadowBufferSize, _godot_object);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	Color getShadowColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getShadowColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getShadowColor, _godot_object);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	Light2D.ShadowFilter getShadowFilter() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Light2D.ShadowFilter)(_classBinding.getShadowFilter, _godot_object);
+		return ptrcall!(Light2D.ShadowFilter)(GDNativeClassBinding.getShadowFilter, _godot_object);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	double getShadowGradientLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getShadowGradientLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getShadowGradientLength, _godot_object);
 	}
 	/**
 	
@@ -259,7 +269,7 @@ public:
 	double getShadowSmooth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getShadowSmooth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getShadowSmooth, _godot_object);
 	}
 	/**
 	
@@ -267,7 +277,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	Vector2 getTextureOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getTextureOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getTextureOffset, _godot_object);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	double getTextureScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTextureScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTextureScale, _godot_object);
 	}
 	/**
 	
@@ -291,7 +301,7 @@ public:
 	long getZRangeMax() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getZRangeMax, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getZRangeMax, _godot_object);
 	}
 	/**
 	
@@ -299,7 +309,7 @@ public:
 	long getZRangeMin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getZRangeMin, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getZRangeMin, _godot_object);
 	}
 	/**
 	
@@ -307,7 +317,7 @@ public:
 	bool isEditorOnly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditorOnly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditorOnly, _godot_object);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	bool isEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEnabled, _godot_object);
 	}
 	/**
 	
@@ -323,7 +333,7 @@ public:
 	bool isShadowEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShadowEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isShadowEnabled, _godot_object);
 	}
 	/**
 	
@@ -331,7 +341,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -339,7 +349,7 @@ public:
 	void setEditorOnly(in bool editor_only)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditorOnly, _godot_object, editor_only);
+		ptrcall!(void)(GDNativeClassBinding.setEditorOnly, _godot_object, editor_only);
 	}
 	/**
 	
@@ -347,7 +357,7 @@ public:
 	void setEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -355,7 +365,7 @@ public:
 	void setEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -363,7 +373,7 @@ public:
 	void setHeight(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setHeight, _godot_object, height);
 	}
 	/**
 	
@@ -371,7 +381,7 @@ public:
 	void setItemCullMask(in long item_cull_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemCullMask, _godot_object, item_cull_mask);
+		ptrcall!(void)(GDNativeClassBinding.setItemCullMask, _godot_object, item_cull_mask);
 	}
 	/**
 	
@@ -379,7 +389,7 @@ public:
 	void setItemShadowCullMask(in long item_shadow_cull_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemShadowCullMask, _godot_object, item_shadow_cull_mask);
+		ptrcall!(void)(GDNativeClassBinding.setItemShadowCullMask, _godot_object, item_shadow_cull_mask);
 	}
 	/**
 	
@@ -387,7 +397,7 @@ public:
 	void setLayerRangeMax(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLayerRangeMax, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setLayerRangeMax, _godot_object, layer);
 	}
 	/**
 	
@@ -395,7 +405,7 @@ public:
 	void setLayerRangeMin(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLayerRangeMin, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setLayerRangeMin, _godot_object, layer);
 	}
 	/**
 	
@@ -403,7 +413,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -411,7 +421,7 @@ public:
 	void setShadowBufferSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowBufferSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setShadowBufferSize, _godot_object, size);
 	}
 	/**
 	
@@ -419,7 +429,7 @@ public:
 	void setShadowColor(in Color shadow_color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowColor, _godot_object, shadow_color);
+		ptrcall!(void)(GDNativeClassBinding.setShadowColor, _godot_object, shadow_color);
 	}
 	/**
 	
@@ -427,7 +437,7 @@ public:
 	void setShadowEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setShadowEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -435,7 +445,7 @@ public:
 	void setShadowFilter(in long filter)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowFilter, _godot_object, filter);
+		ptrcall!(void)(GDNativeClassBinding.setShadowFilter, _godot_object, filter);
 	}
 	/**
 	
@@ -443,7 +453,7 @@ public:
 	void setShadowGradientLength(in double multiplier)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowGradientLength, _godot_object, multiplier);
+		ptrcall!(void)(GDNativeClassBinding.setShadowGradientLength, _godot_object, multiplier);
 	}
 	/**
 	
@@ -451,7 +461,7 @@ public:
 	void setShadowSmooth(in double smooth)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShadowSmooth, _godot_object, smooth);
+		ptrcall!(void)(GDNativeClassBinding.setShadowSmooth, _godot_object, smooth);
 	}
 	/**
 	
@@ -459,7 +469,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -467,7 +477,7 @@ public:
 	void setTextureOffset(in Vector2 texture_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureOffset, _godot_object, texture_offset);
+		ptrcall!(void)(GDNativeClassBinding.setTextureOffset, _godot_object, texture_offset);
 	}
 	/**
 	
@@ -475,7 +485,7 @@ public:
 	void setTextureScale(in double texture_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureScale, _godot_object, texture_scale);
+		ptrcall!(void)(GDNativeClassBinding.setTextureScale, _godot_object, texture_scale);
 	}
 	/**
 	
@@ -483,7 +493,7 @@ public:
 	void setZRangeMax(in long z)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZRangeMax, _godot_object, z);
+		ptrcall!(void)(GDNativeClassBinding.setZRangeMax, _godot_object, z);
 	}
 	/**
 	
@@ -491,7 +501,7 @@ public:
 	void setZRangeMin(in long z)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZRangeMin, _godot_object, z);
+		ptrcall!(void)(GDNativeClassBinding.setZRangeMin, _godot_object, z);
 	}
 	/**
 	The Light2D's $(D Color).

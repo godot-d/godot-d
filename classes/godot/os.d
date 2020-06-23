@@ -27,14 +27,14 @@ OS wraps the most common functionality to communicate with the host operating sy
 */
 @GodotBaseClass struct OSSingleton
 {
-	enum string _GODOT_internal_name = "_OS";
+	package(godot) enum string _GODOT_internal_name = "_OS";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -177,10 +177,20 @@ public:
 		@GodotName("shell_open") GodotMethod!(GodotError, String) shellOpen;
 		@GodotName("show_virtual_keyboard") GodotMethod!(void, String) showVirtualKeyboard;
 	}
-	bool opEquals(in OSSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	OSSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in OSSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) OSSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of OSSingleton.
+	/// Note: use `memnew!OSSingleton` instead.
 	static OSSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -428,7 +438,7 @@ public:
 	void alert(in String text, in String title = gs!"Alert!")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.alert, _godot_object, text, title);
+		ptrcall!(void)(GDNativeClassBinding.alert, _godot_object, text, title);
 	}
 	/**
 	Returns `true` if the host OS allows drawing.
@@ -436,7 +446,7 @@ public:
 	bool canDraw() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canDraw, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.canDraw, _godot_object);
 	}
 	/**
 	Returns `true` if the current host platform is using multiple threads.
@@ -444,7 +454,7 @@ public:
 	bool canUseThreads() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canUseThreads, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.canUseThreads, _godot_object);
 	}
 	/**
 	Centers the window on the screen if in windowed mode.
@@ -452,7 +462,7 @@ public:
 	void centerWindow()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.centerWindow, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.centerWindow, _godot_object);
 	}
 	/**
 	Shuts down system MIDI driver.
@@ -461,7 +471,7 @@ public:
 	void closeMidiInputs()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.closeMidiInputs, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.closeMidiInputs, _godot_object);
 	}
 	/**
 	Delay execution of the current thread by `msec` milliseconds.
@@ -469,7 +479,7 @@ public:
 	void delayMsec(in long msec) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.delayMsec, _godot_object, msec);
+		ptrcall!(void)(GDNativeClassBinding.delayMsec, _godot_object, msec);
 	}
 	/**
 	Delay execution of the current thread by `usec` microseconds.
@@ -477,7 +487,7 @@ public:
 	void delayUsec(in long usec) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.delayUsec, _godot_object, usec);
+		ptrcall!(void)(GDNativeClassBinding.delayUsec, _godot_object, usec);
 	}
 	/**
 	Dumps the memory allocation ringlist to a file (only works in debug).
@@ -486,7 +496,7 @@ public:
 	void dumpMemoryToFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.dumpMemoryToFile, _godot_object, file);
+		ptrcall!(void)(GDNativeClassBinding.dumpMemoryToFile, _godot_object, file);
 	}
 	/**
 	Dumps all used resources to file (only works in debug).
@@ -496,7 +506,7 @@ public:
 	void dumpResourcesToFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.dumpResourcesToFile, _godot_object, file);
+		ptrcall!(void)(GDNativeClassBinding.dumpResourcesToFile, _godot_object, file);
 	}
 	/**
 	Execute the file at the given path with the arguments passed as an array of strings. Platform path resolution will take place. The resolved file must exist and be executable.
@@ -529,7 +539,7 @@ public:
 	long execute(in String path, in PoolStringArray arguments, in bool blocking = true, in Array output = Array.make(), in bool read_stderr = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.execute, _godot_object, path, arguments, blocking, output, read_stderr);
+		return ptrcall!(long)(GDNativeClassBinding.execute, _godot_object, path, arguments, blocking, output, read_stderr);
 	}
 	/**
 	Returns the scancode of the given string (e.g. "Escape").
@@ -537,7 +547,7 @@ public:
 	long findScancodeFromString(in String string) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findScancodeFromString, _godot_object, string);
+		return ptrcall!(long)(GDNativeClassBinding.findScancodeFromString, _godot_object, string);
 	}
 	/**
 	Returns the total number of available audio drivers.
@@ -545,7 +555,7 @@ public:
 	long getAudioDriverCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAudioDriverCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAudioDriverCount, _godot_object);
 	}
 	/**
 	Returns the audio driver name for the given index.
@@ -553,7 +563,7 @@ public:
 	String getAudioDriverName(in long driver) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAudioDriverName, _godot_object, driver);
+		return ptrcall!(String)(GDNativeClassBinding.getAudioDriverName, _godot_object, driver);
 	}
 	/**
 	
@@ -561,7 +571,7 @@ public:
 	bool getBorderlessWindow() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getBorderlessWindow, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getBorderlessWindow, _godot_object);
 	}
 	/**
 	
@@ -569,7 +579,7 @@ public:
 	String getClipboard() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getClipboard, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getClipboard, _godot_object);
 	}
 	/**
 	Returns the command line arguments passed to the engine.
@@ -577,7 +587,7 @@ public:
 	PoolStringArray getCmdlineArgs()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getCmdlineArgs, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getCmdlineArgs, _godot_object);
 	}
 	/**
 	Returns an array of MIDI device names.
@@ -587,7 +597,7 @@ public:
 	PoolStringArray getConnectedMidiInputs()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getConnectedMidiInputs, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getConnectedMidiInputs, _godot_object);
 	}
 	/**
 	
@@ -595,7 +605,7 @@ public:
 	long getCurrentScreen() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCurrentScreen, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentScreen, _godot_object);
 	}
 	/**
 	Returns the currently used video driver, using one of the values from $(D videodriver).
@@ -603,7 +613,7 @@ public:
 	OS.VideoDriver getCurrentVideoDriver() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OS.VideoDriver)(_classBinding.getCurrentVideoDriver, _godot_object);
+		return ptrcall!(OS.VideoDriver)(GDNativeClassBinding.getCurrentVideoDriver, _godot_object);
 	}
 	/**
 	Returns current date as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time).
@@ -611,7 +621,7 @@ public:
 	Dictionary getDate(in bool utc = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getDate, _godot_object, utc);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getDate, _godot_object, utc);
 	}
 	/**
 	Returns current datetime as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time), `hour`, `minute`, `second`.
@@ -619,7 +629,7 @@ public:
 	Dictionary getDatetime(in bool utc = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getDatetime, _godot_object, utc);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getDatetime, _godot_object, utc);
 	}
 	/**
 	Gets a dictionary of time values corresponding to the given UNIX epoch time (in seconds).
@@ -628,7 +638,7 @@ public:
 	Dictionary getDatetimeFromUnixTime(in long unix_time_val) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getDatetimeFromUnixTime, _godot_object, unix_time_val);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getDatetimeFromUnixTime, _godot_object, unix_time_val);
 	}
 	/**
 	Returns the total amount of dynamic memory used (only works in debug).
@@ -636,7 +646,7 @@ public:
 	long getDynamicMemoryUsage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDynamicMemoryUsage, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDynamicMemoryUsage, _godot_object);
 	}
 	/**
 	Returns an environment variable.
@@ -644,7 +654,7 @@ public:
 	String getEnvironment(in String environment) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getEnvironment, _godot_object, environment);
+		return ptrcall!(String)(GDNativeClassBinding.getEnvironment, _godot_object, environment);
 	}
 	/**
 	Returns the path to the current engine executable.
@@ -652,7 +662,7 @@ public:
 	String getExecutablePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getExecutablePath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getExecutablePath, _godot_object);
 	}
 	/**
 	
@@ -660,7 +670,7 @@ public:
 	long getExitCode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getExitCode, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getExitCode, _godot_object);
 	}
 	/**
 	With this function you can get the list of dangerous permissions that have been granted to the Android application.
@@ -669,7 +679,7 @@ public:
 	PoolStringArray getGrantedPermissions() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getGrantedPermissions, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getGrantedPermissions, _godot_object);
 	}
 	/**
 	Returns the IME cursor position (the currently-edited portion of the string) relative to the characters in the composition string.
@@ -679,7 +689,7 @@ public:
 	Vector2 getImeSelection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getImeSelection, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getImeSelection, _godot_object);
 	}
 	/**
 	Returns the IME intermediate composition string.
@@ -689,7 +699,7 @@ public:
 	String getImeText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getImeText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getImeText, _godot_object);
 	}
 	/**
 	Returns the current latin keyboard variant as a String.
@@ -699,7 +709,7 @@ public:
 	String getLatinKeyboardVariant() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLatinKeyboardVariant, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLatinKeyboardVariant, _godot_object);
 	}
 	/**
 	Returns the host OS locale.
@@ -707,7 +717,7 @@ public:
 	String getLocale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLocale, _godot_object);
 	}
 	/**
 	
@@ -715,7 +725,7 @@ public:
 	long getLowProcessorUsageModeSleepUsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLowProcessorUsageModeSleepUsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLowProcessorUsageModeSleepUsec, _godot_object);
 	}
 	/**
 	
@@ -723,7 +733,7 @@ public:
 	Vector2 getMaxWindowSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMaxWindowSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMaxWindowSize, _godot_object);
 	}
 	/**
 	
@@ -731,7 +741,7 @@ public:
 	Vector2 getMinWindowSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMinWindowSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMinWindowSize, _godot_object);
 	}
 	/**
 	Returns the model name of the current device.
@@ -740,15 +750,15 @@ public:
 	String getModelName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getModelName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getModelName, _godot_object);
 	}
 	/**
-	Returns the name of the host OS. Possible values are: `"Android"`, `"Haiku"`, `"iOS"`, `"HTML5"`, `"OSX"`, `"Server"`, `"Windows"`, `"UWP"`, `"X11"`.
+	Returns the name of the host OS. Possible values are: `"Android"`, `"iOS"`, `"HTML5"`, `"OSX"`, `"Server"`, `"Windows"`, `"UWP"`, `"X11"`.
 	*/
 	String getName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
 	Returns the amount of battery left in the device as a percentage. Returns `-1` if power state is unknown.
@@ -757,7 +767,7 @@ public:
 	long getPowerPercentLeft()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPowerPercentLeft, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPowerPercentLeft, _godot_object);
 	}
 	/**
 	Returns an estimate of the time left in seconds before the device runs out of battery. Returns `-1` if power state is unknown.
@@ -766,7 +776,7 @@ public:
 	long getPowerSecondsLeft()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPowerSecondsLeft, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPowerSecondsLeft, _godot_object);
 	}
 	/**
 	Returns the current state of the device regarding battery and power. See $(D powerstate) constants.
@@ -775,7 +785,7 @@ public:
 	OS.PowerState getPowerState()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OS.PowerState)(_classBinding.getPowerState, _godot_object);
+		return ptrcall!(OS.PowerState)(GDNativeClassBinding.getPowerState, _godot_object);
 	}
 	/**
 	Returns the project's process ID.
@@ -784,7 +794,7 @@ public:
 	long getProcessId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getProcessId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getProcessId, _godot_object);
 	}
 	/**
 	Returns the number of threads available on the host machine.
@@ -792,7 +802,7 @@ public:
 	long getProcessorCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getProcessorCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getProcessorCount, _godot_object);
 	}
 	/**
 	Returns the window size including decorations like window borders.
@@ -800,7 +810,7 @@ public:
 	Vector2 getRealWindowSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRealWindowSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getRealWindowSize, _godot_object);
 	}
 	/**
 	Returns the given scancode as a string (e.g. Return values: `"Escape"`, `"Shift+Escape"`).
@@ -809,7 +819,7 @@ public:
 	String getScancodeString(in long code) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getScancodeString, _godot_object, code);
+		return ptrcall!(String)(GDNativeClassBinding.getScancodeString, _godot_object, code);
 	}
 	/**
 	Returns the number of displays attached to the host machine.
@@ -817,7 +827,7 @@ public:
 	long getScreenCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getScreenCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getScreenCount, _godot_object);
 	}
 	/**
 	Returns the dots per inch density of the specified screen. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
@@ -837,7 +847,7 @@ public:
 	long getScreenDpi(in long screen = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getScreenDpi, _godot_object, screen);
+		return ptrcall!(long)(GDNativeClassBinding.getScreenDpi, _godot_object, screen);
 	}
 	/**
 	
@@ -845,7 +855,7 @@ public:
 	OS.ScreenOrientation getScreenOrientation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OS.ScreenOrientation)(_classBinding.getScreenOrientation, _godot_object);
+		return ptrcall!(OS.ScreenOrientation)(GDNativeClassBinding.getScreenOrientation, _godot_object);
 	}
 	/**
 	Returns the position of the specified screen by index. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
@@ -853,7 +863,7 @@ public:
 	Vector2 getScreenPosition(in long screen = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScreenPosition, _godot_object, screen);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScreenPosition, _godot_object, screen);
 	}
 	/**
 	Returns the dimensions in pixels of the specified screen. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
@@ -861,7 +871,7 @@ public:
 	Vector2 getScreenSize(in long screen = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScreenSize, _godot_object, screen);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScreenSize, _godot_object, screen);
 	}
 	/**
 	Returns the amount of time in milliseconds it took for the boot logo to appear.
@@ -869,7 +879,7 @@ public:
 	long getSplashTickMsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSplashTickMsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSplashTickMsec, _godot_object);
 	}
 	/**
 	Returns the maximum amount of static memory used (only works in debug).
@@ -877,7 +887,7 @@ public:
 	long getStaticMemoryPeakUsage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStaticMemoryPeakUsage, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getStaticMemoryPeakUsage, _godot_object);
 	}
 	/**
 	Returns the amount of static memory being used by the program in bytes.
@@ -885,7 +895,7 @@ public:
 	long getStaticMemoryUsage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStaticMemoryUsage, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getStaticMemoryUsage, _godot_object);
 	}
 	/**
 	Returns the actual path to commonly used folders across different platforms. Available locations are specified in $(D systemdir).
@@ -894,7 +904,7 @@ public:
 	String getSystemDir(in long dir) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSystemDir, _godot_object, dir);
+		return ptrcall!(String)(GDNativeClassBinding.getSystemDir, _godot_object, dir);
 	}
 	/**
 	Returns the epoch time of the operating system in milliseconds.
@@ -902,7 +912,7 @@ public:
 	long getSystemTimeMsecs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSystemTimeMsecs, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSystemTimeMsecs, _godot_object);
 	}
 	/**
 	Returns the epoch time of the operating system in seconds.
@@ -910,7 +920,7 @@ public:
 	long getSystemTimeSecs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSystemTimeSecs, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSystemTimeSecs, _godot_object);
 	}
 	/**
 	Returns the amount of time passed in milliseconds since the engine started.
@@ -918,7 +928,7 @@ public:
 	long getTicksMsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTicksMsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTicksMsec, _godot_object);
 	}
 	/**
 	Returns the amount of time passed in microseconds since the engine started.
@@ -926,7 +936,7 @@ public:
 	long getTicksUsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTicksUsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTicksUsec, _godot_object);
 	}
 	/**
 	Returns current time as a dictionary of keys: hour, minute, second.
@@ -934,7 +944,7 @@ public:
 	Dictionary getTime(in bool utc = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getTime, _godot_object, utc);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getTime, _godot_object, utc);
 	}
 	/**
 	Returns the current time zone as a dictionary with the keys: bias and name.
@@ -942,7 +952,7 @@ public:
 	Dictionary getTimeZoneInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getTimeZoneInfo, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getTimeZoneInfo, _godot_object);
 	}
 	/**
 	Returns a string that is unique to the device.
@@ -951,7 +961,7 @@ public:
 	String getUniqueId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getUniqueId, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getUniqueId, _godot_object);
 	}
 	/**
 	Returns the current UNIX epoch timestamp.
@@ -959,7 +969,7 @@ public:
 	long getUnixTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUnixTime, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getUnixTime, _godot_object);
 	}
 	/**
 	Gets an epoch time value from a dictionary of time values.
@@ -969,7 +979,7 @@ public:
 	long getUnixTimeFromDatetime(in Dictionary datetime) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUnixTimeFromDatetime, _godot_object, datetime);
+		return ptrcall!(long)(GDNativeClassBinding.getUnixTimeFromDatetime, _godot_object, datetime);
 	}
 	/**
 	Returns the absolute directory path where user data is written (`user://`).
@@ -981,7 +991,7 @@ public:
 	String getUserDataDir() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getUserDataDir, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getUserDataDir, _godot_object);
 	}
 	/**
 	Returns the number of video drivers supported on the current platform.
@@ -989,7 +999,7 @@ public:
 	long getVideoDriverCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVideoDriverCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVideoDriverCount, _godot_object);
 	}
 	/**
 	Returns the name of the video driver matching the given `driver` index. This index is a value from $(D videodriver), and you can use $(D getCurrentVideoDriver) to get the current backend's index.
@@ -997,7 +1007,7 @@ public:
 	String getVideoDriverName(in long driver) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getVideoDriverName, _godot_object, driver);
+		return ptrcall!(String)(GDNativeClassBinding.getVideoDriverName, _godot_object, driver);
 	}
 	/**
 	Returns the on-screen keyboard's height in pixels. Returns 0 if there is no keyboard or if it is currently hidden.
@@ -1005,7 +1015,7 @@ public:
 	long getVirtualKeyboardHeight()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVirtualKeyboardHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVirtualKeyboardHeight, _godot_object);
 	}
 	/**
 	
@@ -1013,7 +1023,7 @@ public:
 	bool getWindowPerPixelTransparencyEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getWindowPerPixelTransparencyEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getWindowPerPixelTransparencyEnabled, _godot_object);
 	}
 	/**
 	
@@ -1021,7 +1031,7 @@ public:
 	Vector2 getWindowPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getWindowPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getWindowPosition, _godot_object);
 	}
 	/**
 	Returns unobscured area of the window where interactive controls should be rendered.
@@ -1029,7 +1039,7 @@ public:
 	Rect2 getWindowSafeArea() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getWindowSafeArea, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getWindowSafeArea, _godot_object);
 	}
 	/**
 	
@@ -1037,7 +1047,7 @@ public:
 	Vector2 getWindowSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getWindowSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getWindowSize, _godot_object);
 	}
 	/**
 	Add a new item with text "label" to global menu. Use "_dock" menu to add item to the macOS dock icon menu.
@@ -1046,7 +1056,7 @@ public:
 	void globalMenuAddItem(VariantArg2, VariantArg3)(in String menu, in String label, in VariantArg2 id, in VariantArg3 meta)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalMenuAddItem, _godot_object, menu, label, id, meta);
+		ptrcall!(void)(GDNativeClassBinding.globalMenuAddItem, _godot_object, menu, label, id, meta);
 	}
 	/**
 	Add a separator between items. Separators also occupy an index.
@@ -1055,7 +1065,7 @@ public:
 	void globalMenuAddSeparator(in String menu)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalMenuAddSeparator, _godot_object, menu);
+		ptrcall!(void)(GDNativeClassBinding.globalMenuAddSeparator, _godot_object, menu);
 	}
 	/**
 	Clear the global menu, in effect removing all items.
@@ -1064,7 +1074,7 @@ public:
 	void globalMenuClear(in String menu)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalMenuClear, _godot_object, menu);
+		ptrcall!(void)(GDNativeClassBinding.globalMenuClear, _godot_object, menu);
 	}
 	/**
 	Removes the item at index "idx" from the global menu. Note that the indexes of items after the removed item are going to be shifted by one.
@@ -1073,7 +1083,7 @@ public:
 	void globalMenuRemoveItem(in String menu, in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalMenuRemoveItem, _godot_object, menu, idx);
+		ptrcall!(void)(GDNativeClassBinding.globalMenuRemoveItem, _godot_object, menu, idx);
 	}
 	/**
 	Returns `true` if an environment variable exists.
@@ -1081,7 +1091,7 @@ public:
 	bool hasEnvironment(in String environment) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasEnvironment, _godot_object, environment);
+		return ptrcall!(bool)(GDNativeClassBinding.hasEnvironment, _godot_object, environment);
 	}
 	/**
 	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/latest/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
@@ -1090,7 +1100,7 @@ public:
 	bool hasFeature(in String tag_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasFeature, _godot_object, tag_name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFeature, _godot_object, tag_name);
 	}
 	/**
 	Returns `true` if the device has a touchscreen or emulates one.
@@ -1098,7 +1108,7 @@ public:
 	bool hasTouchscreenUiHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasTouchscreenUiHint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasTouchscreenUiHint, _godot_object);
 	}
 	/**
 	Returns `true` if the platform has a virtual keyboard, `false` otherwise.
@@ -1106,7 +1116,7 @@ public:
 	bool hasVirtualKeyboard() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasVirtualKeyboard, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasVirtualKeyboard, _godot_object);
 	}
 	/**
 	Hides the virtual keyboard if it is shown, does nothing otherwise.
@@ -1114,7 +1124,7 @@ public:
 	void hideVirtualKeyboard()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.hideVirtualKeyboard, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.hideVirtualKeyboard, _godot_object);
 	}
 	/**
 	Returns `true` if the Godot binary used to run the project is a $(I debug) export template, or when running in the editor.
@@ -1124,7 +1134,7 @@ public:
 	bool isDebugBuild() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDebugBuild, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDebugBuild, _godot_object);
 	}
 	/**
 	
@@ -1132,7 +1142,7 @@ public:
 	bool isInLowProcessorUsageMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInLowProcessorUsageMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInLowProcessorUsageMode, _godot_object);
 	}
 	/**
 	
@@ -1140,7 +1150,7 @@ public:
 	bool isKeepScreenOn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isKeepScreenOn, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isKeepScreenOn, _godot_object);
 	}
 	/**
 	Returns `true` if the $(B OK) button should appear on the left and $(B Cancel) on the right.
@@ -1148,7 +1158,7 @@ public:
 	bool isOkLeftAndCancelRight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOkLeftAndCancelRight, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOkLeftAndCancelRight, _godot_object);
 	}
 	/**
 	Returns `true` if the input scancode corresponds to a Unicode character.
@@ -1156,7 +1166,7 @@ public:
 	bool isScancodeUnicode(in long code) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScancodeUnicode, _godot_object, code);
+		return ptrcall!(bool)(GDNativeClassBinding.isScancodeUnicode, _godot_object, code);
 	}
 	/**
 	Returns `true` if the engine was executed with `-v` (verbose stdout).
@@ -1164,7 +1174,7 @@ public:
 	bool isStdoutVerbose() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isStdoutVerbose, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isStdoutVerbose, _godot_object);
 	}
 	/**
 	If `true`, the `user://` file system is persistent, so that its state is the same after a player quits and starts the game again. Relevant to the HTML5 platform, where this persistence may be unavailable.
@@ -1172,7 +1182,7 @@ public:
 	bool isUserfsPersistent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUserfsPersistent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUserfsPersistent, _godot_object);
 	}
 	/**
 	
@@ -1180,7 +1190,7 @@ public:
 	bool isVsyncEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVsyncEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVsyncEnabled, _godot_object);
 	}
 	/**
 	
@@ -1188,7 +1198,7 @@ public:
 	bool isVsyncViaCompositorEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVsyncViaCompositorEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVsyncViaCompositorEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the window should always be on top of other windows.
@@ -1196,7 +1206,7 @@ public:
 	bool isWindowAlwaysOnTop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowAlwaysOnTop, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowAlwaysOnTop, _godot_object);
 	}
 	/**
 	Returns `true` if the window is currently focused.
@@ -1205,7 +1215,7 @@ public:
 	bool isWindowFocused() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowFocused, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowFocused, _godot_object);
 	}
 	/**
 	
@@ -1213,7 +1223,7 @@ public:
 	bool isWindowFullscreen() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowFullscreen, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowFullscreen, _godot_object);
 	}
 	/**
 	
@@ -1221,7 +1231,7 @@ public:
 	bool isWindowMaximized() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowMaximized, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowMaximized, _godot_object);
 	}
 	/**
 	
@@ -1229,7 +1239,7 @@ public:
 	bool isWindowMinimized() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowMinimized, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowMinimized, _godot_object);
 	}
 	/**
 	
@@ -1237,7 +1247,7 @@ public:
 	bool isWindowResizable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWindowResizable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWindowResizable, _godot_object);
 	}
 	/**
 	Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by $(D execute) in non-blocking mode.
@@ -1247,7 +1257,7 @@ public:
 	GodotError kill(in long pid)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.kill, _godot_object, pid);
+		return ptrcall!(GodotError)(GDNativeClassBinding.kill, _godot_object, pid);
 	}
 	/**
 	Moves the window to the front.
@@ -1256,7 +1266,7 @@ public:
 	void moveWindowToForeground()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveWindowToForeground, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.moveWindowToForeground, _godot_object);
 	}
 	/**
 	Returns `true` if native video is playing.
@@ -1265,7 +1275,7 @@ public:
 	bool nativeVideoIsPlaying()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.nativeVideoIsPlaying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.nativeVideoIsPlaying, _godot_object);
 	}
 	/**
 	Pauses native video playback.
@@ -1274,7 +1284,7 @@ public:
 	void nativeVideoPause()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.nativeVideoPause, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.nativeVideoPause, _godot_object);
 	}
 	/**
 	Plays native video from the specified path, at the given volume and with audio and subtitle tracks.
@@ -1283,7 +1293,7 @@ public:
 	GodotError nativeVideoPlay(in String path, in double volume, in String audio_track, in String subtitle_track)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.nativeVideoPlay, _godot_object, path, volume, audio_track, subtitle_track);
+		return ptrcall!(GodotError)(GDNativeClassBinding.nativeVideoPlay, _godot_object, path, volume, audio_track, subtitle_track);
 	}
 	/**
 	Stops native video playback.
@@ -1292,7 +1302,7 @@ public:
 	void nativeVideoStop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.nativeVideoStop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.nativeVideoStop, _godot_object);
 	}
 	/**
 	Resumes native video playback.
@@ -1301,7 +1311,7 @@ public:
 	void nativeVideoUnpause()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.nativeVideoUnpause, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.nativeVideoUnpause, _godot_object);
 	}
 	/**
 	Initialises the singleton for the system MIDI driver.
@@ -1310,7 +1320,7 @@ public:
 	void openMidiInputs()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.openMidiInputs, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.openMidiInputs, _godot_object);
 	}
 	/**
 	Shows all resources in the game. Optionally, the list can be written to a file by specifying a file path in `tofile`.
@@ -1318,7 +1328,7 @@ public:
 	void printAllResources(in String tofile = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.printAllResources, _godot_object, tofile);
+		ptrcall!(void)(GDNativeClassBinding.printAllResources, _godot_object, tofile);
 	}
 	/**
 	Shows the list of loaded textures sorted by size in memory.
@@ -1326,7 +1336,7 @@ public:
 	void printAllTexturesBySize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.printAllTexturesBySize, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.printAllTexturesBySize, _godot_object);
 	}
 	/**
 	Shows the number of resources loaded by the game of the given types.
@@ -1334,7 +1344,7 @@ public:
 	void printResourcesByType(in PoolStringArray types)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.printResourcesByType, _godot_object, types);
+		ptrcall!(void)(GDNativeClassBinding.printResourcesByType, _godot_object, types);
 	}
 	/**
 	Shows all resources currently used by the game.
@@ -1342,7 +1352,7 @@ public:
 	void printResourcesInUse(in bool _short = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.printResourcesInUse, _godot_object, _short);
+		ptrcall!(void)(GDNativeClassBinding.printResourcesInUse, _godot_object, _short);
 	}
 	/**
 	Request the user attention to the window. It'll flash the taskbar button on Windows or bounce the dock icon on OSX.
@@ -1351,7 +1361,7 @@ public:
 	void requestAttention()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.requestAttention, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.requestAttention, _godot_object);
 	}
 	/**
 	At the moment this function is only used by `AudioDriverOpenSL` to request permission for `RECORD_AUDIO` on Android.
@@ -1359,7 +1369,7 @@ public:
 	bool requestPermission(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.requestPermission, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.requestPermission, _godot_object, name);
 	}
 	/**
 	With this function you can request dangerous permissions since normal permissions are automatically granted at install time in Android application.
@@ -1368,7 +1378,7 @@ public:
 	bool requestPermissions()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.requestPermissions, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.requestPermissions, _godot_object);
 	}
 	/**
 	
@@ -1376,7 +1386,7 @@ public:
 	void setBorderlessWindow(in bool borderless)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderlessWindow, _godot_object, borderless);
+		ptrcall!(void)(GDNativeClassBinding.setBorderlessWindow, _godot_object, borderless);
 	}
 	/**
 	
@@ -1384,7 +1394,7 @@ public:
 	void setClipboard(in String clipboard)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipboard, _godot_object, clipboard);
+		ptrcall!(void)(GDNativeClassBinding.setClipboard, _godot_object, clipboard);
 	}
 	/**
 	
@@ -1392,7 +1402,7 @@ public:
 	void setCurrentScreen(in long screen)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentScreen, _godot_object, screen);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentScreen, _godot_object, screen);
 	}
 	/**
 	
@@ -1400,7 +1410,7 @@ public:
 	void setExitCode(in long code)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExitCode, _godot_object, code);
+		ptrcall!(void)(GDNativeClassBinding.setExitCode, _godot_object, code);
 	}
 	/**
 	Sets the game's icon using an $(D Image) resource.
@@ -1410,7 +1420,7 @@ public:
 	void setIcon(Image icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIcon, _godot_object, icon);
+		ptrcall!(void)(GDNativeClassBinding.setIcon, _godot_object, icon);
 	}
 	/**
 	Sets whether IME input mode should be enabled.
@@ -1422,7 +1432,7 @@ public:
 	void setImeActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setImeActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setImeActive, _godot_object, active);
 	}
 	/**
 	Sets position of IME suggestion list popup (in window coordinates).
@@ -1431,7 +1441,7 @@ public:
 	void setImePosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setImePosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setImePosition, _godot_object, position);
 	}
 	/**
 	
@@ -1439,7 +1449,7 @@ public:
 	void setKeepScreenOn(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeepScreenOn, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setKeepScreenOn, _godot_object, enabled);
 	}
 	/**
 	
@@ -1447,7 +1457,7 @@ public:
 	void setLowProcessorUsageMode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLowProcessorUsageMode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setLowProcessorUsageMode, _godot_object, enable);
 	}
 	/**
 	
@@ -1455,7 +1465,7 @@ public:
 	void setLowProcessorUsageModeSleepUsec(in long usec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLowProcessorUsageModeSleepUsec, _godot_object, usec);
+		ptrcall!(void)(GDNativeClassBinding.setLowProcessorUsageModeSleepUsec, _godot_object, usec);
 	}
 	/**
 	
@@ -1463,7 +1473,7 @@ public:
 	void setMaxWindowSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxWindowSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setMaxWindowSize, _godot_object, size);
 	}
 	/**
 	
@@ -1471,7 +1481,7 @@ public:
 	void setMinWindowSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinWindowSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setMinWindowSize, _godot_object, size);
 	}
 	/**
 	Sets the game's icon using a multi-size platform-specific icon file (`*.ico` on Windows and `*.icns` on macOS).
@@ -1481,7 +1491,7 @@ public:
 	void setNativeIcon(in String filename)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNativeIcon, _godot_object, filename);
+		ptrcall!(void)(GDNativeClassBinding.setNativeIcon, _godot_object, filename);
 	}
 	/**
 	
@@ -1489,7 +1499,7 @@ public:
 	void setScreenOrientation(in long orientation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScreenOrientation, _godot_object, orientation);
+		ptrcall!(void)(GDNativeClassBinding.setScreenOrientation, _godot_object, orientation);
 	}
 	/**
 	Sets the name of the current thread.
@@ -1497,7 +1507,7 @@ public:
 	GodotError setThreadName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.setThreadName, _godot_object, name);
+		return ptrcall!(GodotError)(GDNativeClassBinding.setThreadName, _godot_object, name);
 	}
 	/**
 	Enables backup saves if `enabled` is `true`.
@@ -1505,7 +1515,7 @@ public:
 	void setUseFileAccessSaveAndSwap(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseFileAccessSaveAndSwap, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setUseFileAccessSaveAndSwap, _godot_object, enabled);
 	}
 	/**
 	
@@ -1513,7 +1523,7 @@ public:
 	void setUseVsync(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseVsync, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseVsync, _godot_object, enable);
 	}
 	/**
 	
@@ -1521,7 +1531,7 @@ public:
 	void setVsyncViaCompositor(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVsyncViaCompositor, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setVsyncViaCompositor, _godot_object, enable);
 	}
 	/**
 	Sets whether the window should always be on top.
@@ -1530,7 +1540,7 @@ public:
 	void setWindowAlwaysOnTop(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowAlwaysOnTop, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowAlwaysOnTop, _godot_object, enabled);
 	}
 	/**
 	
@@ -1538,7 +1548,7 @@ public:
 	void setWindowFullscreen(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowFullscreen, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowFullscreen, _godot_object, enabled);
 	}
 	/**
 	
@@ -1546,7 +1556,7 @@ public:
 	void setWindowMaximized(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowMaximized, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowMaximized, _godot_object, enabled);
 	}
 	/**
 	
@@ -1554,7 +1564,7 @@ public:
 	void setWindowMinimized(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowMinimized, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowMinimized, _godot_object, enabled);
 	}
 	/**
 	
@@ -1562,7 +1572,7 @@ public:
 	void setWindowPerPixelTransparencyEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowPerPixelTransparencyEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowPerPixelTransparencyEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -1570,7 +1580,7 @@ public:
 	void setWindowPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setWindowPosition, _godot_object, position);
 	}
 	/**
 	
@@ -1578,7 +1588,7 @@ public:
 	void setWindowResizable(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowResizable, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setWindowResizable, _godot_object, enabled);
 	}
 	/**
 	
@@ -1586,7 +1596,7 @@ public:
 	void setWindowSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setWindowSize, _godot_object, size);
 	}
 	/**
 	Sets the window title to the specified string.
@@ -1596,19 +1606,20 @@ public:
 	void setWindowTitle(in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWindowTitle, _godot_object, title);
+		ptrcall!(void)(GDNativeClassBinding.setWindowTitle, _godot_object, title);
 	}
 	/**
 	Requests the OS to open a resource with the most appropriate program. For example:
 	- `OS.shell_open("C:\\Users\name\Downloads")` on Windows opens the file explorer at the user's Downloads folder.
 	- `OS.shell_open("https://godotengine.org")` opens the default web browser on the official Godot website.
 	- `OS.shell_open("mailto:example@example.com")` opens the default email client with the "To" field set to `example@example.com`. See $(D url=https://blog.escapecreative.com/customizing-mailto-links/)Customizing `mailto:` Links$(D /url) for a list of fields that can be added.
+	Use $(D ProjectSettings.globalizePath) to convert a `res://` or `user://` path into a system path for use with this method.
 	$(B Note:) This method is implemented on Android, iOS, HTML5, Linux, macOS and Windows.
 	*/
 	GodotError shellOpen(in String uri)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.shellOpen, _godot_object, uri);
+		return ptrcall!(GodotError)(GDNativeClassBinding.shellOpen, _godot_object, uri);
 	}
 	/**
 	Shows the virtual keyboard if the platform has one. The `existing_text` parameter is useful for implementing your own LineEdit, as it tells the virtual keyboard what text has already been typed (the virtual keyboard uses it for auto-correct and predictions).
@@ -1617,7 +1628,7 @@ public:
 	void showVirtualKeyboard(in String existing_text = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.showVirtualKeyboard, _godot_object, existing_text);
+		ptrcall!(void)(GDNativeClassBinding.showVirtualKeyboard, _godot_object, existing_text);
 	}
 	/**
 	The clipboard from the host OS. Might be unavailable on some platforms.
@@ -1807,7 +1818,7 @@ public:
 	If `true`, the window background is transparent and window frame is removed.
 	Use `get_tree().get_root().set_transparent_background(true)` to disable main viewport background rendering.
 	$(B Note:) This property has no effect if $(B Project &gt; Project Settings &gt; Display &gt; Window &gt; Per-pixel transparency &gt; Allowed) setting is disabled.
-	$(B Note:) This property is implemented on Linux, macOS and Windows.
+	$(B Note:) This property is implemented on HTML5, Linux, macOS and Windows.
 	*/
 	@property bool windowPerPixelTransparencyEnabled()
 	{
@@ -1860,5 +1871,5 @@ public:
 OSSingleton OS()
 {
 	checkClassBinding!OSSingleton();
-	return OSSingleton(OSSingleton._classBinding._singleton);
+	return OSSingleton(OSSingleton.GDNativeClassBinding._singleton);
 }

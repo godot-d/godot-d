@@ -36,23 +36,33 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptSequence
 {
-	enum string _GODOT_internal_name = "VisualScriptSequence";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptSequence";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_steps") GodotMethod!(long) getSteps;
 		@GodotName("set_steps") GodotMethod!(void, long) setSteps;
 	}
-	bool opEquals(in VisualScriptSequence other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptSequence opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptSequence other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptSequence opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptSequence.
+	/// Note: use `memnew!VisualScriptSequence` instead.
 	static VisualScriptSequence _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	long getSteps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSteps, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSteps, _godot_object);
 	}
 	/**
 	
@@ -75,7 +85,7 @@ public:
 	void setSteps(in long steps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSteps, _godot_object, steps);
+		ptrcall!(void)(GDNativeClassBinding.setSteps, _godot_object, steps);
 	}
 	/**
 	The number of steps in the sequence.

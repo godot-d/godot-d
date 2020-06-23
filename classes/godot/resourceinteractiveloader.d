@@ -28,14 +28,14 @@ This object is returned by $(D ResourceLoader) when performing an interactive lo
 */
 @GodotBaseClass struct ResourceInteractiveLoader
 {
-	enum string _GODOT_internal_name = "ResourceInteractiveLoader";
+	package(godot) enum string _GODOT_internal_name = "ResourceInteractiveLoader";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_resource") GodotMethod!(Resource) getResource;
@@ -44,10 +44,20 @@ public:
 		@GodotName("poll") GodotMethod!(GodotError) poll;
 		@GodotName("wait") GodotMethod!(GodotError) wait;
 	}
-	bool opEquals(in ResourceInteractiveLoader other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ResourceInteractiveLoader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ResourceInteractiveLoader other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ResourceInteractiveLoader opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ResourceInteractiveLoader.
+	/// Note: use `memnew!ResourceInteractiveLoader` instead.
 	static ResourceInteractiveLoader _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	Ref!Resource getResource()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.getResource, _godot_object);
+		return ptrcall!(Resource)(GDNativeClassBinding.getResource, _godot_object);
 	}
 	/**
 	Returns the load stage. The total amount of stages can be queried with $(D getStageCount).
@@ -70,7 +80,7 @@ public:
 	long getStage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStage, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getStage, _godot_object);
 	}
 	/**
 	Returns the total amount of stages (calls to $(D poll)) needed to completely load this resource.
@@ -78,7 +88,7 @@ public:
 	long getStageCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStageCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getStageCount, _godot_object);
 	}
 	/**
 	Polls the loading operation, i.e. loads a data chunk up to the next stage.
@@ -89,7 +99,7 @@ public:
 	GodotError poll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	Polls the loading operation successively until the resource is completely loaded or a $(D poll) fails.
@@ -99,6 +109,6 @@ public:
 	GodotError wait()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.wait, _godot_object);
 	}
 }

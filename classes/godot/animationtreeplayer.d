@@ -30,14 +30,14 @@ It takes $(D Animation)s from an $(D AnimationPlayer) node and mixes them depend
 */
 @GodotBaseClass struct AnimationTreePlayer
 {
-	enum string _GODOT_internal_name = "AnimationTreePlayer";
+	package(godot) enum string _GODOT_internal_name = "AnimationTreePlayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_node") GodotMethod!(void, long, String) addNode;
@@ -106,10 +106,20 @@ public:
 		@GodotName("transition_node_set_input_count") GodotMethod!(void, String, long) transitionNodeSetInputCount;
 		@GodotName("transition_node_set_xfade_time") GodotMethod!(void, String, double) transitionNodeSetXfadeTime;
 	}
-	bool opEquals(in AnimationTreePlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationTreePlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationTreePlayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationTreePlayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationTreePlayer.
+	/// Note: use `memnew!AnimationTreePlayer` instead.
 	static AnimationTreePlayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -196,7 +206,7 @@ public:
 	void addNode(in long type, in String id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, type, id);
+		ptrcall!(void)(GDNativeClassBinding.addNode, _godot_object, type, id);
 	}
 	/**
 	Shifts position in the animation timeline. `delta` is the time in seconds to shift. Events between the current frame and `delta` are handled.
@@ -204,7 +214,7 @@ public:
 	void advance(in double delta)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.advance, _godot_object, delta);
+		ptrcall!(void)(GDNativeClassBinding.advance, _godot_object, delta);
 	}
 	/**
 	Returns the $(D AnimationPlayer)'s $(D Animation) bound to the $(D AnimationTreePlayer)'s animation node with name `id`.
@@ -212,7 +222,7 @@ public:
 	Ref!Animation animationNodeGetAnimation(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation)(_classBinding.animationNodeGetAnimation, _godot_object, id);
+		return ptrcall!(Animation)(GDNativeClassBinding.animationNodeGetAnimation, _godot_object, id);
 	}
 	/**
 	Returns the name of the $(D masterPlayer)'s $(D Animation) bound to this animation node.
@@ -220,7 +230,7 @@ public:
 	String animationNodeGetMasterAnimation(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.animationNodeGetMasterAnimation, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.animationNodeGetMasterAnimation, _godot_object, id);
 	}
 	/**
 	Returns the absolute playback timestamp of the animation node with name `id`.
@@ -228,7 +238,7 @@ public:
 	double animationNodeGetPosition(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.animationNodeGetPosition, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.animationNodeGetPosition, _godot_object, id);
 	}
 	/**
 	Binds a new $(D Animation) from the $(D masterPlayer) to the $(D AnimationTreePlayer)'s animation node with name `id`.
@@ -236,7 +246,7 @@ public:
 	void animationNodeSetAnimation(in String id, Animation animation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.animationNodeSetAnimation, _godot_object, id, animation);
+		ptrcall!(void)(GDNativeClassBinding.animationNodeSetAnimation, _godot_object, id, animation);
 	}
 	/**
 	If `enable` is `true`, the animation node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
@@ -244,7 +254,7 @@ public:
 	void animationNodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.animationNodeSetFilterPath, _godot_object, id, path, enable);
+		ptrcall!(void)(GDNativeClassBinding.animationNodeSetFilterPath, _godot_object, id, path, enable);
 	}
 	/**
 	Binds the $(D Animation) named `source` from $(D masterPlayer) to the animation node `id`. Recalculates caches.
@@ -252,7 +262,7 @@ public:
 	void animationNodeSetMasterAnimation(in String id, in String source)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.animationNodeSetMasterAnimation, _godot_object, id, source);
+		ptrcall!(void)(GDNativeClassBinding.animationNodeSetMasterAnimation, _godot_object, id, source);
 	}
 	/**
 	Returns whether node `id` and `dst_id` are connected at the specified slot.
@@ -260,7 +270,7 @@ public:
 	bool areNodesConnected(in String id, in String dst_id, in long dst_input_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.areNodesConnected, _godot_object, id, dst_id, dst_input_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.areNodesConnected, _godot_object, id, dst_id, dst_input_idx);
 	}
 	/**
 	Returns the blend amount of a Blend2 node given its name.
@@ -268,7 +278,7 @@ public:
 	double blend2NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.blend2NodeGetAmount, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.blend2NodeGetAmount, _godot_object, id);
 	}
 	/**
 	Sets the blend amount of a Blend2 node given its name and value.
@@ -278,7 +288,7 @@ public:
 	void blend2NodeSetAmount(in String id, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blend2NodeSetAmount, _godot_object, id, blend);
+		ptrcall!(void)(GDNativeClassBinding.blend2NodeSetAmount, _godot_object, id, blend);
 	}
 	/**
 	If `enable` is `true`, the Blend2 node with name `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
@@ -286,7 +296,7 @@ public:
 	void blend2NodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blend2NodeSetFilterPath, _godot_object, id, path, enable);
+		ptrcall!(void)(GDNativeClassBinding.blend2NodeSetFilterPath, _godot_object, id, path, enable);
 	}
 	/**
 	Returns the blend amount of a Blend3 node given its name.
@@ -294,7 +304,7 @@ public:
 	double blend3NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.blend3NodeGetAmount, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.blend3NodeGetAmount, _godot_object, id);
 	}
 	/**
 	Sets the blend amount of a Blend3 node given its name and value.
@@ -304,7 +314,7 @@ public:
 	void blend3NodeSetAmount(in String id, in double blend)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blend3NodeSetAmount, _godot_object, id, blend);
+		ptrcall!(void)(GDNativeClassBinding.blend3NodeSetAmount, _godot_object, id, blend);
 	}
 	/**
 	Returns the blend amount of a Blend4 node given its name.
@@ -312,7 +322,7 @@ public:
 	Vector2 blend4NodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.blend4NodeGetAmount, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.blend4NodeGetAmount, _godot_object, id);
 	}
 	/**
 	Sets the blend amount of a Blend4 node given its name and value.
@@ -322,7 +332,7 @@ public:
 	void blend4NodeSetAmount(in String id, in Vector2 blend)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blend4NodeSetAmount, _godot_object, id, blend);
+		ptrcall!(void)(GDNativeClassBinding.blend4NodeSetAmount, _godot_object, id, blend);
 	}
 	/**
 	Connects node `id` to `dst_id` at the specified input slot.
@@ -330,7 +340,7 @@ public:
 	GodotError connectNodes(in String id, in String dst_id, in long dst_input_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectNodes, _godot_object, id, dst_id, dst_input_idx);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectNodes, _godot_object, id, dst_id, dst_input_idx);
 	}
 	/**
 	Disconnects nodes connected to `id` at the specified input slot.
@@ -338,7 +348,7 @@ public:
 	void disconnectNodes(in String id, in long dst_input_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectNodes, _godot_object, id, dst_input_idx);
+		ptrcall!(void)(GDNativeClassBinding.disconnectNodes, _godot_object, id, dst_input_idx);
 	}
 	/**
 	
@@ -346,7 +356,7 @@ public:
 	AnimationTreePlayer.AnimationProcessMode getAnimationProcessMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationTreePlayer.AnimationProcessMode)(_classBinding.getAnimationProcessMode, _godot_object);
+		return ptrcall!(AnimationTreePlayer.AnimationProcessMode)(GDNativeClassBinding.getAnimationProcessMode, _godot_object);
 	}
 	/**
 	
@@ -354,7 +364,7 @@ public:
 	NodePath getBasePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getBasePath, _godot_object);
 	}
 	/**
 	
@@ -362,7 +372,7 @@ public:
 	NodePath getMasterPlayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getMasterPlayer, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getMasterPlayer, _godot_object);
 	}
 	/**
 	Returns a $(D PoolStringArray) containing the name of all nodes.
@@ -370,7 +380,7 @@ public:
 	PoolStringArray getNodeList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getNodeList, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getNodeList, _godot_object);
 	}
 	/**
 	
@@ -378,7 +388,7 @@ public:
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActive, _godot_object);
 	}
 	/**
 	Returns the mix amount of a Mix node given its name.
@@ -386,7 +396,7 @@ public:
 	double mixNodeGetAmount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.mixNodeGetAmount, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.mixNodeGetAmount, _godot_object, id);
 	}
 	/**
 	Sets the mix amount of a Mix node given its name and value.
@@ -395,7 +405,7 @@ public:
 	void mixNodeSetAmount(in String id, in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.mixNodeSetAmount, _godot_object, id, ratio);
+		ptrcall!(void)(GDNativeClassBinding.mixNodeSetAmount, _godot_object, id, ratio);
 	}
 	/**
 	Check if a node exists (by name).
@@ -403,7 +413,7 @@ public:
 	bool nodeExists(in String node) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.nodeExists, _godot_object, node);
+		return ptrcall!(bool)(GDNativeClassBinding.nodeExists, _godot_object, node);
 	}
 	/**
 	Returns the input count for a given node. Different types of nodes have different amount of inputs.
@@ -411,7 +421,7 @@ public:
 	long nodeGetInputCount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.nodeGetInputCount, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.nodeGetInputCount, _godot_object, id);
 	}
 	/**
 	Returns the input source for a given node input.
@@ -419,7 +429,7 @@ public:
 	String nodeGetInputSource(in String id, in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.nodeGetInputSource, _godot_object, id, idx);
+		return ptrcall!(String)(GDNativeClassBinding.nodeGetInputSource, _godot_object, id, idx);
 	}
 	/**
 	Returns position of a node in the graph given its name.
@@ -427,7 +437,7 @@ public:
 	Vector2 nodeGetPosition(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.nodeGetPosition, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.nodeGetPosition, _godot_object, id);
 	}
 	/**
 	Gets the node type, will return from $(D nodetype) enum.
@@ -435,7 +445,7 @@ public:
 	AnimationTreePlayer.NodeType nodeGetType(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationTreePlayer.NodeType)(_classBinding.nodeGetType, _godot_object, id);
+		return ptrcall!(AnimationTreePlayer.NodeType)(GDNativeClassBinding.nodeGetType, _godot_object, id);
 	}
 	/**
 	Renames a node in the graph.
@@ -443,7 +453,7 @@ public:
 	GodotError nodeRename(in String node, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.nodeRename, _godot_object, node, new_name);
+		return ptrcall!(GodotError)(GDNativeClassBinding.nodeRename, _godot_object, node, new_name);
 	}
 	/**
 	Sets the position of a node in the graph given its name and position.
@@ -451,7 +461,7 @@ public:
 	void nodeSetPosition(in String id, in Vector2 screen_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.nodeSetPosition, _godot_object, id, screen_position);
+		ptrcall!(void)(GDNativeClassBinding.nodeSetPosition, _godot_object, id, screen_position);
 	}
 	/**
 	Returns the autostart delay of a OneShot node given its name.
@@ -459,7 +469,7 @@ public:
 	double oneshotNodeGetAutorestartDelay(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartDelay, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.oneshotNodeGetAutorestartDelay, _godot_object, id);
 	}
 	/**
 	Returns the autostart random delay of a OneShot node given its name.
@@ -467,7 +477,7 @@ public:
 	double oneshotNodeGetAutorestartRandomDelay(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.oneshotNodeGetAutorestartRandomDelay, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.oneshotNodeGetAutorestartRandomDelay, _godot_object, id);
 	}
 	/**
 	Returns the fade in time of a OneShot node given its name.
@@ -475,7 +485,7 @@ public:
 	double oneshotNodeGetFadeinTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeinTime, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.oneshotNodeGetFadeinTime, _godot_object, id);
 	}
 	/**
 	Returns the fade out time of a OneShot node given its name.
@@ -483,7 +493,7 @@ public:
 	double oneshotNodeGetFadeoutTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.oneshotNodeGetFadeoutTime, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.oneshotNodeGetFadeoutTime, _godot_object, id);
 	}
 	/**
 	Returns whether a OneShot node will auto restart given its name.
@@ -491,7 +501,7 @@ public:
 	bool oneshotNodeHasAutorestart(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.oneshotNodeHasAutorestart, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.oneshotNodeHasAutorestart, _godot_object, id);
 	}
 	/**
 	Returns whether a OneShot node is active given its name.
@@ -499,7 +509,7 @@ public:
 	bool oneshotNodeIsActive(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.oneshotNodeIsActive, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.oneshotNodeIsActive, _godot_object, id);
 	}
 	/**
 	Sets the autorestart property of a OneShot node given its name and value.
@@ -507,7 +517,7 @@ public:
 	void oneshotNodeSetAutorestart(in String id, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestart, _godot_object, id, enable);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetAutorestart, _godot_object, id, enable);
 	}
 	/**
 	Sets the autorestart delay of a OneShot node given its name and value in seconds.
@@ -515,7 +525,7 @@ public:
 	void oneshotNodeSetAutorestartDelay(in String id, in double delay_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartDelay, _godot_object, id, delay_sec);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetAutorestartDelay, _godot_object, id, delay_sec);
 	}
 	/**
 	Sets the autorestart random delay of a OneShot node given its name and value in seconds.
@@ -523,7 +533,7 @@ public:
 	void oneshotNodeSetAutorestartRandomDelay(in String id, in double rand_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetAutorestartRandomDelay, _godot_object, id, rand_sec);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetAutorestartRandomDelay, _godot_object, id, rand_sec);
 	}
 	/**
 	Sets the fade in time of a OneShot node given its name and value in seconds.
@@ -531,7 +541,7 @@ public:
 	void oneshotNodeSetFadeinTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetFadeinTime, _godot_object, id, time_sec);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetFadeinTime, _godot_object, id, time_sec);
 	}
 	/**
 	Sets the fade out time of a OneShot node given its name and value in seconds.
@@ -539,7 +549,7 @@ public:
 	void oneshotNodeSetFadeoutTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetFadeoutTime, _godot_object, id, time_sec);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetFadeoutTime, _godot_object, id, time_sec);
 	}
 	/**
 	If `enable` is `true`, the OneShot node with ID `id` turns off the track modifying the property at `path`. The modified node's children continue to animate.
@@ -547,7 +557,7 @@ public:
 	void oneshotNodeSetFilterPath(NodePathArg1)(in String id, in NodePathArg1 path, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeSetFilterPath, _godot_object, id, path, enable);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeSetFilterPath, _godot_object, id, path, enable);
 	}
 	/**
 	Starts a OneShot node given its name.
@@ -555,7 +565,7 @@ public:
 	void oneshotNodeStart(in String id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeStart, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeStart, _godot_object, id);
 	}
 	/**
 	Stops the OneShot node with name `id`.
@@ -563,7 +573,7 @@ public:
 	void oneshotNodeStop(in String id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.oneshotNodeStop, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.oneshotNodeStop, _godot_object, id);
 	}
 	/**
 	Manually recalculates the cache of track information generated from animation nodes. Needed when external sources modify the animation nodes' state.
@@ -571,7 +581,7 @@ public:
 	void recomputeCaches()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.recomputeCaches, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.recomputeCaches, _godot_object);
 	}
 	/**
 	Removes the animation node with name `id`.
@@ -579,7 +589,7 @@ public:
 	void removeNode(in String id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removeNode, _godot_object, id);
 	}
 	/**
 	Resets this $(D AnimationTreePlayer).
@@ -587,7 +597,7 @@ public:
 	void reset()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reset, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.reset, _godot_object);
 	}
 	/**
 	
@@ -595,7 +605,7 @@ public:
 	void setActive(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setActive, _godot_object, enabled);
 	}
 	/**
 	
@@ -603,7 +613,7 @@ public:
 	void setAnimationProcessMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimationProcessMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setAnimationProcessMode, _godot_object, mode);
 	}
 	/**
 	
@@ -611,7 +621,7 @@ public:
 	void setBasePath(NodePathArg0)(in NodePathArg0 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasePath, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setBasePath, _godot_object, path);
 	}
 	/**
 	
@@ -619,7 +629,7 @@ public:
 	void setMasterPlayer(NodePathArg0)(in NodePathArg0 nodepath)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMasterPlayer, _godot_object, nodepath);
+		ptrcall!(void)(GDNativeClassBinding.setMasterPlayer, _godot_object, nodepath);
 	}
 	/**
 	Returns the time scale value of the TimeScale node with name `id`.
@@ -627,7 +637,7 @@ public:
 	double timescaleNodeGetScale(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.timescaleNodeGetScale, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.timescaleNodeGetScale, _godot_object, id);
 	}
 	/**
 	Sets the time scale of the TimeScale node with name `id` to `scale`.
@@ -637,7 +647,7 @@ public:
 	void timescaleNodeSetScale(in String id, in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.timescaleNodeSetScale, _godot_object, id, scale);
+		ptrcall!(void)(GDNativeClassBinding.timescaleNodeSetScale, _godot_object, id, scale);
 	}
 	/**
 	Sets the time seek value of the TimeSeek node with name `id` to `seconds`.
@@ -646,7 +656,7 @@ public:
 	void timeseekNodeSeek(in String id, in double seconds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.timeseekNodeSeek, _godot_object, id, seconds);
+		ptrcall!(void)(GDNativeClassBinding.timeseekNodeSeek, _godot_object, id, seconds);
 	}
 	/**
 	Deletes the input at `input_idx` for the transition node with name `id`.
@@ -654,7 +664,7 @@ public:
 	void transitionNodeDeleteInput(in String id, in long input_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.transitionNodeDeleteInput, _godot_object, id, input_idx);
+		ptrcall!(void)(GDNativeClassBinding.transitionNodeDeleteInput, _godot_object, id, input_idx);
 	}
 	/**
 	Returns the index of the currently evaluated input for the transition node with name `id`.
@@ -662,7 +672,7 @@ public:
 	long transitionNodeGetCurrent(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.transitionNodeGetCurrent, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.transitionNodeGetCurrent, _godot_object, id);
 	}
 	/**
 	Returns the number of inputs for the transition node with name `id`. You can add inputs by right-clicking on the transition node.
@@ -670,7 +680,7 @@ public:
 	long transitionNodeGetInputCount(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.transitionNodeGetInputCount, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.transitionNodeGetInputCount, _godot_object, id);
 	}
 	/**
 	Returns the cross fade time for the transition node with name `id`.
@@ -678,7 +688,7 @@ public:
 	double transitionNodeGetXfadeTime(in String id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.transitionNodeGetXfadeTime, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.transitionNodeGetXfadeTime, _godot_object, id);
 	}
 	/**
 	Returns `true` if the input at `input_idx` on the transition node with name `id` is set to automatically advance to the next input upon completion.
@@ -686,7 +696,7 @@ public:
 	bool transitionNodeHasInputAutoAdvance(in String id, in long input_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.transitionNodeHasInputAutoAdvance, _godot_object, id, input_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.transitionNodeHasInputAutoAdvance, _godot_object, id, input_idx);
 	}
 	/**
 	The transition node with name `id` sets its current input at `input_idx`.
@@ -694,7 +704,7 @@ public:
 	void transitionNodeSetCurrent(in String id, in long input_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.transitionNodeSetCurrent, _godot_object, id, input_idx);
+		ptrcall!(void)(GDNativeClassBinding.transitionNodeSetCurrent, _godot_object, id, input_idx);
 	}
 	/**
 	The transition node with name `id` advances to its next input automatically when the input at `input_idx` completes.
@@ -702,7 +712,7 @@ public:
 	void transitionNodeSetInputAutoAdvance(in String id, in long input_idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.transitionNodeSetInputAutoAdvance, _godot_object, id, input_idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.transitionNodeSetInputAutoAdvance, _godot_object, id, input_idx, enable);
 	}
 	/**
 	Resizes the number of inputs available for the transition node with name `id`.
@@ -710,7 +720,7 @@ public:
 	void transitionNodeSetInputCount(in String id, in long count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.transitionNodeSetInputCount, _godot_object, id, count);
+		ptrcall!(void)(GDNativeClassBinding.transitionNodeSetInputCount, _godot_object, id, count);
 	}
 	/**
 	The transition node with name `id` sets its cross fade time to `time_sec`.
@@ -718,7 +728,7 @@ public:
 	void transitionNodeSetXfadeTime(in String id, in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.transitionNodeSetXfadeTime, _godot_object, id, time_sec);
+		ptrcall!(void)(GDNativeClassBinding.transitionNodeSetXfadeTime, _godot_object, id, time_sec);
 	}
 	/**
 	If `true`, the $(D AnimationTreePlayer) is able to play animations.

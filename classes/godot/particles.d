@@ -32,14 +32,14 @@ Use the `process_material` property to add a $(D ParticlesMaterial) to configure
 */
 @GodotBaseClass struct Particles
 {
-	enum string _GODOT_internal_name = "Particles";
+	package(godot) enum string _GODOT_internal_name = "Particles";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("capture_aabb") GodotMethod!(AABB) captureAabb;
@@ -77,10 +77,20 @@ public:
 		@GodotName("set_use_local_coordinates") GodotMethod!(void, bool) setUseLocalCoordinates;
 		@GodotName("set_visibility_aabb") GodotMethod!(void, AABB) setVisibilityAabb;
 	}
-	bool opEquals(in Particles other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Particles opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Particles other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Particles opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Particles.
+	/// Note: use `memnew!Particles` instead.
 	static Particles _new()
 	{
 		static godot_class_constructor constructor;
@@ -122,7 +132,7 @@ public:
 	AABB captureAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.captureAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.captureAabb, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	long getAmount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAmount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAmount, _godot_object);
 	}
 	/**
 	
@@ -138,7 +148,7 @@ public:
 	Particles.DrawOrder getDrawOrder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Particles.DrawOrder)(_classBinding.getDrawOrder, _godot_object);
+		return ptrcall!(Particles.DrawOrder)(GDNativeClassBinding.getDrawOrder, _godot_object);
 	}
 	/**
 	Returns the $(D Mesh) that is drawn at index `pass`.
@@ -146,7 +156,7 @@ public:
 	Ref!Mesh getDrawPassMesh(in long pass) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getDrawPassMesh, _godot_object, pass);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getDrawPassMesh, _godot_object, pass);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	long getDrawPasses() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDrawPasses, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDrawPasses, _godot_object);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	double getExplosivenessRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getExplosivenessRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getExplosivenessRatio, _godot_object);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	long getFixedFps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFixedFps, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFixedFps, _godot_object);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	bool getFractionalDelta() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFractionalDelta, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getFractionalDelta, _godot_object);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	double getLifetime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLifetime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLifetime, _godot_object);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	bool getOneShot() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getOneShot, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getOneShot, _godot_object);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	double getPreProcessTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPreProcessTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPreProcessTime, _godot_object);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	Ref!Material getProcessMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getProcessMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getProcessMaterial, _godot_object);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	double getRandomnessRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRandomnessRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRandomnessRatio, _godot_object);
 	}
 	/**
 	
@@ -226,7 +236,7 @@ public:
 	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	bool getUseLocalCoordinates() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseLocalCoordinates, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseLocalCoordinates, _godot_object);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	AABB getVisibilityAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getVisibilityAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getVisibilityAabb, _godot_object);
 	}
 	/**
 	
@@ -250,7 +260,7 @@ public:
 	bool isEmitting() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEmitting, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEmitting, _godot_object);
 	}
 	/**
 	Restarts the particle emission, clearing existing particles.
@@ -258,7 +268,7 @@ public:
 	void restart()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.restart, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.restart, _godot_object);
 	}
 	/**
 	
@@ -266,7 +276,7 @@ public:
 	void setAmount(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAmount, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setAmount, _godot_object, amount);
 	}
 	/**
 	
@@ -274,7 +284,7 @@ public:
 	void setDrawOrder(in long order)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawOrder, _godot_object, order);
+		ptrcall!(void)(GDNativeClassBinding.setDrawOrder, _godot_object, order);
 	}
 	/**
 	Sets the $(D Mesh) that is drawn at index `pass`.
@@ -282,7 +292,7 @@ public:
 	void setDrawPassMesh(in long pass, Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawPassMesh, _godot_object, pass, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setDrawPassMesh, _godot_object, pass, mesh);
 	}
 	/**
 	
@@ -290,7 +300,7 @@ public:
 	void setDrawPasses(in long passes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawPasses, _godot_object, passes);
+		ptrcall!(void)(GDNativeClassBinding.setDrawPasses, _godot_object, passes);
 	}
 	/**
 	
@@ -298,7 +308,7 @@ public:
 	void setEmitting(in bool emitting)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmitting, _godot_object, emitting);
+		ptrcall!(void)(GDNativeClassBinding.setEmitting, _godot_object, emitting);
 	}
 	/**
 	
@@ -306,7 +316,7 @@ public:
 	void setExplosivenessRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExplosivenessRatio, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.setExplosivenessRatio, _godot_object, ratio);
 	}
 	/**
 	
@@ -314,7 +324,7 @@ public:
 	void setFixedFps(in long fps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedFps, _godot_object, fps);
+		ptrcall!(void)(GDNativeClassBinding.setFixedFps, _godot_object, fps);
 	}
 	/**
 	
@@ -322,7 +332,7 @@ public:
 	void setFractionalDelta(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFractionalDelta, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFractionalDelta, _godot_object, enable);
 	}
 	/**
 	
@@ -330,7 +340,7 @@ public:
 	void setLifetime(in double secs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLifetime, _godot_object, secs);
+		ptrcall!(void)(GDNativeClassBinding.setLifetime, _godot_object, secs);
 	}
 	/**
 	
@@ -338,7 +348,7 @@ public:
 	void setOneShot(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneShot, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setOneShot, _godot_object, enable);
 	}
 	/**
 	
@@ -346,7 +356,7 @@ public:
 	void setPreProcessTime(in double secs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPreProcessTime, _godot_object, secs);
+		ptrcall!(void)(GDNativeClassBinding.setPreProcessTime, _godot_object, secs);
 	}
 	/**
 	
@@ -354,7 +364,7 @@ public:
 	void setProcessMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProcessMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setProcessMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -362,7 +372,7 @@ public:
 	void setRandomnessRatio(in double ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRandomnessRatio, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.setRandomnessRatio, _godot_object, ratio);
 	}
 	/**
 	
@@ -370,7 +380,7 @@ public:
 	void setSpeedScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setSpeedScale, _godot_object, scale);
 	}
 	/**
 	
@@ -378,7 +388,7 @@ public:
 	void setUseLocalCoordinates(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseLocalCoordinates, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseLocalCoordinates, _godot_object, enable);
 	}
 	/**
 	
@@ -386,7 +396,7 @@ public:
 	void setVisibilityAabb(in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisibilityAabb, _godot_object, aabb);
+		ptrcall!(void)(GDNativeClassBinding.setVisibilityAabb, _godot_object, aabb);
 	}
 	/**
 	Number of particles to emit.
@@ -594,6 +604,7 @@ public:
 	}
 	/**
 	The $(D AABB) that determines the area of the world part of which needs to be visible on screen for the particle system to be active.
+	$(B Note:) If the $(D ParticlesMaterial) in use is configured to cast shadows, you may want to enlarge this AABB to ensure the shadow is updated when particles are off-screen.
 	*/
 	@property AABB visibilityAabb()
 	{

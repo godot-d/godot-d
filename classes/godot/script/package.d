@@ -29,14 +29,14 @@ The `new` method of a script subclass creates a new instance. $(D GodotObject.se
 */
 @GodotBaseClass struct Script
 {
-	enum string _GODOT_internal_name = "Script";
+	package(godot) enum string _GODOT_internal_name = "Script";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("can_instance") GodotMethod!(bool) canInstance;
@@ -55,10 +55,20 @@ public:
 		@GodotName("reload") GodotMethod!(GodotError, bool) reload;
 		@GodotName("set_source_code") GodotMethod!(void, String) setSourceCode;
 	}
-	bool opEquals(in Script other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Script opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Script other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Script opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Script.
+	/// Note: use `memnew!Script` instead.
 	static Script _new()
 	{
 		static godot_class_constructor constructor;
@@ -73,7 +83,7 @@ public:
 	bool canInstance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canInstance, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.canInstance, _godot_object);
 	}
 	/**
 	Returns the script directly inherited by this script.
@@ -81,7 +91,7 @@ public:
 	Ref!Script getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Script)(_classBinding.getBaseScript, _godot_object);
+		return ptrcall!(Script)(GDNativeClassBinding.getBaseScript, _godot_object);
 	}
 	/**
 	Returns the script's base type.
@@ -89,47 +99,47 @@ public:
 	String getInstanceBaseType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInstanceBaseType, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getInstanceBaseType, _godot_object);
 	}
 	/**
-	
+	Returns the default value of the specified property.
 	*/
 	Variant getPropertyDefaultValue(in String property)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getPropertyDefaultValue, _godot_object, property);
+		return ptrcall!(Variant)(GDNativeClassBinding.getPropertyDefaultValue, _godot_object, property);
 	}
 	/**
-	
+	Returns a dictionary containing constant names and their values.
 	*/
 	Dictionary getScriptConstantMap()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getScriptConstantMap, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getScriptConstantMap, _godot_object);
 	}
 	/**
-	
+	Returns the list of methods in this $(D Script).
 	*/
 	Array getScriptMethodList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getScriptMethodList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getScriptMethodList, _godot_object);
 	}
 	/**
-	
+	Returns the list of properties in this $(D Script).
 	*/
 	Array getScriptPropertyList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getScriptPropertyList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getScriptPropertyList, _godot_object);
 	}
 	/**
-	
+	Returns the list of user signals defined in this $(D Script).
 	*/
 	Array getScriptSignalList()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getScriptSignalList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getScriptSignalList, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	String getSourceCode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSourceCode, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSourceCode, _godot_object);
 	}
 	/**
 	Returns `true` if the script, or a base class, defines a signal with the given name.
@@ -145,7 +155,7 @@ public:
 	bool hasScriptSignal(in String signal_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasScriptSignal, _godot_object, signal_name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasScriptSignal, _godot_object, signal_name);
 	}
 	/**
 	Returns `true` if the script contains non-empty source code.
@@ -153,7 +163,7 @@ public:
 	bool hasSourceCode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSourceCode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasSourceCode, _godot_object);
 	}
 	/**
 	Returns `true` if `base_object` is an instance of this script.
@@ -161,7 +171,7 @@ public:
 	bool instanceHas(GodotObject base_object) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.instanceHas, _godot_object, base_object);
+		return ptrcall!(bool)(GDNativeClassBinding.instanceHas, _godot_object, base_object);
 	}
 	/**
 	Returns `true` if the script is a tool script. A tool script can run in the editor.
@@ -169,7 +179,7 @@ public:
 	bool isTool() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isTool, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isTool, _godot_object);
 	}
 	/**
 	Reloads the script's class implementation. Returns an error code.
@@ -177,7 +187,7 @@ public:
 	GodotError reload(in bool keep_state = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.reload, _godot_object, keep_state);
+		return ptrcall!(GodotError)(GDNativeClassBinding.reload, _godot_object, keep_state);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setSourceCode(in String source)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSourceCode, _godot_object, source);
+		ptrcall!(void)(GDNativeClassBinding.setSourceCode, _godot_object, source);
 	}
 	/**
 	The script source code or an empty string if source code is not available. When set, does not reload the class implementation automatically.

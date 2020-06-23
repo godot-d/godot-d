@@ -1,5 +1,5 @@
 /**
-
+An editor feature profile which can be used to disable specific features.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,18 +21,21 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
+An editor feature profile which can be used to disable specific features.
 
+An editor feature profile can be used to disable specific features of the Godot editor. When disabled, the features won't appear in the editor, which makes the editor less cluttered. This is useful in education settings to reduce confusion or when working in a team. For example, artists and level designers could use a feature profile that disables the script editor to avoid accidentally making changes to files they aren't supposed to edit.
+To manage editor feature profiles visually, use $(B Editor &gt; Manage Feature Profiles...) at the top of the editor window.
 */
 @GodotBaseClass struct EditorFeatureProfile
 {
-	enum string _GODOT_internal_name = "EditorFeatureProfile";
+	package(godot) enum string _GODOT_internal_name = "EditorFeatureProfile";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_feature_name") GodotMethod!(String, long) getFeatureName;
@@ -47,10 +50,20 @@ public:
 		@GodotName("set_disable_class_property") GodotMethod!(void, String, String, bool) setDisableClassProperty;
 		@GodotName("set_disable_feature") GodotMethod!(void, long, bool) setDisableFeature;
 	}
-	bool opEquals(in EditorFeatureProfile other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorFeatureProfile opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorFeatureProfile other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorFeatureProfile opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorFeatureProfile.
+	/// Note: use `memnew!EditorFeatureProfile` instead.
 	static EditorFeatureProfile _new()
 	{
 		static godot_class_constructor constructor;
@@ -63,31 +76,31 @@ public:
 	enum Feature : int
 	{
 		/**
-		
+		The 3D editor. If this feature is disabled, the 3D editor won't display but 3D nodes will still display in the Create New Node dialog.
 		*/
 		feature3d = 0,
 		/**
-		
+		The Script tab, which contains the script editor and class reference browser. If this feature is disabled, the Script tab won't display.
 		*/
 		featureScript = 1,
 		/**
-		
+		The AssetLib tab. If this feature is disabled, the AssetLib tab won't display.
 		*/
 		featureAssetLib = 2,
 		/**
-		
+		Scene tree editing. If this feature is disabled, the Scene tree dock will still be visible but will be read-only.
 		*/
 		featureSceneTree = 3,
 		/**
-		
+		The Import dock. If this feature is disabled, the Import dock won't be visible.
 		*/
 		featureImportDock = 4,
 		/**
-		
+		The Node dock. If this feature is disabled, signals and groups won't be visible and modifiable from the editor.
 		*/
 		featureNodeDock = 5,
 		/**
-		
+		The FileSystem dock. If this feature is disabled, the FileSystem dock won't be visible.
 		*/
 		featureFilesystemDock = 6,
 		/**
@@ -108,91 +121,91 @@ public:
 		featureMax = 7,
 	}
 	/**
-	
+	Returns the specified `feature`'s human-readable name.
 	*/
 	String getFeatureName(in long feature)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFeatureName, _godot_object, feature);
+		return ptrcall!(String)(GDNativeClassBinding.getFeatureName, _godot_object, feature);
 	}
 	/**
-	
+	Returns `true` if the class specified by `class_name` is disabled. When disabled, the class won't appear in the Create New Node dialog.
 	*/
 	bool isClassDisabled(in String class_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClassDisabled, _godot_object, class_name);
+		return ptrcall!(bool)(GDNativeClassBinding.isClassDisabled, _godot_object, class_name);
 	}
 	/**
-	
+	Returns `true` if editing for the class specified by `class_name` is disabled. When disabled, the class will still appear in the Create New Node dialog but the inspector will be read-only when selecting a node that extends the class.
 	*/
 	bool isClassEditorDisabled(in String class_name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClassEditorDisabled, _godot_object, class_name);
+		return ptrcall!(bool)(GDNativeClassBinding.isClassEditorDisabled, _godot_object, class_name);
 	}
 	/**
-	
+	Returns `true` if `property` is disabled in the class specified by `class_name`. When a property is disabled, it won't appear in the inspector when selecting a node that extends the class specified by `class_name`.
 	*/
 	bool isClassPropertyDisabled(in String class_name, in String property) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClassPropertyDisabled, _godot_object, class_name, property);
+		return ptrcall!(bool)(GDNativeClassBinding.isClassPropertyDisabled, _godot_object, class_name, property);
 	}
 	/**
-	
+	Returns `true` if the `feature` is disabled. When a feature is disabled, it will disappear from the editor entirely.
 	*/
 	bool isFeatureDisabled(in long feature) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFeatureDisabled, _godot_object, feature);
+		return ptrcall!(bool)(GDNativeClassBinding.isFeatureDisabled, _godot_object, feature);
 	}
 	/**
-	
+	Loads an editor feature profile from a file. The file must follow the JSON format obtained by using the feature profile manager's $(B Export) button or the $(D saveToFile) method.
 	*/
 	GodotError loadFromFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadFromFile, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadFromFile, _godot_object, path);
 	}
 	/**
-	
+	Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's $(B Import) button or the $(D loadFromFile) button.
 	*/
 	GodotError saveToFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveToFile, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveToFile, _godot_object, path);
 	}
 	/**
-	
+	If `disable` is `true`, disables the class specified by `class_name`. When disabled, the class won't appear in the Create New Node dialog.
 	*/
 	void setDisableClass(in String class_name, in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableClass, _godot_object, class_name, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableClass, _godot_object, class_name, disable);
 	}
 	/**
-	
+	If `disable` is `true`, disables editing for the class specified by `class_name`. When disabled, the class will still appear in the Create New Node dialog but the inspector will be read-only when selecting a node that extends the class.
 	*/
 	void setDisableClassEditor(in String class_name, in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableClassEditor, _godot_object, class_name, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableClassEditor, _godot_object, class_name, disable);
 	}
 	/**
-	
+	If `disable` is `true`, disables editing for `property` in the class specified by `class_name`. When a property is disabled, it won't appear in the inspector when selecting a node that extends the class specified by `class_name`.
 	*/
 	void setDisableClassProperty(in String class_name, in String property, in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableClassProperty, _godot_object, class_name, property, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableClassProperty, _godot_object, class_name, property, disable);
 	}
 	/**
-	
+	If `disable` is `true`, disables the editor feature specified in `feature`. When a feature is disabled, it will disappear from the editor entirely.
 	*/
 	void setDisableFeature(in long feature, in bool disable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableFeature, _godot_object, feature, disable);
+		ptrcall!(void)(GDNativeClassBinding.setDisableFeature, _godot_object, feature, disable);
 	}
 }

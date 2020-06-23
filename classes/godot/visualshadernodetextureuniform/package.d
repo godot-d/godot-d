@@ -1,5 +1,5 @@
 /**
-
+Performs a uniform texture lookup within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,18 +22,20 @@ import godot.object;
 import godot.classdb;
 import godot.visualshadernodeuniform;
 /**
+Performs a uniform texture lookup within the visual shader graph.
 
+Performs a lookup operation on the texture provided as a uniform for the shader.
 */
 @GodotBaseClass struct VisualShaderNodeTextureUniform
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeTextureUniform";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeTextureUniform";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNodeUniform _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNodeUniform _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_color_default") GodotMethod!(VisualShaderNodeTextureUniform.ColorDefault) getColorDefault;
@@ -41,10 +43,20 @@ public:
 		@GodotName("set_color_default") GodotMethod!(void, long) setColorDefault;
 		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
 	}
-	bool opEquals(in VisualShaderNodeTextureUniform other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeTextureUniform opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeTextureUniform other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeTextureUniform opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeTextureUniform.
+	/// Note: use `memnew!VisualShaderNodeTextureUniform` instead.
 	static VisualShaderNodeTextureUniform _new()
 	{
 		static godot_class_constructor constructor;
@@ -57,19 +69,19 @@ public:
 	enum TextureType : int
 	{
 		/**
-		
+		No hints are added to the uniform declaration.
 		*/
 		typeData = 0,
 		/**
-		
+		Adds `hint_albedo` as hint to the uniform declaration for proper sRGB to linear conversion.
 		*/
 		typeColor = 1,
 		/**
-		
+		Adds `hint_normal` as hint to the uniform declaration, which internally converts the texture for proper usage as normal map.
 		*/
 		typeNormalmap = 2,
 		/**
-		
+		Adds `hint_aniso` as hint to the uniform declaration to use for a flowmap.
 		*/
 		typeAniso = 3,
 	}
@@ -77,11 +89,11 @@ public:
 	enum ColorDefault : int
 	{
 		/**
-		
+		Defaults to white color.
 		*/
 		colorDefaultWhite = 0,
 		/**
-		
+		Defaults to black color.
 		*/
 		colorDefaultBlack = 1,
 	}
@@ -101,7 +113,7 @@ public:
 	VisualShaderNodeTextureUniform.ColorDefault getColorDefault() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeTextureUniform.ColorDefault)(_classBinding.getColorDefault, _godot_object);
+		return ptrcall!(VisualShaderNodeTextureUniform.ColorDefault)(GDNativeClassBinding.getColorDefault, _godot_object);
 	}
 	/**
 	
@@ -109,7 +121,7 @@ public:
 	VisualShaderNodeTextureUniform.TextureType getTextureType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeTextureUniform.TextureType)(_classBinding.getTextureType, _godot_object);
+		return ptrcall!(VisualShaderNodeTextureUniform.TextureType)(GDNativeClassBinding.getTextureType, _godot_object);
 	}
 	/**
 	
@@ -117,7 +129,7 @@ public:
 	void setColorDefault(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColorDefault, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setColorDefault, _godot_object, type);
 	}
 	/**
 	
@@ -125,10 +137,10 @@ public:
 	void setTextureType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setTextureType, _godot_object, type);
 	}
 	/**
-	
+	Sets the default color if no texture is assigned to the uniform.
 	*/
 	@property VisualShaderNodeTextureUniform.ColorDefault colorDefault()
 	{
@@ -140,7 +152,7 @@ public:
 		setColorDefault(v);
 	}
 	/**
-	
+	Defines the type of data provided by the source texture. See $(D texturetype) for options.
 	*/
 	@property VisualShaderNodeTextureUniform.TextureType textureType()
 	{

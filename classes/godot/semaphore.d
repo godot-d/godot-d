@@ -28,23 +28,33 @@ A synchronization semaphore which can be used to synchronize multiple $(D Thread
 */
 @GodotBaseClass struct Semaphore
 {
-	enum string _GODOT_internal_name = "_Semaphore";
+	package(godot) enum string _GODOT_internal_name = "_Semaphore";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("post") GodotMethod!(GodotError) post;
 		@GodotName("wait") GodotMethod!(GodotError) wait;
 	}
-	bool opEquals(in Semaphore other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Semaphore opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Semaphore other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Semaphore opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Semaphore.
+	/// Note: use `memnew!Semaphore` instead.
 	static Semaphore _new()
 	{
 		static godot_class_constructor constructor;
@@ -59,7 +69,7 @@ public:
 	GodotError post()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.post, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.post, _godot_object);
 	}
 	/**
 	Tries to wait for the $(D Semaphore), if its value is zero, blocks until non-zero. Returns $(D constant OK) on success, $(D constant ERR_BUSY) otherwise.
@@ -67,6 +77,6 @@ public:
 	GodotError wait()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.wait, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.wait, _godot_object);
 	}
 }

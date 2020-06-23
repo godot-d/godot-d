@@ -29,14 +29,14 @@ It is useful for making other nodes follow a path, without coding the movement p
 */
 @GodotBaseClass struct PathFollow
 {
-	enum string _GODOT_internal_name = "PathFollow";
+	package(godot) enum string _GODOT_internal_name = "PathFollow";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_cubic_interpolation") GodotMethod!(bool) getCubicInterpolation;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_unit_offset") GodotMethod!(void, double) setUnitOffset;
 		@GodotName("set_v_offset") GodotMethod!(void, double) setVOffset;
 	}
-	bool opEquals(in PathFollow other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PathFollow opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PathFollow other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PathFollow opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PathFollow.
+	/// Note: use `memnew!PathFollow` instead.
 	static PathFollow _new()
 	{
 		static godot_class_constructor constructor;
@@ -105,7 +115,7 @@ public:
 	bool getCubicInterpolation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCubicInterpolation, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCubicInterpolation, _godot_object);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	double getHOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHOffset, _godot_object);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	double getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	PathFollow.RotationMode getRotationMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PathFollow.RotationMode)(_classBinding.getRotationMode, _godot_object);
+		return ptrcall!(PathFollow.RotationMode)(GDNativeClassBinding.getRotationMode, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	double getUnitOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getUnitOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getUnitOffset, _godot_object);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	double getVOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVOffset, _godot_object);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	bool hasLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasLoop, _godot_object);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	void setCubicInterpolation(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCubicInterpolation, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCubicInterpolation, _godot_object, enable);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	void setHOffset(in double h_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHOffset, _godot_object, h_offset);
+		ptrcall!(void)(GDNativeClassBinding.setHOffset, _godot_object, h_offset);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	void setLoop(in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoop, _godot_object, loop);
+		ptrcall!(void)(GDNativeClassBinding.setLoop, _godot_object, loop);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setOffset(in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	void setRotationMode(in long rotation_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationMode, _godot_object, rotation_mode);
+		ptrcall!(void)(GDNativeClassBinding.setRotationMode, _godot_object, rotation_mode);
 	}
 	/**
 	
@@ -201,7 +211,7 @@ public:
 	void setUnitOffset(in double unit_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUnitOffset, _godot_object, unit_offset);
+		ptrcall!(void)(GDNativeClassBinding.setUnitOffset, _godot_object, unit_offset);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	void setVOffset(in double v_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVOffset, _godot_object, v_offset);
+		ptrcall!(void)(GDNativeClassBinding.setVOffset, _godot_object, v_offset);
 	}
 	/**
 	If `true`, the position between two cached points is interpolated cubically, and linearly otherwise.

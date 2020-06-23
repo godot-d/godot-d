@@ -29,14 +29,14 @@ A ParallaxBackground uses one or more $(D ParallaxLayer) child nodes to create a
 */
 @GodotBaseClass struct ParallaxBackground
 {
-	enum string _GODOT_internal_name = "ParallaxBackground";
+	package(godot) enum string _GODOT_internal_name = "ParallaxBackground";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CanvasLayer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CanvasLayer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_camera_moved") GodotMethod!(void, Transform2D, Vector2) _cameraMoved;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_scroll_base_scale") GodotMethod!(void, Vector2) setScrollBaseScale;
 		@GodotName("set_scroll_offset") GodotMethod!(void, Vector2) setScrollOffset;
 	}
-	bool opEquals(in ParallaxBackground other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ParallaxBackground opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ParallaxBackground other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ParallaxBackground opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ParallaxBackground.
+	/// Note: use `memnew!ParallaxBackground` instead.
 	static ParallaxBackground _new()
 	{
 		static godot_class_constructor constructor;
@@ -82,7 +92,7 @@ public:
 	Vector2 getLimitBegin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLimitBegin, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getLimitBegin, _godot_object);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	Vector2 getLimitEnd() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLimitEnd, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getLimitEnd, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	Vector2 getScrollBaseOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollBaseOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScrollBaseOffset, _godot_object);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	Vector2 getScrollBaseScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollBaseScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScrollBaseScale, _godot_object);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	Vector2 getScrollOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScrollOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScrollOffset, _godot_object);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	bool isIgnoreCameraZoom()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isIgnoreCameraZoom, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isIgnoreCameraZoom, _godot_object);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	void setIgnoreCameraZoom(in bool ignore)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIgnoreCameraZoom, _godot_object, ignore);
+		ptrcall!(void)(GDNativeClassBinding.setIgnoreCameraZoom, _godot_object, ignore);
 	}
 	/**
 	
@@ -138,7 +148,7 @@ public:
 	void setLimitBegin(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitBegin, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setLimitBegin, _godot_object, ofs);
 	}
 	/**
 	
@@ -146,7 +156,7 @@ public:
 	void setLimitEnd(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLimitEnd, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setLimitEnd, _godot_object, ofs);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	void setScrollBaseOffset(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollBaseOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setScrollBaseOffset, _godot_object, ofs);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	void setScrollBaseScale(in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollBaseScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setScrollBaseScale, _godot_object, scale);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	void setScrollOffset(in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setScrollOffset, _godot_object, ofs);
 	}
 	/**
 	The base position offset for all $(D ParallaxLayer) children.

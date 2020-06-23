@@ -28,23 +28,33 @@ Nodes that inherit from this can be used as shapes for a $(D PhysicsBody) or $(D
 */
 @GodotBaseClass struct Shape
 {
-	enum string _GODOT_internal_name = "Shape";
+	package(godot) enum string _GODOT_internal_name = "Shape";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_margin") GodotMethod!(double) getMargin;
 		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 	}
-	bool opEquals(in Shape other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Shape opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Shape other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Shape opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Shape.
+	/// Note: use `memnew!Shape` instead.
 	static Shape _new()
 	{
 		static godot_class_constructor constructor;
@@ -59,7 +69,7 @@ public:
 	double getMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object);
 	}
 	/**
 	
@@ -67,7 +77,7 @@ public:
 	void setMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
 	}
 	/**
 	The collision margin for the shape.

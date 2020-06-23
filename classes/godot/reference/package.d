@@ -29,24 +29,34 @@ In the vast majority of use cases, instantiating and using $(D Reference)-derive
 */
 @GodotBaseClass struct Reference
 {
-	enum string _GODOT_internal_name = "Reference";
+	package(godot) enum string _GODOT_internal_name = "Reference";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("init_ref") GodotMethod!(bool) initRef;
 		@GodotName("reference") GodotMethod!(bool) reference;
 		@GodotName("unreference") GodotMethod!(bool) unreference;
 	}
-	bool opEquals(in Reference other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Reference opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Reference other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Reference opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Reference.
+	/// Note: use `memnew!Reference` instead.
 	static Reference _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	bool initRef()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.initRef, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.initRef, _godot_object);
 	}
 	/**
 	Increments the internal reference counter. Use this only if you really know what you are doing.
@@ -71,7 +81,7 @@ public:
 	bool reference()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.reference, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.reference, _godot_object);
 	}
 	/**
 	Decrements the internal reference counter. Use this only if you really know what you are doing.
@@ -80,6 +90,6 @@ public:
 	bool unreference()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.unreference, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.unreference, _godot_object);
 	}
 }

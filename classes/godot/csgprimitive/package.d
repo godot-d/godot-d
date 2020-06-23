@@ -27,23 +27,33 @@ Parent class for various CSG primitives. It contains code and functionality that
 */
 @GodotBaseClass struct CSGPrimitive
 {
-	enum string _GODOT_internal_name = "CSGPrimitive";
+	package(godot) enum string _GODOT_internal_name = "CSGPrimitive";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CSGShape _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CSGShape _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("is_inverting_faces") GodotMethod!(bool) isInvertingFaces;
 		@GodotName("set_invert_faces") GodotMethod!(void, bool) setInvertFaces;
 	}
-	bool opEquals(in CSGPrimitive other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CSGPrimitive opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CSGPrimitive other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CSGPrimitive opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CSGPrimitive.
+	/// Note: use `memnew!CSGPrimitive` instead.
 	static CSGPrimitive _new()
 	{
 		static godot_class_constructor constructor;
@@ -58,7 +68,7 @@ public:
 	bool isInvertingFaces()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInvertingFaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInvertingFaces, _godot_object);
 	}
 	/**
 	
@@ -66,7 +76,7 @@ public:
 	void setInvertFaces(in bool invert_faces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInvertFaces, _godot_object, invert_faces);
+		ptrcall!(void)(GDNativeClassBinding.setInvertFaces, _godot_object, invert_faces);
 	}
 	/**
 	Invert the faces of the mesh.

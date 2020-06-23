@@ -27,24 +27,34 @@ Arranges child controls vertically or horizontally, and rearranges the controls 
 */
 @GodotBaseClass struct BoxContainer
 {
-	enum string _GODOT_internal_name = "BoxContainer";
+	package(godot) enum string _GODOT_internal_name = "BoxContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_spacer") GodotMethod!(void, bool) addSpacer;
 		@GodotName("get_alignment") GodotMethod!(BoxContainer.AlignMode) getAlignment;
 		@GodotName("set_alignment") GodotMethod!(void, long) setAlignment;
 	}
-	bool opEquals(in BoxContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BoxContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BoxContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BoxContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BoxContainer.
+	/// Note: use `memnew!BoxContainer` instead.
 	static BoxContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -82,7 +92,7 @@ public:
 	void addSpacer(in bool begin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSpacer, _godot_object, begin);
+		ptrcall!(void)(GDNativeClassBinding.addSpacer, _godot_object, begin);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	BoxContainer.AlignMode getAlignment() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BoxContainer.AlignMode)(_classBinding.getAlignment, _godot_object);
+		return ptrcall!(BoxContainer.AlignMode)(GDNativeClassBinding.getAlignment, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	void setAlignment(in long alignment)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlignment, _godot_object, alignment);
+		ptrcall!(void)(GDNativeClassBinding.setAlignment, _godot_object, alignment);
 	}
 	/**
 	The alignment of the container's children (must be one of $(D constant ALIGN_BEGIN), $(D constant ALIGN_CENTER) or $(D constant ALIGN_END)).

@@ -36,22 +36,32 @@ get_cancel().connect("pressed", self, "cancelled")
 */
 @GodotBaseClass struct ConfirmationDialog
 {
-	enum string _GODOT_internal_name = "ConfirmationDialog";
+	package(godot) enum string _GODOT_internal_name = "ConfirmationDialog";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AcceptDialog _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AcceptDialog _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_cancel") GodotMethod!(Button) getCancel;
 	}
-	bool opEquals(in ConfirmationDialog other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ConfirmationDialog opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ConfirmationDialog other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ConfirmationDialog opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ConfirmationDialog.
+	/// Note: use `memnew!ConfirmationDialog` instead.
 	static ConfirmationDialog _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,6 +76,6 @@ public:
 	Button getCancel()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Button)(_classBinding.getCancel, _godot_object);
+		return ptrcall!(Button)(GDNativeClassBinding.getCancel, _godot_object);
 	}
 }

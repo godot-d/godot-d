@@ -1,5 +1,5 @@
 /**
-Enables certain nodes only when visible.
+Enables certain nodes only when approximately visible.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,30 +23,42 @@ import godot.classdb;
 import godot.visibilitynotifier;
 import godot.node;
 /**
-Enables certain nodes only when visible.
+Enables certain nodes only when approximately visible.
 
 The VisibilityEnabler will disable $(D RigidBody) and $(D AnimationPlayer) nodes when they are not visible. It will only affect other nodes within the same scene as the VisibilityEnabler itself.
+$(B Note:) VisibilityEnabler uses an approximate heuristic for performance reasons. It doesn't take walls and other occlusion into account. If you need exact visibility checking, use another method such as adding an $(D Area) node as a child of a $(D Camera) node.
+$(B Note:) VisibilityEnabler will not affect nodes added after scene initialization.
 */
 @GodotBaseClass struct VisibilityEnabler
 {
-	enum string _GODOT_internal_name = "VisibilityEnabler";
+	package(godot) enum string _GODOT_internal_name = "VisibilityEnabler";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisibilityNotifier _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisibilityNotifier _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_node_removed") GodotMethod!(void, Node) _nodeRemoved;
 		@GodotName("is_enabler_enabled") GodotMethod!(bool, long) isEnablerEnabled;
 		@GodotName("set_enabler") GodotMethod!(void, long, bool) setEnabler;
 	}
-	bool opEquals(in VisibilityEnabler other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisibilityEnabler opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisibilityEnabler other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisibilityEnabler opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisibilityEnabler.
+	/// Note: use `memnew!VisibilityEnabler` instead.
 	static VisibilityEnabler _new()
 	{
 		static godot_class_constructor constructor;
@@ -94,7 +106,7 @@ public:
 	bool isEnablerEnabled(in long enabler) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEnablerEnabled, _godot_object, enabler);
+		return ptrcall!(bool)(GDNativeClassBinding.isEnablerEnabled, _godot_object, enabler);
 	}
 	/**
 	Sets active state of the enabler identified by given $(D enabler) constant.
@@ -102,7 +114,7 @@ public:
 	void setEnabler(in long enabler, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabler, _godot_object, enabler, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEnabler, _godot_object, enabler, enabled);
 	}
 	/**
 	If `true`, $(D RigidBody) nodes will be paused.

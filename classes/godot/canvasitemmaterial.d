@@ -28,14 +28,14 @@ $(D CanvasItemMaterial)s provide a means of modifying the textures associated wi
 */
 @GodotBaseClass struct CanvasItemMaterial
 {
-	enum string _GODOT_internal_name = "CanvasItemMaterial";
+	package(godot) enum string _GODOT_internal_name = "CanvasItemMaterial";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Material _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Material _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_blend_mode") GodotMethod!(CanvasItemMaterial.BlendMode) getBlendMode;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_particles_anim_v_frames") GodotMethod!(void, long) setParticlesAnimVFrames;
 		@GodotName("set_particles_animation") GodotMethod!(void, bool) setParticlesAnimation;
 	}
-	bool opEquals(in CanvasItemMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CanvasItemMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CanvasItemMaterial other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CanvasItemMaterial opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CanvasItemMaterial.
+	/// Note: use `memnew!CanvasItemMaterial` instead.
 	static CanvasItemMaterial _new()
 	{
 		static godot_class_constructor constructor;
@@ -121,7 +131,7 @@ public:
 	CanvasItemMaterial.BlendMode getBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CanvasItemMaterial.BlendMode)(_classBinding.getBlendMode, _godot_object);
+		return ptrcall!(CanvasItemMaterial.BlendMode)(GDNativeClassBinding.getBlendMode, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	CanvasItemMaterial.LightMode getLightMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CanvasItemMaterial.LightMode)(_classBinding.getLightMode, _godot_object);
+		return ptrcall!(CanvasItemMaterial.LightMode)(GDNativeClassBinding.getLightMode, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	long getParticlesAnimHFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParticlesAnimHFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getParticlesAnimHFrames, _godot_object);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	bool getParticlesAnimLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getParticlesAnimLoop, _godot_object);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	long getParticlesAnimVFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParticlesAnimVFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getParticlesAnimVFrames, _godot_object);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	bool getParticlesAnimation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticlesAnimation, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getParticlesAnimation, _godot_object);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	void setBlendMode(in long blend_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, blend_mode);
+		ptrcall!(void)(GDNativeClassBinding.setBlendMode, _godot_object, blend_mode);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	void setLightMode(in long light_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightMode, _godot_object, light_mode);
+		ptrcall!(void)(GDNativeClassBinding.setLightMode, _godot_object, light_mode);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setParticlesAnimHFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimHFrames, _godot_object, frames);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimHFrames, _godot_object, frames);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	void setParticlesAnimLoop(in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimLoop, _godot_object, loop);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimLoop, _godot_object, loop);
 	}
 	/**
 	
@@ -201,7 +211,7 @@ public:
 	void setParticlesAnimVFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimVFrames, _godot_object, frames);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimVFrames, _godot_object, frames);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	void setParticlesAnimation(in bool particles_anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimation, _godot_object, particles_anim);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimation, _godot_object, particles_anim);
 	}
 	/**
 	The manner in which a material's rendering is applied to underlying textures.

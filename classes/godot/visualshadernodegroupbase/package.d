@@ -1,5 +1,5 @@
 /**
-
+Base class for a family of nodes with variable amount of input and output ports within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -25,18 +25,20 @@ import godot.resource;
 import godot.reference;
 import godot.control;
 /**
+Base class for a family of nodes with variable amount of input and output ports within the visual shader graph.
 
+Currently, has no direct usage, use the derived classes instead.
 */
 @GodotBaseClass struct VisualShaderNodeGroupBase
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeGroupBase";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeGroupBase";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_input_port") GodotMethod!(void, long, long, String) addInputPort;
@@ -67,10 +69,20 @@ public:
 		@GodotName("set_outputs") GodotMethod!(void, String) setOutputs;
 		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 	}
-	bool opEquals(in VisualShaderNodeGroupBase other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeGroupBase opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeGroupBase other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeGroupBase opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeGroupBase.
+	/// Note: use `memnew!VisualShaderNodeGroupBase` instead.
 	static VisualShaderNodeGroupBase _new()
 	{
 		static godot_class_constructor constructor;
@@ -80,36 +92,36 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Adds an input port with the specified `type` (see $(D VisualShaderNode.porttype)) and `name`.
 	*/
 	void addInputPort(in long id, in long type, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addInputPort, _godot_object, id, type, name);
+		ptrcall!(void)(GDNativeClassBinding.addInputPort, _godot_object, id, type, name);
 	}
 	/**
-	
+	Adds an output port with the specified `type` (see $(D VisualShaderNode.porttype)) and `name`.
 	*/
 	void addOutputPort(in long id, in long type, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addOutputPort, _godot_object, id, type, name);
+		ptrcall!(void)(GDNativeClassBinding.addOutputPort, _godot_object, id, type, name);
 	}
 	/**
-	
+	Removes all previously specified input ports.
 	*/
 	void clearInputPorts()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearInputPorts, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearInputPorts, _godot_object);
 	}
 	/**
-	
+	Removes all previously specified output ports.
 	*/
 	void clearOutputPorts()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearOutputPorts, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearOutputPorts, _godot_object);
 	}
 	/**
 	
@@ -117,55 +129,55 @@ public:
 	Control getControl(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getControl, _godot_object, index);
+		return ptrcall!(Control)(GDNativeClassBinding.getControl, _godot_object, index);
 	}
 	/**
-	
+	Returns a free input port ID which can be used in $(D addInputPort).
 	*/
 	long getFreeInputPortId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFreeInputPortId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFreeInputPortId, _godot_object);
 	}
 	/**
-	
+	Returns a free output port ID which can be used in $(D addOutputPort).
 	*/
 	long getFreeOutputPortId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFreeOutputPortId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFreeOutputPortId, _godot_object);
 	}
 	/**
-	
+	Returns the number of input ports in use. Alternative for $(D getFreeInputPortId).
 	*/
 	long getInputPortCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInputPortCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInputPortCount, _godot_object);
 	}
 	/**
-	
+	Returns a $(D String) description of the input ports as as colon-separated list using the format `id,type,name;` (see $(D addInputPort)).
 	*/
 	String getInputs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInputs, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getInputs, _godot_object);
 	}
 	/**
-	
+	Returns the number of output ports in use. Alternative for $(D getFreeOutputPortId).
 	*/
 	long getOutputPortCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOutputPortCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOutputPortCount, _godot_object);
 	}
 	/**
-	
+	Returns a $(D String) description of the output ports as as colon-separated list using the format `id,type,name;` (see $(D addOutputPort)).
 	*/
 	String getOutputs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getOutputs, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getOutputs, _godot_object);
 	}
 	/**
 	
@@ -173,23 +185,23 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
-	
+	Returns `true` if the specified input port exists.
 	*/
 	bool hasInputPort(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasInputPort, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.hasInputPort, _godot_object, id);
 	}
 	/**
-	
+	Returns `true` if the specified output port exists.
 	*/
 	bool hasOutputPort(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasOutputPort, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.hasOutputPort, _godot_object, id);
 	}
 	/**
 	
@@ -197,31 +209,31 @@ public:
 	bool isEditable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditable, _godot_object);
 	}
 	/**
-	
+	Returns `true` if the specified port name does not override an existed port name and is valid within the shader.
 	*/
 	bool isValidPortName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValidPortName, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.isValidPortName, _godot_object, name);
 	}
 	/**
-	
+	Removes the specified input port.
 	*/
 	void removeInputPort(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeInputPort, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removeInputPort, _godot_object, id);
 	}
 	/**
-	
+	Removes the specified output port.
 	*/
 	void removeOutputPort(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeOutputPort, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removeOutputPort, _godot_object, id);
 	}
 	/**
 	
@@ -229,7 +241,7 @@ public:
 	void setControl(Control control, in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControl, _godot_object, control, index);
+		ptrcall!(void)(GDNativeClassBinding.setControl, _godot_object, control, index);
 	}
 	/**
 	
@@ -237,55 +249,55 @@ public:
 	void setEditable(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditable, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEditable, _godot_object, enabled);
 	}
 	/**
-	
+	Renames the specified input port.
 	*/
 	void setInputPortName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputPortName, _godot_object, id, name);
+		ptrcall!(void)(GDNativeClassBinding.setInputPortName, _godot_object, id, name);
 	}
 	/**
-	
+	Sets the specified input port's type (see $(D VisualShaderNode.porttype)).
 	*/
 	void setInputPortType(in long id, in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputPortType, _godot_object, id, type);
+		ptrcall!(void)(GDNativeClassBinding.setInputPortType, _godot_object, id, type);
 	}
 	/**
-	
+	Defines all input ports using a $(D String) formatted as a colon-separated list: `id,type,name;` (see $(D addInputPort)).
 	*/
 	void setInputs(in String inputs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputs, _godot_object, inputs);
+		ptrcall!(void)(GDNativeClassBinding.setInputs, _godot_object, inputs);
 	}
 	/**
-	
+	Renames the specified output port.
 	*/
 	void setOutputPortName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutputPortName, _godot_object, id, name);
+		ptrcall!(void)(GDNativeClassBinding.setOutputPortName, _godot_object, id, name);
 	}
 	/**
-	
+	Sets the specified output port's type (see $(D VisualShaderNode.porttype)).
 	*/
 	void setOutputPortType(in long id, in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutputPortType, _godot_object, id, type);
+		ptrcall!(void)(GDNativeClassBinding.setOutputPortType, _godot_object, id, type);
 	}
 	/**
-	
+	Defines all output ports using a $(D String) formatted as a colon-separated list: `id,type,name;` (see $(D addOutputPort)).
 	*/
 	void setOutputs(in String outputs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOutputs, _godot_object, outputs);
+		ptrcall!(void)(GDNativeClassBinding.setOutputs, _godot_object, outputs);
 	}
 	/**
 	
@@ -293,7 +305,7 @@ public:
 	void setSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
 	

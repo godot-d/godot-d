@@ -36,17 +36,18 @@ print("position" in n) # Prints "True".
 print("other_property" in n) # Prints "False".
 
 
+The `in` operator will evaluate to `true` as long as the key exists, even if the value is `null`.
 Objects also receive notifications. Notifications are a simple way to notify the object about different events, so they can all be handled together. See $(D _notification).
 */
 @GodotBaseClass struct GodotObject
 {
-	enum string _GODOT_internal_name = "Object";
+	package(godot) enum string _GODOT_internal_name = "Object";
 public:
 @nogc nothrow:
 	godot_object _godot_object;
 	alias BaseClasses = AliasSeq!();
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get") GodotMethod!(Variant, String) _get;
@@ -96,10 +97,20 @@ public:
 		@GodotName("to_string") GodotMethod!(String) toString;
 		@GodotName("tr") GodotMethod!(String, String) tr;
 	}
-	bool opEquals(in GodotObject other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GodotObject opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GodotObject other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GodotObject opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GodotObject.
+	/// Note: use `memnew!GodotObject` instead.
 	static GodotObject _new()
 	{
 		static godot_class_constructor constructor;
@@ -213,7 +224,7 @@ public:
 	void addUserSignal(in String signal, in Array arguments = Array.make())
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUserSignal, _godot_object, signal, arguments);
+		ptrcall!(void)(GDNativeClassBinding.addUserSignal, _godot_object, signal, arguments);
 	}
 	/**
 	Calls the `method` on the object and returns the result. This method supports a variable number of arguments, so parameters are passed as a comma separated list. Example:
@@ -264,7 +275,7 @@ public:
 	Variant callv(in String method, in Array arg_array) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.callv, _godot_object, method, arg_array);
+		return ptrcall!(Variant)(GDNativeClassBinding.callv, _godot_object, method, arg_array);
 	}
 	/**
 	Returns `true` if the object can translate strings. See $(D setMessageTranslation) and $(D tr).
@@ -272,7 +283,7 @@ public:
 	bool canTranslateMessages() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canTranslateMessages, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.canTranslateMessages, _godot_object);
 	}
 	/**
 	Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call as an $(D Array) of parameters. These parameters will be passed to the method after any parameter used in the call to $(D emitSignal). Use `flags` to set deferred or one-shot connections. See $(D connectflags) constants.
@@ -299,7 +310,7 @@ public:
 	GodotError connect(in String signal, GodotObject target, in String method, in Array binds = Array.make(), in long flags = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connect, _godot_object, signal, target, method, binds, flags);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connect, _godot_object, signal, target, method, binds, flags);
 	}
 	/**
 	Disconnects a `signal` from a `method` on the given `target`.
@@ -308,7 +319,7 @@ public:
 	void disconnect(in String signal, GodotObject target, in String method)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnect, _godot_object, signal, target, method);
+		ptrcall!(void)(GDNativeClassBinding.disconnect, _godot_object, signal, target, method);
 	}
 	/**
 	Emits the given `signal`. The signal must exist, so it should be a built-in signal of this class or one of its parent classes, or a user-defined signal. This method supports a variable number of arguments, so parameters are passed as a comma separated list. Example:
@@ -331,12 +342,12 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Deletes the object from memory. Any pre-existing reference to the freed object will now return `null`.
+	Deletes the object from memory. Any pre-existing reference to the freed object will become invalid, e.g. `is_instance_valid(object)` will return `false`.
 	*/
 	void free()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.free, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.free, _godot_object);
 	}
 	/**
 	Returns the $(D Variant) value of the given `property`. If the `property` doesn't exist, this will return `null`.
@@ -344,7 +355,7 @@ public:
 	Variant get(in String property) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.get, _godot_object, property);
+		return ptrcall!(Variant)(GDNativeClassBinding.get, _godot_object, property);
 	}
 	/**
 	Returns the object's class as a $(D String).
@@ -352,7 +363,7 @@ public:
 	String getClass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getClass, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getClass, _godot_object);
 	}
 	/**
 	Returns an $(D Array) of dictionaries with information about signals that are connected to the object.
@@ -364,7 +375,7 @@ public:
 	Array getIncomingConnections() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getIncomingConnections, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getIncomingConnections, _godot_object);
 	}
 	/**
 	Gets the object's property indexed by the given $(D NodePath). The node path should be relative to the current object and can use the colon character (`:`) to access nested properties. Examples: `"position:x"` or `"material:next_pass:blend_mode"`.
@@ -372,7 +383,7 @@ public:
 	Variant getIndexed(NodePathArg0)(in NodePathArg0 property) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getIndexed, _godot_object, property);
+		return ptrcall!(Variant)(GDNativeClassBinding.getIndexed, _godot_object, property);
 	}
 	/**
 	Returns the object's unique instance ID.
@@ -381,7 +392,7 @@ public:
 	long getInstanceId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInstanceId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInstanceId, _godot_object);
 	}
 	/**
 	Returns the object's metadata entry for the given `name`.
@@ -389,7 +400,7 @@ public:
 	Variant getMeta(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getMeta, _godot_object, name);
+		return ptrcall!(Variant)(GDNativeClassBinding.getMeta, _godot_object, name);
 	}
 	/**
 	Returns the object's metadata as a $(D PoolStringArray).
@@ -397,7 +408,7 @@ public:
 	PoolStringArray getMetaList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getMetaList, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getMetaList, _godot_object);
 	}
 	/**
 	Returns the object's methods and their signatures as an $(D Array).
@@ -405,7 +416,7 @@ public:
 	Array getMethodList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getMethodList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getMethodList, _godot_object);
 	}
 	/**
 	Returns the object's property list as an $(D Array) of dictionaries.
@@ -414,7 +425,7 @@ public:
 	Array getPropertyList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getPropertyList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getPropertyList, _godot_object);
 	}
 	/**
 	Returns the object's $(D Script) instance, or `null` if none is assigned.
@@ -422,7 +433,7 @@ public:
 	Reference getScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Reference)(_classBinding.getScript, _godot_object);
+		return ptrcall!(Reference)(GDNativeClassBinding.getScript, _godot_object);
 	}
 	/**
 	Returns an $(D Array) of connections for the given `signal`.
@@ -430,7 +441,7 @@ public:
 	Array getSignalConnectionList(in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getSignalConnectionList, _godot_object, signal);
+		return ptrcall!(Array)(GDNativeClassBinding.getSignalConnectionList, _godot_object, signal);
 	}
 	/**
 	Returns the list of signals as an $(D Array) of dictionaries.
@@ -438,7 +449,7 @@ public:
 	Array getSignalList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getSignalList, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getSignalList, _godot_object);
 	}
 	/**
 	Returns `true` if a metadata entry is found with the given `name`.
@@ -446,7 +457,7 @@ public:
 	bool hasMeta(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasMeta, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasMeta, _godot_object, name);
 	}
 	/**
 	Returns `true` if the object contains the given `method`.
@@ -454,15 +465,15 @@ public:
 	bool hasMethod(in String method) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasMethod, _godot_object, method);
+		return ptrcall!(bool)(GDNativeClassBinding.hasMethod, _godot_object, method);
 	}
 	/**
-	Returns `true` if the given user-defined `signal` exists.
+	Returns `true` if the given user-defined `signal` exists. Only signals added using $(D addUserSignal) are taken into account.
 	*/
 	bool hasUserSignal(in String signal) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasUserSignal, _godot_object, signal);
+		return ptrcall!(bool)(GDNativeClassBinding.hasUserSignal, _godot_object, signal);
 	}
 	/**
 	Returns `true` if signal emission blocking is enabled.
@@ -470,7 +481,7 @@ public:
 	bool isBlockingSignals() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBlockingSignals, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBlockingSignals, _godot_object);
 	}
 	/**
 	Returns `true` if the object inherits from the given `class`.
@@ -478,7 +489,7 @@ public:
 	bool isClass(in String _class) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isClass, _godot_object, _class);
+		return ptrcall!(bool)(GDNativeClassBinding.isClass, _godot_object, _class);
 	}
 	/**
 	Returns `true` if a connection exists for a given `signal`, `target`, and `method`.
@@ -486,7 +497,7 @@ public:
 	bool isConnected(in String signal, GodotObject target, in String method) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isConnected, _godot_object, signal, target, method);
+		return ptrcall!(bool)(GDNativeClassBinding.isConnected, _godot_object, signal, target, method);
 	}
 	/**
 	Returns `true` if the $(D Node.queueFree) method was called for the object.
@@ -494,7 +505,7 @@ public:
 	bool isQueuedForDeletion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isQueuedForDeletion, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isQueuedForDeletion, _godot_object);
 	}
 	/**
 	Send a given notification to the object, which will also trigger a call to the $(D _notification) method of all classes that the object inherits from.
@@ -503,7 +514,7 @@ public:
 	void notification(in long what, in bool reversed = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.notification, _godot_object, what, reversed);
+		ptrcall!(void)(GDNativeClassBinding.notification, _godot_object, what, reversed);
 	}
 	/**
 	Notify the editor that the property list has changed, so that editor plugins can take the new values into account. Does nothing on export builds.
@@ -511,7 +522,7 @@ public:
 	void propertyListChangedNotify()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.propertyListChangedNotify, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.propertyListChangedNotify, _godot_object);
 	}
 	/**
 	Removes a given entry from the object's metadata.
@@ -519,7 +530,7 @@ public:
 	void removeMeta(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeMeta, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeMeta, _godot_object, name);
 	}
 	/**
 	Assigns a new value to the given property. If the `property` does not exist, nothing will happen.
@@ -527,7 +538,7 @@ public:
 	void set(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.set, _godot_object, property, value);
+		ptrcall!(void)(GDNativeClassBinding.set, _godot_object, property, value);
 	}
 	/**
 	If set to `true`, signal emission is blocked.
@@ -535,7 +546,7 @@ public:
 	void setBlockSignals(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlockSignals, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBlockSignals, _godot_object, enable);
 	}
 	/**
 	Assigns a new value to the given property, after the current frame's physics step. This is equivalent to calling $(D set) via $(D callDeferred), i.e. `call_deferred("set", property, value)`.
@@ -543,7 +554,7 @@ public:
 	void setDeferred(VariantArg1)(in String property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDeferred, _godot_object, property, value);
+		ptrcall!(void)(GDNativeClassBinding.setDeferred, _godot_object, property, value);
 	}
 	/**
 	Assigns a new value to the property identified by the $(D NodePath). The node path should be relative to the current object and can use the colon character (`:`) to access nested properties. Example:
@@ -558,7 +569,7 @@ public:
 	void setIndexed(NodePathArg0, VariantArg1)(in NodePathArg0 property, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIndexed, _godot_object, property, value);
+		ptrcall!(void)(GDNativeClassBinding.setIndexed, _godot_object, property, value);
 	}
 	/**
 	Defines whether the object can translate strings (with calls to $(D tr)). Enabled by default.
@@ -566,7 +577,7 @@ public:
 	void setMessageTranslation(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMessageTranslation, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setMessageTranslation, _godot_object, enable);
 	}
 	/**
 	Adds or changes a given entry in the object's metadata. Metadata are serialized, and can take any $(D Variant) value.
@@ -574,7 +585,7 @@ public:
 	void setMeta(VariantArg1)(in String name, in VariantArg1 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMeta, _godot_object, name, value);
+		ptrcall!(void)(GDNativeClassBinding.setMeta, _godot_object, name, value);
 	}
 	/**
 	Assigns a script to the object. Each object can have a single script assigned to it, which are used to extend its functionality.
@@ -583,7 +594,7 @@ public:
 	void setScript(Reference script)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScript, _godot_object, script);
+		ptrcall!(void)(GDNativeClassBinding.setScript, _godot_object, script);
 	}
 	/**
 	Returns a $(D String) representing the object. If not overridden, defaults to `"$(D ClassName:RID)"`.
@@ -592,7 +603,7 @@ public:
 	String toString()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.toString, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.toString, _godot_object);
 	}
 	/**
 	Translates a message using translation catalogs configured in the Project Settings.
@@ -601,6 +612,6 @@ public:
 	String tr(in String message) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.tr, _godot_object, message);
+		return ptrcall!(String)(GDNativeClassBinding.tr, _godot_object, message);
 	}
 }

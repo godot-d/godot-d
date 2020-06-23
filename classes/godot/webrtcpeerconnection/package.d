@@ -34,14 +34,14 @@ After these steps, the connection should become connected. Keep on reading or lo
 */
 @GodotBaseClass struct WebRTCPeerConnection
 {
-	enum string _GODOT_internal_name = "WebRTCPeerConnection";
+	package(godot) enum string _GODOT_internal_name = "WebRTCPeerConnection";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_ice_candidate") GodotMethod!(GodotError, String, long, String) addIceCandidate;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_local_description") GodotMethod!(GodotError, String, String) setLocalDescription;
 		@GodotName("set_remote_description") GodotMethod!(GodotError, String, String) setRemoteDescription;
 	}
-	bool opEquals(in WebRTCPeerConnection other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebRTCPeerConnection opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebRTCPeerConnection other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebRTCPeerConnection opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebRTCPeerConnection.
+	/// Note: use `memnew!WebRTCPeerConnection` instead.
 	static WebRTCPeerConnection _new()
 	{
 		static godot_class_constructor constructor;
@@ -110,7 +120,7 @@ public:
 	GodotError addIceCandidate(in String media, in long index, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.addIceCandidate, _godot_object, media, index, name);
+		return ptrcall!(GodotError)(GDNativeClassBinding.addIceCandidate, _godot_object, media, index, name);
 	}
 	/**
 	Close the peer connection and all data channels associated with it. Note, you cannot reuse this object for a new connection unless you call $(D initialize).
@@ -118,7 +128,7 @@ public:
 	void close()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.close, _godot_object);
 	}
 	/**
 	Returns a new $(D WebRTCDataChannel) (or `null` on failure) with given `label` and optionally configured via the `options` dictionary. This method can only be called when the connection is in state $(D constant STATE_NEW).
@@ -144,7 +154,7 @@ public:
 	Ref!WebRTCDataChannel createDataChannel(in String label, in Dictionary options = Dictionary.make())
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(WebRTCDataChannel)(_classBinding.createDataChannel, _godot_object, label, options);
+		return ptrcall!(WebRTCDataChannel)(GDNativeClassBinding.createDataChannel, _godot_object, label, options);
 	}
 	/**
 	Creates a new SDP offer to start a WebRTC connection with a remote peer. At least one $(D WebRTCDataChannel) must have been created before calling this method.
@@ -153,7 +163,7 @@ public:
 	GodotError createOffer()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.createOffer, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.createOffer, _godot_object);
 	}
 	/**
 	Returns the connection state. See $(D connectionstate).
@@ -161,7 +171,7 @@ public:
 	WebRTCPeerConnection.ConnectionState getConnectionState() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(WebRTCPeerConnection.ConnectionState)(_classBinding.getConnectionState, _godot_object);
+		return ptrcall!(WebRTCPeerConnection.ConnectionState)(GDNativeClassBinding.getConnectionState, _godot_object);
 	}
 	/**
 	Re-initialize this peer connection, closing any previously active connection, and going back to state $(D constant STATE_NEW). A dictionary of `options` can be passed to configure the peer connection.
@@ -186,7 +196,7 @@ public:
 	GodotError initialize(in Dictionary configuration = Dictionary.make())
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.initialize, _godot_object, configuration);
+		return ptrcall!(GodotError)(GDNativeClassBinding.initialize, _godot_object, configuration);
 	}
 	/**
 	Call this method frequently (e.g. in $(D Node._process) or $(D Node._physicsProcess)) to properly receive signals.
@@ -194,16 +204,16 @@ public:
 	GodotError poll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.poll, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	Sets the SDP description of the local peer. This should be called in response to $(D sessionDescriptionCreated).
-	If `type` is `answer` the peer will start emitting $(D iceCandidateCreated).
+	After calling this function the peer will start emitting $(D iceCandidateCreated) (unless an $(D error) different from $(D constant OK) is returned).
 	*/
 	GodotError setLocalDescription(in String type, in String sdp)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.setLocalDescription, _godot_object, type, sdp);
+		return ptrcall!(GodotError)(GDNativeClassBinding.setLocalDescription, _godot_object, type, sdp);
 	}
 	/**
 	Sets the SDP description of the remote peer. This should be called with the values generated by a remote peer and received over the signaling server.
@@ -213,6 +223,6 @@ public:
 	GodotError setRemoteDescription(in String type, in String sdp)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.setRemoteDescription, _godot_object, type, sdp);
+		return ptrcall!(GodotError)(GDNativeClassBinding.setRemoteDescription, _godot_object, type, sdp);
 	}
 }

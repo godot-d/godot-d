@@ -42,18 +42,18 @@ func _ready():
     subchild1.set_text(0, "Subchild1")
 
 
-To iterate over all the $(D TreeItem) objects in a $(D Tree) object, use $(D TreeItem.getNext) and $(D TreeItem.getChildren) after getting the root through $(D getRoot).
+To iterate over all the $(D TreeItem) objects in a $(D Tree) object, use $(D TreeItem.getNext) and $(D TreeItem.getChildren) after getting the root through $(D getRoot). You can use $(D GodotObject.free) on a $(D TreeItem) to remove it from the $(D Tree).
 */
 @GodotBaseClass struct Tree
 {
-	enum string _GODOT_internal_name = "Tree";
+	package(godot) enum string _GODOT_internal_name = "Tree";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -101,10 +101,20 @@ public:
 		@GodotName("set_hide_root") GodotMethod!(void, bool) setHideRoot;
 		@GodotName("set_select_mode") GodotMethod!(void, long) setSelectMode;
 	}
-	bool opEquals(in Tree other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Tree opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Tree other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Tree opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Tree.
+	/// Note: use `memnew!Tree` instead.
 	static Tree _new()
 	{
 		static godot_class_constructor constructor;
@@ -235,7 +245,7 @@ public:
 	bool areColumnTitlesVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.areColumnTitlesVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.areColumnTitlesVisible, _godot_object);
 	}
 	/**
 	Clears the tree. This removes all items.
@@ -243,7 +253,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Creates an item in the tree and adds it as a child of `parent`.
@@ -253,7 +263,7 @@ public:
 	TreeItem createItem(GodotObject parent = GodotObject.init, in long idx = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.createItem, _godot_object, parent, idx);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.createItem, _godot_object, parent, idx);
 	}
 	/**
 	Makes the currently focused cell visible.
@@ -263,7 +273,7 @@ public:
 	void ensureCursorIsVisible()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.ensureCursorIsVisible, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.ensureCursorIsVisible, _godot_object);
 	}
 	/**
 	
@@ -271,7 +281,7 @@ public:
 	bool getAllowReselect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAllowReselect, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAllowReselect, _godot_object);
 	}
 	/**
 	
@@ -279,7 +289,7 @@ public:
 	bool getAllowRmbSelect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAllowRmbSelect, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAllowRmbSelect, _godot_object);
 	}
 	/**
 	Returns the column index at `position`, or -1 if no item is there.
@@ -287,7 +297,7 @@ public:
 	long getColumnAtPosition(in Vector2 position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColumnAtPosition, _godot_object, position);
+		return ptrcall!(long)(GDNativeClassBinding.getColumnAtPosition, _godot_object, position);
 	}
 	/**
 	Returns the column's title.
@@ -295,7 +305,7 @@ public:
 	String getColumnTitle(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getColumnTitle, _godot_object, column);
+		return ptrcall!(String)(GDNativeClassBinding.getColumnTitle, _godot_object, column);
 	}
 	/**
 	Returns the column's width in pixels.
@@ -303,7 +313,7 @@ public:
 	long getColumnWidth(in long column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColumnWidth, _godot_object, column);
+		return ptrcall!(long)(GDNativeClassBinding.getColumnWidth, _godot_object, column);
 	}
 	/**
 	
@@ -311,7 +321,7 @@ public:
 	long getColumns() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColumns, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColumns, _godot_object);
 	}
 	/**
 	Returns the rectangle for custom popups. Helper to create custom cell controls that display a popup. See $(D TreeItem.setCellMode).
@@ -319,7 +329,7 @@ public:
 	Rect2 getCustomPopupRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getCustomPopupRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getCustomPopupRect, _godot_object);
 	}
 	/**
 	
@@ -327,7 +337,7 @@ public:
 	long getDropModeFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDropModeFlags, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDropModeFlags, _godot_object);
 	}
 	/**
 	Returns the drop section at `position`, or -100 if no item is there.
@@ -337,7 +347,7 @@ public:
 	long getDropSectionAtPosition(in Vector2 position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDropSectionAtPosition, _godot_object, position);
+		return ptrcall!(long)(GDNativeClassBinding.getDropSectionAtPosition, _godot_object, position);
 	}
 	/**
 	Returns the currently edited item. This is only available for custom cell mode.
@@ -345,7 +355,7 @@ public:
 	TreeItem getEdited() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getEdited, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getEdited, _godot_object);
 	}
 	/**
 	Returns the column for the currently edited item. This is only available for custom cell mode.
@@ -353,7 +363,7 @@ public:
 	long getEditedColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getEditedColumn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getEditedColumn, _godot_object);
 	}
 	/**
 	Returns the rectangle area for the specified item. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
@@ -361,7 +371,7 @@ public:
 	Rect2 getItemAreaRect(GodotObject item, in long column = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getItemAreaRect, _godot_object, item, column);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getItemAreaRect, _godot_object, item, column);
 	}
 	/**
 	Returns the tree item at the specified position (relative to the tree origin position).
@@ -369,7 +379,7 @@ public:
 	TreeItem getItemAtPosition(in Vector2 position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getItemAtPosition, _godot_object, position);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getItemAtPosition, _godot_object, position);
 	}
 	/**
 	Returns the next selected item after the given one, or `null` if the end is reached.
@@ -378,7 +388,7 @@ public:
 	TreeItem getNextSelected(GodotObject from)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getNextSelected, _godot_object, from);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getNextSelected, _godot_object, from);
 	}
 	/**
 	Returns the last pressed button's index.
@@ -386,7 +396,7 @@ public:
 	long getPressedButton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPressedButton, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPressedButton, _godot_object);
 	}
 	/**
 	Returns the tree's root item, or `null` if the tree is empty.
@@ -394,7 +404,7 @@ public:
 	TreeItem getRoot()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getRoot, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getRoot, _godot_object);
 	}
 	/**
 	Returns the current scrolling position.
@@ -402,7 +412,7 @@ public:
 	Vector2 getScroll() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScroll, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScroll, _godot_object);
 	}
 	/**
 	
@@ -410,7 +420,7 @@ public:
 	Tree.SelectMode getSelectMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Tree.SelectMode)(_classBinding.getSelectMode, _godot_object);
+		return ptrcall!(Tree.SelectMode)(GDNativeClassBinding.getSelectMode, _godot_object);
 	}
 	/**
 	Returns the currently focused item, or `null` if no item is focused.
@@ -420,7 +430,7 @@ public:
 	TreeItem getSelected() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TreeItem)(_classBinding.getSelected, _godot_object);
+		return ptrcall!(TreeItem)(GDNativeClassBinding.getSelected, _godot_object);
 	}
 	/**
 	Returns the currently focused column, or -1 if no column is focused.
@@ -430,7 +440,7 @@ public:
 	long getSelectedColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectedColumn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectedColumn, _godot_object);
 	}
 	/**
 	
@@ -438,7 +448,7 @@ public:
 	bool isFoldingHidden() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFoldingHidden, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFoldingHidden, _godot_object);
 	}
 	/**
 	
@@ -446,7 +456,7 @@ public:
 	bool isRootHidden() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRootHidden, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRootHidden, _godot_object);
 	}
 	/**
 	
@@ -454,7 +464,7 @@ public:
 	void setAllowReselect(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowReselect, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowReselect, _godot_object, allow);
 	}
 	/**
 	
@@ -462,7 +472,7 @@ public:
 	void setAllowRmbSelect(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowRmbSelect, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowRmbSelect, _godot_object, allow);
 	}
 	/**
 	If `true`, the column will have the "Expand" flag of $(D Control). Columns that have the "Expand" flag will use their "min_width" in a similar fashion to $(D Control.sizeFlagsStretchRatio).
@@ -470,7 +480,7 @@ public:
 	void setColumnExpand(in long column, in bool expand)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumnExpand, _godot_object, column, expand);
+		ptrcall!(void)(GDNativeClassBinding.setColumnExpand, _godot_object, column, expand);
 	}
 	/**
 	Sets the minimum width of a column. Columns that have the "Expand" flag will use their "min_width" in a similar fashion to $(D Control.sizeFlagsStretchRatio).
@@ -478,7 +488,7 @@ public:
 	void setColumnMinWidth(in long column, in long min_width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumnMinWidth, _godot_object, column, min_width);
+		ptrcall!(void)(GDNativeClassBinding.setColumnMinWidth, _godot_object, column, min_width);
 	}
 	/**
 	Sets the title of a column.
@@ -486,7 +496,7 @@ public:
 	void setColumnTitle(in long column, in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumnTitle, _godot_object, column, title);
+		ptrcall!(void)(GDNativeClassBinding.setColumnTitle, _godot_object, column, title);
 	}
 	/**
 	If `true`, column titles are visible.
@@ -494,7 +504,7 @@ public:
 	void setColumnTitlesVisible(in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumnTitlesVisible, _godot_object, visible);
+		ptrcall!(void)(GDNativeClassBinding.setColumnTitlesVisible, _godot_object, visible);
 	}
 	/**
 	
@@ -502,7 +512,7 @@ public:
 	void setColumns(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColumns, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setColumns, _godot_object, amount);
 	}
 	/**
 	
@@ -510,7 +520,7 @@ public:
 	void setDropModeFlags(in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDropModeFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.setDropModeFlags, _godot_object, flags);
 	}
 	/**
 	
@@ -518,7 +528,7 @@ public:
 	void setHideFolding(in bool hide)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideFolding, _godot_object, hide);
+		ptrcall!(void)(GDNativeClassBinding.setHideFolding, _godot_object, hide);
 	}
 	/**
 	
@@ -526,7 +536,7 @@ public:
 	void setHideRoot(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHideRoot, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHideRoot, _godot_object, enable);
 	}
 	/**
 	
@@ -534,7 +544,7 @@ public:
 	void setSelectMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setSelectMode, _godot_object, mode);
 	}
 	/**
 	If `true`, the currently selected cell may be selected again.

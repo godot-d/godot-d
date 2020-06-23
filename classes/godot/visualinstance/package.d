@@ -28,14 +28,14 @@ The $(D VisualInstance) is used to connect a resource to a visual representation
 */
 @GodotBaseClass struct VisualInstance
 {
-	enum string _GODOT_internal_name = "VisualInstance";
+	package(godot) enum string _GODOT_internal_name = "VisualInstance";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_visual_instance_rid") GodotMethod!(RID) _getVisualInstanceRid;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_layer_mask") GodotMethod!(void, long) setLayerMask;
 		@GodotName("set_layer_mask_bit") GodotMethod!(void, long, bool) setLayerMaskBit;
 	}
-	bool opEquals(in VisualInstance other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualInstance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualInstance other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualInstance opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualInstance.
+	/// Note: use `memnew!VisualInstance` instead.
 	static VisualInstance _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	AABB getAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getAabb, _godot_object);
 	}
 	/**
 	Returns the RID of the resource associated with this $(D VisualInstance). For example, if the Node is a $(D MeshInstance), this will return the RID of the associated $(D Mesh).
@@ -84,7 +94,7 @@ public:
 	RID getBase() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getBase, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getBase, _godot_object);
 	}
 	/**
 	Returns the RID of this instance. This RID is the same as the RID returned by $(D VisualServer.instanceCreate). This RID is needed if you want to call $(D VisualServer) functions directly on this $(D VisualInstance).
@@ -92,7 +102,7 @@ public:
 	RID getInstance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getInstance, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getInstance, _godot_object);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	long getLayerMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLayerMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLayerMask, _godot_object);
 	}
 	/**
 	Returns `true` when the specified layer is enabled in $(D layers) and `false` otherwise.
@@ -108,7 +118,7 @@ public:
 	bool getLayerMaskBit(in long layer) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getLayerMaskBit, _godot_object, layer);
+		return ptrcall!(bool)(GDNativeClassBinding.getLayerMaskBit, _godot_object, layer);
 	}
 	/**
 	Returns the transformed $(D AABB) (also known as the bounding box) for this $(D VisualInstance).
@@ -117,7 +127,7 @@ public:
 	AABB getTransformedAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getTransformedAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getTransformedAabb, _godot_object);
 	}
 	/**
 	Sets the resource that is instantiated by this $(D VisualInstance), which changes how the engine handles the $(D VisualInstance) under the hood. Equivalent to $(D VisualServer.instanceSetBase).
@@ -125,7 +135,7 @@ public:
 	void setBase(in RID base)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBase, _godot_object, base);
+		ptrcall!(void)(GDNativeClassBinding.setBase, _godot_object, base);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	void setLayerMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLayerMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setLayerMask, _godot_object, mask);
 	}
 	/**
 	Enables a particular layer in $(D layers).
@@ -141,7 +151,7 @@ public:
 	void setLayerMaskBit(in long layer, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLayerMaskBit, _godot_object, layer, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setLayerMaskBit, _godot_object, layer, enabled);
 	}
 	/**
 	The render layer(s) this $(D VisualInstance) is drawn on.

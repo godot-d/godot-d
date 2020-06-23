@@ -30,14 +30,14 @@ $(D AnimatedTexture) currently requires all frame textures to have the same size
 */
 @GodotBaseClass struct AnimatedTexture
 {
-	enum string _GODOT_internal_name = "AnimatedTexture";
+	package(godot) enum string _GODOT_internal_name = "AnimatedTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update_proxy") GodotMethod!(void) _updateProxy;
@@ -50,10 +50,20 @@ public:
 		@GodotName("set_frame_texture") GodotMethod!(void, long, Texture) setFrameTexture;
 		@GodotName("set_frames") GodotMethod!(void, long) setFrames;
 	}
-	bool opEquals(in AnimatedTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimatedTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimatedTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimatedTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimatedTexture.
+	/// Note: use `memnew!AnimatedTexture` instead.
 	static AnimatedTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -85,7 +95,7 @@ public:
 	double getFps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFps, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFps, _godot_object);
 	}
 	/**
 	Returns the given frame's delay value.
@@ -93,7 +103,7 @@ public:
 	double getFrameDelay(in long frame) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFrameDelay, _godot_object, frame);
+		return ptrcall!(double)(GDNativeClassBinding.getFrameDelay, _godot_object, frame);
 	}
 	/**
 	Returns the given frame's $(D Texture).
@@ -101,7 +111,7 @@ public:
 	Ref!Texture getFrameTexture(in long frame) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getFrameTexture, _godot_object, frame);
+		return ptrcall!(Texture)(GDNativeClassBinding.getFrameTexture, _godot_object, frame);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	long getFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFrames, _godot_object);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	void setFps(in double fps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFps, _godot_object, fps);
+		ptrcall!(void)(GDNativeClassBinding.setFps, _godot_object, fps);
 	}
 	/**
 	Sets an additional delay (in seconds) between this frame and the next one, that will be added to the time interval defined by $(D fps). By default, frames have no delay defined. If a delay value is defined, the final time interval between this frame and the next will be `1.0 / fps + delay`.
@@ -134,7 +144,7 @@ public:
 	void setFrameDelay(in long frame, in double delay)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameDelay, _godot_object, frame, delay);
+		ptrcall!(void)(GDNativeClassBinding.setFrameDelay, _godot_object, frame, delay);
 	}
 	/**
 	Assigns a $(D Texture) to the given frame. Frame IDs start at 0, so the first frame has ID 0, and the last frame of the animation has ID $(D frames) - 1.
@@ -143,7 +153,7 @@ public:
 	void setFrameTexture(in long frame, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrameTexture, _godot_object, frame, texture);
+		ptrcall!(void)(GDNativeClassBinding.setFrameTexture, _godot_object, frame, texture);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	void setFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrames, _godot_object, frames);
+		ptrcall!(void)(GDNativeClassBinding.setFrames, _godot_object, frames);
 	}
 	/**
 	Animation speed in frames per second. This value defines the default time interval between two frames of the animation, and thus the overall duration of the animation loop based on the $(D frames) property. A value of 0 means no predefined number of frames per second, the animation will play according to each frame's frame delay (see $(D setFrameDelay)).

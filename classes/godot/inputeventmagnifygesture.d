@@ -27,23 +27,33 @@ import godot.inputeventwithmodifiers;
 */
 @GodotBaseClass struct InputEventMagnifyGesture
 {
-	enum string _GODOT_internal_name = "InputEventMagnifyGesture";
+	package(godot) enum string _GODOT_internal_name = "InputEventMagnifyGesture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventGesture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventGesture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_factor") GodotMethod!(double) getFactor;
 		@GodotName("set_factor") GodotMethod!(void, double) setFactor;
 	}
-	bool opEquals(in InputEventMagnifyGesture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventMagnifyGesture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventMagnifyGesture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventMagnifyGesture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventMagnifyGesture.
+	/// Note: use `memnew!InputEventMagnifyGesture` instead.
 	static InputEventMagnifyGesture _new()
 	{
 		static godot_class_constructor constructor;
@@ -58,7 +68,7 @@ public:
 	double getFactor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFactor, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFactor, _godot_object);
 	}
 	/**
 	
@@ -66,7 +76,7 @@ public:
 	void setFactor(in double factor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFactor, _godot_object, factor);
+		ptrcall!(void)(GDNativeClassBinding.setFactor, _godot_object, factor);
 	}
 	/**
 	

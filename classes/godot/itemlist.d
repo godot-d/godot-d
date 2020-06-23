@@ -35,14 +35,14 @@ Item text only supports single-line strings, newline characters (e.g. `\n`) in t
 */
 @GodotBaseClass struct ItemList
 {
-	enum string _GODOT_internal_name = "ItemList";
+	package(godot) enum string _GODOT_internal_name = "ItemList";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_items") GodotMethod!(Array) _getItems;
@@ -112,10 +112,20 @@ public:
 		@GodotName("unselect") GodotMethod!(void, long) unselect;
 		@GodotName("unselect_all") GodotMethod!(void) unselectAll;
 	}
-	bool opEquals(in ItemList other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ItemList opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ItemList other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ItemList opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ItemList.
+	/// Note: use `memnew!ItemList` instead.
 	static ItemList _new()
 	{
 		static godot_class_constructor constructor;
@@ -201,7 +211,7 @@ public:
 	void addIconItem(Texture icon, in bool selectable = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconItem, _godot_object, icon, selectable);
+		ptrcall!(void)(GDNativeClassBinding.addIconItem, _godot_object, icon, selectable);
 	}
 	/**
 	Adds an item to the item list with specified text. Specify an `icon`, or use `null` as the `icon` for a list item with no icon.
@@ -210,7 +220,7 @@ public:
 	void addItem(in String text, Texture icon = Texture.init, in bool selectable = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addItem, _godot_object, text, icon, selectable);
+		ptrcall!(void)(GDNativeClassBinding.addItem, _godot_object, text, icon, selectable);
 	}
 	/**
 	Removes all items from the list.
@@ -218,7 +228,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Ensure current selection is visible, adjusting the scroll position as necessary.
@@ -226,7 +236,7 @@ public:
 	void ensureCurrentIsVisible()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.ensureCurrentIsVisible, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.ensureCurrentIsVisible, _godot_object);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	bool getAllowReselect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAllowReselect, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAllowReselect, _godot_object);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	bool getAllowRmbSelect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAllowRmbSelect, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAllowRmbSelect, _godot_object);
 	}
 	/**
 	
@@ -250,7 +260,7 @@ public:
 	long getFixedColumnWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFixedColumnWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFixedColumnWidth, _godot_object);
 	}
 	/**
 	
@@ -258,7 +268,7 @@ public:
 	Vector2 getFixedIconSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFixedIconSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFixedIconSize, _godot_object);
 	}
 	/**
 	
@@ -266,7 +276,7 @@ public:
 	ItemList.IconMode getIconMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ItemList.IconMode)(_classBinding.getIconMode, _godot_object);
+		return ptrcall!(ItemList.IconMode)(GDNativeClassBinding.getIconMode, _godot_object);
 	}
 	/**
 	
@@ -274,7 +284,7 @@ public:
 	double getIconScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getIconScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getIconScale, _godot_object);
 	}
 	/**
 	Returns the item index at the given `position`.
@@ -283,7 +293,7 @@ public:
 	long getItemAtPosition(in Vector2 position, in bool exact = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemAtPosition, _godot_object, position, exact);
+		return ptrcall!(long)(GDNativeClassBinding.getItemAtPosition, _godot_object, position, exact);
 	}
 	/**
 	Returns the number of items currently in the list.
@@ -291,7 +301,7 @@ public:
 	long getItemCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getItemCount, _godot_object);
 	}
 	/**
 	Returns the custom background color of the item specified by `idx` index.
@@ -299,7 +309,7 @@ public:
 	Color getItemCustomBgColor(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getItemCustomBgColor, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getItemCustomBgColor, _godot_object, idx);
 	}
 	/**
 	Returns the custom foreground color of the item specified by `idx` index.
@@ -307,7 +317,7 @@ public:
 	Color getItemCustomFgColor(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getItemCustomFgColor, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getItemCustomFgColor, _godot_object, idx);
 	}
 	/**
 	Returns the icon associated with the specified index.
@@ -315,7 +325,7 @@ public:
 	Ref!Texture getItemIcon(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getItemIcon, _godot_object, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getItemIcon, _godot_object, idx);
 	}
 	/**
 	Returns a $(D Color) modulating item's icon at the specified index.
@@ -323,7 +333,7 @@ public:
 	Color getItemIconModulate(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getItemIconModulate, _godot_object, idx);
+		return ptrcall!(Color)(GDNativeClassBinding.getItemIconModulate, _godot_object, idx);
 	}
 	/**
 	Returns the region of item's icon used. The whole icon will be used if the region has no area.
@@ -331,7 +341,7 @@ public:
 	Rect2 getItemIconRegion(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getItemIconRegion, _godot_object, idx);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getItemIconRegion, _godot_object, idx);
 	}
 	/**
 	Returns the metadata value of the specified index.
@@ -339,7 +349,7 @@ public:
 	Variant getItemMetadata(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getItemMetadata, _godot_object, idx);
+		return ptrcall!(Variant)(GDNativeClassBinding.getItemMetadata, _godot_object, idx);
 	}
 	/**
 	Returns the text associated with the specified index.
@@ -347,7 +357,7 @@ public:
 	String getItemText(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemText, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemText, _godot_object, idx);
 	}
 	/**
 	Returns the tooltip hint associated with the specified index.
@@ -355,7 +365,7 @@ public:
 	String getItemTooltip(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemTooltip, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemTooltip, _godot_object, idx);
 	}
 	/**
 	
@@ -363,7 +373,7 @@ public:
 	long getMaxColumns() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxColumns, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxColumns, _godot_object);
 	}
 	/**
 	
@@ -371,7 +381,7 @@ public:
 	long getMaxTextLines() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxTextLines, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxTextLines, _godot_object);
 	}
 	/**
 	
@@ -379,7 +389,7 @@ public:
 	ItemList.SelectMode getSelectMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ItemList.SelectMode)(_classBinding.getSelectMode, _godot_object);
+		return ptrcall!(ItemList.SelectMode)(GDNativeClassBinding.getSelectMode, _godot_object);
 	}
 	/**
 	Returns an array with the indexes of the selected items.
@@ -387,7 +397,7 @@ public:
 	PoolIntArray getSelectedItems()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getSelectedItems, _godot_object);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getSelectedItems, _godot_object);
 	}
 	/**
 	Returns the $(D GodotObject) ID associated with the list.
@@ -395,7 +405,7 @@ public:
 	VScrollBar getVScroll()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VScrollBar)(_classBinding.getVScroll, _godot_object);
+		return ptrcall!(VScrollBar)(GDNativeClassBinding.getVScroll, _godot_object);
 	}
 	/**
 	
@@ -403,7 +413,7 @@ public:
 	bool hasAutoHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutoHeight, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutoHeight, _godot_object);
 	}
 	/**
 	Returns `true` if one or more items are selected.
@@ -411,7 +421,7 @@ public:
 	bool isAnythingSelected()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAnythingSelected, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAnythingSelected, _godot_object);
 	}
 	/**
 	Returns `true` if the item at the specified index is disabled.
@@ -419,7 +429,7 @@ public:
 	bool isItemDisabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemDisabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemDisabled, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item icon will be drawn transposed, i.e. the X and Y axes are swapped.
@@ -427,7 +437,7 @@ public:
 	bool isItemIconTransposed(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemIconTransposed, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemIconTransposed, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the item at the specified index is selectable.
@@ -435,7 +445,7 @@ public:
 	bool isItemSelectable(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemSelectable, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemSelectable, _godot_object, idx);
 	}
 	/**
 	Returns `true` if the tooltip is enabled for specified item index.
@@ -443,7 +453,7 @@ public:
 	bool isItemTooltipEnabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemTooltipEnabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemTooltipEnabled, _godot_object, idx);
 	}
 	/**
 	
@@ -451,7 +461,7 @@ public:
 	bool isSameColumnWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSameColumnWidth, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSameColumnWidth, _godot_object);
 	}
 	/**
 	Returns `true` if the item at the specified index is currently selected.
@@ -459,7 +469,7 @@ public:
 	bool isSelected(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelected, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelected, _godot_object, idx);
 	}
 	/**
 	Moves item from index `from_idx` to `to_idx`.
@@ -467,7 +477,7 @@ public:
 	void moveItem(in long from_idx, in long to_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveItem, _godot_object, from_idx, to_idx);
+		ptrcall!(void)(GDNativeClassBinding.moveItem, _godot_object, from_idx, to_idx);
 	}
 	/**
 	Removes the item specified by `idx` index from the list.
@@ -475,7 +485,7 @@ public:
 	void removeItem(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeItem, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeItem, _godot_object, idx);
 	}
 	/**
 	Select the item at the specified index.
@@ -484,7 +494,7 @@ public:
 	void select(in long idx, in bool single = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.select, _godot_object, idx, single);
+		ptrcall!(void)(GDNativeClassBinding.select, _godot_object, idx, single);
 	}
 	/**
 	
@@ -492,7 +502,7 @@ public:
 	void setAllowReselect(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowReselect, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowReselect, _godot_object, allow);
 	}
 	/**
 	
@@ -500,7 +510,7 @@ public:
 	void setAllowRmbSelect(in bool allow)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowRmbSelect, _godot_object, allow);
+		ptrcall!(void)(GDNativeClassBinding.setAllowRmbSelect, _godot_object, allow);
 	}
 	/**
 	
@@ -508,7 +518,7 @@ public:
 	void setAutoHeight(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoHeight, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutoHeight, _godot_object, enable);
 	}
 	/**
 	
@@ -516,7 +526,7 @@ public:
 	void setFixedColumnWidth(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedColumnWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setFixedColumnWidth, _godot_object, width);
 	}
 	/**
 	
@@ -524,7 +534,7 @@ public:
 	void setFixedIconSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFixedIconSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setFixedIconSize, _godot_object, size);
 	}
 	/**
 	
@@ -532,7 +542,7 @@ public:
 	void setIconMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIconMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setIconMode, _godot_object, mode);
 	}
 	/**
 	
@@ -540,7 +550,7 @@ public:
 	void setIconScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIconScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setIconScale, _godot_object, scale);
 	}
 	/**
 	Sets the background color of the item specified by `idx` index to the specified $(D Color).
@@ -554,7 +564,7 @@ public:
 	void setItemCustomBgColor(in long idx, in Color custom_bg_color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemCustomBgColor, _godot_object, idx, custom_bg_color);
+		ptrcall!(void)(GDNativeClassBinding.setItemCustomBgColor, _godot_object, idx, custom_bg_color);
 	}
 	/**
 	Sets the foreground color of the item specified by `idx` index to the specified $(D Color).
@@ -568,7 +578,7 @@ public:
 	void setItemCustomFgColor(in long idx, in Color custom_fg_color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemCustomFgColor, _godot_object, idx, custom_fg_color);
+		ptrcall!(void)(GDNativeClassBinding.setItemCustomFgColor, _godot_object, idx, custom_fg_color);
 	}
 	/**
 	Disables (or enables) the item at the specified index.
@@ -577,7 +587,7 @@ public:
 	void setItemDisabled(in long idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemDisabled, _godot_object, idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setItemDisabled, _godot_object, idx, disabled);
 	}
 	/**
 	Sets (or replaces) the icon's $(D Texture) associated with the specified index.
@@ -585,7 +595,7 @@ public:
 	void setItemIcon(in long idx, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIcon, _godot_object, idx, icon);
+		ptrcall!(void)(GDNativeClassBinding.setItemIcon, _godot_object, idx, icon);
 	}
 	/**
 	Sets a modulating $(D Color) of the item associated with the specified index.
@@ -593,7 +603,7 @@ public:
 	void setItemIconModulate(in long idx, in Color modulate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIconModulate, _godot_object, idx, modulate);
+		ptrcall!(void)(GDNativeClassBinding.setItemIconModulate, _godot_object, idx, modulate);
 	}
 	/**
 	Sets the region of item's icon used. The whole icon will be used if the region has no area.
@@ -601,7 +611,7 @@ public:
 	void setItemIconRegion(in long idx, in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIconRegion, _godot_object, idx, rect);
+		ptrcall!(void)(GDNativeClassBinding.setItemIconRegion, _godot_object, idx, rect);
 	}
 	/**
 	Sets whether the item icon will be drawn transposed.
@@ -609,7 +619,7 @@ public:
 	void setItemIconTransposed(in long idx, in bool transposed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIconTransposed, _godot_object, idx, transposed);
+		ptrcall!(void)(GDNativeClassBinding.setItemIconTransposed, _godot_object, idx, transposed);
 	}
 	/**
 	Sets a value (of any type) to be stored with the item associated with the specified index.
@@ -617,7 +627,7 @@ public:
 	void setItemMetadata(VariantArg1)(in long idx, in VariantArg1 metadata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemMetadata, _godot_object, idx, metadata);
+		ptrcall!(void)(GDNativeClassBinding.setItemMetadata, _godot_object, idx, metadata);
 	}
 	/**
 	Allows or disallows selection of the item associated with the specified index.
@@ -625,7 +635,7 @@ public:
 	void setItemSelectable(in long idx, in bool selectable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemSelectable, _godot_object, idx, selectable);
+		ptrcall!(void)(GDNativeClassBinding.setItemSelectable, _godot_object, idx, selectable);
 	}
 	/**
 	Sets text of the item associated with the specified index.
@@ -633,7 +643,7 @@ public:
 	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);
+		ptrcall!(void)(GDNativeClassBinding.setItemText, _godot_object, idx, text);
 	}
 	/**
 	Sets the tooltip hint for the item associated with the specified index.
@@ -641,7 +651,7 @@ public:
 	void setItemTooltip(in long idx, in String tooltip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemTooltip, _godot_object, idx, tooltip);
+		ptrcall!(void)(GDNativeClassBinding.setItemTooltip, _godot_object, idx, tooltip);
 	}
 	/**
 	Sets whether the tooltip hint is enabled for specified item index.
@@ -649,7 +659,7 @@ public:
 	void setItemTooltipEnabled(in long idx, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemTooltipEnabled, _godot_object, idx, enable);
+		ptrcall!(void)(GDNativeClassBinding.setItemTooltipEnabled, _godot_object, idx, enable);
 	}
 	/**
 	
@@ -657,7 +667,7 @@ public:
 	void setMaxColumns(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxColumns, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setMaxColumns, _godot_object, amount);
 	}
 	/**
 	
@@ -665,7 +675,7 @@ public:
 	void setMaxTextLines(in long lines)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxTextLines, _godot_object, lines);
+		ptrcall!(void)(GDNativeClassBinding.setMaxTextLines, _godot_object, lines);
 	}
 	/**
 	
@@ -673,7 +683,7 @@ public:
 	void setSameColumnWidth(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSameColumnWidth, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSameColumnWidth, _godot_object, enable);
 	}
 	/**
 	
@@ -681,7 +691,7 @@ public:
 	void setSelectMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setSelectMode, _godot_object, mode);
 	}
 	/**
 	Sorts items in the list by their text.
@@ -689,7 +699,7 @@ public:
 	void sortItemsByText()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.sortItemsByText, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.sortItemsByText, _godot_object);
 	}
 	/**
 	Ensures the item associated with the specified index is not selected.
@@ -697,7 +707,7 @@ public:
 	void unselect(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unselect, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.unselect, _godot_object, idx);
 	}
 	/**
 	Ensures there are no items selected.
@@ -705,7 +715,7 @@ public:
 	void unselectAll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unselectAll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unselectAll, _godot_object);
 	}
 	/**
 	If `true`, the currently selected item can be selected again.

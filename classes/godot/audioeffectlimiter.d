@@ -30,14 +30,14 @@ Soft clipping starts to reduce the peaks a little below the threshold level and 
 */
 @GodotBaseClass struct AudioEffectLimiter
 {
-	enum string _GODOT_internal_name = "AudioEffectLimiter";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectLimiter";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_ceiling_db") GodotMethod!(double) getCeilingDb;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_soft_clip_ratio") GodotMethod!(void, double) setSoftClipRatio;
 		@GodotName("set_threshold_db") GodotMethod!(void, double) setThresholdDb;
 	}
-	bool opEquals(in AudioEffectLimiter other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectLimiter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectLimiter other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectLimiter opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectLimiter.
+	/// Note: use `memnew!AudioEffectLimiter` instead.
 	static AudioEffectLimiter _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	double getCeilingDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCeilingDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCeilingDb, _godot_object);
 	}
 	/**
 	
@@ -75,7 +85,7 @@ public:
 	double getSoftClipDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSoftClipDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSoftClipDb, _godot_object);
 	}
 	/**
 	
@@ -83,7 +93,7 @@ public:
 	double getSoftClipRatio() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSoftClipRatio, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSoftClipRatio, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	double getThresholdDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getThresholdDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getThresholdDb, _godot_object);
 	}
 	/**
 	
@@ -99,7 +109,7 @@ public:
 	void setCeilingDb(in double ceiling)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCeilingDb, _godot_object, ceiling);
+		ptrcall!(void)(GDNativeClassBinding.setCeilingDb, _godot_object, ceiling);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setSoftClipDb(in double soft_clip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSoftClipDb, _godot_object, soft_clip);
+		ptrcall!(void)(GDNativeClassBinding.setSoftClipDb, _godot_object, soft_clip);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void setSoftClipRatio(in double soft_clip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSoftClipRatio, _godot_object, soft_clip);
+		ptrcall!(void)(GDNativeClassBinding.setSoftClipRatio, _godot_object, soft_clip);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	void setThresholdDb(in double threshold)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setThresholdDb, _godot_object, threshold);
+		ptrcall!(void)(GDNativeClassBinding.setThresholdDb, _godot_object, threshold);
 	}
 	/**
 	The waveform's maximum allowed value, in decibels. Value can range from -20 to -0.1.

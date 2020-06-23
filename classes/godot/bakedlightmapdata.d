@@ -27,14 +27,14 @@ import godot.texture;
 */
 @GodotBaseClass struct BakedLightmapData
 {
-	enum string _GODOT_internal_name = "BakedLightmapData";
+	package(godot) enum string _GODOT_internal_name = "BakedLightmapData";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_user_data") GodotMethod!(Array) _getUserData;
@@ -55,10 +55,20 @@ public:
 		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
 		@GodotName("set_octree") GodotMethod!(void, PoolByteArray) setOctree;
 	}
-	bool opEquals(in BakedLightmapData other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BakedLightmapData opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BakedLightmapData other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BakedLightmapData opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BakedLightmapData.
+	/// Note: use `memnew!BakedLightmapData` instead.
 	static BakedLightmapData _new()
 	{
 		static godot_class_constructor constructor;
@@ -92,7 +102,7 @@ public:
 	void addUser(NodePathArg0)(in NodePathArg0 path, Texture lightmap, in long instance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUser, _godot_object, path, lightmap, instance);
+		ptrcall!(void)(GDNativeClassBinding.addUser, _godot_object, path, lightmap, instance);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	void clearUsers()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearUsers, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearUsers, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	AABB getBounds() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getBounds, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getBounds, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	Transform getCellSpaceTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getCellSpaceTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getCellSpaceTransform, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	long getCellSubdiv() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCellSubdiv, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCellSubdiv, _godot_object);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	double getEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEnergy, _godot_object);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	PoolByteArray getOctree() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getOctree, _godot_object);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.getOctree, _godot_object);
 	}
 	/**
 	
@@ -148,7 +158,7 @@ public:
 	long getUserCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUserCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getUserCount, _godot_object);
 	}
 	/**
 	
@@ -156,7 +166,7 @@ public:
 	Ref!Texture getUserLightmap(in long user_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getUserLightmap, _godot_object, user_idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getUserLightmap, _godot_object, user_idx);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	NodePath getUserPath(in long user_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getUserPath, _godot_object, user_idx);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getUserPath, _godot_object, user_idx);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	void setBounds(in AABB bounds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBounds, _godot_object, bounds);
+		ptrcall!(void)(GDNativeClassBinding.setBounds, _godot_object, bounds);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	void setCellSpaceTransform(in Transform xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSpaceTransform, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.setCellSpaceTransform, _godot_object, xform);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	void setCellSubdiv(in long cell_subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSubdiv, _godot_object, cell_subdiv);
+		ptrcall!(void)(GDNativeClassBinding.setCellSubdiv, _godot_object, cell_subdiv);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	void setEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	void setOctree(in PoolByteArray octree)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOctree, _godot_object, octree);
+		ptrcall!(void)(GDNativeClassBinding.setOctree, _godot_object, octree);
 	}
 	/**
 	

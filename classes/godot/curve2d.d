@@ -29,14 +29,14 @@ It keeps a cache of precalculated points along the curve, to speed up further ca
 */
 @GodotBaseClass struct Curve2D
 {
-	enum string _GODOT_internal_name = "Curve2D";
+	package(godot) enum string _GODOT_internal_name = "Curve2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_point_position") GodotMethod!(void, long, Vector2) setPointPosition;
 		@GodotName("tessellate") GodotMethod!(PoolVector2Array, long, double) tessellate;
 	}
-	bool opEquals(in Curve2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Curve2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Curve2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Curve2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Curve2D.
+	/// Note: use `memnew!Curve2D` instead.
 	static Curve2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -100,7 +110,7 @@ public:
 	void addPoint(in Vector2 position, in Vector2 _in = Vector2(0, 0), in Vector2 _out = Vector2(0, 0), in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPoint, _godot_object, position, _in, _out, at_position);
+		ptrcall!(void)(GDNativeClassBinding.addPoint, _godot_object, position, _in, _out, at_position);
 	}
 	/**
 	Removes all points from the curve.
@@ -108,7 +118,7 @@ public:
 	void clearPoints()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearPoints, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearPoints, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getBakeInterval() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBakeInterval, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBakeInterval, _godot_object);
 	}
 	/**
 	Returns the total length of the curve, based on the cached points. Given enough density (see $(D bakeInterval)), it should be approximate enough.
@@ -124,7 +134,7 @@ public:
 	double getBakedLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBakedLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBakedLength, _godot_object);
 	}
 	/**
 	Returns the cache of points as a $(D PoolVector2Array).
@@ -132,7 +142,7 @@ public:
 	PoolVector2Array getBakedPoints() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getBakedPoints, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getBakedPoints, _godot_object);
 	}
 	/**
 	Returns the closest offset to `to_point`. This offset is meant to be used in $(D interpolateBaked).
@@ -141,7 +151,7 @@ public:
 	double getClosestOffset(in Vector2 to_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getClosestOffset, _godot_object, to_point);
+		return ptrcall!(double)(GDNativeClassBinding.getClosestOffset, _godot_object, to_point);
 	}
 	/**
 	Returns the closest point (in curve's local space) to `to_point`.
@@ -150,7 +160,7 @@ public:
 	Vector2 getClosestPoint(in Vector2 to_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, to_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
 	Returns the number of points describing the curve.
@@ -158,7 +168,7 @@ public:
 	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
 	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
@@ -166,7 +176,7 @@ public:
 	Vector2 getPointIn(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointIn, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointIn, _godot_object, idx);
 	}
 	/**
 	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
@@ -174,7 +184,7 @@ public:
 	Vector2 getPointOut(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointOut, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointOut, _godot_object, idx);
 	}
 	/**
 	Returns the position of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
@@ -182,7 +192,7 @@ public:
 	Vector2 getPointPosition(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointPosition, _godot_object, idx);
 	}
 	/**
 	Returns the position between the vertex `idx` and the vertex `idx + 1`, where `t` controls if the point is the first vertex (`t = 0.0`), the last vertex (`t = 1.0`), or in between. Values of `t` outside the range (`0.0 &gt;= t &lt;=1`) give strange, but predictable results.
@@ -191,7 +201,7 @@ public:
 	Vector2 interpolate(in long idx, in double t) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolate, _godot_object, idx, t);
+		return ptrcall!(Vector2)(GDNativeClassBinding.interpolate, _godot_object, idx, t);
 	}
 	/**
 	Returns a point within the curve at position `offset`, where `offset` is measured as a pixel distance along the curve.
@@ -201,7 +211,7 @@ public:
 	Vector2 interpolateBaked(in double offset, in bool cubic = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolateBaked, _godot_object, offset, cubic);
+		return ptrcall!(Vector2)(GDNativeClassBinding.interpolateBaked, _godot_object, offset, cubic);
 	}
 	/**
 	Returns the position at the vertex `fofs`. It calls $(D interpolate) using the integer part of `fofs` as `idx`, and its fractional part as `t`.
@@ -209,7 +219,7 @@ public:
 	Vector2 interpolatef(in double fofs) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.interpolatef, _godot_object, fofs);
+		return ptrcall!(Vector2)(GDNativeClassBinding.interpolatef, _godot_object, fofs);
 	}
 	/**
 	Deletes the point `idx` from the curve. Sends an error to the console if `idx` is out of bounds.
@@ -217,7 +227,7 @@ public:
 	void removePoint(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, idx);
 	}
 	/**
 	
@@ -225,7 +235,7 @@ public:
 	void setBakeInterval(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeInterval, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setBakeInterval, _godot_object, distance);
 	}
 	/**
 	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
@@ -233,7 +243,7 @@ public:
 	void setPointIn(in long idx, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointIn, _godot_object, idx, position);
+		ptrcall!(void)(GDNativeClassBinding.setPointIn, _godot_object, idx, position);
 	}
 	/**
 	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
@@ -241,7 +251,7 @@ public:
 	void setPointOut(in long idx, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointOut, _godot_object, idx, position);
+		ptrcall!(void)(GDNativeClassBinding.setPointOut, _godot_object, idx, position);
 	}
 	/**
 	Sets the position for the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
@@ -249,7 +259,7 @@ public:
 	void setPointPosition(in long idx, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, idx, position);
+		ptrcall!(void)(GDNativeClassBinding.setPointPosition, _godot_object, idx, position);
 	}
 	/**
 	Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts.
@@ -260,7 +270,7 @@ public:
 	PoolVector2Array tessellate(in long max_stages = 5, in double tolerance_degrees = 4) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.tessellate, _godot_object, max_stages, tolerance_degrees);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.tessellate, _godot_object, max_stages, tolerance_degrees);
 	}
 	/**
 	

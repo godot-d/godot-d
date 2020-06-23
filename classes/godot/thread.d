@@ -28,14 +28,14 @@ Can run methods on $(D GodotObject)s simultaneously. The use of synchronization 
 */
 @GodotBaseClass struct Thread
 {
-	enum string _GODOT_internal_name = "_Thread";
+	package(godot) enum string _GODOT_internal_name = "_Thread";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_id") GodotMethod!(String) getId;
@@ -43,10 +43,20 @@ public:
 		@GodotName("start") GodotMethod!(GodotError, GodotObject, String, Variant, long) start;
 		@GodotName("wait_to_finish") GodotMethod!(Variant) waitToFinish;
 	}
-	bool opEquals(in Thread other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Thread opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Thread other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Thread opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Thread.
+	/// Note: use `memnew!Thread` instead.
 	static Thread _new()
 	{
 		static godot_class_constructor constructor;
@@ -84,7 +94,7 @@ public:
 	String getId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getId, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getId, _godot_object);
 	}
 	/**
 	Returns `true` if this $(D Thread) is currently active. An active $(D Thread) cannot start work on a new method but can be joined with $(D waitToFinish).
@@ -92,16 +102,16 @@ public:
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActive, _godot_object);
 	}
 	/**
-	Starts a new $(D Thread) that runs `method` on object `instance` with `userdata` passed as an argument. The `priority` of the $(D Thread) can be changed by passing a value from the $(D priority) enum.
+	Starts a new $(D Thread) that runs `method` on object `instance` with `userdata` passed as an argument. Even if no userdata is passed, `method` must accept one argument and it will be null. The `priority` of the $(D Thread) can be changed by passing a value from the $(D priority) enum.
 	Returns $(D constant OK) on success, or $(D constant ERR_CANT_CREATE) on failure.
 	*/
 	GodotError start(VariantArg2)(GodotObject instance, in String method, in VariantArg2 userdata = Variant.nil, in long priority = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.start, _godot_object, instance, method, userdata, priority);
+		return ptrcall!(GodotError)(GDNativeClassBinding.start, _godot_object, instance, method, userdata, priority);
 	}
 	/**
 	Joins the $(D Thread) and waits for it to finish. Returns what the method called returned.
@@ -109,6 +119,6 @@ public:
 	Variant waitToFinish()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.waitToFinish, _godot_object);
+		return ptrcall!(Variant)(GDNativeClassBinding.waitToFinish, _godot_object);
 	}
 }

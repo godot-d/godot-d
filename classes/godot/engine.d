@@ -1,5 +1,5 @@
 /**
-Access to basic engine properties.
+Access to engine properties.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,20 +21,20 @@ import godot.d.reference;
 import godot.object;
 import godot.mainloop;
 /**
-Access to basic engine properties.
+Access to engine properties.
 
-The $(D Engine) class allows you to query and modify the project's run-time parameters, such as frames per second, time scale, and others.
+The $(D Engine) singleton allows you to query and modify the project's run-time parameters, such as frames per second, time scale, and others.
 */
 @GodotBaseClass struct EngineSingleton
 {
-	enum string _GODOT_internal_name = "_Engine";
+	package(godot) enum string _GODOT_internal_name = "_Engine";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -65,10 +65,20 @@ public:
 		@GodotName("set_target_fps") GodotMethod!(void, long) setTargetFps;
 		@GodotName("set_time_scale") GodotMethod!(void, double) setTimeScale;
 	}
-	bool opEquals(in EngineSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EngineSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EngineSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EngineSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EngineSingleton.
+	/// Note: use `memnew!EngineSingleton` instead.
 	static EngineSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -87,7 +97,7 @@ public:
 	Dictionary getAuthorInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getAuthorInfo, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getAuthorInfo, _godot_object);
 	}
 	/**
 	Returns an Array of copyright information Dictionaries.
@@ -97,7 +107,7 @@ public:
 	Array getCopyrightInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getCopyrightInfo, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getCopyrightInfo, _godot_object);
 	}
 	/**
 	Returns a Dictionary of Arrays of donor names.
@@ -106,7 +116,7 @@ public:
 	Dictionary getDonorInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getDonorInfo, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getDonorInfo, _godot_object);
 	}
 	/**
 	Returns the total number of frames drawn. If the render loop is disabled with `--disable-render-loop` via command line, this returns `0`. See also $(D getIdleFrames).
@@ -114,7 +124,7 @@ public:
 	long getFramesDrawn()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFramesDrawn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFramesDrawn, _godot_object);
 	}
 	/**
 	Returns the frames per second of the running game.
@@ -122,7 +132,7 @@ public:
 	double getFramesPerSecond() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFramesPerSecond, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFramesPerSecond, _godot_object);
 	}
 	/**
 	Returns the total number of frames passed since engine initialization which is advanced on each $(B idle frame), regardless of whether the render loop is enabled. See also $(D getFramesDrawn).
@@ -130,7 +140,7 @@ public:
 	long getIdleFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIdleFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getIdleFrames, _godot_object);
 	}
 	/**
 	
@@ -138,7 +148,7 @@ public:
 	long getIterationsPerSecond() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIterationsPerSecond, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getIterationsPerSecond, _godot_object);
 	}
 	/**
 	Returns Dictionary of licenses used by Godot and included third party components.
@@ -146,7 +156,7 @@ public:
 	Dictionary getLicenseInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getLicenseInfo, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getLicenseInfo, _godot_object);
 	}
 	/**
 	Returns Godot license text.
@@ -154,7 +164,7 @@ public:
 	String getLicenseText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLicenseText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLicenseText, _godot_object);
 	}
 	/**
 	Returns the main loop object (see $(D MainLoop) and $(D SceneTree)).
@@ -162,7 +172,7 @@ public:
 	MainLoop getMainLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(MainLoop)(_classBinding.getMainLoop, _godot_object);
+		return ptrcall!(MainLoop)(GDNativeClassBinding.getMainLoop, _godot_object);
 	}
 	/**
 	Returns the total number of frames passed since engine initialization which is advanced on each $(B physics frame).
@@ -170,7 +180,7 @@ public:
 	long getPhysicsFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPhysicsFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPhysicsFrames, _godot_object);
 	}
 	/**
 	Returns the fraction through the current physics tick we are at the time of rendering the frame. This can be used to implement fixed timestep interpolation.
@@ -178,7 +188,7 @@ public:
 	double getPhysicsInterpolationFraction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPhysicsInterpolationFraction, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPhysicsInterpolationFraction, _godot_object);
 	}
 	/**
 	
@@ -186,15 +196,15 @@ public:
 	double getPhysicsJitterFix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPhysicsJitterFix, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPhysicsJitterFix, _godot_object);
 	}
 	/**
-	Returns a global singleton with given `name`. Often used for plugins, e.g. GodotPayments.
+	Returns a global singleton with given `name`. Often used for plugins, e.g. `GodotPayment` on Android.
 	*/
 	GodotObject getSingleton(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getSingleton, _godot_object, name);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getSingleton, _godot_object, name);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	long getTargetFps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTargetFps, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTargetFps, _godot_object);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	double getTimeScale()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTimeScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTimeScale, _godot_object);
 	}
 	/**
 	Returns the current engine version information in a Dictionary.
@@ -236,7 +246,7 @@ public:
 	Dictionary getVersionInfo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getVersionInfo, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getVersionInfo, _godot_object);
 	}
 	/**
 	Returns `true` if a singleton with given `name` exists in global scope.
@@ -244,7 +254,7 @@ public:
 	bool hasSingleton(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSingleton, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasSingleton, _godot_object, name);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	bool isEditorHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditorHint, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditorHint, _godot_object);
 	}
 	/**
 	Returns `true` if the game is inside the fixed process and physics phase of the game loop.
@@ -260,7 +270,7 @@ public:
 	bool isInPhysicsFrame() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInPhysicsFrame, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInPhysicsFrame, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	void setEditorHint(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditorHint, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEditorHint, _godot_object, enabled);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	void setIterationsPerSecond(in long iterations_per_second)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIterationsPerSecond, _godot_object, iterations_per_second);
+		ptrcall!(void)(GDNativeClassBinding.setIterationsPerSecond, _godot_object, iterations_per_second);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	void setPhysicsJitterFix(in double physics_jitter_fix)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPhysicsJitterFix, _godot_object, physics_jitter_fix);
+		ptrcall!(void)(GDNativeClassBinding.setPhysicsJitterFix, _godot_object, physics_jitter_fix);
 	}
 	/**
 	
@@ -292,7 +302,7 @@ public:
 	void setTargetFps(in long target_fps)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetFps, _godot_object, target_fps);
+		ptrcall!(void)(GDNativeClassBinding.setTargetFps, _godot_object, target_fps);
 	}
 	/**
 	
@@ -300,7 +310,7 @@ public:
 	void setTimeScale(in double time_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTimeScale, _godot_object, time_scale);
+		ptrcall!(void)(GDNativeClassBinding.setTimeScale, _godot_object, time_scale);
 	}
 	/**
 	If `true`, it is running inside the editor. Useful for tool scripts.
@@ -315,7 +325,7 @@ public:
 		setEditorHint(v);
 	}
 	/**
-	The number of fixed iterations per second (for fixed process and physics).
+	The number of fixed iterations per second. This controls how often physics simulation and $(D Node._physicsProcess) methods are run. This value should generally always be set to `60` or above, as Godot doesn't interpolate the physics step. As a result, values lower than `60` will look stuttery. This value can be increased to make input more reactive or work around tunneling issues, but keep in mind doing so will increase CPU usage.
 	*/
 	@property long iterationsPerSecond()
 	{
@@ -327,7 +337,7 @@ public:
 		setIterationsPerSecond(v);
 	}
 	/**
-	Controls how much physic ticks are synchronized  with real time. For 0 or less, the ticks are synchronized. Such values are recommended for network games, where clock synchronization matters. Higher values cause higher deviation of in-game clock and real clock, but allows to smooth out framerate jitters. The default value of 0.5 should be fine for most; values above 2 could cause the game to react to dropped frames with a noticeable delay and are not recommended.
+	Controls how much physics ticks are synchronized with real time. For 0 or less, the ticks are synchronized. Such values are recommended for network games, where clock synchronization matters. Higher values cause higher deviation of in-game clock and real clock, but allows to smooth out framerate jitters. The default value of 0.5 should be fine for most; values above 2 could cause the game to react to dropped frames with a noticeable delay and are not recommended.
 	*/
 	@property double physicsJitterFix()
 	{
@@ -368,5 +378,5 @@ public:
 EngineSingleton Engine()
 {
 	checkClassBinding!EngineSingleton();
-	return EngineSingleton(EngineSingleton._classBinding._singleton);
+	return EngineSingleton(EngineSingleton.GDNativeClassBinding._singleton);
 }

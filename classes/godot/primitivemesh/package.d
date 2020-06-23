@@ -29,14 +29,14 @@ Examples include $(D CapsuleMesh), $(D CubeMesh), $(D CylinderMesh), $(D PlaneMe
 */
 @GodotBaseClass struct PrimitiveMesh
 {
-	enum string _GODOT_internal_name = "PrimitiveMesh";
+	package(godot) enum string _GODOT_internal_name = "PrimitiveMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Mesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Mesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update") GodotMethod!(void) _update;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_flip_faces") GodotMethod!(void, bool) setFlipFaces;
 		@GodotName("set_material") GodotMethod!(void, Material) setMaterial;
 	}
-	bool opEquals(in PrimitiveMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PrimitiveMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PrimitiveMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PrimitiveMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PrimitiveMesh.
+	/// Note: use `memnew!PrimitiveMesh` instead.
 	static PrimitiveMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -75,7 +85,7 @@ public:
 	AABB getCustomAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getCustomAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getCustomAabb, _godot_object);
 	}
 	/**
 	
@@ -83,7 +93,7 @@ public:
 	bool getFlipFaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlipFaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlipFaces, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	Returns mesh arrays used to constitute surface of $(D Mesh). Mesh arrays can be used with $(D ArrayMesh) to create new surfaces.
@@ -99,7 +109,7 @@ public:
 	Array getMeshArrays() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getMeshArrays, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getMeshArrays, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setCustomAabb(in AABB aabb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomAabb, _godot_object, aabb);
+		ptrcall!(void)(GDNativeClassBinding.setCustomAabb, _godot_object, aabb);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void setFlipFaces(in bool flip_faces)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlipFaces, _godot_object, flip_faces);
+		ptrcall!(void)(GDNativeClassBinding.setFlipFaces, _godot_object, flip_faces);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	Overrides the $(D AABB) with one defined by user for use with frustum culling. Especially useful to avoid unnexpected culling when  using a shader to offset vertices.

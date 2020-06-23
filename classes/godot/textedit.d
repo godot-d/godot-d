@@ -32,14 +32,14 @@ TextEdit is meant for editing large, multiline text. It also has facilities for 
 */
 @GodotBaseClass struct TextEdit
 {
-	enum string _GODOT_internal_name = "TextEdit";
+	package(godot) enum string _GODOT_internal_name = "TextEdit";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_click_selection_held") GodotMethod!(void) _clickSelectionHeld;
@@ -147,10 +147,20 @@ public:
 		@GodotName("unfold_line") GodotMethod!(void, long) unfoldLine;
 		@GodotName("unhide_all_lines") GodotMethod!(void) unhideAllLines;
 	}
-	bool opEquals(in TextEdit other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TextEdit opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TextEdit other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TextEdit opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TextEdit.
+	/// Note: use `memnew!TextEdit` instead.
 	static TextEdit _new()
 	{
 		static godot_class_constructor constructor;
@@ -329,7 +339,7 @@ public:
 	void addColorRegion(in String begin_key, in String end_key, in Color color, in bool line_only = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addColorRegion, _godot_object, begin_key, end_key, color, line_only);
+		ptrcall!(void)(GDNativeClassBinding.addColorRegion, _godot_object, begin_key, end_key, color, line_only);
 	}
 	/**
 	Adds a `keyword` and its $(D Color).
@@ -337,7 +347,7 @@ public:
 	void addKeywordColor(in String keyword, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addKeywordColor, _godot_object, keyword, color);
+		ptrcall!(void)(GDNativeClassBinding.addKeywordColor, _godot_object, keyword, color);
 	}
 	/**
 	Returns if the given line is foldable, that is, it has indented lines right below it.
@@ -345,7 +355,7 @@ public:
 	bool canFold(in long line) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canFold, _godot_object, line);
+		return ptrcall!(bool)(GDNativeClassBinding.canFold, _godot_object, line);
 	}
 	/**
 	
@@ -353,7 +363,7 @@ public:
 	void centerViewportToCursor()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.centerViewportToCursor, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.centerViewportToCursor, _godot_object);
 	}
 	/**
 	Clears all custom syntax coloring information previously added with $(D addColorRegion) or $(D addKeywordColor).
@@ -361,7 +371,7 @@ public:
 	void clearColors()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearColors, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearColors, _godot_object);
 	}
 	/**
 	Clears the undo history.
@@ -369,7 +379,7 @@ public:
 	void clearUndoHistory()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearUndoHistory, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearUndoHistory, _godot_object);
 	}
 	/**
 	Copy's the current text selection.
@@ -377,7 +387,7 @@ public:
 	void copy()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.copy, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.copy, _godot_object);
 	}
 	/**
 	
@@ -385,7 +395,7 @@ public:
 	bool cursorGetBlinkEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.cursorGetBlinkEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.cursorGetBlinkEnabled, _godot_object);
 	}
 	/**
 	
@@ -393,7 +403,7 @@ public:
 	double cursorGetBlinkSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.cursorGetBlinkSpeed, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.cursorGetBlinkSpeed, _godot_object);
 	}
 	/**
 	Returns the column the editing cursor is at.
@@ -401,7 +411,7 @@ public:
 	long cursorGetColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.cursorGetColumn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.cursorGetColumn, _godot_object);
 	}
 	/**
 	Returns the line the editing cursor is at.
@@ -409,7 +419,7 @@ public:
 	long cursorGetLine() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.cursorGetLine, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.cursorGetLine, _godot_object);
 	}
 	/**
 	
@@ -417,7 +427,7 @@ public:
 	bool cursorIsBlockMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.cursorIsBlockMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.cursorIsBlockMode, _godot_object);
 	}
 	/**
 	
@@ -425,7 +435,7 @@ public:
 	void cursorSetBlinkEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlinkEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.cursorSetBlinkEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -433,7 +443,7 @@ public:
 	void cursorSetBlinkSpeed(in double blink_speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
+		ptrcall!(void)(GDNativeClassBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
 	}
 	/**
 	
@@ -441,7 +451,7 @@ public:
 	void cursorSetBlockMode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetBlockMode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.cursorSetBlockMode, _godot_object, enable);
 	}
 	/**
 	Moves the cursor at the specified `column` index.
@@ -450,7 +460,7 @@ public:
 	void cursorSetColumn(in long column, in bool adjust_viewport = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetColumn, _godot_object, column, adjust_viewport);
+		ptrcall!(void)(GDNativeClassBinding.cursorSetColumn, _godot_object, column, adjust_viewport);
 	}
 	/**
 	Moves the cursor at the specified `line` index.
@@ -460,7 +470,7 @@ public:
 	void cursorSetLine(in long line, in bool adjust_viewport = true, in bool can_be_hidden = true, in long wrap_index = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cursorSetLine, _godot_object, line, adjust_viewport, can_be_hidden, wrap_index);
+		ptrcall!(void)(GDNativeClassBinding.cursorSetLine, _godot_object, line, adjust_viewport, can_be_hidden, wrap_index);
 	}
 	/**
 	Cut's the current selection.
@@ -468,7 +478,7 @@ public:
 	void cut()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cut, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.cut, _godot_object);
 	}
 	/**
 	Deselects the current selection.
@@ -476,7 +486,7 @@ public:
 	void deselect()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.deselect, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.deselect, _godot_object);
 	}
 	/**
 	
@@ -484,7 +494,7 @@ public:
 	void drawMinimap(in bool draw)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMinimap, _godot_object, draw);
+		ptrcall!(void)(GDNativeClassBinding.drawMinimap, _godot_object, draw);
 	}
 	/**
 	Folds all lines that are possible to be folded (see $(D canFold)).
@@ -492,7 +502,7 @@ public:
 	void foldAllLines()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.foldAllLines, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.foldAllLines, _godot_object);
 	}
 	/**
 	Folds the given line, if possible (see $(D canFold)).
@@ -500,7 +510,7 @@ public:
 	void foldLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.foldLine, _godot_object, line);
+		ptrcall!(void)(GDNativeClassBinding.foldLine, _godot_object, line);
 	}
 	/**
 	Returns an array containing the line number of each breakpoint.
@@ -508,7 +518,7 @@ public:
 	Array getBreakpoints() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getBreakpoints, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getBreakpoints, _godot_object);
 	}
 	/**
 	
@@ -516,7 +526,7 @@ public:
 	long getHScroll() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHScroll, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHScroll, _godot_object);
 	}
 	/**
 	Returns the $(D Color) of the specified `keyword`.
@@ -524,7 +534,7 @@ public:
 	Color getKeywordColor(in String keyword) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getKeywordColor, _godot_object, keyword);
+		return ptrcall!(Color)(GDNativeClassBinding.getKeywordColor, _godot_object, keyword);
 	}
 	/**
 	Returns the text of a specific line.
@@ -532,7 +542,7 @@ public:
 	String getLine(in long line) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLine, _godot_object, line);
+		return ptrcall!(String)(GDNativeClassBinding.getLine, _godot_object, line);
 	}
 	/**
 	Returns the amount of total lines in the text.
@@ -540,7 +550,7 @@ public:
 	long getLineCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLineCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLineCount, _godot_object);
 	}
 	/**
 	Returns the $(D PopupMenu) of this $(D TextEdit). By default, this menu is displayed when right-clicking on the $(D TextEdit).
@@ -548,7 +558,7 @@ public:
 	PopupMenu getMenu() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PopupMenu)(_classBinding.getMenu, _godot_object);
+		return ptrcall!(PopupMenu)(GDNativeClassBinding.getMenu, _godot_object);
 	}
 	/**
 	
@@ -556,7 +566,7 @@ public:
 	long getMinimapWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMinimapWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMinimapWidth, _godot_object);
 	}
 	/**
 	Returns the selection begin column.
@@ -564,7 +574,7 @@ public:
 	long getSelectionFromColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionFromColumn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectionFromColumn, _godot_object);
 	}
 	/**
 	Returns the selection begin line.
@@ -572,7 +582,7 @@ public:
 	long getSelectionFromLine() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionFromLine, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectionFromLine, _godot_object);
 	}
 	/**
 	Returns the text inside the selection.
@@ -580,7 +590,7 @@ public:
 	String getSelectionText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSelectionText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSelectionText, _godot_object);
 	}
 	/**
 	Returns the selection end column.
@@ -588,7 +598,7 @@ public:
 	long getSelectionToColumn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionToColumn, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectionToColumn, _godot_object);
 	}
 	/**
 	Returns the selection end line.
@@ -596,7 +606,7 @@ public:
 	long getSelectionToLine() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectionToLine, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectionToLine, _godot_object);
 	}
 	/**
 	
@@ -604,7 +614,7 @@ public:
 	String getText()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getText, _godot_object);
 	}
 	/**
 	
@@ -612,7 +622,7 @@ public:
 	double getVScroll() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVScroll, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVScroll, _godot_object);
 	}
 	/**
 	
@@ -620,7 +630,7 @@ public:
 	double getVScrollSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVScrollSpeed, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVScrollSpeed, _godot_object);
 	}
 	/**
 	Returns a $(D String) text with the word under the mouse cursor location.
@@ -628,7 +638,7 @@ public:
 	String getWordUnderCursor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getWordUnderCursor, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getWordUnderCursor, _godot_object);
 	}
 	/**
 	Returns whether the specified `keyword` has a color set to it or not.
@@ -636,7 +646,7 @@ public:
 	bool hasKeywordColor(in String keyword) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasKeywordColor, _godot_object, keyword);
+		return ptrcall!(bool)(GDNativeClassBinding.hasKeywordColor, _godot_object, keyword);
 	}
 	/**
 	Insert the specified text at the cursor position.
@@ -644,7 +654,7 @@ public:
 	void insertTextAtCursor(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.insertTextAtCursor, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.insertTextAtCursor, _godot_object, text);
 	}
 	/**
 	
@@ -652,7 +662,7 @@ public:
 	bool isBreakpointGutterEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBreakpointGutterEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBreakpointGutterEnabled, _godot_object);
 	}
 	/**
 	
@@ -660,7 +670,7 @@ public:
 	bool isContextMenuEnabled()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isContextMenuEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isContextMenuEnabled, _godot_object);
 	}
 	/**
 	
@@ -668,7 +678,7 @@ public:
 	bool isDrawingFoldGutter() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawingFoldGutter, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawingFoldGutter, _godot_object);
 	}
 	/**
 	
@@ -676,7 +686,7 @@ public:
 	bool isDrawingMinimap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawingMinimap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawingMinimap, _godot_object);
 	}
 	/**
 	
@@ -684,7 +694,7 @@ public:
 	bool isDrawingSpaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawingSpaces, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawingSpaces, _godot_object);
 	}
 	/**
 	
@@ -692,7 +702,7 @@ public:
 	bool isDrawingTabs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawingTabs, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawingTabs, _godot_object);
 	}
 	/**
 	Returns whether the line at the specified index is folded or not.
@@ -700,7 +710,7 @@ public:
 	bool isFolded(in long line) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFolded, _godot_object, line);
+		return ptrcall!(bool)(GDNativeClassBinding.isFolded, _godot_object, line);
 	}
 	/**
 	
@@ -708,7 +718,7 @@ public:
 	bool isHidingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHidingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHidingEnabled, _godot_object);
 	}
 	/**
 	
@@ -716,7 +726,7 @@ public:
 	bool isHighlightAllOccurrencesEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHighlightAllOccurrencesEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHighlightAllOccurrencesEnabled, _godot_object);
 	}
 	/**
 	
@@ -724,7 +734,7 @@ public:
 	bool isHighlightCurrentLineEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHighlightCurrentLineEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHighlightCurrentLineEnabled, _godot_object);
 	}
 	/**
 	Returns whether the line at the specified index is hidden or not.
@@ -732,7 +742,7 @@ public:
 	bool isLineHidden(in long line) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLineHidden, _godot_object, line);
+		return ptrcall!(bool)(GDNativeClassBinding.isLineHidden, _godot_object, line);
 	}
 	/**
 	
@@ -740,7 +750,7 @@ public:
 	bool isOverridingSelectedFontColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOverridingSelectedFontColor, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOverridingSelectedFontColor, _godot_object);
 	}
 	/**
 	
@@ -748,7 +758,7 @@ public:
 	bool isReadonly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isReadonly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isReadonly, _godot_object);
 	}
 	/**
 	
@@ -756,7 +766,7 @@ public:
 	bool isRightClickMovingCaret() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRightClickMovingCaret, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRightClickMovingCaret, _godot_object);
 	}
 	/**
 	
@@ -764,7 +774,7 @@ public:
 	bool isSelectingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelectingEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the selection is active.
@@ -772,7 +782,7 @@ public:
 	bool isSelectionActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSelectionActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSelectionActive, _godot_object);
 	}
 	/**
 	
@@ -780,7 +790,7 @@ public:
 	bool isShortcutKeysEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShortcutKeysEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isShortcutKeysEnabled, _godot_object);
 	}
 	/**
 	
@@ -788,7 +798,7 @@ public:
 	bool isShowLineNumbersEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShowLineNumbersEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isShowLineNumbersEnabled, _godot_object);
 	}
 	/**
 	
@@ -796,7 +806,7 @@ public:
 	bool isSmoothScrollEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSmoothScrollEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSmoothScrollEnabled, _godot_object);
 	}
 	/**
 	
@@ -804,7 +814,7 @@ public:
 	bool isSyntaxColoringEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSyntaxColoringEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSyntaxColoringEnabled, _godot_object);
 	}
 	/**
 	
@@ -812,7 +822,7 @@ public:
 	bool isWrapEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isWrapEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isWrapEnabled, _godot_object);
 	}
 	/**
 	Triggers a right-click menu action by the specified index. See $(D menuitems) for a list of available indexes.
@@ -820,7 +830,7 @@ public:
 	void menuOption(in long option)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.menuOption, _godot_object, option);
+		ptrcall!(void)(GDNativeClassBinding.menuOption, _godot_object, option);
 	}
 	/**
 	Paste the current selection.
@@ -828,7 +838,7 @@ public:
 	void paste()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.paste, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.paste, _godot_object);
 	}
 	/**
 	Perform redo operation.
@@ -836,7 +846,7 @@ public:
 	void redo()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.redo, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.redo, _godot_object);
 	}
 	/**
 	Removes all the breakpoints. This will not fire the $(D breakpointToggled) signal.
@@ -844,7 +854,7 @@ public:
 	void removeBreakpoints()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBreakpoints, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.removeBreakpoints, _godot_object);
 	}
 	/**
 	Perform a search inside the text. Search flags can be specified in the $(D searchflags) enum.
@@ -862,7 +872,7 @@ public:
 	PoolIntArray search(in String key, in long flags, in long from_line, in long from_column) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.search, _godot_object, key, flags, from_line, from_column);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.search, _godot_object, key, flags, from_line, from_column);
 	}
 	/**
 	Perform selection, from line/column to line/column.
@@ -870,7 +880,7 @@ public:
 	void select(in long from_line, in long from_column, in long to_line, in long to_column)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.select, _godot_object, from_line, from_column, to_line, to_column);
+		ptrcall!(void)(GDNativeClassBinding.select, _godot_object, from_line, from_column, to_line, to_column);
 	}
 	/**
 	Select all the text.
@@ -878,7 +888,7 @@ public:
 	void selectAll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.selectAll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.selectAll, _godot_object);
 	}
 	/**
 	
@@ -886,7 +896,7 @@ public:
 	void setBreakpointGutterEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBreakpointGutterEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBreakpointGutterEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -894,7 +904,7 @@ public:
 	void setContextMenuEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setContextMenuEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setContextMenuEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -902,7 +912,7 @@ public:
 	void setDrawFoldGutter(in bool arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawFoldGutter, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setDrawFoldGutter, _godot_object, arg0);
 	}
 	/**
 	
@@ -910,7 +920,7 @@ public:
 	void setDrawSpaces(in bool arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawSpaces, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setDrawSpaces, _godot_object, arg0);
 	}
 	/**
 	
@@ -918,7 +928,7 @@ public:
 	void setDrawTabs(in bool arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawTabs, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setDrawTabs, _godot_object, arg0);
 	}
 	/**
 	
@@ -926,7 +936,7 @@ public:
 	void setHScroll(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHScroll, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setHScroll, _godot_object, value);
 	}
 	/**
 	
@@ -934,7 +944,7 @@ public:
 	void setHidingEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHidingEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHidingEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -942,7 +952,7 @@ public:
 	void setHighlightAllOccurrences(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHighlightAllOccurrences, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setHighlightAllOccurrences, _godot_object, enable);
 	}
 	/**
 	
@@ -950,7 +960,7 @@ public:
 	void setHighlightCurrentLine(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHighlightCurrentLine, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setHighlightCurrentLine, _godot_object, enabled);
 	}
 	/**
 	If `true`, hides the line of the specified index.
@@ -958,7 +968,7 @@ public:
 	void setLineAsHidden(in long line, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLineAsHidden, _godot_object, line, enable);
+		ptrcall!(void)(GDNativeClassBinding.setLineAsHidden, _godot_object, line, enable);
 	}
 	/**
 	
@@ -966,7 +976,7 @@ public:
 	void setMinimapWidth(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinimapWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setMinimapWidth, _godot_object, width);
 	}
 	/**
 	
@@ -974,7 +984,7 @@ public:
 	void setOverrideSelectedFontColor(in bool _override)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverrideSelectedFontColor, _godot_object, _override);
+		ptrcall!(void)(GDNativeClassBinding.setOverrideSelectedFontColor, _godot_object, _override);
 	}
 	/**
 	
@@ -982,7 +992,7 @@ public:
 	void setReadonly(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setReadonly, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setReadonly, _godot_object, enable);
 	}
 	/**
 	
@@ -990,7 +1000,7 @@ public:
 	void setRightClickMovesCaret(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRightClickMovesCaret, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setRightClickMovesCaret, _godot_object, enable);
 	}
 	/**
 	
@@ -998,7 +1008,7 @@ public:
 	void setSelectingEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectingEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSelectingEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -1006,7 +1016,7 @@ public:
 	void setShortcutKeysEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcutKeysEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setShortcutKeysEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -1014,7 +1024,7 @@ public:
 	void setShowLineNumbers(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShowLineNumbers, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setShowLineNumbers, _godot_object, enable);
 	}
 	/**
 	
@@ -1022,7 +1032,7 @@ public:
 	void setSmoothScrollEnable(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSmoothScrollEnable, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSmoothScrollEnable, _godot_object, enable);
 	}
 	/**
 	
@@ -1030,7 +1040,7 @@ public:
 	void setSyntaxColoring(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSyntaxColoring, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSyntaxColoring, _godot_object, enable);
 	}
 	/**
 	
@@ -1038,7 +1048,7 @@ public:
 	void setText(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setText, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
 	}
 	/**
 	
@@ -1046,7 +1056,7 @@ public:
 	void setVScroll(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVScroll, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setVScroll, _godot_object, value);
 	}
 	/**
 	
@@ -1054,7 +1064,7 @@ public:
 	void setVScrollSpeed(in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVScrollSpeed, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setVScrollSpeed, _godot_object, speed);
 	}
 	/**
 	
@@ -1062,7 +1072,7 @@ public:
 	void setWrapEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWrapEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setWrapEnabled, _godot_object, enable);
 	}
 	/**
 	Toggle the folding of the code block at the given line.
@@ -1070,7 +1080,7 @@ public:
 	void toggleFoldLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.toggleFoldLine, _godot_object, line);
+		ptrcall!(void)(GDNativeClassBinding.toggleFoldLine, _godot_object, line);
 	}
 	/**
 	Perform undo operation.
@@ -1078,7 +1088,7 @@ public:
 	void undo()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.undo, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.undo, _godot_object);
 	}
 	/**
 	Unfolds the given line, if folded.
@@ -1086,7 +1096,7 @@ public:
 	void unfoldLine(in long line)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unfoldLine, _godot_object, line);
+		ptrcall!(void)(GDNativeClassBinding.unfoldLine, _godot_object, line);
 	}
 	/**
 	Unhide all lines that were previously set to hidden by $(D setLineAsHidden).
@@ -1094,7 +1104,7 @@ public:
 	void unhideAllLines()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unhideAllLines, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unhideAllLines, _godot_object);
 	}
 	/**
 	If `true`, the breakpoint gutter is visible.
@@ -1267,7 +1277,7 @@ public:
 		setMinimapWidth(v);
 	}
 	/**
-	
+	If `true`, custom `font_color_selected` will be used for selected text.
 	*/
 	@property bool overrideSelectedFontColor()
 	{

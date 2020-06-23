@@ -29,14 +29,14 @@ Camera is a special node that displays what is visible from its current location
 */
 @GodotBaseClass struct Camera
 {
-	enum string _GODOT_internal_name = "Camera";
+	package(godot) enum string _GODOT_internal_name = "Camera";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("clear_current") GodotMethod!(void, bool) clearCurrent;
@@ -82,10 +82,20 @@ public:
 		@GodotName("set_znear") GodotMethod!(void, double) setZnear;
 		@GodotName("unproject_position") GodotMethod!(Vector2, Vector3) unprojectPosition;
 	}
-	bool opEquals(in Camera other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Camera opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Camera other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Camera opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Camera.
+	/// Note: use `memnew!Camera` instead.
 	static Camera _new()
 	{
 		static godot_class_constructor constructor;
@@ -156,7 +166,7 @@ public:
 	void clearCurrent(in bool enable_next = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCurrent, _godot_object, enable_next);
+		ptrcall!(void)(GDNativeClassBinding.clearCurrent, _godot_object, enable_next);
 	}
 	/**
 	Returns the camera's RID from the $(D VisualServer).
@@ -164,7 +174,7 @@ public:
 	RID getCameraRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getCameraRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getCameraRid, _godot_object);
 	}
 	/**
 	Gets the camera transform. Subclassed cameras such as $(D InterpolatedCamera) may provide different transforms than the $(D Node) transform.
@@ -172,7 +182,7 @@ public:
 	Transform getCameraTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getCameraTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getCameraTransform, _godot_object);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	long getCullMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCullMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCullMask, _godot_object);
 	}
 	/**
 	Returns `true` if the given `layer` in the $(D cullMask) is enabled, `false` otherwise.
@@ -188,7 +198,7 @@ public:
 	bool getCullMaskBit(in long layer) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCullMaskBit, _godot_object, layer);
+		return ptrcall!(bool)(GDNativeClassBinding.getCullMaskBit, _godot_object, layer);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	Camera.DopplerTracking getDopplerTracking() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera.DopplerTracking)(_classBinding.getDopplerTracking, _godot_object);
+		return ptrcall!(Camera.DopplerTracking)(GDNativeClassBinding.getDopplerTracking, _godot_object);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	Ref!Environment getEnvironment() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment)(_classBinding.getEnvironment, _godot_object);
+		return ptrcall!(Environment)(GDNativeClassBinding.getEnvironment, _godot_object);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	double getFov() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFov, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFov, _godot_object);
 	}
 	/**
 	Returns the camera's frustum planes in world-space units as an array of $(D Plane)s in the following order: near, far, left, top, right, bottom. Not to be confused with $(D frustumOffset).
@@ -220,7 +230,7 @@ public:
 	Array getFrustum() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getFrustum, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getFrustum, _godot_object);
 	}
 	/**
 	
@@ -228,7 +238,7 @@ public:
 	Vector2 getFrustumOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getFrustumOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getFrustumOffset, _godot_object);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	double getHOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHOffset, _godot_object);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	Camera.KeepAspect getKeepAspectMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera.KeepAspect)(_classBinding.getKeepAspectMode, _godot_object);
+		return ptrcall!(Camera.KeepAspect)(GDNativeClassBinding.getKeepAspectMode, _godot_object);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	Camera.Projection getProjection() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Camera.Projection)(_classBinding.getProjection, _godot_object);
+		return ptrcall!(Camera.Projection)(GDNativeClassBinding.getProjection, _godot_object);
 	}
 	/**
 	
@@ -260,7 +270,7 @@ public:
 	double getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	double getVOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVOffset, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVOffset, _godot_object);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	double getZfar() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getZfar, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getZfar, _godot_object);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	double getZnear() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getZnear, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getZnear, _godot_object);
 	}
 	/**
 	
@@ -292,7 +302,7 @@ public:
 	bool isCurrent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCurrent, _godot_object);
 	}
 	/**
 	Returns `true` if the given position is behind the camera.
@@ -301,7 +311,7 @@ public:
 	bool isPositionBehind(in Vector3 world_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPositionBehind, _godot_object, world_point);
+		return ptrcall!(bool)(GDNativeClassBinding.isPositionBehind, _godot_object, world_point);
 	}
 	/**
 	Makes this camera the current camera for the $(D Viewport) (see class description). If the camera node is outside the scene tree, it will attempt to become current once it's added.
@@ -309,7 +319,7 @@ public:
 	void makeCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.makeCurrent, _godot_object);
 	}
 	/**
 	Returns a normal vector from the screen point location directed along the camera. Orthogonal cameras are normalized. Perspective cameras account for perspective, screen width/height, etc.
@@ -317,7 +327,7 @@ public:
 	Vector3 projectLocalRayNormal(in Vector2 screen_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.projectLocalRayNormal, _godot_object, screen_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.projectLocalRayNormal, _godot_object, screen_point);
 	}
 	/**
 	Returns the 3D point in worldspace that maps to the given 2D coordinate in the $(D Viewport) rectangle on a plane that is the given `z_depth` distance into the scene away from the camera.
@@ -325,7 +335,7 @@ public:
 	Vector3 projectPosition(in Vector2 screen_point, in double z_depth) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.projectPosition, _godot_object, screen_point, z_depth);
+		return ptrcall!(Vector3)(GDNativeClassBinding.projectPosition, _godot_object, screen_point, z_depth);
 	}
 	/**
 	Returns a normal vector in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
@@ -333,7 +343,7 @@ public:
 	Vector3 projectRayNormal(in Vector2 screen_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.projectRayNormal, _godot_object, screen_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.projectRayNormal, _godot_object, screen_point);
 	}
 	/**
 	Returns a 3D position in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
@@ -341,7 +351,7 @@ public:
 	Vector3 projectRayOrigin(in Vector2 screen_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.projectRayOrigin, _godot_object, screen_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.projectRayOrigin, _godot_object, screen_point);
 	}
 	/**
 	
@@ -349,7 +359,7 @@ public:
 	void setCullMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCullMask, _godot_object, mask);
 	}
 	/**
 	Enables or disables the given `layer` in the $(D cullMask).
@@ -357,7 +367,7 @@ public:
 	void setCullMaskBit(in long layer, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMaskBit, _godot_object, layer, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCullMaskBit, _godot_object, layer, enable);
 	}
 	/**
 	
@@ -365,7 +375,7 @@ public:
 	void setCurrent(in bool arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrent, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setCurrent, _godot_object, arg0);
 	}
 	/**
 	
@@ -373,7 +383,7 @@ public:
 	void setDopplerTracking(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDopplerTracking, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setDopplerTracking, _godot_object, mode);
 	}
 	/**
 	
@@ -381,7 +391,7 @@ public:
 	void setEnvironment(Environment env)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
+		ptrcall!(void)(GDNativeClassBinding.setEnvironment, _godot_object, env);
 	}
 	/**
 	
@@ -389,7 +399,7 @@ public:
 	void setFov(in double arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFov, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setFov, _godot_object, arg0);
 	}
 	/**
 	Sets the camera projection to frustum mode (see $(D constant PROJECTION_FRUSTUM)), by specifying a `size`, an `offset`, and the `z_near` and `z_far` clip planes in world-space units.
@@ -397,7 +407,7 @@ public:
 	void setFrustum(in double size, in Vector2 offset, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrustum, _godot_object, size, offset, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.setFrustum, _godot_object, size, offset, z_near, z_far);
 	}
 	/**
 	
@@ -405,7 +415,7 @@ public:
 	void setFrustumOffset(in Vector2 arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFrustumOffset, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setFrustumOffset, _godot_object, arg0);
 	}
 	/**
 	
@@ -413,7 +423,7 @@ public:
 	void setHOffset(in double ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setHOffset, _godot_object, ofs);
 	}
 	/**
 	
@@ -421,7 +431,7 @@ public:
 	void setKeepAspectMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeepAspectMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setKeepAspectMode, _godot_object, mode);
 	}
 	/**
 	Sets the camera projection to orthogonal mode (see $(D constant PROJECTION_ORTHOGONAL)), by specifying a `size`, and the `z_near` and `z_far` clip planes in world-space units. (As a hint, 2D games often use this projection, with values specified in pixels.)
@@ -429,7 +439,7 @@ public:
 	void setOrthogonal(in double size, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOrthogonal, _godot_object, size, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.setOrthogonal, _godot_object, size, z_near, z_far);
 	}
 	/**
 	Sets the camera projection to perspective mode (see $(D constant PROJECTION_PERSPECTIVE)), by specifying a `fov` (field of view) angle in degrees, and the `z_near` and `z_far` clip planes in world-space units.
@@ -437,7 +447,7 @@ public:
 	void setPerspective(in double fov, in double z_near, in double z_far)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPerspective, _godot_object, fov, z_near, z_far);
+		ptrcall!(void)(GDNativeClassBinding.setPerspective, _godot_object, fov, z_near, z_far);
 	}
 	/**
 	
@@ -445,7 +455,7 @@ public:
 	void setProjection(in long arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProjection, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setProjection, _godot_object, arg0);
 	}
 	/**
 	
@@ -453,7 +463,7 @@ public:
 	void setSize(in double arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, arg0);
 	}
 	/**
 	
@@ -461,7 +471,7 @@ public:
 	void setVOffset(in double ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVOffset, _godot_object, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setVOffset, _godot_object, ofs);
 	}
 	/**
 	
@@ -469,7 +479,7 @@ public:
 	void setZfar(in double arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZfar, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setZfar, _godot_object, arg0);
 	}
 	/**
 	
@@ -477,7 +487,7 @@ public:
 	void setZnear(in double arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZnear, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setZnear, _godot_object, arg0);
 	}
 	/**
 	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in worldspace.
@@ -485,7 +495,7 @@ public:
 	Vector2 unprojectPosition(in Vector3 world_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.unprojectPosition, _godot_object, world_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.unprojectPosition, _godot_object, world_point);
 	}
 	/**
 	The culling mask that describes which 3D render layers are rendered by this camera.

@@ -31,14 +31,14 @@ Tilemaps use a $(D TileSet) which contain a list of tiles (textures plus optiona
 */
 @GodotBaseClass struct TileMap
 {
-	enum string _GODOT_internal_name = "TileMap";
+	package(godot) enum string _GODOT_internal_name = "TileMap";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_clear_quadrants") GodotMethod!(void) _clearQuadrants;
@@ -107,10 +107,20 @@ public:
 		@GodotName("update_dirty_quadrants") GodotMethod!(void) updateDirtyQuadrants;
 		@GodotName("world_to_map") GodotMethod!(Vector2, Vector2) worldToMap;
 	}
-	bool opEquals(in TileMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TileMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TileMap other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TileMap opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TileMap.
+	/// Note: use `memnew!TileMap` instead.
 	static TileMap _new()
 	{
 		static godot_class_constructor constructor;
@@ -267,7 +277,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Clears cells that do not exist in the tileset.
@@ -275,7 +285,7 @@ public:
 	void fixInvalidTiles()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.fixInvalidTiles, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.fixInvalidTiles, _godot_object);
 	}
 	/**
 	Returns the tile index of the given cell. If no tile exists in the cell, returns $(D constant INVALID_CELL).
@@ -283,15 +293,15 @@ public:
 	long getCell(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCell, _godot_object, x, y);
+		return ptrcall!(long)(GDNativeClassBinding.getCell, _godot_object, x, y);
 	}
 	/**
-	Returns the coordinate of the autotile variation in the tileset. Returns a zero vector if the cell doesn't have autotiling.
+	Returns the coordinate (subtile column and row) of the autotile variation in the tileset. Returns a zero vector if the cell doesn't have autotiling.
 	*/
 	Vector2 getCellAutotileCoord(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCellAutotileCoord, _godot_object, x, y);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCellAutotileCoord, _godot_object, x, y);
 	}
 	/**
 	
@@ -299,7 +309,7 @@ public:
 	Vector2 getCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCellSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCellSize, _godot_object);
 	}
 	/**
 	Returns the tile index of the cell given by a Vector2. If no tile exists in the cell, returns $(D constant INVALID_CELL).
@@ -307,7 +317,7 @@ public:
 	long getCellv(in Vector2 position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCellv, _godot_object, position);
+		return ptrcall!(long)(GDNativeClassBinding.getCellv, _godot_object, position);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	bool getClipUv() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getClipUv, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getClipUv, _godot_object);
 	}
 	/**
 	
@@ -323,7 +333,7 @@ public:
 	double getCollisionBounce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCollisionBounce, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCollisionBounce, _godot_object);
 	}
 	/**
 	
@@ -331,7 +341,7 @@ public:
 	double getCollisionFriction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCollisionFriction, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCollisionFriction, _godot_object);
 	}
 	/**
 	
@@ -339,7 +349,7 @@ public:
 	long getCollisionLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionLayer, _godot_object);
 	}
 	/**
 	Returns `true` if the given collision layer bit is set.
@@ -347,7 +357,7 @@ public:
 	bool getCollisionLayerBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionLayerBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionLayerBit, _godot_object, bit);
 	}
 	/**
 	
@@ -355,7 +365,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	Returns `true` if the given collision mask bit is set.
@@ -363,7 +373,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -371,7 +381,7 @@ public:
 	bool getCollisionUseKinematic() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionUseKinematic, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionUseKinematic, _godot_object);
 	}
 	/**
 	
@@ -379,7 +389,7 @@ public:
 	bool getCollisionUseParent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionUseParent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionUseParent, _godot_object);
 	}
 	/**
 	
@@ -387,7 +397,7 @@ public:
 	Transform2D getCustomTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getCustomTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getCustomTransform, _godot_object);
 	}
 	/**
 	
@@ -395,7 +405,7 @@ public:
 	TileMap.HalfOffset getHalfOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileMap.HalfOffset)(_classBinding.getHalfOffset, _godot_object);
+		return ptrcall!(TileMap.HalfOffset)(GDNativeClassBinding.getHalfOffset, _godot_object);
 	}
 	/**
 	
@@ -403,7 +413,7 @@ public:
 	TileMap.Mode getMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileMap.Mode)(_classBinding.getMode, _godot_object);
+		return ptrcall!(TileMap.Mode)(GDNativeClassBinding.getMode, _godot_object);
 	}
 	/**
 	
@@ -411,7 +421,7 @@ public:
 	long getOccluderLightMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOccluderLightMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOccluderLightMask, _godot_object);
 	}
 	/**
 	
@@ -419,7 +429,7 @@ public:
 	long getQuadrantSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getQuadrantSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getQuadrantSize, _godot_object);
 	}
 	/**
 	
@@ -427,7 +437,7 @@ public:
 	TileMap.TileOrigin getTileOrigin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileMap.TileOrigin)(_classBinding.getTileOrigin, _godot_object);
+		return ptrcall!(TileMap.TileOrigin)(GDNativeClassBinding.getTileOrigin, _godot_object);
 	}
 	/**
 	
@@ -435,7 +445,7 @@ public:
 	Ref!TileSet getTileset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileSet)(_classBinding.getTileset, _godot_object);
+		return ptrcall!(TileSet)(GDNativeClassBinding.getTileset, _godot_object);
 	}
 	/**
 	Returns a $(D Vector2) array with the positions of all cells containing a tile from the tileset (i.e. a tile index different from `-1`).
@@ -443,15 +453,15 @@ public:
 	Array getUsedCells() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getUsedCells, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getUsedCells, _godot_object);
 	}
 	/**
-	Returns an array of all cells with the given tile `id`.
+	Returns an array of all cells with the given tile index specified in `id`.
 	*/
 	Array getUsedCellsById(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getUsedCellsById, _godot_object, id);
+		return ptrcall!(Array)(GDNativeClassBinding.getUsedCellsById, _godot_object, id);
 	}
 	/**
 	Returns a rectangle enclosing the used (non-empty) tiles of the map.
@@ -459,7 +469,7 @@ public:
 	Rect2 getUsedRect()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getUsedRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getUsedRect, _godot_object);
 	}
 	/**
 	Returns `true` if the given cell is transposed, i.e. the X and Y axes are swapped.
@@ -467,7 +477,7 @@ public:
 	bool isCellTransposed(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCellTransposed, _godot_object, x, y);
+		return ptrcall!(bool)(GDNativeClassBinding.isCellTransposed, _godot_object, x, y);
 	}
 	/**
 	Returns `true` if the given cell is flipped in the X axis.
@@ -475,7 +485,7 @@ public:
 	bool isCellXFlipped(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCellXFlipped, _godot_object, x, y);
+		return ptrcall!(bool)(GDNativeClassBinding.isCellXFlipped, _godot_object, x, y);
 	}
 	/**
 	Returns `true` if the given cell is flipped in the Y axis.
@@ -483,7 +493,7 @@ public:
 	bool isCellYFlipped(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCellYFlipped, _godot_object, x, y);
+		return ptrcall!(bool)(GDNativeClassBinding.isCellYFlipped, _godot_object, x, y);
 	}
 	/**
 	
@@ -491,7 +501,7 @@ public:
 	bool isCenteredTexturesEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCenteredTexturesEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCenteredTexturesEnabled, _godot_object);
 	}
 	/**
 	
@@ -499,7 +509,7 @@ public:
 	bool isCompatibilityModeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCompatibilityModeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCompatibilityModeEnabled, _godot_object);
 	}
 	/**
 	
@@ -507,7 +517,7 @@ public:
 	bool isYSortModeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isYSortModeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isYSortModeEnabled, _godot_object);
 	}
 	/**
 	Returns the global position corresponding to the given tilemap (grid-based) coordinates.
@@ -516,12 +526,12 @@ public:
 	Vector2 mapToWorld(in Vector2 map_position, in bool ignore_half_ofs = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.mapToWorld, _godot_object, map_position, ignore_half_ofs);
+		return ptrcall!(Vector2)(GDNativeClassBinding.mapToWorld, _godot_object, map_position, ignore_half_ofs);
 	}
 	/**
 	Sets the tile index for the cell given by a Vector2.
 	An index of `-1` clears the cell.
-	Optionally, the tile can also be flipped, transposed, or given autotile coordinates.
+	Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 	$(B Note:) Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 	If you need these to be immediately updated, you can call $(D updateDirtyQuadrants).
 	Overriding this method also overrides it internally, allowing custom logic to be implemented when tiles are placed/removed:
@@ -537,7 +547,7 @@ public:
 	void setCell(in long x, in long y, in long tile, in bool flip_x = false, in bool flip_y = false, in bool transpose = false, in Vector2 autotile_coord = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCell, _godot_object, x, y, tile, flip_x, flip_y, transpose, autotile_coord);
+		ptrcall!(void)(GDNativeClassBinding.setCell, _godot_object, x, y, tile, flip_x, flip_y, transpose, autotile_coord);
 	}
 	/**
 	
@@ -545,7 +555,7 @@ public:
 	void setCellSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setCellSize, _godot_object, size);
 	}
 	/**
 	Sets the tile index for the given cell.
@@ -557,7 +567,7 @@ public:
 	void setCellv(in Vector2 position, in long tile, in bool flip_x = false, in bool flip_y = false, in bool transpose = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellv, _godot_object, position, tile, flip_x, flip_y, transpose);
+		ptrcall!(void)(GDNativeClassBinding.setCellv, _godot_object, position, tile, flip_x, flip_y, transpose);
 	}
 	/**
 	
@@ -565,7 +575,7 @@ public:
 	void setCenteredTextures(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCenteredTextures, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCenteredTextures, _godot_object, enable);
 	}
 	/**
 	
@@ -573,7 +583,7 @@ public:
 	void setClipUv(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClipUv, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setClipUv, _godot_object, enable);
 	}
 	/**
 	
@@ -581,7 +591,7 @@ public:
 	void setCollisionBounce(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionBounce, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionBounce, _godot_object, value);
 	}
 	/**
 	
@@ -589,7 +599,7 @@ public:
 	void setCollisionFriction(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionFriction, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionFriction, _godot_object, value);
 	}
 	/**
 	
@@ -597,7 +607,7 @@ public:
 	void setCollisionLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayer, _godot_object, layer);
 	}
 	/**
 	Sets the given collision layer bit.
@@ -605,7 +615,7 @@ public:
 	void setCollisionLayerBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionLayerBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionLayerBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -613,7 +623,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	Sets the given collision mask bit.
@@ -621,7 +631,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -629,7 +639,7 @@ public:
 	void setCollisionUseKinematic(in bool use_kinematic)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionUseKinematic, _godot_object, use_kinematic);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionUseKinematic, _godot_object, use_kinematic);
 	}
 	/**
 	
@@ -637,7 +647,7 @@ public:
 	void setCollisionUseParent(in bool use_parent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionUseParent, _godot_object, use_parent);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionUseParent, _godot_object, use_parent);
 	}
 	/**
 	
@@ -645,7 +655,7 @@ public:
 	void setCompatibilityMode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCompatibilityMode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCompatibilityMode, _godot_object, enable);
 	}
 	/**
 	
@@ -653,7 +663,7 @@ public:
 	void setCustomTransform(in Transform2D custom_transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomTransform, _godot_object, custom_transform);
+		ptrcall!(void)(GDNativeClassBinding.setCustomTransform, _godot_object, custom_transform);
 	}
 	/**
 	
@@ -661,7 +671,7 @@ public:
 	void setHalfOffset(in long half_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHalfOffset, _godot_object, half_offset);
+		ptrcall!(void)(GDNativeClassBinding.setHalfOffset, _godot_object, half_offset);
 	}
 	/**
 	
@@ -669,7 +679,7 @@ public:
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
 	
@@ -677,7 +687,7 @@ public:
 	void setOccluderLightMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOccluderLightMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setOccluderLightMask, _godot_object, mask);
 	}
 	/**
 	
@@ -685,7 +695,7 @@ public:
 	void setQuadrantSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setQuadrantSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setQuadrantSize, _godot_object, size);
 	}
 	/**
 	
@@ -693,7 +703,7 @@ public:
 	void setTileOrigin(in long origin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTileOrigin, _godot_object, origin);
+		ptrcall!(void)(GDNativeClassBinding.setTileOrigin, _godot_object, origin);
 	}
 	/**
 	
@@ -701,7 +711,7 @@ public:
 	void setTileset(TileSet tileset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTileset, _godot_object, tileset);
+		ptrcall!(void)(GDNativeClassBinding.setTileset, _godot_object, tileset);
 	}
 	/**
 	
@@ -709,7 +719,7 @@ public:
 	void setYSortMode(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setYSortMode, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setYSortMode, _godot_object, enable);
 	}
 	/**
 	Applies autotiling rules to the cell (and its adjacent cells) referenced by its grid-based X and Y coordinates.
@@ -717,7 +727,7 @@ public:
 	void updateBitmaskArea(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateBitmaskArea, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.updateBitmaskArea, _godot_object, position);
 	}
 	/**
 	Applies autotiling rules to the cells in the given region (specified by grid-based X and Y coordinates).
@@ -726,7 +736,7 @@ public:
 	void updateBitmaskRegion(in Vector2 start = Vector2(0, 0), in Vector2 end = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateBitmaskRegion, _godot_object, start, end);
+		ptrcall!(void)(GDNativeClassBinding.updateBitmaskRegion, _godot_object, start, end);
 	}
 	/**
 	Updates the tile map's quadrants, allowing things such as navigation and collision shapes to be immediately used if modified.
@@ -734,7 +744,7 @@ public:
 	void updateDirtyQuadrants()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateDirtyQuadrants, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.updateDirtyQuadrants, _godot_object);
 	}
 	/**
 	Returns the tilemap (grid-based) coordinates corresponding to the given local position.
@@ -742,7 +752,7 @@ public:
 	Vector2 worldToMap(in Vector2 world_position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.worldToMap, _godot_object, world_position);
+		return ptrcall!(Vector2)(GDNativeClassBinding.worldToMap, _godot_object, world_position);
 	}
 	/**
 	If `true`, the cell's UVs will be clipped.

@@ -27,14 +27,14 @@ import godot.gdnativelibrary;
 */
 @GodotBaseClass struct GDNative
 {
-	enum string _GODOT_internal_name = "GDNative";
+	package(godot) enum string _GODOT_internal_name = "GDNative";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("call_native") GodotMethod!(Variant, String, String, Array) callNative;
@@ -43,10 +43,20 @@ public:
 		@GodotName("set_library") GodotMethod!(void, GDNativeLibrary) setLibrary;
 		@GodotName("terminate") GodotMethod!(bool) terminate;
 	}
-	bool opEquals(in GDNative other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GDNative opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GDNative other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GDNative opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GDNative.
+	/// Note: use `memnew!GDNative` instead.
 	static GDNative _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	Variant callNative(in String calling_type, in String procedure_name, in Array arguments)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.callNative, _godot_object, calling_type, procedure_name, arguments);
+		return ptrcall!(Variant)(GDNativeClassBinding.callNative, _godot_object, calling_type, procedure_name, arguments);
 	}
 	/**
 	
@@ -69,7 +79,7 @@ public:
 	Ref!GDNativeLibrary getLibrary() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GDNativeLibrary)(_classBinding.getLibrary, _godot_object);
+		return ptrcall!(GDNativeLibrary)(GDNativeClassBinding.getLibrary, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	bool initialize()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.initialize, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.initialize, _godot_object);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	void setLibrary(GDNativeLibrary library)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLibrary, _godot_object, library);
+		ptrcall!(void)(GDNativeClassBinding.setLibrary, _godot_object, library);
 	}
 	/**
 	
@@ -93,7 +103,7 @@ public:
 	bool terminate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.terminate, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.terminate, _godot_object);
 	}
 	/**
 	

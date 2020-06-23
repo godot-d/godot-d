@@ -34,14 +34,14 @@ OptionButton is a type button that provides a selectable list of items when pres
 */
 @GodotBaseClass struct OptionButton
 {
-	enum string _GODOT_internal_name = "OptionButton";
+	package(godot) enum string _GODOT_internal_name = "OptionButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Button _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_focused") GodotMethod!(void, long) _focused;
@@ -72,10 +72,20 @@ public:
 		@GodotName("set_item_metadata") GodotMethod!(void, long, Variant) setItemMetadata;
 		@GodotName("set_item_text") GodotMethod!(void, long, String) setItemText;
 	}
-	bool opEquals(in OptionButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	OptionButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in OptionButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) OptionButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of OptionButton.
+	/// Note: use `memnew!OptionButton` instead.
 	static OptionButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -139,7 +149,7 @@ public:
 	void addIconItem(Texture texture, in String label, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addIconItem, _godot_object, texture, label, id);
+		ptrcall!(void)(GDNativeClassBinding.addIconItem, _godot_object, texture, label, id);
 	}
 	/**
 	Adds an item, with text `label` and (optionally) `id`. If no `id` is passed, the item index will be used as the item's ID. New items are appended at the end.
@@ -147,7 +157,7 @@ public:
 	void addItem(in String label, in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addItem, _godot_object, label, id);
+		ptrcall!(void)(GDNativeClassBinding.addItem, _godot_object, label, id);
 	}
 	/**
 	Adds a separator to the list of items. Separators help to group items. Separator also takes up an index and is appended at the end.
@@ -155,7 +165,7 @@ public:
 	void addSeparator()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSeparator, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.addSeparator, _godot_object);
 	}
 	/**
 	Clears all the items in the $(D OptionButton).
@@ -163,7 +173,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Returns the amount of items in the OptionButton, including separators.
@@ -171,7 +181,7 @@ public:
 	long getItemCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getItemCount, _godot_object);
 	}
 	/**
 	Returns the icon of the item at index `idx`.
@@ -179,7 +189,7 @@ public:
 	Ref!Texture getItemIcon(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getItemIcon, _godot_object, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getItemIcon, _godot_object, idx);
 	}
 	/**
 	Returns the ID of the item at index `idx`.
@@ -187,7 +197,7 @@ public:
 	long getItemId(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemId, _godot_object, idx);
+		return ptrcall!(long)(GDNativeClassBinding.getItemId, _godot_object, idx);
 	}
 	/**
 	Returns the index of the item with the given `id`.
@@ -195,7 +205,7 @@ public:
 	long getItemIndex(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getItemIndex, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.getItemIndex, _godot_object, id);
 	}
 	/**
 	Retrieves the metadata of an item. Metadata may be any type and can be used to store extra information about an item, such as an external string ID.
@@ -203,7 +213,7 @@ public:
 	Variant getItemMetadata(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getItemMetadata, _godot_object, idx);
+		return ptrcall!(Variant)(GDNativeClassBinding.getItemMetadata, _godot_object, idx);
 	}
 	/**
 	Returns the text of the item at index `idx`.
@@ -211,7 +221,7 @@ public:
 	String getItemText(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getItemText, _godot_object, idx);
+		return ptrcall!(String)(GDNativeClassBinding.getItemText, _godot_object, idx);
 	}
 	/**
 	Returns the $(D PopupMenu) contained in this button.
@@ -219,7 +229,7 @@ public:
 	PopupMenu getPopup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PopupMenu)(_classBinding.getPopup, _godot_object);
+		return ptrcall!(PopupMenu)(GDNativeClassBinding.getPopup, _godot_object);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	long getSelected() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelected, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelected, _godot_object);
 	}
 	/**
 	Returns the ID of the selected item, or `0` if no item is selected.
@@ -235,7 +245,7 @@ public:
 	long getSelectedId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSelectedId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSelectedId, _godot_object);
 	}
 	/**
 	Gets the metadata of the selected item. Metadata for items can be set using $(D setItemMetadata).
@@ -243,7 +253,7 @@ public:
 	Variant getSelectedMetadata() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getSelectedMetadata, _godot_object);
+		return ptrcall!(Variant)(GDNativeClassBinding.getSelectedMetadata, _godot_object);
 	}
 	/**
 	Returns `true` if the item at index `idx` is disabled.
@@ -251,7 +261,7 @@ public:
 	bool isItemDisabled(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isItemDisabled, _godot_object, idx);
+		return ptrcall!(bool)(GDNativeClassBinding.isItemDisabled, _godot_object, idx);
 	}
 	/**
 	Removes the item at index `idx`.
@@ -259,7 +269,7 @@ public:
 	void removeItem(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeItem, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.removeItem, _godot_object, idx);
 	}
 	/**
 	Selects an item by index and makes it the current item. This will work even if the item is disabled.
@@ -267,7 +277,7 @@ public:
 	void select(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.select, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.select, _godot_object, idx);
 	}
 	/**
 	Sets whether the item at index `idx` is disabled.
@@ -276,7 +286,7 @@ public:
 	void setItemDisabled(in long idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemDisabled, _godot_object, idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setItemDisabled, _godot_object, idx, disabled);
 	}
 	/**
 	Sets the icon of the item at index `idx`.
@@ -284,7 +294,7 @@ public:
 	void setItemIcon(in long idx, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemIcon, _godot_object, idx, texture);
+		ptrcall!(void)(GDNativeClassBinding.setItemIcon, _godot_object, idx, texture);
 	}
 	/**
 	Sets the ID of the item at index `idx`.
@@ -292,7 +302,7 @@ public:
 	void setItemId(in long idx, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemId, _godot_object, idx, id);
+		ptrcall!(void)(GDNativeClassBinding.setItemId, _godot_object, idx, id);
 	}
 	/**
 	Sets the metadata of an item. Metadata may be of any type and can be used to store extra information about an item, such as an external string ID.
@@ -300,7 +310,7 @@ public:
 	void setItemMetadata(VariantArg1)(in long idx, in VariantArg1 metadata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemMetadata, _godot_object, idx, metadata);
+		ptrcall!(void)(GDNativeClassBinding.setItemMetadata, _godot_object, idx, metadata);
 	}
 	/**
 	Sets the text of the item at index `idx`.
@@ -308,7 +318,7 @@ public:
 	void setItemText(in long idx, in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setItemText, _godot_object, idx, text);
+		ptrcall!(void)(GDNativeClassBinding.setItemText, _godot_object, idx, text);
 	}
 	/**
 	

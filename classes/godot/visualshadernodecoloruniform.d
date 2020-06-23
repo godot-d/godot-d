@@ -28,21 +28,31 @@ Translated to `uniform vec4` in the shader language.
 */
 @GodotBaseClass struct VisualShaderNodeColorUniform
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeColorUniform";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeColorUniform";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNodeUniform _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNodeUniform _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeColorUniform other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeColorUniform opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeColorUniform other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeColorUniform opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeColorUniform.
+	/// Note: use `memnew!VisualShaderNodeColorUniform` instead.
 	static VisualShaderNodeColorUniform _new()
 	{
 		static godot_class_constructor constructor;

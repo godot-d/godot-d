@@ -29,14 +29,14 @@ This object can be used to connect to TCP servers, or also is returned by a TCP 
 */
 @GodotBaseClass struct StreamPeerTCP
 {
-	enum string _GODOT_internal_name = "StreamPeerTCP";
+	package(godot) enum string _GODOT_internal_name = "StreamPeerTCP";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; StreamPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ StreamPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long) connectToHost;
@@ -47,10 +47,20 @@ public:
 		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
 		@GodotName("set_no_delay") GodotMethod!(void, bool) setNoDelay;
 	}
-	bool opEquals(in StreamPeerTCP other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StreamPeerTCP opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StreamPeerTCP other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StreamPeerTCP opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StreamPeerTCP.
+	/// Note: use `memnew!StreamPeerTCP` instead.
 	static StreamPeerTCP _new()
 	{
 		static godot_class_constructor constructor;
@@ -93,7 +103,7 @@ public:
 	GodotError connectToHost(in String host, in long port)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectToHost, _godot_object, host, port);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectToHost, _godot_object, host, port);
 	}
 	/**
 	Disconnects from host.
@@ -101,7 +111,7 @@ public:
 	void disconnectFromHost()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectFromHost, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.disconnectFromHost, _godot_object);
 	}
 	/**
 	Returns the IP of this peer.
@@ -109,7 +119,7 @@ public:
 	String getConnectedHost() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getConnectedHost, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getConnectedHost, _godot_object);
 	}
 	/**
 	Returns the port of this peer.
@@ -117,7 +127,7 @@ public:
 	long getConnectedPort() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getConnectedPort, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getConnectedPort, _godot_object);
 	}
 	/**
 	Returns the status of the connection, see $(D status).
@@ -125,7 +135,7 @@ public:
 	StreamPeerTCP.Status getStatus()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeerTCP.Status)(_classBinding.getStatus, _godot_object);
+		return ptrcall!(StreamPeerTCP.Status)(GDNativeClassBinding.getStatus, _godot_object);
 	}
 	/**
 	Returns `true` if this peer is currently connected to a host, `false` otherwise.
@@ -133,7 +143,7 @@ public:
 	bool isConnectedToHost() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isConnectedToHost, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isConnectedToHost, _godot_object);
 	}
 	/**
 	Disables Nagle's algorithm to improve latency for small packets.
@@ -142,6 +152,6 @@ public:
 	void setNoDelay(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNoDelay, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setNoDelay, _godot_object, enabled);
 	}
 }

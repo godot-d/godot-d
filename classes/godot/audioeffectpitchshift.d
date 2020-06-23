@@ -31,14 +31,14 @@ Allows modulation of pitch independently of tempo. All frequencies can be increa
 */
 @GodotBaseClass struct AudioEffectPitchShift
 {
-	enum string _GODOT_internal_name = "AudioEffectPitchShift";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectPitchShift";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_fft_size") GodotMethod!(AudioEffectPitchShift.FFT_Size) getFftSize;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_oversampling") GodotMethod!(void, long) setOversampling;
 		@GodotName("set_pitch_scale") GodotMethod!(void, double) setPitchScale;
 	}
-	bool opEquals(in AudioEffectPitchShift other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectPitchShift opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectPitchShift other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectPitchShift opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectPitchShift.
+	/// Note: use `memnew!AudioEffectPitchShift` instead.
 	static AudioEffectPitchShift _new()
 	{
 		static godot_class_constructor constructor;
@@ -104,7 +114,7 @@ public:
 	AudioEffectPitchShift.FFT_Size getFftSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectPitchShift.FFT_Size)(_classBinding.getFftSize, _godot_object);
+		return ptrcall!(AudioEffectPitchShift.FFT_Size)(GDNativeClassBinding.getFftSize, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	long getOversampling() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getOversampling, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getOversampling, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	double getPitchScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPitchScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPitchScale, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	void setFftSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFftSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setFftSize, _godot_object, size);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	void setOversampling(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOversampling, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setOversampling, _godot_object, amount);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	void setPitchScale(in double rate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPitchScale, _godot_object, rate);
+		ptrcall!(void)(GDNativeClassBinding.setPitchScale, _godot_object, rate);
 	}
 	/**
 	

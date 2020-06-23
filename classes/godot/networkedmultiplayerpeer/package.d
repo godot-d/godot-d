@@ -27,14 +27,14 @@ Manages the connection to network peers. Assigns unique IDs to each client conne
 */
 @GodotBaseClass struct NetworkedMultiplayerPeer
 {
-	enum string _GODOT_internal_name = "NetworkedMultiplayerPeer";
+	package(godot) enum string _GODOT_internal_name = "NetworkedMultiplayerPeer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PacketPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PacketPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_connection_status") GodotMethod!(NetworkedMultiplayerPeer.ConnectionStatus) getConnectionStatus;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_target_peer") GodotMethod!(void, long) setTargetPeer;
 		@GodotName("set_transfer_mode") GodotMethod!(void, long) setTransferMode;
 	}
-	bool opEquals(in NetworkedMultiplayerPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NetworkedMultiplayerPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NetworkedMultiplayerPeer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NetworkedMultiplayerPeer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NetworkedMultiplayerPeer.
+	/// Note: use `memnew!NetworkedMultiplayerPeer` instead.
 	static NetworkedMultiplayerPeer _new()
 	{
 		static godot_class_constructor constructor;
@@ -115,7 +125,7 @@ public:
 	NetworkedMultiplayerPeer.ConnectionStatus getConnectionStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer.ConnectionStatus)(_classBinding.getConnectionStatus, _godot_object);
+		return ptrcall!(NetworkedMultiplayerPeer.ConnectionStatus)(GDNativeClassBinding.getConnectionStatus, _godot_object);
 	}
 	/**
 	Returns the ID of the $(D NetworkedMultiplayerPeer) who sent the most recent packet.
@@ -123,7 +133,7 @@ public:
 	long getPacketPeer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPacketPeer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPacketPeer, _godot_object);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	NetworkedMultiplayerPeer.TransferMode getTransferMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer.TransferMode)(_classBinding.getTransferMode, _godot_object);
+		return ptrcall!(NetworkedMultiplayerPeer.TransferMode)(GDNativeClassBinding.getTransferMode, _godot_object);
 	}
 	/**
 	Returns the ID of this $(D NetworkedMultiplayerPeer).
@@ -139,7 +149,7 @@ public:
 	long getUniqueId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUniqueId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getUniqueId, _godot_object);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	bool isRefusingNewConnections() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRefusingNewConnections, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRefusingNewConnections, _godot_object);
 	}
 	/**
 	Waits up to 1 second to receive a new network event.
@@ -155,7 +165,7 @@ public:
 	void poll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.poll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	void setRefuseNewConnections(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefuseNewConnections, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setRefuseNewConnections, _godot_object, enable);
 	}
 	/**
 	Sets the peer to which packets will be sent.
@@ -172,7 +182,7 @@ public:
 	void setTargetPeer(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTargetPeer, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.setTargetPeer, _godot_object, id);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	void setTransferMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransferMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setTransferMode, _godot_object, mode);
 	}
 	/**
 	If `true`, this $(D NetworkedMultiplayerPeer) refuses new connections.

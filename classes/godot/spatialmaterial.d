@@ -31,14 +31,14 @@ This provides a default material with a wide variety of rendering features and p
 */
 @GodotBaseClass struct SpatialMaterial
 {
-	enum string _GODOT_internal_name = "SpatialMaterial";
+	package(godot) enum string _GODOT_internal_name = "SpatialMaterial";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Material _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Material _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_albedo") GodotMethod!(Color) getAlbedo;
@@ -156,10 +156,20 @@ public:
 		@GodotName("set_uv2_scale") GodotMethod!(void, Vector3) setUv2Scale;
 		@GodotName("set_uv2_triplanar_blend_sharpness") GodotMethod!(void, double) setUv2TriplanarBlendSharpness;
 	}
-	bool opEquals(in SpatialMaterial other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SpatialMaterial opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SpatialMaterial other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SpatialMaterial opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SpatialMaterial.
+	/// Note: use `memnew!SpatialMaterial` instead.
 	static SpatialMaterial _new()
 	{
 		static godot_class_constructor constructor;
@@ -671,7 +681,7 @@ public:
 	Color getAlbedo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getAlbedo, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getAlbedo, _godot_object);
 	}
 	/**
 	
@@ -679,7 +689,7 @@ public:
 	double getAlphaScissorThreshold() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAlphaScissorThreshold, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAlphaScissorThreshold, _godot_object);
 	}
 	/**
 	
@@ -687,7 +697,7 @@ public:
 	double getAnisotropy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAnisotropy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAnisotropy, _godot_object);
 	}
 	/**
 	
@@ -695,7 +705,7 @@ public:
 	double getAoLightAffect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAoLightAffect, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAoLightAffect, _godot_object);
 	}
 	/**
 	
@@ -703,7 +713,7 @@ public:
 	SpatialMaterial.TextureChannel getAoTextureChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.TextureChannel)(_classBinding.getAoTextureChannel, _godot_object);
+		return ptrcall!(SpatialMaterial.TextureChannel)(GDNativeClassBinding.getAoTextureChannel, _godot_object);
 	}
 	/**
 	
@@ -711,7 +721,7 @@ public:
 	SpatialMaterial.BillboardMode getBillboardMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.BillboardMode)(_classBinding.getBillboardMode, _godot_object);
+		return ptrcall!(SpatialMaterial.BillboardMode)(GDNativeClassBinding.getBillboardMode, _godot_object);
 	}
 	/**
 	
@@ -719,7 +729,7 @@ public:
 	SpatialMaterial.BlendMode getBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.BlendMode)(_classBinding.getBlendMode, _godot_object);
+		return ptrcall!(SpatialMaterial.BlendMode)(GDNativeClassBinding.getBlendMode, _godot_object);
 	}
 	/**
 	
@@ -727,7 +737,7 @@ public:
 	double getClearcoat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getClearcoat, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getClearcoat, _godot_object);
 	}
 	/**
 	
@@ -735,7 +745,7 @@ public:
 	double getClearcoatGloss() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getClearcoatGloss, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getClearcoatGloss, _godot_object);
 	}
 	/**
 	
@@ -743,7 +753,7 @@ public:
 	SpatialMaterial.CullMode getCullMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.CullMode)(_classBinding.getCullMode, _godot_object);
+		return ptrcall!(SpatialMaterial.CullMode)(GDNativeClassBinding.getCullMode, _godot_object);
 	}
 	/**
 	
@@ -751,7 +761,7 @@ public:
 	bool getDepthDeepParallaxFlipBinormal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDepthDeepParallaxFlipBinormal, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getDepthDeepParallaxFlipBinormal, _godot_object);
 	}
 	/**
 	
@@ -759,7 +769,7 @@ public:
 	bool getDepthDeepParallaxFlipTangent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDepthDeepParallaxFlipTangent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getDepthDeepParallaxFlipTangent, _godot_object);
 	}
 	/**
 	
@@ -767,7 +777,7 @@ public:
 	long getDepthDeepParallaxMaxLayers() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDepthDeepParallaxMaxLayers, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDepthDeepParallaxMaxLayers, _godot_object);
 	}
 	/**
 	
@@ -775,7 +785,7 @@ public:
 	long getDepthDeepParallaxMinLayers() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDepthDeepParallaxMinLayers, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDepthDeepParallaxMinLayers, _godot_object);
 	}
 	/**
 	
@@ -783,7 +793,7 @@ public:
 	SpatialMaterial.DepthDrawMode getDepthDrawMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.DepthDrawMode)(_classBinding.getDepthDrawMode, _godot_object);
+		return ptrcall!(SpatialMaterial.DepthDrawMode)(GDNativeClassBinding.getDepthDrawMode, _godot_object);
 	}
 	/**
 	
@@ -791,7 +801,7 @@ public:
 	double getDepthScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDepthScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDepthScale, _godot_object);
 	}
 	/**
 	
@@ -799,7 +809,7 @@ public:
 	SpatialMaterial.BlendMode getDetailBlendMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.BlendMode)(_classBinding.getDetailBlendMode, _godot_object);
+		return ptrcall!(SpatialMaterial.BlendMode)(GDNativeClassBinding.getDetailBlendMode, _godot_object);
 	}
 	/**
 	
@@ -807,7 +817,7 @@ public:
 	SpatialMaterial.DetailUV getDetailUv() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.DetailUV)(_classBinding.getDetailUv, _godot_object);
+		return ptrcall!(SpatialMaterial.DetailUV)(GDNativeClassBinding.getDetailUv, _godot_object);
 	}
 	/**
 	
@@ -815,7 +825,7 @@ public:
 	SpatialMaterial.DiffuseMode getDiffuseMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.DiffuseMode)(_classBinding.getDiffuseMode, _godot_object);
+		return ptrcall!(SpatialMaterial.DiffuseMode)(GDNativeClassBinding.getDiffuseMode, _godot_object);
 	}
 	/**
 	
@@ -823,7 +833,7 @@ public:
 	SpatialMaterial.DistanceFadeMode getDistanceFade() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.DistanceFadeMode)(_classBinding.getDistanceFade, _godot_object);
+		return ptrcall!(SpatialMaterial.DistanceFadeMode)(GDNativeClassBinding.getDistanceFade, _godot_object);
 	}
 	/**
 	
@@ -831,7 +841,7 @@ public:
 	double getDistanceFadeMaxDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDistanceFadeMaxDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDistanceFadeMaxDistance, _godot_object);
 	}
 	/**
 	
@@ -839,7 +849,7 @@ public:
 	double getDistanceFadeMinDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDistanceFadeMinDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDistanceFadeMinDistance, _godot_object);
 	}
 	/**
 	
@@ -847,7 +857,7 @@ public:
 	Color getEmission() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getEmission, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getEmission, _godot_object);
 	}
 	/**
 	
@@ -855,7 +865,7 @@ public:
 	double getEmissionEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEmissionEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEmissionEnergy, _godot_object);
 	}
 	/**
 	
@@ -863,15 +873,15 @@ public:
 	SpatialMaterial.EmissionOperator getEmissionOperator() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.EmissionOperator)(_classBinding.getEmissionOperator, _godot_object);
+		return ptrcall!(SpatialMaterial.EmissionOperator)(GDNativeClassBinding.getEmissionOperator, _godot_object);
 	}
 	/**
-	Returns `true`, if the specifed $(D feature) is enabled.
+	Returns `true`, if the specified $(D feature) is enabled.
 	*/
 	bool getFeature(in long feature) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFeature, _godot_object, feature);
+		return ptrcall!(bool)(GDNativeClassBinding.getFeature, _godot_object, feature);
 	}
 	/**
 	Returns `true`, if the specified flag is enabled. See $(D flags) enumerator for options.
@@ -879,7 +889,7 @@ public:
 	bool getFlag(in long flag) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFlag, _godot_object, flag);
+		return ptrcall!(bool)(GDNativeClassBinding.getFlag, _godot_object, flag);
 	}
 	/**
 	
@@ -887,7 +897,7 @@ public:
 	double getGrow() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGrow, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGrow, _godot_object);
 	}
 	/**
 	
@@ -895,7 +905,7 @@ public:
 	double getLineWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLineWidth, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLineWidth, _godot_object);
 	}
 	/**
 	
@@ -903,7 +913,7 @@ public:
 	double getMetallic() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMetallic, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMetallic, _godot_object);
 	}
 	/**
 	
@@ -911,7 +921,7 @@ public:
 	SpatialMaterial.TextureChannel getMetallicTextureChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.TextureChannel)(_classBinding.getMetallicTextureChannel, _godot_object);
+		return ptrcall!(SpatialMaterial.TextureChannel)(GDNativeClassBinding.getMetallicTextureChannel, _godot_object);
 	}
 	/**
 	
@@ -919,7 +929,7 @@ public:
 	double getNormalScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNormalScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getNormalScale, _godot_object);
 	}
 	/**
 	
@@ -927,7 +937,7 @@ public:
 	long getParticlesAnimHFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParticlesAnimHFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getParticlesAnimHFrames, _godot_object);
 	}
 	/**
 	
@@ -935,7 +945,7 @@ public:
 	bool getParticlesAnimLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getParticlesAnimLoop, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getParticlesAnimLoop, _godot_object);
 	}
 	/**
 	
@@ -943,7 +953,7 @@ public:
 	long getParticlesAnimVFrames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParticlesAnimVFrames, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getParticlesAnimVFrames, _godot_object);
 	}
 	/**
 	
@@ -951,7 +961,7 @@ public:
 	double getPointSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPointSize, _godot_object);
 	}
 	/**
 	
@@ -959,7 +969,7 @@ public:
 	double getProximityFadeDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getProximityFadeDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getProximityFadeDistance, _godot_object);
 	}
 	/**
 	
@@ -967,7 +977,7 @@ public:
 	double getRefraction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRefraction, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRefraction, _godot_object);
 	}
 	/**
 	
@@ -975,7 +985,7 @@ public:
 	SpatialMaterial.TextureChannel getRefractionTextureChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.TextureChannel)(_classBinding.getRefractionTextureChannel, _godot_object);
+		return ptrcall!(SpatialMaterial.TextureChannel)(GDNativeClassBinding.getRefractionTextureChannel, _godot_object);
 	}
 	/**
 	
@@ -983,7 +993,7 @@ public:
 	double getRim() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRim, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRim, _godot_object);
 	}
 	/**
 	
@@ -991,7 +1001,7 @@ public:
 	double getRimTint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRimTint, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRimTint, _godot_object);
 	}
 	/**
 	
@@ -999,7 +1009,7 @@ public:
 	double getRoughness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRoughness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRoughness, _godot_object);
 	}
 	/**
 	
@@ -1007,7 +1017,7 @@ public:
 	SpatialMaterial.TextureChannel getRoughnessTextureChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.TextureChannel)(_classBinding.getRoughnessTextureChannel, _godot_object);
+		return ptrcall!(SpatialMaterial.TextureChannel)(GDNativeClassBinding.getRoughnessTextureChannel, _godot_object);
 	}
 	/**
 	
@@ -1015,7 +1025,7 @@ public:
 	double getSpecular() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpecular, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpecular, _godot_object);
 	}
 	/**
 	
@@ -1023,7 +1033,7 @@ public:
 	SpatialMaterial.SpecularMode getSpecularMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(SpatialMaterial.SpecularMode)(_classBinding.getSpecularMode, _godot_object);
+		return ptrcall!(SpatialMaterial.SpecularMode)(GDNativeClassBinding.getSpecularMode, _godot_object);
 	}
 	/**
 	
@@ -1031,7 +1041,7 @@ public:
 	double getSubsurfaceScatteringStrength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSubsurfaceScatteringStrength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSubsurfaceScatteringStrength, _godot_object);
 	}
 	/**
 	Returns the $(D Texture) associated with the specified $(D textureparam).
@@ -1039,7 +1049,7 @@ public:
 	Ref!Texture getTexture(in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object, param);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object, param);
 	}
 	/**
 	
@@ -1047,7 +1057,7 @@ public:
 	Color getTransmission() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getTransmission, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getTransmission, _godot_object);
 	}
 	/**
 	
@@ -1055,7 +1065,7 @@ public:
 	Vector3 getUv1Offset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getUv1Offset, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getUv1Offset, _godot_object);
 	}
 	/**
 	
@@ -1063,7 +1073,7 @@ public:
 	Vector3 getUv1Scale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getUv1Scale, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getUv1Scale, _godot_object);
 	}
 	/**
 	
@@ -1071,7 +1081,7 @@ public:
 	double getUv1TriplanarBlendSharpness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getUv1TriplanarBlendSharpness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getUv1TriplanarBlendSharpness, _godot_object);
 	}
 	/**
 	
@@ -1079,7 +1089,7 @@ public:
 	Vector3 getUv2Offset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getUv2Offset, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getUv2Offset, _godot_object);
 	}
 	/**
 	
@@ -1087,7 +1097,7 @@ public:
 	Vector3 getUv2Scale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getUv2Scale, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getUv2Scale, _godot_object);
 	}
 	/**
 	
@@ -1095,7 +1105,7 @@ public:
 	double getUv2TriplanarBlendSharpness() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getUv2TriplanarBlendSharpness, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getUv2TriplanarBlendSharpness, _godot_object);
 	}
 	/**
 	
@@ -1103,7 +1113,7 @@ public:
 	bool isDepthDeepParallaxEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDepthDeepParallaxEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDepthDeepParallaxEnabled, _godot_object);
 	}
 	/**
 	
@@ -1111,7 +1121,7 @@ public:
 	bool isGrowEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isGrowEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGrowEnabled, _godot_object);
 	}
 	/**
 	
@@ -1119,7 +1129,7 @@ public:
 	bool isProximityFadeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isProximityFadeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isProximityFadeEnabled, _godot_object);
 	}
 	/**
 	
@@ -1127,7 +1137,7 @@ public:
 	void setAlbedo(in Color albedo)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlbedo, _godot_object, albedo);
+		ptrcall!(void)(GDNativeClassBinding.setAlbedo, _godot_object, albedo);
 	}
 	/**
 	
@@ -1135,7 +1145,7 @@ public:
 	void setAlphaScissorThreshold(in double threshold)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlphaScissorThreshold, _godot_object, threshold);
+		ptrcall!(void)(GDNativeClassBinding.setAlphaScissorThreshold, _godot_object, threshold);
 	}
 	/**
 	
@@ -1143,7 +1153,7 @@ public:
 	void setAnisotropy(in double anisotropy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnisotropy, _godot_object, anisotropy);
+		ptrcall!(void)(GDNativeClassBinding.setAnisotropy, _godot_object, anisotropy);
 	}
 	/**
 	
@@ -1151,7 +1161,7 @@ public:
 	void setAoLightAffect(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAoLightAffect, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setAoLightAffect, _godot_object, amount);
 	}
 	/**
 	
@@ -1159,7 +1169,7 @@ public:
 	void setAoTextureChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAoTextureChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setAoTextureChannel, _godot_object, channel);
 	}
 	/**
 	
@@ -1167,7 +1177,7 @@ public:
 	void setBillboardMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBillboardMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setBillboardMode, _godot_object, mode);
 	}
 	/**
 	
@@ -1175,7 +1185,7 @@ public:
 	void setBlendMode(in long blend_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendMode, _godot_object, blend_mode);
+		ptrcall!(void)(GDNativeClassBinding.setBlendMode, _godot_object, blend_mode);
 	}
 	/**
 	
@@ -1183,7 +1193,7 @@ public:
 	void setClearcoat(in double clearcoat)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClearcoat, _godot_object, clearcoat);
+		ptrcall!(void)(GDNativeClassBinding.setClearcoat, _godot_object, clearcoat);
 	}
 	/**
 	
@@ -1191,7 +1201,7 @@ public:
 	void setClearcoatGloss(in double clearcoat_gloss)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setClearcoatGloss, _godot_object, clearcoat_gloss);
+		ptrcall!(void)(GDNativeClassBinding.setClearcoatGloss, _godot_object, clearcoat_gloss);
 	}
 	/**
 	
@@ -1199,7 +1209,7 @@ public:
 	void setCullMode(in long cull_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMode, _godot_object, cull_mode);
+		ptrcall!(void)(GDNativeClassBinding.setCullMode, _godot_object, cull_mode);
 	}
 	/**
 	
@@ -1207,7 +1217,7 @@ public:
 	void setDepthDeepParallax(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDeepParallax, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDeepParallax, _godot_object, enable);
 	}
 	/**
 	
@@ -1215,7 +1225,7 @@ public:
 	void setDepthDeepParallaxFlipBinormal(in bool flip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDeepParallaxFlipBinormal, _godot_object, flip);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDeepParallaxFlipBinormal, _godot_object, flip);
 	}
 	/**
 	
@@ -1223,7 +1233,7 @@ public:
 	void setDepthDeepParallaxFlipTangent(in bool flip)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDeepParallaxFlipTangent, _godot_object, flip);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDeepParallaxFlipTangent, _godot_object, flip);
 	}
 	/**
 	
@@ -1231,7 +1241,7 @@ public:
 	void setDepthDeepParallaxMaxLayers(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDeepParallaxMaxLayers, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDeepParallaxMaxLayers, _godot_object, layer);
 	}
 	/**
 	
@@ -1239,7 +1249,7 @@ public:
 	void setDepthDeepParallaxMinLayers(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDeepParallaxMinLayers, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDeepParallaxMinLayers, _godot_object, layer);
 	}
 	/**
 	
@@ -1247,7 +1257,7 @@ public:
 	void setDepthDrawMode(in long depth_draw_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthDrawMode, _godot_object, depth_draw_mode);
+		ptrcall!(void)(GDNativeClassBinding.setDepthDrawMode, _godot_object, depth_draw_mode);
 	}
 	/**
 	
@@ -1255,7 +1265,7 @@ public:
 	void setDepthScale(in double depth_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDepthScale, _godot_object, depth_scale);
+		ptrcall!(void)(GDNativeClassBinding.setDepthScale, _godot_object, depth_scale);
 	}
 	/**
 	
@@ -1263,7 +1273,7 @@ public:
 	void setDetailBlendMode(in long detail_blend_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDetailBlendMode, _godot_object, detail_blend_mode);
+		ptrcall!(void)(GDNativeClassBinding.setDetailBlendMode, _godot_object, detail_blend_mode);
 	}
 	/**
 	
@@ -1271,7 +1281,7 @@ public:
 	void setDetailUv(in long detail_uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDetailUv, _godot_object, detail_uv);
+		ptrcall!(void)(GDNativeClassBinding.setDetailUv, _godot_object, detail_uv);
 	}
 	/**
 	
@@ -1279,7 +1289,7 @@ public:
 	void setDiffuseMode(in long diffuse_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDiffuseMode, _godot_object, diffuse_mode);
+		ptrcall!(void)(GDNativeClassBinding.setDiffuseMode, _godot_object, diffuse_mode);
 	}
 	/**
 	
@@ -1287,7 +1297,7 @@ public:
 	void setDistanceFade(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDistanceFade, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setDistanceFade, _godot_object, mode);
 	}
 	/**
 	
@@ -1295,7 +1305,7 @@ public:
 	void setDistanceFadeMaxDistance(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDistanceFadeMaxDistance, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setDistanceFadeMaxDistance, _godot_object, distance);
 	}
 	/**
 	
@@ -1303,7 +1313,7 @@ public:
 	void setDistanceFadeMinDistance(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDistanceFadeMinDistance, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setDistanceFadeMinDistance, _godot_object, distance);
 	}
 	/**
 	
@@ -1311,7 +1321,7 @@ public:
 	void setEmission(in Color emission)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmission, _godot_object, emission);
+		ptrcall!(void)(GDNativeClassBinding.setEmission, _godot_object, emission);
 	}
 	/**
 	
@@ -1319,7 +1329,7 @@ public:
 	void setEmissionEnergy(in double emission_energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionEnergy, _godot_object, emission_energy);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionEnergy, _godot_object, emission_energy);
 	}
 	/**
 	
@@ -1327,7 +1337,7 @@ public:
 	void setEmissionOperator(in long operator)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEmissionOperator, _godot_object, operator);
+		ptrcall!(void)(GDNativeClassBinding.setEmissionOperator, _godot_object, operator);
 	}
 	/**
 	If `true`, enables the specified $(D feature). Many features that are available in $(D SpatialMaterial)s need to be enabled before use. This way the cost for using the feature is only incurred when specified. Features can also be enabled by setting the corresponding member to `true`.
@@ -1335,7 +1345,7 @@ public:
 	void setFeature(in long feature, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFeature, _godot_object, feature, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFeature, _godot_object, feature, enable);
 	}
 	/**
 	If `true`, enables the specified flag. Flags are optional behaviour that can be turned on and off. Only one flag can be enabled at a time with this function, the flag enumerators cannot be bit-masked together to enable or disable multiple flags at once. Flags can also be enabled by setting the corresponding member to `true`. See $(D flags) enumerator for options.
@@ -1343,7 +1353,7 @@ public:
 	void setFlag(in long flag, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlag, _godot_object, flag, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFlag, _godot_object, flag, enable);
 	}
 	/**
 	
@@ -1351,7 +1361,7 @@ public:
 	void setGrow(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrow, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setGrow, _godot_object, amount);
 	}
 	/**
 	
@@ -1359,7 +1369,7 @@ public:
 	void setGrowEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGrowEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setGrowEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -1367,7 +1377,7 @@ public:
 	void setLineWidth(in double line_width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLineWidth, _godot_object, line_width);
+		ptrcall!(void)(GDNativeClassBinding.setLineWidth, _godot_object, line_width);
 	}
 	/**
 	
@@ -1375,7 +1385,7 @@ public:
 	void setMetallic(in double metallic)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetallic, _godot_object, metallic);
+		ptrcall!(void)(GDNativeClassBinding.setMetallic, _godot_object, metallic);
 	}
 	/**
 	
@@ -1383,7 +1393,7 @@ public:
 	void setMetallicTextureChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMetallicTextureChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setMetallicTextureChannel, _godot_object, channel);
 	}
 	/**
 	
@@ -1391,7 +1401,7 @@ public:
 	void setNormalScale(in double normal_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalScale, _godot_object, normal_scale);
+		ptrcall!(void)(GDNativeClassBinding.setNormalScale, _godot_object, normal_scale);
 	}
 	/**
 	
@@ -1399,7 +1409,7 @@ public:
 	void setParticlesAnimHFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimHFrames, _godot_object, frames);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimHFrames, _godot_object, frames);
 	}
 	/**
 	
@@ -1407,7 +1417,7 @@ public:
 	void setParticlesAnimLoop(in bool loop)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimLoop, _godot_object, loop);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimLoop, _godot_object, loop);
 	}
 	/**
 	
@@ -1415,7 +1425,7 @@ public:
 	void setParticlesAnimVFrames(in long frames)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParticlesAnimVFrames, _godot_object, frames);
+		ptrcall!(void)(GDNativeClassBinding.setParticlesAnimVFrames, _godot_object, frames);
 	}
 	/**
 	
@@ -1423,7 +1433,7 @@ public:
 	void setPointSize(in double point_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointSize, _godot_object, point_size);
+		ptrcall!(void)(GDNativeClassBinding.setPointSize, _godot_object, point_size);
 	}
 	/**
 	
@@ -1431,7 +1441,7 @@ public:
 	void setProximityFade(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProximityFade, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setProximityFade, _godot_object, enabled);
 	}
 	/**
 	
@@ -1439,7 +1449,7 @@ public:
 	void setProximityFadeDistance(in double distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProximityFadeDistance, _godot_object, distance);
+		ptrcall!(void)(GDNativeClassBinding.setProximityFadeDistance, _godot_object, distance);
 	}
 	/**
 	
@@ -1447,7 +1457,7 @@ public:
 	void setRefraction(in double refraction)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefraction, _godot_object, refraction);
+		ptrcall!(void)(GDNativeClassBinding.setRefraction, _godot_object, refraction);
 	}
 	/**
 	
@@ -1455,7 +1465,7 @@ public:
 	void setRefractionTextureChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefractionTextureChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setRefractionTextureChannel, _godot_object, channel);
 	}
 	/**
 	
@@ -1463,7 +1473,7 @@ public:
 	void setRim(in double rim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRim, _godot_object, rim);
+		ptrcall!(void)(GDNativeClassBinding.setRim, _godot_object, rim);
 	}
 	/**
 	
@@ -1471,7 +1481,7 @@ public:
 	void setRimTint(in double rim_tint)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRimTint, _godot_object, rim_tint);
+		ptrcall!(void)(GDNativeClassBinding.setRimTint, _godot_object, rim_tint);
 	}
 	/**
 	
@@ -1479,7 +1489,7 @@ public:
 	void setRoughness(in double roughness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRoughness, _godot_object, roughness);
+		ptrcall!(void)(GDNativeClassBinding.setRoughness, _godot_object, roughness);
 	}
 	/**
 	
@@ -1487,7 +1497,7 @@ public:
 	void setRoughnessTextureChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRoughnessTextureChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setRoughnessTextureChannel, _godot_object, channel);
 	}
 	/**
 	
@@ -1495,7 +1505,7 @@ public:
 	void setSpecular(in double specular)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpecular, _godot_object, specular);
+		ptrcall!(void)(GDNativeClassBinding.setSpecular, _godot_object, specular);
 	}
 	/**
 	
@@ -1503,7 +1513,7 @@ public:
 	void setSpecularMode(in long specular_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpecularMode, _godot_object, specular_mode);
+		ptrcall!(void)(GDNativeClassBinding.setSpecularMode, _godot_object, specular_mode);
 	}
 	/**
 	
@@ -1511,7 +1521,7 @@ public:
 	void setSubsurfaceScatteringStrength(in double strength)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubsurfaceScatteringStrength, _godot_object, strength);
+		ptrcall!(void)(GDNativeClassBinding.setSubsurfaceScatteringStrength, _godot_object, strength);
 	}
 	/**
 	Sets the $(D Texture) to be used by the specified $(D textureparam). This function is called when setting members ending in `*_texture`.
@@ -1519,7 +1529,7 @@ public:
 	void setTexture(in long param, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, param, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, param, texture);
 	}
 	/**
 	
@@ -1527,7 +1537,7 @@ public:
 	void setTransmission(in Color transmission)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransmission, _godot_object, transmission);
+		ptrcall!(void)(GDNativeClassBinding.setTransmission, _godot_object, transmission);
 	}
 	/**
 	
@@ -1535,7 +1545,7 @@ public:
 	void setUv1Offset(in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv1Offset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setUv1Offset, _godot_object, offset);
 	}
 	/**
 	
@@ -1543,7 +1553,7 @@ public:
 	void setUv1Scale(in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv1Scale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setUv1Scale, _godot_object, scale);
 	}
 	/**
 	
@@ -1551,7 +1561,7 @@ public:
 	void setUv1TriplanarBlendSharpness(in double sharpness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv1TriplanarBlendSharpness, _godot_object, sharpness);
+		ptrcall!(void)(GDNativeClassBinding.setUv1TriplanarBlendSharpness, _godot_object, sharpness);
 	}
 	/**
 	
@@ -1559,7 +1569,7 @@ public:
 	void setUv2Offset(in Vector3 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv2Offset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setUv2Offset, _godot_object, offset);
 	}
 	/**
 	
@@ -1567,7 +1577,7 @@ public:
 	void setUv2Scale(in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv2Scale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setUv2Scale, _godot_object, scale);
 	}
 	/**
 	
@@ -1575,7 +1585,7 @@ public:
 	void setUv2TriplanarBlendSharpness(in double sharpness)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv2TriplanarBlendSharpness, _godot_object, sharpness);
+		ptrcall!(void)(GDNativeClassBinding.setUv2TriplanarBlendSharpness, _godot_object, sharpness);
 	}
 	/**
 	The material's base color.
@@ -1891,6 +1901,7 @@ public:
 	}
 	/**
 	Texture that specifies the per-pixel normal of the detail overlay.
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	@property Texture detailNormal()
 	{
@@ -2167,7 +2178,7 @@ public:
 		setFlag(10, v);
 	}
 	/**
-	The reflectivity of the object's surface. The higher the value, the more light is reflected.
+	A high value makes the material appear more like a metal. Non-metals use their albedo as the diffuse color and add diffuse to the specular reflection. With non-metals, the reflection appears on top of the albedo color. Metals use their albedo as a multiplier to the specular reflection and set the diffuse color to black resulting in a tinted reflection. Materials work better when fully metal or fully non-metal, values between `0` and `1` should only be used for blending between metal and non-metal sections. To alter the amount of reflection use $(D roughness).
 	*/
 	@property double metallic()
 	{
@@ -2241,6 +2252,7 @@ public:
 	}
 	/**
 	Texture used to specify the normal at a given pixel. The `normal_texture` only uses the red and green channels. The normal read from `normal_texture` is oriented around the surface normal provided by the $(D Mesh).
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	@property Texture normalTexture()
 	{

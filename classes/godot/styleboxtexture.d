@@ -31,14 +31,14 @@ Texture-based nine-patch $(D StyleBox), in a way similar to $(D NinePatchRect). 
 */
 @GodotBaseClass struct StyleBoxTexture
 {
-	enum string _GODOT_internal_name = "StyleBoxTexture";
+	package(godot) enum string _GODOT_internal_name = "StyleBoxTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; StyleBox _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ StyleBox _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_expand_margin_size") GodotMethod!(double, long) getExpandMarginSize;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 		@GodotName("set_v_axis_stretch_mode") GodotMethod!(void, long) setVAxisStretchMode;
 	}
-	bool opEquals(in StyleBoxTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StyleBoxTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StyleBoxTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StyleBoxTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StyleBoxTexture.
+	/// Note: use `memnew!StyleBoxTexture` instead.
 	static StyleBoxTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -103,7 +113,7 @@ public:
 	double getExpandMarginSize(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getExpandMarginSize, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getExpandMarginSize, _godot_object, margin);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	StyleBoxTexture.AxisStretchMode getHAxisStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_classBinding.getHAxisStretchMode, _godot_object);
+		return ptrcall!(StyleBoxTexture.AxisStretchMode)(GDNativeClassBinding.getHAxisStretchMode, _godot_object);
 	}
 	/**
 	Returns the size of the given `margin`. See $(D margin) for possible values.
@@ -119,7 +129,7 @@ public:
 	double getMarginSize(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMarginSize, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getMarginSize, _godot_object, margin);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	Color getModulate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getModulate, _godot_object);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	Ref!Texture getNormalMap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getNormalMap, _godot_object);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	Rect2 getRegionRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRegionRect, _godot_object);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	StyleBoxTexture.AxisStretchMode getVAxisStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StyleBoxTexture.AxisStretchMode)(_classBinding.getVAxisStretchMode, _godot_object);
+		return ptrcall!(StyleBoxTexture.AxisStretchMode)(GDNativeClassBinding.getVAxisStretchMode, _godot_object);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	bool isDrawCenterEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawCenterEnabled, _godot_object);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	void setDrawCenter(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDrawCenter, _godot_object, enable);
 	}
 	/**
 	Sets the expand margin to `size` pixels for all margins.
@@ -183,7 +193,7 @@ public:
 	void setExpandMarginAll(in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginAll, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMarginAll, _godot_object, size);
 	}
 	/**
 	Sets the expand margin for each margin to `size_left`, `size_top`, `size_right`, and `size_bottom` pixels.
@@ -191,7 +201,7 @@ public:
 	void setExpandMarginIndividual(in double size_left, in double size_top, in double size_right, in double size_bottom)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMarginIndividual, _godot_object, size_left, size_top, size_right, size_bottom);
 	}
 	/**
 	Sets the expand margin to `size` pixels for the given `margin`. See $(D margin) for possible values.
@@ -199,7 +209,7 @@ public:
 	void setExpandMarginSize(in long margin, in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpandMarginSize, _godot_object, margin, size);
+		ptrcall!(void)(GDNativeClassBinding.setExpandMarginSize, _godot_object, margin, size);
 	}
 	/**
 	
@@ -207,7 +217,7 @@ public:
 	void setHAxisStretchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHAxisStretchMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setHAxisStretchMode, _godot_object, mode);
 	}
 	/**
 	Sets the margin to `size` pixels for the given `margin`. See $(D margin) for possible values.
@@ -215,7 +225,7 @@ public:
 	void setMarginSize(in long margin, in double size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMarginSize, _godot_object, margin, size);
+		ptrcall!(void)(GDNativeClassBinding.setMarginSize, _godot_object, margin, size);
 	}
 	/**
 	
@@ -223,7 +233,7 @@ public:
 	void setModulate(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setModulate, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setModulate, _godot_object, color);
 	}
 	/**
 	
@@ -231,7 +241,7 @@ public:
 	void setNormalMap(Texture normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.setNormalMap, _godot_object, normal_map);
 	}
 	/**
 	
@@ -239,7 +249,7 @@ public:
 	void setRegionRect(in Rect2 region)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, region);
+		ptrcall!(void)(GDNativeClassBinding.setRegionRect, _godot_object, region);
 	}
 	/**
 	
@@ -247,7 +257,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -255,7 +265,7 @@ public:
 	void setVAxisStretchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVAxisStretchMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setVAxisStretchMode, _godot_object, mode);
 	}
 	/**
 	Controls how the stylebox's texture will be stretched or tiled horizontally. See $(D axisstretchmode) for possible values.
@@ -411,6 +421,7 @@ public:
 	}
 	/**
 	The normal map to use when drawing this style box.
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	@property Texture normalMap()
 	{

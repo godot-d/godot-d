@@ -29,14 +29,14 @@ Physics2DServer is the server responsible for all 2D physics. It can create many
 */
 @GodotBaseClass struct Physics2DServerSingleton
 {
-	enum string _GODOT_internal_name = "Physics2DServer";
+	package(godot) enum string _GODOT_internal_name = "Physics2DServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -144,10 +144,20 @@ public:
 		@GodotName("space_set_active") GodotMethod!(void, RID, bool) spaceSetActive;
 		@GodotName("space_set_param") GodotMethod!(void, RID, long, double) spaceSetParam;
 	}
-	bool opEquals(in Physics2DServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Physics2DServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Physics2DServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Physics2DServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Physics2DServerSingleton.
+	/// Note: use `memnew!Physics2DServerSingleton` instead.
 	static Physics2DServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -538,7 +548,7 @@ public:
 	void areaAddShape(in RID area, in RID shape, in Transform2D transform = Transform2D.init, in bool disabled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAddShape, _godot_object, area, shape, transform, disabled);
+		ptrcall!(void)(GDNativeClassBinding.areaAddShape, _godot_object, area, shape, transform, disabled);
 	}
 	/**
 	
@@ -546,7 +556,7 @@ public:
 	void areaAttachCanvasInstanceId(in RID area, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAttachCanvasInstanceId, _godot_object, area, id);
+		ptrcall!(void)(GDNativeClassBinding.areaAttachCanvasInstanceId, _godot_object, area, id);
 	}
 	/**
 	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
@@ -554,7 +564,7 @@ public:
 	void areaAttachObjectInstanceId(in RID area, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaAttachObjectInstanceId, _godot_object, area, id);
+		ptrcall!(void)(GDNativeClassBinding.areaAttachObjectInstanceId, _godot_object, area, id);
 	}
 	/**
 	Removes all shapes from an area. It does not delete the shapes, so they can be reassigned later.
@@ -562,7 +572,7 @@ public:
 	void areaClearShapes(in RID area)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaClearShapes, _godot_object, area);
+		ptrcall!(void)(GDNativeClassBinding.areaClearShapes, _godot_object, area);
 	}
 	/**
 	Creates an $(D Area2D).
@@ -570,7 +580,7 @@ public:
 	RID areaCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.areaCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.areaCreate, _godot_object);
 	}
 	/**
 	
@@ -578,7 +588,7 @@ public:
 	long areaGetCanvasInstanceId(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetCanvasInstanceId, _godot_object, area);
+		return ptrcall!(long)(GDNativeClassBinding.areaGetCanvasInstanceId, _godot_object, area);
 	}
 	/**
 	Gets the instance ID of the object the area is assigned to.
@@ -586,7 +596,7 @@ public:
 	long areaGetObjectInstanceId(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetObjectInstanceId, _godot_object, area);
+		return ptrcall!(long)(GDNativeClassBinding.areaGetObjectInstanceId, _godot_object, area);
 	}
 	/**
 	Returns an area parameter value. See $(D areaparameter) for a list of available parameters.
@@ -594,7 +604,7 @@ public:
 	Variant areaGetParam(in RID area, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.areaGetParam, _godot_object, area, param);
+		return ptrcall!(Variant)(GDNativeClassBinding.areaGetParam, _godot_object, area, param);
 	}
 	/**
 	Returns the $(D RID) of the nth shape of an area.
@@ -602,7 +612,7 @@ public:
 	RID areaGetShape(in RID area, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.areaGetShape, _godot_object, area, shape_idx);
+		return ptrcall!(RID)(GDNativeClassBinding.areaGetShape, _godot_object, area, shape_idx);
 	}
 	/**
 	Returns the number of shapes assigned to an area.
@@ -610,7 +620,7 @@ public:
 	long areaGetShapeCount(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.areaGetShapeCount, _godot_object, area);
+		return ptrcall!(long)(GDNativeClassBinding.areaGetShapeCount, _godot_object, area);
 	}
 	/**
 	Returns the transform matrix of a shape within an area.
@@ -618,7 +628,7 @@ public:
 	Transform2D areaGetShapeTransform(in RID area, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.areaGetShapeTransform, _godot_object, area, shape_idx);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.areaGetShapeTransform, _godot_object, area, shape_idx);
 	}
 	/**
 	Returns the space assigned to the area.
@@ -626,7 +636,7 @@ public:
 	RID areaGetSpace(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.areaGetSpace, _godot_object, area);
+		return ptrcall!(RID)(GDNativeClassBinding.areaGetSpace, _godot_object, area);
 	}
 	/**
 	Returns the space override mode for the area.
@@ -634,7 +644,7 @@ public:
 	Physics2DServer.AreaSpaceOverrideMode areaGetSpaceOverrideMode(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.AreaSpaceOverrideMode)(_classBinding.areaGetSpaceOverrideMode, _godot_object, area);
+		return ptrcall!(Physics2DServer.AreaSpaceOverrideMode)(GDNativeClassBinding.areaGetSpaceOverrideMode, _godot_object, area);
 	}
 	/**
 	Returns the transform matrix for an area.
@@ -642,7 +652,7 @@ public:
 	Transform2D areaGetTransform(in RID area) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.areaGetTransform, _godot_object, area);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.areaGetTransform, _godot_object, area);
 	}
 	/**
 	Removes a shape from an area. It does not delete the shape, so it can be reassigned later.
@@ -650,7 +660,7 @@ public:
 	void areaRemoveShape(in RID area, in long shape_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaRemoveShape, _godot_object, area, shape_idx);
+		ptrcall!(void)(GDNativeClassBinding.areaRemoveShape, _godot_object, area, shape_idx);
 	}
 	/**
 	
@@ -658,7 +668,7 @@ public:
 	void areaSetAreaMonitorCallback(in RID area, GodotObject receiver, in String method)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
+		ptrcall!(void)(GDNativeClassBinding.areaSetAreaMonitorCallback, _godot_object, area, receiver, method);
 	}
 	/**
 	Assigns the area to one or many physics layers.
@@ -666,7 +676,7 @@ public:
 	void areaSetCollisionLayer(in RID area, in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetCollisionLayer, _godot_object, area, layer);
+		ptrcall!(void)(GDNativeClassBinding.areaSetCollisionLayer, _godot_object, area, layer);
 	}
 	/**
 	Sets which physics layers the area will monitor.
@@ -674,7 +684,7 @@ public:
 	void areaSetCollisionMask(in RID area, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetCollisionMask, _godot_object, area, mask);
+		ptrcall!(void)(GDNativeClassBinding.areaSetCollisionMask, _godot_object, area, mask);
 	}
 	/**
 	Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters:
@@ -687,7 +697,7 @@ public:
 	void areaSetMonitorCallback(in RID area, GodotObject receiver, in String method)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetMonitorCallback, _godot_object, area, receiver, method);
+		ptrcall!(void)(GDNativeClassBinding.areaSetMonitorCallback, _godot_object, area, receiver, method);
 	}
 	/**
 	
@@ -695,7 +705,7 @@ public:
 	void areaSetMonitorable(in RID area, in bool monitorable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetMonitorable, _godot_object, area, monitorable);
+		ptrcall!(void)(GDNativeClassBinding.areaSetMonitorable, _godot_object, area, monitorable);
 	}
 	/**
 	Sets the value for an area parameter. See $(D areaparameter) for a list of available parameters.
@@ -703,7 +713,7 @@ public:
 	void areaSetParam(VariantArg2)(in RID area, in long param, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetParam, _godot_object, area, param, value);
+		ptrcall!(void)(GDNativeClassBinding.areaSetParam, _godot_object, area, param, value);
 	}
 	/**
 	Substitutes a given area shape by another. The old shape is selected by its index, the new one by its $(D RID).
@@ -711,7 +721,7 @@ public:
 	void areaSetShape(in RID area, in long shape_idx, in RID shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShape, _godot_object, area, shape_idx, shape);
+		ptrcall!(void)(GDNativeClassBinding.areaSetShape, _godot_object, area, shape_idx, shape);
 	}
 	/**
 	Disables a given shape in an area.
@@ -719,7 +729,7 @@ public:
 	void areaSetShapeDisabled(in RID area, in long shape_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShapeDisabled, _godot_object, area, shape_idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.areaSetShapeDisabled, _godot_object, area, shape_idx, disabled);
 	}
 	/**
 	Sets the transform matrix for an area shape.
@@ -727,7 +737,7 @@ public:
 	void areaSetShapeTransform(in RID area, in long shape_idx, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetShapeTransform, _godot_object, area, shape_idx, transform);
+		ptrcall!(void)(GDNativeClassBinding.areaSetShapeTransform, _godot_object, area, shape_idx, transform);
 	}
 	/**
 	Assigns a space to the area.
@@ -735,7 +745,7 @@ public:
 	void areaSetSpace(in RID area, in RID space)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetSpace, _godot_object, area, space);
+		ptrcall!(void)(GDNativeClassBinding.areaSetSpace, _godot_object, area, space);
 	}
 	/**
 	Sets the space override mode for the area. See $(D areaspaceoverridemode) for a list of available modes.
@@ -743,7 +753,7 @@ public:
 	void areaSetSpaceOverrideMode(in RID area, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetSpaceOverrideMode, _godot_object, area, mode);
+		ptrcall!(void)(GDNativeClassBinding.areaSetSpaceOverrideMode, _godot_object, area, mode);
 	}
 	/**
 	Sets the transform matrix for an area.
@@ -751,7 +761,7 @@ public:
 	void areaSetTransform(in RID area, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.areaSetTransform, _godot_object, area, transform);
+		ptrcall!(void)(GDNativeClassBinding.areaSetTransform, _godot_object, area, transform);
 	}
 	/**
 	
@@ -759,7 +769,7 @@ public:
 	void bodyAddCentralForce(in RID _body, in Vector2 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddCentralForce, _godot_object, _body, force);
+		ptrcall!(void)(GDNativeClassBinding.bodyAddCentralForce, _godot_object, _body, force);
 	}
 	/**
 	Adds a body to the list of bodies exempt from collisions.
@@ -767,7 +777,7 @@ public:
 	void bodyAddCollisionException(in RID _body, in RID excepted_body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddCollisionException, _godot_object, _body, excepted_body);
+		ptrcall!(void)(GDNativeClassBinding.bodyAddCollisionException, _godot_object, _body, excepted_body);
 	}
 	/**
 	Adds a positioned force to the applied force and torque. As with $(D bodyApplyImpulse), both the force and the offset from the body origin are in global coordinates. A force differs from an impulse in that, while the two are forces, the impulse clears itself after being applied.
@@ -775,7 +785,7 @@ public:
 	void bodyAddForce(in RID _body, in Vector2 offset, in Vector2 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddForce, _godot_object, _body, offset, force);
+		ptrcall!(void)(GDNativeClassBinding.bodyAddForce, _godot_object, _body, offset, force);
 	}
 	/**
 	Adds a shape to the body, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
@@ -783,7 +793,7 @@ public:
 	void bodyAddShape(in RID _body, in RID shape, in Transform2D transform = Transform2D.init, in bool disabled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddShape, _godot_object, _body, shape, transform, disabled);
+		ptrcall!(void)(GDNativeClassBinding.bodyAddShape, _godot_object, _body, shape, transform, disabled);
 	}
 	/**
 	
@@ -791,7 +801,7 @@ public:
 	void bodyAddTorque(in RID _body, in double torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAddTorque, _godot_object, _body, torque);
+		ptrcall!(void)(GDNativeClassBinding.bodyAddTorque, _godot_object, _body, torque);
 	}
 	/**
 	
@@ -799,7 +809,7 @@ public:
 	void bodyApplyCentralImpulse(in RID _body, in Vector2 impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyApplyCentralImpulse, _godot_object, _body, impulse);
+		ptrcall!(void)(GDNativeClassBinding.bodyApplyCentralImpulse, _godot_object, _body, impulse);
 	}
 	/**
 	Adds a positioned impulse to the applied force and torque. Both the force and the offset from the body origin are in global coordinates.
@@ -807,7 +817,7 @@ public:
 	void bodyApplyImpulse(in RID _body, in Vector2 position, in Vector2 impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyApplyImpulse, _godot_object, _body, position, impulse);
+		ptrcall!(void)(GDNativeClassBinding.bodyApplyImpulse, _godot_object, _body, position, impulse);
 	}
 	/**
 	
@@ -815,7 +825,7 @@ public:
 	void bodyApplyTorqueImpulse(in RID _body, in double impulse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyApplyTorqueImpulse, _godot_object, _body, impulse);
+		ptrcall!(void)(GDNativeClassBinding.bodyApplyTorqueImpulse, _godot_object, _body, impulse);
 	}
 	/**
 	
@@ -823,7 +833,7 @@ public:
 	void bodyAttachCanvasInstanceId(in RID _body, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAttachCanvasInstanceId, _godot_object, _body, id);
+		ptrcall!(void)(GDNativeClassBinding.bodyAttachCanvasInstanceId, _godot_object, _body, id);
 	}
 	/**
 	Assigns the area to a descendant of $(D GodotObject), so it can exist in the node tree.
@@ -831,7 +841,7 @@ public:
 	void bodyAttachObjectInstanceId(in RID _body, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyAttachObjectInstanceId, _godot_object, _body, id);
+		ptrcall!(void)(GDNativeClassBinding.bodyAttachObjectInstanceId, _godot_object, _body, id);
 	}
 	/**
 	Removes all shapes from a body.
@@ -839,7 +849,7 @@ public:
 	void bodyClearShapes(in RID _body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyClearShapes, _godot_object, _body);
+		ptrcall!(void)(GDNativeClassBinding.bodyClearShapes, _godot_object, _body);
 	}
 	/**
 	Creates a physics body.
@@ -847,7 +857,7 @@ public:
 	RID bodyCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.bodyCreate, _godot_object);
 	}
 	/**
 	
@@ -855,7 +865,7 @@ public:
 	long bodyGetCanvasInstanceId(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCanvasInstanceId, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetCanvasInstanceId, _godot_object, _body);
 	}
 	/**
 	Returns the physics layer or layers a body belongs to.
@@ -863,7 +873,7 @@ public:
 	long bodyGetCollisionLayer(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCollisionLayer, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetCollisionLayer, _godot_object, _body);
 	}
 	/**
 	Returns the physics layer or layers a body can collide with.
@@ -871,7 +881,7 @@ public:
 	long bodyGetCollisionMask(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetCollisionMask, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetCollisionMask, _godot_object, _body);
 	}
 	/**
 	Returns the continuous collision detection mode.
@@ -879,7 +889,7 @@ public:
 	Physics2DServer.CCDMode bodyGetContinuousCollisionDetectionMode(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.CCDMode)(_classBinding.bodyGetContinuousCollisionDetectionMode, _godot_object, _body);
+		return ptrcall!(Physics2DServer.CCDMode)(GDNativeClassBinding.bodyGetContinuousCollisionDetectionMode, _godot_object, _body);
 	}
 	/**
 	Returns the $(D Physics2DDirectBodyState) of the body.
@@ -887,7 +897,7 @@ public:
 	Physics2DDirectBodyState bodyGetDirectState(in RID _body)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DDirectBodyState)(_classBinding.bodyGetDirectState, _godot_object, _body);
+		return ptrcall!(Physics2DDirectBodyState)(GDNativeClassBinding.bodyGetDirectState, _godot_object, _body);
 	}
 	/**
 	Returns the maximum contacts that can be reported. See $(D bodySetMaxContactsReported).
@@ -895,7 +905,7 @@ public:
 	long bodyGetMaxContactsReported(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetMaxContactsReported, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetMaxContactsReported, _godot_object, _body);
 	}
 	/**
 	Returns the body mode.
@@ -903,7 +913,7 @@ public:
 	Physics2DServer.BodyMode bodyGetMode(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.BodyMode)(_classBinding.bodyGetMode, _godot_object, _body);
+		return ptrcall!(Physics2DServer.BodyMode)(GDNativeClassBinding.bodyGetMode, _godot_object, _body);
 	}
 	/**
 	Gets the instance ID of the object the area is assigned to.
@@ -911,7 +921,7 @@ public:
 	long bodyGetObjectInstanceId(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetObjectInstanceId, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetObjectInstanceId, _godot_object, _body);
 	}
 	/**
 	Returns the value of a body parameter. See $(D bodyparameter) for a list of available parameters.
@@ -919,7 +929,7 @@ public:
 	double bodyGetParam(in RID _body, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.bodyGetParam, _godot_object, _body, param);
+		return ptrcall!(double)(GDNativeClassBinding.bodyGetParam, _godot_object, _body, param);
 	}
 	/**
 	Returns the $(D RID) of the nth shape of a body.
@@ -927,7 +937,7 @@ public:
 	RID bodyGetShape(in RID _body, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyGetShape, _godot_object, _body, shape_idx);
+		return ptrcall!(RID)(GDNativeClassBinding.bodyGetShape, _godot_object, _body, shape_idx);
 	}
 	/**
 	Returns the number of shapes assigned to a body.
@@ -935,7 +945,7 @@ public:
 	long bodyGetShapeCount(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bodyGetShapeCount, _godot_object, _body);
+		return ptrcall!(long)(GDNativeClassBinding.bodyGetShapeCount, _godot_object, _body);
 	}
 	/**
 	Returns the metadata of a shape of a body.
@@ -943,7 +953,7 @@ public:
 	Variant bodyGetShapeMetadata(in RID _body, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.bodyGetShapeMetadata, _godot_object, _body, shape_idx);
+		return ptrcall!(Variant)(GDNativeClassBinding.bodyGetShapeMetadata, _godot_object, _body, shape_idx);
 	}
 	/**
 	Returns the transform matrix of a body shape.
@@ -951,7 +961,7 @@ public:
 	Transform2D bodyGetShapeTransform(in RID _body, in long shape_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.bodyGetShapeTransform, _godot_object, _body, shape_idx);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.bodyGetShapeTransform, _godot_object, _body, shape_idx);
 	}
 	/**
 	Returns the $(D RID) of the space assigned to a body.
@@ -959,7 +969,7 @@ public:
 	RID bodyGetSpace(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.bodyGetSpace, _godot_object, _body);
+		return ptrcall!(RID)(GDNativeClassBinding.bodyGetSpace, _godot_object, _body);
 	}
 	/**
 	Returns a body state.
@@ -967,7 +977,7 @@ public:
 	Variant bodyGetState(in RID _body, in long state) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.bodyGetState, _godot_object, _body, state);
+		return ptrcall!(Variant)(GDNativeClassBinding.bodyGetState, _godot_object, _body, state);
 	}
 	/**
 	Returns whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
@@ -975,7 +985,7 @@ public:
 	bool bodyIsOmittingForceIntegration(in RID _body) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.bodyIsOmittingForceIntegration, _godot_object, _body);
+		return ptrcall!(bool)(GDNativeClassBinding.bodyIsOmittingForceIntegration, _godot_object, _body);
 	}
 	/**
 	Removes a body from the list of bodies exempt from collisions.
@@ -983,7 +993,7 @@ public:
 	void bodyRemoveCollisionException(in RID _body, in RID excepted_body)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyRemoveCollisionException, _godot_object, _body, excepted_body);
+		ptrcall!(void)(GDNativeClassBinding.bodyRemoveCollisionException, _godot_object, _body, excepted_body);
 	}
 	/**
 	Removes a shape from a body. The shape is not deleted, so it can be reused afterwards.
@@ -991,7 +1001,7 @@ public:
 	void bodyRemoveShape(in RID _body, in long shape_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodyRemoveShape, _godot_object, _body, shape_idx);
+		ptrcall!(void)(GDNativeClassBinding.bodyRemoveShape, _godot_object, _body, shape_idx);
 	}
 	/**
 	Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
@@ -999,7 +1009,7 @@ public:
 	void bodySetAxisVelocity(in RID _body, in Vector2 axis_velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetAxisVelocity, _godot_object, _body, axis_velocity);
+		ptrcall!(void)(GDNativeClassBinding.bodySetAxisVelocity, _godot_object, _body, axis_velocity);
 	}
 	/**
 	Sets the physics layer or layers a body belongs to.
@@ -1007,7 +1017,7 @@ public:
 	void bodySetCollisionLayer(in RID _body, in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetCollisionLayer, _godot_object, _body, layer);
+		ptrcall!(void)(GDNativeClassBinding.bodySetCollisionLayer, _godot_object, _body, layer);
 	}
 	/**
 	Sets the physics layer or layers a body can collide with.
@@ -1015,7 +1025,7 @@ public:
 	void bodySetCollisionMask(in RID _body, in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetCollisionMask, _godot_object, _body, mask);
+		ptrcall!(void)(GDNativeClassBinding.bodySetCollisionMask, _godot_object, _body, mask);
 	}
 	/**
 	Sets the continuous collision detection mode using one of the $(D ccdmode) constants.
@@ -1024,7 +1034,7 @@ public:
 	void bodySetContinuousCollisionDetectionMode(in RID _body, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetContinuousCollisionDetectionMode, _godot_object, _body, mode);
+		ptrcall!(void)(GDNativeClassBinding.bodySetContinuousCollisionDetectionMode, _godot_object, _body, mode);
 	}
 	/**
 	Sets the function used to calculate physics for an object, if that object allows it (see $(D bodySetOmitForceIntegration)).
@@ -1032,7 +1042,7 @@ public:
 	void bodySetForceIntegrationCallback(VariantArg3)(in RID _body, GodotObject receiver, in String method, in VariantArg3 userdata = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);
+		ptrcall!(void)(GDNativeClassBinding.bodySetForceIntegrationCallback, _godot_object, _body, receiver, method, userdata);
 	}
 	/**
 	Sets the maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
@@ -1040,7 +1050,7 @@ public:
 	void bodySetMaxContactsReported(in RID _body, in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetMaxContactsReported, _godot_object, _body, amount);
+		ptrcall!(void)(GDNativeClassBinding.bodySetMaxContactsReported, _godot_object, _body, amount);
 	}
 	/**
 	Sets the body mode using one of the $(D bodymode) constants.
@@ -1048,7 +1058,7 @@ public:
 	void bodySetMode(in RID _body, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetMode, _godot_object, _body, mode);
+		ptrcall!(void)(GDNativeClassBinding.bodySetMode, _godot_object, _body, mode);
 	}
 	/**
 	Sets whether a body uses a callback function to calculate its own physics (see $(D bodySetForceIntegrationCallback)).
@@ -1056,7 +1066,7 @@ public:
 	void bodySetOmitForceIntegration(in RID _body, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetOmitForceIntegration, _godot_object, _body, enable);
+		ptrcall!(void)(GDNativeClassBinding.bodySetOmitForceIntegration, _godot_object, _body, enable);
 	}
 	/**
 	Sets a body parameter. See $(D bodyparameter) for a list of available parameters.
@@ -1064,7 +1074,7 @@ public:
 	void bodySetParam(in RID _body, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetParam, _godot_object, _body, param, value);
+		ptrcall!(void)(GDNativeClassBinding.bodySetParam, _godot_object, _body, param, value);
 	}
 	/**
 	Substitutes a given body shape by another. The old shape is selected by its index, the new one by its $(D RID).
@@ -1072,7 +1082,7 @@ public:
 	void bodySetShape(in RID _body, in long shape_idx, in RID shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShape, _godot_object, _body, shape_idx, shape);
+		ptrcall!(void)(GDNativeClassBinding.bodySetShape, _godot_object, _body, shape_idx, shape);
 	}
 	/**
 	Enables one way collision on body if `enable` is `true`.
@@ -1080,7 +1090,7 @@ public:
 	void bodySetShapeAsOneWayCollision(in RID _body, in long shape_idx, in bool enable, in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable, margin);
+		ptrcall!(void)(GDNativeClassBinding.bodySetShapeAsOneWayCollision, _godot_object, _body, shape_idx, enable, margin);
 	}
 	/**
 	Disables shape in body if `disable` is `true`.
@@ -1088,7 +1098,7 @@ public:
 	void bodySetShapeDisabled(in RID _body, in long shape_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeDisabled, _godot_object, _body, shape_idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.bodySetShapeDisabled, _godot_object, _body, shape_idx, disabled);
 	}
 	/**
 	Sets metadata of a shape within a body. This metadata is different from $(D GodotObject.setMeta), and can be retrieved on shape queries.
@@ -1096,7 +1106,7 @@ public:
 	void bodySetShapeMetadata(VariantArg2)(in RID _body, in long shape_idx, in VariantArg2 metadata)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeMetadata, _godot_object, _body, shape_idx, metadata);
+		ptrcall!(void)(GDNativeClassBinding.bodySetShapeMetadata, _godot_object, _body, shape_idx, metadata);
 	}
 	/**
 	Sets the transform matrix for a body shape.
@@ -1104,7 +1114,7 @@ public:
 	void bodySetShapeTransform(in RID _body, in long shape_idx, in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetShapeTransform, _godot_object, _body, shape_idx, transform);
+		ptrcall!(void)(GDNativeClassBinding.bodySetShapeTransform, _godot_object, _body, shape_idx, transform);
 	}
 	/**
 	Assigns a space to the body (see $(D spaceCreate)).
@@ -1112,7 +1122,7 @@ public:
 	void bodySetSpace(in RID _body, in RID space)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetSpace, _godot_object, _body, space);
+		ptrcall!(void)(GDNativeClassBinding.bodySetSpace, _godot_object, _body, space);
 	}
 	/**
 	Sets a body state using one of the $(D bodystate) constants.
@@ -1120,7 +1130,7 @@ public:
 	void bodySetState(VariantArg2)(in RID _body, in long state, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bodySetState, _godot_object, _body, state, value);
+		ptrcall!(void)(GDNativeClassBinding.bodySetState, _godot_object, _body, state, value);
 	}
 	/**
 	Returns `true` if a collision would result from moving in the given direction from a given point in space. Margin increases the size of the shapes involved in the collision detection. $(D Physics2DTestMotionResult) can be passed to return additional information in.
@@ -1128,7 +1138,7 @@ public:
 	bool bodyTestMotion(in RID _body, in Transform2D from, in Vector2 motion, in bool infinite_inertia, in double margin = 0.08, Physics2DTestMotionResult result = Physics2DTestMotionResult.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.bodyTestMotion, _godot_object, _body, from, motion, infinite_inertia, margin, result);
+		return ptrcall!(bool)(GDNativeClassBinding.bodyTestMotion, _godot_object, _body, from, motion, infinite_inertia, margin, result);
 	}
 	/**
 	
@@ -1136,7 +1146,7 @@ public:
 	RID capsuleShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.capsuleShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.capsuleShapeCreate, _godot_object);
 	}
 	/**
 	
@@ -1144,7 +1154,7 @@ public:
 	RID circleShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.circleShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.circleShapeCreate, _godot_object);
 	}
 	/**
 	
@@ -1152,7 +1162,7 @@ public:
 	RID concavePolygonShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.concavePolygonShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.concavePolygonShapeCreate, _godot_object);
 	}
 	/**
 	
@@ -1160,7 +1170,7 @@ public:
 	RID convexPolygonShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.convexPolygonShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.convexPolygonShapeCreate, _godot_object);
 	}
 	/**
 	Creates a damped spring joint between two bodies. If not specified, the second body is assumed to be the joint itself.
@@ -1168,7 +1178,7 @@ public:
 	RID dampedSpringJointCreate(in Vector2 anchor_a, in Vector2 anchor_b, in RID body_a, in RID body_b = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.dampedSpringJointCreate, _godot_object, anchor_a, anchor_b, body_a, body_b);
+		return ptrcall!(RID)(GDNativeClassBinding.dampedSpringJointCreate, _godot_object, anchor_a, anchor_b, body_a, body_b);
 	}
 	/**
 	Returns the value of a damped spring joint parameter.
@@ -1176,7 +1186,7 @@ public:
 	double dampedStringJointGetParam(in RID joint, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.dampedStringJointGetParam, _godot_object, joint, param);
+		return ptrcall!(double)(GDNativeClassBinding.dampedStringJointGetParam, _godot_object, joint, param);
 	}
 	/**
 	Sets a damped spring joint parameter. See $(D dampedstringparam) for a list of available parameters.
@@ -1184,7 +1194,7 @@ public:
 	void dampedStringJointSetParam(in RID joint, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.dampedStringJointSetParam, _godot_object, joint, param, value);
+		ptrcall!(void)(GDNativeClassBinding.dampedStringJointSetParam, _godot_object, joint, param, value);
 	}
 	/**
 	Destroys any of the objects created by Physics2DServer. If the $(D RID) passed is not one of the objects that can be created by Physics2DServer, an error will be sent to the console.
@@ -1192,7 +1202,7 @@ public:
 	void freeRid(in RID rid)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.freeRid, _godot_object, rid);
+		ptrcall!(void)(GDNativeClassBinding.freeRid, _godot_object, rid);
 	}
 	/**
 	Returns information about the current state of the 2D physics engine. See $(D processinfo) for a list of available states.
@@ -1200,7 +1210,7 @@ public:
 	long getProcessInfo(in long process_info)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getProcessInfo, _godot_object, process_info);
+		return ptrcall!(long)(GDNativeClassBinding.getProcessInfo, _godot_object, process_info);
 	}
 	/**
 	Creates a groove joint between two bodies. If not specified, the bodies are assumed to be the joint itself.
@@ -1208,7 +1218,7 @@ public:
 	RID grooveJointCreate(in Vector2 groove1_a, in Vector2 groove2_a, in Vector2 anchor_b, in RID body_a = RID.init, in RID body_b = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.grooveJointCreate, _godot_object, groove1_a, groove2_a, anchor_b, body_a, body_b);
+		return ptrcall!(RID)(GDNativeClassBinding.grooveJointCreate, _godot_object, groove1_a, groove2_a, anchor_b, body_a, body_b);
 	}
 	/**
 	Returns the value of a joint parameter.
@@ -1216,7 +1226,7 @@ public:
 	double jointGetParam(in RID joint, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.jointGetParam, _godot_object, joint, param);
+		return ptrcall!(double)(GDNativeClassBinding.jointGetParam, _godot_object, joint, param);
 	}
 	/**
 	Returns a joint's type (see $(D jointtype)).
@@ -1224,7 +1234,7 @@ public:
 	Physics2DServer.JointType jointGetType(in RID joint) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.JointType)(_classBinding.jointGetType, _godot_object, joint);
+		return ptrcall!(Physics2DServer.JointType)(GDNativeClassBinding.jointGetType, _godot_object, joint);
 	}
 	/**
 	Sets a joint parameter. See $(D jointparam) for a list of available parameters.
@@ -1232,7 +1242,7 @@ public:
 	void jointSetParam(in RID joint, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.jointSetParam, _godot_object, joint, param, value);
+		ptrcall!(void)(GDNativeClassBinding.jointSetParam, _godot_object, joint, param, value);
 	}
 	/**
 	
@@ -1240,7 +1250,7 @@ public:
 	RID lineShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.lineShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.lineShapeCreate, _godot_object);
 	}
 	/**
 	Creates a pin joint between two bodies. If not specified, the second body is assumed to be the joint itself.
@@ -1248,7 +1258,7 @@ public:
 	RID pinJointCreate(in Vector2 anchor, in RID body_a, in RID body_b = RID.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.pinJointCreate, _godot_object, anchor, body_a, body_b);
+		return ptrcall!(RID)(GDNativeClassBinding.pinJointCreate, _godot_object, anchor, body_a, body_b);
 	}
 	/**
 	
@@ -1256,7 +1266,7 @@ public:
 	RID rayShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.rayShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.rayShapeCreate, _godot_object);
 	}
 	/**
 	
@@ -1264,7 +1274,7 @@ public:
 	RID rectangleShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.rectangleShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.rectangleShapeCreate, _godot_object);
 	}
 	/**
 	
@@ -1272,7 +1282,7 @@ public:
 	RID segmentShapeCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.segmentShapeCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.segmentShapeCreate, _godot_object);
 	}
 	/**
 	Activates or deactivates the 2D physics engine.
@@ -1280,7 +1290,7 @@ public:
 	void setActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setActive, _godot_object, active);
 	}
 	/**
 	Returns the shape data.
@@ -1288,7 +1298,7 @@ public:
 	Variant shapeGetData(in RID shape) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.shapeGetData, _godot_object, shape);
+		return ptrcall!(Variant)(GDNativeClassBinding.shapeGetData, _godot_object, shape);
 	}
 	/**
 	Returns a shape's type (see $(D shapetype)).
@@ -1296,7 +1306,7 @@ public:
 	Physics2DServer.ShapeType shapeGetType(in RID shape) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DServer.ShapeType)(_classBinding.shapeGetType, _godot_object, shape);
+		return ptrcall!(Physics2DServer.ShapeType)(GDNativeClassBinding.shapeGetType, _godot_object, shape);
 	}
 	/**
 	Sets the shape data that defines its shape and size. The data to be passed depends on the kind of shape created $(D shapeGetType).
@@ -1304,7 +1314,7 @@ public:
 	void shapeSetData(VariantArg1)(in RID shape, in VariantArg1 data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shapeSetData, _godot_object, shape, data);
+		ptrcall!(void)(GDNativeClassBinding.shapeSetData, _godot_object, shape, data);
 	}
 	/**
 	Creates a space. A space is a collection of parameters for the physics engine that can be assigned to an area or a body. It can be assigned to an area with $(D areaSetSpace), or to a body with $(D bodySetSpace).
@@ -1312,7 +1322,7 @@ public:
 	RID spaceCreate()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.spaceCreate, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.spaceCreate, _godot_object);
 	}
 	/**
 	Returns the state of a space, a $(D Physics2DDirectSpaceState). This object can be used to make collision/intersection queries.
@@ -1320,7 +1330,7 @@ public:
 	Physics2DDirectSpaceState spaceGetDirectState(in RID space)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Physics2DDirectSpaceState)(_classBinding.spaceGetDirectState, _godot_object, space);
+		return ptrcall!(Physics2DDirectSpaceState)(GDNativeClassBinding.spaceGetDirectState, _godot_object, space);
 	}
 	/**
 	Returns the value of a space parameter.
@@ -1328,7 +1338,7 @@ public:
 	double spaceGetParam(in RID space, in long param) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.spaceGetParam, _godot_object, space, param);
+		return ptrcall!(double)(GDNativeClassBinding.spaceGetParam, _godot_object, space, param);
 	}
 	/**
 	Returns whether the space is active.
@@ -1336,7 +1346,7 @@ public:
 	bool spaceIsActive(in RID space) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.spaceIsActive, _godot_object, space);
+		return ptrcall!(bool)(GDNativeClassBinding.spaceIsActive, _godot_object, space);
 	}
 	/**
 	Marks a space as active. It will not have an effect, unless it is assigned to an area or body.
@@ -1344,7 +1354,7 @@ public:
 	void spaceSetActive(in RID space, in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.spaceSetActive, _godot_object, space, active);
+		ptrcall!(void)(GDNativeClassBinding.spaceSetActive, _godot_object, space, active);
 	}
 	/**
 	Sets the value for a space parameter. See $(D spaceparameter) for a list of available parameters.
@@ -1352,7 +1362,7 @@ public:
 	void spaceSetParam(in RID space, in long param, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.spaceSetParam, _godot_object, space, param, value);
+		ptrcall!(void)(GDNativeClassBinding.spaceSetParam, _godot_object, space, param, value);
 	}
 }
 /// Returns: the Physics2DServerSingleton
@@ -1360,5 +1370,5 @@ public:
 Physics2DServerSingleton Physics2DServer()
 {
 	checkClassBinding!Physics2DServerSingleton();
-	return Physics2DServerSingleton(Physics2DServerSingleton._classBinding._singleton);
+	return Physics2DServerSingleton(Physics2DServerSingleton.GDNativeClassBinding._singleton);
 }

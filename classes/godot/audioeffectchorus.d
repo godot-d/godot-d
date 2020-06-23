@@ -29,14 +29,14 @@ The effect applies a filter with voices to duplicate the audio source and manipu
 */
 @GodotBaseClass struct AudioEffectChorus
 {
-	enum string _GODOT_internal_name = "AudioEffectChorus";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectChorus";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_dry") GodotMethod!(double) getDry;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_voice_rate_hz") GodotMethod!(void, long, double) setVoiceRateHz;
 		@GodotName("set_wet") GodotMethod!(void, double) setWet;
 	}
-	bool opEquals(in AudioEffectChorus other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectChorus opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectChorus other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectChorus opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectChorus.
+	/// Note: use `memnew!AudioEffectChorus` instead.
 	static AudioEffectChorus _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	double getDry() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDry, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDry, _godot_object);
 	}
 	/**
 	
@@ -84,7 +94,7 @@ public:
 	long getVoiceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVoiceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVoiceCount, _godot_object);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	double getVoiceCutoffHz(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceCutoffHz, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoiceCutoffHz, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	double getVoiceDelayMs(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceDelayMs, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoiceDelayMs, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	double getVoiceDepthMs(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceDepthMs, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoiceDepthMs, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getVoiceLevelDb(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceLevelDb, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoiceLevelDb, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	double getVoicePan(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoicePan, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoicePan, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	double getVoiceRateHz(in long voice_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVoiceRateHz, _godot_object, voice_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getVoiceRateHz, _godot_object, voice_idx);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	double getWet() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWet, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWet, _godot_object);
 	}
 	/**
 	
@@ -148,7 +158,7 @@ public:
 	void setDry(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDry, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setDry, _godot_object, amount);
 	}
 	/**
 	
@@ -156,7 +166,7 @@ public:
 	void setVoiceCount(in long voices)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceCount, _godot_object, voices);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceCount, _godot_object, voices);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	void setVoiceCutoffHz(in long voice_idx, in double cutoff_hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceCutoffHz, _godot_object, voice_idx, cutoff_hz);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceCutoffHz, _godot_object, voice_idx, cutoff_hz);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	void setVoiceDelayMs(in long voice_idx, in double delay_ms)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceDelayMs, _godot_object, voice_idx, delay_ms);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceDelayMs, _godot_object, voice_idx, delay_ms);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	void setVoiceDepthMs(in long voice_idx, in double depth_ms)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceDepthMs, _godot_object, voice_idx, depth_ms);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceDepthMs, _godot_object, voice_idx, depth_ms);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	void setVoiceLevelDb(in long voice_idx, in double level_db)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceLevelDb, _godot_object, voice_idx, level_db);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceLevelDb, _godot_object, voice_idx, level_db);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	void setVoicePan(in long voice_idx, in double pan)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoicePan, _godot_object, voice_idx, pan);
+		ptrcall!(void)(GDNativeClassBinding.setVoicePan, _godot_object, voice_idx, pan);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	void setVoiceRateHz(in long voice_idx, in double rate_hz)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVoiceRateHz, _godot_object, voice_idx, rate_hz);
+		ptrcall!(void)(GDNativeClassBinding.setVoiceRateHz, _godot_object, voice_idx, rate_hz);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	void setWet(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWet, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setWet, _godot_object, amount);
 	}
 	/**
 	The effect's raw signal.

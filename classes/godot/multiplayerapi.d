@@ -32,14 +32,14 @@ It is possible to override the MultiplayerAPI instance used by specific Nodes by
 */
 @GodotBaseClass struct MultiplayerAPI
 {
-	enum string _GODOT_internal_name = "MultiplayerAPI";
+	package(godot) enum string _GODOT_internal_name = "MultiplayerAPI";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_add_peer") GodotMethod!(void, long) _addPeer;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_refuse_new_network_connections") GodotMethod!(void, bool) setRefuseNewNetworkConnections;
 		@GodotName("set_root_node") GodotMethod!(void, Node) setRootNode;
 	}
-	bool opEquals(in MultiplayerAPI other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MultiplayerAPI opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MultiplayerAPI other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MultiplayerAPI opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MultiplayerAPI.
+	/// Note: use `memnew!MultiplayerAPI` instead.
 	static MultiplayerAPI _new()
 	{
 		static godot_class_constructor constructor;
@@ -181,7 +191,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Returns the peer IDs of all connected peers of this MultiplayerAPI's $(D networkPeer).
@@ -189,7 +199,7 @@ public:
 	PoolIntArray getNetworkConnectedPeers() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getNetworkConnectedPeers, _godot_object);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getNetworkConnectedPeers, _godot_object);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	Ref!NetworkedMultiplayerPeer getNetworkPeer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NetworkedMultiplayerPeer)(_classBinding.getNetworkPeer, _godot_object);
+		return ptrcall!(NetworkedMultiplayerPeer)(GDNativeClassBinding.getNetworkPeer, _godot_object);
 	}
 	/**
 	Returns the unique peer ID of this MultiplayerAPI's $(D networkPeer).
@@ -205,7 +215,7 @@ public:
 	long getNetworkUniqueId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getNetworkUniqueId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getNetworkUniqueId, _godot_object);
 	}
 	/**
 	Returns the sender's peer ID for the RPC currently being executed.
@@ -214,7 +224,7 @@ public:
 	long getRpcSenderId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRpcSenderId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRpcSenderId, _godot_object);
 	}
 	/**
 	Returns `true` if there is a $(D networkPeer) set.
@@ -222,7 +232,7 @@ public:
 	bool hasNetworkPeer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasNetworkPeer, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasNetworkPeer, _godot_object);
 	}
 	/**
 	Returns `true` if this MultiplayerAPI's $(D networkPeer) is in server mode (listening for connections).
@@ -230,7 +240,7 @@ public:
 	bool isNetworkServer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNetworkServer, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isNetworkServer, _godot_object);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	bool isObjectDecodingAllowed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isObjectDecodingAllowed, _godot_object);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	bool isRefusingNewNetworkConnections() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRefusingNewNetworkConnections, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRefusingNewNetworkConnections, _godot_object);
 	}
 	/**
 	Method used for polling the MultiplayerAPI. You only need to worry about this if you are using $(D Node.customMultiplayer) override or you set $(D SceneTree.multiplayerPoll) to `false`. By default, $(D SceneTree) will poll its MultiplayerAPI for you.
@@ -255,7 +265,7 @@ public:
 	void poll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.poll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	Sends the given raw `bytes` to a specific peer identified by `id` (see $(D NetworkedMultiplayerPeer.setTargetPeer)). Default ID is `0`, i.e. broadcast to all peers.
@@ -263,7 +273,7 @@ public:
 	GodotError sendBytes(in PoolByteArray bytes, in long id = 0, in long mode = 2)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.sendBytes, _godot_object, bytes, id, mode);
+		return ptrcall!(GodotError)(GDNativeClassBinding.sendBytes, _godot_object, bytes, id, mode);
 	}
 	/**
 	
@@ -271,7 +281,7 @@ public:
 	void setAllowObjectDecoding(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowObjectDecoding, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAllowObjectDecoding, _godot_object, enable);
 	}
 	/**
 	
@@ -279,7 +289,7 @@ public:
 	void setNetworkPeer(NetworkedMultiplayerPeer peer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNetworkPeer, _godot_object, peer);
+		ptrcall!(void)(GDNativeClassBinding.setNetworkPeer, _godot_object, peer);
 	}
 	/**
 	
@@ -287,7 +297,7 @@ public:
 	void setRefuseNewNetworkConnections(in bool refuse)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRefuseNewNetworkConnections, _godot_object, refuse);
+		ptrcall!(void)(GDNativeClassBinding.setRefuseNewNetworkConnections, _godot_object, refuse);
 	}
 	/**
 	Sets the base root node to use for RPCs. Instead of an absolute path, a relative path will be used to find the node upon which the RPC should be executed.
@@ -296,7 +306,7 @@ public:
 	void setRootNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRootNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setRootNode, _godot_object, node);
 	}
 	/**
 	If `true` (or if the $(D networkPeer) has $(D PacketPeer.allowObjectDecoding) set to `true`), the MultiplayerAPI will allow encoding and decoding of object during RPCs/RSETs.

@@ -27,14 +27,14 @@ import godot.mesh;
 */
 @GodotBaseClass struct NavigationMesh
 {
-	enum string _GODOT_internal_name = "NavigationMesh";
+	package(godot) enum string _GODOT_internal_name = "NavigationMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_polygons") GodotMethod!(Array) _getPolygons;
@@ -91,10 +91,20 @@ public:
 		@GodotName("set_vertices") GodotMethod!(void, PoolVector3Array) setVertices;
 		@GodotName("set_verts_per_poly") GodotMethod!(void, double) setVertsPerPoly;
 	}
-	bool opEquals(in NavigationMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NavigationMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NavigationMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NavigationMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NavigationMesh.
+	/// Note: use `memnew!NavigationMesh` instead.
 	static NavigationMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -156,7 +166,7 @@ public:
 	void addPolygon(in PoolIntArray polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPolygon, _godot_object, polygon);
+		ptrcall!(void)(GDNativeClassBinding.addPolygon, _godot_object, polygon);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	void clearPolygons()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearPolygons, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearPolygons, _godot_object);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	void createFromMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createFromMesh, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.createFromMesh, _godot_object, mesh);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	double getAgentHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAgentHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAgentHeight, _godot_object);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	double getAgentMaxClimb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAgentMaxClimb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAgentMaxClimb, _godot_object);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	double getAgentMaxSlope() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAgentMaxSlope, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAgentMaxSlope, _godot_object);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	double getAgentRadius()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAgentRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getAgentRadius, _godot_object);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	double getCellHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCellHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCellHeight, _godot_object);
 	}
 	/**
 	
@@ -220,7 +230,7 @@ public:
 	double getCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCellSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCellSize, _godot_object);
 	}
 	/**
 	
@@ -228,7 +238,7 @@ public:
 	long getCollisionMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCollisionMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	bool getCollisionMaskBit(in long bit) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getCollisionMaskBit, _godot_object, bit);
+		return ptrcall!(bool)(GDNativeClassBinding.getCollisionMaskBit, _godot_object, bit);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	double getDetailSampleDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDetailSampleDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDetailSampleDistance, _godot_object);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	double getDetailSampleMaxError() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDetailSampleMaxError, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDetailSampleMaxError, _godot_object);
 	}
 	/**
 	
@@ -260,7 +270,7 @@ public:
 	double getEdgeMaxError() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEdgeMaxError, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEdgeMaxError, _godot_object);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	double getEdgeMaxLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEdgeMaxLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEdgeMaxLength, _godot_object);
 	}
 	/**
 	
@@ -276,7 +286,7 @@ public:
 	bool getFilterLedgeSpans() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFilterLedgeSpans, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getFilterLedgeSpans, _godot_object);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	bool getFilterLowHangingObstacles() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFilterLowHangingObstacles, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getFilterLowHangingObstacles, _godot_object);
 	}
 	/**
 	
@@ -292,7 +302,7 @@ public:
 	bool getFilterWalkableLowHeightSpans() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getFilterWalkableLowHeightSpans, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getFilterWalkableLowHeightSpans, _godot_object);
 	}
 	/**
 	
@@ -300,7 +310,7 @@ public:
 	long getParsedGeometryType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getParsedGeometryType, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getParsedGeometryType, _godot_object);
 	}
 	/**
 	
@@ -308,7 +318,7 @@ public:
 	PoolIntArray getPolygon(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getPolygon, _godot_object, idx);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getPolygon, _godot_object, idx);
 	}
 	/**
 	
@@ -316,7 +326,7 @@ public:
 	long getPolygonCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPolygonCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPolygonCount, _godot_object);
 	}
 	/**
 	
@@ -324,7 +334,7 @@ public:
 	double getRegionMergeSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRegionMergeSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRegionMergeSize, _godot_object);
 	}
 	/**
 	
@@ -332,7 +342,7 @@ public:
 	double getRegionMinSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRegionMinSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRegionMinSize, _godot_object);
 	}
 	/**
 	
@@ -340,7 +350,7 @@ public:
 	long getSamplePartitionType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSamplePartitionType, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSamplePartitionType, _godot_object);
 	}
 	/**
 	
@@ -348,7 +358,7 @@ public:
 	long getSourceGeometryMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSourceGeometryMode, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSourceGeometryMode, _godot_object);
 	}
 	/**
 	
@@ -356,7 +366,7 @@ public:
 	String getSourceGroupName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSourceGroupName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSourceGroupName, _godot_object);
 	}
 	/**
 	
@@ -364,7 +374,7 @@ public:
 	PoolVector3Array getVertices() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector3Array)(_classBinding.getVertices, _godot_object);
+		return ptrcall!(PoolVector3Array)(GDNativeClassBinding.getVertices, _godot_object);
 	}
 	/**
 	
@@ -372,7 +382,7 @@ public:
 	double getVertsPerPoly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVertsPerPoly, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVertsPerPoly, _godot_object);
 	}
 	/**
 	
@@ -380,7 +390,7 @@ public:
 	void setAgentHeight(in double agent_height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAgentHeight, _godot_object, agent_height);
+		ptrcall!(void)(GDNativeClassBinding.setAgentHeight, _godot_object, agent_height);
 	}
 	/**
 	
@@ -388,7 +398,7 @@ public:
 	void setAgentMaxClimb(in double agent_max_climb)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAgentMaxClimb, _godot_object, agent_max_climb);
+		ptrcall!(void)(GDNativeClassBinding.setAgentMaxClimb, _godot_object, agent_max_climb);
 	}
 	/**
 	
@@ -396,7 +406,7 @@ public:
 	void setAgentMaxSlope(in double agent_max_slope)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAgentMaxSlope, _godot_object, agent_max_slope);
+		ptrcall!(void)(GDNativeClassBinding.setAgentMaxSlope, _godot_object, agent_max_slope);
 	}
 	/**
 	
@@ -404,7 +414,7 @@ public:
 	void setAgentRadius(in double agent_radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAgentRadius, _godot_object, agent_radius);
+		ptrcall!(void)(GDNativeClassBinding.setAgentRadius, _godot_object, agent_radius);
 	}
 	/**
 	
@@ -412,7 +422,7 @@ public:
 	void setCellHeight(in double cell_height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellHeight, _godot_object, cell_height);
+		ptrcall!(void)(GDNativeClassBinding.setCellHeight, _godot_object, cell_height);
 	}
 	/**
 	
@@ -420,7 +430,7 @@ public:
 	void setCellSize(in double cell_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCellSize, _godot_object, cell_size);
+		ptrcall!(void)(GDNativeClassBinding.setCellSize, _godot_object, cell_size);
 	}
 	/**
 	
@@ -428,7 +438,7 @@ public:
 	void setCollisionMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMask, _godot_object, mask);
 	}
 	/**
 	
@@ -436,7 +446,7 @@ public:
 	void setCollisionMaskBit(in long bit, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCollisionMaskBit, _godot_object, bit, value);
+		ptrcall!(void)(GDNativeClassBinding.setCollisionMaskBit, _godot_object, bit, value);
 	}
 	/**
 	
@@ -444,7 +454,7 @@ public:
 	void setDetailSampleDistance(in double detail_sample_dist)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDetailSampleDistance, _godot_object, detail_sample_dist);
+		ptrcall!(void)(GDNativeClassBinding.setDetailSampleDistance, _godot_object, detail_sample_dist);
 	}
 	/**
 	
@@ -452,7 +462,7 @@ public:
 	void setDetailSampleMaxError(in double detail_sample_max_error)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDetailSampleMaxError, _godot_object, detail_sample_max_error);
+		ptrcall!(void)(GDNativeClassBinding.setDetailSampleMaxError, _godot_object, detail_sample_max_error);
 	}
 	/**
 	
@@ -460,7 +470,7 @@ public:
 	void setEdgeMaxError(in double edge_max_error)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEdgeMaxError, _godot_object, edge_max_error);
+		ptrcall!(void)(GDNativeClassBinding.setEdgeMaxError, _godot_object, edge_max_error);
 	}
 	/**
 	
@@ -468,7 +478,7 @@ public:
 	void setEdgeMaxLength(in double edge_max_length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEdgeMaxLength, _godot_object, edge_max_length);
+		ptrcall!(void)(GDNativeClassBinding.setEdgeMaxLength, _godot_object, edge_max_length);
 	}
 	/**
 	
@@ -476,7 +486,7 @@ public:
 	void setFilterLedgeSpans(in bool filter_ledge_spans)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterLedgeSpans, _godot_object, filter_ledge_spans);
+		ptrcall!(void)(GDNativeClassBinding.setFilterLedgeSpans, _godot_object, filter_ledge_spans);
 	}
 	/**
 	
@@ -484,7 +494,7 @@ public:
 	void setFilterLowHangingObstacles(in bool filter_low_hanging_obstacles)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterLowHangingObstacles, _godot_object, filter_low_hanging_obstacles);
+		ptrcall!(void)(GDNativeClassBinding.setFilterLowHangingObstacles, _godot_object, filter_low_hanging_obstacles);
 	}
 	/**
 	
@@ -492,7 +502,7 @@ public:
 	void setFilterWalkableLowHeightSpans(in bool filter_walkable_low_height_spans)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFilterWalkableLowHeightSpans, _godot_object, filter_walkable_low_height_spans);
+		ptrcall!(void)(GDNativeClassBinding.setFilterWalkableLowHeightSpans, _godot_object, filter_walkable_low_height_spans);
 	}
 	/**
 	
@@ -500,7 +510,7 @@ public:
 	void setParsedGeometryType(in long geometry_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setParsedGeometryType, _godot_object, geometry_type);
+		ptrcall!(void)(GDNativeClassBinding.setParsedGeometryType, _godot_object, geometry_type);
 	}
 	/**
 	
@@ -508,7 +518,7 @@ public:
 	void setRegionMergeSize(in double region_merge_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionMergeSize, _godot_object, region_merge_size);
+		ptrcall!(void)(GDNativeClassBinding.setRegionMergeSize, _godot_object, region_merge_size);
 	}
 	/**
 	
@@ -516,7 +526,7 @@ public:
 	void setRegionMinSize(in double region_min_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionMinSize, _godot_object, region_min_size);
+		ptrcall!(void)(GDNativeClassBinding.setRegionMinSize, _godot_object, region_min_size);
 	}
 	/**
 	
@@ -524,7 +534,7 @@ public:
 	void setSamplePartitionType(in long sample_partition_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSamplePartitionType, _godot_object, sample_partition_type);
+		ptrcall!(void)(GDNativeClassBinding.setSamplePartitionType, _godot_object, sample_partition_type);
 	}
 	/**
 	
@@ -532,7 +542,7 @@ public:
 	void setSourceGeometryMode(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSourceGeometryMode, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setSourceGeometryMode, _godot_object, mask);
 	}
 	/**
 	
@@ -540,7 +550,7 @@ public:
 	void setSourceGroupName(in String mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSourceGroupName, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setSourceGroupName, _godot_object, mask);
 	}
 	/**
 	
@@ -548,7 +558,7 @@ public:
 	void setVertices(in PoolVector3Array vertices)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertices, _godot_object, vertices);
+		ptrcall!(void)(GDNativeClassBinding.setVertices, _godot_object, vertices);
 	}
 	/**
 	
@@ -556,7 +566,7 @@ public:
 	void setVertsPerPoly(in double verts_per_poly)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertsPerPoly, _godot_object, verts_per_poly);
+		ptrcall!(void)(GDNativeClassBinding.setVertsPerPoly, _godot_object, verts_per_poly);
 	}
 	/**
 	

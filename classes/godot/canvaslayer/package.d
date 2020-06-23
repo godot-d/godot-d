@@ -28,14 +28,14 @@ $(D CanvasItem) nodes that are direct or indirect children of a $(D CanvasLayer)
 */
 @GodotBaseClass struct CanvasLayer
 {
-	enum string _GODOT_internal_name = "CanvasLayer";
+	package(godot) enum string _GODOT_internal_name = "CanvasLayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_canvas") GodotMethod!(RID) getCanvas;
@@ -58,10 +58,20 @@ public:
 		@GodotName("set_scale") GodotMethod!(void, Vector2) setScale;
 		@GodotName("set_transform") GodotMethod!(void, Transform2D) setTransform;
 	}
-	bool opEquals(in CanvasLayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CanvasLayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CanvasLayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CanvasLayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CanvasLayer.
+	/// Note: use `memnew!CanvasLayer` instead.
 	static CanvasLayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	RID getCanvas() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getCanvas, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getCanvas, _godot_object);
 	}
 	/**
 	
@@ -84,7 +94,7 @@ public:
 	Node getCustomViewport() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getCustomViewport, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getCustomViewport, _godot_object);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	double getFollowViewportScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFollowViewportScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFollowViewportScale, _godot_object);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	long getLayer() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLayer, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLayer, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotation, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	double getRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotationDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	Vector2 getScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScale, _godot_object);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	Transform2D getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	
@@ -148,7 +158,7 @@ public:
 	bool isFollowingViewport() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFollowingViewport, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFollowingViewport, _godot_object);
 	}
 	/**
 	
@@ -156,7 +166,7 @@ public:
 	void setCustomViewport(Node viewport)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCustomViewport, _godot_object, viewport);
+		ptrcall!(void)(GDNativeClassBinding.setCustomViewport, _godot_object, viewport);
 	}
 	/**
 	
@@ -164,7 +174,7 @@ public:
 	void setFollowViewport(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFollowViewport, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setFollowViewport, _godot_object, enable);
 	}
 	/**
 	
@@ -172,7 +182,7 @@ public:
 	void setFollowViewportScale(in double scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFollowViewportScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setFollowViewportScale, _godot_object, scale);
 	}
 	/**
 	
@@ -180,7 +190,7 @@ public:
 	void setLayer(in long layer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLayer, _godot_object, layer);
+		ptrcall!(void)(GDNativeClassBinding.setLayer, _godot_object, layer);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	void setRotation(in double radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
+		ptrcall!(void)(GDNativeClassBinding.setRotation, _godot_object, radians);
 	}
 	/**
 	
@@ -204,7 +214,7 @@ public:
 	void setRotationDegrees(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setRotationDegrees, _godot_object, degrees);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	void setScale(in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setScale, _godot_object, scale);
 	}
 	/**
 	
@@ -220,7 +230,7 @@ public:
 	void setTransform(in Transform2D transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, transform);
 	}
 	/**
 	The custom $(D Viewport) node assigned to the $(D CanvasLayer). If `null`, uses the default viewport instead.

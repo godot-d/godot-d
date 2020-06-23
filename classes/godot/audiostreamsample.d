@@ -30,14 +30,14 @@ This class can also be used to store dynamically-generated PCM audio data.
 */
 @GodotBaseClass struct AudioStreamSample
 {
-	enum string _GODOT_internal_name = "AudioStreamSample";
+	package(godot) enum string _GODOT_internal_name = "AudioStreamSample";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioStream _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioStream _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_data") GodotMethod!(PoolByteArray) getData;
@@ -56,10 +56,20 @@ public:
 		@GodotName("set_mix_rate") GodotMethod!(void, long) setMixRate;
 		@GodotName("set_stereo") GodotMethod!(void, bool) setStereo;
 	}
-	bool opEquals(in AudioStreamSample other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioStreamSample opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioStreamSample other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioStreamSample opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioStreamSample.
+	/// Note: use `memnew!AudioStreamSample` instead.
 	static AudioStreamSample _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,15 +86,15 @@ public:
 		*/
 		loopDisabled = 0,
 		/**
-		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing forward only.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd), playing forward only.
 		*/
 		loopForward = 1,
 		/**
-		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing back and forth.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd), playing back and forth.
 		*/
 		loopPingPong = 2,
 		/**
-		Audio loops the data between $(D loopBegin) and $(D loopEnd) playing backward only.
+		Audio loops the data between $(D loopBegin) and $(D loopEnd), playing backward only.
 		*/
 		loopBackward = 3,
 	}
@@ -121,7 +131,7 @@ public:
 	PoolByteArray getData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getData, _godot_object);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.getData, _godot_object);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	AudioStreamSample.Format getFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample.Format)(_classBinding.getFormat, _godot_object);
+		return ptrcall!(AudioStreamSample.Format)(GDNativeClassBinding.getFormat, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	long getLoopBegin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLoopBegin, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLoopBegin, _godot_object);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	long getLoopEnd() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLoopEnd, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLoopEnd, _godot_object);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	AudioStreamSample.LoopMode getLoopMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample.LoopMode)(_classBinding.getLoopMode, _godot_object);
+		return ptrcall!(AudioStreamSample.LoopMode)(GDNativeClassBinding.getLoopMode, _godot_object);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	long getMixRate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMixRate, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMixRate, _godot_object);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	bool isStereo() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isStereo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isStereo, _godot_object);
 	}
 	/**
 	Saves the AudioStreamSample as a WAV file to `path`. Samples with IMA ADPCM format can't be saved.
@@ -178,7 +188,7 @@ public:
 	GodotError saveToWav(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveToWav, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveToWav, _godot_object, path);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	void setData(in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setData, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.setData, _godot_object, data);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	void setFormat(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFormat, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.setFormat, _godot_object, format);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	void setLoopBegin(in long loop_begin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopBegin, _godot_object, loop_begin);
+		ptrcall!(void)(GDNativeClassBinding.setLoopBegin, _godot_object, loop_begin);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	void setLoopEnd(in long loop_end)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopEnd, _godot_object, loop_end);
+		ptrcall!(void)(GDNativeClassBinding.setLoopEnd, _godot_object, loop_end);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	void setLoopMode(in long loop_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoopMode, _godot_object, loop_mode);
+		ptrcall!(void)(GDNativeClassBinding.setLoopMode, _godot_object, loop_mode);
 	}
 	/**
 	
@@ -226,7 +236,7 @@ public:
 	void setMixRate(in long mix_rate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixRate, _godot_object, mix_rate);
+		ptrcall!(void)(GDNativeClassBinding.setMixRate, _godot_object, mix_rate);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	void setStereo(in bool stereo)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStereo, _godot_object, stereo);
+		ptrcall!(void)(GDNativeClassBinding.setStereo, _godot_object, stereo);
 	}
 	/**
 	Contains the audio data in bytes.
@@ -262,7 +272,7 @@ public:
 		setFormat(v);
 	}
 	/**
-	Loop start in bytes.
+	The loop start point (in number of samples, relative to the beginning of the sample). This information will be imported automatically from the WAV file if present.
 	*/
 	@property long loopBegin()
 	{
@@ -274,7 +284,7 @@ public:
 		setLoopBegin(v);
 	}
 	/**
-	Loop end in bytes.
+	The loop end point (in number of samples, relative to the beginning of the sample). This information will be imported automatically from the WAV file if present.
 	*/
 	@property long loopEnd()
 	{
@@ -286,7 +296,7 @@ public:
 		setLoopEnd(v);
 	}
 	/**
-	Loop mode. See $(D loopmode) constants for values.
+	The loop mode. This information will be imported automatically from the WAV file if present. See $(D loopmode) constants for values.
 	*/
 	@property AudioStreamSample.LoopMode loopMode()
 	{

@@ -28,17 +28,18 @@ import godot.texture;
 A 2D polygon.
 
 A Polygon2D is defined by a set of points. Each point is connected to the next, with the final point being connected to the first, resulting in a closed polygon. Polygon2Ds can be filled with color (solid or gradient) or filled with a given texture.
+$(B Note:) By default, Godot can only draw up to 4,096 polygon points at a time. To increase this limit, open the Project Settings and increase $(D ProjectSettings.rendering/limits/buffers/canvasPolygonBufferSizeKb) and $(D ProjectSettings.rendering/limits/buffers/canvasPolygonIndexBufferSizeKb).
 */
 @GodotBaseClass struct Polygon2D
 {
-	enum string _GODOT_internal_name = "Polygon2D";
+	package(godot) enum string _GODOT_internal_name = "Polygon2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_bones") GodotMethod!(Array) _getBones;
@@ -85,10 +86,20 @@ public:
 		@GodotName("set_uv") GodotMethod!(void, PoolVector2Array) setUv;
 		@GodotName("set_vertex_colors") GodotMethod!(void, PoolColorArray) setVertexColors;
 	}
-	bool opEquals(in Polygon2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Polygon2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Polygon2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Polygon2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Polygon2D.
+	/// Note: use `memnew!Polygon2D` instead.
 	static Polygon2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -126,28 +137,28 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Adds a bone with the specified `path` and `weights`.
 	*/
 	void addBone(NodePathArg0)(in NodePathArg0 path, in PoolRealArray weights)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBone, _godot_object, path, weights);
+		ptrcall!(void)(GDNativeClassBinding.addBone, _godot_object, path, weights);
 	}
 	/**
-	
+	Removes all bones from this $(D Polygon2D).
 	*/
 	void clearBones()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearBones, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearBones, _godot_object);
 	}
 	/**
-	
+	Removes the specified bone from this $(D Polygon2D).
 	*/
 	void eraseBone(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseBone, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.eraseBone, _godot_object, index);
 	}
 	/**
 	
@@ -155,31 +166,31 @@ public:
 	bool getAntialiased() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAntialiased, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAntialiased, _godot_object);
 	}
 	/**
-	
+	Returns the number of bones in this $(D Polygon2D).
 	*/
 	long getBoneCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBoneCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBoneCount, _godot_object);
 	}
 	/**
-	
+	Returns the path to the node associated with the specified bone.
 	*/
 	NodePath getBonePath(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getBonePath, _godot_object, index);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getBonePath, _godot_object, index);
 	}
 	/**
-	
+	Returns the height values of the specified bone.
 	*/
 	PoolRealArray getBoneWeights(in long index) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolRealArray)(_classBinding.getBoneWeights, _godot_object, index);
+		return ptrcall!(PoolRealArray)(GDNativeClassBinding.getBoneWeights, _godot_object, index);
 	}
 	/**
 	
@@ -187,7 +198,7 @@ public:
 	Color getColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object);
 	}
 	/**
 	
@@ -195,7 +206,7 @@ public:
 	long getInternalVertexCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInternalVertexCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInternalVertexCount, _godot_object);
 	}
 	/**
 	
@@ -203,7 +214,7 @@ public:
 	bool getInvert() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getInvert, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getInvert, _godot_object);
 	}
 	/**
 	
@@ -211,7 +222,7 @@ public:
 	double getInvertBorder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInvertBorder, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInvertBorder, _godot_object);
 	}
 	/**
 	
@@ -219,7 +230,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	
@@ -227,7 +238,7 @@ public:
 	PoolVector2Array getPolygon() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getPolygon, _godot_object);
 	}
 	/**
 	
@@ -235,7 +246,7 @@ public:
 	Array getPolygons() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getPolygons, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getPolygons, _godot_object);
 	}
 	/**
 	
@@ -243,7 +254,7 @@ public:
 	NodePath getSkeleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getSkeleton, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getSkeleton, _godot_object);
 	}
 	/**
 	
@@ -251,7 +262,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -259,7 +270,7 @@ public:
 	Vector2 getTextureOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getTextureOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getTextureOffset, _godot_object);
 	}
 	/**
 	
@@ -267,7 +278,7 @@ public:
 	double getTextureRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTextureRotation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTextureRotation, _godot_object);
 	}
 	/**
 	
@@ -275,7 +286,7 @@ public:
 	double getTextureRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTextureRotationDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTextureRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -283,7 +294,7 @@ public:
 	Vector2 getTextureScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getTextureScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getTextureScale, _godot_object);
 	}
 	/**
 	
@@ -291,7 +302,7 @@ public:
 	PoolVector2Array getUv() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getUv, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getUv, _godot_object);
 	}
 	/**
 	
@@ -299,7 +310,7 @@ public:
 	PoolColorArray getVertexColors() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolColorArray)(_classBinding.getVertexColors, _godot_object);
+		return ptrcall!(PoolColorArray)(GDNativeClassBinding.getVertexColors, _godot_object);
 	}
 	/**
 	
@@ -307,23 +318,23 @@ public:
 	void setAntialiased(in bool antialiased)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.setAntialiased, _godot_object, antialiased);
 	}
 	/**
-	
+	Sets the path to the node associated with the specified bone.
 	*/
 	void setBonePath(NodePathArg1)(in long index, in NodePathArg1 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBonePath, _godot_object, index, path);
+		ptrcall!(void)(GDNativeClassBinding.setBonePath, _godot_object, index, path);
 	}
 	/**
-	
+	Sets the weight values for the specified bone.
 	*/
 	void setBoneWeights(in long index, in PoolRealArray weights)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneWeights, _godot_object, index, weights);
+		ptrcall!(void)(GDNativeClassBinding.setBoneWeights, _godot_object, index, weights);
 	}
 	/**
 	
@@ -331,7 +342,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	
@@ -339,7 +350,7 @@ public:
 	void setInternalVertexCount(in long internal_vertex_count)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInternalVertexCount, _godot_object, internal_vertex_count);
+		ptrcall!(void)(GDNativeClassBinding.setInternalVertexCount, _godot_object, internal_vertex_count);
 	}
 	/**
 	
@@ -347,7 +358,7 @@ public:
 	void setInvert(in bool invert)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInvert, _godot_object, invert);
+		ptrcall!(void)(GDNativeClassBinding.setInvert, _godot_object, invert);
 	}
 	/**
 	
@@ -355,7 +366,7 @@ public:
 	void setInvertBorder(in double invert_border)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInvertBorder, _godot_object, invert_border);
+		ptrcall!(void)(GDNativeClassBinding.setInvertBorder, _godot_object, invert_border);
 	}
 	/**
 	
@@ -363,7 +374,7 @@ public:
 	void setOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setOffset, _godot_object, offset);
 	}
 	/**
 	
@@ -371,7 +382,7 @@ public:
 	void setPolygon(in PoolVector2Array polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+		ptrcall!(void)(GDNativeClassBinding.setPolygon, _godot_object, polygon);
 	}
 	/**
 	
@@ -379,7 +390,7 @@ public:
 	void setPolygons(in Array polygons)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygons, _godot_object, polygons);
+		ptrcall!(void)(GDNativeClassBinding.setPolygons, _godot_object, polygons);
 	}
 	/**
 	
@@ -387,7 +398,7 @@ public:
 	void setSkeleton(NodePathArg0)(in NodePathArg0 skeleton)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSkeleton, _godot_object, skeleton);
+		ptrcall!(void)(GDNativeClassBinding.setSkeleton, _godot_object, skeleton);
 	}
 	/**
 	
@@ -395,7 +406,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -403,7 +414,7 @@ public:
 	void setTextureOffset(in Vector2 texture_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureOffset, _godot_object, texture_offset);
+		ptrcall!(void)(GDNativeClassBinding.setTextureOffset, _godot_object, texture_offset);
 	}
 	/**
 	
@@ -411,7 +422,7 @@ public:
 	void setTextureRotation(in double texture_rotation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureRotation, _godot_object, texture_rotation);
+		ptrcall!(void)(GDNativeClassBinding.setTextureRotation, _godot_object, texture_rotation);
 	}
 	/**
 	
@@ -419,7 +430,7 @@ public:
 	void setTextureRotationDegrees(in double texture_rotation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureRotationDegrees, _godot_object, texture_rotation);
+		ptrcall!(void)(GDNativeClassBinding.setTextureRotationDegrees, _godot_object, texture_rotation);
 	}
 	/**
 	
@@ -427,7 +438,7 @@ public:
 	void setTextureScale(in Vector2 texture_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureScale, _godot_object, texture_scale);
+		ptrcall!(void)(GDNativeClassBinding.setTextureScale, _godot_object, texture_scale);
 	}
 	/**
 	
@@ -435,7 +446,7 @@ public:
 	void setUv(in PoolVector2Array uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv, _godot_object, uv);
+		ptrcall!(void)(GDNativeClassBinding.setUv, _godot_object, uv);
 	}
 	/**
 	
@@ -443,7 +454,7 @@ public:
 	void setVertexColors(in PoolColorArray vertex_colors)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVertexColors, _godot_object, vertex_colors);
+		ptrcall!(void)(GDNativeClassBinding.setVertexColors, _godot_object, vertex_colors);
 	}
 	/**
 	If `true`, polygon edges will be anti-aliased.

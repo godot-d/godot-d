@@ -31,14 +31,14 @@ You can set the extents of the axis using the $(D minSpace) and $(D maxSpace).
 */
 @GodotBaseClass struct AnimationNodeBlendSpace1D
 {
-	enum string _GODOT_internal_name = "AnimationNodeBlendSpace1D";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeBlendSpace1D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AnimationRootNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AnimationRootNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_add_blend_point") GodotMethod!(void, long, AnimationRootNode) _addBlendPoint;
@@ -59,10 +59,20 @@ public:
 		@GodotName("set_snap") GodotMethod!(void, double) setSnap;
 		@GodotName("set_value_label") GodotMethod!(void, String) setValueLabel;
 	}
-	bool opEquals(in AnimationNodeBlendSpace1D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeBlendSpace1D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeBlendSpace1D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeBlendSpace1D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeBlendSpace1D.
+	/// Note: use `memnew!AnimationNodeBlendSpace1D` instead.
 	static AnimationNodeBlendSpace1D _new()
 	{
 		static godot_class_constructor constructor;
@@ -97,7 +107,7 @@ public:
 	void addBlendPoint(AnimationRootNode node, in double pos, in long at_index = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addBlendPoint, _godot_object, node, pos, at_index);
+		ptrcall!(void)(GDNativeClassBinding.addBlendPoint, _godot_object, node, pos, at_index);
 	}
 	/**
 	Returns the number of points on the blend axis.
@@ -105,7 +115,7 @@ public:
 	long getBlendPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBlendPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBlendPointCount, _godot_object);
 	}
 	/**
 	Returns the $(D AnimationNode) referenced by the point at index `point`.
@@ -113,7 +123,7 @@ public:
 	Ref!AnimationRootNode getBlendPointNode(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationRootNode)(_classBinding.getBlendPointNode, _godot_object, point);
+		return ptrcall!(AnimationRootNode)(GDNativeClassBinding.getBlendPointNode, _godot_object, point);
 	}
 	/**
 	Returns the position of the point at index `point`.
@@ -121,7 +131,7 @@ public:
 	double getBlendPointPosition(in long point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBlendPointPosition, _godot_object, point);
+		return ptrcall!(double)(GDNativeClassBinding.getBlendPointPosition, _godot_object, point);
 	}
 	/**
 	
@@ -129,7 +139,7 @@ public:
 	double getMaxSpace() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMaxSpace, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMaxSpace, _godot_object);
 	}
 	/**
 	
@@ -137,7 +147,7 @@ public:
 	double getMinSpace() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMinSpace, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMinSpace, _godot_object);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	double getSnap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSnap, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSnap, _godot_object);
 	}
 	/**
 	
@@ -153,7 +163,7 @@ public:
 	String getValueLabel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getValueLabel, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getValueLabel, _godot_object);
 	}
 	/**
 	Removes the point at index `point` from the blend axis.
@@ -161,7 +171,7 @@ public:
 	void removeBlendPoint(in long point)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeBlendPoint, _godot_object, point);
+		ptrcall!(void)(GDNativeClassBinding.removeBlendPoint, _godot_object, point);
 	}
 	/**
 	Changes the $(D AnimationNode) referenced by the point at index `point`.
@@ -169,7 +179,7 @@ public:
 	void setBlendPointNode(in long point, AnimationRootNode node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointNode, _godot_object, point, node);
+		ptrcall!(void)(GDNativeClassBinding.setBlendPointNode, _godot_object, point, node);
 	}
 	/**
 	Updates the position of the point at index `point` on the blend axis.
@@ -177,7 +187,7 @@ public:
 	void setBlendPointPosition(in long point, in double pos)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendPointPosition, _godot_object, point, pos);
+		ptrcall!(void)(GDNativeClassBinding.setBlendPointPosition, _godot_object, point, pos);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setMaxSpace(in double max_space)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxSpace, _godot_object, max_space);
+		ptrcall!(void)(GDNativeClassBinding.setMaxSpace, _godot_object, max_space);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	void setMinSpace(in double min_space)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMinSpace, _godot_object, min_space);
+		ptrcall!(void)(GDNativeClassBinding.setMinSpace, _godot_object, min_space);
 	}
 	/**
 	
@@ -201,7 +211,7 @@ public:
 	void setSnap(in double snap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSnap, _godot_object, snap);
+		ptrcall!(void)(GDNativeClassBinding.setSnap, _godot_object, snap);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	void setValueLabel(in String text)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValueLabel, _godot_object, text);
+		ptrcall!(void)(GDNativeClassBinding.setValueLabel, _godot_object, text);
 	}
 	/**
 	

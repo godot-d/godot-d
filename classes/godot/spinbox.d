@@ -45,14 +45,14 @@ See $(D Range) class for more options over the $(D SpinBox).
 */
 @GodotBaseClass struct SpinBox
 {
-	enum string _GODOT_internal_name = "SpinBox";
+	package(godot) enum string _GODOT_internal_name = "SpinBox";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Range _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -71,10 +71,20 @@ public:
 		@GodotName("set_prefix") GodotMethod!(void, String) setPrefix;
 		@GodotName("set_suffix") GodotMethod!(void, String) setSuffix;
 	}
-	bool opEquals(in SpinBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SpinBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SpinBox other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SpinBox opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SpinBox.
+	/// Note: use `memnew!SpinBox` instead.
 	static SpinBox _new()
 	{
 		static godot_class_constructor constructor;
@@ -137,7 +147,7 @@ public:
 	void apply()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.apply, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.apply, _godot_object);
 	}
 	/**
 	
@@ -145,7 +155,7 @@ public:
 	LineEdit.Align getAlign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(LineEdit.Align)(_classBinding.getAlign, _godot_object);
+		return ptrcall!(LineEdit.Align)(GDNativeClassBinding.getAlign, _godot_object);
 	}
 	/**
 	Returns the $(D LineEdit) instance from this $(D SpinBox). You can use it to access properties and methods of $(D LineEdit).
@@ -153,7 +163,7 @@ public:
 	LineEdit getLineEdit()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(LineEdit)(_classBinding.getLineEdit, _godot_object);
+		return ptrcall!(LineEdit)(GDNativeClassBinding.getLineEdit, _godot_object);
 	}
 	/**
 	
@@ -161,7 +171,7 @@ public:
 	String getPrefix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPrefix, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPrefix, _godot_object);
 	}
 	/**
 	
@@ -169,7 +179,7 @@ public:
 	String getSuffix() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSuffix, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSuffix, _godot_object);
 	}
 	/**
 	
@@ -177,7 +187,7 @@ public:
 	bool isEditable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditable, _godot_object);
 	}
 	/**
 	
@@ -185,7 +195,7 @@ public:
 	void setAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.setAlign, _godot_object, _align);
 	}
 	/**
 	
@@ -193,7 +203,7 @@ public:
 	void setEditable(in bool editable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditable, _godot_object, editable);
+		ptrcall!(void)(GDNativeClassBinding.setEditable, _godot_object, editable);
 	}
 	/**
 	
@@ -201,7 +211,7 @@ public:
 	void setPrefix(in String prefix)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPrefix, _godot_object, prefix);
+		ptrcall!(void)(GDNativeClassBinding.setPrefix, _godot_object, prefix);
 	}
 	/**
 	
@@ -209,7 +219,7 @@ public:
 	void setSuffix(in String suffix)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSuffix, _godot_object, suffix);
+		ptrcall!(void)(GDNativeClassBinding.setSuffix, _godot_object, suffix);
 	}
 	/**
 	Sets the text alignment of the $(D SpinBox).
@@ -248,7 +258,7 @@ public:
 		setPrefix(v);
 	}
 	/**
-	Adds the specified `prefix` string after the numerical value of the $(D SpinBox).
+	Adds the specified `suffix` string after the numerical value of the $(D SpinBox).
 	*/
 	@property String suffix()
 	{

@@ -41,14 +41,14 @@ $(B Note:) The script is run in the Editor context, which means the output is vi
 */
 @GodotBaseClass struct EditorScript
 {
-	enum string _GODOT_internal_name = "EditorScript";
+	package(godot) enum string _GODOT_internal_name = "EditorScript";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_run") GodotMethod!(void) _run;
@@ -56,10 +56,20 @@ public:
 		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
 		@GodotName("get_scene") GodotMethod!(Node) getScene;
 	}
-	bool opEquals(in EditorScript other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorScript opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorScript other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorScript opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorScript.
+	/// Note: use `memnew!EditorScript` instead.
 	static EditorScript _new()
 	{
 		static godot_class_constructor constructor;
@@ -84,7 +94,7 @@ public:
 	void addRootNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addRootNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.addRootNode, _godot_object, node);
 	}
 	/**
 	Returns the $(D EditorInterface) singleton instance.
@@ -92,7 +102,7 @@ public:
 	EditorInterface getEditorInterface()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorInterface)(_classBinding.getEditorInterface, _godot_object);
+		return ptrcall!(EditorInterface)(GDNativeClassBinding.getEditorInterface, _godot_object);
 	}
 	/**
 	Returns the Editor's currently active scene.
@@ -100,6 +110,6 @@ public:
 	Node getScene()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getScene, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getScene, _godot_object);
 	}
 }

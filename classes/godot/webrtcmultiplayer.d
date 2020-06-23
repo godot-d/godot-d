@@ -33,14 +33,14 @@ $(D NetworkedMultiplayerPeer.connectionSucceeded) and $(D NetworkedMultiplayerPe
 */
 @GodotBaseClass struct WebRTCMultiplayer
 {
-	enum string _GODOT_internal_name = "WebRTCMultiplayer";
+	package(godot) enum string _GODOT_internal_name = "WebRTCMultiplayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; NetworkedMultiplayerPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ NetworkedMultiplayerPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_peer") GodotMethod!(GodotError, WebRTCPeerConnection, long, long) addPeer;
@@ -51,10 +51,20 @@ public:
 		@GodotName("initialize") GodotMethod!(GodotError, long, bool) initialize;
 		@GodotName("remove_peer") GodotMethod!(void, long) removePeer;
 	}
-	bool opEquals(in WebRTCMultiplayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebRTCMultiplayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebRTCMultiplayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebRTCMultiplayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebRTCMultiplayer.
+	/// Note: use `memnew!WebRTCMultiplayer` instead.
 	static WebRTCMultiplayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	GodotError addPeer(WebRTCPeerConnection peer, in long peer_id, in long unreliable_lifetime = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.addPeer, _godot_object, peer, peer_id, unreliable_lifetime);
+		return ptrcall!(GodotError)(GDNativeClassBinding.addPeer, _godot_object, peer, peer_id, unreliable_lifetime);
 	}
 	/**
 	Close all the add peer connections and channels, freeing all resources.
@@ -78,7 +88,7 @@ public:
 	void close()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.close, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.close, _godot_object);
 	}
 	/**
 	Return a dictionary representation of the peer with given `peer_id` with three keys. `connection` containing the $(D WebRTCPeerConnection) to this peer, `channels` an array of three $(D WebRTCDataChannel), and `connected` a boolean representing if the peer connection is currently connected (all three channels are open).
@@ -86,7 +96,7 @@ public:
 	Dictionary getPeer(in long peer_id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getPeer, _godot_object, peer_id);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getPeer, _godot_object, peer_id);
 	}
 	/**
 	Returns a dictionary which keys are the peer ids and values the peer representation as in $(D getPeer).
@@ -94,7 +104,7 @@ public:
 	Dictionary getPeers()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getPeers, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getPeers, _godot_object);
 	}
 	/**
 	Returns `true` if the given `peer_id` is in the peers map (it might not be connected though).
@@ -102,7 +112,7 @@ public:
 	bool hasPeer(in long peer_id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasPeer, _godot_object, peer_id);
+		return ptrcall!(bool)(GDNativeClassBinding.hasPeer, _godot_object, peer_id);
 	}
 	/**
 	Initialize the multiplayer peer with the given `peer_id` (must be between 1 and 2147483647).
@@ -112,7 +122,7 @@ public:
 	GodotError initialize(in long peer_id, in bool server_compatibility = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.initialize, _godot_object, peer_id, server_compatibility);
+		return ptrcall!(GodotError)(GDNativeClassBinding.initialize, _godot_object, peer_id, server_compatibility);
 	}
 	/**
 	Remove the peer with given `peer_id` from the mesh. If the peer was connected, and $(D NetworkedMultiplayerPeer.peerConnected) was emitted for it, then $(D NetworkedMultiplayerPeer.peerDisconnected) will be emitted.
@@ -120,6 +130,6 @@ public:
 	void removePeer(in long peer_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePeer, _godot_object, peer_id);
+		ptrcall!(void)(GDNativeClassBinding.removePeer, _godot_object, peer_id);
 	}
 }

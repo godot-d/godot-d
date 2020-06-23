@@ -31,14 +31,14 @@ It can be set to update another Node's position, rotation and/or scale. It can u
 */
 @GodotBaseClass struct RemoteTransform2D
 {
-	enum string _GODOT_internal_name = "RemoteTransform2D";
+	package(godot) enum string _GODOT_internal_name = "RemoteTransform2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("force_update_cache") GodotMethod!(void) forceUpdateCache;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_update_scale") GodotMethod!(void, bool) setUpdateScale;
 		@GodotName("set_use_global_coordinates") GodotMethod!(void, bool) setUseGlobalCoordinates;
 	}
-	bool opEquals(in RemoteTransform2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RemoteTransform2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RemoteTransform2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RemoteTransform2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RemoteTransform2D.
+	/// Note: use `memnew!RemoteTransform2D` instead.
 	static RemoteTransform2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -71,7 +81,7 @@ public:
 	void forceUpdateCache()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceUpdateCache, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceUpdateCache, _godot_object);
 	}
 	/**
 	
@@ -79,7 +89,7 @@ public:
 	NodePath getRemoteNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getRemoteNode, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getRemoteNode, _godot_object);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	bool getUpdatePosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUpdatePosition, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUpdatePosition, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	bool getUpdateRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUpdateRotation, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUpdateRotation, _godot_object);
 	}
 	/**
 	
@@ -103,7 +113,7 @@ public:
 	bool getUpdateScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUpdateScale, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUpdateScale, _godot_object);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	bool getUseGlobalCoordinates() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseGlobalCoordinates, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseGlobalCoordinates, _godot_object);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	void setRemoteNode(NodePathArg0)(in NodePathArg0 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRemoteNode, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setRemoteNode, _godot_object, path);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	void setUpdatePosition(in bool update_remote_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdatePosition, _godot_object, update_remote_position);
+		ptrcall!(void)(GDNativeClassBinding.setUpdatePosition, _godot_object, update_remote_position);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	void setUpdateRotation(in bool update_remote_rotation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdateRotation, _godot_object, update_remote_rotation);
+		ptrcall!(void)(GDNativeClassBinding.setUpdateRotation, _godot_object, update_remote_rotation);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	void setUpdateScale(in bool update_remote_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdateScale, _godot_object, update_remote_scale);
+		ptrcall!(void)(GDNativeClassBinding.setUpdateScale, _godot_object, update_remote_scale);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	void setUseGlobalCoordinates(in bool use_global_coordinates)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseGlobalCoordinates, _godot_object, use_global_coordinates);
+		ptrcall!(void)(GDNativeClassBinding.setUseGlobalCoordinates, _godot_object, use_global_coordinates);
 	}
 	/**
 	The $(D NodePath) to the remote node, relative to the RemoteTransform2D's position in the scene.

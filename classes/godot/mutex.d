@@ -28,24 +28,34 @@ This is used to synchronize multiple $(D Thread)s, and is equivalent to a binary
 */
 @GodotBaseClass struct Mutex
 {
-	enum string _GODOT_internal_name = "_Mutex";
+	package(godot) enum string _GODOT_internal_name = "_Mutex";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("lock") GodotMethod!(void) lock;
 		@GodotName("try_lock") GodotMethod!(GodotError) tryLock;
 		@GodotName("unlock") GodotMethod!(void) unlock;
 	}
-	bool opEquals(in Mutex other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Mutex opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Mutex other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Mutex opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Mutex.
+	/// Note: use `memnew!Mutex` instead.
 	static Mutex _new()
 	{
 		static godot_class_constructor constructor;
@@ -60,7 +70,7 @@ public:
 	void lock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.lock, _godot_object);
 	}
 	/**
 	Tries locking this $(D Mutex), but does not block. Returns $(D constant OK) on success, $(D constant ERR_BUSY) otherwise.
@@ -68,7 +78,7 @@ public:
 	GodotError tryLock()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.tryLock, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.tryLock, _godot_object);
 	}
 	/**
 	Unlocks this $(D Mutex), leaving it to other threads.
@@ -76,6 +86,6 @@ public:
 	void unlock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unlock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unlock, _godot_object);
 	}
 }

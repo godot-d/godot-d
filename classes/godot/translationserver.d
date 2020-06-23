@@ -27,14 +27,14 @@ Translations can be set to it and removed from it.
 */
 @GodotBaseClass struct TranslationServerSingleton
 {
-	enum string _GODOT_internal_name = "TranslationServer";
+	package(godot) enum string _GODOT_internal_name = "TranslationServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
 		@GodotName("translate") GodotMethod!(String, String) translate;
 	}
-	bool opEquals(in TranslationServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TranslationServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TranslationServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TranslationServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TranslationServerSingleton.
+	/// Note: use `memnew!TranslationServerSingleton` instead.
 	static TranslationServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	void addTranslation(Translation translation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTranslation, _godot_object, translation);
+		ptrcall!(void)(GDNativeClassBinding.addTranslation, _godot_object, translation);
 	}
 	/**
 	Clears the server from all translations.
@@ -74,7 +84,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Returns an Array of all loaded locales of the game.
@@ -82,7 +92,7 @@ public:
 	Array getLoadedLocales() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getLoadedLocales, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getLoadedLocales, _godot_object);
 	}
 	/**
 	Returns the current locale of the game.
@@ -90,7 +100,7 @@ public:
 	String getLocale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLocale, _godot_object);
 	}
 	/**
 	Returns a locale's language and its variant (e.g. `"en_US"` would return `"English (United States)"`).
@@ -98,7 +108,7 @@ public:
 	String getLocaleName(in String locale) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLocaleName, _godot_object, locale);
+		return ptrcall!(String)(GDNativeClassBinding.getLocaleName, _godot_object, locale);
 	}
 	/**
 	Removes the given translation from the server.
@@ -106,7 +116,7 @@ public:
 	void removeTranslation(Translation translation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTranslation, _godot_object, translation);
+		ptrcall!(void)(GDNativeClassBinding.removeTranslation, _godot_object, translation);
 	}
 	/**
 	Sets the locale of the game.
@@ -114,7 +124,7 @@ public:
 	void setLocale(in String locale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
+		ptrcall!(void)(GDNativeClassBinding.setLocale, _godot_object, locale);
 	}
 	/**
 	Returns the current locale's translation for the given message (key).
@@ -122,7 +132,7 @@ public:
 	String translate(in String message) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.translate, _godot_object, message);
+		return ptrcall!(String)(GDNativeClassBinding.translate, _godot_object, message);
 	}
 }
 /// Returns: the TranslationServerSingleton
@@ -130,5 +140,5 @@ public:
 TranslationServerSingleton TranslationServer()
 {
 	checkClassBinding!TranslationServerSingleton();
-	return TranslationServerSingleton(TranslationServerSingleton._classBinding._singleton);
+	return TranslationServerSingleton(TranslationServerSingleton.GDNativeClassBinding._singleton);
 }

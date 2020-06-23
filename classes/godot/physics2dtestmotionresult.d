@@ -26,14 +26,14 @@ import godot.reference;
 */
 @GodotBaseClass struct Physics2DTestMotionResult
 {
-	enum string _GODOT_internal_name = "Physics2DTestMotionResult";
+	package(godot) enum string _GODOT_internal_name = "Physics2DTestMotionResult";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_collider") GodotMethod!(GodotObject) getCollider;
@@ -46,10 +46,20 @@ public:
 		@GodotName("get_motion") GodotMethod!(Vector2) getMotion;
 		@GodotName("get_motion_remainder") GodotMethod!(Vector2) getMotionRemainder;
 	}
-	bool opEquals(in Physics2DTestMotionResult other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Physics2DTestMotionResult opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Physics2DTestMotionResult other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Physics2DTestMotionResult opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Physics2DTestMotionResult.
+	/// Note: use `memnew!Physics2DTestMotionResult` instead.
 	static Physics2DTestMotionResult _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	GodotObject getCollider() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getCollider, _godot_object);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getCollider, _godot_object);
 	}
 	/**
 	
@@ -72,7 +82,7 @@ public:
 	long getColliderId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColliderId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColliderId, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	RID getColliderRid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getColliderRid, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getColliderRid, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	long getColliderShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getColliderShape, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getColliderShape, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	Vector2 getColliderVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getColliderVelocity, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getColliderVelocity, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	Vector2 getCollisionNormal() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCollisionNormal, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCollisionNormal, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	Vector2 getCollisionPoint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCollisionPoint, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCollisionPoint, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	Vector2 getMotion() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotion, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMotion, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	Vector2 getMotionRemainder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMotionRemainder, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMotionRemainder, _godot_object);
 	}
 	/**
 	

@@ -35,14 +35,14 @@ $(B Note:) Not available in HTML5 exports.
 */
 @GodotBaseClass struct WebSocketServer
 {
-	enum string _GODOT_internal_name = "WebSocketServer";
+	package(godot) enum string _GODOT_internal_name = "WebSocketServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; WebSocketMultiplayerPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ WebSocketMultiplayerPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("disconnect_peer") GodotMethod!(void, long, long, String) disconnectPeer;
@@ -61,10 +61,20 @@ public:
 		@GodotName("set_ssl_certificate") GodotMethod!(void, X509Certificate) setSslCertificate;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
-	bool opEquals(in WebSocketServer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	WebSocketServer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in WebSocketServer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) WebSocketServer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of WebSocketServer.
+	/// Note: use `memnew!WebSocketServer` instead.
 	static WebSocketServer _new()
 	{
 		static godot_class_constructor constructor;
@@ -79,7 +89,7 @@ public:
 	void disconnectPeer(in long id, in long code = 1000, in String reason = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectPeer, _godot_object, id, code, reason);
+		ptrcall!(void)(GDNativeClassBinding.disconnectPeer, _godot_object, id, code, reason);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	String getBindIp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBindIp, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBindIp, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	Ref!X509Certificate getCaChain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(X509Certificate)(_classBinding.getCaChain, _godot_object);
+		return ptrcall!(X509Certificate)(GDNativeClassBinding.getCaChain, _godot_object);
 	}
 	/**
 	Returns the IP address of the given peer.
@@ -103,7 +113,7 @@ public:
 	String getPeerAddress(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPeerAddress, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.getPeerAddress, _godot_object, id);
 	}
 	/**
 	Returns the remote port of the given peer.
@@ -111,7 +121,7 @@ public:
 	long getPeerPort(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPeerPort, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.getPeerPort, _godot_object, id);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	Ref!CryptoKey getPrivateKey() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CryptoKey)(_classBinding.getPrivateKey, _godot_object);
+		return ptrcall!(CryptoKey)(GDNativeClassBinding.getPrivateKey, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	Ref!X509Certificate getSslCertificate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(X509Certificate)(_classBinding.getSslCertificate, _godot_object);
+		return ptrcall!(X509Certificate)(GDNativeClassBinding.getSslCertificate, _godot_object);
 	}
 	/**
 	Returns `true` if a peer with the given ID is connected.
@@ -135,7 +145,7 @@ public:
 	bool hasPeer(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasPeer, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.hasPeer, _godot_object, id);
 	}
 	/**
 	Returns `true` if the server is actively listening on a port.
@@ -143,7 +153,7 @@ public:
 	bool isListening() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isListening, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isListening, _godot_object);
 	}
 	/**
 	Starts listening on the given port.
@@ -154,7 +164,7 @@ public:
 	GodotError listen(in long port, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, protocols, gd_mp_api);
+		return ptrcall!(GodotError)(GDNativeClassBinding.listen, _godot_object, port, protocols, gd_mp_api);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	void setBindIp(in String arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBindIp, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setBindIp, _godot_object, arg0);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	void setCaChain(X509Certificate arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCaChain, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setCaChain, _godot_object, arg0);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	void setPrivateKey(CryptoKey arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPrivateKey, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setPrivateKey, _godot_object, arg0);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	void setSslCertificate(X509Certificate arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSslCertificate, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setSslCertificate, _godot_object, arg0);
 	}
 	/**
 	Stops the server and clear its state.
@@ -194,7 +204,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	When not set to `*` will restrict incoming connections to the specified IP address. Setting `bind_ip` to `127.0.0.1` will cause the server to listen only to the local host.

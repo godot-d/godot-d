@@ -1,5 +1,5 @@
 /**
-Multi-format 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url).
+FBX 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,9 +22,9 @@ import godot.object;
 import godot.editorsceneimporter;
 import godot.reference;
 /**
-Multi-format 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url).
+FBX 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url).
 
-This is a multi-format 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url). See $(D url=https://assimp-docs.readthedocs.io/en/latest/about/intoduction.html#installation)this page$(D /url) for a full list of supported formats.
+This is an FBX 3D asset importer based on $(D url=http://assimp.org/)Assimp$(D /url). It currently has many known limitations and works best with static meshes. Most animated meshes won't import correctly.
 If exporting a FBX scene from Autodesk Maya, use these FBX export settings:
 
 
@@ -51,21 +51,31 @@ If exporting a FBX scene from Autodesk Maya, use these FBX export settings:
 */
 @GodotBaseClass struct EditorSceneImporterAssimp
 {
-	enum string _GODOT_internal_name = "EditorSceneImporterAssimp";
+	package(godot) enum string _GODOT_internal_name = "EditorSceneImporterAssimp";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; EditorSceneImporter _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ EditorSceneImporter _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in EditorSceneImporterAssimp other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSceneImporterAssimp opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSceneImporterAssimp other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSceneImporterAssimp opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSceneImporterAssimp.
+	/// Note: use `memnew!EditorSceneImporterAssimp` instead.
 	static EditorSceneImporterAssimp _new()
 	{
 		static godot_class_constructor constructor;

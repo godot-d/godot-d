@@ -1,5 +1,5 @@
 /**
-
+$(D AnimationTree) node resource that contains many blend type nodes.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,18 +23,20 @@ import godot.classdb;
 import godot.animationrootnode;
 import godot.animationnode;
 /**
+$(D AnimationTree) node resource that contains many blend type nodes.
 
+This node may contain a sub-tree of any other blend type nodes, such as mix, blend2, blend3, one shot, etc. This is one of the most commonly used roots.
 */
 @GodotBaseClass struct AnimationNodeBlendTree
 {
-	enum string _GODOT_internal_name = "AnimationNodeBlendTree";
+	package(godot) enum string _GODOT_internal_name = "AnimationNodeBlendTree";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AnimationRootNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AnimationRootNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_node_changed") GodotMethod!(void, String) _nodeChanged;
@@ -51,10 +53,20 @@ public:
 		@GodotName("set_graph_offset") GodotMethod!(void, Vector2) setGraphOffset;
 		@GodotName("set_node_position") GodotMethod!(void, String, Vector2) setNodePosition;
 	}
-	bool opEquals(in AnimationNodeBlendTree other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationNodeBlendTree opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationNodeBlendTree other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationNodeBlendTree opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationNodeBlendTree.
+	/// Note: use `memnew!AnimationNodeBlendTree` instead.
 	static AnimationNodeBlendTree _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,27 +79,27 @@ public:
 	enum Constants : int
 	{
 		/**
-		
+		The connection was successful.
 		*/
 		connectionOk = 0,
 		/**
-		
+		The input node is `null`.
 		*/
 		connectionErrorNoInput = 1,
 		/**
-		
+		The specified input port is out of range.
 		*/
 		connectionErrorNoInputIndex = 2,
 		/**
-		
+		The output node is `null`.
 		*/
 		connectionErrorNoOutput = 3,
 		/**
-		
+		Input and output nodes are the same.
 		*/
 		connectionErrorSameNode = 4,
 		/**
-		
+		The specified connection already exists.
 		*/
 		connectionErrorConnectionExists = 5,
 	}
@@ -111,28 +123,28 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Adds an $(D AnimationNode) at the given `position`. The `name` is used to identify the created sub-node later.
 	*/
 	void addNode(in String name, AnimationNode node, in Vector2 position = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, name, node, position);
+		ptrcall!(void)(GDNativeClassBinding.addNode, _godot_object, name, node, position);
 	}
 	/**
-	
+	Connects the output of an $(D AnimationNode) as input for another $(D AnimationNode), at the input port specified by `input_index`.
 	*/
 	void connectNode(in String input_node, in long input_index, in String output_node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.connectNode, _godot_object, input_node, input_index, output_node);
+		ptrcall!(void)(GDNativeClassBinding.connectNode, _godot_object, input_node, input_index, output_node);
 	}
 	/**
-	
+	Disconnects the node connected to the specified input.
 	*/
 	void disconnectNode(in String input_node, in long input_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectNode, _godot_object, input_node, input_index);
+		ptrcall!(void)(GDNativeClassBinding.disconnectNode, _godot_object, input_node, input_index);
 	}
 	/**
 	
@@ -140,47 +152,47 @@ public:
 	Vector2 getGraphOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGraphOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGraphOffset, _godot_object);
 	}
 	/**
-	
+	Returns the sub-node with the specified `name`.
 	*/
 	Ref!AnimationNode getNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationNode)(_classBinding.getNode, _godot_object, name);
+		return ptrcall!(AnimationNode)(GDNativeClassBinding.getNode, _godot_object, name);
 	}
 	/**
-	
+	Returns the position of the sub-node with the specified `name`.
 	*/
 	Vector2 getNodePosition(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, name);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getNodePosition, _godot_object, name);
 	}
 	/**
-	
+	Returns `true` if a sub-node with specified `name` exists.
 	*/
 	bool hasNode(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasNode, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasNode, _godot_object, name);
 	}
 	/**
-	
+	Removes a sub-node.
 	*/
 	void removeNode(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeNode, _godot_object, name);
 	}
 	/**
-	
+	Changes the name of a sub-node.
 	*/
 	void renameNode(in String name, in String new_name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameNode, _godot_object, name, new_name);
+		ptrcall!(void)(GDNativeClassBinding.renameNode, _godot_object, name, new_name);
 	}
 	/**
 	
@@ -188,18 +200,18 @@ public:
 	void setGraphOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGraphOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setGraphOffset, _godot_object, offset);
 	}
 	/**
-	
+	Modifies the position of a sub-node.
 	*/
 	void setNodePosition(in String name, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, name, position);
+		ptrcall!(void)(GDNativeClassBinding.setNodePosition, _godot_object, name, position);
 	}
 	/**
-	
+	The global offset of all sub-nodes.
 	*/
 	@property Vector2 graphOffset()
 	{

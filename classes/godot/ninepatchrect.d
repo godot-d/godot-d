@@ -31,14 +31,14 @@ Also known as 9-slice panels, NinePatchRect produces clean panels of any size, b
 */
 @GodotBaseClass struct NinePatchRect
 {
-	enum string _GODOT_internal_name = "NinePatchRect";
+	package(godot) enum string _GODOT_internal_name = "NinePatchRect";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_h_axis_stretch_mode") GodotMethod!(NinePatchRect.AxisStretchMode) getHAxisStretchMode;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 		@GodotName("set_v_axis_stretch_mode") GodotMethod!(void, long) setVAxisStretchMode;
 	}
-	bool opEquals(in NinePatchRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NinePatchRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NinePatchRect other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NinePatchRect opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NinePatchRect.
+	/// Note: use `memnew!NinePatchRect` instead.
 	static NinePatchRect _new()
 	{
 		static godot_class_constructor constructor;
@@ -95,7 +105,7 @@ public:
 	NinePatchRect.AxisStretchMode getHAxisStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NinePatchRect.AxisStretchMode)(_classBinding.getHAxisStretchMode, _godot_object);
+		return ptrcall!(NinePatchRect.AxisStretchMode)(GDNativeClassBinding.getHAxisStretchMode, _godot_object);
 	}
 	/**
 	Returns the size of the margin identified by the given $(D margin) constant.
@@ -103,7 +113,7 @@ public:
 	long getPatchMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPatchMargin, _godot_object, margin);
+		return ptrcall!(long)(GDNativeClassBinding.getPatchMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	Rect2 getRegionRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRegionRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRegionRect, _godot_object);
 	}
 	/**
 	
@@ -119,7 +129,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	NinePatchRect.AxisStretchMode getVAxisStretchMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NinePatchRect.AxisStretchMode)(_classBinding.getVAxisStretchMode, _godot_object);
+		return ptrcall!(NinePatchRect.AxisStretchMode)(GDNativeClassBinding.getVAxisStretchMode, _godot_object);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	bool isDrawCenterEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawCenterEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawCenterEnabled, _godot_object);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	void setDrawCenter(in bool draw_center)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawCenter, _godot_object, draw_center);
+		ptrcall!(void)(GDNativeClassBinding.setDrawCenter, _godot_object, draw_center);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	void setHAxisStretchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHAxisStretchMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setHAxisStretchMode, _godot_object, mode);
 	}
 	/**
 	Sets the size of the margin identified by the given $(D margin) constant to `value` in pixels.
@@ -159,7 +169,7 @@ public:
 	void setPatchMargin(in long margin, in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPatchMargin, _godot_object, margin, value);
+		ptrcall!(void)(GDNativeClassBinding.setPatchMargin, _godot_object, margin, value);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	void setRegionRect(in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRegionRect, _godot_object, rect);
+		ptrcall!(void)(GDNativeClassBinding.setRegionRect, _godot_object, rect);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -183,7 +193,7 @@ public:
 	void setVAxisStretchMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVAxisStretchMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setVAxisStretchMode, _godot_object, mode);
 	}
 	/**
 	Doesn't do anything at the time of writing.

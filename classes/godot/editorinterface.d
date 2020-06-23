@@ -32,17 +32,18 @@ import godot.editorselection;
 Godot editor's interface.
 
 EditorInterface gives you control over Godot editor's window. It allows customizing the window, saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects, and provides access to $(D EditorSettings), $(D EditorFileSystem), $(D EditorResourcePreview), $(D ScriptEditor), the editor viewport, and information about scenes.
+$(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorPlugin.getEditorInterface).
 */
 @GodotBaseClass struct EditorInterface
 {
-	enum string _GODOT_internal_name = "EditorInterface";
+	package(godot) enum string _GODOT_internal_name = "EditorInterface";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("edit_resource") GodotMethod!(void, Resource) editResource;
@@ -70,10 +71,20 @@ public:
 		@GodotName("set_main_screen_editor") GodotMethod!(void, String) setMainScreenEditor;
 		@GodotName("set_plugin_enabled") GodotMethod!(void, String, bool) setPluginEnabled;
 	}
-	bool opEquals(in EditorInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorInterface other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorInterface opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorInterface.
+	/// Note: use `memnew!EditorInterface` instead.
 	static EditorInterface _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +99,7 @@ public:
 	void editResource(Resource resource)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.editResource, _godot_object, resource);
+		ptrcall!(void)(GDNativeClassBinding.editResource, _godot_object, resource);
 	}
 	/**
 	Returns the main container of Godot editor's window. You can use it, for example, to retrieve the size of the container and place your controls accordingly.
@@ -96,7 +107,7 @@ public:
 	Control getBaseControl()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getBaseControl, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getBaseControl, _godot_object);
 	}
 	/**
 	
@@ -104,7 +115,7 @@ public:
 	String getCurrentPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentPath, _godot_object);
 	}
 	/**
 	Returns the edited (current) scene's root $(D Node).
@@ -112,7 +123,7 @@ public:
 	Node getEditedSceneRoot()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Node)(_classBinding.getEditedSceneRoot, _godot_object);
+		return ptrcall!(Node)(GDNativeClassBinding.getEditedSceneRoot, _godot_object);
 	}
 	/**
 	Returns the $(D EditorSettings).
@@ -120,7 +131,7 @@ public:
 	Ref!EditorSettings getEditorSettings()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorSettings)(_classBinding.getEditorSettings, _godot_object);
+		return ptrcall!(EditorSettings)(GDNativeClassBinding.getEditorSettings, _godot_object);
 	}
 	/**
 	Returns the editor $(D Viewport).
@@ -128,7 +139,7 @@ public:
 	Control getEditorViewport()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(_classBinding.getEditorViewport, _godot_object);
+		return ptrcall!(Control)(GDNativeClassBinding.getEditorViewport, _godot_object);
 	}
 	/**
 	
@@ -136,7 +147,7 @@ public:
 	EditorInspector getInspector() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorInspector)(_classBinding.getInspector, _godot_object);
+		return ptrcall!(EditorInspector)(GDNativeClassBinding.getInspector, _godot_object);
 	}
 	/**
 	Returns an $(D Array) with the file paths of the currently opened scenes.
@@ -144,7 +155,7 @@ public:
 	Array getOpenScenes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getOpenScenes, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getOpenScenes, _godot_object);
 	}
 	/**
 	Returns the $(D EditorFileSystem).
@@ -152,7 +163,7 @@ public:
 	EditorFileSystem getResourceFilesystem()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystem)(_classBinding.getResourceFilesystem, _godot_object);
+		return ptrcall!(EditorFileSystem)(GDNativeClassBinding.getResourceFilesystem, _godot_object);
 	}
 	/**
 	Returns the $(D EditorResourcePreview).
@@ -160,7 +171,7 @@ public:
 	EditorResourcePreview getResourcePreviewer()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorResourcePreview)(_classBinding.getResourcePreviewer, _godot_object);
+		return ptrcall!(EditorResourcePreview)(GDNativeClassBinding.getResourcePreviewer, _godot_object);
 	}
 	/**
 	Returns the $(D ScriptEditor).
@@ -168,7 +179,7 @@ public:
 	ScriptEditor getScriptEditor()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ScriptEditor)(_classBinding.getScriptEditor, _godot_object);
+		return ptrcall!(ScriptEditor)(GDNativeClassBinding.getScriptEditor, _godot_object);
 	}
 	/**
 	
@@ -176,7 +187,7 @@ public:
 	String getSelectedPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSelectedPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSelectedPath, _godot_object);
 	}
 	/**
 	Returns the $(D EditorSelection).
@@ -184,7 +195,7 @@ public:
 	EditorSelection getSelection()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorSelection)(_classBinding.getSelection, _godot_object);
+		return ptrcall!(EditorSelection)(GDNativeClassBinding.getSelection, _godot_object);
 	}
 	/**
 	Shows the given property on the given `object` in the Editor's Inspector dock.
@@ -192,7 +203,7 @@ public:
 	void inspectObject(GodotObject object, in String for_property = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.inspectObject, _godot_object, object, for_property);
+		ptrcall!(void)(GDNativeClassBinding.inspectObject, _godot_object, object, for_property);
 	}
 	/**
 	Returns the enabled status of a plugin. The plugin name is the same as its directory name.
@@ -200,7 +211,7 @@ public:
 	bool isPluginEnabled(in String plugin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPluginEnabled, _godot_object, plugin);
+		return ptrcall!(bool)(GDNativeClassBinding.isPluginEnabled, _godot_object, plugin);
 	}
 	/**
 	Returns mesh previews rendered at the given size as an $(D Array) of $(D Texture)s.
@@ -208,7 +219,7 @@ public:
 	Array makeMeshPreviews(in Array meshes, in long preview_size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.makeMeshPreviews, _godot_object, meshes, preview_size);
+		return ptrcall!(Array)(GDNativeClassBinding.makeMeshPreviews, _godot_object, meshes, preview_size);
 	}
 	/**
 	Opens the scene at the given path.
@@ -216,7 +227,7 @@ public:
 	void openSceneFromPath(in String scene_filepath)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.openSceneFromPath, _godot_object, scene_filepath);
+		ptrcall!(void)(GDNativeClassBinding.openSceneFromPath, _godot_object, scene_filepath);
 	}
 	/**
 	Reloads the scene at the given path.
@@ -224,7 +235,7 @@ public:
 	void reloadSceneFromPath(in String scene_filepath)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reloadSceneFromPath, _godot_object, scene_filepath);
+		ptrcall!(void)(GDNativeClassBinding.reloadSceneFromPath, _godot_object, scene_filepath);
 	}
 	/**
 	Saves the scene. Returns either `OK` or `ERR_CANT_CREATE` (see $(D @GlobalScope) constants).
@@ -232,7 +243,7 @@ public:
 	GodotError saveScene()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveScene, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveScene, _godot_object);
 	}
 	/**
 	Saves the scene as a file at `path`.
@@ -240,7 +251,7 @@ public:
 	void saveSceneAs(in String path, in bool with_preview = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.saveSceneAs, _godot_object, path, with_preview);
+		ptrcall!(void)(GDNativeClassBinding.saveSceneAs, _godot_object, path, with_preview);
 	}
 	/**
 	Selects the file, with the path provided by `file`, in the FileSystem dock.
@@ -248,7 +259,7 @@ public:
 	void selectFile(in String file)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.selectFile, _godot_object, file);
+		ptrcall!(void)(GDNativeClassBinding.selectFile, _godot_object, file);
 	}
 	/**
 	
@@ -256,7 +267,7 @@ public:
 	void setDistractionFreeMode(in bool enter)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDistractionFreeMode, _godot_object, enter);
+		ptrcall!(void)(GDNativeClassBinding.setDistractionFreeMode, _godot_object, enter);
 	}
 	/**
 	
@@ -264,7 +275,7 @@ public:
 	void setMainScreenEditor(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMainScreenEditor, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setMainScreenEditor, _godot_object, name);
 	}
 	/**
 	Sets the enabled status of a plugin. The plugin name is the same as its directory name.
@@ -272,6 +283,6 @@ public:
 	void setPluginEnabled(in String plugin, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPluginEnabled, _godot_object, plugin, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setPluginEnabled, _godot_object, plugin, enabled);
 	}
 }

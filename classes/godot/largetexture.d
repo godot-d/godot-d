@@ -28,14 +28,14 @@ You can dynamically add pieces ($(D Texture)s) to this $(D LargeTexture) using d
 */
 @GodotBaseClass struct LargeTexture
 {
-	enum string _GODOT_internal_name = "LargeTexture";
+	package(godot) enum string _GODOT_internal_name = "LargeTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_data") GodotMethod!(Array) _getData;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_piece_texture") GodotMethod!(void, long, Texture) setPieceTexture;
 		@GodotName("set_size") GodotMethod!(void, Vector2) setSize;
 	}
-	bool opEquals(in LargeTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	LargeTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in LargeTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) LargeTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of LargeTexture.
+	/// Note: use `memnew!LargeTexture` instead.
 	static LargeTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	long addPiece(in Vector2 ofs, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.addPiece, _godot_object, ofs, texture);
+		return ptrcall!(long)(GDNativeClassBinding.addPiece, _godot_object, ofs, texture);
 	}
 	/**
 	Clears the $(D LargeTexture).
@@ -94,7 +104,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Returns the number of pieces currently in this $(D LargeTexture).
@@ -102,7 +112,7 @@ public:
 	long getPieceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPieceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPieceCount, _godot_object);
 	}
 	/**
 	Returns the offset of the piece with the index `idx`.
@@ -110,7 +120,7 @@ public:
 	Vector2 getPieceOffset(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPieceOffset, _godot_object, idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPieceOffset, _godot_object, idx);
 	}
 	/**
 	Returns the $(D Texture) of the piece with the index `idx`.
@@ -118,7 +128,7 @@ public:
 	Ref!Texture getPieceTexture(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getPieceTexture, _godot_object, idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getPieceTexture, _godot_object, idx);
 	}
 	/**
 	Sets the offset of the piece with the index `idx` to `ofs`.
@@ -126,7 +136,7 @@ public:
 	void setPieceOffset(in long idx, in Vector2 ofs)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPieceOffset, _godot_object, idx, ofs);
+		ptrcall!(void)(GDNativeClassBinding.setPieceOffset, _godot_object, idx, ofs);
 	}
 	/**
 	Sets the $(D Texture) of the piece with index `idx` to `texture`.
@@ -134,7 +144,7 @@ public:
 	void setPieceTexture(in long idx, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPieceTexture, _godot_object, idx, texture);
+		ptrcall!(void)(GDNativeClassBinding.setPieceTexture, _godot_object, idx, texture);
 	}
 	/**
 	Sets the size of this $(D LargeTexture).
@@ -142,7 +152,7 @@ public:
 	void setSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
 	

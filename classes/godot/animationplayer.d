@@ -26,18 +26,19 @@ import godot.animation;
 Container and player of $(D Animation) resources.
 
 An animation player is used for general-purpose playback of $(D Animation) resources. It contains a dictionary of animations (referenced by name) and custom blend times between their transitions. Additionally, animations can be played and blended in different channels.
+$(D AnimationPlayer) is more suited than $(D Tween) for animations where you know the final values in advance. For example, fading a screen in and out is more easily done with an $(D AnimationPlayer) node thanks to the animation tools provided by the editor. That particular example can also be implemented with a $(D Tween) node, but it requires doing everything by code.
 Updating the target properties of animations occurs at process time.
 */
 @GodotBaseClass struct AnimationPlayer
 {
-	enum string _GODOT_internal_name = "AnimationPlayer";
+	package(godot) enum string _GODOT_internal_name = "AnimationPlayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_animation_changed") GodotMethod!(void) _animationChanged;
@@ -85,10 +86,20 @@ public:
 		@GodotName("set_speed_scale") GodotMethod!(void, double) setSpeedScale;
 		@GodotName("stop") GodotMethod!(void, bool) stop;
 	}
-	bool opEquals(in AnimationPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AnimationPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AnimationPlayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AnimationPlayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AnimationPlayer.
+	/// Note: use `memnew!AnimationPlayer` instead.
 	static AnimationPlayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -159,7 +170,7 @@ public:
 	GodotError addAnimation(in String name, Animation animation)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.addAnimation, _godot_object, name, animation);
+		return ptrcall!(GodotError)(GDNativeClassBinding.addAnimation, _godot_object, name, animation);
 	}
 	/**
 	Shifts position in the animation timeline and immediately updates the animation. `delta` is the time in seconds to shift. Events between the current frame and `delta` are handled.
@@ -167,7 +178,7 @@ public:
 	void advance(in double delta)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.advance, _godot_object, delta);
+		ptrcall!(void)(GDNativeClassBinding.advance, _godot_object, delta);
 	}
 	/**
 	Returns the name of the next animation in the queue.
@@ -175,7 +186,7 @@ public:
 	String animationGetNext(in String anim_from) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.animationGetNext, _godot_object, anim_from);
+		return ptrcall!(String)(GDNativeClassBinding.animationGetNext, _godot_object, anim_from);
 	}
 	/**
 	Triggers the `anim_to` animation when the `anim_from` animation completes.
@@ -183,7 +194,7 @@ public:
 	void animationSetNext(in String anim_from, in String anim_to)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.animationSetNext, _godot_object, anim_from, anim_to);
+		ptrcall!(void)(GDNativeClassBinding.animationSetNext, _godot_object, anim_from, anim_to);
 	}
 	/**
 	$(D AnimationPlayer) caches animated nodes. It may not notice if a node disappears; $(D clearCaches) forces it to update the cache again.
@@ -191,7 +202,7 @@ public:
 	void clearCaches()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCaches, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearCaches, _godot_object);
 	}
 	/**
 	Clears all queued, unplayed animations.
@@ -199,7 +210,7 @@ public:
 	void clearQueue()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearQueue, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearQueue, _godot_object);
 	}
 	/**
 	Returns the name of `animation` or an empty string if not found.
@@ -207,7 +218,7 @@ public:
 	String findAnimation(Animation animation) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.findAnimation, _godot_object, animation);
+		return ptrcall!(String)(GDNativeClassBinding.findAnimation, _godot_object, animation);
 	}
 	/**
 	Returns the $(D Animation) with key `name` or `null` if not found.
@@ -215,7 +226,7 @@ public:
 	Ref!Animation getAnimation(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation)(_classBinding.getAnimation, _godot_object, name);
+		return ptrcall!(Animation)(GDNativeClassBinding.getAnimation, _godot_object, name);
 	}
 	/**
 	Returns the list of stored animation names.
@@ -223,7 +234,7 @@ public:
 	PoolStringArray getAnimationList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getAnimationList, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getAnimationList, _godot_object);
 	}
 	/**
 	
@@ -231,7 +242,7 @@ public:
 	AnimationPlayer.AnimationProcessMode getAnimationProcessMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationPlayer.AnimationProcessMode)(_classBinding.getAnimationProcessMode, _godot_object);
+		return ptrcall!(AnimationPlayer.AnimationProcessMode)(GDNativeClassBinding.getAnimationProcessMode, _godot_object);
 	}
 	/**
 	
@@ -239,7 +250,7 @@ public:
 	String getAssignedAnimation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAssignedAnimation, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAssignedAnimation, _godot_object);
 	}
 	/**
 	
@@ -247,7 +258,7 @@ public:
 	String getAutoplay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAutoplay, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAutoplay, _godot_object);
 	}
 	/**
 	Gets the blend time (in seconds) between two animations, referenced by their names.
@@ -255,7 +266,7 @@ public:
 	double getBlendTime(in String anim_from, in String anim_to) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBlendTime, _godot_object, anim_from, anim_to);
+		return ptrcall!(double)(GDNativeClassBinding.getBlendTime, _godot_object, anim_from, anim_to);
 	}
 	/**
 	
@@ -263,7 +274,7 @@ public:
 	String getCurrentAnimation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getCurrentAnimation, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentAnimation, _godot_object);
 	}
 	/**
 	
@@ -271,7 +282,7 @@ public:
 	double getCurrentAnimationLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCurrentAnimationLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCurrentAnimationLength, _godot_object);
 	}
 	/**
 	
@@ -279,7 +290,7 @@ public:
 	double getCurrentAnimationPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCurrentAnimationPosition, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCurrentAnimationPosition, _godot_object);
 	}
 	/**
 	
@@ -287,7 +298,7 @@ public:
 	double getDefaultBlendTime() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDefaultBlendTime, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDefaultBlendTime, _godot_object);
 	}
 	/**
 	
@@ -295,7 +306,7 @@ public:
 	AnimationPlayer.AnimationMethodCallMode getMethodCallMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AnimationPlayer.AnimationMethodCallMode)(_classBinding.getMethodCallMode, _godot_object);
+		return ptrcall!(AnimationPlayer.AnimationMethodCallMode)(GDNativeClassBinding.getMethodCallMode, _godot_object);
 	}
 	/**
 	Gets the actual playing speed of current animation or 0 if not playing. This speed is the $(D playbackSpeed) property multiplied by `custom_speed` argument specified when calling the $(D play) method.
@@ -303,7 +314,7 @@ public:
 	double getPlayingSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPlayingSpeed, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPlayingSpeed, _godot_object);
 	}
 	/**
 	Returns a list of the animation names that are currently queued to play.
@@ -311,7 +322,7 @@ public:
 	PoolStringArray getQueue()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getQueue, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getQueue, _godot_object);
 	}
 	/**
 	
@@ -319,7 +330,7 @@ public:
 	NodePath getRoot() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getRoot, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getRoot, _godot_object);
 	}
 	/**
 	
@@ -327,7 +338,7 @@ public:
 	double getSpeedScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSpeedScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSpeedScale, _godot_object);
 	}
 	/**
 	Returns `true` if the $(D AnimationPlayer) stores an $(D Animation) with key `name`.
@@ -335,7 +346,7 @@ public:
 	bool hasAnimation(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAnimation, _godot_object, name);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAnimation, _godot_object, name);
 	}
 	/**
 	
@@ -343,7 +354,7 @@ public:
 	bool isActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActive, _godot_object);
 	}
 	/**
 	Returns `true` if playing an animation.
@@ -351,7 +362,7 @@ public:
 	bool isPlaying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPlaying, _godot_object);
 	}
 	/**
 	Plays the animation with key `name`. Custom blend times and speed can be set. If `custom_speed` is negative and `from_end` is `true`, the animation will play backwards (which is equivalent to calling $(D playBackwards)).
@@ -361,7 +372,7 @@ public:
 	void play(in String name = gs!"", in double custom_blend = -1, in double custom_speed = 1, in bool from_end = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object, name, custom_blend, custom_speed, from_end);
+		ptrcall!(void)(GDNativeClassBinding.play, _godot_object, name, custom_blend, custom_speed, from_end);
 	}
 	/**
 	Plays the animation with key `name` in reverse.
@@ -370,7 +381,7 @@ public:
 	void playBackwards(in String name = gs!"", in double custom_blend = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.playBackwards, _godot_object, name, custom_blend);
+		ptrcall!(void)(GDNativeClassBinding.playBackwards, _godot_object, name, custom_blend);
 	}
 	/**
 	Queues an animation for playback once the current one is done.
@@ -379,7 +390,7 @@ public:
 	void queue(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queue, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.queue, _godot_object, name);
 	}
 	/**
 	Removes the animation with key `name`.
@@ -387,7 +398,7 @@ public:
 	void removeAnimation(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeAnimation, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeAnimation, _godot_object, name);
 	}
 	/**
 	Renames an existing animation with key `name` to `newname`.
@@ -395,7 +406,7 @@ public:
 	void renameAnimation(in String name, in String newname)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.renameAnimation, _godot_object, name, newname);
+		ptrcall!(void)(GDNativeClassBinding.renameAnimation, _godot_object, name, newname);
 	}
 	/**
 	Seeks the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time. Events between the current frame and `seconds` are skipped.
@@ -403,7 +414,7 @@ public:
 	void seek(in double seconds, in bool update = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.seek, _godot_object, seconds, update);
+		ptrcall!(void)(GDNativeClassBinding.seek, _godot_object, seconds, update);
 	}
 	/**
 	
@@ -411,7 +422,7 @@ public:
 	void setActive(in bool active)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActive, _godot_object, active);
+		ptrcall!(void)(GDNativeClassBinding.setActive, _godot_object, active);
 	}
 	/**
 	
@@ -419,7 +430,7 @@ public:
 	void setAnimationProcessMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnimationProcessMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setAnimationProcessMode, _godot_object, mode);
 	}
 	/**
 	
@@ -427,7 +438,7 @@ public:
 	void setAssignedAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAssignedAnimation, _godot_object, anim);
+		ptrcall!(void)(GDNativeClassBinding.setAssignedAnimation, _godot_object, anim);
 	}
 	/**
 	
@@ -435,7 +446,7 @@ public:
 	void setAutoplay(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setAutoplay, _godot_object, name);
 	}
 	/**
 	Specifies a blend time (in seconds) between two animations, referenced by their names.
@@ -443,7 +454,7 @@ public:
 	void setBlendTime(in String anim_from, in String anim_to, in double sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlendTime, _godot_object, anim_from, anim_to, sec);
+		ptrcall!(void)(GDNativeClassBinding.setBlendTime, _godot_object, anim_from, anim_to, sec);
 	}
 	/**
 	
@@ -451,7 +462,7 @@ public:
 	void setCurrentAnimation(in String anim)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentAnimation, _godot_object, anim);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentAnimation, _godot_object, anim);
 	}
 	/**
 	
@@ -459,7 +470,7 @@ public:
 	void setDefaultBlendTime(in double sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultBlendTime, _godot_object, sec);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultBlendTime, _godot_object, sec);
 	}
 	/**
 	
@@ -467,7 +478,7 @@ public:
 	void setMethodCallMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMethodCallMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMethodCallMode, _godot_object, mode);
 	}
 	/**
 	
@@ -475,7 +486,7 @@ public:
 	void setRoot(NodePathArg0)(in NodePathArg0 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRoot, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setRoot, _godot_object, path);
 	}
 	/**
 	
@@ -483,7 +494,7 @@ public:
 	void setSpeedScale(in double speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeedScale, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setSpeedScale, _godot_object, speed);
 	}
 	/**
 	Stops or pauses the currently playing animation. If `reset` is `true`, the animation position is reset to `0` and the playback speed is reset to `1.0`.
@@ -492,7 +503,7 @@ public:
 	void stop(in bool reset = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object, reset);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object, reset);
 	}
 	/**
 	If playing, the current animation; otherwise, the animation last played. When set, would change the animation, but would not play it unless currently playing. See also $(D currentAnimation).

@@ -31,23 +31,33 @@ For example, if your character is driving a car, the ARVROrigin node should be a
 */
 @GodotBaseClass struct ARVROrigin
 {
-	enum string _GODOT_internal_name = "ARVROrigin";
+	package(godot) enum string _GODOT_internal_name = "ARVROrigin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_world_scale") GodotMethod!(double) getWorldScale;
 		@GodotName("set_world_scale") GodotMethod!(void, double) setWorldScale;
 	}
-	bool opEquals(in ARVROrigin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ARVROrigin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ARVROrigin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ARVROrigin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ARVROrigin.
+	/// Note: use `memnew!ARVROrigin` instead.
 	static ARVROrigin _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	double getWorldScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getWorldScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getWorldScale, _godot_object);
 	}
 	/**
 	
@@ -70,7 +80,7 @@ public:
 	void setWorldScale(in double world_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWorldScale, _godot_object, world_scale);
+		ptrcall!(void)(GDNativeClassBinding.setWorldScale, _godot_object, world_scale);
 	}
 	/**
 	Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 real world meter.

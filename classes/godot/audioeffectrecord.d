@@ -1,5 +1,5 @@
 /**
-
+Audio effect used for recording sound from a microphone.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,18 +24,20 @@ import godot.audioeffect;
 import godot.resource;
 import godot.audiostreamsample;
 /**
+Audio effect used for recording sound from a microphone.
 
+Allows the user to record sound from a microphone. It sets and gets the format in which the audio file will be recorded (8-bit, 16-bit, or compressed). It checks whether or not the recording is active, and if it is, records the sound. It then returns the recorded sample.
 */
 @GodotBaseClass struct AudioEffectRecord
 {
-	enum string _GODOT_internal_name = "AudioEffectRecord";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectRecord";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_format") GodotMethod!(AudioStreamSample.Format) getFormat;
@@ -44,10 +46,20 @@ public:
 		@GodotName("set_format") GodotMethod!(void, long) setFormat;
 		@GodotName("set_recording_active") GodotMethod!(void, bool) setRecordingActive;
 	}
-	bool opEquals(in AudioEffectRecord other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectRecord opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectRecord other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectRecord opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectRecord.
+	/// Note: use `memnew!AudioEffectRecord` instead.
 	static AudioEffectRecord _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,23 +74,23 @@ public:
 	AudioStreamSample.Format getFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample.Format)(_classBinding.getFormat, _godot_object);
+		return ptrcall!(AudioStreamSample.Format)(GDNativeClassBinding.getFormat, _godot_object);
 	}
 	/**
-	
+	Returns the recorded sample.
 	*/
 	Ref!AudioStreamSample getRecording() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamSample)(_classBinding.getRecording, _godot_object);
+		return ptrcall!(AudioStreamSample)(GDNativeClassBinding.getRecording, _godot_object);
 	}
 	/**
-	
+	Returns whether the recording is active or not.
 	*/
 	bool isRecordingActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRecordingActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRecordingActive, _godot_object);
 	}
 	/**
 	
@@ -86,18 +98,18 @@ public:
 	void setFormat(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFormat, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.setFormat, _godot_object, format);
 	}
 	/**
-	
+	If `true`, the sound will be recorded. Note that restarting the recording will remove the previously recorded sample.
 	*/
 	void setRecordingActive(in bool record)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRecordingActive, _godot_object, record);
+		ptrcall!(void)(GDNativeClassBinding.setRecordingActive, _godot_object, record);
 	}
 	/**
-	
+	Specifies the format in which the sample will be recorded. See $(D AudioStreamSample.format) for available formats.
 	*/
 	@property AudioStreamSample.Format format()
 	{

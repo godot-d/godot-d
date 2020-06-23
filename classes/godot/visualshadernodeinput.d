@@ -24,28 +24,38 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
-
+Gives access to input variables (built-ins) available for the shader. See the shading reference for the list of available built-ins for each shader type (check `Tutorials` section for link).
 */
 @GodotBaseClass struct VisualShaderNodeInput
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeInput";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeInput";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_input_name") GodotMethod!(String) getInputName;
 		@GodotName("get_input_real_name") GodotMethod!(String) getInputRealName;
 		@GodotName("set_input_name") GodotMethod!(void, String) setInputName;
 	}
-	bool opEquals(in VisualShaderNodeInput other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeInput opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeInput other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeInput opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeInput.
+	/// Note: use `memnew!VisualShaderNodeInput` instead.
 	static VisualShaderNodeInput _new()
 	{
 		static godot_class_constructor constructor;
@@ -60,7 +70,7 @@ public:
 	String getInputName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInputName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getInputName, _godot_object);
 	}
 	/**
 	
@@ -68,7 +78,7 @@ public:
 	String getInputRealName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getInputRealName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getInputRealName, _godot_object);
 	}
 	/**
 	
@@ -76,10 +86,10 @@ public:
 	void setInputName(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputName, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.setInputName, _godot_object, name);
 	}
 	/**
-	
+	One of the several input constants in lower-case style like: "vertex"(`VERTEX`) or "point_size"(`POINT_SIZE`).
 	*/
 	@property String inputName()
 	{

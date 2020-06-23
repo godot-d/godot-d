@@ -31,14 +31,14 @@ A physics space, a visual scenario and a sound space. Spatial nodes register the
 */
 @GodotBaseClass struct World
 {
-	enum string _GODOT_internal_name = "World";
+	package(godot) enum string _GODOT_internal_name = "World";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_direct_space_state") GodotMethod!(PhysicsDirectSpaceState) getDirectSpaceState;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_environment") GodotMethod!(void, Environment) setEnvironment;
 		@GodotName("set_fallback_environment") GodotMethod!(void, Environment) setFallbackEnvironment;
 	}
-	bool opEquals(in World other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	World opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in World other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) World opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of World.
+	/// Note: use `memnew!World` instead.
 	static World _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	PhysicsDirectSpaceState getDirectSpaceState()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PhysicsDirectSpaceState)(_classBinding.getDirectSpaceState, _godot_object);
+		return ptrcall!(PhysicsDirectSpaceState)(GDNativeClassBinding.getDirectSpaceState, _godot_object);
 	}
 	/**
 	
@@ -75,7 +85,7 @@ public:
 	Ref!Environment getEnvironment() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment)(_classBinding.getEnvironment, _godot_object);
+		return ptrcall!(Environment)(GDNativeClassBinding.getEnvironment, _godot_object);
 	}
 	/**
 	
@@ -83,7 +93,7 @@ public:
 	Ref!Environment getFallbackEnvironment() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Environment)(_classBinding.getFallbackEnvironment, _godot_object);
+		return ptrcall!(Environment)(GDNativeClassBinding.getFallbackEnvironment, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	RID getScenario() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getScenario, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getScenario, _godot_object);
 	}
 	/**
 	
@@ -99,7 +109,7 @@ public:
 	RID getSpace() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getSpace, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getSpace, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setEnvironment(Environment env)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnvironment, _godot_object, env);
+		ptrcall!(void)(GDNativeClassBinding.setEnvironment, _godot_object, env);
 	}
 	/**
 	
@@ -115,10 +125,10 @@ public:
 	void setFallbackEnvironment(Environment env)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFallbackEnvironment, _godot_object, env);
+		ptrcall!(void)(GDNativeClassBinding.setFallbackEnvironment, _godot_object, env);
 	}
 	/**
-	The World's physics direct space state, used for making various queries. Might be used only during `_physics_process`.
+	Direct access to the world's physics 3D space state. Used for querying current and potential collisions. Must only be accessed from within `_physics_process(delta)`.
 	*/
 	@property PhysicsDirectSpaceState directSpaceState()
 	{

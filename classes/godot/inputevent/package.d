@@ -27,14 +27,14 @@ Base class of all sort of input event. See $(D Node._input).
 */
 @GodotBaseClass struct InputEvent
 {
-	enum string _GODOT_internal_name = "InputEvent";
+	package(godot) enum string _GODOT_internal_name = "InputEvent";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("accumulate") GodotMethod!(bool, InputEvent) accumulate;
@@ -51,10 +51,20 @@ public:
 		@GodotName("shortcut_match") GodotMethod!(bool, InputEvent) shortcutMatch;
 		@GodotName("xformed_by") GodotMethod!(InputEvent, Transform2D, Vector2) xformedBy;
 	}
-	bool opEquals(in InputEvent other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEvent opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEvent other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEvent opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEvent.
+	/// Note: use `memnew!InputEvent` instead.
 	static InputEvent _new()
 	{
 		static godot_class_constructor constructor;
@@ -70,7 +80,7 @@ public:
 	bool accumulate(InputEvent with_event)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.accumulate, _godot_object, with_event);
+		return ptrcall!(bool)(GDNativeClassBinding.accumulate, _godot_object, with_event);
 	}
 	/**
 	Returns a $(D String) representation of the event.
@@ -78,7 +88,7 @@ public:
 	String asText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.asText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.asText, _godot_object);
 	}
 	/**
 	Returns a value between 0.0 and 1.0 depending on the given actions' state. Useful for getting the value of events of type $(D InputEventJoypadMotion).
@@ -86,7 +96,7 @@ public:
 	double getActionStrength(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getActionStrength, _godot_object, action);
+		return ptrcall!(double)(GDNativeClassBinding.getActionStrength, _godot_object, action);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	long getDevice() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDevice, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDevice, _godot_object);
 	}
 	/**
 	Returns `true` if this input event matches a pre-defined action of any type.
@@ -102,7 +112,7 @@ public:
 	bool isAction(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAction, _godot_object, action);
+		return ptrcall!(bool)(GDNativeClassBinding.isAction, _godot_object, action);
 	}
 	/**
 	Returns `true` if the given action is being pressed (and is not an echo event for $(D InputEventKey) events, unless `allow_echo` is `true`). Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
@@ -110,7 +120,7 @@ public:
 	bool isActionPressed(in String action, in bool allow_echo = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActionPressed, _godot_object, action, allow_echo);
+		return ptrcall!(bool)(GDNativeClassBinding.isActionPressed, _godot_object, action, allow_echo);
 	}
 	/**
 	Returns `true` if the given action is released (i.e. not pressed). Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
@@ -118,7 +128,7 @@ public:
 	bool isActionReleased(in String action) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActionReleased, _godot_object, action);
+		return ptrcall!(bool)(GDNativeClassBinding.isActionReleased, _godot_object, action);
 	}
 	/**
 	Returns `true` if this input event's type is one that can be assigned to an input action.
@@ -126,7 +136,7 @@ public:
 	bool isActionType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isActionType, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isActionType, _godot_object);
 	}
 	/**
 	Returns `true` if this input event is an echo event (only for events of type $(D InputEventKey)).
@@ -134,7 +144,7 @@ public:
 	bool isEcho() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEcho, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEcho, _godot_object);
 	}
 	/**
 	Returns `true` if this input event is pressed. Not relevant for events of type $(D InputEventMouseMotion) or $(D InputEventScreenDrag).
@@ -142,7 +152,7 @@ public:
 	bool isPressed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPressed, _godot_object);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	void setDevice(in long device)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDevice, _godot_object, device);
+		ptrcall!(void)(GDNativeClassBinding.setDevice, _godot_object, device);
 	}
 	/**
 	Returns `true` if the given input event is checking for the same key ($(D InputEventKey)), button ($(D InputEventJoypadButton)) or action ($(D InputEventAction)).
@@ -158,7 +168,7 @@ public:
 	bool shortcutMatch(InputEvent event) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.shortcutMatch, _godot_object, event);
+		return ptrcall!(bool)(GDNativeClassBinding.shortcutMatch, _godot_object, event);
 	}
 	/**
 	Returns a copy of the given input event which has been offset by `local_ofs` and transformed by `xform`. Relevant for events of type $(D InputEventMouseButton), $(D InputEventMouseMotion), $(D InputEventScreenTouch), $(D InputEventScreenDrag), $(D InputEventMagnifyGesture) and $(D InputEventPanGesture).
@@ -166,7 +176,7 @@ public:
 	Ref!InputEvent xformedBy(in Transform2D xform, in Vector2 local_ofs = Vector2(0, 0)) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(InputEvent)(_classBinding.xformedBy, _godot_object, xform, local_ofs);
+		return ptrcall!(InputEvent)(GDNativeClassBinding.xformedBy, _godot_object, xform, local_ofs);
 	}
 	/**
 	The event's device ID.

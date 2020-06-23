@@ -36,17 +36,18 @@ Any $(D CanvasItem) can draw. For this, $(D update) must be called, then $(D con
 Canvas items are drawn in tree order. By default, children are on top of their parents so a root $(D CanvasItem) will be drawn behind everything. This behavior can be changed on a per-item basis.
 A $(D CanvasItem) can also be hidden, which will also hide its children. It provides many ways to change parameters such as modulation (for itself and its children) and self modulation (only for itself), as well as its blend mode.
 Ultimately, a transform notification can be requested, which will notify the node that its global position changed in case the parent tree changed.
+$(B Note:) Unless otherwise specified, all methods that have angle parameters must have angles specified as $(I radians). To convert degrees to radians, use $(D @GDScript.deg2rad).
 */
 @GodotBaseClass struct CanvasItem
 {
-	enum string _GODOT_internal_name = "CanvasItem";
+	package(godot) enum string _GODOT_internal_name = "CanvasItem";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_draw") GodotMethod!(void) _draw;
@@ -130,10 +131,20 @@ public:
 		@GodotName("show") GodotMethod!(void) show;
 		@GodotName("update") GodotMethod!(void) update;
 	}
-	bool opEquals(in CanvasItem other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CanvasItem opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CanvasItem other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CanvasItem opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CanvasItem.
+	/// Note: use `memnew!CanvasItem` instead.
 	static CanvasItem _new()
 	{
 		static godot_class_constructor constructor;
@@ -402,7 +413,7 @@ public:
 	void drawArc(in Vector2 center, in double radius, in double start_angle, in double end_angle, in long point_count, in Color color, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawArc, _godot_object, center, radius, start_angle, end_angle, point_count, color, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawArc, _godot_object, center, radius, start_angle, end_angle, point_count, color, width, antialiased);
 	}
 	/**
 	Draws a string character using a custom font. Returns the advance, depending on the character width and kerning with an optional next character.
@@ -410,7 +421,7 @@ public:
 	double drawChar(Font font, in Vector2 position, in String _char, in String next, in Color modulate = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.drawChar, _godot_object, font, position, _char, next, modulate);
+		return ptrcall!(double)(GDNativeClassBinding.drawChar, _godot_object, font, position, _char, next, modulate);
 	}
 	/**
 	Draws a colored circle.
@@ -418,7 +429,7 @@ public:
 	void drawCircle(in Vector2 position, in double radius, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawCircle, _godot_object, position, radius, color);
+		ptrcall!(void)(GDNativeClassBinding.drawCircle, _godot_object, position, radius, color);
 	}
 	/**
 	Draws a colored polygon of any amount of points, convex or concave.
@@ -426,7 +437,7 @@ public:
 	void drawColoredPolygon(in PoolVector2Array points, in Color color, in PoolVector2Array uvs = PoolVector2Array.init, Texture texture = Texture.init, Texture normal_map = Texture.init, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawColoredPolygon, _godot_object, points, color, uvs, texture, normal_map, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawColoredPolygon, _godot_object, points, color, uvs, texture, normal_map, antialiased);
 	}
 	/**
 	Draws a line from a 2D point to another, with a given color and width. It can be optionally antialiased.
@@ -434,7 +445,7 @@ public:
 	void drawLine(in Vector2 from, in Vector2 to, in Color color, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawLine, _godot_object, from, to, color, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawLine, _godot_object, from, to, color, width, antialiased);
 	}
 	/**
 	Draws a $(D Mesh) in 2D, using the provided texture. See $(D MeshInstance2D) for related documentation.
@@ -442,7 +453,7 @@ public:
 	void drawMesh(Mesh mesh, Texture texture, Texture normal_map = Texture.init, in Transform2D transform = Transform2D.init, in Color modulate = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMesh, _godot_object, mesh, texture, normal_map, transform, modulate);
+		ptrcall!(void)(GDNativeClassBinding.drawMesh, _godot_object, mesh, texture, normal_map, transform, modulate);
 	}
 	/**
 	Draws multiple, parallel lines with a uniform `color`. `width` and `antialiased` are currently not implemented and have no effect.
@@ -450,7 +461,7 @@ public:
 	void drawMultiline(in PoolVector2Array points, in Color color, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMultiline, _godot_object, points, color, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawMultiline, _godot_object, points, color, width, antialiased);
 	}
 	/**
 	Draws multiple, parallel lines with a uniform `width`, segment-by-segment coloring, and optional antialiasing. Colors assigned to line segments match by index between `points` and `colors`.
@@ -458,7 +469,7 @@ public:
 	void drawMultilineColors(in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMultilineColors, _godot_object, points, colors, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawMultilineColors, _godot_object, points, colors, width, antialiased);
 	}
 	/**
 	Draws a $(D MultiMesh) in 2D with the provided texture. See $(D MultiMeshInstance2D) for related documentation.
@@ -466,7 +477,7 @@ public:
 	void drawMultimesh(MultiMesh multimesh, Texture texture, Texture normal_map = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawMultimesh, _godot_object, multimesh, texture, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.drawMultimesh, _godot_object, multimesh, texture, normal_map);
 	}
 	/**
 	Draws a polygon of any amount of points, convex or concave.
@@ -474,7 +485,7 @@ public:
 	void drawPolygon(in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs = PoolVector2Array.init, Texture texture = Texture.init, Texture normal_map = Texture.init, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawPolygon, _godot_object, points, colors, uvs, texture, normal_map, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawPolygon, _godot_object, points, colors, uvs, texture, normal_map, antialiased);
 	}
 	/**
 	Draws interconnected line segments with a uniform `color` and `width` and optional antialiasing.
@@ -482,7 +493,7 @@ public:
 	void drawPolyline(in PoolVector2Array points, in Color color, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawPolyline, _godot_object, points, color, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawPolyline, _godot_object, points, color, width, antialiased);
 	}
 	/**
 	Draws interconnected line segments with a uniform `width`, segment-by-segment coloring, and optional antialiasing. Colors assigned to line segments match by index between `points` and `colors`.
@@ -490,7 +501,7 @@ public:
 	void drawPolylineColors(in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawPolylineColors, _godot_object, points, colors, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawPolylineColors, _godot_object, points, colors, width, antialiased);
 	}
 	/**
 	Draws a custom primitive. 1 point for a point, 2 points for a line, 3 points for a triangle and 4 points for a quad.
@@ -498,7 +509,7 @@ public:
 	void drawPrimitive(in PoolVector2Array points, in PoolColorArray colors, in PoolVector2Array uvs, Texture texture = Texture.init, in double width = 1, Texture normal_map = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawPrimitive, _godot_object, points, colors, uvs, texture, width, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.drawPrimitive, _godot_object, points, colors, uvs, texture, width, normal_map);
 	}
 	/**
 	Draws a rectangle. If `filled` is `true`, the rectangle will be filled with the `color` specified. If `filled` is `false`, the rectangle will be drawn as a stroke with the `color` and `width` specified. If `antialiased` is `true`, the lines will be antialiased.
@@ -507,7 +518,7 @@ public:
 	void drawRect(in Rect2 rect, in Color color, in bool filled = true, in double width = 1, in bool antialiased = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawRect, _godot_object, rect, color, filled, width, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.drawRect, _godot_object, rect, color, filled, width, antialiased);
 	}
 	/**
 	Sets a custom transform for drawing via components. Anything drawn afterwards will be transformed by this.
@@ -515,7 +526,7 @@ public:
 	void drawSetTransform(in Vector2 position, in double rotation, in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawSetTransform, _godot_object, position, rotation, scale);
+		ptrcall!(void)(GDNativeClassBinding.drawSetTransform, _godot_object, position, rotation, scale);
 	}
 	/**
 	Sets a custom transform for drawing via matrix. Anything drawn afterwards will be transformed by this.
@@ -523,7 +534,7 @@ public:
 	void drawSetTransformMatrix(in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawSetTransformMatrix, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.drawSetTransformMatrix, _godot_object, xform);
 	}
 	/**
 	Draws a string using a custom font.
@@ -531,7 +542,7 @@ public:
 	void drawString(Font font, in Vector2 position, in String text, in Color modulate = Color(1,1,1,1), in long clip_w = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawString, _godot_object, font, position, text, modulate, clip_w);
+		ptrcall!(void)(GDNativeClassBinding.drawString, _godot_object, font, position, text, modulate, clip_w);
 	}
 	/**
 	Draws a styled rectangle.
@@ -539,7 +550,7 @@ public:
 	void drawStyleBox(StyleBox style_box, in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawStyleBox, _godot_object, style_box, rect);
+		ptrcall!(void)(GDNativeClassBinding.drawStyleBox, _godot_object, style_box, rect);
 	}
 	/**
 	Draws a texture at a given position.
@@ -547,7 +558,7 @@ public:
 	void drawTexture(Texture texture, in Vector2 position, in Color modulate = Color(1,1,1,1), Texture normal_map = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawTexture, _godot_object, texture, position, modulate, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.drawTexture, _godot_object, texture, position, modulate, normal_map);
 	}
 	/**
 	Draws a textured rectangle at a given position, optionally modulated by a color. If `transpose` is `true`, the texture will have its X and Y coordinates swapped.
@@ -555,7 +566,7 @@ public:
 	void drawTextureRect(Texture texture, in Rect2 rect, in bool tile, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawTextureRect, _godot_object, texture, rect, tile, modulate, transpose, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.drawTextureRect, _godot_object, texture, rect, tile, modulate, transpose, normal_map);
 	}
 	/**
 	Draws a textured rectangle region at a given position, optionally modulated by a color. If `transpose` is `true`, the texture will have its X and Y coordinates swapped.
@@ -563,7 +574,7 @@ public:
 	void drawTextureRectRegion(Texture texture, in Rect2 rect, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init, in bool clip_uv = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawTextureRectRegion, _godot_object, texture, rect, src_rect, modulate, transpose, normal_map, clip_uv);
+		ptrcall!(void)(GDNativeClassBinding.drawTextureRectRegion, _godot_object, texture, rect, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
 	/**
 	Forces the transform to update. Transform changes in physics are not instant for performance reasons. Transforms are accumulated and then set. Use this if you need an up-to-date transform when doing physics operations.
@@ -571,7 +582,7 @@ public:
 	void forceUpdateTransform()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.forceUpdateTransform, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.forceUpdateTransform, _godot_object);
 	}
 	/**
 	Returns the $(D RID) of the $(D World2D) canvas where this item is in.
@@ -579,7 +590,7 @@ public:
 	RID getCanvas() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getCanvas, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getCanvas, _godot_object);
 	}
 	/**
 	Returns the canvas item RID used by $(D VisualServer) for this item.
@@ -587,7 +598,7 @@ public:
 	RID getCanvasItem() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getCanvasItem, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getCanvasItem, _godot_object);
 	}
 	/**
 	Returns the transform matrix of this item's canvas.
@@ -595,7 +606,7 @@ public:
 	Transform2D getCanvasTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getCanvasTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getCanvasTransform, _godot_object);
 	}
 	/**
 	Returns the global position of the mouse.
@@ -603,7 +614,7 @@ public:
 	Vector2 getGlobalMousePosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalMousePosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGlobalMousePosition, _godot_object);
 	}
 	/**
 	Returns the global transform matrix of this item.
@@ -611,7 +622,7 @@ public:
 	Transform2D getGlobalTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getGlobalTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getGlobalTransform, _godot_object);
 	}
 	/**
 	Returns the global transform matrix of this item in relation to the canvas.
@@ -619,7 +630,7 @@ public:
 	Transform2D getGlobalTransformWithCanvas() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getGlobalTransformWithCanvas, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getGlobalTransformWithCanvas, _godot_object);
 	}
 	/**
 	
@@ -627,7 +638,7 @@ public:
 	long getLightMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLightMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLightMask, _godot_object);
 	}
 	/**
 	Returns the mouse position relative to this item's position.
@@ -635,7 +646,7 @@ public:
 	Vector2 getLocalMousePosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLocalMousePosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getLocalMousePosition, _godot_object);
 	}
 	/**
 	
@@ -643,7 +654,7 @@ public:
 	Ref!Material getMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.getMaterial, _godot_object);
+		return ptrcall!(Material)(GDNativeClassBinding.getMaterial, _godot_object);
 	}
 	/**
 	
@@ -651,7 +662,7 @@ public:
 	Color getModulate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getModulate, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getModulate, _godot_object);
 	}
 	/**
 	
@@ -659,7 +670,7 @@ public:
 	Color getSelfModulate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getSelfModulate, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getSelfModulate, _godot_object);
 	}
 	/**
 	Returns the transform matrix of this item.
@@ -667,7 +678,7 @@ public:
 	Transform2D getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	
@@ -675,7 +686,7 @@ public:
 	bool getUseParentMaterial() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getUseParentMaterial, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getUseParentMaterial, _godot_object);
 	}
 	/**
 	Returns the viewport's boundaries as a $(D Rect2).
@@ -683,7 +694,7 @@ public:
 	Rect2 getViewportRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getViewportRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getViewportRect, _godot_object);
 	}
 	/**
 	Returns this item's transform in relation to the viewport.
@@ -691,7 +702,7 @@ public:
 	Transform2D getViewportTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getViewportTransform, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getViewportTransform, _godot_object);
 	}
 	/**
 	Returns the $(D World2D) where this item is in.
@@ -699,7 +710,7 @@ public:
 	Ref!World2D getWorld2d() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(World2D)(_classBinding.getWorld2d, _godot_object);
+		return ptrcall!(World2D)(GDNativeClassBinding.getWorld2d, _godot_object);
 	}
 	/**
 	Hide the $(D CanvasItem) if it's currently visible.
@@ -707,7 +718,7 @@ public:
 	void hide()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.hide, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.hide, _godot_object);
 	}
 	/**
 	
@@ -715,7 +726,7 @@ public:
 	bool isDrawBehindParentEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDrawBehindParentEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDrawBehindParentEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if local transform notifications are communicated to children.
@@ -723,7 +734,7 @@ public:
 	bool isLocalTransformNotificationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isLocalTransformNotificationEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isLocalTransformNotificationEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the node is set as top-level. See $(D setAsToplevel).
@@ -731,7 +742,7 @@ public:
 	bool isSetAsToplevel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSetAsToplevel, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSetAsToplevel, _godot_object);
 	}
 	/**
 	Returns `true` if global transform notifications are communicated to children.
@@ -739,7 +750,7 @@ public:
 	bool isTransformNotificationEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isTransformNotificationEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isTransformNotificationEnabled, _godot_object);
 	}
 	/**
 	
@@ -747,7 +758,7 @@ public:
 	bool isVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVisible, _godot_object);
 	}
 	/**
 	Returns `true` if the node is present in the $(D SceneTree), its $(D visible) property is `true` and its inherited visibility is also `true`.
@@ -755,7 +766,7 @@ public:
 	bool isVisibleInTree() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVisibleInTree, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVisibleInTree, _godot_object);
 	}
 	/**
 	Assigns `screen_point` as this node's new local transform.
@@ -763,7 +774,7 @@ public:
 	Vector2 makeCanvasPositionLocal(in Vector2 screen_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.makeCanvasPositionLocal, _godot_object, screen_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.makeCanvasPositionLocal, _godot_object, screen_point);
 	}
 	/**
 	Transformations issued by `event`'s inputs are applied in local space instead of global space.
@@ -771,7 +782,7 @@ public:
 	Ref!InputEvent makeInputLocal(InputEvent event) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(InputEvent)(_classBinding.makeInputLocal, _godot_object, event);
+		return ptrcall!(InputEvent)(GDNativeClassBinding.makeInputLocal, _godot_object, event);
 	}
 	/**
 	If `enable` is `true`, the node won't inherit its transform from parent canvas items.
@@ -779,7 +790,7 @@ public:
 	void setAsToplevel(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsToplevel, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAsToplevel, _godot_object, enable);
 	}
 	/**
 	
@@ -787,7 +798,7 @@ public:
 	void setDrawBehindParent(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDrawBehindParent, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setDrawBehindParent, _godot_object, enable);
 	}
 	/**
 	
@@ -795,7 +806,7 @@ public:
 	void setLightMask(in long light_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightMask, _godot_object, light_mask);
+		ptrcall!(void)(GDNativeClassBinding.setLightMask, _godot_object, light_mask);
 	}
 	/**
 	
@@ -803,7 +814,7 @@ public:
 	void setMaterial(Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaterial, _godot_object, material);
+		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
 	
@@ -811,7 +822,7 @@ public:
 	void setModulate(in Color modulate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setModulate, _godot_object, modulate);
+		ptrcall!(void)(GDNativeClassBinding.setModulate, _godot_object, modulate);
 	}
 	/**
 	If `enable` is `true`, children will be updated with local transform data.
@@ -819,7 +830,7 @@ public:
 	void setNotifyLocalTransform(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNotifyLocalTransform, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setNotifyLocalTransform, _godot_object, enable);
 	}
 	/**
 	If `enable` is `true`, children will be updated with global transform data.
@@ -827,7 +838,7 @@ public:
 	void setNotifyTransform(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNotifyTransform, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setNotifyTransform, _godot_object, enable);
 	}
 	/**
 	
@@ -835,7 +846,7 @@ public:
 	void setSelfModulate(in Color self_modulate)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelfModulate, _godot_object, self_modulate);
+		ptrcall!(void)(GDNativeClassBinding.setSelfModulate, _godot_object, self_modulate);
 	}
 	/**
 	
@@ -843,7 +854,7 @@ public:
 	void setUseParentMaterial(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseParentMaterial, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseParentMaterial, _godot_object, enable);
 	}
 	/**
 	
@@ -851,7 +862,7 @@ public:
 	void setVisible(in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVisible, _godot_object, visible);
+		ptrcall!(void)(GDNativeClassBinding.setVisible, _godot_object, visible);
 	}
 	/**
 	Show the $(D CanvasItem) if it's currently hidden. For controls that inherit $(D Popup), the correct way to make them visible is to call one of the multiple `popup*()` functions instead.
@@ -859,7 +870,7 @@ public:
 	void show()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.show, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.show, _godot_object);
 	}
 	/**
 	Queue the $(D CanvasItem) for update. $(D constant NOTIFICATION_DRAW) will be called on idle time to request redraw.
@@ -867,7 +878,7 @@ public:
 	void update()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.update, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.update, _godot_object);
 	}
 	/**
 	The rendering layers in which this $(D CanvasItem) responds to $(D Light2D) nodes.

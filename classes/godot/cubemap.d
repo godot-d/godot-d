@@ -29,14 +29,14 @@ A 6-sided 3D texture typically used for faking reflections. It can be used to ma
 */
 @GodotBaseClass struct CubeMap
 {
-	enum string _GODOT_internal_name = "CubeMap";
+	package(godot) enum string _GODOT_internal_name = "CubeMap";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_flags") GodotMethod!(long) getFlags;
@@ -50,10 +50,20 @@ public:
 		@GodotName("set_side") GodotMethod!(void, long, Image) setSide;
 		@GodotName("set_storage") GodotMethod!(void, long) setStorage;
 	}
-	bool opEquals(in CubeMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CubeMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CubeMap other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CubeMap opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CubeMap.
+	/// Note: use `memnew!CubeMap` instead.
 	static CubeMap _new()
 	{
 		static godot_class_constructor constructor;
@@ -149,7 +159,7 @@ public:
 	long getFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFlags, _godot_object);
 	}
 	/**
 	Returns the $(D CubeMap)'s height.
@@ -157,7 +167,7 @@ public:
 	long getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -165,7 +175,7 @@ public:
 	double getLossyStorageQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLossyStorageQuality, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLossyStorageQuality, _godot_object);
 	}
 	/**
 	Returns an $(D Image) for a side of the $(D CubeMap) using one of the $(D side) constants.
@@ -173,7 +183,7 @@ public:
 	Ref!Image getSide(in long side) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getSide, _godot_object, side);
+		return ptrcall!(Image)(GDNativeClassBinding.getSide, _godot_object, side);
 	}
 	/**
 	
@@ -181,7 +191,7 @@ public:
 	CubeMap.Storage getStorage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CubeMap.Storage)(_classBinding.getStorage, _godot_object);
+		return ptrcall!(CubeMap.Storage)(GDNativeClassBinding.getStorage, _godot_object);
 	}
 	/**
 	Returns the $(D CubeMap)'s width.
@@ -189,7 +199,7 @@ public:
 	long getWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getWidth, _godot_object);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	void setFlags(in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.setFlags, _godot_object, flags);
 	}
 	/**
 	
@@ -205,7 +215,7 @@ public:
 	void setLossyStorageQuality(in double quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLossyStorageQuality, _godot_object, quality);
+		ptrcall!(void)(GDNativeClassBinding.setLossyStorageQuality, _godot_object, quality);
 	}
 	/**
 	Sets an $(D Image) for a side of the $(D CubeMap) using one of the $(D side) constants.
@@ -213,7 +223,7 @@ public:
 	void setSide(in long side, Image image)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSide, _godot_object, side, image);
+		ptrcall!(void)(GDNativeClassBinding.setSide, _godot_object, side, image);
 	}
 	/**
 	
@@ -221,7 +231,7 @@ public:
 	void setStorage(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStorage, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setStorage, _godot_object, mode);
 	}
 	/**
 	The render flags for the $(D CubeMap). See the $(D flags) constants for details.

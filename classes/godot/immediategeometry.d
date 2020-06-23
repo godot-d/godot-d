@@ -27,17 +27,20 @@ import godot.texture;
 Draws simple geometry from code.
 
 Uses a drawing mode similar to OpenGL 1.x.
+See also $(D ArrayMesh), $(D MeshDataTool) and $(D SurfaceTool) for procedural geometry generation.
+$(B Note:) ImmediateGeometry3D is best suited to small amounts of mesh data that change every frame. It will be slow when handling large amounts of mesh data. If mesh data doesn't change often, use $(D ArrayMesh), $(D MeshDataTool) or $(D SurfaceTool) instead.
+$(B Note:) Godot uses clockwise $(D url=https://learnopengl.com/Advanced-OpenGL/Face-culling)winding order$(D /url) for front faces of triangle primitive modes.
 */
 @GodotBaseClass struct ImmediateGeometry
 {
-	enum string _GODOT_internal_name = "ImmediateGeometry";
+	package(godot) enum string _GODOT_internal_name = "ImmediateGeometry";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GeometryInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GeometryInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_sphere") GodotMethod!(void, long, long, double, bool) addSphere;
@@ -51,10 +54,20 @@ public:
 		@GodotName("set_uv") GodotMethod!(void, Vector2) setUv;
 		@GodotName("set_uv2") GodotMethod!(void, Vector2) setUv2;
 	}
-	bool opEquals(in ImmediateGeometry other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ImmediateGeometry opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ImmediateGeometry other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ImmediateGeometry opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ImmediateGeometry.
+	/// Note: use `memnew!ImmediateGeometry` instead.
 	static ImmediateGeometry _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +82,7 @@ public:
 	void addSphere(in long lats, in long lons, in double radius, in bool add_uv = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSphere, _godot_object, lats, lons, radius, add_uv);
+		ptrcall!(void)(GDNativeClassBinding.addSphere, _godot_object, lats, lons, radius, add_uv);
 	}
 	/**
 	Adds a vertex in local coordinate space with the currently set color/uv/etc.
@@ -77,7 +90,7 @@ public:
 	void addVertex(in Vector3 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addVertex, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.addVertex, _godot_object, position);
 	}
 	/**
 	Begin drawing (and optionally pass a texture override). When done call $(D end). For more information on how this works, search for `glBegin()` and `glEnd()` references.
@@ -86,7 +99,7 @@ public:
 	void begin(in long primitive, Texture texture = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.begin, _godot_object, primitive, texture);
+		ptrcall!(void)(GDNativeClassBinding.begin, _godot_object, primitive, texture);
 	}
 	/**
 	Clears everything that was drawn using begin/end.
@@ -94,7 +107,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Ends a drawing context and displays the results.
@@ -102,7 +115,7 @@ public:
 	void end()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.end, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.end, _godot_object);
 	}
 	/**
 	The current drawing color.
@@ -110,7 +123,7 @@ public:
 	void setColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, color);
 	}
 	/**
 	The next vertex's normal.
@@ -118,7 +131,7 @@ public:
 	void setNormal(in Vector3 normal)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormal, _godot_object, normal);
+		ptrcall!(void)(GDNativeClassBinding.setNormal, _godot_object, normal);
 	}
 	/**
 	The next vertex's tangent (and binormal facing).
@@ -126,7 +139,7 @@ public:
 	void setTangent(in Plane tangent)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTangent, _godot_object, tangent);
+		ptrcall!(void)(GDNativeClassBinding.setTangent, _godot_object, tangent);
 	}
 	/**
 	The next vertex's UV.
@@ -134,7 +147,7 @@ public:
 	void setUv(in Vector2 uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv, _godot_object, uv);
+		ptrcall!(void)(GDNativeClassBinding.setUv, _godot_object, uv);
 	}
 	/**
 	The next vertex's second layer UV.
@@ -142,6 +155,6 @@ public:
 	void setUv2(in Vector2 uv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUv2, _godot_object, uv);
+		ptrcall!(void)(GDNativeClassBinding.setUv2, _godot_object, uv);
 	}
 }

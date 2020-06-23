@@ -34,14 +34,14 @@ New items can be created inside this $(D PopupMenu) using `get_popup().add_item(
 */
 @GodotBaseClass struct MenuButton
 {
-	enum string _GODOT_internal_name = "MenuButton";
+	package(godot) enum string _GODOT_internal_name = "MenuButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Button _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_items") GodotMethod!(Array) _getItems;
@@ -52,10 +52,20 @@ public:
 		@GodotName("set_disable_shortcuts") GodotMethod!(void, bool) setDisableShortcuts;
 		@GodotName("set_switch_on_hover") GodotMethod!(void, bool) setSwitchOnHover;
 	}
-	bool opEquals(in MenuButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MenuButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MenuButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MenuButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MenuButton.
+	/// Note: use `memnew!MenuButton` instead.
 	static MenuButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -99,7 +109,7 @@ public:
 	PopupMenu getPopup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PopupMenu)(_classBinding.getPopup, _godot_object);
+		return ptrcall!(PopupMenu)(GDNativeClassBinding.getPopup, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	bool isSwitchOnHover()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSwitchOnHover, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSwitchOnHover, _godot_object);
 	}
 	/**
 	If `true`, shortcuts are disabled and cannot be used to trigger the button.
@@ -115,7 +125,7 @@ public:
 	void setDisableShortcuts(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisableShortcuts, _godot_object, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setDisableShortcuts, _godot_object, disabled);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	void setSwitchOnHover(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSwitchOnHover, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setSwitchOnHover, _godot_object, enable);
 	}
 	/**
 	

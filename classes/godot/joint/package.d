@@ -27,14 +27,14 @@ Joints are used to bind together two physics bodies. They have a solver priority
 */
 @GodotBaseClass struct Joint
 {
-	enum string _GODOT_internal_name = "Joint";
+	package(godot) enum string _GODOT_internal_name = "Joint";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
@@ -46,10 +46,20 @@ public:
 		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
 		@GodotName("set_solver_priority") GodotMethod!(void, long) setSolverPriority;
 	}
-	bool opEquals(in Joint other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Joint opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Joint other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Joint opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Joint.
+	/// Note: use `memnew!Joint` instead.
 	static Joint _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	bool getExcludeNodesFromCollision() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
 	
@@ -72,7 +82,7 @@ public:
 	NodePath getNodeA() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodeA, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getNodeA, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	NodePath getNodeB() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodeB, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getNodeB, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	long getSolverPriority() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSolverPriority, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSolverPriority, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	void setExcludeNodesFromCollision(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExcludeNodesFromCollision, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExcludeNodesFromCollision, _godot_object, enable);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	void setNodeA(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setNodeA, _godot_object, node);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	void setNodeB(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setNodeB, _godot_object, node);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	void setSolverPriority(in long priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSolverPriority, _godot_object, priority);
+		ptrcall!(void)(GDNativeClassBinding.setSolverPriority, _godot_object, priority);
 	}
 	/**
 	If `true`, the two bodies of the nodes are not able to collide with each other.

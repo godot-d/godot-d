@@ -32,14 +32,14 @@ The position of the controller node is automatically updated by the $(D ARVRServ
 */
 @GodotBaseClass struct ARVRController
 {
-	enum string _GODOT_internal_name = "ARVRController";
+	package(godot) enum string _GODOT_internal_name = "ARVRController";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_controller_id") GodotMethod!(long) getControllerId;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_controller_id") GodotMethod!(void, long) setControllerId;
 		@GodotName("set_rumble") GodotMethod!(void, double) setRumble;
 	}
-	bool opEquals(in ARVRController other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ARVRController opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ARVRController other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ARVRController opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ARVRController.
+	/// Note: use `memnew!ARVRController` instead.
 	static ARVRController _new()
 	{
 		static godot_class_constructor constructor;
@@ -72,7 +82,7 @@ public:
 	long getControllerId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getControllerId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getControllerId, _godot_object);
 	}
 	/**
 	If active, returns the name of the associated controller if provided by the AR/VR SDK used.
@@ -80,7 +90,7 @@ public:
 	String getControllerName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getControllerName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getControllerName, _godot_object);
 	}
 	/**
 	Returns the hand holding this controller, if known. See $(D ARVRPositionalTracker.trackerhand).
@@ -88,7 +98,7 @@ public:
 	ARVRPositionalTracker.TrackerHand getHand() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRPositionalTracker.TrackerHand)(_classBinding.getHand, _godot_object);
+		return ptrcall!(ARVRPositionalTracker.TrackerHand)(GDNativeClassBinding.getHand, _godot_object);
 	}
 	/**
 	Returns `true` if the bound controller is active. ARVR systems attempt to track active controllers.
@@ -96,7 +106,7 @@ public:
 	bool getIsActive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getIsActive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getIsActive, _godot_object);
 	}
 	/**
 	Returns the value of the given axis for things like triggers, touchpads, etc. that are embedded into the controller.
@@ -104,7 +114,7 @@ public:
 	double getJoystickAxis(in long axis) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getJoystickAxis, _godot_object, axis);
+		return ptrcall!(double)(GDNativeClassBinding.getJoystickAxis, _godot_object, axis);
 	}
 	/**
 	Returns the ID of the joystick object bound to this. Every controller tracked by the $(D ARVRServer) that has buttons and axis will also be registered as a joystick within Godot. This means that all the normal joystick tracking and input mapping will work for buttons and axis found on the AR/VR controllers. This ID is purely offered as information so you can link up the controller with its joystick entry.
@@ -112,7 +122,7 @@ public:
 	long getJoystickId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getJoystickId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getJoystickId, _godot_object);
 	}
 	/**
 	If provided by the $(D ARVRInterface), this returns a mesh associated with the controller. This can be used to visualize the controller.
@@ -120,7 +130,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	double getRumble() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRumble, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRumble, _godot_object);
 	}
 	/**
 	Returns `true` if the button at index `button` is pressed. See $(D joysticklist), in particular the `JOY_VR_*` constants.
@@ -136,7 +146,7 @@ public:
 	long isButtonPressed(in long button) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.isButtonPressed, _godot_object, button);
+		return ptrcall!(long)(GDNativeClassBinding.isButtonPressed, _godot_object, button);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	void setControllerId(in long controller_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControllerId, _godot_object, controller_id);
+		ptrcall!(void)(GDNativeClassBinding.setControllerId, _godot_object, controller_id);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	void setRumble(in double rumble)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRumble, _godot_object, rumble);
+		ptrcall!(void)(GDNativeClassBinding.setRumble, _godot_object, rumble);
 	}
 	/**
 	The controller's ID.

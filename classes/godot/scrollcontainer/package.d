@@ -34,14 +34,14 @@ A ScrollContainer node meant to contain a $(D Control) child. ScrollContainers w
 */
 @GodotBaseClass struct ScrollContainer
 {
-	enum string _GODOT_internal_name = "ScrollContainer";
+	package(godot) enum string _GODOT_internal_name = "ScrollContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_ensure_focused_visible") GodotMethod!(void, Control) _ensureFocusedVisible;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_h_scroll") GodotMethod!(void, long) setHScroll;
 		@GodotName("set_v_scroll") GodotMethod!(void, long) setVScroll;
 	}
-	bool opEquals(in ScrollContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ScrollContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ScrollContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ScrollContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ScrollContainer.
+	/// Note: use `memnew!ScrollContainer` instead.
 	static ScrollContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -120,7 +130,7 @@ public:
 	long getDeadzone() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDeadzone, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDeadzone, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	long getHScroll() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHScroll, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHScroll, _godot_object);
 	}
 	/**
 	Returns the horizontal scrollbar $(D HScrollBar) of this $(D ScrollContainer).
@@ -136,7 +146,7 @@ public:
 	HScrollBar getHScrollbar()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(HScrollBar)(_classBinding.getHScrollbar, _godot_object);
+		return ptrcall!(HScrollBar)(GDNativeClassBinding.getHScrollbar, _godot_object);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	long getVScroll() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVScroll, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVScroll, _godot_object);
 	}
 	/**
 	Returns the vertical scrollbar $(D VScrollBar) of this $(D ScrollContainer).
@@ -152,7 +162,7 @@ public:
 	VScrollBar getVScrollbar()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VScrollBar)(_classBinding.getVScrollbar, _godot_object);
+		return ptrcall!(VScrollBar)(GDNativeClassBinding.getVScrollbar, _godot_object);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	bool isFollowingFocus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isFollowingFocus, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isFollowingFocus, _godot_object);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	bool isHScrollEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHScrollEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHScrollEnabled, _godot_object);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	bool isVScrollEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVScrollEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVScrollEnabled, _godot_object);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setDeadzone(in long deadzone)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDeadzone, _godot_object, deadzone);
+		ptrcall!(void)(GDNativeClassBinding.setDeadzone, _godot_object, deadzone);
 	}
 	/**
 	
@@ -192,7 +202,7 @@ public:
 	void setEnableHScroll(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableHScroll, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setEnableHScroll, _godot_object, enable);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	void setEnableVScroll(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableVScroll, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setEnableVScroll, _godot_object, enable);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	void setFollowFocus(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFollowFocus, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setFollowFocus, _godot_object, enabled);
 	}
 	/**
 	
@@ -216,7 +226,7 @@ public:
 	void setHScroll(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHScroll, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setHScroll, _godot_object, value);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setVScroll(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVScroll, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setVScroll, _godot_object, value);
 	}
 	/**
 	If `true`, the ScrollContainer will automatically scroll to focused children (including indirect children) to make sure they are fully visible.

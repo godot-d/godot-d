@@ -30,23 +30,33 @@ $(B Note:) Not available in HTML5 exports.
 */
 @GodotBaseClass struct CryptoKey
 {
-	enum string _GODOT_internal_name = "CryptoKey";
+	package(godot) enum string _GODOT_internal_name = "CryptoKey";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("load") GodotMethod!(GodotError, String) load;
 		@GodotName("save") GodotMethod!(GodotError, String) save;
 	}
-	bool opEquals(in CryptoKey other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CryptoKey opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CryptoKey other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CryptoKey opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CryptoKey.
+	/// Note: use `memnew!CryptoKey` instead.
 	static CryptoKey _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
 	Saves a key to the given `path` (should be a "*.key" file).
@@ -69,6 +79,6 @@ public:
 	GodotError save(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.save, _godot_object, path);
 	}
 }

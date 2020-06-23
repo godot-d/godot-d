@@ -25,17 +25,18 @@ import godot.resource;
 Image datatype.
 
 Native image datatype. Contains image data, which can be converted to a $(D Texture), and several functions to interact with it. The maximum width and height for an $(D Image) are $(D constant MAX_WIDTH) and $(D constant MAX_HEIGHT).
+$(B Note:) The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images will fail to import.
 */
 @GodotBaseClass struct Image
 {
-	enum string _GODOT_internal_name = "Image";
+	package(godot) enum string _GODOT_internal_name = "Image";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
@@ -92,10 +93,20 @@ public:
 		@GodotName("srgb_to_linear") GodotMethod!(void) srgbToLinear;
 		@GodotName("unlock") GodotMethod!(void) unlock;
 	}
-	bool opEquals(in Image other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Image opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Image other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Image opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Image.
+	/// Note: use `memnew!Image` instead.
 	static Image _new()
 	{
 		static godot_class_constructor constructor;
@@ -445,7 +456,7 @@ public:
 	void blendRect(Image src, in Rect2 src_rect, in Vector2 dst)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blendRect, _godot_object, src, src_rect, dst);
+		ptrcall!(void)(GDNativeClassBinding.blendRect, _godot_object, src, src_rect, dst);
 	}
 	/**
 	Alpha-blends `src_rect` from `src` image to this image using `mask` image at coordinates `dst`. Alpha channels are required for both `src` and `mask`. `dst` pixels and `src` pixels will blend if the corresponding mask pixel's alpha value is not 0. `src` image and `mask` image $(B must) have the same size (width and height) but they can have different formats.
@@ -453,7 +464,7 @@ public:
 	void blendRectMask(Image src, Image mask, in Rect2 src_rect, in Vector2 dst)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blendRectMask, _godot_object, src, mask, src_rect, dst);
+		ptrcall!(void)(GDNativeClassBinding.blendRectMask, _godot_object, src, mask, src_rect, dst);
 	}
 	/**
 	Copies `src_rect` from `src` image to this image at coordinates `dst`.
@@ -461,7 +472,7 @@ public:
 	void blitRect(Image src, in Rect2 src_rect, in Vector2 dst)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blitRect, _godot_object, src, src_rect, dst);
+		ptrcall!(void)(GDNativeClassBinding.blitRect, _godot_object, src, src_rect, dst);
 	}
 	/**
 	Blits `src_rect` area from `src` image to this image at the coordinates given by `dst`. `src` pixel is copied onto `dst` if the corresponding `mask` pixel's alpha value is not 0. `src` image and `mask` image $(B must) have the same size (width and height) but they can have different formats.
@@ -469,7 +480,7 @@ public:
 	void blitRectMask(Image src, Image mask, in Rect2 src_rect, in Vector2 dst)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.blitRectMask, _godot_object, src, mask, src_rect, dst);
+		ptrcall!(void)(GDNativeClassBinding.blitRectMask, _godot_object, src, mask, src_rect, dst);
 	}
 	/**
 	Converts a bumpmap to a normalmap. A bumpmap provides a height offset per-pixel, while a normalmap provides a normal direction per pixel.
@@ -477,7 +488,7 @@ public:
 	void bumpmapToNormalmap(in double bump_scale = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bumpmapToNormalmap, _godot_object, bump_scale);
+		ptrcall!(void)(GDNativeClassBinding.bumpmapToNormalmap, _godot_object, bump_scale);
 	}
 	/**
 	Removes the image's mipmaps.
@@ -485,7 +496,7 @@ public:
 	void clearMipmaps()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearMipmaps, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearMipmaps, _godot_object);
 	}
 	/**
 	Compresses the image to use less memory. Can not directly access pixel data while the image is compressed. Returns error if the chosen compression mode is not available. See $(D compressmode) and $(D compresssource) constants.
@@ -493,7 +504,7 @@ public:
 	GodotError compress(in long mode, in long source, in double lossy_quality)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.compress, _godot_object, mode, source, lossy_quality);
+		return ptrcall!(GodotError)(GDNativeClassBinding.compress, _godot_object, mode, source, lossy_quality);
 	}
 	/**
 	Converts the image's format. See $(D format) constants.
@@ -501,7 +512,7 @@ public:
 	void convert(in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.convert, _godot_object, format);
+		ptrcall!(void)(GDNativeClassBinding.convert, _godot_object, format);
 	}
 	/**
 	Copies `src` image to this image.
@@ -509,7 +520,7 @@ public:
 	void copyFrom(Image src)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.copyFrom, _godot_object, src);
+		ptrcall!(void)(GDNativeClassBinding.copyFrom, _godot_object, src);
 	}
 	/**
 	Creates an empty image of given size and format. See $(D format) constants. If `use_mipmaps` is `true` then generate mipmaps for this image. See the $(D generateMipmaps).
@@ -517,15 +528,15 @@ public:
 	void create(in long width, in long height, in bool use_mipmaps, in long format)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.create, _godot_object, width, height, use_mipmaps, format);
+		ptrcall!(void)(GDNativeClassBinding.create, _godot_object, width, height, use_mipmaps, format);
 	}
 	/**
-	Creates a new image of given size and format. See $(D format) constants. Fills the image with the given raw data. If `use_mipmaps` is `true` then generate mipmaps for this image. See the $(D generateMipmaps).
+	Creates a new image of given size and format. See $(D format) constants. Fills the image with the given raw data. If `use_mipmaps` is `true` then loads mipmaps for this image from `data`. See $(D generateMipmaps).
 	*/
 	void createFromData(in long width, in long height, in bool use_mipmaps, in long format, in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createFromData, _godot_object, width, height, use_mipmaps, format, data);
+		ptrcall!(void)(GDNativeClassBinding.createFromData, _godot_object, width, height, use_mipmaps, format, data);
 	}
 	/**
 	Crops the image to the given `width` and `height`. If the specified size is larger than the current size, the extra area is filled with black pixels.
@@ -533,7 +544,7 @@ public:
 	void crop(in long width, in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.crop, _godot_object, width, height);
+		ptrcall!(void)(GDNativeClassBinding.crop, _godot_object, width, height);
 	}
 	/**
 	Decompresses the image if it is compressed. Returns an error if decompress function is not available.
@@ -541,7 +552,7 @@ public:
 	GodotError decompress()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.decompress, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.decompress, _godot_object);
 	}
 	/**
 	Returns $(D constant ALPHA_BLEND) if the image has data for alpha values. Returns $(D constant ALPHA_BIT) if all the alpha values are stored in a single bit. Returns $(D constant ALPHA_NONE) if no data for alpha values is found.
@@ -549,7 +560,7 @@ public:
 	Image.AlphaMode detectAlpha() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image.AlphaMode)(_classBinding.detectAlpha, _godot_object);
+		return ptrcall!(Image.AlphaMode)(GDNativeClassBinding.detectAlpha, _godot_object);
 	}
 	/**
 	Stretches the image and enlarges it by a factor of 2. No interpolation is done.
@@ -557,7 +568,7 @@ public:
 	void expandX2Hq2x()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.expandX2Hq2x, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.expandX2Hq2x, _godot_object);
 	}
 	/**
 	Fills the image with a given $(D Color).
@@ -565,7 +576,7 @@ public:
 	void fill(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.fill, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.fill, _godot_object, color);
 	}
 	/**
 	Blends low-alpha pixels with nearby pixels.
@@ -573,7 +584,7 @@ public:
 	void fixAlphaEdges()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.fixAlphaEdges, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.fixAlphaEdges, _godot_object);
 	}
 	/**
 	Flips the image horizontally.
@@ -581,7 +592,7 @@ public:
 	void flipX()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.flipX, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.flipX, _godot_object);
 	}
 	/**
 	Flips the image vertically.
@@ -589,7 +600,7 @@ public:
 	void flipY()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.flipY, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.flipY, _godot_object);
 	}
 	/**
 	Generates mipmaps for the image. Mipmaps are pre-calculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
@@ -597,7 +608,7 @@ public:
 	GodotError generateMipmaps(in bool renormalize = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.generateMipmaps, _godot_object, renormalize);
+		return ptrcall!(GodotError)(GDNativeClassBinding.generateMipmaps, _godot_object, renormalize);
 	}
 	/**
 	Returns the image's raw data.
@@ -605,7 +616,7 @@ public:
 	PoolByteArray getData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getData, _godot_object);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.getData, _godot_object);
 	}
 	/**
 	Returns the image's format. See $(D format) constants.
@@ -613,7 +624,7 @@ public:
 	Image.Format getFormat() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image.Format)(_classBinding.getFormat, _godot_object);
+		return ptrcall!(Image.Format)(GDNativeClassBinding.getFormat, _godot_object);
 	}
 	/**
 	Returns the image's height.
@@ -621,7 +632,7 @@ public:
 	long getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	Returns the offset where the image's mipmap with index `mipmap` is stored in the `data` dictionary.
@@ -629,7 +640,7 @@ public:
 	long getMipmapOffset(in long mipmap) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMipmapOffset, _godot_object, mipmap);
+		return ptrcall!(long)(GDNativeClassBinding.getMipmapOffset, _godot_object, mipmap);
 	}
 	/**
 	Returns the color of the pixel at `(x, y)` if the image is locked. If the image is unlocked, it always returns a $(D Color) with the value `(0, 0, 0, 1.0)`. This is the same as $(D getPixelv), but two integer arguments instead of a Vector2 argument.
@@ -637,7 +648,7 @@ public:
 	Color getPixel(in long x, in long y) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getPixel, _godot_object, x, y);
+		return ptrcall!(Color)(GDNativeClassBinding.getPixel, _godot_object, x, y);
 	}
 	/**
 	Returns the color of the pixel at `src` if the image is locked. If the image is unlocked, it always returns a $(D Color) with the value `(0, 0, 0, 1.0)`. This is the same as $(D getPixel), but with a Vector2 argument instead of two integer arguments.
@@ -645,7 +656,7 @@ public:
 	Color getPixelv(in Vector2 src) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getPixelv, _godot_object, src);
+		return ptrcall!(Color)(GDNativeClassBinding.getPixelv, _godot_object, src);
 	}
 	/**
 	Returns a new image that is a copy of the image's area specified with `rect`.
@@ -653,7 +664,7 @@ public:
 	Ref!Image getRect(in Rect2 rect) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getRect, _godot_object, rect);
+		return ptrcall!(Image)(GDNativeClassBinding.getRect, _godot_object, rect);
 	}
 	/**
 	Returns the image's size (width and height).
@@ -661,7 +672,7 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	Returns a $(D Rect2) enclosing the visible portion of the image, considering each pixel with a non-zero alpha channel as visible.
@@ -669,7 +680,7 @@ public:
 	Rect2 getUsedRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getUsedRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getUsedRect, _godot_object);
 	}
 	/**
 	Returns the image's width.
@@ -677,7 +688,7 @@ public:
 	long getWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getWidth, _godot_object);
 	}
 	/**
 	Returns `true` if the image has generated mipmaps.
@@ -685,7 +696,7 @@ public:
 	bool hasMipmaps() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasMipmaps, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasMipmaps, _godot_object);
 	}
 	/**
 	Returns `true` if the image is compressed.
@@ -693,7 +704,7 @@ public:
 	bool isCompressed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCompressed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCompressed, _godot_object);
 	}
 	/**
 	Returns `true` if the image has no data.
@@ -701,7 +712,7 @@ public:
 	bool isEmpty() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEmpty, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEmpty, _godot_object);
 	}
 	/**
 	Returns `true` if all the image's pixels have an alpha value of 0. Returns `false` if any pixel has an alpha value higher than 0.
@@ -709,15 +720,15 @@ public:
 	bool isInvisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInvisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInvisible, _godot_object);
 	}
 	/**
-	Loads an image from file `path`.
+	Loads an image from file `path`. See $(D url=https://docs.godotengine.org/en/latest/getting_started/workflow/assets/importing_images.html#supported-image-formats)Supported image formats$(D /url) for a list of supported image formats and limitations.
 	*/
 	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
 	Loads an image from the binary contents of a JPEG file.
@@ -725,7 +736,7 @@ public:
 	GodotError loadJpgFromBuffer(in PoolByteArray buffer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadJpgFromBuffer, _godot_object, buffer);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadJpgFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Loads an image from the binary contents of a PNG file.
@@ -733,7 +744,7 @@ public:
 	GodotError loadPngFromBuffer(in PoolByteArray buffer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadPngFromBuffer, _godot_object, buffer);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadPngFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Loads an image from the binary contents of a WebP file.
@@ -741,7 +752,7 @@ public:
 	GodotError loadWebpFromBuffer(in PoolByteArray buffer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadWebpFromBuffer, _godot_object, buffer);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadWebpFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Locks the data for reading and writing access. Sends an error to the console if the image is not locked when reading or writing a pixel.
@@ -749,7 +760,7 @@ public:
 	void lock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.lock, _godot_object);
 	}
 	/**
 	Converts the image's data to represent coordinates on a 3D plane. This is used when the image represents a normalmap. A normalmap can add lots of detail to a 3D surface without increasing the polygon count.
@@ -757,7 +768,7 @@ public:
 	void normalmapToXy()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.normalmapToXy, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.normalmapToXy, _godot_object);
 	}
 	/**
 	Multiplies color values with alpha values. Resulting color values for a pixel are `(color * alpha)/256`.
@@ -765,7 +776,7 @@ public:
 	void premultiplyAlpha()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.premultiplyAlpha, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.premultiplyAlpha, _godot_object);
 	}
 	/**
 	Resizes the image to the given `width` and `height`. New pixels are calculated using `interpolation`. See `interpolation` constants.
@@ -773,7 +784,7 @@ public:
 	void resize(in long width, in long height, in long interpolation = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resize, _godot_object, width, height, interpolation);
+		ptrcall!(void)(GDNativeClassBinding.resize, _godot_object, width, height, interpolation);
 	}
 	/**
 	Resizes the image to the nearest power of 2 for the width and height. If `square` is `true` then set width and height to be the same.
@@ -781,7 +792,7 @@ public:
 	void resizeToPo2(in bool square = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.resizeToPo2, _godot_object, square);
+		ptrcall!(void)(GDNativeClassBinding.resizeToPo2, _godot_object, square);
 	}
 	/**
 	Converts a standard RGBE (Red Green Blue Exponent) image to an sRGB image.
@@ -789,7 +800,7 @@ public:
 	Ref!Image rgbeToSrgb()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.rgbeToSrgb, _godot_object);
+		return ptrcall!(Image)(GDNativeClassBinding.rgbeToSrgb, _godot_object);
 	}
 	/**
 	Saves the image as an EXR file to `path`. If `grayscale` is `true` and the image has only one channel, it will be saved explicitly as monochrome rather than one red channel. This function will return $(D constant ERR_UNAVAILABLE) if Godot was compiled without the TinyEXR module.
@@ -797,7 +808,7 @@ public:
 	GodotError saveExr(in String path, in bool grayscale = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveExr, _godot_object, path, grayscale);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveExr, _godot_object, path, grayscale);
 	}
 	/**
 	Saves the image as a PNG file to `path`.
@@ -805,7 +816,7 @@ public:
 	GodotError savePng(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.savePng, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.savePng, _godot_object, path);
 	}
 	/**
 	Sets the $(D Color) of the pixel at `(x, y)` if the image is locked. Example:
@@ -823,7 +834,7 @@ public:
 	void setPixel(in long x, in long y, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPixel, _godot_object, x, y, color);
+		ptrcall!(void)(GDNativeClassBinding.setPixel, _godot_object, x, y, color);
 	}
 	/**
 	Sets the $(D Color) of the pixel at `(dst.x, dst.y)` if the image is locked. Note that the `dst` values must be integers. Example:
@@ -841,7 +852,7 @@ public:
 	void setPixelv(in Vector2 dst, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPixelv, _godot_object, dst, color);
+		ptrcall!(void)(GDNativeClassBinding.setPixelv, _godot_object, dst, color);
 	}
 	/**
 	Shrinks the image by a factor of 2.
@@ -849,7 +860,7 @@ public:
 	void shrinkX2()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.shrinkX2, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.shrinkX2, _godot_object);
 	}
 	/**
 	Converts the raw data from the sRGB colorspace to a linear scale.
@@ -857,7 +868,7 @@ public:
 	void srgbToLinear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.srgbToLinear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.srgbToLinear, _godot_object);
 	}
 	/**
 	Unlocks the data and prevents changes.
@@ -865,7 +876,7 @@ public:
 	void unlock()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unlock, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.unlock, _godot_object);
 	}
 	/**
 	Holds all of the image's color data in a given format. See $(D format) constants.

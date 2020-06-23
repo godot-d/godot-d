@@ -29,14 +29,14 @@ Editor facility for creating and editing collision shapes in 2D space. You can u
 */
 @GodotBaseClass struct CollisionShape2D
 {
-	enum string _GODOT_internal_name = "CollisionShape2D";
+	package(godot) enum string _GODOT_internal_name = "CollisionShape2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_shape_changed") GodotMethod!(void) _shapeChanged;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
 		@GodotName("set_shape") GodotMethod!(void, Shape2D) setShape;
 	}
-	bool opEquals(in CollisionShape2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CollisionShape2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CollisionShape2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CollisionShape2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CollisionShape2D.
+	/// Note: use `memnew!CollisionShape2D` instead.
 	static CollisionShape2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -76,7 +86,7 @@ public:
 	double getOneWayCollisionMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOneWayCollisionMargin, _godot_object);
 	}
 	/**
 	
@@ -84,7 +94,7 @@ public:
 	Ref!Shape2D getShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape2D)(_classBinding.getShape, _godot_object);
+		return ptrcall!(Shape2D)(GDNativeClassBinding.getShape, _godot_object);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	bool isDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDisabled, _godot_object);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	bool isOneWayCollisionEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOneWayCollisionEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOneWayCollisionEnabled, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	void setDisabled(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setDisabled, _godot_object, disabled);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	void setOneWayCollision(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setOneWayCollision, _godot_object, enabled);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	void setOneWayCollisionMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setOneWayCollisionMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	void setShape(Shape2D shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShape, _godot_object, shape);
+		ptrcall!(void)(GDNativeClassBinding.setShape, _godot_object, shape);
 	}
 	/**
 	A disabled collision shape has no effect in the world.
@@ -159,7 +169,7 @@ public:
 		setOneWayCollision(v);
 	}
 	/**
-	The margin used for one-way collision (in pixels).
+	The margin used for one-way collision (in pixels). Higher values will make the shape thicker, and work better for colliders that enter the shape at a high velocity.
 	*/
 	@property double oneWayCollisionMargin()
 	{

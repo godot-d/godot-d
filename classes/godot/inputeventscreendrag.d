@@ -29,14 +29,14 @@ Contains screen drag information. See $(D Node._input).
 */
 @GodotBaseClass struct InputEventScreenDrag
 {
-	enum string _GODOT_internal_name = "InputEventScreenDrag";
+	package(godot) enum string _GODOT_internal_name = "InputEventScreenDrag";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEvent _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEvent _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_index") GodotMethod!(long) getIndex;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_relative") GodotMethod!(void, Vector2) setRelative;
 		@GodotName("set_speed") GodotMethod!(void, Vector2) setSpeed;
 	}
-	bool opEquals(in InputEventScreenDrag other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventScreenDrag opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventScreenDrag other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventScreenDrag opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventScreenDrag.
+	/// Note: use `memnew!InputEventScreenDrag` instead.
 	static InputEventScreenDrag _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	long getIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getIndex, _godot_object);
 	}
 	/**
 	
@@ -74,7 +84,7 @@ public:
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	
@@ -82,7 +92,7 @@ public:
 	Vector2 getRelative() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRelative, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getRelative, _godot_object);
 	}
 	/**
 	
@@ -90,7 +100,7 @@ public:
 	Vector2 getSpeed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSpeed, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSpeed, _godot_object);
 	}
 	/**
 	
@@ -98,7 +108,7 @@ public:
 	void setIndex(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.setIndex, _godot_object, index);
 	}
 	/**
 	
@@ -106,7 +116,7 @@ public:
 	void setPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setPosition, _godot_object, position);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	void setRelative(in Vector2 relative)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRelative, _godot_object, relative);
+		ptrcall!(void)(GDNativeClassBinding.setRelative, _godot_object, relative);
 	}
 	/**
 	
@@ -122,7 +132,7 @@ public:
 	void setSpeed(in Vector2 speed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpeed, _godot_object, speed);
+		ptrcall!(void)(GDNativeClassBinding.setSpeed, _godot_object, speed);
 	}
 	/**
 	The drag event index in the case of a multi-drag event.

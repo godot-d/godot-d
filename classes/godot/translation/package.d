@@ -29,14 +29,14 @@ Translations are resources that can be loaded and unloaded on demand. They map a
 */
 @GodotBaseClass struct Translation
 {
-	enum string _GODOT_internal_name = "Translation";
+	package(godot) enum string _GODOT_internal_name = "Translation";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_messages") GodotMethod!(PoolStringArray) _getMessages;
@@ -49,10 +49,20 @@ public:
 		@GodotName("get_message_list") GodotMethod!(PoolStringArray) getMessageList;
 		@GodotName("set_locale") GodotMethod!(void, String) setLocale;
 	}
-	bool opEquals(in Translation other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Translation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Translation other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Translation opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Translation.
+	/// Note: use `memnew!Translation` instead.
 	static Translation _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	void addMessage(in String src_message, in String xlated_message)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addMessage, _godot_object, src_message, xlated_message);
+		ptrcall!(void)(GDNativeClassBinding.addMessage, _godot_object, src_message, xlated_message);
 	}
 	/**
 	Erases a message.
@@ -94,7 +104,7 @@ public:
 	void eraseMessage(in String src_message)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseMessage, _godot_object, src_message);
+		ptrcall!(void)(GDNativeClassBinding.eraseMessage, _godot_object, src_message);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	String getLocale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLocale, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLocale, _godot_object);
 	}
 	/**
 	Returns a message's translation.
@@ -110,7 +120,7 @@ public:
 	String getMessage(in String src_message) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getMessage, _godot_object, src_message);
+		return ptrcall!(String)(GDNativeClassBinding.getMessage, _godot_object, src_message);
 	}
 	/**
 	Returns the number of existing messages.
@@ -118,7 +128,7 @@ public:
 	long getMessageCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMessageCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMessageCount, _godot_object);
 	}
 	/**
 	Returns all the messages (keys).
@@ -126,7 +136,7 @@ public:
 	PoolStringArray getMessageList() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getMessageList, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getMessageList, _godot_object);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	void setLocale(in String locale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLocale, _godot_object, locale);
+		ptrcall!(void)(GDNativeClassBinding.setLocale, _godot_object, locale);
 	}
 	/**
 	The locale of the translation.

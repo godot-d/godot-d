@@ -29,14 +29,14 @@ Listens to connections on a port and returns a $(D StreamPeerTCP) when it gets a
 */
 @GodotBaseClass struct TCP_Server
 {
-	enum string _GODOT_internal_name = "TCP_Server";
+	package(godot) enum string _GODOT_internal_name = "TCP_Server";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("is_connection_available") GodotMethod!(bool) isConnectionAvailable;
@@ -45,10 +45,20 @@ public:
 		@GodotName("stop") GodotMethod!(void) stop;
 		@GodotName("take_connection") GodotMethod!(StreamPeerTCP) takeConnection;
 	}
-	bool opEquals(in TCP_Server other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TCP_Server opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TCP_Server other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TCP_Server opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TCP_Server.
+	/// Note: use `memnew!TCP_Server` instead.
 	static TCP_Server _new()
 	{
 		static godot_class_constructor constructor;
@@ -63,7 +73,7 @@ public:
 	bool isConnectionAvailable() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isConnectionAvailable, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isConnectionAvailable, _godot_object);
 	}
 	/**
 	Returns `true` if the server is currently listening for connections.
@@ -71,7 +81,7 @@ public:
 	bool isListening() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isListening, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isListening, _godot_object);
 	}
 	/**
 	Listen on the `port` binding to `bind_address`.
@@ -82,7 +92,7 @@ public:
 	GodotError listen(in long port, in String bind_address = gs!"*")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.listen, _godot_object, port, bind_address);
+		return ptrcall!(GodotError)(GDNativeClassBinding.listen, _godot_object, port, bind_address);
 	}
 	/**
 	Stops listening.
@@ -90,7 +100,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	If a connection is available, returns a StreamPeerTCP with the connection.
@@ -98,6 +108,6 @@ public:
 	Ref!StreamPeerTCP takeConnection()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeerTCP)(_classBinding.takeConnection, _godot_object);
+		return ptrcall!(StreamPeerTCP)(GDNativeClassBinding.takeConnection, _godot_object);
 	}
 }

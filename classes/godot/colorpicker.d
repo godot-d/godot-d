@@ -31,14 +31,14 @@ $(D Control) node displaying a color picker widget. It's useful for selecting a 
 */
 @GodotBaseClass struct ColorPicker
 {
-	enum string _GODOT_internal_name = "ColorPicker";
+	package(godot) enum string _GODOT_internal_name = "ColorPicker";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; BoxContainer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ BoxContainer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_add_preset_pressed") GodotMethod!(void) _addPresetPressed;
@@ -74,10 +74,20 @@ public:
 		@GodotName("set_presets_visible") GodotMethod!(void, bool) setPresetsVisible;
 		@GodotName("set_raw_mode") GodotMethod!(void, bool) setRawMode;
 	}
-	bool opEquals(in ColorPicker other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ColorPicker opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ColorPicker other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ColorPicker opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ColorPicker.
+	/// Note: use `memnew!ColorPicker` instead.
 	static ColorPicker _new()
 	{
 		static godot_class_constructor constructor;
@@ -236,7 +246,7 @@ public:
 	void addPreset(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPreset, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.addPreset, _godot_object, color);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	bool arePresetsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.arePresetsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.arePresetsEnabled, _godot_object);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	bool arePresetsVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.arePresetsVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.arePresetsVisible, _godot_object);
 	}
 	/**
 	Removes the given color from the list of color presets of this color picker.
@@ -260,7 +270,7 @@ public:
 	void erasePreset(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.erasePreset, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.erasePreset, _godot_object, color);
 	}
 	/**
 	
@@ -268,7 +278,7 @@ public:
 	Color getPickColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getPickColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getPickColor, _godot_object);
 	}
 	/**
 	Returns the list of colors in the presets of the color picker.
@@ -276,7 +286,7 @@ public:
 	PoolColorArray getPresets() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolColorArray)(_classBinding.getPresets, _godot_object);
+		return ptrcall!(PoolColorArray)(GDNativeClassBinding.getPresets, _godot_object);
 	}
 	/**
 	
@@ -284,7 +294,7 @@ public:
 	bool isDeferredMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDeferredMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDeferredMode, _godot_object);
 	}
 	/**
 	
@@ -292,7 +302,7 @@ public:
 	bool isEditingAlpha() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditingAlpha, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditingAlpha, _godot_object);
 	}
 	/**
 	
@@ -300,7 +310,7 @@ public:
 	bool isHsvMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHsvMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHsvMode, _godot_object);
 	}
 	/**
 	
@@ -308,7 +318,7 @@ public:
 	bool isRawMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isRawMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isRawMode, _godot_object);
 	}
 	/**
 	
@@ -316,7 +326,7 @@ public:
 	void setDeferredMode(in bool mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDeferredMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setDeferredMode, _godot_object, mode);
 	}
 	/**
 	
@@ -324,7 +334,7 @@ public:
 	void setEditAlpha(in bool show)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
+		ptrcall!(void)(GDNativeClassBinding.setEditAlpha, _godot_object, show);
 	}
 	/**
 	
@@ -332,7 +342,7 @@ public:
 	void setHsvMode(in bool mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHsvMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setHsvMode, _godot_object, mode);
 	}
 	/**
 	
@@ -340,7 +350,7 @@ public:
 	void setPickColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setPickColor, _godot_object, color);
 	}
 	/**
 	
@@ -348,7 +358,7 @@ public:
 	void setPresetsEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPresetsEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setPresetsEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -356,7 +366,7 @@ public:
 	void setPresetsVisible(in bool visible)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPresetsVisible, _godot_object, visible);
+		ptrcall!(void)(GDNativeClassBinding.setPresetsVisible, _godot_object, visible);
 	}
 	/**
 	
@@ -364,7 +374,7 @@ public:
 	void setRawMode(in bool mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRawMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setRawMode, _godot_object, mode);
 	}
 	/**
 	The currently selected color.

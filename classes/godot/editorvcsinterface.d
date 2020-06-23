@@ -26,14 +26,14 @@ Used by the editor to display VCS extracted information in the editor. The imple
 */
 @GodotBaseClass struct EditorVCSInterface
 {
-	enum string _GODOT_internal_name = "EditorVCSInterface";
+	package(godot) enum string _GODOT_internal_name = "EditorVCSInterface";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_commit") GodotMethod!(void, String) _commit;
@@ -58,10 +58,20 @@ public:
 		@GodotName("stage_file") GodotMethod!(void, String) stageFile;
 		@GodotName("unstage_file") GodotMethod!(void, String) unstageFile;
 	}
-	bool opEquals(in EditorVCSInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorVCSInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorVCSInterface other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorVCSInterface opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorVCSInterface.
+	/// Note: use `memnew!EditorVCSInterface` instead.
 	static EditorVCSInterface _new()
 	{
 		static godot_class_constructor constructor;
@@ -171,7 +181,7 @@ public:
 	void commit(in String msg)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.commit, _godot_object, msg);
+		ptrcall!(void)(GDNativeClassBinding.commit, _godot_object, msg);
 	}
 	/**
 	Returns an $(D Array) of $(D Dictionary) objects containing the diff output from the VCS in use, if a VCS addon is initialized, else returns an empty $(D Array) object. The diff contents also consist of some contextual lines which provide context to the observed line change in the file.
@@ -186,7 +196,7 @@ public:
 	Array getFileDiff(in String file_path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getFileDiff, _godot_object, file_path);
+		return ptrcall!(Array)(GDNativeClassBinding.getFileDiff, _godot_object, file_path);
 	}
 	/**
 	Returns a $(D Dictionary) containing the path of the detected file change mapped to an integer signifying what kind of a change the corresponding file has experienced.
@@ -200,7 +210,7 @@ public:
 	Dictionary getModifiedFilesData()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getModifiedFilesData, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getModifiedFilesData, _godot_object);
 	}
 	/**
 	Returns the project name of the VCS working directory.
@@ -208,7 +218,7 @@ public:
 	String getProjectName()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getProjectName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getProjectName, _godot_object);
 	}
 	/**
 	Returns the name of the VCS if the VCS has been initialized, else return an empty string.
@@ -216,7 +226,7 @@ public:
 	String getVcsName()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getVcsName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getVcsName, _godot_object);
 	}
 	/**
 	Initializes the VCS addon if not already. Uses the argument value as the path to the working directory of the project. Creates the initial commit if required. Returns `true` if no failure occurs, else returns `false`.
@@ -224,7 +234,7 @@ public:
 	bool initialize(in String project_root_path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.initialize, _godot_object, project_root_path);
+		return ptrcall!(bool)(GDNativeClassBinding.initialize, _godot_object, project_root_path);
 	}
 	/**
 	Returns `true` if the addon is ready to respond to function calls, else returns `false`.
@@ -232,7 +242,7 @@ public:
 	bool isAddonReady()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAddonReady, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAddonReady, _godot_object);
 	}
 	/**
 	Returns `true` if the VCS addon has been initialized, else returns `false`.
@@ -240,7 +250,7 @@ public:
 	bool isVcsInitialized()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isVcsInitialized, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isVcsInitialized, _godot_object);
 	}
 	/**
 	Shuts down the VCS addon to allow cleanup code to run on call. Returns `true` is no failure occurs, else returns `false`.
@@ -248,7 +258,7 @@ public:
 	bool shutDown()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.shutDown, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.shutDown, _godot_object);
 	}
 	/**
 	Stages the file which should be committed when $(D EditorVCSInterface.commit) is called. Argument should contain the absolute path.
@@ -256,7 +266,7 @@ public:
 	void stageFile(in String file_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stageFile, _godot_object, file_path);
+		ptrcall!(void)(GDNativeClassBinding.stageFile, _godot_object, file_path);
 	}
 	/**
 	Unstages the file which was staged previously to be committed, so that it is no longer committed when $(D EditorVCSInterface.commit) is called. Argument should contain the absolute path.
@@ -264,6 +274,6 @@ public:
 	void unstageFile(in String file_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.unstageFile, _godot_object, file_path);
+		ptrcall!(void)(GDNativeClassBinding.unstageFile, _godot_object, file_path);
 	}
 }

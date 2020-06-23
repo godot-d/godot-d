@@ -29,14 +29,14 @@ It's limited because flags can't be changed and region drawing is not supported.
 */
 @GodotBaseClass struct MeshTexture
 {
-	enum string _GODOT_internal_name = "MeshTexture";
+	package(godot) enum string _GODOT_internal_name = "MeshTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_base_texture") GodotMethod!(Texture) getBaseTexture;
@@ -46,10 +46,20 @@ public:
 		@GodotName("set_image_size") GodotMethod!(void, Vector2) setImageSize;
 		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
 	}
-	bool opEquals(in MeshTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MeshTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MeshTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MeshTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MeshTexture.
+	/// Note: use `memnew!MeshTexture` instead.
 	static MeshTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	Ref!Texture getBaseTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getBaseTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getBaseTexture, _godot_object);
 	}
 	/**
 	
@@ -72,7 +82,7 @@ public:
 	Vector2 getImageSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getImageSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getImageSize, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	void setBaseTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setBaseTexture, _godot_object, texture);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	void setImageSize(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setImageSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setImageSize, _godot_object, size);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	void setMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setMesh, _godot_object, mesh);
 	}
 	/**
 	Sets the base texture that the Mesh will use to draw.

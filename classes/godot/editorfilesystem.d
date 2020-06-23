@@ -25,17 +25,18 @@ import godot.editorfilesystemdirectory;
 Resource filesystem, as the editor sees it.
 
 This object holds information of all resources in the filesystem, their types, etc.
+$(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorInterface.getResourceFilesystem).
 */
 @GodotBaseClass struct EditorFileSystem
 {
-	enum string _GODOT_internal_name = "EditorFileSystem";
+	package(godot) enum string _GODOT_internal_name = "EditorFileSystem";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_file_type") GodotMethod!(String, String) getFileType;
@@ -48,10 +49,20 @@ public:
 		@GodotName("update_file") GodotMethod!(void, String) updateFile;
 		@GodotName("update_script_classes") GodotMethod!(void) updateScriptClasses;
 	}
-	bool opEquals(in EditorFileSystem other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorFileSystem opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorFileSystem other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorFileSystem opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorFileSystem.
+	/// Note: use `memnew!EditorFileSystem` instead.
 	static EditorFileSystem _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +77,7 @@ public:
 	String getFileType(in String path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFileType, _godot_object, path);
+		return ptrcall!(String)(GDNativeClassBinding.getFileType, _godot_object, path);
 	}
 	/**
 	Gets the root directory object.
@@ -74,7 +85,7 @@ public:
 	EditorFileSystemDirectory getFilesystem()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystem, _godot_object);
+		return ptrcall!(EditorFileSystemDirectory)(GDNativeClassBinding.getFilesystem, _godot_object);
 	}
 	/**
 	Returns a view into the filesystem at `path`.
@@ -82,7 +93,7 @@ public:
 	EditorFileSystemDirectory getFilesystemPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorFileSystemDirectory)(_classBinding.getFilesystemPath, _godot_object, path);
+		return ptrcall!(EditorFileSystemDirectory)(GDNativeClassBinding.getFilesystemPath, _godot_object, path);
 	}
 	/**
 	Returns the scan progress for 0 to 1 if the FS is being scanned.
@@ -90,7 +101,7 @@ public:
 	double getScanningProgress() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getScanningProgress, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getScanningProgress, _godot_object);
 	}
 	/**
 	Returns `true` of the filesystem is being scanned.
@@ -98,7 +109,7 @@ public:
 	bool isScanning() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isScanning, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isScanning, _godot_object);
 	}
 	/**
 	Scan the filesystem for changes.
@@ -106,7 +117,7 @@ public:
 	void scan()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scan, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.scan, _godot_object);
 	}
 	/**
 	Check if the source of any imported resource changed.
@@ -114,7 +125,7 @@ public:
 	void scanSources()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.scanSources, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.scanSources, _godot_object);
 	}
 	/**
 	Update a file information. Call this if an external program (not Godot) modified the file.
@@ -122,14 +133,14 @@ public:
 	void updateFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateFile, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.updateFile, _godot_object, path);
 	}
 	/**
-	
+	Scans the script files and updates the list of custom class names.
 	*/
 	void updateScriptClasses()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.updateScriptClasses, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.updateScriptClasses, _godot_object);
 	}
 }

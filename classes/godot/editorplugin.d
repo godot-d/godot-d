@@ -42,14 +42,14 @@ Plugins are used by the editor to extend functionality. The most common types of
 */
 @GodotBaseClass struct EditorPlugin
 {
-	enum string _GODOT_internal_name = "EditorPlugin";
+	package(godot) enum string _GODOT_internal_name = "EditorPlugin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_autoload_singleton") GodotMethod!(void, String, String) addAutoloadSingleton;
@@ -106,10 +106,20 @@ public:
 		@GodotName("set_window_layout") GodotMethod!(void, ConfigFile) setWindowLayout;
 		@GodotName("update_overlays") GodotMethod!(long) updateOverlays;
 	}
-	bool opEquals(in EditorPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorPlugin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorPlugin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorPlugin.
+	/// Note: use `memnew!EditorPlugin` instead.
 	static EditorPlugin _new()
 	{
 		static godot_class_constructor constructor;
@@ -241,7 +251,7 @@ public:
 	void addAutoloadSingleton(in String name, in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addAutoloadSingleton, _godot_object, name, path);
+		ptrcall!(void)(GDNativeClassBinding.addAutoloadSingleton, _godot_object, name, path);
 	}
 	/**
 	Adds a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with $(D removeControlFromBottomPanel) and free it with $(D Node.queueFree).
@@ -249,7 +259,7 @@ public:
 	ToolButton addControlToBottomPanel(Control control, in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ToolButton)(_classBinding.addControlToBottomPanel, _godot_object, control, title);
+		return ptrcall!(ToolButton)(GDNativeClassBinding.addControlToBottomPanel, _godot_object, control, title);
 	}
 	/**
 	Adds a custom control to a container (see $(D customcontrolcontainer)). There are many locations where custom controls can be added in the editor UI.
@@ -259,7 +269,7 @@ public:
 	void addControlToContainer(in long container, Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addControlToContainer, _godot_object, container, control);
+		ptrcall!(void)(GDNativeClassBinding.addControlToContainer, _godot_object, container, control);
 	}
 	/**
 	Adds the control to a specific dock slot (see $(D dockslot) for options).
@@ -269,7 +279,7 @@ public:
 	void addControlToDock(in long slot, Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addControlToDock, _godot_object, slot, control);
+		ptrcall!(void)(GDNativeClassBinding.addControlToDock, _godot_object, slot, control);
 	}
 	/**
 	Adds a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed.
@@ -280,7 +290,7 @@ public:
 	void addCustomType(in String type, in String base, Script script, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCustomType, _godot_object, type, base, script, icon);
+		ptrcall!(void)(GDNativeClassBinding.addCustomType, _godot_object, type, base, script, icon);
 	}
 	/**
 	
@@ -288,7 +298,7 @@ public:
 	void addExportPlugin(EditorExportPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addExportPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.addExportPlugin, _godot_object, plugin);
 	}
 	/**
 	
@@ -296,7 +306,7 @@ public:
 	void addImportPlugin(EditorImportPlugin importer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addImportPlugin, _godot_object, importer);
+		ptrcall!(void)(GDNativeClassBinding.addImportPlugin, _godot_object, importer);
 	}
 	/**
 	
@@ -304,7 +314,7 @@ public:
 	void addInspectorPlugin(EditorInspectorPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addInspectorPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.addInspectorPlugin, _godot_object, plugin);
 	}
 	/**
 	
@@ -312,7 +322,7 @@ public:
 	void addSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSceneImportPlugin, _godot_object, scene_importer);
+		ptrcall!(void)(GDNativeClassBinding.addSceneImportPlugin, _godot_object, scene_importer);
 	}
 	/**
 	
@@ -320,7 +330,7 @@ public:
 	void addSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addSpatialGizmoPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.addSpatialGizmoPlugin, _godot_object, plugin);
 	}
 	/**
 	Adds a custom menu item to $(B Project &gt; Tools) as `name` that calls `callback` on an instance of `handler` with a parameter `ud` when user activates it.
@@ -328,7 +338,7 @@ public:
 	void addToolMenuItem(VariantArg3)(in String name, GodotObject handler, in String callback, in VariantArg3 ud = Variant.nil)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addToolMenuItem, _godot_object, name, handler, callback, ud);
+		ptrcall!(void)(GDNativeClassBinding.addToolMenuItem, _godot_object, name, handler, callback, ud);
 	}
 	/**
 	Adds a custom submenu under $(B Project &gt; Tools &gt;) `name`. `submenu` should be an object of class $(D PopupMenu). This submenu should be cleaned up using `remove_tool_menu_item(name)`.
@@ -336,7 +346,7 @@ public:
 	void addToolSubmenuItem(in String name, GodotObject submenu)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addToolSubmenuItem, _godot_object, name, submenu);
+		ptrcall!(void)(GDNativeClassBinding.addToolSubmenuItem, _godot_object, name, submenu);
 	}
 	/**
 	This method is called when the editor is about to save the project, switch to another tab, etc. It asks the plugin to apply any pending state changes to ensure consistency.
@@ -488,9 +498,20 @@ public:
 	EditorInterface getEditorInterface()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorInterface)(_classBinding.getEditorInterface, _godot_object);
+		return ptrcall!(EditorInterface)(GDNativeClassBinding.getEditorInterface, _godot_object);
 	}
 	/**
+	Override this method in your plugin to return a $(D Texture) in order to give it an icon.
+	For main screen plugins, this appears at the top of the screen, to the right of the "2D", "3D", "Script", and "AssetLib" buttons.
+	Ideally, the plugin icon should be white with a transparent background and 16x16 pixels in size.
+	
+	
+	func get_plugin_icon():
+	    # You can use a custom icon:
+	    return preload("res://addons/my_plugin/my_plugin_icon.svg")
+	    # Or use a built-in icon:
+	    return get_editor_interface().get_base_control().get_icon("Node", "EditorIcons")
+	
 	
 	*/
 	GodotObject getPluginIcon()
@@ -500,7 +521,8 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
 	}
 	/**
-	
+	Override this method in your plugin to provide the name of the plugin when displayed in the Godot editor.
+	For main screen plugins, this appears at the top of the screen, to the right of the "2D", "3D", "Script", and "AssetLib" buttons.
 	*/
 	String getPluginName()
 	{
@@ -515,7 +537,7 @@ public:
 	ScriptCreateDialog getScriptCreateDialog()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ScriptCreateDialog)(_classBinding.getScriptCreateDialog, _godot_object);
+		return ptrcall!(ScriptCreateDialog)(GDNativeClassBinding.getScriptCreateDialog, _godot_object);
 	}
 	/**
 	Gets the state of your plugin editor. This is used when saving the scene (so state is kept when opening it again) and for switching tabs (so state can be restored when the tab returns).
@@ -532,7 +554,7 @@ public:
 	UndoRedo getUndoRedo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(UndoRedo)(_classBinding.getUndoRedo, _godot_object);
+		return ptrcall!(UndoRedo)(GDNativeClassBinding.getUndoRedo, _godot_object);
 	}
 	/**
 	Gets the GUI layout of the plugin. This is used to save the project's editor layout when $(D queueSaveLayout) is called or the editor layout was changed(For example changing the position of a dock).
@@ -569,7 +591,7 @@ public:
 	void hideBottomPanel()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.hideBottomPanel, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.hideBottomPanel, _godot_object);
 	}
 	/**
 	
@@ -577,7 +599,7 @@ public:
 	void makeBottomPanelItemVisible(Control item)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeBottomPanelItemVisible, _godot_object, item);
+		ptrcall!(void)(GDNativeClassBinding.makeBottomPanelItemVisible, _godot_object, item);
 	}
 	/**
 	This function will be called when the editor is requested to become visible. It is used for plugins that edit a specific object type.
@@ -596,7 +618,7 @@ public:
 	void queueSaveLayout() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.queueSaveLayout, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.queueSaveLayout, _godot_object);
 	}
 	/**
 	Removes an Autoload `name` from the list.
@@ -604,7 +626,7 @@ public:
 	void removeAutoloadSingleton(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeAutoloadSingleton, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeAutoloadSingleton, _godot_object, name);
 	}
 	/**
 	Removes the control from the bottom panel. You have to manually $(D Node.queueFree) the control.
@@ -612,7 +634,7 @@ public:
 	void removeControlFromBottomPanel(Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeControlFromBottomPanel, _godot_object, control);
+		ptrcall!(void)(GDNativeClassBinding.removeControlFromBottomPanel, _godot_object, control);
 	}
 	/**
 	Removes the control from the specified container. You have to manually $(D Node.queueFree) the control.
@@ -620,7 +642,7 @@ public:
 	void removeControlFromContainer(in long container, Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeControlFromContainer, _godot_object, container, control);
+		ptrcall!(void)(GDNativeClassBinding.removeControlFromContainer, _godot_object, container, control);
 	}
 	/**
 	Removes the control from the dock. You have to manually $(D Node.queueFree) the control.
@@ -628,7 +650,7 @@ public:
 	void removeControlFromDocks(Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeControlFromDocks, _godot_object, control);
+		ptrcall!(void)(GDNativeClassBinding.removeControlFromDocks, _godot_object, control);
 	}
 	/**
 	Removes a custom type added by $(D addCustomType).
@@ -636,7 +658,7 @@ public:
 	void removeCustomType(in String type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeCustomType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.removeCustomType, _godot_object, type);
 	}
 	/**
 	
@@ -644,7 +666,7 @@ public:
 	void removeExportPlugin(EditorExportPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeExportPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.removeExportPlugin, _godot_object, plugin);
 	}
 	/**
 	
@@ -652,7 +674,7 @@ public:
 	void removeImportPlugin(EditorImportPlugin importer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeImportPlugin, _godot_object, importer);
+		ptrcall!(void)(GDNativeClassBinding.removeImportPlugin, _godot_object, importer);
 	}
 	/**
 	
@@ -660,7 +682,7 @@ public:
 	void removeInspectorPlugin(EditorInspectorPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeInspectorPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.removeInspectorPlugin, _godot_object, plugin);
 	}
 	/**
 	
@@ -668,7 +690,7 @@ public:
 	void removeSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeSceneImportPlugin, _godot_object, scene_importer);
+		ptrcall!(void)(GDNativeClassBinding.removeSceneImportPlugin, _godot_object, scene_importer);
 	}
 	/**
 	
@@ -676,7 +698,7 @@ public:
 	void removeSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeSpatialGizmoPlugin, _godot_object, plugin);
+		ptrcall!(void)(GDNativeClassBinding.removeSpatialGizmoPlugin, _godot_object, plugin);
 	}
 	/**
 	Removes a menu `name` from $(B Project &gt; Tools).
@@ -684,7 +706,7 @@ public:
 	void removeToolMenuItem(in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeToolMenuItem, _godot_object, name);
+		ptrcall!(void)(GDNativeClassBinding.removeToolMenuItem, _godot_object, name);
 	}
 	/**
 	This method is called after the editor saves the project or when it's closed. It asks the plugin to save edited external scenes/resources.
@@ -701,7 +723,7 @@ public:
 	void setForceDrawOverForwardingEnabled()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setForceDrawOverForwardingEnabled, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setForceDrawOverForwardingEnabled, _godot_object);
 	}
 	/**
 	Use this method if you always want to receive inputs from 3D view screen inside $(D forwardSpatialGuiInput). It might be especially usable if your plugin will want to use raycast in the scene.
@@ -709,7 +731,7 @@ public:
 	void setInputEventForwardingAlwaysEnabled()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInputEventForwardingAlwaysEnabled, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setInputEventForwardingAlwaysEnabled, _godot_object);
 	}
 	/**
 	Restore the state saved by $(D getState).
@@ -737,6 +759,6 @@ public:
 	long updateOverlays() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.updateOverlays, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.updateOverlays, _godot_object);
 	}
 }

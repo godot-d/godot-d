@@ -1,5 +1,5 @@
 /**
-
+A $(D CubeMap) sampling node to be used within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -25,18 +25,20 @@ import godot.resource;
 import godot.reference;
 import godot.cubemap;
 /**
+A $(D CubeMap) sampling node to be used within the visual shader graph.
 
+Translated to `texture(cubemap, vec3)` in the shader language. Returns a color vector and alpha channel as scalar.
 */
 @GodotBaseClass struct VisualShaderNodeCubeMap
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeCubeMap";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeCubeMap";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_cube_map") GodotMethod!(CubeMap) getCubeMap;
@@ -46,10 +48,20 @@ public:
 		@GodotName("set_source") GodotMethod!(void, long) setSource;
 		@GodotName("set_texture_type") GodotMethod!(void, long) setTextureType;
 	}
-	bool opEquals(in VisualShaderNodeCubeMap other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeCubeMap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeCubeMap other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeCubeMap opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeCubeMap.
+	/// Note: use `memnew!VisualShaderNodeCubeMap` instead.
 	static VisualShaderNodeCubeMap _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,15 +74,15 @@ public:
 	enum TextureType : int
 	{
 		/**
-		
+		No hints are added to the uniform declaration.
 		*/
 		typeData = 0,
 		/**
-		
+		Adds `hint_albedo` as hint to the uniform declaration for proper sRGB to linear conversion.
 		*/
 		typeColor = 1,
 		/**
-		
+		Adds `hint_normal` as hint to the uniform declaration, which internally converts the texture for proper usage as normal map.
 		*/
 		typeNormalmap = 2,
 	}
@@ -78,11 +90,11 @@ public:
 	enum Source : int
 	{
 		/**
-		
+		Use the $(D CubeMap) set via $(D cubeMap). If this is set to $(D source), the `samplerCube` port is ignored.
 		*/
 		sourceTexture = 0,
 		/**
-		
+		Use the $(D CubeMap) sampler reference passed via the `samplerCube` port. If this is set to $(D source), the $(D cubeMap) texture is ignored.
 		*/
 		sourcePort = 1,
 	}
@@ -101,7 +113,7 @@ public:
 	Ref!CubeMap getCubeMap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CubeMap)(_classBinding.getCubeMap, _godot_object);
+		return ptrcall!(CubeMap)(GDNativeClassBinding.getCubeMap, _godot_object);
 	}
 	/**
 	
@@ -109,7 +121,7 @@ public:
 	VisualShaderNodeCubeMap.Source getSource() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeCubeMap.Source)(_classBinding.getSource, _godot_object);
+		return ptrcall!(VisualShaderNodeCubeMap.Source)(GDNativeClassBinding.getSource, _godot_object);
 	}
 	/**
 	
@@ -117,7 +129,7 @@ public:
 	VisualShaderNodeCubeMap.TextureType getTextureType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeCubeMap.TextureType)(_classBinding.getTextureType, _godot_object);
+		return ptrcall!(VisualShaderNodeCubeMap.TextureType)(GDNativeClassBinding.getTextureType, _godot_object);
 	}
 	/**
 	
@@ -125,7 +137,7 @@ public:
 	void setCubeMap(CubeMap value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCubeMap, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setCubeMap, _godot_object, value);
 	}
 	/**
 	
@@ -133,7 +145,7 @@ public:
 	void setSource(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSource, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setSource, _godot_object, value);
 	}
 	/**
 	
@@ -141,10 +153,10 @@ public:
 	void setTextureType(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTextureType, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setTextureType, _godot_object, value);
 	}
 	/**
-	
+	The $(D CubeMap) texture to sample when using $(D constant SOURCE_TEXTURE) as $(D source).
 	*/
 	@property CubeMap cubeMap()
 	{
@@ -156,7 +168,7 @@ public:
 		setCubeMap(v);
 	}
 	/**
-	
+	Defines which source should be used for the sampling. See $(D source) for options.
 	*/
 	@property VisualShaderNodeCubeMap.Source source()
 	{
@@ -168,7 +180,7 @@ public:
 		setSource(v);
 	}
 	/**
-	
+	Defines the type of data provided by the source texture. See $(D texturetype) for options.
 	*/
 	@property VisualShaderNodeCubeMap.TextureType textureType()
 	{

@@ -28,23 +28,33 @@ A texture that is loaded from a `.stex` file.
 */
 @GodotBaseClass struct StreamTexture
 {
-	enum string _GODOT_internal_name = "StreamTexture";
+	package(godot) enum string _GODOT_internal_name = "StreamTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_load_path") GodotMethod!(String) getLoadPath;
 		@GodotName("load") GodotMethod!(GodotError, String) load;
 	}
-	bool opEquals(in StreamTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StreamTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StreamTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StreamTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StreamTexture.
+	/// Note: use `memnew!StreamTexture` instead.
 	static StreamTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -59,15 +69,15 @@ public:
 	String getLoadPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getLoadPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getLoadPath, _godot_object);
 	}
 	/**
-	
+	Loads the texture from the given path.
 	*/
 	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
 	The StreamTexture's file path to a `.stex` file.

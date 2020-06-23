@@ -26,14 +26,14 @@ import godot.resource;
 */
 @GodotBaseClass struct PolygonPathFinder
 {
-	enum string _GODOT_internal_name = "PolygonPathFinder";
+	package(godot) enum string _GODOT_internal_name = "PolygonPathFinder";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_data") GodotMethod!(Dictionary) _getData;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_point_penalty") GodotMethod!(void, long, double) setPointPenalty;
 		@GodotName("setup") GodotMethod!(void, PoolVector2Array, PoolIntArray) setup;
 	}
-	bool opEquals(in PolygonPathFinder other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PolygonPathFinder opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PolygonPathFinder other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PolygonPathFinder opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PolygonPathFinder.
+	/// Note: use `memnew!PolygonPathFinder` instead.
 	static PolygonPathFinder _new()
 	{
 		static godot_class_constructor constructor;
@@ -84,7 +94,7 @@ public:
 	PoolVector2Array findPath(in Vector2 from, in Vector2 to)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.findPath, _godot_object, from, to);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.findPath, _godot_object, from, to);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	Rect2 getBounds() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getBounds, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getBounds, _godot_object);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	Vector2 getClosestPoint(in Vector2 point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getClosestPoint, _godot_object, point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getClosestPoint, _godot_object, point);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	PoolVector2Array getIntersections(in Vector2 from, in Vector2 to) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getIntersections, _godot_object, from, to);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getIntersections, _godot_object, from, to);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getPointPenalty(in long idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointPenalty, _godot_object, idx);
+		return ptrcall!(double)(GDNativeClassBinding.getPointPenalty, _godot_object, idx);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	bool isPointInside(in Vector2 point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPointInside, _godot_object, point);
+		return ptrcall!(bool)(GDNativeClassBinding.isPointInside, _godot_object, point);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	void setPointPenalty(in long idx, in double penalty)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPenalty, _godot_object, idx, penalty);
+		ptrcall!(void)(GDNativeClassBinding.setPointPenalty, _godot_object, idx, penalty);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	void setup(in PoolVector2Array points, in PoolIntArray connections)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setup, _godot_object, points, connections);
+		ptrcall!(void)(GDNativeClassBinding.setup, _godot_object, points, connections);
 	}
 	/**
 	

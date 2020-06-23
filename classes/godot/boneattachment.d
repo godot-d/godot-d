@@ -28,23 +28,33 @@ This node must be the child of a $(D Skeleton) node. You can then select a bone 
 */
 @GodotBaseClass struct BoneAttachment
 {
-	enum string _GODOT_internal_name = "BoneAttachment";
+	package(godot) enum string _GODOT_internal_name = "BoneAttachment";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_bone_name") GodotMethod!(String) getBoneName;
 		@GodotName("set_bone_name") GodotMethod!(void, String) setBoneName;
 	}
-	bool opEquals(in BoneAttachment other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BoneAttachment opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BoneAttachment other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BoneAttachment opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BoneAttachment.
+	/// Note: use `memnew!BoneAttachment` instead.
 	static BoneAttachment _new()
 	{
 		static godot_class_constructor constructor;
@@ -59,7 +69,7 @@ public:
 	String getBoneName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBoneName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBoneName, _godot_object);
 	}
 	/**
 	
@@ -67,7 +77,7 @@ public:
 	void setBoneName(in String bone_name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBoneName, _godot_object, bone_name);
+		ptrcall!(void)(GDNativeClassBinding.setBoneName, _godot_object, bone_name);
 	}
 	/**
 	The name of the attached bone.

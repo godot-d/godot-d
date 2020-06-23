@@ -35,14 +35,14 @@ Custom gizmo that is used for providing custom visualization and editing (handle
 */
 @GodotBaseClass struct EditorSpatialGizmo
 {
-	enum string _GODOT_internal_name = "EditorSpatialGizmo";
+	package(godot) enum string _GODOT_internal_name = "EditorSpatialGizmo";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; SpatialGizmo _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ SpatialGizmo _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_collision_segments") GodotMethod!(void, PoolVector3Array) addCollisionSegments;
@@ -63,10 +63,20 @@ public:
 		@GodotName("set_hidden") GodotMethod!(void, bool) setHidden;
 		@GodotName("set_spatial_node") GodotMethod!(void, Node) setSpatialNode;
 	}
-	bool opEquals(in EditorSpatialGizmo other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorSpatialGizmo opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorSpatialGizmo other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorSpatialGizmo opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorSpatialGizmo.
+	/// Note: use `memnew!EditorSpatialGizmo` instead.
 	static EditorSpatialGizmo _new()
 	{
 		static godot_class_constructor constructor;
@@ -81,7 +91,7 @@ public:
 	void addCollisionSegments(in PoolVector3Array segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCollisionSegments, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.addCollisionSegments, _godot_object, segments);
 	}
 	/**
 	Adds collision triangles to the gizmo for picking. A $(D TriangleMesh) can be generated from a regular $(D Mesh) too. Call this function during $(D redraw).
@@ -89,7 +99,7 @@ public:
 	void addCollisionTriangles(TriangleMesh triangles)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCollisionTriangles, _godot_object, triangles);
+		ptrcall!(void)(GDNativeClassBinding.addCollisionTriangles, _godot_object, triangles);
 	}
 	/**
 	Adds a list of handles (points) which can be used to deform the object being edited.
@@ -98,7 +108,7 @@ public:
 	void addHandles(in PoolVector3Array handles, Material material, in bool billboard = false, in bool secondary = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addHandles, _godot_object, handles, material, billboard, secondary);
+		ptrcall!(void)(GDNativeClassBinding.addHandles, _godot_object, handles, material, billboard, secondary);
 	}
 	/**
 	Adds lines to the gizmo (as sets of 2 points), with a given material. The lines are used for visualizing the gizmo. Call this function during $(D redraw).
@@ -106,7 +116,7 @@ public:
 	void addLines(in PoolVector3Array lines, Material material, in bool billboard = false, in Color modulate = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addLines, _godot_object, lines, material, billboard, modulate);
+		ptrcall!(void)(GDNativeClassBinding.addLines, _godot_object, lines, material, billboard, modulate);
 	}
 	/**
 	
@@ -114,7 +124,7 @@ public:
 	void addMesh(ArrayMesh mesh, in bool billboard = false, SkinReference skeleton = SkinReference.init, Material material = Material.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addMesh, _godot_object, mesh, billboard, skeleton, material);
+		ptrcall!(void)(GDNativeClassBinding.addMesh, _godot_object, mesh, billboard, skeleton, material);
 	}
 	/**
 	Adds an unscaled billboard for visualization. Call this function during $(D redraw).
@@ -122,7 +132,7 @@ public:
 	void addUnscaledBillboard(Material material, in double default_scale = 1, in Color modulate = Color(1,1,1,1))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addUnscaledBillboard, _godot_object, material, default_scale, modulate);
+		ptrcall!(void)(GDNativeClassBinding.addUnscaledBillboard, _godot_object, material, default_scale, modulate);
 	}
 	/**
 	
@@ -130,7 +140,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Commit a handle being edited (handles must have been previously added by $(D addHandles)).
@@ -172,7 +182,7 @@ public:
 	Ref!EditorSpatialGizmoPlugin getPlugin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(EditorSpatialGizmoPlugin)(_classBinding.getPlugin, _godot_object);
+		return ptrcall!(EditorSpatialGizmoPlugin)(GDNativeClassBinding.getPlugin, _godot_object);
 	}
 	/**
 	Returns the Spatial node associated with this gizmo.
@@ -180,7 +190,7 @@ public:
 	Spatial getSpatialNode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Spatial)(_classBinding.getSpatialNode, _godot_object);
+		return ptrcall!(Spatial)(GDNativeClassBinding.getSpatialNode, _godot_object);
 	}
 	/**
 	Gets whether a handle is highlighted or not.
@@ -220,7 +230,7 @@ public:
 	void setHidden(in bool hidden)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHidden, _godot_object, hidden);
+		ptrcall!(void)(GDNativeClassBinding.setHidden, _godot_object, hidden);
 	}
 	/**
 	
@@ -228,6 +238,6 @@ public:
 	void setSpatialNode(Node node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSpatialNode, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setSpatialNode, _godot_object, node);
 	}
 }

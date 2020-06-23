@@ -32,14 +32,14 @@ TextureProgress works like $(D ProgressBar), but uses up to 3 textures instead o
 */
 @GodotBaseClass struct TextureProgress
 {
-	enum string _GODOT_internal_name = "TextureProgress";
+	package(godot) enum string _GODOT_internal_name = "TextureProgress";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Range _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Range _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_fill_degrees") GodotMethod!(double) getFillDegrees;
@@ -67,10 +67,20 @@ public:
 		@GodotName("set_tint_under") GodotMethod!(void, Color) setTintUnder;
 		@GodotName("set_under_texture") GodotMethod!(void, Texture) setUnderTexture;
 	}
-	bool opEquals(in TextureProgress other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TextureProgress opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TextureProgress other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TextureProgress opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TextureProgress.
+	/// Note: use `memnew!TextureProgress` instead.
 	static TextureProgress _new()
 	{
 		static godot_class_constructor constructor;
@@ -138,7 +148,7 @@ public:
 	double getFillDegrees()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFillDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFillDegrees, _godot_object);
 	}
 	/**
 	
@@ -146,7 +156,7 @@ public:
 	long getFillMode()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFillMode, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFillMode, _godot_object);
 	}
 	/**
 	
@@ -154,7 +164,7 @@ public:
 	bool getNinePatchStretch() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getNinePatchStretch, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getNinePatchStretch, _godot_object);
 	}
 	/**
 	
@@ -162,7 +172,7 @@ public:
 	Ref!Texture getOverTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getOverTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getOverTexture, _godot_object);
 	}
 	/**
 	
@@ -170,7 +180,7 @@ public:
 	Ref!Texture getProgressTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getProgressTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getProgressTexture, _godot_object);
 	}
 	/**
 	
@@ -178,7 +188,7 @@ public:
 	Vector2 getRadialCenterOffset()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRadialCenterOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getRadialCenterOffset, _godot_object);
 	}
 	/**
 	
@@ -186,7 +196,7 @@ public:
 	double getRadialInitialAngle()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadialInitialAngle, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRadialInitialAngle, _godot_object);
 	}
 	/**
 	
@@ -194,7 +204,7 @@ public:
 	long getStretchMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getStretchMargin, _godot_object, margin);
+		return ptrcall!(long)(GDNativeClassBinding.getStretchMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -202,7 +212,7 @@ public:
 	Color getTintOver() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getTintOver, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getTintOver, _godot_object);
 	}
 	/**
 	
@@ -210,7 +220,7 @@ public:
 	Color getTintProgress() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getTintProgress, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getTintProgress, _godot_object);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	Color getTintUnder() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getTintUnder, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getTintUnder, _godot_object);
 	}
 	/**
 	
@@ -226,7 +236,7 @@ public:
 	Ref!Texture getUnderTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getUnderTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getUnderTexture, _godot_object);
 	}
 	/**
 	
@@ -234,7 +244,7 @@ public:
 	void setFillDegrees(in double mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFillDegrees, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setFillDegrees, _godot_object, mode);
 	}
 	/**
 	
@@ -242,7 +252,7 @@ public:
 	void setFillMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFillMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setFillMode, _godot_object, mode);
 	}
 	/**
 	
@@ -250,7 +260,7 @@ public:
 	void setNinePatchStretch(in bool stretch)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNinePatchStretch, _godot_object, stretch);
+		ptrcall!(void)(GDNativeClassBinding.setNinePatchStretch, _godot_object, stretch);
 	}
 	/**
 	
@@ -258,7 +268,7 @@ public:
 	void setOverTexture(Texture tex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOverTexture, _godot_object, tex);
+		ptrcall!(void)(GDNativeClassBinding.setOverTexture, _godot_object, tex);
 	}
 	/**
 	
@@ -266,7 +276,7 @@ public:
 	void setProgressTexture(Texture tex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProgressTexture, _godot_object, tex);
+		ptrcall!(void)(GDNativeClassBinding.setProgressTexture, _godot_object, tex);
 	}
 	/**
 	
@@ -274,7 +284,7 @@ public:
 	void setRadialCenterOffset(in Vector2 mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialCenterOffset, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setRadialCenterOffset, _godot_object, mode);
 	}
 	/**
 	
@@ -282,7 +292,7 @@ public:
 	void setRadialInitialAngle(in double mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialInitialAngle, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setRadialInitialAngle, _godot_object, mode);
 	}
 	/**
 	
@@ -290,7 +300,7 @@ public:
 	void setStretchMargin(in long margin, in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStretchMargin, _godot_object, margin, value);
+		ptrcall!(void)(GDNativeClassBinding.setStretchMargin, _godot_object, margin, value);
 	}
 	/**
 	
@@ -298,7 +308,7 @@ public:
 	void setTintOver(in Color tint)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTintOver, _godot_object, tint);
+		ptrcall!(void)(GDNativeClassBinding.setTintOver, _godot_object, tint);
 	}
 	/**
 	
@@ -306,7 +316,7 @@ public:
 	void setTintProgress(in Color tint)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTintProgress, _godot_object, tint);
+		ptrcall!(void)(GDNativeClassBinding.setTintProgress, _godot_object, tint);
 	}
 	/**
 	
@@ -314,7 +324,7 @@ public:
 	void setTintUnder(in Color tint)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTintUnder, _godot_object, tint);
+		ptrcall!(void)(GDNativeClassBinding.setTintUnder, _godot_object, tint);
 	}
 	/**
 	
@@ -322,7 +332,7 @@ public:
 	void setUnderTexture(Texture tex)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUnderTexture, _godot_object, tex);
+		ptrcall!(void)(GDNativeClassBinding.setUnderTexture, _godot_object, tex);
 	}
 	/**
 	The fill direction. See $(D fillmode) for possible values.

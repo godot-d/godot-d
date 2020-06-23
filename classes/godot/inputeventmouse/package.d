@@ -27,14 +27,14 @@ Stores general mouse events information.
 */
 @GodotBaseClass struct InputEventMouse
 {
-	enum string _GODOT_internal_name = "InputEventMouse";
+	package(godot) enum string _GODOT_internal_name = "InputEventMouse";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEventWithModifiers _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEventWithModifiers _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_button_mask") GodotMethod!(long) getButtonMask;
@@ -44,10 +44,20 @@ public:
 		@GodotName("set_global_position") GodotMethod!(void, Vector2) setGlobalPosition;
 		@GodotName("set_position") GodotMethod!(void, Vector2) setPosition;
 	}
-	bool opEquals(in InputEventMouse other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventMouse opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventMouse other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventMouse opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventMouse.
+	/// Note: use `memnew!InputEventMouse` instead.
 	static InputEventMouse _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	long getButtonMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getButtonMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getButtonMask, _godot_object);
 	}
 	/**
 	
@@ -70,7 +80,7 @@ public:
 	Vector2 getGlobalPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGlobalPosition, _godot_object);
 	}
 	/**
 	
@@ -78,7 +88,7 @@ public:
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	
@@ -86,7 +96,7 @@ public:
 	void setButtonMask(in long button_mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, button_mask);
+		ptrcall!(void)(GDNativeClassBinding.setButtonMask, _godot_object, button_mask);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	void setGlobalPosition(in Vector2 global_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, global_position);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalPosition, _godot_object, global_position);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	void setPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setPosition, _godot_object, position);
 	}
 	/**
 	The mouse button mask identifier, one of or a bitwise combination of the $(D buttonlist) button masks.

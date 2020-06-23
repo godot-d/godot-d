@@ -29,14 +29,14 @@ A 2D game object, with a transform (position, rotation, and scale). All 2D nodes
 */
 @GodotBaseClass struct Node2D
 {
-	enum string _GODOT_internal_name = "Node2D";
+	package(godot) enum string _GODOT_internal_name = "Node2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; CanvasItem _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ CanvasItem _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("apply_scale") GodotMethod!(void, Vector2) applyScale;
@@ -73,10 +73,20 @@ public:
 		@GodotName("to_local") GodotMethod!(Vector2, Vector2) toLocal;
 		@GodotName("translate") GodotMethod!(void, Vector2) translate;
 	}
-	bool opEquals(in Node2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Node2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Node2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Node2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Node2D.
+	/// Note: use `memnew!Node2D` instead.
 	static Node2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -91,7 +101,7 @@ public:
 	void applyScale(in Vector2 ratio)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyScale, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.applyScale, _godot_object, ratio);
 	}
 	/**
 	Returns the angle between the node and the `point` in radians.
@@ -99,7 +109,7 @@ public:
 	double getAngleTo(in Vector2 point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getAngleTo, _godot_object, point);
+		return ptrcall!(double)(GDNativeClassBinding.getAngleTo, _godot_object, point);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	Vector2 getGlobalPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGlobalPosition, _godot_object);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	double getGlobalRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlobalRotation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlobalRotation, _godot_object);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	double getGlobalRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGlobalRotationDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGlobalRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	Vector2 getGlobalScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGlobalScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGlobalScale, _godot_object);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	Vector2 getPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPosition, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPosition, _godot_object);
 	}
 	/**
 	Returns the $(D Transform2D) relative to this node's parent.
@@ -147,7 +157,7 @@ public:
 	Transform2D getRelativeTransformToParent(Node parent) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getRelativeTransformToParent, _godot_object, parent);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getRelativeTransformToParent, _godot_object, parent);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	double getRotation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotation, _godot_object);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	double getRotationDegrees() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRotationDegrees, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRotationDegrees, _godot_object);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	Vector2 getScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getScale, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getScale, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	long getZIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getZIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getZIndex, _godot_object);
 	}
 	/**
 	Adds the `offset` vector to the node's global position.
@@ -187,7 +197,7 @@ public:
 	void globalTranslate(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.globalTranslate, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.globalTranslate, _godot_object, offset);
 	}
 	/**
 	
@@ -195,7 +205,7 @@ public:
 	bool isZRelative() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isZRelative, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isZRelative, _godot_object);
 	}
 	/**
 	Rotates the node so it points towards the `point`, which is expected to use global coordinates.
@@ -203,7 +213,7 @@ public:
 	void lookAt(in Vector2 point)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.lookAt, _godot_object, point);
+		ptrcall!(void)(GDNativeClassBinding.lookAt, _godot_object, point);
 	}
 	/**
 	Applies a local translation on the node's X axis based on the $(D Node._process)'s `delta`. If `scaled` is `false`, normalizes the movement.
@@ -211,7 +221,7 @@ public:
 	void moveLocalX(in double delta, in bool scaled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveLocalX, _godot_object, delta, scaled);
+		ptrcall!(void)(GDNativeClassBinding.moveLocalX, _godot_object, delta, scaled);
 	}
 	/**
 	Applies a local translation on the node's Y axis based on the $(D Node._process)'s `delta`. If `scaled` is `false`, normalizes the movement.
@@ -219,7 +229,7 @@ public:
 	void moveLocalY(in double delta, in bool scaled = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveLocalY, _godot_object, delta, scaled);
+		ptrcall!(void)(GDNativeClassBinding.moveLocalY, _godot_object, delta, scaled);
 	}
 	/**
 	Applies a rotation to the node, in radians, starting from its current rotation.
@@ -227,7 +237,7 @@ public:
 	void rotate(in double radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.rotate, _godot_object, radians);
+		ptrcall!(void)(GDNativeClassBinding.rotate, _godot_object, radians);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	void setGlobalPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalPosition, _godot_object, position);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	void setGlobalRotation(in double radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalRotation, _godot_object, radians);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalRotation, _godot_object, radians);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	void setGlobalRotationDegrees(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalRotationDegrees, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalRotationDegrees, _godot_object, degrees);
 	}
 	/**
 	
@@ -259,7 +269,7 @@ public:
 	void setGlobalScale(in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalScale, _godot_object, scale);
 	}
 	/**
 	
@@ -267,7 +277,7 @@ public:
 	void setGlobalTransform(in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGlobalTransform, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.setGlobalTransform, _godot_object, xform);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	void setPosition(in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setPosition, _godot_object, position);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	void setRotation(in double radians)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotation, _godot_object, radians);
+		ptrcall!(void)(GDNativeClassBinding.setRotation, _godot_object, radians);
 	}
 	/**
 	
@@ -291,7 +301,7 @@ public:
 	void setRotationDegrees(in double degrees)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRotationDegrees, _godot_object, degrees);
+		ptrcall!(void)(GDNativeClassBinding.setRotationDegrees, _godot_object, degrees);
 	}
 	/**
 	
@@ -299,7 +309,7 @@ public:
 	void setScale(in Vector2 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScale, _godot_object, scale);
+		ptrcall!(void)(GDNativeClassBinding.setScale, _godot_object, scale);
 	}
 	/**
 	
@@ -307,7 +317,7 @@ public:
 	void setTransform(in Transform2D xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, xform);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, xform);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	void setZAsRelative(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZAsRelative, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setZAsRelative, _godot_object, enable);
 	}
 	/**
 	
@@ -323,23 +333,23 @@ public:
 	void setZIndex(in long z_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setZIndex, _godot_object, z_index);
+		ptrcall!(void)(GDNativeClassBinding.setZIndex, _godot_object, z_index);
 	}
 	/**
-	Converts a local point's coordinates to global coordinates.
+	Transforms the provided local position into a position in global coordinate space. The input is expected to be local relative to the $(D Node2D) it is called on. e.g. Applying this method to the positions of child nodes will correctly transform their positions into the global coordinate space, but applying it to a node's own position will give an incorrect result, as it will incorporate the node's own transformation into its global position.
 	*/
 	Vector2 toGlobal(in Vector2 local_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.toGlobal, _godot_object, local_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.toGlobal, _godot_object, local_point);
 	}
 	/**
-	Converts a global point's coordinates to local coordinates.
+	Transforms the provided global position into a position in local coordinate space. The output will be local relative to the $(D Node2D) it is called on. e.g. It is appropriate for determining the positions of child nodes, but it is not appropriate for determining its own position relative to its parent.
 	*/
 	Vector2 toLocal(in Vector2 global_point) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.toLocal, _godot_object, global_point);
+		return ptrcall!(Vector2)(GDNativeClassBinding.toLocal, _godot_object, global_point);
 	}
 	/**
 	Translates the node by the given `offset` in local coordinates.
@@ -347,7 +357,7 @@ public:
 	void translate(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.translate, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.translate, _godot_object, offset);
 	}
 	/**
 	Global position.

@@ -1,5 +1,5 @@
 /**
-
+Calculates a dot product of two vectors within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,25 +24,37 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+Calculates a dot product of two vectors within the visual shader graph.
 
+Translates to `dot(a, b)` in the shader language.
 */
 @GodotBaseClass struct VisualShaderNodeDotProduct
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeDotProduct";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeDotProduct";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeDotProduct other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeDotProduct opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeDotProduct other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeDotProduct opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeDotProduct.
+	/// Note: use `memnew!VisualShaderNodeDotProduct` instead.
 	static VisualShaderNodeDotProduct _new()
 	{
 		static godot_class_constructor constructor;

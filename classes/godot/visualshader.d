@@ -32,14 +32,14 @@ The visual shader editor creates the shader.
 */
 @GodotBaseClass struct VisualShader
 {
-	enum string _GODOT_internal_name = "VisualShader";
+	package(godot) enum string _GODOT_internal_name = "VisualShader";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Shader _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Shader _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_input_type_changed") GodotMethod!(void, long, long) _inputTypeChanged;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_mode") GodotMethod!(void, long) setMode;
 		@GodotName("set_node_position") GodotMethod!(void, long, long, Vector2) setNodePosition;
 	}
-	bool opEquals(in VisualShader other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShader opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShader other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShader opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShader.
+	/// Note: use `memnew!VisualShader` instead.
 	static VisualShader _new()
 	{
 		static godot_class_constructor constructor;
@@ -78,15 +88,15 @@ public:
 	enum Type : int
 	{
 		/**
-		
+		A vertex shader, operating on vertices.
 		*/
 		typeVertex = 0,
 		/**
-		
+		A fragment shader, operating on fragments (pixels).
 		*/
 		typeFragment = 1,
 		/**
-		
+		A shader for light calculations.
 		*/
 		typeLight = 2,
 		/**
@@ -140,44 +150,44 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Adds the specified node to the shader.
 	*/
 	void addNode(in long type, VisualShaderNode node, in Vector2 position, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addNode, _godot_object, type, node, position, id);
+		ptrcall!(void)(GDNativeClassBinding.addNode, _godot_object, type, node, position, id);
 	}
 	/**
-	
+	Returns `true` if the specified nodes and ports can be connected together.
 	*/
 	bool canConnectNodes(in long type, in long from_node, in long from_port, in long to_node, in long to_port) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.canConnectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
+		return ptrcall!(bool)(GDNativeClassBinding.canConnectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
 	}
 	/**
-	
+	Connects the specified nodes and ports.
 	*/
 	GodotError connectNodes(in long type, in long from_node, in long from_port, in long to_node, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
 	}
 	/**
-	
+	Connects the specified nodes and ports, even if they can't be connected. Such connection is invalid and will not function properly.
 	*/
 	void connectNodesForced(in long type, in long from_node, in long from_port, in long to_node, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.connectNodesForced, _godot_object, type, from_node, from_port, to_node, to_port);
+		ptrcall!(void)(GDNativeClassBinding.connectNodesForced, _godot_object, type, from_node, from_port, to_node, to_port);
 	}
 	/**
-	
+	Connects the specified nodes and ports.
 	*/
 	void disconnectNodes(in long type, in long from_node, in long from_port, in long to_node, in long to_port)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
+		ptrcall!(void)(GDNativeClassBinding.disconnectNodes, _godot_object, type, from_node, from_port, to_node, to_port);
 	}
 	/**
 	
@@ -185,39 +195,39 @@ public:
 	Vector2 getGraphOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getGraphOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getGraphOffset, _godot_object);
 	}
 	/**
-	
+	Returns the shader node instance with specified `type` and `id`.
 	*/
 	Ref!VisualShaderNode getNode(in long type, in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNode)(_classBinding.getNode, _godot_object, type, id);
+		return ptrcall!(VisualShaderNode)(GDNativeClassBinding.getNode, _godot_object, type, id);
 	}
 	/**
-	
+	Returns the list of connected nodes with the specified type.
 	*/
 	Array getNodeConnections(in long type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getNodeConnections, _godot_object, type);
+		return ptrcall!(Array)(GDNativeClassBinding.getNodeConnections, _godot_object, type);
 	}
 	/**
-	
+	Returns the list of all nodes in the shader with the specified type.
 	*/
 	PoolIntArray getNodeList(in long type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getNodeList, _godot_object, type);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getNodeList, _godot_object, type);
 	}
 	/**
-	
+	Returns the position of the specified node within the shader graph.
 	*/
 	Vector2 getNodePosition(in long type, in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getNodePosition, _godot_object, type, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getNodePosition, _godot_object, type, id);
 	}
 	/**
 	
@@ -225,23 +235,23 @@ public:
 	long getValidNodeId(in long type) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getValidNodeId, _godot_object, type);
+		return ptrcall!(long)(GDNativeClassBinding.getValidNodeId, _godot_object, type);
 	}
 	/**
-	
+	Returns `true` if the specified node and port connection exist.
 	*/
 	bool isNodeConnection(in long type, in long from_node, in long from_port, in long to_node, in long to_port) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNodeConnection, _godot_object, type, from_node, from_port, to_node, to_port);
+		return ptrcall!(bool)(GDNativeClassBinding.isNodeConnection, _godot_object, type, from_node, from_port, to_node, to_port);
 	}
 	/**
-	
+	Removes the specified node from the shader.
 	*/
 	void removeNode(in long type, in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeNode, _godot_object, type, id);
+		ptrcall!(void)(GDNativeClassBinding.removeNode, _godot_object, type, id);
 	}
 	/**
 	
@@ -249,26 +259,26 @@ public:
 	void setGraphOffset(in Vector2 offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGraphOffset, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.setGraphOffset, _godot_object, offset);
 	}
 	/**
-	
+	Sets the mode of this shader.
 	*/
 	void setMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setMode, _godot_object, mode);
 	}
 	/**
-	
+	Sets the position of the specified node.
 	*/
 	void setNodePosition(in long type, in long id, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodePosition, _godot_object, type, id, position);
+		ptrcall!(void)(GDNativeClassBinding.setNodePosition, _godot_object, type, id, position);
 	}
 	/**
-	
+	The offset vector of the whole graph.
 	*/
 	@property Vector2 graphOffset()
 	{

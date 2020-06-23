@@ -30,14 +30,14 @@ Can be constructed from an existing $(D Sprite) via a tool in the editor toolbar
 */
 @GodotBaseClass struct MeshInstance2D
 {
-	enum string _GODOT_internal_name = "MeshInstance2D";
+	package(godot) enum string _GODOT_internal_name = "MeshInstance2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_normal_map") GodotMethod!(void, Texture) setNormalMap;
 		@GodotName("set_texture") GodotMethod!(void, Texture) setTexture;
 	}
-	bool opEquals(in MeshInstance2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	MeshInstance2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in MeshInstance2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) MeshInstance2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of MeshInstance2D.
+	/// Note: use `memnew!MeshInstance2D` instead.
 	static MeshInstance2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	Ref!Mesh getMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.getMesh, _godot_object);
+		return ptrcall!(Mesh)(GDNativeClassBinding.getMesh, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	Ref!Texture getNormalMap() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getNormalMap, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getNormalMap, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	Ref!Texture getTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTexture, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	void setMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMesh, _godot_object, mesh);
+		ptrcall!(void)(GDNativeClassBinding.setMesh, _godot_object, mesh);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	void setNormalMap(Texture normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalMap, _godot_object, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.setNormalMap, _godot_object, normal_map);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	void setTexture(Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTexture, _godot_object, texture);
+		ptrcall!(void)(GDNativeClassBinding.setTexture, _godot_object, texture);
 	}
 	/**
 	The $(D Mesh) that will be drawn by the $(D MeshInstance2D).
@@ -121,6 +131,7 @@ public:
 	}
 	/**
 	The normal map that will be used if using the default $(D CanvasItemMaterial).
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	@property Texture normalMap()
 	{

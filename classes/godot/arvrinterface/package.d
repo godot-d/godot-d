@@ -28,14 +28,14 @@ Interfaces should be written in such a way that simply enabling them will give u
 */
 @GodotBaseClass struct ARVRInterface
 {
-	enum string _GODOT_internal_name = "ARVRInterface";
+	package(godot) enum string _GODOT_internal_name = "ARVRInterface";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_anchor_detection_is_enabled") GodotMethod!(bool) getAnchorDetectionIsEnabled;
@@ -53,10 +53,20 @@ public:
 		@GodotName("set_is_primary") GodotMethod!(void, bool) setIsPrimary;
 		@GodotName("uninitialize") GodotMethod!(void) uninitialize;
 	}
-	bool opEquals(in ARVRInterface other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ARVRInterface opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ARVRInterface other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ARVRInterface opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ARVRInterface.
+	/// Note: use `memnew!ARVRInterface` instead.
 	static ARVRInterface _new()
 	{
 		static godot_class_constructor constructor;
@@ -152,7 +162,7 @@ public:
 	bool getAnchorDetectionIsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getAnchorDetectionIsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getAnchorDetectionIsEnabled, _godot_object);
 	}
 	/**
 	If this is an AR interface that requires displaying a camera feed as the background, this method returns the feed ID in the $(D CameraServer) for this interface.
@@ -160,7 +170,7 @@ public:
 	long getCameraFeedId()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCameraFeedId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCameraFeedId, _godot_object);
 	}
 	/**
 	Returns a combination of $(D capabilities) flags providing information about the capabilities of this interface.
@@ -168,7 +178,7 @@ public:
 	long getCapabilities() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCapabilities, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCapabilities, _godot_object);
 	}
 	/**
 	Returns the name of this interface (OpenVR, OpenHMD, ARKit, etc).
@@ -176,7 +186,7 @@ public:
 	String getName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
 	Returns the resolution at which we should render our intermediate results before things like lens distortion are applied by the VR platform.
@@ -184,7 +194,7 @@ public:
 	Vector2 getRenderTargetsize()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getRenderTargetsize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getRenderTargetsize, _godot_object);
 	}
 	/**
 	If supported, returns the status of our tracking. This will allow you to provide feedback to the user whether there are issues with positional tracking.
@@ -192,7 +202,7 @@ public:
 	ARVRInterface.Tracking_status getTrackingStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ARVRInterface.Tracking_status)(_classBinding.getTrackingStatus, _godot_object);
+		return ptrcall!(ARVRInterface.Tracking_status)(GDNativeClassBinding.getTrackingStatus, _godot_object);
 	}
 	/**
 	Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output.
@@ -204,7 +214,7 @@ public:
 	bool initialize()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.initialize, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.initialize, _godot_object);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	bool isInitialized() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInitialized, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInitialized, _godot_object);
 	}
 	/**
 	
@@ -220,7 +230,7 @@ public:
 	bool isPrimary()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPrimary, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPrimary, _godot_object);
 	}
 	/**
 	Returns `true` if the current output of this interface is in stereo.
@@ -228,7 +238,7 @@ public:
 	bool isStereo()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isStereo, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isStereo, _godot_object);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	void setAnchorDetectionIsEnabled(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAnchorDetectionIsEnabled, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAnchorDetectionIsEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -244,7 +254,7 @@ public:
 	void setIsInitialized(in bool initialized)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIsInitialized, _godot_object, initialized);
+		ptrcall!(void)(GDNativeClassBinding.setIsInitialized, _godot_object, initialized);
 	}
 	/**
 	
@@ -252,7 +262,7 @@ public:
 	void setIsPrimary(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIsPrimary, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setIsPrimary, _godot_object, enable);
 	}
 	/**
 	Turns the interface off.
@@ -260,7 +270,7 @@ public:
 	void uninitialize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.uninitialize, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.uninitialize, _godot_object);
 	}
 	/**
 	On an AR interface, `true` if anchor detection is enabled.

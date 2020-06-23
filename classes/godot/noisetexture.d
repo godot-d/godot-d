@@ -39,14 +39,14 @@ var image = texture.get_data()
 */
 @GodotBaseClass struct NoiseTexture
 {
-	enum string _GODOT_internal_name = "NoiseTexture";
+	package(godot) enum string _GODOT_internal_name = "NoiseTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_generate_texture") GodotMethod!(Image) _generateTexture;
@@ -64,10 +64,20 @@ public:
 		@GodotName("set_seamless") GodotMethod!(void, bool) setSeamless;
 		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 	}
-	bool opEquals(in NoiseTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	NoiseTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in NoiseTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) NoiseTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of NoiseTexture.
+	/// Note: use `memnew!NoiseTexture` instead.
 	static NoiseTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -119,7 +129,7 @@ public:
 	double getBumpStrength()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBumpStrength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBumpStrength, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	Ref!OpenSimplexNoise getNoise()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OpenSimplexNoise)(_classBinding.getNoise, _godot_object);
+		return ptrcall!(OpenSimplexNoise)(GDNativeClassBinding.getNoise, _godot_object);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	bool getSeamless()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSeamless, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getSeamless, _godot_object);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	bool isNormalmap()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isNormalmap, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isNormalmap, _godot_object);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	void setAsNormalmap(in bool as_normalmap)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsNormalmap, _godot_object, as_normalmap);
+		ptrcall!(void)(GDNativeClassBinding.setAsNormalmap, _godot_object, as_normalmap);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	void setBumpStrength(in double bump_strength)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBumpStrength, _godot_object, bump_strength);
+		ptrcall!(void)(GDNativeClassBinding.setBumpStrength, _godot_object, bump_strength);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	void setHeight(in long height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setHeight, _godot_object, height);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	void setNoise(OpenSimplexNoise noise)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNoise, _godot_object, noise);
+		ptrcall!(void)(GDNativeClassBinding.setNoise, _godot_object, noise);
 	}
 	/**
 	
@@ -183,7 +193,7 @@ public:
 	void setSeamless(in bool seamless)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSeamless, _godot_object, seamless);
+		ptrcall!(void)(GDNativeClassBinding.setSeamless, _godot_object, seamless);
 	}
 	/**
 	
@@ -191,7 +201,7 @@ public:
 	void setWidth(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setWidth, _godot_object, width);
 	}
 	/**
 	If `true`, the resulting texture contains a normal map created from the original noise interpreted as a bump map.

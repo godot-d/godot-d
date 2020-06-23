@@ -27,14 +27,14 @@ PacketPeer is an abstraction and base class for packet-based protocols (such as 
 */
 @GodotBaseClass struct PacketPeer
 {
-	enum string _GODOT_internal_name = "PacketPeer";
+	package(godot) enum string _GODOT_internal_name = "PacketPeer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_available_packet_count") GodotMethod!(long) getAvailablePacketCount;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_allow_object_decoding") GodotMethod!(void, bool) setAllowObjectDecoding;
 		@GodotName("set_encode_buffer_max_size") GodotMethod!(void, long) setEncodeBufferMaxSize;
 	}
-	bool opEquals(in PacketPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PacketPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PacketPeer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PacketPeer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PacketPeer.
+	/// Note: use `memnew!PacketPeer` instead.
 	static PacketPeer _new()
 	{
 		static godot_class_constructor constructor;
@@ -66,7 +76,7 @@ public:
 	long getAvailablePacketCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAvailablePacketCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAvailablePacketCount, _godot_object);
 	}
 	/**
 	
@@ -74,7 +84,7 @@ public:
 	long getEncodeBufferMaxSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getEncodeBufferMaxSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getEncodeBufferMaxSize, _godot_object);
 	}
 	/**
 	Gets a raw packet.
@@ -82,7 +92,7 @@ public:
 	PoolByteArray getPacket()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.getPacket, _godot_object);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.getPacket, _godot_object);
 	}
 	/**
 	Returns the error state of the last packet received (via $(D getPacket) and $(D getVar)).
@@ -90,7 +100,7 @@ public:
 	GodotError getPacketError() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.getPacketError, _godot_object);
+		return ptrcall!(GodotError)(GDNativeClassBinding.getPacketError, _godot_object);
 	}
 	/**
 	Gets a Variant. If `allow_objects` (or $(D allowObjectDecoding)) is `true`, decoding objects is allowed.
@@ -99,7 +109,7 @@ public:
 	Variant getVar(in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
+		return ptrcall!(Variant)(GDNativeClassBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	bool isObjectDecodingAllowed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isObjectDecodingAllowed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isObjectDecodingAllowed, _godot_object);
 	}
 	/**
 	Sends a raw packet.
@@ -115,7 +125,7 @@ public:
 	GodotError putPacket(in PoolByteArray buffer)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putPacket, _godot_object, buffer);
+		return ptrcall!(GodotError)(GDNativeClassBinding.putPacket, _godot_object, buffer);
 	}
 	/**
 	Sends a $(D Variant) as a packet. If `full_objects` (or $(D allowObjectDecoding)) is `true`, encoding objects is allowed (and can potentially include code).
@@ -123,7 +133,7 @@ public:
 	GodotError putVar(VariantArg0)(in VariantArg0 var, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putVar, _godot_object, var, full_objects);
+		return ptrcall!(GodotError)(GDNativeClassBinding.putVar, _godot_object, var, full_objects);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	void setAllowObjectDecoding(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAllowObjectDecoding, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAllowObjectDecoding, _godot_object, enable);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	void setEncodeBufferMaxSize(in long max_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEncodeBufferMaxSize, _godot_object, max_size);
+		ptrcall!(void)(GDNativeClassBinding.setEncodeBufferMaxSize, _godot_object, max_size);
 	}
 	/**
 	$(I Deprecated.) Use `get_var` and `put_var` parameters instead.

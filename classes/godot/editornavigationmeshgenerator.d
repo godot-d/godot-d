@@ -26,23 +26,33 @@ import godot.node;
 */
 @GodotBaseClass struct EditorNavigationMeshGenerator
 {
-	enum string _GODOT_internal_name = "EditorNavigationMeshGenerator";
+	package(godot) enum string _GODOT_internal_name = "EditorNavigationMeshGenerator";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("bake") GodotMethod!(void, NavigationMesh, Node) bake;
 		@GodotName("clear") GodotMethod!(void, NavigationMesh) clear;
 	}
-	bool opEquals(in EditorNavigationMeshGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorNavigationMeshGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorNavigationMeshGenerator other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorNavigationMeshGenerator opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorNavigationMeshGenerator.
+	/// Note: use `memnew!EditorNavigationMeshGenerator` instead.
 	static EditorNavigationMeshGenerator _new()
 	{
 		static godot_class_constructor constructor;
@@ -57,7 +67,7 @@ public:
 	void bake(NavigationMesh nav_mesh, Node root_node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bake, _godot_object, nav_mesh, root_node);
+		ptrcall!(void)(GDNativeClassBinding.bake, _godot_object, nav_mesh, root_node);
 	}
 	/**
 	
@@ -65,6 +75,6 @@ public:
 	void clear(NavigationMesh nav_mesh)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object, nav_mesh);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object, nav_mesh);
 	}
 }

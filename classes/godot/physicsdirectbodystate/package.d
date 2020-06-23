@@ -27,14 +27,14 @@ Provides direct access to a physics body in the $(D PhysicsServer), allowing saf
 */
 @GodotBaseClass struct PhysicsDirectBodyState
 {
-	enum string _GODOT_internal_name = "PhysicsDirectBodyState";
+	package(godot) enum string _GODOT_internal_name = "PhysicsDirectBodyState";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_central_force") GodotMethod!(void, Vector3) addCentralForce;
@@ -73,10 +73,20 @@ public:
 		@GodotName("set_sleep_state") GodotMethod!(void, bool) setSleepState;
 		@GodotName("set_transform") GodotMethod!(void, Transform) setTransform;
 	}
-	bool opEquals(in PhysicsDirectBodyState other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PhysicsDirectBodyState opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PhysicsDirectBodyState other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PhysicsDirectBodyState opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PhysicsDirectBodyState.
+	/// Note: use `memnew!PhysicsDirectBodyState` instead.
 	static PhysicsDirectBodyState _new()
 	{
 		static godot_class_constructor constructor;
@@ -92,7 +102,7 @@ public:
 	void addCentralForce(in Vector3 force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCentralForce, _godot_object, force);
+		ptrcall!(void)(GDNativeClassBinding.addCentralForce, _godot_object, force);
 	}
 	/**
 	Adds a positioned force to the body. Both the force and the offset from the body origin are in global coordinates.
@@ -100,7 +110,7 @@ public:
 	void addForce(in Vector3 force, in Vector3 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addForce, _godot_object, force, position);
+		ptrcall!(void)(GDNativeClassBinding.addForce, _godot_object, force, position);
 	}
 	/**
 	Adds a constant rotational force without affecting position.
@@ -108,7 +118,7 @@ public:
 	void addTorque(in Vector3 torque)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTorque, _godot_object, torque);
+		ptrcall!(void)(GDNativeClassBinding.addTorque, _godot_object, torque);
 	}
 	/**
 	Applies a single directional impulse without affecting rotation.
@@ -117,7 +127,7 @@ public:
 	void applyCentralImpulse(in Vector3 j)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyCentralImpulse, _godot_object, j);
+		ptrcall!(void)(GDNativeClassBinding.applyCentralImpulse, _godot_object, j);
 	}
 	/**
 	Applies a positioned impulse to the body. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
@@ -125,7 +135,7 @@ public:
 	void applyImpulse(in Vector3 position, in Vector3 j)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyImpulse, _godot_object, position, j);
+		ptrcall!(void)(GDNativeClassBinding.applyImpulse, _godot_object, position, j);
 	}
 	/**
 	Apply a torque impulse (which will be affected by the body mass and shape). This will rotate the body around the vector `j` passed as parameter.
@@ -133,7 +143,7 @@ public:
 	void applyTorqueImpulse(in Vector3 j)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyTorqueImpulse, _godot_object, j);
+		ptrcall!(void)(GDNativeClassBinding.applyTorqueImpulse, _godot_object, j);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	Vector3 getAngularVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getAngularVelocity, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getAngularVelocity, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	Vector3 getCenterOfMass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getCenterOfMass, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getCenterOfMass, _godot_object);
 	}
 	/**
 	Returns the collider's $(D RID).
@@ -157,7 +167,7 @@ public:
 	RID getContactCollider(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getContactCollider, _godot_object, contact_idx);
+		return ptrcall!(RID)(GDNativeClassBinding.getContactCollider, _godot_object, contact_idx);
 	}
 	/**
 	Returns the collider's object id.
@@ -165,7 +175,7 @@ public:
 	long getContactColliderId(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContactColliderId, _godot_object, contact_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getContactColliderId, _godot_object, contact_idx);
 	}
 	/**
 	Returns the collider object.
@@ -173,7 +183,7 @@ public:
 	GodotObject getContactColliderObject(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getContactColliderObject, _godot_object, contact_idx);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getContactColliderObject, _godot_object, contact_idx);
 	}
 	/**
 	Returns the contact position in the collider.
@@ -181,7 +191,7 @@ public:
 	Vector3 getContactColliderPosition(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getContactColliderPosition, _godot_object, contact_idx);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getContactColliderPosition, _godot_object, contact_idx);
 	}
 	/**
 	Returns the collider's shape index.
@@ -189,7 +199,7 @@ public:
 	long getContactColliderShape(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContactColliderShape, _godot_object, contact_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getContactColliderShape, _godot_object, contact_idx);
 	}
 	/**
 	Returns the linear velocity vector at the collider's contact point.
@@ -197,7 +207,7 @@ public:
 	Vector3 getContactColliderVelocityAtPosition(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getContactColliderVelocityAtPosition, _godot_object, contact_idx);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getContactColliderVelocityAtPosition, _godot_object, contact_idx);
 	}
 	/**
 	Returns the number of contacts this body has with other bodies.
@@ -206,7 +216,7 @@ public:
 	long getContactCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContactCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getContactCount, _godot_object);
 	}
 	/**
 	Impulse created by the contact. Only implemented for Bullet physics.
@@ -214,7 +224,7 @@ public:
 	double getContactImpulse(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getContactImpulse, _godot_object, contact_idx);
+		return ptrcall!(double)(GDNativeClassBinding.getContactImpulse, _godot_object, contact_idx);
 	}
 	/**
 	Returns the local normal at the contact point.
@@ -222,7 +232,7 @@ public:
 	Vector3 getContactLocalNormal(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getContactLocalNormal, _godot_object, contact_idx);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getContactLocalNormal, _godot_object, contact_idx);
 	}
 	/**
 	Returns the local position of the contact point.
@@ -230,7 +240,7 @@ public:
 	Vector3 getContactLocalPosition(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getContactLocalPosition, _godot_object, contact_idx);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getContactLocalPosition, _godot_object, contact_idx);
 	}
 	/**
 	Returns the local shape index of the collision.
@@ -238,7 +248,7 @@ public:
 	long getContactLocalShape(in long contact_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getContactLocalShape, _godot_object, contact_idx);
+		return ptrcall!(long)(GDNativeClassBinding.getContactLocalShape, _godot_object, contact_idx);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	Vector3 getInverseInertia() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getInverseInertia, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getInverseInertia, _godot_object);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	double getInverseMass() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInverseMass, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInverseMass, _godot_object);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	Vector3 getLinearVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getLinearVelocity, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getLinearVelocity, _godot_object);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	Basis getPrincipalInertiaAxes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Basis)(_classBinding.getPrincipalInertiaAxes, _godot_object);
+		return ptrcall!(Basis)(GDNativeClassBinding.getPrincipalInertiaAxes, _godot_object);
 	}
 	/**
 	Returns the current state of the space, useful for queries.
@@ -278,7 +288,7 @@ public:
 	PhysicsDirectSpaceState getSpaceState()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PhysicsDirectSpaceState)(_classBinding.getSpaceState, _godot_object);
+		return ptrcall!(PhysicsDirectSpaceState)(GDNativeClassBinding.getSpaceState, _godot_object);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	double getStep() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStep, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStep, _godot_object);
 	}
 	/**
 	
@@ -294,7 +304,7 @@ public:
 	double getTotalAngularDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTotalAngularDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTotalAngularDamp, _godot_object);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	Vector3 getTotalGravity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getTotalGravity, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getTotalGravity, _godot_object);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	double getTotalLinearDamp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTotalLinearDamp, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTotalLinearDamp, _godot_object);
 	}
 	/**
 	
@@ -318,7 +328,7 @@ public:
 	Transform getTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getTransform, _godot_object);
 	}
 	/**
 	Calls the built-in force integration code.
@@ -326,7 +336,7 @@ public:
 	void integrateForces()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.integrateForces, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.integrateForces, _godot_object);
 	}
 	/**
 	
@@ -334,7 +344,7 @@ public:
 	bool isSleeping() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSleeping, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSleeping, _godot_object);
 	}
 	/**
 	
@@ -342,7 +352,7 @@ public:
 	void setAngularVelocity(in Vector3 velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAngularVelocity, _godot_object, velocity);
+		ptrcall!(void)(GDNativeClassBinding.setAngularVelocity, _godot_object, velocity);
 	}
 	/**
 	
@@ -350,7 +360,7 @@ public:
 	void setLinearVelocity(in Vector3 velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLinearVelocity, _godot_object, velocity);
+		ptrcall!(void)(GDNativeClassBinding.setLinearVelocity, _godot_object, velocity);
 	}
 	/**
 	
@@ -358,7 +368,7 @@ public:
 	void setSleepState(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSleepState, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSleepState, _godot_object, enabled);
 	}
 	/**
 	
@@ -366,7 +376,7 @@ public:
 	void setTransform(in Transform transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTransform, _godot_object, transform);
+		ptrcall!(void)(GDNativeClassBinding.setTransform, _godot_object, transform);
 	}
 	/**
 	The body's rotational velocity.

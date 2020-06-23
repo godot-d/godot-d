@@ -29,14 +29,14 @@ StyleBox is $(D Resource) that provides an abstract base class for drawing styli
 */
 @GodotBaseClass struct StyleBox
 {
-	enum string _GODOT_internal_name = "StyleBox";
+	package(godot) enum string _GODOT_internal_name = "StyleBox";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("draw") GodotMethod!(void, RID, Rect2) draw;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_default_margin") GodotMethod!(void, long, double) setDefaultMargin;
 		@GodotName("test_mask") GodotMethod!(bool, Vector2, Rect2) testMask;
 	}
-	bool opEquals(in StyleBox other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StyleBox opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StyleBox other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StyleBox opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StyleBox.
+	/// Note: use `memnew!StyleBox` instead.
 	static StyleBox _new()
 	{
 		static godot_class_constructor constructor;
@@ -68,7 +78,7 @@ public:
 	void draw(in RID canvas_item, in Rect2 rect) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, rect);
+		ptrcall!(void)(GDNativeClassBinding.draw, _godot_object, canvas_item, rect);
 	}
 	/**
 	Returns the size of this $(D StyleBox) without the margins.
@@ -76,7 +86,7 @@ public:
 	Vector2 getCenterSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getCenterSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCenterSize, _godot_object);
 	}
 	/**
 	Returns the $(D CanvasItem) that handles its $(D constant CanvasItem.NOTIFICATION_DRAW) or $(D CanvasItem._draw) callback at this moment.
@@ -84,7 +94,7 @@ public:
 	CanvasItem getCurrentItemDrawn() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CanvasItem)(_classBinding.getCurrentItemDrawn, _godot_object);
+		return ptrcall!(CanvasItem)(GDNativeClassBinding.getCurrentItemDrawn, _godot_object);
 	}
 	/**
 	Returns the default value of the specified $(D margin).
@@ -92,7 +102,7 @@ public:
 	double getDefaultMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDefaultMargin, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getDefaultMargin, _godot_object, margin);
 	}
 	/**
 	Returns the content margin offset for the specified $(D margin).
@@ -101,7 +111,7 @@ public:
 	double getMargin(in long margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMargin, _godot_object, margin);
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object, margin);
 	}
 	/**
 	Returns the minimum size that this stylebox can be shrunk to.
@@ -109,7 +119,7 @@ public:
 	Vector2 getMinimumSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getMinimumSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMinimumSize, _godot_object);
 	}
 	/**
 	Returns the "offset" of a stylebox. This helper function returns a value equivalent to `Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))`.
@@ -117,7 +127,7 @@ public:
 	Vector2 getOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getOffset, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getOffset, _godot_object);
 	}
 	/**
 	Sets the default value of the specified $(D margin) to given `offset` in pixels.
@@ -125,7 +135,7 @@ public:
 	void setDefaultMargin(in long margin, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultMargin, _godot_object, margin, offset);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultMargin, _godot_object, margin, offset);
 	}
 	/**
 	Test a position in a rectangle, return whether it passes the mask test.
@@ -133,7 +143,7 @@ public:
 	bool testMask(in Vector2 point, in Rect2 rect) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.testMask, _godot_object, point, rect);
+		return ptrcall!(bool)(GDNativeClassBinding.testMask, _godot_object, point, rect);
 	}
 	/**
 	The bottom margin for the contents of this style box. Increasing this value reduces the space available to the contents from the bottom.

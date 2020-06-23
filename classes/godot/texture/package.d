@@ -31,14 +31,14 @@ $(D Texture) is a base for other resources. It cannot be used directly.
 */
 @GodotBaseClass struct Texture
 {
-	enum string _GODOT_internal_name = "Texture";
+	package(godot) enum string _GODOT_internal_name = "Texture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("draw") GodotMethod!(void, RID, Vector2, Color, bool, Texture) draw;
@@ -52,10 +52,20 @@ public:
 		@GodotName("has_alpha") GodotMethod!(bool) hasAlpha;
 		@GodotName("set_flags") GodotMethod!(void, long) setFlags;
 	}
-	bool opEquals(in Texture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Texture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Texture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Texture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Texture.
+	/// Note: use `memnew!Texture` instead.
 	static Texture _new()
 	{
 		static godot_class_constructor constructor;
@@ -119,7 +129,7 @@ public:
 	void draw(in RID canvas_item, in Vector2 position, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.draw, _godot_object, canvas_item, position, modulate, transpose, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.draw, _godot_object, canvas_item, position, modulate, transpose, normal_map);
 	}
 	/**
 	Draws the texture using a $(D CanvasItem) with the $(D VisualServer) API. Equivalent to $(D VisualServer.canvasItemAddTextureRect).
@@ -127,7 +137,7 @@ public:
 	void drawRect(in RID canvas_item, in Rect2 rect, in bool tile, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawRect, _godot_object, canvas_item, rect, tile, modulate, transpose, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.drawRect, _godot_object, canvas_item, rect, tile, modulate, transpose, normal_map);
 	}
 	/**
 	Draws a part of the texture using a $(D CanvasItem) with the $(D VisualServer) API. Equivalent to $(D VisualServer.canvasItemAddTextureRectRegion).
@@ -135,7 +145,7 @@ public:
 	void drawRectRegion(in RID canvas_item, in Rect2 rect, in Rect2 src_rect, in Color modulate = Color(1,1,1,1), in bool transpose = false, Texture normal_map = Texture.init, in bool clip_uv = true) const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.drawRectRegion, _godot_object, canvas_item, rect, src_rect, modulate, transpose, normal_map, clip_uv);
+		ptrcall!(void)(GDNativeClassBinding.drawRectRegion, _godot_object, canvas_item, rect, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
 	/**
 	Returns an $(D Image) with the data from this $(D Texture). $(D Image)s can be accessed and manipulated directly.
@@ -143,7 +153,7 @@ public:
 	Ref!Image getData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Image)(_classBinding.getData, _godot_object);
+		return ptrcall!(Image)(GDNativeClassBinding.getData, _godot_object);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	long getFlags() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFlags, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFlags, _godot_object);
 	}
 	/**
 	Returns the texture height.
@@ -159,7 +169,7 @@ public:
 	long getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	Returns the texture size.
@@ -167,7 +177,7 @@ public:
 	Vector2 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	Returns the texture width.
@@ -175,7 +185,7 @@ public:
 	long getWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getWidth, _godot_object);
 	}
 	/**
 	Returns `true` if this $(D Texture) has an alpha channel.
@@ -183,7 +193,7 @@ public:
 	bool hasAlpha() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAlpha, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAlpha, _godot_object);
 	}
 	/**
 	
@@ -191,7 +201,7 @@ public:
 	void setFlags(in long flags)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFlags, _godot_object, flags);
+		ptrcall!(void)(GDNativeClassBinding.setFlags, _godot_object, flags);
 	}
 	/**
 	The texture's $(D flags). $(D flags) are used to set various properties of the $(D Texture).

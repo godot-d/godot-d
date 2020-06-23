@@ -30,14 +30,14 @@ Plays an audio stream non-positionally.
 */
 @GodotBaseClass struct AudioStreamPlayer
 {
-	enum string _GODOT_internal_name = "AudioStreamPlayer";
+	package(godot) enum string _GODOT_internal_name = "AudioStreamPlayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_bus_layout_changed") GodotMethod!(void) _busLayoutChanged;
@@ -64,10 +64,20 @@ public:
 		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
-	bool opEquals(in AudioStreamPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioStreamPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioStreamPlayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioStreamPlayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioStreamPlayer.
+	/// Note: use `memnew!AudioStreamPlayer` instead.
 	static AudioStreamPlayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -133,7 +143,7 @@ public:
 	String getBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBus, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBus, _godot_object);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	AudioStreamPlayer.MixTarget getMixTarget() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamPlayer.MixTarget)(_classBinding.getMixTarget, _godot_object);
+		return ptrcall!(AudioStreamPlayer.MixTarget)(GDNativeClassBinding.getMixTarget, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	double getPitchScale() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPitchScale, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPitchScale, _godot_object);
 	}
 	/**
 	Returns the position in the $(D AudioStream) in seconds.
@@ -157,7 +167,7 @@ public:
 	double getPlaybackPosition()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPlaybackPosition, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPlaybackPosition, _godot_object);
 	}
 	/**
 	
@@ -165,7 +175,7 @@ public:
 	Ref!AudioStream getStream() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStream)(_classBinding.getStream, _godot_object);
+		return ptrcall!(AudioStream)(GDNativeClassBinding.getStream, _godot_object);
 	}
 	/**
 	
@@ -173,7 +183,7 @@ public:
 	bool getStreamPaused() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getStreamPaused, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getStreamPaused, _godot_object);
 	}
 	/**
 	Returns the $(D AudioStreamPlayback) object associated with this $(D AudioStreamPlayer).
@@ -181,7 +191,7 @@ public:
 	Ref!AudioStreamPlayback getStreamPlayback()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioStreamPlayback)(_classBinding.getStreamPlayback, _godot_object);
+		return ptrcall!(AudioStreamPlayback)(GDNativeClassBinding.getStreamPlayback, _godot_object);
 	}
 	/**
 	
@@ -189,7 +199,7 @@ public:
 	double getVolumeDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVolumeDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVolumeDb, _godot_object);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	bool isAutoplayEnabled()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAutoplayEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAutoplayEnabled, _godot_object);
 	}
 	/**
 	
@@ -205,7 +215,7 @@ public:
 	bool isPlaying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPlaying, _godot_object);
 	}
 	/**
 	Plays the audio from the given `from_position`, in seconds.
@@ -213,7 +223,7 @@ public:
 	void play(in double from_position = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object, from_position);
+		ptrcall!(void)(GDNativeClassBinding.play, _godot_object, from_position);
 	}
 	/**
 	Sets the position from which audio will be played, in seconds.
@@ -221,7 +231,7 @@ public:
 	void seek(in double to_position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.seek, _godot_object, to_position);
+		ptrcall!(void)(GDNativeClassBinding.seek, _godot_object, to_position);
 	}
 	/**
 	
@@ -229,7 +239,7 @@ public:
 	void setAutoplay(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAutoplay, _godot_object, enable);
 	}
 	/**
 	
@@ -237,7 +247,7 @@ public:
 	void setBus(in String bus)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
+		ptrcall!(void)(GDNativeClassBinding.setBus, _godot_object, bus);
 	}
 	/**
 	
@@ -245,7 +255,7 @@ public:
 	void setMixTarget(in long mix_target)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMixTarget, _godot_object, mix_target);
+		ptrcall!(void)(GDNativeClassBinding.setMixTarget, _godot_object, mix_target);
 	}
 	/**
 	
@@ -253,7 +263,7 @@ public:
 	void setPitchScale(in double pitch_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPitchScale, _godot_object, pitch_scale);
+		ptrcall!(void)(GDNativeClassBinding.setPitchScale, _godot_object, pitch_scale);
 	}
 	/**
 	
@@ -261,7 +271,7 @@ public:
 	void setStream(AudioStream stream)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
+		ptrcall!(void)(GDNativeClassBinding.setStream, _godot_object, stream);
 	}
 	/**
 	
@@ -269,7 +279,7 @@ public:
 	void setStreamPaused(in bool pause)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStreamPaused, _godot_object, pause);
+		ptrcall!(void)(GDNativeClassBinding.setStreamPaused, _godot_object, pause);
 	}
 	/**
 	
@@ -277,7 +287,7 @@ public:
 	void setVolumeDb(in double volume_db)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, volume_db);
+		ptrcall!(void)(GDNativeClassBinding.setVolumeDb, _godot_object, volume_db);
 	}
 	/**
 	Stops the audio.
@@ -285,7 +295,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	If `true`, audio plays when added to scene tree.
@@ -324,7 +334,7 @@ public:
 		setMixTarget(v);
 	}
 	/**
-	Changes the pitch and the tempo of the audio.
+	The pitch and the tempo of the audio, as a multiplier of the audio sample's sample rate.
 	*/
 	@property double pitchScale()
 	{

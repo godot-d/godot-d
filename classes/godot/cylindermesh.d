@@ -28,14 +28,14 @@ This class can be used to create cones by setting either the $(D topRadius) or $
 */
 @GodotBaseClass struct CylinderMesh
 {
-	enum string _GODOT_internal_name = "CylinderMesh";
+	package(godot) enum string _GODOT_internal_name = "CylinderMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_bottom_radius") GodotMethod!(double) getBottomRadius;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_rings") GodotMethod!(void, long) setRings;
 		@GodotName("set_top_radius") GodotMethod!(void, double) setTopRadius;
 	}
-	bool opEquals(in CylinderMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CylinderMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CylinderMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CylinderMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CylinderMesh.
+	/// Note: use `memnew!CylinderMesh` instead.
 	static CylinderMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	double getBottomRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBottomRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBottomRadius, _godot_object);
 	}
 	/**
 	
@@ -75,7 +85,7 @@ public:
 	double getHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
 	
@@ -83,7 +93,7 @@ public:
 	long getRadialSegments() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRadialSegments, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	long getRings() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRings, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRings, _godot_object);
 	}
 	/**
 	
@@ -99,7 +109,7 @@ public:
 	double getTopRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTopRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTopRadius, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setBottomRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBottomRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setBottomRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void setHeight(in double height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHeight, _godot_object, height);
+		ptrcall!(void)(GDNativeClassBinding.setHeight, _godot_object, height);
 	}
 	/**
 	
@@ -123,7 +133,7 @@ public:
 	void setRadialSegments(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.setRadialSegments, _godot_object, segments);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	void setRings(in long rings)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		ptrcall!(void)(GDNativeClassBinding.setRings, _godot_object, rings);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	void setTopRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTopRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setTopRadius, _godot_object, radius);
 	}
 	/**
 	Bottom radius of the cylinder.

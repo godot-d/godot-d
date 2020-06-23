@@ -32,14 +32,14 @@ $(B Output Ports:)
 */
 @GodotBaseClass struct VisualScriptConstant
 {
-	enum string _GODOT_internal_name = "VisualScriptConstant";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptConstant";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_constant_type") GodotMethod!(Variant.Type) getConstantType;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_constant_type") GodotMethod!(void, long) setConstantType;
 		@GodotName("set_constant_value") GodotMethod!(void, Variant) setConstantValue;
 	}
-	bool opEquals(in VisualScriptConstant other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptConstant opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptConstant other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptConstant opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptConstant.
+	/// Note: use `memnew!VisualScriptConstant` instead.
 	static VisualScriptConstant _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	Variant.Type getConstantType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getConstantType, _godot_object);
+		return ptrcall!(Variant.Type)(GDNativeClassBinding.getConstantType, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	Variant getConstantValue() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getConstantValue, _godot_object);
+		return ptrcall!(Variant)(GDNativeClassBinding.getConstantValue, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	void setConstantType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setConstantType, _godot_object, type);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	void setConstantValue(VariantArg0)(in VariantArg0 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstantValue, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.setConstantValue, _godot_object, value);
 	}
 	/**
 	The constant's type.

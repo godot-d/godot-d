@@ -26,24 +26,34 @@ import godot.skin;
 */
 @GodotBaseClass struct SkinReference
 {
-	enum string _GODOT_internal_name = "SkinReference";
+	package(godot) enum string _GODOT_internal_name = "SkinReference";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_skin_changed") GodotMethod!(void) _skinChanged;
 		@GodotName("get_skeleton") GodotMethod!(RID) getSkeleton;
 		@GodotName("get_skin") GodotMethod!(Skin) getSkin;
 	}
-	bool opEquals(in SkinReference other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	SkinReference opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in SkinReference other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) SkinReference opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of SkinReference.
+	/// Note: use `memnew!SkinReference` instead.
 	static SkinReference _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	RID getSkeleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RID)(_classBinding.getSkeleton, _godot_object);
+		return ptrcall!(RID)(GDNativeClassBinding.getSkeleton, _godot_object);
 	}
 	/**
 	
@@ -75,6 +85,6 @@ public:
 	Ref!Skin getSkin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Skin)(_classBinding.getSkin, _godot_object);
+		return ptrcall!(Skin)(GDNativeClassBinding.getSkin, _godot_object);
 	}
 }

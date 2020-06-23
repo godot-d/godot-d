@@ -35,14 +35,14 @@ Tiles are referenced by a unique integer ID.
 */
 @GodotBaseClass struct TileSet
 {
-	enum string _GODOT_internal_name = "TileSet";
+	package(godot) enum string _GODOT_internal_name = "TileSet";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_forward_atlas_subtile_selection") GodotMethod!(Vector2, long, GodotObject, Vector2) _forwardAtlasSubtileSelection;
@@ -114,10 +114,20 @@ public:
 		@GodotName("tile_set_tile_mode") GodotMethod!(void, long, long) tileSetTileMode;
 		@GodotName("tile_set_z_index") GodotMethod!(void, long, long) tileSetZIndex;
 	}
-	bool opEquals(in TileSet other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	TileSet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in TileSet other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) TileSet opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of TileSet.
+	/// Note: use `memnew!TileSet` instead.
 	static TileSet _new()
 	{
 		static godot_class_constructor constructor;
@@ -238,7 +248,8 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Vector2);
 	}
 	/**
-	
+	Determines when the auto-tiler should consider two different auto-tile IDs to be bound together.
+	$(B Note:) `neighbor_id` will be `-1` ($(D constant TileMap.INVALID_CELL)) when checking a tile against an empty neighbor tile.
 	*/
 	bool _isTileBound(in long drawn_id, in long neighbor_id)
 	{
@@ -254,7 +265,7 @@ public:
 	void autotileClearBitmaskMap(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileClearBitmaskMap, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.autotileClearBitmaskMap, _godot_object, id);
 	}
 	/**
 	Returns the bitmask of the subtile from an autotile given its coordinates.
@@ -263,7 +274,7 @@ public:
 	long autotileGetBitmask(in long id, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.autotileGetBitmask, _godot_object, id, coord);
+		return ptrcall!(long)(GDNativeClassBinding.autotileGetBitmask, _godot_object, id, coord);
 	}
 	/**
 	Returns the $(D bitmaskmode) of the autotile.
@@ -271,7 +282,7 @@ public:
 	TileSet.BitmaskMode autotileGetBitmaskMode(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileSet.BitmaskMode)(_classBinding.autotileGetBitmaskMode, _godot_object, id);
+		return ptrcall!(TileSet.BitmaskMode)(GDNativeClassBinding.autotileGetBitmaskMode, _godot_object, id);
 	}
 	/**
 	Returns the subtile that's being used as an icon in an atlas/autotile given its coordinates.
@@ -280,7 +291,7 @@ public:
 	Vector2 autotileGetIconCoordinate(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.autotileGetIconCoordinate, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.autotileGetIconCoordinate, _godot_object, id);
 	}
 	/**
 	Returns the light occluder of the subtile from an atlas/autotile given its coordinates.
@@ -288,7 +299,7 @@ public:
 	Ref!OccluderPolygon2D autotileGetLightOccluder(in long id, in Vector2 coord) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OccluderPolygon2D)(_classBinding.autotileGetLightOccluder, _godot_object, id, coord);
+		return ptrcall!(OccluderPolygon2D)(GDNativeClassBinding.autotileGetLightOccluder, _godot_object, id, coord);
 	}
 	/**
 	Returns the navigation polygon of the subtile from an atlas/autotile given its coordinates.
@@ -296,7 +307,7 @@ public:
 	Ref!NavigationPolygon autotileGetNavigationPolygon(in long id, in Vector2 coord) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NavigationPolygon)(_classBinding.autotileGetNavigationPolygon, _godot_object, id, coord);
+		return ptrcall!(NavigationPolygon)(GDNativeClassBinding.autotileGetNavigationPolygon, _godot_object, id, coord);
 	}
 	/**
 	Returns the size of the subtiles in an atlas/autotile.
@@ -304,7 +315,7 @@ public:
 	Vector2 autotileGetSize(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.autotileGetSize, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.autotileGetSize, _godot_object, id);
 	}
 	/**
 	Returns the spacing between subtiles of the atlas/autotile.
@@ -312,7 +323,7 @@ public:
 	long autotileGetSpacing(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.autotileGetSpacing, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.autotileGetSpacing, _godot_object, id);
 	}
 	/**
 	Returns the priority of the subtile from an autotile given its coordinates.
@@ -321,7 +332,7 @@ public:
 	long autotileGetSubtilePriority(in long id, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.autotileGetSubtilePriority, _godot_object, id, coord);
+		return ptrcall!(long)(GDNativeClassBinding.autotileGetSubtilePriority, _godot_object, id, coord);
 	}
 	/**
 	Returns the drawing index of the subtile from an atlas/autotile given its coordinates.
@@ -329,7 +340,7 @@ public:
 	long autotileGetZIndex(in long id, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.autotileGetZIndex, _godot_object, id, coord);
+		return ptrcall!(long)(GDNativeClassBinding.autotileGetZIndex, _godot_object, id, coord);
 	}
 	/**
 	Sets the bitmask of the subtile from an autotile given its coordinates.
@@ -338,7 +349,7 @@ public:
 	void autotileSetBitmask(in long id, in Vector2 bitmask, in long flag)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetBitmask, _godot_object, id, bitmask, flag);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetBitmask, _godot_object, id, bitmask, flag);
 	}
 	/**
 	Sets the $(D bitmaskmode) of the autotile.
@@ -346,7 +357,7 @@ public:
 	void autotileSetBitmaskMode(in long id, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetBitmaskMode, _godot_object, id, mode);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetBitmaskMode, _godot_object, id, mode);
 	}
 	/**
 	Sets the subtile that will be used as an icon in an atlas/autotile given its coordinates.
@@ -355,7 +366,7 @@ public:
 	void autotileSetIconCoordinate(in long id, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetIconCoordinate, _godot_object, id, coord);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetIconCoordinate, _godot_object, id, coord);
 	}
 	/**
 	Sets the light occluder of the subtile from an atlas/autotile given its coordinates.
@@ -363,7 +374,7 @@ public:
 	void autotileSetLightOccluder(in long id, OccluderPolygon2D light_occluder, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetLightOccluder, _godot_object, id, light_occluder, coord);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetLightOccluder, _godot_object, id, light_occluder, coord);
 	}
 	/**
 	Sets the navigation polygon of the subtile from an atlas/autotile given its coordinates.
@@ -371,7 +382,7 @@ public:
 	void autotileSetNavigationPolygon(in long id, NavigationPolygon navigation_polygon, in Vector2 coord)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetNavigationPolygon, _godot_object, id, navigation_polygon, coord);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetNavigationPolygon, _godot_object, id, navigation_polygon, coord);
 	}
 	/**
 	Sets the size of the subtiles in an atlas/autotile.
@@ -379,7 +390,7 @@ public:
 	void autotileSetSize(in long id, in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetSize, _godot_object, id, size);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetSize, _godot_object, id, size);
 	}
 	/**
 	Sets the spacing between subtiles of the atlas/autotile.
@@ -387,7 +398,7 @@ public:
 	void autotileSetSpacing(in long id, in long spacing)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetSpacing, _godot_object, id, spacing);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetSpacing, _godot_object, id, spacing);
 	}
 	/**
 	Sets the priority of the subtile from an autotile given its coordinates.
@@ -396,7 +407,7 @@ public:
 	void autotileSetSubtilePriority(in long id, in Vector2 coord, in long priority)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetSubtilePriority, _godot_object, id, coord, priority);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetSubtilePriority, _godot_object, id, coord, priority);
 	}
 	/**
 	Sets the drawing index of the subtile from an atlas/autotile given its coordinates.
@@ -404,7 +415,7 @@ public:
 	void autotileSetZIndex(in long id, in Vector2 coord, in long z_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.autotileSetZIndex, _godot_object, id, coord, z_index);
+		ptrcall!(void)(GDNativeClassBinding.autotileSetZIndex, _godot_object, id, coord, z_index);
 	}
 	/**
 	Clears all tiles.
@@ -412,7 +423,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Creates a new tile with the given ID.
@@ -420,7 +431,7 @@ public:
 	void createTile(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.createTile, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.createTile, _godot_object, id);
 	}
 	/**
 	Returns the first tile matching the given name.
@@ -428,7 +439,7 @@ public:
 	long findTileByName(in String name) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findTileByName, _godot_object, name);
+		return ptrcall!(long)(GDNativeClassBinding.findTileByName, _godot_object, name);
 	}
 	/**
 	Returns the ID following the last currently used ID, useful when creating a new tile.
@@ -436,7 +447,7 @@ public:
 	long getLastUnusedTileId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getLastUnusedTileId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getLastUnusedTileId, _godot_object);
 	}
 	/**
 	Returns an array of all currently used tile IDs.
@@ -444,7 +455,7 @@ public:
 	Array getTilesIds() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getTilesIds, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getTilesIds, _godot_object);
 	}
 	/**
 	Removes the given tile ID.
@@ -452,7 +463,7 @@ public:
 	void removeTile(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTile, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removeTile, _godot_object, id);
 	}
 	/**
 	Adds a shape to the tile.
@@ -460,7 +471,7 @@ public:
 	void tileAddShape(in long id, Shape2D shape, in Transform2D shape_transform, in bool one_way = false, in Vector2 autotile_coord = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileAddShape, _godot_object, id, shape, shape_transform, one_way, autotile_coord);
+		ptrcall!(void)(GDNativeClassBinding.tileAddShape, _godot_object, id, shape, shape_transform, one_way, autotile_coord);
 	}
 	/**
 	Returns the tile's light occluder.
@@ -468,7 +479,7 @@ public:
 	Ref!OccluderPolygon2D tileGetLightOccluder(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(OccluderPolygon2D)(_classBinding.tileGetLightOccluder, _godot_object, id);
+		return ptrcall!(OccluderPolygon2D)(GDNativeClassBinding.tileGetLightOccluder, _godot_object, id);
 	}
 	/**
 	Returns the tile's material.
@@ -476,7 +487,7 @@ public:
 	Ref!ShaderMaterial tileGetMaterial(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ShaderMaterial)(_classBinding.tileGetMaterial, _godot_object, id);
+		return ptrcall!(ShaderMaterial)(GDNativeClassBinding.tileGetMaterial, _godot_object, id);
 	}
 	/**
 	Returns the tile's modulation color.
@@ -484,7 +495,7 @@ public:
 	Color tileGetModulate(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.tileGetModulate, _godot_object, id);
+		return ptrcall!(Color)(GDNativeClassBinding.tileGetModulate, _godot_object, id);
 	}
 	/**
 	Returns the tile's name.
@@ -492,7 +503,7 @@ public:
 	String tileGetName(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.tileGetName, _godot_object, id);
+		return ptrcall!(String)(GDNativeClassBinding.tileGetName, _godot_object, id);
 	}
 	/**
 	Returns the navigation polygon of the tile.
@@ -500,7 +511,7 @@ public:
 	Ref!NavigationPolygon tileGetNavigationPolygon(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NavigationPolygon)(_classBinding.tileGetNavigationPolygon, _godot_object, id);
+		return ptrcall!(NavigationPolygon)(GDNativeClassBinding.tileGetNavigationPolygon, _godot_object, id);
 	}
 	/**
 	Returns the offset of the tile's navigation polygon.
@@ -508,7 +519,7 @@ public:
 	Vector2 tileGetNavigationPolygonOffset(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.tileGetNavigationPolygonOffset, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.tileGetNavigationPolygonOffset, _godot_object, id);
 	}
 	/**
 	Returns the tile's normal map texture.
@@ -516,7 +527,7 @@ public:
 	Ref!Texture tileGetNormalMap(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.tileGetNormalMap, _godot_object, id);
+		return ptrcall!(Texture)(GDNativeClassBinding.tileGetNormalMap, _godot_object, id);
 	}
 	/**
 	Returns the offset of the tile's light occluder.
@@ -524,7 +535,7 @@ public:
 	Vector2 tileGetOccluderOffset(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.tileGetOccluderOffset, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.tileGetOccluderOffset, _godot_object, id);
 	}
 	/**
 	Returns the tile sub-region in the texture.
@@ -532,7 +543,7 @@ public:
 	Rect2 tileGetRegion(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.tileGetRegion, _godot_object, id);
+		return ptrcall!(Rect2)(GDNativeClassBinding.tileGetRegion, _godot_object, id);
 	}
 	/**
 	Returns a tile's given shape.
@@ -540,7 +551,7 @@ public:
 	Ref!Shape2D tileGetShape(in long id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape2D)(_classBinding.tileGetShape, _godot_object, id, shape_id);
+		return ptrcall!(Shape2D)(GDNativeClassBinding.tileGetShape, _godot_object, id, shape_id);
 	}
 	/**
 	Returns the number of shapes assigned to a tile.
@@ -548,7 +559,7 @@ public:
 	long tileGetShapeCount(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.tileGetShapeCount, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.tileGetShapeCount, _godot_object, id);
 	}
 	/**
 	Returns the offset of a tile's shape.
@@ -556,7 +567,7 @@ public:
 	Vector2 tileGetShapeOffset(in long id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.tileGetShapeOffset, _godot_object, id, shape_id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.tileGetShapeOffset, _godot_object, id, shape_id);
 	}
 	/**
 	Returns the one-way collision value of a tile's shape.
@@ -564,7 +575,7 @@ public:
 	bool tileGetShapeOneWay(in long id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.tileGetShapeOneWay, _godot_object, id, shape_id);
+		return ptrcall!(bool)(GDNativeClassBinding.tileGetShapeOneWay, _godot_object, id, shape_id);
 	}
 	/**
 	
@@ -572,7 +583,7 @@ public:
 	double tileGetShapeOneWayMargin(in long id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.tileGetShapeOneWayMargin, _godot_object, id, shape_id);
+		return ptrcall!(double)(GDNativeClassBinding.tileGetShapeOneWayMargin, _godot_object, id, shape_id);
 	}
 	/**
 	Returns the $(D Transform2D) of a tile's shape.
@@ -580,7 +591,7 @@ public:
 	Transform2D tileGetShapeTransform(in long id, in long shape_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.tileGetShapeTransform, _godot_object, id, shape_id);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.tileGetShapeTransform, _godot_object, id, shape_id);
 	}
 	/**
 	Returns an array of the tile's shapes.
@@ -588,7 +599,7 @@ public:
 	Array tileGetShapes(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.tileGetShapes, _godot_object, id);
+		return ptrcall!(Array)(GDNativeClassBinding.tileGetShapes, _godot_object, id);
 	}
 	/**
 	Returns the tile's texture.
@@ -596,7 +607,7 @@ public:
 	Ref!Texture tileGetTexture(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.tileGetTexture, _godot_object, id);
+		return ptrcall!(Texture)(GDNativeClassBinding.tileGetTexture, _godot_object, id);
 	}
 	/**
 	Returns the texture offset of the tile.
@@ -604,7 +615,7 @@ public:
 	Vector2 tileGetTextureOffset(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.tileGetTextureOffset, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.tileGetTextureOffset, _godot_object, id);
 	}
 	/**
 	Returns the tile's $(D tilemode).
@@ -612,7 +623,7 @@ public:
 	TileSet.TileMode tileGetTileMode(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TileSet.TileMode)(_classBinding.tileGetTileMode, _godot_object, id);
+		return ptrcall!(TileSet.TileMode)(GDNativeClassBinding.tileGetTileMode, _godot_object, id);
 	}
 	/**
 	Returns the tile's Z index (drawing layer).
@@ -620,7 +631,7 @@ public:
 	long tileGetZIndex(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.tileGetZIndex, _godot_object, id);
+		return ptrcall!(long)(GDNativeClassBinding.tileGetZIndex, _godot_object, id);
 	}
 	/**
 	Sets a light occluder for the tile.
@@ -628,7 +639,7 @@ public:
 	void tileSetLightOccluder(in long id, OccluderPolygon2D light_occluder)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetLightOccluder, _godot_object, id, light_occluder);
+		ptrcall!(void)(GDNativeClassBinding.tileSetLightOccluder, _godot_object, id, light_occluder);
 	}
 	/**
 	Sets the tile's material.
@@ -636,7 +647,7 @@ public:
 	void tileSetMaterial(in long id, ShaderMaterial material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetMaterial, _godot_object, id, material);
+		ptrcall!(void)(GDNativeClassBinding.tileSetMaterial, _godot_object, id, material);
 	}
 	/**
 	Sets the tile's modulation color.
@@ -644,7 +655,7 @@ public:
 	void tileSetModulate(in long id, in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetModulate, _godot_object, id, color);
+		ptrcall!(void)(GDNativeClassBinding.tileSetModulate, _godot_object, id, color);
 	}
 	/**
 	Sets the tile's name.
@@ -652,7 +663,7 @@ public:
 	void tileSetName(in long id, in String name)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetName, _godot_object, id, name);
+		ptrcall!(void)(GDNativeClassBinding.tileSetName, _godot_object, id, name);
 	}
 	/**
 	Sets the tile's navigation polygon.
@@ -660,7 +671,7 @@ public:
 	void tileSetNavigationPolygon(in long id, NavigationPolygon navigation_polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetNavigationPolygon, _godot_object, id, navigation_polygon);
+		ptrcall!(void)(GDNativeClassBinding.tileSetNavigationPolygon, _godot_object, id, navigation_polygon);
 	}
 	/**
 	Sets an offset for the tile's navigation polygon.
@@ -668,15 +679,16 @@ public:
 	void tileSetNavigationPolygonOffset(in long id, in Vector2 navigation_polygon_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetNavigationPolygonOffset, _godot_object, id, navigation_polygon_offset);
+		ptrcall!(void)(GDNativeClassBinding.tileSetNavigationPolygonOffset, _godot_object, id, navigation_polygon_offset);
 	}
 	/**
 	Sets the tile's normal map texture.
+	$(B Note:) Godot expects the normal map to use X+, Y-, and Z+ coordinates. See $(D url=http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates)this page$(D /url) for a comparison of normal map coordinates expected by popular engines.
 	*/
 	void tileSetNormalMap(in long id, Texture normal_map)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetNormalMap, _godot_object, id, normal_map);
+		ptrcall!(void)(GDNativeClassBinding.tileSetNormalMap, _godot_object, id, normal_map);
 	}
 	/**
 	Sets an offset for the tile's light occluder.
@@ -684,7 +696,7 @@ public:
 	void tileSetOccluderOffset(in long id, in Vector2 occluder_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetOccluderOffset, _godot_object, id, occluder_offset);
+		ptrcall!(void)(GDNativeClassBinding.tileSetOccluderOffset, _godot_object, id, occluder_offset);
 	}
 	/**
 	Sets the tile's sub-region in the texture. This is common in texture atlases.
@@ -692,7 +704,7 @@ public:
 	void tileSetRegion(in long id, in Rect2 region)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetRegion, _godot_object, id, region);
+		ptrcall!(void)(GDNativeClassBinding.tileSetRegion, _godot_object, id, region);
 	}
 	/**
 	Sets a shape for the tile, enabling collision.
@@ -700,7 +712,7 @@ public:
 	void tileSetShape(in long id, in long shape_id, Shape2D shape)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShape, _godot_object, id, shape_id, shape);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShape, _godot_object, id, shape_id, shape);
 	}
 	/**
 	Sets the offset of a tile's shape.
@@ -708,7 +720,7 @@ public:
 	void tileSetShapeOffset(in long id, in long shape_id, in Vector2 shape_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShapeOffset, _godot_object, id, shape_id, shape_offset);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShapeOffset, _godot_object, id, shape_id, shape_offset);
 	}
 	/**
 	Enables one-way collision on a tile's shape.
@@ -716,7 +728,7 @@ public:
 	void tileSetShapeOneWay(in long id, in long shape_id, in bool one_way)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShapeOneWay, _godot_object, id, shape_id, one_way);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShapeOneWay, _godot_object, id, shape_id, one_way);
 	}
 	/**
 	
@@ -724,7 +736,7 @@ public:
 	void tileSetShapeOneWayMargin(in long id, in long shape_id, in double one_way)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShapeOneWayMargin, _godot_object, id, shape_id, one_way);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShapeOneWayMargin, _godot_object, id, shape_id, one_way);
 	}
 	/**
 	Sets a $(D Transform2D) on a tile's shape.
@@ -732,7 +744,7 @@ public:
 	void tileSetShapeTransform(in long id, in long shape_id, in Transform2D shape_transform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShapeTransform, _godot_object, id, shape_id, shape_transform);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShapeTransform, _godot_object, id, shape_id, shape_transform);
 	}
 	/**
 	Sets an array of shapes for the tile, enabling collision.
@@ -740,7 +752,7 @@ public:
 	void tileSetShapes(in long id, in Array shapes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetShapes, _godot_object, id, shapes);
+		ptrcall!(void)(GDNativeClassBinding.tileSetShapes, _godot_object, id, shapes);
 	}
 	/**
 	Sets the tile's texture.
@@ -748,7 +760,7 @@ public:
 	void tileSetTexture(in long id, Texture texture)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetTexture, _godot_object, id, texture);
+		ptrcall!(void)(GDNativeClassBinding.tileSetTexture, _godot_object, id, texture);
 	}
 	/**
 	Sets the tile's texture offset.
@@ -756,7 +768,7 @@ public:
 	void tileSetTextureOffset(in long id, in Vector2 texture_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetTextureOffset, _godot_object, id, texture_offset);
+		ptrcall!(void)(GDNativeClassBinding.tileSetTextureOffset, _godot_object, id, texture_offset);
 	}
 	/**
 	Sets the tile's $(D tilemode).
@@ -764,7 +776,7 @@ public:
 	void tileSetTileMode(in long id, in long tilemode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetTileMode, _godot_object, id, tilemode);
+		ptrcall!(void)(GDNativeClassBinding.tileSetTileMode, _godot_object, id, tilemode);
 	}
 	/**
 	Sets the tile's drawing index.
@@ -772,6 +784,6 @@ public:
 	void tileSetZIndex(in long id, in long z_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.tileSetZIndex, _godot_object, id, z_index);
+		ptrcall!(void)(GDNativeClassBinding.tileSetZIndex, _godot_object, id, z_index);
 	}
 }

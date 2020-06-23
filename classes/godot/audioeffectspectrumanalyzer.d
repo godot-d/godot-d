@@ -27,14 +27,14 @@ import godot.resource;
 */
 @GodotBaseClass struct AudioEffectSpectrumAnalyzer
 {
-	enum string _GODOT_internal_name = "AudioEffectSpectrumAnalyzer";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectSpectrumAnalyzer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_buffer_length") GodotMethod!(double) getBufferLength;
@@ -44,10 +44,20 @@ public:
 		@GodotName("set_fft_size") GodotMethod!(void, long) setFftSize;
 		@GodotName("set_tap_back_pos") GodotMethod!(void, double) setTapBackPos;
 	}
-	bool opEquals(in AudioEffectSpectrumAnalyzer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectSpectrumAnalyzer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectSpectrumAnalyzer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectSpectrumAnalyzer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectSpectrumAnalyzer.
+	/// Note: use `memnew!AudioEffectSpectrumAnalyzer` instead.
 	static AudioEffectSpectrumAnalyzer _new()
 	{
 		static godot_class_constructor constructor;
@@ -100,7 +110,7 @@ public:
 	double getBufferLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBufferLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBufferLength, _godot_object);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	AudioEffectSpectrumAnalyzer.FFT_Size getFftSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectSpectrumAnalyzer.FFT_Size)(_classBinding.getFftSize, _godot_object);
+		return ptrcall!(AudioEffectSpectrumAnalyzer.FFT_Size)(GDNativeClassBinding.getFftSize, _godot_object);
 	}
 	/**
 	
@@ -116,7 +126,7 @@ public:
 	double getTapBackPos() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTapBackPos, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTapBackPos, _godot_object);
 	}
 	/**
 	
@@ -124,7 +134,7 @@ public:
 	void setBufferLength(in double seconds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBufferLength, _godot_object, seconds);
+		ptrcall!(void)(GDNativeClassBinding.setBufferLength, _godot_object, seconds);
 	}
 	/**
 	
@@ -132,7 +142,7 @@ public:
 	void setFftSize(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFftSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setFftSize, _godot_object, size);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	void setTapBackPos(in double seconds)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTapBackPos, _godot_object, seconds);
+		ptrcall!(void)(GDNativeClassBinding.setTapBackPos, _godot_object, seconds);
 	}
 	/**
 	

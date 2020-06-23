@@ -27,14 +27,14 @@ StreamPeer is an abstraction and base class for stream-based protocols (such as 
 */
 @GodotBaseClass struct StreamPeer
 {
-	enum string _GODOT_internal_name = "StreamPeer";
+	package(godot) enum string _GODOT_internal_name = "StreamPeer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_16") GodotMethod!(long) get16;
@@ -71,10 +71,20 @@ public:
 		@GodotName("put_var") GodotMethod!(void, Variant, bool) putVar;
 		@GodotName("set_big_endian") GodotMethod!(void, bool) setBigEndian;
 	}
-	bool opEquals(in StreamPeer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StreamPeer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StreamPeer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StreamPeer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StreamPeer.
+	/// Note: use `memnew!StreamPeer` instead.
 	static StreamPeer _new()
 	{
 		static godot_class_constructor constructor;
@@ -89,7 +99,7 @@ public:
 	long get16()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get16, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get16, _godot_object);
 	}
 	/**
 	Gets a signed 32-bit value from the stream.
@@ -97,7 +107,7 @@ public:
 	long get32()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get32, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get32, _godot_object);
 	}
 	/**
 	Gets a signed 64-bit value from the stream.
@@ -105,7 +115,7 @@ public:
 	long get64()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get64, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get64, _godot_object);
 	}
 	/**
 	Gets a signed byte from the stream.
@@ -113,7 +123,7 @@ public:
 	long get8()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.get8, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.get8, _godot_object);
 	}
 	/**
 	Returns the amount of bytes this $(D StreamPeer) has available.
@@ -121,7 +131,7 @@ public:
 	long getAvailableBytes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAvailableBytes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAvailableBytes, _godot_object);
 	}
 	/**
 	Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the `bytes` argument. If not enough bytes are available, the function will block until the desired amount is received. This function returns two values, an $(D @GlobalScope.error) code and a data array.
@@ -129,7 +139,7 @@ public:
 	Array getData(in long bytes)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getData, _godot_object, bytes);
+		return ptrcall!(Array)(GDNativeClassBinding.getData, _godot_object, bytes);
 	}
 	/**
 	Gets a double-precision float from the stream.
@@ -137,7 +147,7 @@ public:
 	double getDouble()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDouble, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDouble, _godot_object);
 	}
 	/**
 	Gets a single-precision float from the stream.
@@ -145,7 +155,7 @@ public:
 	double getFloat()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getFloat, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getFloat, _godot_object);
 	}
 	/**
 	Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will return how many were actually received. This function returns two values, an $(D @GlobalScope.error) code, and a data array.
@@ -153,7 +163,7 @@ public:
 	Array getPartialData(in long bytes)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getPartialData, _godot_object, bytes);
+		return ptrcall!(Array)(GDNativeClassBinding.getPartialData, _godot_object, bytes);
 	}
 	/**
 	Gets a string with byte-length `bytes` from the stream. If `bytes` is negative (default) the length will be read from the stream using the reverse process of $(D putString).
@@ -161,7 +171,7 @@ public:
 	String getString(in long bytes = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getString, _godot_object, bytes);
+		return ptrcall!(String)(GDNativeClassBinding.getString, _godot_object, bytes);
 	}
 	/**
 	Gets an unsigned 16-bit value from the stream.
@@ -169,7 +179,7 @@ public:
 	long getU16()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getU16, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getU16, _godot_object);
 	}
 	/**
 	Gets an unsigned 32-bit value from the stream.
@@ -177,7 +187,7 @@ public:
 	long getU32()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getU32, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getU32, _godot_object);
 	}
 	/**
 	Gets an unsigned 64-bit value from the stream.
@@ -185,7 +195,7 @@ public:
 	long getU64()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getU64, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getU64, _godot_object);
 	}
 	/**
 	Gets an unsigned byte from the stream.
@@ -193,7 +203,7 @@ public:
 	long getU8()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getU8, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getU8, _godot_object);
 	}
 	/**
 	Gets an UTF-8 string with byte-length `bytes` from the stream (this decodes the string sent as UTF-8). If `bytes` is negative (default) the length will be read from the stream using the reverse process of $(D putUtf8String).
@@ -201,7 +211,7 @@ public:
 	String getUtf8String(in long bytes = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getUtf8String, _godot_object, bytes);
+		return ptrcall!(String)(GDNativeClassBinding.getUtf8String, _godot_object, bytes);
 	}
 	/**
 	Gets a Variant from the stream. If `allow_objects` is `true`, decoding objects is allowed.
@@ -210,7 +220,7 @@ public:
 	Variant getVar(in bool allow_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getVar, _godot_object, allow_objects);
+		return ptrcall!(Variant)(GDNativeClassBinding.getVar, _godot_object, allow_objects);
 	}
 	/**
 	
@@ -218,7 +228,7 @@ public:
 	bool isBigEndianEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBigEndianEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBigEndianEnabled, _godot_object);
 	}
 	/**
 	Puts a signed 16-bit value into the stream.
@@ -226,7 +236,7 @@ public:
 	void put16(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.put16, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.put16, _godot_object, value);
 	}
 	/**
 	Puts a signed 32-bit value into the stream.
@@ -234,7 +244,7 @@ public:
 	void put32(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.put32, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.put32, _godot_object, value);
 	}
 	/**
 	Puts a signed 64-bit value into the stream.
@@ -242,7 +252,7 @@ public:
 	void put64(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.put64, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.put64, _godot_object, value);
 	}
 	/**
 	Puts a signed byte into the stream.
@@ -250,7 +260,7 @@ public:
 	void put8(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.put8, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.put8, _godot_object, value);
 	}
 	/**
 	Sends a chunk of data through the connection, blocking if necessary until the data is done sending. This function returns an $(D @GlobalScope.error) code.
@@ -258,7 +268,7 @@ public:
 	GodotError putData(in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.putData, _godot_object, data);
+		return ptrcall!(GodotError)(GDNativeClassBinding.putData, _godot_object, data);
 	}
 	/**
 	Puts a double-precision float into the stream.
@@ -266,7 +276,7 @@ public:
 	void putDouble(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putDouble, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putDouble, _godot_object, value);
 	}
 	/**
 	Puts a single-precision float into the stream.
@@ -274,7 +284,7 @@ public:
 	void putFloat(in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putFloat, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putFloat, _godot_object, value);
 	}
 	/**
 	Sends a chunk of data through the connection. If all the data could not be sent at once, only part of it will. This function returns two values, an $(D @GlobalScope.error) code and an integer, describing how much data was actually sent.
@@ -282,7 +292,7 @@ public:
 	Array putPartialData(in PoolByteArray data)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.putPartialData, _godot_object, data);
+		return ptrcall!(Array)(GDNativeClassBinding.putPartialData, _godot_object, data);
 	}
 	/**
 	Puts a zero-terminated ASCII string into the stream prepended by a 32-bit unsigned integer representing its size.
@@ -296,7 +306,7 @@ public:
 	void putString(in String value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putString, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putString, _godot_object, value);
 	}
 	/**
 	Puts an unsigned 16-bit value into the stream.
@@ -304,7 +314,7 @@ public:
 	void putU16(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putU16, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putU16, _godot_object, value);
 	}
 	/**
 	Puts an unsigned 32-bit value into the stream.
@@ -312,7 +322,7 @@ public:
 	void putU32(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putU32, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putU32, _godot_object, value);
 	}
 	/**
 	Puts an unsigned 64-bit value into the stream.
@@ -320,7 +330,7 @@ public:
 	void putU64(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putU64, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putU64, _godot_object, value);
 	}
 	/**
 	Puts an unsigned byte into the stream.
@@ -328,7 +338,7 @@ public:
 	void putU8(in long value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putU8, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putU8, _godot_object, value);
 	}
 	/**
 	Puts a zero-terminated UTF-8 string into the stream prepended by a 32 bits unsigned integer representing its size.
@@ -342,7 +352,7 @@ public:
 	void putUtf8String(in String value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putUtf8String, _godot_object, value);
+		ptrcall!(void)(GDNativeClassBinding.putUtf8String, _godot_object, value);
 	}
 	/**
 	Puts a Variant into the stream. If `full_objects` is `true` encoding objects is allowed (and can potentially include code).
@@ -350,7 +360,7 @@ public:
 	void putVar(VariantArg0)(in VariantArg0 value, in bool full_objects = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.putVar, _godot_object, value, full_objects);
+		ptrcall!(void)(GDNativeClassBinding.putVar, _godot_object, value, full_objects);
 	}
 	/**
 	
@@ -358,7 +368,7 @@ public:
 	void setBigEndian(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBigEndian, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setBigEndian, _godot_object, enable);
 	}
 	/**
 	If `true`, this $(D StreamPeer) will using big-endian format for encoding and decoding.

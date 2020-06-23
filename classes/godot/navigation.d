@@ -29,14 +29,14 @@ Provides navigation and pathfinding within a collection of $(D NavigationMesh)es
 */
 @GodotBaseClass struct Navigation
 {
-	enum string _GODOT_internal_name = "Navigation";
+	package(godot) enum string _GODOT_internal_name = "Navigation";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_closest_point") GodotMethod!(Vector3, Vector3) getClosestPoint;
@@ -50,10 +50,20 @@ public:
 		@GodotName("navmesh_set_transform") GodotMethod!(void, long, Transform) navmeshSetTransform;
 		@GodotName("set_up_vector") GodotMethod!(void, Vector3) setUpVector;
 	}
-	bool opEquals(in Navigation other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Navigation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Navigation other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Navigation opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Navigation.
+	/// Note: use `memnew!Navigation` instead.
 	static Navigation _new()
 	{
 		static godot_class_constructor constructor;
@@ -68,7 +78,7 @@ public:
 	Vector3 getClosestPoint(in Vector3 to_point)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getClosestPoint, _godot_object, to_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getClosestPoint, _godot_object, to_point);
 	}
 	/**
 	Returns the surface normal at the navigation point closest to the point given. Useful for rotating a navigation agent according to the navigation mesh it moves on.
@@ -76,7 +86,7 @@ public:
 	Vector3 getClosestPointNormal(in Vector3 to_point)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getClosestPointNormal, _godot_object, to_point);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getClosestPointNormal, _godot_object, to_point);
 	}
 	/**
 	Returns the owner of the $(D NavigationMesh) which contains the navigation point closest to the point given. This is usually a $(D NavigationMeshInstance). For meshes added via $(D navmeshAdd), returns the owner that was given (or `null` if the `owner` parameter was omitted).
@@ -84,7 +94,7 @@ public:
 	GodotObject getClosestPointOwner(in Vector3 to_point)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotObject)(_classBinding.getClosestPointOwner, _godot_object, to_point);
+		return ptrcall!(GodotObject)(GDNativeClassBinding.getClosestPointOwner, _godot_object, to_point);
 	}
 	/**
 	Returns the navigation point closest to the given line segment. When enabling `use_collision`, only considers intersection points between segment and navigation meshes. If multiple intersection points are found, the one closest to the segment start point is returned.
@@ -92,7 +102,7 @@ public:
 	Vector3 getClosestPointToSegment(in Vector3 start, in Vector3 end, in bool use_collision = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getClosestPointToSegment, _godot_object, start, end, use_collision);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getClosestPointToSegment, _godot_object, start, end, use_collision);
 	}
 	/**
 	Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each $(D NavigationMesh) (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
@@ -100,7 +110,7 @@ public:
 	PoolVector3Array getSimplePath(in Vector3 start, in Vector3 end, in bool optimize = true)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector3Array)(_classBinding.getSimplePath, _godot_object, start, end, optimize);
+		return ptrcall!(PoolVector3Array)(GDNativeClassBinding.getSimplePath, _godot_object, start, end, optimize);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	Vector3 getUpVector() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getUpVector, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getUpVector, _godot_object);
 	}
 	/**
 	Adds a $(D NavigationMesh). Returns an ID for use with $(D navmeshRemove) or $(D navmeshSetTransform). If given, a $(D Transform2D) is applied to the polygon. The optional `owner` is used as return value for $(D getClosestPointOwner).
@@ -116,7 +126,7 @@ public:
 	long navmeshAdd(NavigationMesh mesh, in Transform xform, GodotObject owner = GodotObject.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.navmeshAdd, _godot_object, mesh, xform, owner);
+		return ptrcall!(long)(GDNativeClassBinding.navmeshAdd, _godot_object, mesh, xform, owner);
 	}
 	/**
 	Removes the $(D NavigationMesh) with the given ID.
@@ -124,7 +134,7 @@ public:
 	void navmeshRemove(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.navmeshRemove, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.navmeshRemove, _godot_object, id);
 	}
 	/**
 	Sets the transform applied to the $(D NavigationMesh) with the given ID.
@@ -132,7 +142,7 @@ public:
 	void navmeshSetTransform(in long id, in Transform xform)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.navmeshSetTransform, _godot_object, id, xform);
+		ptrcall!(void)(GDNativeClassBinding.navmeshSetTransform, _godot_object, id, xform);
 	}
 	/**
 	
@@ -140,7 +150,7 @@ public:
 	void setUpVector(in Vector3 up)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpVector, _godot_object, up);
+		ptrcall!(void)(GDNativeClassBinding.setUpVector, _godot_object, up);
 	}
 	/**
 	Defines which direction is up. By default, this is `(0, 1, 0)`, which is the world's "up" direction.

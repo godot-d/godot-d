@@ -30,14 +30,14 @@ A rectangle box that displays only a $(D borderColor) border color around its re
 */
 @GodotBaseClass struct ReferenceRect
 {
-	enum string _GODOT_internal_name = "ReferenceRect";
+	package(godot) enum string _GODOT_internal_name = "ReferenceRect";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
@@ -45,10 +45,20 @@ public:
 		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
 		@GodotName("set_editor_only") GodotMethod!(void, bool) setEditorOnly;
 	}
-	bool opEquals(in ReferenceRect other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ReferenceRect opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ReferenceRect other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ReferenceRect opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ReferenceRect.
+	/// Note: use `memnew!ReferenceRect` instead.
 	static ReferenceRect _new()
 	{
 		static godot_class_constructor constructor;
@@ -63,7 +73,7 @@ public:
 	Color getBorderColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getBorderColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getBorderColor, _godot_object);
 	}
 	/**
 	
@@ -71,7 +81,7 @@ public:
 	bool getEditorOnly() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getEditorOnly, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getEditorOnly, _godot_object);
 	}
 	/**
 	
@@ -79,7 +89,7 @@ public:
 	void setBorderColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBorderColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setBorderColor, _godot_object, color);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	void setEditorOnly(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditorOnly, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setEditorOnly, _godot_object, enabled);
 	}
 	/**
 	Sets the border $(D Color) of the $(D ReferenceRect).

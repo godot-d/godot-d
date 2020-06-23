@@ -37,24 +37,34 @@ The above $(D PCKPacker) creates package `test.pck`, then adds a file named `tex
 */
 @GodotBaseClass struct PCKPacker
 {
-	enum string _GODOT_internal_name = "PCKPacker";
+	package(godot) enum string _GODOT_internal_name = "PCKPacker";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_file") GodotMethod!(GodotError, String, String) addFile;
 		@GodotName("flush") GodotMethod!(GodotError, bool) flush;
 		@GodotName("pck_start") GodotMethod!(GodotError, String, long) pckStart;
 	}
-	bool opEquals(in PCKPacker other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PCKPacker opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PCKPacker other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PCKPacker opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PCKPacker.
+	/// Note: use `memnew!PCKPacker` instead.
 	static PCKPacker _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	GodotError addFile(in String pck_path, in String source_path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.addFile, _godot_object, pck_path, source_path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.addFile, _godot_object, pck_path, source_path);
 	}
 	/**
 	Writes the files specified using all $(D addFile) calls since the last flush. If `verbose` is `true`, a list of files added will be printed to the console for easier debugging.
@@ -77,7 +87,7 @@ public:
 	GodotError flush(in bool verbose = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.flush, _godot_object, verbose);
+		return ptrcall!(GodotError)(GDNativeClassBinding.flush, _godot_object, verbose);
 	}
 	/**
 	Creates a new PCK file with the name `pck_name`. The `.pck` file extension isn't added automatically, so it should be part of `pck_name` (even though it's not required).
@@ -85,6 +95,6 @@ public:
 	GodotError pckStart(in String pck_name, in long alignment = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.pckStart, _godot_object, pck_name, alignment);
+		return ptrcall!(GodotError)(GDNativeClassBinding.pckStart, _godot_object, pck_name, alignment);
 	}
 }

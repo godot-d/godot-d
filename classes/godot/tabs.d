@@ -32,14 +32,14 @@ Simple tabs control, similar to $(D TabContainer) but is only in charge of drawi
 */
 @GodotBaseClass struct Tabs
 {
-	enum string _GODOT_internal_name = "Tabs";
+	package(godot) enum string _GODOT_internal_name = "Tabs";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -74,10 +74,20 @@ public:
 		@GodotName("set_tab_title") GodotMethod!(void, long, String) setTabTitle;
 		@GodotName("set_tabs_rearrange_group") GodotMethod!(void, long) setTabsRearrangeGroup;
 	}
-	bool opEquals(in Tabs other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Tabs opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Tabs other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Tabs opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Tabs.
+	/// Note: use `memnew!Tabs` instead.
 	static Tabs _new()
 	{
 		static godot_class_constructor constructor;
@@ -172,7 +182,7 @@ public:
 	void addTab(in String title = gs!"", Texture icon = Texture.init)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addTab, _godot_object, title, icon);
+		ptrcall!(void)(GDNativeClassBinding.addTab, _godot_object, title, icon);
 	}
 	/**
 	Moves the scroll view to make the tab visible.
@@ -180,7 +190,7 @@ public:
 	void ensureTabVisible(in long idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.ensureTabVisible, _godot_object, idx);
+		ptrcall!(void)(GDNativeClassBinding.ensureTabVisible, _godot_object, idx);
 	}
 	/**
 	
@@ -188,7 +198,7 @@ public:
 	long getCurrentTab() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCurrentTab, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentTab, _godot_object);
 	}
 	/**
 	
@@ -196,7 +206,7 @@ public:
 	bool getDragToRearrangeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getDragToRearrangeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getDragToRearrangeEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the offset buttons (the ones that appear when there's not enough space for all tabs) are visible.
@@ -204,7 +214,7 @@ public:
 	bool getOffsetButtonsVisible() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getOffsetButtonsVisible, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getOffsetButtonsVisible, _godot_object);
 	}
 	/**
 	
@@ -212,7 +222,7 @@ public:
 	bool getScrollingEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getScrollingEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getScrollingEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if select with right mouse button is enabled.
@@ -220,7 +230,7 @@ public:
 	bool getSelectWithRmb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getSelectWithRmb, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getSelectWithRmb, _godot_object);
 	}
 	/**
 	
@@ -228,7 +238,7 @@ public:
 	Tabs.TabAlign getTabAlign() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Tabs.TabAlign)(_classBinding.getTabAlign, _godot_object);
+		return ptrcall!(Tabs.TabAlign)(GDNativeClassBinding.getTabAlign, _godot_object);
 	}
 	/**
 	
@@ -236,7 +246,7 @@ public:
 	Tabs.CloseButtonDisplayPolicy getTabCloseDisplayPolicy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Tabs.CloseButtonDisplayPolicy)(_classBinding.getTabCloseDisplayPolicy, _godot_object);
+		return ptrcall!(Tabs.CloseButtonDisplayPolicy)(GDNativeClassBinding.getTabCloseDisplayPolicy, _godot_object);
 	}
 	/**
 	Returns the number of tabs.
@@ -244,7 +254,7 @@ public:
 	long getTabCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabCount, _godot_object);
 	}
 	/**
 	Returns `true` if the tab at index `tab_idx` is disabled.
@@ -252,7 +262,7 @@ public:
 	bool getTabDisabled(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getTabDisabled, _godot_object, tab_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.getTabDisabled, _godot_object, tab_idx);
 	}
 	/**
 	Returns the $(D Texture) for the tab at index `tab_idx` or `null` if the tab has no $(D Texture).
@@ -260,7 +270,7 @@ public:
 	Ref!Texture getTabIcon(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getTabIcon, _godot_object, tab_idx);
+		return ptrcall!(Texture)(GDNativeClassBinding.getTabIcon, _godot_object, tab_idx);
 	}
 	/**
 	Returns the number of hidden tabs offsetted to the left.
@@ -268,7 +278,7 @@ public:
 	long getTabOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabOffset, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabOffset, _godot_object);
 	}
 	/**
 	Returns tab $(D Rect2) with local position and size.
@@ -276,7 +286,7 @@ public:
 	Rect2 getTabRect(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getTabRect, _godot_object, tab_idx);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getTabRect, _godot_object, tab_idx);
 	}
 	/**
 	Returns the title of the tab at index `tab_idx`. Tab titles default to the name of the indexed child node, but this can be overridden with $(D setTabTitle).
@@ -284,7 +294,7 @@ public:
 	String getTabTitle(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getTabTitle, _godot_object, tab_idx);
+		return ptrcall!(String)(GDNativeClassBinding.getTabTitle, _godot_object, tab_idx);
 	}
 	/**
 	Returns the $(D Tabs)' rearrange group ID.
@@ -292,7 +302,7 @@ public:
 	long getTabsRearrangeGroup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTabsRearrangeGroup, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTabsRearrangeGroup, _godot_object);
 	}
 	/**
 	Moves a tab from `from` to `to`.
@@ -300,7 +310,7 @@ public:
 	void moveTab(in long from, in long to)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.moveTab, _godot_object, from, to);
+		ptrcall!(void)(GDNativeClassBinding.moveTab, _godot_object, from, to);
 	}
 	/**
 	Removes the tab at index `tab_idx`.
@@ -308,7 +318,7 @@ public:
 	void removeTab(in long tab_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTab, _godot_object, tab_idx);
+		ptrcall!(void)(GDNativeClassBinding.removeTab, _godot_object, tab_idx);
 	}
 	/**
 	
@@ -316,7 +326,7 @@ public:
 	void setCurrentTab(in long tab_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurrentTab, _godot_object, tab_idx);
+		ptrcall!(void)(GDNativeClassBinding.setCurrentTab, _godot_object, tab_idx);
 	}
 	/**
 	
@@ -324,7 +334,7 @@ public:
 	void setDragToRearrangeEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDragToRearrangeEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setDragToRearrangeEnabled, _godot_object, enabled);
 	}
 	/**
 	
@@ -332,7 +342,7 @@ public:
 	void setScrollingEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setScrollingEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setScrollingEnabled, _godot_object, enabled);
 	}
 	/**
 	If `true`, enables selecting a tab with the right mouse button.
@@ -340,7 +350,7 @@ public:
 	void setSelectWithRmb(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSelectWithRmb, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setSelectWithRmb, _godot_object, enabled);
 	}
 	/**
 	
@@ -348,7 +358,7 @@ public:
 	void setTabAlign(in long _align)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabAlign, _godot_object, _align);
+		ptrcall!(void)(GDNativeClassBinding.setTabAlign, _godot_object, _align);
 	}
 	/**
 	
@@ -356,7 +366,7 @@ public:
 	void setTabCloseDisplayPolicy(in long policy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabCloseDisplayPolicy, _godot_object, policy);
+		ptrcall!(void)(GDNativeClassBinding.setTabCloseDisplayPolicy, _godot_object, policy);
 	}
 	/**
 	If `disabled` is `false`, hides the tab at index `tab_idx`.
@@ -365,7 +375,7 @@ public:
 	void setTabDisabled(in long tab_idx, in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabDisabled, _godot_object, tab_idx, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setTabDisabled, _godot_object, tab_idx, disabled);
 	}
 	/**
 	Sets an `icon` for the tab at index `tab_idx`.
@@ -373,7 +383,7 @@ public:
 	void setTabIcon(in long tab_idx, Texture icon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabIcon, _godot_object, tab_idx, icon);
+		ptrcall!(void)(GDNativeClassBinding.setTabIcon, _godot_object, tab_idx, icon);
 	}
 	/**
 	Sets a `title` for the tab at index `tab_idx`.
@@ -381,7 +391,7 @@ public:
 	void setTabTitle(in long tab_idx, in String title)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabTitle, _godot_object, tab_idx, title);
+		ptrcall!(void)(GDNativeClassBinding.setTabTitle, _godot_object, tab_idx, title);
 	}
 	/**
 	Defines the rearrange group ID. Choose for each $(D Tabs) the same value to dragging tabs between $(D Tabs). Enable drag with `set_drag_to_rearrange_enabled(true)`.
@@ -389,7 +399,7 @@ public:
 	void setTabsRearrangeGroup(in long group_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTabsRearrangeGroup, _godot_object, group_id);
+		ptrcall!(void)(GDNativeClassBinding.setTabsRearrangeGroup, _godot_object, group_id);
 	}
 	/**
 	Select tab at index `tab_idx`.

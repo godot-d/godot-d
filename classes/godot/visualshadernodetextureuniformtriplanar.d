@@ -1,5 +1,5 @@
 /**
-
+Performs a uniform texture lookup with triplanar within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,25 +23,37 @@ import godot.classdb;
 import godot.visualshadernodetextureuniform;
 import godot.visualshadernodeuniform;
 /**
+Performs a uniform texture lookup with triplanar within the visual shader graph.
 
+Performs a lookup operation on the texture provided as a uniform for the shader, with support for triplanar mapping.
 */
 @GodotBaseClass struct VisualShaderNodeTextureUniformTriplanar
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeTextureUniformTriplanar";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeTextureUniformTriplanar";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNodeTextureUniform _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNodeTextureUniform _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeTextureUniformTriplanar other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeTextureUniformTriplanar opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeTextureUniformTriplanar other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeTextureUniformTriplanar opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeTextureUniformTriplanar.
+	/// Note: use `memnew!VisualShaderNodeTextureUniformTriplanar` instead.
 	static VisualShaderNodeTextureUniformTriplanar _new()
 	{
 		static godot_class_constructor constructor;

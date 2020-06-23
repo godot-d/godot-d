@@ -24,19 +24,20 @@ import godot.visualinstance;
 /**
 Captures its surroundings to create reflections.
 
-Capture its surroundings as a dual parabolid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.
+Capture its surroundings as a dual paraboloid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.
 The $(D ReflectionProbe) is used to create high-quality reflections at the cost of performance. It can be combined with $(D GIProbe)s and Screen Space Reflections to achieve high quality reflections. $(D ReflectionProbe)s render all objects within their $(D cullMask), so updating them can be quite expensive. It is best to update them once with the important static objects and then leave them.
+Note: By default Godot will only render 16 reflection probes. If you need more, increase the number of atlas subdivisions. This setting can be found in $(D ProjectSettings.rendering/quality/reflections/atlasSubdiv).
 */
 @GodotBaseClass struct ReflectionProbe
 {
-	enum string _GODOT_internal_name = "ReflectionProbe";
+	package(godot) enum string _GODOT_internal_name = "ReflectionProbe";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("are_shadows_enabled") GodotMethod!(bool) areShadowsEnabled;
@@ -64,10 +65,20 @@ public:
 		@GodotName("set_origin_offset") GodotMethod!(void, Vector3) setOriginOffset;
 		@GodotName("set_update_mode") GodotMethod!(void, long) setUpdateMode;
 	}
-	bool opEquals(in ReflectionProbe other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ReflectionProbe opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ReflectionProbe other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ReflectionProbe opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ReflectionProbe.
+	/// Note: use `memnew!ReflectionProbe` instead.
 	static ReflectionProbe _new()
 	{
 		static godot_class_constructor constructor;
@@ -100,7 +111,7 @@ public:
 	bool areShadowsEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.areShadowsEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.areShadowsEnabled, _godot_object);
 	}
 	/**
 	
@@ -108,7 +119,7 @@ public:
 	long getCullMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getCullMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getCullMask, _godot_object);
 	}
 	/**
 	
@@ -116,7 +127,7 @@ public:
 	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getExtents, _godot_object);
 	}
 	/**
 	
@@ -124,7 +135,7 @@ public:
 	double getIntensity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getIntensity, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getIntensity, _godot_object);
 	}
 	/**
 	
@@ -132,7 +143,7 @@ public:
 	Color getInteriorAmbient() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getInteriorAmbient, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getInteriorAmbient, _godot_object);
 	}
 	/**
 	
@@ -140,7 +151,7 @@ public:
 	double getInteriorAmbientEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInteriorAmbientEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInteriorAmbientEnergy, _godot_object);
 	}
 	/**
 	
@@ -148,7 +159,7 @@ public:
 	double getInteriorAmbientProbeContribution() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getInteriorAmbientProbeContribution, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getInteriorAmbientProbeContribution, _godot_object);
 	}
 	/**
 	
@@ -156,7 +167,7 @@ public:
 	double getMaxDistance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMaxDistance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMaxDistance, _godot_object);
 	}
 	/**
 	
@@ -164,7 +175,7 @@ public:
 	Vector3 getOriginOffset() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getOriginOffset, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getOriginOffset, _godot_object);
 	}
 	/**
 	
@@ -172,7 +183,7 @@ public:
 	ReflectionProbe.UpdateMode getUpdateMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ReflectionProbe.UpdateMode)(_classBinding.getUpdateMode, _godot_object);
+		return ptrcall!(ReflectionProbe.UpdateMode)(GDNativeClassBinding.getUpdateMode, _godot_object);
 	}
 	/**
 	
@@ -180,7 +191,7 @@ public:
 	bool isBoxProjectionEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBoxProjectionEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBoxProjectionEnabled, _godot_object);
 	}
 	/**
 	
@@ -188,7 +199,7 @@ public:
 	bool isSetAsInterior() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isSetAsInterior, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isSetAsInterior, _godot_object);
 	}
 	/**
 	
@@ -196,7 +207,7 @@ public:
 	void setAsInterior(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsInterior, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setAsInterior, _godot_object, enable);
 	}
 	/**
 	
@@ -204,7 +215,7 @@ public:
 	void setCullMask(in long layers)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCullMask, _godot_object, layers);
+		ptrcall!(void)(GDNativeClassBinding.setCullMask, _godot_object, layers);
 	}
 	/**
 	
@@ -212,7 +223,7 @@ public:
 	void setEnableBoxProjection(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableBoxProjection, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setEnableBoxProjection, _godot_object, enable);
 	}
 	/**
 	
@@ -220,7 +231,7 @@ public:
 	void setEnableShadows(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnableShadows, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setEnableShadows, _godot_object, enable);
 	}
 	/**
 	
@@ -228,7 +239,7 @@ public:
 	void setExtents(in Vector3 extents)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+		ptrcall!(void)(GDNativeClassBinding.setExtents, _godot_object, extents);
 	}
 	/**
 	
@@ -236,7 +247,7 @@ public:
 	void setIntensity(in double intensity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIntensity, _godot_object, intensity);
+		ptrcall!(void)(GDNativeClassBinding.setIntensity, _godot_object, intensity);
 	}
 	/**
 	
@@ -244,7 +255,7 @@ public:
 	void setInteriorAmbient(in Color ambient)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbient, _godot_object, ambient);
+		ptrcall!(void)(GDNativeClassBinding.setInteriorAmbient, _godot_object, ambient);
 	}
 	/**
 	
@@ -252,7 +263,7 @@ public:
 	void setInteriorAmbientEnergy(in double ambient_energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbientEnergy, _godot_object, ambient_energy);
+		ptrcall!(void)(GDNativeClassBinding.setInteriorAmbientEnergy, _godot_object, ambient_energy);
 	}
 	/**
 	
@@ -260,7 +271,7 @@ public:
 	void setInteriorAmbientProbeContribution(in double ambient_probe_contribution)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInteriorAmbientProbeContribution, _godot_object, ambient_probe_contribution);
+		ptrcall!(void)(GDNativeClassBinding.setInteriorAmbientProbeContribution, _godot_object, ambient_probe_contribution);
 	}
 	/**
 	
@@ -268,7 +279,7 @@ public:
 	void setMaxDistance(in double max_distance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxDistance, _godot_object, max_distance);
+		ptrcall!(void)(GDNativeClassBinding.setMaxDistance, _godot_object, max_distance);
 	}
 	/**
 	
@@ -276,7 +287,7 @@ public:
 	void setOriginOffset(in Vector3 origin_offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOriginOffset, _godot_object, origin_offset);
+		ptrcall!(void)(GDNativeClassBinding.setOriginOffset, _godot_object, origin_offset);
 	}
 	/**
 	
@@ -284,7 +295,7 @@ public:
 	void setUpdateMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUpdateMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setUpdateMode, _godot_object, mode);
 	}
 	/**
 	If `true`, enables box projection. This makes reflections look more correct in rectangle-shaped rooms by offsetting the reflection center depending on the camera's location.

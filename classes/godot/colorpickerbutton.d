@@ -32,14 +32,14 @@ Encapsulates a $(D ColorPicker) making it accessible by pressing a button. Press
 */
 @GodotBaseClass struct ColorPickerButton
 {
-	enum string _GODOT_internal_name = "ColorPickerButton";
+	package(godot) enum string _GODOT_internal_name = "ColorPickerButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Button _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Button _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_color_changed") GodotMethod!(void, Color) _colorChanged;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_edit_alpha") GodotMethod!(void, bool) setEditAlpha;
 		@GodotName("set_pick_color") GodotMethod!(void, Color) setPickColor;
 	}
-	bool opEquals(in ColorPickerButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ColorPickerButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ColorPickerButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ColorPickerButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ColorPickerButton.
+	/// Note: use `memnew!ColorPickerButton` instead.
 	static ColorPickerButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -88,7 +98,7 @@ public:
 	Color getPickColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(_classBinding.getPickColor, _godot_object);
+		return ptrcall!(Color)(GDNativeClassBinding.getPickColor, _godot_object);
 	}
 	/**
 	Returns the $(D ColorPicker) that this node toggles.
@@ -96,7 +106,7 @@ public:
 	ColorPicker getPicker()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ColorPicker)(_classBinding.getPicker, _godot_object);
+		return ptrcall!(ColorPicker)(GDNativeClassBinding.getPicker, _godot_object);
 	}
 	/**
 	Returns the control's $(D PopupPanel) which allows you to connect to popup signals. This allows you to handle events when the ColorPicker is shown or hidden.
@@ -104,7 +114,7 @@ public:
 	PopupPanel getPopup()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PopupPanel)(_classBinding.getPopup, _godot_object);
+		return ptrcall!(PopupPanel)(GDNativeClassBinding.getPopup, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	bool isEditingAlpha() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isEditingAlpha, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isEditingAlpha, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	void setEditAlpha(in bool show)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEditAlpha, _godot_object, show);
+		ptrcall!(void)(GDNativeClassBinding.setEditAlpha, _godot_object, show);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	void setPickColor(in Color color)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPickColor, _godot_object, color);
+		ptrcall!(void)(GDNativeClassBinding.setPickColor, _godot_object, color);
 	}
 	/**
 	The currently selected color.

@@ -28,14 +28,14 @@ This is a wrapper for the $(D AStar) class which uses 2D vectors instead of 3D v
 */
 @GodotBaseClass struct AStar2D
 {
-	enum string _GODOT_internal_name = "AStar2D";
+	package(godot) enum string _GODOT_internal_name = "AStar2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_point") GodotMethod!(void, long, Vector2, double) addPoint;
@@ -62,10 +62,20 @@ public:
 		@GodotName("set_point_position") GodotMethod!(void, long, Vector2) setPointPosition;
 		@GodotName("set_point_weight_scale") GodotMethod!(void, long, double) setPointWeightScale;
 	}
-	bool opEquals(in AStar2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AStar2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AStar2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AStar2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AStar2D.
+	/// Note: use `memnew!AStar2D` instead.
 	static AStar2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -87,7 +97,7 @@ public:
 	void addPoint(in long id, in Vector2 position, in double weight_scale = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPoint, _godot_object, id, position, weight_scale);
+		ptrcall!(void)(GDNativeClassBinding.addPoint, _godot_object, id, position, weight_scale);
 	}
 	/**
 	Returns whether there is a connection/segment between the given points.
@@ -95,7 +105,7 @@ public:
 	bool arePointsConnected(in long id, in long to_id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.arePointsConnected, _godot_object, id, to_id);
+		return ptrcall!(bool)(GDNativeClassBinding.arePointsConnected, _godot_object, id, to_id);
 	}
 	/**
 	Clears all the points and segments.
@@ -103,7 +113,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Creates a segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is allowed, not the reverse direction.
@@ -119,7 +129,7 @@ public:
 	void connectPoints(in long id, in long to_id, in bool bidirectional = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.connectPoints, _godot_object, id, to_id, bidirectional);
+		ptrcall!(void)(GDNativeClassBinding.connectPoints, _godot_object, id, to_id, bidirectional);
 	}
 	/**
 	Deletes the segment between the given points.
@@ -127,7 +137,7 @@ public:
 	void disconnectPoints(in long id, in long to_id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectPoints, _godot_object, id, to_id);
+		ptrcall!(void)(GDNativeClassBinding.disconnectPoints, _godot_object, id, to_id);
 	}
 	/**
 	Returns the next available point ID with no point associated to it.
@@ -135,15 +145,16 @@ public:
 	long getAvailablePointId() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAvailablePointId, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAvailablePointId, _godot_object);
 	}
 	/**
-	Returns the ID of the closest point to `to_position`, optionally taking disabled points into account. Returns -1 if there are no points in the points pool.
+	Returns the ID of the closest point to `to_position`, optionally taking disabled points into account. Returns `-1` if there are no points in the points pool.
+	$(B Note:) If several points are the closest to `to_position`, the one with the smallest ID will be returned, ensuring a deterministic result.
 	*/
 	long getClosestPoint(in Vector2 to_position, in bool include_disabled = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getClosestPoint, _godot_object, to_position, include_disabled);
+		return ptrcall!(long)(GDNativeClassBinding.getClosestPoint, _godot_object, to_position, include_disabled);
 	}
 	/**
 	Returns the closest position to `to_position` that resides inside a segment between two connected points.
@@ -161,7 +172,7 @@ public:
 	Vector2 getClosestPositionInSegment(in Vector2 to_position) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getClosestPositionInSegment, _godot_object, to_position);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getClosestPositionInSegment, _godot_object, to_position);
 	}
 	/**
 	Returns an array with the IDs of the points that form the path found by AStar2D between the given points. The array is ordered from the starting point to the ending point of the path.
@@ -186,7 +197,7 @@ public:
 	PoolIntArray getIdPath(in long from_id, in long to_id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getIdPath, _godot_object, from_id, to_id);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getIdPath, _godot_object, from_id, to_id);
 	}
 	/**
 	Returns the capacity of the structure backing the points, useful in conjunction with `reserve_space`.
@@ -194,7 +205,7 @@ public:
 	long getPointCapacity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCapacity, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCapacity, _godot_object);
 	}
 	/**
 	Returns an array with the IDs of the points that form the connection with the given point.
@@ -216,7 +227,7 @@ public:
 	PoolIntArray getPointConnections(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.getPointConnections, _godot_object, id);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.getPointConnections, _godot_object, id);
 	}
 	/**
 	Returns the number of points currently in the points pool.
@@ -224,7 +235,7 @@ public:
 	long getPointCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPointCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
 	Returns an array with the points that are in the path found by AStar2D between the given points. The array is ordered from the starting point to the ending point of the path.
@@ -232,7 +243,7 @@ public:
 	PoolVector2Array getPointPath(in long from_id, in long to_id)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPointPath, _godot_object, from_id, to_id);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getPointPath, _godot_object, from_id, to_id);
 	}
 	/**
 	Returns the position of the point associated with the given `id`.
@@ -240,7 +251,7 @@ public:
 	Vector2 getPointPosition(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getPointPosition, _godot_object, id);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getPointPosition, _godot_object, id);
 	}
 	/**
 	Returns the weight scale of the point associated with the given `id`.
@@ -248,7 +259,7 @@ public:
 	double getPointWeightScale(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPointWeightScale, _godot_object, id);
+		return ptrcall!(double)(GDNativeClassBinding.getPointWeightScale, _godot_object, id);
 	}
 	/**
 	Returns an array of all points.
@@ -256,7 +267,7 @@ public:
 	Array getPoints()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getPoints, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getPoints, _godot_object);
 	}
 	/**
 	Returns whether a point associated with the given `id` exists.
@@ -264,7 +275,7 @@ public:
 	bool hasPoint(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasPoint, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.hasPoint, _godot_object, id);
 	}
 	/**
 	Returns whether a point is disabled or not for pathfinding. By default, all points are enabled.
@@ -272,7 +283,7 @@ public:
 	bool isPointDisabled(in long id) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPointDisabled, _godot_object, id);
+		return ptrcall!(bool)(GDNativeClassBinding.isPointDisabled, _godot_object, id);
 	}
 	/**
 	Removes the point associated with the given `id` from the points pool.
@@ -280,7 +291,7 @@ public:
 	void removePoint(in long id)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removePoint, _godot_object, id);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, id);
 	}
 	/**
 	Reserves space internally for `num_nodes` points, useful if you're adding a known large number of points at once, for a grid for instance. New capacity must be greater or equals to old capacity.
@@ -288,7 +299,7 @@ public:
 	void reserveSpace(in long num_nodes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.reserveSpace, _godot_object, num_nodes);
+		ptrcall!(void)(GDNativeClassBinding.reserveSpace, _godot_object, num_nodes);
 	}
 	/**
 	Disables or enables the specified point for pathfinding. Useful for making a temporary obstacle.
@@ -296,7 +307,7 @@ public:
 	void setPointDisabled(in long id, in bool disabled = true)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointDisabled, _godot_object, id, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setPointDisabled, _godot_object, id, disabled);
 	}
 	/**
 	Sets the `position` for the point with the given `id`.
@@ -304,7 +315,7 @@ public:
 	void setPointPosition(in long id, in Vector2 position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointPosition, _godot_object, id, position);
+		ptrcall!(void)(GDNativeClassBinding.setPointPosition, _godot_object, id, position);
 	}
 	/**
 	Sets the `weight_scale` for the point with the given `id`.
@@ -312,6 +323,6 @@ public:
 	void setPointWeightScale(in long id, in double weight_scale)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPointWeightScale, _godot_object, id, weight_scale);
+		ptrcall!(void)(GDNativeClassBinding.setPointWeightScale, _godot_object, id, weight_scale);
 	}
 }

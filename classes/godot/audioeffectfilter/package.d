@@ -29,14 +29,14 @@ Allows frequencies other than the $(D cutoffHz) to pass.
 */
 @GodotBaseClass struct AudioEffectFilter
 {
-	enum string _GODOT_internal_name = "AudioEffectFilter";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectFilter";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_cutoff") GodotMethod!(double) getCutoff;
@@ -48,10 +48,20 @@ public:
 		@GodotName("set_gain") GodotMethod!(void, double) setGain;
 		@GodotName("set_resonance") GodotMethod!(void, double) setResonance;
 	}
-	bool opEquals(in AudioEffectFilter other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectFilter opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectFilter other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectFilter opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectFilter.
+	/// Note: use `memnew!AudioEffectFilter` instead.
 	static AudioEffectFilter _new()
 	{
 		static godot_class_constructor constructor;
@@ -94,7 +104,7 @@ public:
 	double getCutoff() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCutoff, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCutoff, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	AudioEffectFilter.FilterDB getDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AudioEffectFilter.FilterDB)(_classBinding.getDb, _godot_object);
+		return ptrcall!(AudioEffectFilter.FilterDB)(GDNativeClassBinding.getDb, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	double getGain() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getGain, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getGain, _godot_object);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	double getResonance() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getResonance, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getResonance, _godot_object);
 	}
 	/**
 	
@@ -126,7 +136,7 @@ public:
 	void setCutoff(in double freq)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCutoff, _godot_object, freq);
+		ptrcall!(void)(GDNativeClassBinding.setCutoff, _godot_object, freq);
 	}
 	/**
 	
@@ -134,7 +144,7 @@ public:
 	void setDb(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDb, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setDb, _godot_object, amount);
 	}
 	/**
 	
@@ -142,7 +152,7 @@ public:
 	void setGain(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setGain, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setGain, _godot_object, amount);
 	}
 	/**
 	
@@ -150,7 +160,7 @@ public:
 	void setResonance(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setResonance, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setResonance, _godot_object, amount);
 	}
 	/**
 	Threshold frequency for the filter, in Hz.

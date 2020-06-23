@@ -33,14 +33,14 @@ Supported video formats are $(D url=https://www.webmproject.org/)WebM$(D /url) (
 */
 @GodotBaseClass struct VideoPlayer
 {
-	enum string _GODOT_internal_name = "VideoPlayer";
+	package(godot) enum string _GODOT_internal_name = "VideoPlayer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_audio_track") GodotMethod!(long) getAudioTrack;
@@ -69,10 +69,20 @@ public:
 		@GodotName("set_volume_db") GodotMethod!(void, double) setVolumeDb;
 		@GodotName("stop") GodotMethod!(void) stop;
 	}
-	bool opEquals(in VideoPlayer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VideoPlayer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VideoPlayer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VideoPlayer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VideoPlayer.
+	/// Note: use `memnew!VideoPlayer` instead.
 	static VideoPlayer _new()
 	{
 		static godot_class_constructor constructor;
@@ -87,7 +97,7 @@ public:
 	long getAudioTrack() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getAudioTrack, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getAudioTrack, _godot_object);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	long getBufferingMsec() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBufferingMsec, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBufferingMsec, _godot_object);
 	}
 	/**
 	
@@ -103,7 +113,7 @@ public:
 	String getBus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBus, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBus, _godot_object);
 	}
 	/**
 	
@@ -111,7 +121,7 @@ public:
 	Ref!VideoStream getStream() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VideoStream)(_classBinding.getStream, _godot_object);
+		return ptrcall!(VideoStream)(GDNativeClassBinding.getStream, _godot_object);
 	}
 	/**
 	Returns the video stream's name, or `"&lt;No Stream&gt;"` if no video stream is assigned.
@@ -119,7 +129,7 @@ public:
 	String getStreamName() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getStreamName, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getStreamName, _godot_object);
 	}
 	/**
 	
@@ -127,7 +137,7 @@ public:
 	double getStreamPosition() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStreamPosition, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStreamPosition, _godot_object);
 	}
 	/**
 	Returns the current frame as a $(D Texture).
@@ -135,7 +145,7 @@ public:
 	Ref!Texture getVideoTexture() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(_classBinding.getVideoTexture, _godot_object);
+		return ptrcall!(Texture)(GDNativeClassBinding.getVideoTexture, _godot_object);
 	}
 	/**
 	
@@ -143,7 +153,7 @@ public:
 	double getVolume() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVolume, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVolume, _godot_object);
 	}
 	/**
 	
@@ -151,7 +161,7 @@ public:
 	double getVolumeDb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getVolumeDb, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getVolumeDb, _godot_object);
 	}
 	/**
 	
@@ -159,7 +169,7 @@ public:
 	bool hasAutoplay() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasAutoplay, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasAutoplay, _godot_object);
 	}
 	/**
 	
@@ -167,7 +177,7 @@ public:
 	bool hasExpand() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasExpand, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasExpand, _godot_object);
 	}
 	/**
 	
@@ -175,7 +185,7 @@ public:
 	bool isPaused() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPaused, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPaused, _godot_object);
 	}
 	/**
 	Returns `true` if the video is playing.
@@ -184,7 +194,7 @@ public:
 	bool isPlaying() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPlaying, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPlaying, _godot_object);
 	}
 	/**
 	Starts the video playback from the beginning. If the video is paused, this will not unpause the video.
@@ -192,7 +202,7 @@ public:
 	void play()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.play, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.play, _godot_object);
 	}
 	/**
 	
@@ -200,7 +210,7 @@ public:
 	void setAudioTrack(in long track)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAudioTrack, _godot_object, track);
+		ptrcall!(void)(GDNativeClassBinding.setAudioTrack, _godot_object, track);
 	}
 	/**
 	
@@ -208,7 +218,7 @@ public:
 	void setAutoplay(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAutoplay, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setAutoplay, _godot_object, enabled);
 	}
 	/**
 	
@@ -216,7 +226,7 @@ public:
 	void setBufferingMsec(in long msec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBufferingMsec, _godot_object, msec);
+		ptrcall!(void)(GDNativeClassBinding.setBufferingMsec, _godot_object, msec);
 	}
 	/**
 	
@@ -224,7 +234,7 @@ public:
 	void setBus(in String bus)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBus, _godot_object, bus);
+		ptrcall!(void)(GDNativeClassBinding.setBus, _godot_object, bus);
 	}
 	/**
 	
@@ -232,7 +242,7 @@ public:
 	void setExpand(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExpand, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExpand, _godot_object, enable);
 	}
 	/**
 	
@@ -240,7 +250,7 @@ public:
 	void setPaused(in bool paused)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPaused, _godot_object, paused);
+		ptrcall!(void)(GDNativeClassBinding.setPaused, _godot_object, paused);
 	}
 	/**
 	
@@ -248,7 +258,7 @@ public:
 	void setStream(VideoStream stream)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStream, _godot_object, stream);
+		ptrcall!(void)(GDNativeClassBinding.setStream, _godot_object, stream);
 	}
 	/**
 	
@@ -256,7 +266,7 @@ public:
 	void setStreamPosition(in double position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStreamPosition, _godot_object, position);
+		ptrcall!(void)(GDNativeClassBinding.setStreamPosition, _godot_object, position);
 	}
 	/**
 	
@@ -264,7 +274,7 @@ public:
 	void setVolume(in double volume)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolume, _godot_object, volume);
+		ptrcall!(void)(GDNativeClassBinding.setVolume, _godot_object, volume);
 	}
 	/**
 	
@@ -272,7 +282,7 @@ public:
 	void setVolumeDb(in double db)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVolumeDb, _godot_object, db);
+		ptrcall!(void)(GDNativeClassBinding.setVolumeDb, _godot_object, db);
 	}
 	/**
 	Stops the video playback and sets the stream position to 0.
@@ -281,7 +291,7 @@ public:
 	void stop()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.stop, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.stop, _godot_object);
 	}
 	/**
 	The embedded audio track to play.

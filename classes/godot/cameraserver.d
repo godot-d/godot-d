@@ -28,14 +28,14 @@ It is notably used to provide AR modules with a video feed from the camera.
 */
 @GodotBaseClass struct CameraServerSingleton
 {
-	enum string _GODOT_internal_name = "CameraServer";
+	package(godot) enum string _GODOT_internal_name = "CameraServer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -46,10 +46,20 @@ public:
 		@GodotName("get_feed_count") GodotMethod!(long) getFeedCount;
 		@GodotName("remove_feed") GodotMethod!(void, CameraFeed) removeFeed;
 	}
-	bool opEquals(in CameraServerSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CameraServerSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CameraServerSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CameraServerSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CameraServerSingleton.
+	/// Note: use `memnew!CameraServerSingleton` instead.
 	static CameraServerSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -92,7 +102,7 @@ public:
 	void addFeed(CameraFeed feed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addFeed, _godot_object, feed);
+		ptrcall!(void)(GDNativeClassBinding.addFeed, _godot_object, feed);
 	}
 	/**
 	Returns an array of $(D CameraFeed)s.
@@ -100,7 +110,7 @@ public:
 	Array feeds()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.feeds, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.feeds, _godot_object);
 	}
 	/**
 	Returns the $(D CameraFeed) with this id.
@@ -108,7 +118,7 @@ public:
 	Ref!CameraFeed getFeed(in long index)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CameraFeed)(_classBinding.getFeed, _godot_object, index);
+		return ptrcall!(CameraFeed)(GDNativeClassBinding.getFeed, _godot_object, index);
 	}
 	/**
 	Returns the number of $(D CameraFeed)s registered.
@@ -116,7 +126,7 @@ public:
 	long getFeedCount()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getFeedCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getFeedCount, _godot_object);
 	}
 	/**
 	Removes a $(D CameraFeed).
@@ -124,7 +134,7 @@ public:
 	void removeFeed(CameraFeed feed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeFeed, _godot_object, feed);
+		ptrcall!(void)(GDNativeClassBinding.removeFeed, _godot_object, feed);
 	}
 }
 /// Returns: the CameraServerSingleton
@@ -132,5 +142,5 @@ public:
 CameraServerSingleton CameraServer()
 {
 	checkClassBinding!CameraServerSingleton();
-	return CameraServerSingleton(CameraServerSingleton._classBinding._singleton);
+	return CameraServerSingleton(CameraServerSingleton.GDNativeClassBinding._singleton);
 }

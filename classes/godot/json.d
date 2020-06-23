@@ -27,14 +27,14 @@ For usage example and other important hints, see $(D JSONParseResult).
 */
 @GodotBaseClass struct JSONSingleton
 {
-	enum string _GODOT_internal_name = "_JSON";
+	package(godot) enum string _GODOT_internal_name = "_JSON";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; GodotObject _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		godot_object _singleton;
@@ -42,10 +42,20 @@ public:
 		@GodotName("parse") GodotMethod!(JSONParseResult, String) parse;
 		@GodotName("print") GodotMethod!(String, Variant, String, bool) print;
 	}
-	bool opEquals(in JSONSingleton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	JSONSingleton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in JSONSingleton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) JSONSingleton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of JSONSingleton.
+	/// Note: use `memnew!JSONSingleton` instead.
 	static JSONSingleton _new()
 	{
 		static godot_class_constructor constructor;
@@ -60,7 +70,7 @@ public:
 	Ref!JSONParseResult parse(in String json)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(JSONParseResult)(_classBinding.parse, _godot_object, json);
+		return ptrcall!(JSONParseResult)(GDNativeClassBinding.parse, _godot_object, json);
 	}
 	/**
 	Converts a $(D Variant) var to JSON text and returns the result. Useful for serializing data to store or send over the network.
@@ -68,7 +78,7 @@ public:
 	String print(VariantArg0)(in VariantArg0 value, in String indent = gs!"", in bool sort_keys = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.print, _godot_object, value, indent, sort_keys);
+		return ptrcall!(String)(GDNativeClassBinding.print, _godot_object, value, indent, sort_keys);
 	}
 }
 /// Returns: the JSONSingleton
@@ -76,5 +86,5 @@ public:
 JSONSingleton JSON()
 {
 	checkClassBinding!JSONSingleton();
-	return JSONSingleton(JSONSingleton._classBinding._singleton);
+	return JSONSingleton(JSONSingleton.GDNativeClassBinding._singleton);
 }

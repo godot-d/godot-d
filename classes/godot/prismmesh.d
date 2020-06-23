@@ -30,14 +30,14 @@ Class representing a prism-shaped $(D PrimitiveMesh).
 */
 @GodotBaseClass struct PrismMesh
 {
-	enum string _GODOT_internal_name = "PrismMesh";
+	package(godot) enum string _GODOT_internal_name = "PrismMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_left_to_right") GodotMethod!(double) getLeftToRight;
@@ -51,10 +51,20 @@ public:
 		@GodotName("set_subdivide_height") GodotMethod!(void, long) setSubdivideHeight;
 		@GodotName("set_subdivide_width") GodotMethod!(void, long) setSubdivideWidth;
 	}
-	bool opEquals(in PrismMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	PrismMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in PrismMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) PrismMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of PrismMesh.
+	/// Note: use `memnew!PrismMesh` instead.
 	static PrismMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 	double getLeftToRight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLeftToRight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLeftToRight, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	Vector3 getSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getSize, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getSize, _godot_object);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	long getSubdivideDepth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideDepth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSubdivideDepth, _godot_object);
 	}
 	/**
 	
@@ -93,7 +103,7 @@ public:
 	long getSubdivideHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideHeight, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSubdivideHeight, _godot_object);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	long getSubdivideWidth() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSubdivideWidth, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSubdivideWidth, _godot_object);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	void setLeftToRight(in double left_to_right)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLeftToRight, _godot_object, left_to_right);
+		ptrcall!(void)(GDNativeClassBinding.setLeftToRight, _godot_object, left_to_right);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	void setSize(in Vector3 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSize, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	void setSubdivideDepth(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideDepth, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.setSubdivideDepth, _godot_object, segments);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	void setSubdivideHeight(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideHeight, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.setSubdivideHeight, _godot_object, segments);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	void setSubdivideWidth(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdivideWidth, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.setSubdivideWidth, _godot_object, segments);
 	}
 	/**
 	Displacement of the upper edge along the X axis. 0.0 positions edge straight above the bottom-left edge.

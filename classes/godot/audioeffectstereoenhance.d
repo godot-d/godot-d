@@ -27,14 +27,14 @@ import godot.resource;
 */
 @GodotBaseClass struct AudioEffectStereoEnhance
 {
-	enum string _GODOT_internal_name = "AudioEffectStereoEnhance";
+	package(godot) enum string _GODOT_internal_name = "AudioEffectStereoEnhance";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; AudioEffect _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ AudioEffect _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_pan_pullout") GodotMethod!(double) getPanPullout;
@@ -44,10 +44,20 @@ public:
 		@GodotName("set_surround") GodotMethod!(void, double) setSurround;
 		@GodotName("set_time_pullout") GodotMethod!(void, double) setTimePullout;
 	}
-	bool opEquals(in AudioEffectStereoEnhance other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	AudioEffectStereoEnhance opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in AudioEffectStereoEnhance other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) AudioEffectStereoEnhance opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of AudioEffectStereoEnhance.
+	/// Note: use `memnew!AudioEffectStereoEnhance` instead.
 	static AudioEffectStereoEnhance _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	double getPanPullout() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPanPullout, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPanPullout, _godot_object);
 	}
 	/**
 	
@@ -70,7 +80,7 @@ public:
 	double getSurround() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSurround, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSurround, _godot_object);
 	}
 	/**
 	
@@ -78,7 +88,7 @@ public:
 	double getTimePullout() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getTimePullout, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getTimePullout, _godot_object);
 	}
 	/**
 	
@@ -86,7 +96,7 @@ public:
 	void setPanPullout(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPanPullout, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setPanPullout, _godot_object, amount);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	void setSurround(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSurround, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setSurround, _godot_object, amount);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	void setTimePullout(in double amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTimePullout, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setTimePullout, _godot_object, amount);
 	}
 	/**
 	

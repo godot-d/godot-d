@@ -30,14 +30,14 @@ Shortcuts are commonly used for interacting with a $(D Control) element from a $
 */
 @GodotBaseClass struct ShortCut
 {
-	enum string _GODOT_internal_name = "ShortCut";
+	package(godot) enum string _GODOT_internal_name = "ShortCut";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_as_text") GodotMethod!(String) getAsText;
@@ -46,10 +46,20 @@ public:
 		@GodotName("is_valid") GodotMethod!(bool) isValid;
 		@GodotName("set_shortcut") GodotMethod!(void, InputEvent) setShortcut;
 	}
-	bool opEquals(in ShortCut other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ShortCut opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ShortCut other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ShortCut opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ShortCut.
+	/// Note: use `memnew!ShortCut` instead.
 	static ShortCut _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	String getAsText() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getAsText, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getAsText, _godot_object);
 	}
 	/**
 	
@@ -72,7 +82,7 @@ public:
 	Ref!InputEvent getShortcut() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(InputEvent)(_classBinding.getShortcut, _godot_object);
+		return ptrcall!(InputEvent)(GDNativeClassBinding.getShortcut, _godot_object);
 	}
 	/**
 	Returns `true` if the shortcut's $(D InputEvent) equals `event`.
@@ -80,7 +90,7 @@ public:
 	bool isShortcut(InputEvent event) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShortcut, _godot_object, event);
+		return ptrcall!(bool)(GDNativeClassBinding.isShortcut, _godot_object, event);
 	}
 	/**
 	If `true`, this shortcut is valid.
@@ -88,7 +98,7 @@ public:
 	bool isValid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isValid, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	void setShortcut(InputEvent event)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcut, _godot_object, event);
+		ptrcall!(void)(GDNativeClassBinding.setShortcut, _godot_object, event);
 	}
 	/**
 	The shortcut's $(D InputEvent).

@@ -27,14 +27,14 @@ import godot.resource;
 */
 @GodotBaseClass struct InputEventMIDI
 {
-	enum string _GODOT_internal_name = "InputEventMIDI";
+	package(godot) enum string _GODOT_internal_name = "InputEventMIDI";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEvent _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEvent _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_channel") GodotMethod!(long) getChannel;
@@ -54,10 +54,20 @@ public:
 		@GodotName("set_pressure") GodotMethod!(void, long) setPressure;
 		@GodotName("set_velocity") GodotMethod!(void, long) setVelocity;
 	}
-	bool opEquals(in InputEventMIDI other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventMIDI opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventMIDI other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventMIDI opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventMIDI.
+	/// Note: use `memnew!InputEventMIDI` instead.
 	static InputEventMIDI _new()
 	{
 		static godot_class_constructor constructor;
@@ -72,7 +82,7 @@ public:
 	long getChannel() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getChannel, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getChannel, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	long getControllerNumber() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getControllerNumber, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getControllerNumber, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	long getControllerValue() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getControllerValue, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getControllerValue, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	long getInstrument() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getInstrument, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getInstrument, _godot_object);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	long getMessage() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMessage, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMessage, _godot_object);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	long getPitch() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPitch, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPitch, _godot_object);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	long getPressure() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getPressure, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getPressure, _godot_object);
 	}
 	/**
 	
@@ -128,7 +138,7 @@ public:
 	long getVelocity() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getVelocity, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getVelocity, _godot_object);
 	}
 	/**
 	
@@ -136,7 +146,7 @@ public:
 	void setChannel(in long channel)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setChannel, _godot_object, channel);
+		ptrcall!(void)(GDNativeClassBinding.setChannel, _godot_object, channel);
 	}
 	/**
 	
@@ -144,7 +154,7 @@ public:
 	void setControllerNumber(in long controller_number)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControllerNumber, _godot_object, controller_number);
+		ptrcall!(void)(GDNativeClassBinding.setControllerNumber, _godot_object, controller_number);
 	}
 	/**
 	
@@ -152,7 +162,7 @@ public:
 	void setControllerValue(in long controller_value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setControllerValue, _godot_object, controller_value);
+		ptrcall!(void)(GDNativeClassBinding.setControllerValue, _godot_object, controller_value);
 	}
 	/**
 	
@@ -160,7 +170,7 @@ public:
 	void setInstrument(in long instrument)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInstrument, _godot_object, instrument);
+		ptrcall!(void)(GDNativeClassBinding.setInstrument, _godot_object, instrument);
 	}
 	/**
 	
@@ -168,7 +178,7 @@ public:
 	void setMessage(in long message)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMessage, _godot_object, message);
+		ptrcall!(void)(GDNativeClassBinding.setMessage, _godot_object, message);
 	}
 	/**
 	
@@ -176,7 +186,7 @@ public:
 	void setPitch(in long pitch)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPitch, _godot_object, pitch);
+		ptrcall!(void)(GDNativeClassBinding.setPitch, _godot_object, pitch);
 	}
 	/**
 	
@@ -184,7 +194,7 @@ public:
 	void setPressure(in long pressure)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
+		ptrcall!(void)(GDNativeClassBinding.setPressure, _godot_object, pressure);
 	}
 	/**
 	
@@ -192,7 +202,7 @@ public:
 	void setVelocity(in long velocity)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setVelocity, _godot_object, velocity);
+		ptrcall!(void)(GDNativeClassBinding.setVelocity, _godot_object, velocity);
 	}
 	/**
 	

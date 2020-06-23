@@ -36,18 +36,18 @@ animation.track_insert_key(track_index, 0.0, 0)
 animation.track_insert_key(track_index, 0.5, 100)
 
 
-Animations are just data containers, and must be added to nodes such as an $(D AnimationPlayer) or $(D AnimationTreePlayer) to be played back.
+Animations are just data containers, and must be added to nodes such as an $(D AnimationPlayer) or $(D AnimationTreePlayer) to be played back. Animation tracks have different types, each with its own set of dedicated methods. Check $(D tracktype) to see available types.
 */
 @GodotBaseClass struct Animation
 {
-	enum string _GODOT_internal_name = "Animation";
+	package(godot) enum string _GODOT_internal_name = "Animation";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_track") GodotMethod!(long, long, long) addTrack;
@@ -115,10 +115,20 @@ public:
 		@GodotName("value_track_get_update_mode") GodotMethod!(Animation.UpdateMode, long) valueTrackGetUpdateMode;
 		@GodotName("value_track_set_update_mode") GodotMethod!(void, long, long) valueTrackSetUpdateMode;
 	}
-	bool opEquals(in Animation other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Animation opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Animation other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Animation opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Animation.
+	/// Note: use `memnew!Animation` instead.
 	static Animation _new()
 	{
 		static godot_class_constructor constructor;
@@ -143,15 +153,15 @@ public:
 		*/
 		typeMethod = 2,
 		/**
-		
+		Bezier tracks are used to interpolate a value using custom curves. They can also be used to animate sub-properties of vectors and colors (e.g. alpha value of a $(D Color)).
 		*/
 		typeBezier = 3,
 		/**
-		
+		Audio tracks are used to play an audio stream with either type of $(D AudioStreamPlayer). The stream can be trimmed and previewed in the animation.
 		*/
 		typeAudio = 4,
 		/**
-		
+		Animation tracks play animations in other $(D AnimationPlayer) nodes.
 		*/
 		typeAnimation = 5,
 	}
@@ -171,7 +181,7 @@ public:
 		*/
 		updateTrigger = 2,
 		/**
-		
+		Same as linear interpolation, but also interpolates from the current value (i.e. dynamically at runtime) if the first key isn't at 0 seconds.
 		*/
 		updateCapture = 3,
 	}
@@ -214,151 +224,155 @@ public:
 	long addTrack(in long type, in long at_position = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.addTrack, _godot_object, type, at_position);
+		return ptrcall!(long)(GDNativeClassBinding.addTrack, _godot_object, type, at_position);
 	}
 	/**
-	
+	Returns the animation name at the key identified by `key_idx`. The `track_idx` must be the index of an Animation Track.
 	*/
 	String animationTrackGetKeyAnimation(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.animationTrackGetKeyAnimation, _godot_object, track_idx, key_idx);
+		return ptrcall!(String)(GDNativeClassBinding.animationTrackGetKeyAnimation, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Inserts a key with value `animation` at the given `time` (in seconds). The `track_idx` must be the index of an Animation Track.
 	*/
 	long animationTrackInsertKey(in long track_idx, in double time, in String animation)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.animationTrackInsertKey, _godot_object, track_idx, time, animation);
+		return ptrcall!(long)(GDNativeClassBinding.animationTrackInsertKey, _godot_object, track_idx, time, animation);
 	}
 	/**
-	
+	Sets the key identified by `key_idx` to value `animation`. The `track_idx` must be the index of an Animation Track.
 	*/
 	void animationTrackSetKeyAnimation(in long track_idx, in long key_idx, in String animation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.animationTrackSetKeyAnimation, _godot_object, track_idx, key_idx, animation);
+		ptrcall!(void)(GDNativeClassBinding.animationTrackSetKeyAnimation, _godot_object, track_idx, key_idx, animation);
 	}
 	/**
-	
+	Returns the end offset of the key identified by `key_idx`. The `track_idx` must be the index of an Audio Track.
+	End offset is the number of seconds cut off at the ending of the audio stream.
 	*/
 	double audioTrackGetKeyEndOffset(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.audioTrackGetKeyEndOffset, _godot_object, track_idx, key_idx);
+		return ptrcall!(double)(GDNativeClassBinding.audioTrackGetKeyEndOffset, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Returns the start offset of the key identified by `key_idx`. The `track_idx` must be the index of an Audio Track.
+	Start offset is the number of seconds cut off at the beginning of the audio stream.
 	*/
 	double audioTrackGetKeyStartOffset(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.audioTrackGetKeyStartOffset, _godot_object, track_idx, key_idx);
+		return ptrcall!(double)(GDNativeClassBinding.audioTrackGetKeyStartOffset, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Returns the audio stream of the key identified by `key_idx`. The `track_idx` must be the index of an Audio Track.
 	*/
 	Ref!Resource audioTrackGetKeyStream(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Resource)(_classBinding.audioTrackGetKeyStream, _godot_object, track_idx, key_idx);
+		return ptrcall!(Resource)(GDNativeClassBinding.audioTrackGetKeyStream, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Inserts an Audio Track key at the given `time` in seconds. The `track_idx` must be the index of an Audio Track.
+	`stream` is the $(D AudioStream) resource to play. `start_offset` is the number of seconds cut off at the beginning of the audio stream, while `end_offset` is at the ending.
 	*/
 	long audioTrackInsertKey(in long track_idx, in double time, Resource stream, in double start_offset = 0, in double end_offset = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.audioTrackInsertKey, _godot_object, track_idx, time, stream, start_offset, end_offset);
+		return ptrcall!(long)(GDNativeClassBinding.audioTrackInsertKey, _godot_object, track_idx, time, stream, start_offset, end_offset);
 	}
 	/**
-	
+	Sets the end offset of the key identified by `key_idx` to value `offset`. The `track_idx` must be the index of an Audio Track.
 	*/
 	void audioTrackSetKeyEndOffset(in long track_idx, in long key_idx, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.audioTrackSetKeyEndOffset, _godot_object, track_idx, key_idx, offset);
+		ptrcall!(void)(GDNativeClassBinding.audioTrackSetKeyEndOffset, _godot_object, track_idx, key_idx, offset);
 	}
 	/**
-	
+	Sets the start offset of the key identified by `key_idx` to value `offset`. The `track_idx` must be the index of an Audio Track.
 	*/
 	void audioTrackSetKeyStartOffset(in long track_idx, in long key_idx, in double offset)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.audioTrackSetKeyStartOffset, _godot_object, track_idx, key_idx, offset);
+		ptrcall!(void)(GDNativeClassBinding.audioTrackSetKeyStartOffset, _godot_object, track_idx, key_idx, offset);
 	}
 	/**
-	
+	Sets the stream of the key identified by `key_idx` to value `offset`. The `track_idx` must be the index of an Audio Track.
 	*/
 	void audioTrackSetKeyStream(in long track_idx, in long key_idx, Resource stream)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.audioTrackSetKeyStream, _godot_object, track_idx, key_idx, stream);
+		ptrcall!(void)(GDNativeClassBinding.audioTrackSetKeyStream, _godot_object, track_idx, key_idx, stream);
 	}
 	/**
-	
+	Returns the in handle of the key identified by `key_idx`. The `track_idx` must be the index of a Bezier Track.
 	*/
 	Vector2 bezierTrackGetKeyInHandle(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.bezierTrackGetKeyInHandle, _godot_object, track_idx, key_idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.bezierTrackGetKeyInHandle, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Returns the out handle of the key identified by `key_idx`. The `track_idx` must be the index of a Bezier Track.
 	*/
 	Vector2 bezierTrackGetKeyOutHandle(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.bezierTrackGetKeyOutHandle, _godot_object, track_idx, key_idx);
+		return ptrcall!(Vector2)(GDNativeClassBinding.bezierTrackGetKeyOutHandle, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Returns the value of the key identified by `key_idx`. The `track_idx` must be the index of a Bezier Track.
 	*/
 	double bezierTrackGetKeyValue(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.bezierTrackGetKeyValue, _godot_object, track_idx, key_idx);
+		return ptrcall!(double)(GDNativeClassBinding.bezierTrackGetKeyValue, _godot_object, track_idx, key_idx);
 	}
 	/**
-	
+	Inserts a Bezier Track key at the given `time` in seconds. The `track_idx` must be the index of a Bezier Track.
+	`in_handle` is the left-side weight of the added Bezier curve point, `out_handle` is the right-side one, while `value` is the actual value at this point.
 	*/
 	long bezierTrackInsertKey(in long track_idx, in double time, in double value, in Vector2 in_handle = Vector2(0, 0), in Vector2 out_handle = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.bezierTrackInsertKey, _godot_object, track_idx, time, value, in_handle, out_handle);
+		return ptrcall!(long)(GDNativeClassBinding.bezierTrackInsertKey, _godot_object, track_idx, time, value, in_handle, out_handle);
 	}
 	/**
-	
+	Returns the interpolated value at the given `time` (in seconds). The `track_idx` must be the index of a Bezier Track.
 	*/
 	double bezierTrackInterpolate(in long track_idx, in double time) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.bezierTrackInterpolate, _godot_object, track_idx, time);
+		return ptrcall!(double)(GDNativeClassBinding.bezierTrackInterpolate, _godot_object, track_idx, time);
 	}
 	/**
-	
+	Sets the in handle of the key identified by `key_idx` to value `in_handle`. The `track_idx` must be the index of a Bezier Track.
 	*/
 	void bezierTrackSetKeyInHandle(in long track_idx, in long key_idx, in Vector2 in_handle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bezierTrackSetKeyInHandle, _godot_object, track_idx, key_idx, in_handle);
+		ptrcall!(void)(GDNativeClassBinding.bezierTrackSetKeyInHandle, _godot_object, track_idx, key_idx, in_handle);
 	}
 	/**
-	
+	Sets the out handle of the key identified by `key_idx` to value `out_handle`. The `track_idx` must be the index of a Bezier Track.
 	*/
 	void bezierTrackSetKeyOutHandle(in long track_idx, in long key_idx, in Vector2 out_handle)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bezierTrackSetKeyOutHandle, _godot_object, track_idx, key_idx, out_handle);
+		ptrcall!(void)(GDNativeClassBinding.bezierTrackSetKeyOutHandle, _godot_object, track_idx, key_idx, out_handle);
 	}
 	/**
-	
+	Sets the value of the key identified by `key_idx` to the given value. The `track_idx` must be the index of a Bezier Track.
 	*/
 	void bezierTrackSetKeyValue(in long track_idx, in long key_idx, in double value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bezierTrackSetKeyValue, _godot_object, track_idx, key_idx, value);
+		ptrcall!(void)(GDNativeClassBinding.bezierTrackSetKeyValue, _godot_object, track_idx, key_idx, value);
 	}
 	/**
 	Clear the animation (clear all tracks and reset all).
@@ -366,7 +380,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Adds a new track that is a copy of the given track from `to_animation`.
@@ -374,7 +388,7 @@ public:
 	void copyTrack(in long track_idx, Animation to_animation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.copyTrack, _godot_object, track_idx, to_animation);
+		ptrcall!(void)(GDNativeClassBinding.copyTrack, _godot_object, track_idx, to_animation);
 	}
 	/**
 	Returns the index of the specified track. If the track is not found, return -1.
@@ -382,7 +396,7 @@ public:
 	long findTrack(NodePathArg0)(in NodePathArg0 path) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.findTrack, _godot_object, path);
+		return ptrcall!(long)(GDNativeClassBinding.findTrack, _godot_object, path);
 	}
 	/**
 	
@@ -390,7 +404,7 @@ public:
 	double getLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getLength, _godot_object);
 	}
 	/**
 	
@@ -398,7 +412,7 @@ public:
 	double getStep() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getStep, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getStep, _godot_object);
 	}
 	/**
 	Returns the amount of tracks in the animation.
@@ -406,7 +420,7 @@ public:
 	long getTrackCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTrackCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTrackCount, _godot_object);
 	}
 	/**
 	
@@ -414,7 +428,7 @@ public:
 	bool hasLoop() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasLoop, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.hasLoop, _godot_object);
 	}
 	/**
 	Returns all the key indices of a method track, given a position and delta time.
@@ -422,7 +436,7 @@ public:
 	PoolIntArray methodTrackGetKeyIndices(in long track_idx, in double time_sec, in double delta) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.methodTrackGetKeyIndices, _godot_object, track_idx, time_sec, delta);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.methodTrackGetKeyIndices, _godot_object, track_idx, time_sec, delta);
 	}
 	/**
 	Returns the method name of a method track.
@@ -430,7 +444,7 @@ public:
 	String methodTrackGetName(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.methodTrackGetName, _godot_object, track_idx, key_idx);
+		return ptrcall!(String)(GDNativeClassBinding.methodTrackGetName, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Returns the arguments values to be called on a method track for a given key in a given track.
@@ -438,7 +452,7 @@ public:
 	Array methodTrackGetParams(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.methodTrackGetParams, _godot_object, track_idx, key_idx);
+		return ptrcall!(Array)(GDNativeClassBinding.methodTrackGetParams, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Removes a track by specifying the track index.
@@ -446,7 +460,7 @@ public:
 	void removeTrack(in long track_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.removeTrack, _godot_object, track_idx);
+		ptrcall!(void)(GDNativeClassBinding.removeTrack, _godot_object, track_idx);
 	}
 	/**
 	
@@ -454,7 +468,7 @@ public:
 	void setLength(in double time_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLength, _godot_object, time_sec);
+		ptrcall!(void)(GDNativeClassBinding.setLength, _godot_object, time_sec);
 	}
 	/**
 	
@@ -462,7 +476,7 @@ public:
 	void setLoop(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLoop, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setLoop, _godot_object, enabled);
 	}
 	/**
 	
@@ -470,7 +484,7 @@ public:
 	void setStep(in double size_sec)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setStep, _godot_object, size_sec);
+		ptrcall!(void)(GDNativeClassBinding.setStep, _godot_object, size_sec);
 	}
 	/**
 	Finds the key index by time in a given track. Optionally, only find it if the exact time is given.
@@ -478,7 +492,7 @@ public:
 	long trackFindKey(in long track_idx, in double time, in bool exact = false) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.trackFindKey, _godot_object, track_idx, time, exact);
+		return ptrcall!(long)(GDNativeClassBinding.trackFindKey, _godot_object, track_idx, time, exact);
 	}
 	/**
 	Returns `true` if the track at `idx` wraps the interpolation loop. New tracks wrap the interpolation loop by default.
@@ -486,7 +500,7 @@ public:
 	bool trackGetInterpolationLoopWrap(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.trackGetInterpolationLoopWrap, _godot_object, track_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.trackGetInterpolationLoopWrap, _godot_object, track_idx);
 	}
 	/**
 	Returns the interpolation type of a given track.
@@ -494,7 +508,7 @@ public:
 	Animation.InterpolationType trackGetInterpolationType(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation.InterpolationType)(_classBinding.trackGetInterpolationType, _godot_object, track_idx);
+		return ptrcall!(Animation.InterpolationType)(GDNativeClassBinding.trackGetInterpolationType, _godot_object, track_idx);
 	}
 	/**
 	Returns the amount of keys in a given track.
@@ -502,7 +516,7 @@ public:
 	long trackGetKeyCount(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.trackGetKeyCount, _godot_object, track_idx);
+		return ptrcall!(long)(GDNativeClassBinding.trackGetKeyCount, _godot_object, track_idx);
 	}
 	/**
 	Returns the time at which the key is located.
@@ -510,7 +524,7 @@ public:
 	double trackGetKeyTime(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.trackGetKeyTime, _godot_object, track_idx, key_idx);
+		return ptrcall!(double)(GDNativeClassBinding.trackGetKeyTime, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Returns the transition curve (easing) for a specific key (see the built-in math function $(D @GDScript.ease)).
@@ -518,7 +532,7 @@ public:
 	double trackGetKeyTransition(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.trackGetKeyTransition, _godot_object, track_idx, key_idx);
+		return ptrcall!(double)(GDNativeClassBinding.trackGetKeyTransition, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Returns the value of a given key in a given track.
@@ -526,7 +540,7 @@ public:
 	Variant trackGetKeyValue(in long track_idx, in long key_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.trackGetKeyValue, _godot_object, track_idx, key_idx);
+		return ptrcall!(Variant)(GDNativeClassBinding.trackGetKeyValue, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Gets the path of a track. For more information on the path format, see $(D trackSetPath).
@@ -534,7 +548,7 @@ public:
 	NodePath trackGetPath(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.trackGetPath, _godot_object, track_idx);
+		return ptrcall!(NodePath)(GDNativeClassBinding.trackGetPath, _godot_object, track_idx);
 	}
 	/**
 	Gets the type of a track.
@@ -542,7 +556,7 @@ public:
 	Animation.TrackType trackGetType(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation.TrackType)(_classBinding.trackGetType, _godot_object, track_idx);
+		return ptrcall!(Animation.TrackType)(GDNativeClassBinding.trackGetType, _godot_object, track_idx);
 	}
 	/**
 	Insert a generic key in a given track.
@@ -550,7 +564,7 @@ public:
 	void trackInsertKey(VariantArg2)(in long track_idx, in double time, in VariantArg2 key, in double transition = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackInsertKey, _godot_object, track_idx, time, key, transition);
+		ptrcall!(void)(GDNativeClassBinding.trackInsertKey, _godot_object, track_idx, time, key, transition);
 	}
 	/**
 	Returns `true` if the track at index `idx` is enabled.
@@ -558,7 +572,7 @@ public:
 	bool trackIsEnabled(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.trackIsEnabled, _godot_object, track_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.trackIsEnabled, _godot_object, track_idx);
 	}
 	/**
 	Returns `true` if the given track is imported. Else, return `false`.
@@ -566,7 +580,7 @@ public:
 	bool trackIsImported(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.trackIsImported, _godot_object, track_idx);
+		return ptrcall!(bool)(GDNativeClassBinding.trackIsImported, _godot_object, track_idx);
 	}
 	/**
 	Moves a track down.
@@ -574,7 +588,7 @@ public:
 	void trackMoveDown(in long track_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackMoveDown, _godot_object, track_idx);
+		ptrcall!(void)(GDNativeClassBinding.trackMoveDown, _godot_object, track_idx);
 	}
 	/**
 	Changes the index position of track `idx` to the one defined in `to_idx`.
@@ -582,7 +596,7 @@ public:
 	void trackMoveTo(in long track_idx, in long to_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackMoveTo, _godot_object, track_idx, to_idx);
+		ptrcall!(void)(GDNativeClassBinding.trackMoveTo, _godot_object, track_idx, to_idx);
 	}
 	/**
 	Moves a track up.
@@ -590,7 +604,7 @@ public:
 	void trackMoveUp(in long track_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackMoveUp, _godot_object, track_idx);
+		ptrcall!(void)(GDNativeClassBinding.trackMoveUp, _godot_object, track_idx);
 	}
 	/**
 	Removes a key by index in a given track.
@@ -598,7 +612,7 @@ public:
 	void trackRemoveKey(in long track_idx, in long key_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackRemoveKey, _godot_object, track_idx, key_idx);
+		ptrcall!(void)(GDNativeClassBinding.trackRemoveKey, _godot_object, track_idx, key_idx);
 	}
 	/**
 	Removes a key by position (seconds) in a given track.
@@ -606,7 +620,7 @@ public:
 	void trackRemoveKeyAtPosition(in long track_idx, in double position)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackRemoveKeyAtPosition, _godot_object, track_idx, position);
+		ptrcall!(void)(GDNativeClassBinding.trackRemoveKeyAtPosition, _godot_object, track_idx, position);
 	}
 	/**
 	Enables/disables the given track. Tracks are enabled by default.
@@ -614,7 +628,7 @@ public:
 	void trackSetEnabled(in long track_idx, in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetEnabled, _godot_object, track_idx, enabled);
+		ptrcall!(void)(GDNativeClassBinding.trackSetEnabled, _godot_object, track_idx, enabled);
 	}
 	/**
 	Sets the given track as imported or not.
@@ -622,7 +636,7 @@ public:
 	void trackSetImported(in long track_idx, in bool imported)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetImported, _godot_object, track_idx, imported);
+		ptrcall!(void)(GDNativeClassBinding.trackSetImported, _godot_object, track_idx, imported);
 	}
 	/**
 	If `true`, the track at `idx` wraps the interpolation loop.
@@ -630,7 +644,7 @@ public:
 	void trackSetInterpolationLoopWrap(in long track_idx, in bool interpolation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetInterpolationLoopWrap, _godot_object, track_idx, interpolation);
+		ptrcall!(void)(GDNativeClassBinding.trackSetInterpolationLoopWrap, _godot_object, track_idx, interpolation);
 	}
 	/**
 	Sets the interpolation type of a given track.
@@ -638,7 +652,7 @@ public:
 	void trackSetInterpolationType(in long track_idx, in long interpolation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetInterpolationType, _godot_object, track_idx, interpolation);
+		ptrcall!(void)(GDNativeClassBinding.trackSetInterpolationType, _godot_object, track_idx, interpolation);
 	}
 	/**
 	Sets the time of an existing key.
@@ -646,7 +660,7 @@ public:
 	void trackSetKeyTime(in long track_idx, in long key_idx, in double time)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetKeyTime, _godot_object, track_idx, key_idx, time);
+		ptrcall!(void)(GDNativeClassBinding.trackSetKeyTime, _godot_object, track_idx, key_idx, time);
 	}
 	/**
 	Sets the transition curve (easing) for a specific key (see the built-in math function $(D @GDScript.ease)).
@@ -654,7 +668,7 @@ public:
 	void trackSetKeyTransition(in long track_idx, in long key_idx, in double transition)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetKeyTransition, _godot_object, track_idx, key_idx, transition);
+		ptrcall!(void)(GDNativeClassBinding.trackSetKeyTransition, _godot_object, track_idx, key_idx, transition);
 	}
 	/**
 	Sets the value of an existing key.
@@ -662,7 +676,7 @@ public:
 	void trackSetKeyValue(VariantArg2)(in long track_idx, in long key, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetKeyValue, _godot_object, track_idx, key, value);
+		ptrcall!(void)(GDNativeClassBinding.trackSetKeyValue, _godot_object, track_idx, key, value);
 	}
 	/**
 	Sets the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by `":"`.
@@ -671,7 +685,7 @@ public:
 	void trackSetPath(NodePathArg1)(in long track_idx, in NodePathArg1 path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSetPath, _godot_object, track_idx, path);
+		ptrcall!(void)(GDNativeClassBinding.trackSetPath, _godot_object, track_idx, path);
 	}
 	/**
 	Swaps the track `idx`'s index position with the track `with_idx`.
@@ -679,7 +693,7 @@ public:
 	void trackSwap(in long track_idx, in long with_idx)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.trackSwap, _godot_object, track_idx, with_idx);
+		ptrcall!(void)(GDNativeClassBinding.trackSwap, _godot_object, track_idx, with_idx);
 	}
 	/**
 	Insert a transform key for a transform track.
@@ -687,7 +701,7 @@ public:
 	long transformTrackInsertKey(in long track_idx, in double time, in Vector3 location, in Quat rotation, in Vector3 scale)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.transformTrackInsertKey, _godot_object, track_idx, time, location, rotation, scale);
+		return ptrcall!(long)(GDNativeClassBinding.transformTrackInsertKey, _godot_object, track_idx, time, location, rotation, scale);
 	}
 	/**
 	Returns the interpolated value of a transform track at a given time (in seconds). An array consisting of 3 elements: position ($(D Vector3)), rotation ($(D Quat)) and scale ($(D Vector3)).
@@ -695,7 +709,7 @@ public:
 	Array transformTrackInterpolate(in long track_idx, in double time_sec) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.transformTrackInterpolate, _godot_object, track_idx, time_sec);
+		return ptrcall!(Array)(GDNativeClassBinding.transformTrackInterpolate, _godot_object, track_idx, time_sec);
 	}
 	/**
 	Returns all the key indices of a value track, given a position and delta time.
@@ -703,7 +717,7 @@ public:
 	PoolIntArray valueTrackGetKeyIndices(in long track_idx, in double time_sec, in double delta) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolIntArray)(_classBinding.valueTrackGetKeyIndices, _godot_object, track_idx, time_sec, delta);
+		return ptrcall!(PoolIntArray)(GDNativeClassBinding.valueTrackGetKeyIndices, _godot_object, track_idx, time_sec, delta);
 	}
 	/**
 	Returns the update mode of a value track.
@@ -711,7 +725,7 @@ public:
 	Animation.UpdateMode valueTrackGetUpdateMode(in long track_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Animation.UpdateMode)(_classBinding.valueTrackGetUpdateMode, _godot_object, track_idx);
+		return ptrcall!(Animation.UpdateMode)(GDNativeClassBinding.valueTrackGetUpdateMode, _godot_object, track_idx);
 	}
 	/**
 	Sets the update mode (see $(D updatemode)) of a value track.
@@ -719,7 +733,7 @@ public:
 	void valueTrackSetUpdateMode(in long track_idx, in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.valueTrackSetUpdateMode, _godot_object, track_idx, mode);
+		ptrcall!(void)(GDNativeClassBinding.valueTrackSetUpdateMode, _godot_object, track_idx, mode);
 	}
 	/**
 	The total length of the animation (in seconds).

@@ -84,14 +84,14 @@ func _http_request_completed(result, response_code, headers, body):
 */
 @GodotBaseClass struct HTTPRequest
 {
-	enum string _GODOT_internal_name = "HTTPRequest";
+	package(godot) enum string _GODOT_internal_name = "HTTPRequest";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_redirect_request") GodotMethod!(void, String) _redirectRequest;
@@ -115,10 +115,20 @@ public:
 		@GodotName("set_timeout") GodotMethod!(void, long) setTimeout;
 		@GodotName("set_use_threads") GodotMethod!(void, bool) setUseThreads;
 	}
-	bool opEquals(in HTTPRequest other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	HTTPRequest opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in HTTPRequest other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) HTTPRequest opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of HTTPRequest.
+	/// Note: use `memnew!HTTPRequest` instead.
 	static HTTPRequest _new()
 	{
 		static godot_class_constructor constructor;
@@ -238,7 +248,7 @@ public:
 	void cancelRequest()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.cancelRequest, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.cancelRequest, _godot_object);
 	}
 	/**
 	Returns the response body length.
@@ -247,7 +257,7 @@ public:
 	long getBodySize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBodySize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBodySize, _godot_object);
 	}
 	/**
 	
@@ -255,7 +265,7 @@ public:
 	long getBodySizeLimit() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getBodySizeLimit, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getBodySizeLimit, _godot_object);
 	}
 	/**
 	
@@ -263,7 +273,7 @@ public:
 	long getDownloadChunkSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDownloadChunkSize, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDownloadChunkSize, _godot_object);
 	}
 	/**
 	
@@ -271,7 +281,7 @@ public:
 	String getDownloadFile() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getDownloadFile, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getDownloadFile, _godot_object);
 	}
 	/**
 	Returns the amount of bytes this HTTPRequest downloaded.
@@ -279,7 +289,7 @@ public:
 	long getDownloadedBytes() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDownloadedBytes, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDownloadedBytes, _godot_object);
 	}
 	/**
 	Returns the current status of the underlying $(D HTTPClient). See $(D HTTPClient.status).
@@ -287,7 +297,7 @@ public:
 	HTTPClient.Status getHttpClientStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(HTTPClient.Status)(_classBinding.getHttpClientStatus, _godot_object);
+		return ptrcall!(HTTPClient.Status)(GDNativeClassBinding.getHttpClientStatus, _godot_object);
 	}
 	/**
 	
@@ -295,7 +305,7 @@ public:
 	long getMaxRedirects() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getMaxRedirects, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxRedirects, _godot_object);
 	}
 	/**
 	
@@ -303,7 +313,7 @@ public:
 	long getTimeout()
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getTimeout, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getTimeout, _godot_object);
 	}
 	/**
 	
@@ -311,7 +321,7 @@ public:
 	bool isUsingThreads() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingThreads, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingThreads, _godot_object);
 	}
 	/**
 	Creates request on the underlying $(D HTTPClient). If there is no configuration errors, it tries to connect using $(D HTTPClient.connectToHost) and passes parameters onto $(D HTTPClient.request).
@@ -320,7 +330,7 @@ public:
 	GodotError request(in String url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in String request_data = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.request, _godot_object, url, custom_headers, ssl_validate_domain, method, request_data);
+		return ptrcall!(GodotError)(GDNativeClassBinding.request, _godot_object, url, custom_headers, ssl_validate_domain, method, request_data);
 	}
 	/**
 	
@@ -328,7 +338,7 @@ public:
 	void setBodySizeLimit(in long bytes)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBodySizeLimit, _godot_object, bytes);
+		ptrcall!(void)(GDNativeClassBinding.setBodySizeLimit, _godot_object, bytes);
 	}
 	/**
 	
@@ -336,7 +346,7 @@ public:
 	void setDownloadChunkSize(in long arg0)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDownloadChunkSize, _godot_object, arg0);
+		ptrcall!(void)(GDNativeClassBinding.setDownloadChunkSize, _godot_object, arg0);
 	}
 	/**
 	
@@ -344,7 +354,7 @@ public:
 	void setDownloadFile(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDownloadFile, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setDownloadFile, _godot_object, path);
 	}
 	/**
 	
@@ -352,7 +362,7 @@ public:
 	void setMaxRedirects(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMaxRedirects, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setMaxRedirects, _godot_object, amount);
 	}
 	/**
 	
@@ -360,7 +370,7 @@ public:
 	void setTimeout(in long timeout)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setTimeout, _godot_object, timeout);
+		ptrcall!(void)(GDNativeClassBinding.setTimeout, _godot_object, timeout);
 	}
 	/**
 	
@@ -368,7 +378,7 @@ public:
 	void setUseThreads(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseThreads, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseThreads, _godot_object, enable);
 	}
 	/**
 	Maximum allowed size for response bodies.

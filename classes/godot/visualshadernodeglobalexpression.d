@@ -1,5 +1,5 @@
 /**
-
+A custom global visual shader graph expression written in Godot Shading Language.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -23,25 +23,37 @@ import godot.classdb;
 import godot.visualshadernodeexpression;
 import godot.visualshadernodegroupbase;
 /**
+A custom global visual shader graph expression written in Godot Shading Language.
 
+Custom Godot Shader Language expression, which is placed on top of the generated shader. You can place various function definitions inside to call later in $(D VisualShaderNodeExpression)s (which are injected in the main shader functions). You can also declare varyings, uniforms and global constants.
 */
 @GodotBaseClass struct VisualShaderNodeGlobalExpression
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeGlobalExpression";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeGlobalExpression";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNodeExpression _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNodeExpression _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeGlobalExpression other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeGlobalExpression opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeGlobalExpression other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeGlobalExpression opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeGlobalExpression.
+	/// Note: use `memnew!VisualShaderNodeGlobalExpression` instead.
 	static VisualShaderNodeGlobalExpression _new()
 	{
 		static godot_class_constructor constructor;

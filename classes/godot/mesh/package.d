@@ -30,14 +30,14 @@ Mesh is a type of $(D Resource) that contains vertex array-based geometry, divid
 */
 @GodotBaseClass struct Mesh
 {
-	enum string _GODOT_internal_name = "Mesh";
+	package(godot) enum string _GODOT_internal_name = "Mesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("create_convex_shape") GodotMethod!(Shape) createConvexShape;
@@ -54,10 +54,20 @@ public:
 		@GodotName("surface_get_material") GodotMethod!(Material, long) surfaceGetMaterial;
 		@GodotName("surface_set_material") GodotMethod!(void, long, Material) surfaceSetMaterial;
 	}
-	bool opEquals(in Mesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Mesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Mesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Mesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Mesh.
+	/// Note: use `memnew!Mesh` instead.
 	static Mesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -297,7 +307,7 @@ public:
 	Ref!Shape createConvexShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.createConvexShape, _godot_object);
+		return ptrcall!(Shape)(GDNativeClassBinding.createConvexShape, _godot_object);
 	}
 	/**
 	Calculate an outline mesh at a defined offset (margin) from the original mesh.
@@ -306,7 +316,7 @@ public:
 	Ref!Mesh createOutline(in double margin) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Mesh)(_classBinding.createOutline, _godot_object, margin);
+		return ptrcall!(Mesh)(GDNativeClassBinding.createOutline, _godot_object, margin);
 	}
 	/**
 	Calculate a $(D ConcavePolygonShape) from the mesh.
@@ -314,7 +324,7 @@ public:
 	Ref!Shape createTrimeshShape() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Shape)(_classBinding.createTrimeshShape, _godot_object);
+		return ptrcall!(Shape)(GDNativeClassBinding.createTrimeshShape, _godot_object);
 	}
 	/**
 	Generate a $(D TriangleMesh) from the mesh.
@@ -322,7 +332,7 @@ public:
 	Ref!TriangleMesh generateTriangleMesh() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(TriangleMesh)(_classBinding.generateTriangleMesh, _godot_object);
+		return ptrcall!(TriangleMesh)(GDNativeClassBinding.generateTriangleMesh, _godot_object);
 	}
 	/**
 	Returns the smallest $(D AABB) enclosing this mesh. Not affected by `custom_aabb`.
@@ -331,7 +341,7 @@ public:
 	AABB getAabb() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(AABB)(_classBinding.getAabb, _godot_object);
+		return ptrcall!(AABB)(GDNativeClassBinding.getAabb, _godot_object);
 	}
 	/**
 	Returns all the vertices that make up the faces of the mesh. Each three vertices represent one triangle.
@@ -339,7 +349,7 @@ public:
 	PoolVector3Array getFaces() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector3Array)(_classBinding.getFaces, _godot_object);
+		return ptrcall!(PoolVector3Array)(GDNativeClassBinding.getFaces, _godot_object);
 	}
 	/**
 	
@@ -347,7 +357,7 @@ public:
 	Vector2 getLightmapSizeHint() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector2)(_classBinding.getLightmapSizeHint, _godot_object);
+		return ptrcall!(Vector2)(GDNativeClassBinding.getLightmapSizeHint, _godot_object);
 	}
 	/**
 	Returns the amount of surfaces that the $(D Mesh) holds.
@@ -355,7 +365,7 @@ public:
 	long getSurfaceCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getSurfaceCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getSurfaceCount, _godot_object);
 	}
 	/**
 	
@@ -363,7 +373,7 @@ public:
 	void setLightmapSizeHint(in Vector2 size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightmapSizeHint, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.setLightmapSizeHint, _godot_object, size);
 	}
 	/**
 	Returns the arrays for the vertices, normals, uvs, etc. that make up the requested surface (see $(D ArrayMesh.addSurfaceFromArrays)).
@@ -371,7 +381,7 @@ public:
 	Array surfaceGetArrays(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.surfaceGetArrays, _godot_object, surf_idx);
+		return ptrcall!(Array)(GDNativeClassBinding.surfaceGetArrays, _godot_object, surf_idx);
 	}
 	/**
 	Returns the blend shape arrays for the requested surface.
@@ -379,7 +389,7 @@ public:
 	Array surfaceGetBlendShapeArrays(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.surfaceGetBlendShapeArrays, _godot_object, surf_idx);
+		return ptrcall!(Array)(GDNativeClassBinding.surfaceGetBlendShapeArrays, _godot_object, surf_idx);
 	}
 	/**
 	Returns a $(D Material) in a given surface. Surface is rendered using this material.
@@ -387,7 +397,7 @@ public:
 	Ref!Material surfaceGetMaterial(in long surf_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Material)(_classBinding.surfaceGetMaterial, _godot_object, surf_idx);
+		return ptrcall!(Material)(GDNativeClassBinding.surfaceGetMaterial, _godot_object, surf_idx);
 	}
 	/**
 	Sets a $(D Material) for a given surface. Surface will be rendered using this material.
@@ -395,7 +405,7 @@ public:
 	void surfaceSetMaterial(in long surf_idx, Material material)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
+		ptrcall!(void)(GDNativeClassBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
 	}
 	/**
 	Sets a hint to be used for lightmap resolution in $(D BakedLightmap). Overrides $(D BakedLightmap.bakeDefaultTexelsPerUnit).

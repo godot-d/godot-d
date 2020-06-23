@@ -27,17 +27,18 @@ import godot.bakedlightmapdata;
 Prerendered indirect light map for a scene.
 
 Baked lightmaps are an alternative workflow for adding indirect (or baked) lighting to a scene. Unlike the $(D GIProbe) approach, baked lightmaps work fine on low-end PCs and mobile devices as they consume almost no resources in run-time.
+$(B Note:) This node has many known bugs and will be $(D url=https://godotengine.org/article/godot-40-will-get-new-modernized-lightmapper)rewritten for Godot 4.0$(D /url). See $(D url=https://github.com/godotengine/godot/issues/30929)GitHub issue #30929$(D /url).
 */
 @GodotBaseClass struct BakedLightmap
 {
-	enum string _GODOT_internal_name = "BakedLightmap";
+	package(godot) enum string _GODOT_internal_name = "BakedLightmap";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, Node, bool) bake;
@@ -65,10 +66,20 @@ public:
 		@GodotName("set_light_data") GodotMethod!(void, BakedLightmapData) setLightData;
 		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
 	}
-	bool opEquals(in BakedLightmap other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BakedLightmap opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BakedLightmap other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BakedLightmap opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BakedLightmap.
+	/// Note: use `memnew!BakedLightmap` instead.
 	static BakedLightmap _new()
 	{
 		static godot_class_constructor constructor;
@@ -97,23 +108,23 @@ public:
 	enum BakeError : int
 	{
 		/**
-		
+		Baking was successful.
 		*/
 		bakeErrorOk = 0,
 		/**
-		
+		Returns if no viable save path is found. This can happen where an $(D imagePath) is not specified or when the save location is invalid.
 		*/
 		bakeErrorNoSavePath = 1,
 		/**
-		
+		Currently unused.
 		*/
 		bakeErrorNoMeshes = 2,
 		/**
-		
+		Returns when the baker cannot save per-mesh textures to file.
 		*/
 		bakeErrorCantCreateImage = 3,
 		/**
-		
+		Returns if user cancels baking.
 		*/
 		bakeErrorUserAborted = 4,
 	}
@@ -144,12 +155,12 @@ public:
 		bakeErrorUserAborted = 4,
 	}
 	/**
-	Bakes the lightmaps within the currently edited scene.
+	Bakes the lightmaps within the currently edited scene. Returns a $(D bakeerror) to signify if the bake was successful, or if unsuccessful, how the bake failed.
 	*/
 	BakedLightmap.BakeError bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeError)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
+		return ptrcall!(BakedLightmap.BakeError)(GDNativeClassBinding.bake, _godot_object, from_node, create_visual_debug);
 	}
 	/**
 	Executes a dry run bake of lightmaps within the currently edited scene.
@@ -157,7 +168,7 @@ public:
 	void debugBake()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.debugBake, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.debugBake, _godot_object);
 	}
 	/**
 	
@@ -165,7 +176,7 @@ public:
 	double getBakeCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBakeCellSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBakeCellSize, _godot_object);
 	}
 	/**
 	
@@ -173,7 +184,7 @@ public:
 	double getBakeDefaultTexelsPerUnit() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBakeDefaultTexelsPerUnit, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBakeDefaultTexelsPerUnit, _godot_object);
 	}
 	/**
 	
@@ -181,7 +192,7 @@ public:
 	BakedLightmap.BakeMode getBakeMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeMode)(_classBinding.getBakeMode, _godot_object);
+		return ptrcall!(BakedLightmap.BakeMode)(GDNativeClassBinding.getBakeMode, _godot_object);
 	}
 	/**
 	
@@ -189,7 +200,7 @@ public:
 	BakedLightmap.BakeQuality getBakeQuality() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeQuality)(_classBinding.getBakeQuality, _godot_object);
+		return ptrcall!(BakedLightmap.BakeQuality)(GDNativeClassBinding.getBakeQuality, _godot_object);
 	}
 	/**
 	
@@ -197,7 +208,7 @@ public:
 	double getCaptureCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getCaptureCellSize, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getCaptureCellSize, _godot_object);
 	}
 	/**
 	
@@ -205,7 +216,7 @@ public:
 	double getEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEnergy, _godot_object);
 	}
 	/**
 	
@@ -213,7 +224,7 @@ public:
 	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getExtents, _godot_object);
 	}
 	/**
 	
@@ -221,7 +232,7 @@ public:
 	String getImagePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getImagePath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getImagePath, _godot_object);
 	}
 	/**
 	
@@ -229,7 +240,7 @@ public:
 	Ref!BakedLightmapData getLightData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmapData)(_classBinding.getLightData, _godot_object);
+		return ptrcall!(BakedLightmapData)(GDNativeClassBinding.getLightData, _godot_object);
 	}
 	/**
 	
@@ -237,7 +248,7 @@ public:
 	double getPropagation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPropagation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPropagation, _godot_object);
 	}
 	/**
 	
@@ -245,7 +256,7 @@ public:
 	bool isHdr() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHdr, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHdr, _godot_object);
 	}
 	/**
 	
@@ -253,7 +264,7 @@ public:
 	void setBakeCellSize(in double bake_cell_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeCellSize, _godot_object, bake_cell_size);
+		ptrcall!(void)(GDNativeClassBinding.setBakeCellSize, _godot_object, bake_cell_size);
 	}
 	/**
 	
@@ -261,7 +272,7 @@ public:
 	void setBakeDefaultTexelsPerUnit(in double texels)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeDefaultTexelsPerUnit, _godot_object, texels);
+		ptrcall!(void)(GDNativeClassBinding.setBakeDefaultTexelsPerUnit, _godot_object, texels);
 	}
 	/**
 	
@@ -269,7 +280,7 @@ public:
 	void setBakeMode(in long bake_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeMode, _godot_object, bake_mode);
+		ptrcall!(void)(GDNativeClassBinding.setBakeMode, _godot_object, bake_mode);
 	}
 	/**
 	
@@ -277,7 +288,7 @@ public:
 	void setBakeQuality(in long bake_quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBakeQuality, _godot_object, bake_quality);
+		ptrcall!(void)(GDNativeClassBinding.setBakeQuality, _godot_object, bake_quality);
 	}
 	/**
 	
@@ -285,7 +296,7 @@ public:
 	void setCaptureCellSize(in double capture_cell_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCaptureCellSize, _godot_object, capture_cell_size);
+		ptrcall!(void)(GDNativeClassBinding.setCaptureCellSize, _godot_object, capture_cell_size);
 	}
 	/**
 	
@@ -293,7 +304,7 @@ public:
 	void setEnergy(in double energy)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, energy);
 	}
 	/**
 	
@@ -301,7 +312,7 @@ public:
 	void setExtents(in Vector3 extents)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+		ptrcall!(void)(GDNativeClassBinding.setExtents, _godot_object, extents);
 	}
 	/**
 	
@@ -309,7 +320,7 @@ public:
 	void setHdr(in bool hdr)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHdr, _godot_object, hdr);
+		ptrcall!(void)(GDNativeClassBinding.setHdr, _godot_object, hdr);
 	}
 	/**
 	
@@ -317,7 +328,7 @@ public:
 	void setImagePath(in String image_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setImagePath, _godot_object, image_path);
+		ptrcall!(void)(GDNativeClassBinding.setImagePath, _godot_object, image_path);
 	}
 	/**
 	
@@ -325,7 +336,7 @@ public:
 	void setLightData(BakedLightmapData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setLightData, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.setLightData, _godot_object, data);
 	}
 	/**
 	
@@ -333,7 +344,7 @@ public:
 	void setPropagation(in double propagation)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPropagation, _godot_object, propagation);
+		ptrcall!(void)(GDNativeClassBinding.setPropagation, _godot_object, propagation);
 	}
 	/**
 	Grid subdivision size for lightmapper calculation. The default value will work for most cases. Increase for better lighting on small details or if your scene is very large.

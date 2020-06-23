@@ -28,14 +28,14 @@ Used with $(D DynamicFont) to describe the location of a vector font file for dy
 */
 @GodotBaseClass struct DynamicFontData
 {
-	enum string _GODOT_internal_name = "DynamicFontData";
+	package(godot) enum string _GODOT_internal_name = "DynamicFontData";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Resource _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Resource _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_font_path") GodotMethod!(String) getFontPath;
@@ -45,10 +45,20 @@ public:
 		@GodotName("set_font_path") GodotMethod!(void, String) setFontPath;
 		@GodotName("set_hinting") GodotMethod!(void, long) setHinting;
 	}
-	bool opEquals(in DynamicFontData other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	DynamicFontData opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in DynamicFontData other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) DynamicFontData opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of DynamicFontData.
+	/// Note: use `memnew!DynamicFontData` instead.
 	static DynamicFontData _new()
 	{
 		static godot_class_constructor constructor;
@@ -86,7 +96,7 @@ public:
 	String getFontPath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFontPath, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getFontPath, _godot_object);
 	}
 	/**
 	
@@ -94,7 +104,7 @@ public:
 	DynamicFontData.Hinting getHinting() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(DynamicFontData.Hinting)(_classBinding.getHinting, _godot_object);
+		return ptrcall!(DynamicFontData.Hinting)(GDNativeClassBinding.getHinting, _godot_object);
 	}
 	/**
 	
@@ -102,7 +112,7 @@ public:
 	bool isAntialiased() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isAntialiased, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isAntialiased, _godot_object);
 	}
 	/**
 	
@@ -110,7 +120,7 @@ public:
 	void setAntialiased(in bool antialiased)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAntialiased, _godot_object, antialiased);
+		ptrcall!(void)(GDNativeClassBinding.setAntialiased, _godot_object, antialiased);
 	}
 	/**
 	
@@ -118,7 +128,7 @@ public:
 	void setFontPath(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFontPath, _godot_object, path);
+		ptrcall!(void)(GDNativeClassBinding.setFontPath, _godot_object, path);
 	}
 	/**
 	
@@ -126,10 +136,10 @@ public:
 	void setHinting(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setHinting, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setHinting, _godot_object, mode);
 	}
 	/**
-	If `true`, the font is rendered with anti-aliasing.
+	If `true`, the font is rendered with anti-aliasing. This property applies both to the main font and its outline (if it has one).
 	*/
 	@property bool antialiased()
 	{

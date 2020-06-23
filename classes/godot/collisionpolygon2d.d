@@ -28,14 +28,14 @@ Provides a 2D collision polygon to a $(D CollisionObject2D) parent. Polygons can
 */
 @GodotBaseClass struct CollisionPolygon2D
 {
-	enum string _GODOT_internal_name = "CollisionPolygon2D";
+	package(godot) enum string _GODOT_internal_name = "CollisionPolygon2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_build_mode") GodotMethod!(CollisionPolygon2D.BuildMode) getBuildMode;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_one_way_collision_margin") GodotMethod!(void, double) setOneWayCollisionMargin;
 		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
 	}
-	bool opEquals(in CollisionPolygon2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CollisionPolygon2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CollisionPolygon2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CollisionPolygon2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CollisionPolygon2D.
+	/// Note: use `memnew!CollisionPolygon2D` instead.
 	static CollisionPolygon2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -85,7 +95,7 @@ public:
 	CollisionPolygon2D.BuildMode getBuildMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CollisionPolygon2D.BuildMode)(_classBinding.getBuildMode, _godot_object);
+		return ptrcall!(CollisionPolygon2D.BuildMode)(GDNativeClassBinding.getBuildMode, _godot_object);
 	}
 	/**
 	
@@ -93,7 +103,7 @@ public:
 	double getOneWayCollisionMargin() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getOneWayCollisionMargin, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getOneWayCollisionMargin, _godot_object);
 	}
 	/**
 	
@@ -101,7 +111,7 @@ public:
 	PoolVector2Array getPolygon() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolVector2Array)(_classBinding.getPolygon, _godot_object);
+		return ptrcall!(PoolVector2Array)(GDNativeClassBinding.getPolygon, _godot_object);
 	}
 	/**
 	
@@ -109,7 +119,7 @@ public:
 	bool isDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDisabled, _godot_object);
 	}
 	/**
 	
@@ -117,7 +127,7 @@ public:
 	bool isOneWayCollisionEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isOneWayCollisionEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isOneWayCollisionEnabled, _godot_object);
 	}
 	/**
 	
@@ -125,7 +135,7 @@ public:
 	void setBuildMode(in long build_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBuildMode, _godot_object, build_mode);
+		ptrcall!(void)(GDNativeClassBinding.setBuildMode, _godot_object, build_mode);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	void setDisabled(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setDisabled, _godot_object, disabled);
 	}
 	/**
 	
@@ -141,7 +151,7 @@ public:
 	void setOneWayCollision(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollision, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setOneWayCollision, _godot_object, enabled);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	void setOneWayCollisionMargin(in double margin)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOneWayCollisionMargin, _godot_object, margin);
+		ptrcall!(void)(GDNativeClassBinding.setOneWayCollisionMargin, _godot_object, margin);
 	}
 	/**
 	
@@ -157,7 +167,7 @@ public:
 	void setPolygon(in PoolVector2Array polygon)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPolygon, _godot_object, polygon);
+		ptrcall!(void)(GDNativeClassBinding.setPolygon, _godot_object, polygon);
 	}
 	/**
 	Collision build mode. Use one of the $(D buildmode) constants.
@@ -196,7 +206,7 @@ public:
 		setOneWayCollision(v);
 	}
 	/**
-	
+	The margin used for one-way collision (in pixels). Higher values will make the shape thicker, and work better for colliders that enter the polygon at a high velocity.
 	*/
 	@property double oneWayCollisionMargin()
 	{

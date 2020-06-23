@@ -71,14 +71,14 @@ func import(source_file, save_path, options, platform_variants, gen_files):
 */
 @GodotBaseClass struct EditorImportPlugin
 {
-	enum string _GODOT_internal_name = "EditorImportPlugin";
+	package(godot) enum string _GODOT_internal_name = "EditorImportPlugin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; ResourceImporter _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ ResourceImporter _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_import_options") GodotMethod!(Array, long) getImportOptions;
@@ -94,10 +94,20 @@ public:
 		@GodotName("get_visible_name") GodotMethod!(String) getVisibleName;
 		@GodotName("import") GodotMethod!(long, String, String, Dictionary, Array, Array) _import;
 	}
-	bool opEquals(in EditorImportPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorImportPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorImportPlugin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorImportPlugin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorImportPlugin.
+	/// Note: use `memnew!EditorImportPlugin` instead.
 	static EditorImportPlugin _new()
 	{
 		static godot_class_constructor constructor;

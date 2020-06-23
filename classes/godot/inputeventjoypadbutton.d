@@ -29,14 +29,14 @@ Input event type for gamepad buttons. For gamepad analog sticks and joysticks, s
 */
 @GodotBaseClass struct InputEventJoypadButton
 {
-	enum string _GODOT_internal_name = "InputEventJoypadButton";
+	package(godot) enum string _GODOT_internal_name = "InputEventJoypadButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; InputEvent _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ InputEvent _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_button_index") GodotMethod!(long) getButtonIndex;
@@ -45,10 +45,20 @@ public:
 		@GodotName("set_pressed") GodotMethod!(void, bool) setPressed;
 		@GodotName("set_pressure") GodotMethod!(void, double) setPressure;
 	}
-	bool opEquals(in InputEventJoypadButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	InputEventJoypadButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in InputEventJoypadButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) InputEventJoypadButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of InputEventJoypadButton.
+	/// Note: use `memnew!InputEventJoypadButton` instead.
 	static InputEventJoypadButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -63,7 +73,7 @@ public:
 	long getButtonIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getButtonIndex, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getButtonIndex, _godot_object);
 	}
 	/**
 	
@@ -71,7 +81,7 @@ public:
 	double getPressure() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPressure, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPressure, _godot_object);
 	}
 	/**
 	
@@ -79,7 +89,7 @@ public:
 	void setButtonIndex(in long button_index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonIndex, _godot_object, button_index);
+		ptrcall!(void)(GDNativeClassBinding.setButtonIndex, _godot_object, button_index);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
+		ptrcall!(void)(GDNativeClassBinding.setPressed, _godot_object, pressed);
 	}
 	/**
 	
@@ -95,7 +105,7 @@ public:
 	void setPressure(in double pressure)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressure, _godot_object, pressure);
+		ptrcall!(void)(GDNativeClassBinding.setPressure, _godot_object, pressure);
 	}
 	/**
 	Button identifier. One of the $(D joysticklist) button constants.

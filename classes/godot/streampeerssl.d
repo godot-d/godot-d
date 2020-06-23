@@ -31,14 +31,14 @@ This object can be used to connect to an SSL server or accept a single SSL clien
 */
 @GodotBaseClass struct StreamPeerSSL
 {
-	enum string _GODOT_internal_name = "StreamPeerSSL";
+	package(godot) enum string _GODOT_internal_name = "StreamPeerSSL";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; StreamPeer _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ StreamPeer _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("accept_stream") GodotMethod!(GodotError, StreamPeer, CryptoKey, X509Certificate, X509Certificate) acceptStream;
@@ -49,10 +49,20 @@ public:
 		@GodotName("poll") GodotMethod!(void) poll;
 		@GodotName("set_blocking_handshake_enabled") GodotMethod!(void, bool) setBlockingHandshakeEnabled;
 	}
-	bool opEquals(in StreamPeerSSL other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	StreamPeerSSL opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in StreamPeerSSL other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) StreamPeerSSL opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of StreamPeerSSL.
+	/// Note: use `memnew!StreamPeerSSL` instead.
 	static StreamPeerSSL _new()
 	{
 		static godot_class_constructor constructor;
@@ -69,7 +79,7 @@ public:
 		*/
 		statusDisconnected = 0,
 		/**
-		
+		A status representing a $(D StreamPeerSSL) during handshaking.
 		*/
 		statusHandshaking = 1,
 		/**
@@ -77,7 +87,7 @@ public:
 		*/
 		statusConnected = 2,
 		/**
-		
+		A status representing a $(D StreamPeerSSL) in error state.
 		*/
 		statusError = 3,
 		/**
@@ -100,7 +110,7 @@ public:
 	GodotError acceptStream(StreamPeer stream, CryptoKey private_key, X509Certificate certificate, X509Certificate chain = X509Certificate.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.acceptStream, _godot_object, stream, private_key, certificate, chain);
+		return ptrcall!(GodotError)(GDNativeClassBinding.acceptStream, _godot_object, stream, private_key, certificate, chain);
 	}
 	/**
 	Connects to a peer using an underlying $(D StreamPeer) `stream`. If `validate_certs` is `true`, $(D StreamPeerSSL) will validate that the certificate presented by the peer matches the `for_hostname`.
@@ -109,7 +119,7 @@ public:
 	GodotError connectToStream(StreamPeer stream, in bool validate_certs = false, in String for_hostname = gs!"", X509Certificate valid_certificate = X509Certificate.init)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.connectToStream, _godot_object, stream, validate_certs, for_hostname, valid_certificate);
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectToStream, _godot_object, stream, validate_certs, for_hostname, valid_certificate);
 	}
 	/**
 	Disconnects from host.
@@ -117,7 +127,7 @@ public:
 	void disconnectFromStream()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.disconnectFromStream, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.disconnectFromStream, _godot_object);
 	}
 	/**
 	Returns the status of the connection. See $(D status) for values.
@@ -125,7 +135,7 @@ public:
 	StreamPeerSSL.Status getStatus() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StreamPeerSSL.Status)(_classBinding.getStatus, _godot_object);
+		return ptrcall!(StreamPeerSSL.Status)(GDNativeClassBinding.getStatus, _godot_object);
 	}
 	/**
 	
@@ -133,7 +143,7 @@ public:
 	bool isBlockingHandshakeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isBlockingHandshakeEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isBlockingHandshakeEnabled, _godot_object);
 	}
 	/**
 	Poll the connection to check for incoming bytes. Call this right before $(D StreamPeer.getAvailableBytes) for it to work properly.
@@ -141,7 +151,7 @@ public:
 	void poll()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.poll, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.poll, _godot_object);
 	}
 	/**
 	
@@ -149,7 +159,7 @@ public:
 	void setBlockingHandshakeEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBlockingHandshakeEnabled, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setBlockingHandshakeEnabled, _godot_object, enabled);
 	}
 	/**
 	

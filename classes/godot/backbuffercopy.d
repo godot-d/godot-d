@@ -25,17 +25,18 @@ import godot.node2d;
 Copies a region of the screen (or the whole screen) to a buffer so it can be accessed in your shader scripts through the `texture(SCREEN_TEXTURE, ...)` function.
 
 Node for back-buffering the currently-displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Use the `texture(SCREEN_TEXTURE, ...)` function in your shader scripts to access the buffer.
+$(B Note:) Since this node inherits from $(D Node2D) (and not $(D Control)), anchors and margins won't apply to child $(D Control)-derived nodes. This can be problematic when resizing the window. To avoid this, add $(D Control)-derived nodes as $(I siblings) to the BackBufferCopy node instead of adding them as children.
 */
 @GodotBaseClass struct BackBufferCopy
 {
-	enum string _GODOT_internal_name = "BackBufferCopy";
+	package(godot) enum string _GODOT_internal_name = "BackBufferCopy";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_copy_mode") GodotMethod!(BackBufferCopy.CopyMode) getCopyMode;
@@ -43,10 +44,20 @@ public:
 		@GodotName("set_copy_mode") GodotMethod!(void, long) setCopyMode;
 		@GodotName("set_rect") GodotMethod!(void, Rect2) setRect;
 	}
-	bool opEquals(in BackBufferCopy other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BackBufferCopy opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BackBufferCopy other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BackBufferCopy opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BackBufferCopy.
+	/// Note: use `memnew!BackBufferCopy` instead.
 	static BackBufferCopy _new()
 	{
 		static godot_class_constructor constructor;
@@ -84,7 +95,7 @@ public:
 	BackBufferCopy.CopyMode getCopyMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BackBufferCopy.CopyMode)(_classBinding.getCopyMode, _godot_object);
+		return ptrcall!(BackBufferCopy.CopyMode)(GDNativeClassBinding.getCopyMode, _godot_object);
 	}
 	/**
 	
@@ -92,7 +103,7 @@ public:
 	Rect2 getRect() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Rect2)(_classBinding.getRect, _godot_object);
+		return ptrcall!(Rect2)(GDNativeClassBinding.getRect, _godot_object);
 	}
 	/**
 	
@@ -100,7 +111,7 @@ public:
 	void setCopyMode(in long copy_mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCopyMode, _godot_object, copy_mode);
+		ptrcall!(void)(GDNativeClassBinding.setCopyMode, _godot_object, copy_mode);
 	}
 	/**
 	
@@ -108,7 +119,7 @@ public:
 	void setRect(in Rect2 rect)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRect, _godot_object, rect);
+		ptrcall!(void)(GDNativeClassBinding.setRect, _godot_object, rect);
 	}
 	/**
 	Buffer mode. See $(D copymode) constants.

@@ -34,14 +34,14 @@ On each of these calls, the "add" functions can be called.
 */
 @GodotBaseClass struct EditorInspectorPlugin
 {
-	enum string _GODOT_internal_name = "EditorInspectorPlugin";
+	package(godot) enum string _GODOT_internal_name = "EditorInspectorPlugin";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("add_custom_control") GodotMethod!(void, Control) addCustomControl;
@@ -53,10 +53,20 @@ public:
 		@GodotName("parse_end") GodotMethod!(void) parseEnd;
 		@GodotName("parse_property") GodotMethod!(bool, GodotObject, long, String, long, String, long) parseProperty;
 	}
-	bool opEquals(in EditorInspectorPlugin other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorInspectorPlugin opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorInspectorPlugin other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorInspectorPlugin opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorInspectorPlugin.
+	/// Note: use `memnew!EditorInspectorPlugin` instead.
 	static EditorInspectorPlugin _new()
 	{
 		static godot_class_constructor constructor;
@@ -71,7 +81,7 @@ public:
 	void addCustomControl(Control control)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addCustomControl, _godot_object, control);
+		ptrcall!(void)(GDNativeClassBinding.addCustomControl, _godot_object, control);
 	}
 	/**
 	Adds a property editor, this must inherit $(D EditorProperty).
@@ -79,7 +89,7 @@ public:
 	void addPropertyEditor(in String property, Control editor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPropertyEditor, _godot_object, property, editor);
+		ptrcall!(void)(GDNativeClassBinding.addPropertyEditor, _godot_object, property, editor);
 	}
 	/**
 	Adds an editor that allows modifying multiple properties, this must inherit $(D EditorProperty).
@@ -87,7 +97,7 @@ public:
 	void addPropertyEditorForMultipleProperties(in String label, in PoolStringArray properties, Control editor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.addPropertyEditorForMultipleProperties, _godot_object, label, properties, editor);
+		ptrcall!(void)(GDNativeClassBinding.addPropertyEditorForMultipleProperties, _godot_object, label, properties, editor);
 	}
 	/**
 	Returns `true` if this object can be handled by this plugin.

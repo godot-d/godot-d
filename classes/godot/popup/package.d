@@ -30,14 +30,14 @@ Popup is a base $(D Control) used to show dialogs and popups. It's a subwindow a
 */
 @GodotBaseClass struct Popup
 {
-	enum string _GODOT_internal_name = "Popup";
+	package(godot) enum string _GODOT_internal_name = "Popup";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("is_exclusive") GodotMethod!(bool) isExclusive;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_as_minsize") GodotMethod!(void) setAsMinsize;
 		@GodotName("set_exclusive") GodotMethod!(void, bool) setExclusive;
 	}
-	bool opEquals(in Popup other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Popup opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Popup other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Popup opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Popup.
+	/// Note: use `memnew!Popup` instead.
 	static Popup _new()
 	{
 		static godot_class_constructor constructor;
@@ -79,7 +89,7 @@ public:
 	bool isExclusive() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isExclusive, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isExclusive, _godot_object);
 	}
 	/**
 	Popup (show the control in modal form).
@@ -87,7 +97,7 @@ public:
 	void popup(in Rect2 bounds = Rect2(0, 0, 0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popup, _godot_object, bounds);
+		ptrcall!(void)(GDNativeClassBinding.popup, _godot_object, bounds);
 	}
 	/**
 	Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by `size`.
@@ -95,7 +105,7 @@ public:
 	void popupCentered(in Vector2 size = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCentered, _godot_object, size);
+		ptrcall!(void)(GDNativeClassBinding.popupCentered, _godot_object, size);
 	}
 	/**
 	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, clamping the size to `size`, then ensuring the popup is no larger than the viewport size multiplied by `fallback_ratio`.
@@ -103,7 +113,7 @@ public:
 	void popupCenteredClamped(in Vector2 size = Vector2(0, 0), in double fallback_ratio = 0.75)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCenteredClamped, _godot_object, size, fallback_ratio);
+		ptrcall!(void)(GDNativeClassBinding.popupCenteredClamped, _godot_object, size, fallback_ratio);
 	}
 	/**
 	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, ensuring the size is never smaller than `minsize`.
@@ -111,7 +121,7 @@ public:
 	void popupCenteredMinsize(in Vector2 minsize = Vector2(0, 0))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCenteredMinsize, _godot_object, minsize);
+		ptrcall!(void)(GDNativeClassBinding.popupCenteredMinsize, _godot_object, minsize);
 	}
 	/**
 	Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, scaled at a ratio of size of the screen.
@@ -119,7 +129,7 @@ public:
 	void popupCenteredRatio(in double ratio = 0.75)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.popupCenteredRatio, _godot_object, ratio);
+		ptrcall!(void)(GDNativeClassBinding.popupCenteredRatio, _godot_object, ratio);
 	}
 	/**
 	Shrink popup to keep to the minimum size of content.
@@ -127,7 +137,7 @@ public:
 	void setAsMinsize()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAsMinsize, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.setAsMinsize, _godot_object);
 	}
 	/**
 	
@@ -135,7 +145,7 @@ public:
 	void setExclusive(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExclusive, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExclusive, _godot_object, enable);
 	}
 	/**
 	If `true`, the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.

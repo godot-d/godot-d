@@ -31,14 +31,14 @@ Having $(D GIProbe)s in a scene can be expensive, the quality of the probe can b
 */
 @GodotBaseClass struct GIProbe
 {
-	enum string _GODOT_internal_name = "GIProbe";
+	package(godot) enum string _GODOT_internal_name = "GIProbe";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualInstance _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualInstance _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("bake") GodotMethod!(void, Node, bool) bake;
@@ -64,10 +64,20 @@ public:
 		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
 		@GodotName("set_subdiv") GodotMethod!(void, long) setSubdiv;
 	}
-	bool opEquals(in GIProbe other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	GIProbe opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in GIProbe other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) GIProbe opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of GIProbe.
+	/// Note: use `memnew!GIProbe` instead.
 	static GIProbe _new()
 	{
 		static godot_class_constructor constructor;
@@ -115,7 +125,7 @@ public:
 	void bake(Node from_node = Node.init, in bool create_visual_debug = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.bake, _godot_object, from_node, create_visual_debug);
+		ptrcall!(void)(GDNativeClassBinding.bake, _godot_object, from_node, create_visual_debug);
 	}
 	/**
 	Calls $(D bake) with `create_visual_debug` enabled.
@@ -123,7 +133,7 @@ public:
 	void debugBake()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.debugBake, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.debugBake, _godot_object);
 	}
 	/**
 	
@@ -131,7 +141,7 @@ public:
 	double getBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBias, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBias, _godot_object);
 	}
 	/**
 	
@@ -139,7 +149,7 @@ public:
 	long getDynamicRange() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getDynamicRange, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getDynamicRange, _godot_object);
 	}
 	/**
 	
@@ -147,7 +157,7 @@ public:
 	double getEnergy() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEnergy, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEnergy, _godot_object);
 	}
 	/**
 	
@@ -155,7 +165,7 @@ public:
 	Vector3 getExtents() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Vector3)(_classBinding.getExtents, _godot_object);
+		return ptrcall!(Vector3)(GDNativeClassBinding.getExtents, _godot_object);
 	}
 	/**
 	
@@ -163,7 +173,7 @@ public:
 	double getNormalBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getNormalBias, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getNormalBias, _godot_object);
 	}
 	/**
 	
@@ -171,7 +181,7 @@ public:
 	Ref!GIProbeData getProbeData() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GIProbeData)(_classBinding.getProbeData, _godot_object);
+		return ptrcall!(GIProbeData)(GDNativeClassBinding.getProbeData, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	double getPropagation() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getPropagation, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getPropagation, _godot_object);
 	}
 	/**
 	
@@ -187,7 +197,7 @@ public:
 	GIProbe.Subdiv getSubdiv() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GIProbe.Subdiv)(_classBinding.getSubdiv, _godot_object);
+		return ptrcall!(GIProbe.Subdiv)(GDNativeClassBinding.getSubdiv, _godot_object);
 	}
 	/**
 	
@@ -195,7 +205,7 @@ public:
 	bool isCompressed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCompressed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCompressed, _godot_object);
 	}
 	/**
 	
@@ -203,7 +213,7 @@ public:
 	bool isInterior() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isInterior, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isInterior, _godot_object);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	void setBias(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBias, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setBias, _godot_object, max);
 	}
 	/**
 	
@@ -219,7 +229,7 @@ public:
 	void setCompress(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCompress, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setCompress, _godot_object, enable);
 	}
 	/**
 	
@@ -227,7 +237,7 @@ public:
 	void setDynamicRange(in long max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDynamicRange, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setDynamicRange, _godot_object, max);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	void setEnergy(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnergy, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, max);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	void setExtents(in Vector3 extents)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExtents, _godot_object, extents);
+		ptrcall!(void)(GDNativeClassBinding.setExtents, _godot_object, extents);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	void setInterior(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setInterior, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setInterior, _godot_object, enable);
 	}
 	/**
 	
@@ -259,7 +269,7 @@ public:
 	void setNormalBias(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNormalBias, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setNormalBias, _godot_object, max);
 	}
 	/**
 	
@@ -267,7 +277,7 @@ public:
 	void setProbeData(GIProbeData data)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProbeData, _godot_object, data);
+		ptrcall!(void)(GDNativeClassBinding.setProbeData, _godot_object, data);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	void setPropagation(in double max)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPropagation, _godot_object, max);
+		ptrcall!(void)(GDNativeClassBinding.setPropagation, _godot_object, max);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	void setSubdiv(in long subdiv)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSubdiv, _godot_object, subdiv);
+		ptrcall!(void)(GDNativeClassBinding.setSubdiv, _godot_object, subdiv);
 	}
 	/**
 	Offsets the lookup of the light contribution from the $(D GIProbe). This can be used to avoid self-shadowing, but may introduce light leaking at higher values. This and $(D normalBias) should be played around with to minimize self-shadowing and light leaking.

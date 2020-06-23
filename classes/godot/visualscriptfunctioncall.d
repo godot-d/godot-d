@@ -26,14 +26,14 @@ import godot.visualscriptnode;
 */
 @GodotBaseClass struct VisualScriptFunctionCall
 {
-	enum string _GODOT_internal_name = "VisualScriptFunctionCall";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptFunctionCall";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_argument_cache") GodotMethod!(Dictionary) _getArgumentCache;
@@ -59,10 +59,20 @@ public:
 		@GodotName("set_use_default_args") GodotMethod!(void, long) setUseDefaultArgs;
 		@GodotName("set_validate") GodotMethod!(void, bool) setValidate;
 	}
-	bool opEquals(in VisualScriptFunctionCall other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptFunctionCall opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptFunctionCall other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptFunctionCall opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptFunctionCall.
+	/// Note: use `memnew!VisualScriptFunctionCall` instead.
 	static VisualScriptFunctionCall _new()
 	{
 		static godot_class_constructor constructor;
@@ -158,7 +168,7 @@ public:
 	NodePath getBasePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getBasePath, _godot_object);
 	}
 	/**
 	
@@ -166,7 +176,7 @@ public:
 	String getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBaseScript, _godot_object);
 	}
 	/**
 	
@@ -174,7 +184,7 @@ public:
 	String getBaseType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBaseType, _godot_object);
 	}
 	/**
 	
@@ -182,7 +192,7 @@ public:
 	Variant.Type getBasicType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
+		return ptrcall!(Variant.Type)(GDNativeClassBinding.getBasicType, _godot_object);
 	}
 	/**
 	
@@ -190,7 +200,7 @@ public:
 	VisualScriptFunctionCall.CallMode getCallMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptFunctionCall.CallMode)(_classBinding.getCallMode, _godot_object);
+		return ptrcall!(VisualScriptFunctionCall.CallMode)(GDNativeClassBinding.getCallMode, _godot_object);
 	}
 	/**
 	
@@ -198,7 +208,7 @@ public:
 	String getFunction() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getFunction, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getFunction, _godot_object);
 	}
 	/**
 	
@@ -206,7 +216,7 @@ public:
 	VisualScriptFunctionCall.RPCCallMode getRpcCallMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptFunctionCall.RPCCallMode)(_classBinding.getRpcCallMode, _godot_object);
+		return ptrcall!(VisualScriptFunctionCall.RPCCallMode)(GDNativeClassBinding.getRpcCallMode, _godot_object);
 	}
 	/**
 	
@@ -214,7 +224,7 @@ public:
 	String getSingleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getSingleton, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getSingleton, _godot_object);
 	}
 	/**
 	
@@ -222,7 +232,7 @@ public:
 	long getUseDefaultArgs() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getUseDefaultArgs, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getUseDefaultArgs, _godot_object);
 	}
 	/**
 	
@@ -230,7 +240,7 @@ public:
 	bool getValidate() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getValidate, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getValidate, _godot_object);
 	}
 	/**
 	
@@ -238,7 +248,7 @@ public:
 	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
+		ptrcall!(void)(GDNativeClassBinding.setBasePath, _godot_object, base_path);
 	}
 	/**
 	
@@ -246,7 +256,7 @@ public:
 	void setBaseScript(in String base_script)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
+		ptrcall!(void)(GDNativeClassBinding.setBaseScript, _godot_object, base_script);
 	}
 	/**
 	
@@ -254,7 +264,7 @@ public:
 	void setBaseType(in String base_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
+		ptrcall!(void)(GDNativeClassBinding.setBaseType, _godot_object, base_type);
 	}
 	/**
 	
@@ -262,7 +272,7 @@ public:
 	void setBasicType(in long basic_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
+		ptrcall!(void)(GDNativeClassBinding.setBasicType, _godot_object, basic_type);
 	}
 	/**
 	
@@ -270,7 +280,7 @@ public:
 	void setCallMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setCallMode, _godot_object, mode);
 	}
 	/**
 	
@@ -278,7 +288,7 @@ public:
 	void setFunction(in String _function)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setFunction, _godot_object, _function);
+		ptrcall!(void)(GDNativeClassBinding.setFunction, _godot_object, _function);
 	}
 	/**
 	
@@ -286,7 +296,7 @@ public:
 	void setRpcCallMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRpcCallMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setRpcCallMode, _godot_object, mode);
 	}
 	/**
 	
@@ -294,7 +304,7 @@ public:
 	void setSingleton(in String singleton)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSingleton, _godot_object, singleton);
+		ptrcall!(void)(GDNativeClassBinding.setSingleton, _godot_object, singleton);
 	}
 	/**
 	
@@ -302,7 +312,7 @@ public:
 	void setUseDefaultArgs(in long amount)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseDefaultArgs, _godot_object, amount);
+		ptrcall!(void)(GDNativeClassBinding.setUseDefaultArgs, _godot_object, amount);
 	}
 	/**
 	
@@ -310,7 +320,7 @@ public:
 	void setValidate(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValidate, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setValidate, _godot_object, enable);
 	}
 	/**
 	

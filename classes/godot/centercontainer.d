@@ -28,23 +28,33 @@ CenterContainer keeps children controls centered. This container keeps all child
 */
 @GodotBaseClass struct CenterContainer
 {
-	enum string _GODOT_internal_name = "CenterContainer";
+	package(godot) enum string _GODOT_internal_name = "CenterContainer";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Container _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Container _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("is_using_top_left") GodotMethod!(bool) isUsingTopLeft;
 		@GodotName("set_use_top_left") GodotMethod!(void, bool) setUseTopLeft;
 	}
-	bool opEquals(in CenterContainer other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CenterContainer opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CenterContainer other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CenterContainer opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CenterContainer.
+	/// Note: use `memnew!CenterContainer` instead.
 	static CenterContainer _new()
 	{
 		static godot_class_constructor constructor;
@@ -59,7 +69,7 @@ public:
 	bool isUsingTopLeft() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isUsingTopLeft, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingTopLeft, _godot_object);
 	}
 	/**
 	
@@ -67,7 +77,7 @@ public:
 	void setUseTopLeft(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setUseTopLeft, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setUseTopLeft, _godot_object, enable);
 	}
 	/**
 	If `true`, centers children relative to the $(D CenterContainer)'s top left corner.

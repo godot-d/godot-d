@@ -1,5 +1,5 @@
 /**
-
+Clamps a vector value within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,25 +24,37 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+Clamps a vector value within the visual shader graph.
 
+Constrains a value to lie between `min` and `max` values. The operation is performed on each component of the vector individually.
 */
 @GodotBaseClass struct VisualShaderNodeVectorClamp
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeVectorClamp";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeVectorClamp";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeVectorClamp other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeVectorClamp opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeVectorClamp other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeVectorClamp opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeVectorClamp.
+	/// Note: use `memnew!VisualShaderNodeVectorClamp` instead.
 	static VisualShaderNodeVectorClamp _new()
 	{
 		static godot_class_constructor constructor;

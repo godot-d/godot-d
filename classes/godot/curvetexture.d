@@ -29,14 +29,14 @@ Renders a given $(D Curve) provided to it. Simplifies the task of drawing curves
 */
 @GodotBaseClass struct CurveTexture
 {
-	enum string _GODOT_internal_name = "CurveTexture";
+	package(godot) enum string _GODOT_internal_name = "CurveTexture";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Texture _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Texture _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_update") GodotMethod!(void) _update;
@@ -44,10 +44,20 @@ public:
 		@GodotName("set_curve") GodotMethod!(void, Curve) setCurve;
 		@GodotName("set_width") GodotMethod!(void, long) setWidth;
 	}
-	bool opEquals(in CurveTexture other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CurveTexture opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CurveTexture other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CurveTexture opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CurveTexture.
+	/// Note: use `memnew!CurveTexture` instead.
 	static CurveTexture _new()
 	{
 		static godot_class_constructor constructor;
@@ -71,7 +81,7 @@ public:
 	Ref!Curve getCurve() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Curve)(_classBinding.getCurve, _godot_object);
+		return ptrcall!(Curve)(GDNativeClassBinding.getCurve, _godot_object);
 	}
 	/**
 	
@@ -79,7 +89,7 @@ public:
 	void setCurve(Curve curve)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCurve, _godot_object, curve);
+		ptrcall!(void)(GDNativeClassBinding.setCurve, _godot_object, curve);
 	}
 	/**
 	
@@ -87,7 +97,7 @@ public:
 	void setWidth(in long width)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setWidth, _godot_object, width);
+		ptrcall!(void)(GDNativeClassBinding.setWidth, _godot_object, width);
 	}
 	/**
 	The `curve` rendered onto the texture.

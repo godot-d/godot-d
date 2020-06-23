@@ -29,14 +29,14 @@ $(B Note:) There is no 2D equivalent for this node yet.
 */
 @GodotBaseClass struct Listener
 {
-	enum string _GODOT_internal_name = "Listener";
+	package(godot) enum string _GODOT_internal_name = "Listener";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Spatial _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Spatial _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("clear_current") GodotMethod!(void) clearCurrent;
@@ -44,10 +44,20 @@ public:
 		@GodotName("is_current") GodotMethod!(bool) isCurrent;
 		@GodotName("make_current") GodotMethod!(void) makeCurrent;
 	}
-	bool opEquals(in Listener other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Listener opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Listener other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Listener opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Listener.
+	/// Note: use `memnew!Listener` instead.
 	static Listener _new()
 	{
 		static godot_class_constructor constructor;
@@ -62,7 +72,7 @@ public:
 	void clearCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clearCurrent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clearCurrent, _godot_object);
 	}
 	/**
 	Returns the listener's global orthonormalized $(D Transform).
@@ -70,7 +80,7 @@ public:
 	Transform getListenerTransform() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform)(_classBinding.getListenerTransform, _godot_object);
+		return ptrcall!(Transform)(GDNativeClassBinding.getListenerTransform, _godot_object);
 	}
 	/**
 	Returns `true` if the listener was made current using $(D makeCurrent), `false` otherwise.
@@ -79,7 +89,7 @@ public:
 	bool isCurrent() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isCurrent, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isCurrent, _godot_object);
 	}
 	/**
 	Enables the listener. This will override the current camera's listener.
@@ -87,6 +97,6 @@ public:
 	void makeCurrent()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.makeCurrent, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.makeCurrent, _godot_object);
 	}
 }

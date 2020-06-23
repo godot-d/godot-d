@@ -54,14 +54,14 @@ ConfigFiles can also contain manually written comment lines starting with a semi
 */
 @GodotBaseClass struct ConfigFile
 {
-	enum string _GODOT_internal_name = "ConfigFile";
+	package(godot) enum string _GODOT_internal_name = "ConfigFile";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("erase_section") GodotMethod!(void, String) eraseSection;
@@ -79,10 +79,20 @@ public:
 		@GodotName("save_encrypted_pass") GodotMethod!(GodotError, String, String) saveEncryptedPass;
 		@GodotName("set_value") GodotMethod!(void, String, String, Variant) setValue;
 	}
-	bool opEquals(in ConfigFile other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	ConfigFile opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in ConfigFile other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) ConfigFile opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of ConfigFile.
+	/// Note: use `memnew!ConfigFile` instead.
 	static ConfigFile _new()
 	{
 		static godot_class_constructor constructor;
@@ -92,28 +102,28 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Deletes the specified section along with all the key-value pairs inside.
+	Deletes the specified section along with all the key-value pairs inside. Raises an error if the section does not exist.
 	*/
 	void eraseSection(in String section)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseSection, _godot_object, section);
+		ptrcall!(void)(GDNativeClassBinding.eraseSection, _godot_object, section);
 	}
 	/**
-	
+	Deletes the specified key in a section. Raises an error if either the section or the key do not exist.
 	*/
 	void eraseSectionKey(in String section, in String key)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.eraseSectionKey, _godot_object, section, key);
+		ptrcall!(void)(GDNativeClassBinding.eraseSectionKey, _godot_object, section, key);
 	}
 	/**
-	Returns an array of all defined key identifiers in the specified section.
+	Returns an array of all defined key identifiers in the specified section. Raises an error and returns an empty array if the section does not exist.
 	*/
 	PoolStringArray getSectionKeys(in String section) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getSectionKeys, _godot_object, section);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getSectionKeys, _godot_object, section);
 	}
 	/**
 	Returns an array of all defined section identifiers.
@@ -121,15 +131,15 @@ public:
 	PoolStringArray getSections() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolStringArray)(_classBinding.getSections, _godot_object);
+		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getSections, _godot_object);
 	}
 	/**
-	Returns the current value for the specified section and key. If the section and/or the key do not exist, the method returns the value of the optional `default` argument, or `null` if it is omitted.
+	Returns the current value for the specified section and key. If either the section or the key do not exist, the method returns the fallback `default` value. If `default` is not specified or set to `null`, an error is also raised.
 	*/
 	Variant getValue(VariantArg2)(in String section, in String key, in VariantArg2 _default = Variant.nil) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant)(_classBinding.getValue, _godot_object, section, key, _default);
+		return ptrcall!(Variant)(GDNativeClassBinding.getValue, _godot_object, section, key, _default);
 	}
 	/**
 	Returns `true` if the specified section exists.
@@ -137,7 +147,7 @@ public:
 	bool hasSection(in String section) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSection, _godot_object, section);
+		return ptrcall!(bool)(GDNativeClassBinding.hasSection, _godot_object, section);
 	}
 	/**
 	Returns `true` if the specified section-key pair exists.
@@ -145,64 +155,68 @@ public:
 	bool hasSectionKey(in String section, in String key) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.hasSectionKey, _godot_object, section, key);
+		return ptrcall!(bool)(GDNativeClassBinding.hasSectionKey, _godot_object, section, key);
 	}
 	/**
-	Loads the config file specified as a parameter. The file's contents are parsed and loaded in the ConfigFile object which the method was called on.
+	Loads the config file specified as a parameter. The file's contents are parsed and loaded in the $(D ConfigFile) object which the method was called on.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError load(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.load, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
-	
+	Loads the encrypted config file specified as a parameter, using the provided `key` to decrypt it. The file's contents are parsed and loaded in the $(D ConfigFile) object which the method was called on.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError loadEncrypted(in String path, in PoolByteArray key)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadEncrypted, _godot_object, path, key);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadEncrypted, _godot_object, path, key);
 	}
 	/**
-	
+	Loads the encrypted config file specified as a parameter, using the provided `password` to decrypt it. The file's contents are parsed and loaded in the $(D ConfigFile) object which the method was called on.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError loadEncryptedPass(in String path, in String pass)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.loadEncryptedPass, _godot_object, path, pass);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadEncryptedPass, _godot_object, path, pass);
 	}
 	/**
-	Saves the contents of the ConfigFile object to the file specified as a parameter. The output file uses an INI-style structure.
+	Saves the contents of the $(D ConfigFile) object to the file specified as a parameter. The output file uses an INI-style structure.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError save(in String path)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.save, _godot_object, path);
+		return ptrcall!(GodotError)(GDNativeClassBinding.save, _godot_object, path);
 	}
 	/**
-	
+	Saves the contents of the $(D ConfigFile) object to the AES-256 encrypted file specified as a parameter, using the provided `key` to encrypt it. The output file uses an INI-style structure.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError saveEncrypted(in String path, in PoolByteArray key)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveEncrypted, _godot_object, path, key);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveEncrypted, _godot_object, path, key);
 	}
 	/**
-	
+	Saves the contents of the $(D ConfigFile) object to the AES-256 encrypted file specified as a parameter, using the provided `password` to encrypt it. The output file uses an INI-style structure.
+	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError saveEncryptedPass(in String path, in String pass)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.saveEncryptedPass, _godot_object, path, pass);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveEncryptedPass, _godot_object, path, pass);
 	}
 	/**
-	Assigns a value to the specified key of the specified section. If the section and/or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.
+	Assigns a value to the specified key of the specified section. If either the section or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.
 	*/
 	void setValue(VariantArg2)(in String section, in String key, in VariantArg2 value)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setValue, _godot_object, section, key, value);
+		ptrcall!(void)(GDNativeClassBinding.setValue, _godot_object, section, key, value);
 	}
 }

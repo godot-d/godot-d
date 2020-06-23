@@ -30,14 +30,14 @@ BaseButton is the abstract base class for buttons, so it shouldn't be used direc
 */
 @GodotBaseClass struct BaseButton
 {
-	enum string _GODOT_internal_name = "BaseButton";
+	package(godot) enum string _GODOT_internal_name = "BaseButton";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Control _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Control _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
@@ -67,10 +67,20 @@ public:
 		@GodotName("set_shortcut_in_tooltip") GodotMethod!(void, bool) setShortcutInTooltip;
 		@GodotName("set_toggle_mode") GodotMethod!(void, bool) setToggleMode;
 	}
-	bool opEquals(in BaseButton other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	BaseButton opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in BaseButton other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) BaseButton opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of BaseButton.
+	/// Note: use `memnew!BaseButton` instead.
 	static BaseButton _new()
 	{
 		static godot_class_constructor constructor;
@@ -171,7 +181,7 @@ public:
 	BaseButton.ActionMode getActionMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BaseButton.ActionMode)(_classBinding.getActionMode, _godot_object);
+		return ptrcall!(BaseButton.ActionMode)(GDNativeClassBinding.getActionMode, _godot_object);
 	}
 	/**
 	
@@ -179,7 +189,7 @@ public:
 	Ref!ButtonGroup getButtonGroup() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ButtonGroup)(_classBinding.getButtonGroup, _godot_object);
+		return ptrcall!(ButtonGroup)(GDNativeClassBinding.getButtonGroup, _godot_object);
 	}
 	/**
 	
@@ -187,7 +197,7 @@ public:
 	long getButtonMask() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getButtonMask, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getButtonMask, _godot_object);
 	}
 	/**
 	Returns the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the $(D drawmode) enum.
@@ -195,7 +205,7 @@ public:
 	BaseButton.DrawMode getDrawMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BaseButton.DrawMode)(_classBinding.getDrawMode, _godot_object);
+		return ptrcall!(BaseButton.DrawMode)(GDNativeClassBinding.getDrawMode, _godot_object);
 	}
 	/**
 	
@@ -203,7 +213,7 @@ public:
 	Control.FocusMode getEnabledFocusMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control.FocusMode)(_classBinding.getEnabledFocusMode, _godot_object);
+		return ptrcall!(Control.FocusMode)(GDNativeClassBinding.getEnabledFocusMode, _godot_object);
 	}
 	/**
 	
@@ -211,7 +221,7 @@ public:
 	Ref!ShortCut getShortcut() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(ShortCut)(_classBinding.getShortcut, _godot_object);
+		return ptrcall!(ShortCut)(GDNativeClassBinding.getShortcut, _godot_object);
 	}
 	/**
 	
@@ -219,7 +229,7 @@ public:
 	bool isDisabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isDisabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isDisabled, _godot_object);
 	}
 	/**
 	Returns `true` if the mouse has entered the button and has not left it yet.
@@ -227,7 +237,7 @@ public:
 	bool isHovered() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isHovered, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isHovered, _godot_object);
 	}
 	/**
 	
@@ -235,7 +245,7 @@ public:
 	bool isKeepPressedOutside() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isKeepPressedOutside, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isKeepPressedOutside, _godot_object);
 	}
 	/**
 	
@@ -243,7 +253,7 @@ public:
 	bool isPressed() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isPressed, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isPressed, _godot_object);
 	}
 	/**
 	
@@ -251,7 +261,7 @@ public:
 	bool isShortcutInTooltipEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isShortcutInTooltipEnabled, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isShortcutInTooltipEnabled, _godot_object);
 	}
 	/**
 	
@@ -259,7 +269,7 @@ public:
 	bool isToggleMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isToggleMode, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isToggleMode, _godot_object);
 	}
 	/**
 	
@@ -267,7 +277,7 @@ public:
 	void setActionMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setActionMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setActionMode, _godot_object, mode);
 	}
 	/**
 	
@@ -275,7 +285,7 @@ public:
 	void setButtonGroup(ButtonGroup button_group)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonGroup, _godot_object, button_group);
+		ptrcall!(void)(GDNativeClassBinding.setButtonGroup, _godot_object, button_group);
 	}
 	/**
 	
@@ -283,7 +293,7 @@ public:
 	void setButtonMask(in long mask)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setButtonMask, _godot_object, mask);
+		ptrcall!(void)(GDNativeClassBinding.setButtonMask, _godot_object, mask);
 	}
 	/**
 	
@@ -291,7 +301,7 @@ public:
 	void setDisabled(in bool disabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDisabled, _godot_object, disabled);
+		ptrcall!(void)(GDNativeClassBinding.setDisabled, _godot_object, disabled);
 	}
 	/**
 	
@@ -299,7 +309,7 @@ public:
 	void setEnabledFocusMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEnabledFocusMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setEnabledFocusMode, _godot_object, mode);
 	}
 	/**
 	
@@ -307,7 +317,7 @@ public:
 	void setKeepPressedOutside(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setKeepPressedOutside, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setKeepPressedOutside, _godot_object, enabled);
 	}
 	/**
 	
@@ -315,7 +325,7 @@ public:
 	void setPressed(in bool pressed)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setPressed, _godot_object, pressed);
+		ptrcall!(void)(GDNativeClassBinding.setPressed, _godot_object, pressed);
 	}
 	/**
 	
@@ -323,7 +333,7 @@ public:
 	void setShortcut(ShortCut shortcut)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcut, _godot_object, shortcut);
+		ptrcall!(void)(GDNativeClassBinding.setShortcut, _godot_object, shortcut);
 	}
 	/**
 	
@@ -331,7 +341,7 @@ public:
 	void setShortcutInTooltip(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setShortcutInTooltip, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setShortcutInTooltip, _godot_object, enabled);
 	}
 	/**
 	
@@ -339,7 +349,7 @@ public:
 	void setToggleMode(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setToggleMode, _godot_object, enabled);
+		ptrcall!(void)(GDNativeClassBinding.setToggleMode, _godot_object, enabled);
 	}
 	/**
 	Determines when the button is considered clicked, one of the $(D actionmode) constants.
@@ -404,6 +414,7 @@ public:
 	}
 	/**
 	If `true`, the button stays pressed when moving the cursor outside the button while pressing it.
+	$(B Note:) This property only affects the button's visual appearance. Signals will be emitted at the same moment regardless of this property's value.
 	*/
 	@property bool keepPressedOutside()
 	{

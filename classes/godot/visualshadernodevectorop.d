@@ -1,5 +1,5 @@
 /**
-
+A vector operator to be used within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,27 +24,39 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+A vector operator to be used within the visual shader graph.
 
+A visual shader node for use of vector operators. Operates on vector `a` and vector `b`.
 */
 @GodotBaseClass struct VisualShaderNodeVectorOp
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeVectorOp";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeVectorOp";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_operator") GodotMethod!(VisualShaderNodeVectorOp.Operator) getOperator;
 		@GodotName("set_operator") GodotMethod!(void, long) setOperator;
 	}
-	bool opEquals(in VisualShaderNodeVectorOp other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeVectorOp opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeVectorOp other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeVectorOp opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeVectorOp.
+	/// Note: use `memnew!VisualShaderNodeVectorOp` instead.
 	static VisualShaderNodeVectorOp _new()
 	{
 		static godot_class_constructor constructor;
@@ -57,51 +69,51 @@ public:
 	enum Operator : int
 	{
 		/**
-		
+		Adds two vectors.
 		*/
 		opAdd = 0,
 		/**
-		
+		Subtracts a vector from a vector.
 		*/
 		opSub = 1,
 		/**
-		
+		Multiplies two vectors.
 		*/
 		opMul = 2,
 		/**
-		
+		Divides vector by vector.
 		*/
 		opDiv = 3,
 		/**
-		
+		Returns the remainder of the two vectors.
 		*/
 		opMod = 4,
 		/**
-		
+		Returns the value of the first parameter raised to the power of the second, for each component of the vectors.
 		*/
 		opPow = 5,
 		/**
-		
+		Returns the greater of two values, for each component of the vectors.
 		*/
 		opMax = 6,
 		/**
-		
+		Returns the lesser of two values, for each component of the vectors.
 		*/
 		opMin = 7,
 		/**
-		
+		Calculates the cross product of two vectors.
 		*/
 		opCross = 8,
 		/**
-		
+		Returns the arc-tangent of the parameters.
 		*/
 		opAtan2 = 9,
 		/**
-		
+		Returns the vector that points in the direction of reflection. `a` is incident vector and `b` is the normal vector.
 		*/
 		opReflect = 10,
 		/**
-		
+		Vector step operator. Returns `0.0` if `a` is smaller than `b` and `1.0` otherwise.
 		*/
 		opStep = 11,
 	}
@@ -127,7 +139,7 @@ public:
 	VisualShaderNodeVectorOp.Operator getOperator() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualShaderNodeVectorOp.Operator)(_classBinding.getOperator, _godot_object);
+		return ptrcall!(VisualShaderNodeVectorOp.Operator)(GDNativeClassBinding.getOperator, _godot_object);
 	}
 	/**
 	
@@ -135,10 +147,10 @@ public:
 	void setOperator(in long op)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setOperator, _godot_object, op);
+		ptrcall!(void)(GDNativeClassBinding.setOperator, _godot_object, op);
 	}
 	/**
-	
+	The operator to be used. See $(D operator) for options.
 	*/
 	@property VisualShaderNodeVectorOp.Operator operator()
 	{

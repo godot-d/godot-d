@@ -28,14 +28,14 @@ Class representing a capsule-shaped $(D PrimitiveMesh).
 */
 @GodotBaseClass struct CapsuleMesh
 {
-	enum string _GODOT_internal_name = "CapsuleMesh";
+	package(godot) enum string _GODOT_internal_name = "CapsuleMesh";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; PrimitiveMesh _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ PrimitiveMesh _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_mid_height") GodotMethod!(double) getMidHeight;
@@ -47,10 +47,20 @@ public:
 		@GodotName("set_radius") GodotMethod!(void, double) setRadius;
 		@GodotName("set_rings") GodotMethod!(void, long) setRings;
 	}
-	bool opEquals(in CapsuleMesh other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	CapsuleMesh opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in CapsuleMesh other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) CapsuleMesh opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of CapsuleMesh.
+	/// Note: use `memnew!CapsuleMesh` instead.
 	static CapsuleMesh _new()
 	{
 		static godot_class_constructor constructor;
@@ -65,7 +75,7 @@ public:
 	double getMidHeight() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getMidHeight, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getMidHeight, _godot_object);
 	}
 	/**
 	
@@ -73,7 +83,7 @@ public:
 	long getRadialSegments() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRadialSegments, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRadialSegments, _godot_object);
 	}
 	/**
 	
@@ -81,7 +91,7 @@ public:
 	double getRadius() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getRadius, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getRadius, _godot_object);
 	}
 	/**
 	
@@ -89,7 +99,7 @@ public:
 	long getRings() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getRings, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getRings, _godot_object);
 	}
 	/**
 	
@@ -97,7 +107,7 @@ public:
 	void setMidHeight(in double mid_height)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setMidHeight, _godot_object, mid_height);
+		ptrcall!(void)(GDNativeClassBinding.setMidHeight, _godot_object, mid_height);
 	}
 	/**
 	
@@ -105,7 +115,7 @@ public:
 	void setRadialSegments(in long segments)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadialSegments, _godot_object, segments);
+		ptrcall!(void)(GDNativeClassBinding.setRadialSegments, _godot_object, segments);
 	}
 	/**
 	
@@ -113,7 +123,7 @@ public:
 	void setRadius(in double radius)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRadius, _godot_object, radius);
+		ptrcall!(void)(GDNativeClassBinding.setRadius, _godot_object, radius);
 	}
 	/**
 	
@@ -121,7 +131,7 @@ public:
 	void setRings(in long rings)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRings, _godot_object, rings);
+		ptrcall!(void)(GDNativeClassBinding.setRings, _godot_object, rings);
 	}
 	/**
 	Height of the capsule mesh from the center point.

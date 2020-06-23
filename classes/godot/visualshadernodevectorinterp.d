@@ -1,5 +1,5 @@
 /**
-
+Linearly interpolates between two vectors within the visual shader graph.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,25 +24,37 @@ import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
 /**
+Linearly interpolates between two vectors within the visual shader graph.
 
+Translates to `mix(a, b, weight)` in the shader language, where `weight` is a $(D Vector3) with weights for each component.
 */
 @GodotBaseClass struct VisualShaderNodeVectorInterp
 {
-	enum string _GODOT_internal_name = "VisualShaderNodeVectorInterp";
+	package(godot) enum string _GODOT_internal_name = "VisualShaderNodeVectorInterp";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualShaderNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualShaderNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 	}
-	bool opEquals(in VisualShaderNodeVectorInterp other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualShaderNodeVectorInterp opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualShaderNodeVectorInterp other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualShaderNodeVectorInterp opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualShaderNodeVectorInterp.
+	/// Note: use `memnew!VisualShaderNodeVectorInterp` instead.
 	static VisualShaderNodeVectorInterp _new()
 	{
 		static godot_class_constructor constructor;

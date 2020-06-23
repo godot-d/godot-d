@@ -29,14 +29,14 @@ Custom code to generate previews. Please check `file_dialog/thumbnail_size` in $
 */
 @GodotBaseClass struct EditorResourcePreviewGenerator
 {
-	enum string _GODOT_internal_name = "EditorResourcePreviewGenerator";
+	package(godot) enum string _GODOT_internal_name = "EditorResourcePreviewGenerator";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("can_generate_small_preview") GodotMethod!(bool) canGenerateSmallPreview;
@@ -45,10 +45,20 @@ public:
 		@GodotName("generate_small_preview_automatically") GodotMethod!(bool) generateSmallPreviewAutomatically;
 		@GodotName("handles") GodotMethod!(bool, String) handles;
 	}
-	bool opEquals(in EditorResourcePreviewGenerator other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	EditorResourcePreviewGenerator opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in EditorResourcePreviewGenerator other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) EditorResourcePreviewGenerator opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of EditorResourcePreviewGenerator.
+	/// Note: use `memnew!EditorResourcePreviewGenerator` instead.
 	static EditorResourcePreviewGenerator _new()
 	{
 		static godot_class_constructor constructor;

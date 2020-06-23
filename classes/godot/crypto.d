@@ -50,24 +50,34 @@ $(B Note:) Not available in HTML5 exports.
 */
 @GodotBaseClass struct Crypto
 {
-	enum string _GODOT_internal_name = "Crypto";
+	package(godot) enum string _GODOT_internal_name = "Crypto";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("generate_random_bytes") GodotMethod!(PoolByteArray, long) generateRandomBytes;
 		@GodotName("generate_rsa") GodotMethod!(CryptoKey, long) generateRsa;
 		@GodotName("generate_self_signed_certificate") GodotMethod!(X509Certificate, CryptoKey, String, String, String) generateSelfSignedCertificate;
 	}
-	bool opEquals(in Crypto other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Crypto opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Crypto other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Crypto opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Crypto.
+	/// Note: use `memnew!Crypto` instead.
 	static Crypto _new()
 	{
 		static godot_class_constructor constructor;
@@ -82,7 +92,7 @@ public:
 	PoolByteArray generateRandomBytes(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(PoolByteArray)(_classBinding.generateRandomBytes, _godot_object, size);
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.generateRandomBytes, _godot_object, size);
 	}
 	/**
 	Generates an RSA $(D CryptoKey) that can be used for creating self-signed certificates and passed to $(D StreamPeerSSL.acceptStream).
@@ -90,7 +100,7 @@ public:
 	Ref!CryptoKey generateRsa(in long size)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(CryptoKey)(_classBinding.generateRsa, _godot_object, size);
+		return ptrcall!(CryptoKey)(GDNativeClassBinding.generateRsa, _godot_object, size);
 	}
 	/**
 	Generates a self-signed $(D X509Certificate) from the given $(D CryptoKey) and `issuer_name`. The certificate validity will be defined by `not_before` and `not_after` (first valid date and last valid date). The `issuer_name` must contain at least "CN=" (common name, i.e. the domain name), "O=" (organization, i.e. your company name), "C=" (country, i.e. 2 lettered ISO-3166 code of the country the organization is based in).
@@ -108,6 +118,6 @@ public:
 	Ref!X509Certificate generateSelfSignedCertificate(CryptoKey key, in String issuer_name = gs!"CN=myserver,O=myorganisation,C=IT", in String not_before = gs!"20140101000000", in String not_after = gs!"20340101000000")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(X509Certificate)(_classBinding.generateSelfSignedCertificate, _godot_object, key, issuer_name, not_before, not_after);
+		return ptrcall!(X509Certificate)(GDNativeClassBinding.generateSelfSignedCertificate, _godot_object, key, issuer_name, not_before, not_after);
 	}
 }

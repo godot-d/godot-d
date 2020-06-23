@@ -31,14 +31,14 @@ If in the editor, you can set the rest pose of an entire skeleton using a menu o
 */
 @GodotBaseClass struct Bone2D
 {
-	enum string _GODOT_internal_name = "Bone2D";
+	package(godot) enum string _GODOT_internal_name = "Bone2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("apply_rest") GodotMethod!(void) applyRest;
@@ -49,10 +49,20 @@ public:
 		@GodotName("set_default_length") GodotMethod!(void, double) setDefaultLength;
 		@GodotName("set_rest") GodotMethod!(void, Transform2D) setRest;
 	}
-	bool opEquals(in Bone2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Bone2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Bone2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Bone2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Bone2D.
+	/// Note: use `memnew!Bone2D` instead.
 	static Bone2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -67,7 +77,7 @@ public:
 	void applyRest()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.applyRest, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.applyRest, _godot_object);
 	}
 	/**
 	
@@ -75,7 +85,7 @@ public:
 	double getDefaultLength() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getDefaultLength, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getDefaultLength, _godot_object);
 	}
 	/**
 	Returns the node's index as part of the entire skeleton. See $(D Skeleton2D).
@@ -83,7 +93,7 @@ public:
 	long getIndexInSkeleton() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getIndexInSkeleton, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getIndexInSkeleton, _godot_object);
 	}
 	/**
 	
@@ -91,7 +101,7 @@ public:
 	Transform2D getRest() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getRest, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getRest, _godot_object);
 	}
 	/**
 	Returns the node's $(D rest) `Transform2D` if it doesn't have a parent, or its rest pose relative to its parent.
@@ -99,7 +109,7 @@ public:
 	Transform2D getSkeletonRest() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Transform2D)(_classBinding.getSkeletonRest, _godot_object);
+		return ptrcall!(Transform2D)(GDNativeClassBinding.getSkeletonRest, _godot_object);
 	}
 	/**
 	
@@ -107,7 +117,7 @@ public:
 	void setDefaultLength(in double default_length)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setDefaultLength, _godot_object, default_length);
+		ptrcall!(void)(GDNativeClassBinding.setDefaultLength, _godot_object, default_length);
 	}
 	/**
 	
@@ -115,7 +125,7 @@ public:
 	void setRest(in Transform2D rest)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setRest, _godot_object, rest);
+		ptrcall!(void)(GDNativeClassBinding.setRest, _godot_object, rest);
 	}
 	/**
 	Length of the bone's representation drawn in the editor's viewport in pixels.

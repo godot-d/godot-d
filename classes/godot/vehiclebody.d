@@ -33,14 +33,14 @@ $(B Note:) The origin point of your VehicleBody will determine the center of gra
 */
 @GodotBaseClass struct VehicleBody
 {
-	enum string _GODOT_internal_name = "VehicleBody";
+	package(godot) enum string _GODOT_internal_name = "VehicleBody";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; RigidBody _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ RigidBody _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_brake") GodotMethod!(double) getBrake;
@@ -50,10 +50,20 @@ public:
 		@GodotName("set_engine_force") GodotMethod!(void, double) setEngineForce;
 		@GodotName("set_steering") GodotMethod!(void, double) setSteering;
 	}
-	bool opEquals(in VehicleBody other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VehicleBody opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VehicleBody other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VehicleBody opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VehicleBody.
+	/// Note: use `memnew!VehicleBody` instead.
 	static VehicleBody _new()
 	{
 		static godot_class_constructor constructor;
@@ -68,7 +78,7 @@ public:
 	double getBrake() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBrake, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBrake, _godot_object);
 	}
 	/**
 	
@@ -76,7 +86,7 @@ public:
 	double getEngineForce() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getEngineForce, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getEngineForce, _godot_object);
 	}
 	/**
 	
@@ -84,7 +94,7 @@ public:
 	double getSteering() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getSteering, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getSteering, _godot_object);
 	}
 	/**
 	
@@ -92,7 +102,7 @@ public:
 	void setBrake(in double brake)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBrake, _godot_object, brake);
+		ptrcall!(void)(GDNativeClassBinding.setBrake, _godot_object, brake);
 	}
 	/**
 	
@@ -100,7 +110,7 @@ public:
 	void setEngineForce(in double engine_force)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setEngineForce, _godot_object, engine_force);
+		ptrcall!(void)(GDNativeClassBinding.setEngineForce, _godot_object, engine_force);
 	}
 	/**
 	
@@ -108,7 +118,7 @@ public:
 	void setSteering(in double steering)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setSteering, _godot_object, steering);
+		ptrcall!(void)(GDNativeClassBinding.setSteering, _godot_object, steering);
 	}
 	/**
 	Slows down the vehicle by applying a braking force. The vehicle is only slowed down if the wheels are in contact with a surface. The force you need to apply to adequately slow down your vehicle depends on the $(D RigidBody.mass) of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 30 range for hard braking.

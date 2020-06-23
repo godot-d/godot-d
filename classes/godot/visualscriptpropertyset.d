@@ -28,14 +28,14 @@ import godot.reference;
 */
 @GodotBaseClass struct VisualScriptPropertySet
 {
-	enum string _GODOT_internal_name = "VisualScriptPropertySet";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptPropertySet";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("_get_type_cache") GodotMethod!(Dictionary) _getTypeCache;
@@ -57,10 +57,20 @@ public:
 		@GodotName("set_index") GodotMethod!(void, String) setIndex;
 		@GodotName("set_property") GodotMethod!(void, String) setProperty;
 	}
-	bool opEquals(in VisualScriptPropertySet other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptPropertySet opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptPropertySet other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptPropertySet opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptPropertySet.
+	/// Note: use `memnew!VisualScriptPropertySet` instead.
 	static VisualScriptPropertySet _new()
 	{
 		static godot_class_constructor constructor;
@@ -181,7 +191,7 @@ public:
 	VisualScriptPropertySet.AssignOp getAssignOp() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptPropertySet.AssignOp)(_classBinding.getAssignOp, _godot_object);
+		return ptrcall!(VisualScriptPropertySet.AssignOp)(GDNativeClassBinding.getAssignOp, _godot_object);
 	}
 	/**
 	
@@ -189,7 +199,7 @@ public:
 	NodePath getBasePath() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getBasePath, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getBasePath, _godot_object);
 	}
 	/**
 	
@@ -197,7 +207,7 @@ public:
 	String getBaseScript() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseScript, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBaseScript, _godot_object);
 	}
 	/**
 	
@@ -205,7 +215,7 @@ public:
 	String getBaseType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getBaseType, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getBaseType, _godot_object);
 	}
 	/**
 	
@@ -213,7 +223,7 @@ public:
 	Variant.Type getBasicType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getBasicType, _godot_object);
+		return ptrcall!(Variant.Type)(GDNativeClassBinding.getBasicType, _godot_object);
 	}
 	/**
 	
@@ -221,7 +231,7 @@ public:
 	VisualScriptPropertySet.CallMode getCallMode() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(VisualScriptPropertySet.CallMode)(_classBinding.getCallMode, _godot_object);
+		return ptrcall!(VisualScriptPropertySet.CallMode)(GDNativeClassBinding.getCallMode, _godot_object);
 	}
 	/**
 	
@@ -229,7 +239,7 @@ public:
 	String getIndex() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getIndex, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getIndex, _godot_object);
 	}
 	/**
 	
@@ -237,7 +247,7 @@ public:
 	String getProperty() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getProperty, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getProperty, _godot_object);
 	}
 	/**
 	
@@ -245,7 +255,7 @@ public:
 	void setAssignOp(in long assign_op)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setAssignOp, _godot_object, assign_op);
+		ptrcall!(void)(GDNativeClassBinding.setAssignOp, _godot_object, assign_op);
 	}
 	/**
 	
@@ -253,7 +263,7 @@ public:
 	void setBasePath(NodePathArg0)(in NodePathArg0 base_path)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasePath, _godot_object, base_path);
+		ptrcall!(void)(GDNativeClassBinding.setBasePath, _godot_object, base_path);
 	}
 	/**
 	
@@ -261,7 +271,7 @@ public:
 	void setBaseScript(in String base_script)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseScript, _godot_object, base_script);
+		ptrcall!(void)(GDNativeClassBinding.setBaseScript, _godot_object, base_script);
 	}
 	/**
 	
@@ -269,7 +279,7 @@ public:
 	void setBaseType(in String base_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBaseType, _godot_object, base_type);
+		ptrcall!(void)(GDNativeClassBinding.setBaseType, _godot_object, base_type);
 	}
 	/**
 	
@@ -277,7 +287,7 @@ public:
 	void setBasicType(in long basic_type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBasicType, _godot_object, basic_type);
+		ptrcall!(void)(GDNativeClassBinding.setBasicType, _godot_object, basic_type);
 	}
 	/**
 	
@@ -285,7 +295,7 @@ public:
 	void setCallMode(in long mode)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setCallMode, _godot_object, mode);
+		ptrcall!(void)(GDNativeClassBinding.setCallMode, _godot_object, mode);
 	}
 	/**
 	
@@ -293,7 +303,7 @@ public:
 	void setIndex(in String index)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setIndex, _godot_object, index);
+		ptrcall!(void)(GDNativeClassBinding.setIndex, _godot_object, index);
 	}
 	/**
 	
@@ -301,7 +311,7 @@ public:
 	void setProperty(in String property)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setProperty, _godot_object, property);
+		ptrcall!(void)(GDNativeClassBinding.setProperty, _godot_object, property);
 	}
 	/**
 	

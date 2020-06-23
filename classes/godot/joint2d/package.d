@@ -27,14 +27,14 @@ Joints take 2 bodies and apply a custom constraint.
 */
 @GodotBaseClass struct Joint2D
 {
-	enum string _GODOT_internal_name = "Joint2D";
+	package(godot) enum string _GODOT_internal_name = "Joint2D";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Node2D _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Node2D _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_bias") GodotMethod!(double) getBias;
@@ -46,10 +46,20 @@ public:
 		@GodotName("set_node_a") GodotMethod!(void, NodePath) setNodeA;
 		@GodotName("set_node_b") GodotMethod!(void, NodePath) setNodeB;
 	}
-	bool opEquals(in Joint2D other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	Joint2D opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in Joint2D other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) Joint2D opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of Joint2D.
+	/// Note: use `memnew!Joint2D` instead.
 	static Joint2D _new()
 	{
 		static godot_class_constructor constructor;
@@ -64,7 +74,7 @@ public:
 	double getBias() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(_classBinding.getBias, _godot_object);
+		return ptrcall!(double)(GDNativeClassBinding.getBias, _godot_object);
 	}
 	/**
 	
@@ -72,7 +82,7 @@ public:
 	bool getExcludeNodesFromCollision() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.getExcludeNodesFromCollision, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getExcludeNodesFromCollision, _godot_object);
 	}
 	/**
 	
@@ -80,7 +90,7 @@ public:
 	NodePath getNodeA() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodeA, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getNodeA, _godot_object);
 	}
 	/**
 	
@@ -88,7 +98,7 @@ public:
 	NodePath getNodeB() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(NodePath)(_classBinding.getNodeB, _godot_object);
+		return ptrcall!(NodePath)(GDNativeClassBinding.getNodeB, _godot_object);
 	}
 	/**
 	
@@ -96,7 +106,7 @@ public:
 	void setBias(in double bias)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setBias, _godot_object, bias);
+		ptrcall!(void)(GDNativeClassBinding.setBias, _godot_object, bias);
 	}
 	/**
 	
@@ -104,7 +114,7 @@ public:
 	void setExcludeNodesFromCollision(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setExcludeNodesFromCollision, _godot_object, enable);
+		ptrcall!(void)(GDNativeClassBinding.setExcludeNodesFromCollision, _godot_object, enable);
 	}
 	/**
 	
@@ -112,7 +122,7 @@ public:
 	void setNodeA(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeA, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setNodeA, _godot_object, node);
 	}
 	/**
 	
@@ -120,7 +130,7 @@ public:
 	void setNodeB(NodePathArg0)(in NodePathArg0 node)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setNodeB, _godot_object, node);
+		ptrcall!(void)(GDNativeClassBinding.setNodeB, _godot_object, node);
 	}
 	/**
 	When $(D nodeA) and $(D nodeB) move in different directions the `bias` controls how fast the joint pulls them back to their original position. The lower the `bias` the more the two bodies can pull on the joint.
@@ -135,7 +145,7 @@ public:
 		setBias(v);
 	}
 	/**
-	If `true`, $(D nodeA) and $(D nodeB) can collide.
+	If `true`, $(D nodeA) and $(D nodeB) can not collide.
 	*/
 	@property bool disableCollision()
 	{

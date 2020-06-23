@@ -28,14 +28,14 @@ It can be used for type conversion as well.
 */
 @GodotBaseClass struct VisualScriptConstructor
 {
-	enum string _GODOT_internal_name = "VisualScriptConstructor";
+	package(godot) enum string _GODOT_internal_name = "VisualScriptConstructor";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; VisualScriptNode _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ VisualScriptNode _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("get_constructor") GodotMethod!(Dictionary) getConstructor;
@@ -43,10 +43,20 @@ public:
 		@GodotName("set_constructor") GodotMethod!(void, Dictionary) setConstructor;
 		@GodotName("set_constructor_type") GodotMethod!(void, long) setConstructorType;
 	}
-	bool opEquals(in VisualScriptConstructor other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	VisualScriptConstructor opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in VisualScriptConstructor other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) VisualScriptConstructor opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of VisualScriptConstructor.
+	/// Note: use `memnew!VisualScriptConstructor` instead.
 	static VisualScriptConstructor _new()
 	{
 		static godot_class_constructor constructor;
@@ -61,7 +71,7 @@ public:
 	Dictionary getConstructor() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Dictionary)(_classBinding.getConstructor, _godot_object);
+		return ptrcall!(Dictionary)(GDNativeClassBinding.getConstructor, _godot_object);
 	}
 	/**
 	
@@ -69,7 +79,7 @@ public:
 	Variant.Type getConstructorType() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Variant.Type)(_classBinding.getConstructorType, _godot_object);
+		return ptrcall!(Variant.Type)(GDNativeClassBinding.getConstructorType, _godot_object);
 	}
 	/**
 	
@@ -77,7 +87,7 @@ public:
 	void setConstructor(in Dictionary constructor)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstructor, _godot_object, constructor);
+		ptrcall!(void)(GDNativeClassBinding.setConstructor, _godot_object, constructor);
 	}
 	/**
 	
@@ -85,7 +95,7 @@ public:
 	void setConstructorType(in long type)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.setConstructorType, _godot_object, type);
+		ptrcall!(void)(GDNativeClassBinding.setConstructorType, _godot_object, type);
 	}
 	/**
 	

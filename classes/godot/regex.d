@@ -33,7 +33,7 @@ var regex = RegEx.new()
 regex.compile("\\w-(\\d+)")
 
 
-The search pattern must be escaped first for gdscript before it is escaped for the expression. For example, `compile("\\d+")` would be read by RegEx as `\d+`. Similarly, `compile("\"(?:\\\\.|$(D ^\"))*\"")` would be read as `"(?:\\.|$(D ^"))*"`.
+The search pattern must be escaped first for GDScript before it is escaped for the expression. For example, `compile("\\d+")` would be read by RegEx as `\d+`. Similarly, `compile("\"(?:\\\\.|$(D ^\"))*\"")` would be read as `"(?:\\.|$(D ^"))*"`.
 Using $(D search) you can find the pattern within the given text. If a pattern is found, $(D RegExMatch) is returned and you can retrieve details of the results using functions such as $(D RegExMatch.getString) and $(D RegExMatch.getStart).
 
 
@@ -60,21 +60,22 @@ If you need to process multiple results, $(D searchAll) generates a list of all 
 
 for result in regex.search_all("d01, d03, d0c, x3f and x42"):
     print(result.get_string("digit"))
-# Would print 01 03 3f 42
-# Note that d0c would not match
+# Would print 01 03 0 3f 42
 
 
+$(B Note:) Godot's regex implementation is based on the $(D url=https://www.pcre.org/)PCRE2$(D /url) library. You can view the full pattern reference $(D url=https://www.pcre.org/current/doc/html/pcre2pattern.html)here$(D /url).
+$(B Tip:) You can use $(D url=https://regexr.com/)Regexr$(D /url) to test regular expressions online.
 */
 @GodotBaseClass struct RegEx
 {
-	enum string _GODOT_internal_name = "RegEx";
+	package(godot) enum string _GODOT_internal_name = "RegEx";
 public:
 @nogc nothrow:
-	union { godot_object _godot_object; Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
-	package(godot) static struct _classBinding
+	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
 		@GodotName("clear") GodotMethod!(void) clear;
@@ -87,10 +88,20 @@ public:
 		@GodotName("search_all") GodotMethod!(Array, String, long, long) searchAll;
 		@GodotName("sub") GodotMethod!(String, String, String, bool, long, long) sub;
 	}
-	bool opEquals(in RegEx other) const { return _godot_object.ptr is other._godot_object.ptr; }
-	RegEx opAssign(T : typeof(null))(T n) { _godot_object.ptr = null; }
-	bool opEquals(typeof(null) n) const { return _godot_object.ptr is null; }
+	/// 
+	pragma(inline, true) bool opEquals(in RegEx other) const
+	{ return _godot_object.ptr is other._godot_object.ptr; }
+	/// 
+	pragma(inline, true) RegEx opAssign(T : typeof(null))(T n)
+	{ _godot_object.ptr = n; }
+	/// 
+	pragma(inline, true) bool opEquals(typeof(null) n) const
+	{ return _godot_object.ptr is n; }
+	/// 
+	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
+	/// Construct a new instance of RegEx.
+	/// Note: use `memnew!RegEx` instead.
 	static RegEx _new()
 	{
 		static godot_class_constructor constructor;
@@ -105,7 +116,7 @@ public:
 	void clear()
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(_classBinding.clear, _godot_object);
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
 	Compiles and assign the search pattern to use. Returns $(D constant OK) if the compilation is successful. If an error is encountered, details are printed to standard output and an error is returned.
@@ -113,7 +124,7 @@ public:
 	GodotError compile(in String pattern)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(_classBinding.compile, _godot_object, pattern);
+		return ptrcall!(GodotError)(GDNativeClassBinding.compile, _godot_object, pattern);
 	}
 	/**
 	Returns the number of capturing groups in compiled pattern.
@@ -121,7 +132,7 @@ public:
 	long getGroupCount() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(_classBinding.getGroupCount, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getGroupCount, _godot_object);
 	}
 	/**
 	Returns an array of names of named capturing groups in the compiled pattern. They are ordered by appearance.
@@ -129,7 +140,7 @@ public:
 	Array getNames() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.getNames, _godot_object);
+		return ptrcall!(Array)(GDNativeClassBinding.getNames, _godot_object);
 	}
 	/**
 	Returns the original search pattern that was compiled.
@@ -137,7 +148,7 @@ public:
 	String getPattern() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.getPattern, _godot_object);
+		return ptrcall!(String)(GDNativeClassBinding.getPattern, _godot_object);
 	}
 	/**
 	Returns whether this object has a valid search pattern assigned.
@@ -145,7 +156,7 @@ public:
 	bool isValid() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(_classBinding.isValid, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isValid, _godot_object);
 	}
 	/**
 	Searches the text for the compiled pattern. Returns a $(D RegExMatch) container of the first matching result if found, otherwise `null`. The region to search within can be specified without modifying where the start and end anchor would be.
@@ -153,7 +164,7 @@ public:
 	Ref!RegExMatch search(in String subject, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(RegExMatch)(_classBinding.search, _godot_object, subject, offset, end);
+		return ptrcall!(RegExMatch)(GDNativeClassBinding.search, _godot_object, subject, offset, end);
 	}
 	/**
 	Searches the text for the compiled pattern. Returns an array of $(D RegExMatch) containers for each non-overlapping result. If no results were found, an empty array is returned instead. The region to search within can be specified without modifying where the start and end anchor would be.
@@ -161,7 +172,7 @@ public:
 	Array searchAll(in String subject, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Array)(_classBinding.searchAll, _godot_object, subject, offset, end);
+		return ptrcall!(Array)(GDNativeClassBinding.searchAll, _godot_object, subject, offset, end);
 	}
 	/**
 	Searches the text for the compiled pattern and replaces it with the specified string. Escapes and backreferences such as `$1` and `$name` are expanded and resolved. By default, only the first instance is replaced, but it can be changed for all instances (global replacement). The region to search within can be specified without modifying where the start and end anchor would be.
@@ -169,6 +180,6 @@ public:
 	String sub(in String subject, in String replacement, in bool all = false, in long offset = 0, in long end = -1) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(_classBinding.sub, _godot_object, subject, replacement, all, offset, end);
+		return ptrcall!(String)(GDNativeClassBinding.sub, _godot_object, subject, replacement, all, offset, end);
 	}
 }
