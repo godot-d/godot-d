@@ -82,6 +82,9 @@ int main(string[] args)
 	************************************************************************ */
 	foreach(importPath; importPaths)
 	{
+		// Ensures the import path exists. See: https://github.com/godot-d/godot-d/issues/71
+		mkdirRecurse(importPath);
+
 		foreach(DirEntry de; dirEntries(importPath, SpanMode.depth))
 		{
 			if(de.isFile && de.name.endsWith(".d"))
