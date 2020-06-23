@@ -206,10 +206,71 @@ struct PoolArray(T)
 	}
 	
 	alias append = pushBack;
-	alias opOpAssign(string op : "~") = pushBack;
+	template opOpAssign(string op) if(op == "~" || op == "+")
+	{
+		alias opOpAssign = pushBack;
+	}
+
+	/// Read/Write access locks with RAII.
+	static struct Access(bool write = false)
+	{
+		private enum string rw = write ? "write" : "read";
+		private enum string RW = write ? "Write" : "Read";
+		static if(write) private alias access = writeName!T;
+		else private alias access = readName!T;
+
+		private
+		{
+			mixin(access ~ "* _access;");
+			T[] _data;
+		}
+
+		static if(write)
+		{
+			/// 
+			inout(T[]) data() inout { return _data; }
+		}
+		else
+		{
+			/// 
+			const(T[]) data() const { return _data; }
+		}
+		// TODO: `scope` for data to ensure it doesn't outlive `this`?
+		alias data this;
+
+		this(PoolArray!T p)
+		{
+			mixin("_access = _godot_api." ~ typeName!T ~ "_" ~ rw ~ "(&p._godot_array);");
+			mixin("void* _ptr = cast(void*)_godot_api." ~ access ~ "_ptr(_access);");
+			_data = (cast(T*)_ptr)[0..p.length];
+		}
+		this(this)
+		{
+			mixin("_access = _godot_api." ~ access ~ "_copy(_access);");
+		}
+		void opAssign(const ref typeof(this) other)
+		{
+			mixin("_godot_api." ~ access ~ "_destroy(_access);");
+			mixin("_access = _godot_api." ~ access ~ "_copy(other._access);");
+		}
+		~this()
+		{
+			mixin("_godot_api." ~ access ~ "_destroy(_access);");
+		}
+	}
+
+	/// 
+	alias Read = Access!false;
+	/// Lock the array for read-only access to the underlying memory.
+	/// This is faster than using opIndex, which locks each time it's called.
+	Read read() const { return Read(this); }
+	/// 
+	alias Write = Access!true;
+	/// Lock the array for write access to the underlying memory.
+	/// This is faster than using opIndexAssign, which locks each time it's called.
+	Write write() { return Write(this); }
 	
-	/// Slice-like view of the PoolArray
-	/// TODO: implement this with Read/Write?
+	/// Slice-like view of the PoolArray.
 	static struct Range
 	{
 		private
@@ -231,7 +292,10 @@ struct PoolArray(T)
 	}
 	static assert(isRandomAccessRange!Range);
 	
+	/// Returns: a slice-like Range view over the array.
+	/// Note: Prefer `read()`/`write()`; Range locks the array on each individual access.
 	Range opSlice() { return Range(&this, 0, length); }
+	/// ditto
 	Range opSlice(size_t start, size_t end) { return Range(&this, start, end); }
 }
 

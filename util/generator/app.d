@@ -11,7 +11,7 @@ import asdf;
 
 import std.string : toLower, chompPrefix;
 import std.stdio : writeln, writefln;
-import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write, dirEntries, SpanMode;
+import std.file : exists, readText, mkdirRecurse, isDir, writeFile = write, dirEntries, SpanMode, rmdirRecurse;
 import std.path : buildPath, dirName, extension, stripExtension, baseName;
 import std.format : format;
 import std.getopt : defaultGetoptPrinter, getopt, GetoptResult;
@@ -28,10 +28,12 @@ int main(string[] args)
 	string gdnativeJson;
 	string classesJson = "api.json";
 	string godotSource;
+	bool overwrite = false;
 	auto opt = args.getopt(
 		"gdnative|g", "GDNative API JSON (default: gdnative_api.json)", &gdnativeJson,
 		"classes|c", "Classes API JSON (default: api.json)", &classesJson,
-		"source|s", "Godot source directory, for documentation (also sets gdnative if unset)", &godotSource
+		"source|s", "Godot source directory, for documentation (also sets gdnative if unset)", &godotSource,
+		"overwrite|o", "Overwrite outputDir unconditionally", &overwrite
 	);
 	
 	writeln(args);
@@ -65,23 +67,34 @@ int main(string[] args)
 	if(args.length >= 2) outputDir = args[1];
 	else
 	{
-		outputDir = args[0].dirName.buildPath(".");
+		outputDir = args[0].dirName.buildPath("classes");
 		writefln("Outputting to default directory %s",outputDir);
 	}
-	if(!outputDir.exists)
+	if(outputDir.exists)
 	{
-		writefln("Output dir %s doesn't exist; creating it now", outputDir);
-		outputDir.mkdirRecurse;
+		if(!outputDir.isDir)
+		{
+			usage(opt);
+			writefln("Error: '%s' is not a directory", outputDir);
+			return 1;
+		}
+
+		bool shouldOverwrite = overwrite;
+		// check if it looks like the API directory
+		if(outputDir.buildPath("godot", "c", "api.d").exists) shouldOverwrite = true;
+		if(!shouldOverwrite)
+		{
+			usage(opt);
+			writefln("Error: output directory %s already exists. Pass '-o' to overwrite it.", outputDir);
+			return 1;
+		}
+		writefln("Overwriting existing output directory %s", outputDir);
+		rmdirRecurse(outputDir);
 	}
-	else if(!outputDir.isDir)
-	{
-		usage(opt);
-		writefln("%s is not a directory", outputDir);
-		return 1;
-	}
+	outputDir.mkdirRecurse;
 	
 	Api gdnativeApi = gdnativeJson.readText.deserialize!(Api);
-	auto cPath = buildPath(outputDir, "classes", "godot", "c", "api.d");
+	auto cPath = buildPath(outputDir, "godot", "c", "api.d");
 	if(!cPath.dirName.exists) cPath.dirName.mkdirRecurse;
 	writeFile(cPath, gdnativeApi.source);
 	

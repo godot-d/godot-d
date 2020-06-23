@@ -160,7 +160,7 @@ class GodotMethod
 			/// ".bind(\"" parent.name.godot ~ "\", \"" ~ name ~ "\");\n";
 			ret ~= "\t\t";
 			if(return_type.d != "void") ret ~= "return ";
-			ret ~= "ptrcall!(" ~ return_type.d ~ ")(_classBinding."
+			ret ~= "ptrcall!(" ~ return_type.d ~ ")(GDNativeClassBinding."
 				~ name.snakeToCamel.escapeD ~ ", _godot_object";
 			foreach(ai, const a; arguments)
 			{

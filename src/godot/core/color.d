@@ -12,6 +12,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 */
 module godot.core.color;
 
+import godot.core.defs;
 import godot.core.string;
 
 import std.math;
@@ -88,6 +89,19 @@ struct Color
 		c|=cast(ubyte)(a*255);
 	
 		return c;
+	}
+
+	@property
+	{
+		ubyte r8() const { return cast(ubyte)(r*255); }
+		ubyte g8() const { return cast(ubyte)(g*255); }
+		ubyte b8() const { return cast(ubyte)(b*255); }
+		ubyte a8() const { return cast(ubyte)(a*255); }
+
+		void r8(ubyte value) { r = (1f/255f)*value; }
+		void g8(ubyte value) { g = (1f/255f)*value; }
+		void b8(ubyte value) { b = (1f/255f)*value; }
+		void a8(ubyte value) { a = (1f/255f)*value; }
 	}
 	
 	uint toARGB32() const
@@ -415,6 +429,57 @@ struct Color
 		return ret;
 	}
 	
+	Color opBinary(string op)(in Color other) const
+		if(op=="+" || op=="-" || op=="*" || op=="/")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~"other.r");
+		ret.b = mixin("b "~op~"other.b");
+		ret.g = mixin("g "~op~"other.g");
+		ret.a = mixin("a "~op~"other.a");
+		return ret;
+	}
+	void opOpAssign(string op)(in Color other)
+		if(op=="+" || op=="-" || op=="*" || op=="/")
+	{
+		r = mixin("r "~op~"other.r");
+		b = mixin("b "~op~"other.b");
+		g = mixin("g "~op~"other.g");
+	}
+
+	Color opUnary(string op : "-")()
+	{
+		return Color(-r, -g, -b, -a);
+	}
+
+	Color opBinary(string op)(in real_t scalar) const
+		if(op=="*" || op=="/")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~" scalar");
+		ret.g = mixin("g "~op~" scalar");
+		ret.b = mixin("b "~op~" scalar");
+		ret.a = mixin("a "~op~" scalar");
+		return ret;
+	}
+	Color opBinaryRight(string op)(in real_t scalar) const
+		if(op=="*")
+	{
+		Color ret;
+		ret.r = mixin("r "~op~" scalar");
+		ret.g = mixin("g "~op~" scalar");
+		ret.b = mixin("b "~op~" scalar");
+		ret.a = mixin("a "~op~" scalar");
+		return ret;
+	}
+	void opOpAssign(string op)(in real_t scalar)
+		if(op=="*" || op=="/")
+	{
+		r = mixin("r "~op~" scalar");
+		g = mixin("g "~op~" scalar");
+		b = mixin("b "~op~" scalar");
+		a = mixin("a "~op~" scalar");
+	}
 	
 	/+bool operator<(const Color& p_color) const {
 	

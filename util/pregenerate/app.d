@@ -8,7 +8,7 @@ import std.string;
 import std.conv : text;
 import std.getopt;
 import std.file;
-import std.path : asRelativePath, buildPath;
+import std.path : asRelativePath, buildPath, dirName, isRooted;
 import std.range;
 import std.algorithm.searching : find, endsWith, countUntil;
 import std.algorithm.sorting : sort;
@@ -32,6 +32,24 @@ import godot.d.register;
 mixin GodotNativeLibrary!("$PREFIX");
 
 }.replace("$ENTRYPOINTROOT", entryPointRoot);
+
+/// Sanitize a space-separated list of absolute paths.
+/// DUB's IMPORT_PATHS and STRING_IMPORT_PATHS seem to always be absolute paths.
+string[] sanitized(const string paths)
+{
+	if(paths.empty) return null;
+
+	auto parts = paths.split(' ');
+	if(!parts.front.isRooted) assert(0, "Paths passed to sanitized() are not absolute paths!");
+
+	string[] ret;
+	foreach(part; parts)
+	{
+		if(part.isRooted) ret ~= part;
+		else ret[$-1] = ret[$-1] ~ " " ~ part;
+	}
+	return ret;
+}
 
 int main(string[] args)
 {
@@ -57,7 +75,7 @@ int main(string[] args)
 	ProjectInfo project;
 
 	string packageDir = environment.get("DUB_PACKAGE_DIR");
-	auto importPaths = environment.get("IMPORT_PATHS", null).split();
+	auto importPaths = environment.get("IMPORT_PATHS", null).sanitized;
 
 	/* ************************************************************************
 	Parse all D files to find the classes and potentially the entry point.
@@ -96,7 +114,7 @@ int main(string[] args)
 	}
 	else
 	{
-		auto splitted = viewsEnv.split().sort();
+		auto splitted = viewsEnv.sanitized.sort();
 		foreach(dir; splitted)
 		{
 			auto cf = dir.buildPath(classesFilename);
@@ -146,6 +164,8 @@ int main(string[] args)
 	}
 	writeln("Writing class list to ", classesFile);
 	std.file.write(classesFile, project.toCsv);
+	string gdignore = classesFile.dirName.buildPath(".gdignore");
+	if(!gdignore.exists) std.file.write(gdignore, "");
 
 	if(firstTimeSetup)
 	{

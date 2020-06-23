@@ -304,21 +304,24 @@ struct Variant
 		else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
 	}
 	
-	unittest
-	{
-		static assert(allSatisfy!(compatible, DType));
-		static assert(!compatible!Object); // D Object
-		
-		static assert(directlyCompatible!GodotObject);
-		static assert(directlyCompatible!(const(GodotObject)));
-		import godot.camera;
-		static assert(!directlyCompatible!Camera);
-		static assert(compatibleFromGodot!Camera);
-		static assert(compatibleToGodot!Camera);
-		static assert(compatibleFromGodot!(const(Camera)));
-		static assert(compatibleToGodot!(const(Camera)));
-	}
-	
+	static assert(allSatisfy!(compatible, DType));
+	static assert(!compatible!Object); // D Object
+
+	static assert(directlyCompatible!GodotObject);
+	static assert(directlyCompatible!(const(GodotObject)));
+	import godot.node;
+	static assert(!directlyCompatible!Node);
+	static assert(compatibleFromGodot!Node);
+	static assert(compatibleToGodot!Node);
+	static assert(compatibleFromGodot!(const(Node)));
+	static assert(compatibleToGodot!(const(Node)));
+	import godot.resource;
+	static assert(!directlyCompatible!(Ref!Resource));
+	static assert(compatibleFromGodot!(Ref!Resource));
+	static assert(compatibleToGodot!(Ref!Resource));
+	static assert(compatibleFromGodot!(const(Ref!Resource)));
+	static assert(compatibleToGodot!(const(Ref!Resource)));
+
 	private template FunctionAs(Type type)
 	{
 		private enum string name_ = text(type);
