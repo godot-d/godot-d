@@ -480,8 +480,9 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.free_func = null;
 		}
 		
-		char[pName.length+1] pn = void;
-		pn[0..pName.length] = pName[];
+		enum pnLength = godotName!(mixin("T."~pName)).length;
+		char[pnLength+1] pn = void;
+		pn[0..pnLength] = godotName!(mixin("T."~pName))[];
 		pn[$-1] = '\0';
 		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
 	}}
