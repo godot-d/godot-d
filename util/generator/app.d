@@ -53,13 +53,13 @@ int main(string[] args)
 	if(!gdnativeJson.exists)
 	{
 		usage(opt);
-		writefln("GDNative API file %s doesn't exist", gdnativeJson);
+		writefln("Error: GDNative API file '%s' doesn't exist", gdnativeJson);
 		return 1;
 	}
 	if(!classesJson.exists)
 	{
 		usage(opt);
-		writefln("Class API file %s doesn't exist", classesJson);
+		writefln("Error: Class API file '%s' doesn't exist", classesJson);
 		return 1;
 	}
 	
@@ -68,7 +68,7 @@ int main(string[] args)
 	else
 	{
 		outputDir = args[0].dirName.buildPath("classes");
-		writefln("Outputting to default directory %s",outputDir);
+		writefln("Outputting to default directory %s...",outputDir);
 	}
 	if(outputDir.exists)
 	{
@@ -85,10 +85,10 @@ int main(string[] args)
 		if(!shouldOverwrite)
 		{
 			usage(opt);
-			writefln("Error: output directory %s already exists. Pass '-o' to overwrite it.", outputDir);
+			writefln("Error: output directory '%s' already exists. Pass '-o' to overwrite it.", outputDir);
 			return 1;
 		}
-		writefln("Overwriting existing output directory %s", outputDir);
+		writefln("Overwriting existing output directory '%s'...", outputDir);
 		rmdirRecurse(outputDir);
 	}
 	outputDir.mkdirRecurse;
@@ -192,5 +192,6 @@ int main(string[] args)
 			}
 		}
 	}
+	writefln("Done! API bindings written to '%s'", outputDir);
 	return 0;
 }
