@@ -17,6 +17,7 @@ import godot.core.variant;
 import godot.core.poolarrays;
 
 import std.meta;
+import std.traits, std.range;
 
 /**
 Generic array, contains several elements of any type, accessible by numerical index starting at 0. Negative indices can be used to count from the right, like in Python. Arrays are always passed by reference.
@@ -64,7 +65,30 @@ struct Array
 		}
 		return 0;
 	}
-	
+
+	/// Convert to a static array.
+	/// Excess elements are discarded if the Array is longer than `T`.
+	T as(T)() const if(isStaticArray!T && Variant.compatibleFromGodot!(ElementType!T))
+	{
+		import std.algorithm : min;
+		T ret;
+		foreach(i; 0..min(T.length, length)) ret[i] = (this[i]).as!(ElementType!T);
+		return ret;
+	}
+
+	/// Create an Array from any D range or static array with compatible elements.
+	static Array from(T)(T t) if((isForwardRange!T || isStaticArray!T) && Variant.compatibleToGodot!(ElementType!T))
+	{
+		import std.algorithm.iteration;
+		Array ret = Array.make();
+		static if(hasLength!T)
+		{
+			ret.resize(cast(int)t.length);
+			foreach(ei, e; t) ret[cast(int)ei] = e;
+		}
+		else t.each!(e => ret ~= e);
+		return ret;
+	}
 	
 	@nogc nothrow:
 	
