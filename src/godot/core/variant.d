@@ -37,8 +37,44 @@ version(X86_64)
 	}
 }
 
+/// User-defined Variant conversions.
+/// For structs and classes, constructors and member functions can also be used.
+unittest
+{
+	struct A {}
+	static assert(!Variant.compatible!A);
+
+	struct B {}
+	B to(T : B)(Variant v) { return B(); }
+	int to(T : Variant)(B b) { return 1; }
+	static assert(Variant.compatible!B);
+
+	struct C
+	{
+		this(Variant v) {}
+		Variant to(T : Variant)() { return Variant(1); }
+	}
+	static assert(Variant.compatible!C);
+
+	B b;
+	C c;
+
+	Variant vb = b;
+	Variant vc = c;
+
+	b = vb.as!B;
+	c = vc.as!C;
+}
+
 /**
-A Variant takes up only 20 bytes and can store almost any engine datatype inside of it. Variants are rarely used to hold information for long periods of time, instead they are used mainly for communication, editing, serialization and moving data around.
+Godot's tagged union type.
+
+Primitives, Godot core types, and `GodotObject`-derived classes can be stored in
+a Variant. Other user-defined D types can be made compatible with Variant by
+defining `to!CustomType(Variant)` and `to!Variant(CustomType)` functions.
+
+Properties and method arguments/returns are passed between Godot and D through
+Variant, so these must use Variant-compatible types.
 */
 struct Variant
 {
