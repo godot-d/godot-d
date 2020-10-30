@@ -201,7 +201,8 @@ mixin template baseCasts()
 	
 	inout(To) as(To)() inout if(isGodotBaseClass!To)
 	{
-		static if(extends!(typeof(this), To)) return To(_godot_object);
+		static if(extends!(typeof(this), To))
+			return cast(inout)To(cast()_godot_object);
 		else static if(extends!(To, typeof(this)))
 		{
 			if(_godot_object.ptr is null) return typeof(return).init;
