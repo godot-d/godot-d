@@ -13,7 +13,8 @@
 	"sourcePaths": [ "src", "classes" ],
 
 	"dependencies": {
-		"godot-d:util": "*"
+		"godot-d:util": "*",
+		"sumtype": "~>0.10.1"
 	},
 
 	"buildTypes": {

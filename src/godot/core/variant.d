@@ -17,6 +17,8 @@ import godot.core;
 import godot.object;
 import godot.d.meta;
 import godot.d.reference;
+import godot.script;
+import godot.d.type;
 
 import std.meta, std.traits;
 import std.conv : text;
@@ -552,6 +554,41 @@ struct Variant
 	{
 		String str = as!String;
 		return str.data;
+	}
+
+	/// Is this Variant of the specified `type` or of a subclass of `type`?
+	bool isType(GodotType type) const
+	{
+		import sumtype : match;
+		return type.match!(
+			(Ref!Script script) {
+				GodotObject o = this.as!GodotObject;
+				if(o == null) return false;
+				return script.instanceHas(o);
+			},
+			(BuiltInClass object) {
+				GodotObject o = this.as!GodotObject;
+				if(o == null) return false;
+				return o.isClass(object.name);
+			},
+			(Type vt) => this.type == vt
+		);
+	}
+
+	/++
+	The exact GodotType of the value stored in this Variant.
+
+	To check if a Variant is a specific GodotType, use `isType` instead to
+	account for inheritance.
+	+/
+	GodotType exactType() const
+	{
+		if(GodotObject o = this.as!GodotObject)
+		{
+			if(Ref!Script s = o.getScript().as!Script) return GodotType(s);
+			else return GodotType(BuiltInClass(o.getClass()));
+		}
+		else return GodotType(this.type);
 	}
 }
 
