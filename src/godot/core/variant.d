@@ -270,6 +270,33 @@ struct Variant
 		return Array.from(t);
 	}
 
+	///
+	GodotType as(T : GodotType)() const
+	{
+		if(type == Type.object)
+		{
+			Ref!Script s = as!Script;
+			if(s) return GodotType(s);
+			else return GodotType.init;
+		}
+		else if(type == Type.string) return GodotType(BuiltInClass(as!String));
+		else if(type == Type.int_) return GodotType(cast(Variant.Type)(as!int));
+		else return GodotType.init;
+	}
+
+	///
+	static Variant from(T : GodotType)(T t)
+	{
+		import sumtype : match;
+		Variant ret;
+		t.match!(
+			(Variant.Type t) { ret = cast(int)t; },
+			(BuiltInClass c) { ret = c.name; },
+			(Ref!Script s) { ret = s; }
+		);
+		return ret;
+	}
+
 	static assert(hasInternalAs!Node, internalAs!Node);
 	static assert(hasInternalAs!(Ref!Resource), internalAs!(Ref!Resource));
 	static assert(!hasInternalAs!Object); // `directlyCompatible` types not handled by internalAs
@@ -277,6 +304,9 @@ struct Variant
 	static assert(hasInternalFrom!(int[4]), internalFrom!(int[4]));
 	static assert(!hasInternalAs!(int[]));
 	static assert(hasInternalFrom!(int[]), internalFrom!(int[]));
+	static assert(hasInternalAs!GodotType, internalAs!GodotType);
+	static assert(hasInternalFrom!GodotType, internalFrom!GodotType);
+	static assert(compatible!GodotType);
 
 	private template getToVariantFunction(T)
 	{
