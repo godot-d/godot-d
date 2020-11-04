@@ -2,7 +2,7 @@
 module godot.d.type;
 
 import godot;
-import godot.d.meta;
+import godot.d.traits;
 import godot.d.reference;
 import godot.script, godot.object;
 

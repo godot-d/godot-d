@@ -15,7 +15,7 @@ module godot.core.variant;
 import godot.c;
 import godot.core;
 import godot.object;
-import godot.d.meta;
+import godot.d.traits;
 import godot.d.reference;
 import godot.script;
 import godot.d.type;

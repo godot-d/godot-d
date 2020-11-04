@@ -10,7 +10,7 @@ import std.experimental.allocator, std.experimental.allocator.mallocator;
 import core.stdc.stdlib : malloc, free;
 
 import godot.d.udas;
-import godot.d.meta, godot.d.script;
+import godot.d.traits, godot.d.script;
 
 import godot.core, godot.c;
 import godot.node;

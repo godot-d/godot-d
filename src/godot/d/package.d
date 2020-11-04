@@ -5,7 +5,7 @@ module godot.d;
 
 public
 {
-	import godot.d.meta;
+	import godot.d.traits;
 	import godot.d.output;
 	import godot.d.register;
 	import godot.d.script;

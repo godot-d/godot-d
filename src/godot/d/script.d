@@ -9,7 +9,7 @@ import core.stdc.stdlib : malloc, free;
 
 import godot.c, godot.core;
 import godot.d.udas;
-import godot.d.meta, godot.d.wrap;
+import godot.d.traits, godot.d.wrap;
 import godot.d.reference;
 
 /++

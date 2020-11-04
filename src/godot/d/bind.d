@@ -10,7 +10,7 @@ import std.meta, std.traits;
 import std.conv : text;
 
 import godot.core, godot.c;
-import godot.d.meta;
+import godot.d.traits;
 
 /// Type to mark varargs GodotMethod.
 struct GodotVarArgs
@@ -197,7 +197,7 @@ do
 package(godot)
 mixin template baseCasts()
 {
-	private import godot.d.reference, godot.d.meta : RefOrT, NonRef;
+	private import godot.d.reference, godot.d.traits : RefOrT, NonRef;
 	
 	inout(To) as(To)() inout if(isGodotBaseClass!To)
 	{

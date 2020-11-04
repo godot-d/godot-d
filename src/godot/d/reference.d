@@ -5,7 +5,7 @@ import std.algorithm : swap;
 
 import godot.core, godot.c;
 import godot.reference, godot.object;
-import godot.d.meta, godot.d.script;
+import godot.d.traits, godot.d.script;
 
 /// Ref-counted container for Reference types
 struct Ref(T)
