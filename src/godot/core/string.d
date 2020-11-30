@@ -210,6 +210,13 @@ struct String
 
 		return new_string;
 	}
+
+	@trusted
+	hash_t toHash() const
+	{
+		static if(hash_t.sizeof == uint.sizeof) return _godot_api.godot_string_hash(&_godot_string);
+		else return _godot_api.godot_string_hash64(&_godot_string);
+	}
 }
 
 struct GodotStringLiteral(string data)

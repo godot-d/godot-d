@@ -255,9 +255,15 @@ struct Array
 		return cast(bool)_godot_api.godot_array_has(&_godot_array, &vv._godot_variant);
 	}
 	
+	@trusted
 	uint hash() const
 	{
 		return _godot_api.godot_array_hash(&_godot_array);
+	}
+	@trusted
+	hash_t toHash() const
+	{
+		return cast(hash_t)hash();
 	}
 	
 	void insert(T)(const size_t pos, T value) if(is(T : Variant) || Variant.compatibleToGodot!T)
