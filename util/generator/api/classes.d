@@ -195,7 +195,7 @@ class GodotClass
 		ret ~= "\t{ return _godot_object.ptr is n; }\n";
 		// hash function
 		ret ~= "\t/// \n";
-		ret ~= "\tsize_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }\n";
+		ret ~= "\tsize_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }\n";
 		
 		ret ~= "\tmixin baseCasts;\n";
 		
