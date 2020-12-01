@@ -311,6 +311,7 @@ struct Array
 		return _godot_api.godot_array_size(&_godot_array);
 	}
 	alias length = size; // D-style `length`
+	alias opDollar = size;
 	
 	void resize(size_t size)
 	{
@@ -343,6 +344,18 @@ struct Array
 		{
 			ret[vi] = this[vi];
 		}
+		return ret;
+	}
+
+	/// Returns: a new Array containing a slice of the original. It is a copy,
+	/// *not* a reference to the original Array's memory.
+	///
+	/// Note: `end` is non-inclusive, as in D slice operations, not as in Godot.
+	Array slice(size_t start, size_t end, size_t stride = 1, bool deep = false)
+	{
+		Array ret = void;
+		ret._godot_array = _godot_api.godot_array_slice(&_godot_array,
+			cast(int)start, cast(int)(end-1), cast(int)stride, deep);
 		return ret;
 	}
 	
