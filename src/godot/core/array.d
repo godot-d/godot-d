@@ -358,6 +358,28 @@ struct Array
 			cast(int)start, cast(int)(end-1), cast(int)stride, deep);
 		return ret;
 	}
+
+	/++
+	Returns: a slice of the array memory. The slice does *not* have ownership of
+	the reference-counted memory and is invalid after the original Array goes
+	out of scope or is resized.
+	+/
+	Variant[] opSlice(size_t start, size_t end)
+	{
+		Variant* ret = cast(Variant*)_godot_api.godot_array_operator_index(&_godot_array, 0);
+		return ret[start..end];
+	}
+	/// ditto
+	const(Variant)[] opSlice(size_t start, size_t end) const
+	{
+		const(Variant)* ret = cast(const(Variant)*)_godot_api.godot_array_operator_index_const(&_godot_array, 0);
+		return ret[start..end];
+	}
+	/// ditto
+	Variant[] opSlice() { return this[0..length]; }
+	/// ditto
+	const(Variant)[] opSlice() const { return this[0..length]; }
+	// TODO: `scope` for the returned slices?
 	
 	~this()
 	{
