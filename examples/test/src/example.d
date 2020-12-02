@@ -343,6 +343,18 @@ class Test : GodotScript!Label
 		}
 		owner.set(gs!"only_setter", 5678);
 		print("onlyGetter: ", owner.get(gs!"only_getter"));
+
+		// test array slicing and equality
+		{
+			import std.algorithm : equal;
+
+			Array a = Array.make(1, gs!"two", NodePath("three"), 4.01);
+			print("Array a: ", a);
+			assert(a[1..$].equal(Array.make(gs!"two", NodePath("three"), 4.01)[]));
+			Array b = a.slice(1, a.length, 2);
+			print("Array b (a.slice(1, a.length, 2)): ", b);
+			assert(b[].equal([Variant(gs!"two"), Variant(4.01)]));
+		}
 	}
 }
 
