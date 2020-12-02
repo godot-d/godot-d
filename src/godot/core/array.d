@@ -193,17 +193,78 @@ struct Array
 		Variant v = Variant(value);
 		_godot_api.godot_array_set(&_godot_array, cast(int)idx, &v._godot_variant);
 	}
-	
+
+	/// Append a single element.
+	///
+	/// Note: an Array or range will be appended as one single element of type
+	/// Array, *not* concatenated to this Array. Use `appendRange` or
+	/// `appendArray` to concatenate/chain ranges or Arrays into one.
 	void append(T)(auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
 		Variant v = Variant(t);
 		_godot_api.godot_array_append(&_godot_array, &v._godot_variant);
 	}
+	/// ditto
 	template opOpAssign(string op) if(op == "~" || op == "+")
 	{
 		alias opOpAssign = append;
 	}
-	
+
+	/// Concatenate a range or another Array to the end of this one.
+	void appendRange(R)(in auto ref R other) if(
+		!is(Unqual!R : Array) &&
+		isInputRange!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		static if(hasLength!R)
+		{
+			size_t l = length;
+			resize(l + other.length);
+			Variant[] slice = this[];
+			size_t i = l;
+			foreach(const v; other) slice[i++] = v;
+		}
+		else foreach(const v; other) append(v);
+	}
+	/// ditto
+	void appendArray(in ref Array other)
+	{
+		this ~= other[];
+	}
+
+	private static Array fromConcat(R, S)(in auto ref R r, in auto ref S s)
+	{
+		Array ret = Array.make();
+		ret.resize(r.length + s.length);
+		Variant[] slice = ret[];
+		size_t i = 0;
+		foreach(const v; r) slice[i++] = v;
+		foreach(const v; s) slice[i++] = v;
+		return ret;
+	}
+	/// Concatenate two arrays into a new one. The originals are left unaffected
+	/// if there are still other references to them remaining.
+	Array opBinary(string op, R)(in auto ref R other) if(
+		(op == "~" || op == "+") && !is(Unqual!R : Array) &&
+		isInputRange!R && hasLength!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		return fromConcat(this[], other);
+	}
+	/// ditto
+	Array opBinary(string op)(in auto ref Array other) if(op == "~" || op == "+")
+	{
+		return fromConcat(this[], other[]);
+	}
+	/// ditto
+	Array opBinaryRight(string op, R)(in auto ref R other) if(
+		(op == "~" || op == "+") && !is(Unqual!R : Array) &&
+		isInputRange!R && hasLength!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		return fromConcat(other, this[]);
+	}
+
 	void clear()
 	{
 		_godot_api.godot_array_clear(&_godot_array);

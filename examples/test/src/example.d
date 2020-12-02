@@ -354,6 +354,14 @@ class Test : GodotScript!Label
 			Array b = a.slice(1, a.length, 2);
 			print("Array b (a.slice(1, a.length, 2)): ", b);
 			assert(b[].equal([Variant(gs!"two"), Variant(4.01)]));
+
+			Array c = a ~ b;
+			print("Array c: ", c);
+			assert(c[].equal(Array.make(1, gs!"two", NodePath("three"), 4.01, gs!"two", 4.01)[]));
+			Array d = Array.make(5);
+			d.appendRange([6,7]);
+			print("Array d: ", d);
+			assert(d[].equal(Array.make(5,6,7)[]));
 		}
 	}
 }
