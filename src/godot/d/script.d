@@ -35,6 +35,25 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 		return opCast!To(); // use D dynamic cast
 	}
 
+	///
+	pragma(inline, true)
+	bool opEquals(T, this This)(in T other) const if(extends!(T, This) || extends!(This, T))
+	{
+		static if(extendsGodotBaseClass!T) return this is other;
+		else
+		{
+			const void* a = owner._godot_object.ptr, b = other._godot_object.ptr;
+			return a is b;
+		}
+	}
+	///
+	pragma(inline, true)
+	int opCmp(T)(in T other) const if(isGodotClass!T)
+	{
+		const void* a = owner._godot_object.ptr, b = other.getGodotObject._godot_object.ptr;
+		return a is b ? 0 : a < b ? -1 : 1;
+	}
+
 	@disable new(size_t s);
 	
 	/// HACK to work around evil bug in which cast(void*) invokes `alias this`

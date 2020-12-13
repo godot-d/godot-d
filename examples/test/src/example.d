@@ -363,6 +363,30 @@ class Test : GodotScript!Label
 			print("Array d: ", d);
 			assert(d[].equal(Array.make(5,6,7)[]));
 		}
+
+		// test object comparison operators
+		{
+			Node n = owner;
+			assert(n == this);
+			assert(this == n);
+			assert(n == owner);
+			assert(owner == n);
+
+			Node o = memnew!Node;
+			scope(exit) memdelete(o);
+			assert(n != o);
+			assert(this != o);
+			assert(o != this);
+			assert(owner != o);
+			assert(o != owner);
+
+			if(o > n) assert(!(o < n));
+			if(o < n) assert(!(o > n));
+			if(o > owner) assert(!(o < owner));
+			if(o < owner) assert(!(o > owner));
+			if(o > this) assert(!(o < this));
+			if(o < this) assert(!(o > this));
+		}
 	}
 }
 

@@ -193,6 +193,16 @@ class GodotClass
 		ret ~= "\t/// \n";
 		ret ~= "\tpragma(inline, true) bool opEquals(typeof(null) n) const\n";
 		ret ~= "\t{ return _godot_object.ptr is n; }\n";
+		// comparison operator
+		if(name.godot == "Object")
+		{
+			ret ~= "\t/// \n";
+			ret ~= "\tpragma(inline, true) int opCmp(in GodotObject other) const\n";
+			ret ~= "\t{ const void* a = _godot_object.ptr, b = other._godot_object.ptr; return a is b ? 0 : a < b ? -1 : 1; }\n";
+			ret ~= "\t/// \n";
+			ret ~= "\tpragma(inline, true) int opCmp(T)(in T other) const if(extendsGodotBaseClass!T)\n";
+			ret ~= "\t{ const void* a = _godot_object.ptr, b = other.owner._godot_object.ptr; return a is b ? 0 : a < b ? -1 : 1; }\n";
+		}
 		// hash function
 		ret ~= "\t/// \n";
 		ret ~= "\tsize_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }\n";
