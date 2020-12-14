@@ -151,7 +151,7 @@ struct String
 		return length == 0;
 	}
 	
-	int opCmp(in ref String s)
+	int opCmp(in ref String s) const
 	{
 		auto equal = _godot_api.godot_string_operator_equal(&_godot_string, &s._godot_string);
 		if(equal) return 0;
