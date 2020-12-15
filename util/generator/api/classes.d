@@ -187,8 +187,8 @@ class GodotClass
 		ret ~= "\t{ return _godot_object.ptr is other._godot_object.ptr; }\n";
 		// null assignment to simulate D class references
 		ret ~= "\t/// \n";
-		ret ~= "\tpragma(inline, true) "~className~" opAssign(T : typeof(null))(T n)\n";
-		ret ~= "\t{ _godot_object.ptr = n; }\n";
+		ret ~= "\tpragma(inline, true) typeof(null) opAssign(typeof(null) n)\n";
+		ret ~= "\t{ _godot_object.ptr = n; return null; }\n";
 		// equality with null; unfortunately `_godot_object is null` doesn't work with structs
 		ret ~= "\t/// \n";
 		ret ~= "\tpragma(inline, true) bool opEquals(typeof(null) n) const\n";
