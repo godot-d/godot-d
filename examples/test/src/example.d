@@ -210,7 +210,7 @@ class Test : GodotScript!Label
 		writefln("vAssignedBack.as!int: %d", vAssignedBack);
 		assert(vAssignedBack == -33);
 		
-		Array arr = Array.empty_array;
+		Array arr = Array.make();
 		arr ~= vVec2Ctor;
 		arr ~= vStr;
 		arr ~= vLongCtor;
@@ -298,8 +298,8 @@ class Test : GodotScript!Label
 			import std.string;
 			
 			String iconPath = gs!"res://icon.png";
-			writefln("assert(!ResourceLoader.has(%s))", iconPath);
-			assert(!ResourceLoader.has(iconPath));
+			writefln("assert(!ResourceLoader.hasCached(%s))", iconPath);
+			assert(!ResourceLoader.hasCached(iconPath));
 			
 			Ref!Resource res = ResourceLoader.load(iconPath, gs!"", false);
 			writefln("Loaded Resource %s at path %s", res.getName, res.getPath);
@@ -313,8 +313,8 @@ class Test : GodotScript!Label
 			auto size = rightCast.getSize();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			
-			writefln("assert(ResourceLoader.has(%s))", iconPath);
-			assert(ResourceLoader.has(iconPath));
+			writefln("assert(ResourceLoader.hasCached(%s))", iconPath);
+			assert(ResourceLoader.hasCached(iconPath));
 		}
 		
 		// test properties
