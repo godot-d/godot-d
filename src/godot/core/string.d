@@ -151,7 +151,7 @@ struct String
 		return length == 0;
 	}
 	
-	int opCmp(in ref String s)
+	int opCmp(in ref String s) const
 	{
 		auto equal = _godot_api.godot_string_operator_equal(&_godot_string, &s._godot_string);
 		if(equal) return 0;
@@ -209,6 +209,13 @@ struct String
 		new_string._godot_string = _godot_api.godot_string_format_with_custom_placeholder(&_godot_string, cast(godot_variant *)&v, contents.ptr);
 
 		return new_string;
+	}
+
+	@trusted
+	hash_t toHash() const
+	{
+		static if(hash_t.sizeof == uint.sizeof) return _godot_api.godot_string_hash(&_godot_string);
+		else return _godot_api.godot_string_hash64(&_godot_string);
 	}
 }
 

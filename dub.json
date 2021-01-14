@@ -4,18 +4,19 @@
 	"authors": [ "sheepandshepherd" ],
 	"copyright": "Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.; Copyright (c) 2014-2018 Godot Engine contributors (cf. AUTHORS.md); Copyright (c) 2017-2018 Godot-D contributors",
 	"license": "MIT",
-	
+
 	"targetType": "library",
 	"dflags-linux-dmd": ["-fPIC"],
 	"dflags-linux-ldc2": ["-relocation-model=pic"],
-	
+
 	"importPaths": [ "src", "classes" ],
 	"sourcePaths": [ "src", "classes" ],
 
 	"dependencies": {
-		"godot-d:util": "*"
+		"godot-d:util": "*",
+		"sumtype": "~>0.10.1"
 	},
-	
+
 	"buildTypes": {
 		"doc-json": {
 			"buildRequirements": ["allowWarnings"],
@@ -23,7 +24,7 @@
 			"dflags": ["-c", "-Df__dummy.html", "-Xfdocs.json"]
 		}
 	},
-	
+
 	"subPackages":
 	[
 		{
@@ -33,8 +34,8 @@
 			"importPaths": [ "util/src" ]
 		},
 		{
-			"name": "generator",
-			"description": "A program that binds Godot's C++ classes and GDNative C functions",
+			"name": "api-binding-generator",
+			"description": "A program that binds Godot's API for use in Godot-D",
 			"dependencies":
 			{
 				"godot-d:util": "*",

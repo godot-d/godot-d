@@ -17,6 +17,7 @@ import godot.core.variant;
 import godot.core.poolarrays;
 
 import std.meta;
+import std.traits, std.range;
 
 /**
 Generic array, contains several elements of any type, accessible by numerical index starting at 0. Negative indices can be used to count from the right, like in Python. Arrays are always passed by reference.
@@ -64,7 +65,30 @@ struct Array
 		}
 		return 0;
 	}
-	
+
+	/// Convert to a static array.
+	/// Excess elements are discarded if the Array is longer than `T`.
+	T as(T)() const if(isStaticArray!T && Variant.compatibleFromGodot!(ElementType!T))
+	{
+		import std.algorithm : min;
+		T ret;
+		foreach(i; 0..min(T.length, length)) ret[i] = (this[i]).as!(ElementType!T);
+		return ret;
+	}
+
+	/// Create an Array from any D range or static array with compatible elements.
+	static Array from(T)(T t) if((isForwardRange!T || isStaticArray!T) && Variant.compatibleToGodot!(ElementType!T))
+	{
+		import std.algorithm.iteration;
+		Array ret = Array.make();
+		static if(hasLength!T)
+		{
+			ret.resize(cast(int)t.length);
+			foreach(ei, e; t) ret[cast(int)ei] = e;
+		}
+		else t.each!(e => ret ~= e);
+		return ret;
+	}
 	
 	@nogc nothrow:
 	
@@ -169,17 +193,78 @@ struct Array
 		Variant v = Variant(value);
 		_godot_api.godot_array_set(&_godot_array, cast(int)idx, &v._godot_variant);
 	}
-	
+
+	/// Append a single element.
+	///
+	/// Note: an Array or range will be appended as one single element of type
+	/// Array, *not* concatenated to this Array. Use `appendRange` or
+	/// `appendArray` to concatenate/chain ranges or Arrays into one.
 	void append(T)(auto ref T t) if(is(T : Variant) || Variant.compatibleToGodot!T)
 	{
 		Variant v = Variant(t);
 		_godot_api.godot_array_append(&_godot_array, &v._godot_variant);
 	}
+	/// ditto
 	template opOpAssign(string op) if(op == "~" || op == "+")
 	{
 		alias opOpAssign = append;
 	}
-	
+
+	/// Concatenate a range or another Array to the end of this one.
+	void appendRange(R)(in auto ref R other) if(
+		!is(Unqual!R : Array) &&
+		isInputRange!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		static if(hasLength!R)
+		{
+			size_t l = length;
+			resize(l + other.length);
+			Variant[] slice = this[];
+			size_t i = l;
+			foreach(const v; other) slice[i++] = v;
+		}
+		else foreach(const v; other) append(v);
+	}
+	/// ditto
+	void appendArray(in ref Array other)
+	{
+		appendRange(other[]);
+	}
+
+	private static Array fromConcat(R, S)(in auto ref R r, in auto ref S s)
+	{
+		Array ret = Array.make();
+		ret.resize(r.length + s.length);
+		Variant[] slice = ret[];
+		size_t i = 0;
+		foreach(const v; r) slice[i++] = v;
+		foreach(const v; s) slice[i++] = v;
+		return ret;
+	}
+	/// Concatenate two arrays into a new one. The originals are left unaffected
+	/// if there are still other references to them remaining.
+	Array opBinary(string op, R)(in auto ref R other) if(
+		(op == "~" || op == "+") && !is(Unqual!R : Array) &&
+		isInputRange!R && hasLength!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		return fromConcat(this[], other);
+	}
+	/// ditto
+	Array opBinary(string op)(in auto ref Array other) if(op == "~" || op == "+")
+	{
+		return fromConcat(this[], other[]);
+	}
+	/// ditto
+	Array opBinaryRight(string op, R)(in auto ref R other) if(
+		(op == "~" || op == "+") && !is(Unqual!R : Array) &&
+		isInputRange!R && hasLength!R &&
+		(is(ElementType!R : Variant) || Variant.compatible!(ElementType!R)))
+	{
+		return fromConcat(other, this[]);
+	}
+
 	void clear()
 	{
 		_godot_api.godot_array_clear(&_godot_array);
@@ -231,9 +316,15 @@ struct Array
 		return cast(bool)_godot_api.godot_array_has(&_godot_array, &vv._godot_variant);
 	}
 	
+	@trusted
 	uint hash() const
 	{
 		return _godot_api.godot_array_hash(&_godot_array);
+	}
+	@trusted
+	hash_t toHash() const
+	{
+		return cast(hash_t)hash();
 	}
 	
 	void insert(T)(const size_t pos, T value) if(is(T : Variant) || Variant.compatibleToGodot!T)
@@ -281,6 +372,7 @@ struct Array
 		return _godot_api.godot_array_size(&_godot_array);
 	}
 	alias length = size; // D-style `length`
+	alias opDollar = size;
 	
 	void resize(size_t size)
 	{
@@ -315,6 +407,40 @@ struct Array
 		}
 		return ret;
 	}
+
+	/// Returns: a new Array containing a slice of the original. It is a copy,
+	/// *not* a reference to the original Array's memory.
+	///
+	/// Note: `end` is non-inclusive, as in D slice operations, not as in Godot.
+	Array slice(size_t start, size_t end, size_t stride = 1, bool deep = false) const
+	{
+		Array ret = void;
+		ret._godot_array = _godot_api.godot_array_slice(&_godot_array,
+			cast(int)start, cast(int)(end-1), cast(int)stride, deep);
+		return ret;
+	}
+
+	/++
+	Returns: a slice of the array memory. The slice does *not* have ownership of
+	the reference-counted memory and is invalid after the original Array goes
+	out of scope or is resized.
+	+/
+	Variant[] opSlice(size_t start, size_t end)
+	{
+		Variant* ret = cast(Variant*)_godot_api.godot_array_operator_index(&_godot_array, 0);
+		return ret[start..end];
+	}
+	/// ditto
+	const(Variant)[] opSlice(size_t start, size_t end) const
+	{
+		const(Variant)* ret = cast(const(Variant)*)_godot_api.godot_array_operator_index_const(&_godot_array, 0);
+		return ret[start..end];
+	}
+	/// ditto
+	Variant[] opSlice() { return this[0..length]; }
+	/// ditto
+	const(Variant)[] opSlice() const { return this[0..length]; }
+	// TODO: `scope` for the returned slices?
 	
 	~this()
 	{

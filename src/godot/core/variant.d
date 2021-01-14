@@ -15,12 +15,18 @@ module godot.core.variant;
 import godot.c;
 import godot.core;
 import godot.object;
-import godot.d.meta;
+import godot.d.traits;
 import godot.d.reference;
+import godot.script;
+import godot.d.type;
 
 import std.meta, std.traits;
 import std.conv : text;
 import std.range;
+
+// for tests
+import godot.node;
+import godot.resource;
 
 // ABI type should probably have its own `version`...
 version(X86_64)
@@ -33,13 +39,47 @@ version(X86_64)
 	}
 }
 
+/// User-defined Variant conversions.
+/// For structs and classes, constructors and member functions can also be used.
+unittest
+{
+	struct A {}
+	static assert(!Variant.compatible!A);
+
+	struct B {}
+	B to(T : B)(Variant v) { return B(); }
+	int to(T : Variant)(B b) { return 1; }
+	static assert(Variant.compatible!B);
+
+	struct C
+	{
+		this(Variant v) {}
+		Variant to(T : Variant)() { return Variant(1); }
+	}
+	static assert(Variant.compatible!C);
+
+	B b;
+	C c;
+
+	Variant vb = b;
+	Variant vc = c;
+
+	b = vb.as!B;
+	c = vc.as!C;
+}
+
 /**
-A Variant takes up only 20 bytes and can store almost any engine datatype inside of it. Variants are rarely used to hold information for long periods of time, instead they are used mainly for communication, editing, serialization and moving data around.
+Godot's tagged union type.
+
+Primitives, Godot core types, and `GodotObject`-derived classes can be stored in
+a Variant. Other user-defined D types can be made compatible with Variant by
+defining `to!CustomType(Variant)` and `to!Variant(CustomType)` functions.
+
+Properties and method arguments/returns are passed between Godot and D through
+Variant, so these must use Variant-compatible types.
 */
 struct Variant
 {
-	@nogc nothrow:
-	
 	package(godot) godot_variant _godot_variant;
 	
 	/// 
@@ -202,13 +242,91 @@ struct Variant
 	{
 		return o.getGodotObject;
 	}
-	private static R objectFromGodot(R)(in GodotObject o)
+
+	// Conversions for non-core types provided by Variant.
+	// Lower priority than user-defined `to` functions, to allow overriding
+	// default blanket implementations.
+	private alias internalAs(T) = (Variant v) => v.as!T;
+	private enum bool hasInternalAs(T) = __traits(compiles, internalAs!T);
+	private alias internalFrom(T) = (T t) => Variant.from(t);
+	private enum bool hasInternalFrom(T) = __traits(compiles, internalFrom!T);
+
+	///
+	T as(T)() const if(isStaticArray!T && compatibleFromGodot!(ElementType!T))
 	{
-		static if(is(R == const)) alias co = o;
-		else GodotObject co = cast(GodotObject)o._godot_object; // annoying hack to deal with const
-		
-		return co.as!R;
+		return as!Array.as!T;
 	}
+
+	/// 
+	T as(T)() const if((isGodotClass!T && !is(T == GodotObject)) || is(T : Ref!U, U))
+	{
+		GodotObject o = cast()(as!GodotObject);
+		return o.as!T;
+	}
+
+	///
+	static Array from(T)(T t) if((isForwardRange!T || isStaticArray!T) && compatibleToGodot!(ElementType!T))
+	{
+		return Array.from(t);
+	}
+
+	///
+	GodotType as(T : GodotType)() const
+	{
+		if(type == Type.object)
+		{
+			Ref!Script s = as!Script;
+			if(s) return GodotType(s);
+			else return GodotType.init;
+		}
+		else if(type == Type.string) return GodotType(BuiltInClass(as!String));
+		else if(type == Type.int_) return GodotType(cast(Variant.Type)(as!int));
+		else return GodotType.init;
+	}
+
+	///
+	static Variant from(T : GodotType)(T t)
+	{
+		import sumtype : match;
+		Variant ret;
+		t.match!(
+			(Variant.Type t) { ret = cast(int)t; },
+			(BuiltInClass c) { ret = c.name; },
+			(Ref!Script s) { ret = s; }
+		);
+		return ret;
+	}
+
+	static assert(hasInternalAs!Node, internalAs!Node);
+	static assert(hasInternalAs!(Ref!Resource), internalAs!(Ref!Resource));
+	static assert(!hasInternalAs!Object); // `directlyCompatible` types not handled by internalAs
+	static assert(hasInternalAs!(int[4]), internalAs!(int[4]));
+	static assert(hasInternalFrom!(int[4]), internalFrom!(int[4]));
+	static assert(!hasInternalAs!(int[]));
+	static assert(hasInternalFrom!(int[]), internalFrom!(int[]));
+	static assert(hasInternalAs!GodotType, internalAs!GodotType);
+	static assert(hasInternalFrom!GodotType, internalFrom!GodotType);
+	static assert(compatible!GodotType);
+
+	private template getToVariantFunction(T)
+	{
+		mixin("import " ~ moduleName!T ~ ";");
+		alias getToVariantFunction = (T t){ Variant v = t.to!Variant; return v; };
+	}
+	enum bool hasToVariantFunction(T) = __traits(compiles, getToVariantFunction!T);
+
+	private template getVariantConstructor(T)
+	{
+		alias getVariantConstructor = (Variant v) => T(v);
+	}
+	enum bool hasVariantConstructor(T) = __traits(compiles, getVariantConstructor!T);
+
+	template getFromVariantFunction(T)
+	{
+		mixin("import " ~ moduleName!T ~ ";");
+		alias getFromVariantFunction = (Variant v){ T ret = v.to!T; return ret; };
+	}
+	enum bool hasFromVariantFunction(T) = __traits(compiles, getFromVariantFunction!T);
 	
 	/// function to convert T to an equivalent Godot type
 	template conversionToGodot(T)
@@ -220,19 +338,11 @@ struct Variant
 		else static if(isFloatingPoint!T) alias conversionToGodot = (T t) => cast(double)t;
 		else static if(implicit!(T, const(char)[]) || implicit!(T, const(char)*))
 			alias conversionToGodot = (T t) => String(t);
-		else static if((isForwardRange!T || isStaticArray!T) && compatibleToGodot!(ElementType!T))
-			alias conversionToGodot = (T t)
-			{
-				import std.algorithm.iteration;
-				Array ret = Array.make();
-				static if(hasLength!T)
-				{
-					ret.resize(cast(int)t.length);
-					foreach(ei, e; t) ret[cast(int)ei] = e;
-				}
-				else t.each!(e => ret ~= e);
-				return ret;
-			};
+		else static if(hasToVariantFunction!T)
+		{
+			alias conversionToGodot = getToVariantFunction!T;
+		}
+		else static if(hasInternalFrom!T) alias conversionToGodot = internalFrom!T;
 		else alias conversionToGodot = void; // none
 	}
 	enum bool convertsToGodot(T) = isCallable!(conversionToGodot!T);
@@ -241,24 +351,16 @@ struct Variant
 	/// function to convert a Godot-compatible type to T
 	template conversionFromGodot(T)
 	{
-		static if(isGodotClass!T || is(T : Ref!U, U)) alias conversionFromGodot = objectFromGodot!T;
-		else static if(isIntegral!T) alias conversionFromGodot = (long v) => cast(T)v;
+		static if(isIntegral!T) alias conversionFromGodot = (long v) => cast(T)v;
 		else static if(isFloatingPoint!T) alias conversionFromGodot = (double v) => cast(T)v;
-		/*
-		TODO: overhaul this badly-designed conversion system. These should be
-		moved out of Variant, into conversion functions on the core types themselves.
-		*/
-		else static if(isStaticArray!T && compatibleFromGodot!(ElementType!T))
-			alias conversionFromGodot = (in Array arr)
-			{
-				if(arr.length == T.length)
-				{
-					T ret;
-					foreach(i; 0..T.length) ret[i] = (arr[i]).as!(ElementType!T);
-					return ret;
-				}
-				else assert(0, "Array length doesn't match static array "~T.stringof);
-			};
+		else static if(hasVariantConstructor!T)
+		{
+			alias conversionFromGodot = getVariantConstructor!T;
+		}
+		else static if(hasFromVariantFunction!T)
+		{
+			alias conversionFromGodot = getFromVariantFunction!T;
+		}
 		else alias conversionFromGodot = void;
 	}
 	enum bool convertsFromGodot(T) = isCallable!(conversionFromGodot!T);
@@ -273,6 +375,7 @@ struct Variant
 	template compatibleFromGodot(T)
 	{
 		static if(directlyCompatible!T) enum bool compatibleFromGodot = true;
+		else static if(hasInternalAs!T) enum bool compatibleFromGodot = true;
 		else enum bool compatibleFromGodot = convertsFromGodot!T;
 	}
 	enum bool compatible(R) = compatibleToGodot!(R) && compatibleFromGodot!(R);
@@ -298,10 +401,88 @@ struct Variant
 		}
 		else static if(convertsToGodot!T)
 		{
-			enum Type variantTypeOf = EnumMembers!Type[staticIndexOf!(
+			static if(is(conversionToGodotType!T : Variant)) enum Type variantTypeOf = Type.nil;
+			else enum Type variantTypeOf = EnumMembers!Type[staticIndexOf!(
 				conversionToGodotType!T, DType)];
 		}
 		else enum Type variantTypeOf = Type.nil; // so the template always returns a Type
+	}
+	
+	/// 
+	R as(R)() const if(!is(R == Variant) && !is(R==typeof(null)) && (convertsFromGodot!R || directlyCompatible!R))
+	{
+		static if(directlyCompatible!R) enum VarType = variantTypeOf!R;
+		else static if(is(conversionFromGodotType!R : Variant)) enum VarType = Type.nil;
+		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!R, DType)];
+		
+		// HACK workaround for DMD issue #5570
+		version(GodotSystemV) enum sV = true;
+		else enum sV = false;
+		static if(VarType == Type.vector3 && sV)
+		{
+			godot_vector3 ret = void;
+			void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
+			void* _this = cast(void*)&this;
+			
+			asm @nogc nothrow
+			{
+				mov RDI, _this;
+				call _func;
+				
+				mov ret[0], RAX;
+				mov ret[8], EDX;
+			}
+			return *cast(Vector3*)&ret;
+		}
+		else static if(VarType == Type.nil)
+		{
+			return conversionFromGodot!R(this);
+		}
+		else
+		{
+			DType[VarType] ret = void;
+			*cast(InternalType[VarType]*)&ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
+
+			static if(directlyCompatible!R) return ret;
+			else
+			{
+				return conversionFromGodot!R(ret);
+			}
+		}
+	}
+	
+	this(R)(auto ref R input) if(!is(R : Variant) && !is(R : typeof(null)))
+	{
+		static assert(compatibleToGodot!R, R.stringof~" isn't compatible with Variant.");
+		enum VarType = variantTypeOf!R;
+
+		static if(VarType == Type.nil)
+		{
+			this = conversionToGodot!R(input);
+		}
+		else
+		{
+			mixin("auto Fn = _godot_api.godot_variant_new_"~FunctionNew!VarType~";");
+			alias PassType = Parameters!Fn[1]; // second param is the value
+
+			alias IT = InternalType[VarType];
+
+			// handle explicit conversions
+			static if(directlyCompatible!R) alias inputConv = input;
+			else auto inputConv = conversionToGodot!R(input);
+
+			static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)inputConv); // value
+			else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
+		}
+	}
+	
+	pragma(inline, true)
+	void opAssign(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
+	{
+		import std.conv : emplace;
+		
+		_godot_api.godot_variant_destroy(&_godot_variant);
+		emplace!(Variant)(&this, input);
 	}
 	
 	static assert(allSatisfy!(compatible, DType));
@@ -309,13 +490,11 @@ struct Variant
 
 	static assert(directlyCompatible!GodotObject);
 	static assert(directlyCompatible!(const(GodotObject)));
-	import godot.node;
 	static assert(!directlyCompatible!Node);
 	static assert(compatibleFromGodot!Node);
 	static assert(compatibleToGodot!Node);
 	static assert(compatibleFromGodot!(const(Node)));
 	static assert(compatibleToGodot!(const(Node)));
-	import godot.resource;
 	static assert(!directlyCompatible!(Ref!Resource));
 	static assert(compatibleFromGodot!(Ref!Resource));
 	static assert(compatibleToGodot!(Ref!Resource));
@@ -333,6 +512,7 @@ struct Variant
 		private enum string FunctionNew = (name_[$-1]=='_')?(name_[0..$-1]):name_;
 	}
 	
+	@nogc nothrow:
 	this(this)
 	{
 		godot_variant other = _godot_variant; // source Variant still owns this
@@ -356,24 +536,6 @@ struct Variant
 		_godot_api.godot_variant_new_nil(&_godot_variant);
 	}
 	
-	this(R)(auto ref R input) if(!is(R : Variant) && !is(R : typeof(null)))
-	{
-		static assert(compatibleToGodot!R, R.stringof~" isn't compatible with Variant.");
-		enum VarType = variantTypeOf!R;
-		
-		mixin("auto Fn = _godot_api.godot_variant_new_"~FunctionNew!VarType~";");
-		alias PassType = Parameters!Fn[1]; // second param is the value
-		
-		alias IT = InternalType[VarType];
-		
-		// handle explicit conversions
-		static if(directlyCompatible!R) alias inputConv = input;
-		else auto inputConv = conversionToGodot!R(input);
-		
-		static if(is(IT == Unqual!PassType)) Fn(&_godot_variant, cast(IT)inputConv); // value
-		else Fn(&_godot_variant, cast(IT*)&inputConv); // pointer
-	}
-	
 	~this()
 	{
 		_godot_api.godot_variant_destroy(&_godot_variant);
@@ -385,52 +547,6 @@ struct Variant
 	}
 	
 	inout(T) as(T : Variant)() inout { return this; }
-	
-	R as(R)() const if(!is(R == Variant) && !is(R==typeof(null)) && compatibleFromGodot!R)
-	{
-		static if(directlyCompatible!R) enum VarType = variantTypeOf!R;
-		else enum VarType = EnumMembers!Type[staticIndexOf!(conversionFromGodotType!R, DType)];
-		
-		// HACK workaround for DMD issue #5570
-		version(GodotSystemV) enum sV = true;
-		else enum sV = false;
-		static if(VarType == Type.vector3 && sV)
-		{
-			godot_vector3 ret = void;
-			void* _func = cast(void*)_godot_api.godot_variant_as_vector3;
-			void* _this = cast(void*)&this;
-			
-			asm @nogc nothrow
-			{
-				mov RDI, _this;
-				call _func;
-				
-				mov ret[0], RAX;
-				mov ret[8], EDX;
-			}
-			return *cast(Vector3*)&ret;
-		}
-		else
-		{
-			DType[VarType] ret = void;
-			*cast(InternalType[VarType]*)&ret = mixin("_godot_api.godot_variant_as_"~FunctionAs!VarType~"(&_godot_variant)");
-
-			static if(directlyCompatible!R) return ret;
-			else
-			{
-				return conversionFromGodot!R(ret);
-			}
-		}
-	}
-	
-	pragma(inline, true)
-	void opAssign(T)(in auto ref T input) if(!is(T : Variant) && !is(T : typeof(null)))
-	{
-		import std.conv : emplace;
-		
-		_godot_api.godot_variant_destroy(&_godot_variant);
-		emplace!(Variant)(&this, input);
-	}
 	
 	pragma(inline, true)
 	void opAssign(T : typeof(null))(in T nil)
@@ -468,6 +584,41 @@ struct Variant
 	{
 		String str = as!String;
 		return str.data;
+	}
+
+	/// Is this Variant of the specified `type` or of a subclass of `type`?
+	bool isType(GodotType type) const
+	{
+		import sumtype : match;
+		return type.match!(
+			(Ref!Script script) {
+				GodotObject o = this.as!GodotObject;
+				if(o == null) return false;
+				return script.instanceHas(o);
+			},
+			(BuiltInClass object) {
+				GodotObject o = this.as!GodotObject;
+				if(o == null) return false;
+				return o.isClass(object.name);
+			},
+			(Type vt) => this.type == vt
+		);
+	}
+
+	/++
+	The exact GodotType of the value stored in this Variant.
+
+	To check if a Variant is a specific GodotType, use `isType` instead to
+	account for inheritance.
+	+/
+	GodotType exactType() const
+	{
+		if(GodotObject o = this.as!GodotObject)
+		{
+			if(Ref!Script s = o.getScript().as!Script) return GodotType(s);
+			else return GodotType(BuiltInClass(o.getClass()));
+		}
+		else return GodotType(this.type);
 	}
 }
 

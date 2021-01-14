@@ -89,12 +89,14 @@ struct PoolArray(T)
 		mixin("auto n = _godot_api."~(typeName!T)~"_new_with_array;");
 		n(&_godot_array, &arr._godot_array);
 	}
-	
-	void append_array(in ref PoolArray arr)
+
+	///
+	void pushBack(in ref PoolArray arr)
 	{
 		mixin("auto a = _godot_api."~(typeName!T)~"_append_array;");
 		a(&_godot_array, &arr._godot_array);
 	}
+	deprecated("Use the concatenation operator ~= instead of append_array.") alias append_array = pushBack;
 	
 	void invert()
 	{
@@ -204,11 +206,21 @@ struct PoolArray(T)
 			return v.t;
 		}
 	}
-	
+
+	///
 	alias append = pushBack;
+	///
 	template opOpAssign(string op) if(op == "~" || op == "+")
 	{
 		alias opOpAssign = pushBack;
+	}
+
+	///
+	PoolArray opBinary(string op)(in ref PoolArray other) const if(op == "~" || op == "+")
+	{
+		PoolArray ret = this;
+		ret ~= other;
+		return ret;
 	}
 
 	/// Read/Write access locks with RAII.

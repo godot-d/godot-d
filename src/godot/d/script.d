@@ -9,7 +9,7 @@ import core.stdc.stdlib : malloc, free;
 
 import godot.c, godot.core;
 import godot.d.udas;
-import godot.d.meta, godot.d.wrap;
+import godot.d.traits, godot.d.wrap;
 import godot.d.reference;
 
 /++
@@ -33,6 +33,25 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 		static assert(extends!(From, To) || extends!(To, From), From.stringof~
 			" is not polymorphic to " ~ To.stringof);
 		return opCast!To(); // use D dynamic cast
+	}
+
+	///
+	pragma(inline, true)
+	bool opEquals(T, this This)(in T other) const if(extends!(T, This) || extends!(This, T))
+	{
+		static if(extendsGodotBaseClass!T) return this is other;
+		else
+		{
+			const void* a = owner._godot_object.ptr, b = other._godot_object.ptr;
+			return a is b;
+		}
+	}
+	///
+	pragma(inline, true)
+	int opCmp(T)(in T other) const if(isGodotClass!T)
+	{
+		const void* a = owner._godot_object.ptr, b = other.getGodotObject._godot_object.ptr;
+		return a is b ? 0 : a < b ? -1 : 1;
 	}
 
 	@disable new(size_t s);

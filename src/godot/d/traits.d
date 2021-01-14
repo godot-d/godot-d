@@ -1,7 +1,7 @@
 /++
 Compile-time introspection of Godot types
 +/
-module godot.d.meta;
+module godot.d.traits;
 
 import godotutil.string;
 import godot.d.udas;

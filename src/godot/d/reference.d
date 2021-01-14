@@ -5,11 +5,12 @@ import std.algorithm : swap;
 
 import godot.core, godot.c;
 import godot.reference, godot.object;
-import godot.d.meta, godot.d.script;
+import godot.d.traits, godot.d.script;
 
 /// Ref-counted container for Reference types
-struct Ref(T) if(extends!(T, Reference))
+struct Ref(T)
 {
+	static assert(extends!(T, Reference), "Ref may only be used with Reference-derived classes. Other Godot classes are not reference-counted.");
 	static assert(!is(T == const), "Ref cannot contain a const Reference");
 	@nogc nothrow:
 	

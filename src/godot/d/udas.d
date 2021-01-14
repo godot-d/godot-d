@@ -5,7 +5,7 @@ properties, methods, and signals into Godot.
 module godot.d.udas;
 
 import godot.core, godot.c;
-import godot.d.meta;
+import godot.d.traits;
 
 import std.meta, std.traits;
 
@@ -182,6 +182,7 @@ class S : GodotScript!Node
 	// plain variable; no UDA is needed
 	@Property int simpler = 6;
 }
+---
 +/
 struct DefaultValue(Expression...) {}
 

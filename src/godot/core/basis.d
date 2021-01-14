@@ -51,7 +51,7 @@ struct Basis
 	{
 		return elements[axis];
 	}
-	ref Vector3 opIndex(int axis)
+	ref Vector3 opIndex(int axis) return
 	{
 		return elements[axis];
 	}

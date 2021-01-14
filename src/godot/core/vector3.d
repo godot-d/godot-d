@@ -116,7 +116,7 @@ struct Vector3
 		return coord[p_axis];
 	}
 	
-	ref real_t opIndex(int p_axis)
+	ref real_t opIndex(int p_axis) return
 	{
 		return coord[p_axis];
 	}

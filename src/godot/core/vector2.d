@@ -106,7 +106,7 @@ struct Vector2
 		this.y = b.y;
 	}
 	
-	ref real_t opIndex(int axis)
+	ref real_t opIndex(int axis) return
 	{
 		return axis?y:x;
 	}

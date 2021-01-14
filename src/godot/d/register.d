@@ -10,7 +10,7 @@ import std.meta, std.traits;
 import std.experimental.allocator, std.experimental.allocator.mallocator;
 import core.stdc.stdlib : malloc, free;
 
-import godot.d.meta;
+import godot.d.traits;
 import godot.d.script;
 import godot.d.wrap;
 import godot.d.udas;
@@ -99,7 +99,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import std.meta, std.traits;
 		import core.runtime : Runtime;
 		import godot.d.output;
-		import godot.d.meta;
+		import godot.d.traits;
 		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
 		static if(loadDRuntime) Runtime.initialize();
@@ -135,7 +135,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.register : register;
 		import std.array : join;
 		import godot.d.output;
-		import godot.d.meta;
+		import godot.d.traits;
 		
 		_GODOT_library_handle = handle;
 		
@@ -176,7 +176,7 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import godot.d.script : NativeScriptTemplate;
 		import std.array : join;
 		import godot.d.output;
-		import godot.d.meta;
+		import godot.d.traits;
 
 		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
 		static foreach(C; NoDuplicates!(classList, Filter!(is_, Args)))
@@ -480,8 +480,9 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 			sf.free_func = null;
 		}
 		
-		char[pName.length+1] pn = void;
-		pn[0..pName.length] = pName[];
+		enum pnLength = godotName!(mixin("T."~pName)).length;
+		char[pnLength+1] pn = void;
+		pn[0..pnLength] = godotName!(mixin("T."~pName))[];
 		pn[$-1] = '\0';
 		_godot_nativescript_api.godot_nativescript_register_property(handle, name, pn.ptr, &attr, sf, gf);
 	}}

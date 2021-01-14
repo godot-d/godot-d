@@ -17,6 +17,7 @@ import std.meta;
 
 import godot.control.all;
 import godot.resource;
+import godot.node;
 
 class Test : GodotScript!Label
 {
@@ -210,7 +211,7 @@ class Test : GodotScript!Label
 		writefln("vAssignedBack.as!int: %d", vAssignedBack);
 		assert(vAssignedBack == -33);
 		
-		Array arr = Array.empty_array;
+		Array arr = Array.make();
 		arr ~= vVec2Ctor;
 		arr ~= vStr;
 		arr ~= vLongCtor;
@@ -298,8 +299,8 @@ class Test : GodotScript!Label
 			import std.string;
 			
 			String iconPath = gs!"res://icon.png";
-			writefln("assert(!ResourceLoader.has(%s))", iconPath);
-			assert(!ResourceLoader.has(iconPath));
+			writefln("assert(!ResourceLoader.hasCached(%s))", iconPath);
+			assert(!ResourceLoader.hasCached(iconPath));
 			
 			Ref!Resource res = ResourceLoader.load(iconPath, gs!"", false);
 			writefln("Loaded Resource %s at path %s", res.getName, res.getPath);
@@ -313,8 +314,8 @@ class Test : GodotScript!Label
 			auto size = rightCast.getSize();
 			writefln("Texture size: %f,%f", size.x, size.y);
 			
-			writefln("assert(ResourceLoader.has(%s))", iconPath);
-			assert(ResourceLoader.has(iconPath));
+			writefln("assert(ResourceLoader.hasCached(%s))", iconPath);
+			assert(ResourceLoader.hasCached(iconPath));
 		}
 		
 		// test properties
@@ -343,6 +344,50 @@ class Test : GodotScript!Label
 		}
 		owner.set(gs!"only_setter", 5678);
 		print("onlyGetter: ", owner.get(gs!"only_getter"));
+
+		// test array slicing and equality
+		{
+			import std.algorithm : equal;
+
+			Array a = Array.make(1, gs!"two", NodePath("three"), 4.01);
+			print("Array a: ", a);
+			assert(a[1..$].equal(Array.make(gs!"two", NodePath("three"), 4.01)[]));
+			Array b = a.slice(1, a.length, 2);
+			print("Array b (a.slice(1, a.length, 2)): ", b);
+			assert(b[].equal([Variant(gs!"two"), Variant(4.01)]));
+
+			Array c = a ~ b;
+			print("Array c: ", c);
+			assert(c[].equal(Array.make(1, gs!"two", NodePath("three"), 4.01, gs!"two", 4.01)[]));
+			Array d = Array.make(5);
+			d.appendRange([6,7]);
+			print("Array d: ", d);
+			assert(d[].equal(Array.make(5,6,7)[]));
+		}
+
+		// test object comparison operators
+		{
+			Node n = owner;
+			assert(n == this);
+			assert(this == n);
+			assert(n == owner);
+			assert(owner == n);
+
+			Node o = memnew!Node;
+			scope(exit) memdelete(o);
+			assert(n != o);
+			assert(this != o);
+			assert(o != this);
+			assert(owner != o);
+			assert(o != owner);
+
+			if(o > n) assert(!(o < n));
+			if(o < n) assert(!(o > n));
+			if(o > owner) assert(!(o < owner));
+			if(o < owner) assert(!(o > owner));
+			if(o > this) assert(!(o < this));
+			if(o < this) assert(!(o > this));
+		}
 	}
 }
 
