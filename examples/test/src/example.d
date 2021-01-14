@@ -17,6 +17,7 @@ import std.meta;
 
 import godot.control.all;
 import godot.resource;
+import godot.node;
 
 class Test : GodotScript!Label
 {
