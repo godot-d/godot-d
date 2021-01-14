@@ -229,7 +229,7 @@ struct Array
 	/// ditto
 	void appendArray(in ref Array other)
 	{
-		this ~= other[];
+		appendRange(other[]);
 	}
 
 	private static Array fromConcat(R, S)(in auto ref R r, in auto ref S s)
