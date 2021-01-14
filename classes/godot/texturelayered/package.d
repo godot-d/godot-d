@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.texturelayered;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,7 +25,7 @@ import godot.image;
 /**
 Base class for 3D texture types.
 
-Base class for $(D Texture3D) and $(D TextureArray). Cannot be used directly, but contains all the functions necessary for accessing and using $(D Texture3D) and $(D TextureArray). Data is set on a per-layer basis. For $(D Texture3D)s, the layer sepcifies the depth or Z-index, they can be treated as a bunch of 2D slices. Similarly, for $(D TextureArray)s, the layer specifies the array layer.
+Base class for $(D Texture3D) and $(D TextureArray). Cannot be used directly, but contains all the functions necessary for accessing and using $(D Texture3D) and $(D TextureArray). Data is set on a per-layer basis. For $(D Texture3D)s, the layer specifies the depth or Z-index, they can be treated as a bunch of 2D slices. Similarly, for $(D TextureArray)s, the layer specifies the array layer.
 */
 @GodotBaseClass struct TextureLayered
 {
@@ -56,13 +56,13 @@ public:
 	pragma(inline, true) bool opEquals(in TextureLayered other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TextureLayered opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TextureLayered.
 	/// Note: use `memnew!TextureLayered` instead.

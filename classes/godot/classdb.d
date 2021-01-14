@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.classdb;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -63,13 +63,13 @@ public:
 	pragma(inline, true) bool opEquals(in ClassDBSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ClassDBSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ClassDBSingleton.
 	/// Note: use `memnew!ClassDBSingleton` instead.
@@ -123,6 +123,7 @@ public:
 	}
 	/**
 	Returns an array with all the methods of `class` or its ancestry if `no_inheritance` is `false`. Every element of the array is a $(D Dictionary) with the following keys: `args`, `default_args`, `flags`, `id`, `name`, `return: (class_name, hint, hint_string, name, type, usage)`.
+	$(D b)Note:$(D /code) In exported release builds the debug info is not available, so the returned dictionaries will contain only method names.
 	*/
 	Array classGetMethodList(in String _class, in bool no_inheritance = false) const
 	{

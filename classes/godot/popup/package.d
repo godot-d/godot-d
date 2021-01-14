@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.popup;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -53,13 +53,13 @@ public:
 	pragma(inline, true) bool opEquals(in Popup other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Popup opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Popup.
 	/// Note: use `memnew!Popup` instead.
@@ -149,6 +149,7 @@ public:
 	}
 	/**
 	If `true`, the popup will not be hidden when a click event occurs outside of it, or when it receives the `ui_cancel` action event.
+	$(B Note:) Enabling this property doesn't affect the Close or Cancel buttons' behavior in dialogs that inherit from this class. As a workaround, you can use $(D WindowDialog.getCloseButton) or $(D ConfirmationDialog.getCancel) and hide the buttons in question by setting their $(D CanvasItem.visible) property to `false`.
 	*/
 	@property bool popupExclusive()
 	{

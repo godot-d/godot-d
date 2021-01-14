@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.planemesh;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,6 +25,7 @@ import godot.primitivemesh;
 Class representing a planar $(D PrimitiveMesh).
 
 This flat mesh does not have a thickness. By default, this mesh is aligned on the X and Z axes; this default rotation isn't suited for use with billboarded materials. For billboarded materials, use $(D QuadMesh) instead.
+$(B Note:) When using a large textured $(D PlaneMesh) (e.g. as a floor), you may stumble upon UV jittering issues depending on the camera angle. To solve this, increase $(D subdivideDepth) and $(D subdivideWidth) until you no longer notice UV jittering.
 */
 @GodotBaseClass struct PlaneMesh
 {
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in PlaneMesh other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PlaneMesh opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PlaneMesh.
 	/// Note: use `memnew!PlaneMesh` instead.

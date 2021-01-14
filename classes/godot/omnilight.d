@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.omnilight;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.visualinstance;
 Omnidirectional light, such as a light bulb or a candle.
 
 An Omnidirectional light is a type of $(D Light) that emits light in all directions. The light is attenuated by distance and this attenuation can be configured by changing its energy, radius, and attenuation parameters.
+$(B Note:) By default, only 32 OmniLights may affect a single mesh $(I resource) at once. Consider splitting your level into several meshes to decrease the likelihood that more than 32 lights will affect the same mesh resource. Splitting the level mesh will also improve frustum culling effectiveness, leading to greater performance. If you need to use more lights per mesh, you can increase $(D ProjectSettings.rendering/limits/rendering/maxLightsPerObject) at the cost of shader compilation times.
 */
 @GodotBaseClass struct OmniLight
 {
@@ -48,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in OmniLight other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) OmniLight opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of OmniLight.
 	/// Note: use `memnew!OmniLight` instead.

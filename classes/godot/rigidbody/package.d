@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.rigidbody;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -32,6 +32,7 @@ This is the node that implements full 3D physics. This means that you do not con
 A RigidBody has 4 behavior $(D mode)s: Rigid, Static, Character, and Kinematic.
 $(B Note:) Don't change a RigidBody's position every frame or very often. Sporadic changes work fine, but physics runs at a different granularity (fixed Hz) than usual rendering (process callback) and maybe even in a separate thread, so changing this from a process loop may result in strange behavior. If you need to directly affect the body's state, use $(D _integrateForces), which allows you to directly access the physics state.
 If you need to override the default physics behavior, you can write a custom force integration function. See $(D customIntegrator).
+With Bullet physics (the default), the center of mass is the RigidBody3D center. With GodotPhysics, the center of mass is the average of the $(D CollisionShape) centers.
 */
 @GodotBaseClass struct RigidBody
 {
@@ -99,13 +100,13 @@ public:
 	pragma(inline, true) bool opEquals(in RigidBody other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RigidBody opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RigidBody.
 	/// Note: use `memnew!RigidBody` instead.
@@ -278,7 +279,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getBounce, _godot_object);
 	}
 	/**
-	Returns a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the $(D contactsReported) property to increase it.
+	Returns a list of the bodies colliding with this one. Requires $(D contactMonitor) to be set to `true` and $(D contactsReported) to be set high enough to detect all the collisions.
 	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	Array getCollidingBodies() const
@@ -552,6 +553,7 @@ public:
 	}
 	/**
 	Damps RigidBody's rotational forces.
+	See $(D ProjectSettings.physics/3d/defaultAngularDamp) for more details about damping.
 	*/
 	@property double angularDamp()
 	{
@@ -661,6 +663,7 @@ public:
 	}
 	/**
 	If `true`, the body can enter sleep mode when there is no movement. See $(D sleeping).
+	$(B Note:) A RigidBody3D will never enter sleep mode automatically if its $(D mode) is $(D constant MODE_CHARACTER). It can still be put to sleep manually by setting its $(D sleeping) property to `true`.
 	*/
 	@property bool canSleep()
 	{
@@ -672,7 +675,7 @@ public:
 		setCanSleep(v);
 	}
 	/**
-	If `true`, the RigidBody will emit signals when it collides with another RigidBody.
+	If `true`, the RigidBody will emit signals when it collides with another RigidBody. See also $(D contactsReported).
 	*/
 	@property bool contactMonitor()
 	{
@@ -684,7 +687,8 @@ public:
 		setContactMonitor(v);
 	}
 	/**
-	The maximum contacts to report. Bodies can keep a log of the contacts with other bodies, this is enabled by setting the maximum amount of contacts reported to a number greater than 0.
+	The maximum number of contacts that will be recorded. Requires $(D contactMonitor) to be set to `true`.
+	$(B Note:) The number of contacts is different from the number of collisions. Collisions between parallel edges will result in two contacts (one at each end), and collisions between parallel faces will result in four contacts (one at each corner).
 	*/
 	@property long contactsReported()
 	{
@@ -747,6 +751,7 @@ public:
 	}
 	/**
 	The body's linear damp. Cannot be less than -1.0. If this value is different from -1.0, any linear damp derived from the world or areas will be overridden.
+	See $(D ProjectSettings.physics/3d/defaultLinearDamp) for more details about damping.
 	*/
 	@property double linearDamp()
 	{

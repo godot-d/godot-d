@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.videostreamwebm;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,9 @@ import godot.reference;
 /**
 $(D VideoStream) resource for WebM videos.
 
-$(D VideoStream) resource handling the $(D url=https://www.webmproject.org/)WebM$(D /url) video format with `.webm` extension.
+$(D VideoStream) resource handling the $(D url=https://www.webmproject.org/)WebM$(D /url) video format with `.webm` extension. Both the VP8 and VP9 codecs are supported. The VP8 and VP9 codecs are more efficient than $(D VideoStreamTheora), but they require more CPU resources to decode (especially VP9). Both the VP8 and VP9 codecs are decoded on the CPU.
+$(B Note:) Alpha channel (also known as transparency) is not supported. The video will always appear to have a black background, even if it originally contains an alpha channel.
+$(B Note:) There are known bugs and performance issues with WebM video playback in Godot. If you run into problems, try using the Ogg Theora format instead: $(D VideoStreamTheora)
 */
 @GodotBaseClass struct VideoStreamWebm
 {
@@ -47,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in VideoStreamWebm other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VideoStreamWebm opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VideoStreamWebm.
 	/// Note: use `memnew!VideoStreamWebm` instead.

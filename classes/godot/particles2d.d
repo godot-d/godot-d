@@ -1,5 +1,5 @@
 /**
-2D particle emitter.
+GPU-based 2D particle emitter.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.particles2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,10 +26,12 @@ import godot.node;
 import godot.texture;
 import godot.material;
 /**
-2D particle emitter.
+GPU-based 2D particle emitter.
 
 2D particle node used to create a variety of particle systems and effects. $(D Particles2D) features an emitter that generates some number of particles at a given rate.
 Use the `process_material` property to add a $(D ParticlesMaterial) to configure particle appearance and behavior. Alternatively, you can add a $(D ShaderMaterial) which will be applied to all particles.
+$(B Note:) $(D Particles2D) only work when using the GLES3 renderer. If using the GLES2 renderer, use $(D CPUParticles2D) instead. You can convert $(D Particles2D) to $(D CPUParticles2D) by selecting the node, clicking the $(B Particles) menu at the top of the 2D editor viewport then choosing $(B Convert to CPUParticles2D).
+$(B Note:) After working on a Particles node, remember to update its $(D visibilityRect) by selecting it, clicking the $(B Particles) menu at the top of the 2D editor viewport then choose $(B Generate Visibility Rect). Otherwise, particles may suddenly disappear depending on the camera position and angle.
 */
 @GodotBaseClass struct Particles2D
 {
@@ -82,13 +84,13 @@ public:
 	pragma(inline, true) bool opEquals(in Particles2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Particles2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Particles2D.
 	/// Note: use `memnew!Particles2D` instead.
@@ -391,7 +393,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setVisibilityRect, _godot_object, visibility_rect);
 	}
 	/**
-	Number of particles emitted in one emission cycle.
+	The number of particles emitted in one emission cycle (corresponding to the $(D lifetime)).
+	$(B Note:) Changing $(D amount) will reset the particle emission, therefore removing all particles that were already emitted before changing $(D amount).
 	*/
 	@property long amount()
 	{
@@ -463,7 +466,7 @@ public:
 		setFractionalDelta(v);
 	}
 	/**
-	Amount of time each particle will exist.
+	The amount of time each particle will exist (in seconds).
 	*/
 	@property double lifetime()
 	{

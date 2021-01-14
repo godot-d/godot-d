@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.generic6dofjoint;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -69,13 +69,13 @@ public:
 	pragma(inline, true) bool opEquals(in Generic6DOFJoint other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Generic6DOFJoint opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Generic6DOFJoint.
 	/// Note: use `memnew!Generic6DOFJoint` instead.
@@ -119,6 +119,18 @@ public:
 		*/
 		paramLinearMotorForceLimit = 6,
 		/**
+		
+		*/
+		paramLinearSpringStiffness = 7,
+		/**
+		
+		*/
+		paramLinearSpringDamping = 8,
+		/**
+		
+		*/
+		paramLinearSpringEquilibriumPoint = 9,
+		/**
 		The minimum rotation in negative direction to break loose and rotate around the axes.
 		*/
 		paramAngularLowerLimit = 10,
@@ -154,6 +166,18 @@ public:
 		Maximum acceleration for the motor at the axes.
 		*/
 		paramAngularMotorForceLimit = 18,
+		/**
+		
+		*/
+		paramAngularSpringStiffness = 19,
+		/**
+		
+		*/
+		paramAngularSpringDamping = 20,
+		/**
+		
+		*/
+		paramAngularSpringEquilibriumPoint = 21,
 		/**
 		Represents the size of the $(D param) enum.
 		*/
@@ -206,8 +230,11 @@ public:
 		paramLinearDamping = 4,
 		flagEnableLinearMotor = 5,
 		paramLinearMotorTargetVelocity = 5,
-		paramLinearMotorForceLimit = 6,
 		flagMax = 6,
+		paramLinearMotorForceLimit = 6,
+		paramLinearSpringStiffness = 7,
+		paramLinearSpringDamping = 8,
+		paramLinearSpringEquilibriumPoint = 9,
 		paramAngularLowerLimit = 10,
 		paramAngularUpperLimit = 11,
 		paramAngularLimitSoftness = 12,
@@ -217,6 +244,9 @@ public:
 		paramAngularErp = 16,
 		paramAngularMotorTargetVelocity = 17,
 		paramAngularMotorForceLimit = 18,
+		paramAngularSpringStiffness = 19,
+		paramAngularSpringDamping = 20,
+		paramAngularSpringEquilibriumPoint = 21,
 		paramMax = 22,
 	}
 	/**

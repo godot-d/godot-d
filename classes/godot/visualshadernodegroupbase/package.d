@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visualshadernodegroupbase;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,7 +23,6 @@ import godot.classdb;
 import godot.visualshadernode;
 import godot.resource;
 import godot.reference;
-import godot.control;
 /**
 Base class for a family of nodes with variable amount of input and output ports within the visual shader graph.
 
@@ -45,7 +44,6 @@ public:
 		@GodotName("add_output_port") GodotMethod!(void, long, long, String) addOutputPort;
 		@GodotName("clear_input_ports") GodotMethod!(void) clearInputPorts;
 		@GodotName("clear_output_ports") GodotMethod!(void) clearOutputPorts;
-		@GodotName("get_control") GodotMethod!(Control, long) getControl;
 		@GodotName("get_free_input_port_id") GodotMethod!(long) getFreeInputPortId;
 		@GodotName("get_free_output_port_id") GodotMethod!(long) getFreeOutputPortId;
 		@GodotName("get_input_port_count") GodotMethod!(long) getInputPortCount;
@@ -55,12 +53,9 @@ public:
 		@GodotName("get_size") GodotMethod!(Vector2) getSize;
 		@GodotName("has_input_port") GodotMethod!(bool, long) hasInputPort;
 		@GodotName("has_output_port") GodotMethod!(bool, long) hasOutputPort;
-		@GodotName("is_editable") GodotMethod!(bool) isEditable;
 		@GodotName("is_valid_port_name") GodotMethod!(bool, String) isValidPortName;
 		@GodotName("remove_input_port") GodotMethod!(void, long) removeInputPort;
 		@GodotName("remove_output_port") GodotMethod!(void, long) removeOutputPort;
-		@GodotName("set_control") GodotMethod!(void, Control, long) setControl;
-		@GodotName("set_editable") GodotMethod!(void, bool) setEditable;
 		@GodotName("set_input_port_name") GodotMethod!(void, long, String) setInputPortName;
 		@GodotName("set_input_port_type") GodotMethod!(void, long, long) setInputPortType;
 		@GodotName("set_inputs") GodotMethod!(void, String) setInputs;
@@ -73,13 +68,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisualShaderNodeGroupBase other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisualShaderNodeGroupBase opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisualShaderNodeGroupBase.
 	/// Note: use `memnew!VisualShaderNodeGroupBase` instead.
@@ -122,14 +117,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.clearOutputPorts, _godot_object);
-	}
-	/**
-	
-	*/
-	Control getControl(in long index)
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(GDNativeClassBinding.getControl, _godot_object, index);
 	}
 	/**
 	Returns a free input port ID which can be used in $(D addInputPort).
@@ -204,14 +191,6 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasOutputPort, _godot_object, id);
 	}
 	/**
-	
-	*/
-	bool isEditable() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.isEditable, _godot_object);
-	}
-	/**
 	Returns `true` if the specified port name does not override an existed port name and is valid within the shader.
 	*/
 	bool isValidPortName(in String name) const
@@ -234,22 +213,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.removeOutputPort, _godot_object, id);
-	}
-	/**
-	
-	*/
-	void setControl(Control control, in long index)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setControl, _godot_object, control, index);
-	}
-	/**
-	
-	*/
-	void setEditable(in bool enabled)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setEditable, _godot_object, enabled);
 	}
 	/**
 	Renames the specified input port.
@@ -308,15 +271,15 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setSize, _godot_object, size);
 	}
 	/**
-	
+	The size of the node in the visual shader graph.
 	*/
-	@property bool editable()
+	@property Vector2 size()
 	{
-		return isEditable();
+		return getSize();
 	}
 	/// ditto
-	@property void editable(bool v)
+	@property void size(Vector2 v)
 	{
-		setEditable(v);
+		setSize(v);
 	}
 }

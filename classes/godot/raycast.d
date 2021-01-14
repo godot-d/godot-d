@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.raycast;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -72,13 +72,13 @@ public:
 	pragma(inline, true) bool opEquals(in RayCast other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RayCast opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RayCast.
 	/// Note: use `memnew!RayCast` instead.
@@ -117,7 +117,7 @@ public:
 	/**
 	Updates the collision information for the ray.
 	Use this method to update the collision information immediately instead of waiting for the next `_physics_process` call, for example if the ray or its parent has changed state.
-	$(B Note:) `enabled == true` is not required for this to work.
+	$(B Note:) `enabled` is not required for this to work.
 	*/
 	void forceRaycastUpdate()
 	{
@@ -332,7 +332,7 @@ public:
 		setCollideWithBodies(v);
 	}
 	/**
-	The ray's collision mask. Only objects in at least one collision layer enabled in the mask will be detected.
+	The ray's collision mask. Only objects in at least one collision layer enabled in the mask will be detected. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

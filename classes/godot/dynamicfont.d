@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.dynamicfont;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,7 +25,7 @@ import godot.dynamicfontdata;
 /**
 DynamicFont renders vector font files at runtime.
 
-DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like $(D BitmapFont). This trades the faster loading time of $(D BitmapFont)s for the ability to change font parameters like size and spacing during runtime. $(D DynamicFontData) is used for referencing the font file paths. DynamicFont also supports defining one or more fallbacks fonts, which will be used when displaying a character not supported by the main font.
+DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like $(D BitmapFont). This trades the faster loading time of $(D BitmapFont)s for the ability to change font parameters like size and spacing during runtime. $(D DynamicFontData) is used for referencing the font file paths. DynamicFont also supports defining one or more fallback fonts, which will be used when displaying a character not supported by the main font.
 DynamicFont uses the $(D url=https://www.freetype.org/)FreeType$(D /url) library for rasterization.
 
 
@@ -35,7 +35,7 @@ dynamic_font.size = 64
 $"Label".set("custom_fonts/font", dynamic_font)
 
 
-$(B Note:) DynamicFont doesn't support features such as right-to-left typesetting, ligatures, text shaping, variable fonts and optional font features yet. If you wish to "bake" an optional font feature into a TTF font file, you can use $(D url=https://fontforge.org/)FontForge$(D /url) to do so. In FontForge, use $(B File &gt; Generate Fonts), click $(B Options), choose the desired features then generate the font.
+$(B Note:) DynamicFont doesn't support features such as kerning, right-to-left typesetting, ligatures, text shaping, variable fonts and optional font features yet. If you wish to "bake" an optional font feature into a TTF font file, you can use $(D url=https://fontforge.org/)FontForge$(D /url) to do so. In FontForge, use $(B File &gt; Generate Fonts), click $(B Options), choose the desired features then generate the font.
 */
 @GodotBaseClass struct DynamicFont
 {
@@ -73,13 +73,13 @@ public:
 	pragma(inline, true) bool opEquals(in DynamicFont other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) DynamicFont opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of DynamicFont.
 	/// Note: use `memnew!DynamicFont` instead.
@@ -103,11 +103,11 @@ public:
 		*/
 		spacingBottom = 1,
 		/**
-		Character spacing.
+		Spacing for each character.
 		*/
 		spacingChar = 2,
 		/**
-		Space spacing.
+		Spacing for the space character.
 		*/
 		spacingSpace = 3,
 	}
@@ -284,7 +284,8 @@ public:
 		setSpacing(1, v);
 	}
 	/**
-	Extra character spacing in pixels.
+	Extra spacing for each character in pixels.
+	This can be a negative number to make the distance between characters smaller.
 	*/
 	@property long extraSpacingChar()
 	{
@@ -296,7 +297,8 @@ public:
 		setSpacing(2, v);
 	}
 	/**
-	Extra space spacing in pixels.
+	Extra spacing for the space character (in addition to $(D extraSpacingChar)) in pixels.
+	This can be a negative number to make the distance between words smaller.
 	*/
 	@property long extraSpacingSpace()
 	{

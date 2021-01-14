@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visualinstance;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -53,13 +53,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisualInstance other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisualInstance opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisualInstance.
 	/// Note: use `memnew!VisualInstance` instead.
@@ -81,7 +81,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!RID);
 	}
 	/**
-	Returns the $(D AABB) (also known as the bounding box) for this $(D VisualInstance).
+	Returns the $(D AABB) (also known as the bounding box) for this $(D VisualInstance). See also $(D getTransformedAabb).
 	*/
 	AABB getAabb() const
 	{
@@ -122,7 +122,7 @@ public:
 	}
 	/**
 	Returns the transformed $(D AABB) (also known as the bounding box) for this $(D VisualInstance).
-	Transformed in this case means the $(D AABB) plus the position, rotation, and scale of the $(D Spatial)'s $(D Transform).
+	Transformed in this case means the $(D AABB) plus the position, rotation, and scale of the $(D Spatial)'s $(D Transform). See also $(D getAabb).
 	*/
 	AABB getTransformedAabb() const
 	{

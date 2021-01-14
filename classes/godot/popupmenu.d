@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.popupmenu;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -65,6 +65,7 @@ public:
 		@GodotName("add_submenu_item") GodotMethod!(void, String, String, long) addSubmenuItem;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("get_allow_search") GodotMethod!(bool) getAllowSearch;
+		@GodotName("get_current_index") GodotMethod!(long) getCurrentIndex;
 		@GodotName("get_item_accelerator") GodotMethod!(long, long) getItemAccelerator;
 		@GodotName("get_item_count") GodotMethod!(long) getItemCount;
 		@GodotName("get_item_icon") GodotMethod!(Texture, long) getItemIcon;
@@ -115,13 +116,13 @@ public:
 	pragma(inline, true) bool opEquals(in PopupMenu other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PopupMenu opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PopupMenu.
 	/// Note: use `memnew!PopupMenu` instead.
@@ -285,7 +286,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addRadioCheckShortcut, _godot_object, shortcut, id, global);
 	}
 	/**
-	Adds a separator between items. Separators also occupy an index.
+	Adds a separator between items. Separators also occupy an index, which you can set by using the `id` parameter.
+	A `label` can optionally be provided, which will appear at the center of the separator.
 	*/
 	void addSeparator(in String label = gs!"")
 	{
@@ -325,6 +327,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.getAllowSearch, _godot_object);
+	}
+	/**
+	
+	*/
+	long getCurrentIndex() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentIndex, _godot_object);
 	}
 	/**
 	Returns the accelerator of the item at index `idx`. Accelerators are special combinations of keys that activate the item, no matter which control is focused.

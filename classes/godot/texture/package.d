@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.texture;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -28,6 +28,7 @@ Texture for 2D and 3D.
 A texture works by registering an image in the video hardware, which then can be used in 3D models or 2D $(D Sprite) or GUI $(D Control).
 Textures are often created by loading them from a file. See $(D @GDScript.load).
 $(D Texture) is a base for other resources. It cannot be used directly.
+$(B Note:) The maximum texture size is 16384×16384 pixels due to graphics hardware limitations. Larger textures may fail to import.
 */
 @GodotBaseClass struct Texture
 {
@@ -56,13 +57,13 @@ public:
 	pragma(inline, true) bool opEquals(in Texture other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Texture opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Texture.
 	/// Note: use `memnew!Texture` instead.
@@ -83,6 +84,7 @@ public:
 		flagMipmaps = 1,
 		/**
 		Repeats the texture (instead of clamp to edge).
+		$(B Note:) Ignored when using an $(D AtlasTexture) as these don't support repetition.
 		*/
 		flagRepeat = 2,
 		/**
@@ -104,6 +106,7 @@ public:
 		flagConvertToLinear = 16,
 		/**
 		Repeats the texture with alternate sections mirrored.
+		$(B Note:) Ignored when using an $(D AtlasTexture) as these don't support repetition.
 		*/
 		flagMirroredRepeat = 32,
 		/**
@@ -148,7 +151,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.drawRectRegion, _godot_object, canvas_item, rect, src_rect, modulate, transpose, normal_map, clip_uv);
 	}
 	/**
-	Returns an $(D Image) with the data from this $(D Texture). $(D Image)s can be accessed and manipulated directly.
+	Returns an $(D Image) that is a copy of data from this $(D Texture). $(D Image)s can be accessed and manipulated directly.
 	*/
 	Ref!Image getData() const
 	{

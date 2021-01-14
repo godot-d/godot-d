@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.colorpickerbutton;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -29,6 +29,7 @@ import godot.popuppanel;
 Button that pops out a $(D ColorPicker).
 
 Encapsulates a $(D ColorPicker) making it accessible by pressing a button. Pressing the button will toggle the $(D ColorPicker) visibility.
+See also $(D BaseButton) which contains common properties and methods associated with this node.
 */
 @GodotBaseClass struct ColorPickerButton
 {
@@ -55,13 +56,13 @@ public:
 	pragma(inline, true) bool opEquals(in ColorPickerButton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ColorPickerButton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ColorPickerButton.
 	/// Note: use `memnew!ColorPickerButton` instead.

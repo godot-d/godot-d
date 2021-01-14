@@ -24,6 +24,7 @@ public import
 	godot.colorpicker,
 	godot.hboxcontainer,
 	godot.vboxcontainer,
+	godot.filesystemdock,
 	godot.centercontainer,
 	godot.editorproperty,
 	godot.graphnode,

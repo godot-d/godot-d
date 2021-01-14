@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visibilityenabler;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,8 @@ import godot.node;
 Enables certain nodes only when approximately visible.
 
 The VisibilityEnabler will disable $(D RigidBody) and $(D AnimationPlayer) nodes when they are not visible. It will only affect other nodes within the same scene as the VisibilityEnabler itself.
-$(B Note:) VisibilityEnabler uses an approximate heuristic for performance reasons. It doesn't take walls and other occlusion into account. If you need exact visibility checking, use another method such as adding an $(D Area) node as a child of a $(D Camera) node.
+If you just want to receive notifications, use $(D VisibilityNotifier) instead.
+$(B Note:) VisibilityEnabler uses an approximate heuristic for performance reasons. It doesn't take walls and other occlusion into account. The heuristic is an implementation detail and may change in future versions. If you need precise visibility checking, use another method such as adding an $(D Area) node as a child of a $(D Camera) node and/or $(D Vector3.dot).
 $(B Note:) VisibilityEnabler will not affect nodes added after scene initialization.
 */
 @GodotBaseClass struct VisibilityEnabler
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisibilityEnabler other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisibilityEnabler opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisibilityEnabler.
 	/// Note: use `memnew!VisibilityEnabler` instead.

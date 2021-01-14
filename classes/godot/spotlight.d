@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.spotlight;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.visualinstance;
 A spotlight, such as a reflector spotlight or a lantern.
 
 A Spotlight is a type of $(D Light) node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance. This attenuation can be configured by changing the energy, radius and attenuation parameters of $(D Light).
+$(B Note:) By default, only 32 SpotLights may affect a single mesh $(I resource) at once. Consider splitting your level into several meshes to decrease the likelihood that more than 32 lights will affect the same mesh resource. Splitting the level mesh will also improve frustum culling effectiveness, leading to greater performance. If you need to use more lights per mesh, you can increase $(D ProjectSettings.rendering/limits/rendering/maxLightsPerObject) at the cost of shader compilation times.
 */
 @GodotBaseClass struct SpotLight
 {
@@ -44,13 +45,13 @@ public:
 	pragma(inline, true) bool opEquals(in SpotLight other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) SpotLight opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of SpotLight.
 	/// Note: use `memnew!SpotLight` instead.

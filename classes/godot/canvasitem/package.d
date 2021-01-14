@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.canvasitem;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -135,13 +135,13 @@ public:
 	pragma(inline, true) bool opEquals(in CanvasItem other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) CanvasItem opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of CanvasItem.
 	/// Note: use `memnew!CanvasItem` instead.
@@ -456,7 +456,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.drawMesh, _godot_object, mesh, texture, normal_map, transform, modulate);
 	}
 	/**
-	Draws multiple, parallel lines with a uniform `color`. `width` and `antialiased` are currently not implemented and have no effect.
+	Draws multiple, parallel lines with a uniform `color`.
+	$(B Note:) `width` and `antialiased` are currently not implemented and have no effect.
 	*/
 	void drawMultiline(in PoolVector2Array points, in Color color, in double width = 1, in bool antialiased = false)
 	{
@@ -464,7 +465,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.drawMultiline, _godot_object, points, color, width, antialiased);
 	}
 	/**
-	Draws multiple, parallel lines with a uniform `width`, segment-by-segment coloring, and optional antialiasing. Colors assigned to line segments match by index between `points` and `colors`.
+	Draws multiple, parallel lines with a uniform `width` and segment-by-segment coloring. Colors assigned to line segments match by index between `points` and `colors`.
+	$(B Note:) `width` and `antialiased` are currently not implemented and have no effect.
 	*/
 	void drawMultilineColors(in PoolVector2Array points, in PoolColorArray colors, in double width = 1, in bool antialiased = false)
 	{
@@ -537,7 +539,18 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.drawSetTransformMatrix, _godot_object, xform);
 	}
 	/**
-	Draws a string using a custom font.
+	Draws `text` using the specified `font` at the `position` (top-left corner). The text will have its color multiplied by `modulate`. If `clip_w` is greater than or equal to 0, the text will be clipped if it exceeds the specified width.
+	$(B Example using the default project font:)
+	
+	
+	# If using this method in a script that redraws constantly, move the
+	# `default_font` declaration to a member variable assigned in `_ready()`
+	# so the Control is only created once.
+	var default_font = Control.new().get_font("font")
+	draw_string(default_font, Vector2(64, 64), "Hello world")
+	
+	
+	See also $(D Font.draw).
 	*/
 	void drawString(Font font, in Vector2 position, in String text, in Color modulate = Color(1,1,1,1), in long clip_w = -1)
 	{
@@ -761,7 +774,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isVisible, _godot_object);
 	}
 	/**
-	Returns `true` if the node is present in the $(D SceneTree), its $(D visible) property is `true` and its inherited visibility is also `true`.
+	Returns `true` if the node is present in the $(D SceneTree), its $(D visible) property is `true` and all its antecedents are also visible. If any antecedent is hidden, this node will not be visible in the scene tree.
 	*/
 	bool isVisibleInTree() const
 	{
@@ -953,7 +966,8 @@ public:
 		setUseParentMaterial(v);
 	}
 	/**
-	If `true`, this $(D CanvasItem) is drawn. For controls that inherit $(D Popup), the correct way to make them visible is to call one of the multiple `popup*()` functions instead.
+	If `true`, this $(D CanvasItem) is drawn. The node is only visible if all of its antecedents are visible as well (in other words, $(D isVisibleInTree) must return `true`).
+	$(B Note:) For controls that inherit $(D Popup), the correct way to make them visible is to call one of the multiple `popup*()` functions instead.
 	*/
 	@property bool visible()
 	{

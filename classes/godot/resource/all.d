@@ -158,6 +158,7 @@ public import
 	godot.atlastexture,
 	godot.cameratexture,
 	godot.curvetexture,
+	godot.externaltexture,
 	godot.gradienttexture,
 	godot.imagetexture,
 	godot.largetexture,

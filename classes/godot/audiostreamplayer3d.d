@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.audiostreamplayer3d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,8 @@ import godot.audiostreamplayback;
 /**
 Plays 3D sound in 3D space.
 
-Plays a sound effect with directed sound effects, dampens with distance if needed, generates effect of hearable position in space.
+Plays a sound effect with directed sound effects, dampens with distance if needed, generates effect of hearable position in space. For greater realism, a low-pass filter is automatically applied to distant sounds. This can be disabled by setting $(D attenuationFilterCutoffHz) to `20500`.
+By default, audio is heard from the camera position. This can be changed by adding a $(D Listener) node to the scene and enabling it by calling $(D Listener.makeCurrent) on it.
 */
 @GodotBaseClass struct AudioStreamPlayer3D
 {
@@ -90,13 +91,13 @@ public:
 	pragma(inline, true) bool opEquals(in AudioStreamPlayer3D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AudioStreamPlayer3D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AudioStreamPlayer3D.
 	/// Note: use `memnew!AudioStreamPlayer3D` instead.
@@ -124,7 +125,7 @@ public:
 		*/
 		attenuationLogarithmic = 2,
 		/**
-		No dampening of loudness according to distance.
+		No dampening of loudness according to distance. The sound will still be heard positionally, unlike an $(D AudioStreamPlayer).
 		*/
 		attenuationDisabled = 3,
 	}
@@ -132,11 +133,11 @@ public:
 	enum OutOfRangeMode : int
 	{
 		/**
-		Mix this audio in, even when it's out of range.
+		Mix this audio in, even when it's out of range. This increases CPU usage, but keeps the sound playing at the correct position if the camera leaves and enters the $(D AudioStreamPlayer3D)'s $(D maxDistance) radius.
 		*/
 		outOfRangeMix = 0,
 		/**
-		Pause this audio when it gets out of range.
+		Pause this audio when it gets out of range. This decreases CPU usage, but will cause the sound to restart if the camera leaves and enters the $(D AudioStreamPlayer3D)'s $(D maxDistance) radius.
 		*/
 		outOfRangePause = 1,
 	}
@@ -546,7 +547,7 @@ public:
 		setAreaMask(v);
 	}
 	/**
-	Dampens audio above this frequency, in Hz.
+	Dampens audio using a low-pass filter above this frequency, in Hz. To disable the dampening effect entirely, set this to `20500` as this frequency is above the human hearing limit.
 	*/
 	@property double attenuationFilterCutoffHz()
 	{
@@ -558,7 +559,7 @@ public:
 		setAttenuationFilterCutoffHz(v);
 	}
 	/**
-	Amount how much the filter affects the loudness, in dB.
+	Amount how much the filter affects the loudness, in decibels.
 	*/
 	@property double attenuationFilterDb()
 	{
@@ -582,7 +583,7 @@ public:
 		setAttenuationModel(v);
 	}
 	/**
-	If `true`, audio plays when added to scene tree.
+	If `true`, audio plays when the AudioStreamPlayer3D node is added to scene tree.
 	*/
 	@property bool autoplay()
 	{
@@ -594,7 +595,7 @@ public:
 		setAutoplay(v);
 	}
 	/**
-	Bus on which this audio is playing.
+	The bus on which this audio is playing.
 	*/
 	@property String bus()
 	{
@@ -642,7 +643,7 @@ public:
 		setEmissionAngleEnabled(v);
 	}
 	/**
-	Dampens audio if camera is outside of $(D emissionAngleDegrees) and $(D emissionAngleEnabled) is set by this factor, in dB.
+	Dampens audio if camera is outside of $(D emissionAngleDegrees) and $(D emissionAngleEnabled) is set by this factor, in decibels.
 	*/
 	@property double emissionAngleFilterAttenuationDb()
 	{
@@ -654,7 +655,7 @@ public:
 		setEmissionAngleFilterAttenuationDb(v);
 	}
 	/**
-	Sets the absolute maximum of the soundlevel, in dB.
+	Sets the absolute maximum of the soundlevel, in decibels.
 	*/
 	@property double maxDb()
 	{
@@ -714,7 +715,7 @@ public:
 		_setPlaying(v);
 	}
 	/**
-	The $(D AudioStream) object to be played.
+	The $(D AudioStream) resource to be played.
 	*/
 	@property AudioStream stream()
 	{
@@ -726,7 +727,7 @@ public:
 		setStream(v);
 	}
 	/**
-	If `true`, the playback is paused. You can resume it by setting `stream_paused` to `false`.
+	If `true`, the playback is paused. You can resume it by setting $(D streamPaused) to `false`.
 	*/
 	@property bool streamPaused()
 	{
@@ -738,7 +739,7 @@ public:
 		setStreamPaused(v);
 	}
 	/**
-	Base sound level unaffected by dampening, in dB.
+	The base sound level unaffected by dampening, in decibels.
 	*/
 	@property double unitDb()
 	{
@@ -750,7 +751,7 @@ public:
 		setUnitDb(v);
 	}
 	/**
-	Factor for the attenuation effect.
+	The factor for the attenuation effect. Higher values make the sound audible over a larger distance.
 	*/
 	@property double unitSize()
 	{

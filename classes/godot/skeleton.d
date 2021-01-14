@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.skeleton;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -46,6 +46,7 @@ public:
 		@GodotName("add_bone") GodotMethod!(void, String) addBone;
 		@GodotName("bind_child_node_to_bone") GodotMethod!(void, long, Node) bindChildNodeToBone;
 		@GodotName("clear_bones") GodotMethod!(void) clearBones;
+		@GodotName("clear_bones_global_pose_override") GodotMethod!(void) clearBonesGlobalPoseOverride;
 		@GodotName("find_bone") GodotMethod!(long, String) findBone;
 		@GodotName("get_bone_count") GodotMethod!(long) getBoneCount;
 		@GodotName("get_bone_custom_pose") GodotMethod!(Transform, long) getBoneCustomPose;
@@ -75,13 +76,13 @@ public:
 	pragma(inline, true) bool opEquals(in Skeleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Skeleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Skeleton.
 	/// Note: use `memnew!Skeleton` instead.
@@ -124,6 +125,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.clearBones, _godot_object);
+	}
+	/**
+	
+	*/
+	void clearBonesGlobalPoseOverride()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.clearBonesGlobalPoseOverride, _godot_object);
 	}
 	/**
 	Returns the bone index that matches `name` as its name.
@@ -288,7 +297,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setBoneParent, _godot_object, bone_idx, parent_idx);
 	}
 	/**
-	Returns the pose transform for bone `bone_idx`.
+	Sets the pose transform for bone `bone_idx`.
 	*/
 	void setBonePose(in long bone_idx, in Transform pose)
 	{

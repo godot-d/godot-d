@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.cpuparticles2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -30,6 +30,7 @@ CPU-based 2D particle emitter.
 
 CPU-based 2D particle node used to create a variety of particle systems and effects.
 See also $(D Particles2D), which provides the same functionality with hardware acceleration, but may not run on older devices.
+$(B Note:) Unlike $(D Particles2D), the visibility rect is generated on-the-fly and doesn't need to be configured by the user.
 */
 @GodotBaseClass struct CPUParticles2D
 {
@@ -43,6 +44,7 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("_texture_changed") GodotMethod!(void) _textureChanged;
 		@GodotName("_update_render_thread") GodotMethod!(void) _updateRenderThread;
 		@GodotName("convert_from_particles") GodotMethod!(void, Node) convertFromParticles;
 		@GodotName("get_amount") GodotMethod!(long) getAmount;
@@ -111,13 +113,13 @@ public:
 	pragma(inline, true) bool opEquals(in CPUParticles2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) CPUParticles2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of CPUParticles2D.
 	/// Note: use `memnew!CPUParticles2D` instead.
@@ -273,6 +275,15 @@ public:
 		paramAnimSpeed = 10,
 		paramAnimOffset = 11,
 		paramMax = 12,
+	}
+	/**
+	
+	*/
+	void _textureChanged()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_texture_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
@@ -780,7 +791,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setUseLocalCoordinates, _godot_object, enable);
 	}
 	/**
-	Number of particles emitted in one emission cycle.
+	The number of particles emitted in one emission cycle (corresponding to the $(D lifetime)).
+	$(B Note:) Changing $(D amount) will reset the particle emission, therefore removing all particles that were already emitted before changing $(D amount).
 	*/
 	@property long amount()
 	{
@@ -1224,7 +1236,7 @@ public:
 		setParamRandomness(0, v);
 	}
 	/**
-	Amount of time each particle will exist.
+	The amount of time each particle will exist (in seconds).
 	*/
 	@property double lifetime()
 	{

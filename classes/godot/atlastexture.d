@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.atlastexture;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,6 +25,7 @@ import godot.texture;
 Packs multiple small textures in a single, bigger one. Helps to optimize video memory costs and render calls.
 
 $(D Texture) resource aimed at managing big textures files that pack multiple smaller textures. Consists of a $(D Texture), a margin that defines the border width, and a region that defines the actual area of the AtlasTexture.
+$(B Note:) AtlasTextures don't support repetition. The $(D constant Texture.FLAG_REPEAT) and $(D constant Texture.FLAG_MIRRORED_REPEAT) flags are ignored when using an AtlasTexture.
 */
 @GodotBaseClass struct AtlasTexture
 {
@@ -51,13 +52,13 @@ public:
 	pragma(inline, true) bool opEquals(in AtlasTexture other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AtlasTexture opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AtlasTexture.
 	/// Note: use `memnew!AtlasTexture` instead.

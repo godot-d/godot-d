@@ -1,5 +1,5 @@
 /**
-3D particle emitter.
+GPU-based 3D particle emitter.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.particles;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,10 +25,12 @@ import godot.visualinstance;
 import godot.mesh;
 import godot.material;
 /**
-3D particle emitter.
+GPU-based 3D particle emitter.
 
 3D particle node used to create a variety of particle systems and effects. $(D Particles) features an emitter that generates some number of particles at a given rate.
 Use the `process_material` property to add a $(D ParticlesMaterial) to configure particle appearance and behavior. Alternatively, you can add a $(D ShaderMaterial) which will be applied to all particles.
+$(B Note:) $(D Particles) only work when using the GLES3 renderer. If using the GLES2 renderer, use $(D CPUParticles) instead. You can convert $(D Particles) to $(D CPUParticles) by selecting the node, clicking the $(B Particles) menu at the top of the 3D editor viewport then choosing $(B Convert to CPUParticles).
+$(B Note:) After working on a Particles node, remember to update its $(D visibilityAabb) by selecting it, clicking the $(B Particles) menu at the top of the 3D editor viewport then choose $(B Generate Visibility AABB). Otherwise, particles may suddenly disappear depending on the camera position and angle.
 */
 @GodotBaseClass struct Particles
 {
@@ -81,13 +83,13 @@ public:
 	pragma(inline, true) bool opEquals(in Particles other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Particles opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Particles.
 	/// Note: use `memnew!Particles` instead.
@@ -399,7 +401,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setVisibilityAabb, _godot_object, aabb);
 	}
 	/**
-	Number of particles to emit.
+	The number of particles emitted in one emission cycle (corresponding to the $(D lifetime)).
+	$(B Note:) Changing $(D amount) will reset the particle emission, therefore removing all particles that were already emitted before changing $(D amount).
 	*/
 	@property long amount()
 	{
@@ -531,7 +534,7 @@ public:
 		setFractionalDelta(v);
 	}
 	/**
-	Amount of time each particle will exist.
+	The amount of time each particle will exist (in seconds).
 	*/
 	@property double lifetime()
 	{

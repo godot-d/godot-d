@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.inputeventmousemotion;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.inputeventwithmodifiers;
 Input event type for mouse motion events.
 
 Contains mouse and pen motion information. Supports relative, absolute positions and speed. See $(D Node._input).
+$(B Note:) By default, this event is only emitted once per frame rendered at most. If you need more precise input reporting, call $(D Input.setUseAccumulatedInput) with `false` to make events emitted as often as possible. If you use InputEventMouseMotion to draw lines, consider implementing $(D url=https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm)Bresenham's line algorithm$(D /url) as well to avoid visible gaps in lines if the user is moving the mouse quickly.
 */
 @GodotBaseClass struct InputEventMouseMotion
 {
@@ -52,13 +53,13 @@ public:
 	pragma(inline, true) bool opEquals(in InputEventMouseMotion other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) InputEventMouseMotion opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of InputEventMouseMotion.
 	/// Note: use `memnew!InputEventMouseMotion` instead.
@@ -147,7 +148,7 @@ public:
 		setPressure(v);
 	}
 	/**
-	The mouse position relative to the previous position (position at the last frame). 
+	The mouse position relative to the previous position (position at the last frame).
 	$(B Note:) Since $(D InputEventMouseMotion) is only emitted when the mouse moves, the last event won't have a relative position of `Vector2(0, 0)` when the user stops moving the mouse.
 	*/
 	@property Vector2 relative()

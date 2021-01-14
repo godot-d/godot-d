@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.performance;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -46,13 +46,13 @@ public:
 	pragma(inline, true) bool opEquals(in PerformanceSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PerformanceSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PerformanceSingleton.
 	/// Note: use `memnew!PerformanceSingleton` instead.
@@ -140,53 +140,61 @@ public:
 		*/
 		renderDrawCallsInFrame = 17,
 		/**
+		Items or joined items drawn per frame.
+		*/
+		render2dItemsInFrame = 18,
+		/**
+		Draw calls per frame.
+		*/
+		render2dDrawCallsInFrame = 19,
+		/**
 		The amount of video memory used, i.e. texture and vertex memory combined.
 		*/
-		renderVideoMemUsed = 18,
+		renderVideoMemUsed = 20,
 		/**
 		The amount of texture memory used.
 		*/
-		renderTextureMemUsed = 19,
+		renderTextureMemUsed = 21,
 		/**
 		The amount of vertex memory used.
 		*/
-		renderVertexMemUsed = 20,
+		renderVertexMemUsed = 22,
 		/**
 		Unimplemented in the GLES2 and GLES3 rendering backends, always returns 0.
 		*/
-		renderUsageVideoMemTotal = 21,
+		renderUsageVideoMemTotal = 23,
 		/**
 		Number of active $(D RigidBody2D) nodes in the game.
 		*/
-		physics2dActiveObjects = 22,
+		physics2dActiveObjects = 24,
 		/**
 		Number of collision pairs in the 2D physics engine.
 		*/
-		physics2dCollisionPairs = 23,
+		physics2dCollisionPairs = 25,
 		/**
 		Number of islands in the 2D physics engine.
 		*/
-		physics2dIslandCount = 24,
+		physics2dIslandCount = 26,
 		/**
 		Number of active $(D RigidBody) and $(D VehicleBody) nodes in the game.
 		*/
-		physics3dActiveObjects = 25,
+		physics3dActiveObjects = 27,
 		/**
 		Number of collision pairs in the 3D physics engine.
 		*/
-		physics3dCollisionPairs = 26,
+		physics3dCollisionPairs = 28,
 		/**
 		Number of islands in the 3D physics engine.
 		*/
-		physics3dIslandCount = 27,
+		physics3dIslandCount = 29,
 		/**
 		Output latency of the $(D AudioServer).
 		*/
-		audioOutputLatency = 28,
+		audioOutputLatency = 30,
 		/**
 		Represents the size of the $(D monitor) enum.
 		*/
-		monitorMax = 29,
+		monitorMax = 31,
 	}
 	/// 
 	enum Constants : int
@@ -209,18 +217,20 @@ public:
 		renderShaderChangesInFrame = 15,
 		renderSurfaceChangesInFrame = 16,
 		renderDrawCallsInFrame = 17,
-		renderVideoMemUsed = 18,
-		renderTextureMemUsed = 19,
-		renderVertexMemUsed = 20,
-		renderUsageVideoMemTotal = 21,
-		physics2dActiveObjects = 22,
-		physics2dCollisionPairs = 23,
-		physics2dIslandCount = 24,
-		physics3dActiveObjects = 25,
-		physics3dCollisionPairs = 26,
-		physics3dIslandCount = 27,
-		audioOutputLatency = 28,
-		monitorMax = 29,
+		render2dItemsInFrame = 18,
+		render2dDrawCallsInFrame = 19,
+		renderVideoMemUsed = 20,
+		renderTextureMemUsed = 21,
+		renderVertexMemUsed = 22,
+		renderUsageVideoMemTotal = 23,
+		physics2dActiveObjects = 24,
+		physics2dCollisionPairs = 25,
+		physics2dIslandCount = 26,
+		physics3dActiveObjects = 27,
+		physics3dCollisionPairs = 28,
+		physics3dIslandCount = 29,
+		audioOutputLatency = 30,
+		monitorMax = 31,
 	}
 	/**
 	Returns the value of one of the available monitors. You should provide one of the $(D monitor) constants as the argument, like this:

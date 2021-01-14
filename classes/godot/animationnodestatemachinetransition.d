@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animationnodestatemachinetransition;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -53,13 +53,13 @@ public:
 	pragma(inline, true) bool opEquals(in AnimationNodeStateMachineTransition other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimationNodeStateMachineTransition opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimationNodeStateMachineTransition.
 	/// Note: use `memnew!AnimationNodeStateMachineTransition` instead.
@@ -191,7 +191,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setXfadeTime, _godot_object, secs);
 	}
 	/**
-	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/latest/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:
+	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/3.2/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:
 	
 	
 	$animation_tree$(D "parameters/conditions/idle") = is_on_floor and (linear_velocity.x == 0)

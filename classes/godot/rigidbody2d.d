@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.rigidbody2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -36,6 +36,7 @@ A RigidBody2D has 4 behavior $(D mode)s: Rigid, Static, Character, and Kinematic
 $(B Note:) You should not change a RigidBody2D's `position` or `linear_velocity` every frame or even very often. If you need to directly affect the body's state, use $(D _integrateForces), which allows you to directly access the physics state.
 Please also keep in mind that physics bodies manage their own transform which overwrites the ones you set. So any direct or indirect transformation (including scaling of the node or its parent) will be visible in the editor only, and immediately reset at runtime.
 If you need to override the default physics behavior or add a transformation at runtime, you can write a custom force integration. See $(D customIntegrator).
+The center of mass is always located at the node's origin without taking into account the $(D CollisionShape2D) centroid offsets.
 */
 @GodotBaseClass struct RigidBody2D
 {
@@ -108,13 +109,13 @@ public:
 	pragma(inline, true) bool opEquals(in RigidBody2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RigidBody2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RigidBody2D.
 	/// Note: use `memnew!RigidBody2D` instead.
@@ -311,7 +312,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getBounce, _godot_object);
 	}
 	/**
-	Returns a list of the bodies colliding with this one. Use $(D contactsReported) to set the maximum number reported. You must also set $(D contactMonitor) to `true`.
+	Returns a list of the bodies colliding with this one. Requires $(D contactMonitor) to be set to `true` and $(D contactsReported) to be set high enough to detect all the collisions.
 	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	Array getCollidingBodies() const
@@ -617,6 +618,7 @@ public:
 	}
 	/**
 	Damps the body's $(D angularVelocity). If `-1`, the body will use the $(B Default Angular Damp) defined in $(B Project &gt; Project Settings &gt; Physics &gt; 2d).
+	See $(D ProjectSettings.physics/2d/defaultAngularDamp) for more details about damping.
 	*/
 	@property double angularDamp()
 	{
@@ -678,6 +680,7 @@ public:
 	}
 	/**
 	If `true`, the body can enter sleep mode when there is no movement. See $(D sleeping).
+	$(B Note:) A RigidBody2D will never enter sleep mode automatically if its $(D mode) is $(D constant MODE_CHARACTER). It can still be put to sleep manually by setting its $(D sleeping) property to `true`.
 	*/
 	@property bool canSleep()
 	{
@@ -701,7 +704,8 @@ public:
 		setContactMonitor(v);
 	}
 	/**
-	The maximum number of contacts to report.
+	The maximum number of contacts that will be recorded. Requires $(D contactMonitor) to be set to `true`.
+	$(B Note:) The number of contacts is different from the number of collisions. Collisions between parallel edges will result in two contacts (one at each end).
 	*/
 	@property long contactsReported()
 	{
@@ -776,6 +780,7 @@ public:
 	}
 	/**
 	Damps the body's $(D linearVelocity). If `-1`, the body will use the $(B Default Linear Damp) in $(B Project &gt; Project Settings &gt; Physics &gt; 2d).
+	See $(D ProjectSettings.physics/2d/defaultLinearDamp) for more details about damping.
 	*/
 	@property double linearDamp()
 	{

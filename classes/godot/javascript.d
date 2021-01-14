@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.javascript;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,6 +23,7 @@ import godot.object;
 Singleton that connects the engine with the browser's JavaScript context in HTML5 export.
 
 The JavaScript singleton is implemented only in the HTML5 export. It's used to access the browser's JavaScript context. This allows interaction with embedding pages or calling third-party JavaScript APIs.
+$(B Note:) This singleton can be disabled at build-time to improve security. By default, the JavaScript singleton is enabled. Official export templates also have the JavaScript singleton enabled. See $(D url=https://docs.godotengine.org/en/3.2/development/compiling/compiling_for_web.html)Compiling for the Web$(D /url) in the documentation for more information.
 */
 @GodotBaseClass struct JavaScriptSingleton
 {
@@ -44,13 +45,13 @@ public:
 	pragma(inline, true) bool opEquals(in JavaScriptSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) JavaScriptSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of JavaScriptSingleton.
 	/// Note: use `memnew!JavaScriptSingleton` instead.

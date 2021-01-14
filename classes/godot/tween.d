@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.tween;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -37,7 +37,7 @@ tween.start()
 
 
 Many methods require a property name, such as `"position"` above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using `"property:component"` (eg. `position:x`), where it would only apply to that particular component.
-Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see $(D url=https://easings.net/)easings.net$(D /url) for some examples). The second accepts an $(D easetype) constant, and controls the where `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
+Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see $(D url=https://easings.net/)easings.net$(D /url) for some examples). The second accepts an $(D easetype) constant, and controls where the `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
 $(D url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/tween_cheatsheet.png)Tween easing and transition types cheatsheet$(D /url)
 */
 @GodotBaseClass struct Tween
@@ -86,13 +86,13 @@ public:
 	pragma(inline, true) bool opEquals(in Tween other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Tween opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Tween.
 	/// Note: use `memnew!Tween` instead.

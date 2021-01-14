@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visualshadernodeoutput;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,7 +25,7 @@ import godot.reference;
 /**
 Represents the output shader parameters within the visual shader graph.
 
-This visual shader node is present in all shader graphs in form of "Output" block with mutliple output value ports.
+This visual shader node is present in all shader graphs in form of "Output" block with multiple output value ports.
 */
 @GodotBaseClass struct VisualShaderNodeOutput
 {
@@ -44,13 +44,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisualShaderNodeOutput other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisualShaderNodeOutput opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisualShaderNodeOutput.
 	/// Note: use `memnew!VisualShaderNodeOutput` instead.

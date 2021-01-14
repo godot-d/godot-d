@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visibilityenabler2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,8 @@ import godot.node;
 Enables certain nodes only when approximately visible.
 
 The VisibilityEnabler2D will disable $(D RigidBody2D), $(D AnimationPlayer), and other nodes when they are not visible. It will only affect nodes with the same root node as the VisibilityEnabler2D, and the root node itself.
-$(B Note:) For performance reasons, VisibilityEnabler2D uses an approximate heuristic with precision determined by $(D ProjectSettings.world/2d/cellSize). If you need exact visibility checking, use another method such as adding an $(D Area2D) node as a child of a $(D Camera2D) node.
+If you just want to receive notifications, use $(D VisibilityNotifier2D) instead.
+$(B Note:) For performance reasons, VisibilityEnabler2D uses an approximate heuristic with precision determined by $(D ProjectSettings.world/2d/cellSize). If you need precise visibility checking, use another method such as adding an $(D Area2D) node as a child of a $(D Camera2D) node.
 $(B Note:) VisibilityEnabler2D will not affect nodes added after scene initialization.
 */
 @GodotBaseClass struct VisibilityEnabler2D
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisibilityEnabler2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisibilityEnabler2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisibilityEnabler2D.
 	/// Note: use `memnew!VisibilityEnabler2D` instead.

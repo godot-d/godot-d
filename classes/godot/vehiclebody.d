@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.vehiclebody;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -30,6 +30,7 @@ Physics body that simulates the behavior of a car.
 
 This node implements all the physics logic needed to simulate a car. It is based on the raycast vehicle system commonly found in physics engines. You will need to add a $(D CollisionShape) for the main body of your vehicle and add $(D VehicleWheel) nodes for the wheels. You should also add a $(D MeshInstance) to this node for the 3D model of your car but this model should not include meshes for the wheels. You should control the vehicle by using the $(D brake), $(D engineForce), and $(D steering) properties and not change the position or orientation of this node directly.
 $(B Note:) The origin point of your VehicleBody will determine the center of gravity of your vehicle so it is better to keep this low and move the $(D CollisionShape) and $(D MeshInstance) upwards.
+$(B Note:) This class has known issues and isn't designed to provide realistic 3D vehicle physics. If you want advanced vehicle physics, you will probably have to write your own physics integration using another $(D PhysicsBody) class.
 */
 @GodotBaseClass struct VehicleBody
 {
@@ -54,13 +55,13 @@ public:
 	pragma(inline, true) bool opEquals(in VehicleBody other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VehicleBody opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VehicleBody.
 	/// Note: use `memnew!VehicleBody` instead.

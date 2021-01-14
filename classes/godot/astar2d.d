@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.astar2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -38,6 +38,8 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("_compute_cost") GodotMethod!(double, long, long) _computeCost;
+		@GodotName("_estimate_cost") GodotMethod!(double, long, long) _estimateCost;
 		@GodotName("add_point") GodotMethod!(void, long, Vector2, double) addPoint;
 		@GodotName("are_points_connected") GodotMethod!(bool, long, long) arePointsConnected;
 		@GodotName("clear") GodotMethod!(void) clear;
@@ -66,13 +68,13 @@ public:
 	pragma(inline, true) bool opEquals(in AStar2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AStar2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AStar2D.
 	/// Note: use `memnew!AStar2D` instead.
@@ -85,7 +87,32 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Adds a new point at the given position with the given identifier. The algorithm prefers points with lower `weight_scale` to form a path. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+	Called when computing the cost between two connected points.
+	Note that this function is hidden in the default `AStar2D` class.
+	*/
+	double _computeCost(in long from_id, in long to_id)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(from_id);
+		_GODOT_args.append(to_id);
+		String _GODOT_method_name = String("_compute_cost");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	Called when estimating the cost between a point and the path's ending point.
+	Note that this function is hidden in the default `AStar2D` class.
+	*/
+	double _estimateCost(in long from_id, in long to_id)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(from_id);
+		_GODOT_args.append(to_id);
+		String _GODOT_method_name = String("_estimate_cost");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
+	}
+	/**
+	Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+	The `weight_scale` is multiplied by the result of $(D _computeCost) when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 	
 	
 	var astar = AStar2D.new()
@@ -318,7 +345,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setPointPosition, _godot_object, id, position);
 	}
 	/**
-	Sets the `weight_scale` for the point with the given `id`.
+	Sets the `weight_scale` for the point with the given `id`. The `weight_scale` is multiplied by the result of $(D _computeCost) when determining the overall cost of traveling across a segment from a neighboring point to this point.
 	*/
 	void setPointWeightScale(in long id, in double weight_scale)
 	{

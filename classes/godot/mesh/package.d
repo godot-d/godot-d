@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.mesh;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -58,13 +58,13 @@ public:
 	pragma(inline, true) bool opEquals(in Mesh other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Mesh opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Mesh.
 	/// Note: use `memnew!Mesh` instead.
@@ -335,7 +335,7 @@ public:
 		return ptrcall!(TriangleMesh)(GDNativeClassBinding.generateTriangleMesh, _godot_object);
 	}
 	/**
-	Returns the smallest $(D AABB) enclosing this mesh. Not affected by `custom_aabb`.
+	Returns the smallest $(D AABB) enclosing this mesh in local space. Not affected by `custom_aabb`. See also $(D VisualInstance.getTransformedAabb).
 	$(B Note:) This is only implemented for $(D ArrayMesh) and $(D PrimitiveMesh).
 	*/
 	AABB getAabb() const

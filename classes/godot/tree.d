@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.tree;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -105,13 +105,13 @@ public:
 	pragma(inline, true) bool opEquals(in Tree other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Tree opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Tree.
 	/// Note: use `memnew!Tree` instead.
@@ -350,7 +350,16 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getDropSectionAtPosition, _godot_object, position);
 	}
 	/**
-	Returns the currently edited item. This is only available for custom cell mode.
+	Returns the currently edited item. Can be used with $(D itemEdited) to get the item that was modified.
+	
+	
+	func _ready():
+	    $Tree.item_edited.connect(on_Tree_item_edited)
+	
+	func on_Tree_item_edited():
+	    print($Tree.get_edited()) # This item just got edited (e.g. checked).
+	
+	
 	*/
 	TreeItem getEdited() const
 	{
@@ -358,7 +367,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getEdited, _godot_object);
 	}
 	/**
-	Returns the column for the currently edited item. This is only available for custom cell mode.
+	Returns the column for the currently edited item.
 	*/
 	long getEditedColumn() const
 	{

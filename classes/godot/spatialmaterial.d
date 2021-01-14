@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.spatialmaterial;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -160,13 +160,13 @@ public:
 	pragma(inline, true) bool opEquals(in SpatialMaterial other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) SpatialMaterial opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of SpatialMaterial.
 	/// Note: use `memnew!SpatialMaterial` instead.
@@ -1925,7 +1925,8 @@ public:
 		setDetailUv(v);
 	}
 	/**
-	Distance at which the object fades fully and is no longer visible.
+	Distance at which the object appears fully opaque.
+	$(B Note:) If `distance_fade_max_distance` is less than `distance_fade_min_distance`, the behavior will be reversed. The object will start to fade away at `distance_fade_max_distance` and will fully disappear once it reaches `distance_fade_min_distance`.
 	*/
 	@property double distanceFadeMaxDistance()
 	{
@@ -1937,7 +1938,8 @@ public:
 		setDistanceFadeMaxDistance(v);
 	}
 	/**
-	Distance at which the object starts to fade. If the object is less than this distance away it will appear normal.
+	Distance at which the object starts to become visible. If the object is less than this distance away, it will be invisible.
+	$(B Note:) If `distance_fade_min_distance` is greater than `distance_fade_max_distance`, the behavior will be reversed. The object will start to fade away at `distance_fade_max_distance` and will fully disappear once it reaches `distance_fade_min_distance`.
 	*/
 	@property double distanceFadeMinDistance()
 	{
@@ -2289,6 +2291,7 @@ public:
 	}
 	/**
 	Controls how the object faces the camera. See $(D billboardmode).
+	$(B Note:) Billboard mode is not suitable for VR because the left-right vector of the camera is not horizontal when the screen is attached to your head instead of on the table. See $(D url=https://github.com/godotengine/godot/issues/41567)GitHub issue #41567$(D /url) for details.
 	*/
 	@property SpatialMaterial.BillboardMode paramsBillboardMode()
 	{

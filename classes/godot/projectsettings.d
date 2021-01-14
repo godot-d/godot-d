@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.projectsettings;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -60,13 +60,13 @@ public:
 	pragma(inline, true) bool opEquals(in ProjectSettingsSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ProjectSettingsSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ProjectSettingsSingleton.
 	/// Note: use `memnew!ProjectSettingsSingleton` instead.
@@ -135,7 +135,23 @@ public:
 		return ptrcall!(Variant)(GDNativeClassBinding.getSetting, _godot_object, name);
 	}
 	/**
-	Converts a localized path (`res://`) to a full native OS path.
+	Returns the absolute, native OS path corresponding to the localized `path` (starting with `res://` or `user://`). The returned path will vary depending on the operating system and user preferences. See $(D url=https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html)File paths in Godot projects$(D /url) to see what those paths convert to. See also $(D localizePath).
+	$(B Note:) $(D globalizePath) with `res://` will not work in an exported project. Instead, prepend the executable's base directory to the path when running from an exported project:
+	
+	
+	var path = ""
+	if OS.has_feature("editor"):
+	    # Running from an editor binary.
+	    # `path` will contain the absolute path to `hello.txt` located in the project root.
+	    path = ProjectSettings.globalize_path("res://hello.txt")
+	else:
+	    # Running from an exported project.
+	    # `path` will contain the absolute path to `hello.txt` next to the executable.
+	    # This is *not* identical to using `ProjectSettings.globalize_path()` with a `res://` path,
+	    # but is close enough in spirit.
+	    path = OS.get_executable_path().get_base_dir().plus_file("hello.txt")
+	
+	
 	*/
 	String globalizePath(in String path) const
 	{
@@ -153,6 +169,7 @@ public:
 	/**
 	Loads the contents of the .pck or .zip file specified by `pack` into the resource filesystem (`res://`). Returns `true` on success.
 	$(B Note:) If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack` unless `replace_files` is set to `false`.
+	$(B Note:) The optional `offset` parameter can be used to specify the offset in bytes to the start of the resource pack. This is only supported for .pck files.
 	*/
 	bool loadResourcePack(in String pack, in bool replace_files = true)
 	{
@@ -160,7 +177,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.loadResourcePack, _godot_object, pack, replace_files);
 	}
 	/**
-	Convert a path to a localized path (`res://` path).
+	Returns the localized path (starting with `res://`) corresponding to the absolute, native OS `path`. See also $(D globalizePath).
 	*/
 	String localizePath(in String path) const
 	{

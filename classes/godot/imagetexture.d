@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.imagetexture;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,8 +25,34 @@ import godot.image;
 /**
 A $(D Texture) based on an $(D Image).
 
-Can be created from an $(D Image) with $(D createFromImage).
-$(B Note:) The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images will fail to import.
+For an image to be displayed, an $(D ImageTexture) has to be created from it using the $(D createFromImage) method:
+
+
+var texture = ImageTexture.new()
+var image = Image.new()
+image.load("res://icon.png")
+texture.create_from_image(image)
+$Sprite.texture = texture
+
+
+This way, textures can be created at run-time by loading images both from within the editor and externally.
+$(B Warning:) Prefer to load imported textures with $(D @GDScript.load) over loading them from within the filesystem dynamically with $(D Image.load), as it may not work in exported projects:
+
+
+var texture = load("res://icon.png")
+$Sprite.texture = texture
+
+
+This is because images have to be imported as $(D StreamTexture) first to be loaded with $(D @GDScript.load). If you'd still like to load an image file just like any other $(D Resource), import it as an $(D Image) resource instead, and then load it normally using the $(D @GDScript.load) method.
+But do note that the image data can still be retrieved from an imported texture as well using the $(D Texture.getData) method, which returns a copy of the data:
+
+
+var texture = load("res://icon.png")
+var image : Image = texture.get_data()
+
+
+An $(D ImageTexture) is not meant to be operated from within the editor interface directly, and is mostly useful for rendering images on screen dynamically via code. If you need to generate images procedurally from within the editor, consider saving and importing images as custom texture resources implementing a new $(D EditorImportPlugin).
+$(B Note:) The maximum texture size is 16384×16384 pixels due to graphics hardware limitations.
 */
 @GodotBaseClass struct ImageTexture
 {
@@ -56,13 +82,13 @@ public:
 	pragma(inline, true) bool opEquals(in ImageTexture other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ImageTexture opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ImageTexture.
 	/// Note: use `memnew!ImageTexture` instead.
@@ -117,7 +143,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.create, _godot_object, width, height, format, flags);
 	}
 	/**
-	Create a new $(D ImageTexture) from an $(D Image) with `flags` from $(D Texture.flags). An sRGB to linear color space conversion can take place, according to $(D Image.format).
+	Initializes the texture by allocating and setting the data from an $(D Image) with `flags` from $(D Texture.flags). An sRGB to linear color space conversion can take place, according to $(D Image.format).
 	*/
 	void createFromImage(Image image, in long flags = 7)
 	{
@@ -125,7 +151,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.createFromImage, _godot_object, image, flags);
 	}
 	/**
-	Returns the format of the $(D ImageTexture), one of $(D Image.format).
+	Returns the format of the texture, one of $(D Image.format).
 	*/
 	Image.Format getFormat() const
 	{
@@ -149,7 +175,8 @@ public:
 		return ptrcall!(ImageTexture.Storage)(GDNativeClassBinding.getStorage, _godot_object);
 	}
 	/**
-	Load an $(D ImageTexture) from a file path.
+	Loads an image from a file path and creates a texture from it.
+	$(B Note:) the method is deprecated and will be removed in Godot 4.0, use $(D Image.load) and $(D createFromImage) instead.
 	*/
 	GodotError load(in String path)
 	{
@@ -157,7 +184,9 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
 	}
 	/**
-	Sets the $(D Image) of this $(D ImageTexture).
+	Replaces the texture's data with a new $(D Image).
+	$(B Note:) The texture has to be initialized first with the $(D createFromImage) method before it can be updated. The new image dimensions, format, and mipmaps configuration should match the existing texture's image configuration, otherwise it has to be re-created with the $(D createFromImage) method.
+	Use this method over $(D createFromImage) if you need to update the texture frequently, which is faster than allocating additional memory for a new texture each time.
 	*/
 	void setData(Image image)
 	{
@@ -173,7 +202,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setLossyStorageQuality, _godot_object, quality);
 	}
 	/**
-	Resizes the $(D ImageTexture) to the specified dimensions.
+	Resizes the texture to the specified dimensions.
 	*/
 	void setSizeOverride(in Vector2 size)
 	{

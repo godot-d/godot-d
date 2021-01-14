@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.tileset;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -118,13 +118,13 @@ public:
 	pragma(inline, true) bool opEquals(in TileSet other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TileSet opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TileSet.
 	/// Note: use `memnew!TileSet` instead.
@@ -174,6 +174,10 @@ public:
 		/**
 		
 		*/
+		bindCenter = 16,
+		/**
+		
+		*/
 		bindRight = 32,
 		/**
 		
@@ -210,13 +214,14 @@ public:
 		singleTile = 0,
 		bitmask2x2 = 0,
 		autoTile = 1,
-		bindTopleft = 1,
 		bitmask3x3Minimal = 1,
+		bindTopleft = 1,
 		bindTop = 2,
 		bitmask3x3 = 2,
 		atlasTile = 2,
 		bindTopright = 4,
 		bindLeft = 8,
+		bindCenter = 16,
 		bindRight = 32,
 		bindBottomleft = 64,
 		bindBottom = 128,
@@ -594,7 +599,19 @@ public:
 		return ptrcall!(Transform2D)(GDNativeClassBinding.tileGetShapeTransform, _godot_object, id, shape_id);
 	}
 	/**
-	Returns an array of the tile's shapes.
+	Returns an array of dictionaries describing the tile's shapes.
+	$(B Dictionary structure in the array returned by this method:)
+	
+	
+	{
+	    "autotile_coord": Vector2,
+	    "one_way": bool,
+	    "one_way_margin": int,
+	    "shape": CollisionShape2D,
+	    "shape_transform": Transform2D,
+	}
+	
+	
 	*/
 	Array tileGetShapes(in long id) const
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.font;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -24,6 +24,8 @@ import godot.resource;
 Internationalized font and text drawing support.
 
 Font contains a Unicode-compatible character set, as well as the ability to draw it with variable width, ascent, descent and kerning. For creating fonts from TTF files (or other font formats), see the editor support for fonts.
+$(B Note:) If a DynamicFont doesn't contain a character used in a string, the character in question will be replaced with codepoint `0xfffd` if it's available in the DynamicFont. If this replacement character isn't available in the DynamicFont, the character will be hidden without displaying any replacement character in the string.
+$(B Note:) If a BitmapFont doesn't contain a character used in a string, the character in question will be hidden without displaying any replacement character in the string.
 */
 @GodotBaseClass struct Font
 {
@@ -40,6 +42,7 @@ public:
 		@GodotName("draw") GodotMethod!(void, RID, Vector2, String, Color, long, Color) draw;
 		@GodotName("draw_char") GodotMethod!(double, RID, Vector2, long, long, Color, bool) drawChar;
 		@GodotName("get_ascent") GodotMethod!(double) getAscent;
+		@GodotName("get_char_size") GodotMethod!(Vector2, long, long) getCharSize;
 		@GodotName("get_descent") GodotMethod!(double) getDescent;
 		@GodotName("get_height") GodotMethod!(double) getHeight;
 		@GodotName("get_string_size") GodotMethod!(Vector2, String) getStringSize;
@@ -52,13 +55,13 @@ public:
 	pragma(inline, true) bool opEquals(in Font other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Font opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Font.
 	/// Note: use `memnew!Font` instead.
@@ -72,6 +75,7 @@ public:
 	@disable new(size_t s);
 	/**
 	Draw `string` into a canvas item using the font at a given position, with `modulate` color, and optionally clipping the width. `position` specifies the baseline, not the top. To draw from the top, $(I ascent) must be added to the Y axis.
+	See also $(D CanvasItem.drawString).
 	*/
 	void draw(in RID canvas_item, in Vector2 position, in String string, in Color modulate = Color(1,1,1,1), in long clip_w = -1, in Color outline_modulate = Color(1,1,1,1)) const
 	{
@@ -93,6 +97,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getAscent, _godot_object);
+	}
+	/**
+	Returns the size of a character, optionally taking kerning into account if the next character is provided.
+	*/
+	Vector2 getCharSize(in long _char, in long next = 0) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(GDNativeClassBinding.getCharSize, _godot_object, _char, next);
 	}
 	/**
 	Returns the font descent (number of pixels below the baseline).

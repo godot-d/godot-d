@@ -1,5 +1,5 @@
 /**
-A script that is executed when exporting projects.
+A script that is executed when exporting the project.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorexportplugin;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -21,7 +21,9 @@ import godot.d.reference;
 import godot.object;
 import godot.reference;
 /**
-A script that is executed when exporting projects.
+A script that is executed when exporting the project.
+
+Editor export plugins are automatically activated whenever the user exports the project. Their most common use is to determine what files are being included in the exported project. For each plugin, $(D _exportBegin) is called at the beginning of the export process and then $(D _exportFile) is called for each exported file.
 */
 @GodotBaseClass struct EditorExportPlugin
 {
@@ -44,6 +46,7 @@ public:
 		@GodotName("add_ios_framework") GodotMethod!(void, String) addIosFramework;
 		@GodotName("add_ios_linker_flags") GodotMethod!(void, String) addIosLinkerFlags;
 		@GodotName("add_ios_plist_content") GodotMethod!(void, String) addIosPlistContent;
+		@GodotName("add_ios_project_static_lib") GodotMethod!(void, String) addIosProjectStaticLib;
 		@GodotName("add_shared_object") GodotMethod!(void, String, PoolStringArray) addSharedObject;
 		@GodotName("skip") GodotMethod!(void) skip;
 	}
@@ -51,13 +54,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorExportPlugin other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorExportPlugin opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorExportPlugin.
 	/// Note: use `memnew!EditorExportPlugin` instead.
@@ -70,7 +73,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Virtual method to be overridden by the user. It is called when the export starts and provides all information about the export.
+	Virtual method to be overridden by the user. It is called when the export starts and provides all information about the export. `features` is the list of features for the export, `is_debug` is `true` for debug builds, `path` is the target path for the exported project. `flags` is only used when running a runnable profile, e.g. when using native run on Android.
 	*/
 	void _exportBegin(in PoolStringArray features, in bool is_debug, in String path, in long flags)
 	{
@@ -92,7 +95,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Virtual method to be overridden by the user. Called for each exported file, providing arguments that can be used to identify the file. `path` is the path of the file, `type` is the $(D Resource) represented by the file (e.g. $(D PackedScene)) and `features` is the list of features for the export.
+	Calling $(D skip) inside this callback will make the file not included in the export.
 	*/
 	void _exportFile(in String path, in String type, in PoolStringArray features)
 	{
@@ -104,7 +108,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Adds a custom file to be exported. `path` is the virtual path that can be used to load the file, `file` is the binary data of the file. If `remap` is `true`, file will not be exported, but instead remapped to the given `path`.
 	*/
 	void addFile(in String path, in PoolByteArray file, in bool remap)
 	{
@@ -112,7 +116,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addFile, _godot_object, path, file, remap);
 	}
 	/**
-	
+	Adds an iOS bundle file from the given `path` to the exported project.
 	*/
 	void addIosBundleFile(in String path)
 	{
@@ -120,7 +124,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIosBundleFile, _godot_object, path);
 	}
 	/**
-	
+	Adds a C++ code to the iOS export. The final code is created from the code appended by each active export plugin.
 	*/
 	void addIosCppCode(in String code)
 	{
@@ -128,7 +132,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIosCppCode, _godot_object, code);
 	}
 	/**
-	
+	Adds a static library (*.a) or dynamic library (*.dylib, *.framework) to Linking Phase in iOS's Xcode project.
 	*/
 	void addIosFramework(in String path)
 	{
@@ -136,7 +140,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIosFramework, _godot_object, path);
 	}
 	/**
-	
+	Adds linker flags for the iOS export.
 	*/
 	void addIosLinkerFlags(in String flags)
 	{
@@ -144,7 +148,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIosLinkerFlags, _godot_object, flags);
 	}
 	/**
-	
+	Adds content for iOS Property List files.
 	*/
 	void addIosPlistContent(in String plist_content)
 	{
@@ -152,7 +156,15 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIosPlistContent, _godot_object, plist_content);
 	}
 	/**
-	
+	Adds a static lib from the given `path` to the iOS project.
+	*/
+	void addIosProjectStaticLib(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.addIosProjectStaticLib, _godot_object, path);
+	}
+	/**
+	Adds a shared object with the given `tags` and destination `path`.
 	*/
 	void addSharedObject(in String path, in PoolStringArray tags)
 	{
@@ -160,7 +172,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addSharedObject, _godot_object, path, tags);
 	}
 	/**
-	
+	To be called inside $(D _exportFile). Skips the current file, so it's not included in the export.
 	*/
 	void skip()
 	{

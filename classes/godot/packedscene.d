@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.packedscene;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -29,6 +29,15 @@ An abstraction of a serialized scene.
 A simplified interface to a scene file. Provides access to operations and checks that can be performed on the scene resource itself.
 Can be used to save a node to a file. When saving, the node as well as all the node it owns get saved (see `owner` property on $(D Node)).
 $(B Note:) The node doesn't need to own itself.
+$(B Example of loading a saved scene:)
+
+
+# Use `load()` instead of `preload()` if the path isn't known at compile-time.
+var scene = preload("res://scene.tscn").instance()
+# Add the node as a child of the node the script is attached to.
+add_child(scene)
+
+
 $(B Example of saving a node with different owners:) The following example creates 3 objects: `Node2D` (`node`), `RigidBody2D` (`rigid`) and `CollisionObject2D` (`collision`). `collision` is a child of `rigid` which is a child of `node`. Only `rigid` is owned by `node` and `pack` will therefore only save those two nodes, but not `collision`.
 
 
@@ -77,13 +86,13 @@ public:
 	pragma(inline, true) bool opEquals(in PackedScene other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PackedScene opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PackedScene.
 	/// Note: use `memnew!PackedScene` instead.

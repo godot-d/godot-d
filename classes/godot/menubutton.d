@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.menubutton;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -31,6 +31,7 @@ import godot.popupmenu;
 Special button that brings up a $(D PopupMenu) when clicked.
 
 New items can be created inside this $(D PopupMenu) using `get_popup().add_item("My Item Name")`. You can also create them directly from the editor. To do so, select the $(D MenuButton) node, then in the toolbar at the top of the 2D editor, click $(B Items) then click $(B Add) in the popup. You will be able to give each items new properties.
+See also $(D BaseButton) which contains common properties and methods associated with this node.
 */
 @GodotBaseClass struct MenuButton
 {
@@ -56,13 +57,13 @@ public:
 	pragma(inline, true) bool opEquals(in MenuButton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) MenuButton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of MenuButton.
 	/// Note: use `memnew!MenuButton` instead.

@@ -9,6 +9,7 @@ public import
 	godot.websocketmultiplayerpeer,
 	godot.websocketclient,
 	godot.websocketserver,
+	godot.packetpeerdtls,
 	godot.packetpeergdnative,
 	godot.packetpeerstream,
 	godot.packetpeerudp,

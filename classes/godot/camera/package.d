@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.camera;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -86,13 +86,13 @@ public:
 	pragma(inline, true) bool opEquals(in Camera other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Camera opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Camera.
 	/// Note: use `memnew!Camera` instead.
@@ -491,6 +491,15 @@ public:
 	}
 	/**
 	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in worldspace.
+	$(B Note:) When using this to position GUI elements over a 3D viewport, use $(D isPositionBehind) to prevent them from appearing if the 3D point is behind the camera:
+	
+	
+	# This code block is part of a script that inherits from Spatial.
+	# `control` is a reference to a node inheriting from Control.
+	control.visible = not get_viewport().get_camera().is_position_behind(global_transform.origin)
+	control.rect_position = get_viewport().get_camera().unproject_position(global_transform.origin)
+	
+	
 	*/
 	Vector2 unprojectPosition(in Vector3 world_point) const
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorplugin;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -76,7 +76,7 @@ public:
 		@GodotName("forward_spatial_gui_input") GodotMethod!(bool, Camera, InputEvent) forwardSpatialGuiInput;
 		@GodotName("get_breakpoints") GodotMethod!(PoolStringArray) getBreakpoints;
 		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
-		@GodotName("get_plugin_icon") GodotMethod!(GodotObject) getPluginIcon;
+		@GodotName("get_plugin_icon") GodotMethod!(Texture) getPluginIcon;
 		@GodotName("get_plugin_name") GodotMethod!(String) getPluginName;
 		@GodotName("get_script_create_dialog") GodotMethod!(ScriptCreateDialog) getScriptCreateDialog;
 		@GodotName("get_state") GodotMethod!(Dictionary) getState;
@@ -110,13 +110,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorPlugin other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorPlugin opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorPlugin.
 	/// Note: use `memnew!EditorPlugin` instead.
@@ -293,7 +293,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addCustomType, _godot_object, type, base, script, icon);
 	}
 	/**
-	
+	Registers a new export plugin. Export plugins are used when the project is being exported. See $(D EditorExportPlugin) for more information.
 	*/
 	void addExportPlugin(EditorExportPlugin plugin)
 	{
@@ -405,6 +405,20 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
+	Called by the engine when the 2D editor's viewport is updated. Use the `overlay` $(D Control) for drawing. You can update the viewport manually by calling $(D updateOverlays).
+	
+	
+	func forward_canvas_draw_over_viewport(overlay):
+	    # Draw a circle at cursor position.
+	    overlay.draw_circle(overlay.get_local_mouse_position(), 64)
+	
+	func forward_canvas_gui_input(event):
+	    if event is InputEventMouseMotion:
+	        # Redraw viewport when cursor is moved.
+	        update_overlays()
+	        return true
+	    return false
+	
 	
 	*/
 	void forwardCanvasDrawOverViewport(Control overlay)
@@ -415,7 +429,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	This method is the same as $(D forwardCanvasDrawOverViewport), except it draws on top of everything. Useful when you need an extra layer that shows over anything else.
+	You need to enable calling of this method by using $(D setForceDrawOverForwardingEnabled).
 	*/
 	void forwardCanvasForceDrawOverViewport(Control overlay)
 	{
@@ -514,11 +529,11 @@ public:
 	
 	
 	*/
-	GodotObject getPluginIcon()
+	Ref!Texture getPluginIcon()
 	{
 		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("get_plugin_icon");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Texture);
 	}
 	/**
 	Override this method in your plugin to provide the name of the plugin when displayed in the Godot editor.
@@ -718,7 +733,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Enables calling of $(D forwardCanvasForceDrawOverViewport) for the 2D editor and $(D forwardSpatialForceDrawOverViewport) for the 3D editor when their viewports are updated. You need to call this method only once and it will work permanently for this plugin.
 	*/
 	void setForceDrawOverForwardingEnabled()
 	{
@@ -754,7 +769,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Updates the overlays of the editor (2D/3D) viewport.
+	Updates the overlays of the 2D and 3D editor viewport. Causes methods $(D forwardCanvasDrawOverViewport), $(D forwardCanvasForceDrawOverViewport), $(D forwardSpatialDrawOverViewport) and $(D forwardSpatialForceDrawOverViewport) to be called.
 	*/
 	long updateOverlays() const
 	{

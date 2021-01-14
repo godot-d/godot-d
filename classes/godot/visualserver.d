@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visualserver;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -219,6 +219,7 @@ public:
 		@GodotName("instances_cull_aabb") GodotMethod!(Array, AABB, RID) instancesCullAabb;
 		@GodotName("instances_cull_convex") GodotMethod!(Array, Array, RID) instancesCullConvex;
 		@GodotName("instances_cull_ray") GodotMethod!(Array, Vector3, Vector3, RID) instancesCullRay;
+		@GodotName("is_render_loop_enabled") GodotMethod!(bool) isRenderLoopEnabled;
 		@GodotName("light_directional_set_blend_splits") GodotMethod!(void, RID, bool) lightDirectionalSetBlendSplits;
 		@GodotName("light_directional_set_shadow_depth_range_mode") GodotMethod!(void, RID, long) lightDirectionalSetShadowDepthRangeMode;
 		@GodotName("light_directional_set_shadow_mode") GodotMethod!(void, RID, long) lightDirectionalSetShadowMode;
@@ -343,6 +344,8 @@ public:
 		@GodotName("set_boot_image") GodotMethod!(void, Image, Color, bool, bool) setBootImage;
 		@GodotName("set_debug_generate_wireframes") GodotMethod!(void, bool) setDebugGenerateWireframes;
 		@GodotName("set_default_clear_color") GodotMethod!(void, Color) setDefaultClearColor;
+		@GodotName("set_render_loop_enabled") GodotMethod!(void, bool) setRenderLoopEnabled;
+		@GodotName("set_shader_time_scale") GodotMethod!(void, double) setShaderTimeScale;
 		@GodotName("shader_create") GodotMethod!(RID) shaderCreate;
 		@GodotName("shader_get_code") GodotMethod!(String, RID) shaderGetCode;
 		@GodotName("shader_get_default_texture_param") GodotMethod!(RID, RID, String) shaderGetDefaultTextureParam;
@@ -417,13 +420,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisualServerSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisualServerSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisualServerSingleton.
 	/// Note: use `memnew!VisualServerSingleton` instead.
@@ -517,15 +520,15 @@ public:
 		/**
 		Texture made up of six faces, can be looked up with a `vec3` in shader.
 		*/
-		textureTypeCubemap = 1,
+		textureTypeCubemap = 2,
 		/**
 		An array of 2-dimensional textures.
 		*/
-		textureType2dArray = 2,
+		textureType2dArray = 3,
 		/**
 		A 3-dimensional texture with width, height, and depth.
 		*/
-		textureType3d = 3,
+		textureType3d = 4,
 	}
 	/// 
 	enum EnvironmentSSAOQuality : int
@@ -587,21 +590,29 @@ public:
 		*/
 		infoDrawCallsInFrame = 5,
 		/**
+		The amount of 2d items in the frame.
+		*/
+		info2dItemsInFrame = 6,
+		/**
+		The amount of 2d draw calls in frame.
+		*/
+		info2dDrawCallsInFrame = 7,
+		/**
 		Unimplemented in the GLES2 and GLES3 rendering backends, always returns 0.
 		*/
-		infoUsageVideoMemTotal = 6,
+		infoUsageVideoMemTotal = 8,
 		/**
 		The amount of video memory used, i.e. texture and vertex memory combined.
 		*/
-		infoVideoMemUsed = 7,
+		infoVideoMemUsed = 9,
 		/**
 		The amount of texture memory used.
 		*/
-		infoTextureMemUsed = 8,
+		infoTextureMemUsed = 10,
 		/**
 		The amount of vertex memory used.
 		*/
-		infoVertexMemUsed = 9,
+		infoVertexMemUsed = 11,
 	}
 	/// 
 	enum NinePatchAxisMode : int
@@ -647,9 +658,17 @@ public:
 		*/
 		viewportRenderInfoDrawCallsInFrame = 5,
 		/**
+		Number of 2d items drawn this frame.
+		*/
+		viewportRenderInfo2dItemsInFrame = 6,
+		/**
+		Number of 2d draw calls during this frame.
+		*/
+		viewportRenderInfo2dDrawCallsInFrame = 7,
+		/**
 		Represents the size of the $(D viewportrenderinfo) enum.
 		*/
-		viewportRenderInfoMax = 6,
+		viewportRenderInfoMax = 8,
 	}
 	/// 
 	enum ViewportClearMode : int
@@ -1144,7 +1163,7 @@ public:
 		*/
 		arrayCompressWeights = 65536,
 		/**
-		Used to set flags $(D constant ARRAY_COMPRESS_VERTEX), $(D constant ARRAY_COMPRESS_NORMAL), $(D constant ARRAY_COMPRESS_TANGENT), $(D constant ARRAY_COMPRESS_COLOR), $(D constant ARRAY_COMPRESS_TEX_UV), $(D constant ARRAY_COMPRESS_TEX_UV2) and $(D constant ARRAY_COMPRESS_WEIGHTS) quickly.
+		Used to set flags $(D constant ARRAY_COMPRESS_NORMAL), $(D constant ARRAY_COMPRESS_TANGENT), $(D constant ARRAY_COMPRESS_COLOR), $(D constant ARRAY_COMPRESS_TEX_UV), $(D constant ARRAY_COMPRESS_TEX_UV2) and $(D constant ARRAY_COMPRESS_WEIGHTS) quickly.
 		*/
 		arrayCompressDefault = 97280,
 		/**
@@ -1443,21 +1462,21 @@ public:
 		Marks an error that shows that the index array is empty.
 		*/
 		noIndexArray = -1,
-		glowBlendModeAdditive = 0,
-		arrayVertex = 0,
 		featureShaders = 0,
-		particlesDrawOrderIndex = 0,
 		canvasLightFilterNone = 0,
 		lightDirectionalShadowDepthRangeStable = 0,
+		particlesDrawOrderIndex = 0,
 		shaderSpatial = 0,
 		lightOmniShadowDualParaboloid = 0,
 		envSsaoBlurDisabled = 0,
 		lightOmniShadowDetailVertical = 0,
 		viewportUsage2d = 0,
-		envSsaoQualityLow = 0,
 		viewportClearAlways = 0,
 		ninePatchStretch = 0,
+		envSsaoQualityLow = 0,
 		textureType2d = 0,
+		glowBlendModeAdditive = 0,
+		instanceNone = 0,
 		multimeshCustomDataNone = 0,
 		shadowCastingSettingOff = 0,
 		canvasOccluderPolygonCullDisabled = 0,
@@ -1470,182 +1489,186 @@ public:
 		infoObjectsInFrame = 0,
 		canvasLightModeAdd = 0,
 		viewportMsaaDisabled = 0,
-		instanceNone = 0,
+		arrayVertex = 0,
+		multimeshTransform2d = 0,
 		viewportUpdateDisabled = 0,
-		scenarioDebugDisabled = 0,
 		reflectionProbeUpdateOnce = 0,
 		envDofBlurQualityLow = 0,
-		viewportRenderInfoObjectsInFrame = 0,
-		blendShapeModeNormalized = 0,
 		lightParamEnergy = 0,
 		lightDirectionalShadowOrthogonal = 0,
-		multimeshTransform2d = 0,
-		instanceFlagUseBakedLight = 0,
+		scenarioDebugDisabled = 0,
 		envToneMapperLinear = 0,
-		canvasOccluderPolygonCullClockwise = 1,
-		shaderCanvasItem = 1,
-		viewportUpdateOnce = 1,
-		canvasLightModeSub = 1,
-		envSsaoQualityMedium = 1,
-		multimeshTransform3d = 1,
-		glowBlendModeScreen = 1,
-		blendShapeModeRelative = 1,
-		scenarioDebugWireframe = 1,
-		particlesDrawOrderLifetime = 1,
-		lightDirectionalShadowParallel2Splits = 1,
-		reflectionProbeUpdateAlways = 1,
+		instanceFlagUseBakedLight = 0,
+		viewportRenderInfoObjectsInFrame = 0,
+		blendShapeModeNormalized = 0,
 		viewportDebugDrawUnshaded = 1,
-		multimeshCustomData8bit = 1,
+		envSsaoQualityMedium = 1,
 		envSsaoBlur1x1 = 1,
 		primitiveLines = 1,
-		canvasLightFilterPcf3 = 1,
-		arrayFormatVertex = 1,
-		lightOmni = 1,
-		featureMultithreaded = 1,
-		lightDirectionalShadowDepthRangeOptimized = 1,
 		lightOmniShadowCube = 1,
 		multimeshColor8bit = 1,
+		featureMultithreaded = 1,
 		instanceMesh = 1,
-		lightOmniShadowDetailHorizontal = 1,
-		cubemapRight = 1,
-		envDofBlurQualityMedium = 1,
-		infoVerticesInFrame = 1,
-		viewportMsaa2x = 1,
-		textureTypeCubemap = 1,
 		ninePatchTile = 1,
-		shadowCastingSettingOn = 1,
-		viewportUsage2dNoSampling = 1,
-		viewportClearNever = 1,
-		envBgColor = 1,
-		instanceFlagDrawNextFrameIfVisible = 1,
-		arrayNormal = 1,
+		glowBlendModeScreen = 1,
 		envToneMapperReinhard = 1,
+		arrayNormal = 1,
 		textureFlagMipmaps = 1,
+		instanceFlagDrawNextFrameIfVisible = 1,
 		viewportRenderInfoVerticesInFrame = 1,
-		cubemapBottom = 2,
+		viewportClearNever = 1,
+		multimeshTransform3d = 1,
+		shadowCastingSettingOn = 1,
+		envBgColor = 1,
+		viewportMsaa2x = 1,
+		infoVerticesInFrame = 1,
+		envDofBlurQualityMedium = 1,
+		viewportUsage2dNoSampling = 1,
+		cubemapRight = 1,
+		canvasOccluderPolygonCullClockwise = 1,
+		lightOmniShadowDetailHorizontal = 1,
+		lightOmni = 1,
+		arrayFormatVertex = 1,
+		canvasLightFilterPcf3 = 1,
+		lightDirectionalShadowDepthRangeOptimized = 1,
+		reflectionProbeUpdateAlways = 1,
+		multimeshCustomData8bit = 1,
+		lightDirectionalShadowParallel2Splits = 1,
+		particlesDrawOrderLifetime = 1,
+		scenarioDebugWireframe = 1,
+		blendShapeModeRelative = 1,
+		canvasLightModeSub = 1,
+		viewportUpdateOnce = 1,
+		shaderCanvasItem = 1,
 		infoMaterialChangesInFrame = 2,
-		lightDirectionalShadowParallel4Splits = 2,
-		viewportDebugDrawOverdraw = 2,
-		instanceFlagMax = 2,
-		envBgSky = 2,
-		envSsaoQualityHigh = 2,
-		shaderParticles = 2,
-		canvasLightFilterPcf5 = 2,
-		glowBlendModeSoftlight = 2,
-		ninePatchTileFit = 2,
+		arrayFormatNormal = 2,
+		canvasLightModeMix = 2,
+		cubemapBottom = 2,
+		envDofBlurQualityHigh = 2,
 		multimeshColorFloat = 2,
+		particlesDrawOrderViewDepth = 2,
+		textureTypeCubemap = 2,
 		scenarioDebugOverdraw = 2,
 		viewportMsaa4x = 2,
-		envDofBlurQualityHigh = 2,
-		textureType2dArray = 2,
-		envToneMapperFilmic = 2,
-		canvasLightModeMix = 2,
-		arrayFormatNormal = 2,
-		particlesDrawOrderViewDepth = 2,
 		viewportUsage3d = 2,
 		lightParamSpecular = 2,
 		envSsaoBlur2x2 = 2,
 		viewportClearOnlyNextFrame = 2,
 		viewportUpdateWhenVisible = 2,
 		instanceMultimesh = 2,
+		ninePatchTileFit = 2,
 		canvasOccluderPolygonCullCounterClockwise = 2,
 		textureFlagRepeat = 2,
+		viewportDebugDrawOverdraw = 2,
 		lightSpot = 2,
 		viewportRenderInfoMaterialChangesInFrame = 2,
+		shaderParticles = 2,
+		glowBlendModeSoftlight = 2,
 		shadowCastingSettingDoubleSided = 2,
 		arrayTangent = 2,
+		canvasLightFilterPcf5 = 2,
+		envSsaoQualityHigh = 2,
 		multimeshCustomDataFloat = 2,
 		primitiveLineStrip = 2,
+		envBgSky = 2,
+		instanceFlagMax = 2,
+		lightDirectionalShadowParallel4Splits = 2,
+		envToneMapperFilmic = 2,
+		viewportRenderInfoShaderChangesInFrame = 3,
+		shaderMax = 3,
+		canvasLightModeMask = 3,
 		viewportMsaa8x = 3,
+		infoShaderChangesInFrame = 3,
+		glowBlendModeReplace = 3,
+		envBgColorSky = 3,
 		instanceImmediate = 3,
 		cubemapTop = 3,
-		infoShaderChangesInFrame = 3,
-		shaderMax = 3,
-		envBgColorSky = 3,
-		viewportRenderInfoShaderChangesInFrame = 3,
-		textureType3d = 3,
-		canvasLightModeMask = 3,
-		viewportUpdateAlways = 3,
-		glowBlendModeReplace = 3,
-		viewportUsage3dNoEffects = 3,
-		envToneMapperAces = 3,
-		lightParamRange = 3,
 		viewportDebugDrawWireframe = 3,
 		shadowCastingSettingShadowsOnly = 3,
 		scenarioDebugShadeless = 3,
-		envSsaoBlur3x3 = 3,
 		arrayColor = 3,
 		canvasLightFilterPcf7 = 3,
+		textureType2dArray = 3,
+		envSsaoBlur3x3 = 3,
+		viewportUpdateAlways = 3,
+		lightParamRange = 3,
 		primitiveLineLoop = 3,
-		cubemapFront = 4,
+		viewportUsage3dNoEffects = 3,
+		envToneMapperAces = 3,
 		/**
 		Number of weights/bones per vertex.
 		*/
 		arrayWeightsSize = 4,
-		textureFlagFilter = 4,
-		canvasLightFilterPcf9 = 4,
+		cubemapFront = 4,
 		instanceParticles = 4,
-		arrayTexUv = 4,
 		viewportRenderInfoSurfaceChangesInFrame = 4,
-		viewportMsaa16x = 4,
-		lightParamAttenuation = 4,
 		primitiveTriangles = 4,
 		envBgCanvas = 4,
-		infoSurfaceChangesInFrame = 4,
 		arrayFormatTangent = 4,
-		infoDrawCallsInFrame = 5,
+		textureType3d = 4,
+		infoSurfaceChangesInFrame = 4,
+		lightParamAttenuation = 4,
+		textureFlagFilter = 4,
+		viewportMsaa16x = 4,
+		arrayTexUv = 4,
+		canvasLightFilterPcf9 = 4,
 		canvasLightFilterPcf13 = 5,
-		primitiveTriangleStrip = 5,
-		viewportRenderInfoDrawCallsInFrame = 5,
-		lightParamSpotAngle = 5,
-		viewportMsaaExt2x = 5,
-		arrayTexUv2 = 5,
-		instanceLight = 5,
+		infoDrawCallsInFrame = 5,
 		envBgKeep = 5,
+		primitiveTriangleStrip = 5,
+		instanceLight = 5,
+		arrayTexUv2 = 5,
+		viewportMsaaExt2x = 5,
 		cubemapBack = 5,
-		viewportRenderInfoMax = 6,
-		infoUsageVideoMemTotal = 6,
+		lightParamSpotAngle = 5,
+		viewportRenderInfoDrawCallsInFrame = 5,
+		viewportRenderInfo2dItemsInFrame = 6,
 		instanceReflectionProbe = 6,
-		lightParamSpotAttenuation = 6,
 		primitiveTriangleFan = 6,
-		viewportMsaaExt4x = 6,
+		lightParamSpotAttenuation = 6,
 		arrayBones = 6,
+		info2dItemsInFrame = 6,
+		viewportMsaaExt4x = 6,
+		lightParamContactShadowSize = 7,
 		instanceGiProbe = 7,
 		arrayWeights = 7,
+		info2dDrawCallsInFrame = 7,
 		/**
 		Max number of glow levels that can be used with glow post-process effect.
 		*/
 		maxGlowLevels = 7,
-		lightParamContactShadowSize = 7,
+		viewportRenderInfo2dDrawCallsInFrame = 7,
 		primitiveMax = 7,
 		envBgMax = 7,
 		textureFlagsDefault = 7,
-		infoVideoMemUsed = 7,
-		infoTextureMemUsed = 8,
+		arrayFormatColor = 8,
+		viewportRenderInfoMax = 8,
+		instanceLightmapCapture = 8,
 		/**
 		Unused enum in Godot 3.x.
 		*/
 		maxCursors = 8,
-		arrayFormatColor = 8,
-		instanceLightmapCapture = 8,
+		infoUsageVideoMemTotal = 8,
 		textureFlagAnisotropicFilter = 8,
 		arrayIndex = 8,
 		lightParamShadowMaxDistance = 8,
+		infoVideoMemUsed = 9,
 		instanceMax = 9,
-		infoVertexMemUsed = 9,
-		arrayMax = 9,
 		lightParamShadowSplit1Offset = 9,
+		arrayMax = 9,
 		lightParamShadowSplit2Offset = 10,
+		infoTextureMemUsed = 10,
+		infoVertexMemUsed = 11,
 		lightParamShadowSplit3Offset = 11,
 		lightParamShadowNormalBias = 12,
 		lightParamShadowBias = 13,
 		lightParamShadowBiasSplitScale = 14,
 		lightParamMax = 15,
-		textureFlagConvertToLinear = 16,
 		arrayFormatTexUv = 16,
+		textureFlagConvertToLinear = 16,
 		instanceGeometryMask = 30,
-		arrayFormatTexUv2 = 32,
 		textureFlagMirroredRepeat = 32,
+		arrayFormatTexUv2 = 32,
 		arrayFormatBones = 64,
 		/**
 		The maximum renderpriority of all materials.
@@ -1655,8 +1678,8 @@ public:
 		arrayFormatIndex = 256,
 		arrayCompressVertex = 512,
 		arrayCompressNormal = 1024,
-		textureFlagUsedForStreaming = 2048,
 		arrayCompressTangent = 2048,
+		textureFlagUsedForStreaming = 2048,
 		/**
 		The maximum Z-layer for canvas items.
 		*/
@@ -2759,7 +2782,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasFeature, _godot_object, feature);
 	}
 	/**
-	Returns `true` if the OS supports a certain feature. Features might be `s3tc`, `etc`, `etc2` and `pvrtc`.
+	Returns `true` if the OS supports a certain feature. Features might be `s3tc`, `etc`, `etc2`, `pvrtc` and `skinning_fallback`.
+	When rendering with GLES2, returns `true` with `skinning_fallback` in case the hardware doesn't support the default GPU skinning process.
 	*/
 	bool hasOsFeature(in String feature) const
 	{
@@ -3071,6 +3095,14 @@ public:
 		return ptrcall!(Array)(GDNativeClassBinding.instancesCullRay, _godot_object, from, to, scenario);
 	}
 	/**
+	
+	*/
+	bool isRenderLoopEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isRenderLoopEnabled, _godot_object);
+	}
+	/**
 	If `true`, this directional light will blend between shadow map splits resulting in a smoother transition between them. Equivalent to $(D DirectionalLight.directionalShadowBlendSplits).
 	*/
 	void lightDirectionalSetBlendSplits(in RID light, in bool enable)
@@ -3175,7 +3207,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.lightSetShadowColor, _godot_object, light, color);
 	}
 	/**
-	Sets whether GI probes capture light information from this light.
+	Sets whether GI probes capture light information from this light. $(I Deprecated method.) Use $(D lightSetBakeMode) instead. This method is only kept for compatibility reasons and calls $(D lightSetBakeMode) internally, setting the bake mode to $(D constant LIGHT_BAKE_DISABLED) or $(D constant LIGHT_BAKE_INDIRECT) depending on the given parameter.
 	*/
 	void lightSetUseGi(in RID light, in bool enabled)
 	{
@@ -4083,6 +4115,23 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setDefaultClearColor, _godot_object, color);
 	}
 	/**
+	
+	*/
+	void setRenderLoopEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setRenderLoopEnabled, _godot_object, enabled);
+	}
+	/**
+	Sets the scale to apply to the passage of time for the shaders' `TIME` builtin.
+	The default value is `1.0`, which means `TIME` will count the real time as it goes by, without narrowing or stretching it.
+	*/
+	void setShaderTimeScale(in double scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setShaderTimeScale, _godot_object, scale);
+	}
+	/**
 	Creates an empty shader and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `shader_*` VisualServer functions.
 	Once finished with your RID, you will want to free the RID using the VisualServer's $(D freeRid) static method.
 	*/
@@ -4651,6 +4700,18 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.viewportSetVflip, _godot_object, viewport, enabled);
+	}
+	/**
+	If `false`, disables rendering completely, but the engine logic is still being processed. You can call $(D forceDraw) to draw a frame even with rendering disabled.
+	*/
+	@property bool renderLoopEnabled()
+	{
+		return isRenderLoopEnabled();
+	}
+	/// ditto
+	@property void renderLoopEnabled(bool v)
+	{
+		setRenderLoopEnabled(v);
 	}
 }
 /// Returns: the VisualServerSingleton

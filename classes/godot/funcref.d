@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.funcref;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -49,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in FuncRef other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) FuncRef opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of FuncRef.
 	/// Note: use `memnew!FuncRef` instead.
@@ -68,7 +68,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Calls the referenced function previously set by $(D setFunction) or $(D @GDScript.funcref).
+	Calls the referenced function previously set in $(D _function) or $(D @GDScript.funcref).
 	*/
 	Variant callFunc(VarArgs...)(VarArgs varArgs)
 	{
@@ -81,7 +81,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Calls the referenced function previously set by $(D setFunction) or $(D @GDScript.funcref). Contrarily to $(D callFunc), this method does not support a variable number of arguments but expects all parameters to be passed via a single $(D Array).
+	Calls the referenced function previously set in $(D _function) or $(D @GDScript.funcref). Contrarily to $(D callFunc), this method does not support a variable number of arguments but expects all parameters to be passed via a single $(D Array).
 	*/
 	Variant callFuncv(in Array arg_array)
 	{
@@ -97,7 +97,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isValid, _godot_object);
 	}
 	/**
-	The name of the referenced function to call on the object, without parentheses or any parameters.
+	
 	*/
 	void setFunction(in String name)
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.image;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -24,8 +24,9 @@ import godot.resource;
 /**
 Image datatype.
 
-Native image datatype. Contains image data, which can be converted to a $(D Texture), and several functions to interact with it. The maximum width and height for an $(D Image) are $(D constant MAX_WIDTH) and $(D constant MAX_HEIGHT).
-$(B Note:) The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images will fail to import.
+Native image datatype. Contains image data which can be converted to an $(D ImageTexture) and provides commonly used $(I image processing) methods. The maximum width and height for an $(D Image) are $(D constant MAX_WIDTH) and $(D constant MAX_HEIGHT).
+An $(D Image) cannot be assigned to a `texture` property of an object directly (such as $(D Sprite)), and has to be converted manually to an $(D ImageTexture) first.
+$(B Note:) The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images may fail to import.
 */
 @GodotBaseClass struct Image
 {
@@ -87,6 +88,7 @@ public:
 		@GodotName("rgbe_to_srgb") GodotMethod!(Image) rgbeToSrgb;
 		@GodotName("save_exr") GodotMethod!(GodotError, String, bool) saveExr;
 		@GodotName("save_png") GodotMethod!(GodotError, String) savePng;
+		@GodotName("save_png_to_buffer") GodotMethod!(PoolByteArray) savePngToBuffer;
 		@GodotName("set_pixel") GodotMethod!(void, long, long, Color) setPixel;
 		@GodotName("set_pixelv") GodotMethod!(void, Vector2, Color) setPixelv;
 		@GodotName("shrink_x2") GodotMethod!(void) shrinkX2;
@@ -97,13 +99,13 @@ public:
 	pragma(inline, true) bool opEquals(in Image other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Image opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Image.
 	/// Note: use `memnew!Image` instead.
@@ -611,7 +613,7 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.generateMipmaps, _godot_object, renormalize);
 	}
 	/**
-	Returns the image's raw data.
+	Returns a copy of the image's raw data.
 	*/
 	PoolByteArray getData() const
 	{
@@ -723,7 +725,9 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isInvisible, _godot_object);
 	}
 	/**
-	Loads an image from file `path`. See $(D url=https://docs.godotengine.org/en/latest/getting_started/workflow/assets/importing_images.html#supported-image-formats)Supported image formats$(D /url) for a list of supported image formats and limitations.
+	Loads an image from file `path`. See $(D url=https://docs.godotengine.org/en/3.2/getting_started/workflow/assets/importing_images.html#supported-image-formats)Supported image formats$(D /url) for a list of supported image formats and limitations.
+	$(B Warning:) This method should only be used in the editor or in cases when you need to load external images at run-time, such as images located at the `user://` directory, and may not work in exported projects.
+	See also $(D ImageTexture) description for usage examples.
 	*/
 	GodotError load(in String path)
 	{
@@ -779,7 +783,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.premultiplyAlpha, _godot_object);
 	}
 	/**
-	Resizes the image to the given `width` and `height`. New pixels are calculated using `interpolation`. See `interpolation` constants.
+	Resizes the image to the given `width` and `height`. New pixels are calculated using the `interpolation` mode defined via $(D interpolation) constants.
 	*/
 	void resize(in long width, in long height, in long interpolation = 1)
 	{
@@ -787,7 +791,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.resize, _godot_object, width, height, interpolation);
 	}
 	/**
-	Resizes the image to the nearest power of 2 for the width and height. If `square` is `true` then set width and height to be the same.
+	Resizes the image to the nearest power of 2 for the width and height. If `square` is `true` then set width and height to be the same. New pixels are calculated using the `interpolation` mode defined via $(D interpolation) constants.
 	*/
 	void resizeToPo2(in bool square = false)
 	{
@@ -817,6 +821,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(GDNativeClassBinding.savePng, _godot_object, path);
+	}
+	/**
+	
+	*/
+	PoolByteArray savePngToBuffer() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(PoolByteArray)(GDNativeClassBinding.savePngToBuffer, _godot_object);
 	}
 	/**
 	Sets the $(D Color) of the pixel at `(x, y)` if the image is locked. Example:

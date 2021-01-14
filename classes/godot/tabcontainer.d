@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.tabcontainer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -81,13 +81,13 @@ public:
 	pragma(inline, true) bool opEquals(in TabContainer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TabContainer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TabContainer.
 	/// Note: use `memnew!TabContainer` instead.
@@ -227,10 +227,10 @@ public:
 	/**
 	Returns the $(D Control) node from the tab at index `tab_idx`.
 	*/
-	Control getTabControl(in long idx) const
+	Control getTabControl(in long tab_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Control)(GDNativeClassBinding.getTabControl, _godot_object, idx);
+		return ptrcall!(Control)(GDNativeClassBinding.getTabControl, _godot_object, tab_idx);
 	}
 	/**
 	Returns the number of tabs.

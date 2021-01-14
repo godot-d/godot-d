@@ -856,7 +856,7 @@ private extern(C) @nogc nothrow
 	alias da_godot_string_empty = godot_bool function(const godot_string * p_self);
 	alias da_godot_string_get_base_dir = godot_string function(const godot_string * p_self);
 	alias da_godot_string_get_file = godot_string function(const godot_string * p_self);
-	alias da_godot_string_humanize_size = godot_string function(size_t p_size);
+	alias da_godot_string_humanize_size = godot_string function(uint64_t p_size);
 	alias da_godot_string_is_abs_path = godot_bool function(const godot_string * p_self);
 	alias da_godot_string_is_rel_path = godot_bool function(const godot_string * p_self);
 	alias da_godot_string_is_resource_file = godot_bool function(const godot_string * p_self);

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.networkedmultiplayerenet;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -21,6 +21,8 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.networkedmultiplayerpeer;
+import godot.x509certificate;
+import godot.cryptokey;
 /**
 PacketPeer implementation using the $(D url=http://enet.bespin.org/index.html)ENet$(D /url) library.
 
@@ -50,11 +52,17 @@ public:
 		@GodotName("get_peer_port") GodotMethod!(long, long) getPeerPort;
 		@GodotName("get_transfer_channel") GodotMethod!(long) getTransferChannel;
 		@GodotName("is_always_ordered") GodotMethod!(bool) isAlwaysOrdered;
+		@GodotName("is_dtls_enabled") GodotMethod!(bool) isDtlsEnabled;
+		@GodotName("is_dtls_verify_enabled") GodotMethod!(bool) isDtlsVerifyEnabled;
 		@GodotName("is_server_relay_enabled") GodotMethod!(bool) isServerRelayEnabled;
 		@GodotName("set_always_ordered") GodotMethod!(void, bool) setAlwaysOrdered;
 		@GodotName("set_bind_ip") GodotMethod!(void, String) setBindIp;
 		@GodotName("set_channel_count") GodotMethod!(void, long) setChannelCount;
 		@GodotName("set_compression_mode") GodotMethod!(void, long) setCompressionMode;
+		@GodotName("set_dtls_certificate") GodotMethod!(void, X509Certificate) setDtlsCertificate;
+		@GodotName("set_dtls_enabled") GodotMethod!(void, bool) setDtlsEnabled;
+		@GodotName("set_dtls_key") GodotMethod!(void, CryptoKey) setDtlsKey;
+		@GodotName("set_dtls_verify_enabled") GodotMethod!(void, bool) setDtlsVerifyEnabled;
 		@GodotName("set_server_relay_enabled") GodotMethod!(void, bool) setServerRelayEnabled;
 		@GodotName("set_transfer_channel") GodotMethod!(void, long) setTransferChannel;
 	}
@@ -62,13 +70,13 @@ public:
 	pragma(inline, true) bool opEquals(in NetworkedMultiplayerENet other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) NetworkedMultiplayerENet opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of NetworkedMultiplayerENet.
 	/// Note: use `memnew!NetworkedMultiplayerENet` instead.
@@ -212,6 +220,22 @@ public:
 	/**
 	
 	*/
+	bool isDtlsEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isDtlsEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isDtlsVerifyEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isDtlsVerifyEnabled, _godot_object);
+	}
+	/**
+	
+	*/
 	bool isServerRelayEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -250,6 +274,38 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setCompressionMode, _godot_object, mode);
 	}
 	/**
+	Configure the $(D X509Certificate) to use when $(D useDtls) is `true`. For servers, you must also setup the $(D CryptoKey) via $(D setDtlsKey).
+	*/
+	void setDtlsCertificate(X509Certificate certificate)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setDtlsCertificate, _godot_object, certificate);
+	}
+	/**
+	
+	*/
+	void setDtlsEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setDtlsEnabled, _godot_object, enabled);
+	}
+	/**
+	Configure the $(D CryptoKey) to use when $(D useDtls) is `true`. Remember to also call $(D setDtlsCertificate) to setup your $(D X509Certificate).
+	*/
+	void setDtlsKey(CryptoKey key)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setDtlsKey, _godot_object, key);
+	}
+	/**
+	
+	*/
+	void setDtlsVerifyEnabled(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setDtlsVerifyEnabled, _godot_object, enabled);
+	}
+	/**
 	
 	*/
 	void setServerRelayEnabled(in bool enabled)
@@ -278,7 +334,7 @@ public:
 		setAlwaysOrdered(v);
 	}
 	/**
-	The number of channels to be used by ENet. Channels are used to separate different kinds of data. In reliable or ordered mode, for example, the packet delivery order is ensured on a per channel basis.
+	The number of channels to be used by ENet. Channels are used to separate different kinds of data. In reliable or ordered mode, for example, the packet delivery order is ensured on a per-channel basis. This is done to combat latency and reduces ordering restrictions on packets. The delivery status of a packet in one channel won't stall the delivery of other packets in another channel.
 	*/
 	@property long channelCount()
 	{
@@ -302,6 +358,18 @@ public:
 		setCompressionMode(v);
 	}
 	/**
+	Enable or disable certificate verification when $(D useDtls) `true`.
+	*/
+	@property bool dtlsVerify()
+	{
+		return isDtlsVerifyEnabled();
+	}
+	/// ditto
+	@property void dtlsVerify(bool v)
+	{
+		setDtlsVerifyEnabled(v);
+	}
+	/**
 	Enable or disable the server feature that notifies clients of other peers' connection/disconnection, and relays messages between them. When this option is `false`, clients won't be automatically notified of other peers and won't be able to send them packets through the server.
 	*/
 	@property bool serverRelay()
@@ -314,7 +382,7 @@ public:
 		setServerRelayEnabled(v);
 	}
 	/**
-	Set the default channel to be used to transfer data. By default, this value is `-1` which means that ENet will only use 2 channels, one for reliable and one for unreliable packets. Channel `0` is reserved, and cannot be used. Setting this member to any value between `0` and $(D channelCount) (excluded) will force ENet to use that channel for sending data.
+	Set the default channel to be used to transfer data. By default, this value is `-1` which means that ENet will only use 2 channels: one for reliable packets, and one for unreliable packets. The channel `0` is reserved and cannot be used. Setting this member to any value between `0` and $(D channelCount) (excluded) will force ENet to use that channel for sending data. See $(D channelCount) for more information about ENet channels.
 	*/
 	@property long transferChannel()
 	{
@@ -324,5 +392,18 @@ public:
 	@property void transferChannel(long v)
 	{
 		setTransferChannel(v);
+	}
+	/**
+	When enabled, the client or server created by this peer, will use $(D PacketPeerDTLS) instead of raw UDP sockets for communicating with the remote peer. This will make the communication encrypted with DTLS at the cost of higher resource usage and potentially larger packet size.
+	Note: When creating a DTLS server, make sure you setup the key/certificate pair via $(D setDtlsKey) and $(D setDtlsCertificate). For DTLS clients, have a look at the $(D dtlsVerify) option, and configure the certificate accordingly via $(D setDtlsCertificate).
+	*/
+	@property bool useDtls()
+	{
+		return isDtlsEnabled();
+	}
+	/// ditto
+	@property void useDtls(bool v)
+	{
+		setDtlsEnabled(v);
 	}
 }

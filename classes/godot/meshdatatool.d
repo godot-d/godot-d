@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.meshdatatool;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -31,14 +31,21 @@ To use MeshDataTool, load a mesh with $(D createFromSurface). When you are finis
 Below is an example of how MeshDataTool may be used.
 
 
+var mesh = ArrayMesh.new()
+mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, CubeMesh.new().get_mesh_arrays())
 var mdt = MeshDataTool.new()
 mdt.create_from_surface(mesh, 0)
 for i in range(mdt.get_vertex_count()):
     var vertex = mdt.get_vertex(i)
-    ...
+    # In this example we extend the mesh by one unit, which results in seperated faces as it is flat shaded.
+    vertex += mdt.get_vertex_normal(i)
+    # Save your change.
     mdt.set_vertex(i, vertex)
 mesh.surface_remove(0)
 mdt.commit_to_surface(mesh)
+var mi = MeshInstance.new()
+mi.mesh = mesh
+add_child(mi)
 
 
 See also $(D ArrayMesh), $(D ImmediateGeometry) and $(D SurfaceTool) for procedural geometry generation.
@@ -99,13 +106,13 @@ public:
 	pragma(inline, true) bool opEquals(in MeshDataTool other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) MeshDataTool opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of MeshDataTool.
 	/// Note: use `memnew!MeshDataTool` instead.

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.opensimplexnoise;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -79,13 +79,13 @@ public:
 	pragma(inline, true) bool opEquals(in OpenSimplexNoise other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) OpenSimplexNoise opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of OpenSimplexNoise.
 	/// Note: use `memnew!OpenSimplexNoise` instead.
@@ -98,7 +98,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Generate a noise image with the requested `width` and `height`, based on the current noise parameters.
+	Generate a noise image in $(D constant Image.FORMAT_L8) format with the requested `width` and `height`, based on the current noise parameters.
 	*/
 	Ref!Image getImage(in long width, in long height)
 	{
@@ -187,7 +187,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getPersistence, _godot_object);
 	}
 	/**
-	Generate a tileable noise image, based on the current noise parameters. Generated seamless images are always square (`size` × `size`).
+	Generate a tileable noise image in $(D constant Image.FORMAT_L8) format, based on the current noise parameters. Generated seamless images are always square (`size` × `size`).
 	*/
 	Ref!Image getSeamlessImage(in long size)
 	{

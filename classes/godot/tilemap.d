@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.tilemap;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -111,13 +111,13 @@ public:
 	pragma(inline, true) bool opEquals(in TileMap other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TileMap opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TileMap.
 	/// Note: use `memnew!TileMap` instead.
@@ -537,7 +537,7 @@ public:
 	Overriding this method also overrides it internally, allowing custom logic to be implemented when tiles are placed/removed:
 	
 	
-	func set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
+	func set_cell(x, y, tile, flip_x=false, flip_y=false, transpose=false, autotile_coord=Vector2())
 	    # Write your custom logic here.
 	    # To call the default method:
 	    .set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
@@ -827,7 +827,7 @@ public:
 		setTileOrigin(v);
 	}
 	/**
-	If `true`, the TileMap's children will be drawn in order of their Y coordinate.
+	If `true`, the TileMap's direct children will be drawn in order of their Y coordinate.
 	*/
 	@property bool cellYSort()
 	{
@@ -876,7 +876,7 @@ public:
 		setCollisionFriction(v);
 	}
 	/**
-	The collision layer(s) for all colliders in the TileMap.
+	The collision layer(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionLayer()
 	{
@@ -888,7 +888,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The collision mask(s) for all colliders in the TileMap.
+	The collision mask(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

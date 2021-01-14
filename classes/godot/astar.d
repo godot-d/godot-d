@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.astar;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -40,6 +40,7 @@ class MyAStar:
 
 
 $(D _estimateCost) should return a lower bound of the distance, i.e. `_estimate_cost(u, v) &lt;= _compute_cost(u, v)`. This serves as a hint to the algorithm because the custom `_compute_cost` might be computation-heavy. If this is not the case, make $(D _estimateCost) return the same value as $(D _computeCost) to provide the algorithm with the most accurate information.
+If the default $(D _estimateCost) and $(D _computeCost) methods are used, or if the supplied $(D _estimateCost) method returns a lower bound of the cost, then the paths returned by A* will be the lowest cost paths. Here, the cost of a path equals to the sum of the $(D _computeCost) results of all segments in the path multiplied by the `weight_scale`s of the end points of the respective segments. If the default methods are used and the `weight_scale`s of all points are set to `1.0`, then this equals to the sum of Euclidean distances of all segments in the path.
 */
 @GodotBaseClass struct AStar
 {
@@ -83,13 +84,13 @@ public:
 	pragma(inline, true) bool opEquals(in AStar other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AStar opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AStar.
 	/// Note: use `memnew!AStar` instead.
@@ -126,7 +127,8 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!double);
 	}
 	/**
-	Adds a new point at the given position with the given identifier. The algorithm prefers points with lower `weight_scale` to form a path. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+	Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+	The `weight_scale` is multiplied by the result of $(D _computeCost) when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 	
 	
 	var astar = AStar.new()
@@ -359,7 +361,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setPointPosition, _godot_object, id, position);
 	}
 	/**
-	Sets the `weight_scale` for the point with the given `id`.
+	Sets the `weight_scale` for the point with the given `id`. The `weight_scale` is multiplied by the result of $(D _computeCost) when determining the overall cost of traveling across a segment from a neighboring point to this point.
 	*/
 	void setPointWeightScale(in long id, in double weight_scale)
 	{

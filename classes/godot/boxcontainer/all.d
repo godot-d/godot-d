@@ -4,4 +4,5 @@ public import
 	godot.boxcontainer,
 	godot.colorpicker,
 	godot.hboxcontainer,
-	godot.vboxcontainer;
+	godot.vboxcontainer,
+	godot.filesystemdock;

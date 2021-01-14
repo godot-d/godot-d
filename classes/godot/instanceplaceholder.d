@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.instanceplaceholder;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -48,13 +48,13 @@ public:
 	pragma(inline, true) bool opEquals(in InstancePlaceholder other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) InstancePlaceholder opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of InstancePlaceholder.
 	/// Note: use `memnew!InstancePlaceholder` instead.
@@ -67,7 +67,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Not thread-safe. Use $(D GodotObject.callDeferred) if calling from a thread.
 	*/
 	Node createInstance(in bool replace = false, PackedScene custom_scene = PackedScene.init)
 	{
@@ -75,7 +75,7 @@ public:
 		return ptrcall!(Node)(GDNativeClassBinding.createInstance, _godot_object, replace, custom_scene);
 	}
 	/**
-	Gets the path to the $(D PackedScene) resource file that is loaded by default when calling $(D replaceByInstance).
+	Gets the path to the $(D PackedScene) resource file that is loaded by default when calling $(D replaceByInstance). Not thread-safe. Use $(D GodotObject.callDeferred) if calling from a thread.
 	*/
 	String getInstancePath() const
 	{

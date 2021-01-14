@@ -1,5 +1,5 @@
 /**
-Grid container used to arrange elements in a grid like layout.
+Grid container used to arrange Control-derived children in a grid like layout.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.gridcontainer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,10 +25,11 @@ import godot.control;
 import godot.canvasitem;
 import godot.node;
 /**
-Grid container used to arrange elements in a grid like layout.
+Grid container used to arrange Control-derived children in a grid like layout.
 
-Grid container will arrange its children in a grid like structure, the grid columns are specified using the $(D columns) property and the number of rows will be equal to the number of children in the container divided by the number of columns. For example, if the container has 5 children, and 2 columns, there will be 3 rows in the container.
+GridContainer will arrange its Control-derived children in a grid like structure, the grid columns are specified using the $(D columns) property and the number of rows will be equal to the number of children in the container divided by the number of columns. For example, if the container has 5 children, and 2 columns, there will be 3 rows in the container.
 Notice that grid layout will preserve the columns and rows for every size of the container, and that empty columns will be expanded automatically.
+$(B Note:) GridContainer only works with child nodes inheriting from Control. It won't rearrange child nodes inheriting from Node2D.
 */
 @GodotBaseClass struct GridContainer
 {
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in GridContainer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) GridContainer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of GridContainer.
 	/// Note: use `memnew!GridContainer` instead.
@@ -84,7 +85,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setColumns, _godot_object, columns);
 	}
 	/**
-	The number of columns in the $(D GridContainer). If modified, $(D GridContainer) reorders its children to accommodate the new layout.
+	The number of columns in the $(D GridContainer). If modified, $(D GridContainer) reorders its Control-derived children to accommodate the new layout.
 	*/
 	@property long columns()
 	{

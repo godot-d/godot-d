@@ -1,5 +1,5 @@
 /**
-A twist joint between two 3D bodies.
+A twist joint between two 3D PhysicsBodies.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.conetwistjoint;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -22,11 +22,11 @@ import godot.object;
 import godot.classdb;
 import godot.joint;
 /**
-A twist joint between two 3D bodies.
+A twist joint between two 3D PhysicsBodies.
 
 The joint can rotate the bodies across an axis defined by the local x-axes of the $(D Joint).
 The twist axis is initiated as the X axis of the $(D Joint).
-Once the Bodies swing, the twist axis is calculated as the middle of the x-axes of the Joint in the local space of the two Bodies.
+Once the Bodies swing, the twist axis is calculated as the middle of the x-axes of the Joint in the local space of the two Bodies. See also $(D Generic6DOFJoint).
 */
 @GodotBaseClass struct ConeTwistJoint
 {
@@ -51,13 +51,13 @@ public:
 	pragma(inline, true) bool opEquals(in ConeTwistJoint other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ConeTwistJoint opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ConeTwistJoint.
 	/// Note: use `memnew!ConeTwistJoint` instead.

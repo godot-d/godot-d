@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.node;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -33,7 +33,7 @@ A tree of nodes is called a $(I scene). Scenes can be saved to the disk and then
 $(B Scene tree:) The $(D SceneTree) contains the active tree of nodes. When a node is added to the scene tree, it receives the $(D constant NOTIFICATION_ENTER_TREE) notification and its $(D _enterTree) callback is triggered. Child nodes are always added $(I after) their parent node, i.e. the $(D _enterTree) callback of a parent node will be triggered before its child's.
 Once all nodes have been added in the scene tree, they receive the $(D constant NOTIFICATION_READY) notification and their respective $(D _ready) callbacks are triggered. For groups of nodes, the $(D _ready) callback is called in reverse order, starting with the children and moving up to the parent nodes.
 This means that when adding a node to the scene tree, the following order will be used for the callbacks: $(D _enterTree) of the parent, $(D _enterTree) of the children, $(D _ready) of the children and finally $(D _ready) of the parent (recursively for the entire scene tree).
-$(B Processing:) Nodes can override the "process" state, so that they receive a callback on each frame requesting them to process (do something). Normal processing (callback $(D _process), toggled with $(D setProcess)) happens as fast as possible and is dependent on the frame rate, so the processing time $(I delta) is passed as an argument. Physics processing (callback $(D _physicsProcess), toggled with $(D setPhysicsProcess)) happens a fixed number of times per second (60 by default) and is useful for code related to the physics engine.
+$(B Processing:) Nodes can override the "process" state, so that they receive a callback on each frame requesting them to process (do something). Normal processing (callback $(D _process), toggled with $(D setProcess)) happens as fast as possible and is dependent on the frame rate, so the processing time $(I delta) (in seconds) is passed as an argument. Physics processing (callback $(D _physicsProcess), toggled with $(D setPhysicsProcess)) happens a fixed number of times per second (60 by default) and is useful for code related to the physics engine.
 Nodes can also process input events. When present, the $(D _input) function will be called for each input that the program receives. In many cases, this can be overkill (unless used for simple projects), and the $(D _unhandledInput) function might be preferred; it is called when the input event was not handled by anyone else (typically, GUI $(D Control) nodes), ensuring that the node only receives the events that were meant for it.
 To keep track of the scene hierarchy (especially when instancing scenes into other scenes), an "owner" can be set for the node with the $(D owner) property. This keeps track of who instanced what. This is mostly useful when writing editors and tools, though.
 Finally, when a node is freed with $(D GodotObject.free) or $(D queueFree), it will also free all its children.
@@ -157,13 +157,13 @@ public:
 	pragma(inline, true) bool opEquals(in Node other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Node opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Node.
 	/// Note: use `memnew!Node` instead.
@@ -421,7 +421,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Called during the physics processing step of the main loop. Physics processing means that the frame rate is synced to the physics, i.e. the `delta` variable should be constant.
+	Called during the physics processing step of the main loop. Physics processing means that the frame rate is synced to the physics, i.e. the `delta` variable should be constant. `delta` is in seconds.
 	It is only called if physics processing is enabled, which is done automatically if this method is overridden, and can be toggled with $(D setPhysicsProcess).
 	Corresponds to the $(D constant NOTIFICATION_PHYSICS_PROCESS) notification in $(D GodotObject._notification).
 	$(B Note:) This method is only called if the node is present in the scene tree (i.e. if it's not orphan).
@@ -434,7 +434,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Called during the processing step of the main loop. Processing happens at every frame and as fast as possible, so the `delta` time since the previous frame is not constant.
+	Called during the processing step of the main loop. Processing happens at every frame and as fast as possible, so the `delta` time since the previous frame is not constant. `delta` is in seconds.
 	It is only called if processing is enabled, which is done automatically if this method is overridden, and can be toggled with $(D setProcess).
 	Corresponds to the $(D constant NOTIFICATION_PROCESS) notification in $(D GodotObject._notification).
 	$(B Note:) This method is only called if the node is present in the scene tree (i.e. if it's not orphan).
@@ -517,7 +517,7 @@ public:
 	add_child(child_node)
 	
 	
-	$(B Note:) If you want a child to be persisted to a $(D PackedScene), you must set $(D owner) in addition to calling $(D addChild). This is typically relevant for $(D url=https://godot.readthedocs.io/en/latest/tutorials/misc/running_code_in_the_editor.html)tool scripts$(D /url) and $(D url=https://godot.readthedocs.io/en/latest/tutorials/plugins/editor/index.html)editor plugins$(D /url). If $(D addChild) is called without setting $(D owner), the newly added $(D Node) will not be visible in the scene tree, though it will be visible in the 2D/3D view.
+	$(B Note:) If you want a child to be persisted to a $(D PackedScene), you must set $(D owner) in addition to calling $(D addChild). This is typically relevant for $(D url=https://godot.readthedocs.io/en/3.2/tutorials/misc/running_code_in_the_editor.html)tool scripts$(D /url) and $(D url=https://godot.readthedocs.io/en/latest/tutorials/plugins/editor/index.html)editor plugins$(D /url). If $(D addChild) is called without setting $(D owner), the newly added $(D Node) will not be visible in the scene tree, though it will be visible in the 2D/3D view.
 	*/
 	void addChild(Node node, in bool legible_unique_name = false)
 	{
@@ -525,7 +525,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addChild, _godot_object, node, legible_unique_name);
 	}
 	/**
-	Adds a child node. The child is placed below the given node in the list of children.
+	Adds `child_node` as a child. The child is placed below the given `node` in the list of children.
 	If `legible_unique_name` is `true`, the child node will have an human-readable name based on the name of the node being instanced instead of its type.
 	*/
 	void addChildBelowNode(Node node, Node child_node, in bool legible_unique_name = false)
@@ -564,6 +564,7 @@ public:
 	Finds a descendant of this node whose name matches `mask` as in $(D String.match) (i.e. case-sensitive, but `"*"` matches zero or more characters and `"?"` matches any single character except `"."`).
 	$(B Note:) It does not match against the full path, just against individual node names.
 	If `owned` is `true`, this method only finds nodes whose owner is this node. This is especially important for scenes instantiated through a script, because those scenes don't have an owner.
+	$(B Note:) As this method walks through all the descendants of the node, it is the slowest way to get a reference to another node. Whenever possible, consider using $(D getNode) instead. To avoid using $(D findNode) too often, consider caching the node reference into a variable.
 	*/
 	Node findNode(in String mask, in bool recursive = true, in bool owned = true) const
 	{
@@ -573,6 +574,7 @@ public:
 	/**
 	Finds the first parent of the current node whose name matches `mask` as in $(D String.match) (i.e. case-sensitive, but `"*"` matches zero or more characters and `"?"` matches any single character except `"."`).
 	$(B Note:) It does not match against the full path, just against individual node names.
+	$(B Note:) As this method walks upwards in the scene tree, it can be slow in large, deeply nested scene trees. Whenever possible, consider using $(D getNode) instead. To avoid using $(D findParent) too often, consider caching the node reference into a variable.
 	*/
 	Node findParent(in String mask) const
 	{
@@ -757,7 +759,7 @@ public:
 		return ptrcall!(Node.PauseMode)(GDNativeClassBinding.getPauseMode, _godot_object);
 	}
 	/**
-	Returns the time elapsed since the last physics-bound frame (see $(D _physicsProcess)). This is always a constant value in physics processing unless the frames per second is changed via $(D Engine.iterationsPerSecond).
+	Returns the time elapsed (in seconds) since the last physics-bound frame (see $(D _physicsProcess)). This is always a constant value in physics processing unless the frames per second is changed via $(D Engine.iterationsPerSecond).
 	*/
 	double getPhysicsProcessDeltaTime() const
 	{
@@ -976,7 +978,7 @@ public:
 	    ┠╴Menu
 	    ┃  ┠╴Label
 	    ┃  ┖╴Camera2D
-	    ┖-SplashScreen
+	    ┖╴SplashScreen
 	       ┖╴Camera2D
 	
 	
@@ -1011,7 +1013,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.queueFree, _godot_object);
 	}
 	/**
-	Moves this node to the bottom of parent node's children hierarchy. This is often useful in GUIs ($(D Control) nodes), because their order of drawing depends on their order in the tree, i.e. the further they are on the node list, the higher they are drawn. After using `raise`, a Control will be drawn on top of their siblings.
+	Moves this node to the bottom of parent node's children hierarchy. This is often useful in GUIs ($(D Control) nodes), because their order of drawing depends on their order in the tree. The top Node is drawn first, then any siblings below the top Node in the hierarchy are successively drawn on top of it. After using `raise`, a Control will be drawn on top of its siblings.
 	*/
 	void raise()
 	{
@@ -1230,7 +1232,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setPhysicsProcess, _godot_object, enable);
 	}
 	/**
-	Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal $(D _physicsProcess) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ($(D setPhysicsProcess)). Only useful for advanced uses to manipulate built-in nodes' behaviour.
+	Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal $(D _physicsProcess) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ($(D setPhysicsProcess)). Only useful for advanced uses to manipulate built-in nodes' behavior.
+	$(B Warning:) Built-in Nodes rely on the internal processing for their own logic, so changing this value from your code may lead to unexpected behavior. Script access to this internal logic is provided for specific advanced uses, but is unsafe and not supported.
 	*/
 	void setPhysicsProcessInternal(in bool enable)
 	{
@@ -1254,7 +1257,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setProcessInput, _godot_object, enable);
 	}
 	/**
-	Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal $(D _process) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ($(D setProcess)). Only useful for advanced uses to manipulate built-in nodes' behaviour.
+	Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal $(D _process) calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ($(D setProcess)). Only useful for advanced uses to manipulate built-in nodes' behavior.
+	$(B Warning:) Built-in Nodes rely on the internal processing for their own logic, so changing this value from your code may lead to unexpected behavior. Script access to this internal logic is provided for specific advanced uses, but is unsafe and not supported.
 	*/
 	void setProcessInternal(in bool enable)
 	{
@@ -1359,6 +1363,7 @@ public:
 	}
 	/**
 	The name of the node. This name is unique among the siblings (other child nodes from the same parent). When set to an existing name, the node will be automatically renamed.
+	$(B Note:) Auto-generated names might include the `@` character, which is reserved for unique names when using $(D addChild). When setting the name manually, any `@` will be removed.
 	*/
 	@property String name()
 	{

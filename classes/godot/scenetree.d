@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.scenetree;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -104,13 +104,13 @@ public:
 	pragma(inline, true) bool opEquals(in SceneTree other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) SceneTree opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of SceneTree.
 	/// Note: use `memnew!SceneTree` instead.
@@ -256,7 +256,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Calls `method` on each member of the given group.
+	Calls `method` on each member of the given group. You can pass arguments to `method` by specifying them at the end of the method call.
+	$(B Note:) `method` may only have 5 arguments at most (7 arguments passed to this method in total).
 	*/
 	Variant callGroup(VarArgs...)(in String group, in String method, VarArgs varArgs)
 	{
@@ -271,7 +272,8 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Calls `method` on each member of the given group, respecting the given $(D groupcallflags).
+	Calls `method` on each member of the given group, respecting the given $(D groupcallflags). You can pass arguments to `method` by specifying them at the end of the method call.
+	$(B Note:) `method` may only have 5 arguments at most (8 arguments passed to this method in total).
 	*/
 	Variant callGroupFlags(VarArgs...)(in long flags, in String group, in String method, VarArgs varArgs)
 	{
@@ -289,6 +291,7 @@ public:
 	/**
 	Changes the running scene to the one at the given `path`, after loading it into a $(D PackedScene) and creating a new instance.
 	Returns $(D constant OK) on success, $(D constant ERR_CANT_OPEN) if the `path` cannot be loaded into a $(D PackedScene), or $(D constant ERR_CANT_CREATE) if that scene cannot be instantiated.
+	$(B Note:) The scene change is deferred, which means that the new scene node is added on the next idle frame. You won't be able to access it immediately after the $(D changeScene) call.
 	*/
 	GodotError changeScene(in String path)
 	{
@@ -298,6 +301,7 @@ public:
 	/**
 	Changes the running scene to a new instance of the given $(D PackedScene).
 	Returns $(D constant OK) on success or $(D constant ERR_CANT_CREATE) if the scene cannot be instantiated.
+	$(B Note:) The scene change is deferred, which means that the new scene node is added on the next idle frame. You won't be able to access it immediately after the $(D changeSceneTo) call.
 	*/
 	GodotError changeSceneTo(PackedScene packed_scene)
 	{
@@ -514,7 +518,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.queueDelete, _godot_object, obj);
 	}
 	/**
-	Quits the application. A process `exit_code` can optionally be passed as an argument. If this argument is `0` or greater, it will override the $(D OS.exitCode) defined before quitting the application.
+	Quits the application at the end of the current iteration. A process `exit_code` can optionally be passed as an argument. If this argument is `0` or greater, it will override the $(D OS.exitCode) defined before quitting the application.
 	*/
 	void quit(in long exit_code = -1)
 	{

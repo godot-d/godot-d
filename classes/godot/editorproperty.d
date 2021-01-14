@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorproperty;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -67,13 +67,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorProperty other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorProperty opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorProperty.
 	/// Note: use `memnew!EditorProperty` instead.
@@ -259,7 +259,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Used by the inspector, set when property is checkable.
+	Used by the inspector, set to `true` when the property is checkable.
 	*/
 	@property bool checkable()
 	{
@@ -271,7 +271,7 @@ public:
 		setCheckable(v);
 	}
 	/**
-	Used by the inspector, when the property is checked.
+	Used by the inspector, set to `true` when the property is checked.
 	*/
 	@property bool checked()
 	{
@@ -283,7 +283,7 @@ public:
 		setChecked(v);
 	}
 	/**
-	Used by the inspector, when the property must draw with error color.
+	Used by the inspector, set to `true` when the property must draw with error color. This is used for editable children's properties.
 	*/
 	@property bool drawRed()
 	{
@@ -295,7 +295,7 @@ public:
 		setDrawRed(v);
 	}
 	/**
-	Used by the inspector, when the property can add keys for animation.
+	Used by the inspector, set to `true` when the property can add keys for animation.
 	*/
 	@property bool keying()
 	{
@@ -307,7 +307,7 @@ public:
 		setKeying(v);
 	}
 	/**
-	Sets this property to change the label (if you want to show one).
+	Set this property to change the label (if you want to show one).
 	*/
 	@property String label()
 	{
@@ -319,7 +319,7 @@ public:
 		setLabel(v);
 	}
 	/**
-	Used by the inspector, when the property is read-only.
+	Used by the inspector, set to `true` when the property is read-only.
 	*/
 	@property bool readOnly()
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.object;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -38,6 +38,7 @@ print("other_property" in n) # Prints "False".
 
 The `in` operator will evaluate to `true` as long as the key exists, even if the value is `null`.
 Objects also receive notifications. Notifications are a simple way to notify the object about different events, so they can all be handled together. See $(D _notification).
+$(B Note:) Unlike references to a $(D Reference), references to an Object stored in a variable can become invalid without warning. Therefore, it's recommended to use $(D Reference) for data classes instead of $(D GodotObject).
 */
 @GodotBaseClass struct GodotObject
 {
@@ -79,6 +80,7 @@ public:
 		@GodotName("get_signal_list") GodotMethod!(Array) getSignalList;
 		@GodotName("has_meta") GodotMethod!(bool, String) hasMeta;
 		@GodotName("has_method") GodotMethod!(bool, String) hasMethod;
+		@GodotName("has_signal") GodotMethod!(bool, String) hasSignal;
 		@GodotName("has_user_signal") GodotMethod!(bool, String) hasUserSignal;
 		@GodotName("is_blocking_signals") GodotMethod!(bool) isBlockingSignals;
 		@GodotName("is_class") GodotMethod!(bool, String) isClass;
@@ -101,13 +103,19 @@ public:
 	pragma(inline, true) bool opEquals(in GodotObject other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) GodotObject opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	pragma(inline, true) int opCmp(in GodotObject other) const
+	{ const void* a = _godot_object.ptr, b = other._godot_object.ptr; return a is b ? 0 : a < b ? -1 : 1; }
+	/// 
+	pragma(inline, true) int opCmp(T)(in T other) const if(extendsGodotBaseClass!T)
+	{ const void* a = _godot_object.ptr, b = other.owner._godot_object.ptr; return a is b ? 0 : a < b ? -1 : 1; }
+	/// 
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of GodotObject.
 	/// Note: use `memnew!GodotObject` instead.
@@ -135,7 +143,7 @@ public:
 		*/
 		connectOneshot = 4,
 		/**
-		Connect a signal as reference counted. This means that a given signal can be connected several times to the same target, and will only be fully disconnected once no references are left.
+		Connect a signal as reference-counted. This means that a given signal can be connected several times to the same target, and will only be fully disconnected once no references are left.
 		*/
 		connectReferenceCounted = 8,
 	}
@@ -233,6 +241,7 @@ public:
 	call("set", "position", Vector2(42.0, 0.0))
 	
 	
+	$(B Note:) In C#, the method name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined methods where you should use the same convention as in the C# source (typically PascalCase).
 	*/
 	Variant call(VarArgs...)(in String method, VarArgs varArgs)
 	{
@@ -252,6 +261,7 @@ public:
 	call_deferred("set", "position", Vector2(42.0, 0.0))
 	
 	
+	$(B Note:) In C#, the method name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined methods where you should use the same convention as in the C# source (typically PascalCase).
 	*/
 	void callDeferred(VarArgs...)(in String method, VarArgs varArgs)
 	{
@@ -351,6 +361,7 @@ public:
 	}
 	/**
 	Returns the $(D Variant) value of the given `property`. If the `property` doesn't exist, this will return `null`.
+	$(B Note:) In C#, the property name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined properties where you should use the same convention as in the C# source (typically PascalCase).
 	*/
 	Variant get(in String property) const
 	{
@@ -468,6 +479,14 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasMethod, _godot_object, method);
 	}
 	/**
+	Returns `true` if the given `signal` exists.
+	*/
+	bool hasSignal(in String signal) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.hasSignal, _godot_object, signal);
+	}
+	/**
 	Returns `true` if the given user-defined `signal` exists. Only signals added using $(D addUserSignal) are taken into account.
 	*/
 	bool hasUserSignal(in String signal) const
@@ -525,7 +544,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.propertyListChangedNotify, _godot_object);
 	}
 	/**
-	Removes a given entry from the object's metadata.
+	Removes a given entry from the object's metadata. See also $(D setMeta).
 	*/
 	void removeMeta(in String name)
 	{
@@ -534,6 +553,7 @@ public:
 	}
 	/**
 	Assigns a new value to the given property. If the `property` does not exist, nothing will happen.
+	$(B Note:) In C#, the property name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined properties where you should use the same convention as in the C# source (typically PascalCase).
 	*/
 	void set(VariantArg1)(in String property, in VariantArg1 value)
 	{
@@ -550,6 +570,7 @@ public:
 	}
 	/**
 	Assigns a new value to the given property, after the current frame's physics step. This is equivalent to calling $(D set) via $(D callDeferred), i.e. `call_deferred("set", property, value)`.
+	$(B Note:) In C#, the property name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined properties where you should use the same convention as in the C# source (typically PascalCase).
 	*/
 	void setDeferred(VariantArg1)(in String property, in VariantArg1 value)
 	{
@@ -580,7 +601,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setMessageTranslation, _godot_object, enable);
 	}
 	/**
-	Adds or changes a given entry in the object's metadata. Metadata are serialized, and can take any $(D Variant) value.
+	Adds, changes or removes a given entry in the object's metadata. Metadata are serialized and can take any $(D Variant) value.
+	To remove a given entry from the object's metadata, use $(D removeMeta). Metadata is also removed if its value is set to `null`. This means you can also use `set_meta("name", null)` to remove metadata for `"name"`.
 	*/
 	void setMeta(VariantArg1)(in String name, in VariantArg1 value)
 	{

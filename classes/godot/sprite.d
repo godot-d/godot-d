@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.sprite;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -75,13 +75,13 @@ public:
 	pragma(inline, true) bool opEquals(in Sprite other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Sprite opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Sprite.
 	/// Note: use `memnew!Sprite` instead.
@@ -372,7 +372,7 @@ public:
 		setFlipV(v);
 	}
 	/**
-	Current frame to display from sprite sheet. $(D vframes) or $(D hframes) must be greater than 1.
+	Current frame to display from sprite sheet. $(D hframes) or $(D vframes) must be greater than 1.
 	*/
 	@property long frame()
 	{
@@ -384,7 +384,7 @@ public:
 		setFrame(v);
 	}
 	/**
-	Coordinates of the frame to display from sprite sheet. This is as an alias for the $(D frame) property. $(D vframes) or $(D hframes) must be greater than 1.
+	Coordinates of the frame to display from sprite sheet. This is as an alias for the $(D frame) property. $(D hframes) or $(D vframes) must be greater than 1.
 	*/
 	@property Vector2 frameCoords()
 	{

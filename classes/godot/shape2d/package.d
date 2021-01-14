@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.shape2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -42,6 +42,7 @@ public:
 		@GodotName("collide_and_get_contacts") GodotMethod!(Array, Transform2D, Shape2D, Transform2D) collideAndGetContacts;
 		@GodotName("collide_with_motion") GodotMethod!(bool, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotion;
 		@GodotName("collide_with_motion_and_get_contacts") GodotMethod!(Array, Transform2D, Vector2, Shape2D, Transform2D, Vector2) collideWithMotionAndGetContacts;
+		@GodotName("draw") GodotMethod!(void, RID, Color) draw;
 		@GodotName("get_custom_solver_bias") GodotMethod!(double) getCustomSolverBias;
 		@GodotName("set_custom_solver_bias") GodotMethod!(void, double) setCustomSolverBias;
 	}
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in Shape2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Shape2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Shape2D.
 	/// Note: use `memnew!Shape2D` instead.
@@ -102,6 +103,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(GDNativeClassBinding.collideWithMotionAndGetContacts, _godot_object, local_xform, local_motion, with_shape, shape_xform, shape_motion);
+	}
+	/**
+	Draws a solid shape onto a $(D CanvasItem) with the $(D VisualServer) API filled with the specified `color`. The exact drawing method is specific for each shape and cannot be configured.
+	*/
+	void draw(in RID canvas_item, in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.draw, _godot_object, canvas_item, color);
 	}
 	/**
 	

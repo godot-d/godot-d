@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.geometry;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -78,13 +78,13 @@ public:
 	pragma(inline, true) bool opEquals(in GeometrySingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) GeometrySingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of GeometrySingleton.
 	/// Note: use `memnew!GeometrySingleton` instead.
@@ -206,7 +206,7 @@ public:
 	}
 	/**
 	Clips `polygon_a` against `polygon_b` and returns an array of clipped polygons. This performs $(D constant OPERATION_DIFFERENCE) between polygons. Returns an empty array if `polygon_b` completely overlaps `polygon_a`.
-	If `polygon_b` is enclosed by `polygon_a`, returns an outer polygon (boundary) and inner polygon (hole) which could be distiguished by calling $(D isPolygonClockwise).
+	If `polygon_b` is enclosed by `polygon_a`, returns an outer polygon (boundary) and inner polygon (hole) which could be distinguished by calling $(D isPolygonClockwise).
 	*/
 	Array clipPolygons2d(in PoolVector2Array polygon_a, in PoolVector2Array polygon_b)
 	{
@@ -231,7 +231,7 @@ public:
 	}
 	/**
 	Mutually excludes common area defined by intersection of `polygon_a` and `polygon_b` (see $(D intersectPolygons2d)) and returns an array of excluded polygons. This performs $(D constant OPERATION_XOR) between polygons. In other words, returns all but common area between polygons.
-	The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distiguished by calling $(D isPolygonClockwise).
+	The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distinguished by calling $(D isPolygonClockwise).
 	*/
 	Array excludePolygons2d(in PoolVector2Array polygon_a, in PoolVector2Array polygon_b)
 	{
@@ -279,7 +279,7 @@ public:
 		return ptrcall!(PoolVector3Array)(GDNativeClassBinding.getClosestPointsBetweenSegments, _godot_object, p1, p2, q1, q2);
 	}
 	/**
-	Given the two 2D segments (`p1`, `p2`) and (`q1`, `q2`), finds those two points on the two segments that are closest to each other. Returns a $(D PoolVector2Array) that contains this point on (`p1`, `p2`) as well the accompanying point on (`q1`, `q2`).
+	Given the two 2D segments (`p1`, `q1`) and (`p2`, `q2`), finds those two points on the two segments that are closest to each other. Returns a $(D PoolVector2Array) that contains this point on (`p1`, `q1`) as well the accompanying point on (`p2`, `q2`).
 	*/
 	PoolVector2Array getClosestPointsBetweenSegments2d(in Vector2 p1, in Vector2 q1, in Vector2 p2, in Vector2 q2)
 	{
@@ -365,6 +365,15 @@ public:
 	Inflates or deflates `polygon` by `delta` units (pixels). If `delta` is positive, makes the polygon grow outward. If `delta` is negative, shrinks the polygon inward. Returns an array of polygons because inflating/deflating may result in multiple discrete polygons. Returns an empty array if `delta` is negative and the absolute value of it approximately exceeds the minimum bounding rectangle dimensions of the polygon.
 	Each polygon's vertices will be rounded as determined by `join_type`, see $(D polyjointype).
 	The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distinguished by calling $(D isPolygonClockwise).
+	$(B Note:) To translate the polygon's vertices specifically, use the $(D Transform2D.xform) method:
+	
+	
+	var polygon = PoolVector2Array($(D Vector2(0, 0), Vector2(100, 0), Vector2(100, 100), Vector2(0, 100)))
+	var offset = Vector2(50, 50)
+	polygon = Transform2D(0, offset).xform(polygon)
+	print(polygon) # prints $(D Vector2(50, 50), Vector2(150, 50), Vector2(150, 150), Vector2(50, 150))
+	
+	
 	*/
 	Array offsetPolygon2d(in PoolVector2Array polygon, in double delta, in long join_type = 0)
 	{

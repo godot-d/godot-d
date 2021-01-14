@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.resourceloader;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,6 @@ Singleton used to load resource files.
 
 Singleton used to load resource files from the filesystem.
 It uses the many $(D ResourceFormatLoader) classes registered in the engine (either built-in or from a plugin) to load files into memory and convert them to a format that can be used by the engine.
-GDScript has a simplified $(D @GDScript.load) built-in method which can be used in most situations, leaving the use of $(D ResourceLoader) for more advanced scenarios.
 */
 @GodotBaseClass struct ResourceLoaderSingleton
 {
@@ -55,13 +54,13 @@ public:
 	pragma(inline, true) bool opEquals(in ResourceLoaderSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ResourceLoaderSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ResourceLoaderSingleton.
 	/// Note: use `memnew!ResourceLoaderSingleton` instead.
@@ -118,9 +117,10 @@ public:
 	/**
 	Loads a resource at the given `path`, caching the result for further access.
 	The registered $(D ResourceFormatLoader)s are queried sequentially to find the first one which can handle the file's extension, and then attempt loading. If loading fails, the remaining ResourceFormatLoaders are also attempted.
-	An optional `type_hint` can be used to further specify the $(D Resource) type that should be handled by the $(D ResourceFormatLoader).
+	An optional `type_hint` can be used to further specify the $(D Resource) type that should be handled by the $(D ResourceFormatLoader). Anything that inherits from $(D Resource) can be used as a type hint, for example $(D Image).
 	If `no_cache` is `true`, the resource cache will be bypassed and the resource will be loaded anew. Otherwise, the cached resource will be returned if it exists.
-	Returns an empty resource if no ResourceFormatLoader could handle the file.
+	Returns an empty resource if no $(D ResourceFormatLoader) could handle the file.
+	GDScript has a simplified $(D @GDScript.load) built-in method which can be used in most situations, leaving the use of $(D ResourceLoader) for more advanced scenarios.
 	*/
 	Ref!Resource load(in String path, in String type_hint = gs!"", in bool no_cache = false)
 	{
@@ -129,7 +129,7 @@ public:
 	}
 	/**
 	Starts loading a resource interactively. The returned $(D ResourceInteractiveLoader) object allows to load with high granularity, calling its $(D ResourceInteractiveLoader.poll) method successively to load chunks.
-	An optional `type_hint` can be used to further specify the $(D Resource) type that should be handled by the $(D ResourceFormatLoader).
+	An optional `type_hint` can be used to further specify the $(D Resource) type that should be handled by the $(D ResourceFormatLoader). Anything that inherits from $(D Resource) can be used as a type hint, for example $(D Image).
 	*/
 	Ref!ResourceInteractiveLoader loadInteractive(in String path, in String type_hint = gs!"")
 	{

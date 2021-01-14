@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.configfile;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -74,6 +74,7 @@ public:
 		@GodotName("load") GodotMethod!(GodotError, String) load;
 		@GodotName("load_encrypted") GodotMethod!(GodotError, String, PoolByteArray) loadEncrypted;
 		@GodotName("load_encrypted_pass") GodotMethod!(GodotError, String, String) loadEncryptedPass;
+		@GodotName("parse") GodotMethod!(GodotError, String) parse;
 		@GodotName("save") GodotMethod!(GodotError, String) save;
 		@GodotName("save_encrypted") GodotMethod!(GodotError, String, PoolByteArray) saveEncrypted;
 		@GodotName("save_encrypted_pass") GodotMethod!(GodotError, String, String) saveEncryptedPass;
@@ -83,13 +84,13 @@ public:
 	pragma(inline, true) bool opEquals(in ConfigFile other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ConfigFile opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ConfigFile.
 	/// Note: use `memnew!ConfigFile` instead.
@@ -179,10 +180,19 @@ public:
 	Loads the encrypted config file specified as a parameter, using the provided `password` to decrypt it. The file's contents are parsed and loaded in the $(D ConfigFile) object which the method was called on.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
-	GodotError loadEncryptedPass(in String path, in String pass)
+	GodotError loadEncryptedPass(in String path, in String password)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(GDNativeClassBinding.loadEncryptedPass, _godot_object, path, pass);
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadEncryptedPass, _godot_object, path, password);
+	}
+	/**
+	Parses the the passed string as the contents of a config file. The string is parsed and loaded in the ConfigFile object which the method was called on.
+	Returns one of the $(D error) code constants (`OK` on success).
+	*/
+	GodotError parse(in String data)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(GDNativeClassBinding.parse, _godot_object, data);
 	}
 	/**
 	Saves the contents of the $(D ConfigFile) object to the file specified as a parameter. The output file uses an INI-style structure.
@@ -206,10 +216,10 @@ public:
 	Saves the contents of the $(D ConfigFile) object to the AES-256 encrypted file specified as a parameter, using the provided `password` to encrypt it. The output file uses an INI-style structure.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
-	GodotError saveEncryptedPass(in String path, in String pass)
+	GodotError saveEncryptedPass(in String path, in String password)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(GodotError)(GDNativeClassBinding.saveEncryptedPass, _godot_object, path, pass);
+		return ptrcall!(GodotError)(GDNativeClassBinding.saveEncryptedPass, _godot_object, path, password);
 	}
 	/**
 	Assigns a value to the specified key of the specified section. If either the section or the key do not exist, they are created. Passing a `null` value deletes the specified key if it exists, and deletes the section if it ends up empty once the key has been removed.

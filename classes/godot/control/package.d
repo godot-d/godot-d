@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.control;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -38,6 +38,7 @@ Godot sends input events to the scene's root node first, by calling $(D Node._in
 Only one $(D Control) node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call $(D grabFocus). $(D Control) nodes lose focus when another node grabs it, or if you hide the node in focus.
 Sets $(D mouseFilter) to $(D constant MOUSE_FILTER_IGNORE) to tell a $(D Control) node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
 $(D Theme) resources change the Control's appearance. If you change the $(D Theme) on a $(D Control) node, it affects all of its children. To override some of the theme's parameters, call one of the `add_*_override` methods, like $(D addFontOverride). You can override the theme with the inspector.
+$(B Note:) Theme items are $(I not) $(D GodotObject) properties. This means you can't access their values using $(D GodotObject.get) and $(D GodotObject.set). Instead, use $(D getColor), $(D getConstant), $(D getFont), $(D getIcon), $(D getStylebox), and the `add_*_override` methods provided by this class.
 */
 @GodotBaseClass struct Control
 {
@@ -170,13 +171,13 @@ public:
 	pragma(inline, true) bool opEquals(in Control other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Control opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Control.
 	/// Note: use `memnew!Control` instead.
@@ -580,10 +581,11 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Virtual method to be implemented by the user. Returns a $(D Control) node that should be used as a tooltip instead of the default one. Use `for_text` parameter to determine what text the tooltip should contain (likely the contents of $(D hintTooltip)).
-	The returned node must be of type $(D Control) or Control-derieved. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance, not e.g. a node from scene. When `null` or non-Control node is returned, the default tooltip will be used instead.
+	Virtual method to be implemented by the user. Returns a $(D Control) node that should be used as a tooltip instead of the default one. The `for_text` includes the contents of the $(D hintTooltip) property.
+	The returned node must be of type $(D Control) or Control-derived. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance (if you want to use a pre-existing node from your scene tree, you can duplicate it and pass the duplicated instance).When `null` or a non-Control node is returned, the default tooltip will be used instead.
+	The returned node will be added as child to a $(D PopupPanel), so you should only provide the contents of that panel. That $(D PopupPanel) can be themed using $(D Theme.setStylebox) for the type `"TooltipPanel"` (see $(D hintTooltip) for an example).
 	$(B Note:) The tooltip is shrunk to minimal size. If you want to ensure it's fully visible, you might want to set its $(D rectMinSize) to some non-zero value.
-	Example of usage with custom-constructed node:
+	Example of usage with a custom-constructed node:
 	
 	
 	func _make_custom_tooltip(for_text):
@@ -592,11 +594,11 @@ public:
 	    return label
 	
 	
-	Example of usage with custom scene instance:
+	Example of usage with a custom scene instance:
 	
 	
 	func _make_custom_tooltip(for_text):
-	    var tooltip = preload("SomeTooltipScene.tscn").instance()
+	    var tooltip = preload("res://SomeTooltipScene.tscn").instance()
 	    tooltip.get_node("Label").text = for_text
 	    return tooltip
 	
@@ -695,7 +697,19 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.acceptEvent, _godot_object);
 	}
 	/**
-	Overrides the $(D Color) with given `name` in the $(D theme) resource the control uses. If the `color` is empty or invalid, the override is cleared and the color from assigned $(D Theme) is used.
+	Overrides the $(D Color) with given `name` in the $(D theme) resource the control uses.
+	$(B Note:) Unlike other theme overrides, there is no way to undo a color override without manually assigning the previous color.
+	$(B Example of overriding a label's color and resetting it later:)
+	
+	
+	# Override the child node "MyLabel"'s font color to orange.
+	$MyLabel.add_color_override("font_color", Color(1, 0.5, 0))
+	
+	# Reset the color by creating a new node to get the default value:
+	var default_label_color = Label.new().get_color("font_color")
+	$MyLabel.add_color_override("font_color", default_label_color)
+	
+	
 	*/
 	void addColorOverride(in String name, in Color color)
 	{
@@ -703,7 +717,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addColorOverride, _godot_object, name, color);
 	}
 	/**
-	Overrides an integer constant with given `name` in the $(D theme) resource the control uses. If the `constant` is empty or invalid, the override is cleared and the constant from assigned $(D Theme) is used.
+	Overrides an integer constant with given `name` in the $(D theme) resource the control uses. If the `constant` is `0`, the override is cleared and the constant from assigned $(D Theme) is used.
 	*/
 	void addConstantOverride(in String name, in long constant)
 	{
@@ -711,7 +725,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addConstantOverride, _godot_object, name, constant);
 	}
 	/**
-	Overrides the font with given `name` in the $(D theme) resource the control uses. If `font` is empty or invalid, the override is cleared and the font from assigned $(D Theme) is used.
+	Overrides the font with given `name` in the $(D theme) resource the control uses. If `font` is `null` or invalid, the override is cleared and the font from assigned $(D Theme) is used.
 	*/
 	void addFontOverride(in String name, Font font)
 	{
@@ -719,7 +733,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addFontOverride, _godot_object, name, font);
 	}
 	/**
-	Overrides the icon with given `name` in the $(D theme) resource the control uses. If `icon` is empty or invalid, the override is cleared and the icon from assigned $(D Theme) is used.
+	Overrides the icon with given `name` in the $(D theme) resource the control uses. If `icon` is `null` or invalid, the override is cleared and the icon from assigned $(D Theme) is used.
 	*/
 	void addIconOverride(in String name, Texture texture)
 	{
@@ -727,7 +741,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIconOverride, _godot_object, name, texture);
 	}
 	/**
-	Overrides the $(D Shader) with given `name` in the $(D theme) resource the control uses. If `shader` is empty or invalid, the override is cleared and the shader from assigned $(D Theme) is used.
+	Overrides the $(D Shader) with given `name` in the $(D theme) resource the control uses. If `shader` is `null` or invalid, the override is cleared and the shader from assigned $(D Theme) is used.
 	*/
 	void addShaderOverride(in String name, Shader shader)
 	{
@@ -736,6 +750,21 @@ public:
 	}
 	/**
 	Overrides the $(D StyleBox) with given `name` in the $(D theme) resource the control uses. If `stylebox` is empty or invalid, the override is cleared and the $(D StyleBox) from assigned $(D Theme) is used.
+	$(B Example of modifying a property in a StyleBox by duplicating it:)
+	
+	
+	# The snippet below assumes the child node MyButton has a StyleBoxFlat assigned.
+	# Resources are shared across instances, so we need to duplicate it
+	# to avoid modifying the appearance of all other buttons.
+	var new_stylebox_normal = $MyButton.get_stylebox("normal").duplicate()
+	new_stylebox_normal.border_width_top = 3
+	new_stylebox_normal.border_color = Color(0, 1, 0.5)
+	$MyButton.add_stylebox_override("normal", new_stylebox_normal)
+	
+	# Remove the stylebox override:
+	$MyButton.add_stylebox_override("normal", null)
+	
+	
 	*/
 	void addStyleboxOverride(in String name, StyleBox stylebox)
 	{
@@ -808,7 +837,7 @@ public:
 		return ptrcall!(Vector2)(GDNativeClassBinding.getBegin, _godot_object);
 	}
 	/**
-	Returns a color from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	Returns a color from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	
 	
 	func _ready():
@@ -830,7 +859,7 @@ public:
 		return ptrcall!(Vector2)(GDNativeClassBinding.getCombinedMinimumSize, _godot_object);
 	}
 	/**
-	Returns a constant from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	Returns a constant from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
 	long getConstant(in String name, in String type = gs!"") const
 	{
@@ -929,7 +958,7 @@ public:
 		return ptrcall!(NodePath)(GDNativeClassBinding.getFocusPrevious, _godot_object);
 	}
 	/**
-	Returns a font from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	Returns a font from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
 	Ref!Font getFont(in String name, in String type = gs!"") const
 	{
@@ -969,7 +998,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getHSizeFlags, _godot_object);
 	}
 	/**
-	Returns an icon from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	Returns an icon from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
 	Ref!Texture getIcon(in String name, in String type = gs!"") const
 	{
@@ -1081,7 +1110,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getStretchRatio, _godot_object);
 	}
 	/**
-	Returns a $(D StyleBox) from assigned $(D Theme) with given `name` and associated with $(D Control) of given `type`.
+	Returns a $(D StyleBox) from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
 	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
 	{
@@ -1143,7 +1172,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.grabFocus, _godot_object);
 	}
 	/**
-	Returns `true` if $(D Color) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	Returns `true` if $(D Color) with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
 	bool hasColor(in String name, in String type = gs!"") const
 	{
@@ -1159,7 +1188,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasColorOverride, _godot_object, name);
 	}
 	/**
-	Returns `true` if constant with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	Returns `true` if constant with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
 	bool hasConstant(in String name, in String type = gs!"") const
 	{
@@ -1183,7 +1212,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasFocus, _godot_object);
 	}
 	/**
-	Returns `true` if font with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	Returns `true` if font with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
 	bool hasFont(in String name, in String type = gs!"") const
 	{
@@ -1199,7 +1228,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasFontOverride, _godot_object, name);
 	}
 	/**
-	Returns `true` if icon with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	Returns `true` if icon with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
 	bool hasIcon(in String name, in String type = gs!"") const
 	{
@@ -1235,7 +1264,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasShaderOverride, _godot_object, name);
 	}
 	/**
-	Returns `true` if $(D StyleBox) with given `name` and associated with $(D Control) of given `type` exists in assigned $(D Theme).
+	Returns `true` if $(D StyleBox) with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
 	bool hasStylebox(in String name, in String type = gs!"") const
 	{
@@ -1751,6 +1780,17 @@ public:
 	}
 	/**
 	Changes the tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments, provided that the $(D mouseFilter) property is not $(D constant MOUSE_FILTER_IGNORE). You can change the time required for the tooltip to appear with `gui/timers/tooltip_delay_sec` option in Project Settings.
+	The tooltip popup will use either a default implementation, or a custom one that you can provide by overriding $(D _makeCustomTooltip). The default tooltip includes a $(D PopupPanel) and $(D Label) whose theme properties can be customized using $(D Theme) methods with the `"TooltipPanel"` and `"TooltipLabel"` respectively. For example:
+	
+	
+	var style_box = StyleBoxFlat.new()
+	style_box.set_bg_color(Color(1, 1, 0))
+	style_box.set_border_width_all(2)
+	# We assume here that the `theme` property has been assigned a custom Theme beforehand.
+	theme.set_stylebox("panel", "TooltipPanel", style_box)
+	theme.set_color("font_color", "TooltipLabel", Color(0, 1, 1))
+	
+	
 	*/
 	@property String hintTooltip()
 	{
@@ -1911,7 +1951,9 @@ public:
 		setRotationDegrees(v);
 	}
 	/**
-	The node's scale, relative to its $(D rectSize). Change this property to scale the node around its $(D rectPivotOffset).
+	The node's scale, relative to its $(D rectSize). Change this property to scale the node around its $(D rectPivotOffset). The Control's $(D hintTooltip) will also scale according to this value.
+	$(B Note:) This property is mainly intended to be used for animation purposes. Text inside the Control will look pixelated or blurry when the Control is scaled. To support multiple resolutions in your project, use an appropriate viewport stretch mode as described in the $(D url=https://docs.godotengine.org/en/3.2/tutorials/viewports/multiple_resolutions.html)documentation$(D /url) instead of scaling Controls individually.
+	$(B Note:) If the Control node is a child of a $(D Container) node, the scale will be reset to `Vector2(1, 1)` when the scene is instanced. To set the Control's scale when it's instanced, wait for one frame using `yield(get_tree(), "idle_frame")` then set its $(D rectScale) property.
 	*/
 	@property Vector2 rectScale()
 	{

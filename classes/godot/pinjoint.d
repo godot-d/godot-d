@@ -1,5 +1,5 @@
 /**
-Pin joint for 3D shapes.
+Pin joint for 3D PhysicsBodies.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.pinjoint;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.joint;
 import godot.spatial;
 /**
-Pin joint for 3D shapes.
+Pin joint for 3D PhysicsBodies.
 
-Pin joint for 3D rigid bodies. It pins 2 bodies (rigid or static) together.
+Pin joint for 3D rigid bodies. It pins 2 bodies (rigid or static) together. See also $(D Generic6DOFJoint).
 */
 @GodotBaseClass struct PinJoint
 {
@@ -46,13 +46,13 @@ public:
 	pragma(inline, true) bool opEquals(in PinJoint other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PinJoint opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PinJoint.
 	/// Note: use `memnew!PinJoint` instead.

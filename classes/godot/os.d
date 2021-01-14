@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.os;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -57,6 +57,7 @@ public:
 		@GodotName("get_cmdline_args") GodotMethod!(PoolStringArray) getCmdlineArgs;
 		@GodotName("get_connected_midi_inputs") GodotMethod!(PoolStringArray) getConnectedMidiInputs;
 		@GodotName("get_current_screen") GodotMethod!(long) getCurrentScreen;
+		@GodotName("get_current_tablet_driver") GodotMethod!(String) getCurrentTabletDriver;
 		@GodotName("get_current_video_driver") GodotMethod!(OS.VideoDriver) getCurrentVideoDriver;
 		@GodotName("get_date") GodotMethod!(Dictionary, bool) getDate;
 		@GodotName("get_datetime") GodotMethod!(Dictionary, bool) getDatetime;
@@ -93,6 +94,8 @@ public:
 		@GodotName("get_system_dir") GodotMethod!(String, long) getSystemDir;
 		@GodotName("get_system_time_msecs") GodotMethod!(long) getSystemTimeMsecs;
 		@GodotName("get_system_time_secs") GodotMethod!(long) getSystemTimeSecs;
+		@GodotName("get_tablet_driver_count") GodotMethod!(long) getTabletDriverCount;
+		@GodotName("get_tablet_driver_name") GodotMethod!(String, long) getTabletDriverName;
 		@GodotName("get_ticks_msec") GodotMethod!(long) getTicksMsec;
 		@GodotName("get_ticks_usec") GodotMethod!(long) getTicksUsec;
 		@GodotName("get_time") GodotMethod!(Dictionary, bool) getTime;
@@ -132,6 +135,11 @@ public:
 		@GodotName("is_window_maximized") GodotMethod!(bool) isWindowMaximized;
 		@GodotName("is_window_minimized") GodotMethod!(bool) isWindowMinimized;
 		@GodotName("is_window_resizable") GodotMethod!(bool) isWindowResizable;
+		@GodotName("keyboard_get_current_layout") GodotMethod!(long) keyboardGetCurrentLayout;
+		@GodotName("keyboard_get_layout_count") GodotMethod!(long) keyboardGetLayoutCount;
+		@GodotName("keyboard_get_layout_language") GodotMethod!(String, long) keyboardGetLayoutLanguage;
+		@GodotName("keyboard_get_layout_name") GodotMethod!(String, long) keyboardGetLayoutName;
+		@GodotName("keyboard_set_current_layout") GodotMethod!(void, long) keyboardSetCurrentLayout;
 		@GodotName("kill") GodotMethod!(GodotError, long) kill;
 		@GodotName("move_window_to_foreground") GodotMethod!(void) moveWindowToForeground;
 		@GodotName("native_video_is_playing") GodotMethod!(bool) nativeVideoIsPlaying;
@@ -150,6 +158,7 @@ public:
 		@GodotName("set_borderless_window") GodotMethod!(void, bool) setBorderlessWindow;
 		@GodotName("set_clipboard") GodotMethod!(void, String) setClipboard;
 		@GodotName("set_current_screen") GodotMethod!(void, long) setCurrentScreen;
+		@GodotName("set_current_tablet_driver") GodotMethod!(void, String) setCurrentTabletDriver;
 		@GodotName("set_exit_code") GodotMethod!(void, long) setExitCode;
 		@GodotName("set_icon") GodotMethod!(void, Image) setIcon;
 		@GodotName("set_ime_active") GodotMethod!(void, bool) setImeActive;
@@ -181,13 +190,13 @@ public:
 	pragma(inline, true) bool opEquals(in OSSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) OSSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of OSSingleton.
 	/// Note: use `memnew!OSSingleton` instead.
@@ -582,7 +591,20 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getClipboard, _godot_object);
 	}
 	/**
-	Returns the command line arguments passed to the engine.
+	Returns the command-line arguments passed to the engine.
+	Command-line arguments can be written in any form, including both `--key value` and `--key=value` forms so they can be properly parsed, as long as custom command-line arguments do not conflict with engine arguments.
+	You can also incorporate environment variables using the $(D getEnvironment) method.
+	You can set `editor/main_run_args` in the Project Settings to define command-line arguments to be passed by the editor when running the project.
+	Here's a minimal example on how to parse command-line arguments into a dictionary using the `--key=value` form for arguments:
+	
+	
+	var arguments = {}
+	for argument in OS.get_cmdline_args():
+	    if argument.find("=") &gt; -1:
+	        var key_value = argument.split("=")
+	        arguments$(D key_value[0).lstrip("--")] = key_value$(D 1)
+	
+	
 	*/
 	PoolStringArray getCmdlineArgs()
 	{
@@ -606,6 +628,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getCurrentScreen, _godot_object);
+	}
+	/**
+	
+	*/
+	String getCurrentTabletDriver() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getCurrentTabletDriver, _godot_object);
 	}
 	/**
 	Returns the currently used video driver, using one of the values from $(D videodriver).
@@ -831,7 +861,8 @@ public:
 	}
 	/**
 	Returns the dots per inch density of the specified screen. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
-	On Android devices, the actual screen densities are grouped into six generalized densities:
+	$(B Note:) On macOS, returned value is inaccurate if fractional display scaling mode is used.
+	$(B Note:) On Android devices, the actual screen densities are grouped into six generalized densities:
 	
 	
 	   ldpi - 120 dpi
@@ -923,6 +954,24 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getSystemTimeSecs, _godot_object);
 	}
 	/**
+	Returns the total number of available tablet drivers.
+	$(B Note:) This method is implemented on Windows.
+	*/
+	long getTabletDriverCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getTabletDriverCount, _godot_object);
+	}
+	/**
+	Returns the tablet driver name for the given index.
+	$(B Note:) This method is implemented on Windows.
+	*/
+	String getTabletDriverName(in long idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getTabletDriverName, _godot_object, idx);
+	}
+	/**
 	Returns the amount of time passed in milliseconds since the engine started.
 	*/
 	long getTicksMsec() const
@@ -965,6 +1014,7 @@ public:
 	}
 	/**
 	Returns the current UNIX epoch timestamp.
+	$(B Important:) This is the system clock that the user can manully set. $(B Never use) this method for precise time calculation since its results are also subject to automatic adjustments by the operating system. $(B Always use) $(D getTicksUsec) or $(D getTicksMsec) for precise time calculation instead, since they are guaranteed to be monotonic (i.e. never decrease).
 	*/
 	long getUnixTime() const
 	{
@@ -1094,7 +1144,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasEnvironment, _godot_object, environment);
 	}
 	/**
-	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/latest/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
+	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/3.2/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
 	$(B Note:) Tag names are case-sensitive.
 	*/
 	bool hasFeature(in String tag_name) const
@@ -1250,6 +1300,51 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isWindowResizable, _godot_object);
 	}
 	/**
+	Returns active keyboard layout index.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	long keyboardGetCurrentLayout() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.keyboardGetCurrentLayout, _godot_object);
+	}
+	/**
+	Returns the number of keyboard layouts.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	long keyboardGetLayoutCount() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.keyboardGetLayoutCount, _godot_object);
+	}
+	/**
+	Returns the ISO-639/BCP-47 language code of the keyboard layout at position `index`.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	String keyboardGetLayoutLanguage(in long index) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.keyboardGetLayoutLanguage, _godot_object, index);
+	}
+	/**
+	Returns the localized name of the keyboard layout at position `index`.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	String keyboardGetLayoutName(in long index) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.keyboardGetLayoutName, _godot_object, index);
+	}
+	/**
+	Sets active keyboard layout.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	void keyboardSetCurrentLayout(in long index)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.keyboardSetCurrentLayout, _godot_object, index);
+	}
+	/**
 	Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by $(D execute) in non-blocking mode.
 	$(B Note:) This method can also be used to kill processes that were not spawned by the game.
 	$(B Note:) This method is implemented on Android, iOS, Linux, macOS and Windows.
@@ -1403,6 +1498,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setCurrentScreen, _godot_object, screen);
+	}
+	/**
+	
+	*/
+	void setCurrentTabletDriver(in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setCurrentTabletDriver, _godot_object, name);
 	}
 	/**
 	
@@ -1622,7 +1725,9 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.shellOpen, _godot_object, uri);
 	}
 	/**
-	Shows the virtual keyboard if the platform has one. The `existing_text` parameter is useful for implementing your own LineEdit, as it tells the virtual keyboard what text has already been typed (the virtual keyboard uses it for auto-correct and predictions).
+	Shows the virtual keyboard if the platform has one.
+	The `existing_text` parameter is useful for implementing your own $(D LineEdit) or $(D TextEdit), as it tells the virtual keyboard what text has already been typed (the virtual keyboard uses it for auto-correct and predictions).
+	The `multiline` parameter needs to be set to `true` to be able to enter multiple lines of text, as in $(D TextEdit).
 	$(B Note:) This method is implemented on Android, iOS and UWP.
 	*/
 	void showVirtualKeyboard(in String existing_text = gs!"")
@@ -1738,6 +1843,18 @@ public:
 	@property void screenOrientation(long v)
 	{
 		setScreenOrientation(v);
+	}
+	/**
+	The current tablet driver in use.
+	*/
+	@property String tabletDriver()
+	{
+		return getCurrentTabletDriver();
+	}
+	/// ditto
+	@property void tabletDriver(String v)
+	{
+		setCurrentTabletDriver(v);
 	}
 	/**
 	If `true`, vertical synchronization (Vsync) is enabled.

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animatedtexture;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,8 @@ Proxy texture for simple frame-based animations.
 
 $(D AnimatedTexture) is a resource format for frame-based animations, where multiple textures can be chained automatically with a predefined delay for each frame. Unlike $(D AnimationPlayer) or $(D AnimatedSprite), it isn't a $(D Node), but has the advantage of being usable anywhere a $(D Texture) resource can be used, e.g. in a $(D TileSet).
 The playback of the animation is controlled by the $(D fps) property as well as each frame's optional delay (see $(D setFrameDelay)). The animation loops, i.e. it will restart at frame 0 automatically after playing the last frame.
-$(D AnimatedTexture) currently requires all frame textures to have the same size, otherwise the bigger ones will be cropped to match the smallest one. Also, it doesn't support $(D AtlasTexture). Each frame needs to be separate image.
+$(D AnimatedTexture) currently requires all frame textures to have the same size, otherwise the bigger ones will be cropped to match the smallest one.
+$(B Note:) AnimatedTexture doesn't support using $(D AtlasTexture)s. Each frame needs to be a separate $(D Texture).
 */
 @GodotBaseClass struct AnimatedTexture
 {
@@ -41,26 +42,32 @@ public:
 	{
 		__gshared:
 		@GodotName("_update_proxy") GodotMethod!(void) _updateProxy;
+		@GodotName("get_current_frame") GodotMethod!(long) getCurrentFrame;
 		@GodotName("get_fps") GodotMethod!(double) getFps;
 		@GodotName("get_frame_delay") GodotMethod!(double, long) getFrameDelay;
 		@GodotName("get_frame_texture") GodotMethod!(Texture, long) getFrameTexture;
 		@GodotName("get_frames") GodotMethod!(long) getFrames;
+		@GodotName("get_oneshot") GodotMethod!(bool) getOneshot;
+		@GodotName("get_pause") GodotMethod!(bool) getPause;
+		@GodotName("set_current_frame") GodotMethod!(void, long) setCurrentFrame;
 		@GodotName("set_fps") GodotMethod!(void, double) setFps;
 		@GodotName("set_frame_delay") GodotMethod!(void, long, double) setFrameDelay;
 		@GodotName("set_frame_texture") GodotMethod!(void, long, Texture) setFrameTexture;
 		@GodotName("set_frames") GodotMethod!(void, long) setFrames;
+		@GodotName("set_oneshot") GodotMethod!(void, bool) setOneshot;
+		@GodotName("set_pause") GodotMethod!(void, bool) setPause;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in AnimatedTexture other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimatedTexture opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimatedTexture.
 	/// Note: use `memnew!AnimatedTexture` instead.
@@ -88,6 +95,14 @@ public:
 		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_update_proxy");
 		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	long getCurrentFrame() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getCurrentFrame, _godot_object);
 	}
 	/**
 	
@@ -120,6 +135,30 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getFrames, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getOneshot() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getOneshot, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getPause() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getPause, _godot_object);
+	}
+	/**
+	
+	*/
+	void setCurrentFrame(in long frame)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setCurrentFrame, _godot_object, frame);
 	}
 	/**
 	
@@ -162,6 +201,34 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setFrames, _godot_object, frames);
+	}
+	/**
+	
+	*/
+	void setOneshot(in bool oneshot)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setOneshot, _godot_object, oneshot);
+	}
+	/**
+	
+	*/
+	void setPause(in bool pause)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setPause, _godot_object, pause);
+	}
+	/**
+	Sets the currently visible frame of the texture.
+	*/
+	@property long currentFrame()
+	{
+		return getCurrentFrame();
+	}
+	/// ditto
+	@property void currentFrame(long v)
+	{
+		setCurrentFrame(v);
 	}
 	/**
 	Animation speed in frames per second. This value defines the default time interval between two frames of the animation, and thus the overall duration of the animation loop based on the $(D frames) property. A value of 0 means no predefined number of frames per second, the animation will play according to each frame's frame delay (see $(D setFrameDelay)).
@@ -6331,5 +6398,29 @@ public:
 	@property void frames(long v)
 	{
 		setFrames(v);
+	}
+	/**
+	If `true`, the animation will only play once and will not loop back to the first frame after reaching the end. Note that reaching the end will not set $(D pause) to `true`.
+	*/
+	@property bool oneshot()
+	{
+		return getOneshot();
+	}
+	/// ditto
+	@property void oneshot(bool v)
+	{
+		setOneshot(v);
+	}
+	/**
+	If `true`, the animation will pause where it currently is (i.e. at $(D currentFrame)). The animation will continue from where it was paused when changing this property to `false`.
+	*/
+	@property bool pause()
+	{
+		return getPause();
+	}
+	/// ditto
+	@property void pause(bool v)
+	{
+		setPause(v);
 	}
 }

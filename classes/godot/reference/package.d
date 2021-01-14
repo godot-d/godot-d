@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.reference;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -24,8 +24,9 @@ import godot.classdb;
 Base class for reference-counted objects.
 
 Base class for any object that keeps a reference count. $(D Resource) and many other helper objects inherit this class.
-References keep an internal reference counter so that they are automatically released when no longer in use, and only then. References therefore do not need to be freed manually with $(D GodotObject.free).
+Unlike other $(D GodotObject) types, References keep an internal reference counter so that they are automatically released when no longer in use, and only then. References therefore do not need to be freed manually with $(D GodotObject.free).
 In the vast majority of use cases, instantiating and using $(D Reference)-derived types is all you need to do. The methods provided in this class are only for advanced users, and can cause issues if misused.
+$(B Note:) In C#, references will not be freed instantly after they are no longer in use. Instead, garbage collection will run periodically and will free references that are no longer in use. This means that unused references will linger on for a while before being removed.
 */
 @GodotBaseClass struct Reference
 {
@@ -47,13 +48,13 @@ public:
 	pragma(inline, true) bool opEquals(in Reference other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Reference opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Reference.
 	/// Note: use `memnew!Reference` instead.

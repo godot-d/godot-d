@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.jsonparseresult;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -51,13 +51,13 @@ public:
 	pragma(inline, true) bool opEquals(in JSONParseResult other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) JSONParseResult opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of JSONParseResult.
 	/// Note: use `memnew!JSONParseResult` instead.
@@ -146,7 +146,7 @@ public:
 		setError(v);
 	}
 	/**
-	The line number where the error occurred if JSON source was not successfully parsed.
+	The line number where the error occurred if the JSON source was not successfully parsed.
 	*/
 	@property long errorLine()
 	{
@@ -158,7 +158,7 @@ public:
 		setErrorLine(v);
 	}
 	/**
-	The error message if JSON source was not successfully parsed. See the $(D error) constants.
+	The error message if the JSON source was not successfully parsed. See the $(D error) constants.
 	*/
 	@property String errorString()
 	{
@@ -170,8 +170,8 @@ public:
 		setErrorString(v);
 	}
 	/**
-	A $(D Variant) containing the parsed JSON. Use $(D @GDScript.typeof) or the `is` keyword to check if it is what you expect. For example, if the JSON source starts with curly braces (`{}`), a $(D Dictionary) will be returned. If the JSON source starts with braces (`$(D ]`), an [Array) will be returned.
-	$(B Note:) The JSON specification does not define integer or float types, but only a number type. Therefore, parsing a JSON text will convert all numerical values to float types.
+	A $(D Variant) containing the parsed JSON. Use $(D @GDScript.typeof) or the `is` keyword to check if it is what you expect. For example, if the JSON source starts with curly braces (`{}`), a $(D Dictionary) will be returned. If the JSON source starts with brackets (`$(D ]`), an [Array) will be returned.
+	$(B Note:) The JSON specification does not define integer or float types, but only a $(I number) type. Therefore, parsing a JSON text will convert all numerical values to $(D double) types.
 	$(B Note:) JSON objects do not preserve key order like Godot dictionaries, thus, you should not rely on keys being in a certain order if a dictionary is constructed from JSON. In contrast, JSON arrays retain the order of their elements:
 	
 	
@@ -179,7 +179,7 @@ public:
 	if typeof(p.result) == TYPE_ARRAY:
 	    print(p.result$(D 0)) # Prints "hello"
 	else:
-	    print("unexpected results")
+	    push_error("Unexpected results.")
 	
 	
 	*/

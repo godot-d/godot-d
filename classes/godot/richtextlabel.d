@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.richtextlabel;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -32,6 +32,8 @@ Label that displays rich text.
 
 Rich text can contain custom text, fonts, images and some basic formatting. The label manages these as an internal tag stack. It also adapts itself to given width/heights.
 $(B Note:) Assignments to $(D bbcodeText) clear the tag stack and reconstruct it from the property's contents. Any edits made to $(D bbcodeText) will erase previous edits made from other manual sources such as $(D appendBbcode) and the `push_*` / $(D pop) methods.
+$(B Note:) RichTextLabel doesn't support entangled BBCode tags. For example, instead of using `$(B bold$(D i)bold italic)italic$(D /i)`, use `$(B bold$(D i)bold italic$(D /i))$(I italic)`.
+$(B Note:) Unlike $(D Label), RichTextLabel doesn't have a $(I property) to horizontally align text to the center. Instead, enable $(D bbcodeEnabled) and surround the text in a `$(D center)` tag as follows: `$(D center)Example$(D /center)`. There is currently no built-in way to vertically align text either, but this can be emulated by relying on anchors/containers and the $(D fitContentHeight) property.
 */
 @GodotBaseClass struct RichTextLabel
 {
@@ -63,6 +65,7 @@ public:
 		@GodotName("get_visible_characters") GodotMethod!(long) getVisibleCharacters;
 		@GodotName("get_visible_line_count") GodotMethod!(long) getVisibleLineCount;
 		@GodotName("install_effect") GodotMethod!(void, Variant) installEffect;
+		@GodotName("is_fit_content_height_enabled") GodotMethod!(bool) isFitContentHeightEnabled;
 		@GodotName("is_meta_underlined") GodotMethod!(bool) isMetaUnderlined;
 		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
 		@GodotName("is_scroll_active") GodotMethod!(bool) isScrollActive;
@@ -92,6 +95,7 @@ public:
 		@GodotName("scroll_to_line") GodotMethod!(void, long) scrollToLine;
 		@GodotName("set_bbcode") GodotMethod!(void, String) setBbcode;
 		@GodotName("set_effects") GodotMethod!(void, Array) setEffects;
+		@GodotName("set_fit_content_height") GodotMethod!(void, bool) setFitContentHeight;
 		@GodotName("set_meta_underline") GodotMethod!(void, bool) setMetaUnderline;
 		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
 		@GodotName("set_percent_visible") GodotMethod!(void, double) setPercentVisible;
@@ -108,13 +112,13 @@ public:
 	pragma(inline, true) bool opEquals(in RichTextLabel other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RichTextLabel opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RichTextLabel.
 	/// Note: use `memnew!RichTextLabel` instead.
@@ -311,6 +315,7 @@ public:
 	}
 	/**
 	Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, $(D constant OK) if successful.
+	$(B Note:) Using this method, you can't close a tag that was opened in a previous $(D appendBbcode) call. This is done to improve performance, especially when updating large RichTextLabels since rebuilding the whole BBCode every time would be slower. If you absolutely need to close a tag in a future method call, append the $(D bbcodeText) instead of using $(D appendBbcode).
 	*/
 	GodotError appendBbcode(in String bbcode)
 	{
@@ -336,7 +341,7 @@ public:
 	/**
 	Returns the height of the content.
 	*/
-	long getContentHeight()
+	long getContentHeight() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getContentHeight, _godot_object);
@@ -420,6 +425,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.installEffect, _godot_object, effect);
+	}
+	/**
+	
+	*/
+	bool isFitContentHeightEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isFitContentHeightEnabled, _godot_object);
 	}
 	/**
 	
@@ -657,6 +670,14 @@ public:
 	/**
 	
 	*/
+	void setFitContentHeight(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setFitContentHeight, _godot_object, enabled);
+	}
+	/**
+	
+	*/
 	void setMetaUnderline(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -758,7 +779,7 @@ public:
 	}
 	/**
 	The label's text in BBCode format. Is not representative of manual modifications to the internal tag stack. Erases changes made by other methods when edited.
-	$(B Note:) It is unadvised to use `+=` operator with `bbcode_text` (e.g. `bbcode_text += "some string"`) as it replaces the whole text and can cause slowdowns. Use $(D appendBbcode) for adding text instead.
+	$(B Note:) It is unadvised to use the `+=` operator with `bbcode_text` (e.g. `bbcode_text += "some string"`) as it replaces the whole text and can cause slowdowns. Use $(D appendBbcode) for adding text instead, unless you absolutely need to close a tag that was opened in an earlier method call.
 	*/
 	@property String bbcodeText()
 	{
@@ -781,6 +802,19 @@ public:
 	@property void customEffects(Array v)
 	{
 		setEffects(v);
+	}
+	/**
+	If `true`, the label's height will be automatically updated to fit its content.
+	$(B Note:) This property is used as a workaround to fix issues with $(D RichTextLabel) in $(D Container)s, but it's unreliable in some cases and will be removed in future versions.
+	*/
+	@property bool fitContentHeight()
+	{
+		return isFitContentHeightEnabled();
+	}
+	/// ditto
+	@property void fitContentHeight(bool v)
+	{
+		setFitContentHeight(v);
 	}
 	/**
 	If `true`, the label underlines meta tags such as `$(D url){text}$(D /url)`.

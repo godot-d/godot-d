@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorsettings;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -24,12 +24,17 @@ import godot.resource;
 Object that holds the project-independent editor settings.
 
 These settings are generally visible in the $(B Editor &gt; Editor Settings) menu.
-Accessing the settings is done by using the regular $(D GodotObject) API, such as:
+Property names use slash delimiters to distinguish sections. Setting values can be of any $(D Variant) type. It's recommended to use `snake_case` for editor settings to be consistent with the Godot editor itself.
+Accessing the settings can be done using the following methods, such as:
 
 
-settings.set(prop,value)
-settings.get(prop)
-list_of_settings = settings.get_property_list()
+# `settings.set("some/property", value)` also works as this class overrides `_set()` internally.
+settings.set_setting("some/property",value)
+
+# `settings.get("some/property", value)` also works as this class overrides `_get()` internally.
+settings.get_setting("some/property")
+
+var list_of_settings = settings.get_property_list()
 
 
 $(B Note:) This class shouldn't be instantiated directly. Instead, access the singleton using $(D EditorInterface.getEditorSettings).
@@ -67,13 +72,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorSettings other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorSettings opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorSettings.
 	/// Note: use `memnew!EditorSettings` instead.
@@ -89,7 +94,7 @@ public:
 	enum Constants : int
 	{
 		/**
-		Emitted when editor settings change. It used by various editor plugins to update their visuals on theme changes or logic on configuration changes.
+		Emitted after any editor setting has changed. It's used by various editor plugins to update their visuals on theme changes or logic on configuration changes.
 		*/
 		notificationEditorSettingsChanged = 10000,
 	}
@@ -120,7 +125,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addPropertyInfo, _godot_object, info);
 	}
 	/**
-	Erase a given setting (pass full property path).
+	Erases the setting whose name is specified by `property`.
 	*/
 	void erase(in String property)
 	{
@@ -128,7 +133,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.erase, _godot_object, property);
 	}
 	/**
-	Gets the list of favorite files and directories for this project.
+	Returns the list of favorite files and directories for this project.
 	*/
 	PoolStringArray getFavorites() const
 	{
@@ -136,7 +141,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getFavorites, _godot_object);
 	}
 	/**
-	
+	Returns project-specific metadata for the `section` and `key` specified. If the metadata doesn't exist, `default` will be returned instead. See also $(D setProjectMetadata).
 	*/
 	Variant getProjectMetadata(VariantArg2)(in String section, in String key, in VariantArg2 _default = Variant.nil) const
 	{
@@ -144,7 +149,7 @@ public:
 		return ptrcall!(Variant)(GDNativeClassBinding.getProjectMetadata, _godot_object, section, key, _default);
 	}
 	/**
-	Gets the specific project settings path. Projects all have a unique sub-directory inside the settings path where project specific settings are saved.
+	Returns the project-specific settings path. Projects all have a unique subdirectory inside the settings path where project-specific settings are saved.
 	*/
 	String getProjectSettingsDir() const
 	{
@@ -152,7 +157,7 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getProjectSettingsDir, _godot_object);
 	}
 	/**
-	Gets the list of recently visited folders in the file dialog for this project.
+	Returns the list of recently visited folders in the file dialog for this project.
 	*/
 	PoolStringArray getRecentDirs() const
 	{
@@ -160,7 +165,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getRecentDirs, _godot_object);
 	}
 	/**
-	
+	Returns the value of the setting specified by `name`. This is equivalent to using $(D GodotObject.get) on the EditorSettings instance.
 	*/
 	Variant getSetting(in String name) const
 	{
@@ -178,7 +183,7 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getSettingsDir, _godot_object);
 	}
 	/**
-	
+	Returns `true` if the setting specified by `name` exists, `false` otherwise.
 	*/
 	bool hasSetting(in String name) const
 	{
@@ -186,7 +191,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasSetting, _godot_object, name);
 	}
 	/**
-	
+	Returns `true` if the setting specified by `name` can have its value reverted to the default value, `false` otherwise. When this method returns `true`, a Revert button will display next to the setting in the Editor Settings.
 	*/
 	bool propertyCanRevert(in String name)
 	{
@@ -194,7 +199,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.propertyCanRevert, _godot_object, name);
 	}
 	/**
-	
+	Returns the default value of the setting specified by `name`. This is the value that would be applied when clicking the Revert button in the Editor Settings.
 	*/
 	Variant propertyGetRevert(in String name)
 	{
@@ -210,7 +215,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setFavorites, _godot_object, dirs);
 	}
 	/**
-	
+	Sets the initial value of the setting specified by `name` to `value`. This is used to provide a value for the Revert button in the Editor Settings. If `update_current` is true, the current value of the setting will be set to `value` as well.
 	*/
 	void setInitialValue(VariantArg1)(in String name, in VariantArg1 value, in bool update_current)
 	{
@@ -218,7 +223,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setInitialValue, _godot_object, name, value, update_current);
 	}
 	/**
-	
+	Sets project-specific metadata with the `section`, `key` and `data` specified. This metadata is stored outside the project folder and therefore won't be checked into version control. See also $(D getProjectMetadata).
 	*/
 	void setProjectMetadata(VariantArg2)(in String section, in String key, in VariantArg2 data)
 	{
@@ -234,7 +239,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setRecentDirs, _godot_object, dirs);
 	}
 	/**
-	
+	Sets the `value` of the setting specified by `name`. This is equivalent to using $(D GodotObject.set) on the EditorSettings instance.
 	*/
 	void setSetting(VariantArg1)(in String name, in VariantArg1 value)
 	{

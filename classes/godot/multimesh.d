@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.multimesh;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -77,13 +77,13 @@ public:
 	pragma(inline, true) bool opEquals(in MultiMesh other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) MultiMesh opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of MultiMesh.
 	/// Note: use `memnew!MultiMesh` instead.
@@ -228,7 +228,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Returns the visibility axis-aligned bounding box.
+	Returns the visibility axis-aligned bounding box in local space. See also $(D VisualInstance.getTransformedAabb).
 	*/
 	AABB getAabb() const
 	{
@@ -342,7 +342,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setCustomDataFormat, _godot_object, format);
 	}
 	/**
-	Sets the color of a specific instance.
+	Sets the color of a specific instance by $(I multiplying) the mesh's existing vertex colors.
 	For the color to take effect, ensure that $(D colorFormat) is non-`null` on the $(D MultiMesh) and $(D SpatialMaterial.vertexColorUseAsAlbedo) is `true` on the material.
 	*/
 	void setInstanceColor(in long instance, in Color color)

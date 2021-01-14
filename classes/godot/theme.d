@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.theme;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -81,13 +81,13 @@ public:
 	pragma(inline, true) bool opEquals(in Theme other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Theme opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Theme.
 	/// Note: use `memnew!Theme` instead.
@@ -117,7 +117,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
 	}
 	/**
-	Clears the $(D Color) at `name` if the theme has `type`.
+	Clears the $(D Color) at `name` if the theme has `node_type`.
 	*/
 	void clearColor(in String name, in String type)
 	{
@@ -125,7 +125,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clearColor, _godot_object, name, type);
 	}
 	/**
-	Clears the constant at `name` if the theme has `type`.
+	Clears the constant at `name` if the theme has `node_type`.
 	*/
 	void clearConstant(in String name, in String type)
 	{
@@ -133,7 +133,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clearConstant, _godot_object, name, type);
 	}
 	/**
-	Clears the $(D Font) at `name` if the theme has `type`.
+	Clears the $(D Font) at `name` if the theme has `node_type`.
 	*/
 	void clearFont(in String name, in String type)
 	{
@@ -141,7 +141,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clearFont, _godot_object, name, type);
 	}
 	/**
-	Clears the icon at `name` if the theme has `type`.
+	Clears the icon at `name` if the theme has `node_type`.
 	*/
 	void clearIcon(in String name, in String type)
 	{
@@ -149,7 +149,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clearIcon, _godot_object, name, type);
 	}
 	/**
-	Clears $(D StyleBox) at `name` if the theme has `type`.
+	Clears $(D StyleBox) at `name` if the theme has `node_type`.
 	*/
 	void clearStylebox(in String name, in String type)
 	{
@@ -173,7 +173,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.copyTheme, _godot_object, other);
 	}
 	/**
-	Returns the $(D Color) at `name` if the theme has `type`.
+	Returns the $(D Color) at `name` if the theme has `node_type`.
 	*/
 	Color getColor(in String name, in String type) const
 	{
@@ -181,7 +181,7 @@ public:
 		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, name, type);
 	}
 	/**
-	Returns all the $(D Color)s as a $(D PoolStringArray) filled with each $(D Color)'s name, for use in $(D getColor), if the theme has `type`.
+	Returns all the $(D Color)s as a $(D PoolStringArray) filled with each $(D Color)'s name, for use in $(D getColor), if the theme has `node_type`.
 	*/
 	PoolStringArray getColorList(in String type) const
 	{
@@ -189,7 +189,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getColorList, _godot_object, type);
 	}
 	/**
-	Returns the constant at `name` if the theme has `type`.
+	Returns the constant at `name` if the theme has `node_type`.
 	*/
 	long getConstant(in String name, in String type) const
 	{
@@ -197,7 +197,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getConstant, _godot_object, name, type);
 	}
 	/**
-	Returns all the constants as a $(D PoolStringArray) filled with each constant's name, for use in $(D getConstant), if the theme has `type`.
+	Returns all the constants as a $(D PoolStringArray) filled with each constant's name, for use in $(D getConstant), if the theme has `node_type`.
 	*/
 	PoolStringArray getConstantList(in String type) const
 	{
@@ -213,7 +213,7 @@ public:
 		return ptrcall!(Font)(GDNativeClassBinding.getDefaultFont, _godot_object);
 	}
 	/**
-	Returns the $(D Font) at `name` if the theme has `type`.
+	Returns the $(D Font) at `name` if the theme has `node_type`.
 	*/
 	Ref!Font getFont(in String name, in String type) const
 	{
@@ -221,7 +221,7 @@ public:
 		return ptrcall!(Font)(GDNativeClassBinding.getFont, _godot_object, name, type);
 	}
 	/**
-	Returns all the $(D Font)s as a $(D PoolStringArray) filled with each $(D Font)'s name, for use in $(D getFont), if the theme has `type`.
+	Returns all the $(D Font)s as a $(D PoolStringArray) filled with each $(D Font)'s name, for use in $(D getFont), if the theme has `node_type`.
 	*/
 	PoolStringArray getFontList(in String type) const
 	{
@@ -229,7 +229,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getFontList, _godot_object, type);
 	}
 	/**
-	Returns the icon $(D Texture) at `name` if the theme has `type`.
+	Returns the icon $(D Texture) at `name` if the theme has `node_type`.
 	*/
 	Ref!Texture getIcon(in String name, in String type) const
 	{
@@ -237,7 +237,7 @@ public:
 		return ptrcall!(Texture)(GDNativeClassBinding.getIcon, _godot_object, name, type);
 	}
 	/**
-	Returns all the icons as a $(D PoolStringArray) filled with each $(D Texture)'s name, for use in $(D getIcon), if the theme has `type`.
+	Returns all the icons as a $(D PoolStringArray) filled with each $(D Texture)'s name, for use in $(D getIcon), if the theme has `node_type`.
 	*/
 	PoolStringArray getIconList(in String type) const
 	{
@@ -245,7 +245,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getIconList, _godot_object, type);
 	}
 	/**
-	Returns the icon $(D StyleBox) at `name` if the theme has `type`.
+	Returns the icon $(D StyleBox) at `name` if the theme has `node_type`.
 	*/
 	Ref!StyleBox getStylebox(in String name, in String type) const
 	{
@@ -253,7 +253,7 @@ public:
 		return ptrcall!(StyleBox)(GDNativeClassBinding.getStylebox, _godot_object, name, type);
 	}
 	/**
-	Returns all the $(D StyleBox)s as a $(D PoolStringArray) filled with each $(D StyleBox)'s name, for use in $(D getStylebox), if the theme has `type`.
+	Returns all the $(D StyleBox)s as a $(D PoolStringArray) filled with each $(D StyleBox)'s name, for use in $(D getStylebox), if the theme has `node_type`.
 	*/
 	PoolStringArray getStyleboxList(in String type) const
 	{
@@ -261,7 +261,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getStyleboxList, _godot_object, type);
 	}
 	/**
-	Returns all the $(D StyleBox) types as a $(D PoolStringArray) filled with each $(D StyleBox)'s type, for use in $(D getStylebox) and/or $(D getStyleboxList), if the theme has `type`.
+	Returns all the $(D StyleBox) types as a $(D PoolStringArray) filled with each $(D StyleBox)'s type, for use in $(D getStylebox) and/or $(D getStyleboxList), if the theme has `node_type`.
 	*/
 	PoolStringArray getStyleboxTypes() const
 	{
@@ -269,7 +269,7 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getStyleboxTypes, _godot_object);
 	}
 	/**
-	Returns all the types in `type` as a $(D PoolStringArray) for use in any of the `get_*` functions, if the theme has `type`.
+	Returns all the types in `node_type` as a $(D PoolStringArray) for use in any of the `get_*` functions, if the theme has `node_type`.
 	*/
 	PoolStringArray getTypeList(in String type) const
 	{
@@ -277,8 +277,8 @@ public:
 		return ptrcall!(PoolStringArray)(GDNativeClassBinding.getTypeList, _godot_object, type);
 	}
 	/**
-	Returns `true` if $(D Color) with `name` is in `type`.
-	Returns `false` if the theme does not have `type`.
+	Returns `true` if $(D Color) with `name` is in `node_type`.
+	Returns `false` if the theme does not have `node_type`.
 	*/
 	bool hasColor(in String name, in String type) const
 	{
@@ -286,8 +286,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasColor, _godot_object, name, type);
 	}
 	/**
-	Returns `true` if constant with `name` is in `type`.
-	Returns `false` if the theme does not have `type`.
+	Returns `true` if constant with `name` is in `node_type`.
+	Returns `false` if the theme does not have `node_type`.
 	*/
 	bool hasConstant(in String name, in String type) const
 	{
@@ -295,8 +295,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasConstant, _godot_object, name, type);
 	}
 	/**
-	Returns `true` if $(D Font) with `name` is in `type`.
-	Returns `false` if the theme does not have `type`.
+	Returns `true` if $(D Font) with `name` is in `node_type`.
+	Returns `false` if the theme does not have `node_type`.
 	*/
 	bool hasFont(in String name, in String type) const
 	{
@@ -304,8 +304,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasFont, _godot_object, name, type);
 	}
 	/**
-	Returns `true` if icon $(D Texture) with `name` is in `type`.
-	Returns `false` if the theme does not have `type`.
+	Returns `true` if icon $(D Texture) with `name` is in `node_type`.
+	Returns `false` if the theme does not have `node_type`.
 	*/
 	bool hasIcon(in String name, in String type) const
 	{
@@ -313,8 +313,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasIcon, _godot_object, name, type);
 	}
 	/**
-	Returns `true` if $(D StyleBox) with `name` is in `type`.
-	Returns `false` if the theme does not have `type`.
+	Returns `true` if $(D StyleBox) with `name` is in `node_type`.
+	Returns `false` if the theme does not have `node_type`.
 	*/
 	bool hasStylebox(in String name, in String type) const
 	{
@@ -322,8 +322,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasStylebox, _godot_object, name, type);
 	}
 	/**
-	Sets the theme's $(D Color) to `color` at `name` in `type`.
-	Does nothing if the theme does not have `type`.
+	Sets the theme's $(D Color) to `color` at `name` in `node_type`.
+	Does nothing if the theme does not have `node_type`.
 	*/
 	void setColor(in String name, in String type, in Color color)
 	{
@@ -331,8 +331,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setColor, _godot_object, name, type, color);
 	}
 	/**
-	Sets the theme's constant to `constant` at `name` in `type`.
-	Does nothing if the theme does not have `type`.
+	Sets the theme's constant to `constant` at `name` in `node_type`.
+	Does nothing if the theme does not have `node_type`.
 	*/
 	void setConstant(in String name, in String type, in long constant)
 	{
@@ -348,8 +348,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setDefaultFont, _godot_object, font);
 	}
 	/**
-	Sets the theme's $(D Font) to `font` at `name` in `type`.
-	Does nothing if the theme does not have `type`.
+	Sets the theme's $(D Font) to `font` at `name` in `node_type`.
+	Does nothing if the theme does not have `node_type`.
 	*/
 	void setFont(in String name, in String type, Font font)
 	{
@@ -357,8 +357,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setFont, _godot_object, name, type, font);
 	}
 	/**
-	Sets the theme's icon $(D Texture) to `texture` at `name` in `type`.
-	Does nothing if the theme does not have `type`.
+	Sets the theme's icon $(D Texture) to `texture` at `name` in `node_type`.
+	Does nothing if the theme does not have `node_type`.
 	*/
 	void setIcon(in String name, in String type, Texture texture)
 	{
@@ -366,8 +366,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setIcon, _godot_object, name, type, texture);
 	}
 	/**
-	Sets theme's $(D StyleBox) to `stylebox` at `name` in `type`.
-	Does nothing if the theme does not have `type`.
+	Sets theme's $(D StyleBox) to `stylebox` at `name` in `node_type`.
+	Does nothing if the theme does not have `node_type`.
 	*/
 	void setStylebox(in String name, in String type, StyleBox texture)
 	{

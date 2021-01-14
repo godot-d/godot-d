@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.lineedit;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -72,6 +72,8 @@ public:
 		@GodotName("cursor_get_blink_speed") GodotMethod!(double) cursorGetBlinkSpeed;
 		@GodotName("cursor_set_blink_enabled") GodotMethod!(void, bool) cursorSetBlinkEnabled;
 		@GodotName("cursor_set_blink_speed") GodotMethod!(void, double) cursorSetBlinkSpeed;
+		@GodotName("delete_char_at_cursor") GodotMethod!(void) deleteCharAtCursor;
+		@GodotName("delete_text") GodotMethod!(void, long, long) deleteText;
 		@GodotName("deselect") GodotMethod!(void) deselect;
 		@GodotName("get_align") GodotMethod!(LineEdit.Align) getAlign;
 		@GodotName("get_cursor_position") GodotMethod!(long) getCursorPosition;
@@ -112,13 +114,13 @@ public:
 	pragma(inline, true) bool opEquals(in LineEdit other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) LineEdit opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of LineEdit.
 	/// Note: use `memnew!LineEdit` instead.
@@ -287,6 +289,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.cursorSetBlinkSpeed, _godot_object, blink_speed);
+	}
+	/**
+	Deletes one character at the cursor's current position (equivalent to pressing the `Delete` key).
+	*/
+	void deleteCharAtCursor()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.deleteCharAtCursor, _godot_object);
+	}
+	/**
+	Deletes a section of the $(D text) going from position `from_column` to `to_column`. Both parameters should be within the text's length.
+	*/
+	void deleteText(in long from_column, in long to_column)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.deleteText, _godot_object, from_column, to_column);
 	}
 	/**
 	Clears the current selection.

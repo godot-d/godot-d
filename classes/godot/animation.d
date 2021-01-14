@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animation;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -28,10 +28,10 @@ An Animation resource contains data used to animate everything in the engine. An
 
 
 # This creates an animation that makes the node "Enemy" move to the right by
-# 100 pixels in 1 second.
+# 100 pixels in 0.5 seconds.
 var animation = Animation.new()
 var track_index = animation.add_track(Animation.TYPE_VALUE)
-animation.track_set_path(track_index, "Enemy:position.x")
+animation.track_set_path(track_index, "Enemy:position:x")
 animation.track_insert_key(track_index, 0.0, 0)
 animation.track_insert_key(track_index, 0.5, 100)
 
@@ -119,13 +119,13 @@ public:
 	pragma(inline, true) bool opEquals(in Animation other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Animation opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Animation.
 	/// Note: use `memnew!Animation` instead.
@@ -302,7 +302,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.audioTrackSetKeyStartOffset, _godot_object, track_idx, key_idx, offset);
 	}
 	/**
-	Sets the stream of the key identified by `key_idx` to value `offset`. The `track_idx` must be the index of an Audio Track.
+	Sets the stream of the key identified by `key_idx` to value `stream`. The `track_idx` must be the index of an Audio Track.
 	*/
 	void audioTrackSetKeyStream(in long track_idx, in long key_idx, Resource stream)
 	{

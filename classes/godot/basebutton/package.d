@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.basebutton;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -71,13 +71,13 @@ public:
 	pragma(inline, true) bool opEquals(in BaseButton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) BaseButton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of BaseButton.
 	/// Note: use `memnew!BaseButton` instead.
@@ -147,7 +147,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Called when the button is pressed.
+	Called when the button is pressed. If you need to know the button's pressed state (and $(D toggleMode) is active), use $(D _toggled) instead.
 	*/
 	void _pressed()
 	{
@@ -389,7 +389,7 @@ public:
 		setDisabled(v);
 	}
 	/**
-	Focus access mode to use when switching between enabled/disabled (see $(D Control.focusMode) and $(D disabled)).
+	$(I Deprecated.) This property has been deprecated due to redundancy and no longer has any effect when set. Please use $(D Control.focusMode) instead.
 	*/
 	@property Control.FocusMode enabledFocusMode()
 	{

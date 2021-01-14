@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.shader;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -41,23 +41,25 @@ public:
 	{
 		__gshared:
 		@GodotName("get_code") GodotMethod!(String) getCode;
+		@GodotName("get_custom_defines") GodotMethod!(String) getCustomDefines;
 		@GodotName("get_default_texture_param") GodotMethod!(Texture, String) getDefaultTextureParam;
 		@GodotName("get_mode") GodotMethod!(Shader.Mode) getMode;
 		@GodotName("has_param") GodotMethod!(bool, String) hasParam;
 		@GodotName("set_code") GodotMethod!(void, String) setCode;
+		@GodotName("set_custom_defines") GodotMethod!(void, String) setCustomDefines;
 		@GodotName("set_default_texture_param") GodotMethod!(void, String, Texture) setDefaultTextureParam;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in Shader other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Shader opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Shader.
 	/// Note: use `memnew!Shader` instead.
@@ -101,6 +103,14 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getCode, _godot_object);
 	}
 	/**
+	
+	*/
+	String getCustomDefines()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getCustomDefines, _godot_object);
+	}
+	/**
 	Returns the texture that is set as default for the specified parameter.
 	$(B Note:) `param` must match the name of the uniform in the code exactly.
 	*/
@@ -135,6 +145,14 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setCode, _godot_object, code);
 	}
 	/**
+	
+	*/
+	void setCustomDefines(in String custom_defines)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setCustomDefines, _godot_object, custom_defines);
+	}
+	/**
 	Sets the default texture to be used with a texture uniform. The default is used if a texture is not set in the $(D ShaderMaterial).
 	$(B Note:) `param` must match the name of the uniform in the code exactly.
 	*/
@@ -154,5 +172,18 @@ public:
 	@property void code(String v)
 	{
 		setCode(v);
+	}
+	/**
+	Returns the shader's custom defines. Custom defines can be used in Godot to add GLSL preprocessor directives (e.g: extensions) required for the shader logic.
+	$(B Note:) Custom defines are not validated by the Godot shader parser, so care should be taken when using them.
+	*/
+	@property String customDefines()
+	{
+		return getCustomDefines();
+	}
+	/// ditto
+	@property void customDefines(String v)
+	{
+		setCustomDefines(v);
 	}
 }

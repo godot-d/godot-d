@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.videoplayer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -29,7 +29,8 @@ import godot.texture;
 Control for playing video streams.
 
 Control node for playing video streams using $(D VideoStream) resources.
-Supported video formats are $(D url=https://www.webmproject.org/)WebM$(D /url) ($(D VideoStreamWebm)), $(D url=https://www.theora.org/)Ogg Theora$(D /url) ($(D VideoStreamTheora)), and any format exposed via a GDNative plugin using $(D VideoStreamGDNative).
+Supported video formats are $(D url=https://www.webmproject.org/)WebM$(D /url) (`.webm`, $(D VideoStreamWebm)), $(D url=https://www.theora.org/)Ogg Theora$(D /url) (`.ogv`, $(D VideoStreamTheora)), and any format exposed via a GDNative plugin using $(D VideoStreamGDNative).
+$(B Note:) Due to a bug, VideoPlayer does not support localization remapping yet.
 */
 @GodotBaseClass struct VideoPlayer
 {
@@ -73,13 +74,13 @@ public:
 	pragma(inline, true) bool opEquals(in VideoPlayer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VideoPlayer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VideoPlayer.
 	/// Note: use `memnew!VideoPlayer` instead.

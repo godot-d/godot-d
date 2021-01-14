@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animatedsprite;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.spriteframes;
 Sprite node that can use multiple textures for animation.
 
 Animations are created using a $(D SpriteFrames) resource, which can be configured in the editor via the SpriteFrames panel.
+$(B Note:) You can associate a set of normal maps by creating additional $(D SpriteFrames) resources with a `_normal` suffix. For example, having 2 $(D SpriteFrames) resources `run` and `run_normal` will make it so the `run` animation uses the normal map.
 */
 @GodotBaseClass struct AnimatedSprite
 {
@@ -66,13 +67,13 @@ public:
 	pragma(inline, true) bool opEquals(in AnimatedSprite other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimatedSprite opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimatedSprite.
 	/// Note: use `memnew!AnimatedSprite` instead.

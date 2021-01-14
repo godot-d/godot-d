@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.viewport;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -139,13 +139,13 @@ public:
 	pragma(inline, true) bool opEquals(in Viewport other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Viewport opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Viewport.
 	/// Note: use `memnew!Viewport` instead.
@@ -201,19 +201,27 @@ public:
 		*/
 		renderInfoDrawCallsInFrame = 5,
 		/**
+		Amount of items or joined items in frame.
+		*/
+		renderInfo2dItemsInFrame = 6,
+		/**
+		Amount of draw calls in frame.
+		*/
+		renderInfo2dDrawCallsInFrame = 7,
+		/**
 		Represents the size of the $(D renderinfo) enum.
 		*/
-		renderInfoMax = 6,
+		renderInfoMax = 8,
 	}
 	/// 
 	enum Usage : int
 	{
 		/**
-		Allocates all buffers needed for drawing 2D scenes. This takes less VRAM than the 3D usage modes.
+		Allocates all buffers needed for drawing 2D scenes. This takes less VRAM than the 3D usage modes. Note that 3D rendering effects such as glow and HDR are not available when using this mode.
 		*/
 		usage2d = 0,
 		/**
-		Allocates buffers needed for 2D scenes without allocating a buffer for screen copy. Accordingly, you cannot read from the screen. Of the $(D usage) types, this requires the least VRAM.
+		Allocates buffers needed for 2D scenes without allocating a buffer for screen copy. Accordingly, you cannot read from the screen. Of the $(D usage) types, this requires the least VRAM. Note that 3D rendering effects such as glow and HDR are not available when using this mode.
 		*/
 		usage2dNoSampling = 1,
 		/**
@@ -360,9 +368,11 @@ public:
 		msaa16x = 4,
 		renderInfoDrawCallsInFrame = 5,
 		shadowAtlasQuadrantSubdiv256 = 5,
-		renderInfoMax = 6,
 		shadowAtlasQuadrantSubdiv1024 = 6,
+		renderInfo2dItemsInFrame = 6,
 		shadowAtlasQuadrantSubdivMax = 7,
+		renderInfo2dDrawCallsInFrame = 7,
+		renderInfoMax = 8,
 	}
 	/**
 	
@@ -1147,7 +1157,7 @@ public:
 		setGlobalCanvasTransform(v);
 	}
 	/**
-	If `true`, the viewport will not receive input event.
+	If `true`, the viewport will not receive input events.
 	*/
 	@property bool guiDisableInput()
 	{
@@ -1257,6 +1267,7 @@ public:
 	}
 	/**
 	The clear mode when viewport used as a render target.
+	$(B Note:) This property is intended for 2D usage.
 	*/
 	@property Viewport.ClearMode renderTargetClearMode()
 	{

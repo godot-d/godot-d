@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.spatial;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -97,13 +97,13 @@ public:
 	pragma(inline, true) bool opEquals(in Spatial other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Spatial opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Spatial.
 	/// Note: use `memnew!Spatial` instead.
@@ -298,7 +298,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isVisible, _godot_object);
 	}
 	/**
-	Returns whether the node is visible, taking into consideration that its parents visibility.
+	Returns `true` if the node is present in the $(D SceneTree), its $(D visible) property is `true` and all its antecedents are also visible. If any antecedent is hidden, this node will not be visible in the scene tree.
 	*/
 	bool isVisibleInTree() const
 	{
@@ -626,7 +626,7 @@ public:
 		setTranslation(v);
 	}
 	/**
-	If `true`, this node is drawn.
+	If `true`, this node is drawn. The node is only visible if all of its antecedents are visible as well (in other words, $(D isVisibleInTree) must return `true`).
 	*/
 	@property bool visible()
 	{

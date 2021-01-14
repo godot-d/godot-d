@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.treeitem;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -65,6 +65,7 @@ public:
 		@GodotName("get_prev_visible") GodotMethod!(TreeItem, bool) getPrevVisible;
 		@GodotName("get_range") GodotMethod!(double, long) getRange;
 		@GodotName("get_range_config") GodotMethod!(Dictionary, long) getRangeConfig;
+		@GodotName("get_suffix") GodotMethod!(String, long) getSuffix;
 		@GodotName("get_text") GodotMethod!(String, long) getText;
 		@GodotName("get_text_align") GodotMethod!(TreeItem.TextAlign, long) getTextAlign;
 		@GodotName("get_tooltip") GodotMethod!(String, long) getTooltip;
@@ -101,6 +102,7 @@ public:
 		@GodotName("set_range") GodotMethod!(void, long, double) setRange;
 		@GodotName("set_range_config") GodotMethod!(void, long, double, double, double, bool) setRangeConfig;
 		@GodotName("set_selectable") GodotMethod!(void, long, bool) setSelectable;
+		@GodotName("set_suffix") GodotMethod!(void, long, String) setSuffix;
 		@GodotName("set_text") GodotMethod!(void, long, String) setText;
 		@GodotName("set_text_align") GodotMethod!(void, long, long) setTextAlign;
 		@GodotName("set_tooltip") GodotMethod!(void, long, String) setTooltip;
@@ -109,13 +111,13 @@ public:
 	pragma(inline, true) bool opEquals(in TreeItem other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TreeItem opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TreeItem.
 	/// Note: use `memnew!TreeItem` instead.
@@ -266,7 +268,7 @@ public:
 		return ptrcall!(TreeItem.TreeCellMode)(GDNativeClassBinding.getCellMode, _godot_object, column);
 	}
 	/**
-	Returns the TreeItem's child items.
+	Returns the TreeItem's first child item or a null object if there is none.
 	*/
 	TreeItem getChildren()
 	{
@@ -346,7 +348,7 @@ public:
 		return ptrcall!(Variant)(GDNativeClassBinding.getMetadata, _godot_object, column);
 	}
 	/**
-	Returns the next TreeItem in the tree.
+	Returns the next TreeItem in the tree or a null object if there is none.
 	*/
 	TreeItem getNext()
 	{
@@ -354,7 +356,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getNext, _godot_object);
 	}
 	/**
-	Returns the next visible TreeItem in the tree.
+	Returns the next visible TreeItem in the tree or a null object if there is none.
 	If `wrap` is enabled, the method will wrap around to the first visible element in the tree when called on the last visible element, otherwise it returns `null`.
 	*/
 	TreeItem getNextVisible(in bool wrap = false)
@@ -363,7 +365,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getNextVisible, _godot_object, wrap);
 	}
 	/**
-	Returns the parent TreeItem.
+	Returns the parent TreeItem or a null object if there is none.
 	*/
 	TreeItem getParent()
 	{
@@ -371,7 +373,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getParent, _godot_object);
 	}
 	/**
-	Returns the previous TreeItem in the tree.
+	Returns the previous TreeItem in the tree or a null object if there is none.
 	*/
 	TreeItem getPrev()
 	{
@@ -379,7 +381,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getPrev, _godot_object);
 	}
 	/**
-	Returns the previous visible TreeItem in the tree.
+	Returns the previous visible TreeItem in the tree or a null object if there is none.
 	If `wrap` is enabled, the method will wrap around to the last visible element in the tree when called on the first visible element, otherwise it returns `null`.
 	*/
 	TreeItem getPrevVisible(in bool wrap = false)
@@ -402,6 +404,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Dictionary)(GDNativeClassBinding.getRangeConfig, _godot_object, column);
+	}
+	/**
+	
+	*/
+	String getSuffix(in long column) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getSuffix, _godot_object, column);
 	}
 	/**
 	Returns the given column's text.
@@ -691,6 +701,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setSelectable, _godot_object, column, selectable);
+	}
+	/**
+	
+	*/
+	void setSuffix(in long column, in String text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setSuffix, _godot_object, column, text);
 	}
 	/**
 	

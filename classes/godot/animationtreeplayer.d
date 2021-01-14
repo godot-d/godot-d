@@ -1,5 +1,5 @@
 /**
-Animation player that uses a node graph for blending animations.
+$(I Deprecated.) Animation player that uses a node graph for blending animations. Superseded by $(D AnimationTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animationtreeplayer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,10 +23,11 @@ import godot.classdb;
 import godot.node;
 import godot.animation;
 /**
-Animation player that uses a node graph for blending animations.
+$(I Deprecated.) Animation player that uses a node graph for blending animations. Superseded by $(D AnimationTree).
 
-A node graph tool for blending multiple animations bound to an $(D AnimationPlayer). Especially useful for animating characters or other skeleton-based rigs. It can combine several animations to form a desired pose.
+$(I Deprecated.) A node graph tool for blending multiple animations bound to an $(D AnimationPlayer). Especially useful for animating characters or other skeleton-based rigs. It can combine several animations to form a desired pose.
 It takes $(D Animation)s from an $(D AnimationPlayer) node and mixes them depending on the graph.
+See $(D AnimationTree) for a more full-featured replacement of this node.
 */
 @GodotBaseClass struct AnimationTreePlayer
 {
@@ -110,13 +111,13 @@ public:
 	pragma(inline, true) bool opEquals(in AnimationTreePlayer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimationTreePlayer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimationTreePlayer.
 	/// Note: use `memnew!AnimationTreePlayer` instead.

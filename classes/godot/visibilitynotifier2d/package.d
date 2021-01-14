@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visibilitynotifier2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -27,7 +27,8 @@ import godot.node;
 Detects approximately when the node is visible on screen.
 
 The VisibilityNotifier2D detects when it is visible on the screen. It also notifies when its bounding rectangle enters or exits the screen or a viewport.
-$(B Note:) For performance reasons, VisibilityNotifier2D uses an approximate heuristic with precision determined by $(D ProjectSettings.world/2d/cellSize). If you need exact visibility checking, use another method such as adding an $(D Area2D) node as a child of a $(D Camera2D) node.
+If you want nodes to be disabled automatically when they exit the screen, use $(D VisibilityEnabler2D) instead.
+$(B Note:) For performance reasons, VisibilityNotifier2D uses an approximate heuristic with precision determined by $(D ProjectSettings.world/2d/cellSize). If you need precise visibility checking, use another method such as adding an $(D Area2D) node as a child of a $(D Camera2D) node.
 */
 @GodotBaseClass struct VisibilityNotifier2D
 {
@@ -49,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisibilityNotifier2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisibilityNotifier2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisibilityNotifier2D.
 	/// Note: use `memnew!VisibilityNotifier2D` instead.

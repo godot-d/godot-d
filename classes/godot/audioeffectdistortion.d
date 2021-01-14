@@ -1,6 +1,6 @@
 /**
 Adds a distortion audio effect to an Audio bus.
-Modify the sound to make it dirty.
+Modify the sound to make it distorted.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -14,7 +14,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.audioeffectdistortion;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,9 +25,9 @@ import godot.audioeffect;
 import godot.resource;
 /**
 Adds a distortion audio effect to an Audio bus.
-Modify the sound to make it dirty.
+Modify the sound to make it distorted.
 
-Modify the sound and make it dirty. Different types are available: clip, tan, lo-fi (bit crushing), overdrive, or waveshape.
+Different types are available: clip, tan, lo-fi (bit crushing), overdrive, or waveshape.
 By distorting the waveform the frequency content change, which will often make the sound "crunchy" or "abrasive". For games, it can simulate sound coming from some saturated device or speaker very efficiently.
 */
 @GodotBaseClass struct AudioEffectDistortion
@@ -57,13 +57,13 @@ public:
 	pragma(inline, true) bool opEquals(in AudioEffectDistortion other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AudioEffectDistortion opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AudioEffectDistortion.
 	/// Note: use `memnew!AudioEffectDistortion` instead.

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.stylebox;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.canvasitem;
 Base class for drawing stylized boxes for the UI.
 
 StyleBox is $(D Resource) that provides an abstract base class for drawing stylized boxes for the UI. StyleBoxes are used for drawing the styles of buttons, line edit backgrounds, tree backgrounds, etc. and also for testing a transparency mask for pointer signals. If mask test fails on a StyleBox assigned as mask to a control, clicks and motion signals will go through it to the one below.
+$(B Note:) For children of $(D Control) that have $(I Theme Properties), the `focus` $(D StyleBox) is displayed over the `normal`, `hover` or `pressed` $(D StyleBox). This makes the `focus` $(D StyleBox) more reusable across different nodes.
 */
 @GodotBaseClass struct StyleBox
 {
@@ -53,13 +54,13 @@ public:
 	pragma(inline, true) bool opEquals(in StyleBox other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) StyleBox opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of StyleBox.
 	/// Note: use `memnew!StyleBox` instead.

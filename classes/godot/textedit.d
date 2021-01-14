@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.textedit;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -128,6 +128,7 @@ public:
 		@GodotName("set_hiding_enabled") GodotMethod!(void, bool) setHidingEnabled;
 		@GodotName("set_highlight_all_occurrences") GodotMethod!(void, bool) setHighlightAllOccurrences;
 		@GodotName("set_highlight_current_line") GodotMethod!(void, bool) setHighlightCurrentLine;
+		@GodotName("set_line") GodotMethod!(void, long, String) setLine;
 		@GodotName("set_line_as_hidden") GodotMethod!(void, long, bool) setLineAsHidden;
 		@GodotName("set_minimap_width") GodotMethod!(void, long) setMinimapWidth;
 		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
@@ -151,13 +152,13 @@ public:
 	pragma(inline, true) bool opEquals(in TextEdit other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TextEdit opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TextEdit.
 	/// Note: use `memnew!TextEdit` instead.
@@ -358,7 +359,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.canFold, _godot_object, line);
 	}
 	/**
-	
+	Centers the viewport on the line the editing cursor is at. This also resets the $(D scrollHorizontal) value to `0`.
 	*/
 	void centerViewportToCursor()
 	{
@@ -633,7 +634,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getVScrollSpeed, _godot_object);
 	}
 	/**
-	Returns a $(D String) text with the word under the mouse cursor location.
+	Returns a $(D String) text with the word under the caret (text cursor) location.
 	*/
 	String getWordUnderCursor() const
 	{
@@ -876,6 +877,7 @@ public:
 	}
 	/**
 	Perform selection, from line/column to line/column.
+	If $(D selectingEnabled) is `false`, no selection will occur.
 	*/
 	void select(in long from_line, in long from_column, in long to_line, in long to_column)
 	{
@@ -884,6 +886,7 @@ public:
 	}
 	/**
 	Select all the text.
+	If $(D selectingEnabled) is `false`, no selection will occur.
 	*/
 	void selectAll()
 	{
@@ -961,6 +964,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setHighlightCurrentLine, _godot_object, enabled);
+	}
+	/**
+	Sets the text for a specific line.
+	*/
+	void setLine(in long line, in String new_text)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setLine, _godot_object, line, new_text);
 	}
 	/**
 	If `true`, hides the line of the specified index.
@@ -1253,7 +1264,7 @@ public:
 		setHighlightCurrentLine(v);
 	}
 	/**
-	
+	If `true`, a minimap is shown, providing an outline of your source code.
 	*/
 	@property bool minimapDraw()
 	{
@@ -1265,7 +1276,7 @@ public:
 		drawMinimap(v);
 	}
 	/**
-	
+	The width, in pixels, of the minimap.
 	*/
 	@property long minimapWidth()
 	{
@@ -1325,7 +1336,8 @@ public:
 		setVScroll(v);
 	}
 	/**
-	
+	If `true`, text can be selected.
+	If `false`, text can not be selected by the user or by the $(D select) or $(D selectAll) methods.
 	*/
 	@property bool selectingEnabled()
 	{
@@ -1337,7 +1349,7 @@ public:
 		setSelectingEnabled(v);
 	}
 	/**
-	
+	If `true`, shortcut keys for context menu items are enabled, even if the context menu is disabled.
 	*/
 	@property bool shortcutKeysEnabled()
 	{

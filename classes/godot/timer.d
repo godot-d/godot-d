@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.timer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,6 +25,7 @@ import godot.node;
 A countdown timer.
 
 Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one-shot" mode.
+$(B Note:) To create an one-shot timer without instantiating a node, use $(D SceneTree.createTimer).
 */
 @GodotBaseClass struct Timer
 {
@@ -57,13 +58,13 @@ public:
 	pragma(inline, true) bool opEquals(in Timer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Timer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Timer.
 	/// Note: use `memnew!Timer` instead.

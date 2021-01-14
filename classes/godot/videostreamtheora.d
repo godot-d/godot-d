@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.videostreamtheora;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,8 @@ import godot.reference;
 /**
 $(D VideoStream) resource for Ogg Theora videos.
 
-$(D VideoStream) resource handling the $(D url=https://www.theora.org/)Ogg Theora$(D /url) video format with `.ogv` extension.
+$(D VideoStream) resource handling the $(D url=https://www.theora.org/)Ogg Theora$(D /url) video format with `.ogv` extension. The Theora codec is less efficient than $(D VideoStreamWebm)'s VP8 and VP9, but it requires less CPU resources to decode. The Theora codec is decoded on the CPU.
+$(B Note:) While Ogg Theora videos can also have an `.ogg` extension, you will have to rename the extension to `.ogv` to use those videos within Godot.
 */
 @GodotBaseClass struct VideoStreamTheora
 {
@@ -47,13 +48,13 @@ public:
 	pragma(inline, true) bool opEquals(in VideoStreamTheora other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VideoStreamTheora opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VideoStreamTheora.
 	/// Note: use `memnew!VideoStreamTheora` instead.
@@ -74,7 +75,7 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getFile, _godot_object);
 	}
 	/**
-	Sets the Ogg Theora video file that this $(D VideoStreamTheora) resource handles. The `file` name should have the `.o` extension.
+	Sets the Ogg Theora video file that this $(D VideoStreamTheora) resource handles. The `file` name should have the `.ogv` extension.
 	*/
 	void setFile(in String file)
 	{

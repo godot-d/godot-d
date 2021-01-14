@@ -1,5 +1,5 @@
 /**
-Hyper-text transfer protocol client.
+Low-level hyper-text transfer protocol client.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.httpclient;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,12 +23,14 @@ import godot.classdb;
 import godot.reference;
 import godot.streampeer;
 /**
-Hyper-text transfer protocol client.
+Low-level hyper-text transfer protocol client.
 
-Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases. See $(D HTTPRequest) for an higher-level alternative.
+Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases. $(B See the $(D HTTPRequest) node for an higher-level alternative.)
 $(B Note:) This client only needs to connect to a host once (see $(D connectToHost)) to send multiple requests. Because of this, methods that take URLs usually take just the part after the host instead of the full URL, as the client is already connected to a host. See $(D request) for a full example and to get started.
 A $(D HTTPClient) should be reused between multiple requests or to connect to different hosts instead of creating one client per request. Supports SSL and SSL server certificate verification. HTTP status codes in the 2xx range indicate success, 3xx redirection (i.e. "try again, but over here"), 4xx something was wrong with the request, and 5xx something went wrong on the server's side.
 For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/HTTP (or read RFC 2616 to get it straight from the source: https://tools.ietf.org/html/rfc2616).
+$(B Note:) When performing HTTP requests from a project exported to HTML5, keep in mind the remote server may not allow requests from foreign origins due to $(D url=https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)CORS$(D /url). If you host the server in question, you should modify its backend to allow requests from foreign origins by adding the `Access-Control-Allow-Origin: *` HTTP header.
+$(B Note:) SSL/TLS support is currently limited to TLS 1.0, TLS 1.1, and TLS 1.2. Attempting to connect to a TLS 1.3-only server will return an error.
 */
 @GodotBaseClass struct HTTPClient
 {
@@ -67,13 +69,13 @@ public:
 	pragma(inline, true) bool opEquals(in HTTPClient other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) HTTPClient opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of HTTPClient.
 	/// Note: use `memnew!HTTPClient` instead.
@@ -666,6 +668,7 @@ public:
 	var result = http_client.request(http_client.METHOD_POST, "index.php", headers, query_string)
 	
 	
+	$(B Note:) The `request_data` parameter is ignored if `method` is $(D constant HTTPClient.METHOD_GET). This is because GET methods can't contain request data. As a workaround, you can pass request data as a query string in the URL. See $(D String.httpEscape) for an example.
 	*/
 	GodotError request(in long method, in String url, in PoolStringArray headers, in String _body = gs!"")
 	{

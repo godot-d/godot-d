@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.physics2ddirectspacestate;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -49,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in Physics2DDirectSpaceState other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Physics2DDirectSpaceState opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Physics2DDirectSpaceState.
 	/// Note: use `memnew!Physics2DDirectSpaceState` instead.
@@ -68,8 +68,9 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Checks how far the shape can travel toward a point. If the shape can not move, the array will be empty.
-	$(B Note:) Both the shape and the motion are supplied through a $(D Physics2DShapeQueryParameters) object. The method will return an array with two floats between 0 and 1, both representing a fraction of `motion`. The first is how far the shape can move without triggering a collision, and the second is the point at which a collision will occur. If no collision is detected, the returned array will be `$(D 1, 1)`.
+	Checks how far a $(D Shape2D) can move without colliding. All the parameters for the query, including the shape and the motion, are supplied through a $(D Physics2DShapeQueryParameters) object.
+	Returns an array with the safe and unsafe proportions (between 0 and 1) of the motion. The safe proportion is the maximum fraction of the motion that can be made without a collision. The unsafe proportion is the minimum fraction of the distance that must be moved for a collision. If no collision is detected a result of `$(D 1.0, 1.0)` will be returned.
+	$(B Note:) Any $(D Shape2D)s that the shape is already colliding with e.g. inside of, will be ignored. Use $(D collideShape) to determine the $(D Shape2D)s that the shape is already colliding with.
 	*/
 	Array castMotion(Physics2DShapeQueryParameters shape)
 	{

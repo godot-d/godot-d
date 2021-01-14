@@ -1,5 +1,5 @@
 /**
-Piston kind of slider between two bodies in 3D.
+Slider between two PhysicsBodies in 3D.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.sliderjoint;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.joint;
 import godot.spatial;
 /**
-Piston kind of slider between two bodies in 3D.
+Slider between two PhysicsBodies in 3D.
 
-Slides across the X axis of the pivot object.
+Slides across the X axis of the pivot object. See also $(D Generic6DOFJoint).
 */
 @GodotBaseClass struct SliderJoint
 {
@@ -50,13 +50,13 @@ public:
 	pragma(inline, true) bool opEquals(in SliderJoint other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) SliderJoint opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of SliderJoint.
 	/// Note: use `memnew!SliderJoint` instead.

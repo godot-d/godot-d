@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.referencerect;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,7 @@ import godot.node;
 /**
 Reference frame for GUI.
 
-A rectangle box that displays only a $(D borderColor) border color around its rectangle. $(D ReferenceRect) has no fill $(D Color).
+A rectangle box that displays only a $(D borderColor) border color around its rectangle. $(D ReferenceRect) has no fill $(D Color). If you need to display a rectangle filled with a solid color, consider using $(D ColorRect) instead.
 */
 @GodotBaseClass struct ReferenceRect
 {
@@ -49,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in ReferenceRect other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ReferenceRect opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ReferenceRect.
 	/// Note: use `memnew!ReferenceRect` instead.

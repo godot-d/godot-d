@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorimportplugin;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -98,13 +98,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorImportPlugin other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorImportPlugin opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorImportPlugin.
 	/// Note: use `memnew!EditorImportPlugin` instead.
@@ -145,7 +145,18 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
+	This method can be overridden to hide specific import options if conditions are met. This is mainly useful for hiding options that depend on others if one of them is disabled. For example:
 	
+	
+	func get_option_visibility(option, options):
+	    # Only show the lossy quality setting if the compression mode is set to "Lossy".
+	    if option == "compress/lossy_quality" and options.has("compress/mode"):
+	        return int(options$(D "compress/mode")) == COMPRESS_LOSSY
+	
+	    return true
+	
+	
+	Return `true` to make all options always visible.
 	*/
 	bool getOptionVisibility(in String option, in Dictionary options)
 	{
@@ -220,7 +231,8 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	
+	Imports `source_file` into `save_path` with the import `options` specified. The `platform_variants` and `gen_files` arrays will be modified by this function.
+	This method must be overridden to do the actual importing work. See this class' description for an example of overriding this method.
 	*/
 	long _import(in String source_file, in String save_path, in Dictionary options, in Array platform_variants, in Array gen_files)
 	{

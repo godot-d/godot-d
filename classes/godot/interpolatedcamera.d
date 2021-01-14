@@ -1,5 +1,5 @@
 /**
-Camera which moves toward another node.
+$(I Deprecated.) Camera which moves toward another node.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.interpolatedcamera;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -23,9 +23,9 @@ import godot.classdb;
 import godot.camera;
 import godot.spatial;
 /**
-Camera which moves toward another node.
+$(I Deprecated.) Camera which moves toward another node.
 
-InterpolatedCamera is a $(D Camera) which smoothly moves to match a target node's position and rotation.
+$(I Deprecated (will be removed in Godot 4.0).) InterpolatedCamera is a $(D Camera) which smoothly moves to match a target node's position and rotation.
 If it is not $(D enabled) or does not have a valid target set, InterpolatedCamera acts like a normal Camera.
 */
 @GodotBaseClass struct InterpolatedCamera
@@ -52,13 +52,13 @@ public:
 	pragma(inline, true) bool opEquals(in InterpolatedCamera other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) InterpolatedCamera opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of InterpolatedCamera.
 	/// Note: use `memnew!InterpolatedCamera` instead.

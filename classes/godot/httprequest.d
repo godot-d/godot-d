@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.httprequest;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -36,8 +36,16 @@ func _ready():
     add_child(http_request)
     http_request.connect("request_completed", self, "_http_request_completed")
 
-    # Perform the HTTP request. The URL below returns some JSON as of writing.
+    # Perform a GET request. The URL below returns JSON as of writing.
     var error = http_request.request("https://httpbin.org/get")
+    if error != OK:
+        push_error("An error occurred in the HTTP request.")
+
+    # Perform a POST request. The URL below returns JSON as of writing.
+    # Note: Don't make simultaneous requests using a single HTTPRequest node.
+    # The snippet below is provided for reference only.
+    var body = {"name": "Godette"}
+    error = http_request.request("https://httpbin.org/post", [], true, HTTPClient.METHOD_POST, body)
     if error != OK:
         push_error("An error occurred in the HTTP request.")
 
@@ -81,6 +89,8 @@ func _http_request_completed(result, response_code, headers, body):
     texture_rect.texture = texture
 
 
+$(B Note:) When performing HTTP requests from a project exported to HTML5, keep in mind the remote server may not allow requests from foreign origins due to $(D url=https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)CORS$(D /url). If you host the server in question, you should modify its backend to allow requests from foreign origins by adding the `Access-Control-Allow-Origin: *` HTTP header.
+$(B Note:) SSL/TLS support is currently limited to TLS 1.0, TLS 1.1, and TLS 1.2. Attempting to connect to a TLS 1.3-only server will return an error.
 */
 @GodotBaseClass struct HTTPRequest
 {
@@ -119,13 +129,13 @@ public:
 	pragma(inline, true) bool opEquals(in HTTPRequest other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) HTTPRequest opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of HTTPRequest.
 	/// Note: use `memnew!HTTPRequest` instead.
@@ -326,6 +336,7 @@ public:
 	/**
 	Creates request on the underlying $(D HTTPClient). If there is no configuration errors, it tries to connect using $(D HTTPClient.connectToHost) and passes parameters onto $(D HTTPClient.request).
 	Returns $(D constant OK) if request is successfully created. (Does not imply that the server has responded), $(D constant ERR_UNCONFIGURED) if not in the tree, $(D constant ERR_BUSY) if still processing previous request, $(D constant ERR_INVALID_PARAMETER) if given string is not a valid URL format, or $(D constant ERR_CANT_CONNECT) if not using thread and the $(D HTTPClient) cannot connect to host.
+	$(B Note:) The `request_data` parameter is ignored if `method` is $(D constant HTTPClient.METHOD_GET). This is because GET methods can't contain request data. As a workaround, you can pass request data as a query string in the URL. See $(D String.httpEscape) for an example.
 	*/
 	GodotError request(in String url, in PoolStringArray custom_headers = PoolStringArray.init, in bool ssl_validate_domain = true, in long method = 0, in String request_data = gs!"")
 	{
@@ -394,7 +405,7 @@ public:
 	}
 	/**
 	The size of the buffer used and maximum bytes to read per iteration. See $(D HTTPClient.readChunkSize).
-	Set this to a higher value (e.g. 65536 for 64 KiB) when downloading large files to achieve better speeds at the cost of memory.
+	Set this to a lower value (e.g. 4096 for 4 KiB) when downloading small files to decrease memory usage at the cost of download speeds.
 	*/
 	@property long downloadChunkSize()
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.area;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -94,13 +94,13 @@ public:
 	pragma(inline, true) bool opEquals(in Area other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Area opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Area.
 	/// Note: use `memnew!Area` instead.
@@ -569,7 +569,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setUseReverbBus, _godot_object, enable);
 	}
 	/**
-	The rate at which objects stop spinning in this area. Represents the angular velocity lost per second. Values range from `0` (no damping) to `1` (full damping).
+	The rate at which objects stop spinning in this area. Represents the angular velocity lost per second.
+	See $(D ProjectSettings.physics/3d/defaultAngularDamp) for more details about damping.
 	*/
 	@property double angularDamp()
 	{
@@ -605,7 +606,7 @@ public:
 		setAudioBusOverride(v);
 	}
 	/**
-	The area's physics layer(s). Collidable objects can exist in any of 32 different layers. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See also $(D collisionMask).
+	The area's physics layer(s). Collidable objects can exist in any of 32 different layers. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See also $(D collisionMask). See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionLayer()
 	{
@@ -617,7 +618,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The physics layers this area scans to determine collision detection.
+	The physics layers this area scans to determine collision detection. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{
@@ -677,7 +678,8 @@ public:
 		setGravityVector(v);
 	}
 	/**
-	The rate at which objects stop moving in this area. Represents the linear velocity lost per second. Values range from `0` (no damping) to `1` (full damping).
+	The rate at which objects stop moving in this area. Represents the linear velocity lost per second.
+	See $(D ProjectSettings.physics/3d/defaultLinearDamp) for more details about damping.
 	*/
 	@property double linearDamp()
 	{

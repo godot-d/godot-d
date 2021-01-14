@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.vehiclewheel;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,6 +26,7 @@ import godot.node;
 Physics object that simulates the behavior of a wheel.
 
 This node needs to be used as a child node of $(D VehicleBody) and simulates the behavior of one of its wheels. This node also acts as a collider to detect if the wheel is touching a surface.
+$(B Note:) This class has known issues and isn't designed to provide realistic 3D vehicle physics. If you want advanced vehicle physics, you will probably have to write your own physics integration using another $(D PhysicsBody) class.
 */
 @GodotBaseClass struct VehicleWheel
 {
@@ -75,13 +76,13 @@ public:
 	pragma(inline, true) bool opEquals(in VehicleWheel other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VehicleWheel opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VehicleWheel.
 	/// Note: use `memnew!VehicleWheel` instead.

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.websocketpeer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -45,6 +45,7 @@ public:
 		@GodotName("get_connected_port") GodotMethod!(long) getConnectedPort;
 		@GodotName("get_write_mode") GodotMethod!(WebSocketPeer.WriteMode) getWriteMode;
 		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
+		@GodotName("set_no_delay") GodotMethod!(void, bool) setNoDelay;
 		@GodotName("set_write_mode") GodotMethod!(void, long) setWriteMode;
 		@GodotName("was_string_packet") GodotMethod!(bool) wasStringPacket;
 	}
@@ -52,13 +53,13 @@ public:
 	pragma(inline, true) bool opEquals(in WebSocketPeer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) WebSocketPeer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of WebSocketPeer.
 	/// Note: use `memnew!WebSocketPeer` instead.
@@ -131,6 +132,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isConnectedToHost, _godot_object);
+	}
+	/**
+	Disable Nagle's algorithm on the underling TCP socket (default). See $(D StreamPeerTCP.setNoDelay) for more information.
+	$(B Note:) Not available in the HTML5 export.
+	*/
+	void setNoDelay(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setNoDelay, _godot_object, enabled);
 	}
 	/**
 	Sets the socket to use the given $(D writemode).

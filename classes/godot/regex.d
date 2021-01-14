@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.regex;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -34,7 +34,7 @@ regex.compile("\\w-(\\d+)")
 
 
 The search pattern must be escaped first for GDScript before it is escaped for the expression. For example, `compile("\\d+")` would be read by RegEx as `\d+`. Similarly, `compile("\"(?:\\\\.|$(D ^\"))*\"")` would be read as `"(?:\\.|$(D ^"))*"`.
-Using $(D search) you can find the pattern within the given text. If a pattern is found, $(D RegExMatch) is returned and you can retrieve details of the results using functions such as $(D RegExMatch.getString) and $(D RegExMatch.getStart).
+Using $(D search), you can find the pattern within the given text. If a pattern is found, $(D RegExMatch) is returned and you can retrieve details of the results using methods such as $(D RegExMatch.getString) and $(D RegExMatch.getStart).
 
 
 var regex = RegEx.new()
@@ -44,7 +44,7 @@ if result:
     print(result.get_string()) # Would print n-0123
 
 
-The results of capturing groups `()` can be retrieved by passing the group number to the various functions in $(D RegExMatch). Group 0 is the default and will always refer to the entire pattern. In the above example, calling `result.get_string(1)` would give you `0123`.
+The results of capturing groups `()` can be retrieved by passing the group number to the various methods in $(D RegExMatch). Group 0 is the default and will always refer to the entire pattern. In the above example, calling `result.get_string(1)` would give you `0123`.
 This version of RegEx also supports named capturing groups, and the names can be used to retrieve the results. If two or more groups have the same name, the name would only refer to the first one with a match.
 
 
@@ -61,6 +61,17 @@ If you need to process multiple results, $(D searchAll) generates a list of all 
 for result in regex.search_all("d01, d03, d0c, x3f and x42"):
     print(result.get_string("digit"))
 # Would print 01 03 0 3f 42
+
+
+$(B Example of splitting a string using a RegEx:)
+
+
+var regex = RegEx.new()
+regex.compile("\\S+") # Negated whitespace character class.
+var results = []
+for result in regex.search_all("One  Two \n\tThree"):
+    results.push_back(result.get_string())
+# The `results` array now contains "One", "Two", "Three".
 
 
 $(B Note:) Godot's regex implementation is based on the $(D url=https://www.pcre.org/)PCRE2$(D /url) library. You can view the full pattern reference $(D url=https://www.pcre.org/current/doc/html/pcre2pattern.html)here$(D /url).
@@ -92,13 +103,13 @@ public:
 	pragma(inline, true) bool opEquals(in RegEx other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RegEx opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RegEx.
 	/// Note: use `memnew!RegEx` instead.

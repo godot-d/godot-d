@@ -13,13 +13,12 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.marshalls;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
 import godot.object;
-import godot.reference;
 /**
 Data transformation (marshalling) and encoding helpers.
 
@@ -30,7 +29,7 @@ Provides data transformation and encoding utility functions.
 	package(godot) enum string _GODOT_internal_name = "_Marshalls";
 public:
 @nogc nothrow:
-	union { /** */ godot_object _godot_object; /** */ Reference _GODOT_base; }
+	union { /** */ godot_object _godot_object; /** */ GodotObject _GODOT_base; }
 	alias _GODOT_base this;
 	alias BaseClasses = AliasSeq!(typeof(_GODOT_base), typeof(_GODOT_base).BaseClasses);
 	package(godot) __gshared bool _classBindingInitialized = false;
@@ -50,13 +49,13 @@ public:
 	pragma(inline, true) bool opEquals(in MarshallsSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) MarshallsSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of MarshallsSingleton.
 	/// Note: use `memnew!MarshallsSingleton` instead.

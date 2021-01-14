@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.texturerect;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -28,6 +28,7 @@ import godot.texture;
 Control for drawing textures.
 
 Used to draw icons and sprites in a user interface. The texture's placement can be controlled with the $(D stretchMode) property. It can scale, tile, or stay centered inside its bounding rectangle.
+$(B Note:) You should enable $(D flipV) when using a TextureRect to display a $(D ViewportTexture). Alternatively, you can enable $(D Viewport.renderTargetVFlip) on the Viewport. Otherwise, the image will appear upside down.
 */
 @GodotBaseClass struct TextureRect
 {
@@ -57,13 +58,13 @@ public:
 	pragma(inline, true) bool opEquals(in TextureRect other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TextureRect opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TextureRect.
 	/// Note: use `memnew!TextureRect` instead.

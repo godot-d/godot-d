@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.editorspatialgizmo;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -67,13 +67,13 @@ public:
 	pragma(inline, true) bool opEquals(in EditorSpatialGizmo other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) EditorSpatialGizmo opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of EditorSpatialGizmo.
 	/// Note: use `memnew!EditorSpatialGizmo` instead.
@@ -86,7 +86,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	
+	Adds the specified `segments` to the gizmo's collision shape for picking. Call this function during $(D redraw).
 	*/
 	void addCollisionSegments(in PoolVector3Array segments)
 	{
@@ -119,7 +119,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addLines, _godot_object, lines, material, billboard, modulate);
 	}
 	/**
-	
+	Adds a mesh to the gizmo with the specified `billboard` state, `skeleton` and `material`. If `billboard` is `true`, the mesh will rotate to always face the camera. Call this function during $(D redraw).
 	*/
 	void addMesh(ArrayMesh mesh, in bool billboard = false, SkinReference skeleton = SkinReference.init, Material material = Material.init)
 	{
@@ -135,7 +135,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addUnscaledBillboard, _godot_object, material, default_scale, modulate);
 	}
 	/**
-	
+	Removes everything in the gizmo including meshes, collisions and handles.
 	*/
 	void clear()
 	{
@@ -193,7 +193,7 @@ public:
 		return ptrcall!(Spatial)(GDNativeClassBinding.getSpatialNode, _godot_object);
 	}
 	/**
-	Gets whether a handle is highlighted or not.
+	Returns `true` if the handle at index `index` is highlighted by being hovered with the mouse.
 	*/
 	bool isHandleHighlighted(in long index)
 	{
@@ -203,7 +203,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	This function is called when the Spatial this gizmo refers to changes (the $(D Spatial.updateGizmo) is called).
+	This function is called when the $(D Spatial) this gizmo refers to changes (the $(D Spatial.updateGizmo) is called).
 	*/
 	void redraw()
 	{
@@ -225,7 +225,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	Sets the gizmo's hidden state. If `true`, the gizmo will be hidden. If `false`, it will be shown.
 	*/
 	void setHidden(in bool hidden)
 	{
@@ -233,7 +233,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setHidden, _godot_object, hidden);
 	}
 	/**
-	
+	Sets the reference $(D Spatial) node for the gizmo. `node` must inherit from $(D Spatial).
 	*/
 	void setSpatialNode(Node node)
 	{

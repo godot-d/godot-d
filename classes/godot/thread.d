@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.thread;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,6 +25,7 @@ import godot.reference;
 A unit of execution in a process.
 
 Can run methods on $(D GodotObject)s simultaneously. The use of synchronization via $(D Mutex) or $(D Semaphore) is advised if working with shared objects.
+$(B Note:) Breakpoints won't break on code if it's running in a thread. This is a current limitation of the GDScript debugger.
 */
 @GodotBaseClass struct Thread
 {
@@ -47,13 +48,13 @@ public:
 	pragma(inline, true) bool opEquals(in Thread other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Thread opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Thread.
 	/// Note: use `memnew!Thread` instead.
@@ -89,7 +90,7 @@ public:
 		priorityHigh = 2,
 	}
 	/**
-	Returns the current $(D Thread)'s ID, uniquely identifying it among all threads.
+	Returns the current $(D Thread)'s ID, uniquely identifying it among all threads. If the $(D Thread) is not running this returns an empty string.
 	*/
 	String getId() const
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.springarm;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -60,13 +60,13 @@ public:
 	pragma(inline, true) bool opEquals(in SpringArm other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) SpringArm opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of SpringArm.
 	/// Note: use `memnew!SpringArm` instead.
@@ -103,7 +103,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getCollisionMask, _godot_object);
 	}
 	/**
-	Returns the proportion between the current arm length (after checking for collisions) and the $(D springLength). Ranges from 0 to 1.
+	Returns the spring arm's current length.
 	*/
 	double getHitLength()
 	{
@@ -175,7 +175,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setShape, _godot_object, shape);
 	}
 	/**
-	The layers against which the collision check shall be done.
+	The layers against which the collision check shall be done. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

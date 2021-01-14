@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.json;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -46,13 +46,13 @@ public:
 	pragma(inline, true) bool opEquals(in JSONSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) JSONSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of JSONSingleton.
 	/// Note: use `memnew!JSONSingleton` instead.
@@ -65,7 +65,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Parses a JSON encoded string and returns a $(D JSONParseResult) containing the result.
+	Parses a JSON-encoded string and returns a $(D JSONParseResult) containing the result.
 	*/
 	Ref!JSONParseResult parse(in String json)
 	{
@@ -74,6 +74,31 @@ public:
 	}
 	/**
 	Converts a $(D Variant) var to JSON text and returns the result. Useful for serializing data to store or send over the network.
+	$(B Note:) The JSON specification does not define integer or float types, but only a $(I number) type. Therefore, converting a Variant to JSON text will convert all numerical values to $(D double) types.
+	Use `indent` parameter to pretty print the output.
+	$(B Example output:)
+	
+	
+	## JSON.print(my_dictionary)
+	{"name":"my_dictionary","version":"1.0.0","entities":$(D {"name":"entity_0","value":"value_0"},{"name":"entity_1","value":"value_1"})}
+	
+	## JSON.print(my_dictionary, "\t")
+	{
+	        "name": "my_dictionary",
+	        "version": "1.0.0",
+	        "entities": [
+	                {
+	                        "name": "entity_0",
+	                        "value": "value_0"
+	                },
+	                {
+	                        "name": "entity_1",
+	                        "value": "value_1"
+	                }
+	        ]
+	}
+	
+	
 	*/
 	String print(VariantArg0)(in VariantArg0 value, in String indent = gs!"", in bool sort_keys = false)
 	{

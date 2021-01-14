@@ -1,5 +1,5 @@
 /**
-A hinge between two 3D bodies.
+A hinge between two 3D PhysicsBodies.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.hingejoint;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.joint;
 /**
-A hinge between two 3D bodies.
+A hinge between two 3D PhysicsBodies.
 
-A HingeJoint normally uses the Z axis of body A as the hinge axis, another axis can be specified when adding it manually though.
+A HingeJoint normally uses the Z axis of body A as the hinge axis, another axis can be specified when adding it manually though. See also $(D Generic6DOFJoint).
 */
 @GodotBaseClass struct HingeJoint
 {
@@ -51,13 +51,13 @@ public:
 	pragma(inline, true) bool opEquals(in HingeJoint other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) HingeJoint opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of HingeJoint.
 	/// Note: use `memnew!HingeJoint` instead.

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animationnodestatemachine;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -66,6 +66,7 @@ public:
 		@GodotName("remove_transition") GodotMethod!(void, String, String) removeTransition;
 		@GodotName("remove_transition_by_index") GodotMethod!(void, long) removeTransitionByIndex;
 		@GodotName("rename_node") GodotMethod!(void, String, String) renameNode;
+		@GodotName("replace_node") GodotMethod!(void, String, AnimationNode) replaceNode;
 		@GodotName("set_end_node") GodotMethod!(void, String) setEndNode;
 		@GodotName("set_graph_offset") GodotMethod!(void, Vector2) setGraphOffset;
 		@GodotName("set_node_position") GodotMethod!(void, String, Vector2) setNodePosition;
@@ -75,13 +76,13 @@ public:
 	pragma(inline, true) bool opEquals(in AnimationNodeStateMachine other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimationNodeStateMachine opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimationNodeStateMachine.
 	/// Note: use `memnew!AnimationNodeStateMachine` instead.
@@ -245,6 +246,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.renameNode, _godot_object, name, new_name);
+	}
+	/**
+	Replaces the node and keeps its transitions unchanged.
+	*/
+	void replaceNode(in String name, AnimationNode node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.replaceNode, _godot_object, name, node);
 	}
 	/**
 	Sets the given node as the graph end point.

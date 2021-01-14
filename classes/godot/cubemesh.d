@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.cubemesh;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -25,6 +25,7 @@ import godot.primitivemesh;
 Generate an axis-aligned cuboid $(D PrimitiveMesh).
 
 The cube's UV layout is arranged in a 3×2 layout that allows texturing each face individually. To apply the same texture on all faces, change the material's UV property to `Vector3(3, 2, 1)`.
+$(B Note:) When using a large textured $(D CubeMesh) (e.g. as a floor), you may stumble upon UV jittering issues depending on the camera angle. To solve this, increase $(D subdivideDepth), $(D subdivideHeight) and $(D subdivideWidth) until you no longer notice UV jittering.
 */
 @GodotBaseClass struct CubeMesh
 {
@@ -51,13 +52,13 @@ public:
 	pragma(inline, true) bool opEquals(in CubeMesh other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) CubeMesh opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of CubeMesh.
 	/// Note: use `memnew!CubeMesh` instead.

@@ -1,5 +1,5 @@
 /**
-Button for touch screen devices.
+Button for touch screen devices for gameplay use.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.touchscreenbutton;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -28,9 +28,11 @@ import godot.bitmap;
 import godot.shape2d;
 import godot.texture;
 /**
-Button for touch screen devices.
+Button for touch screen devices for gameplay use.
 
-You can set it to be visible on all screens, or only on touch devices.
+TouchScreenButton allows you to create on-screen buttons for touch devices. It's intended for gameplay use, such as a unit you have to touch to move.
+This node inherits from $(D Node2D). Unlike with $(D Control) nodes, you cannot set anchors on it. If you want to create menus or user interfaces, you may want to use $(D Button) nodes instead. To make button nodes react to touch events, you can enable the Emulate Mouse option in the Project Settings.
+You can configure TouchScreenButton to be visible only on touch devices, helping you develop your game both for desktop and mobile devices.
 */
 @GodotBaseClass struct TouchScreenButton
 {
@@ -69,13 +71,13 @@ public:
 	pragma(inline, true) bool opEquals(in TouchScreenButton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) TouchScreenButton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of TouchScreenButton.
 	/// Note: use `memnew!TouchScreenButton` instead.

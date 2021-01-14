@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.packetpeerudp;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -40,8 +40,10 @@ public:
 	{
 		__gshared:
 		@GodotName("close") GodotMethod!(void) close;
+		@GodotName("connect_to_host") GodotMethod!(GodotError, String, long) connectToHost;
 		@GodotName("get_packet_ip") GodotMethod!(String) getPacketIp;
 		@GodotName("get_packet_port") GodotMethod!(long) getPacketPort;
+		@GodotName("is_connected_to_host") GodotMethod!(bool) isConnectedToHost;
 		@GodotName("is_listening") GodotMethod!(bool) isListening;
 		@GodotName("join_multicast_group") GodotMethod!(GodotError, String, String) joinMulticastGroup;
 		@GodotName("leave_multicast_group") GodotMethod!(GodotError, String, String) leaveMulticastGroup;
@@ -54,13 +56,13 @@ public:
 	pragma(inline, true) bool opEquals(in PacketPeerUDP other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) PacketPeerUDP opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of PacketPeerUDP.
 	/// Note: use `memnew!PacketPeerUDP` instead.
@@ -81,6 +83,15 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.close, _godot_object);
 	}
 	/**
+	Calling this method connects this UDP peer to the given `host`/`port` pair. UDP is in reality connectionless, so this option only means that incoming packets from different addresses are automatically discarded, and that outgoing packets are always sent to the connected address (future calls to $(D setDestAddress) are not allowed). This method does not send any data to the remote peer, to do that, use $(D PacketPeer.putVar) or $(D PacketPeer.putPacket) as usual. See also $(D UDPServer).
+	$(B Note:) Connecting to the remote peer does not help to protect from malicious attacks like IP spoofing, etc. Think about using an encryption technique like SSL or DTLS if you feel like your application is transferring sensitive information.
+	*/
+	GodotError connectToHost(in String host, in long port)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(GDNativeClassBinding.connectToHost, _godot_object, host, port);
+	}
+	/**
 	Returns the IP of the remote peer that sent the last packet(that was received with $(D PacketPeer.getPacket) or $(D PacketPeer.getVar)).
 	*/
 	String getPacketIp() const
@@ -95,6 +106,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getPacketPort, _godot_object);
+	}
+	/**
+	Returns `true` if the UDP socket is open and has been connected to a remote address. See $(D connectToHost).
+	*/
+	bool isConnectedToHost() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isConnectedToHost, _godot_object);
 	}
 	/**
 	Returns whether this $(D PacketPeerUDP) is listening.
@@ -153,6 +172,20 @@ public:
 	}
 	/**
 	Waits for a packet to arrive on the listening port. See $(D listen).
+	$(B Note:) $(D wait) can't be interrupted once it has been called. This can be worked around by allowing the other party to send a specific "death pill" packet like this:
+	
+	
+	# Server
+	socket.set_dest_address("127.0.0.1", 789)
+	socket.put_packet("Time to stop".to_ascii())
+	
+	# Client
+	while socket.wait() == OK:
+	    var data = socket.get_packet().get_string_from_ascii()
+	    if data == "Time to stop":
+	        return
+	
+	
 	*/
 	GodotError wait()
 	{

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.randomnumbergenerator;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -35,6 +35,7 @@ func _ready():
     var my_random_number = rng.randf_range(-10.0, 10.0)
 
 
+$(B Note:) The default values of $(D seed) and $(D state) properties are pseudo-random, and changes when calling $(D randomize). The `0` value documented here is a placeholder, and not the actual default seed.
 */
 @GodotBaseClass struct RandomNumberGenerator
 {
@@ -61,13 +62,13 @@ public:
 	pragma(inline, true) bool opEquals(in RandomNumberGenerator other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) RandomNumberGenerator opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of RandomNumberGenerator.
 	/// Note: use `memnew!RandomNumberGenerator` instead.
@@ -144,8 +145,17 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setSeed, _godot_object, seed);
 	}
 	/**
-	The seed used by the random number generator. A given seed will give a reproducible sequence of pseudo-random numbers.
+	Initializes the random number generator state based on the given seed value. A given seed will give a reproducible sequence of pseudo-random numbers.
 	$(B Note:) The RNG does not have an avalanche effect, and can output similar random streams given similar seeds. Consider using a hash function to improve your seed quality if they're sourced externally.
+	$(B Note:) Setting this property produces a side effect of changing the internal $(D state), so make sure to initialize the seed $(I before) modifying the $(D state):
+	
+	
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash("Godot")
+	rng.state = 100 # Restore to some previously saved state.
+	
+	
+	$(B Warning:) the getter of this property returns the previous $(D state), and not the initial seed value, which is going to be fixed in Godot 4.0.
 	*/
 	@property long seed()
 	{

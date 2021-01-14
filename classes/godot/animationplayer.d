@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.animationplayer;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -90,13 +90,13 @@ public:
 	pragma(inline, true) bool opEquals(in AnimationPlayer other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) AnimationPlayer opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of AnimationPlayer.
 	/// Note: use `memnew!AnimationPlayer` instead.
@@ -530,7 +530,8 @@ public:
 		setAutoplay(v);
 	}
 	/**
-	The name of the current animation, "" if not playing anything. When being set, does not restart the animation. See also $(D play).
+	The name of the currently playing animation. If no animation is playing, the property's value is an empty string. Changing this value does not restart the animation. See $(D play) for more information on playing animations.
+	$(B Note): while this property appears in the inspector, it's not meant to be edited and it's not saved in the scene. This property is mainly used to get the currently playing animation, and internally for animation playback tracks. For more information, see $(D Animation).
 	*/
 	@property String currentAnimation()
 	{

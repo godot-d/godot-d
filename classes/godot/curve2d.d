@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.curve2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -66,13 +66,13 @@ public:
 	pragma(inline, true) bool opEquals(in Curve2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Curve2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Curve2D.
 	/// Note: use `memnew!Curve2D` instead.
@@ -171,7 +171,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
-	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
+	Returns the position of the control point leading to the vertex `idx`. The returned position is relative to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
 	*/
 	Vector2 getPointIn(in long idx) const
 	{
@@ -179,7 +179,7 @@ public:
 		return ptrcall!(Vector2)(GDNativeClassBinding.getPointIn, _godot_object, idx);
 	}
 	/**
-	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
+	Returns the position of the control point leading out of the vertex `idx`. The returned position is relative to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0)`.
 	*/
 	Vector2 getPointOut(in long idx) const
 	{
@@ -238,7 +238,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setBakeInterval, _godot_object, distance);
 	}
 	/**
-	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console. The position is relative to the vertex.
 	*/
 	void setPointIn(in long idx, in Vector2 position)
 	{
@@ -246,7 +246,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setPointIn, _godot_object, idx, position);
 	}
 	/**
-	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console. The position is relative to the vertex.
 	*/
 	void setPointOut(in long idx, in Vector2 position)
 	{

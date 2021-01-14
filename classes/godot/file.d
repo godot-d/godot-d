@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.file;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -42,6 +42,8 @@ func load():
     return content
 
 
+In the example above, the file will be saved in the user data folder as specified in the $(D url=https://docs.godotengine.org/en/3.2/tutorials/io/data_paths.html)Data paths$(D /url) documentation.
+$(B Note:) To access project resources once exported, it is recommended to use $(D ResourceLoader) instead of the $(D File) API, as some files are converted to engine-specific formats and their original source files might not be present in the exported PCK package.
 */
 @GodotBaseClass struct File
 {
@@ -106,13 +108,13 @@ public:
 	pragma(inline, true) bool opEquals(in File other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) File opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of File.
 	/// Note: use `memnew!File` instead.
@@ -148,19 +150,19 @@ public:
 	enum ModeFlags : int
 	{
 		/**
-		Opens the file for read operations.
+		Opens the file for read operations. The cursor is positioned at the beginning of the file.
 		*/
 		read = 1,
 		/**
-		Opens the file for write operations. Create it if the file does not exist and truncate if it exists.
+		Opens the file for write operations. The file is created if it does not exist, and truncated if it does.
 		*/
 		write = 2,
 		/**
-		Opens the file for read and write operations. Does not truncate the file.
+		Opens the file for read and write operations. Does not truncate the file. The cursor is positioned at the beginning of the file.
 		*/
 		readWrite = 3,
 		/**
-		Opens the file for read and write operations. Create it if the file does not exist and truncate if it exists.
+		Opens the file for read and write operations. The file is created if it does not exist, and truncated if it does. The cursor is positioned at the beginning of the file.
 		*/
 		writeRead = 7,
 	}
@@ -195,7 +197,7 @@ public:
 	}
 	/**
 	Returns `true` if the file exists in the given path.
-	$(B Note:) Many resources types are imported (e.g. textures or sound files), and that their source asset will not be included in the exported game, as only the imported version is used (in the `res://.import` folder). To check for the existence of such resources while taking into account the remapping to their imported location, use $(D ResourceLoader.exists). Typically, using `File.file_exists` on an imported resource would work while you are developing in the editor (the source asset is present in `res://`, but fail when exported).
+	$(B Note:) Many resources types are imported (e.g. textures or sound files), and their source asset will not be included in the exported game, as only the imported version is used. See $(D ResourceLoader.exists) for an alternative approach that takes resource remapping into account.
 	*/
 	bool fileExists(in String path) const
 	{
@@ -409,6 +411,7 @@ public:
 	}
 	/**
 	Opens an encrypted file in write or read mode. You need to pass a binary key to encrypt/decrypt it.
+	$(B Note:) The provided key must be 32 bytes long.
 	*/
 	GodotError openEncrypted(in String path, in long mode_flags, in PoolByteArray key)
 	{
@@ -541,8 +544,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.storeFloat, _godot_object, value);
 	}
 	/**
-	Stores the given $(D String) as a line in the file.
-	Text will be encoded as UTF-8.
+	Appends `line` to the file followed by a line return character (`\n`), encoding the text as UTF-8.
 	*/
 	void storeLine(in String line)
 	{
@@ -567,8 +569,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.storeReal, _godot_object, value);
 	}
 	/**
-	Stores the given $(D String) in the file.
-	Text will be encoded as UTF-8.
+	Appends `string` to the file without a line return, encoding the text as UTF-8.
 	*/
 	void storeString(in String string)
 	{

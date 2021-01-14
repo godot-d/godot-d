@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.kinematicbody2d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -27,7 +27,7 @@ Kinematic body 2D node.
 
 Kinematic bodies are special types of bodies that are meant to be user-controlled. They are not affected by physics at all; to other types of bodies, such as a character or a rigid body, these are the same as a static body. However, they have two main uses:
 $(B Simulated motion:) When these bodies are moved manually, either from code or from an $(D AnimationPlayer) (with $(D AnimationPlayer.playbackProcessMode) set to "physics"), the physics will automatically compute an estimate of their linear and angular velocity. This makes them very useful for moving platforms or other AnimationPlayer-controlled objects (like a door, a bridge that opens, etc).
-$(B Kinematic characters:) KinematicBody2D also has an API for moving objects (the $(D moveAndCollide) and $(D moveAndSlide) methods) while performing collision tests. This makes them really useful to implement characters that collide against a world, but that don't require advanced physics.
+$(B Kinematic characters:) KinematicBody2D also has an API for moving objects (the $(D moveAndCollide) and $(D moveAndSlide) methods) while performing collision tests. This makes them really useful to implement characters that collide against a world, but don't require advanced physics.
 */
 @GodotBaseClass struct KinematicBody2D
 {
@@ -62,13 +62,13 @@ public:
 	pragma(inline, true) bool opEquals(in KinematicBody2D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) KinematicBody2D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of KinematicBody2D.
 	/// Note: use `memnew!KinematicBody2D` instead.
@@ -115,7 +115,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getSafeMargin, _godot_object);
 	}
 	/**
-	Returns a $(D KinematicCollision2D), which contains information about a collision that occurred during the last $(D moveAndSlide) call. Since the body can collide several times in a single call to $(D moveAndSlide), you must specify the index of the collision in the range 0 to ($(D getSlideCount) - 1).
+	Returns a $(D KinematicCollision2D), which contains information about a collision that occurred during the last call to $(D moveAndSlide) or $(D moveAndSlideWithSnap). Since the body can collide several times in a single call to $(D moveAndSlide), you must specify the index of the collision in the range 0 to ($(D getSlideCount) - 1).
 	$(B Example usage:)
 	
 	
@@ -131,7 +131,7 @@ public:
 		return ptrcall!(KinematicCollision2D)(GDNativeClassBinding.getSlideCollision, _godot_object, slide_idx);
 	}
 	/**
-	Returns the number of times the body collided and changed direction during the last call to $(D moveAndSlide).
+	Returns the number of times the body collided and changed direction during the last call to $(D moveAndSlide) or $(D moveAndSlideWithSnap).
 	*/
 	long getSlideCount() const
 	{
@@ -139,7 +139,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getSlideCount, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on the ceiling. Only updates when calling $(D moveAndSlide).
+	Returns `true` if the body is on the ceiling. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
 	*/
 	bool isOnCeiling() const
 	{
@@ -147,7 +147,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isOnCeiling, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on the floor. Only updates when calling $(D moveAndSlide).
+	Returns `true` if the body is on the floor. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
 	*/
 	bool isOnFloor() const
 	{
@@ -155,7 +155,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isOnFloor, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on a wall. Only updates when calling $(D moveAndSlide).
+	Returns `true` if the body is on a wall. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
 	*/
 	bool isOnWall() const
 	{
@@ -180,9 +180,9 @@ public:
 		return ptrcall!(KinematicCollision2D)(GDNativeClassBinding.moveAndCollide, _godot_object, rel_vec, infinite_inertia, exclude_raycast_shapes, test_only);
 	}
 	/**
-	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a $(D KinematicBody2D) or $(D RigidBody2D), it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes.
+	Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a $(D KinematicBody2D) or $(D RigidBody2D), it will also be affected by the motion of the other body. You can use this to make moving and rotating platforms, or to make nodes push other nodes.
 	This method should be used in $(D Node._physicsProcess) (or in a method called by $(D Node._physicsProcess)), as it uses the physics step's `delta` value automatically in calculations. Otherwise, the simulation will run at an incorrect speed.
-	`linear_velocity` is the velocity vector in pixels per second. Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity. 
+	`linear_velocity` is the velocity vector in pixels per second. Unlike in $(D moveAndCollide), you should $(I not) multiply it by `delta` — the physics engine handles applying the velocity.
 	`up_direction` is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of `Vector2(0, 0)`, everything is considered a wall. This is useful for topdown games.
 	If `stop_on_slope` is `true`, body will not slide on slopes when you include gravity in `linear_velocity` and the body is standing still.
 	If the body collides, it will change direction a maximum of `max_slides` times before it stops.

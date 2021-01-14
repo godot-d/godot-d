@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.ninepatchrect;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -58,13 +58,13 @@ public:
 	pragma(inline, true) bool opEquals(in NinePatchRect other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) NinePatchRect opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of NinePatchRect.
 	/// Note: use `memnew!NinePatchRect` instead.
@@ -80,15 +80,17 @@ public:
 	enum AxisStretchMode : int
 	{
 		/**
-		Doesn't do anything at the time of writing.
+		Stretches the center texture across the NinePatchRect. This may cause the texture to be distorted.
 		*/
 		axisStretchModeStretch = 0,
 		/**
-		Doesn't do anything at the time of writing.
+		Repeats the center texture across the NinePatchRect. This won't cause any visible distortion. The texture must be seamless for this to work without displaying artifacts between edges.
+		$(B Note:) Only supported when using the GLES3 renderer. When using the GLES2 renderer, this will behave like $(D constant AXIS_STRETCH_MODE_STRETCH).
 		*/
 		axisStretchModeTile = 1,
 		/**
-		Doesn't do anything at the time of writing.
+		Repeats the center texture across the NinePatchRect, but will also stretch the texture to make sure each tile is visible in full. This may cause the texture to be distorted, but less than $(D constant AXIS_STRETCH_MODE_STRETCH). The texture must be seamless for this to work without displaying artifacts between edges.
+		$(B Note:) Only supported when using the GLES3 renderer. When using the GLES2 renderer, this will behave like $(D constant AXIS_STRETCH_MODE_STRETCH).
 		*/
 		axisStretchModeTileFit = 2,
 	}
@@ -196,7 +198,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setVAxisStretchMode, _godot_object, mode);
 	}
 	/**
-	Doesn't do anything at the time of writing.
+	The stretch mode to use for horizontal stretching/tiling. See $(D NinePatchRect.axisstretchmode) for possible values.
 	*/
 	@property NinePatchRect.AxisStretchMode axisStretchHorizontal()
 	{
@@ -208,7 +210,7 @@ public:
 		setHAxisStretchMode(v);
 	}
 	/**
-	Doesn't do anything at the time of writing.
+	The stretch mode to use for vertical stretching/tiling. See $(D NinePatchRect.axisstretchmode) for possible values.
 	*/
 	@property NinePatchRect.AxisStretchMode axisStretchVertical()
 	{
@@ -244,7 +246,7 @@ public:
 		setPatchMargin(3, v);
 	}
 	/**
-	The height of the 9-slice's left column.
+	The width of the 9-slice's left column. A margin of 16 means the 9-slice's left corners and side will have a width of 16 pixels. You can set all 4 margin values individually to create panels with non-uniform borders.
 	*/
 	@property long patchMarginLeft()
 	{
@@ -256,7 +258,7 @@ public:
 		setPatchMargin(0, v);
 	}
 	/**
-	The height of the 9-slice's right column.
+	The width of the 9-slice's right column. A margin of 16 means the 9-slice's right corners and side will have a width of 16 pixels. You can set all 4 margin values individually to create panels with non-uniform borders.
 	*/
 	@property long patchMarginRight()
 	{
@@ -268,7 +270,7 @@ public:
 		setPatchMargin(2, v);
 	}
 	/**
-	The height of the 9-slice's top row.
+	The height of the 9-slice's top row. A margin of 16 means the 9-slice's top corners and side will have a height of 16 pixels. You can set all 4 margin values individually to create panels with non-uniform borders.
 	*/
 	@property long patchMarginTop()
 	{

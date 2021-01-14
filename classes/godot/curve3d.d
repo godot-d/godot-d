@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.curve3d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -73,13 +73,13 @@ public:
 	pragma(inline, true) bool opEquals(in Curve3D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Curve3D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Curve3D.
 	/// Note: use `memnew!Curve3D` instead.
@@ -195,7 +195,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getPointCount, _godot_object);
 	}
 	/**
-	Returns the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
+	Returns the position of the control point leading to the vertex `idx`. The returned position is relative to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 getPointIn(in long idx) const
 	{
@@ -203,7 +203,7 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.getPointIn, _godot_object, idx);
 	}
 	/**
-	Returns the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
+	Returns the position of the control point leading out of the vertex `idx`. The returned position is relative to the vertex `idx`. If the index is out of bounds, the function sends an error to the console, and returns `(0, 0, 0)`.
 	*/
 	Vector3 getPointOut(in long idx) const
 	{
@@ -236,7 +236,7 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.interpolate, _godot_object, idx, t);
 	}
 	/**
-	Returns a point within the curve at position `offset`, where `offset` is measured as a pixel distance along the curve.
+	Returns a point within the curve at position `offset`, where `offset` is measured as a distance in 3D units along the curve.
 	To do that, it finds the two cached points where the `offset` lies between, then interpolates the values. This interpolation is cubic if `cubic` is set to `true`, or linear if set to `false`.
 	Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
 	*/
@@ -288,7 +288,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setBakeInterval, _godot_object, distance);
 	}
 	/**
-	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading to the vertex `idx`. If the index is out of bounds, the function sends an error to the console. The position is relative to the vertex.
 	*/
 	void setPointIn(in long idx, in Vector3 position)
 	{
@@ -296,7 +296,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setPointIn, _godot_object, idx, position);
 	}
 	/**
-	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console.
+	Sets the position of the control point leading out of the vertex `idx`. If the index is out of bounds, the function sends an error to the console. The position is relative to the vertex.
 	*/
 	void setPointOut(in long idx, in Vector3 position)
 	{

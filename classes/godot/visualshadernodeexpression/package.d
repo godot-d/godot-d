@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.visualshadernodeexpression;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -39,7 +39,6 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
-		@GodotName("build") GodotMethod!(void) build;
 		@GodotName("get_expression") GodotMethod!(String) getExpression;
 		@GodotName("set_expression") GodotMethod!(void, String) setExpression;
 	}
@@ -47,13 +46,13 @@ public:
 	pragma(inline, true) bool opEquals(in VisualShaderNodeExpression other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) VisualShaderNodeExpression opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of VisualShaderNodeExpression.
 	/// Note: use `memnew!VisualShaderNodeExpression` instead.
@@ -65,14 +64,6 @@ public:
 		return cast(VisualShaderNodeExpression)(constructor());
 	}
 	@disable new(size_t s);
-	/**
-	
-	*/
-	void build()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.build, _godot_object);
-	}
 	/**
 	
 	*/

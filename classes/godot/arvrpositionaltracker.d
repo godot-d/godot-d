@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.arvrpositionaltracker;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -54,6 +54,7 @@ public:
 		@GodotName("get_orientation") GodotMethod!(Basis) getOrientation;
 		@GodotName("get_position") GodotMethod!(Vector3) getPosition;
 		@GodotName("get_rumble") GodotMethod!(double) getRumble;
+		@GodotName("get_tracker_id") GodotMethod!(long) getTrackerId;
 		@GodotName("get_tracks_orientation") GodotMethod!(bool) getTracksOrientation;
 		@GodotName("get_tracks_position") GodotMethod!(bool) getTracksPosition;
 		@GodotName("get_transform") GodotMethod!(Transform, bool) getTransform;
@@ -64,13 +65,13 @@ public:
 	pragma(inline, true) bool opEquals(in ARVRPositionalTracker other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) ARVRPositionalTracker opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of ARVRPositionalTracker.
 	/// Note: use `memnew!ARVRPositionalTracker` instead.
@@ -220,6 +221,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getRumble, _godot_object);
+	}
+	/**
+	Returns the internal tracker ID. This uniquely identifies the tracker per tracker type and matches the ID you need to specify for nodes such as the $(D ARVRController) and $(D ARVRAnchor) nodes.
+	*/
+	long getTrackerId() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getTrackerId, _godot_object);
 	}
 	/**
 	Returns `true` if this device tracks orientation.

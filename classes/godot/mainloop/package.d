@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.mainloop;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -93,13 +93,13 @@ public:
 	pragma(inline, true) bool opEquals(in MainLoop other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) MainLoop opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of MainLoop.
 	/// Note: use `memnew!MainLoop` instead.
@@ -256,7 +256,7 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Called each physics frame with the time since the last physics frame as argument (in seconds). Equivalent to $(D Node._physicsProcess).
+	Called each physics frame with the time since the last physics frame as argument (`delta`, in seconds). Equivalent to $(D Node._physicsProcess).
 	If implemented, the method must return a boolean value. `true` ends the main loop, while `false` lets it proceed to the next frame.
 	*/
 	bool _iteration(in double delta)

@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.skin;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -41,22 +41,24 @@ public:
 		@GodotName("clear_binds") GodotMethod!(void) clearBinds;
 		@GodotName("get_bind_bone") GodotMethod!(long, long) getBindBone;
 		@GodotName("get_bind_count") GodotMethod!(long) getBindCount;
+		@GodotName("get_bind_name") GodotMethod!(String, long) getBindName;
 		@GodotName("get_bind_pose") GodotMethod!(Transform, long) getBindPose;
 		@GodotName("set_bind_bone") GodotMethod!(void, long, long) setBindBone;
 		@GodotName("set_bind_count") GodotMethod!(void, long) setBindCount;
+		@GodotName("set_bind_name") GodotMethod!(void, long, String) setBindName;
 		@GodotName("set_bind_pose") GodotMethod!(void, long, Transform) setBindPose;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in Skin other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Skin opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Skin.
 	/// Note: use `memnew!Skin` instead.
@@ -103,6 +105,14 @@ public:
 	/**
 	
 	*/
+	String getBindName(in long bind_index) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getBindName, _godot_object, bind_index);
+	}
+	/**
+	
+	*/
 	Transform getBindPose(in long bind_index) const
 	{
 		checkClassBinding!(typeof(this))();
@@ -123,6 +133,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setBindCount, _godot_object, bind_count);
+	}
+	/**
+	
+	*/
+	void setBindName(in long bind_index, in String name)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setBindName, _godot_object, bind_index, name);
 	}
 	/**
 	

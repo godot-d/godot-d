@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.input;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -85,13 +85,13 @@ public:
 	pragma(inline, true) bool opEquals(in InputSingleton other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) InputSingleton opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of InputSingleton.
 	/// Note: use `memnew!InputSingleton` instead.
@@ -115,7 +115,8 @@ public:
 		*/
 		mouseModeHidden = 1,
 		/**
-		Captures the mouse. The mouse will be hidden and unable to leave the game window, but it will still register movement and mouse button presses. On Windows and Linux, the mouse will use raw input mode, which means the reported movement will be unaffected by the OS' mouse acceleration settings.
+		Captures the mouse. The mouse will be hidden and its position locked at the center of the screen.
+		$(B Note:) If you want to process the mouse's movement in this mode, you need to use $(D InputEventMouseMotion.relative).
 		*/
 		mouseModeCaptured = 2,
 		/**
@@ -247,8 +248,9 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addJoyMapping, _godot_object, mapping, update_existing);
 	}
 	/**
-	If the device has an accelerometer, this will return the acceleration. Otherwise, it returns an empty $(D Vector3).
+	Returns the acceleration of the device's accelerometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
 	Note this method returns an empty $(D Vector3) when running from the editor even when your device has an accelerometer. You must export your project to a supported device to read values from the accelerometer.
+	$(B Note:) This method only works on iOS, Android, and UWP. On other platforms, it always returns $(D constant Vector3.ZERO).
 	*/
 	Vector3 getAccelerometer() const
 	{
@@ -280,7 +282,8 @@ public:
 		return ptrcall!(Input.CursorShape)(GDNativeClassBinding.getCurrentCursorShape, _godot_object);
 	}
 	/**
-	If the device has an accelerometer, this will return the gravity. Otherwise, it returns an empty $(D Vector3).
+	Returns the gravity of the device's accelerometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
+	$(B Note:) This method only works on Android and iOS. On other platforms, it always returns $(D constant Vector3.ZERO).
 	*/
 	Vector3 getGravity() const
 	{
@@ -288,7 +291,8 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.getGravity, _godot_object);
 	}
 	/**
-	If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's X, Y, and Z axes. Otherwise, it returns an empty $(D Vector3).
+	Returns the rotation rate in rad/s around a device's X, Y, and Z axes of the gyroscope sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
+	$(B Note:) This method only works on Android and iOS. On other platforms, it always returns $(D constant Vector3.ZERO).
 	*/
 	Vector3 getGyroscope() const
 	{
@@ -376,7 +380,8 @@ public:
 		return ptrcall!(Vector2)(GDNativeClassBinding.getLastMouseSpeed, _godot_object);
 	}
 	/**
-	If the device has a magnetometer, this will return the magnetic field strength in micro-Tesla for all axes.
+	Returns the the magnetic field strength in micro-Tesla for all axes of the device's magnetometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
+	$(B Note:) This method only works on Android, iOS and UWP. On other platforms, it always returns $(D constant Vector3.ZERO).
 	*/
 	Vector3 getMagnetometer() const
 	{
@@ -548,7 +553,7 @@ public:
 	}
 	/**
 	Vibrate Android and iOS devices.
-	$(B Note:) It needs VIBRATE permission for Android at export settings. iOS does not support duration.
+	$(B Note:) It needs `VIBRATE` permission for Android at export settings. iOS does not support duration.
 	*/
 	void vibrateHandheld(in long duration_ms = 500)
 	{

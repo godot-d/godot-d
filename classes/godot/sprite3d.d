@@ -13,7 +13,7 @@ License: $(LINK2 https://opensource.org/licenses/MIT, MIT License)
 module godot.sprite3d;
 import std.meta : AliasSeq, staticIndexOf;
 import std.traits : Unqual;
-import godot.d.meta;
+import godot.d.traits;
 import godot.core;
 import godot.c;
 import godot.d.bind;
@@ -26,7 +26,6 @@ import godot.texture;
 2D sprite node in a 3D world.
 
 A node that displays a 2D texture in a 3D environment. The texture displayed can be a region from a larger atlas texture, or a frame from a sprite sheet animation.
-$(B Note:) There are $(D url=https://github.com/godotengine/godot/issues/20855)known performance issues$(D /url) when using $(D Sprite3D). Consider using a $(D MeshInstance) with a $(D QuadMesh) as the mesh instead. You can still have billboarding by enabling billboard properties in the QuadMesh's $(D SpatialMaterial).
 */
 @GodotBaseClass struct Sprite3D
 {
@@ -59,13 +58,13 @@ public:
 	pragma(inline, true) bool opEquals(in Sprite3D other) const
 	{ return _godot_object.ptr is other._godot_object.ptr; }
 	/// 
-	pragma(inline, true) Sprite3D opAssign(T : typeof(null))(T n)
-	{ _godot_object.ptr = n; }
+	pragma(inline, true) typeof(null) opAssign(typeof(null) n)
+	{ _godot_object.ptr = n; return null; }
 	/// 
 	pragma(inline, true) bool opEquals(typeof(null) n) const
 	{ return _godot_object.ptr is n; }
 	/// 
-	size_t toHash() @trusted { return cast(size_t)_godot_object.ptr; }
+	size_t toHash() const @trusted { return cast(size_t)_godot_object.ptr; }
 	mixin baseCasts;
 	/// Construct a new instance of Sprite3D.
 	/// Note: use `memnew!Sprite3D` instead.
@@ -190,7 +189,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setVframes, _godot_object, vframes);
 	}
 	/**
-	Current frame to display from sprite sheet. $(D vframes) or $(D hframes) must be greater than 1.
+	Current frame to display from sprite sheet. $(D hframes) or $(D vframes) must be greater than 1.
 	*/
 	@property long frame()
 	{
@@ -202,7 +201,7 @@ public:
 		setFrame(v);
 	}
 	/**
-	Coordinates of the frame to display from sprite sheet. This is as an alias for the $(D frame) property. $(D vframes) or $(D hframes) must be greater than 1.
+	Coordinates of the frame to display from sprite sheet. This is as an alias for the $(D frame) property. $(D hframes) or $(D vframes) must be greater than 1.
 	*/
 	@property Vector2 frameCoords()
 	{
@@ -250,7 +249,7 @@ public:
 		setRegionRect(v);
 	}
 	/**
-	$(D Texture) object to draw.
+	$(D Texture) object to draw. If $(D GeometryInstance.materialOverride) is used, this will be overridden.
 	*/
 	@property Texture texture()
 	{
