@@ -52,7 +52,7 @@ struct Transform2D
 	}
 	
 	const(Vector2) opIndex(int axis) const { return elements[axis]; }
-	ref Vector2 opIndex(int axis) { return elements[axis]; }
+	ref Vector2 opIndex(int axis) return { return elements[axis]; }
 	
 	
 	
