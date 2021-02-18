@@ -84,7 +84,8 @@ struct Array
 		static if(hasLength!T)
 		{
 			ret.resize(cast(int)t.length);
-			foreach(ei, e; t) ret[cast(int)ei] = e;
+			int ei = 0;
+			foreach(e; t) ret[ei++] = e;
 		}
 		else t.each!(e => ret ~= e);
 		return ret;
