@@ -82,6 +82,33 @@ struct NodePath
 		godot_string str = _godot_api.godot_node_path_as_string(&_node_path);
 		return String(str);
 	}
+
+	/// Splits a NodePath into a main node path and a property subpath (starting
+	/// with a ':'). The second element is left empty if there is no property.
+	NodePath[2] split() const
+	{
+		import std.algorithm : findSplitBefore;
+		import std.range : only;
+		static immutable wchar_t colon = ':';
+		NodePath[2] ret;
+		if(this == NodePath.init) return ret;
+		String path = str();
+		auto data = path.data();
+		if(data[0] == colon)
+		{
+			ret[1] = this;
+			return ret;
+		}
+		auto splitted = data.findSplitBefore(only(colon));
+		if(!splitted)
+		{
+			ret[0] = this;
+			return ret;
+		}
+		ret[0] = NodePath(String(splitted[0]));
+		ret[1] = NodePath(String(splitted[1]));
+		return ret;
+	}
 	
 	/+void opAssign(in ref NodePath other)
 	{
