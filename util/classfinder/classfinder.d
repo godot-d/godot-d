@@ -23,6 +23,19 @@ import std.meta;
 import std.typecons : scoped;
 import std.algorithm.iteration : joiner, map;
 import std.conv : text;
+import std.stdio : writeln, writefln;
+
+size_t startLocation(in BaseNode node) { return node.tokens.front.index; }
+size_t endLocation(in BaseNode node) { return node.tokens.back.index; }
+
+/// A named scope such as a class or struct and its location in the file
+struct ScopeRange
+{
+	string name;
+	enum Type { class_, struct_, template_ }
+	Type type;
+	size_t start, end;
+}
 
 /// libdparse visitor to be used with a dsymbol-like simple parser
 private class GDVisitor : ASTVisitor
@@ -31,6 +44,9 @@ private class GDVisitor : ASTVisitor
 	string[] moduleName;
 	string overrideName; // manually set the class; TODO: not implemented yet
 	size_t[2][] overrideAttributeRanges;
+
+	ScopeRange[] scopeRanges;
+	size_t[] classScopeRange; /// which ScopeRange each class corresponds to
 
 	alias visit = ASTVisitor.visit;
 	override void visit(in ModuleDeclaration m)
@@ -56,14 +72,30 @@ private class GDVisitor : ASTVisitor
 		if(m.tokens.canFind!(t => t.text == "GodotNativeLibrary")) file.hasEntryPoint = true;
 	}
 
+	override void visit(in StructDeclaration s)
+	{
+		ScopeRange range = ScopeRange(s.name.text, ScopeRange.Type.struct_, s.startLocation, s.endLocation);
+		scopeRanges ~= range;
+	}
+	override void visit(in InterfaceDeclaration i)
+	{
+		ScopeRange range = ScopeRange(i.name.text, ScopeRange.Type.struct_, i.startLocation, i.endLocation);
+		scopeRanges ~= range;
+	}
 	override void visit(in ClassDeclaration c)
 	{
-		auto name = (moduleName ~ c.name.text).joiner(".").text;
+		string name = c.name.text.dup;
+
+		classScopeRange ~= scopeRanges.length;
+		ScopeRange range = ScopeRange(name, ScopeRange.Type.class_, c.startLocation, c.endLocation);
+		scopeRanges ~= range;
+
 		file.classes ~= name;
 		if(c.name.text.toLower == moduleName.back || c.name.text.camelToSnake == moduleName.back)
 		{
-			if(!file.mainClass.empty) throw new Exception("Multiple classes matching the module found");
-			file.mainClass = name;
+			if(!file.mainClass.empty) writefln!"Module %s: found multiple classes matching the module name (%s and %s)"(
+				moduleName, file.mainClass, name);
+			else file.mainClass = name;
 		}
 
 		super.visit(c);
@@ -93,6 +125,21 @@ FileInfo parse(string path)
 	m.accept(visitor);
 	visitor.file.moduleName = visitor.moduleName.joiner(".").text;
 	if(visitor.file.mainClass.empty && visitor.file.classes.length == 1) visitor.file.mainClass = visitor.file.classes[0];
+
+	foreach(ci, c; visitor.file.classes)
+	{
+		import std.algorithm : filter, multiSort, map;
+
+		auto cScope = visitor.scopeRanges[visitor.classScopeRange[ci]];
+		// names of the scopes that enclose cScope, outermost first
+		auto parentScopeNames = visitor.scopeRanges
+			.filter!(sr => sr.start <= cScope.start && sr.end >= cScope.end)
+			.array
+			.multiSort!((a, b) => a.start < b.start, (a, b) => a.end > b.end)
+			.map!(sr => sr.name);
+
+		visitor.file.classes[ci] = chain(only(visitor.file.moduleName), parentScopeNames).joiner(".").text;
+	}
 
 	return visitor.file;
 }
