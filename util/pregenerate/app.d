@@ -76,6 +76,11 @@ int main(string[] args)
 
 	string packageDir = environment.get("DUB_PACKAGE_DIR");
 	auto importPaths = environment.get("IMPORT_PATHS", null).sanitized;
+	if(importPaths.empty)
+	{
+		if(exists("source")) importPaths ~= "source";
+		else importPaths ~= "src";
+	}
 
 	/* ************************************************************************
 	Parse all D files to find the classes and potentially the entry point.
