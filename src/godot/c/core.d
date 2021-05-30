@@ -66,7 +66,7 @@ enum godot_error {
 
 ////// bool
 
-alias godot_bool = int; // really `bool` = `_Bool` from C's stdbool.h
+alias godot_bool = bool;
 
 enum GODOT_TRUE = 1;
 enum GODOT_FALSE = 0;
