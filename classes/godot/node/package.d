@@ -288,6 +288,10 @@ public:
 		*/
 		notificationInternalPhysicsProcess = 26,
 		/**
+		Notification received when the node is ready, just before $(D constant NOTIFICATION_READY) is received. Unlike the latter, it's sent every time the node enters tree, instead of only once.
+		*/
+		notificationPostEnterTree = 27,
+		/**
 		Notification received from the OS when the mouse enters the game window.
 		Implemented on desktop and web platforms.
 		*/
@@ -508,7 +512,7 @@ public:
 	}
 	/**
 	Adds a child node. Nodes can have any number of children, but every child must have a unique name. Child nodes are automatically deleted when the parent node is deleted, so an entire scene can be removed by deleting its topmost node.
-	If `legible_unique_name` is `true`, the child node will have an human-readable name based on the name of the node being instanced instead of its type.
+	If `legible_unique_name` is `true`, the child node will have a human-readable name based on the name of the node being instanced instead of its type.
 	$(B Note:) If the child node already has a parent, the function will fail. Use $(D removeChild) first to remove the node from its current parent. For example:
 	
 	
@@ -526,7 +530,7 @@ public:
 	}
 	/**
 	Adds `child_node` as a child. The child is placed below the given `node` in the list of children.
-	If `legible_unique_name` is `true`, the child node will have an human-readable name based on the name of the node being instanced instead of its type.
+	If `legible_unique_name` is `true`, the child node will have a human-readable name based on the name of the node being instanced instead of its type.
 	*/
 	void addChildBelowNode(Node node, Node child_node, in bool legible_unique_name = false)
 	{
@@ -1006,6 +1010,7 @@ public:
 	}
 	/**
 	Queues a node for deletion at the end of the current frame. When deleted, all of its child nodes will be deleted as well. This method ensures it's safe to delete the node, contrary to $(D GodotObject.free). Use $(D GodotObject.isQueuedForDeletion) to check whether a node will be deleted at the end of the frame.
+	$(B Important:) If you have a variable pointing to a node, it will $(I not) be assigned to `null` once the node is freed. Instead, it will point to a $(I previously freed instance) and you should validate it with $(D @GDScript.isInstanceValid) before attempting to call its methods or access its properties.
 	*/
 	void queueFree()
 	{

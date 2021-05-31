@@ -24,7 +24,21 @@ import godot.texturelayered;
 /**
 Array of textures stored in a single primitive.
 
-$(D TextureArray)s store an array of images in a single $(D Texture) primitive. Each layer of the texture array has its own mipmap chain. This makes it is a good alternative to texture atlases.
+$(D TextureArray)s store an array of $(D Image)s in a single $(D Texture) primitive. Each layer of the texture array has its own mipmap chain. This makes it is a good alternative to texture atlases.
+$(D TextureArray)s must be displayed using shaders. After importing your file as a $(D TextureArray) and setting the appropriate Horizontal and Vertical Slices, display it by setting it as a uniform to a shader, for example:
+
+
+shader_type canvas_item;
+
+uniform sampler2DArray tex;
+uniform int index;
+
+void fragment() {
+    COLOR = texture(tex, vec3(UV.x, UV.y, float(index)));
+}
+
+
+Set the integer uniform "index" to show a particular part of the texture as defined by the Horizontal and Vertical Slices in the importer.
 */
 @GodotBaseClass struct TextureArray
 {

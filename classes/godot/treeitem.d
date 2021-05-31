@@ -137,7 +137,7 @@ public:
 		*/
 		cellModeString = 0,
 		/**
-		Cell can be checked.
+		Cell contains a checkbox.
 		*/
 		cellModeCheck = 1,
 		/**
@@ -340,7 +340,7 @@ public:
 		return ptrcall!(Rect2)(GDNativeClassBinding.getIconRegion, _godot_object, column);
 	}
 	/**
-	
+	Returns the metadata value that was set for the given column using $(D setMetadata).
 	*/
 	Variant getMetadata(in long column) const
 	{
@@ -390,7 +390,7 @@ public:
 		return ptrcall!(TreeItem)(GDNativeClassBinding.getPrevVisible, _godot_object, wrap);
 	}
 	/**
-	
+	Returns the value of a $(D constant CELL_MODE_RANGE) column.
 	*/
 	double getRange(in long column) const
 	{
@@ -398,7 +398,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getRange, _godot_object, column);
 	}
 	/**
-	
+	Returns a dictionary containing the range parameters for a given column. The keys are "min", "max", "step", and "expr".
 	*/
 	Dictionary getRangeConfig(in long column)
 	{
@@ -406,7 +406,7 @@ public:
 		return ptrcall!(Dictionary)(GDNativeClassBinding.getRangeConfig, _godot_object, column);
 	}
 	/**
-	
+	Gets the suffix string shown after the column value.
 	*/
 	String getSuffix(in long column) const
 	{
@@ -671,7 +671,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setIconRegion, _godot_object, column, region);
 	}
 	/**
-	
+	Sets the metadata value for the given column, which can be retrieved later using $(D getMetadata). This can be used, for example, to store a reference to the original data.
 	*/
 	void setMetadata(VariantArg1)(in long column, in VariantArg1 meta)
 	{
@@ -679,7 +679,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setMetadata, _godot_object, column, meta);
 	}
 	/**
-	
+	Sets the value of a $(D constant CELL_MODE_RANGE) column.
 	*/
 	void setRange(in long column, in double value)
 	{
@@ -687,7 +687,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setRange, _godot_object, column, value);
 	}
 	/**
-	
+	Sets the range of accepted values for a column. The column must be in the $(D constant CELL_MODE_RANGE) mode.
+	If `expr` is `true`, the edit mode slider will use an exponential scale as with $(D Range.expEdit).
 	*/
 	void setRangeConfig(in long column, in double min, in double max, in double step, in bool expr = false)
 	{
@@ -703,7 +704,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setSelectable, _godot_object, column, selectable);
 	}
 	/**
-	
+	Sets a string to be shown after a column's value (for example, a unit abbreviation).
 	*/
 	void setSuffix(in long column, in String text)
 	{
@@ -711,7 +712,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setSuffix, _godot_object, column, text);
 	}
 	/**
-	
+	Sets the given column's text value.
 	*/
 	void setText(in long column, in String text)
 	{

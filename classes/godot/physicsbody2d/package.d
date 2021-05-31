@@ -186,7 +186,7 @@ public:
 	/**
 	The physics layers this area is in.
 	Collidable objects can exist in any of 32 different layers. These layers work like a tagging system, and are not visual. A collidable can use these layers to select with which objects it can collide, using the $(D collisionMask) property.
-	A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionLayer()
 	{
@@ -198,7 +198,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The physics layers this area scans for collisions. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The physics layers this area scans for collisions. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

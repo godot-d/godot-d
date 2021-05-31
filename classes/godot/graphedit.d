@@ -46,7 +46,10 @@ public:
 		@GodotName("_connections_layer_draw") GodotMethod!(void) _connectionsLayerDraw;
 		@GodotName("_graph_node_moved") GodotMethod!(void, Node) _graphNodeMoved;
 		@GodotName("_graph_node_raised") GodotMethod!(void, Node) _graphNodeRaised;
+		@GodotName("_graph_node_slot_updated") GodotMethod!(void, long, Node) _graphNodeSlotUpdated;
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
+		@GodotName("_minimap_draw") GodotMethod!(void) _minimapDraw;
+		@GodotName("_minimap_toggled") GodotMethod!(void) _minimapToggled;
 		@GodotName("_scroll_moved") GodotMethod!(void, double) _scrollMoved;
 		@GodotName("_snap_toggled") GodotMethod!(void) _snapToggled;
 		@GodotName("_snap_value_changed") GodotMethod!(void, double) _snapValueChanged;
@@ -63,10 +66,13 @@ public:
 		@GodotName("connect_node") GodotMethod!(GodotError, String, long, String, long) connectNode;
 		@GodotName("disconnect_node") GodotMethod!(void, String, long, String, long) disconnectNode;
 		@GodotName("get_connection_list") GodotMethod!(Array) getConnectionList;
+		@GodotName("get_minimap_opacity") GodotMethod!(double) getMinimapOpacity;
+		@GodotName("get_minimap_size") GodotMethod!(Vector2) getMinimapSize;
 		@GodotName("get_scroll_ofs") GodotMethod!(Vector2) getScrollOfs;
 		@GodotName("get_snap") GodotMethod!(long) getSnap;
 		@GodotName("get_zoom") GodotMethod!(double) getZoom;
 		@GodotName("get_zoom_hbox") GodotMethod!(HBoxContainer) getZoomHbox;
+		@GodotName("is_minimap_enabled") GodotMethod!(bool) isMinimapEnabled;
 		@GodotName("is_node_connected") GodotMethod!(bool, String, long, String, long) isNodeConnected;
 		@GodotName("is_right_disconnects_enabled") GodotMethod!(bool) isRightDisconnectsEnabled;
 		@GodotName("is_using_snap") GodotMethod!(bool) isUsingSnap;
@@ -75,6 +81,9 @@ public:
 		@GodotName("remove_valid_left_disconnect_type") GodotMethod!(void, long) removeValidLeftDisconnectType;
 		@GodotName("remove_valid_right_disconnect_type") GodotMethod!(void, long) removeValidRightDisconnectType;
 		@GodotName("set_connection_activity") GodotMethod!(void, String, long, String, long, double) setConnectionActivity;
+		@GodotName("set_minimap_enabled") GodotMethod!(void, bool) setMinimapEnabled;
+		@GodotName("set_minimap_opacity") GodotMethod!(void, double) setMinimapOpacity;
+		@GodotName("set_minimap_size") GodotMethod!(void, Vector2) setMinimapSize;
 		@GodotName("set_right_disconnects") GodotMethod!(void, bool) setRightDisconnects;
 		@GodotName("set_scroll_ofs") GodotMethod!(void, Vector2) setScrollOfs;
 		@GodotName("set_selected") GodotMethod!(void, Node) setSelected;
@@ -136,11 +145,40 @@ public:
 	/**
 	
 	*/
+	void _graphNodeSlotUpdated(in long arg0, Node arg1)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
+		_GODOT_args.append(arg1);
+		String _GODOT_method_name = String("_graph_node_slot_updated");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
 	void _guiInput(InputEvent arg0)
 	{
 		Array _GODOT_args = Array.make();
 		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_gui_input");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _minimapDraw()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_minimap_draw");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _minimapToggled()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_minimap_toggled");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
@@ -286,6 +324,22 @@ public:
 	/**
 	
 	*/
+	double getMinimapOpacity() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getMinimapOpacity, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector2 getMinimapSize() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector2)(GDNativeClassBinding.getMinimapSize, _godot_object);
+	}
+	/**
+	
+	*/
 	Vector2 getScrollOfs() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -309,12 +363,20 @@ public:
 	}
 	/**
 	Gets the $(D HBoxContainer) that contains the zooming and grid snap controls in the top left of the graph.
-	Warning: The intended usage of this function is to allow you to reposition or add your own custom controls to the container. This is an internal control and as such should not be freed. If you wish to hide this or any of it's children use their $(D CanvasItem.visible) property instead.
+	Warning: The intended usage of this function is to allow you to reposition or add your own custom controls to the container. This is an internal control and as such should not be freed. If you wish to hide this or any of its children, use their $(D CanvasItem.visible) property instead.
 	*/
 	HBoxContainer getZoomHbox()
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(HBoxContainer)(GDNativeClassBinding.getZoomHbox, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isMinimapEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isMinimapEnabled, _godot_object);
 	}
 	/**
 	Returns `true` if the `from_port` slot of the `from` GraphNode is connected to the `to_port` slot of the `to` GraphNode.
@@ -383,6 +445,30 @@ public:
 	/**
 	
 	*/
+	void setMinimapEnabled(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setMinimapEnabled, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setMinimapOpacity(in double p_opacity)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setMinimapOpacity, _godot_object, p_opacity);
+	}
+	/**
+	
+	*/
+	void setMinimapSize(in Vector2 p_size)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setMinimapSize, _godot_object, p_size);
+	}
+	/**
+	
+	*/
 	void setRightDisconnects(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -427,6 +513,42 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setZoom, _godot_object, p_zoom);
+	}
+	/**
+	If `true`, the minimap is visible.
+	*/
+	@property bool minimapEnabled()
+	{
+		return isMinimapEnabled();
+	}
+	/// ditto
+	@property void minimapEnabled(bool v)
+	{
+		setMinimapEnabled(v);
+	}
+	/**
+	The opacity of the minimap rectangle.
+	*/
+	@property double minimapOpacity()
+	{
+		return getMinimapOpacity();
+	}
+	/// ditto
+	@property void minimapOpacity(double v)
+	{
+		setMinimapOpacity(v);
+	}
+	/**
+	The size of the minimap rectangle. The map itself is based on the size of the grid area and is scaled to fit this rectangle.
+	*/
+	@property Vector2 minimapSize()
+	{
+		return getMinimapSize();
+	}
+	/// ditto
+	@property void minimapSize(Vector2 v)
+	{
+		setMinimapSize(v);
 	}
 	/**
 	If `true`, enables disconnection of existing connections in the GraphEdit by dragging the right end.

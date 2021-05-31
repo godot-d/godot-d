@@ -27,6 +27,8 @@ import godot.cryptokey;
 PacketPeer implementation using the $(D url=http://enet.bespin.org/index.html)ENet$(D /url) library.
 
 A PacketPeer implementation that should be passed to $(D SceneTree.networkPeer) after being initialized as either a client or server. Events can then be handled by connecting to $(D SceneTree) signals.
+ENet's purpose is to provide a relatively thin, simple and robust network communication layer on top of UDP (User Datagram Protocol).
+$(B Note:) ENet only uses UDP, not TCP. When forwarding the server port to make your server accessible on the public Internet, you only need to forward the server port in UDP. You can use the $(D UPNP) class to try to forward the server port automatically when starting the server.
 */
 @GodotBaseClass struct NetworkedMultiplayerENet
 {
@@ -63,6 +65,7 @@ public:
 		@GodotName("set_dtls_enabled") GodotMethod!(void, bool) setDtlsEnabled;
 		@GodotName("set_dtls_key") GodotMethod!(void, CryptoKey) setDtlsKey;
 		@GodotName("set_dtls_verify_enabled") GodotMethod!(void, bool) setDtlsVerifyEnabled;
+		@GodotName("set_peer_timeout") GodotMethod!(void, long, long, long, long) setPeerTimeout;
 		@GodotName("set_server_relay_enabled") GodotMethod!(void, bool) setServerRelayEnabled;
 		@GodotName("set_transfer_channel") GodotMethod!(void, long) setTransferChannel;
 	}
@@ -304,6 +307,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setDtlsVerifyEnabled, _godot_object, enabled);
+	}
+	/**
+	Sets the timeout parameters for a peer.	The timeout parameters control how and when a peer will timeout from a failure to acknowledge reliable traffic. Timeout values are expressed in milliseconds.
+	The `timeout_limit` is a factor that, multiplied by a value based on the average round trip time, will determine the timeout limit for a reliable packet. When that limit is reached, the timeout will be doubled, and the peer will be disconnected if that limit has reached `timeout_min`. The `timeout_max` parameter, on the other hand, defines a fixed timeout for which any packet must be acknowledged or the peer will be dropped.
+	*/
+	void setPeerTimeout(in long id, in long timeout_limit, in long timeout_min, in long timeout_max)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setPeerTimeout, _godot_object, id, timeout_limit, timeout_min, timeout_max);
 	}
 	/**
 	

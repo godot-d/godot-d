@@ -32,6 +32,7 @@ GPU-based 2D particle emitter.
 Use the `process_material` property to add a $(D ParticlesMaterial) to configure particle appearance and behavior. Alternatively, you can add a $(D ShaderMaterial) which will be applied to all particles.
 $(B Note:) $(D Particles2D) only work when using the GLES3 renderer. If using the GLES2 renderer, use $(D CPUParticles2D) instead. You can convert $(D Particles2D) to $(D CPUParticles2D) by selecting the node, clicking the $(B Particles) menu at the top of the 2D editor viewport then choosing $(B Convert to CPUParticles2D).
 $(B Note:) After working on a Particles node, remember to update its $(D visibilityRect) by selecting it, clicking the $(B Particles) menu at the top of the 2D editor viewport then choose $(B Generate Visibility Rect). Otherwise, particles may suddenly disappear depending on the camera position and angle.
+$(B Note:) Unlike $(D CPUParticles2D), $(D Particles2D) currently ignore the texture region defined in $(D AtlasTexture)s.
 */
 @GodotBaseClass struct Particles2D
 {
@@ -563,7 +564,8 @@ public:
 		setTexture(v);
 	}
 	/**
-	Editor visibility helper.
+	The $(D Rect2) that determines the node's region which needs to be visible on screen for the particle system to be active.
+	Grow the rect if particles suddenly appear/disappear when the node enters/exits the screen. The $(D Rect2) can be grown via code or with the $(B Particles → Generate Visibility Rect) editor tool.
 	*/
 	@property Rect2 visibilityRect()
 	{

@@ -37,6 +37,7 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("_body_exit_tree") GodotMethod!(void) _bodyExitTree;
 		@GodotName("get_bias") GodotMethod!(double) getBias;
 		@GodotName("get_exclude_nodes_from_collision") GodotMethod!(bool) getExcludeNodesFromCollision;
 		@GodotName("get_node_a") GodotMethod!(NodePath) getNodeA;
@@ -68,6 +69,15 @@ public:
 		return cast(Joint2D)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	void _bodyExitTree()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_body_exit_tree");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
 	/**
 	
 	*/

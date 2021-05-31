@@ -28,6 +28,7 @@ import godot.tileset;
 Node for 2D tile-based maps.
 
 Tilemaps use a $(D TileSet) which contain a list of tiles (textures plus optional collision, navigation, and/or occluder shapes) which are used to create grid-based maps.
+When doing physics queries against the tilemap, the cell coordinates are encoded as `metadata` for each detected collision shape returned by methods such as $(D Physics2DDirectSpaceState.intersectShape), $(D Physics2DDirectBodyState.getContactColliderShapeMetadata), etc.
 */
 @GodotBaseClass struct TileMap
 {
@@ -78,6 +79,7 @@ public:
 		@GodotName("is_cell_y_flipped") GodotMethod!(bool, long, long) isCellYFlipped;
 		@GodotName("is_centered_textures_enabled") GodotMethod!(bool) isCenteredTexturesEnabled;
 		@GodotName("is_compatibility_mode_enabled") GodotMethod!(bool) isCompatibilityModeEnabled;
+		@GodotName("is_show_collision_enabled") GodotMethod!(bool) isShowCollisionEnabled;
 		@GodotName("is_y_sort_mode_enabled") GodotMethod!(bool) isYSortModeEnabled;
 		@GodotName("map_to_world") GodotMethod!(Vector2, Vector2, bool) mapToWorld;
 		@GodotName("set_cell") GodotMethod!(void, long, long, long, bool, bool, bool, Vector2) setCell;
@@ -99,6 +101,7 @@ public:
 		@GodotName("set_mode") GodotMethod!(void, long) setMode;
 		@GodotName("set_occluder_light_mask") GodotMethod!(void, long) setOccluderLightMask;
 		@GodotName("set_quadrant_size") GodotMethod!(void, long) setQuadrantSize;
+		@GodotName("set_show_collision") GodotMethod!(void, bool) setShowCollision;
 		@GodotName("set_tile_origin") GodotMethod!(void, long) setTileOrigin;
 		@GodotName("set_tileset") GodotMethod!(void, TileSet) setTileset;
 		@GodotName("set_y_sort_mode") GodotMethod!(void, bool) setYSortMode;
@@ -514,13 +517,28 @@ public:
 	/**
 	
 	*/
+	bool isShowCollisionEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isShowCollisionEnabled, _godot_object);
+	}
+	/**
+	
+	*/
 	bool isYSortModeEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isYSortModeEnabled, _godot_object);
 	}
 	/**
-	Returns the global position corresponding to the given tilemap (grid-based) coordinates.
+	Returns the local position of the top left corner of the cell corresponding to the given tilemap (grid-based) coordinates.
+	To get the global position, use $(D Node2D.toGlobal):
+	
+	
+	var local_position = my_tilemap.map_to_world(map_position)
+	var global_position = my_tilemap.to_global(local_position)
+	
+	
 	Optionally, the tilemap's half offset can be ignored.
 	*/
 	Vector2 mapToWorld(in Vector2 map_position, in bool ignore_half_ofs = false) const
@@ -537,7 +555,7 @@ public:
 	Overriding this method also overrides it internally, allowing custom logic to be implemented when tiles are placed/removed:
 	
 	
-	func set_cell(x, y, tile, flip_x=false, flip_y=false, transpose=false, autotile_coord=Vector2())
+	func set_cell(x, y, tile, flip_x=false, flip_y=false, transpose=false, autotile_coord=Vector2()):
 	    # Write your custom logic here.
 	    # To call the default method:
 	    .set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
@@ -700,6 +718,14 @@ public:
 	/**
 	
 	*/
+	void setShowCollision(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setShowCollision, _godot_object, enable);
+	}
+	/**
+	
+	*/
 	void setTileOrigin(in long origin)
 	{
 		checkClassBinding!(typeof(this))();
@@ -748,6 +774,13 @@ public:
 	}
 	/**
 	Returns the tilemap (grid-based) coordinates corresponding to the given local position.
+	To use this with a global position, first determine the local position with $(D Node2D.toLocal):
+	
+	
+	var local_position = my_tilemap.to_local(global_position)
+	var map_position = my_tilemap.world_to_map(local_position)
+	
+	
 	*/
 	Vector2 worldToMap(in Vector2 world_position) const
 	{
@@ -876,7 +909,7 @@ public:
 		setCollisionFriction(v);
 	}
 	/**
-	The collision layer(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The collision layer(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionLayer()
 	{
@@ -888,7 +921,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The collision mask(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The collision mask(s) for all colliders in the TileMap. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{
@@ -960,6 +993,18 @@ public:
 	@property void occluderLightMask(long v)
 	{
 		setOccluderLightMask(v);
+	}
+	/**
+	If `true`, collision shapes are shown in the editor and at run-time. Requires $(B Visible Collision Shapes) to be enabled in the $(B Debug) menu for collision shapes to be visible at run-time.
+	*/
+	@property bool showCollision()
+	{
+		return isShowCollisionEnabled();
+	}
+	/// ditto
+	@property void showCollision(bool v)
+	{
+		setShowCollision(v);
 	}
 	/**
 	The assigned $(D TileSet).

@@ -28,6 +28,8 @@ Real-time global illumination (GI) probe.
 
 $(D GIProbe)s are used to provide high-quality real-time indirect light to scenes. They precompute the effect of objects that emit light and the effect of static geometry to simulate the behavior of complex light in real-time. $(D GIProbe)s need to be baked before using, however, once baked, dynamic objects will receive light from them. Further, lights can be fully dynamic or baked.
 Having $(D GIProbe)s in a scene can be expensive, the quality of the probe can be turned down in exchange for better performance in the $(D ProjectSettings) using $(D ProjectSettings.rendering/quality/voxelConeTracing/highQuality).
+$(B Note:) Meshes should have sufficiently thick walls to avoid light leaks (avoid one-sided walls). For interior levels, enclose your level geometry in a sufficiently large box and bridge the loops to close the mesh.
+$(B Note:) Due to a renderer limitation, emissive $(D ShaderMaterial)s cannot emit light when used in a $(D GIProbe). Only emissive $(D SpatialMaterial)s can emit light in a $(D GIProbe).
 */
 @GodotBaseClass struct GIProbe
 {

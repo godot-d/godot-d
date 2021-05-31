@@ -47,25 +47,32 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("edit_node") GodotMethod!(void, Node) editNode;
 		@GodotName("edit_resource") GodotMethod!(void, Resource) editResource;
 		@GodotName("get_base_control") GodotMethod!(Control) getBaseControl;
 		@GodotName("get_current_path") GodotMethod!(String) getCurrentPath;
 		@GodotName("get_edited_scene_root") GodotMethod!(Node) getEditedSceneRoot;
+		@GodotName("get_editor_scale") GodotMethod!(double) getEditorScale;
 		@GodotName("get_editor_settings") GodotMethod!(EditorSettings) getEditorSettings;
 		@GodotName("get_editor_viewport") GodotMethod!(Control) getEditorViewport;
 		@GodotName("get_file_system_dock") GodotMethod!(FileSystemDock) getFileSystemDock;
 		@GodotName("get_inspector") GodotMethod!(EditorInspector) getInspector;
 		@GodotName("get_open_scenes") GodotMethod!(Array) getOpenScenes;
+		@GodotName("get_playing_scene") GodotMethod!(String) getPlayingScene;
 		@GodotName("get_resource_filesystem") GodotMethod!(EditorFileSystem) getResourceFilesystem;
 		@GodotName("get_resource_previewer") GodotMethod!(EditorResourcePreview) getResourcePreviewer;
 		@GodotName("get_script_editor") GodotMethod!(ScriptEditor) getScriptEditor;
 		@GodotName("get_selected_path") GodotMethod!(String) getSelectedPath;
 		@GodotName("get_selection") GodotMethod!(EditorSelection) getSelection;
-		@GodotName("inspect_object") GodotMethod!(void, GodotObject, String) inspectObject;
+		@GodotName("inspect_object") GodotMethod!(void, GodotObject, String, bool) inspectObject;
 		@GodotName("is_distraction_free_mode_enabled") GodotMethod!(bool) isDistractionFreeModeEnabled;
+		@GodotName("is_playing_scene") GodotMethod!(bool) isPlayingScene;
 		@GodotName("is_plugin_enabled") GodotMethod!(bool, String) isPluginEnabled;
 		@GodotName("make_mesh_previews") GodotMethod!(Array, Array, long) makeMeshPreviews;
 		@GodotName("open_scene_from_path") GodotMethod!(void, String) openSceneFromPath;
+		@GodotName("play_current_scene") GodotMethod!(void) playCurrentScene;
+		@GodotName("play_custom_scene") GodotMethod!(void, String) playCustomScene;
+		@GodotName("play_main_scene") GodotMethod!(void) playMainScene;
 		@GodotName("reload_scene_from_path") GodotMethod!(void, String) reloadSceneFromPath;
 		@GodotName("save_scene") GodotMethod!(GodotError) saveScene;
 		@GodotName("save_scene_as") GodotMethod!(void, String, bool) saveSceneAs;
@@ -73,6 +80,7 @@ public:
 		@GodotName("set_distraction_free_mode") GodotMethod!(void, bool) setDistractionFreeMode;
 		@GodotName("set_main_screen_editor") GodotMethod!(void, String) setMainScreenEditor;
 		@GodotName("set_plugin_enabled") GodotMethod!(void, String, bool) setPluginEnabled;
+		@GodotName("stop_playing_scene") GodotMethod!(void) stopPlayingScene;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in EditorInterface other) const
@@ -96,6 +104,14 @@ public:
 		return cast(EditorInterface)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	Edits the given $(D Node). The node will be also selected if it's inside the scene tree.
+	*/
+	void editNode(Node node)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.editNode, _godot_object, node);
+	}
 	/**
 	Edits the given $(D Resource).
 	*/
@@ -127,6 +143,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Node)(GDNativeClassBinding.getEditedSceneRoot, _godot_object);
+	}
+	/**
+	Returns the actual scale of the editor UI (`1.0` being 100% scale). This can be used to adjust position and dimensions of the UI added by plugins.
+	$(B Note:) This value is set via the `interface/editor/display_scale` and `interface/editor/custom_display_scale` editor settings. Editor must be restarted for changes to be properly applied.
+	*/
+	double getEditorScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getEditorScale, _godot_object);
 	}
 	/**
 	Returns the editor's $(D EditorSettings) instance.
@@ -168,6 +193,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Array)(GDNativeClassBinding.getOpenScenes, _godot_object);
+	}
+	/**
+	Returns the name of the scene that is being played. If no scene is currently being played, returns an empty string.
+	*/
+	String getPlayingScene() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getPlayingScene, _godot_object);
 	}
 	/**
 	Returns the editor's $(D EditorFileSystem) instance.
@@ -212,10 +245,10 @@ public:
 	/**
 	Shows the given property on the given `object` in the editor's Inspector dock. If `inspector_only` is `true`, plugins will not attempt to edit `object`.
 	*/
-	void inspectObject(GodotObject object, in String for_property = gs!"")
+	void inspectObject(GodotObject object, in String for_property = gs!"", in bool inspector_only = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.inspectObject, _godot_object, object, for_property);
+		ptrcall!(void)(GDNativeClassBinding.inspectObject, _godot_object, object, for_property, inspector_only);
 	}
 	/**
 	
@@ -224,6 +257,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isDistractionFreeModeEnabled, _godot_object);
+	}
+	/**
+	Returns `true` if a scene is currently being played, `false` otherwise. Paused scenes are considered as being played.
+	*/
+	bool isPlayingScene() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isPlayingScene, _godot_object);
 	}
 	/**
 	Returns `true` if the specified `plugin` is enabled. The plugin name is the same as its directory name.
@@ -248,6 +289,30 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.openSceneFromPath, _godot_object, scene_filepath);
+	}
+	/**
+	Plays the currently active scene.
+	*/
+	void playCurrentScene()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.playCurrentScene, _godot_object);
+	}
+	/**
+	Plays the scene specified by its filepath.
+	*/
+	void playCustomScene(in String scene_filepath)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.playCustomScene, _godot_object, scene_filepath);
+	}
+	/**
+	Plays the main scene.
+	*/
+	void playMainScene()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.playMainScene, _godot_object);
 	}
 	/**
 	Reloads the scene at the given path.
@@ -304,6 +369,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setPluginEnabled, _godot_object, plugin, enabled);
+	}
+	/**
+	Stops the scene that is currently playing.
+	*/
+	void stopPlayingScene()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.stopPlayingScene, _godot_object);
 	}
 	/**
 	If `true`, enables distraction-free mode which hides side docks to increase the space available for the main view.

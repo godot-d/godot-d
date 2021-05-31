@@ -14,6 +14,7 @@ public import
 	godot.texturebutton,
 	godot.colorrect,
 	godot.container,
+	godot.aspectratiocontainer,
 	godot.boxcontainer,
 	godot.colorpicker,
 	godot.hboxcontainer,

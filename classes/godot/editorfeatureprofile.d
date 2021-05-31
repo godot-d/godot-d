@@ -92,17 +92,17 @@ public:
 		*/
 		featureSceneTree = 3,
 		/**
-		The Import dock. If this feature is disabled, the Import dock won't be visible.
-		*/
-		featureImportDock = 4,
-		/**
 		The Node dock. If this feature is disabled, signals and groups won't be visible and modifiable from the editor.
 		*/
-		featureNodeDock = 5,
+		featureNodeDock = 4,
 		/**
 		The FileSystem dock. If this feature is disabled, the FileSystem dock won't be visible.
 		*/
-		featureFilesystemDock = 6,
+		featureFilesystemDock = 5,
+		/**
+		The Import dock. If this feature is disabled, the Import dock won't be visible.
+		*/
+		featureImportDock = 6,
 		/**
 		Represents the size of the $(D feature) enum.
 		*/
@@ -115,9 +115,9 @@ public:
 		featureScript = 1,
 		featureAssetLib = 2,
 		featureSceneTree = 3,
-		featureImportDock = 4,
-		featureNodeDock = 5,
-		featureFilesystemDock = 6,
+		featureNodeDock = 4,
+		featureFilesystemDock = 5,
+		featureImportDock = 6,
 		featureMax = 7,
 	}
 	/**

@@ -143,7 +143,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getInputPortCount, _godot_object);
 	}
 	/**
-	Returns a $(D String) description of the input ports as as colon-separated list using the format `id,type,name;` (see $(D addInputPort)).
+	Returns a $(D String) description of the input ports as a colon-separated list using the format `id,type,name;` (see $(D addInputPort)).
 	*/
 	String getInputs() const
 	{
@@ -159,7 +159,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getOutputPortCount, _godot_object);
 	}
 	/**
-	Returns a $(D String) description of the output ports as as colon-separated list using the format `id,type,name;` (see $(D addOutputPort)).
+	Returns a $(D String) description of the output ports as a colon-separated list using the format `id,type,name;` (see $(D addOutputPort)).
 	*/
 	String getOutputs() const
 	{

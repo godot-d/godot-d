@@ -568,6 +568,11 @@ public:
 	}
 	/**
 	The camera's field of view angle (in degrees). Only applicable in perspective mode. Since $(D keepAspect) locks one axis, `fov` sets the other axis' field of view angle.
+	For reference, the default vertical field of view value (`75.0`) is equivalent to a horizontal FOV of:
+	- ~91.31 degrees in a 4:3 viewport
+	- ~101.67 degrees in a 16:10 viewport
+	- ~107.51 degrees in a 16:9 viewport
+	- ~121.63 degrees in a 21:9 viewport
 	*/
 	@property double fov()
 	{

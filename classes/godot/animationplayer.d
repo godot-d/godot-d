@@ -531,7 +531,7 @@ public:
 	}
 	/**
 	The name of the currently playing animation. If no animation is playing, the property's value is an empty string. Changing this value does not restart the animation. See $(D play) for more information on playing animations.
-	$(B Note): while this property appears in the inspector, it's not meant to be edited and it's not saved in the scene. This property is mainly used to get the currently playing animation, and internally for animation playback tracks. For more information, see $(D Animation).
+	$(B Note): while this property appears in the inspector, it's not meant to be edited, and it's not saved in the scene. This property is mainly used to get the currently playing animation, and internally for animation playback tracks. For more information, see $(D Animation).
 	*/
 	@property String currentAnimation()
 	{

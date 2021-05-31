@@ -134,7 +134,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setRings, _godot_object, rings);
 	}
 	/**
-	Height of the capsule mesh from the center point.
+	Height of the middle cylindrical part of the capsule (without the hemispherical ends).
+	$(B Note:) The capsule's total height is equal to $(D midHeight) + 2 * $(D radius).
 	*/
 	@property double midHeight()
 	{

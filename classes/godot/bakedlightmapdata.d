@@ -21,7 +21,6 @@ import godot.d.reference;
 import godot.object;
 import godot.classdb;
 import godot.resource;
-import godot.texture;
 /**
 
 */
@@ -39,7 +38,8 @@ public:
 		__gshared:
 		@GodotName("_get_user_data") GodotMethod!(Array) _getUserData;
 		@GodotName("_set_user_data") GodotMethod!(void, Array) _setUserData;
-		@GodotName("add_user") GodotMethod!(void, NodePath, Texture, long) addUser;
+		@GodotName("add_user") GodotMethod!(void, NodePath, Resource, long, Rect2, long) addUser;
+		@GodotName("clear_data") GodotMethod!(void) clearData;
 		@GodotName("clear_users") GodotMethod!(void) clearUsers;
 		@GodotName("get_bounds") GodotMethod!(AABB) getBounds;
 		@GodotName("get_cell_space_transform") GodotMethod!(Transform) getCellSpaceTransform;
@@ -47,12 +47,14 @@ public:
 		@GodotName("get_energy") GodotMethod!(double) getEnergy;
 		@GodotName("get_octree") GodotMethod!(PoolByteArray) getOctree;
 		@GodotName("get_user_count") GodotMethod!(long) getUserCount;
-		@GodotName("get_user_lightmap") GodotMethod!(Texture, long) getUserLightmap;
+		@GodotName("get_user_lightmap") GodotMethod!(Resource, long) getUserLightmap;
 		@GodotName("get_user_path") GodotMethod!(NodePath, long) getUserPath;
+		@GodotName("is_interior") GodotMethod!(bool) isInterior;
 		@GodotName("set_bounds") GodotMethod!(void, AABB) setBounds;
 		@GodotName("set_cell_space_transform") GodotMethod!(void, Transform) setCellSpaceTransform;
 		@GodotName("set_cell_subdiv") GodotMethod!(void, long) setCellSubdiv;
 		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_interior") GodotMethod!(void, bool) setInterior;
 		@GodotName("set_octree") GodotMethod!(void, PoolByteArray) setOctree;
 	}
 	/// 
@@ -99,10 +101,18 @@ public:
 	/**
 	
 	*/
-	void addUser(NodePathArg0)(in NodePathArg0 path, Texture lightmap, in long instance)
+	void addUser(NodePathArg0)(in NodePathArg0 path, Resource lightmap, in long lightmap_slice, in Rect2 lightmap_uv_rect, in long instance)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.addUser, _godot_object, path, lightmap, instance);
+		ptrcall!(void)(GDNativeClassBinding.addUser, _godot_object, path, lightmap, lightmap_slice, lightmap_uv_rect, instance);
+	}
+	/**
+	
+	*/
+	void clearData()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.clearData, _godot_object);
 	}
 	/**
 	
@@ -163,10 +173,10 @@ public:
 	/**
 	
 	*/
-	Ref!Texture getUserLightmap(in long user_idx) const
+	Ref!Resource getUserLightmap(in long user_idx) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(GDNativeClassBinding.getUserLightmap, _godot_object, user_idx);
+		return ptrcall!(Resource)(GDNativeClassBinding.getUserLightmap, _godot_object, user_idx);
 	}
 	/**
 	
@@ -175,6 +185,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(NodePath)(GDNativeClassBinding.getUserPath, _godot_object, user_idx);
+	}
+	/**
+	
+	*/
+	bool isInterior() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isInterior, _godot_object);
 	}
 	/**
 	
@@ -207,6 +225,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, energy);
+	}
+	/**
+	
+	*/
+	void setInterior(in bool interior)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setInterior, _godot_object, interior);
 	}
 	/**
 	
@@ -253,7 +279,7 @@ public:
 		setCellSubdiv(v);
 	}
 	/**
-	
+	Global energy multiplier for baked and dynamic capture objects.
 	*/
 	@property double energy()
 	{
@@ -263,6 +289,18 @@ public:
 	@property void energy(double v)
 	{
 		setEnergy(v);
+	}
+	/**
+	Controls whether dynamic capture objects receive environment lighting or not.
+	*/
+	@property bool interior()
+	{
+		return isInterior();
+	}
+	/// ditto
+	@property void interior(bool v)
+	{
+		setInterior(v);
 	}
 	/**
 	

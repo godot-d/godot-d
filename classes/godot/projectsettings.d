@@ -24,7 +24,8 @@ Contains global variables accessible from everywhere.
 
 Use $(D getSetting), $(D setSetting) or $(D hasSetting) to access them. Variables stored in `project.godot` are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options.
 When naming a Project Settings property, use the full path to the setting including the category. For example, `"application/config/name"` for the project name. Category and property names can be viewed in the Project Settings dialog.
-$(B Overriding:) Any project setting can be overridden by creating a file named `override.cfg` in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary.
+$(B Feature tags:) Project settings can be overridden for specific platforms and configurations (debug, release, ...) using $(D url=https://docs.godotengine.org/en/latest/tutorials/export/feature_tags.html)feature tags$(D /url).
+$(B Overriding:) Any project setting can be overridden by creating a file named `override.cfg` in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary. Overriding will still take the base project settings' $(D url=https://docs.godotengine.org/en/latest/tutorials/export/feature_tags.html)feature tags$(D /url) in account. Therefore, make sure to $(I also) override the setting with the desired feature tags if you want them to override base project settings on all platforms and configurations.
 */
 @GodotBaseClass struct ProjectSettingsSingleton
 {
@@ -46,7 +47,7 @@ public:
 		@GodotName("get_setting") GodotMethod!(Variant, String) getSetting;
 		@GodotName("globalize_path") GodotMethod!(String, String) globalizePath;
 		@GodotName("has_setting") GodotMethod!(bool, String) hasSetting;
-		@GodotName("load_resource_pack") GodotMethod!(bool, String, bool) loadResourcePack;
+		@GodotName("load_resource_pack") GodotMethod!(bool, String, bool, long) loadResourcePack;
 		@GodotName("localize_path") GodotMethod!(String, String) localizePath;
 		@GodotName("property_can_revert") GodotMethod!(bool, String) propertyCanRevert;
 		@GodotName("property_get_revert") GodotMethod!(Variant, String) propertyGetRevert;
@@ -135,7 +136,7 @@ public:
 		return ptrcall!(Variant)(GDNativeClassBinding.getSetting, _godot_object, name);
 	}
 	/**
-	Returns the absolute, native OS path corresponding to the localized `path` (starting with `res://` or `user://`). The returned path will vary depending on the operating system and user preferences. See $(D url=https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html)File paths in Godot projects$(D /url) to see what those paths convert to. See also $(D localizePath).
+	Returns the absolute, native OS path corresponding to the localized `path` (starting with `res://` or `user://`). The returned path will vary depending on the operating system and user preferences. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/io/data_paths.html)File paths in Godot projects$(D /url) to see what those paths convert to. See also $(D localizePath).
 	$(B Note:) $(D globalizePath) with `res://` will not work in an exported project. Instead, prepend the executable's base directory to the path when running from an exported project:
 	
 	
@@ -171,10 +172,10 @@ public:
 	$(B Note:) If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack` unless `replace_files` is set to `false`.
 	$(B Note:) The optional `offset` parameter can be used to specify the offset in bytes to the start of the resource pack. This is only supported for .pck files.
 	*/
-	bool loadResourcePack(in String pack, in bool replace_files = true)
+	bool loadResourcePack(in String pack, in bool replace_files = true, in long offset = 0)
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.loadResourcePack, _godot_object, pack, replace_files);
+		return ptrcall!(bool)(GDNativeClassBinding.loadResourcePack, _godot_object, pack, replace_files, offset);
 	}
 	/**
 	Returns the localized path (starting with `res://`) corresponding to the absolute, native OS `path`. See also $(D globalizePath).
@@ -202,6 +203,7 @@ public:
 	}
 	/**
 	Saves the configuration to the `project.godot` file.
+	$(B Note:) This method is intended to be used by editor plugins, as modified $(D ProjectSettings) can't be loaded back in the running app. If you want to change project settings in exported projects, use $(D saveCustom) to save `override.cfg` file.
 	*/
 	GodotError save()
 	{
@@ -209,7 +211,7 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.save, _godot_object);
 	}
 	/**
-	Saves the configuration to a custom file. The file extension must be `.godot` (to save in text-based $(D ConfigFile) format) or `.binary` (to save in binary format).
+	Saves the configuration to a custom file. The file extension must be `.godot` (to save in text-based $(D ConfigFile) format) or `.binary` (to save in binary format). You can also save `override.cfg` file, which is also text, but can be used in exported projects unlike other formats.
 	*/
 	GodotError saveCustom(in String file)
 	{

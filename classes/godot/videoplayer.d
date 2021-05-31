@@ -31,6 +31,7 @@ Control for playing video streams.
 Control node for playing video streams using $(D VideoStream) resources.
 Supported video formats are $(D url=https://www.webmproject.org/)WebM$(D /url) (`.webm`, $(D VideoStreamWebm)), $(D url=https://www.theora.org/)Ogg Theora$(D /url) (`.ogv`, $(D VideoStreamTheora)), and any format exposed via a GDNative plugin using $(D VideoStreamGDNative).
 $(B Note:) Due to a bug, VideoPlayer does not support localization remapping yet.
+$(B Warning:) On HTML5, video playback $(I will) perform poorly due to missing architecture-specific assembly optimizations, especially for VP8/VP9.
 */
 @GodotBaseClass struct VideoPlayer
 {
@@ -380,6 +381,7 @@ public:
 	}
 	/**
 	The current position of the stream, in seconds.
+	$(B Note:) Changing this value won't have any effect as seeking is not implemented yet, except in video formats implemented by a GDNative add-on.
 	*/
 	@property double streamPosition()
 	{

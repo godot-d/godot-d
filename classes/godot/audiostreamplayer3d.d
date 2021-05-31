@@ -1,5 +1,5 @@
 /**
-Plays 3D sound in 3D space.
+Plays positional sound in 3D space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,10 +24,12 @@ import godot.spatial;
 import godot.audiostream;
 import godot.audiostreamplayback;
 /**
-Plays 3D sound in 3D space.
+Plays positional sound in 3D space.
 
 Plays a sound effect with directed sound effects, dampens with distance if needed, generates effect of hearable position in space. For greater realism, a low-pass filter is automatically applied to distant sounds. This can be disabled by setting $(D attenuationFilterCutoffHz) to `20500`.
 By default, audio is heard from the camera position. This can be changed by adding a $(D Listener) node to the scene and enabling it by calling $(D Listener.makeCurrent) on it.
+See also $(D AudioStreamPlayer) to play a sound non-positionally.
+$(B Note:) Hiding an $(D AudioStreamPlayer3D) node does not disable its audio output. To temporarily disable an $(D AudioStreamPlayer3D)'s audio output, set $(D unitDb) to a very low value like `-100` (which isn't audible to human hearing).
 */
 @GodotBaseClass struct AudioStreamPlayer3D
 {

@@ -266,6 +266,7 @@ public:
 	}
 	/**
 	Returns an array with the points that are in the path found by AStar2D between the given points. The array is ordered from the starting point to the ending point of the path.
+	$(B Note:) This method is not thread-safe. If called from a $(D Thread), it will return an empty $(D PoolVector2Array) and will print an error message.
 	*/
 	PoolVector2Array getPointPath(in long from_id, in long to_id)
 	{

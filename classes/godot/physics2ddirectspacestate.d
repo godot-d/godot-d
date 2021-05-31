@@ -102,13 +102,14 @@ public:
 		return ptrcall!(Dictionary)(GDNativeClassBinding.getRestInfo, _godot_object, shape);
 	}
 	/**
-	Checks whether a point is inside any shape. The shapes the point is inside of are returned in an array containing dictionaries with the following fields:
+	Checks whether a point is inside any solid shape. The shapes the point is inside of are returned in an array containing dictionaries with the following fields:
 	`collider`: The colliding object.
 	`collider_id`: The colliding object's ID.
 	`metadata`: The intersecting shape's metadata. This metadata is different from $(D GodotObject.getMeta), and is set with $(D Physics2DServer.shapeSetData).
 	`rid`: The intersecting object's $(D RID).
 	`shape`: The shape index of the colliding shape.
 	Additionally, the method can take an `exclude` array of objects or $(D RID)s that are to be excluded from collisions, a `collision_mask` bitmask representing the physics layers to check in, or booleans to determine if the ray should collide with $(D PhysicsBody)s or $(D Area)s, respectively.
+	$(B Note:) $(D ConcavePolygonShape2D)s and $(D CollisionPolygon2D)s in `Segments` build mode are not solid shapes. Therefore, they will not be detected.
 	*/
 	Array intersectPoint(in Vector2 point, in long max_results = 32, in Array exclude = Array.make(), in long collision_layer = 2147483647, in bool collide_with_bodies = true, in bool collide_with_areas = false)
 	{

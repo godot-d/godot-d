@@ -64,6 +64,7 @@ public:
 		@GodotName("get_colliding_bodies") GodotMethod!(Array) getCollidingBodies;
 		@GodotName("get_friction") GodotMethod!(double) getFriction;
 		@GodotName("get_gravity_scale") GodotMethod!(double) getGravityScale;
+		@GodotName("get_inverse_inertia_tensor") GodotMethod!(Basis) getInverseInertiaTensor;
 		@GodotName("get_linear_damp") GodotMethod!(double) getLinearDamp;
 		@GodotName("get_linear_velocity") GodotMethod!(Vector3) getLinearVelocity;
 		@GodotName("get_mass") GodotMethod!(double) getMass;
@@ -302,6 +303,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getGravityScale, _godot_object);
+	}
+	/**
+	Returns the inverse inertia tensor basis. This is used to calculate the angular acceleration resulting from a torque applied to the RigidBody.
+	*/
+	Basis getInverseInertiaTensor()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Basis)(GDNativeClassBinding.getInverseInertiaTensor, _godot_object);
 	}
 	/**
 	

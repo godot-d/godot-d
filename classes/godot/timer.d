@@ -25,7 +25,7 @@ import godot.node;
 A countdown timer.
 
 Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one-shot" mode.
-$(B Note:) To create an one-shot timer without instantiating a node, use $(D SceneTree.createTimer).
+$(B Note:) To create a one-shot timer without instantiating a node, use $(D SceneTree.createTimer).
 */
 @GodotBaseClass struct Timer
 {

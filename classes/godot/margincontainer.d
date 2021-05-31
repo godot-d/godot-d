@@ -31,11 +31,12 @@ Adds a top, left, bottom, and right margin to all $(D Control) nodes that are di
 $(B Note:) Be careful, $(D Control) margin values are different than the constant margin values. If you want to change the custom margin values of the $(D MarginContainer) by code, you should use the following examples:
 
 
+# This code sample assumes the current script is extending MarginContainer.
 var margin_value = 100
-set("custom_constants/margin_top", margin_value)
-set("custom_constants/margin_left", margin_value)
-set("custom_constants/margin_bottom", margin_value)
-set("custom_constants/margin_right", margin_value)
+add_constant_override("margin_top", margin_value)
+add_constant_override("margin_left", margin_value)
+add_constant_override("margin_bottom", margin_value)
+add_constant_override("margin_right", margin_value)
 
 
 */

@@ -66,6 +66,7 @@ public:
 		@GodotName("are_column_titles_visible") GodotMethod!(bool) areColumnTitlesVisible;
 		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("create_item") GodotMethod!(TreeItem, GodotObject, long) createItem;
+		@GodotName("edit_selected") GodotMethod!(bool) editSelected;
 		@GodotName("ensure_cursor_is_visible") GodotMethod!(void) ensureCursorIsVisible;
 		@GodotName("get_allow_reselect") GodotMethod!(bool) getAllowReselect;
 		@GodotName("get_allow_rmb_select") GodotMethod!(bool) getAllowRmbSelect;
@@ -89,6 +90,7 @@ public:
 		@GodotName("get_selected_column") GodotMethod!(long) getSelectedColumn;
 		@GodotName("is_folding_hidden") GodotMethod!(bool) isFoldingHidden;
 		@GodotName("is_root_hidden") GodotMethod!(bool) isRootHidden;
+		@GodotName("scroll_to_item") GodotMethod!(void, GodotObject) scrollToItem;
 		@GodotName("set_allow_reselect") GodotMethod!(void, bool) setAllowReselect;
 		@GodotName("set_allow_rmb_select") GodotMethod!(void, bool) setAllowRmbSelect;
 		@GodotName("set_column_expand") GodotMethod!(void, long, bool) setColumnExpand;
@@ -264,6 +266,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(TreeItem)(GDNativeClassBinding.createItem, _godot_object, parent, idx);
+	}
+	/**
+	Edits the selected tree item as if it was clicked. The item must be set editable with $(D TreeItem.setEditable). Returns `true` if the item could be edited. Fails if no item is selected.
+	*/
+	bool editSelected()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.editSelected, _godot_object);
 	}
 	/**
 	Makes the currently focused cell visible.
@@ -466,6 +476,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isRootHidden, _godot_object);
+	}
+	/**
+	
+	*/
+	void scrollToItem(GodotObject item)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.scrollToItem, _godot_object, item);
 	}
 	/**
 	

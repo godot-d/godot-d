@@ -132,7 +132,7 @@ public:
 		setPressed(v);
 	}
 	/**
-	The action's strength between 0 and 1. This value is considered as equal to 0 if pressed is `false`. The event strength allows faking analog joypad motion events, by precising how strongly is the joypad axis bent or pressed.
+	The action's strength between 0 and 1. This value is considered as equal to 0 if pressed is `false`. The event strength allows faking analog joypad motion events, by specifying how strongly the joypad axis is bent or pressed.
 	*/
 	@property double strength()
 	{

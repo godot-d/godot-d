@@ -26,9 +26,10 @@ import godot.node;
 /**
 High-level multiplayer API.
 
-This class implements most of the logic behind the high-level multiplayer API.
+This class implements most of the logic behind the high-level multiplayer API. See also $(D NetworkedMultiplayerPeer).
 By default, $(D SceneTree) has a reference to this class that is used to provide multiplayer capabilities (i.e. RPC/RSET) across the whole scene.
 It is possible to override the MultiplayerAPI instance used by specific Nodes by setting the $(D Node.customMultiplayer) property, effectively allowing to run both client and server in the same scene.
+$(B Note:) The high-level multiplayer API protocol is an implementation detail and isn't meant to be used by non-Godot servers. It may change without notice.
 */
 @GodotBaseClass struct MultiplayerAPI
 {
@@ -51,6 +52,7 @@ public:
 		@GodotName("get_network_connected_peers") GodotMethod!(PoolIntArray) getNetworkConnectedPeers;
 		@GodotName("get_network_peer") GodotMethod!(NetworkedMultiplayerPeer) getNetworkPeer;
 		@GodotName("get_network_unique_id") GodotMethod!(long) getNetworkUniqueId;
+		@GodotName("get_root_node") GodotMethod!(Node) getRootNode;
 		@GodotName("get_rpc_sender_id") GodotMethod!(long) getRpcSenderId;
 		@GodotName("has_network_peer") GodotMethod!(bool) hasNetworkPeer;
 		@GodotName("is_network_server") GodotMethod!(bool) isNetworkServer;
@@ -218,6 +220,14 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getNetworkUniqueId, _godot_object);
 	}
 	/**
+	
+	*/
+	Node getRootNode()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Node)(GDNativeClassBinding.getRootNode, _godot_object);
+	}
+	/**
 	Returns the sender's peer ID for the RPC currently being executed.
 	$(B Note:) If not inside an RPC this method will return 0.
 	*/
@@ -343,5 +353,18 @@ public:
 	@property void refuseNewNetworkConnections(bool v)
 	{
 		setRefuseNewNetworkConnections(v);
+	}
+	/**
+	The root node to use for RPCs. Instead of an absolute path, a relative path will be used to find the node upon which the RPC should be executed.
+	This effectively allows to have different branches of the scene tree to be managed by different MultiplayerAPI, allowing for example to run both client and server in the same scene.
+	*/
+	@property Node rootNode()
+	{
+		return getRootNode();
+	}
+	/// ditto
+	@property void rootNode(Node v)
+	{
+		setRootNode(v);
 	}
 }

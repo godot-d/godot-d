@@ -41,8 +41,10 @@ public:
 	{
 		__gshared:
 		@GodotName("get_border_color") GodotMethod!(Color) getBorderColor;
+		@GodotName("get_border_width") GodotMethod!(double) getBorderWidth;
 		@GodotName("get_editor_only") GodotMethod!(bool) getEditorOnly;
 		@GodotName("set_border_color") GodotMethod!(void, Color) setBorderColor;
+		@GodotName("set_border_width") GodotMethod!(void, double) setBorderWidth;
 		@GodotName("set_editor_only") GodotMethod!(void, bool) setEditorOnly;
 	}
 	/// 
@@ -78,6 +80,14 @@ public:
 	/**
 	
 	*/
+	double getBorderWidth() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getBorderWidth, _godot_object);
+	}
+	/**
+	
+	*/
 	bool getEditorOnly() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -90,6 +100,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setBorderColor, _godot_object, color);
+	}
+	/**
+	
+	*/
+	void setBorderWidth(in double width)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setBorderWidth, _godot_object, width);
 	}
 	/**
 	
@@ -110,6 +128,18 @@ public:
 	@property void borderColor(Color v)
 	{
 		setBorderColor(v);
+	}
+	/**
+	Sets the border width of the $(D ReferenceRect). The border grows both inwards and outwards with respect to the rectangle box.
+	*/
+	@property double borderWidth()
+	{
+		return getBorderWidth();
+	}
+	/// ditto
+	@property void borderWidth(double v)
+	{
+		setBorderWidth(v);
 	}
 	/**
 	If set to `true`, the $(D ReferenceRect) will only be visible while in editor. Otherwise, $(D ReferenceRect) will be visible in game.

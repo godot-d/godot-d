@@ -27,6 +27,7 @@ import godot.audiostreamplayback;
 Plays back audio non-positionally.
 
 Plays an audio stream non-positionally.
+To play audio positionally, use $(D AudioStreamPlayer2D) or $(D AudioStreamPlayer3D) instead of $(D AudioStreamPlayer).
 */
 @GodotBaseClass struct AudioStreamPlayer
 {

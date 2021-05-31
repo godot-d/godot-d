@@ -1,5 +1,5 @@
 /**
-A $(D Texture) capable of storing many smaller textures with offsets.
+$(I Deprecated.) A $(D Texture) capable of storing many smaller textures with offsets.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,8 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.texture;
 /**
-A $(D Texture) capable of storing many smaller textures with offsets.
+$(I Deprecated.) A $(D Texture) capable of storing many smaller textures with offsets.
 
+$(I Deprecated (will be removed in Godot 4.0).) A $(D Texture) capable of storing many smaller textures with offsets.
 You can dynamically add pieces ($(D Texture)s) to this $(D LargeTexture) using different offsets.
 */
 @GodotBaseClass struct LargeTexture

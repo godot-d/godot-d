@@ -31,7 +31,7 @@ import godot.viewport;
 Manages the game loop via a hierarchy of nodes.
 
 As one of the most important classes, the $(D SceneTree) manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded.
-You can also use the $(D SceneTree) to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once.
+You can also use the $(D SceneTree) to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. an "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once.
 $(D SceneTree) is the default $(D MainLoop) implementation used by scenes, and is thus in charge of the game loop.
 */
 @GodotBaseClass struct SceneTree
@@ -258,6 +258,7 @@ public:
 	/**
 	Calls `method` on each member of the given group. You can pass arguments to `method` by specifying them at the end of the method call.
 	$(B Note:) `method` may only have 5 arguments at most (7 arguments passed to this method in total).
+	$(B Note:) $(D callGroup) will always call methods with an one-frame delay, in a way similar to $(D GodotObject.callDeferred). To call methods immediately, use $(D callGroupFlags) with the $(D constant GROUP_CALL_REALTIME) flag.
 	*/
 	Variant callGroup(VarArgs...)(in String group, in String method, VarArgs varArgs)
 	{
@@ -274,6 +275,7 @@ public:
 	/**
 	Calls `method` on each member of the given group, respecting the given $(D groupcallflags). You can pass arguments to `method` by specifying them at the end of the method call.
 	$(B Note:) `method` may only have 5 arguments at most (8 arguments passed to this method in total).
+	$(B Note:) Group call flags are used to control the method calling behavior. If the $(D constant GROUP_CALL_REALTIME) flag is present in the `flags` argument, methods will be called immediately. If this flag isn't present in `flags`, methods will be called with a one-frame delay in a way similar to $(D callGroup).
 	*/
 	Variant callGroupFlags(VarArgs...)(in long flags, in String group, in String method, VarArgs varArgs)
 	{
@@ -319,6 +321,7 @@ public:
 	    print("end")
 	
 	
+	The timer will be automatically freed after its time elapses.
 	*/
 	Ref!SceneTreeTimer createTimer(in double time_sec, in bool pause_mode_process = true)
 	{

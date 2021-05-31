@@ -40,6 +40,8 @@ public:
 	{
 		__gshared:
 		@GodotName("_input_event") GodotMethod!(void, GodotObject, InputEvent, Vector3, Vector3, long) _inputEvent;
+		@GodotName("_shape_changed") GodotMethod!(void, Shape) _shapeChanged;
+		@GodotName("_update_debug_shapes") GodotMethod!(void) _updateDebugShapes;
 		@GodotName("create_shape_owner") GodotMethod!(long, GodotObject) createShapeOwner;
 		@GodotName("get_capture_input_on_drag") GodotMethod!(bool) getCaptureInputOnDrag;
 		@GodotName("get_rid") GodotMethod!(RID) getRid;
@@ -95,6 +97,25 @@ public:
 		_GODOT_args.append(click_normal);
 		_GODOT_args.append(shape_idx);
 		String _GODOT_method_name = String("_input_event");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _shapeChanged(Shape shape)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(shape);
+		String _GODOT_method_name = String("_shape_changed");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _updateDebugShapes()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_debug_shapes");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**

@@ -50,6 +50,7 @@ public:
 	{
 		__gshared:
 		@GodotName("get_seed") GodotMethod!(long) getSeed;
+		@GodotName("get_state") GodotMethod!(long) getState;
 		@GodotName("randf") GodotMethod!(double) randf;
 		@GodotName("randf_range") GodotMethod!(double, double, double) randfRange;
 		@GodotName("randfn") GodotMethod!(double, double, double) randfn;
@@ -57,6 +58,7 @@ public:
 		@GodotName("randi_range") GodotMethod!(long, long, long) randiRange;
 		@GodotName("randomize") GodotMethod!(void) randomize;
 		@GodotName("set_seed") GodotMethod!(void, long) setSeed;
+		@GodotName("set_state") GodotMethod!(void, long) setState;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in RandomNumberGenerator other) const
@@ -87,6 +89,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getSeed, _godot_object);
+	}
+	/**
+	
+	*/
+	long getState() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getState, _godot_object);
 	}
 	/**
 	Generates a pseudo-random float between `0.0` and `1.0` (inclusive).
@@ -145,6 +155,14 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setSeed, _godot_object, seed);
 	}
 	/**
+	
+	*/
+	void setState(in long state)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setState, _godot_object, state);
+	}
+	/**
 	Initializes the random number generator state based on the given seed value. A given seed will give a reproducible sequence of pseudo-random numbers.
 	$(B Note:) The RNG does not have an avalanche effect, and can output similar random streams given similar seeds. Consider using a hash function to improve your seed quality if they're sourced externally.
 	$(B Note:) Setting this property produces a side effect of changing the internal $(D state), so make sure to initialize the seed $(I before) modifying the $(D state):
@@ -165,5 +183,28 @@ public:
 	@property void seed(long v)
 	{
 		setSeed(v);
+	}
+	/**
+	The current state of the random number generator. Save and restore this property to restore the generator to a previous state:
+	
+	
+	var rng = RandomNumberGenerator.new()
+	print(rng.randf())
+	var saved_state = rng.state # Store current state.
+	print(rng.randf()) # Advance internal state.
+	rng.state = saved_state # Restore the state.
+	print(rng.randf()) # Prints the same value as in previous.
+	
+	
+	$(B Note:) Do not set state to arbitrary values, since the random number generator requires the state to have certain qualities to behave properly. It should only be set to values that came from the state property itself. To initialize the random number generator with arbitrary input, use $(D seed) instead.
+	*/
+	@property long state()
+	{
+		return getState();
+	}
+	/// ditto
+	@property void state(long v)
+	{
+		setState(v);
 	}
 }

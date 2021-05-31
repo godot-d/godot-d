@@ -1,5 +1,5 @@
 /**
-Plays audio in 2D.
+Plays positional sound in 2D space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -24,9 +24,11 @@ import godot.node2d;
 import godot.audiostream;
 import godot.audiostreamplayback;
 /**
-Plays audio in 2D.
+Plays positional sound in 2D space.
 
 Plays audio that dampens with distance from screen center.
+See also $(D AudioStreamPlayer) to play a sound non-positionally.
+$(B Note:) Hiding an $(D AudioStreamPlayer2D) node does not disable its audio output. To temporarily disable an $(D AudioStreamPlayer2D)'s audio output, set $(D volumeDb) to a very low value like `-100` (which isn't audible to human hearing).
 */
 @GodotBaseClass struct AudioStreamPlayer2D
 {

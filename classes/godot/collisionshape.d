@@ -40,8 +40,6 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
-		@GodotName("_shape_changed") GodotMethod!(void) _shapeChanged;
-		@GodotName("_update_debug_shape") GodotMethod!(void) _updateDebugShape;
 		@GodotName("get_shape") GodotMethod!(Shape) getShape;
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("make_convex_from_brothers") GodotMethod!(void) makeConvexFromBrothers;
@@ -71,24 +69,6 @@ public:
 		return cast(CollisionShape)(constructor());
 	}
 	@disable new(size_t s);
-	/**
-	
-	*/
-	void _shapeChanged()
-	{
-		Array _GODOT_args = Array.make();
-		String _GODOT_method_name = String("_shape_changed");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _updateDebugShape()
-	{
-		Array _GODOT_args = Array.make();
-		String _GODOT_method_name = String("_update_debug_shape");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
 	/**
 	
 	*/

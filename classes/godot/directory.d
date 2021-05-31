@@ -26,6 +26,7 @@ Type used to handle the filesystem.
 
 Directory type. It is used to manage directories and their content (not restricted to the project folder).
 When creating a new $(D Directory), its default opened directory will be `res://`. This may change in the future, so it is advised to always use $(D open) to initialize your $(D Directory) where you want to operate, with explicit error checking.
+$(B Note:) Many resources types are imported (e.g. textures or sound files), and their source asset will not be included in the exported game, as only the imported version is used. Use $(D ResourceLoader) to access imported resources.
 Here is an example on how to iterate through the files of a directory:
 
 
@@ -157,7 +158,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getCurrentDrive, _godot_object);
 	}
 	/**
-	On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not existed, the method returns an empty String.
+	On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not exist, the method returns an empty String.
 	*/
 	String getDrive(in long idx)
 	{
@@ -200,7 +201,7 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.listDirBegin, _godot_object, skip_navigational, skip_hidden);
 	}
 	/**
-	Closes the current stream opened with $(D listDirBegin) (whether it has been fully processed with $(D getNext) or not does not matter).
+	Closes the current stream opened with $(D listDirBegin) (whether it has been fully processed with $(D getNext) does not matter).
 	*/
 	void listDirEnd()
 	{

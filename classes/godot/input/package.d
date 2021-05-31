@@ -250,7 +250,7 @@ public:
 	/**
 	Returns the acceleration of the device's accelerometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
 	Note this method returns an empty $(D Vector3) when running from the editor even when your device has an accelerometer. You must export your project to a supported device to read values from the accelerometer.
-	$(B Note:) This method only works on iOS, Android, and UWP. On other platforms, it always returns $(D constant Vector3.ZERO).
+	$(B Note:) This method only works on iOS, Android, and UWP. On other platforms, it always returns $(D constant Vector3.ZERO). On Android the unit of measurement for each axis is m/s² while on iOS and UWP it's a multiple of the Earth's gravitational acceleration `g` (~9.81 m/s²).
 	*/
 	Vector3 getAccelerometer() const
 	{
@@ -283,7 +283,7 @@ public:
 	}
 	/**
 	Returns the gravity of the device's accelerometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
-	$(B Note:) This method only works on Android and iOS. On other platforms, it always returns $(D constant Vector3.ZERO).
+	$(B Note:) This method only works on Android and iOS. On other platforms, it always returns $(D constant Vector3.ZERO). On Android the unit of measurement for each axis is m/s² while on iOS it's a multiple of the Earth's gravitational acceleration `g` (~9.81 m/s²).
 	*/
 	Vector3 getGravity() const
 	{
@@ -380,7 +380,7 @@ public:
 		return ptrcall!(Vector2)(GDNativeClassBinding.getLastMouseSpeed, _godot_object);
 	}
 	/**
-	Returns the the magnetic field strength in micro-Tesla for all axes of the device's magnetometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
+	Returns the magnetic field strength in micro-Tesla for all axes of the device's magnetometer sensor, if the device has one. Otherwise, the method returns $(D constant Vector3.ZERO).
 	$(B Note:) This method only works on Android, iOS and UWP. On other platforms, it always returns $(D constant Vector3.ZERO).
 	*/
 	Vector3 getMagnetometer() const

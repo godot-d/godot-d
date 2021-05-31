@@ -56,14 +56,12 @@ public:
 		@GodotName("get_param_x") GodotMethod!(double, long) getParamX;
 		@GodotName("get_param_y") GodotMethod!(double, long) getParamY;
 		@GodotName("get_param_z") GodotMethod!(double, long) getParamZ;
-		@GodotName("get_precision") GodotMethod!(long) getPrecision;
 		@GodotName("set_flag_x") GodotMethod!(void, long, bool) setFlagX;
 		@GodotName("set_flag_y") GodotMethod!(void, long, bool) setFlagY;
 		@GodotName("set_flag_z") GodotMethod!(void, long, bool) setFlagZ;
 		@GodotName("set_param_x") GodotMethod!(void, long, double) setParamX;
 		@GodotName("set_param_y") GodotMethod!(void, long, double) setParamY;
 		@GodotName("set_param_z") GodotMethod!(void, long, double) setParamZ;
-		@GodotName("set_precision") GodotMethod!(void, long) setPrecision;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in Generic6DOFJoint other) const
@@ -414,14 +412,6 @@ public:
 	/**
 	
 	*/
-	long getPrecision() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(GDNativeClassBinding.getPrecision, _godot_object);
-	}
-	/**
-	
-	*/
 	void setFlagX(in long flag, in bool value)
 	{
 		checkClassBinding!(typeof(this))();
@@ -466,14 +456,6 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setParamZ, _godot_object, param, value);
-	}
-	/**
-	
-	*/
-	void setPrecision(in long precision)
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setPrecision, _godot_object, precision);
 	}
 	/**
 	The amount of rotational damping across the X axis.
@@ -1483,17 +1465,5 @@ public:
 	@property void linearSpringZStiffness(double v)
 	{
 		setParamZ(7, v);
-	}
-	/**
-	
-	*/
-	@property long precision()
-	{
-		return getPrecision();
-	}
-	/// ditto
-	@property void precision(long v)
-	{
-		setPrecision(v);
 	}
 }

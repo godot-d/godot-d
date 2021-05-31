@@ -30,7 +30,7 @@ import godot.popupmenu;
 /**
 Special button that brings up a $(D PopupMenu) when clicked.
 
-New items can be created inside this $(D PopupMenu) using `get_popup().add_item("My Item Name")`. You can also create them directly from the editor. To do so, select the $(D MenuButton) node, then in the toolbar at the top of the 2D editor, click $(B Items) then click $(B Add) in the popup. You will be able to give each items new properties.
+New items can be created inside this $(D PopupMenu) using `get_popup().add_item("My Item Name")`. You can also create them directly from the editor. To do so, select the $(D MenuButton) node, then in the toolbar at the top of the 2D editor, click $(B Items) then click $(B Add) in the popup. You will be able to give each item new properties.
 See also $(D BaseButton) which contains common properties and methods associated with this node.
 */
 @GodotBaseClass struct MenuButton

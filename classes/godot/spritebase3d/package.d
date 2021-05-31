@@ -455,7 +455,7 @@ public:
 		setOffset(v);
 	}
 	/**
-	The objects visibility on a scale from `0` fully invisible to `1` fully visible.
+	The objects' visibility on a scale from `0` fully invisible to `1` fully visible.
 	*/
 	@property double opacity()
 	{

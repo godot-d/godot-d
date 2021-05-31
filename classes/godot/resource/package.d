@@ -42,6 +42,7 @@ public:
 		__gshared:
 		@GodotName("_setup_local_to_scene") GodotMethod!(void) _setupLocalToScene;
 		@GodotName("duplicate") GodotMethod!(Resource, bool) duplicate;
+		@GodotName("emit_changed") GodotMethod!(void) emitChanged;
 		@GodotName("get_local_scene") GodotMethod!(Node) getLocalScene;
 		@GodotName("get_name") GodotMethod!(String) getName;
 		@GodotName("get_path") GodotMethod!(String) getPath;
@@ -92,6 +93,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Resource)(GDNativeClassBinding.duplicate, _godot_object, subresources);
+	}
+	/**
+	Emits the $(D changed) signal.
+	If external objects which depend on this resource should be updated, this method must be called manually whenever the state of this resource has changed (such as modification of properties).
+	The method is equivalent to:
+	
+	
+	emit_signal("changed")
+	
+	
+	$(B Note:) This method is called automatically for built-in resources.
+	*/
+	void emitChanged()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.emitChanged, _godot_object);
 	}
 	/**
 	If $(D resourceLocalToScene) is enabled and the resource was loaded from a $(D PackedScene) instantiation, returns the local scene where this resource's unique copy is in use. Otherwise, returns `null`.
@@ -187,7 +204,7 @@ public:
 		setLocalToScene(v);
 	}
 	/**
-	The name of the resource. This is an optional identifier.
+	The name of the resource. This is an optional identifier. If $(D resourceName) is not empty, its value will be displayed to represent the current resource in the editor inspector. For built-in scripts, the $(D resourceName) will be displayed as the tab name in the script editor.
 	*/
 	@property String resourceName()
 	{

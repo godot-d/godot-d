@@ -89,6 +89,7 @@ public:
 	}
 	/**
 	Adds a node to the selection.
+	$(B Note:) The newly selected node will not be automatically edited in the inspector. If you want to edit a node, use $(D EditorInterface.editNode).
 	*/
 	void addNode(Node node)
 	{

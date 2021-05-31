@@ -100,7 +100,7 @@ public:
 	/**
 	Generate a noise image in $(D constant Image.FORMAT_L8) format with the requested `width` and `height`, based on the current noise parameters.
 	*/
-	Ref!Image getImage(in long width, in long height)
+	Ref!Image getImage(in long width, in long height) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Image)(GDNativeClassBinding.getImage, _godot_object, width, height);
@@ -117,7 +117,7 @@ public:
 	Returns the 1D noise value `$(D -1,1)` at the given x-coordinate.
 	$(B Note:) This method actually returns the 2D noise value `$(D -1,1)` with fixed y-coordinate value 0.0.
 	*/
-	double getNoise1d(in double x)
+	double getNoise1d(in double x) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise1d, _godot_object, x);
@@ -125,7 +125,7 @@ public:
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
 	*/
-	double getNoise2d(in double x, in double y)
+	double getNoise2d(in double x, in double y) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise2d, _godot_object, x, y);
@@ -133,7 +133,7 @@ public:
 	/**
 	Returns the 2D noise value `$(D -1,1)` at the given position.
 	*/
-	double getNoise2dv(in Vector2 pos)
+	double getNoise2dv(in Vector2 pos) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise2dv, _godot_object, pos);
@@ -141,7 +141,7 @@ public:
 	/**
 	Returns the 3D noise value `$(D -1,1)` at the given position.
 	*/
-	double getNoise3d(in double x, in double y, in double z)
+	double getNoise3d(in double x, in double y, in double z) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise3d, _godot_object, x, y, z);
@@ -149,7 +149,7 @@ public:
 	/**
 	Returns the 3D noise value `$(D -1,1)` at the given position.
 	*/
-	double getNoise3dv(in Vector3 pos)
+	double getNoise3dv(in Vector3 pos) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise3dv, _godot_object, pos);
@@ -157,7 +157,7 @@ public:
 	/**
 	Returns the 4D noise value `$(D -1,1)` at the given position.
 	*/
-	double getNoise4d(in double x, in double y, in double z, in double w)
+	double getNoise4d(in double x, in double y, in double z, in double w) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getNoise4d, _godot_object, x, y, z, w);
@@ -188,8 +188,9 @@ public:
 	}
 	/**
 	Generate a tileable noise image in $(D constant Image.FORMAT_L8) format, based on the current noise parameters. Generated seamless images are always square (`size` × `size`).
+	$(B Note:) Seamless noise has a lower contrast compared to non-seamless noise. This is due to the way noise uses higher dimensions for generating seamless noise.
 	*/
-	Ref!Image getSeamlessImage(in long size)
+	Ref!Image getSeamlessImage(in long size) const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Image)(GDNativeClassBinding.getSeamlessImage, _godot_object, size);
@@ -197,7 +198,7 @@ public:
 	/**
 	
 	*/
-	long getSeed()
+	long getSeed() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getSeed, _godot_object);

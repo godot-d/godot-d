@@ -1721,6 +1721,7 @@ public:
 	}
 	/**
 	If `true`, clearcoat rendering is enabled. Adds a secondary transparent pass to the lighting calculation resulting in an added specular blob. This makes materials appear as if they have a clear layer on them that can be either glossy or rough.
+	$(B Note:) Clearcoat rendering is not visible if the material has $(D flagsUnshaded) set to `true`.
 	*/
 	@property bool clearcoatEnabled()
 	{
@@ -1769,6 +1770,7 @@ public:
 	}
 	/**
 	If `true`, depth mapping is enabled (also called "parallax mapping" or "height mapping"). See also $(D normalEnabled).
+	$(B Note:) Depth mapping is not supported if triplanar mapping is used on the same material. The value of $(D depthEnabled) will be ignored if $(D uv1Triplanar) is enabled.
 	*/
 	@property bool depthEnabled()
 	{
@@ -2545,6 +2547,7 @@ public:
 	}
 	/**
 	If `true`, rim effect is enabled. Rim lighting increases the brightness at glancing angles on an object.
+	$(B Note:) Rim lighting is not visible if the material has $(D flagsUnshaded) set to `true`.
 	*/
 	@property bool rimEnabled()
 	{

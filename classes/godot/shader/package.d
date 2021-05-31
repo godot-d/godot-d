@@ -105,7 +105,7 @@ public:
 	/**
 	
 	*/
-	String getCustomDefines()
+	String getCustomDefines() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(GDNativeClassBinding.getCustomDefines, _godot_object);

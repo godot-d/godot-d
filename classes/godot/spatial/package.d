@@ -132,7 +132,7 @@ public:
 		notificationVisibilityChanged = 43,
 		/**
 		Spatial nodes receives this notification when their global transform changes. This means that either the current or a parent node changed its transform.
-		In order for $(D constant NOTIFICATION_TRANSFORM_CHANGED) to work, users first need to ask for it, with $(D setNotifyTransform).
+		In order for $(D constant NOTIFICATION_TRANSFORM_CHANGED) to work, users first need to ask for it, with $(D setNotifyTransform). The notification is also sent if the node is in the editor context and it has a valid gizmo.
 		*/
 		notificationTransformChanged = 2000,
 	}
@@ -436,7 +436,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setNotifyLocalTransform, _godot_object, enable);
 	}
 	/**
-	Sets whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default.
+	Sets whether the node notifies about its global and local transformation changes. $(D Spatial) will not propagate this by default, unless it is in the editor context and it has a valid gizmo.
 	*/
 	void setNotifyTransform(in bool enable)
 	{

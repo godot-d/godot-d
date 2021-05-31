@@ -74,10 +74,13 @@ private
 	__gshared bool hasAndroid_1_1 = false;
 	version(GDNativeRequireAndroid_1_1) enum bool requiresAndroid_1_1 = true;
 	else enum bool requiresAndroid_1_1 = false;
-	alias SupportedVersions(ApiType type : ApiType.arvr) = AliasSeq!([1, 1], );
+	alias SupportedVersions(ApiType type : ApiType.arvr) = AliasSeq!([1, 1], [1, 2], );
 	__gshared bool hasArvr_1_1 = false;
 	version(GDNativeRequireArvr_1_1) enum bool requiresArvr_1_1 = true;
-	else enum bool requiresArvr_1_1 = false;
+	else enum bool requiresArvr_1_1 = requiresArvr_1_2;
+	__gshared bool hasArvr_1_2 = false;
+	version(GDNativeRequireArvr_1_2) enum bool requiresArvr_1_2 = true;
+	else enum bool requiresArvr_1_2 = false;
 	alias SupportedVersions(ApiType type : ApiType.videodecoder) = AliasSeq!([0, 1], );
 	__gshared bool hasVideodecoder_0_1 = false;
 	version(GDNativeRequireVideodecoder_0_1) enum bool requiresVideodecoder_0_1 = true;
@@ -129,6 +132,8 @@ struct GDNativeVersion
 	enum bool supportsArvr(int major, int minor) = staticIndexOf!([major, minor], SupportedVersions!(ApiType.arvr)) != -1;
 	static if(requiresArvr_1_1) enum bool hasArvr(int major : 1, int minor : 1) = true;
 	else @property @nogc nothrow pragma(inline, true) static bool hasArvr(int major : 1, int minor : 1)() { return hasArvr_1_1; }
+	static if(requiresArvr_1_2) enum bool hasArvr(int major : 1, int minor : 2) = true;
+	else @property @nogc nothrow pragma(inline, true) static bool hasArvr(int major : 1, int minor : 2)() { return hasArvr_1_2; }
 	@property @nogc nothrow static bool hasArvr(int major, int minor)() if(!supportsArvr!(major, minor))
 	{
 		static assert(0, versionError("Arvr", major, minor));
@@ -1916,9 +1921,25 @@ public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_1
 	da_godot_arvr_set_controller_button godot_arvr_set_controller_button;
 	da_godot_arvr_set_controller_axis godot_arvr_set_controller_axis;
 	da_godot_arvr_get_controller_rumble godot_arvr_get_controller_rumble;
+const(godot_gdnative_ext_arvr_api_struct_1_2*) nextVersion() const { return cast(typeof(return))next; }
+alias nextVersion this;
 }
 __gshared const(godot_gdnative_ext_arvr_api_struct_1_1)* _godot_arvr_api = null;
 private alias apiStruct(ApiType t : ApiType.arvr) = _godot_arvr_api;
+
+private extern(C) @nogc nothrow
+{
+	alias da_godot_arvr_set_interface = void function(godot_object  p_arvr_interface, const godot_arvr_interface_gdnative * p_gdn_interface);
+	alias da_godot_arvr_get_depthid = godot_int function(godot_rid * p_render_target);
+}
+public extern(C) struct godot_gdnative_ext_arvr_api_struct_1_2
+{
+@nogc nothrow:
+
+			mixin ApiStructHeader;
+			da_godot_arvr_set_interface godot_arvr_set_interface;
+	da_godot_arvr_get_depthid godot_arvr_get_depthid;
+}
 
 private extern(C) @nogc nothrow
 {

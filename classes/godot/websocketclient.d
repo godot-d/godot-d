@@ -78,6 +78,7 @@ public:
 	If `true` is passed as `gd_mp_api`, the client will behave like a network peer for the $(D MultiplayerAPI), connections to non-Godot servers will not work, and $(D dataReceived) will not be emitted.
 	If `false` is passed instead (default), you must call $(D PacketPeer) functions (`put_packet`, `get_packet`, etc.) on the $(D WebSocketPeer) returned via `get_peer(1)` and not on this object directly (e.g. `get_peer(1).put_packet(data)`).
 	You can optionally pass a list of `custom_headers` to be added to the handshake HTTP request.
+	$(B Note:) To avoid mixed content warnings or errors in HTML5, you may have to use a `url` that starts with `wss://` (secure) instead of `ws://`. When doing so, make sure to use the fully qualified domain name that matches the one defined in the server's SSL certificate. Do not connect directly via the IP address for `wss://` connections, as it won't match with the SSL certificate.
 	$(B Note:) Specifying `custom_headers` is not supported in HTML5 exports due to browsers restrictions.
 	*/
 	GodotError connectToUrl(in String url, in PoolStringArray protocols = PoolStringArray.init, in bool gd_mp_api = false, in PoolStringArray custom_headers = PoolStringArray.init)

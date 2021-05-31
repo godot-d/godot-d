@@ -767,6 +767,7 @@ public:
 	}
 	/**
 	If `true`, the label uses BBCode formatting.
+	$(B Note:) Trying to alter the $(D RichTextLabel)'s text with $(D addText) will reset this to `false`. Use instead $(D appendBbcode) to preserve BBCode formatting.
 	*/
 	@property bool bbcodeEnabled()
 	{
@@ -916,6 +917,7 @@ public:
 	}
 	/**
 	The restricted number of characters to display in the label. If `-1`, all characters will be displayed.
+	$(B Note:) Setting this property updates $(D percentVisible) based on current $(D getTotalCharacterCount).
 	*/
 	@property long visibleCharacters()
 	{

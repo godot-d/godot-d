@@ -154,7 +154,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getClosestOffset, _godot_object, to_point);
 	}
 	/**
-	Returns the closest point (in curve's local space) to `to_point`.
+	Returns the closest baked point (in curve's local space) to `to_point`.
 	`to_point` must be in this curve's local space.
 	*/
 	Vector2 getClosestPoint(in Vector2 to_point) const

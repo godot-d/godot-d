@@ -26,7 +26,7 @@ import godot.reference;
 /**
 Calculates the determinant of a $(D Transform) within the visual shader graph.
 
-Translates to `deteminant(x)` in the shader language.
+Translates to `determinant(x)` in the shader language.
 */
 @GodotBaseClass struct VisualShaderNodeDeterminant
 {

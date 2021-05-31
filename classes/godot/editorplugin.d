@@ -73,6 +73,8 @@ public:
 		@GodotName("forward_canvas_draw_over_viewport") GodotMethod!(void, Control) forwardCanvasDrawOverViewport;
 		@GodotName("forward_canvas_force_draw_over_viewport") GodotMethod!(void, Control) forwardCanvasForceDrawOverViewport;
 		@GodotName("forward_canvas_gui_input") GodotMethod!(bool, InputEvent) forwardCanvasGuiInput;
+		@GodotName("forward_spatial_draw_over_viewport") GodotMethod!(void, Control) forwardSpatialDrawOverViewport;
+		@GodotName("forward_spatial_force_draw_over_viewport") GodotMethod!(void, Control) forwardSpatialForceDrawOverViewport;
 		@GodotName("forward_spatial_gui_input") GodotMethod!(bool, Camera, InputEvent) forwardSpatialGuiInput;
 		@GodotName("get_breakpoints") GodotMethod!(PoolStringArray) getBreakpoints;
 		@GodotName("get_editor_interface") GodotMethod!(EditorInterface) getEditorInterface;
@@ -359,7 +361,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	
+	This method is called when the editor is about to run the project. The plugin can then perform required operations before the project runs.
+	This method must return a boolean. If this method returns `false`, the project will not run. The run is aborted immediately, so this also prevents all other plugins' $(D build) methods from running.
 	*/
 	bool build()
 	{
@@ -410,7 +413,7 @@ public:
 	
 	func forward_canvas_draw_over_viewport(overlay):
 	    # Draw a circle at cursor position.
-	    overlay.draw_circle(overlay.get_local_mouse_position(), 64)
+	    overlay.draw_circle(overlay.get_local_mouse_position(), 64, Color.white)
 	
 	func forward_canvas_gui_input(event):
 	    if event is InputEventMouseMotion:
@@ -467,6 +470,41 @@ public:
 		_GODOT_args.append(event);
 		String _GODOT_method_name = String("forward_canvas_gui_input");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	Called by the engine when the 3D editor's viewport is updated. Use the `overlay` $(D Control) for drawing. You can update the viewport manually by calling $(D updateOverlays).
+	
+	
+	func forward_spatial_draw_over_viewport(overlay):
+	    # Draw a circle at cursor position.
+	    overlay.draw_circle(overlay.get_local_mouse_position(), 64)
+	
+	func forward_spatial_gui_input(camera, event):
+	    if event is InputEventMouseMotion:
+	        # Redraw viewport when cursor is moved.
+	        update_overlays()
+	        return true
+	    return false
+	
+	
+	*/
+	void forwardSpatialDrawOverViewport(Control overlay)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(overlay);
+		String _GODOT_method_name = String("forward_spatial_draw_over_viewport");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	This method is the same as $(D forwardSpatialDrawOverViewport), except it draws on top of everything. Useful when you need an extra layer that shows over anything else.
+	You need to enable calling of this method by using $(D setForceDrawOverForwardingEnabled).
+	*/
+	void forwardSpatialForceDrawOverViewport(Control overlay)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(overlay);
+		String _GODOT_method_name = String("forward_spatial_force_draw_over_viewport");
+		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	Called when there is a root node in the current edited scene, $(D handles) is implemented and an $(D InputEvent) happens in the 3D viewport. Intercepts the $(D InputEvent), if `return true` $(D EditorPlugin) consumes the `event`, otherwise forwards `event` to other Editor classes. Example:

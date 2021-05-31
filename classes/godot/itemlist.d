@@ -554,12 +554,6 @@ public:
 	}
 	/**
 	Sets the background color of the item specified by `idx` index to the specified $(D Color).
-	
-	
-	var some_string = "Some text"
-	some_string.set_item_custom_bg_color(0,Color(1, 0, 0, 1) # This will set the background color of the first item of the control to red.
-	
-	
 	*/
 	void setItemCustomBgColor(in long idx, in Color custom_bg_color)
 	{
@@ -568,12 +562,6 @@ public:
 	}
 	/**
 	Sets the foreground color of the item specified by `idx` index to the specified $(D Color).
-	
-	
-	var some_string = "Some text"
-	some_string.set_item_custom_fg_color(0,Color(1, 0, 0, 1) # This will set the foreground color of the first item of the control to red.
-	
-	
 	*/
 	void setItemCustomFgColor(in long idx, in Color custom_fg_color)
 	{

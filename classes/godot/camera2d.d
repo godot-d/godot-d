@@ -43,7 +43,6 @@ public:
 		__gshared:
 		@GodotName("_make_current") GodotMethod!(void, GodotObject) _makeCurrent;
 		@GodotName("_set_current") GodotMethod!(void, bool) _setCurrent;
-		@GodotName("_set_old_smoothing") GodotMethod!(void, double) _setOldSmoothing;
 		@GodotName("_update_scroll") GodotMethod!(void) _updateScroll;
 		@GodotName("align") GodotMethod!(void) _align;
 		@GodotName("clear_current") GodotMethod!(void) clearCurrent;
@@ -162,16 +161,6 @@ public:
 		Array _GODOT_args = Array.make();
 		_GODOT_args.append(current);
 		String _GODOT_method_name = String("_set_current");
-		this.callv(_GODOT_method_name, _GODOT_args);
-	}
-	/**
-	
-	*/
-	void _setOldSmoothing(in double follow_smoothing)
-	{
-		Array _GODOT_args = Array.make();
-		_GODOT_args.append(follow_smoothing);
-		String _GODOT_method_name = String("_set_old_smoothing");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**

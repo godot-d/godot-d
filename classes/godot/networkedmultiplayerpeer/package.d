@@ -23,7 +23,8 @@ import godot.packetpeer;
 /**
 A high-level network interface to simplify multiplayer interactions.
 
-Manages the connection to network peers. Assigns unique IDs to each client connected to the server.
+Manages the connection to network peers. Assigns unique IDs to each client connected to the server. See also $(D MultiplayerAPI).
+$(B Note:) The high-level multiplayer API protocol is an implementation detail and isn't meant to be used by non-Godot servers. It may change without notice.
 */
 @GodotBaseClass struct NetworkedMultiplayerPeer
 {

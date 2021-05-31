@@ -36,7 +36,7 @@ tween.interpolate_property($Node2D, "position",
 tween.start()
 
 
-Many methods require a property name, such as `"position"` above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using `"property:component"` (eg. `position:x`), where it would only apply to that particular component.
+Many methods require a property name, such as `"position"` above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using `"property:component"` (e.g. `position:x`), where it would only apply to that particular component.
 Many of the methods accept `trans_type` and `ease_type`. The first accepts an $(D transitiontype) constant, and refers to the way the timing of the animation is handled (see $(D url=https://easings.net/)easings.net$(D /url) for some examples). The second accepts an $(D easetype) constant, and controls where the `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different $(D transitiontype) constants with $(D constant EASE_IN_OUT), and use the one that looks best.
 $(D url=https://raw.githubusercontent.com/godotengine/godot-docs/master/img/tween_cheatsheet.png)Tween easing and transition types cheatsheet$(D /url)
 */

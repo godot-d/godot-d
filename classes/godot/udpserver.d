@@ -89,9 +89,12 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("get_max_pending_connections") GodotMethod!(long) getMaxPendingConnections;
 		@GodotName("is_connection_available") GodotMethod!(bool) isConnectionAvailable;
 		@GodotName("is_listening") GodotMethod!(bool) isListening;
 		@GodotName("listen") GodotMethod!(GodotError, long, String) listen;
+		@GodotName("poll") GodotMethod!(GodotError) poll;
+		@GodotName("set_max_pending_connections") GodotMethod!(void, long) setMaxPendingConnections;
 		@GodotName("stop") GodotMethod!(void) stop;
 		@GodotName("take_connection") GodotMethod!(PacketPeerUDP) takeConnection;
 	}
@@ -118,6 +121,14 @@ public:
 	}
 	@disable new(size_t s);
 	/**
+	
+	*/
+	long getMaxPendingConnections() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getMaxPendingConnections, _godot_object);
+	}
+	/**
 	Returns `true` if a packet with a new address/port combination was received on the socket.
 	*/
 	bool isConnectionAvailable() const
@@ -142,6 +153,22 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.listen, _godot_object, port, bind_address);
 	}
 	/**
+	Call this method at regular intervals (e.g. inside $(D Node._process)) to process new packets. And packet from known address/port pair will be delivered to the appropriate $(D PacketPeerUDP), any packet received from an unknown address/port pair will be added as a pending connection (see $(D isConnectionAvailable), $(D takeConnection)). The maximum number of pending connection is defined via $(D maxPendingConnections).
+	*/
+	GodotError poll()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(GDNativeClassBinding.poll, _godot_object);
+	}
+	/**
+	
+	*/
+	void setMaxPendingConnections(in long max_pending_connections)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setMaxPendingConnections, _godot_object, max_pending_connections);
+	}
+	/**
 	Stops the server, closing the UDP socket if open. Will close all connected $(D PacketPeerUDP) accepted via $(D takeConnection) (remote peers will not be notified).
 	*/
 	void stop()
@@ -156,5 +183,17 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(PacketPeerUDP)(GDNativeClassBinding.takeConnection, _godot_object);
+	}
+	/**
+	Define the maximum number of pending connections, during $(D poll), any new pending connection exceeding that value will be automatically dropped. Setting this value to `0` effectively prevents any new pending connection to be accepted (e.g. when all your players have connected).
+	*/
+	@property long maxPendingConnections()
+	{
+		return getMaxPendingConnections();
+	}
+	/// ditto
+	@property void maxPendingConnections(long v)
+	{
+		setMaxPendingConnections(v);
 	}
 }

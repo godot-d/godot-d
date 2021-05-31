@@ -35,7 +35,7 @@ func get_importer_name():
     return "my.special.plugin"
 
 func get_visible_name():
-    return "Special Mesh Importer"
+    return "Special Mesh"
 
 func get_recognized_extensions():
     return $(D "special", "spec")
@@ -64,8 +64,7 @@ func import(source_file, save_path, options, platform_variants, gen_files):
     # Fill the Mesh with data read in "file", left as an exercise to the reader
 
     var filename = save_path + "." + get_save_extension()
-    ResourceSaver.save(filename, mesh)
-    return OK
+    return ResourceSaver.save(filename, mesh)
 
 
 */
@@ -222,7 +221,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
 	}
 	/**
-	Gets the name to display in the import window.
+	Gets the name to display in the import window. You should choose this name as a continuation to "Import as", e.g. "Import as Special Mesh".
 	*/
 	String getVisibleName()
 	{

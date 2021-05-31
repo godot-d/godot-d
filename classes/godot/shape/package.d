@@ -21,6 +21,7 @@ import godot.d.reference;
 import godot.object;
 import godot.resource;
 import godot.reference;
+import godot.arraymesh;
 /**
 Base class for all 3D shape resources.
 
@@ -38,6 +39,7 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("get_debug_mesh") GodotMethod!(ArrayMesh) getDebugMesh;
 		@GodotName("get_margin") GodotMethod!(double) getMargin;
 		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 	}
@@ -64,6 +66,14 @@ public:
 	}
 	@disable new(size_t s);
 	/**
+	Returns the $(D ArrayMesh) used to draw the debug collision for this $(D Shape).
+	*/
+	Ref!ArrayMesh getDebugMesh()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(ArrayMesh)(GDNativeClassBinding.getDebugMesh, _godot_object);
+	}
+	/**
 	
 	*/
 	double getMargin() const
@@ -80,7 +90,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
 	}
 	/**
-	The collision margin for the shape.
+	The collision margin for the shape. Used in Bullet Physics only.
+	Collision margins allow collision detection to be more efficient by adding an extra shell around shapes. Collision algorithms are more expensive when objects overlap by more than their margin, so a higher value for margins is better for performance, at the cost of accuracy around edges as it makes them less sharp.
 	*/
 	@property double margin()
 	{

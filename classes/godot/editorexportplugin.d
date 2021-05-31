@@ -43,6 +43,7 @@ public:
 		@GodotName("add_file") GodotMethod!(void, String, PoolByteArray, bool) addFile;
 		@GodotName("add_ios_bundle_file") GodotMethod!(void, String) addIosBundleFile;
 		@GodotName("add_ios_cpp_code") GodotMethod!(void, String) addIosCppCode;
+		@GodotName("add_ios_embedded_framework") GodotMethod!(void, String) addIosEmbeddedFramework;
 		@GodotName("add_ios_framework") GodotMethod!(void, String) addIosFramework;
 		@GodotName("add_ios_linker_flags") GodotMethod!(void, String) addIosLinkerFlags;
 		@GodotName("add_ios_plist_content") GodotMethod!(void, String) addIosPlistContent;
@@ -130,6 +131,16 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.addIosCppCode, _godot_object, code);
+	}
+	/**
+	Adds a dynamic library (*.dylib, *.framework) to Linking Phase in iOS's Xcode project and embeds it into resulting binary.
+	$(B Note:) For static libraries (*.a) works in same way as $(D addIosFramework).
+	This method should not be used for System libraries as they are already present on the device.
+	*/
+	void addIosEmbeddedFramework(in String path)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.addIosEmbeddedFramework, _godot_object, path);
 	}
 	/**
 	Adds a static library (*.a) or dynamic library (*.dylib, *.framework) to Linking Phase in iOS's Xcode project.

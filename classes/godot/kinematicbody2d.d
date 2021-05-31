@@ -139,7 +139,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getSlideCount, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on the ceiling. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
+	Returns `true` if the body collided with the ceiling on the last call of $(D moveAndSlide) or $(D moveAndSlideWithSnap). Otherwise, returns `false`.
 	*/
 	bool isOnCeiling() const
 	{
@@ -147,7 +147,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isOnCeiling, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on the floor. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
+	Returns `true` if the body collided with the floor on the last call of $(D moveAndSlide) or $(D moveAndSlideWithSnap). Otherwise, returns `false`.
 	*/
 	bool isOnFloor() const
 	{
@@ -155,7 +155,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isOnFloor, _godot_object);
 	}
 	/**
-	Returns `true` if the body is on a wall. Only updates when calling $(D moveAndSlide) or $(D moveAndSlideWithSnap).
+	Returns `true` if the body collided with a wall on the last call of $(D moveAndSlide) or $(D moveAndSlideWithSnap). Otherwise, returns `false`.
 	*/
 	bool isOnWall() const
 	{
@@ -229,7 +229,10 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.testMove, _godot_object, from, rel_vec, infinite_inertia);
 	}
 	/**
-	If the body is at least this close to another body, this body will consider them to be colliding.
+	Extra margin used for collision recovery in motion functions (see $(D moveAndCollide), $(D moveAndSlide), $(D moveAndSlideWithSnap)).
+	If the body is at least this close to another body, it will consider them to be colliding and will be pushed away before performing the actual motion.
+	A higher value means it's more flexible for detecting collision, which helps with consistently detecting walls and floors.
+	A lower value forces the collision algorithm to use more exact detection, so it can be used in cases that specifically require precision, e.g at very low scale to avoid visible jittering, or for stability with a stack of kinematic bodies.
 	*/
 	@property double collisionSafeMargin()
 	{

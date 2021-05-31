@@ -30,6 +30,7 @@ GridMap lets you place meshes on a grid interactively. It works both from the ed
 GridMaps use a $(D MeshLibrary) which contains a list of tiles. Each tile is a mesh with materials plus optional collision and navigation shapes.
 A GridMap contains a collection of cells. Each grid cell refers to a tile in the $(D MeshLibrary). All cells in the map have the same dimensions.
 Internally, a GridMap is split into a sparse collection of octants for efficient rendering and physics processing. Every octant has the same dimensions and can contain several cells.
+$(B Note:) GridMap doesn't extend $(D VisualInstance) and therefore can't be hidden or cull masked based on $(D VisualInstance.layers). If you make a light not affect the first layer, the whole GridMap won't be lit by the light in question.
 */
 @GodotBaseClass struct GridMap
 {
@@ -62,6 +63,7 @@ public:
 		@GodotName("get_mesh_library") GodotMethod!(MeshLibrary) getMeshLibrary;
 		@GodotName("get_meshes") GodotMethod!(Array) getMeshes;
 		@GodotName("get_octant_size") GodotMethod!(long) getOctantSize;
+		@GodotName("get_use_in_baked_light") GodotMethod!(bool) getUseInBakedLight;
 		@GodotName("get_used_cells") GodotMethod!(Array) getUsedCells;
 		@GodotName("make_baked_meshes") GodotMethod!(void, bool, double) makeBakedMeshes;
 		@GodotName("map_to_world") GodotMethod!(Vector3, long, long, long) mapToWorld;
@@ -79,6 +81,7 @@ public:
 		@GodotName("set_collision_mask_bit") GodotMethod!(void, long, bool) setCollisionMaskBit;
 		@GodotName("set_mesh_library") GodotMethod!(void, MeshLibrary) setMeshLibrary;
 		@GodotName("set_octant_size") GodotMethod!(void, long) setOctantSize;
+		@GodotName("set_use_in_baked_light") GodotMethod!(void, bool) setUseInBakedLight;
 		@GodotName("world_to_map") GodotMethod!(Vector3, Vector3) worldToMap;
 	}
 	/// 
@@ -145,7 +148,7 @@ public:
 		return ptrcall!(RID)(GDNativeClassBinding.getBakeMeshInstance, _godot_object, idx);
 	}
 	/**
-	
+	Returns an array of $(D ArrayMesh)es and $(D Transform) references of all bake meshes that exist within the current GridMap.
 	*/
 	Array getBakeMeshes()
 	{
@@ -263,6 +266,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(long)(GDNativeClassBinding.getOctantSize, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getUseInBakedLight() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getUseInBakedLight, _godot_object);
 	}
 	/**
 	Returns an array of $(D Vector3) with the non-empty cell coordinates in the grid map.
@@ -403,6 +414,14 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setOctantSize, _godot_object, size);
 	}
 	/**
+	
+	*/
+	void setUseInBakedLight(in bool use_in_baked_light)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseInBakedLight, _godot_object, use_in_baked_light);
+	}
+	/**
 	Returns the coordinates of the grid cell containing the given point.
 	`pos` should be in the GridMap's local coordinate space.
 	*/
@@ -499,7 +518,7 @@ public:
 		setCollisionLayer(v);
 	}
 	/**
-	The physics layers this GridMap detects collisions in. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The physics layers this GridMap detects collisions in. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{
@@ -521,5 +540,17 @@ public:
 	@property void meshLibrary(MeshLibrary v)
 	{
 		setMeshLibrary(v);
+	}
+	/**
+	Controls whether this GridMap will be baked in a $(D BakedLightmap) or not.
+	*/
+	@property bool useInBakedLight()
+	{
+		return getUseInBakedLight();
+	}
+	/// ditto
+	@property void useInBakedLight(bool v)
+	{
+		setUseInBakedLight(v);
 	}
 }

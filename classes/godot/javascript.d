@@ -23,7 +23,7 @@ import godot.object;
 Singleton that connects the engine with the browser's JavaScript context in HTML5 export.
 
 The JavaScript singleton is implemented only in the HTML5 export. It's used to access the browser's JavaScript context. This allows interaction with embedding pages or calling third-party JavaScript APIs.
-$(B Note:) This singleton can be disabled at build-time to improve security. By default, the JavaScript singleton is enabled. Official export templates also have the JavaScript singleton enabled. See $(D url=https://docs.godotengine.org/en/3.2/development/compiling/compiling_for_web.html)Compiling for the Web$(D /url) in the documentation for more information.
+$(B Note:) This singleton can be disabled at build-time to improve security. By default, the JavaScript singleton is enabled. Official export templates also have the JavaScript singleton enabled. See $(D url=https://docs.godotengine.org/en/3.3/development/compiling/compiling_for_web.html)Compiling for the Web$(D /url) in the documentation for more information.
 */
 @GodotBaseClass struct JavaScriptSingleton
 {

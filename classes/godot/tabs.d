@@ -50,6 +50,7 @@ public:
 		@GodotName("get_current_tab") GodotMethod!(long) getCurrentTab;
 		@GodotName("get_drag_to_rearrange_enabled") GodotMethod!(bool) getDragToRearrangeEnabled;
 		@GodotName("get_offset_buttons_visible") GodotMethod!(bool) getOffsetButtonsVisible;
+		@GodotName("get_previous_tab") GodotMethod!(long) getPreviousTab;
 		@GodotName("get_scrolling_enabled") GodotMethod!(bool) getScrollingEnabled;
 		@GodotName("get_select_with_rmb") GodotMethod!(bool) getSelectWithRmb;
 		@GodotName("get_tab_align") GodotMethod!(Tabs.TabAlign) getTabAlign;
@@ -215,6 +216,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.getOffsetButtonsVisible, _godot_object);
+	}
+	/**
+	Returns the previously active tab index.
+	*/
+	long getPreviousTab() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getPreviousTab, _godot_object);
 	}
 	/**
 	
@@ -426,7 +435,7 @@ public:
 		setDragToRearrangeEnabled(v);
 	}
 	/**
-	if `true`, the mouse's scroll wheel cab be used to navigate the scroll view.
+	if `true`, the mouse's scroll wheel can be used to navigate the scroll view.
 	*/
 	@property bool scrollingEnabled()
 	{

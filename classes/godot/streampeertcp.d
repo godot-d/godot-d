@@ -146,8 +146,8 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isConnectedToHost, _godot_object);
 	}
 	/**
-	Disables Nagle's algorithm to improve latency for small packets.
-	$(B Note:) For applications that send large packets or need to transfer a lot of data, this can decrease the total available bandwidth.
+	If `enabled` is `true`, packets will be sent immediately. If `enabled` is `false` (the default), packet transfers will be delayed and combined using $(D url=https://en.wikipedia.org/wiki/Nagle%27s_algorithm)Nagle's algorithm$(D /url).
+	$(B Note:) It's recommended to leave this disabled for applications that send large packets or need to transfer a lot of data, as enabling this can decrease the total available bandwidth.
 	*/
 	void setNoDelay(in bool enabled)
 	{

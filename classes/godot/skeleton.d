@@ -51,6 +51,7 @@ public:
 		@GodotName("get_bone_count") GodotMethod!(long) getBoneCount;
 		@GodotName("get_bone_custom_pose") GodotMethod!(Transform, long) getBoneCustomPose;
 		@GodotName("get_bone_global_pose") GodotMethod!(Transform, long) getBoneGlobalPose;
+		@GodotName("get_bone_global_pose_no_override") GodotMethod!(Transform, long) getBoneGlobalPoseNoOverride;
 		@GodotName("get_bone_name") GodotMethod!(String, long) getBoneName;
 		@GodotName("get_bone_parent") GodotMethod!(long, long) getBoneParent;
 		@GodotName("get_bone_pose") GodotMethod!(Transform, long) getBonePose;
@@ -165,6 +166,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Transform)(GDNativeClassBinding.getBoneGlobalPose, _godot_object, bone_idx);
+	}
+	/**
+	Returns the overall transform of the specified bone, with respect to the skeleton, but without any global pose overrides. Being relative to the skeleton frame, this is not the actual "global" transform of the bone.
+	*/
+	Transform getBoneGlobalPoseNoOverride(in long bone_idx) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Transform)(GDNativeClassBinding.getBoneGlobalPoseNoOverride, _godot_object, bone_idx);
 	}
 	/**
 	Returns the name of the bone at index `index`.

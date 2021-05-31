@@ -29,7 +29,7 @@ The visual server can be used to bypass the scene system entirely.
 Resources are created using the `*_create` functions.
 All objects are drawn to a viewport. You can use the $(D Viewport) attached to the $(D SceneTree) or you can create one yourself with $(D viewportCreate). When using a custom scenario or canvas, the scenario or canvas needs to be attached to the viewport using $(D viewportSetScenario) or $(D viewportAttachCanvas).
 In 3D, all visual objects must be associated with a scenario. The scenario is a visual representation of the world. If accessing the visual server from a running game, the scenario can be accessed from the scene tree from any $(D Spatial) node with $(D Spatial.getWorld). Otherwise, a scenario can be created with $(D scenarioCreate).
-Similarly in 2D, a canvas is needed to draw all canvas items.
+Similarly, in 2D, a canvas is needed to draw all canvas items.
 In 3D, all visible objects are comprised of a resource and an instance. A resource can be a mesh, a particle system, a light, or any other 3D object. In order to be visible resources must be attached to an instance using $(D instanceSetBase). The instance must also be attached to the scenario using $(D instanceSetScenario) in order to be visible.
 In 2D, all visible objects are some form of canvas item. In order to be visible, a canvas item needs to be the child of a canvas attached to a viewport, or it needs to be the child of another canvas item that is eventually attached to the canvas.
 */
@@ -214,7 +214,7 @@ public:
 		@GodotName("instance_set_scenario") GodotMethod!(void, RID, RID) instanceSetScenario;
 		@GodotName("instance_set_surface_material") GodotMethod!(void, RID, long, RID) instanceSetSurfaceMaterial;
 		@GodotName("instance_set_transform") GodotMethod!(void, RID, Transform) instanceSetTransform;
-		@GodotName("instance_set_use_lightmap") GodotMethod!(void, RID, RID, RID) instanceSetUseLightmap;
+		@GodotName("instance_set_use_lightmap") GodotMethod!(void, RID, RID, RID, long, Rect2) instanceSetUseLightmap;
 		@GodotName("instance_set_visible") GodotMethod!(void, RID, bool) instanceSetVisible;
 		@GodotName("instances_cull_aabb") GodotMethod!(Array, AABB, RID) instancesCullAabb;
 		@GodotName("instances_cull_convex") GodotMethod!(Array, Array, RID) instancesCullConvex;
@@ -225,6 +225,7 @@ public:
 		@GodotName("light_directional_set_shadow_mode") GodotMethod!(void, RID, long) lightDirectionalSetShadowMode;
 		@GodotName("light_omni_set_shadow_detail") GodotMethod!(void, RID, long) lightOmniSetShadowDetail;
 		@GodotName("light_omni_set_shadow_mode") GodotMethod!(void, RID, long) lightOmniSetShadowMode;
+		@GodotName("light_set_bake_mode") GodotMethod!(void, RID, long) lightSetBakeMode;
 		@GodotName("light_set_color") GodotMethod!(void, RID, Color) lightSetColor;
 		@GodotName("light_set_cull_mask") GodotMethod!(void, RID, long) lightSetCullMask;
 		@GodotName("light_set_negative") GodotMethod!(void, RID, bool) lightSetNegative;
@@ -240,8 +241,10 @@ public:
 		@GodotName("lightmap_capture_get_octree") GodotMethod!(PoolByteArray, RID) lightmapCaptureGetOctree;
 		@GodotName("lightmap_capture_get_octree_cell_subdiv") GodotMethod!(long, RID) lightmapCaptureGetOctreeCellSubdiv;
 		@GodotName("lightmap_capture_get_octree_cell_transform") GodotMethod!(Transform, RID) lightmapCaptureGetOctreeCellTransform;
+		@GodotName("lightmap_capture_is_interior") GodotMethod!(bool, RID) lightmapCaptureIsInterior;
 		@GodotName("lightmap_capture_set_bounds") GodotMethod!(void, RID, AABB) lightmapCaptureSetBounds;
 		@GodotName("lightmap_capture_set_energy") GodotMethod!(void, RID, double) lightmapCaptureSetEnergy;
+		@GodotName("lightmap_capture_set_interior") GodotMethod!(void, RID, bool) lightmapCaptureSetInterior;
 		@GodotName("lightmap_capture_set_octree") GodotMethod!(void, RID, PoolByteArray) lightmapCaptureSetOctree;
 		@GodotName("lightmap_capture_set_octree_cell_subdiv") GodotMethod!(void, RID, long) lightmapCaptureSetOctreeCellSubdiv;
 		@GodotName("lightmap_capture_set_octree_cell_transform") GodotMethod!(void, RID, Transform) lightmapCaptureSetOctreeCellTransform;
@@ -414,6 +417,8 @@ public:
 		@GodotName("viewport_set_update_mode") GodotMethod!(void, RID, long) viewportSetUpdateMode;
 		@GodotName("viewport_set_usage") GodotMethod!(void, RID, long) viewportSetUsage;
 		@GodotName("viewport_set_use_arvr") GodotMethod!(void, RID, bool) viewportSetUseArvr;
+		@GodotName("viewport_set_use_debanding") GodotMethod!(void, RID, bool) viewportSetUseDebanding;
+		@GodotName("viewport_set_use_fxaa") GodotMethod!(void, RID, bool) viewportSetUseFxaa;
 		@GodotName("viewport_set_vflip") GodotMethod!(void, RID, bool) viewportSetVflip;
 	}
 	/// 
@@ -1092,6 +1097,22 @@ public:
 		viewportUpdateAlways = 3,
 	}
 	/// 
+	enum LightBakeMode : int
+	{
+		/**
+		
+		*/
+		lightBakeDisabled = 0,
+		/**
+		
+		*/
+		lightBakeIndirect = 1,
+		/**
+		
+		*/
+		lightBakeAll = 2,
+	}
+	/// 
 	enum ArrayFormat : int
 	{
 		/**
@@ -1462,6 +1483,8 @@ public:
 		Marks an error that shows that the index array is empty.
 		*/
 		noIndexArray = -1,
+		glowBlendModeAdditive = 0,
+		arrayVertex = 0,
 		featureShaders = 0,
 		canvasLightFilterNone = 0,
 		lightDirectionalShadowDepthRangeStable = 0,
@@ -1475,161 +1498,165 @@ public:
 		ninePatchStretch = 0,
 		envSsaoQualityLow = 0,
 		textureType2d = 0,
-		glowBlendModeAdditive = 0,
-		instanceNone = 0,
 		multimeshCustomDataNone = 0,
-		shadowCastingSettingOff = 0,
 		canvasOccluderPolygonCullDisabled = 0,
+		shadowCastingSettingOff = 0,
 		multimeshColorNone = 0,
 		lightDirectional = 0,
 		viewportDebugDrawDisabled = 0,
 		primitivePoints = 0,
-		envBgClearColor = 0,
 		cubemapLeft = 0,
+		envBgClearColor = 0,
 		infoObjectsInFrame = 0,
 		canvasLightModeAdd = 0,
+		lightBakeDisabled = 0,
 		viewportMsaaDisabled = 0,
-		arrayVertex = 0,
-		multimeshTransform2d = 0,
+		instanceNone = 0,
 		viewportUpdateDisabled = 0,
 		reflectionProbeUpdateOnce = 0,
 		envDofBlurQualityLow = 0,
 		lightParamEnergy = 0,
 		lightDirectionalShadowOrthogonal = 0,
-		scenarioDebugDisabled = 0,
 		envToneMapperLinear = 0,
+		scenarioDebugDisabled = 0,
 		instanceFlagUseBakedLight = 0,
-		viewportRenderInfoObjectsInFrame = 0,
+		multimeshTransform2d = 0,
 		blendShapeModeNormalized = 0,
+		viewportRenderInfoObjectsInFrame = 0,
+		multimeshTransform3d = 1,
+		glowBlendModeScreen = 1,
 		viewportDebugDrawUnshaded = 1,
 		envSsaoQualityMedium = 1,
 		envSsaoBlur1x1 = 1,
 		primitiveLines = 1,
 		lightOmniShadowCube = 1,
+		lightBakeIndirect = 1,
 		multimeshColor8bit = 1,
 		featureMultithreaded = 1,
 		instanceMesh = 1,
 		ninePatchTile = 1,
-		glowBlendModeScreen = 1,
 		envToneMapperReinhard = 1,
 		arrayNormal = 1,
 		textureFlagMipmaps = 1,
-		instanceFlagDrawNextFrameIfVisible = 1,
 		viewportRenderInfoVerticesInFrame = 1,
-		viewportClearNever = 1,
-		multimeshTransform3d = 1,
-		shadowCastingSettingOn = 1,
+		instanceFlagDrawNextFrameIfVisible = 1,
 		envBgColor = 1,
+		viewportClearNever = 1,
+		shadowCastingSettingOn = 1,
 		viewportMsaa2x = 1,
 		infoVerticesInFrame = 1,
 		envDofBlurQualityMedium = 1,
-		viewportUsage2dNoSampling = 1,
 		cubemapRight = 1,
-		canvasOccluderPolygonCullClockwise = 1,
 		lightOmniShadowDetailHorizontal = 1,
+		viewportUsage2dNoSampling = 1,
+		lightDirectionalShadowDepthRangeOptimized = 1,
 		lightOmni = 1,
 		arrayFormatVertex = 1,
 		canvasLightFilterPcf3 = 1,
-		lightDirectionalShadowDepthRangeOptimized = 1,
+		lightDirectionalShadowParallel2Splits = 1,
 		reflectionProbeUpdateAlways = 1,
 		multimeshCustomData8bit = 1,
-		lightDirectionalShadowParallel2Splits = 1,
-		particlesDrawOrderLifetime = 1,
 		scenarioDebugWireframe = 1,
+		particlesDrawOrderLifetime = 1,
 		blendShapeModeRelative = 1,
 		canvasLightModeSub = 1,
 		viewportUpdateOnce = 1,
+		canvasOccluderPolygonCullClockwise = 1,
 		shaderCanvasItem = 1,
-		infoMaterialChangesInFrame = 2,
-		arrayFormatNormal = 2,
+		envToneMapperFilmic = 2,
 		canvasLightModeMix = 2,
-		cubemapBottom = 2,
 		envDofBlurQualityHigh = 2,
-		multimeshColorFloat = 2,
 		particlesDrawOrderViewDepth = 2,
 		textureTypeCubemap = 2,
-		scenarioDebugOverdraw = 2,
+		multimeshColorFloat = 2,
 		viewportMsaa4x = 2,
+		scenarioDebugOverdraw = 2,
+		lightBakeAll = 2,
 		viewportUsage3d = 2,
 		lightParamSpecular = 2,
 		envSsaoBlur2x2 = 2,
 		viewportClearOnlyNextFrame = 2,
 		viewportUpdateWhenVisible = 2,
-		instanceMultimesh = 2,
 		ninePatchTileFit = 2,
+		instanceMultimesh = 2,
 		canvasOccluderPolygonCullCounterClockwise = 2,
-		textureFlagRepeat = 2,
-		viewportDebugDrawOverdraw = 2,
-		lightSpot = 2,
-		viewportRenderInfoMaterialChangesInFrame = 2,
-		shaderParticles = 2,
 		glowBlendModeSoftlight = 2,
-		shadowCastingSettingDoubleSided = 2,
-		arrayTangent = 2,
+		viewportRenderInfoMaterialChangesInFrame = 2,
+		textureFlagRepeat = 2,
+		lightSpot = 2,
 		canvasLightFilterPcf5 = 2,
+		shadowCastingSettingDoubleSided = 2,
+		shaderParticles = 2,
 		envSsaoQualityHigh = 2,
-		multimeshCustomDataFloat = 2,
-		primitiveLineStrip = 2,
+		arrayTangent = 2,
 		envBgSky = 2,
+		multimeshCustomDataFloat = 2,
 		instanceFlagMax = 2,
+		primitiveLineStrip = 2,
+		viewportDebugDrawOverdraw = 2,
 		lightDirectionalShadowParallel4Splits = 2,
-		envToneMapperFilmic = 2,
-		viewportRenderInfoShaderChangesInFrame = 3,
-		shaderMax = 3,
-		canvasLightModeMask = 3,
-		viewportMsaa8x = 3,
+		infoMaterialChangesInFrame = 2,
+		cubemapBottom = 2,
+		arrayFormatNormal = 2,
 		infoShaderChangesInFrame = 3,
+		viewportMsaa8x = 3,
+		shaderMax = 3,
 		glowBlendModeReplace = 3,
+		canvasLightModeMask = 3,
 		envBgColorSky = 3,
-		instanceImmediate = 3,
 		cubemapTop = 3,
+		viewportRenderInfoShaderChangesInFrame = 3,
+		instanceImmediate = 3,
 		viewportDebugDrawWireframe = 3,
-		shadowCastingSettingShadowsOnly = 3,
-		scenarioDebugShadeless = 3,
-		arrayColor = 3,
-		canvasLightFilterPcf7 = 3,
-		textureType2dArray = 3,
-		envSsaoBlur3x3 = 3,
-		viewportUpdateAlways = 3,
-		lightParamRange = 3,
-		primitiveLineLoop = 3,
-		viewportUsage3dNoEffects = 3,
 		envToneMapperAces = 3,
+		lightParamRange = 3,
+		viewportUpdateAlways = 3,
+		envSsaoBlur3x3 = 3,
+		viewportUsage3dNoEffects = 3,
+		textureType2dArray = 3,
+		primitiveLineLoop = 3,
+		canvasLightFilterPcf7 = 3,
+		arrayColor = 3,
+		scenarioDebugShadeless = 3,
+		shadowCastingSettingShadowsOnly = 3,
+		textureType3d = 4,
+		cubemapFront = 4,
+		textureFlagFilter = 4,
+		canvasLightFilterPcf9 = 4,
 		/**
 		Number of weights/bones per vertex.
 		*/
 		arrayWeightsSize = 4,
-		cubemapFront = 4,
-		instanceParticles = 4,
-		viewportRenderInfoSurfaceChangesInFrame = 4,
-		primitiveTriangles = 4,
-		envBgCanvas = 4,
-		arrayFormatTangent = 4,
-		textureType3d = 4,
-		infoSurfaceChangesInFrame = 4,
-		lightParamAttenuation = 4,
-		textureFlagFilter = 4,
-		viewportMsaa16x = 4,
 		arrayTexUv = 4,
-		canvasLightFilterPcf9 = 4,
-		canvasLightFilterPcf13 = 5,
-		infoDrawCallsInFrame = 5,
-		envBgKeep = 5,
-		primitiveTriangleStrip = 5,
+		viewportMsaa16x = 4,
+		lightParamAttenuation = 4,
+		infoSurfaceChangesInFrame = 4,
+		arrayFormatTangent = 4,
+		instanceParticles = 4,
+		envBgCanvas = 4,
+		primitiveTriangles = 4,
+		viewportRenderInfoSurfaceChangesInFrame = 4,
+		viewportRenderInfoDrawCallsInFrame = 5,
 		instanceLight = 5,
-		arrayTexUv2 = 5,
-		viewportMsaaExt2x = 5,
 		cubemapBack = 5,
 		lightParamSpotAngle = 5,
-		viewportRenderInfoDrawCallsInFrame = 5,
-		viewportRenderInfo2dItemsInFrame = 6,
-		instanceReflectionProbe = 6,
-		primitiveTriangleFan = 6,
-		lightParamSpotAttenuation = 6,
+		envBgKeep = 5,
+		primitiveTriangleStrip = 5,
+		canvasLightFilterPcf13 = 5,
+		viewportMsaaExt2x = 5,
+		infoDrawCallsInFrame = 5,
+		arrayTexUv2 = 5,
 		arrayBones = 6,
-		info2dItemsInFrame = 6,
+		primitiveTriangleFan = 6,
 		viewportMsaaExt4x = 6,
+		viewportRenderInfo2dItemsInFrame = 6,
+		info2dItemsInFrame = 6,
+		instanceReflectionProbe = 6,
+		lightParamSpotAttenuation = 6,
+		envBgMax = 7,
+		primitiveMax = 7,
 		lightParamContactShadowSize = 7,
+		textureFlagsDefault = 7,
 		instanceGiProbe = 7,
 		arrayWeights = 7,
 		info2dDrawCallsInFrame = 7,
@@ -1638,26 +1665,23 @@ public:
 		*/
 		maxGlowLevels = 7,
 		viewportRenderInfo2dDrawCallsInFrame = 7,
-		primitiveMax = 7,
-		envBgMax = 7,
-		textureFlagsDefault = 7,
+		instanceLightmapCapture = 8,
 		arrayFormatColor = 8,
 		viewportRenderInfoMax = 8,
-		instanceLightmapCapture = 8,
+		arrayIndex = 8,
+		textureFlagAnisotropicFilter = 8,
 		/**
 		Unused enum in Godot 3.x.
 		*/
 		maxCursors = 8,
-		infoUsageVideoMemTotal = 8,
-		textureFlagAnisotropicFilter = 8,
-		arrayIndex = 8,
 		lightParamShadowMaxDistance = 8,
-		infoVideoMemUsed = 9,
+		infoUsageVideoMemTotal = 8,
 		instanceMax = 9,
-		lightParamShadowSplit1Offset = 9,
+		infoVideoMemUsed = 9,
 		arrayMax = 9,
-		lightParamShadowSplit2Offset = 10,
+		lightParamShadowSplit1Offset = 9,
 		infoTextureMemUsed = 10,
+		lightParamShadowSplit2Offset = 10,
 		infoVertexMemUsed = 11,
 		lightParamShadowSplit3Offset = 11,
 		lightParamShadowNormalBias = 12,
@@ -1667,8 +1691,8 @@ public:
 		arrayFormatTexUv = 16,
 		textureFlagConvertToLinear = 16,
 		instanceGeometryMask = 30,
-		textureFlagMirroredRepeat = 32,
 		arrayFormatTexUv2 = 32,
+		textureFlagMirroredRepeat = 32,
 		arrayFormatBones = 64,
 		/**
 		The maximum renderpriority of all materials.
@@ -3012,7 +3036,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.instanceSetExterior, _godot_object, instance, enabled);
 	}
 	/**
-	Sets a margin to increase the size of the AABB when culling objects from the view frustum. This allows you avoid culling objects that fall outside the view frustum. Equivalent to $(D GeometryInstance.extraCullMargin).
+	Sets a margin to increase the size of the AABB when culling objects from the view frustum. This allows you to avoid culling objects that fall outside the view frustum. Equivalent to $(D GeometryInstance.extraCullMargin).
 	*/
 	void instanceSetExtraVisibilityMargin(in RID instance, in double margin)
 	{
@@ -3054,10 +3078,10 @@ public:
 	/**
 	Sets the lightmap to use with this instance.
 	*/
-	void instanceSetUseLightmap(in RID instance, in RID lightmap_instance, in RID lightmap)
+	void instanceSetUseLightmap(in RID instance, in RID lightmap_instance, in RID lightmap, in long lightmap_slice = -1, in Rect2 lightmap_uv_rect = Rect2(0, 0, 1, 1))
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.instanceSetUseLightmap, _godot_object, instance, lightmap_instance, lightmap);
+		ptrcall!(void)(GDNativeClassBinding.instanceSetUseLightmap, _godot_object, instance, lightmap_instance, lightmap, lightmap_slice, lightmap_uv_rect);
 	}
 	/**
 	Sets whether an instance is drawn or not. Equivalent to $(D Spatial.visible).
@@ -3141,6 +3165,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.lightOmniSetShadowMode, _godot_object, light, mode);
+	}
+	/**
+	Sets the bake mode for this light, see $(D lightbakemode) for options. The bake mode affects how the light will be baked in $(D BakedLightmap)s and $(D GIProbe)s.
+	*/
+	void lightSetBakeMode(in RID light, in long bake_mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.lightSetBakeMode, _godot_object, light, bake_mode);
 	}
 	/**
 	Sets the color of the light. Equivalent to $(D Light.lightColor).
@@ -3265,6 +3297,14 @@ public:
 		return ptrcall!(Transform)(GDNativeClassBinding.lightmapCaptureGetOctreeCellTransform, _godot_object, capture);
 	}
 	/**
+	Returns `true` if capture is in "interior" mode.
+	*/
+	bool lightmapCaptureIsInterior(in RID capture) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.lightmapCaptureIsInterior, _godot_object, capture);
+	}
+	/**
 	Sets the size of the area covered by the lightmap capture. Equivalent to $(D BakedLightmapData.bounds).
 	*/
 	void lightmapCaptureSetBounds(in RID capture, in AABB bounds)
@@ -3279,6 +3319,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetEnergy, _godot_object, capture, energy);
+	}
+	/**
+	Sets the "interior" mode for this lightmap capture. Equivalent to $(D BakedLightmapData.interior).
+	*/
+	void lightmapCaptureSetInterior(in RID capture, in bool interior)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.lightmapCaptureSetInterior, _godot_object, capture, interior);
 	}
 	/**
 	Sets the octree to be used by this lightmap capture. This function is normally used by the $(D BakedLightmap) node. Equivalent to $(D BakedLightmapData.octree).
@@ -3894,7 +3942,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.particlesSetOneShot, _godot_object, particles, one_shot);
 	}
 	/**
-	Sets the preprocess time for the particles animation. This lets you delay starting an animation until after the particles have begun emitting. Equivalent to $(D Particles.preprocess).
+	Sets the preprocess time for the particles' animation. This lets you delay starting an animation until after the particles have begun emitting. Equivalent to $(D Particles.preprocess).
 	*/
 	void particlesSetPreProcessTime(in RID particles, in double time)
 	{
@@ -4692,6 +4740,23 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.viewportSetUseArvr, _godot_object, viewport, use_arvr);
+	}
+	/**
+	If `true`, uses a fast post-processing filter to make banding significantly less visible. In some cases, debanding may introduce a slightly noticeable dithering pattern. It's recommended to enable debanding only when actually needed since the dithering pattern will make lossless-compressed screenshots larger.
+	$(B Note:) Only available on the GLES3 backend. $(D Viewport.hdr) must also be `true` for debanding to be effective.
+	*/
+	void viewportSetUseDebanding(in RID viewport, in bool debanding)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.viewportSetUseDebanding, _godot_object, viewport, debanding);
+	}
+	/**
+	Enables fast approximate antialiasing for this viewport. FXAA is a popular screen-space antialiasing method, which is fast but will make the image look blurry, especially at lower resolutions. It can still work relatively well at large resolutions such as 1440p and 4K.
+	*/
+	void viewportSetUseFxaa(in RID viewport, in bool fxaa)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.viewportSetUseFxaa, _godot_object, viewport, fxaa);
 	}
 	/**
 	If `true`, the viewport's rendering is flipped vertically.

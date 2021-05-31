@@ -113,6 +113,7 @@ public:
 		@GodotName("transform_track_interpolate") GodotMethod!(Array, long, double) transformTrackInterpolate;
 		@GodotName("value_track_get_key_indices") GodotMethod!(PoolIntArray, long, double, double) valueTrackGetKeyIndices;
 		@GodotName("value_track_get_update_mode") GodotMethod!(Animation.UpdateMode, long) valueTrackGetUpdateMode;
+		@GodotName("value_track_interpolate") GodotMethod!(Variant, long, double) valueTrackInterpolate;
 		@GodotName("value_track_set_update_mode") GodotMethod!(void, long, long) valueTrackSetUpdateMode;
 	}
 	/// 
@@ -728,6 +729,14 @@ public:
 		return ptrcall!(Animation.UpdateMode)(GDNativeClassBinding.valueTrackGetUpdateMode, _godot_object, track_idx);
 	}
 	/**
+	Returns the interpolated value at the given time (in seconds). The `track_idx` must be the index of a value track.
+	*/
+	Variant valueTrackInterpolate(in long track_idx, in double time_sec) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Variant)(GDNativeClassBinding.valueTrackInterpolate, _godot_object, track_idx, time_sec);
+	}
+	/**
 	Sets the update mode (see $(D updatemode)) of a value track.
 	*/
 	void valueTrackSetUpdateMode(in long track_idx, in long mode)
@@ -749,7 +758,7 @@ public:
 		setLength(v);
 	}
 	/**
-	A flag indicating that the animation must loop. This is uses for correct interpolation of animation cycles, and for hinting the player that it must restart the animation.
+	A flag indicating that the animation must loop. This is used for correct interpolation of animation cycles, and for hinting the player that it must restart the animation.
 	*/
 	@property bool loop()
 	{

@@ -25,7 +25,7 @@ import godot.streampeer;
 /**
 Low-level hyper-text transfer protocol client.
 
-Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases. $(B See the $(D HTTPRequest) node for an higher-level alternative.)
+Hyper-text transfer protocol client (sometimes called "User Agent"). Used to make HTTP requests to download web content, upload files and other data or to communicate with various services, among other use cases. $(B See the $(D HTTPRequest) node for a higher-level alternative.)
 $(B Note:) This client only needs to connect to a host once (see $(D connectToHost)) to send multiple requests. Because of this, methods that take URLs usually take just the part after the host instead of the full URL, as the client is already connected to a host. See $(D request) for a full example and to get started.
 A $(D HTTPClient) should be reused between multiple requests or to connect to different hosts instead of creating one client per request. Supports SSL and SSL server certificate verification. HTTP status codes in the 2xx range indicate success, 3xx redirection (i.e. "try again, but over here"), 4xx something was wrong with the request, and 5xx something went wrong on the server's side.
 For more information on HTTP, see https://developer.mozilla.org/en-US/docs/Web/HTTP (or read RFC 2616 to get it straight from the source: https://tools.ietf.org/html/rfc2616).

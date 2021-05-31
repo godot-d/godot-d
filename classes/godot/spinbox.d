@@ -42,6 +42,7 @@ spin_box.align = LineEdit.ALIGN_RIGHT
 
 The above code will create a $(D SpinBox), disable context menu on it and set the text alignment to right.
 See $(D Range) class for more options over the $(D SpinBox).
+$(B Note:) $(D SpinBox) relies on an underlying $(D LineEdit) node. To theme a $(D SpinBox)'s background, add theme items for $(D LineEdit) and customize them.
 */
 @GodotBaseClass struct SpinBox
 {

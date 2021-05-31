@@ -102,7 +102,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Adds an array of bones for the next vertex to use. `bones` must contain 4 integers.
+	Specifies an array of bones to use for the $(I next) vertex. `bones` must contain 4 integers.
 	*/
 	void addBones(in PoolIntArray bones)
 	{
@@ -110,7 +110,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addBones, _godot_object, bones);
 	}
 	/**
-	Specifies a $(D Color) for the next vertex to use.
+	Specifies a $(D Color) to use for the $(I next) vertex. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	$(B Note:) The material must have $(D SpatialMaterial.vertexColorUseAsAlbedo) enabled for the vertex color to be visible.
 	*/
 	void addColor(in Color color)
@@ -127,7 +127,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addIndex, _godot_object, index);
 	}
 	/**
-	Specifies a normal for the next vertex to use.
+	Specifies a normal to use for the $(I next) vertex. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	*/
 	void addNormal(in Vector3 normal)
 	{
@@ -143,7 +143,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addSmoothGroup, _godot_object, smooth);
 	}
 	/**
-	Specifies a tangent for the next vertex to use.
+	Specifies a tangent to use for the $(I next) vertex. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	*/
 	void addTangent(in Plane tangent)
 	{
@@ -160,7 +160,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addTriangleFan, _godot_object, vertices, uvs, colors, uv2s, normals, tangents);
 	}
 	/**
-	Specifies a set of UV coordinates to use for the next vertex.
+	Specifies a set of UV coordinates to use for the $(I next) vertex. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	*/
 	void addUv(in Vector2 uv)
 	{
@@ -168,7 +168,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addUv, _godot_object, uv);
 	}
 	/**
-	Specifies an optional second set of UV coordinates to use for the next vertex.
+	Specifies an optional second set of UV coordinates to use for the $(I next) vertex. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	*/
 	void addUv2(in Vector2 uv2)
 	{
@@ -184,7 +184,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addVertex, _godot_object, vertex);
 	}
 	/**
-	Specifies weight values for next vertex to use. `weights` must contain 4 values.
+	Specifies weight values to use for the $(I next) vertex. `weights` must contain 4 values. If every vertex needs to have this information set and you fail to submit it for the first vertex, this information may not be used at all.
 	*/
 	void addWeights(in PoolRealArray weights)
 	{
@@ -257,8 +257,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.deindex, _godot_object);
 	}
 	/**
-	Generates normals from vertices so you do not have to do it manually. If `flip` is `true`, the resulting normals will be inverted.
-	Requires the primitive type to be set to $(D constant Mesh.PRIMITIVE_TRIANGLES).
+	Generates normals from vertices so you do not have to do it manually. If `flip` is `true`, the resulting normals will be inverted. $(D generateNormals) should be called $(I after) generating geometry and $(I before) committing the mesh using $(D commit) or $(D commitToArrays).
+	$(B Note:) $(D generateNormals) only works if the primitive type to be set to $(D constant Mesh.PRIMITIVE_TRIANGLES).
 	*/
 	void generateNormals(in bool flip = false)
 	{
@@ -274,7 +274,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.generateTangents, _godot_object);
 	}
 	/**
-	Shrinks the vertex array by creating an index array (avoids reusing vertices).
+	Shrinks the vertex array by creating an index array. This can improve performance by avoiding vertex reuse.
 	*/
 	void index()
 	{

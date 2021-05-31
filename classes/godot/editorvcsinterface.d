@@ -199,7 +199,7 @@ public:
 		return ptrcall!(Array)(GDNativeClassBinding.getFileDiff, _godot_object, file_path);
 	}
 	/**
-	Returns a $(D Dictionary) containing the path of the detected file change mapped to an integer signifying what kind of a change the corresponding file has experienced.
+	Returns a $(D Dictionary) containing the path of the detected file change mapped to an integer signifying what kind of change the corresponding file has experienced.
 	The following integer values are being used to signify that the detected file is:
 	- `0`: New to the VCS working directory
 	- `1`: Modified

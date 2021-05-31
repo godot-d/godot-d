@@ -50,7 +50,7 @@ public:
 		@GodotName("_breaked") GodotMethod!(void, bool, bool) _breaked;
 		@GodotName("_clear_execution") GodotMethod!(void, Reference) _clearExecution;
 		@GodotName("_close_all_tabs") GodotMethod!(void) _closeAllTabs;
-		@GodotName("_close_current_tab") GodotMethod!(void) _closeCurrentTab;
+		@GodotName("_close_current_tab") GodotMethod!(void, bool) _closeCurrentTab;
 		@GodotName("_close_discard_current_tab") GodotMethod!(void, String) _closeDiscardCurrentTab;
 		@GodotName("_close_docs_tab") GodotMethod!(void) _closeDocsTab;
 		@GodotName("_close_other_tabs") GodotMethod!(void) _closeOtherTabs;
@@ -185,9 +185,10 @@ public:
 	/**
 	
 	*/
-	void _closeCurrentTab()
+	void _closeCurrentTab(in bool arg0)
 	{
 		Array _GODOT_args = Array.make();
+		_GODOT_args.append(arg0);
 		String _GODOT_method_name = String("_close_current_tab");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}

@@ -92,6 +92,10 @@ public:
 		
 		*/
 		callModeInstance = 2,
+		/**
+		
+		*/
+		callModeBasicType = 3,
 	}
 	/// 
 	enum Constants : int
@@ -99,6 +103,7 @@ public:
 		callModeSelf = 0,
 		callModeNodePath = 1,
 		callModeInstance = 2,
+		callModeBasicType = 3,
 	}
 	/**
 	

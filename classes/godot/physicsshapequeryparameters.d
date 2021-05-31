@@ -222,7 +222,7 @@ public:
 		setCollideWithBodies(v);
 	}
 	/**
-	The physics layer(s) the query will take into account (as a bitmask). See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The physics layer(s) the query will take into account (as a bitmask). See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

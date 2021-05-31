@@ -146,7 +146,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.eraseResolveItem, _godot_object, id);
 	}
 	/**
-	Returns all of the user's current IPv4 and IPv6 addresses as an array.
+	Returns all the user's current IPv4 and IPv6 addresses as an array.
 	*/
 	Array getLocalAddresses() const
 	{

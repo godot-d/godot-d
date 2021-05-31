@@ -102,6 +102,9 @@ public:
 		@GodotName("is_highlight_all_occurrences_enabled") GodotMethod!(bool) isHighlightAllOccurrencesEnabled;
 		@GodotName("is_highlight_current_line_enabled") GodotMethod!(bool) isHighlightCurrentLineEnabled;
 		@GodotName("is_line_hidden") GodotMethod!(bool, long) isLineHidden;
+		@GodotName("is_line_set_as_bookmark") GodotMethod!(bool, long) isLineSetAsBookmark;
+		@GodotName("is_line_set_as_breakpoint") GodotMethod!(bool, long) isLineSetAsBreakpoint;
+		@GodotName("is_line_set_as_safe") GodotMethod!(bool, long) isLineSetAsSafe;
 		@GodotName("is_overriding_selected_font_color") GodotMethod!(bool) isOverridingSelectedFontColor;
 		@GodotName("is_readonly") GodotMethod!(bool) isReadonly;
 		@GodotName("is_right_click_moving_caret") GodotMethod!(bool) isRightClickMovingCaret;
@@ -111,6 +114,7 @@ public:
 		@GodotName("is_show_line_numbers_enabled") GodotMethod!(bool) isShowLineNumbersEnabled;
 		@GodotName("is_smooth_scroll_enabled") GodotMethod!(bool) isSmoothScrollEnabled;
 		@GodotName("is_syntax_coloring_enabled") GodotMethod!(bool) isSyntaxColoringEnabled;
+		@GodotName("is_virtual_keyboard_enabled") GodotMethod!(bool) isVirtualKeyboardEnabled;
 		@GodotName("is_wrap_enabled") GodotMethod!(bool) isWrapEnabled;
 		@GodotName("menu_option") GodotMethod!(void, long) menuOption;
 		@GodotName("paste") GodotMethod!(void) paste;
@@ -129,7 +133,10 @@ public:
 		@GodotName("set_highlight_all_occurrences") GodotMethod!(void, bool) setHighlightAllOccurrences;
 		@GodotName("set_highlight_current_line") GodotMethod!(void, bool) setHighlightCurrentLine;
 		@GodotName("set_line") GodotMethod!(void, long, String) setLine;
+		@GodotName("set_line_as_bookmark") GodotMethod!(void, long, bool) setLineAsBookmark;
+		@GodotName("set_line_as_breakpoint") GodotMethod!(void, long, bool) setLineAsBreakpoint;
 		@GodotName("set_line_as_hidden") GodotMethod!(void, long, bool) setLineAsHidden;
+		@GodotName("set_line_as_safe") GodotMethod!(void, long, bool) setLineAsSafe;
 		@GodotName("set_minimap_width") GodotMethod!(void, long) setMinimapWidth;
 		@GodotName("set_override_selected_font_color") GodotMethod!(void, bool) setOverrideSelectedFontColor;
 		@GodotName("set_readonly") GodotMethod!(void, bool) setReadonly;
@@ -142,6 +149,7 @@ public:
 		@GodotName("set_text") GodotMethod!(void, String) setText;
 		@GodotName("set_v_scroll") GodotMethod!(void, double) setVScroll;
 		@GodotName("set_v_scroll_speed") GodotMethod!(void, double) setVScrollSpeed;
+		@GodotName("set_virtual_keyboard_enabled") GodotMethod!(void, bool) setVirtualKeyboardEnabled;
 		@GodotName("set_wrap_enabled") GodotMethod!(void, bool) setWrapEnabled;
 		@GodotName("toggle_fold_line") GodotMethod!(void, long) toggleFoldLine;
 		@GodotName("undo") GodotMethod!(void) undo;
@@ -746,6 +754,30 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isLineHidden, _godot_object, line);
 	}
 	/**
+	Returns `true` when the specified `line` is bookmarked.
+	*/
+	bool isLineSetAsBookmark(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isLineSetAsBookmark, _godot_object, line);
+	}
+	/**
+	Returns `true` when the specified `line` has a breakpoint.
+	*/
+	bool isLineSetAsBreakpoint(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isLineSetAsBreakpoint, _godot_object, line);
+	}
+	/**
+	Returns `true` when the specified `line` is marked as safe.
+	*/
+	bool isLineSetAsSafe(in long line) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isLineSetAsSafe, _godot_object, line);
+	}
+	/**
 	
 	*/
 	bool isOverridingSelectedFontColor() const
@@ -816,6 +848,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isSyntaxColoringEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isVirtualKeyboardEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isVirtualKeyboardEnabled, _godot_object);
 	}
 	/**
 	
@@ -974,12 +1014,38 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setLine, _godot_object, line, new_text);
 	}
 	/**
+	Bookmarks the `line` if `bookmark` is true. Deletes the bookmark if `bookmark` is false.
+	Bookmarks are shown in the $(D breakpointGutter).
+	*/
+	void setLineAsBookmark(in long line, in bool bookmark)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setLineAsBookmark, _godot_object, line, bookmark);
+	}
+	/**
+	Adds or removes the breakpoint in `line`. Breakpoints are shown in the $(D breakpointGutter).
+	*/
+	void setLineAsBreakpoint(in long line, in bool breakpoint)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setLineAsBreakpoint, _godot_object, line, breakpoint);
+	}
+	/**
 	If `true`, hides the line of the specified index.
 	*/
 	void setLineAsHidden(in long line, in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setLineAsHidden, _godot_object, line, enable);
+	}
+	/**
+	If `true`, marks the `line` as safe.
+	This will show the line number with the color provided in the `safe_line_number_color` theme property.
+	*/
+	void setLineAsSafe(in long line, in bool safe)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setLineAsSafe, _godot_object, line, safe);
 	}
 	/**
 	
@@ -1076,6 +1142,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setVScrollSpeed, _godot_object, speed);
+	}
+	/**
+	
+	*/
+	void setVirtualKeyboardEnabled(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setVirtualKeyboardEnabled, _godot_object, enable);
 	}
 	/**
 	
@@ -1419,6 +1493,18 @@ public:
 	@property void vScrollSpeed(double v)
 	{
 		setVScrollSpeed(v);
+	}
+	/**
+	If `true`, the native virtual keyboard is shown when focused on platforms that support it.
+	*/
+	@property bool virtualKeyboardEnabled()
+	{
+		return isVirtualKeyboardEnabled();
+	}
+	/// ditto
+	@property void virtualKeyboardEnabled(bool v)
+	{
+		setVirtualKeyboardEnabled(v);
 	}
 	/**
 	If `true`, enables text wrapping when it goes beyond the edge of what is visible.

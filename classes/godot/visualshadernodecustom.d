@@ -61,6 +61,9 @@ public:
 		@GodotName("_get_output_port_type") GodotMethod!(long, long) _getOutputPortType;
 		@GodotName("_get_return_icon_type") GodotMethod!(long) _getReturnIconType;
 		@GodotName("_get_subcategory") GodotMethod!(String) _getSubcategory;
+		@GodotName("_is_initialized") GodotMethod!(bool) _isInitialized;
+		@GodotName("_set_initialized") GodotMethod!(void, bool) _setInitialized;
+		@GodotName("_set_input_port_default_value") GodotMethod!(void, long, Variant) _setInputPortDefaultValue;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in VisualShaderNodeCustom other) const
@@ -85,7 +88,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Override this method to define the category of the associated custom node in the Visual Shader Editor's members dialog.
+	Override this method to define the category of the associated custom node in the Visual Shader Editor's members dialog. The path may look like `"MyGame/MyFunctions/Noise"`.
 	Defining this method is $(B optional). If not overridden, the node will be filed under the "Custom" category.
 	*/
 	String _getCategory()
@@ -227,5 +230,47 @@ public:
 		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("_get_subcategory");
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
+	}
+	/**
+	
+	*/
+	bool _isInitialized()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_is_initialized");
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
+	}
+	/**
+	
+	*/
+	void _setInitialized(in bool enabled)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(enabled);
+		String _GODOT_method_name = String("_set_initialized");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	void _setInputPortDefaultValue(VariantArg1)(in long port, in VariantArg1 value)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(port);
+		_GODOT_args.append(value);
+		String _GODOT_method_name = String("_set_input_port_default_value");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
+	@property bool initialized()
+	{
+		return _isInitialized();
+	}
+	/// ditto
+	@property void initialized(bool v)
+	{
+		_setInitialized(v);
 	}
 }

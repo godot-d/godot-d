@@ -90,21 +90,21 @@ public:
 	/**
 	
 	*/
-	void _proximityGroupBroadcast(VariantArg1)(in String name, in VariantArg1 params)
+	void _proximityGroupBroadcast(VariantArg1)(in String method, in VariantArg1 parameters)
 	{
 		Array _GODOT_args = Array.make();
-		_GODOT_args.append(name);
-		_GODOT_args.append(params);
+		_GODOT_args.append(method);
+		_GODOT_args.append(parameters);
 		String _GODOT_method_name = String("_proximity_group_broadcast");
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
 	
 	*/
-	void broadcast(VariantArg1)(in String name, in VariantArg1 parameters)
+	void broadcast(VariantArg1)(in String method, in VariantArg1 parameters)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.broadcast, _godot_object, name, parameters);
+		ptrcall!(void)(GDNativeClassBinding.broadcast, _godot_object, method, parameters);
 	}
 	/**
 	

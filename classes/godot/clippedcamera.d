@@ -269,7 +269,7 @@ public:
 		setClipToBodies(v);
 	}
 	/**
-	The camera's collision mask. Only objects in at least one collision layer matching the mask will be detected. See $(D url=https://docs.godotengine.org/en/3.2/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
+	The camera's collision mask. Only objects in at least one collision layer matching the mask will be detected. See $(D url=https://docs.godotengine.org/en/3.3/tutorials/physics/physics_introduction.html#collision-layers-and-masks)Collision layers and masks$(D /url) in the documentation for more information.
 	*/
 	@property long collisionMask()
 	{

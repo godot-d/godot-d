@@ -64,6 +64,7 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("clear") GodotMethod!(void) clear;
 		@GodotName("erase_section") GodotMethod!(void, String) eraseSection;
 		@GodotName("erase_section_key") GodotMethod!(void, String, String) eraseSectionKey;
 		@GodotName("get_section_keys") GodotMethod!(PoolStringArray, String) getSectionKeys;
@@ -102,6 +103,14 @@ public:
 		return cast(ConfigFile)(constructor());
 	}
 	@disable new(size_t s);
+	/**
+	
+	*/
+	void clear()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.clear, _godot_object);
+	}
 	/**
 	Deletes the specified section along with all the key-value pairs inside. Raises an error if the section does not exist.
 	*/
@@ -186,7 +195,7 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.loadEncryptedPass, _godot_object, path, password);
 	}
 	/**
-	Parses the the passed string as the contents of a config file. The string is parsed and loaded in the ConfigFile object which the method was called on.
+	Parses the passed string as the contents of a config file. The string is parsed and loaded in the ConfigFile object which the method was called on.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError parse(in String data)

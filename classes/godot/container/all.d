@@ -2,6 +2,7 @@ module godot.container.all;
 
 public import
 	godot.container,
+	godot.aspectratiocontainer,
 	godot.boxcontainer,
 	godot.colorpicker,
 	godot.hboxcontainer,

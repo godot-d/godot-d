@@ -143,7 +143,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setMaterial, _godot_object, material);
 	}
 	/**
-	Overrides the $(D AABB) with one defined by user for use with frustum culling. Especially useful to avoid unnexpected culling when  using a shader to offset vertices.
+	Overrides the $(D AABB) with one defined by user for use with frustum culling. Especially useful to avoid unexpected culling when  using a shader to offset vertices.
 	*/
 	@property AABB customAabb()
 	{

@@ -77,14 +77,16 @@ public:
 		@GodotName("is_empty") GodotMethod!(bool) isEmpty;
 		@GodotName("is_invisible") GodotMethod!(bool) isInvisible;
 		@GodotName("load") GodotMethod!(GodotError, String) load;
+		@GodotName("load_bmp_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadBmpFromBuffer;
 		@GodotName("load_jpg_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadJpgFromBuffer;
 		@GodotName("load_png_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadPngFromBuffer;
+		@GodotName("load_tga_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadTgaFromBuffer;
 		@GodotName("load_webp_from_buffer") GodotMethod!(GodotError, PoolByteArray) loadWebpFromBuffer;
 		@GodotName("lock") GodotMethod!(void) lock;
 		@GodotName("normalmap_to_xy") GodotMethod!(void) normalmapToXy;
 		@GodotName("premultiply_alpha") GodotMethod!(void) premultiplyAlpha;
 		@GodotName("resize") GodotMethod!(void, long, long, long) resize;
-		@GodotName("resize_to_po2") GodotMethod!(void, bool) resizeToPo2;
+		@GodotName("resize_to_po2") GodotMethod!(void, bool, long) resizeToPo2;
 		@GodotName("rgbe_to_srgb") GodotMethod!(Image) rgbeToSrgb;
 		@GodotName("save_exr") GodotMethod!(GodotError, String, bool) saveExr;
 		@GodotName("save_png") GodotMethod!(GodotError, String) savePng;
@@ -605,7 +607,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.flipY, _godot_object);
 	}
 	/**
-	Generates mipmaps for the image. Mipmaps are pre-calculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
+	Generates mipmaps for the image. Mipmaps are precalculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
 	*/
 	GodotError generateMipmaps(in bool renormalize = false)
 	{
@@ -725,7 +727,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isInvisible, _godot_object);
 	}
 	/**
-	Loads an image from file `path`. See $(D url=https://docs.godotengine.org/en/3.2/getting_started/workflow/assets/importing_images.html#supported-image-formats)Supported image formats$(D /url) for a list of supported image formats and limitations.
+	Loads an image from file `path`. See $(D url=https://docs.godotengine.org/en/3.3/getting_started/workflow/assets/importing_images.html#supported-image-formats)Supported image formats$(D /url) for a list of supported image formats and limitations.
 	$(B Warning:) This method should only be used in the editor or in cases when you need to load external images at run-time, such as images located at the `user://` directory, and may not work in exported projects.
 	See also $(D ImageTexture) description for usage examples.
 	*/
@@ -733,6 +735,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(GDNativeClassBinding.load, _godot_object, path);
+	}
+	/**
+	Loads an image from the binary contents of a BMP file.
+	$(B Note:) Godot's BMP module doesn't support 16-bit per pixel images. Only 1-bit, 4-bit, 8-bit, 24-bit, and 32-bit per pixel images are supported.
+	*/
+	GodotError loadBmpFromBuffer(in PoolByteArray buffer)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadBmpFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Loads an image from the binary contents of a JPEG file.
@@ -749,6 +760,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(GodotError)(GDNativeClassBinding.loadPngFromBuffer, _godot_object, buffer);
+	}
+	/**
+	Loads an image from the binary contents of a TGA file.
+	*/
+	GodotError loadTgaFromBuffer(in PoolByteArray buffer)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GodotError)(GDNativeClassBinding.loadTgaFromBuffer, _godot_object, buffer);
 	}
 	/**
 	Loads an image from the binary contents of a WebP file.
@@ -793,10 +812,10 @@ public:
 	/**
 	Resizes the image to the nearest power of 2 for the width and height. If `square` is `true` then set width and height to be the same. New pixels are calculated using the `interpolation` mode defined via $(D interpolation) constants.
 	*/
-	void resizeToPo2(in bool square = false)
+	void resizeToPo2(in bool square = false, in long interpolation = 1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.resizeToPo2, _godot_object, square);
+		ptrcall!(void)(GDNativeClassBinding.resizeToPo2, _godot_object, square, interpolation);
 	}
 	/**
 	Converts a standard RGBE (Red Green Blue Exponent) image to an sRGB image.
@@ -891,7 +910,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.unlock, _godot_object);
 	}
 	/**
-	Holds all of the image's color data in a given format. See $(D format) constants.
+	Holds all the image's color data in a given format. See $(D format) constants.
 	*/
 	@property Dictionary data()
 	{

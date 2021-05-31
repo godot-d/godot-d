@@ -155,7 +155,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.clearAll, _godot_object);
 	}
 	/**
-	If `true`, the given animation will loop.
+	Returns `true` if the given animation is configured to loop when it finishes playing. Otherwise, returns `false`.
 	*/
 	bool getAnimationLoop(in String anim) const
 	{

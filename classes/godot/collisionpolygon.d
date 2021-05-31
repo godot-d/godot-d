@@ -40,10 +40,12 @@ public:
 		__gshared:
 		@GodotName("_is_editable_3d_polygon") GodotMethod!(bool) _isEditable3dPolygon;
 		@GodotName("get_depth") GodotMethod!(double) getDepth;
+		@GodotName("get_margin") GodotMethod!(double) getMargin;
 		@GodotName("get_polygon") GodotMethod!(PoolVector2Array) getPolygon;
 		@GodotName("is_disabled") GodotMethod!(bool) isDisabled;
 		@GodotName("set_depth") GodotMethod!(void, double) setDepth;
 		@GodotName("set_disabled") GodotMethod!(void, bool) setDisabled;
+		@GodotName("set_margin") GodotMethod!(void, double) setMargin;
 		@GodotName("set_polygon") GodotMethod!(void, PoolVector2Array) setPolygon;
 	}
 	/// 
@@ -88,6 +90,14 @@ public:
 	/**
 	
 	*/
+	double getMargin() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getMargin, _godot_object);
+	}
+	/**
+	
+	*/
 	PoolVector2Array getPolygon() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -120,6 +130,14 @@ public:
 	/**
 	
 	*/
+	void setMargin(in double margin)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin);
+	}
+	/**
+	
+	*/
 	void setPolygon(in PoolVector2Array polygon)
 	{
 		checkClassBinding!(typeof(this))();
@@ -148,6 +166,18 @@ public:
 	@property void disabled(bool v)
 	{
 		setDisabled(v);
+	}
+	/**
+	The collision margin for the generated $(D Shape). See $(D Shape.margin) for more details.
+	*/
+	@property double margin()
+	{
+		return getMargin();
+	}
+	/// ditto
+	@property void margin(double v)
+	{
+		setMargin(v);
 	}
 	/**
 	Array of vertices which define the polygon.

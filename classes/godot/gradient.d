@@ -84,7 +84,7 @@ public:
 	/**
 	Returns the color of the ramp color at index `point`.
 	*/
-	Color getColor(in long point) const
+	Color getColor(in long point)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, point);
@@ -100,7 +100,7 @@ public:
 	/**
 	Returns the offset of the ramp color at index `point`.
 	*/
-	double getOffset(in long point) const
+	double getOffset(in long point)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(double)(GDNativeClassBinding.getOffset, _godot_object, point);
@@ -132,10 +132,10 @@ public:
 	/**
 	Removes the color at the index `point`.
 	*/
-	void removePoint(in long offset)
+	void removePoint(in long point)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, offset);
+		ptrcall!(void)(GDNativeClassBinding.removePoint, _godot_object, point);
 	}
 	/**
 	Sets the color of the ramp color at index `point`.

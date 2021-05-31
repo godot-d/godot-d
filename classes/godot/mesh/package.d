@@ -408,7 +408,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.surfaceSetMaterial, _godot_object, surf_idx, material);
 	}
 	/**
-	Sets a hint to be used for lightmap resolution in $(D BakedLightmap). Overrides $(D BakedLightmap.bakeDefaultTexelsPerUnit).
+	Sets a hint to be used for lightmap resolution in $(D BakedLightmap). Overrides $(D BakedLightmap.defaultTexelsPerUnit).
 	*/
 	@property Vector2 lightmapSizeHint()
 	{

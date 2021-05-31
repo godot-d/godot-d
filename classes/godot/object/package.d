@@ -1,5 +1,5 @@
 /**
-Base class for all non built-in types.
+Base class for all non-built-in types.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -21,7 +21,7 @@ import godot.d.reference;
 import godot.classdb;
 import godot.reference;
 /**
-Base class for all non built-in types.
+Base class for all non-built-in types.
 
 Every class which is not a built-in type inherits from this class.
 You can construct Objects from scripting languages, using `Object.new()` in GDScript, `new Object` in C#, or the "Construct Object" node in VisualScript.
@@ -39,6 +39,7 @@ print("other_property" in n) # Prints "False".
 The `in` operator will evaluate to `true` as long as the key exists, even if the value is `null`.
 Objects also receive notifications. Notifications are a simple way to notify the object about different events, so they can all be handled together. See $(D _notification).
 $(B Note:) Unlike references to a $(D Reference), references to an Object stored in a variable can become invalid without warning. Therefore, it's recommended to use $(D Reference) for data classes instead of $(D GodotObject).
+$(B Note:) Due to a bug, you can't create a "plain" Object using `Object.new()`. Instead, use `ClassDB.instance("Object")`. This bug only applies to Object itself, not any of its descendents like $(D Reference).
 */
 @GodotBaseClass struct GodotObject
 {
@@ -352,7 +353,8 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
-	Deletes the object from memory. Any pre-existing reference to the freed object will become invalid, e.g. `is_instance_valid(object)` will return `false`.
+	Deletes the object from memory immediately. For $(D Node)s, you may want to use $(D Node.queueFree) to queue the node for safe deletion at the end of the current frame.
+	$(B Important:) If you have a variable pointing to an object, it will $(I not) be assigned to `null` once the object is freed. Instead, it will point to a $(I previously freed instance) and you should validate it with $(D @GDScript.isInstanceValid) before attempting to call its methods or access its properties.
 	*/
 	void free()
 	{
@@ -441,7 +443,7 @@ public:
 	/**
 	Returns the object's $(D Script) instance, or `null` if none is assigned.
 	*/
-	Reference getScript() const
+	Ref!Reference getScript() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Reference)(GDNativeClassBinding.getScript, _godot_object);

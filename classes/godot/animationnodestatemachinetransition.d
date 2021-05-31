@@ -191,7 +191,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setXfadeTime, _godot_object, secs);
 	}
 	/**
-	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/3.2/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:
+	Turn on auto advance when this condition is set. The provided name will become a boolean parameter on the $(D AnimationTree) that can be controlled from code (see $(D url=https://docs.godotengine.org/en/3.3/tutorials/animation/animation_tree.html#controlling-from-code)$(D /url)). For example, if $(D AnimationTree.treeRoot) is an $(D AnimationNodeStateMachine) and $(D advanceCondition) is set to `"idle"`:
 	
 	
 	$animation_tree$(D "parameters/conditions/idle") = is_on_floor and (linear_velocity.x == 0)

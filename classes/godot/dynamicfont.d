@@ -50,6 +50,7 @@ public:
 	{
 		__gshared:
 		@GodotName("add_fallback") GodotMethod!(void, DynamicFontData) addFallback;
+		@GodotName("get_available_chars") GodotMethod!(String) getAvailableChars;
 		@GodotName("get_fallback") GodotMethod!(DynamicFontData, long) getFallback;
 		@GodotName("get_fallback_count") GodotMethod!(long) getFallbackCount;
 		@GodotName("get_font_data") GodotMethod!(DynamicFontData) getFontData;
@@ -126,6 +127,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.addFallback, _godot_object, data);
+	}
+	/**
+	Returns a string containing all the characters available in the main and all the fallback fonts.
+	If a given character is included in more than one font, it appears only once in the returned string.
+	*/
+	String getAvailableChars() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getAvailableChars, _godot_object);
 	}
 	/**
 	Returns the fallback font at index `idx`.

@@ -492,7 +492,7 @@ public:
 		setZAsRelative(v);
 	}
 	/**
-	Z index. Controls the order in which the nodes render. A node with a higher Z index will display in front of others.
+	Z index. Controls the order in which the nodes render. A node with a higher Z index will display in front of others. Must be between $(D constant VisualServer.CANVAS_ITEM_Z_MIN) and $(D constant VisualServer.CANVAS_ITEM_Z_MAX) (inclusive).
 	*/
 	@property long zIndex()
 	{

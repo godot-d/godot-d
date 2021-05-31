@@ -253,6 +253,7 @@ public:
 	}
 	/**
 	Whether the texture can be tiled without visible seams or not. Seamless textures take longer to generate.
+	$(B Note:) Seamless noise has a lower contrast compared to non-seamless noise. This is due to the way noise uses higher dimensions for generating seamless noise.
 	*/
 	@property bool seamless()
 	{

@@ -1,5 +1,5 @@
 /**
-An implementation of A* to find shortest paths among connected points in space.
+An implementation of A* to find the shortest paths among connected points in space.
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -22,7 +22,7 @@ import godot.object;
 import godot.classdb;
 import godot.reference;
 /**
-An implementation of A* to find shortest paths among connected points in space.
+An implementation of A* to find the shortest paths among connected points in space.
 
 A* (A star) is a computer algorithm that is widely used in pathfinding and graph traversal, the process of plotting short paths among vertices (points), passing through a given set of edges (segments). It enjoys widespread use due to its performance and accuracy. Godot's A* implementation uses points in three-dimensional space and Euclidean distances by default.
 You must add points manually with $(D addPoint) and create segments manually with $(D connectPoints). Then you can test if there is a path between two points with the $(D arePointsConnected) function, get a path containing indices by $(D getIdPath), or one containing actual coordinates with $(D getPointPath).
@@ -282,6 +282,7 @@ public:
 	}
 	/**
 	Returns an array with the points that are in the path found by AStar between the given points. The array is ordered from the starting point to the ending point of the path.
+	$(B Note:) This method is not thread-safe. If called from a $(D Thread), it will return an empty $(D PoolVector3Array) and will print an error message.
 	*/
 	PoolVector3Array getPointPath(in long from_id, in long to_id)
 	{

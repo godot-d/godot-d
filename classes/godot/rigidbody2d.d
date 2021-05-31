@@ -31,7 +31,7 @@ import godot.physics2dtestmotionresult;
 /**
 A body that is controlled by the 2D physics engine.
 
-This node implements simulated 2D physics. You do not control a RigidBody2D directly. Instead you apply forces to it (gravity, impulses, etc.) and the physics simulation calculates the resulting movement based on its mass, friction, and other physical properties.
+This node implements simulated 2D physics. You do not control a RigidBody2D directly. Instead, you apply forces to it (gravity, impulses, etc.) and the physics simulation calculates the resulting movement based on its mass, friction, and other physical properties.
 A RigidBody2D has 4 behavior $(D mode)s: Rigid, Static, Character, and Kinematic.
 $(B Note:) You should not change a RigidBody2D's `position` or `linear_velocity` every frame or even very often. If you need to directly affect the body's state, use $(D _integrateForces), which allows you to directly access the physics state.
 Please also keep in mind that physics bodies manage their own transform which overwrites the ones you set. So any direct or indirect transformation (including scaling of the node or its parent) will be visible in the editor only, and immediately reset at runtime.

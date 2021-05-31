@@ -83,6 +83,7 @@ public:
 		@GodotName("get_placeholder") GodotMethod!(String) getPlaceholder;
 		@GodotName("get_placeholder_alpha") GodotMethod!(double) getPlaceholderAlpha;
 		@GodotName("get_right_icon") GodotMethod!(Texture) getRightIcon;
+		@GodotName("get_scroll_offset") GodotMethod!(long) getScrollOffset;
 		@GodotName("get_secret_character") GodotMethod!(String) getSecretCharacter;
 		@GodotName("get_text") GodotMethod!(String) getText;
 		@GodotName("is_clear_button_enabled") GodotMethod!(bool) isClearButtonEnabled;
@@ -91,6 +92,7 @@ public:
 		@GodotName("is_secret") GodotMethod!(bool) isSecret;
 		@GodotName("is_selecting_enabled") GodotMethod!(bool) isSelectingEnabled;
 		@GodotName("is_shortcut_keys_enabled") GodotMethod!(bool) isShortcutKeysEnabled;
+		@GodotName("is_virtual_keyboard_enabled") GodotMethod!(bool) isVirtualKeyboardEnabled;
 		@GodotName("menu_option") GodotMethod!(void, long) menuOption;
 		@GodotName("select") GodotMethod!(void, long, long) select;
 		@GodotName("select_all") GodotMethod!(void) selectAll;
@@ -109,6 +111,7 @@ public:
 		@GodotName("set_selecting_enabled") GodotMethod!(void, bool) setSelectingEnabled;
 		@GodotName("set_shortcut_keys_enabled") GodotMethod!(void, bool) setShortcutKeysEnabled;
 		@GodotName("set_text") GodotMethod!(void, String) setText;
+		@GodotName("set_virtual_keyboard_enabled") GodotMethod!(void, bool) setVirtualKeyboardEnabled;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in LineEdit other) const
@@ -379,6 +382,14 @@ public:
 		return ptrcall!(Texture)(GDNativeClassBinding.getRightIcon, _godot_object);
 	}
 	/**
+	Returns the scroll offset due to $(D caretPosition), as a number of characters.
+	*/
+	long getScrollOffset() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getScrollOffset, _godot_object);
+	}
+	/**
 	
 	*/
 	String getSecretCharacter() const
@@ -441,6 +452,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.isShortcutKeysEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	bool isVirtualKeyboardEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isVirtualKeyboardEnabled, _godot_object);
 	}
 	/**
 	Executes a given action as defined in the $(D menuitems) enum.
@@ -593,6 +612,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setText, _godot_object, text);
+	}
+	/**
+	
+	*/
+	void setVirtualKeyboardEnabled(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setVirtualKeyboardEnabled, _godot_object, enable);
 	}
 	/**
 	Text alignment as defined in the $(D _align) enum.
@@ -798,5 +825,17 @@ public:
 	@property void text(String v)
 	{
 		setText(v);
+	}
+	/**
+	If `true`, the native virtual keyboard is shown when focused on platforms that support it.
+	*/
+	@property bool virtualKeyboardEnabled()
+	{
+		return isVirtualKeyboardEnabled();
+	}
+	/// ditto
+	@property void virtualKeyboardEnabled(bool v)
+	{
+		setVirtualKeyboardEnabled(v);
 	}
 }

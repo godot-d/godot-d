@@ -56,7 +56,7 @@ public:
 		@GodotName("_get_minimum_size") GodotMethod!(Vector2) _getMinimumSize;
 		@GodotName("_get_tooltip") GodotMethod!(String) _getTooltip;
 		@GodotName("_gui_input") GodotMethod!(void, InputEvent) _guiInput;
-		@GodotName("_make_custom_tooltip") GodotMethod!(GodotObject, String) _makeCustomTooltip;
+		@GodotName("_make_custom_tooltip") GodotMethod!(Control, String) _makeCustomTooltip;
 		@GodotName("_override_changed") GodotMethod!(void) _overrideChanged;
 		@GodotName("_set_anchor") GodotMethod!(void, long, double) _setAnchor;
 		@GodotName("_set_global_position") GodotMethod!(void, Vector2) _setGlobalPosition;
@@ -74,6 +74,8 @@ public:
 		@GodotName("add_stylebox_override") GodotMethod!(void, String, StyleBox) addStyleboxOverride;
 		@GodotName("can_drop_data") GodotMethod!(bool, Vector2, Variant) canDropData;
 		@GodotName("drop_data") GodotMethod!(void, Vector2, Variant) dropData;
+		@GodotName("find_next_valid_focus") GodotMethod!(Control) findNextValidFocus;
+		@GodotName("find_prev_valid_focus") GodotMethod!(Control) findPrevValidFocus;
 		@GodotName("force_drag") GodotMethod!(void, Variant, Control) forceDrag;
 		@GodotName("get_anchor") GodotMethod!(double, long) getAnchor;
 		@GodotName("get_begin") GodotMethod!(Vector2) getBegin;
@@ -101,6 +103,7 @@ public:
 		@GodotName("get_mouse_filter") GodotMethod!(Control.MouseFilter) getMouseFilter;
 		@GodotName("get_parent_area_size") GodotMethod!(Vector2) getParentAreaSize;
 		@GodotName("get_parent_control") GodotMethod!(Control) getParentControl;
+		@GodotName("get_pass_on_modal_close_click") GodotMethod!(bool) getPassOnModalCloseClick;
 		@GodotName("get_pivot_offset") GodotMethod!(Vector2) getPivotOffset;
 		@GodotName("get_position") GodotMethod!(Vector2) getPosition;
 		@GodotName("get_rect") GodotMethod!(Rect2) getRect;
@@ -153,6 +156,7 @@ public:
 		@GodotName("set_margin") GodotMethod!(void, long, double) setMargin;
 		@GodotName("set_margins_preset") GodotMethod!(void, long, long, long) setMarginsPreset;
 		@GodotName("set_mouse_filter") GodotMethod!(void, long) setMouseFilter;
+		@GodotName("set_pass_on_modal_close_click") GodotMethod!(void, bool) setPassOnModalCloseClick;
 		@GodotName("set_pivot_offset") GodotMethod!(void, Vector2) setPivotOffset;
 		@GodotName("set_position") GodotMethod!(void, Vector2, bool) setPosition;
 		@GodotName("set_rotation") GodotMethod!(void, double) setRotation;
@@ -604,12 +608,12 @@ public:
 	
 	
 	*/
-	GodotObject _makeCustomTooltip(in String for_text)
+	Control _makeCustomTooltip(in String for_text)
 	{
 		Array _GODOT_args = Array.make();
 		_GODOT_args.append(for_text);
 		String _GODOT_method_name = String("_make_custom_tooltip");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!GodotObject);
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!Control);
 	}
 	/**
 	
@@ -812,6 +816,22 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
+	Finds the next (below in the tree) $(D Control) that can receive the focus.
+	*/
+	Control findNextValidFocus() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(GDNativeClassBinding.findNextValidFocus, _godot_object);
+	}
+	/**
+	Finds the previous (above in the tree) $(D Control) that can receive the focus.
+	*/
+	Control findPrevValidFocus() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Control)(GDNativeClassBinding.findPrevValidFocus, _godot_object);
+	}
+	/**
 	Forces drag and bypasses $(D getDragData) and $(D setDragPreview) by passing `data` and `preview`. Drag will start even if the mouse is neither over nor pressed on this control.
 	The methods $(D canDropData) and $(D dropData) must be implemented on controls that want to receive drop data.
 	*/
@@ -845,10 +865,10 @@ public:
 	
 	
 	*/
-	Color getColor(in String name, in String type = gs!"") const
+	Color getColor(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, name, type);
+		return ptrcall!(Color)(GDNativeClassBinding.getColor, _godot_object, name, node_type);
 	}
 	/**
 	Returns combined minimum size from $(D rectMinSize) and $(D getMinimumSize).
@@ -861,10 +881,10 @@ public:
 	/**
 	Returns a constant from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
-	long getConstant(in String name, in String type = gs!"") const
+	long getConstant(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(long)(GDNativeClassBinding.getConstant, _godot_object, name, type);
+		return ptrcall!(long)(GDNativeClassBinding.getConstant, _godot_object, name, node_type);
 	}
 	/**
 	Returns the mouse cursor shape the control displays on mouse hover. See $(D cursorshape).
@@ -960,10 +980,10 @@ public:
 	/**
 	Returns a font from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
-	Ref!Font getFont(in String name, in String type = gs!"") const
+	Ref!Font getFont(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Font)(GDNativeClassBinding.getFont, _godot_object, name, type);
+		return ptrcall!(Font)(GDNativeClassBinding.getFont, _godot_object, name, node_type);
 	}
 	/**
 	
@@ -1000,10 +1020,10 @@ public:
 	/**
 	Returns an icon from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
-	Ref!Texture getIcon(in String name, in String type = gs!"") const
+	Ref!Texture getIcon(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(Texture)(GDNativeClassBinding.getIcon, _godot_object, name, type);
+		return ptrcall!(Texture)(GDNativeClassBinding.getIcon, _godot_object, name, node_type);
 	}
 	/**
 	Returns the anchor identified by `margin` constant from $(D margin) enum. A getter method for $(D marginBottom), $(D marginLeft), $(D marginRight) and $(D marginTop).
@@ -1044,6 +1064,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Control)(GDNativeClassBinding.getParentControl, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getPassOnModalCloseClick() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getPassOnModalCloseClick, _godot_object);
 	}
 	/**
 	
@@ -1112,10 +1140,10 @@ public:
 	/**
 	Returns a $(D StyleBox) from assigned $(D Theme) with given `name` and associated with $(D Control) of given `node_type`.
 	*/
-	Ref!StyleBox getStylebox(in String name, in String type = gs!"") const
+	Ref!StyleBox getStylebox(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(StyleBox)(GDNativeClassBinding.getStylebox, _godot_object, name, type);
+		return ptrcall!(StyleBox)(GDNativeClassBinding.getStylebox, _godot_object, name, node_type);
 	}
 	/**
 	
@@ -1174,10 +1202,10 @@ public:
 	/**
 	Returns `true` if $(D Color) with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
-	bool hasColor(in String name, in String type = gs!"") const
+	bool hasColor(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasColor, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasColor, _godot_object, name, node_type);
 	}
 	/**
 	Returns `true` if $(D Color) with given `name` has a valid override in this $(D Control) node.
@@ -1190,10 +1218,10 @@ public:
 	/**
 	Returns `true` if constant with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
-	bool hasConstant(in String name, in String type = gs!"") const
+	bool hasConstant(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasConstant, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasConstant, _godot_object, name, node_type);
 	}
 	/**
 	Returns `true` if constant with given `name` has a valid override in this $(D Control) node.
@@ -1214,10 +1242,10 @@ public:
 	/**
 	Returns `true` if font with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
-	bool hasFont(in String name, in String type = gs!"") const
+	bool hasFont(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasFont, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasFont, _godot_object, name, node_type);
 	}
 	/**
 	Returns `true` if font with given `name` has a valid override in this $(D Control) node.
@@ -1230,10 +1258,10 @@ public:
 	/**
 	Returns `true` if icon with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
-	bool hasIcon(in String name, in String type = gs!"") const
+	bool hasIcon(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasIcon, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasIcon, _godot_object, name, node_type);
 	}
 	/**
 	Returns `true` if icon with given `name` has a valid override in this $(D Control) node.
@@ -1266,10 +1294,10 @@ public:
 	/**
 	Returns `true` if $(D StyleBox) with given `name` and associated with $(D Control) of given `node_type` exists in assigned $(D Theme).
 	*/
-	bool hasStylebox(in String name, in String type = gs!"") const
+	bool hasStylebox(in String name, in String node_type = gs!"") const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasStylebox, _godot_object, name, type);
+		return ptrcall!(bool)(GDNativeClassBinding.hasStylebox, _godot_object, name, node_type);
 	}
 	/**
 	Returns `true` if $(D StyleBox) with given `name` has a valid override in this $(D Control) node.
@@ -1402,7 +1430,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setDragForwarding, _godot_object, target);
 	}
 	/**
-	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData). The control must not be in the scene tree.
+	Shows the given control at the mouse pointer. A good time to call this method is in $(D getDragData). The control must not be in the scene tree. You should not free the control, and you should not keep a reference to the control beyond the duration of the drag. It will be deleted automatically after the drag has ended.
 	
 	
 	export (Color, RGBA) var color = Color(1, 0, 0, 1)
@@ -1512,6 +1540,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setMouseFilter, _godot_object, filter);
+	}
+	/**
+	
+	*/
+	void setPassOnModalCloseClick(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setPassOnModalCloseClick, _godot_object, enabled);
 	}
 	/**
 	
@@ -1802,6 +1838,19 @@ public:
 		setTooltip(v);
 	}
 	/**
+	Enables whether input should propagate when you close the control as modal.
+	If `false`, stops event handling at the viewport input event handling. The viewport first hides the modal and after marks the input as handled.
+	*/
+	@property bool inputPassOnModalCloseClick()
+	{
+		return getPassOnModalCloseClick();
+	}
+	/// ditto
+	@property void inputPassOnModalCloseClick(bool v)
+	{
+		setPassOnModalCloseClick(v);
+	}
+	/**
 	Distance between the node's bottom edge and its parent control, based on $(D anchorBottom).
 	Margins are often controlled by one or multiple parent $(D Container) nodes, so you should not modify them manually if your node is a direct child of a $(D Container). Margins update automatically when you move or resize the node.
 	*/
@@ -1952,7 +2001,7 @@ public:
 	}
 	/**
 	The node's scale, relative to its $(D rectSize). Change this property to scale the node around its $(D rectPivotOffset). The Control's $(D hintTooltip) will also scale according to this value.
-	$(B Note:) This property is mainly intended to be used for animation purposes. Text inside the Control will look pixelated or blurry when the Control is scaled. To support multiple resolutions in your project, use an appropriate viewport stretch mode as described in the $(D url=https://docs.godotengine.org/en/3.2/tutorials/viewports/multiple_resolutions.html)documentation$(D /url) instead of scaling Controls individually.
+	$(B Note:) This property is mainly intended to be used for animation purposes. Text inside the Control will look pixelated or blurry when the Control is scaled. To support multiple resolutions in your project, use an appropriate viewport stretch mode as described in the $(D url=https://docs.godotengine.org/en/3.3/tutorials/viewports/multiple_resolutions.html)documentation$(D /url) instead of scaling Controls individually.
 	$(B Note:) If the Control node is a child of a $(D Container) node, the scale will be reset to `Vector2(1, 1)` when the scene is instanced. To set the Control's scale when it's instanced, wait for one frame using `yield(get_tree(), "idle_frame")` then set its $(D rectScale) property.
 	*/
 	@property Vector2 rectScale()

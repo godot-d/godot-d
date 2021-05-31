@@ -606,7 +606,8 @@ public:
 		setSpeedScale(v);
 	}
 	/**
-	The $(D AABB) that determines the area of the world part of which needs to be visible on screen for the particle system to be active.
+	The $(D AABB) that determines the node's region which needs to be visible on screen for the particle system to be active.
+	Grow the box if particles suddenly appear/disappear when the node enters/exits the screen. The $(D AABB) can be grown via code or with the $(B Particles → Generate AABB) editor tool.
 	$(B Note:) If the $(D ParticlesMaterial) in use is configured to cast shadows, you may want to enlarge this AABB to ensure the shadow is updated when particles are off-screen.
 	*/
 	@property AABB visibilityAabb()

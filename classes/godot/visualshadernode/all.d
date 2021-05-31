@@ -46,6 +46,7 @@ public import
 	godot.visualshadernodetextureuniformtriplanar,
 	godot.visualshadernodetransformuniform,
 	godot.visualshadernodevec3uniform,
+	godot.visualshadernodeuniformref,
 	godot.visualshadernodevec3constant,
 	godot.visualshadernodevectorclamp,
 	godot.visualshadernodevectorcompose,

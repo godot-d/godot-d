@@ -41,6 +41,7 @@ public:
 		__gshared:
 		@GodotName("call_func") GodotMethod!(Variant, GodotVarArgs) callFunc;
 		@GodotName("call_funcv") GodotMethod!(Variant, Array) callFuncv;
+		@GodotName("get_function") GodotMethod!(String) getFunction;
 		@GodotName("is_valid") GodotMethod!(bool) isValid;
 		@GodotName("set_function") GodotMethod!(void, String) setFunction;
 		@GodotName("set_instance") GodotMethod!(void, GodotObject) setInstance;
@@ -89,6 +90,14 @@ public:
 		return ptrcall!(Variant)(GDNativeClassBinding.callFuncv, _godot_object, arg_array);
 	}
 	/**
+	
+	*/
+	String getFunction()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(String)(GDNativeClassBinding.getFunction, _godot_object);
+	}
+	/**
 	Returns whether the object still exists and has the function assigned.
 	*/
 	bool isValid() const
@@ -111,5 +120,17 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setInstance, _godot_object, instance);
+	}
+	/**
+	The name of the referenced function.
+	*/
+	@property String _function()
+	{
+		return getFunction();
+	}
+	/// ditto
+	@property void _function(String v)
+	{
+		setFunction(v);
 	}
 }

@@ -3,6 +3,7 @@ module godot.audioeffect.all;
 public import
 	godot.audioeffect,
 	godot.audioeffectamplify,
+	godot.audioeffectcapture,
 	godot.audioeffectchorus,
 	godot.audioeffectcompressor,
 	godot.audioeffectdelay,

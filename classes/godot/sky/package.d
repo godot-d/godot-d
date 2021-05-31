@@ -88,10 +88,12 @@ public:
 		radianceSize512 = 4,
 		/**
 		Radiance texture size is 1024×1024 pixels.
+		$(B Note:) $(D constant RADIANCE_SIZE_1024) is not exposed in the inspector as it is known to cause GPU hangs on certain systems.
 		*/
 		radianceSize1024 = 5,
 		/**
 		Radiance texture size is 2048×2048 pixels.
+		$(B Note:) $(D constant RADIANCE_SIZE_2048) is not exposed in the inspector as it is known to cause GPU hangs on certain systems.
 		*/
 		radianceSize2048 = 6,
 		/**
@@ -130,7 +132,7 @@ public:
 	/**
 	The $(D Sky)'s radiance map size. The higher the radiance map size, the more detailed the lighting from the $(D Sky) will be.
 	See $(D radiancesize) constants for values.
-	$(B Note:) Some hardware will have trouble with higher radiance sizes, especially $(D constant RADIANCE_SIZE_512) and above. Only use such high values on high-end hardware.
+	$(B Note:) You will only benefit from high radiance sizes if you have perfectly sharp reflective surfaces in your project and are not using $(D ReflectionProbe)s or $(D GIProbe)s. For most projects, keeping $(D radianceSize) to the default value is the best compromise between visuals and performance. Be careful when using high radiance size values as these can cause crashes on low-end GPUs.
 	*/
 	@property Sky.RadianceSize radianceSize()
 	{

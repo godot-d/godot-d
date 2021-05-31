@@ -42,6 +42,7 @@ func _button_pressed():
 
 Buttons (like all Control nodes) can also be created in the editor, but some situations may require creating them from code.
 See also $(D BaseButton) which contains common properties and methods associated with this node.
+$(B Note:) Buttons do not interpret touch input and therefore don't support multitouch, since mouse emulation can only press one button at a given time. Use $(D TouchScreenButton) for buttons that trigger gameplay movement or actions, as $(D TouchScreenButton) supports multitouch.
 */
 @GodotBaseClass struct Button
 {

@@ -30,7 +30,7 @@ import godot.texture;
 /**
 Button for touch screen devices for gameplay use.
 
-TouchScreenButton allows you to create on-screen buttons for touch devices. It's intended for gameplay use, such as a unit you have to touch to move.
+TouchScreenButton allows you to create on-screen buttons for touch devices. It's intended for gameplay use, such as a unit you have to touch to move. Unlike $(D Button), TouchScreenButton supports multitouch out of the box. Several TouchScreenButtons can be pressed at the same time with touch input.
 This node inherits from $(D Node2D). Unlike with $(D Control) nodes, you cannot set anchors on it. If you want to create menus or user interfaces, you may want to use $(D Button) nodes instead. To make button nodes react to touch events, you can enable the Emulate Mouse option in the Project Settings.
 You can configure TouchScreenButton to be visible only on touch devices, helping you develop your game both for desktop and mobile devices.
 */
@@ -306,7 +306,8 @@ public:
 		setTexture(v);
 	}
 	/**
-	If `true`, pass-by presses are enabled.
+	If `true`, the $(D pressed) and $(D released) signals are emitted whenever a pressed finger goes in and out of the button, even if the pressure started outside the active area of the button.
+	$(B Note:) this is a "pass-by" (not "bypass") press mode.
 	*/
 	@property bool passbyPress()
 	{

@@ -354,7 +354,7 @@ public:
 	}
 	/**
 	Merges (combines) `polygon_a` and `polygon_b` and returns an array of merged polygons. This performs $(D constant OPERATION_UNION) between polygons.
-	The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distinguished by calling $(D isPolygonClockwise).
+	The operation may result in an outer polygon (boundary) and multiple inner polygons (holes) produced which could be distinguished by calling $(D isPolygonClockwise).
 	*/
 	Array mergePolygons2d(in PoolVector2Array polygon_a, in PoolVector2Array polygon_b)
 	{

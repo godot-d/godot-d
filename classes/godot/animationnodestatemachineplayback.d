@@ -45,7 +45,9 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
+		@GodotName("get_current_length") GodotMethod!(double) getCurrentLength;
 		@GodotName("get_current_node") GodotMethod!(String) getCurrentNode;
+		@GodotName("get_current_play_position") GodotMethod!(double) getCurrentPlayPosition;
 		@GodotName("get_travel_path") GodotMethod!(PoolStringArray) getTravelPath;
 		@GodotName("is_playing") GodotMethod!(bool) isPlaying;
 		@GodotName("start") GodotMethod!(void, String) start;
@@ -75,12 +77,28 @@ public:
 	}
 	@disable new(size_t s);
 	/**
+	
+	*/
+	double getCurrentLength() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getCurrentLength, _godot_object);
+	}
+	/**
 	Returns the currently playing animation state.
 	*/
 	String getCurrentNode() const
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(String)(GDNativeClassBinding.getCurrentNode, _godot_object);
+	}
+	/**
+	Returns the playback position within the current animation state.
+	*/
+	double getCurrentPlayPosition() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getCurrentPlayPosition, _godot_object);
 	}
 	/**
 	Returns the current travel path as computed internally by the A* algorithm.

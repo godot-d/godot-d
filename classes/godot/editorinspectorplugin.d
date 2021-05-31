@@ -24,12 +24,12 @@ import godot.control;
 /**
 Plugin for adding custom property editors on inspector.
 
-This plugins allows adding custom property editors to $(D EditorInspector).
+These plugins allow adding custom property editors to $(D EditorInspector).
 Plugins are registered via $(D EditorPlugin.addInspectorPlugin).
 When an object is edited, the $(D canHandle) function is called and must return `true` if the object type is supported.
 If supported, the function $(D parseBegin) will be called, allowing to place custom controls at the beginning of the class.
 Subsequently, the $(D parseCategory) and $(D parseProperty) are called for every category and property. They offer the ability to add custom controls to the inspector too.
-Finally $(D parseEnd) will be called.
+Finally, $(D parseEnd) will be called.
 On each of these calls, the "add" functions can be called.
 */
 @GodotBaseClass struct EditorInspectorPlugin

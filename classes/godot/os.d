@@ -76,6 +76,7 @@ public:
 		@GodotName("get_min_window_size") GodotMethod!(Vector2) getMinWindowSize;
 		@GodotName("get_model_name") GodotMethod!(String) getModelName;
 		@GodotName("get_name") GodotMethod!(String) getName;
+		@GodotName("get_native_handle") GodotMethod!(long, long) getNativeHandle;
 		@GodotName("get_power_percent_left") GodotMethod!(long) getPowerPercentLeft;
 		@GodotName("get_power_seconds_left") GodotMethod!(long) getPowerSecondsLeft;
 		@GodotName("get_power_state") GodotMethod!(OS.PowerState) getPowerState;
@@ -85,8 +86,10 @@ public:
 		@GodotName("get_scancode_string") GodotMethod!(String, long) getScancodeString;
 		@GodotName("get_screen_count") GodotMethod!(long) getScreenCount;
 		@GodotName("get_screen_dpi") GodotMethod!(long, long) getScreenDpi;
+		@GodotName("get_screen_max_scale") GodotMethod!(double) getScreenMaxScale;
 		@GodotName("get_screen_orientation") GodotMethod!(OS.ScreenOrientation) getScreenOrientation;
 		@GodotName("get_screen_position") GodotMethod!(Vector2, long) getScreenPosition;
+		@GodotName("get_screen_scale") GodotMethod!(double, long) getScreenScale;
 		@GodotName("get_screen_size") GodotMethod!(Vector2, long) getScreenSize;
 		@GodotName("get_splash_tick_msec") GodotMethod!(long) getSplashTickMsec;
 		@GodotName("get_static_memory_peak_usage") GodotMethod!(long) getStaticMemoryPeakUsage;
@@ -96,6 +99,7 @@ public:
 		@GodotName("get_system_time_secs") GodotMethod!(long) getSystemTimeSecs;
 		@GodotName("get_tablet_driver_count") GodotMethod!(long) getTabletDriverCount;
 		@GodotName("get_tablet_driver_name") GodotMethod!(String, long) getTabletDriverName;
+		@GodotName("get_thread_caller_id") GodotMethod!(long) getThreadCallerId;
 		@GodotName("get_ticks_msec") GodotMethod!(long) getTicksMsec;
 		@GodotName("get_ticks_usec") GodotMethod!(long) getTicksUsec;
 		@GodotName("get_time") GodotMethod!(Dictionary, bool) getTime;
@@ -159,6 +163,7 @@ public:
 		@GodotName("set_clipboard") GodotMethod!(void, String) setClipboard;
 		@GodotName("set_current_screen") GodotMethod!(void, long) setCurrentScreen;
 		@GodotName("set_current_tablet_driver") GodotMethod!(void, String) setCurrentTabletDriver;
+		@GodotName("set_environment") GodotMethod!(bool, String, String) setEnvironment;
 		@GodotName("set_exit_code") GodotMethod!(void, long) setExitCode;
 		@GodotName("set_icon") GodotMethod!(void, Image) setIcon;
 		@GodotName("set_ime_active") GodotMethod!(void, bool) setImeActive;
@@ -178,13 +183,14 @@ public:
 		@GodotName("set_window_fullscreen") GodotMethod!(void, bool) setWindowFullscreen;
 		@GodotName("set_window_maximized") GodotMethod!(void, bool) setWindowMaximized;
 		@GodotName("set_window_minimized") GodotMethod!(void, bool) setWindowMinimized;
+		@GodotName("set_window_mouse_passthrough") GodotMethod!(void, PoolVector2Array) setWindowMousePassthrough;
 		@GodotName("set_window_per_pixel_transparency_enabled") GodotMethod!(void, bool) setWindowPerPixelTransparencyEnabled;
 		@GodotName("set_window_position") GodotMethod!(void, Vector2) setWindowPosition;
 		@GodotName("set_window_resizable") GodotMethod!(void, bool) setWindowResizable;
 		@GodotName("set_window_size") GodotMethod!(void, Vector2) setWindowSize;
 		@GodotName("set_window_title") GodotMethod!(void, String) setWindowTitle;
 		@GodotName("shell_open") GodotMethod!(GodotError, String) shellOpen;
-		@GodotName("show_virtual_keyboard") GodotMethod!(void, String) showVirtualKeyboard;
+		@GodotName("show_virtual_keyboard") GodotMethod!(void, String, bool) showVirtualKeyboard;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in OSSingleton other) const
@@ -313,6 +319,43 @@ public:
 		powerstateCharged = 4,
 	}
 	/// 
+	enum HandleType : int
+	{
+		/**
+		Application handle:
+		- Windows: `HINSTANCE` of the application
+		- MacOS: `NSApplication*` of the application (not yet implemented)
+		- Android: `JNIEnv*` of the application (not yet implemented)
+		*/
+		applicationHandle = 0,
+		/**
+		Display handle:
+		- Linux: `X11::Display*` for the display
+		*/
+		displayHandle = 1,
+		/**
+		Window handle:
+		- Windows: `HWND` of the main window
+		- Linux: `X11::Window*` of the main window
+		- MacOS: `NSWindow*` of the main window (not yet implemented)
+		- Android: `jObject` the main android activity (not yet implemented)
+		*/
+		windowHandle = 2,
+		/**
+		Window view:
+		- Windows: `HDC` of the main window drawing context
+		- MacOS: `NSView*` of the main windows view (not yet implemented)
+		*/
+		windowView = 3,
+		/**
+		OpenGL Context:
+		- Windows: `HGLRC`
+		- Linux: `X11::GLXContext`
+		- MacOS: `NSOpenGLContext*` (not yet implemented)
+		*/
+		openglContext = 4,
+	}
+	/// 
 	enum Month : int
 	{
 		/**
@@ -403,6 +446,7 @@ public:
 		powerstateUnknown = 0,
 		screenOrientationLandscape = 0,
 		systemDirDesktop = 0,
+		applicationHandle = 0,
 		daySunday = 0,
 		screenOrientationPortrait = 1,
 		videoDriverGles2 = 1,
@@ -410,17 +454,21 @@ public:
 		monthJanuary = 1,
 		dayMonday = 1,
 		powerstateOnBattery = 1,
+		displayHandle = 1,
 		powerstateNoBattery = 2,
 		monthFebruary = 2,
+		windowHandle = 2,
 		dayTuesday = 2,
 		screenOrientationReverseLandscape = 2,
 		systemDirDocuments = 2,
+		windowView = 3,
 		screenOrientationReversePortrait = 3,
 		monthMarch = 3,
 		powerstateCharging = 3,
 		systemDirDownloads = 3,
 		dayWednesday = 3,
 		screenOrientationSensorLandscape = 4,
+		openglContext = 4,
 		powerstateCharged = 4,
 		dayThursday = 4,
 		systemDirMovies = 4,
@@ -483,7 +531,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.closeMidiInputs, _godot_object);
 	}
 	/**
-	Delay execution of the current thread by `msec` milliseconds.
+	Delay execution of the current thread by `msec` milliseconds. `usec` must be greater than or equal to `0`. Otherwise, $(D delayMsec) will do nothing and will print an error message.
 	*/
 	void delayMsec(in long msec) const
 	{
@@ -491,7 +539,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.delayMsec, _godot_object, msec);
 	}
 	/**
-	Delay execution of the current thread by `usec` microseconds.
+	Delay execution of the current thread by `usec` microseconds. `usec` must be greater than or equal to `0`. Otherwise, $(D delayUsec) will do nothing and will print an error message.
 	*/
 	void delayUsec(in long usec) const
 	{
@@ -679,12 +727,13 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getDynamicMemoryUsage, _godot_object);
 	}
 	/**
-	Returns an environment variable.
+	Returns the value of an environment variable. Returns an empty string if the environment variable doesn't exist.
+	$(B Note:) Double-check the casing of `variable`. Environment variable names are case-sensitive on all platforms except Windows.
 	*/
-	String getEnvironment(in String environment) const
+	String getEnvironment(in String variable) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(String)(GDNativeClassBinding.getEnvironment, _godot_object, environment);
+		return ptrcall!(String)(GDNativeClassBinding.getEnvironment, _godot_object, variable);
 	}
 	/**
 	Returns the path to the current engine executable.
@@ -791,6 +840,15 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getName, _godot_object);
 	}
 	/**
+	Returns internal structure pointers for use in GDNative plugins.
+	$(B Note:) This method is implemented on Linux and Windows (other OSs will soon be supported).
+	*/
+	long getNativeHandle(in long handle_type)
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getNativeHandle, _godot_object, handle_type);
+	}
+	/**
 	Returns the amount of battery left in the device as a percentage. Returns `-1` if power state is unknown.
 	$(B Note:) This method is implemented on Linux, macOS and Windows.
 	*/
@@ -881,6 +939,16 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getScreenDpi, _godot_object, screen);
 	}
 	/**
+	Return the greatest scale factor of all screens.
+	$(B Note:) On macOS returned value is `2.0` if there is at least one hiDPI (Retina) screen in the system, and `1.0` in all other cases.
+	$(B Note:) This method is implemented on macOS.
+	*/
+	double getScreenMaxScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getScreenMaxScale, _godot_object);
+	}
+	/**
 	
 	*/
 	OS.ScreenOrientation getScreenOrientation() const
@@ -895,6 +963,16 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Vector2)(GDNativeClassBinding.getScreenPosition, _godot_object, screen);
+	}
+	/**
+	Return the scale factor of the specified screen by index. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
+	$(B Note:) On macOS returned value is `2.0` for hiDPI (Retina) screen, and `1.0` for all other cases.
+	$(B Note:) This method is implemented on macOS.
+	*/
+	double getScreenScale(in long screen = -1) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getScreenScale, _godot_object, screen);
 	}
 	/**
 	Returns the dimensions in pixels of the specified screen. If `screen` is $(D /code)-1$(D /code) (the default value), the current screen will be used.
@@ -972,6 +1050,15 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getTabletDriverName, _godot_object, idx);
 	}
 	/**
+	Returns the ID of the current thread. This can be used in logs to ease debugging of multi-threaded applications.
+	$(B Note:) Thread IDs are not deterministic and may be reused across application restarts.
+	*/
+	long getThreadCallerId() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getThreadCallerId, _godot_object);
+	}
+	/**
 	Returns the amount of time passed in milliseconds since the engine started.
 	*/
 	long getTicksMsec() const
@@ -1005,6 +1092,7 @@ public:
 	}
 	/**
 	Returns a string that is unique to the device.
+	$(B Note:) This string may change without notice if the user reinstalls/upgrades their operating system or changes their hardware. This means it should generally not be used to encrypt persistent data as the data saved prior to an unexpected ID change would become inaccessible. The returned string may also be falsified using external programs, so do not rely on the string returned by $(D getUniqueId) for security purposes.
 	$(B Note:) Returns an empty string on HTML5 and UWP, as this method isn't implemented on those platforms yet.
 	*/
 	String getUniqueId() const
@@ -1013,8 +1101,8 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getUniqueId, _godot_object);
 	}
 	/**
-	Returns the current UNIX epoch timestamp.
-	$(B Important:) This is the system clock that the user can manully set. $(B Never use) this method for precise time calculation since its results are also subject to automatic adjustments by the operating system. $(B Always use) $(D getTicksUsec) or $(D getTicksMsec) for precise time calculation instead, since they are guaranteed to be monotonic (i.e. never decrease).
+	Returns the current UNIX epoch timestamp in seconds.
+	$(B Important:) This is the system clock that the user can manually set. $(B Never use) this method for precise time calculation since its results are also subject to automatic adjustments by the operating system. $(B Always use) $(D getTicksUsec) or $(D getTicksMsec) for precise time calculation instead, since they are guaranteed to be monotonic (i.e. never decrease).
 	*/
 	long getUnixTime() const
 	{
@@ -1024,6 +1112,7 @@ public:
 	/**
 	Gets an epoch time value from a dictionary of time values.
 	`datetime` must be populated with the following keys: `year`, `month`, `day`, `hour`, `minute`, `second`.
+	If the dictionary is empty `0` is returned. If some keys are omitted, they default to the equivalent values for the UNIX epoch timestamp 0 (1970-01-01 at 00:00:00 UTC).
 	You can pass the output from $(D getDatetimeFromUnixTime) directly into this function. Daylight Savings Time (`dst`), if present, is ignored.
 	*/
 	long getUnixTimeFromDatetime(in Dictionary datetime) const
@@ -1136,15 +1225,16 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.globalMenuRemoveItem, _godot_object, menu, idx);
 	}
 	/**
-	Returns `true` if an environment variable exists.
+	Returns `true` if the environment variable with the name `variable` exists.
+	$(B Note:) Double-check the casing of `variable`. Environment variable names are case-sensitive on all platforms except Windows.
 	*/
-	bool hasEnvironment(in String environment) const
+	bool hasEnvironment(in String variable) const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.hasEnvironment, _godot_object, environment);
+		return ptrcall!(bool)(GDNativeClassBinding.hasEnvironment, _godot_object, variable);
 	}
 	/**
-	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/3.2/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
+	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/3.3/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
 	$(B Note:) Tag names are case-sensitive.
 	*/
 	bool hasFeature(in String tag_name) const
@@ -1508,6 +1598,15 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setCurrentTabletDriver, _godot_object, name);
 	}
 	/**
+	Sets the value of the environment variable `variable` to `value`. The environment variable will be set for the Godot process and any process executed with $(D execute) after running $(D setEnvironment). The environment variable will $(I not) persist to processes run after the Godot process was terminated.
+	$(B Note:) Double-check the casing of `variable`. Environment variable names are case-sensitive on all platforms except Windows.
+	*/
+	bool setEnvironment(in String variable, in String value) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.setEnvironment, _godot_object, variable, value);
+	}
+	/**
 	
 	*/
 	void setExitCode(in long code)
@@ -1670,6 +1769,29 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setWindowMinimized, _godot_object, enabled);
 	}
 	/**
+	Sets a polygonal region of the window which accepts mouse events. Mouse events outside the region will be passed through.
+	Passing an empty array will disable passthrough support (all mouse events will be intercepted by the window, which is the default behavior).
+	
+	
+	# Set region, using Path2D node.
+	OS.set_window_mouse_passthrough($Path2D.curve.get_baked_points())
+	
+	# Set region, using Polygon2D node.
+	OS.set_window_mouse_passthrough($Polygon2D.polygon)
+	
+	# Reset region to default.
+	OS.set_window_mouse_passthrough([])
+	
+	
+	$(B Note:) On Windows, the portion of a window that lies outside the region is not drawn, while on Linux and macOS it is.
+	$(B Note:) This method is implemented on Linux, macOS and Windows.
+	*/
+	void setWindowMousePassthrough(in PoolVector2Array region)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setWindowMousePassthrough, _godot_object, region);
+	}
+	/**
 	
 	*/
 	void setWindowPerPixelTransparencyEnabled(in bool enabled)
@@ -1730,10 +1852,10 @@ public:
 	The `multiline` parameter needs to be set to `true` to be able to enter multiple lines of text, as in $(D TextEdit).
 	$(B Note:) This method is implemented on Android, iOS and UWP.
 	*/
-	void showVirtualKeyboard(in String existing_text = gs!"")
+	void showVirtualKeyboard(in String existing_text = gs!"", in bool multiline = false)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.showVirtualKeyboard, _godot_object, existing_text);
+		ptrcall!(void)(GDNativeClassBinding.showVirtualKeyboard, _godot_object, existing_text, multiline);
 	}
 	/**
 	The clipboard from the host OS. Might be unavailable on some platforms.

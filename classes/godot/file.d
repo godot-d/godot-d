@@ -42,8 +42,9 @@ func load():
     return content
 
 
-In the example above, the file will be saved in the user data folder as specified in the $(D url=https://docs.godotengine.org/en/3.2/tutorials/io/data_paths.html)Data paths$(D /url) documentation.
+In the example above, the file will be saved in the user data folder as specified in the $(D url=https://docs.godotengine.org/en/3.3/tutorials/io/data_paths.html)Data paths$(D /url) documentation.
 $(B Note:) To access project resources once exported, it is recommended to use $(D ResourceLoader) instead of the $(D File) API, as some files are converted to engine-specific formats and their original source files might not be present in the exported PCK package.
+$(B Note:) Files are automatically closed only if the process exits "normally" (such as by clicking the window manager's close button or pressing $(B Alt + F4)). If you stop the project execution by pressing $(B F8) while the project is running, the file won't be closed as the game process will be killed. You can work around this by calling $(D flush) at regular intervals.
 */
 @GodotBaseClass struct File
 {
@@ -60,6 +61,7 @@ public:
 		@GodotName("close") GodotMethod!(void) close;
 		@GodotName("eof_reached") GodotMethod!(bool) eofReached;
 		@GodotName("file_exists") GodotMethod!(bool, String) fileExists;
+		@GodotName("flush") GodotMethod!(void) flush;
 		@GodotName("get_16") GodotMethod!(long) get16;
 		@GodotName("get_32") GodotMethod!(long) get32;
 		@GodotName("get_64") GodotMethod!(long) get64;
@@ -179,7 +181,7 @@ public:
 		writeRead = 7,
 	}
 	/**
-	Closes the currently opened file.
+	Closes the currently opened file and prevents subsequent read/write operations. Use $(D flush) to persist the data to disk without closing the file.
 	*/
 	void close()
 	{
@@ -203,6 +205,15 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.fileExists, _godot_object, path);
+	}
+	/**
+	Writes the file's buffer to disk. Flushing is automatically performed when the file is closed. This means you don't need to call $(D flush) manually before closing a file using $(D close). Still, calling $(D flush) can be used to ensure the data is safe even if the project crashes instead of being closed gracefully.
+	$(B Note:) Only call $(D flush) when you actually need it. Otherwise, it will decrease performance due to constant disk writes.
+	*/
+	void flush()
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.flush, _godot_object);
 	}
 	/**
 	Returns the next 16 bits from the file as an integer. See $(D store16) for details on what values can be stored and retrieved this way.
@@ -403,6 +414,7 @@ public:
 	}
 	/**
 	Opens a compressed file for reading or writing.
+	$(B Note:) $(D openCompressed) can only read files that were saved by Godot, not third-party compression formats. See $(D url=https://github.com/godotengine/godot/issues/28999)GitHub issue #28999$(D /url) for a workaround.
 	*/
 	GodotError openCompressed(in String path, in long mode_flags, in long compression_mode = 0)
 	{
@@ -585,8 +597,9 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.storeVar, _godot_object, value, full_objects);
 	}
 	/**
-	If `true`, the file's endianness is swapped. Use this if you're dealing with files written on big-endian machines.
-	$(B Note:) This is about the file format, not CPU type. This is always reset to `false` whenever you open the file.
+	If `true`, the file is read with big-endian $(D url=https://en.wikipedia.org/wiki/Endianness)endianness$(D /url). If `false`, the file is read with little-endian endianness. If in doubt, leave this to `false` as most files are written with little-endian endianness.
+	$(B Note:) $(D endianSwap) is only about the file format, not the CPU type. The CPU endianness doesn't affect the default endianness for files written.
+	$(B Note:) This is always reset to `false` whenever you open the file. Therefore, you must set $(D endianSwap) $(I after) opening the file, not before.
 	*/
 	@property bool endianSwap()
 	{

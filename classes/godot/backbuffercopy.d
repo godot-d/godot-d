@@ -24,7 +24,7 @@ import godot.node2d;
 /**
 Copies a region of the screen (or the whole screen) to a buffer so it can be accessed in your shader scripts through the `texture(SCREEN_TEXTURE, ...)` function.
 
-Node for back-buffering the currently-displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Use the `texture(SCREEN_TEXTURE, ...)` function in your shader scripts to access the buffer.
+Node for back-buffering the currently-displayed screen. The region defined in the BackBufferCopy node is buffered with the content of the screen it covers, or the entire screen according to the copy mode set. Use the `texture(SCREEN_TEXTURE, ...)` function in your shader scripts to access the buffer.
 $(B Note:) Since this node inherits from $(D Node2D) (and not $(D Control)), anchors and margins won't apply to child $(D Control)-derived nodes. This can be problematic when resizing the window. To avoid this, add $(D Control)-derived nodes as $(I siblings) to the BackBufferCopy node instead of adding them as children.
 */
 @GodotBaseClass struct BackBufferCopy

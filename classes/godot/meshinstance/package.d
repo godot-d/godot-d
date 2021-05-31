@@ -22,9 +22,9 @@ import godot.object;
 import godot.classdb;
 import godot.geometryinstance;
 import godot.visualinstance;
+import godot.material;
 import godot.mesh;
 import godot.skin;
-import godot.material;
 /**
 Node that instances meshes into a scenario.
 
@@ -43,17 +43,21 @@ public:
 	{
 		__gshared:
 		@GodotName("_mesh_changed") GodotMethod!(void) _meshChanged;
+		@GodotName("_update_skinning") GodotMethod!(void) _updateSkinning;
 		@GodotName("create_convex_collision") GodotMethod!(void) createConvexCollision;
 		@GodotName("create_debug_tangents") GodotMethod!(void) createDebugTangents;
 		@GodotName("create_trimesh_collision") GodotMethod!(void) createTrimeshCollision;
+		@GodotName("get_active_material") GodotMethod!(Material, long) getActiveMaterial;
 		@GodotName("get_mesh") GodotMethod!(Mesh) getMesh;
 		@GodotName("get_skeleton_path") GodotMethod!(NodePath) getSkeletonPath;
 		@GodotName("get_skin") GodotMethod!(Skin) getSkin;
 		@GodotName("get_surface_material") GodotMethod!(Material, long) getSurfaceMaterial;
 		@GodotName("get_surface_material_count") GodotMethod!(long) getSurfaceMaterialCount;
+		@GodotName("is_software_skinning_transform_normals_enabled") GodotMethod!(bool) isSoftwareSkinningTransformNormalsEnabled;
 		@GodotName("set_mesh") GodotMethod!(void, Mesh) setMesh;
 		@GodotName("set_skeleton_path") GodotMethod!(void, NodePath) setSkeletonPath;
 		@GodotName("set_skin") GodotMethod!(void, Skin) setSkin;
+		@GodotName("set_software_skinning_transform_normals") GodotMethod!(void, bool) setSoftwareSkinningTransformNormals;
 		@GodotName("set_surface_material") GodotMethod!(void, long, Material) setSurfaceMaterial;
 	}
 	/// 
@@ -88,6 +92,15 @@ public:
 		this.callv(_GODOT_method_name, _GODOT_args);
 	}
 	/**
+	
+	*/
+	void _updateSkinning()
+	{
+		Array _GODOT_args = Array.make();
+		String _GODOT_method_name = String("_update_skinning");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
 	This helper creates a $(D StaticBody) child node with a $(D ConvexPolygonShape) collision shape calculated from the mesh geometry. It's mainly used for testing.
 	*/
 	void createConvexCollision()
@@ -110,6 +123,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.createTrimeshCollision, _godot_object);
+	}
+	/**
+	Returns the $(D Material) that will be used by the $(D Mesh) when drawing. This can return the $(D GeometryInstance.materialOverride), the surface override $(D Material) defined in this $(D MeshInstance), or the surface $(D Material) defined in the $(D Mesh). For example, if $(D GeometryInstance.materialOverride) is used, all surfaces will return the override material.
+	*/
+	Ref!Material getActiveMaterial(in long surface) const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Material)(GDNativeClassBinding.getActiveMaterial, _godot_object, surface);
 	}
 	/**
 	
@@ -154,6 +175,14 @@ public:
 	/**
 	
 	*/
+	bool isSoftwareSkinningTransformNormalsEnabled() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isSoftwareSkinningTransformNormalsEnabled, _godot_object);
+	}
+	/**
+	
+	*/
 	void setMesh(Mesh mesh)
 	{
 		checkClassBinding!(typeof(this))();
@@ -174,6 +203,14 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setSkin, _godot_object, skin);
+	}
+	/**
+	
+	*/
+	void setSoftwareSkinningTransformNormals(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setSoftwareSkinningTransformNormals, _godot_object, enabled);
 	}
 	/**
 	Sets the $(D Material) for a surface of the $(D Mesh) resource.
@@ -218,5 +255,18 @@ public:
 	@property void skin(Skin v)
 	{
 		setSkin(v);
+	}
+	/**
+	If `true`, normals are transformed when software skinning is used. Set to `false` when normals are not needed for better performance.
+	See $(D ProjectSettings.rendering/quality/skinning/softwareSkinningFallback) for details about how software skinning is enabled.
+	*/
+	@property bool softwareSkinningTransformNormals()
+	{
+		return isSoftwareSkinningTransformNormalsEnabled();
+	}
+	/// ditto
+	@property void softwareSkinningTransformNormals(bool v)
+	{
+		setSoftwareSkinningTransformNormals(v);
 	}
 }

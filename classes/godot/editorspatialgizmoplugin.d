@@ -53,7 +53,7 @@ public:
 		@GodotName("get_handle_value") GodotMethod!(Variant, EditorSpatialGizmo, long) getHandleValue;
 		@GodotName("get_material") GodotMethod!(SpatialMaterial, String, EditorSpatialGizmo) getMaterial;
 		@GodotName("get_name") GodotMethod!(String) getName;
-		@GodotName("get_priority") GodotMethod!(String) getPriority;
+		@GodotName("get_priority") GodotMethod!(long) getPriority;
 		@GodotName("has_gizmo") GodotMethod!(bool, Spatial) hasGizmo;
 		@GodotName("is_handle_highlighted") GodotMethod!(bool, EditorSpatialGizmo, long) isHandleHighlighted;
 		@GodotName("is_selectable_when_hidden") GodotMethod!(bool) isSelectableWhenHidden;
@@ -171,7 +171,7 @@ public:
 	/**
 	Gets material from the internal list of materials. If an $(D EditorSpatialGizmo) is provided, it will try to get the corresponding variant (selected and/or editable).
 	*/
-	Ref!SpatialMaterial getMaterial(in String name, EditorSpatialGizmo gizmo)
+	Ref!SpatialMaterial getMaterial(in String name, EditorSpatialGizmo gizmo = EditorSpatialGizmo.init)
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(SpatialMaterial)(GDNativeClassBinding.getMaterial, _godot_object, name, gizmo);
@@ -189,11 +189,11 @@ public:
 	Override this method to set the gizmo's priority. Higher values correspond to higher priority. If a gizmo with higher priority conflicts with another gizmo, only the gizmo with higher priority will be used.
 	All built-in editor gizmos return a priority of `-1`. If not overridden, this method will return `0`, which means custom gizmos will automatically override built-in gizmos.
 	*/
-	String getPriority()
+	long getPriority()
 	{
 		Array _GODOT_args = Array.make();
 		String _GODOT_method_name = String("get_priority");
-		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!String);
+		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!long);
 	}
 	/**
 	Override this method to define which Spatial nodes have a gizmo from this plugin. Whenever a $(D Spatial) node is added to a scene this method is called, if it returns `true` the node gets a generic $(D EditorSpatialGizmo) assigned and is added to this plugin's list of active gizmos.
@@ -217,7 +217,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	Override this method to define whether Spatial with this gizmo should be selecteble even when the gizmo is hidden.
+	Override this method to define whether a Spatial with this gizmo should be selectable even when the gizmo is hidden.
 	*/
 	bool isSelectableWhenHidden()
 	{

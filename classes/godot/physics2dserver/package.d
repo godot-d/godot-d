@@ -575,7 +575,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.areaClearShapes, _godot_object, area);
 	}
 	/**
-	Creates an $(D Area2D).
+	Creates an $(D Area2D). After creating an $(D Area2D) with this method, assign it to a space using $(D areaSetSpace) to use the created $(D Area2D) in the physics world.
 	*/
 	RID areaCreate()
 	{

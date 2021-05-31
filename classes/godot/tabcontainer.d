@@ -66,6 +66,8 @@ public:
 		@GodotName("get_tab_title") GodotMethod!(String, long) getTabTitle;
 		@GodotName("get_tabs_rearrange_group") GodotMethod!(long) getTabsRearrangeGroup;
 		@GodotName("get_use_hidden_tabs_for_min_size") GodotMethod!(bool) getUseHiddenTabsForMinSize;
+		@GodotName("is_all_tabs_in_front") GodotMethod!(bool) isAllTabsInFront;
+		@GodotName("set_all_tabs_in_front") GodotMethod!(void, bool) setAllTabsInFront;
 		@GodotName("set_current_tab") GodotMethod!(void, long) setCurrentTab;
 		@GodotName("set_drag_to_rearrange_enabled") GodotMethod!(void, bool) setDragToRearrangeEnabled;
 		@GodotName("set_popup") GodotMethod!(void, Node) setPopup;
@@ -283,6 +285,22 @@ public:
 	/**
 	
 	*/
+	bool isAllTabsInFront() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.isAllTabsInFront, _godot_object);
+	}
+	/**
+	
+	*/
+	void setAllTabsInFront(in bool is_front)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setAllTabsInFront, _godot_object, is_front);
+	}
+	/**
+	
+	*/
 	void setCurrentTab(in long tab_idx)
 	{
 		checkClassBinding!(typeof(this))();
@@ -360,6 +378,18 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		ptrcall!(void)(GDNativeClassBinding.setUseHiddenTabsForMinSize, _godot_object, enabled);
+	}
+	/**
+	If `true`, all tabs are drawn in front of the panel. If `false`, inactive tabs are drawn behind the panel.
+	*/
+	@property bool allTabsInFront()
+	{
+		return isAllTabsInFront();
+	}
+	/// ditto
+	@property void allTabsInFront(bool v)
+	{
+		setAllTabsInFront(v);
 	}
 	/**
 	The current tab index. When set, this index's $(D Control) node's `visible` property is set to `true` and all others are set to `false`.

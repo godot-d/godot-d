@@ -99,7 +99,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getAscent, _godot_object);
 	}
 	/**
-	Returns the size of a character, optionally taking kerning into account if the next character is provided.
+	Returns the size of a character, optionally taking kerning into account if the next character is provided. Note that the height returned is the font height (see $(D getHeight)) and has no relation to the glyph height.
 	*/
 	Vector2 getCharSize(in long _char, in long next = 0) const
 	{
@@ -123,7 +123,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getHeight, _godot_object);
 	}
 	/**
-	Returns the size of a string, taking kerning and advance into account.
+	Returns the size of a string, taking kerning and advance into account. Note that the height returned is the font height (see $(D getHeight)) and has no relation to the string.
 	*/
 	Vector2 getStringSize(in String string) const
 	{

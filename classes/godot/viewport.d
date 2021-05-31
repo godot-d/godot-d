@@ -53,6 +53,7 @@ public:
 		@GodotName("_gui_show_tooltip") GodotMethod!(void) _guiShowTooltip;
 		@GodotName("_own_world_changed") GodotMethod!(void) _ownWorldChanged;
 		@GodotName("_post_gui_grab_click_focus") GodotMethod!(void) _postGuiGrabClickFocus;
+		@GodotName("_process_picking") GodotMethod!(void, bool) _processPicking;
 		@GodotName("_subwindow_visibility_changed") GodotMethod!(void) _subwindowVisibilityChanged;
 		@GodotName("_vp_input") GodotMethod!(void, InputEvent) _vpInput;
 		@GodotName("_vp_input_text") GodotMethod!(void, String) _vpInputText;
@@ -79,6 +80,8 @@ public:
 		@GodotName("get_texture") GodotMethod!(ViewportTexture) getTexture;
 		@GodotName("get_update_mode") GodotMethod!(Viewport.UpdateMode) getUpdateMode;
 		@GodotName("get_usage") GodotMethod!(Viewport.Usage) getUsage;
+		@GodotName("get_use_debanding") GodotMethod!(bool) getUseDebanding;
+		@GodotName("get_use_fxaa") GodotMethod!(bool) getUseFxaa;
 		@GodotName("get_vflip") GodotMethod!(bool) getVflip;
 		@GodotName("get_viewport_rid") GodotMethod!(RID) getViewportRid;
 		@GodotName("get_visible_rect") GodotMethod!(Rect2) getVisibleRect;
@@ -125,6 +128,8 @@ public:
 		@GodotName("set_update_mode") GodotMethod!(void, long) setUpdateMode;
 		@GodotName("set_usage") GodotMethod!(void, long) setUsage;
 		@GodotName("set_use_arvr") GodotMethod!(void, bool) setUseArvr;
+		@GodotName("set_use_debanding") GodotMethod!(void, bool) setUseDebanding;
+		@GodotName("set_use_fxaa") GodotMethod!(void, bool) setUseFxaa;
 		@GodotName("set_use_own_world") GodotMethod!(void, bool) setUseOwnWorld;
 		@GodotName("set_use_render_direct_to_screen") GodotMethod!(void, bool) setUseRenderDirectToScreen;
 		@GodotName("set_vflip") GodotMethod!(void, bool) setVflip;
@@ -413,6 +418,16 @@ public:
 	/**
 	
 	*/
+	void _processPicking(in bool ignore_paused)
+	{
+		Array _GODOT_args = Array.make();
+		_GODOT_args.append(ignore_paused);
+		String _GODOT_method_name = String("_process_picking");
+		this.callv(_GODOT_method_name, _GODOT_args);
+	}
+	/**
+	
+	*/
 	void _subwindowVisibilityChanged()
 	{
 		Array _GODOT_args = Array.make();
@@ -631,6 +646,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(Viewport.Usage)(GDNativeClassBinding.getUsage, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getUseDebanding() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getUseDebanding, _godot_object);
+	}
+	/**
+	
+	*/
+	bool getUseFxaa() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getUseFxaa, _godot_object);
 	}
 	/**
 	
@@ -1003,6 +1034,22 @@ public:
 	/**
 	
 	*/
+	void setUseDebanding(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseDebanding, _godot_object, enable);
+	}
+	/**
+	
+	*/
+	void setUseFxaa(in bool enable)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseFxaa, _godot_object, enable);
+	}
+	/**
+	
+	*/
 	void setUseOwnWorld(in bool enable)
 	{
 		checkClassBinding!(typeof(this))();
@@ -1121,6 +1168,19 @@ public:
 		setCanvasTransform(v);
 	}
 	/**
+	If `true`, uses a fast post-processing filter to make banding significantly less visible. In some cases, debanding may introduce a slightly noticeable dithering pattern. It's recommended to enable debanding only when actually needed since the dithering pattern will make lossless-compressed screenshots larger.
+	$(B Note:) Only available on the GLES3 backend. $(D hdr) must also be `true` for debanding to be effective.
+	*/
+	@property bool debanding()
+	{
+		return getUseDebanding();
+	}
+	/// ditto
+	@property void debanding(bool v)
+	{
+		setUseDebanding(v);
+	}
+	/**
 	The overlay mode for test rendered geometry in debug purposes.
 	*/
 	@property Viewport.DebugDraw debugDraw()
@@ -1143,6 +1203,18 @@ public:
 	@property void disable3d(bool v)
 	{
 		setDisable3d(v);
+	}
+	/**
+	Enables fast approximate antialiasing. FXAA is a popular screen-space antialiasing method, which is fast but will make the image look blurry, especially at lower resolutions. It can still work relatively well at large resolutions such as 1440p and 4K.
+	*/
+	@property bool fxaa()
+	{
+		return getUseFxaa();
+	}
+	/// ditto
+	@property void fxaa(bool v)
+	{
+		setUseFxaa(v);
 	}
 	/**
 	The global canvas transform of the viewport. The canvas transform is relative to this.

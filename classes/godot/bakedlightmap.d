@@ -22,12 +22,12 @@ import godot.object;
 import godot.classdb;
 import godot.visualinstance;
 import godot.node;
+import godot.sky;
 import godot.bakedlightmapdata;
 /**
 Prerendered indirect light map for a scene.
 
 Baked lightmaps are an alternative workflow for adding indirect (or baked) lighting to a scene. Unlike the $(D GIProbe) approach, baked lightmaps work fine on low-end PCs and mobile devices as they consume almost no resources in run-time.
-$(B Note:) This node has many known bugs and will be $(D url=https://godotengine.org/article/godot-40-will-get-new-modernized-lightmapper)rewritten for Godot 4.0$(D /url). See $(D url=https://github.com/godotengine/godot/issues/30929)GitHub issue #30929$(D /url).
 */
 @GodotBaseClass struct BakedLightmap
 {
@@ -41,30 +41,51 @@ public:
 	package(godot) static struct GDNativeClassBinding
 	{
 		__gshared:
-		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, Node, bool) bake;
-		@GodotName("debug_bake") GodotMethod!(void) debugBake;
-		@GodotName("get_bake_cell_size") GodotMethod!(double) getBakeCellSize;
-		@GodotName("get_bake_default_texels_per_unit") GodotMethod!(double) getBakeDefaultTexelsPerUnit;
-		@GodotName("get_bake_mode") GodotMethod!(BakedLightmap.BakeMode) getBakeMode;
+		@GodotName("bake") GodotMethod!(BakedLightmap.BakeError, Node, String) bake;
 		@GodotName("get_bake_quality") GodotMethod!(BakedLightmap.BakeQuality) getBakeQuality;
+		@GodotName("get_bias") GodotMethod!(double) getBias;
+		@GodotName("get_bounces") GodotMethod!(long) getBounces;
 		@GodotName("get_capture_cell_size") GodotMethod!(double) getCaptureCellSize;
-		@GodotName("get_energy") GodotMethod!(double) getEnergy;
+		@GodotName("get_capture_enabled") GodotMethod!(bool) getCaptureEnabled;
+		@GodotName("get_capture_propagation") GodotMethod!(double) getCapturePropagation;
+		@GodotName("get_capture_quality") GodotMethod!(BakedLightmap.BakeQuality) getCaptureQuality;
+		@GodotName("get_default_texels_per_unit") GodotMethod!(double) getDefaultTexelsPerUnit;
+		@GodotName("get_environment_custom_color") GodotMethod!(Color) getEnvironmentCustomColor;
+		@GodotName("get_environment_custom_energy") GodotMethod!(double) getEnvironmentCustomEnergy;
+		@GodotName("get_environment_custom_sky") GodotMethod!(Sky) getEnvironmentCustomSky;
+		@GodotName("get_environment_custom_sky_rotation_degrees") GodotMethod!(Vector3) getEnvironmentCustomSkyRotationDegrees;
+		@GodotName("get_environment_min_light") GodotMethod!(Color) getEnvironmentMinLight;
+		@GodotName("get_environment_mode") GodotMethod!(BakedLightmap.EnvironmentMode) getEnvironmentMode;
 		@GodotName("get_extents") GodotMethod!(Vector3) getExtents;
 		@GodotName("get_image_path") GodotMethod!(String) getImagePath;
 		@GodotName("get_light_data") GodotMethod!(BakedLightmapData) getLightData;
-		@GodotName("get_propagation") GodotMethod!(double) getPropagation;
-		@GodotName("is_hdr") GodotMethod!(bool) isHdr;
-		@GodotName("set_bake_cell_size") GodotMethod!(void, double) setBakeCellSize;
-		@GodotName("set_bake_default_texels_per_unit") GodotMethod!(void, double) setBakeDefaultTexelsPerUnit;
-		@GodotName("set_bake_mode") GodotMethod!(void, long) setBakeMode;
+		@GodotName("get_max_atlas_size") GodotMethod!(long) getMaxAtlasSize;
+		@GodotName("is_generate_atlas_enabled") GodotMethod!(bool) isGenerateAtlasEnabled;
+		@GodotName("is_using_color") GodotMethod!(bool) isUsingColor;
+		@GodotName("is_using_denoiser") GodotMethod!(bool) isUsingDenoiser;
+		@GodotName("is_using_hdr") GodotMethod!(bool) isUsingHdr;
 		@GodotName("set_bake_quality") GodotMethod!(void, long) setBakeQuality;
+		@GodotName("set_bias") GodotMethod!(void, double) setBias;
+		@GodotName("set_bounces") GodotMethod!(void, long) setBounces;
 		@GodotName("set_capture_cell_size") GodotMethod!(void, double) setCaptureCellSize;
-		@GodotName("set_energy") GodotMethod!(void, double) setEnergy;
+		@GodotName("set_capture_enabled") GodotMethod!(void, bool) setCaptureEnabled;
+		@GodotName("set_capture_propagation") GodotMethod!(void, double) setCapturePropagation;
+		@GodotName("set_capture_quality") GodotMethod!(void, long) setCaptureQuality;
+		@GodotName("set_default_texels_per_unit") GodotMethod!(void, double) setDefaultTexelsPerUnit;
+		@GodotName("set_environment_custom_color") GodotMethod!(void, Color) setEnvironmentCustomColor;
+		@GodotName("set_environment_custom_energy") GodotMethod!(void, double) setEnvironmentCustomEnergy;
+		@GodotName("set_environment_custom_sky") GodotMethod!(void, Sky) setEnvironmentCustomSky;
+		@GodotName("set_environment_custom_sky_rotation_degrees") GodotMethod!(void, Vector3) setEnvironmentCustomSkyRotationDegrees;
+		@GodotName("set_environment_min_light") GodotMethod!(void, Color) setEnvironmentMinLight;
+		@GodotName("set_environment_mode") GodotMethod!(void, long) setEnvironmentMode;
 		@GodotName("set_extents") GodotMethod!(void, Vector3) setExtents;
-		@GodotName("set_hdr") GodotMethod!(void, bool) setHdr;
+		@GodotName("set_generate_atlas") GodotMethod!(void, bool) setGenerateAtlas;
 		@GodotName("set_image_path") GodotMethod!(void, String) setImagePath;
 		@GodotName("set_light_data") GodotMethod!(void, BakedLightmapData) setLightData;
-		@GodotName("set_propagation") GodotMethod!(void, double) setPropagation;
+		@GodotName("set_max_atlas_size") GodotMethod!(void, long) setMaxAtlasSize;
+		@GodotName("set_use_color") GodotMethod!(void, bool) setUseColor;
+		@GodotName("set_use_denoiser") GodotMethod!(void, bool) setUseDenoiser;
+		@GodotName("set_use_hdr") GodotMethod!(void, bool) setUseHdr;
 	}
 	/// 
 	pragma(inline, true) bool opEquals(in BakedLightmap other) const
@@ -100,9 +121,13 @@ public:
 		*/
 		bakeQualityMedium = 1,
 		/**
-		The highest bake quality mode. Takes longer to calculate.
+		A higher bake quality mode. Takes longer to calculate.
 		*/
 		bakeQualityHigh = 2,
+		/**
+		The highest bake quality mode. Takes the longest to calculate.
+		*/
+		bakeQualityUltra = 3,
 	}
 	/// 
 	enum BakeError : int
@@ -124,75 +149,69 @@ public:
 		*/
 		bakeErrorCantCreateImage = 3,
 		/**
+		The size of the generated lightmaps is too large.
+		*/
+		bakeErrorLightmapSize = 4,
+		/**
+		Some mesh contains UV2 values outside the `$(D 0,1)` range.
+		*/
+		bakeErrorInvalidMesh = 5,
+		/**
 		Returns if user cancels baking.
 		*/
-		bakeErrorUserAborted = 4,
+		bakeErrorUserAborted = 6,
+		/**
+		
+		*/
+		bakeErrorNoLightmapper = 7,
 	}
 	/// 
-	enum BakeMode : int
+	enum EnvironmentMode : int
 	{
 		/**
-		Less precise but faster bake mode.
+		No environment is used during baking.
 		*/
-		bakeModeConeTrace = 0,
+		environmentModeDisabled = 0,
 		/**
-		More precise bake mode but can take considerably longer to bake.
+		The baked environment is automatically picked from the current scene.
 		*/
-		bakeModeRayTrace = 1,
+		environmentModeScene = 1,
+		/**
+		A custom sky is used as environment during baking.
+		*/
+		environmentModeCustomSky = 2,
+		/**
+		A custom solid color is used as environment during baking.
+		*/
+		environmentModeCustomColor = 3,
 	}
 	/// 
 	enum Constants : int
 	{
 		bakeErrorOk = 0,
 		bakeQualityLow = 0,
-		bakeModeConeTrace = 0,
+		environmentModeDisabled = 0,
 		bakeErrorNoSavePath = 1,
-		bakeModeRayTrace = 1,
 		bakeQualityMedium = 1,
+		environmentModeScene = 1,
 		bakeQualityHigh = 2,
+		environmentModeCustomSky = 2,
 		bakeErrorNoMeshes = 2,
+		environmentModeCustomColor = 3,
 		bakeErrorCantCreateImage = 3,
-		bakeErrorUserAborted = 4,
+		bakeQualityUltra = 3,
+		bakeErrorLightmapSize = 4,
+		bakeErrorInvalidMesh = 5,
+		bakeErrorUserAborted = 6,
+		bakeErrorNoLightmapper = 7,
 	}
 	/**
-	Bakes the lightmaps within the currently edited scene. Returns a $(D bakeerror) to signify if the bake was successful, or if unsuccessful, how the bake failed.
+	Bakes the lightmap, scanning from the given `from_node` root and saves the resulting $(D BakedLightmapData) in `data_save_path`. If no save path is provided it will try to match the path from the current $(D lightData).
 	*/
-	BakedLightmap.BakeError bake(Node from_node = Node.init, in bool create_visual_debug = false)
+	BakedLightmap.BakeError bake(Node from_node = Node.init, in String data_save_path = gs!"")
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeError)(GDNativeClassBinding.bake, _godot_object, from_node, create_visual_debug);
-	}
-	/**
-	Executes a dry run bake of lightmaps within the currently edited scene.
-	*/
-	void debugBake()
-	{
-		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.debugBake, _godot_object);
-	}
-	/**
-	
-	*/
-	double getBakeCellSize() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(GDNativeClassBinding.getBakeCellSize, _godot_object);
-	}
-	/**
-	
-	*/
-	double getBakeDefaultTexelsPerUnit() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(GDNativeClassBinding.getBakeDefaultTexelsPerUnit, _godot_object);
-	}
-	/**
-	
-	*/
-	BakedLightmap.BakeMode getBakeMode() const
-	{
-		checkClassBinding!(typeof(this))();
-		return ptrcall!(BakedLightmap.BakeMode)(GDNativeClassBinding.getBakeMode, _godot_object);
+		return ptrcall!(BakedLightmap.BakeError)(GDNativeClassBinding.bake, _godot_object, from_node, data_save_path);
 	}
 	/**
 	
@@ -205,6 +224,22 @@ public:
 	/**
 	
 	*/
+	double getBias() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getBias, _godot_object);
+	}
+	/**
+	
+	*/
+	long getBounces() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(long)(GDNativeClassBinding.getBounces, _godot_object);
+	}
+	/**
+	
+	*/
 	double getCaptureCellSize() const
 	{
 		checkClassBinding!(typeof(this))();
@@ -213,10 +248,82 @@ public:
 	/**
 	
 	*/
-	double getEnergy() const
+	bool getCaptureEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(GDNativeClassBinding.getEnergy, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.getCaptureEnabled, _godot_object);
+	}
+	/**
+	
+	*/
+	double getCapturePropagation() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getCapturePropagation, _godot_object);
+	}
+	/**
+	
+	*/
+	BakedLightmap.BakeQuality getCaptureQuality() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmap.BakeQuality)(GDNativeClassBinding.getCaptureQuality, _godot_object);
+	}
+	/**
+	
+	*/
+	double getDefaultTexelsPerUnit() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getDefaultTexelsPerUnit, _godot_object);
+	}
+	/**
+	
+	*/
+	Color getEnvironmentCustomColor() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(GDNativeClassBinding.getEnvironmentCustomColor, _godot_object);
+	}
+	/**
+	
+	*/
+	double getEnvironmentCustomEnergy() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(double)(GDNativeClassBinding.getEnvironmentCustomEnergy, _godot_object);
+	}
+	/**
+	
+	*/
+	Ref!Sky getEnvironmentCustomSky() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Sky)(GDNativeClassBinding.getEnvironmentCustomSky, _godot_object);
+	}
+	/**
+	
+	*/
+	Vector3 getEnvironmentCustomSkyRotationDegrees() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Vector3)(GDNativeClassBinding.getEnvironmentCustomSkyRotationDegrees, _godot_object);
+	}
+	/**
+	
+	*/
+	Color getEnvironmentMinLight() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(Color)(GDNativeClassBinding.getEnvironmentMinLight, _godot_object);
+	}
+	/**
+	
+	*/
+	BakedLightmap.EnvironmentMode getEnvironmentMode() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(BakedLightmap.EnvironmentMode)(GDNativeClassBinding.getEnvironmentMode, _godot_object);
 	}
 	/**
 	
@@ -245,50 +352,66 @@ public:
 	/**
 	
 	*/
-	double getPropagation() const
+	long getMaxAtlasSize() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(double)(GDNativeClassBinding.getPropagation, _godot_object);
+		return ptrcall!(long)(GDNativeClassBinding.getMaxAtlasSize, _godot_object);
 	}
 	/**
 	
 	*/
-	bool isHdr() const
+	bool isGenerateAtlasEnabled() const
 	{
 		checkClassBinding!(typeof(this))();
-		return ptrcall!(bool)(GDNativeClassBinding.isHdr, _godot_object);
+		return ptrcall!(bool)(GDNativeClassBinding.isGenerateAtlasEnabled, _godot_object);
 	}
 	/**
 	
 	*/
-	void setBakeCellSize(in double bake_cell_size)
+	bool isUsingColor() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setBakeCellSize, _godot_object, bake_cell_size);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingColor, _godot_object);
 	}
 	/**
 	
 	*/
-	void setBakeDefaultTexelsPerUnit(in double texels)
+	bool isUsingDenoiser() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setBakeDefaultTexelsPerUnit, _godot_object, texels);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingDenoiser, _godot_object);
 	}
 	/**
 	
 	*/
-	void setBakeMode(in long bake_mode)
+	bool isUsingHdr() const
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setBakeMode, _godot_object, bake_mode);
+		return ptrcall!(bool)(GDNativeClassBinding.isUsingHdr, _godot_object);
 	}
 	/**
 	
 	*/
-	void setBakeQuality(in long bake_quality)
+	void setBakeQuality(in long quality)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setBakeQuality, _godot_object, bake_quality);
+		ptrcall!(void)(GDNativeClassBinding.setBakeQuality, _godot_object, quality);
+	}
+	/**
+	
+	*/
+	void setBias(in double bias)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setBias, _godot_object, bias);
+	}
+	/**
+	
+	*/
+	void setBounces(in long bounces)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setBounces, _godot_object, bounces);
 	}
 	/**
 	
@@ -301,10 +424,82 @@ public:
 	/**
 	
 	*/
-	void setEnergy(in double energy)
+	void setCaptureEnabled(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setEnergy, _godot_object, energy);
+		ptrcall!(void)(GDNativeClassBinding.setCaptureEnabled, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setCapturePropagation(in double propagation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setCapturePropagation, _godot_object, propagation);
+	}
+	/**
+	
+	*/
+	void setCaptureQuality(in long capture_quality)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setCaptureQuality, _godot_object, capture_quality);
+	}
+	/**
+	
+	*/
+	void setDefaultTexelsPerUnit(in double texels)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setDefaultTexelsPerUnit, _godot_object, texels);
+	}
+	/**
+	
+	*/
+	void setEnvironmentCustomColor(in Color color)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentCustomColor, _godot_object, color);
+	}
+	/**
+	
+	*/
+	void setEnvironmentCustomEnergy(in double energy)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentCustomEnergy, _godot_object, energy);
+	}
+	/**
+	
+	*/
+	void setEnvironmentCustomSky(Sky sky)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentCustomSky, _godot_object, sky);
+	}
+	/**
+	
+	*/
+	void setEnvironmentCustomSkyRotationDegrees(in Vector3 rotation)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentCustomSkyRotationDegrees, _godot_object, rotation);
+	}
+	/**
+	
+	*/
+	void setEnvironmentMinLight(in Color min_light)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentMinLight, _godot_object, min_light);
+	}
+	/**
+	
+	*/
+	void setEnvironmentMode(in long mode)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setEnvironmentMode, _godot_object, mode);
 	}
 	/**
 	
@@ -317,10 +512,10 @@ public:
 	/**
 	
 	*/
-	void setHdr(in bool hdr)
+	void setGenerateAtlas(in bool enabled)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setHdr, _godot_object, hdr);
+		ptrcall!(void)(GDNativeClassBinding.setGenerateAtlas, _godot_object, enabled);
 	}
 	/**
 	
@@ -341,109 +536,85 @@ public:
 	/**
 	
 	*/
-	void setPropagation(in double propagation)
+	void setMaxAtlasSize(in long max_atlas_size)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.setPropagation, _godot_object, propagation);
+		ptrcall!(void)(GDNativeClassBinding.setMaxAtlasSize, _godot_object, max_atlas_size);
 	}
 	/**
-	Grid subdivision size for lightmapper calculation. The default value will work for most cases. Increase for better lighting on small details or if your scene is very large.
+	
 	*/
-	@property double bakeCellSize()
+	void setUseColor(in bool use_denoiser)
 	{
-		return getBakeCellSize();
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseColor, _godot_object, use_denoiser);
+	}
+	/**
+	
+	*/
+	void setUseDenoiser(in bool use_denoiser)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseDenoiser, _godot_object, use_denoiser);
+	}
+	/**
+	
+	*/
+	void setUseHdr(in bool use_denoiser)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setUseHdr, _godot_object, use_denoiser);
+	}
+	/**
+	When enabled, the lightmapper will merge the textures for all meshes into a single large layered texture. Not supported in GLES2.
+	*/
+	@property bool atlasGenerate()
+	{
+		return isGenerateAtlasEnabled();
 	}
 	/// ditto
-	@property void bakeCellSize(double v)
+	@property void atlasGenerate(bool v)
 	{
-		setBakeCellSize(v);
+		setGenerateAtlas(v);
 	}
 	/**
-	If a $(D Mesh.lightmapSizeHint) isn't specified, the lightmap baker will dynamically set the lightmap size using this value. This value is measured in texels per world unit. The maximum lightmap texture size is 4096x4096.
+	Maximum size of each lightmap layer, only used when $(D atlasGenerate) is enabled.
 	*/
-	@property double bakeDefaultTexelsPerUnit()
+	@property long atlasMaxSize()
 	{
-		return getBakeDefaultTexelsPerUnit();
+		return getMaxAtlasSize();
 	}
 	/// ditto
-	@property void bakeDefaultTexelsPerUnit(double v)
+	@property void atlasMaxSize(long v)
 	{
-		setBakeDefaultTexelsPerUnit(v);
+		setMaxAtlasSize(v);
 	}
 	/**
-	Multiplies the light sources' intensity by this value. For instance, if the value is set to 2, lights will be twice as bright. If the value is set to 0.5, lights will be half as bright.
+	Raycasting bias used during baking to avoid floating point precission issues.
 	*/
-	@property double bakeEnergy()
+	@property double bias()
 	{
-		return getEnergy();
+		return getBias();
 	}
 	/// ditto
-	@property void bakeEnergy(double v)
+	@property void bias(double v)
 	{
-		setEnergy(v);
+		setBias(v);
 	}
 	/**
-	The size of the affected area.
+	Number of light bounces that are taken into account during baking.
 	*/
-	@property Vector3 bakeExtents()
+	@property long bounces()
 	{
-		return getExtents();
+		return getBounces();
 	}
 	/// ditto
-	@property void bakeExtents(Vector3 v)
+	@property void bounces(long v)
 	{
-		setExtents(v);
+		setBounces(v);
 	}
 	/**
-	If `true`, the lightmap can capture light values greater than `1.0`. Turning this off will result in a smaller file size.
-	*/
-	@property bool bakeHdr()
-	{
-		return isHdr();
-	}
-	/// ditto
-	@property void bakeHdr(bool v)
-	{
-		setHdr(v);
-	}
-	/**
-	Lightmapping mode. See $(D bakemode).
-	*/
-	@property BakedLightmap.BakeMode bakeMode()
-	{
-		return getBakeMode();
-	}
-	/// ditto
-	@property void bakeMode(long v)
-	{
-		setBakeMode(v);
-	}
-	/**
-	Defines how far the light will travel before it is no longer effective. The higher the number, the farther the light will travel. For instance, if the value is set to 2, the light will go twice as far. If the value is set to 0.5, the light will only go half as far.
-	*/
-	@property double bakePropagation()
-	{
-		return getPropagation();
-	}
-	/// ditto
-	@property void bakePropagation(double v)
-	{
-		setPropagation(v);
-	}
-	/**
-	Three quality modes are available. Higher quality requires more rendering time. See $(D bakequality).
-	*/
-	@property BakedLightmap.BakeQuality bakeQuality()
-	{
-		return getBakeQuality();
-	}
-	/// ditto
-	@property void bakeQuality(long v)
-	{
-		setBakeQuality(v);
-	}
-	/**
-	Grid size used for real-time capture information on dynamic objects. Cannot be larger than $(D bakeCellSize).
+	Grid size used for real-time capture information on dynamic objects.
 	*/
 	@property double captureCellSize()
 	{
@@ -455,7 +626,139 @@ public:
 		setCaptureCellSize(v);
 	}
 	/**
-	The location where lightmaps will be saved.
+	When enabled, an octree containing the scene's lighting information will be computed. This octree will then be used to light dynamic objects in the scene.
+	*/
+	@property bool captureEnabled()
+	{
+		return getCaptureEnabled();
+	}
+	/// ditto
+	@property void captureEnabled(bool v)
+	{
+		setCaptureEnabled(v);
+	}
+	/**
+	Bias value to reduce the amount of light proagation in the captured octree.
+	*/
+	@property double capturePropagation()
+	{
+		return getCapturePropagation();
+	}
+	/// ditto
+	@property void capturePropagation(double v)
+	{
+		setCapturePropagation(v);
+	}
+	/**
+	Bake quality of the capture data.
+	*/
+	@property BakedLightmap.BakeQuality captureQuality()
+	{
+		return getCaptureQuality();
+	}
+	/// ditto
+	@property void captureQuality(long v)
+	{
+		setCaptureQuality(v);
+	}
+	/**
+	If a baked mesh doesn't have a UV2 size hint, this value will be used to roughly compute a suitable lightmap size.
+	*/
+	@property double defaultTexelsPerUnit()
+	{
+		return getDefaultTexelsPerUnit();
+	}
+	/// ditto
+	@property void defaultTexelsPerUnit(double v)
+	{
+		setDefaultTexelsPerUnit(v);
+	}
+	/**
+	The environment color when $(D environmentMode) is set to $(D constant ENVIRONMENT_MODE_CUSTOM_COLOR).
+	*/
+	@property Color environmentCustomColor()
+	{
+		return getEnvironmentCustomColor();
+	}
+	/// ditto
+	@property void environmentCustomColor(Color v)
+	{
+		setEnvironmentCustomColor(v);
+	}
+	/**
+	The energy scaling factor when when $(D environmentMode) is set to $(D constant ENVIRONMENT_MODE_CUSTOM_COLOR) or $(D constant ENVIRONMENT_MODE_CUSTOM_SKY).
+	*/
+	@property double environmentCustomEnergy()
+	{
+		return getEnvironmentCustomEnergy();
+	}
+	/// ditto
+	@property void environmentCustomEnergy(double v)
+	{
+		setEnvironmentCustomEnergy(v);
+	}
+	/**
+	The $(D Sky) resource to use when $(D environmentMode) is set o $(D constant ENVIRONMENT_MODE_CUSTOM_SKY).
+	*/
+	@property Sky environmentCustomSky()
+	{
+		return getEnvironmentCustomSky();
+	}
+	/// ditto
+	@property void environmentCustomSky(Sky v)
+	{
+		setEnvironmentCustomSky(v);
+	}
+	/**
+	The rotation of the baked custom sky.
+	*/
+	@property Vector3 environmentCustomSkyRotationDegrees()
+	{
+		return getEnvironmentCustomSkyRotationDegrees();
+	}
+	/// ditto
+	@property void environmentCustomSkyRotationDegrees(Vector3 v)
+	{
+		setEnvironmentCustomSkyRotationDegrees(v);
+	}
+	/**
+	Minimum ambient light for all the lightmap texels. This doesn't take into account any occlusion from the scene's geometry, it simply ensures a minimum amount of light on all the lightmap texels. Can be used for artistic control on shadow color.
+	*/
+	@property Color environmentMinLight()
+	{
+		return getEnvironmentMinLight();
+	}
+	/// ditto
+	@property void environmentMinLight(Color v)
+	{
+		setEnvironmentMinLight(v);
+	}
+	/**
+	Decides which environment to use during baking.
+	*/
+	@property BakedLightmap.EnvironmentMode environmentMode()
+	{
+		return getEnvironmentMode();
+	}
+	/// ditto
+	@property void environmentMode(long v)
+	{
+		setEnvironmentMode(v);
+	}
+	/**
+	Size of the baked lightmap. Only meshes inside this region will be included in the baked lightmap, also used as the bounds of the captured region for dynamic lighting.
+	*/
+	@property Vector3 extents()
+	{
+		return getExtents();
+	}
+	/// ditto
+	@property void extents(Vector3 v)
+	{
+		setExtents(v);
+	}
+	/**
+	Deprecated, in previous versions it determined the location where lightmaps were be saved.
 	*/
 	@property String imagePath()
 	{
@@ -477,5 +780,54 @@ public:
 	@property void lightData(BakedLightmapData v)
 	{
 		setLightData(v);
+	}
+	/**
+	Determines the amount of samples per texel used in indrect light baking. The amount of samples for each quality level can be configured in the project settings.
+	*/
+	@property BakedLightmap.BakeQuality quality()
+	{
+		return getBakeQuality();
+	}
+	/// ditto
+	@property void quality(long v)
+	{
+		setBakeQuality(v);
+	}
+	/**
+	Store full color values in the lightmap textures. When disabled, lightmap textures will store a single brightness channel. Can be disabled to reduce disk usage if the scene contains only white lights or you don't mind losing color information in indirect lighting.
+	*/
+	@property bool useColor()
+	{
+		return isUsingColor();
+	}
+	/// ditto
+	@property void useColor(bool v)
+	{
+		setUseColor(v);
+	}
+	/**
+	When enabled, a lightmap denoiser will be used to reduce the noise inherent to Monte Carlo based global illumination.
+	*/
+	@property bool useDenoiser()
+	{
+		return isUsingDenoiser();
+	}
+	/// ditto
+	@property void useDenoiser(bool v)
+	{
+		setUseDenoiser(v);
+	}
+	/**
+	If `true`, stores the lightmap textures in a high dynamic range format (EXR). If `false`, stores the lightmap texture in a low dynamic range PNG image. This can be set to `false` to reduce disk usage, but light values over 1.0 will be clamped and you may see banding caused by the reduced precision.
+	$(B Note:) Setting $(D useHdr) to `true` will decrease lightmap banding even when using the GLES2 backend or if $(D ProjectSettings.rendering/quality/depth/hdr) is `false`.
+	*/
+	@property bool useHdr()
+	{
+		return isUsingHdr();
+	}
+	/// ditto
+	@property void useHdr(bool v)
+	{
+		setUseHdr(v);
 	}
 }

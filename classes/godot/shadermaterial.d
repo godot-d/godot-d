@@ -28,6 +28,7 @@ import godot.shader;
 A material that uses a custom $(D Shader) program.
 
 A material that uses a custom $(D Shader) program to render either items to screen or process particles. You can create multiple materials for the same shader but configure different values for the uniforms defined in the shader.
+$(B Note:) Due to a renderer limitation, emissive $(D ShaderMaterial)s cannot emit light when used in a $(D GIProbe). Only emissive $(D SpatialMaterial)s can emit light in a $(D GIProbe).
 */
 @GodotBaseClass struct ShaderMaterial
 {

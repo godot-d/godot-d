@@ -41,6 +41,8 @@ public:
 		@GodotName("get_cast_shadows_setting") GodotMethod!(GeometryInstance.ShadowCastingSetting) getCastShadowsSetting;
 		@GodotName("get_extra_cull_margin") GodotMethod!(double) getExtraCullMargin;
 		@GodotName("get_flag") GodotMethod!(bool, long) getFlag;
+		@GodotName("get_generate_lightmap") GodotMethod!(bool) getGenerateLightmap;
+		@GodotName("get_lightmap_scale") GodotMethod!(GeometryInstance.LightmapScale) getLightmapScale;
 		@GodotName("get_lod_max_distance") GodotMethod!(double) getLodMaxDistance;
 		@GodotName("get_lod_max_hysteresis") GodotMethod!(double) getLodMaxHysteresis;
 		@GodotName("get_lod_min_distance") GodotMethod!(double) getLodMinDistance;
@@ -50,6 +52,8 @@ public:
 		@GodotName("set_custom_aabb") GodotMethod!(void, AABB) setCustomAabb;
 		@GodotName("set_extra_cull_margin") GodotMethod!(void, double) setExtraCullMargin;
 		@GodotName("set_flag") GodotMethod!(void, long, bool) setFlag;
+		@GodotName("set_generate_lightmap") GodotMethod!(void, bool) setGenerateLightmap;
+		@GodotName("set_lightmap_scale") GodotMethod!(void, long) setLightmapScale;
 		@GodotName("set_lod_max_distance") GodotMethod!(void, double) setLodMaxDistance;
 		@GodotName("set_lod_max_hysteresis") GodotMethod!(void, double) setLodMaxHysteresis;
 		@GodotName("set_lod_min_distance") GodotMethod!(void, double) setLodMinDistance;
@@ -118,15 +122,44 @@ public:
 		shadowCastingSettingShadowsOnly = 3,
 	}
 	/// 
+	enum LightmapScale : int
+	{
+		/**
+		The generated lightmap texture will have the original size.
+		*/
+		lightmapScale1x = 0,
+		/**
+		The generated lightmap texture will be twice as large, on each axis.
+		*/
+		lightmapScale2x = 1,
+		/**
+		The generated lightmap texture will be 4 times as large, on each axis.
+		*/
+		lightmapScale4x = 2,
+		/**
+		The generated lightmap texture will be 8 times as large, on each axis.
+		*/
+		lightmapScale8x = 3,
+		/**
+		
+		*/
+		lightmapScaleMax = 4,
+	}
+	/// 
 	enum Constants : int
 	{
 		flagUseBakedLight = 0,
+		lightmapScale1x = 0,
 		shadowCastingSettingOff = 0,
 		flagDrawNextFrameIfVisible = 1,
+		lightmapScale2x = 1,
 		shadowCastingSettingOn = 1,
 		flagMax = 2,
 		shadowCastingSettingDoubleSided = 2,
+		lightmapScale4x = 2,
 		shadowCastingSettingShadowsOnly = 3,
+		lightmapScale8x = 3,
+		lightmapScaleMax = 4,
 	}
 	/**
 	
@@ -151,6 +184,22 @@ public:
 	{
 		checkClassBinding!(typeof(this))();
 		return ptrcall!(bool)(GDNativeClassBinding.getFlag, _godot_object, flag);
+	}
+	/**
+	
+	*/
+	bool getGenerateLightmap()
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(bool)(GDNativeClassBinding.getGenerateLightmap, _godot_object);
+	}
+	/**
+	
+	*/
+	GeometryInstance.LightmapScale getLightmapScale() const
+	{
+		checkClassBinding!(typeof(this))();
+		return ptrcall!(GeometryInstance.LightmapScale)(GDNativeClassBinding.getLightmapScale, _godot_object);
 	}
 	/**
 	
@@ -227,6 +276,22 @@ public:
 	/**
 	
 	*/
+	void setGenerateLightmap(in bool enabled)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setGenerateLightmap, _godot_object, enabled);
+	}
+	/**
+	
+	*/
+	void setLightmapScale(in long scale)
+	{
+		checkClassBinding!(typeof(this))();
+		ptrcall!(void)(GDNativeClassBinding.setLightmapScale, _godot_object, scale);
+	}
+	/**
+	
+	*/
 	void setLodMaxDistance(in double mode)
 	{
 		checkClassBinding!(typeof(this))();
@@ -287,6 +352,30 @@ public:
 	@property void extraCullMargin(double v)
 	{
 		setExtraCullMargin(v);
+	}
+	/**
+	When disabled, the mesh will be taken into account when computing indirect lighting, but the resulting lightmap will not be saved. Useful for emissive only materials or shadow casters.
+	*/
+	@property bool generateLightmap()
+	{
+		return getGenerateLightmap();
+	}
+	/// ditto
+	@property void generateLightmap(bool v)
+	{
+		setGenerateLightmap(v);
+	}
+	/**
+	Scale factor for the generated baked lightmap. Useful for adding detail to certain mesh instances.
+	*/
+	@property GeometryInstance.LightmapScale lightmapScale()
+	{
+		return getLightmapScale();
+	}
+	/// ditto
+	@property void lightmapScale(long v)
+	{
+		setLightmapScale(v);
 	}
 	/**
 	The GeometryInstance's max LOD distance.

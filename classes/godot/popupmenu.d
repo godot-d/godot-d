@@ -60,7 +60,7 @@ public:
 		@GodotName("add_multistate_item") GodotMethod!(void, String, long, long, long, long) addMultistateItem;
 		@GodotName("add_radio_check_item") GodotMethod!(void, String, long, long) addRadioCheckItem;
 		@GodotName("add_radio_check_shortcut") GodotMethod!(void, ShortCut, long, bool) addRadioCheckShortcut;
-		@GodotName("add_separator") GodotMethod!(void, String) addSeparator;
+		@GodotName("add_separator") GodotMethod!(void, String, long) addSeparator;
 		@GodotName("add_shortcut") GodotMethod!(void, ShortCut, long, bool) addShortcut;
 		@GodotName("add_submenu_item") GodotMethod!(void, String, String, long) addSubmenuItem;
 		@GodotName("clear") GodotMethod!(void) clear;
@@ -289,10 +289,10 @@ public:
 	Adds a separator between items. Separators also occupy an index, which you can set by using the `id` parameter.
 	A `label` can optionally be provided, which will appear at the center of the separator.
 	*/
-	void addSeparator(in String label = gs!"")
+	void addSeparator(in String label = gs!"", in long id = -1)
 	{
 		checkClassBinding!(typeof(this))();
-		ptrcall!(void)(GDNativeClassBinding.addSeparator, _godot_object, label);
+		ptrcall!(void)(GDNativeClassBinding.addSeparator, _godot_object, label, id);
 	}
 	/**
 	Adds a $(D ShortCut).
@@ -630,7 +630,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setItemMetadata, _godot_object, idx, metadata);
 	}
 	/**
-	Sets the state of an multistate item. See $(D addMultistateItem) for details.
+	Sets the state of a multistate item. See $(D addMultistateItem) for details.
 	*/
 	void setItemMultistate(in long idx, in long state)
 	{
@@ -694,7 +694,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.toggleItemChecked, _godot_object, idx);
 	}
 	/**
-	Cycle to the next state of an multistate item. See $(D addMultistateItem) for details.
+	Cycle to the next state of a multistate item. See $(D addMultistateItem) for details.
 	*/
 	void toggleItemMultistate(in long idx)
 	{
@@ -702,7 +702,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.toggleItemMultistate, _godot_object, idx);
 	}
 	/**
-	If `true`, allows to navigate $(D PopupMenu) with letter keys.
+	If `true`, allows navigating $(D PopupMenu) with letter keys.
 	*/
 	@property bool allowSearch()
 	{

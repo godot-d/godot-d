@@ -25,7 +25,20 @@ import godot.resource;
 /**
 A time-seeking animation node to be used with $(D AnimationTree).
 
-This node can be used to cause a seek command to happen to any sub-children of the graph. After setting the time, this value returns to -1.
+This node can be used to cause a seek command to happen to any sub-children of the animation graph. Use this node type to play an $(D Animation) from the start or a certain playback position inside the $(D AnimationNodeBlendTree). After setting the time and changing the animation playback, the seek node automatically goes into sleep mode on the next process frame by setting its `seek_position` value to `-1.0`.
+
+
+# Play child animation from the start.
+animation_tree.set("parameters/Seek/seek_position", 0.0)
+# Alternative syntax (same result as above).
+animation_tree$(D "parameters/Seek/seek_position") = 0.0
+
+# Play child animation from 12 second timestamp.
+animation_tree.set("parameters/Seek/seek_position", 12.0)
+# Alternative syntax (same result as above).
+animation_tree$(D "parameters/Seek/seek_position") = 12.0
+
+
 */
 @GodotBaseClass struct AnimationNodeTimeSeek
 {
