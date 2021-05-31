@@ -88,14 +88,14 @@ int main(string[] args)
 	string[] sourceFiles = environment.get("SOURCE_FILES", null).sanitized;
 	foreach(importPath; importPaths)
 	{
-		// Ensures the import path exists. See: https://github.com/godot-d/godot-d/issues/71
-		mkdirRecurse(importPath);
-
-		foreach(DirEntry de; dirEntries(importPath, SpanMode.depth))
+		if(exists(importPath) && isDir(importPath))
 		{
-			if(de.isFile && de.name.endsWith(".d"))
+			foreach(DirEntry de; dirEntries(importPath, SpanMode.depth))
 			{
-				if(!sourceFiles.canFind(de.name)) sourceFiles ~= de.name;
+				if(de.isFile && de.name.endsWith(".d"))
+				{
+					if(!sourceFiles.canFind(de.name)) sourceFiles ~= de.name;
+				}
 			}
 		}
 	}
