@@ -10,7 +10,7 @@ import std.getopt;
 import std.file;
 import std.path : asRelativePath, buildPath, dirName, isRooted;
 import std.range;
-import std.algorithm.searching : find, endsWith, countUntil;
+import std.algorithm.searching : find, endsWith, countUntil, canFind;
 import std.algorithm.sorting : sort;
 import std.array : replace;
 
@@ -85,6 +85,7 @@ int main(string[] args)
 	/* ************************************************************************
 	Parse all D files to find the classes and potentially the entry point.
 	************************************************************************ */
+	string[] sourceFiles = environment.get("SOURCE_FILES", null).sanitized;
 	foreach(importPath; importPaths)
 	{
 		// Ensures the import path exists. See: https://github.com/godot-d/godot-d/issues/71
@@ -94,14 +95,18 @@ int main(string[] args)
 		{
 			if(de.isFile && de.name.endsWith(".d"))
 			{
-				/// TODO: `parse` needs to relativize the path differently. The cwd is irrelevant to Godot.
-				///       Maybe relative to DUB package or Godot project - how will it be used?
-				string relativePath = de.name.asRelativePath(getcwd()).text;
-				FileInfo file = parse(relativePath);
-				writefln!"%s classes: %s"(file.moduleName, file.classes);
-				project.files ~= file;
+				if(!sourceFiles.canFind(de.name)) sourceFiles ~= de.name;
 			}
 		}
+	}
+	foreach(sourceFile; sourceFiles)
+	{
+		/// TODO: `parse` needs to relativize the path differently. The cwd is irrelevant to Godot.
+		///       Maybe relative to DUB package or Godot project - how will it be used?
+		string relativePath = sourceFile.asRelativePath(getcwd()).text;
+		FileInfo file = parse(relativePath);
+		writefln!"%s classes: %s"(file.moduleName, file.classes);
+		project.files ~= file;
 	}
 
 	/* ************************************************************************
