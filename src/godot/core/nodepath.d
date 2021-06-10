@@ -44,6 +44,12 @@ struct NodePath
 		String from = String(name);
 		_godot_api.godot_node_path_new(&_node_path, &from._godot_string);
 	}
+
+	bool opEquals(in NodePath other) const
+	{
+		if(_node_path == other._node_path) return true;
+		return _godot_api.godot_node_path_operator_equal(&_node_path, &other._node_path);
+	}
 	
 	String getName(in int idx) const
 	{
@@ -91,7 +97,7 @@ struct NodePath
 		import std.range : only;
 		static immutable wchar_t colon = ':';
 		NodePath[2] ret;
-		if(this == NodePath.init) return ret;
+		if(_node_path == godot_node_path.init) return ret;
 		String path = str();
 		auto data = path.data();
 		if(data[0] == colon)
