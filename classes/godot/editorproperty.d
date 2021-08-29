@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.container;
 import godot.control;
@@ -146,7 +147,7 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getLabel, _godot_object);
 	}
 	/**
-	Override if you want to allow a custom tooltip over your property.
+	Must be implemented to provide a custom tooltip to the property editor.
 	*/
 	String getTooltipText() const
 	{
@@ -194,7 +195,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isReadOnly, _godot_object);
 	}
 	/**
-	Adds controls with this function if you want them on the bottom (below the label).
+	Puts the `editor` control below the property label. The control must be previously added using $(D Node.addChild).
 	*/
 	void setBottomEditor(Control editor)
 	{

@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.canvasitem;
@@ -34,7 +35,7 @@ All user interface nodes inherit from Control. A control's anchors and margins a
 Base class for all UI-related nodes. $(D Control) features a bounding rectangle that defines its extents, an anchor position relative to its parent control or the current viewport, and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change.
 For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from $(D Control) and $(D Container) nodes.
 $(B User Interface nodes and input)
-Godot sends input events to the scene's root node first, by calling $(D Node._input). $(D Node._input) forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls $(D MainLoop._inputEvent). Call $(D acceptEvent) so no other node receives the event. Once you accepted an input, it becomes handled so $(D Node._unhandledInput) will not process it.
+Godot sends input events to the scene's root node first, by calling $(D Node._input). $(D Node._input) forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls $(D MainLoop._inputEvent). Call $(D acceptEvent) so no other node receives the event. Once you accept an input, it becomes handled so $(D Node._unhandledInput) will not process it.
 Only one $(D Control) node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call $(D grabFocus). $(D Control) nodes lose focus when another node grabs it, or if you hide the node in focus.
 Sets $(D mouseFilter) to $(D constant MOUSE_FILTER_IGNORE) to tell a $(D Control) node to ignore mouse or touch events. You'll need it if you place an icon on top of a button.
 $(D Theme) resources change the Control's appearance. If you change the $(D Theme) on a $(D Control) node, it affects all of its children. To override some of the theme's parameters, call one of the `add_*_override` methods, like $(D addFontOverride). You can override the theme with the inspector.
@@ -575,7 +576,7 @@ public:
 	* control has $(D mouseFilter) set to $(D constant MOUSE_FILTER_IGNORE);
 	* control is obstructed by another $(D Control) on top of it, which doesn't have $(D mouseFilter) set to $(D constant MOUSE_FILTER_IGNORE);
 	* control's parent has $(D mouseFilter) set to $(D constant MOUSE_FILTER_STOP) or has accepted the event;
-	* it happens outside parent's rectangle and the parent has either $(D rectClipContent) or $(D _clipsInput) enabled.
+	* it happens outside the parent's rectangle and the parent has either $(D rectClipContent) or $(D _clipsInput) enabled.
 	*/
 	void _guiInput(InputEvent event)
 	{
@@ -586,7 +587,7 @@ public:
 	}
 	/**
 	Virtual method to be implemented by the user. Returns a $(D Control) node that should be used as a tooltip instead of the default one. The `for_text` includes the contents of the $(D hintTooltip) property.
-	The returned node must be of type $(D Control) or Control-derived. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance (if you want to use a pre-existing node from your scene tree, you can duplicate it and pass the duplicated instance).When `null` or a non-Control node is returned, the default tooltip will be used instead.
+	The returned node must be of type $(D Control) or Control-derived. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance (if you want to use a pre-existing node from your scene tree, you can duplicate it and pass the duplicated instance). When `null` or a non-Control node is returned, the default tooltip will be used instead.
 	The returned node will be added as child to a $(D PopupPanel), so you should only provide the contents of that panel. That $(D PopupPanel) can be themed using $(D Theme.setStylebox) for the type `"TooltipPanel"` (see $(D hintTooltip) for an example).
 	$(B Note:) The tooltip is shrunk to minimal size. If you want to ensure it's fully visible, you might want to set its $(D rectMinSize) to some non-zero value.
 	Example of usage with a custom-constructed node:
@@ -1358,7 +1359,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setAnchorsAndMarginsPreset, _godot_object, preset, resize_mode, margin);
 	}
 	/**
-	Sets the anchors to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
+	Sets the anchors to a `preset` from $(D Control.layoutpreset) enum. This is the code equivalent to using the Layout menu in the 2D editor.
 	If `keep_margins` is `true`, control's position will also be updated.
 	*/
 	void setAnchorsPreset(in long preset, in bool keep_margins = false)
@@ -1524,7 +1525,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setMargin, _godot_object, margin, offset);
 	}
 	/**
-	Sets the margins to a `preset` from $(D Control.layoutpreset) enum. This is code equivalent of using the Layout menu in 2D editor.
+	Sets the margins to a `preset` from $(D Control.layoutpreset) enum. This is the code equivalent to using the Layout menu in the 2D editor.
 	Use parameter `resize_mode` with constants from $(D Control.layoutpresetmode) to better determine the resulting size of the $(D Control). Constant size will be ignored if used with presets that change size, e.g. `PRESET_LEFT_WIDE`.
 	Use parameter `margin` to determine the gap between the $(D Control) and the edges.
 	*/

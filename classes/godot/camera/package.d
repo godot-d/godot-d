@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
@@ -225,7 +226,7 @@ public:
 		return ptrcall!(double)(GDNativeClassBinding.getFov, _godot_object);
 	}
 	/**
-	Returns the camera's frustum planes in world-space units as an array of $(D Plane)s in the following order: near, far, left, top, right, bottom. Not to be confused with $(D frustumOffset).
+	Returns the camera's frustum planes in world space units as an array of $(D Plane)s in the following order: near, far, left, top, right, bottom. Not to be confused with $(D frustumOffset).
 	*/
 	Array getFrustum() const
 	{
@@ -330,7 +331,7 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.projectLocalRayNormal, _godot_object, screen_point);
 	}
 	/**
-	Returns the 3D point in worldspace that maps to the given 2D coordinate in the $(D Viewport) rectangle on a plane that is the given `z_depth` distance into the scene away from the camera.
+	Returns the 3D point in world space that maps to the given 2D coordinate in the $(D Viewport) rectangle on a plane that is the given `z_depth` distance into the scene away from the camera.
 	*/
 	Vector3 projectPosition(in Vector2 screen_point, in double z_depth) const
 	{
@@ -338,7 +339,7 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.projectPosition, _godot_object, screen_point, z_depth);
 	}
 	/**
-	Returns a normal vector in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
+	Returns a normal vector in world space, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	*/
 	Vector3 projectRayNormal(in Vector2 screen_point) const
 	{
@@ -346,7 +347,7 @@ public:
 		return ptrcall!(Vector3)(GDNativeClassBinding.projectRayNormal, _godot_object, screen_point);
 	}
 	/**
-	Returns a 3D position in worldspace, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
+	Returns a 3D position in world space, that is the result of projecting a point on the $(D Viewport) rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	*/
 	Vector3 projectRayOrigin(in Vector2 screen_point) const
 	{
@@ -402,7 +403,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setFov, _godot_object, arg0);
 	}
 	/**
-	Sets the camera projection to frustum mode (see $(D constant PROJECTION_FRUSTUM)), by specifying a `size`, an `offset`, and the `z_near` and `z_far` clip planes in world-space units.
+	Sets the camera projection to frustum mode (see $(D constant PROJECTION_FRUSTUM)), by specifying a `size`, an `offset`, and the `z_near` and `z_far` clip planes in world space units.
 	*/
 	void setFrustum(in double size, in Vector2 offset, in double z_near, in double z_far)
 	{
@@ -434,7 +435,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setKeepAspectMode, _godot_object, mode);
 	}
 	/**
-	Sets the camera projection to orthogonal mode (see $(D constant PROJECTION_ORTHOGONAL)), by specifying a `size`, and the `z_near` and `z_far` clip planes in world-space units. (As a hint, 2D games often use this projection, with values specified in pixels.)
+	Sets the camera projection to orthogonal mode (see $(D constant PROJECTION_ORTHOGONAL)), by specifying a `size`, and the `z_near` and `z_far` clip planes in world space units. (As a hint, 2D games often use this projection, with values specified in pixels.)
 	*/
 	void setOrthogonal(in double size, in double z_near, in double z_far)
 	{
@@ -442,7 +443,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setOrthogonal, _godot_object, size, z_near, z_far);
 	}
 	/**
-	Sets the camera projection to perspective mode (see $(D constant PROJECTION_PERSPECTIVE)), by specifying a `fov` (field of view) angle in degrees, and the `z_near` and `z_far` clip planes in world-space units.
+	Sets the camera projection to perspective mode (see $(D constant PROJECTION_PERSPECTIVE)), by specifying a `fov` (field of view) angle in degrees, and the `z_near` and `z_far` clip planes in world space units.
 	*/
 	void setPerspective(in double fov, in double z_near, in double z_far)
 	{
@@ -490,7 +491,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.setZnear, _godot_object, arg0);
 	}
 	/**
-	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in worldspace.
+	Returns the 2D coordinate in the $(D Viewport) rectangle that maps to the given 3D point in world space.
 	$(B Note:) When using this to position GUI elements over a 3D viewport, use $(D isPositionBehind) to prevent them from appearing if the 3D point is behind the camera:
 	
 	
@@ -568,11 +569,11 @@ public:
 	}
 	/**
 	The camera's field of view angle (in degrees). Only applicable in perspective mode. Since $(D keepAspect) locks one axis, `fov` sets the other axis' field of view angle.
-	For reference, the default vertical field of view value (`75.0`) is equivalent to a horizontal FOV of:
-	- ~91.31 degrees in a 4:3 viewport
-	- ~101.67 degrees in a 16:10 viewport
-	- ~107.51 degrees in a 16:9 viewport
-	- ~121.63 degrees in a 21:9 viewport
+	For reference, the default vertical field of view value (`70.0`) is equivalent to a horizontal FOV of:
+	- ~86.07 degrees in a 4:3 viewport
+	- ~96.50 degrees in a 16:10 viewport
+	- ~102.45 degrees in a 16:9 viewport
+	- ~117.06 degrees in a 21:9 viewport
 	*/
 	@property double fov()
 	{

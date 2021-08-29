@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.node;
@@ -172,7 +173,7 @@ public:
 		return ptrcall!(NodePath)(GDNativeClassBinding.getRootMotionTrack, _godot_object);
 	}
 	/**
-	Retrieve the motion of the $(D rootMotionTrack) as a $(D Transform) that can be used elsewhere. If $(D rootMotionTrack) is not a path to a track of type $(D constant Animation.TYPE_TRANSFORM), returns an identity transformation.
+	Retrieve the motion of the $(D rootMotionTrack) as a $(D Transform) that can be used elsewhere. If $(D rootMotionTrack) is not a path to a track of type $(D constant Animation.TYPE_TRANSFORM), returns an identity transformation. See also $(D rootMotionTrack) and $(D RootMotionView).
 	*/
 	Transform getRootMotionTransform() const
 	{
@@ -281,7 +282,7 @@ public:
 	}
 	/**
 	The path to the Animation track used for root motion. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. To specify a track that controls properties or bones, append its name after the path, separated by `":"`. For example, `"character/skeleton:ankle"` or `"character/mesh:transform/local"`.
-	If the track has type $(D constant Animation.TYPE_TRANSFORM), the transformation will be cancelled visually, and the animation will appear to stay in place.
+	If the track has type $(D constant Animation.TYPE_TRANSFORM), the transformation will be cancelled visually, and the animation will appear to stay in place. See also $(D getRootMotionTransform) and $(D RootMotionView).
 	*/
 	@property NodePath rootMotionTrack()
 	{

@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.reference;
@@ -88,6 +89,7 @@ public:
 	/**
 	Duplicates the resource, returning a new resource. By default, sub-resources are shared between resource copies for efficiency. This can be changed by passing `true` to the `subresources` argument which will copy the subresources.
 	$(B Note:) If `subresources` is `true`, this method will only perform a shallow copy. Nested resources within subresources will not be duplicated and will still be shared.
+	$(B Note:) When duplicating a resource, only `export`ed properties are copied. Other properties will be set to their default value in the new resource.
 	*/
 	Ref!Resource duplicate(in bool subresources = false) const
 	{

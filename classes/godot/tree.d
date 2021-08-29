@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.control;
@@ -478,7 +479,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.isRootHidden, _godot_object);
 	}
 	/**
-	
+	Causes the $(D Tree) to jump to the specified item.
 	*/
 	void scrollToItem(GodotObject item)
 	{

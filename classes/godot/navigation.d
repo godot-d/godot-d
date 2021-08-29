@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.spatial;
@@ -26,6 +27,7 @@ import godot.navigationmesh;
 Mesh-based navigation and pathfinding node.
 
 Provides navigation and pathfinding within a collection of $(D NavigationMesh)es. By default, these will be automatically collected from child $(D NavigationMeshInstance) nodes, but they can also be added on the fly with $(D navmeshAdd). In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
+$(B Note:) The current navigation system has many known issues and will not always return optimal paths as expected. These issues will be fixed in Godot 4.0.
 */
 @GodotBaseClass struct Navigation
 {
@@ -106,6 +108,7 @@ public:
 	}
 	/**
 	Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each $(D NavigationMesh) (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
+	$(B Note:) This method has known issues and will often return non-optimal paths. These issues will be fixed in Godot 4.0.
 	*/
 	PoolVector3Array getSimplePath(in Vector3 start, in Vector3 end, in bool optimize = true)
 	{

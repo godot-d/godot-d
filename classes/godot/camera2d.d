@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
@@ -26,7 +27,7 @@ import godot.node;
 Camera node for 2D scenes.
 
 It forces the screen (current layer) to scroll following this node. This makes it easier (and faster) to program scrollable scenes than manually changing the position of $(D CanvasItem)-based nodes.
-This node is intended to be a simple helper to get things going quickly and it may happen that more functionality is desired to change how the camera works. To make your own custom camera node, inherit from $(D Node2D) and change the transform of the canvas by setting $(D Viewport.canvasTransform) in $(D Viewport) (you can obtain the current $(D Viewport) by using $(D Node.getViewport)).
+This node is intended to be a simple helper to get things going quickly, but more functionality may be desired to change how the camera works. To make your own custom camera node, inherit it from $(D Node2D) and change the transform of the canvas by setting $(D Viewport.canvasTransform) in $(D Viewport) (you can obtain the current $(D Viewport) by using $(D Node.getViewport)).
 Note that the $(D Camera2D) node's `position` doesn't represent the actual position of the screen, which may differ due to applied smoothing or limits. You can use $(D getCameraScreenCenter) to get the real position.
 */
 @GodotBaseClass struct Camera2D

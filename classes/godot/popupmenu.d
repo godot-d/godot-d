@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.popup;
@@ -329,7 +330,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.getAllowSearch, _godot_object);
 	}
 	/**
-	
+	Returns the index of the currently focused item. Returns `-1` if no item is focused.
 	*/
 	long getCurrentIndex() const
 	{

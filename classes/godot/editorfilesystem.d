@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.node;
 import godot.editorfilesystemdirectory;
@@ -72,7 +73,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Gets the type of the file, given the full path.
+	Returns the resource type of the file, given the full path. This returns a string such as `"Resource"` or `"GDScript"`, $(I not) a file extension such as `".gd"`.
 	*/
 	String getFileType(in String path) const
 	{

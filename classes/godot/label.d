@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.control;
@@ -26,7 +27,7 @@ import godot.node;
 /**
 Displays plain text in a line or wrapped inside a rectangle. For formatted text, use $(D RichTextLabel).
 
-Label displays plain text on the screen. It gives you control over the horizontal and vertical alignment, and can wrap the text inside the node's bounding rectangle. It doesn't support bold, italics or other formatting. For that, use $(D RichTextLabel) instead.
+Label displays plain text on the screen. It gives you control over the horizontal and vertical alignment and can wrap the text inside the node's bounding rectangle. It doesn't support bold, italics, or other formatting. For that, use $(D RichTextLabel) instead.
 $(B Note:) Contrarily to most other $(D Control)s, Label's $(D Control.mouseFilter) defaults to $(D constant Control.MOUSE_FILTER_IGNORE) (i.e. it doesn't react to mouse input events). This implies that a label won't display any configured $(D Control.hintTooltip), unless you change its mouse filter.
 */
 @GodotBaseClass struct Label
@@ -357,7 +358,7 @@ public:
 		setAutowrap(v);
 	}
 	/**
-	If `true`, the Label only shows the text that fits inside its bounding rectangle. It also lets you scale the node down freely.
+	If `true`, the Label only shows the text that fits inside its bounding rectangle and will clip text horizontally.
 	*/
 	@property bool clipText()
 	{

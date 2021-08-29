@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.collisionobject2d;
@@ -351,7 +352,7 @@ public:
 	}
 	/**
 	If `true`, the given area overlaps the Area2D.
-	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	$(B Note:) The result of this test is not immediate after moving objects. For performance, the list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	*/
 	bool overlapsArea(Node area) const
 	{
@@ -361,7 +362,7 @@ public:
 	/**
 	If `true`, the given physics body overlaps the Area2D.
 	$(B Note:) The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
-	The `body` argument can either be a $(D PhysicsBody2D) or a $(D TileMap) instance (while TileMaps are not physics body themselves, they register their tiles with collision shapes as a virtual physics body).
+	The `body` argument can either be a $(D PhysicsBody2D) or a $(D TileMap) instance (while TileMaps are not physics bodies themselves, they register their tiles with collision shapes as a virtual physics body).
 	*/
 	bool overlapsBody(Node _body) const
 	{
@@ -558,7 +559,7 @@ public:
 		setCollisionMask(v);
 	}
 	/**
-	The area's gravity intensity (ranges from -1024 to 1024). This value multiplies the gravity vector. This is useful to alter the force of gravity without altering its direction.
+	The area's gravity intensity (in pixels per second squared). This value multiplies the gravity vector. This is useful to alter the force of gravity without altering its direction.
 	*/
 	@property double gravity()
 	{

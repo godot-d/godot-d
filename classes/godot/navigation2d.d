@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
@@ -26,6 +27,7 @@ import godot.navigationpolygon;
 2D navigation and pathfinding node.
 
 Navigation2D provides navigation and pathfinding within a 2D area, specified as a collection of $(D NavigationPolygon) resources. By default, these are automatically collected from child $(D NavigationPolygonInstance) nodes, but they can also be added on the fly with $(D navpolyAdd).
+$(B Note:) The current navigation system has many known issues and will not always return optimal paths as expected. These issues will be fixed in Godot 4.0.
 */
 @GodotBaseClass struct Navigation2D
 {
@@ -86,6 +88,7 @@ public:
 	}
 	/**
 	Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the path is smoothed by merging path segments where possible.
+	$(B Note:) This method has known issues and will often return non-optimal paths. These issues will be fixed in Godot 4.0.
 	*/
 	PoolVector2Array getSimplePath(in Vector2 start, in Vector2 end, in bool optimize = true)
 	{

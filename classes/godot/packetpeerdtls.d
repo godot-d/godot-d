@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.packetpeer;
@@ -28,6 +29,7 @@ import godot.x509certificate;
 DTLS packet peer.
 
 This class represents a DTLS peer connection. It can be used to connect to a DTLS server, and is returned by $(D DTLSServer.takeConnection).
+$(B Warning:) SSL/TLS certificate revocation and certificate pinning are currently not supported. Revoked certificates are accepted as long as they are otherwise valid. If this is a concern, you may want to use automatically managed certificates with a short validity period.
 */
 @GodotBaseClass struct PacketPeerDTLS
 {

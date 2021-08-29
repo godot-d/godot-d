@@ -1,5 +1,5 @@
 /**
-
+Editor-only helper for setting up root motion in $(D AnimationTree).
 
 Copyright:
 Copyright (c) 2007-2018 Juan Linietsky, Ariel Manzur.  
@@ -18,10 +18,14 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.visualinstance;
 /**
+Editor-only helper for setting up root motion in $(D AnimationTree).
 
+$(I Root motion) refers to an animation technique where a mesh's skeleton is used to give impulse to a character. When working with 3D animations, a popular technique is for animators to use the root skeleton bone to give motion to the rest of the skeleton. This allows animating characters in a way where steps actually match the floor below. It also allows precise interaction with objects during cinematics. See also $(D AnimationTree).
+$(B Note:) $(D RootMotionView) is only visible in the editor. It will be hidden automatically in the running project, and will also be converted to a plain $(D Node) in the running project. This means a script attached to a $(D RootMotionView) node $(I must) have `extends Node` instead of `extends RootMotionView`. Additionally, it must not be a `@tool` script.
 */
 @GodotBaseClass struct RootMotionView
 {

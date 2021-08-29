@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.node;
 import godot.texture;
@@ -102,7 +103,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.checkForInvalidation, _godot_object, path);
 	}
 	/**
-	Queue a resource being edited for preview (using an instance). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
+	Queue the `resource` being edited for preview. Once the preview is ready, the `receiver`'s `receiver_func` will be called. The `receiver_func` must take the following four arguments: $(D String) path, $(D Texture) preview, $(D Texture) thumbnail_preview, $(D Variant) userdata. `userdata` can be anything, and will be returned when `receiver_func` is called.
+	$(B Note): If it was not possible to create the preview the `receiver_func` will still be called, but the preview will be null.
 	*/
 	void queueEditedResourcePreview(VariantArg3)(Resource resource, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
 	{
@@ -110,7 +112,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.queueEditedResourcePreview, _godot_object, resource, receiver, receiver_func, userdata);
 	}
 	/**
-	Queue a resource file for preview (using a path). Once the preview is ready, your receiver.receiver_func will be called either containing the preview texture or an empty texture (if no preview was possible). Callback must have the format: (path,texture,userdata). Userdata can be anything.
+	Queue a resource file located at `path` for preview. Once the preview is ready, the `receiver`'s `receiver_func` will be called. The `receiver_func` must take the following four arguments: $(D String) path, $(D Texture) preview, $(D Texture) thumbnail_preview, $(D Variant) userdata. `userdata` can be anything, and will be returned when `receiver_func` is called.
+	$(B Note): If it was not possible to create the preview the `receiver_func` will still be called, but the preview will be null.
 	*/
 	void queueResourcePreview(VariantArg3)(in String path, GodotObject receiver, in String receiver_func, in VariantArg3 userdata)
 	{

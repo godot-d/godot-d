@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.reference;
 import godot.control;
@@ -76,7 +77,7 @@ public:
 	}
 	@disable new(size_t s);
 	/**
-	Adds a custom control, not necessarily a property editor.
+	Adds a custom control, which is not necessarily a property editor.
 	*/
 	void addCustomControl(Control control)
 	{
@@ -84,7 +85,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addCustomControl, _godot_object, control);
 	}
 	/**
-	Adds a property editor, this must inherit $(D EditorProperty).
+	Adds a property editor for an individual property. The `editor` control must extend $(D EditorProperty).
 	*/
 	void addPropertyEditor(in String property, Control editor)
 	{
@@ -92,7 +93,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addPropertyEditor, _godot_object, property, editor);
 	}
 	/**
-	Adds an editor that allows modifying multiple properties, this must inherit $(D EditorProperty).
+	Adds an editor that allows modifying multiple properties. The `editor` control must extend $(D EditorProperty).
 	*/
 	void addPropertyEditorForMultipleProperties(in String label, in PoolStringArray properties, Control editor)
 	{

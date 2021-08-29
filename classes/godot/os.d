@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.image;
 /**
@@ -531,7 +532,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.closeMidiInputs, _godot_object);
 	}
 	/**
-	Delay execution of the current thread by `msec` milliseconds. `usec` must be greater than or equal to `0`. Otherwise, $(D delayMsec) will do nothing and will print an error message.
+	Delay execution of the current thread by `msec` milliseconds. `msec` must be greater than or equal to `0`. Otherwise, $(D delayMsec) will do nothing and will print an error message.
 	*/
 	void delayMsec(in long msec) const
 	{
@@ -752,7 +753,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getExitCode, _godot_object);
 	}
 	/**
-	With this function you can get the list of dangerous permissions that have been granted to the Android application.
+	With this function, you can get the list of dangerous permissions that have been granted to the Android application.
 	$(B Note:) This method is implemented on Android.
 	*/
 	PoolStringArray getGrantedPermissions() const
@@ -1009,6 +1010,7 @@ public:
 	/**
 	Returns the actual path to commonly used folders across different platforms. Available locations are specified in $(D systemdir).
 	$(B Note:) This method is implemented on Android, Linux, macOS and Windows.
+	$(B Note:) Shared storage is implemented on Android and allows to differentiate between app specific and shared directories. Shared directories have additional restrictions on Android.
 	*/
 	String getSystemDir(in long dir) const
 	{
@@ -1092,7 +1094,7 @@ public:
 	}
 	/**
 	Returns a string that is unique to the device.
-	$(B Note:) This string may change without notice if the user reinstalls/upgrades their operating system or changes their hardware. This means it should generally not be used to encrypt persistent data as the data saved prior to an unexpected ID change would become inaccessible. The returned string may also be falsified using external programs, so do not rely on the string returned by $(D getUniqueId) for security purposes.
+	$(B Note:) This string may change without notice if the user reinstalls/upgrades their operating system or changes their hardware. This means it should generally not be used to encrypt persistent data as the data saved before an unexpected ID change would become inaccessible. The returned string may also be falsified using external programs, so do not rely on the string returned by $(D getUniqueId) for security purposes.
 	$(B Note:) Returns an empty string on HTML5 and UWP, as this method isn't implemented on those platforms yet.
 	*/
 	String getUniqueId() const
@@ -1234,7 +1236,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.hasEnvironment, _godot_object, variable);
 	}
 	/**
-	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/3.3/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
+	Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on the platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the $(D url=https://docs.godotengine.org/en/3.3/getting_started/workflow/export/feature_tags.html)Feature Tags$(D /url) documentation for more details.
 	$(B Note:) Tag names are case-sensitive.
 	*/
 	bool hasFeature(in String tag_name) const
@@ -1557,7 +1559,7 @@ public:
 		return ptrcall!(bool)(GDNativeClassBinding.requestPermission, _godot_object, name);
 	}
 	/**
-	With this function you can request dangerous permissions since normal permissions are automatically granted at install time in Android application.
+	With this function, you can request dangerous permissions since normal permissions are automatically granted at install time in Android applications.
 	$(B Note:) This method is implemented on Android.
 	*/
 	bool requestPermissions()

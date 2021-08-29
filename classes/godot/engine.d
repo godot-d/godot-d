@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.mainloop;
 /**
@@ -322,7 +323,7 @@ public:
 	    simulate_physics()
 	
 	
-	See $(D url=https://docs.godotengine.org/en/stable/tutorials/misc/running_code_in_the_editor.html)Running code in the editor$(D /url) in the documentation for more information.
+	See $(D url=https://docs.godotengine.org/en/3.3/tutorials/misc/running_code_in_the_editor.html)Running code in the editor$(D /url) in the documentation for more information.
 	$(B Note:) To detect whether the script is run from an editor $(I build) (e.g. when pressing `F5`), use $(D OS.hasFeature) with the `"editor"` argument instead. `OS.has_feature("editor")` will evaluate to `true` both when the code is running in the editor and when running the project from the editor, but it will evaluate to `false` when the code is run from an exported project.
 	*/
 	@property bool editorHint()
@@ -347,7 +348,8 @@ public:
 		setIterationsPerSecond(v);
 	}
 	/**
-	Controls how much physics ticks are synchronized with real time. For 0 or less, the ticks are synchronized. Such values are recommended for network games, where clock synchronization matters. Higher values cause higher deviation of in-game clock and real clock, but allows smoothing out framerate jitters. The default value of 0.5 should be fine for most; values above 2 could cause the game to react to dropped frames with a noticeable delay and are not recommended.
+	Controls how much physics ticks are synchronized with real time. For 0 or less, the ticks are synchronized. Such values are recommended for network games, where clock synchronization matters. Higher values cause higher deviation of the in-game clock and real clock but smooth out framerate jitters. The default value of 0.5 should be fine for most; values above 2 could cause the game to react to dropped frames with a noticeable delay and are not recommended.
+	$(B Note:) For best results, when using a custom physics interpolation solution, the physics jitter fix should be disabled by setting $(D physicsJitterFix) to `0`.
 	*/
 	@property double physicsJitterFix()
 	{

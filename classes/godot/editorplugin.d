@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.node;
 import godot.toolbutton;
@@ -295,7 +296,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addCustomType, _godot_object, type, base, script, icon);
 	}
 	/**
-	Registers a new export plugin. Export plugins are used when the project is being exported. See $(D EditorExportPlugin) for more information.
+	Registers a new $(D EditorExportPlugin). Export plugins are used to perform tasks when the project is being exported.
+	See $(D addInspectorPlugin) for an example of how to register a plugin.
 	*/
 	void addExportPlugin(EditorExportPlugin plugin)
 	{
@@ -303,7 +305,9 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addExportPlugin, _godot_object, plugin);
 	}
 	/**
-	
+	Registers a new $(D EditorImportPlugin). Import plugins are used to import custom and unsupported assets as a custom $(D Resource) type.
+	$(B Note:) If you want to import custom 3D asset formats use $(D addSceneImportPlugin) instead.
+	See $(D addInspectorPlugin) for an example of how to register a plugin.
 	*/
 	void addImportPlugin(EditorImportPlugin importer)
 	{
@@ -311,6 +315,19 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addImportPlugin, _godot_object, importer);
 	}
 	/**
+	Registers a new $(D EditorInspectorPlugin). Inspector plugins are used to extend $(D EditorInspector) and provide custom configuration tools for your object's properties.
+	$(B Note:) Always use $(D removeInspectorPlugin) to remove the registered $(D EditorInspectorPlugin) when your $(D EditorPlugin) is disabled to prevent leaks and an unexpected behavior.
+	
+	
+	const MyInspectorPlugin = preload("res://addons/your_addon/path/to/your/script.gd")
+	var inspector_plugin = MyInspectorPlugin.new()
+	
+	func _enter_tree():
+	    add_inspector_plugin(inspector_plugin)
+	
+	func _exit_tree():
+	    remove_inspector_plugin(inspector_plugin)
+	
 	
 	*/
 	void addInspectorPlugin(EditorInspectorPlugin plugin)
@@ -319,7 +336,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addInspectorPlugin, _godot_object, plugin);
 	}
 	/**
-	
+	Registers a new $(D EditorSceneImporter). Scene importers are used to import custom 3D asset formats as scenes.
 	*/
 	void addSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
@@ -327,7 +344,8 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.addSceneImportPlugin, _godot_object, scene_importer);
 	}
 	/**
-	
+	Registers a new $(D EditorSpatialGizmoPlugin). Gizmo plugins are used to add custom gizmos to the 3D preview viewport for a $(D Spatial).
+	See $(D addInspectorPlugin) for an example of how to register a plugin.
 	*/
 	void addSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
 	{
@@ -639,7 +657,7 @@ public:
 		return this.callv(_GODOT_method_name, _GODOT_args).as!(RefOrT!bool);
 	}
 	/**
-	
+	Minimizes the bottom panel.
 	*/
 	void hideBottomPanel()
 	{
@@ -647,7 +665,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.hideBottomPanel, _godot_object);
 	}
 	/**
-	
+	Makes a specific item in the bottom panel visible.
 	*/
 	void makeBottomPanelItemVisible(Control item)
 	{
@@ -714,7 +732,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.removeCustomType, _godot_object, type);
 	}
 	/**
-	
+	Removes an export plugin registered by $(D addExportPlugin).
 	*/
 	void removeExportPlugin(EditorExportPlugin plugin)
 	{
@@ -722,7 +740,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.removeExportPlugin, _godot_object, plugin);
 	}
 	/**
-	
+	Removes an import plugin registered by $(D addImportPlugin).
 	*/
 	void removeImportPlugin(EditorImportPlugin importer)
 	{
@@ -730,7 +748,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.removeImportPlugin, _godot_object, importer);
 	}
 	/**
-	
+	Removes an inspector plugin registered by $(D addImportPlugin)
 	*/
 	void removeInspectorPlugin(EditorInspectorPlugin plugin)
 	{
@@ -738,7 +756,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.removeInspectorPlugin, _godot_object, plugin);
 	}
 	/**
-	
+	Removes a scene importer registered by $(D addSceneImportPlugin).
 	*/
 	void removeSceneImportPlugin(EditorSceneImporter scene_importer)
 	{
@@ -746,7 +764,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.removeSceneImportPlugin, _godot_object, scene_importer);
 	}
 	/**
-	
+	Removes a gizmo plugin registered by $(D addSpatialGizmoPlugin).
 	*/
 	void removeSpatialGizmoPlugin(EditorSpatialGizmoPlugin plugin)
 	{

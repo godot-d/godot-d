@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.mainloop;
@@ -522,6 +523,7 @@ public:
 	}
 	/**
 	Quits the application at the end of the current iteration. A process `exit_code` can optionally be passed as an argument. If this argument is `0` or greater, it will override the $(D OS.exitCode) defined before quitting the application.
+	$(B Note:) On iOS this method doesn't work. Instead, as recommended by the iOS Human Interface Guidelines, the user is expected to close apps via the Home button.
 	*/
 	void quit(in long exit_code = -1)
 	{

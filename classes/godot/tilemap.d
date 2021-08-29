@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.node2d;
@@ -995,7 +996,7 @@ public:
 		setOccluderLightMask(v);
 	}
 	/**
-	If `true`, collision shapes are shown in the editor and at run-time. Requires $(B Visible Collision Shapes) to be enabled in the $(B Debug) menu for collision shapes to be visible at run-time.
+	If `true`, collision shapes are visible in the editor. Doesn't affect collision shapes visibility at runtime. To show collision shapes at runtime, enable $(B Visible Collision Shapes) in the $(B Debug) menu instead.
 	*/
 	@property bool showCollision()
 	{

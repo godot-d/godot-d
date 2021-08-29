@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.reference;
@@ -191,7 +192,7 @@ public:
 		return ptrcall!(long)(GDNativeClassBinding.getSpaceLeft, _godot_object);
 	}
 	/**
-	Initializes the stream used to list all files and directories using the $(D getNext) function, closing the current opened stream if needed. Once the stream has been processed, it should typically be closed with $(D listDirEnd).
+	Initializes the stream used to list all files and directories using the $(D getNext) function, closing the currently opened stream if needed. Once the stream has been processed, it should typically be closed with $(D listDirEnd).
 	If `skip_navigational` is `true`, `.` and `..` are filtered out.
 	If `skip_hidden` is `true`, hidden files are filtered out.
 	*/
@@ -245,7 +246,7 @@ public:
 		return ptrcall!(GodotError)(GDNativeClassBinding.remove, _godot_object, path);
 	}
 	/**
-	Renames (move) the `from` file to the `to` destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten.
+	Renames (move) the `from` file or directory to the `to` destination. Both arguments should be paths to files or directories, either relative or absolute. If the destination file or directory exists and is not access-protected, it will be overwritten.
 	Returns one of the $(D error) code constants (`OK` on success).
 	*/
 	GodotError rename(in String from, in String to)

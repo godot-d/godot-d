@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.node;
@@ -27,6 +28,7 @@ A node with the ability to send HTTP(S) requests.
 
 A node with the ability to send HTTP requests. Uses $(D HTTPClient) internally.
 Can be used to make HTTP requests, i.e. download or upload files or web content via HTTP.
+$(B Warning:) See the notes and warnings on $(D HTTPClient) for limitations, especially regarding SSL security.
 $(B Example of contacting a REST API and printing one of its returned fields:)
 
 
@@ -89,8 +91,6 @@ func _http_request_completed(result, response_code, headers, body):
     texture_rect.texture = texture
 
 
-$(B Note:) When performing HTTP requests from a project exported to HTML5, keep in mind the remote server may not allow requests from foreign origins due to $(D url=https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)CORS$(D /url). If you host the server in question, you should modify its backend to allow requests from foreign origins by adding the `Access-Control-Allow-Origin: *` HTTP header.
-$(B Note:) SSL/TLS support is currently limited to TLS 1.0, TLS 1.1, and TLS 1.2. Attempting to connect to a TLS 1.3-only server will return an error.
 */
 @GodotBaseClass struct HTTPRequest
 {

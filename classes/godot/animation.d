@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.resource;
@@ -680,7 +681,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.trackSetKeyValue, _godot_object, track_idx, key, value);
 	}
 	/**
-	Sets the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by `":"`.
+	Sets the path of a track. Paths must be valid scene-tree paths to a node and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by `":"`.
 	For example, `"character/skeleton:ankle"` or `"character/mesh:transform/local"`.
 	*/
 	void trackSetPath(NodePathArg1)(in long track_idx, in NodePathArg1 path)

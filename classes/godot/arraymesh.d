@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.mesh;
@@ -228,9 +229,8 @@ public:
 	}
 	/**
 	Creates a new surface.
-	Surfaces are created to be rendered using a `primitive`, which may be any of the types defined in $(D Mesh.primitivetype). (As a note, when using indices, it is recommended to only use points, lines or triangles.) $(D Mesh.getSurfaceCount) will become the `surf_idx` for this new surface.
+	Surfaces are created to be rendered using a `primitive`, which may be any of the types defined in $(D Mesh.primitivetype). (As a note, when using indices, it is recommended to only use points, lines, or triangles.) $(D Mesh.getSurfaceCount) will become the `surf_idx` for this new surface.
 	The `arrays` argument is an array of arrays. See $(D arraytype) for the values used in this array. For example, `arrays$(D 0)` is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for $(D constant ARRAY_INDEX) if it is used.
-	Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices.
 	*/
 	void addSurfaceFromArrays(in long primitive, in Array arrays, in Array blend_shapes = Array.make(), in long compress_flags = 97280)
 	{

@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 /**
 Singleton that connects the engine with the browser's JavaScript context in HTML5 export.

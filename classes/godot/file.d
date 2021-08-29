@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.reference;
@@ -590,6 +591,7 @@ public:
 	}
 	/**
 	Stores any Variant value in the file. If `full_objects` is `true`, encoding objects is allowed (and can potentially include code).
+	$(B Note:) Not all properties are included. Only properties that are configured with the $(D constant PROPERTY_USAGE_STORAGE) flag set will be serialized. You can add a new usage flag to a property by overriding the $(D GodotObject._getPropertyList) method in your class. You can also check how property usage is configured by calling $(D GodotObject._getPropertyList). See $(D propertyusageflags) for the possible usage flags.
 	*/
 	void storeVar(VariantArg0)(in VariantArg0 value, in bool full_objects = false)
 	{

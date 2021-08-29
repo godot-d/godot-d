@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 /**
 A directory for the resource filesystem.
@@ -138,7 +139,7 @@ public:
 		return ptrcall!(String)(GDNativeClassBinding.getFileScriptClassName, _godot_object, idx);
 	}
 	/**
-	Returns the file extension of the file at index `idx`.
+	Returns the resource type of the file at index `idx`. This returns a string such as `"Resource"` or `"GDScript"`, $(I not) a file extension such as `".gd"`.
 	*/
 	String getFileType(in long idx) const
 	{

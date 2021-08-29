@@ -18,6 +18,7 @@ import godot.core;
 import godot.c;
 import godot.d.bind;
 import godot.d.reference;
+import godot.globalenums;
 import godot.object;
 import godot.classdb;
 import godot.resource;
@@ -168,7 +169,7 @@ public:
 		interpolateCubic = 2,
 		/**
 		Performs bilinear separately on the two most-suited mipmap levels, then linearly interpolates between them.
-		It's slower than $(D constant INTERPOLATE_BILINEAR), but produces higher-quality results with much less aliasing artifacts.
+		It's slower than $(D constant INTERPOLATE_BILINEAR), but produces higher-quality results with far fewer aliasing artifacts.
 		If the image does not have mipmaps, they will be generated and used internally, but no mipmaps will be generated on the resulting image.
 		$(B Note:) If you intend to scale multiple copies of the original image, it's better to call $(D generateMipmaps)] on it in advance, to avoid wasting processing power in generating them again and again.
 		On the other hand, if the image already has mipmaps, they will be used, and a new set will be generated for the resulting image.
@@ -607,7 +608,7 @@ public:
 		ptrcall!(void)(GDNativeClassBinding.flipY, _godot_object);
 	}
 	/**
-	Generates mipmaps for the image. Mipmaps are precalculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
+	Generates mipmaps for the image. Mipmaps are precalculated lower-resolution copies of the image that are automatically used if the image needs to be scaled down when rendered. They help improve image quality and performance when rendering. This method returns an error if the image is compressed, in a custom format, or if the image's width/height is `0`.
 	*/
 	GodotError generateMipmaps(in bool renormalize = false)
 	{
@@ -827,6 +828,7 @@ public:
 	}
 	/**
 	Saves the image as an EXR file to `path`. If `grayscale` is `true` and the image has only one channel, it will be saved explicitly as monochrome rather than one red channel. This function will return $(D constant ERR_UNAVAILABLE) if Godot was compiled without the TinyEXR module.
+	$(B Note:) The TinyEXR module is disabled in non-editor builds, which means $(D saveExr) will return $(D constant ERR_UNAVAILABLE) when it is called from an exported project.
 	*/
 	GodotError saveExr(in String path, in bool grayscale = false) const
 	{
