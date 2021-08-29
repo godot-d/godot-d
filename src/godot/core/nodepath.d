@@ -44,6 +44,12 @@ struct NodePath
 		String from = String(name);
 		_godot_api.godot_node_path_new(&_node_path, &from._godot_string);
 	}
+
+	bool opEquals(in NodePath other) const
+	{
+		if(_node_path == other._node_path) return true;
+		return _godot_api.godot_node_path_operator_equal(&_node_path, &other._node_path);
+	}
 	
 	String getName(in int idx) const
 	{
@@ -87,26 +93,49 @@ struct NodePath
 	/// with a ':'). The second element is left empty if there is no property.
 	NodePath[2] split() const
 	{
-		import std.algorithm : findSplitBefore;
-		import std.range : only;
 		static immutable wchar_t colon = ':';
 		NodePath[2] ret;
-		if(this == NodePath.init) return ret;
+		if(_node_path == godot_node_path.init) return ret;
 		String path = str();
-		auto data = path.data();
+		immutable(wchar_t)[] data = path.data();
+		if(data.length == 0) return ret;
 		if(data[0] == colon)
 		{
 			ret[1] = this;
 			return ret;
 		}
-		auto splitted = data.findSplitBefore(only(colon));
-		if(!splitted)
+
+		ptrdiff_t colonIndex = 0;
+		// Windows requires UTF-16 decoding to find the ':'
+		static if(is(wchar_t == wchar))
+		{
+			import utf_bc;
+			enum TextFormat gdFormat = TextFormat.UTF_16;
+			auto decoded = data.decode!gdFormat;
+			do
+			{
+				dchar front = decoded.front;
+				decoded.popFront();
+				if(front == colon) break;
+				colonIndex += codeLength!gdFormat(front);
+			}
+			while(!decoded.empty);
+			if(decoded.empty) colonIndex = -1;
+		}
+		else
+		{
+			import std.algorithm : countUntil;
+			colonIndex = data[].countUntil(colon);
+		}
+
+		// node only
+		if(colonIndex == -1)
 		{
 			ret[0] = this;
 			return ret;
 		}
-		ret[0] = NodePath(String(splitted[0]));
-		ret[1] = NodePath(String(splitted[1]));
+		ret[0] = NodePath(String(data[0..colonIndex]));
+		ret[1] = NodePath(String(data[colonIndex..$]));
 		return ret;
 	}
 	

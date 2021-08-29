@@ -18,6 +18,7 @@ Language getDLanguage()
 	ret.classOutputFiles = [
 		Language.ClassOutputFile(&generateClass),
 		Language.ClassOutputFile(&generateGlobalConstants),
+		Language.ClassOutputFile(&generateGlobalEnums),
 		Language.ClassOutputFile(&generatePackage)
 	];
 	return ret;
@@ -94,6 +95,7 @@ string[2] generateClass(GodotClass c)
 	ret ~= "import godot.d.traits;\nimport godot.core;\nimport godot.c;\n";
 	ret ~= "import godot.d.bind;\n";
 	ret ~= "import godot.d.reference;\n";
+	ret ~= "import godot.globalenums;\n";
 	if(c.name.godot != "Object") ret ~= "import godot.object;\n";
 	
 	if(c.instanciable)
@@ -122,12 +124,33 @@ string[2] generateGlobalConstants(GodotClass c)
 	
 	ret ~= "/// \n";
 	ret ~= "module godot.globalconstants;\n";
+	ret ~= "public import godot.globalenums;\n";
 	
 	foreach(const string name, const int value; c.constants)
 	{
 		ret ~= "enum int "~name.snakeToCamel.escapeD~" = "~text(value)~";\n";
 	}
-	
+
+	string[2] arr = [filename, ret];
+	return arr;
+}
+
+string[2] generateGlobalEnums(GodotClass c)
+{
+	import std.conv : text;
+	import std.string;
+	import std.meta;
+	import std.algorithm.iteration, std.algorithm.searching, std.algorithm.sorting;
+	import std.range : array;
+
+	if(c.name.godot != "GlobalConstants") return [null, null];
+
+	string filename = buildPath("godot", "globalenums.d");
+	string ret;
+
+	ret ~= "/// \n";
+	ret ~= "module godot.globalenums;\n";
+
 	/// Try to put at least some of these in grouped enums
 	static struct Group
 	{
@@ -137,7 +160,7 @@ string[2] generateGlobalConstants(GodotClass c)
 	
 	alias groups = AliasSeq!(
 		Group("Key", "KEY_"),
-		Group("Button", "BUTTON_"),
+		Group("MouseButton", "BUTTON_"),
 		Group("PropertyHint", "PROPERTY_HINT_"),
 		Group("PropertyUsage", "PROPERTY_USAGE_"),
 		Group("Type", "TYPE_")
@@ -156,7 +179,15 @@ string[2] generateGlobalConstants(GodotClass c)
 		
 		ret ~= "}\n";
 	}
-	
+
+	// Godot itself never refers to these, but some modules like Goost do.
+	// Allow bindings for them to compile by keeping the original names.
+	string[2][] aliases = [["KeyList", "Key"], ["PropertyUsageFlags", "PropertyUsage"], ["ButtonList", "MouseButton"]];
+	foreach(a; aliases)
+	{
+		ret ~= "alias " ~ a[0] ~ " = " ~ a[1] ~ ";\n";
+	}
+
 	string[2] arr = [filename, ret];
 	return arr;
 }

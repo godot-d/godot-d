@@ -151,12 +151,18 @@ struct String
 		return length == 0;
 	}
 	
-	int opCmp(in ref String s) const
+	int opCmp(in String s) const
 	{
+		if(_godot_string == s._godot_string) return true;
 		auto equal = _godot_api.godot_string_operator_equal(&_godot_string, &s._godot_string);
 		if(equal) return 0;
 		auto less = _godot_api.godot_string_operator_less(&_godot_string, &s._godot_string);
 		return less?(-1):1;
+	}
+	bool opEquals(in String other) const
+	{
+		if(_godot_string == other._godot_string) return true;
+		return _godot_api.godot_string_operator_equal(&_godot_string, &other._godot_string);
 	}
 	
 	String opBinary(string op)(in String other) const if(op == "~" || op == "+")

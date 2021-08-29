@@ -321,9 +321,14 @@ void register(T)(void* handle, GDNativeLibrary lib) if(is(T == class))
 		{
 			static assert(Variant.compatible!P, fullyQualifiedName!s~" parameter "~pi.text~" \""
 				~ParameterIdentifierTuple!s[pi]~"\": type "~P.stringof~" is incompatible with Godot");
-			(*cast(String*)&args[pi].name) = (ParameterIdentifierTuple!s[pi].length)
-				? String(ParameterIdentifierTuple!s[pi])
-				: (String(P.stringof) ~ String("Arg") ~ Variant(pi).as!String);
+			static if(ParameterIdentifierTuple!s[pi].length > 0)
+			{
+				(*cast(String*)&args[pi].name) = String(ParameterIdentifierTuple!s[pi]);
+			}
+			else
+			{
+				(*cast(String*)&args[pi].name) = (String(P.stringof) ~ String("Arg") ~ Variant(pi).as!String);
+			}
 			args[pi].type = Variant.variantTypeOf!P;
 			args[pi].usage = cast(godot_property_usage_flags)Property.Usage.defaultUsage;
 		}
