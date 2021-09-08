@@ -90,6 +90,17 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 
 	/// HACK: empty main to force the compiler to add emulated TLS.
 	version(Android) void main() { }
+
+	// Windows DLL entry points handle TLS+DRuntime initialization and thread attachment
+	version(Windows)
+	{
+		version(D_BetterC) {}
+		else
+		{
+			import core.sys.windows.dll : SimpleDllMain;
+			mixin SimpleDllMain;
+		}
+	}
 	
 	pragma(mangle, symbolPrefix~"gdnative_init")
 	export extern(C) static void godot_gdnative_init(godot.c.godot_gdnative_init_options* options)
@@ -100,9 +111,13 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import core.runtime : Runtime;
 		import godot.d.output;
 		import godot.d.traits;
-		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
-		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
-		static if(loadDRuntime) Runtime.initialize();
+		version(Windows) {}
+		else
+		{
+			version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
+			else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+			static if(loadDRuntime) Runtime.initialize();
+		}
 		
 		godot_gdnative_api_struct_init(options.api_struct);
 		
@@ -208,10 +223,14 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		
 		_GODOT_library.unref();
 		
-		import core.runtime : Runtime;
-		version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
-		else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
-		static if(loadDRuntime) Runtime.terminate();
+		version(Windows) {}
+		else
+		{
+			import core.runtime : Runtime;
+			version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
+			else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
+			static if(loadDRuntime) Runtime.terminate();
+		}
 	}
 }
 

@@ -6,6 +6,7 @@ jobs:
   test:
     name: Test
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-18.04, windows-latest]
         dc: [dmd-latest, ldc-latest]
