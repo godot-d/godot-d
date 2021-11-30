@@ -11,6 +11,117 @@ import std.path;
 import std.conv : text;
 import std.string;
 
+
+
+struct Property
+{
+	Type type;
+	Name name;
+	string setter, getter;
+	int index = -1; // extra argument to pass to setter/getter, or -1 for a normal property
+}
+class BuiltinClass
+{
+	Type name; // definition
+	@serdeOptional
+	Type indexing_return_type;
+	bool is_keyed;
+	Operator[] operators;
+	@serdeOptional
+	BuiltinMethod[] methods;
+	Constructor[] constructors;
+	bool has_destructor;
+}
+class Class
+{
+	Type name; // definition
+	bool is_refcounted;
+	bool is_instantiable;
+	@serdeOptional
+	Type inherits;
+	string api_type;
+	@serdeOptional
+	Constant[] constants;
+	@serdeOptional
+	Enum[] enums;
+	@serdeOptional
+	Method[] methods;
+	@serdeOptional
+	Signal[] signals;
+	@serdeOptional
+	Property[] properties;
+
+	@serdeIgnore:
+	Class base;
+	Class[] derived;
+
+	string comment = "/// ";
+}
+
+struct Singleton
+{
+	Name name;
+	Type type;
+}
+
+
+class SimpleModuleOutput
+{
+	string moduleComment;
+	string moduleName;
+	ImportList imports;
+
+	SimpleClassOutput classOutput;
+	override string toString()
+	{
+		return text(
+			moduleComment, "\n",
+			"module ", moduleName, ";\n\n",
+			imports, "\n",
+			classOutput);
+	}
+}
+
+/// FIXME: add all used classes
+class ImportList
+{
+	string[] modules;
+	override string toString()
+	{
+		return modules.map!(m => "import "~m~";").join('\n').array.text;
+	}
+}
+
+class SimpleClassOutput
+{
+	string classComment;
+	string classBody;
+
+	string generateDefault()
+	{
+		immutable string defaultTemplate = q{
+			/+
+			$moduleComment
+			+/
+			import $moduleName;
+
+			$imports
+
+			/+
+			$classComment
+			+/
+			struct {objectClass.name}
+			{
+				//
+			}
+		};
+		return null;
+	}
+}
+
+
+
+version(none):
 struct ClassList
 {
 	GodotClass[] classes;

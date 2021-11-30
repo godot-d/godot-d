@@ -1,6 +1,6 @@
 module api.util;
 
-import api.classes;
+import api.classes, api.enums, api.methods;
 
 import std.range;
 import std.algorithm.searching, std.algorithm.iteration;
@@ -9,21 +9,87 @@ import std.conv : text;
 import std.string;
 
 import asdf;
+import sumtype;
 
-class Type
+@serdeProxy!string
+struct Name
 {
-	static Type[string] typesByGodotName;
-	static Type[string] typesByDName;
+	immutable string godot;
+	immutable string d;
+
+	this(string godotName)
+	{
+		godot = godotName;
+		d = godotName.dTypeName;
+	}
+}
+
+string dTypeName(string godotName)
+{
+	if(godotName.startsWith("enum::")) return escapeType(godotName["enum::".length..$]);
+	else return godotName.escapeType;
+}
+
+@serdeProxy!string
+struct Type
+{
+	BaseType base;
+	bool isConst = false;
+	bool isPointer = false;
+
+	this(string name)
+	{
+		isConst = name.startsWith("const ");
+		isPointer = name.endsWith("*");
+		if(isConst) name = name["const ".length..$];
+		if(isPointer) name = name[0..$-1].strip;
+
+		base = BaseType.get(name);
+	}
+}
+/++
+A base type without qualifiers. Includes builtin and GodotObject-derived classes, enums, and primitives.
++/
+//@serdeProxy!TypeRef
+class BaseType
+{
+	static BaseType[string] typesByGodotName;
+	static BaseType[string] typesByDName;
+
+	debug static void printApiTypeCounts()
+	{
+		import std.stdio;
+		size_t bn,cn,en,pn;
+		foreach(k,v;typesByDName)
+		{
+			if(v.typeApi == typeof(v.typeApi).init)
+			{
+				writeln("Primitive: ", v.d, "/", v.godot);
+				pn += 1;
+			}
+			else *v.typeApi.match!(
+				(BuiltinClass b)=>&bn,
+				(Class c)=>&cn,
+				(Enum e){
+					writeln("Enum: ", v.d, "/", v.godot);
+					return &en;
+				}
+			) += 1;
+		}
+		pn = typesByDName.length-bn-cn-en;
+		writefln!"API Types:   B: %d\nC: %d\nE: %d\nP: %d\n---------\nT: %d/%d"(bn,cn,en,pn, typesByDName.length, typesByGodotName.length);
+	}
 	
-	static Type[] enums;
+	static BaseType[] enums;
 	
-	GodotClass objectClass;
-	string d;
-	string godot;
+	SumType!(BuiltinClass, Class, Enum) typeApi;
+	/// Parent class of non-global Enums
+	BaseType parent;
+
+	immutable string d;
+	immutable string godot;
 	
 	@property string dRef() const { return isRef ? ("Ref!"~d) : d; }
-	
-	Type enumParent;
 	
 	//alias d this;
 	
@@ -44,6 +110,7 @@ class Type
 		return only("int", "bool", "real", "float", "void").canFind(godot);
 	}
 
+	//bool isCoreType = false;
 	bool isCoreType() const
 	{
 		auto coreTypes = only("AABB",
@@ -75,7 +142,8 @@ class Type
 	
 	bool isRef() const
 	{
-		return objectClass && objectClass.is_reference;
+		return typeApi.match!((const Class c) => c.is_refcounted, _ => false);
+		//return typeApi.match!((Class c) => c.is_refcounted, _ => false);
 	}
 
 	/// type should be taken as template arg by methods to allow implicit conversion in ptrcall
@@ -88,9 +156,10 @@ class Type
 	/// prefix for function parameter of this type
 	string dCallParamPrefix() const
 	{
-		if(isRef) return "";
-		else if(objectClass) return "";
-		else return "in ";
+		return typeApi.match!((const Class c) => "", _ => "in ");
+		//if(isRef) return "";
+		//else if(objectClass) return "";
+		//else return "in ";
 	}
 	/// how to pass parameters of this type into ptrcall void** arg
 	string ptrCallArgPrefix() const
@@ -101,21 +170,21 @@ class Type
 	}
 	
 	
-	this(string godotName)
+	private this(string godotName)
 	{
 		godot = godotName;
-		d = godotName.escapeType;
+		d = godotName.dTypeName;
 	}
-	static Type get(string godotName)
+	static BaseType get(string godotName)
 	{
 		if(!godotName.length) return null; // no type (used in base_class)
-		if(Type* ptr = godotName in typesByGodotName) return *ptr;
-		Type ret = new Type(godotName);
+		if(BaseType* ptr = godotName in typesByGodotName) return *ptr;
+		BaseType ret = new BaseType(godotName);
 		
 		static import api.enums;
 		if(ret.isEnum)
 		{
-			ret.enumParent = get(api.enums.enumParent(godotName));
+			ret.parent = get(api.enums.enumParent(godotName));
 			enums ~= ret;
 		}
 		
@@ -124,16 +193,10 @@ class Type
 		
 		return ret;
 	}
-	static Type deserialize(ref Asdf asdf)
-	{
-		string gn = asdf.get!string(null);
-		Type ret = get(gn);
-		return ret;
-	}
 }
 
 /// the default value to use for an argument if none is provided
-string emptyDefault(in Type type)
+string emptyDefault(in BaseType type)
 {
 	import std.string;
 	import std.conv : text;
@@ -174,7 +237,7 @@ String
 Variant
 PoolStringArray
 +/
-string escapeDefault(in Type type, string arg)
+string escapeDefault(in BaseType type, string arg)
 {
 	import std.string;
 	import std.conv : text;

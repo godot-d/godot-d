@@ -4,13 +4,13 @@ import godotutil.string;
 import api.util;
 import api.classes, api.methods;
 
-import language;
-
 import std.algorithm.iteration;
 import std.range;
 import std.path;
 import std.conv : text;
 import std.string;
+
+version(none):
 
 Language getDLanguage()
 {

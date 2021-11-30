@@ -12,9 +12,77 @@ import std.conv : text;
 import std.string;
 
 
+struct Argument
+{
+	Name name;
+	Type type;
+	@serdeOptional
+	string meta;
+	@serdeOptional
+	string default_value; // expression
+}
+struct Function
+{
+	Name name;
+	@serdeOptional
+	Type return_type;
+	string category;
+	bool is_vararg;
+	hash_t hash;
+	@serdeOptional
+	Argument[] arguments;
+}
+
+struct Operator
+{
+	Name name; // some different than D op, like "unary+" or "not"
+	@serdeOptional
+	Type right_type;
+	Type return_type;
+}
+struct Constructor
+{
+	int index; // what?
+	@serdeOptional
+	Argument[] arguments;
+}
+class BuiltinMethod
+{
+	Name name;
+	@serdeOptional
+	Type return_type;
+	bool is_vararg, is_const, is_static;
+	hash_t hash;
+	@serdeOptional
+	Argument[] arguments;
+}
+struct MethodReturnValue
+{
+	Type type;
+	@serdeOptional
+	string meta;
+}
+struct Method
+{
+	Name name;
+	bool is_const, is_vararg, is_virtual;
+	@serdeOptional // TODO: doesn't seem correct, but currently some have no hash
+	hash_t hash;
+	@serdeOptional
+	MethodReturnValue return_value;
+	@serdeOptional
+	Argument[] arguments;
+}
+struct Signal
+{
+	Name name;
+	@serdeOptional
+	Argument[] arguments;
+}
 
 
 
+version(none):
 class GodotMethod
 {
 	string name;

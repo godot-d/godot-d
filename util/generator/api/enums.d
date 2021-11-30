@@ -11,16 +11,18 @@ import std.path;
 import std.conv : text;
 import std.string;
 
+/// FIXME: support global enums such as "enum::Error", "enum::HAlign", etc
+
 string enumParent(string name)
 {
 	return name.splitEnumName[0];
 }
 
 /// splits the name of an enum as obtained from the JSON into [class, enum] names.
-string[2] splitEnumName(string type)
+string[2] splitEnumName(string godotName)
 {
-	string name = type[5..$];
-	auto end = name.countUntil("::");
+	string name = godotName[6..$];
+	auto end = name.countUntil(".");
 	if(end == -1) return [null, name]; // not a class
 	return [name[0..end], name[end+2..$]];
 }
@@ -30,9 +32,23 @@ string qualifyEnumName(string type)
 {
 	string[2] split = type.splitEnumName;
 	if(!split[0]) return split[1].escapeD;
-	return Type.get(split[0]).d~"."~split[1].escapeD;
+	return BaseType.get(split[0]).d~"."~split[1].escapeD;
 }
 
+struct Constant
+{
+	Name name; // case
+	int value;
+}
+struct Enum
+{
+	string name;
+	Constant[] values;
+	@serdeIgnore:
+	BaseType type; // enum::ParentClass.name
+}
+
+version(none):
 struct GodotEnum
 {
 	string name;

@@ -2,10 +2,9 @@
 import api.util;
 import api.c;
 import api.classes, api.methods, api.enums;
+import api;
 import api.doc;
-
-import language;
-import language.d;
+//import generator.templates;
 
 import asdf;
 
@@ -17,6 +16,8 @@ import std.format : format;
 import std.getopt : defaultGetoptPrinter, getopt, GetoptResult;
 import std.range : empty;
 
+import sumtype;
+
 void usage(GetoptResult opt)
 {
 	defaultGetoptPrinter("Usage: [OPTION]... [outputDir]\n", opt.options);
@@ -25,13 +26,13 @@ void usage(GetoptResult opt)
 
 int main(string[] args)
 {
-	string gdnativeJson;
-	string classesJson = "api.json";
+	string json = "extension_api.json";
+	string templatesPath = "templates";
 	string godotSource;
 	bool overwrite = false;
 	auto opt = args.getopt(
-		"gdnative|g", "GDNative API JSON (default: gdnative_api.json)", &gdnativeJson,
-		"classes|c", "Classes API JSON (default: api.json)", &classesJson,
+		"json|j", "Extension API JSON (default: extension_api.json)", &json,
+		"templates|t", "D class template directory (default: templates)", &templatesPath,
 		"source|s", "Godot source directory, for documentation (also sets gdnative if unset)", &godotSource,
 		"overwrite|o", "Overwrite outputDir unconditionally", &overwrite
 	);
@@ -43,26 +44,32 @@ int main(string[] args)
 		return 0;
 	}
 	
-	Language lang = getDLanguage();
-	
-	if(gdnativeJson.empty)
+	version(none) if(gdnativeJson.empty)
 	{
 		if(godotSource) gdnativeJson = buildPath(godotSource, "modules", "gdnative", "gdnative_api.json");
 		else gdnativeJson = "gdnative_api.json";
 	}
-	if(!gdnativeJson.exists)
+	if(!json.exists)
 	{
 		usage(opt);
-		writefln("Error: GDNative API file '%s' doesn't exist", gdnativeJson);
+		writefln("Error: Extension API file '%s' doesn't exist", json);
 		return 1;
 	}
-	if(!classesJson.exists)
+
+	version(none) if(!templatesPath.exists || !templatesPath.isDir)
 	{
 		usage(opt);
-		writefln("Error: Class API file '%s' doesn't exist", classesJson);
+		writefln("Error: Template directory '%s' doesn't exist", templatesPath);
 		return 1;
 	}
-	
+	/// TODO: use a different one, variant probably won't actually be here
+	version(none) if(!templatesPath.buildPath("variant.d").exists)
+	{
+		usage(opt);
+		writefln("Error: Template directory '%s' is empty or missing required core type templates", templatesPath);
+		return 1;
+	}
+
 	string outputDir;
 	if(args.length >= 2) outputDir = args[1];
 	else
@@ -70,7 +77,7 @@ int main(string[] args)
 		outputDir = args[0].dirName.buildPath("classes");
 		writefln("Outputting to default directory %s...",outputDir);
 	}
-	if(outputDir.exists)
+	version(none) if(outputDir.exists)
 	{
 		if(!outputDir.isDir)
 		{
@@ -92,7 +99,57 @@ int main(string[] args)
 		rmdirRecurse(outputDir);
 	}
 	outputDir.mkdirRecurse;
+
+	// test of new API generator
+	Api api = json.readText.deserialize!(Api);
+	foreach(BuiltinClass c; api.builtin_classes) c.name.base.typeApi = c;
+	foreach(Class c; api.classes) c.name.base.typeApi = c;
+	foreach(Class c; api.classes)
+	{
+		if(c.inherits.base !is null)
+		{
+			static Class as(T, V)(V v)
+			{
+				return v.match!((T t) => t, (_){assert(0); return null;});
+			}
+			Class baseClass = as!Class(c.inherits.base.typeApi);
+			c.base = baseClass;
+			baseClass.derived ~= c;
+		}
+		foreach(Enum e; c.enums)
+		{
+			e.type = BaseType.get("enum::"~c.name.base.godot~"."~e.name);
+			e.type.typeApi = e;
+			e.type.parent = c.name.base;
+		}
+	}
+	writefln!("Builtins/Classes: %d/%d")(api.builtin_classes.length, api.classes.length);
+	BaseType.printApiTypeCounts();
+
+	//Templates templates;
+	//templates.load(templatesPath);
+
+	// generate classes
+	foreach(const BuiltinClass c; api.builtin_classes)
+	{
+		//
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
+	version(none)
+	{
 	Api gdnativeApi = gdnativeJson.readText.deserialize!(Api);
 	auto cPath = buildPath(outputDir, "godot", "c", "api.d");
 	if(!cPath.dirName.exists) cPath.dirName.mkdirRecurse;
@@ -192,6 +249,7 @@ int main(string[] args)
 			}
 		}
 	}
+	} // version(none) old API gen
 	writefln("Done! API bindings written to '%s'", outputDir);
 	return 0;
 }

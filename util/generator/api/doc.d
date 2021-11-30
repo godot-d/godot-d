@@ -11,6 +11,8 @@ import std.exception : enforce;
 import dxml.dom;
 import dxml.util : stripIndent;
 
+version(none):
+
 void parseClassDoc(GodotClass c, string xml)
 {
 	string ddoc;

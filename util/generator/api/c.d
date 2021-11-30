@@ -8,6 +8,8 @@ import std.algorithm.iteration, std.algorithm.comparison;
 
 import asdf;
 
+version(none):
+
 struct Function
 {
 	string name;

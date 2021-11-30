@@ -15,7 +15,7 @@
 	"dependencies": {
 		"godot-d:util": "*",
 		"utf_bc": "~>0.2.1",
-		"sumtype": "~>1.0.0"
+		"sumtype": "~>1.1.4"
 	},
 
 	"buildTypes": {
@@ -37,11 +37,14 @@
 		{
 			"name": "api-binding-generator",
 			"description": "A program that binds Godot's API for use in Godot-D",
+			"dflags-windows-ldc": ["--link-internally"],
 			"dependencies":
 			{
 				"godot-d:util": "*",
-				"asdf": "~>0.5.2",
-				"dxml": "~>0.4.1"
+				"asdf": "~>0.7.12",
+				"dxml": "~>0.4.3",
+				"libdparse": "~>0.18.1",
+				"sumtype": "~>1.1.4"
 			},
 			"sourcePaths": [ "util/generator" ]
 		},
