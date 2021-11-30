@@ -1,0 +1,8 @@
+[configuration]
+
+entry_symbol = "gd4_entry"
+
+[libraries]
+
+linux.64 = "bin/libgd4.so"
+windows.64 = "bin/gd4.dll"

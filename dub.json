@@ -29,6 +29,15 @@
 	"subPackages":
 	[
 		{
+			"name": "gd4",
+			"description": "Minimal test of GDExtension C API without D bindings",
+			"targetType": "dynamicLibrary",
+			"targetName": "gd4",
+			"targetPath": "gd4/project/bin",
+			"sourcePaths": [ "gd4" ],
+			"importPaths": [ "gd4" ]
+		},
+		{
 			"name": "util",
 			"targetType": "library",
 			"sourcePaths": [ "util/src" ],
