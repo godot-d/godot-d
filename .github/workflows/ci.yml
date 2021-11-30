@@ -20,7 +20,3 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate API bindings
         run: dub run :api-binding-generator
-      - name: Build
-        run: dub build :test
-
-
