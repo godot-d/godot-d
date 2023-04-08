@@ -14,8 +14,7 @@
 
 	"dependencies": {
 		"godot-d:util": "*",
-		"utf_bc": "~>0.2.1",
-		"sumtype": "~>1.0.0"
+		"utf_bc": "~>0.2.1"
 	},
 
 	"buildTypes": {
