@@ -64,7 +64,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(OmniLight)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum ShadowMode : int
 	{

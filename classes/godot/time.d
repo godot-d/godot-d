@@ -80,7 +80,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(TimeSingleton)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Month : int
 	{

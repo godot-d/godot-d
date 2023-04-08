@@ -61,5 +61,4 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualShaderNodeVectorClamp)(constructor());
 	}
-	@disable new(size_t s);
 }

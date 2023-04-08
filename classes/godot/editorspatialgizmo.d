@@ -83,7 +83,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorSpatialGizmo)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

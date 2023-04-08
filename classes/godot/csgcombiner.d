@@ -59,5 +59,4 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CSGCombiner)(constructor());
 	}
-	@disable new(size_t s);
 }

@@ -70,7 +70,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GLTFSpecGloss)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

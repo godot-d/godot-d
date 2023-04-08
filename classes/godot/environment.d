@@ -219,7 +219,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Environment)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum SSAOBlur : int
 	{

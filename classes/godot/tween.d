@@ -88,7 +88,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Tween)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum TransitionType : int
 	{

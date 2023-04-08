@@ -66,7 +66,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectSpectrumAnalyzer)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum FFT_Size : int
 	{

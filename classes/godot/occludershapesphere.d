@@ -64,7 +64,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(OccluderShapeSphere)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

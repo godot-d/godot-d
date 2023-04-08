@@ -85,7 +85,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Label)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Align : int
 	{

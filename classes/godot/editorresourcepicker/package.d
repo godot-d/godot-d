@@ -85,7 +85,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorResourcePicker)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

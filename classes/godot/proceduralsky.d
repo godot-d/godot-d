@@ -94,7 +94,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ProceduralSky)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum TextureSize : int
 	{

@@ -87,7 +87,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SceneTreeTween)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum TweenPauseMode : int
 	{

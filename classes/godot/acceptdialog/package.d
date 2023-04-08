@@ -78,7 +78,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AcceptDialog)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

@@ -69,7 +69,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioEffectCapture)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

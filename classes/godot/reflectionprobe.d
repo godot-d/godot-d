@@ -83,7 +83,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ReflectionProbe)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum UpdateMode : int
 	{

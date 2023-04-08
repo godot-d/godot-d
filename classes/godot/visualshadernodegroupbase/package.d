@@ -84,7 +84,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualShaderNodeGroupBase)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

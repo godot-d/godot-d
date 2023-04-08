@@ -63,5 +63,4 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VScrollBar)(constructor());
 	}
-	@disable new(size_t s);
 }

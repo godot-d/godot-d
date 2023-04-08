@@ -79,7 +79,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BitmapFont)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

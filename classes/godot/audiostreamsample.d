@@ -75,7 +75,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioStreamSample)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum LoopMode : int
 	{

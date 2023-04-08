@@ -76,7 +76,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GradientTexture2D)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Fill : int
 	{

@@ -439,7 +439,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualServerSingleton)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum ReflectionProbeUpdateMode : int
 	{

@@ -79,7 +79,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptPropertySet)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum AssignOp : int
 	{

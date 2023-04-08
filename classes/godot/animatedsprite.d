@@ -81,7 +81,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AnimatedSprite)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

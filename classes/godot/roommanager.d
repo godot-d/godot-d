@@ -89,7 +89,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(RoomManager)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum PVSMode : int
 	{

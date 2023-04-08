@@ -194,7 +194,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Control)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Anchor : int
 	{

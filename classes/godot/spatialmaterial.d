@@ -178,7 +178,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(SpatialMaterial)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum AsyncMode : int
 	{

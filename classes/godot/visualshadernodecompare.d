@@ -67,7 +67,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualShaderNodeCompare)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum ComparisonType : int
 	{

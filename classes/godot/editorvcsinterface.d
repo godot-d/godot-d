@@ -88,7 +88,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorVCSInterface)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum ChangeType : int
 	{

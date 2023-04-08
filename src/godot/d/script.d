@@ -53,8 +53,6 @@ class GodotScript(Base) if(isGodotBaseClass!Base)
 		const void* a = owner._godot_object.ptr, b = other.getGodotObject._godot_object.ptr;
 		return a is b ? 0 : a < b ? -1 : 1;
 	}
-
-	@disable new(size_t s);
 	
 	/// HACK to work around evil bug in which cast(void*) invokes `alias this`
 	/// https://issues.dlang.org/show_bug.cgi?id=6777

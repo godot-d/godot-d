@@ -72,7 +72,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ARVRInterface)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Tracking_status : int
 	{

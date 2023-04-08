@@ -71,7 +71,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DTestMotionResult)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

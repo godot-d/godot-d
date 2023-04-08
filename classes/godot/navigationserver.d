@@ -113,7 +113,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(NavigationServerSingleton)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

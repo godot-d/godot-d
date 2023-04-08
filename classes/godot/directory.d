@@ -77,7 +77,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Directory)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

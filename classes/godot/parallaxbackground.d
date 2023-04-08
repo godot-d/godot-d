@@ -73,7 +73,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(ParallaxBackground)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

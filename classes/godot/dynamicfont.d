@@ -80,7 +80,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(DynamicFont)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum SpacingType : int
 	{

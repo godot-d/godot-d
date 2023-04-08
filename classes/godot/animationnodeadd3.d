@@ -62,7 +62,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AnimationNodeAdd3)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

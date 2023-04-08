@@ -109,7 +109,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(BakedLightmap)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum BakeQuality : int
 	{

@@ -72,7 +72,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(GDNativeLibrary)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

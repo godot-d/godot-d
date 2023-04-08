@@ -82,7 +82,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(WebSocketServer)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

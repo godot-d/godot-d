@@ -102,7 +102,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Camera)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum KeepAspect : int
 	{

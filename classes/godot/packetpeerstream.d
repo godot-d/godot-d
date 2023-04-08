@@ -67,7 +67,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(PacketPeerStream)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

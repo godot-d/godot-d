@@ -66,7 +66,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(LinkButton)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum UnderlineMode : int
 	{

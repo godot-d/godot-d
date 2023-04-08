@@ -61,5 +61,4 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScriptWhile)(constructor());
 	}
-	@disable new(size_t s);
 }

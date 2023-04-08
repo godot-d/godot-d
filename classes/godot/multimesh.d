@@ -94,7 +94,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(MultiMesh)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum PhysicsInterpolationQuality : int
 	{

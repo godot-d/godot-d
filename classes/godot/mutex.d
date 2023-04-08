@@ -62,7 +62,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Mutex)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

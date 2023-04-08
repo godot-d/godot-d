@@ -198,7 +198,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(TextEdit)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum SearchFlags : int
 	{

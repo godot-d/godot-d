@@ -63,7 +63,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualShaderNodeVectorFunc)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Function : int
 	{

@@ -58,5 +58,4 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(AudioStreamPlayback)(constructor());
 	}
-	@disable new(size_t s);
 }

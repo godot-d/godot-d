@@ -68,7 +68,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CSGBox)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

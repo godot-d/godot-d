@@ -120,7 +120,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(RigidBody2D)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum Mode : int
 	{

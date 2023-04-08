@@ -65,7 +65,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorResourcePreviewGenerator)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

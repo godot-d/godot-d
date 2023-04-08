@@ -63,7 +63,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualShaderNodeBooleanConstant)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

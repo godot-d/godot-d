@@ -77,7 +77,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Physics2DShapeQueryParameters)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

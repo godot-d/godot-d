@@ -61,7 +61,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(CanvasModulate)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

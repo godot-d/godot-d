@@ -107,7 +107,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(VisualScript)(constructor());
 	}
-	@disable new(size_t s);
 	/**
 	
 	*/

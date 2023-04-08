@@ -128,7 +128,6 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(EditorPlugin)(constructor());
 	}
-	@disable new(size_t s);
 	/// 
 	enum DockSlot : int
 	{
