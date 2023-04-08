@@ -154,6 +154,20 @@ Godot's full [script API](http://docs.godotengine.org/) can be used from D:
   with the `GodotNoAutomaticNamingConvention` version switch if you prefer to
   use camelCase even inside Godot/GDScript.
 
+Generate classes from API files
+-------------------------
+```sh
+git clone https://github.com/workhorsy/godot-d dependencies/godot-d
+cd dependencies/godot-d
+#generate files in classes from api files
+./Godot_v3.5.2-stable_x11.64 --gdnative-generate-json-api api.json
+curl -O https://raw.githubusercontent.com/godotengine/godot/3.5/modules/gdnative/gdnative_api.json
+dub run godot-d:api-binding-generator --skip-registry=all
+
+cd ../..
+```
+
+
 Building Godot-D manually
 -------------------------
 DUB package releases will contain pre-generated bindings for official releases
