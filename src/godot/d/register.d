@@ -43,6 +43,8 @@ enum LoadDRuntime : bool
 	yes = true
 }
 
+bool is_runtime_loaded = false;
+
 /++
 This mixin will generate the GDNative C interface functions for this D library.
 Pass to it a name string for the library, followed by the GodotScript types to
@@ -116,7 +118,16 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		{
 			version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 			else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
-			static if(loadDRuntime) Runtime.initialize();
+			static if (loadDRuntime) {
+				// Unload the D runtime if it is already loaded
+				if (is_runtime_loaded) {
+					Runtime.terminate();
+					is_runtime_loaded = false;
+				}
+
+				Runtime.initialize();
+				is_runtime_loaded = true;
+			}
 		}
 		
 		godot_gdnative_api_struct_init(options.api_struct);
@@ -192,6 +203,8 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		import std.array : join;
 		import godot.d.output;
 		import godot.d.traits;
+		import godot.os;
+		import core.runtime : Runtime;
 
 		alias classList = staticMap!(fileClassesAsLazyImports, aliasSeqOf!(_GODOT_projectInfo.files));
 		static foreach(C; NoDuplicates!(classList, Filter!(is_, Args)))
@@ -226,10 +239,15 @@ mixin template GodotNativeLibrary(string symbolPrefix, Args...)
 		version(Windows) {}
 		else
 		{
-			import core.runtime : Runtime;
 			version(D_BetterC) enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.yes, Args) != -1;
 			else enum bool loadDRuntime = staticIndexOf!(LoadDRuntime.no, Args) == -1;
-			static if(loadDRuntime) Runtime.terminate();
+			static if (loadDRuntime) {
+				// Only unload the D runtime if we are not running in the editor
+				if (OS.hasFeature(gs!"standalone") && is_runtime_loaded) {
+					Runtime.terminate();
+					is_runtime_loaded = false;
+				}
+			}
 		}
 	}
 }
