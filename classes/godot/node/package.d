@@ -173,6 +173,12 @@ public:
 		if(constructor is null) return typeof(this).init;
 		return cast(Node)(constructor());
 	}
+
+	pragma(inline, true) bool isInstanceValid() const
+	{
+		return _godot_api.godot_is_instance_valid(_godot_object);
+	}
+
 	/// 
 	enum PauseMode : int
 	{
