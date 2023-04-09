@@ -11,6 +11,7 @@ public
 	import godot.core.color;
 	import godot.core.defs;
 	import godot.core.dictionary;
+	import godot.core.math;
 	import godot.core.nodepath;
 	import godot.core.plane;
 	import godot.core.poolarrays;
