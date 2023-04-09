@@ -34,7 +34,31 @@ struct Basis
 		Vector3(0.0,1.0,0.0),
 		Vector3(0.0,0.0,1.0),
 	];
-	
+
+	pragma(inline, true) Vector3 x() {
+		return Vector3(
+			elements[0][0],
+			elements[1][0],
+			elements[2][0]
+		);
+	}
+
+	pragma(inline, true) Vector3 y() {
+		return Vector3(
+			elements[0][1],
+			elements[1][1],
+			elements[2][1]
+		);
+	}
+
+	pragma(inline, true) Vector3 z() {
+		return Vector3(
+			elements[0][2],
+			elements[1][2],
+			elements[2][2]
+		);
+	}
+
 	this(in Vector3 row0, in Vector3 row1, in Vector3 row2)
 	{
 		elements[0]=row0;
