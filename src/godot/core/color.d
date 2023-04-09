@@ -25,7 +25,16 @@ A color is represented as red, green and blue (r,g,b) components. Additionally, 
 struct Color
 {
 	@nogc nothrow:
-	
+
+	static immutable {
+		auto red = Color(1, 0, 0);
+		auto orange = Color(0xff/255.0, 0x9f/255.0, 0x00/255.0);
+		auto yellow = Color(0xff/255.0, 0xe6/255.0, 0x00/255.0);
+		auto green = Color(0, 1, 0);
+		auto blue = Color(0, 0, 1);
+		auto white = Color(1, 1, 1);
+	}
+
 	union
 	{
 		struct
