@@ -35,7 +35,19 @@ Vector3 is one of the core classes of the engine, and includes several built-in 
 struct Vector3
 {
 	@nogc nothrow:
-	
+
+	static immutable {
+		auto ZERO = Vector3(0, 0, 0);
+		auto ONE = Vector3(1, 1, 1);
+		auto INF = Vector3(float.infinity, float.infinity, float.infinity);
+		auto LEFT = Vector3(-1, 0, 0);
+		auto RIGHT = Vector3(1, 0, 0);
+		auto UP = Vector3(0, 1, 0);
+		auto DOWN = Vector3(0, -1, 0);
+		auto FORWARD = Vector3(0, 0, -1);
+		auto BACK = Vector3(0, 0, 1);
+	}
+
 	enum Axis
 	{
 		x,
