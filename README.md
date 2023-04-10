@@ -162,7 +162,7 @@ cd dependencies/godot-d
 #generate files in classes from api files
 ./Godot_v3.5.2-stable_x11.64 --gdnative-generate-json-api api.json
 curl -O https://raw.githubusercontent.com/godotengine/godot/3.5/modules/gdnative/gdnative_api.json
-dub run godot-d:api-binding-generator --skip-registry=all
+dub run :api-binding-generator --skip-registry=all
 
 cd ../..
 ```
